@@ -1,0 +1,9294 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Teus Benschop
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Select which Bible to make the active one for editing"
+msgstr ""
+
+msgid "Abbreviations"
+msgstr ""
+
+msgid "The abbreviations were saved."
+msgstr ""
+
+msgid "Please supply valid Unicode UTF-8 text."
+msgstr ""
+
+msgid "Nothing was saved."
+msgstr ""
+
+msgid "Book"
+msgstr ""
+
+msgid "Would you like to delete this chapter?"
+msgstr ""
+
+msgid "Please enter the number for the new chapter"
+msgstr ""
+
+msgid "This chapter already exists"
+msgstr ""
+
+msgid "Chapter"
+msgstr ""
+
+msgid "Font and text direction"
+msgstr ""
+
+msgid "Editing settings"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import has started. See Journal for progress."
+msgstr ""
+
+msgid "Nothing was imported."
+msgstr ""
+
+msgid "Nothing was uploaded"
+msgstr ""
+
+msgid ""
+"It has been some time ago that changes in the Bible text were received from "
+"the Cloud."
+msgstr ""
+
+msgid "Please do a Send/receive action to receive them from the Cloud."
+msgstr ""
+
+msgid "Please do a Send/receive to the Cloud"
+msgstr ""
+
+msgid ""
+"There are pending changes in the Bible text that have not yet been sent to "
+"the Cloud for some time."
+msgstr ""
+
+msgid "Please do a Send/receive action to send them to the Cloud."
+msgstr ""
+
+msgid "Bibles"
+msgstr ""
+
+msgid "Please enter a name for the new empty Bible"
+msgstr ""
+
+msgid "This Bible already exists"
+msgstr ""
+
+msgid "The Bible was created"
+msgstr ""
+
+msgid "Please enter a name for where to copy the Bible to"
+msgstr ""
+
+msgid "Cannot copy the Bible because the destination Bible already exists."
+msgstr ""
+
+msgid "The Bible was copied."
+msgstr ""
+
+msgid "Would you like to delete this Bible?"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
+msgid "Would you like to change the versification system?"
+msgstr ""
+
+msgid ""
+"A versification system determines how many chapters are in each book, and "
+"how many verses are in each chapter. Please make your choice below."
+msgstr ""
+
+msgid "Would you like to change the verse mapping?"
+msgstr ""
+
+msgid ""
+"A verse mapping can be used to match verses for parallel Bible display. "
+"Please make your choice below."
+msgstr ""
+
+msgid "Create book"
+msgstr ""
+
+msgid "Would you like to delete this book?"
+msgstr ""
+
+msgid "Select a resource to import into the Bible"
+msgstr ""
+
+msgid "The resource will be imported."
+msgstr ""
+
+msgid "It will overwrite the content of the Bible."
+msgstr ""
+
+msgid "The resource will be imported into the Bible."
+msgstr ""
+
+msgid "The journal shows the progress."
+msgstr ""
+
+msgid "More operations in the Cloud"
+msgstr ""
+
+msgid "Front Matter"
+msgstr ""
+
+msgid "Genesis"
+msgstr ""
+
+msgid "Exodus"
+msgstr ""
+
+msgid "Leviticus"
+msgstr ""
+
+msgid "Numbers"
+msgstr ""
+
+msgid "Deuteronomy"
+msgstr ""
+
+msgid "Joshua"
+msgstr ""
+
+msgid "Judges"
+msgstr ""
+
+msgid "Ruth"
+msgstr ""
+
+msgid "1 Samuel"
+msgstr ""
+
+msgid "2 Samuel"
+msgstr ""
+
+msgid "1 Kings"
+msgstr ""
+
+msgid "2 Kings"
+msgstr ""
+
+msgid "1 Chronicles"
+msgstr ""
+
+msgid "2 Chronicles"
+msgstr ""
+
+msgid "Ezra"
+msgstr ""
+
+msgid "Nehemiah"
+msgstr ""
+
+msgid "Esther"
+msgstr ""
+
+msgid "Job"
+msgstr ""
+
+msgid "Psalms"
+msgstr ""
+
+msgid "Proverbs"
+msgstr ""
+
+msgid "Ecclesiastes"
+msgstr ""
+
+msgid "Song of Solomon"
+msgstr ""
+
+msgid "Isaiah"
+msgstr ""
+
+msgid "Jeremiah"
+msgstr ""
+
+msgid "Lamentations"
+msgstr ""
+
+msgid "Ezekiel"
+msgstr ""
+
+msgid "Daniel"
+msgstr ""
+
+msgid "Hosea"
+msgstr ""
+
+msgid "Joel"
+msgstr ""
+
+msgid "Amos"
+msgstr ""
+
+msgid "Obadiah"
+msgstr ""
+
+msgid "Jonah"
+msgstr ""
+
+msgid "Micah"
+msgstr ""
+
+msgid "Nahum"
+msgstr ""
+
+msgid "Habakkuk"
+msgstr ""
+
+msgid "Zephaniah"
+msgstr ""
+
+msgid "Haggai"
+msgstr ""
+
+msgid "Zechariah"
+msgstr ""
+
+msgid "Malachi"
+msgstr ""
+
+msgid "Matthew"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
+msgid "Luke"
+msgstr ""
+
+msgid "John"
+msgstr ""
+
+msgid "Acts"
+msgstr ""
+
+msgid "Romans"
+msgstr ""
+
+msgid "1 Corinthians"
+msgstr ""
+
+msgid "2 Corinthians"
+msgstr ""
+
+msgid "Galatians"
+msgstr ""
+
+msgid "Ephesians"
+msgstr ""
+
+msgid "Philippians"
+msgstr ""
+
+msgid "Colossians"
+msgstr ""
+
+msgid "1 Thessalonians"
+msgstr ""
+
+msgid "2 Thessalonians"
+msgstr ""
+
+msgid "1 Timothy"
+msgstr ""
+
+msgid "2 Timothy"
+msgstr ""
+
+msgid "Titus"
+msgstr ""
+
+msgid "Philemon"
+msgstr ""
+
+msgid "Hebrews"
+msgstr ""
+
+msgid "James"
+msgstr ""
+
+msgid "1 Peter"
+msgstr ""
+
+msgid "2 Peter"
+msgstr ""
+
+msgid "1 John"
+msgstr ""
+
+msgid "2 John"
+msgstr ""
+
+msgid "3 John"
+msgstr ""
+
+msgid "Jude"
+msgstr ""
+
+msgid "Revelation"
+msgstr ""
+
+msgid "Back Matter"
+msgstr ""
+
+msgid "Other Material"
+msgstr ""
+
+msgid "Tobit"
+msgstr ""
+
+msgid "Judith"
+msgstr ""
+
+msgid "Esther (Greek)"
+msgstr ""
+
+msgid "Wisdom of Solomon"
+msgstr ""
+
+msgid "Sirach"
+msgstr ""
+
+msgid "Baruch"
+msgstr ""
+
+msgid "Letter of Jeremiah"
+msgstr ""
+
+msgid "Song of the Three Children"
+msgstr ""
+
+msgid "Susanna"
+msgstr ""
+
+msgid "Bel and the Dragon"
+msgstr ""
+
+msgid "1 Maccabees"
+msgstr ""
+
+msgid "2 Maccabees"
+msgstr ""
+
+msgid "1 Esdras"
+msgstr ""
+
+msgid "Prayer of Manasses"
+msgstr ""
+
+msgid "Psalm 151"
+msgstr ""
+
+msgid "3 Maccabees"
+msgstr ""
+
+msgid "2 Esdras"
+msgstr ""
+
+msgid "4 Maccabees"
+msgstr ""
+
+msgid "Daniel (Greek)"
+msgstr ""
+
+msgid "Introductions"
+msgstr ""
+
+msgid "Concordance"
+msgstr ""
+
+msgid "Glossary"
+msgstr ""
+
+msgid "Topical Index"
+msgstr ""
+
+msgid "Names Index"
+msgstr ""
+
+msgid "Extra A"
+msgstr ""
+
+msgid "Extra B"
+msgstr ""
+
+msgid "Extra C"
+msgstr ""
+
+msgid "Extra D"
+msgstr ""
+
+msgid "Extra E"
+msgstr ""
+
+msgid "Extra F"
+msgstr ""
+
+msgid "Extra G"
+msgstr ""
+
+msgid "Bible bible does not exist: Cannot create book"
+msgstr ""
+
+msgid "Invalid book while creating a book template"
+msgstr ""
+
+msgid "No chapters have been created"
+msgstr ""
+
+msgid "The following chapters have been created:"
+msgstr ""
+
+msgid "unsubscribe"
+msgstr ""
+
+msgid "I have done my part on it"
+msgstr ""
+
+msgid "mark for deletion"
+msgstr ""
+
+msgid "Changes"
+msgstr ""
+
+msgid "Loading ..."
+msgstr ""
+
+msgid "all of them"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Manage"
+msgstr ""
+
+msgid "Will generate lists of changes"
+msgstr ""
+
+msgid "You have entered the changes below in a Bible editor."
+msgstr ""
+
+msgid "You may check if it made its way into the Bible text."
+msgstr ""
+
+msgid "Changes you entered in"
+msgstr ""
+
+msgid "The following passage has no change in the text."
+msgstr ""
+
+msgid "Only the formatting was changed."
+msgstr ""
+
+msgid "The USFM code is given for reference."
+msgstr ""
+
+msgid "Old code:"
+msgstr ""
+
+msgid "New code:"
+msgstr ""
+
+msgid "Recent changes:"
+msgstr ""
+
+msgid "Change statistics"
+msgstr ""
+
+msgid "Everyone"
+msgstr ""
+
+msgid "Checks"
+msgstr ""
+
+msgid "The entry was suppressed."
+msgstr ""
+
+msgid "The entry was deleted for just now."
+msgstr ""
+
+msgid "Checking results online"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Bible Checks"
+msgstr ""
+
+msgid "Manage Checks"
+msgstr ""
+
+msgid "Select which Bible to manage"
+msgstr ""
+
+msgid "Will run the checks. See the Journal for progress."
+msgstr ""
+
+msgid "Matching pairs"
+msgstr ""
+
+msgid "A pair should consist of two characters:"
+msgstr ""
+
+msgid "The pairs were saved"
+msgstr ""
+
+msgid "Patterns"
+msgstr ""
+
+msgid "The patterns were saved"
+msgstr ""
+
+msgid "Sentence Structure"
+msgstr ""
+
+msgid "The capitals were stored"
+msgstr ""
+
+msgid "The small letters were stored"
+msgstr ""
+
+msgid "The punctuation marks at the ends of sentences were stored"
+msgstr ""
+
+msgid "The punctuation marks within the sentences were stored"
+msgstr ""
+
+msgid ""
+"The characters that should be disregarded within the sentences were stored"
+msgstr ""
+
+msgid "The names that may occur after mid-sentence punctuation were stored"
+msgstr ""
+
+msgid ""
+"The markers that start a new line but not necessarily a new sentence were "
+"saved"
+msgstr ""
+
+msgid "Suppressed check results"
+msgstr ""
+
+msgid "The check result is no longer suppressed."
+msgstr ""
+
+msgid "Connection is okay."
+msgstr ""
+
+msgid "Could not create a connection with Bibledit Cloud"
+msgstr ""
+
+msgid "Server"
+msgstr ""
+
+msgid "You are not yet connected to Bibledit Cloud."
+msgstr ""
+
+msgid "Connect."
+msgstr ""
+
+msgid "Collaboration"
+msgstr ""
+
+msgid "Repository"
+msgstr ""
+
+msgid "Which Bible are you going to use?"
+msgstr ""
+
+msgid "No Bible given"
+msgstr ""
+
+msgid "It is unclear which data to copy to where"
+msgstr ""
+
+msgid "Read access to the repository is successful."
+msgstr ""
+
+msgid "Read access failed."
+msgstr ""
+
+msgid "Configure copied data"
+msgstr ""
+
+msgid "A file was added to the data successfully."
+msgstr ""
+
+msgid "Failure adding a file to the data."
+msgstr ""
+
+msgid "The file was committed successfully."
+msgstr ""
+
+msgid "Failure committing the file."
+msgstr ""
+
+msgid "Changes were pulled from the repository successfully."
+msgstr ""
+
+msgid "Changes were pushed to the repository successfully."
+msgstr ""
+
+msgid "Pushing changes to the repository failed."
+msgstr ""
+
+msgid "The temporal file was removed from the data successfully."
+msgstr ""
+
+msgid "Failure removing the temporal file from the data."
+msgstr ""
+
+msgid "The removed temporal file was committed successfully."
+msgstr ""
+
+msgid "Failure committing the removed temporal file."
+msgstr ""
+
+msgid "The changes were pushed to the repository successfully."
+msgstr ""
+
+msgid "Copying the data from the repository and storing it in Bibledit."
+msgstr ""
+
+msgid "Storing the local Bible data to the staging area."
+msgstr ""
+
+msgid "The local Bible data was staged successfully."
+msgstr ""
+
+msgid "Failure staging the local Bible data."
+msgstr ""
+
+msgid "The local Bible data was committed successfully."
+msgstr ""
+
+msgid "Failure committing the local Bible data."
+msgstr ""
+
+msgid "The local Bible data was pushed to the repository successfully."
+msgstr ""
+
+msgid "Pushing the local Bible data to the repository failed."
+msgstr ""
+
+msgid "Link repository"
+msgstr ""
+
+msgid "Comparing Bibles"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "The Bibles are being compared..."
+msgstr ""
+
+msgid "has been compared with"
+msgstr ""
+
+msgid "Additions are in bold."
+msgstr ""
+
+msgid "Removed words are in strikethrough."
+msgstr ""
+
+msgid "does not contain"
+msgstr ""
+
+msgid "Bible/Resource"
+msgstr ""
+
+msgid "The texts as they are in the Bible"
+msgstr ""
+
+msgid "Comparison is ready"
+msgstr ""
+
+msgid "Compare"
+msgstr ""
+
+msgid ""
+"Please confirm this request by replying to this email. There is a "
+"confirmation number in the subject line. Your reply should have this same "
+"confirmation number in the subject line."
+msgstr ""
+
+msgid "Consistency"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+msgid "Unknown passage"
+msgstr ""
+
+msgid "New"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "In progress"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Reopened"
+msgstr ""
+
+msgid "Wish"
+msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Important"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "You are connected to a public demo of Bibledit Cloud."
+msgstr ""
+
+msgid "Everybody can modify the data on that server."
+msgstr ""
+
+msgid "After send and receive your data will reflect the data on the server."
+msgstr ""
+
+msgid "Here are the various options:"
+msgstr ""
+
+msgid "Please pick one."
+msgstr ""
+
+msgid "The passage has been opened in the existing Bible editor"
+msgstr ""
+
+msgid "Open a Bible editor to edit the passage"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Select which Bible to open in the editor"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Insufficient information"
+msgstr ""
+
+msgid "Checksum error"
+msgstr ""
+
+msgid "There was no text."
+msgstr ""
+
+msgid "The original text of the chapter was reloaded."
+msgstr ""
+
+msgid "Nothing to save"
+msgstr ""
+
+msgid "Save failure"
+msgstr ""
+
+msgid "No write access"
+msgstr ""
+
+msgid "User tried to save something different from exactly one chapter."
+msgstr ""
+
+msgid "Incorrect chapter"
+msgstr ""
+
+msgid "Merging chapter."
+msgstr ""
+
+msgid "Edit verse"
+msgstr ""
+
+msgid "Don't know where to save"
+msgstr ""
+
+msgid "Cannot save: Needs Unicode"
+msgstr ""
+
+msgid "Select editor"
+msgstr ""
+
+msgid "Select style"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "all"
+msgstr ""
+
+msgid "Edit USFM"
+msgstr ""
+
+msgid "Merging and saving chapter."
+msgstr ""
+
+msgid "Passage mismatch"
+msgstr ""
+
+msgid "Needs Unicode"
+msgstr ""
+
+msgid "Confusing data"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "The email address does not appear to be valid"
+msgstr ""
+
+msgid "The name and email address were saved"
+msgstr ""
+
+msgid "The details were saved."
+msgstr ""
+
+msgid "The account was accessed successfully."
+msgstr ""
+
+msgid "Messages on server:"
+msgstr ""
+
+msgid ""
+"For the purpose of trying whether Bibledit can send email, a test email was "
+"sent out to the account above:"
+msgstr ""
+
+msgid "Submit to the Bible Drop Box"
+msgstr ""
+
+msgid "Ready"
+msgstr ""
+
+msgid "Exported to e-Sword"
+msgstr ""
+
+msgid "Exported to html"
+msgstr ""
+
+msgid "Documents with information and fallout were created"
+msgstr ""
+
+msgid "Exported to OpenDocument files"
+msgstr ""
+
+msgid "Exported to Online Bible"
+msgstr ""
+
+msgid "Exported to Quick Bible"
+msgstr ""
+
+msgid "Exported to basic USFM and text"
+msgstr ""
+
+msgid "Exported to USFM"
+msgstr ""
+
+msgid "All books"
+msgstr ""
+
+msgid "Go back to"
+msgstr ""
+
+msgid "Exported to web"
+msgstr ""
+
+msgid "Go back to Bible"
+msgstr ""
+
+msgid "A translator added chapter"
+msgstr ""
+
+msgid "A translator updated chapter"
+msgstr ""
+
+msgid "A translator deleted chapter"
+msgstr ""
+
+msgid "A translator deleted book"
+msgstr ""
+
+msgid "A collaborator deleted chapter"
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
+msgid "Translator"
+msgstr ""
+
+msgid "Consultant"
+msgstr ""
+
+msgid "Member"
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "Number of chapters per book"
+msgstr ""
+
+msgid "Running headers"
+msgstr ""
+
+msgid "Long table of contents entries"
+msgstr ""
+
+msgid "Short table of contents entries"
+msgstr ""
+
+msgid "Book abbreviations"
+msgstr ""
+
+msgid "Publishing chapter labels"
+msgstr ""
+
+msgid "Publishing alternate chapter numbers"
+msgstr ""
+
+msgid "Word list, glossary, dictionary entries"
+msgstr ""
+
+msgid "Hebrew word list entries"
+msgstr ""
+
+msgid "Greek word list entries"
+msgstr ""
+
+msgid "Subject index entries"
+msgstr ""
+
+msgid "Other information"
+msgstr ""
+
+msgid "Fallout"
+msgstr ""
+
+msgid "Text length differs too much"
+msgstr ""
+
+msgid "Text content differs too much"
+msgstr ""
+
+msgid "Saving chapter"
+msgstr ""
+
+msgid "Missing verse number"
+msgstr ""
+
+msgid "Verse mismatch"
+msgstr ""
+
+msgid "Cannot overwrite another verse"
+msgstr ""
+
+msgid "Doesn't know where to save"
+msgstr ""
+
+msgid "Saving verse"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Search the Bible"
+msgstr ""
+
+msgid "No files in this folder"
+msgstr ""
+
+msgid "This job does not exist."
+msgstr ""
+
+msgid "This job is not available to you."
+msgstr ""
+
+msgid "The job is scheduled to start shortly."
+msgstr ""
+
+msgid "Journal"
+msgstr ""
+
+msgid "Has been sending and receiving during the past hour"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Saving..."
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Loaded"
+msgstr ""
+
+msgid "Retrying..."
+msgstr ""
+
+msgid "Reformat"
+msgstr ""
+
+msgid "You do not have enough privileges to modify this book."
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Select a Bible"
+msgstr ""
+
+msgid "The export has been removed."
+msgstr ""
+
+msgid "The Bible is being exported to Web format."
+msgstr ""
+
+msgid "The Bible is being exported to Html format."
+msgstr ""
+
+msgid "The Bible is being exported to USFM format."
+msgstr ""
+
+msgid "The Bible is being exported to basic USFM format and text."
+msgstr ""
+
+msgid "The Bible is being exported to OpenDocument format."
+msgstr ""
+
+msgid "Please enter a page width in millimeters"
+msgstr ""
+
+msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
+msgstr ""
+
+msgid "Please enter a page height in millimeters"
+msgstr ""
+
+msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
+msgstr ""
+
+msgid "Please enter an inner margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an outer margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an top margin size in millimeters"
+msgstr ""
+
+msgid "Please enter an bottom margin size in millimeters"
+msgstr ""
+
+msgid "The info documents are being generated."
+msgstr ""
+
+msgid "The Bible is being exported to e-Sword format."
+msgstr ""
+
+msgid "The Bible is being exported to Online Bible format."
+msgstr ""
+
+msgid "The Bible is being exported to Quick Bible format."
+msgstr ""
+
+msgid "Would you like to use another stylesheet for the exports?"
+msgstr ""
+
+msgid "The password for securing exports was saved."
+msgstr ""
+
+msgid "The Bible will be submitted to the Bible Drop Box."
+msgstr ""
+
+msgid "You will receive email with further details."
+msgstr ""
+
+msgid "Go to Bibledit Cloud to submit the Bible there."
+msgstr ""
+
+msgid "Go to Bibledit Cloud for exports to OpenDocument."
+msgstr ""
+
+msgid "Hyphenation"
+msgstr ""
+
+msgid "The two sets of characters were saved"
+msgstr ""
+
+msgid "Which Bible would you like to take the data from?"
+msgstr ""
+
+msgid "No first set of characters given"
+msgstr ""
+
+msgid "No second set of characters given"
+msgstr ""
+
+msgid "The Bible is being hyphenated."
+msgstr ""
+
+msgid "See the Journal for details."
+msgstr ""
+
+msgid "The font could not be deleted because it is in use"
+msgstr ""
+
+msgid "The font has been uploaded."
+msgstr ""
+
+msgid "Delete font"
+msgstr ""
+
+msgid "Read/write"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Please enter a name for the new user"
+msgstr ""
+
+msgid "User already exists"
+msgstr ""
+
+msgid "User created"
+msgstr ""
+
+msgid "Cannot remove the last user"
+msgstr ""
+
+msgid "Cannot remove the last administrator"
+msgstr ""
+
+msgid "Select a role for"
+msgstr ""
+
+msgid "Please enter an email address for"
+msgstr ""
+
+msgid "Email address was updated"
+msgstr ""
+
+msgid "The email address is not valid"
+msgstr ""
+
+msgid "Would you like to grant the user access to a Bible?"
+msgstr ""
+
+msgid "The user has been granted access to this Bible"
+msgstr ""
+
+msgid "The user no longer has access to this Bible"
+msgstr ""
+
+msgid "The user account was enabled"
+msgstr ""
+
+msgid "The user account was disabled"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "Disable"
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Verse Mappings"
+msgstr ""
+
+msgid "Enter a name for the new verse mapping"
+msgstr ""
+
+msgid "This verse mapping already exists"
+msgstr ""
+
+msgid "Would you like to delete this verse mapping?"
+msgstr ""
+
+msgid "The verse mapping was deleted"
+msgstr ""
+
+msgid "Verse mappings"
+msgstr ""
+
+msgid "The verse mapping was saved"
+msgstr ""
+
+msgid "Workspace"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "User resources"
+msgstr ""
+
+msgid "Exports"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Replace"
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Advanced replace"
+msgstr ""
+
+msgid "Search all Bibles and notes"
+msgstr ""
+
+msgid "Search Bible for similar verses"
+msgstr ""
+
+msgid "Search Bible for similar Strong's numbers"
+msgstr ""
+
+msgid "Search Bible for Strong's number"
+msgstr ""
+
+msgid "Search Bible for similar Hebrew or Greek words"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Planning"
+msgstr ""
+
+msgid "Send/receive"
+msgstr ""
+
+msgid "Hyphenate"
+msgstr ""
+
+msgid "Transfer cross-references"
+msgstr ""
+
+msgid "Develop"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "Indexes and Fonts"
+msgstr ""
+
+msgid "Cloud"
+msgstr ""
+
+msgid "Paratext"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Basic mode"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "USFM"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+msgid "SWORD"
+msgstr ""
+
+msgid "User-defined"
+msgstr ""
+
+msgid "Select stylesheet"
+msgstr ""
+
+msgid "Help and About"
+msgstr ""
+
+msgid "Menu"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Workspaces"
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "Edit stylesheet"
+msgstr ""
+
+msgid "Styles"
+msgstr ""
+
+msgid "Both the visual chapter and visual verse editors"
+msgstr ""
+
+msgid "Only the visual chapter editor"
+msgstr ""
+
+msgid "Only the visual verse editor"
+msgstr ""
+
+msgid "Both the USFM chapter and USFM verse editors"
+msgstr ""
+
+msgid "Only the USFM chapter editor"
+msgstr ""
+
+msgid "Only the USFM verse editor"
+msgstr ""
+
+msgid "Visual chapter editor"
+msgstr ""
+
+msgid "Visual verse editor"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "USFM chapter editor"
+msgstr ""
+
+msgid "USFM verse editor"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
+msgid "Select book"
+msgstr ""
+
+msgid "Select chapter"
+msgstr ""
+
+msgid "Go to previous verse"
+msgstr ""
+
+msgid "Select verse"
+msgstr ""
+
+msgid "Go to next verse"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "The note will be deleted after a week."
+msgstr ""
+
+msgid "Adding a comment to the note cancels the deletion."
+msgstr ""
+
+msgid "unassign"
+msgstr ""
+
+msgid "Assign note"
+msgstr ""
+
+msgid "Assign notes"
+msgstr ""
+
+msgid "Bulk update"
+msgstr ""
+
+msgid "You subscribed to these notes"
+msgstr ""
+
+msgid "You unsubscribed from these notes"
+msgstr ""
+
+msgid "The notes were assigned to the user"
+msgstr ""
+
+msgid "The notes are no longer assigned to the user"
+msgstr ""
+
+msgid "The status of the notes was updated"
+msgstr ""
+
+msgid "The severity of the notes was updated"
+msgstr ""
+
+msgid "The Bible of the notes was updated"
+msgstr ""
+
+msgid "Would you like to delete the notes?"
+msgstr ""
+
+msgid "The notes were deleted"
+msgstr ""
+
+msgid "Query about a change in the text"
+msgstr ""
+
+msgid "Old text:"
+msgstr ""
+
+msgid "Change:"
+msgstr ""
+
+msgid "New text:"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Create note"
+msgstr ""
+
+msgid "Edit Note Source"
+msgstr ""
+
+msgid "Consultation Notes"
+msgstr ""
+
+msgid "Assigned"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
+msgid "Marked for deletion"
+msgstr ""
+
+msgid "View or respond online"
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid "open the desktop online"
+msgstr ""
+
+msgid "Your comment was posted"
+msgstr ""
+
+msgid "Unknown book"
+msgstr ""
+
+msgid "Unknown chapter"
+msgstr ""
+
+msgid "Unknown verse"
+msgstr ""
+
+msgid "Unknown summary"
+msgstr ""
+
+msgid "Your new note could not be posted"
+msgstr ""
+
+msgid "Your new note was posted"
+msgstr ""
+
+msgid "no Bible"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "This selection does not display any notes."
+msgstr ""
+
+msgid "Select notes"
+msgstr ""
+
+msgid "Search text saved"
+msgstr ""
+
+msgid "Severity"
+msgstr ""
+
+msgid "Note status"
+msgstr ""
+
+msgid "Notes status"
+msgstr ""
+
+msgid "Note summary"
+msgstr ""
+
+msgid "Unassign notes"
+msgstr ""
+
+msgid "Passages"
+msgstr ""
+
+msgid "Please enter the name of the Paratext projects folder"
+msgstr ""
+
+msgid "Paratext projects folder was set."
+msgstr ""
+
+msgid "Paratext projects folder does not exist:"
+msgstr ""
+
+msgid "not found"
+msgstr ""
+
+msgid "Which Paratext project are you going to use?"
+msgstr ""
+
+msgid "Where are you going to take the initial Bible data from?"
+msgstr ""
+
+msgid "The collaboration will be set up"
+msgstr ""
+
+msgid "Paratext: Send/receive"
+msgstr ""
+
+msgid "Paratext: Up to date"
+msgstr ""
+
+msgid "Incorrect font size in percents"
+msgstr ""
+
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr ""
+
+msgid "Please enter a caret position between 20 and 80 percent"
+msgstr ""
+
+msgid "Incorrect caret position in percents"
+msgstr ""
+
+msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
+msgstr ""
+
+msgid "Incorrect fade-out delay in seconds"
+msgstr ""
+
+msgid "Which visual Bible editors to enable?"
+msgstr ""
+
+msgid "Select which Bible to display"
+msgstr ""
+
+msgid "Public feedback"
+msgstr ""
+
+msgid "Public login"
+msgstr ""
+
+msgid "The name should be at least two characters long"
+msgstr ""
+
+msgid "This account needs a password."
+msgstr ""
+
+msgid "Please login the other way, through Menu / Login."
+msgstr ""
+
+msgid "New feedback"
+msgstr ""
+
+msgid "Convert"
+msgstr ""
+
+msgid "A USFM Resource with this name already exists"
+msgstr ""
+
+msgid "An external resource with this name already exists"
+msgstr ""
+
+msgid "Insufficient privileges to complete operation."
+msgstr ""
+
+msgid "The list was updated"
+msgstr ""
+
+msgid "Converting USFM Resource to Bible"
+msgstr ""
+
+msgid "Conversion completed"
+msgstr ""
+
+msgid "Converting Bible to USFM Resource"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Download resource"
+msgstr ""
+
+msgid "The file was uploaded and is being processed."
+msgstr ""
+
+msgid "View the Journal for progress"
+msgstr ""
+
+msgid "Would you like to delete this image?"
+msgstr ""
+
+msgid "The image was deleted."
+msgstr ""
+
+msgid "Please enter a name for the new empty image resource"
+msgstr ""
+
+msgid "This image resource already exists"
+msgstr ""
+
+msgid "Please give a name for the image resource"
+msgstr ""
+
+msgid "The image resource was created"
+msgstr ""
+
+msgid "Would you like to delete this resource?"
+msgstr ""
+
+msgid "The resource was deleted"
+msgstr ""
+
+msgid "Unknown starting book."
+msgstr ""
+
+msgid "Negative starting chapter."
+msgstr ""
+
+msgid "High starting chapter."
+msgstr ""
+
+msgid "Negative starting verse."
+msgstr ""
+
+msgid "High starting verse."
+msgstr ""
+
+msgid "Unknown ending book."
+msgstr ""
+
+msgid "Negative ending chapter."
+msgstr ""
+
+msgid "High ending chapter."
+msgstr ""
+
+msgid "Negative ending verse."
+msgstr ""
+
+msgid "High ending verse."
+msgstr ""
+
+msgid "The starting passage is beyond the ending passage."
+msgstr ""
+
+msgid "USFM Resources"
+msgstr ""
+
+msgid "You do not have write access to this resource"
+msgstr ""
+
+msgid "Would you like to convert this resource to a Bible?"
+msgstr ""
+
+msgid "Insufficient privileges"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Please enter the number of verses"
+msgstr ""
+
+msgid "How many verses of context to display before the focused verse."
+msgstr ""
+
+msgid "How many verses of context to display after the focused verse."
+msgstr ""
+
+msgid "Will install the resources."
+msgstr ""
+
+msgid "The journal displays the progress."
+msgstr ""
+
+msgid "Select a book"
+msgstr ""
+
+msgid "Select a chapter"
+msgstr ""
+
+msgid "Select a verse"
+msgstr ""
+
+msgid "The document is being created..."
+msgstr ""
+
+msgid "Select a USFM resource"
+msgstr ""
+
+msgid "Select an original language text"
+msgstr ""
+
+msgid "Select a Bible translation"
+msgstr ""
+
+msgid "Select an image resource"
+msgstr ""
+
+msgid "Select a lexicon resource"
+msgstr ""
+
+msgid "Select a SWORD resource"
+msgstr ""
+
+msgid "Select a divider"
+msgstr ""
+
+msgid "Select a BibleGateway resource"
+msgstr ""
+
+msgid "Select a StudyLight resource"
+msgstr ""
+
+msgid "installed"
+msgstr ""
+
+msgid "to be updated"
+msgstr ""
+
+msgid "User-defined resources"
+msgstr ""
+
+msgid "Number of defined books:"
+msgstr ""
+
+msgid "Please enter a name for the new user-defined resource"
+msgstr ""
+
+msgid "This user-defined resource already exists"
+msgstr ""
+
+msgid "Please give a name for the user-defined resource"
+msgstr ""
+
+msgid "The user-defined resource was created"
+msgstr ""
+
+msgid "Recent changes in the Bible text"
+msgstr ""
+
+msgid ""
+"This text could not be automatically replaced. Click the passage to do it "
+"manually."
+msgstr ""
+
+msgid "Up to date"
+msgstr ""
+
+msgid "Still busy"
+msgstr ""
+
+msgid "Watchdog timeout"
+msgstr ""
+
+msgid "Failure to initiate connection"
+msgstr ""
+
+msgid "No user found"
+msgstr ""
+
+msgid "Sending to server"
+msgstr ""
+
+msgid "Failure getting total checksum"
+msgstr ""
+
+msgid "Failure getting list of Bibles"
+msgstr ""
+
+msgid "Checksum error while receiving list of Bibles"
+msgstr ""
+
+msgid "Deleting Bible because the server did not grant access to it"
+msgstr ""
+
+msgid "Failure getting Bible checksum"
+msgstr ""
+
+msgid "Bible up to date"
+msgstr ""
+
+msgid "Failure getting books"
+msgstr ""
+
+msgid "Checksum error while receiving list of books from server"
+msgstr ""
+
+msgid "Deleting book because the server does not have it"
+msgstr ""
+
+msgid "Failure getting book checksum"
+msgstr ""
+
+msgid "Failure getting list of chapters:"
+msgstr ""
+
+msgid "Checksum error while receiving list of chapters"
+msgstr ""
+
+msgid "Deleting chapter because the server does not have it"
+msgstr ""
+
+msgid "Failure getting checksum:"
+msgstr ""
+
+msgid "Getting chapter:"
+msgstr ""
+
+msgid "Failure getting chapter:"
+msgstr ""
+
+msgid "Checksum error while receiving chapter from server:"
+msgstr ""
+
+msgid "Merging changes on server and client"
+msgstr ""
+
+msgid "Recreate damaged modifications database"
+msgstr ""
+
+msgid "Not downloading change notifications due to communication error"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Synchronizing"
+msgstr ""
+
+msgid "Sending and receiving:"
+msgstr ""
+
+msgid "Send/Receive"
+msgstr ""
+
+msgid "Starting to send and receive now."
+msgstr ""
+
+msgid "Still sending and receiving from the last time."
+msgstr ""
+
+msgid "Still synchronizing with Paratext."
+msgstr ""
+
+msgid "No local user found"
+msgstr ""
+
+msgid "Sending note to server"
+msgstr ""
+
+msgid "Failure sending and receiving Settings"
+msgstr ""
+
+msgid "Sending settings"
+msgstr ""
+
+msgid "Username should be at least two characters long"
+msgstr ""
+
+msgid "Password should be at least four characters long"
+msgstr ""
+
+msgid "Username or email address or password are not correct"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Username or email address is too short"
+msgstr ""
+
+msgid "Account changed"
+msgstr ""
+
+msgid "Somebody requested a new password for your account."
+msgstr ""
+
+msgid "Here is the new password:"
+msgstr ""
+
+msgid ""
+"It is recommended to log into your account with this new password, and then "
+"change it."
+msgstr ""
+
+msgid ""
+"A message was sent to the email address belonging to this account to help "
+"you getting the password"
+msgstr ""
+
+msgid "Username or email address cannot be found"
+msgstr ""
+
+msgid "Signup"
+msgstr ""
+
+msgid ""
+"To which city was Paul travelling when a light from heaven shone round about "
+"him?"
+msgstr ""
+
+msgid "Damascus"
+msgstr ""
+
+msgid ""
+"And while he travelled, he came near Damascus; and suddenly a light from "
+"heaven shone round about him."
+msgstr ""
+
+msgid "What is the name of the brother of Aaron the high priest?"
+msgstr ""
+
+msgid "Moses"
+msgstr ""
+
+msgid ""
+"And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
+"the Levite your brother?"
+msgstr ""
+
+msgid "What is the name of the city where Jesus was born?"
+msgstr ""
+
+msgid "Bethlehem"
+msgstr ""
+
+msgid ""
+"When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
+"behold, wise men from the east came to Jerusalem."
+msgstr ""
+
+msgid "What is the name of the island where John was sent to?"
+msgstr ""
+
+msgid "Patmos"
+msgstr ""
+
+msgid ""
+"I, John, your brother and companion in the persecution, and in the kingdom "
+"and endurance of Jesus Christ, was in the island which is called Patmos, "
+"because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
+msgid "Password should be at least two characters long"
+msgstr ""
+
+msgid "The answer to the question is not correct"
+msgstr ""
+
+msgid ""
+"The username that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid ""
+"The email address that you have chosen has already been taken. Please choose "
+"another one."
+msgstr ""
+
+msgid "Signup verification"
+msgstr ""
+
+msgid "There is a request to open an account with this email address."
+msgstr ""
+
+msgid "Account opened"
+msgstr ""
+
+msgid "Welcome! Your account is now active."
+msgstr ""
+
+msgid "Switch user"
+msgstr ""
+
+msgid "Team's progress in Sprint"
+msgstr ""
+
+msgid "Sprint has started"
+msgstr ""
+
+msgid "Sprint has finished"
+msgstr ""
+
+msgid "Sprint Planning and Team's Progress"
+msgstr ""
+
+msgid "Sprint Burndown Chart - Remaining Tasks"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "Sprint"
+msgstr ""
+
+msgid "New task added"
+msgstr ""
+
+msgid "The information was mailed to the subscribers"
+msgstr ""
+
+msgid "Select which Bible to display the Sprint for"
+msgstr ""
+
+msgid "The task was removed"
+msgstr ""
+
+msgid "The task was moved to the previous sprint"
+msgstr ""
+
+msgid "The task was moved to the next sprint"
+msgstr ""
+
+msgid "Sending statistics"
+msgstr ""
+
+msgid "statistics"
+msgstr ""
+
+msgid "Number of change notifications"
+msgstr ""
+
+msgid "Number of consultation notes assigned to you awaiting your response"
+msgstr ""
+
+msgid "Number of consultation notes you are subscribed to"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Inactive for a day"
+msgstr ""
+
+msgid "Inactive for a week"
+msgstr ""
+
+msgid "This stylesheet already exists"
+msgstr ""
+
+msgid "The stylesheet has been created"
+msgstr ""
+
+msgid "Please enter the name for the new stylesheet"
+msgstr ""
+
+msgid "The stylesheet has been deleted"
+msgstr ""
+
+msgid "Would you like to delete this stylesheet?"
+msgstr ""
+
+msgid "Would you like to switch to another stylesheet?"
+msgstr ""
+
+msgid "Identification information"
+msgstr ""
+
+msgid "Introduction titles and headings"
+msgstr ""
+
+msgid "Introduction paragraphs and poetry"
+msgstr ""
+
+msgid "Introduction other elements"
+msgstr ""
+
+msgid "Titles"
+msgstr ""
+
+msgid "Headings"
+msgstr ""
+
+msgid "Chapters and verses"
+msgstr ""
+
+msgid "Paragraphs"
+msgstr ""
+
+msgid "Lists"
+msgstr ""
+
+msgid "Poetry elements"
+msgstr ""
+
+msgid "Table elements"
+msgstr ""
+
+msgid "Footnotes"
+msgstr ""
+
+msgid "Crossreferences"
+msgstr ""
+
+msgid "Extended study notes"
+msgstr ""
+
+msgid "Special text"
+msgstr ""
+
+msgid "Character styles"
+msgstr ""
+
+msgid "Spacings and breaks"
+msgstr ""
+
+msgid "Special features"
+msgstr ""
+
+msgid "Peripheral materials"
+msgstr ""
+
+msgid "Extra styles"
+msgstr ""
+
+msgid "is an identifier"
+msgstr ""
+
+msgid "starts a new paragraph"
+msgstr ""
+
+msgid "is inline text with endmarker"
+msgstr ""
+
+msgid "is a chapter number"
+msgstr ""
+
+msgid "is a verse number"
+msgstr ""
+
+msgid "is a footnote or endnote"
+msgstr ""
+
+msgid "is a crossreference"
+msgstr ""
+
+msgid "is a peripheral element"
+msgstr ""
+
+msgid "is a picture"
+msgstr ""
+
+msgid "starts a new page"
+msgstr ""
+
+msgid "is a table element"
+msgstr ""
+
+msgid "is a word list element"
+msgstr ""
+
+msgid "identifies the book"
+msgstr ""
+
+msgid "identifies the encoding"
+msgstr ""
+
+msgid "is a comment"
+msgstr ""
+
+msgid "is a running header"
+msgstr ""
+
+msgid "is long table of contents text"
+msgstr ""
+
+msgid "is short table of contents text"
+msgstr ""
+
+msgid "is the book abbreviation"
+msgstr ""
+
+msgid "is the chapter label"
+msgstr ""
+
+msgid "is the published chapter marker"
+msgstr ""
+
+msgid "is a comment with an endmarker"
+msgstr ""
+
+msgid "is a main title"
+msgstr ""
+
+msgid "is a subtitle"
+msgstr ""
+
+msgid "is a section heading"
+msgstr ""
+
+msgid "is a normal paragraph"
+msgstr ""
+
+msgid "starts a footnote"
+msgstr ""
+
+msgid "starts an endnote"
+msgstr ""
+
+msgid "is standard content"
+msgstr ""
+
+msgid "is content"
+msgstr ""
+
+msgid "is content with endmarker"
+msgstr ""
+
+msgid "starts another paragraph"
+msgstr ""
+
+msgid "starts a crossreference"
+msgstr ""
+
+msgid "starts publication data"
+msgstr ""
+
+msgid "starts table of contents"
+msgstr ""
+
+msgid "starts preface"
+msgstr ""
+
+msgid "starts introduction"
+msgstr ""
+
+msgid "starts concordance"
+msgstr ""
+
+msgid "starts glossary"
+msgstr ""
+
+msgid "starts index"
+msgstr ""
+
+msgid "starts map index"
+msgstr ""
+
+msgid "starts cover"
+msgstr ""
+
+msgid "starts spine"
+msgstr ""
+
+msgid "starts a new row"
+msgstr ""
+
+msgid "is a column heading"
+msgstr ""
+
+msgid "is cell data"
+msgstr ""
+
+msgid "is a wordlist / glossary / dictionary entry"
+msgstr ""
+
+msgid "is a Hebrew wordlist entry"
+msgstr ""
+
+msgid "is a Greek wordlist entry"
+msgstr ""
+
+msgid "is a subject index entry"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Inherit"
+msgstr ""
+
+msgid "Toggle"
+msgstr ""
+
+msgid "Left align"
+msgstr ""
+
+msgid "Center"
+msgstr ""
+
+msgid "Right align"
+msgstr ""
+
+msgid "Justify"
+msgstr ""
+
+msgid "Print chapter number at first verse"
+msgstr ""
+
+msgid "Start on a new page"
+msgstr ""
+
+msgid "Refers to the Apocrypha"
+msgstr ""
+
+msgid "Restart paragraph"
+msgstr ""
+
+msgid ""
+"New page starts with an odd number (not implemented due to limitations in "
+"OpenDocument)"
+msgstr ""
+
+msgid "Print chapter number in the running header of the left page"
+msgstr ""
+
+msgid "Print this in the running header of the left page"
+msgstr ""
+
+msgid "Print chapter number in the running header of the right page"
+msgstr ""
+
+msgid "Print this in the running header of the right page"
+msgstr ""
+
+msgid "User defined sequence"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Every book"
+msgstr ""
+
+msgid "Every chapter"
+msgstr ""
+
+msgid "After each book"
+msgstr ""
+
+msgid "After everything else"
+msgstr ""
+
+msgid "Upon encountering a certain marker"
+msgstr ""
+
+msgid "Stylesheet"
+msgstr ""
+
+msgid "This style already exists"
+msgstr ""
+
+msgid "The style has been created"
+msgstr ""
+
+msgid "Please enter the name for the new style"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "Style"
+msgstr ""
+
+msgid "Please enter the name for the style"
+msgstr ""
+
+msgid "Please enter the description for the style"
+msgstr ""
+
+msgid "Would you like to change the category of this style?"
+msgstr ""
+
+msgid "Here are the various categories:"
+msgstr ""
+
+msgid "Would you like to change the type of this style?"
+msgstr ""
+
+msgid "Here are the various types:"
+msgstr ""
+
+msgid "Would you like to change the sub type of this style?"
+msgstr ""
+
+msgid "Please enter a fontsize between 5 and 60 points"
+msgstr ""
+
+msgid "The value to enter is just a number, e.g. 12."
+msgstr ""
+
+msgid "Would you like to change whether this style is in italics?"
+msgstr ""
+
+msgid "Would you like to change whether this style is in bold?"
+msgstr ""
+
+msgid "Would you like to change whether this style is underlined?"
+msgstr ""
+
+msgid "Would you like to change whether this style is in small caps?"
+msgstr ""
+
+msgid "Would you like to change the text alignment of this style?"
+msgstr ""
+
+msgid "Please enter a space of between 0 and 100 mm before the paragraph"
+msgstr ""
+
+msgid ""
+"This is the space before, or in other words, above the paragraph. The value "
+"to enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a space of between 0 and 100 mm after the paragraph"
+msgstr ""
+
+msgid ""
+"This is the space after, or in other words, below the paragraph. The value "
+"to enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a left margin of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the left margin of the paragraph. The value to enter is just a "
+"number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a right margin of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the right margin of the paragraph. The value to enter is just a "
+"number, e.g. 0."
+msgstr ""
+
+msgid "Please enter a first line indent of between -100 and 100 mm"
+msgstr ""
+
+msgid ""
+"This is the indent of the first line of the the paragraph. The value to "
+"enter is just a number, e.g. 0."
+msgstr ""
+
+msgid "Please specify a new color"
+msgstr ""
+
+msgid "Would you like to change the numbering of the note?"
+msgstr ""
+
+msgid "Please enter a column number between 1 and 4"
+msgstr ""
+
+msgid "This is the column number for the style. The first columm is number 1."
+msgstr ""
+
+msgid "Would you like to change when the note numbering restarts?"
+msgstr ""
+
+msgid "Would you like to change the position where to dump the endnotes?"
+msgstr ""
+
+msgid "Please enter a new note numbering sequence"
+msgstr ""
+
+msgid ""
+"This gives a sequence for numbering the notes. When for example § † * is "
+"entered, the numbering goes like §, †, *, §, †, *, and so forth. Any "
+"sequence of characters can be used. Spaces should separate the characters."
+msgstr ""
+
+msgid "Please enter a new addition to the word list entry"
+msgstr ""
+
+msgid ""
+"This given an optional string to be added after each definition in the body "
+"of text. In some Bibles the unusual words are marked with an asterisk and "
+"then explained in a glossary. If you would enter the asterisk here, or "
+"indeed any string, Bibledit would include this in the exported documents."
+msgstr ""
+
+msgid "Please enter a marker at which the endnotes should be dumped"
+msgstr ""
+
+msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgstr ""
+
+msgid "Received from client"
+msgstr ""
+
+msgid "Set the language for Bibledit"
+msgstr ""
+
+msgid "Please enter a timezone between -12 and +14"
+msgstr ""
+
+msgid "The timezone was clipped"
+msgstr ""
+
+msgid "The timezone was saved"
+msgstr ""
+
+msgid "Please enter the maximum number of items in the RSS feed"
+msgstr ""
+
+msgid "The number was trimmed"
+msgstr ""
+
+msgid "The number was saved"
+msgstr ""
+
+msgid "Go back"
+msgstr ""
+
+msgid "Select the Bible for editing:"
+msgstr ""
+
+msgid "Send and receive."
+msgstr ""
+
+msgid ""
+"This is for sending your changes to Bibledit Cloud, and receiving changes "
+"made by others."
+msgstr ""
+
+msgid "Connection to Bibledit Cloud."
+msgstr ""
+
+msgid "This is for collaboration with fellow translators and for backup."
+msgstr ""
+
+msgid "Switch to advanced mode."
+msgstr ""
+
+msgid "Advanced mode offers more options than basic mode."
+msgstr ""
+
+msgid ""
+"Once in advanced mode, return to basic mode via menu Settings / Basic mode."
+msgstr ""
+
+msgid "Show the changes"
+msgstr ""
+
+msgid "Whether to have a menu entry to go to the changes."
+msgstr ""
+
+msgid "Logout."
+msgstr ""
+
+msgid "Update the abbreviations."
+msgstr ""
+
+msgid "One line per book."
+msgstr ""
+
+msgid "Book lines may repeat with different abbreviations for the same book."
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid ""
+"Book abbreviations are used while copying cross references from a source "
+"Bible to a target Bible."
+msgstr ""
+
+msgid "Chapters:"
+msgstr ""
+
+msgid "Create chapter"
+msgstr ""
+
+msgid "Delete this book"
+msgstr ""
+
+msgid "Delete this chapter"
+msgstr ""
+
+msgid "Font and text settings"
+msgstr ""
+
+msgid "Make settings for font and text for the Bible editors."
+msgstr ""
+
+msgid "Font"
+msgstr ""
+
+msgid "Enter the name of a locally available font."
+msgstr ""
+
+msgid "Example:"
+msgstr ""
+
+msgid "Upload a font file."
+msgstr ""
+
+msgid "Then enter its name."
+msgstr ""
+
+msgid "Enter the name of a font available on the Internet."
+msgstr ""
+
+msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
+msgstr ""
+
+msgid "Direction"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Left-to-right"
+msgstr ""
+
+msgid "Right-to-left"
+msgstr ""
+
+msgid "Writing mode"
+msgstr ""
+
+msgid "Top to bottom and left to right"
+msgstr ""
+
+msgid "Top to bottom and right to left"
+msgstr ""
+
+msgid "Bottom to top and left to right"
+msgstr ""
+
+msgid "Bottom to top and right to left"
+msgstr ""
+
+msgid "Line height"
+msgstr ""
+
+msgid "Letter spacing"
+msgstr ""
+
+msgid ""
+"After saving, the settings will be applied to the editable sample text below."
+msgstr ""
+
+msgid "Import Bible text."
+msgstr ""
+
+msgid "Paste the text into the box below and submit it."
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "You can also upload a file with the text."
+msgstr ""
+
+msgid "Or a compressed archive of such files."
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "The upload may take some time."
+msgstr ""
+
+msgid "This can be done in Bibledit Cloud."
+msgstr ""
+
+msgid "This page helps with importing Bible text."
+msgstr ""
+
+msgid "It recognizes two types of text."
+msgstr ""
+
+msgid "It recognizes Unified Standard Format Markers text."
+msgstr ""
+
+msgid "More information about that."
+msgstr ""
+
+msgid ""
+"Bibledit recognizes books through the id markup and chapters through the c "
+"markup."
+msgstr ""
+
+msgid "It also recognizes plain text."
+msgstr ""
+
+msgid "It does that one chapter at a time."
+msgstr ""
+
+msgid ""
+"It imports the text into the book and chapter indicated by the passage "
+"navigator at the top of the window."
+msgstr ""
+
+msgid ""
+"It considers numbers at the start of a line of text to be verse numbers."
+msgstr ""
+
+msgid "It does not discover verse numbers somewhere else in the text."
+msgstr ""
+
+msgid "After importing some text, it is recommended to run the checks on it."
+msgstr ""
+
+msgid "An imported chapter overwrites the chapter already in the Bible."
+msgstr ""
+
+msgid ""
+"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
+"that chapter already was in the Bible."
+msgstr ""
+
+msgid "It will not overwrite anything else."
+msgstr ""
+
+msgid "If Genesis 1 was not yet there, it will be created."
+msgstr ""
+
+msgid ""
+"You can import one chapter, or several chapters, or one book, or several "
+"books, all in one go."
+msgstr ""
+
+msgid "The text to be imported should be in Unicode UTF-8 format."
+msgstr ""
+
+msgid "Available Bibles:"
+msgstr ""
+
+msgid "Create a new empty Bible"
+msgstr ""
+
+msgid "Book order"
+msgstr ""
+
+msgid ""
+"Click to move books to another location to update the order of the books in "
+"this Bible."
+msgstr ""
+
+msgid "Reset order."
+msgstr ""
+
+msgid "Available books"
+msgstr ""
+
+msgid "Versification system"
+msgstr ""
+
+msgid "Verse mapping"
+msgstr ""
+
+msgid "Import text"
+msgstr ""
+
+msgid "Copy this Bible"
+msgstr ""
+
+msgid "Delete this Bible"
+msgstr ""
+
+msgid "Convert to USFM resource"
+msgstr ""
+
+msgid "Compare with ..."
+msgstr ""
+
+msgid "The public can give feedback"
+msgstr ""
+
+msgid "Import text from a resource"
+msgstr ""
+
+msgid "Old"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Change Notifications"
+msgstr ""
+
+msgid "This page lists the notifications of the changes in the Bible text."
+msgstr ""
+
+msgid "Use the up and down arrow keys to navigate through the entries."
+msgstr ""
+
+msgid "Press the delete key to remove the selected entry."
+msgstr ""
+
+msgid "Or click the 🗑."
+msgstr ""
+
+msgid "Or swipe it to the left."
+msgstr ""
+
+msgid ""
+"Use the left and right arrow keys to expand or collapse the selected entry."
+msgstr ""
+
+msgid "Or click the 📁."
+msgstr ""
+
+msgid "Or swipe it to the right."
+msgstr ""
+
+msgid "The expanded entry provides more information and options."
+msgstr ""
+
+msgid ""
+"It displays all the Consultation Notes that refer to the passage of the "
+"Change Notification."
+msgstr ""
+
+msgid "If you are subscribed to a note, you can unsubscribe."
+msgstr ""
+
+msgid "If a note is assigned to you, you can unassign it."
+msgstr ""
+
+msgid "When you have a Manager role, you can delete a note."
+msgstr ""
+
+msgid ""
+"You can create a new Consultation Note with a query about the change in the "
+"text of the Bible."
+msgstr ""
+
+msgid "This page with change notifications is for you."
+msgstr ""
+
+msgid "Your colleagues have their own lists."
+msgstr ""
+
+msgid ""
+"Changes in the text of the Bibles will be added to the list the next day."
+msgstr ""
+
+msgid "The change notifications fall into several categories:"
+msgstr ""
+
+msgid "Changes marked with a smiley face are changes made by you."
+msgstr ""
+
+msgid "user"
+msgstr ""
+
+msgid "Changes marked with the name of a user are changes made by this user."
+msgstr ""
+
+msgid "Changes marked with a book symbol are the changes in the Bible text."
+msgstr ""
+
+msgid ""
+"They have been made either by yourself or by someone else working on this "
+"Bible."
+msgstr ""
+
+msgid ""
+"Each category can be enabled or disabled separately in your notifications."
+msgstr ""
+
+msgid "Bible translation is a collaborative effort."
+msgstr ""
+
+msgid ""
+"Changes you enter may be updated by others or merged with their changes."
+msgstr ""
+
+msgid ""
+"The two categories of change notifications enable you to find out whether "
+"your change is now in the Bible text."
+msgstr ""
+
+msgid "Dismiss the notifications of the changes of the following categories:"
+msgstr ""
+
+msgid "(if their changes and verses match)"
+msgstr ""
+
+msgid "(all of them)"
+msgstr ""
+
+msgid "Bibledit tracks the changes in the text of the Bibles."
+msgstr ""
+
+msgid "It generates lists of them every day."
+msgstr ""
+
+msgid "Generate them now."
+msgstr ""
+
+msgid "Lists with changes can be downloaded."
+msgstr ""
+
+msgid ""
+"Bibledit emails lists with the changes to users who have enabled that "
+"notification."
+msgstr ""
+
+msgid ""
+"It generates change notifications online for users who have enabled that "
+"notification."
+msgstr ""
+
+msgid "Notifications."
+msgstr ""
+
+msgid ""
+"The users who have enabled change notification are listed below, with the "
+"number of changes waiting for their review."
+msgstr ""
+
+msgid "clear"
+msgstr ""
+
+msgid "Changes are recorded in the journal."
+msgstr ""
+
+msgid ""
+"When the Bible text gets pushed to an external git repository, the changes "
+"will be visible there."
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Number of changes"
+msgstr ""
+
+msgid "help"
+msgstr ""
+
+msgid "The page displays a list of results of running the checks."
+msgstr ""
+
+msgid "Click ✔ to suppress the entry."
+msgstr ""
+
+msgid "Click 🗑 to remove the entry for just now."
+msgstr ""
+
+msgid ""
+"It will be back after running the checks again, unless the text of the Bible "
+"has been corrected."
+msgstr ""
+
+msgid "Click a passage to open it in the Bible text editor."
+msgstr ""
+
+msgid "The Manager can enable or disable checks."
+msgstr ""
+
+msgid "Enable or disable checks."
+msgstr ""
+
+msgid "Suppressed entries"
+msgstr ""
+
+msgid "It will be checked every night."
+msgstr ""
+
+msgid "Check it now."
+msgstr ""
+
+msgid "Enable the desired checks:"
+msgstr ""
+
+msgid "double spaces in the raw USFM"
+msgstr ""
+
+msgid "punctuation at the end of a heading"
+msgstr ""
+
+msgid ""
+"a space before a comma, semicolon, colon, full stop, question mark, or "
+"exclamation mark"
+msgstr ""
+
+msgid "sentence structure"
+msgstr ""
+
+msgid "paragraph starts with a capital and ends with a correct end marker"
+msgstr ""
+
+msgid "correct number of books according to the versification system"
+msgstr ""
+
+msgid ""
+"correct number of chapters and verses in existing books, according to the "
+"versification system"
+msgstr ""
+
+msgid "well-formed USFM"
+msgstr ""
+
+msgid "missing punctuation at the end of a verse"
+msgstr ""
+
+msgid "patterns in the text"
+msgstr ""
+
+msgid "settings"
+msgstr ""
+
+msgid "matching pairs"
+msgstr ""
+
+msgid "space at the end of a verse"
+msgstr ""
+
+msgid "Settings for the sentence structure"
+msgstr ""
+
+msgid "The results of these checks will be viewable under Tools / Checks."
+msgstr ""
+
+msgid ""
+"Bibledit Cloud can email the results to all users who have enabled this "
+"notification."
+msgstr ""
+
+msgid ""
+"The results will also be emailed to all users who have enabled this "
+"notification."
+msgstr ""
+
+msgid "Enter all possible matching pairs in the text of the Bible."
+msgstr ""
+
+msgid "Separate each pair by a space."
+msgstr ""
+
+msgid "For example:"
+msgstr ""
+
+msgid "Enter the patterns to search for."
+msgstr ""
+
+msgid "One per line."
+msgstr ""
+
+msgid ""
+"It will search the plain text of the Bible, without verse numbers, heading, "
+"and other additions."
+msgstr ""
+
+msgid "Sentence structure"
+msgstr ""
+
+msgid "The settings apply to different checks on the sentence structure."
+msgstr ""
+
+msgid "Enter all possible capitals in the text of the Bible."
+msgstr ""
+
+msgid "Separate them by a space."
+msgstr ""
+
+msgid "Enter all possible small letters in the text of the Bible."
+msgstr ""
+
+msgid "Enter all possible punctuation marks at the end of a sentence."
+msgstr ""
+
+msgid "Enter all possible punctuation marks within a sentence."
+msgstr ""
+
+msgid "Enter all possible characters that should be allowed within a sentence."
+msgstr ""
+
+msgid ""
+"The characters will be treated by the checks algorithm to be valid in any "
+"context."
+msgstr ""
+
+msgid ""
+"Enter the names, starting with a capital, that may occur after mid-sentence "
+"punctuation."
+msgstr ""
+
+msgid ""
+"Enter all possible markers that start a new line but do not necessarily "
+"start a new sentence."
+msgstr ""
+
+msgid "back"
+msgstr ""
+
+msgid "The page lists the suppressed results of the checks."
+msgstr ""
+
+msgid "Click 🗑 to remove the items from the suppressed list."
+msgstr ""
+
+msgid "It will be visible again in the list of check results."
+msgstr ""
+
+msgid "Bibledit Cloud connection"
+msgstr ""
+
+msgid "Connected to Bibledit Cloud."
+msgstr ""
+
+msgid "Disconnect and log out."
+msgstr ""
+
+msgid "Internet address"
+msgstr ""
+
+msgid "Your role:"
+msgstr ""
+
+msgid ""
+"To connect to Bibledit Cloud, enter the details of the server, and your "
+"credentials, and click Connect."
+msgstr ""
+
+msgid "Port number"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Connect"
+msgstr ""
+
+msgid "Or else connect to the Bibledit Cloud demo."
+msgstr ""
+
+msgid "To get access to Bibledit Cloud, install a server instance."
+msgstr ""
+
+msgid ""
+"Or request a server instance from bibledit.org through the contact form."
+msgstr ""
+
+msgid "Data copy direction"
+msgstr ""
+
+msgid "Repository URL"
+msgstr ""
+
+msgid "One last question:"
+msgstr ""
+
+msgid "Should the data be copied from Bibledit to the remote repository?"
+msgstr ""
+
+msgid "Or should it be copied from the remote repository to Bibledit?"
+msgstr ""
+
+msgid "There are two options:"
+msgstr ""
+
+msgid "Take the data in the repository."
+msgstr ""
+
+msgid ""
+"Taking the data in the repository means that the data in the repository is "
+"left as it is, and that a copy of that data overwrites your own data in "
+"Bibledit. This option is used most of the time."
+msgstr ""
+
+msgid "Take your own data."
+msgstr ""
+
+msgid ""
+"Taking your own data means that your data is taken as it is, and that this "
+"is copied to the repository, overwriting whatever is there in the repository "
+"now."
+msgstr ""
+
+msgid "Git repository"
+msgstr ""
+
+msgid ""
+"Bibledit Cloud can store the Bible text plus all changes in a git repository."
+msgstr ""
+
+msgid "This git repository helps with safekeeping the Bible text."
+msgstr ""
+
+msgid ""
+"It keeps track of all changes made to the Bible text, who made those "
+"changes, and when."
+msgstr ""
+
+msgid "Select Bible."
+msgstr ""
+
+msgid "Distributed collaboration for this is enabled."
+msgstr ""
+
+msgid "Disable it."
+msgstr ""
+
+msgid "Set it up."
+msgstr ""
+
+msgid "Bibledit links to the remote repository."
+msgstr ""
+
+msgid "Bibledit will copy its own data to the remote repository."
+msgstr ""
+
+msgid "Bibledit will copy the data of the remote repository to itself."
+msgstr ""
+
+msgid "The repository was linked successfully."
+msgstr ""
+
+msgid ""
+"Regularly choose menu Tools - Send/receive to synchronize the Bible with the "
+"repository."
+msgstr ""
+
+msgid "It will do that automatically for you once a night."
+msgstr ""
+
+msgid "Ready."
+msgstr ""
+
+msgid "Error: The repository could not be linked."
+msgstr ""
+
+msgid "Retry"
+msgstr ""
+
+msgid "Repository setup"
+msgstr ""
+
+msgid ""
+"Please enter the URL for your repository below, and press the Submit button "
+"to save it."
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "Example URLs:"
+msgstr ""
+
+msgid "Flash Drive"
+msgstr ""
+
+msgid "Open Network Repository"
+msgstr ""
+
+msgid "Password Protected Network Repository"
+msgstr ""
+
+msgid "Secured Network Repository"
+msgstr ""
+
+msgid "Compare this Bible with any of the Bibles or USFM Resources below."
+msgstr ""
+
+msgid "Passages:"
+msgstr ""
+
+msgid "Translations:"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid ""
+"This assists with checking how consistently words have been translated in "
+"the Bible."
+msgstr ""
+
+msgid "Instructions"
+msgstr ""
+
+msgid "Enter book, chapter and verse in the 'Passages:' box."
+msgstr ""
+
+msgid "Enter key word text you want to search for in the 'Translations:' box."
+msgstr ""
+
+msgid "One word per line."
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "salvation"
+msgstr ""
+
+msgid "justification"
+msgstr ""
+
+msgid "redemption"
+msgstr ""
+
+msgid "Tips"
+msgstr ""
+
+msgid "Add resources as extra aids for comparison"
+msgstr ""
+
+msgid "Paste the entire text from search results into the passages window."
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "editor"
+msgstr ""
+
+msgid "preview"
+msgstr ""
+
+msgid "This page deals with setting up the email system."
+msgstr ""
+
+msgid ""
+"Bibledit sends out email. It also collects email every five minutes and acts "
+"upon these emails."
+msgstr ""
+
+msgid "It needs an external email account for sending and receiving email."
+msgstr ""
+
+msgid ""
+"The help information on this page assumes that we use a Google mail account. "
+"You will have your own email account dedicated to Bibledit."
+msgstr ""
+
+msgid ""
+"The email address is bibletranslation@gmail.com, and the password is pazzwrd."
+msgstr ""
+
+msgid "Site name and email address"
+msgstr ""
+
+msgid "Our own sample values are given below. Yours will be different."
+msgstr ""
+
+msgid "Name: Bibledit Cloud"
+msgstr ""
+
+msgid "Email address: bibletranslation@gmail.com"
+msgstr ""
+
+msgid "To switch the mailer off, leave the fields empty."
+msgstr ""
+
+msgid "Enter the name and the email address, and press Submit."
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Retrieving mail"
+msgstr ""
+
+msgid "Sample values:"
+msgstr ""
+
+msgid "POP3 Host: pop.gmail.com"
+msgstr ""
+
+msgid "Username: bibletranslation@gmail.com"
+msgstr ""
+
+msgid "Password: pazzwrd"
+msgstr ""
+
+msgid "Protocol: POP3S"
+msgstr ""
+
+msgid "Port: 995"
+msgstr ""
+
+msgid "Enter the account details, and press Submit."
+msgstr ""
+
+msgid ""
+"When you submit the values, Bibledit will attempt to contact this email "
+"account and tell the number of messages in the Inbox."
+msgstr ""
+
+msgid "Please wait"
+msgstr ""
+
+msgid "Sending mail"
+msgstr ""
+
+msgid "SMTP Host: smtp.gmail.com"
+msgstr ""
+
+msgid "Port: 587"
+msgstr ""
+
+msgid ""
+"If the SMTP server does not need authenticaton, just leave the fields for "
+"username and password empty."
+msgstr ""
+
+msgid ""
+"When you submit new values, Bibledit will attempt to send an email to the "
+"email address of Bibledit."
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "The Free Bible"
+msgstr ""
+
+msgid "Licenses"
+msgstr ""
+
+msgid "Upgrade from Bibledit-Web to Bibledit Cloud"
+msgstr ""
+
+msgid ""
+"Follow the steps below to upgrade from the most recent release of Bibledit-"
+"Web to the first release of Bibledit Cloud."
+msgstr ""
+
+msgid "It is not supported for the client edition of Bibledit."
+msgstr ""
+
+msgid "You need basic knowledge of the Linux server Bibledit runs on."
+msgstr ""
+
+msgid ""
+"In the steps below, the Bibledit-Web installation is located in the "
+"following folder:"
+msgstr ""
+
+msgid ""
+"The Bibledit Cloud installation will be located in this folder in the user's "
+"home folder:"
+msgstr ""
+
+msgid "Remove folder ~/bibledit:"
+msgstr ""
+
+msgid "Open a terminal."
+msgstr ""
+
+msgid "Copy all Bibledit-Web data:"
+msgstr ""
+
+msgid ""
+"It may be unable to copy one or more files in the 'tmp' folder, but that is "
+"fine."
+msgstr ""
+
+msgid "Copying may take a while."
+msgstr ""
+
+msgid "Install Bibledit Cloud in the usual way."
+msgstr ""
+
+msgid "Bibledit runs a number of checks on the text of the Bibles."
+msgstr ""
+
+msgid "It does that every night."
+msgstr ""
+
+msgid "Act on the results of the checks."
+msgstr ""
+
+msgid "Receive the results by email."
+msgstr ""
+
+msgid "Manage the checks."
+msgstr ""
+
+msgid "Notes."
+msgstr ""
+
+msgid "You deal with checks on the Bibles you have write access to."
+msgstr ""
+
+msgid ""
+"Bibledit assists with checking how consistent words have been translated in "
+"the Bible."
+msgstr ""
+
+msgid "The suggested work-flow for consistency checking is this:"
+msgstr ""
+
+msgid ""
+"Create a Consultation Note, and enter the details of the desired consistency "
+"check, plus the passages to check."
+msgstr ""
+
+msgid "Open the Consistency tool in a new tab."
+msgstr ""
+
+msgid ""
+"Copy the passages from the Consultation Note and paste them in the "
+"Consistency tool."
+msgstr ""
+
+msgid "Enter the desired translation or translations in the Consistency tool."
+msgstr ""
+
+msgid ""
+"The Consistency tool will display the verse texts from the active Bible."
+msgstr ""
+
+msgid "It will mark the translations in the verse."
+msgstr ""
+
+msgid "To make corrections, click a Passage."
+msgstr ""
+
+msgid "The text editor will open at the correct chapter and verse."
+msgstr ""
+
+msgid "Changes can be made in the text."
+msgstr ""
+
+msgid "The Consistency tool will display any updates in the Bible."
+msgstr ""
+
+msgid "The Consistency tool can display extra Bibles."
+msgstr ""
+
+msgid "This assists the checking process."
+msgstr ""
+
+msgid "Consultations"
+msgstr ""
+
+msgid "The Notes are an important part of Consultations."
+msgstr ""
+
+msgid ""
+"The notes help to record the discussions with consultants and other people."
+msgstr ""
+
+msgid ""
+"Normally, when going to the Consultation Notes, you will see a list of "
+"notes. It would say, for example: Displaying notes 1 - 5 / 5. This means "
+"that it would display notes 1 to 5, out of 5 notes total."
+msgstr ""
+
+msgid ""
+"You can edit the display. That means that you can edit the number of notes "
+"that will display in that list."
+msgstr ""
+
+msgid ""
+"Clicking [edit] takes you to a new page, called Edit Notes Display. This "
+"enables you to edit how the notes will be displayed, and how many."
+msgstr ""
+
+msgid "The first thing that you can edit is how many notes will be selected."
+msgstr ""
+
+msgid ""
+"If you select notes that refer to any passage, then notes will be selected "
+"that refer to any passage, from Genesis to Revelation. But when you select "
+"notes that refer to the current verse, then only those notes will be "
+"selected that refer to the currently opened verse. In case you have Genesis "
+"2.2 open in the navigator, then only notes that refer to that particular "
+"verse are displayed."
+msgstr ""
+
+msgid ""
+"If you select notes that have been edited at any time, then all notes would "
+"be selected. But when you select notes that have been edited on Today, then "
+"only today's notes are displayed."
+msgstr ""
+
+msgid ""
+"The note selection mechanism combines all selection methods that have been "
+"set. If you select notes that refer to the current verse, for example, and "
+"that have been edited today, and only those notes that both refer to the "
+"current verse, and that also have been edited today, are displayed."
+msgstr ""
+
+msgid ""
+"There are other notes selection mechanisms as well. See the relevant page "
+"for all selection mechanisms. Things should be plain and there should be no "
+"need for any further information."
+msgstr ""
+
+msgid ""
+"One thing that would need explanation would be the mechanism that selects "
+"notes that contain certain text. This is intended to be used to search notes "
+"for text."
+msgstr ""
+
+msgid ""
+"If you select notes that contain Any text, then searching for text in the "
+"note is not done."
+msgstr ""
+
+msgid ""
+"Searching for text can be done by selecting notes that contain specific "
+"words or text. When you select this option, you will see that an entry "
+"becomes visible. Search text should be entered there. Then the Save button "
+"should be pressed. This is to save that search text. Or just pressing Enter "
+"while the cursor is in that entry will do also."
+msgstr ""
+
+msgid ""
+"When you search for, for example, 'house', then notes that contain the word "
+"'house' will be selected. Notes that contain the word 'houses' (in plural) "
+"would not be selected. To select this plural form, you can use wildcards. "
+"Instead of entering 'house, enter 'house*' Notice the asterisk. This will "
+"select notes that contains the word 'house' or 'houses."
+msgstr ""
+
+msgid ""
+"You can also enter two or more words to search for. The search routine will "
+"then do its best to select these notes that contain some or all of these "
+"words. Notes that contain all words are given first, and notes that contains "
+"only one or a few of the words will be given later."
+msgstr ""
+
+msgid ""
+"If you select notes that refer to the current verse, and then also search "
+"for some text, then only the notes that refer to the current verse would be "
+"searched. It is important to be aware of this. At times one may search for "
+"words or phrases, and get zero results, yet he is sure that there should be "
+"some results. This would happen because the user does not search the whole "
+"Bible, but only the current verse. The same applies to other selection "
+"mechanisms. Therefore, when searching notes for text, you may want to set "
+"all other selection mechanisms to Any."
+msgstr ""
+
+msgid ""
+"There is more that can be said about searching notes. The wildcard operator "
+"already has been mentioned. Here is a list of possible operators:"
+msgstr ""
+
+msgid ""
+"By default, when no operator specified, the word is optional, but the result "
+"that contain it will be rated higher."
+msgstr ""
+
+msgid ""
+"A leading plus sign indicates that this word must be present in every result "
+"returned."
+msgstr ""
+
+msgid ""
+"A leading minus sign indicates that this word must not be present in any "
+"result returned."
+msgstr ""
+
+msgid ""
+"A leading tilde acts as a negation operator, causing the word's contribution "
+"to the result relevance to be negative. It's useful for marking noise words. "
+"A result that contains such a word will be rated lower than others, but will "
+"not be excluded altogether, as it would be with the minus operator."
+msgstr ""
+
+msgid ""
+"An asterisk is the wildcard operator. Unlike the other operators, it is "
+"appended to the word, or fragment, not prepended. This means that if there "
+"is a note with the word 'house', and you search for '*ouse', this note will "
+"not be selected. Yes, this is unusual, but this is how the database search "
+"works. To minimize the pain of this, measures have been taken that if you "
+"type any part of the word, the expected result will still be found."
+msgstr ""
+
+msgid ""
+"Double quotes at the beginning and end of a phrase, gives only the notes "
+"that contain the complete phrase, as it was typed."
+msgstr ""
+
+msgid ""
+"Each note can be assigned to somebody. The person to whom the note is "
+"assigned then knows that action should be taken on this note. Or the person "
+"can be automatically emailed if the note gets changed."
+msgstr ""
+
+msgid "The Consultation Notes can partly be operated by email."
+msgstr ""
+
+msgid ""
+"When you receive an email from Bibledit, and this email contains a "
+"Consultation Note, then you can reply to this email. Your reply will be "
+"added as a comment to this particular Consultation Note."
+msgstr ""
+
+msgid ""
+"The reply should come from the email address which you registered with "
+"Bibledit when you created your  account. The reply should also have "
+"(CSID123456789) in the subject line. The number 123456789 is a Consultation "
+"Note Identifier. It is different for every Note. Just replying to a "
+"Consultation Note you received is usually all that is needed. Only replies "
+"that are typed before the quoted text are considered. This is called top-"
+"posting. When the quoted text gets posted too, then it is necessary to "
+"remove that from your email reply."
+msgstr ""
+
+msgid "You can also submit a new Consultation Note by email."
+msgstr ""
+
+msgid "This is how to do it:"
+msgstr ""
+
+msgid ""
+"Create a new email to the site's email address. The subject line contains "
+"'New note', then the passage, and finally the summary."
+msgstr ""
+
+msgid "The body of the email will be the first comment on that note."
+msgstr ""
+
+msgid "Discussions"
+msgstr ""
+
+msgid ""
+"It is important that the more difficult or important passages of the "
+"translation are discussed by the Translation Team."
+msgstr ""
+
+msgid ""
+"All the members of the Translation Team have the intention to produce a "
+"reliable translation."
+msgstr ""
+
+msgid ""
+"But the views of the members about how to best put this reliable translation "
+"into words may differ."
+msgstr ""
+
+msgid ""
+"All members will listen to each other's arguments, bring their own "
+"arguments, and come to a conclusion."
+msgstr ""
+
+msgid ""
+"The conclusion can be reached because everybody agrees, or it can be reached "
+"by vote, or by consulting others, or a combination of this."
+msgstr ""
+
+msgid "Discussions shall be guided by the following rules:"
+msgstr ""
+
+msgid ""
+"If a member of the Team wishes to raise an issue for discussion, that member "
+"shall create a consultation note for the team."
+msgstr ""
+
+msgid "The consultation note will be distributed to all members of the team."
+msgstr ""
+
+msgid ""
+"To give members time to think about the issues, and thus make the discussion "
+"more productive, the consultation note shall not be discussed immediately, "
+"but after a day or more."
+msgstr ""
+
+msgid "The consultation note clearly describes the issue or question."
+msgstr ""
+
+msgid ""
+"If the member desires a change, the member shall include a clear suggestion "
+"for change in the consultation note."
+msgstr ""
+
+msgid "The members of the team shall choose a chair person."
+msgstr ""
+
+msgid ""
+"The chair person leads the discussions, keeps the discussions on topic, "
+"ensures that procedures are followed, and keeps the time."
+msgstr ""
+
+msgid "The members of the team are all busy and their time is valuable."
+msgstr ""
+
+msgid "Therefore discussions should be kept short and to the point."
+msgstr ""
+
+msgid ""
+"Personal reflections and deliberations about a passage shall not be done in "
+"the team, while others are held in suspense."
+msgstr ""
+
+msgid ""
+"Everybody shall hold such deliberations in his own time without disturbing "
+"others."
+msgstr ""
+
+msgid ""
+"If discussion of a consultation note is dragging on, let's say for more than "
+"5 minutes, a vote shall be taken so as to arrive at a decision."
+msgstr ""
+
+msgid ""
+"If a member is not satisfied with the outcome of a discussion, that member "
+"can forward the consultation note to other appropriate bodies who are able "
+"to advise the translation team."
+msgstr ""
+
+msgid ""
+"If the matter concerns the original language, then it will be forwarded to "
+"the Bible Society."
+msgstr ""
+
+msgid ""
+"If the matter concerns the local language, the matter should be forwarded to "
+"the group of language scholars."
+msgstr ""
+
+msgid ""
+"If the answer from the scholars does not satisfy any member of the team, the "
+"matter can be forwarded to the panel consisting of local Church leaders and "
+"scholars."
+msgstr ""
+
+msgid ""
+"If a consultation notes has gone through the advising bodies, and a "
+"rendering is arrived at by the majority of the members of the translation "
+"team, and this rendering does not satisfy a team member, that member can ask "
+"the matter to be forwarded to three able Church leaders."
+msgstr ""
+
+msgid ""
+"Those able Church leaders have knowledge of Hebrew and Greek, of good "
+"commentaries and other reference materials."
+msgstr ""
+
+msgid ""
+"The questions sent to them should be worded such that it places a low demand "
+"on their time."
+msgstr ""
+
+msgid ""
+"The matter shall include the discussions of the translation team, the answer "
+"given by the Bible Society, shall state the rendering chosen by the majority "
+"of the team, and the alternate rendering."
+msgstr ""
+
+msgid ""
+"The able Church leaders shall be asked whether they choose the majority "
+"rendering or the alternate."
+msgstr ""
+
+msgid ""
+"They shall be informed that their choice defaults to the majority if no "
+"response has been received by the translation team within a month."
+msgstr ""
+
+msgid ""
+"A vote shall be taken from the answers given by the Bible Society and each "
+"of the able Church leaders."
+msgstr ""
+
+msgid ""
+"If the vote needs to be split, equal votes will be given to each of the "
+"members of the translation team."
+msgstr ""
+
+msgid ""
+"While Bibledit may be used for making any Bibles, there are some distinct "
+"advantages to releasing Bibles under a free license."
+msgstr ""
+
+msgid ""
+"Others will feel free to publish the open Bible. You don't need to do "
+"everything yourself: Others will help spreading the Word of God."
+msgstr ""
+
+msgid ""
+"It becomes easy to publish Bibles in a variety of formats by a variety of "
+"people: on paper, phones, the Internet."
+msgstr ""
+
+msgid ""
+"If you think that the Bible you translated is good and reliable, and you "
+"release it under an open license, it will rapidly spread over the Internet."
+msgstr ""
+
+msgid ""
+"Compare an open Bible to the Greek minuscules: They were copied freely, and "
+"they can now be found all over the place."
+msgstr ""
+
+msgid "Freely you received, freely give."
+msgstr ""
+
+msgid ""
+"Various church people regularly express a desire to have a more accurate "
+"Bible than what they have now."
+msgstr ""
+
+msgid "The years pass by and the desire becomes stronger."
+msgstr ""
+
+msgid ""
+"They pray about the matter, discuss it, and decide to start the work on "
+"improving the Bible themselves, with the help of a booklet with directions."
+msgstr ""
+
+msgid "The booklet is published by the Bible Society."
+msgstr ""
+
+msgid "Over the years some people join the group, and others leave the group."
+msgstr ""
+
+msgid ""
+"The church now has a translation team consisting of four people who by the "
+"grace of God work full time on the revision of the Bible."
+msgstr ""
+
+msgid "Each of the four people bring in their own expertise."
+msgstr ""
+
+msgid "Two of them focus on the target language."
+msgstr ""
+
+msgid ""
+"They aim at using accurate, faithful, beautiful and contemporary language."
+msgstr ""
+
+msgid "One of them focuses on the original Greek and Hebrew."
+msgstr ""
+
+msgid "He ensures that the translated text matches the originals."
+msgstr ""
+
+msgid "One of them focuses, more than the others, on the recipients."
+msgstr ""
+
+msgid "She aims at acceptance of the language by the future readers."
+msgstr ""
+
+msgid "Many proof-readers contribute to the work."
+msgstr ""
+
+msgid ""
+"The translation team regularly consults with language scholars and church "
+"representatives about the Bible translation."
+msgstr ""
+
+msgid ""
+"The Bible Society answers queries about how to translate difficult passages."
+msgstr ""
+
+msgid "After several years the New Testament becomes ready."
+msgstr ""
+
+msgid "The manuscript is submitted to the Bible Society for publishing."
+msgstr ""
+
+msgid "The manuscript is formatted and uploaded to the church website."
+msgstr ""
+
+msgid ""
+"It can now be used by whoever wants to do so before it would be published in "
+"paper form."
+msgstr ""
+
+msgid "The translation team starts to translate the Old Testament."
+msgstr ""
+
+msgid "The years pass by."
+msgstr ""
+
+msgid ""
+"The team eagerly awaits news from the Bible Society about publishing the New "
+"Testament."
+msgstr ""
+
+msgid ""
+"Five years later the news arrives that the Bible Society starts the "
+"preparations for publishing it."
+msgstr ""
+
+msgid ""
+"Another year later the team sees the first copies of the New Testament in "
+"book form."
+msgstr ""
+
+msgid ""
+"During all those years the New Testament has been locked up in the offices "
+"of the Bible Society."
+msgstr ""
+
+msgid ""
+"It was not free to go out to the people in book form, but was kept locked up."
+msgstr ""
+
+msgid "It was enslaved."
+msgstr ""
+
+msgid "The team keeps working on the Old Testament during many years."
+msgstr ""
+
+msgid "They are enabled to do so by the Lord God."
+msgstr ""
+
+msgid "The Old Testament becomes ready."
+msgstr ""
+
+msgid ""
+"The manuscript of the whole Bible is submitted to the Bible Society for "
+"publishing."
+msgstr ""
+
+msgid ""
+"One member of the translation team suggests to upload the formatted "
+"manuscript to the church website, just as was done with the New Testament."
+msgstr ""
+
+msgid ""
+"The team leader decides to not do this, but let the Bible Society be the "
+"first to publish the Bible."
+msgstr ""
+
+msgid ""
+"The translator feels disappointed, because the Bible, now complete and "
+"accurate, is not free to go out to the people."
+msgstr ""
+
+msgid "Not in paper form, not in digital form."
+msgstr ""
+
+msgid "It is enslaved, again."
+msgstr ""
+
+msgid ""
+"Over the years the translator heard stories from others who had similar "
+"experiences."
+msgstr ""
+
+msgid "It occurs to him that the current way of doing things is not right."
+msgstr ""
+
+msgid ""
+"It leads to a situation where the Bible is not free to go where it is needed "
+"most:"
+msgstr ""
+
+msgid "To the people."
+msgstr ""
+
+msgid ""
+"The translator begins to see more clearly that Christians should have "
+"freedom to publish Bibles or portions of it any time they wish to do so."
+msgstr ""
+
+msgid "The translator becomes the leader of the translation team."
+msgstr ""
+
+msgid "The team leader is acquainted with open licenses."
+msgstr ""
+
+msgid ""
+"He chooses the GNU Free Documentation License as an appropriate license for "
+"the Bible."
+msgstr ""
+
+msgid ""
+"He is of the view that it is appropriate for the Word of God to be created "
+"under an open license to allow it to have free course."
+msgstr ""
+
+msgid ""
+"The GNU Free Documentation License allows noncommercial distribution of the "
+"Bible by anyone who accepts the license."
+msgstr ""
+
+msgid ""
+"That is a good thing because this enables anyone to print the Bible and give "
+"it to someone else."
+msgstr ""
+
+msgid ""
+"The GNU Free Documentation License allows commercial distribution of the "
+"Bible by any publisher who accepts the license."
+msgstr ""
+
+msgid ""
+"This is good, because it maximizes the distribution potential by allowing "
+"sales of printed Bibles."
+msgstr ""
+
+msgid "It also harnesses the profit motive for distribution."
+msgstr ""
+
+msgid "It limits overcharging with competitive pressure on prices."
+msgstr ""
+
+msgid ""
+"The GNU Free Documentation License allows to update the Bible, provided the "
+"updated version is shared under the same license."
+msgstr ""
+
+msgid ""
+"This is a good thing because it allows legitimate updates, revisions, "
+"adaptations with no hassle to the translators and no delay for getting "
+"permission."
+msgstr ""
+
+msgid ""
+"A disadvantage is that changes can be made by people who might not be "
+"qualified or called to make changes, with possibly heretical results."
+msgstr ""
+
+msgid ""
+"There is some fear that granting permission to make revisions would make it "
+"easier for somebody to make heretical changes to the Bible."
+msgstr ""
+
+msgid "But copyright law is not about preventing this."
+msgstr ""
+
+msgid "If anyone wants to make those changes, he would still do it."
+msgstr ""
+
+msgid ""
+"There is no need for this fear, because it is God who protects His own work."
+msgstr ""
+
+msgid "He makes clear what is a good translation, and what is not."
+msgstr ""
+
+msgid ""
+"If a Bible Society is so protective about a Bible, so as not to grant a "
+"license to make revisions, then there is a bigger danger than that of heresy."
+msgstr ""
+
+msgid ""
+"The bigger danger is that the copyright holder holds on to the Bible, or "
+"disappears, or dies, or fails to be a good steward of it."
+msgstr ""
+
+msgid "Nobody would be allowed to improve or update the text."
+msgstr ""
+
+msgid "Trust God."
+msgstr ""
+
+msgid "He takes care of His Word."
+msgstr ""
+
+msgid "He deals with anyone who might abuse it."
+msgstr ""
+
+msgid "The Bible Society says:"
+msgstr ""
+
+msgid ""
+"We own copyright, not in any way to restrict distribution, but to preserve "
+"the text."
+msgstr ""
+
+msgid "Protecting the text may at times restrict distribution."
+msgstr ""
+
+msgid ""
+"For example, the Bible must be distributed by us, or under our supervision."
+msgstr ""
+
+msgid "We have made a big investment in the Bible."
+msgstr ""
+
+msgid "Nobody may improve it without our authority."
+msgstr ""
+
+msgid ""
+"If anybody gives us details as to where the Bible can be improved, they can "
+"improve it, but only when we agree."
+msgstr ""
+
+msgid "This Bible is our property."
+msgstr ""
+
+msgid "We share it."
+msgstr ""
+
+msgid "It is not entirely ours, so there is a shared property."
+msgstr ""
+
+msgid "The Free Documentation License is good in an ideal world."
+msgstr ""
+
+msgid ""
+"But the world is evil, so we need a license where we can protect the "
+"integrity of the text."
+msgstr ""
+
+msgid "The proponent of the free Bible says:"
+msgstr ""
+
+msgid "A free license enables spreading the Word of God more quickly."
+msgstr ""
+
+msgid "The Bible Society has made such a reliable and good Bible."
+msgstr ""
+
+msgid "Is it not worthy of being spread as far and wide as possible?"
+msgstr ""
+
+msgid "A restrictive license confines the Word to one publisher, one channel."
+msgstr ""
+
+msgid "A free license opens up the Word to being spread by more channels."
+msgstr ""
+
+msgid ""
+"If the license is restrictive, it is not the bad people who are afraid of "
+"illegally copying the Word of God, making changes, then publish it."
+msgstr ""
+
+msgid ""
+"But it's the good people who would be worried to violate copyright law when "
+"spreading the Word, thinking that God's blessing cannot be on something "
+"illegal."
+msgstr ""
+
+msgid ""
+"The free license does not aid bad people much, but it assists good people in "
+"many ways."
+msgstr ""
+
+msgid ""
+"A restrictive license does not stop heretics in any way, but it stops good "
+"people from spreading the Word."
+msgstr ""
+
+msgid "The restrictive Bible Society says:"
+msgstr ""
+
+msgid "If you revise our Bible, we'll see you in court."
+msgstr ""
+
+msgid "The free and open Bible Society says:"
+msgstr ""
+
+msgid ""
+"If you revise and spread our Bible, we thank God for opening another channel "
+"for distribution."
+msgstr ""
+
+msgid "God wanted property rights to be there for the benefit of humans."
+msgstr ""
+
+msgid "But did he also want copyright on Bibles?"
+msgstr ""
+
+msgid "Show from the Word where this is the case."
+msgstr ""
+
+msgid "Introduction"
+msgstr ""
+
+msgid "Installation"
+msgstr ""
+
+msgid "Methodology"
+msgstr ""
+
+msgid "Navigation"
+msgstr ""
+
+msgid "Keyboard shortcuts"
+msgstr ""
+
+msgid "Screen swiping"
+msgstr ""
+
+msgid "Teams"
+msgstr ""
+
+msgid "Typesetting"
+msgstr ""
+
+msgid "Tips and tricks"
+msgstr ""
+
+msgid "Install Bibledit on Android"
+msgstr ""
+
+msgid "Install Bibledit from Google Play."
+msgstr ""
+
+msgid "Start the Bibledit app."
+msgstr ""
+
+msgid "Give it a while to initialize."
+msgstr ""
+
+msgid "Connect to Bibledit Cloud via menu Settings / Cloud."
+msgstr ""
+
+msgid "Versions"
+msgstr ""
+
+msgid ""
+"There is a Bibledit version for Windows, for the Mac, for Android, for iOS, "
+"and for Linux."
+msgstr ""
+
+msgid "These are all client editions of Bibledit."
+msgstr ""
+
+msgid "There is also a server edition of Bibledit."
+msgstr ""
+
+msgid "That is 'Bibledit Cloud'."
+msgstr ""
+
+msgid "It runs on the web."
+msgstr ""
+
+msgid ""
+"Bibledit Cloud has more capabilities than the standard Bibledit editions."
+msgstr ""
+
+msgid ""
+"The standard Bibledit editions connect to an instance of Bibledit Cloud for "
+"collaboration, keeping the devices in sync, and for backup."
+msgstr ""
+
+msgid ""
+"All Bibledit editions, including Bibledit Cloud, enable Bible translation."
+msgstr ""
+
+msgid ""
+"With a fast internet connection, it is usually easiest to translate straight "
+"in Bibledit Cloud through the web browser."
+msgstr ""
+
+msgid ""
+"When the internet connection is slow, or when it is off at times, it is "
+"recommended to translate through one of the standard Bibledit versions."
+msgstr ""
+
+msgid ""
+"The changes made in this way can be synchronized with Bibledit Cloud through "
+"Send/receive."
+msgstr ""
+
+msgid "Standard installation"
+msgstr ""
+
+msgid "Bibledit on Windows"
+msgstr ""
+
+msgid "Bibledit on Android"
+msgstr ""
+
+msgid "Bibledit on macOS"
+msgstr ""
+
+msgid "Bibledit on Linux"
+msgstr ""
+
+msgid "Bibledit on iOS"
+msgstr ""
+
+msgid "Bibledit on Chrome OS"
+msgstr ""
+
+msgid "Bibledit Cloud on Ubuntu"
+msgstr ""
+
+msgid "Upgrading"
+msgstr ""
+
+msgid ""
+"A certain release of Bibledit can upgrade the most recent previous release, "
+"but not older releases."
+msgstr ""
+
+msgid "A new release can be installed over the previous release."
+msgstr ""
+
+msgid "There should be no loss of information."
+msgstr ""
+
+msgid ""
+"Create a backup of the Bibledit folder before upgrading, just to be sure."
+msgstr ""
+
+msgid "Upgrading from Bibledit-Web to Bibledit Cloud works differently."
+msgstr ""
+
+msgid "Clients"
+msgstr ""
+
+msgid "The various Bibledit client editions store the data offline."
+msgstr ""
+
+msgid "You can translate the Bible on a client."
+msgstr ""
+
+msgid ""
+"The user needs to regularly synchronize the data on the client with the data "
+"on Bibledit Cloud."
+msgstr ""
+
+msgid ""
+"A Client is useful when the Internet connection to Bibledit Cloud is not "
+"fast or not stable."
+msgstr ""
+
+msgid ""
+"In the Bibledit client, connect to Bibledit Cloud once, and provide your "
+"username and password as you normally log in on Bibledit Cloud."
+msgstr ""
+
+msgid "Also provide the port number."
+msgstr ""
+
+msgid "Then synchronize the data."
+msgstr ""
+
+msgid ""
+"The first time the client will download all Bible data and Notes from "
+"Bibledit Cloud and store it offline."
+msgstr ""
+
+msgid "That may take a while."
+msgstr ""
+
+msgid "After that, synchronizing will send and receive the changes only."
+msgstr ""
+
+msgid ""
+"The client mode is useful in a situation where the Internet connection is "
+"not optimal."
+msgstr ""
+
+msgid "All data is stored locally on your computing device."
+msgstr ""
+
+msgid "During translation, the Internet connection is not used."
+msgstr ""
+
+msgid "It is used during synchronization."
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Bibledit Cloud works with email."
+msgstr ""
+
+msgid ""
+"After completing the installation of Bibledit, sending and receiving emails "
+"does not yet work."
+msgstr ""
+
+msgid "This needs to be set up."
+msgstr ""
+
+msgid ""
+"Setting up the email means to pick an email address and setting details for "
+"the mail servers in Bibledit."
+msgstr ""
+
+msgid "This can be done from within the web application."
+msgstr ""
+
+msgid "Multiple translation teams"
+msgstr ""
+
+msgid "There are two ways to have multiple translation teams on one server."
+msgstr ""
+
+msgid "Install multiple parallel copies of Bibledit on one server."
+msgstr ""
+
+msgid ""
+"Unpack the installation zip archive in sub folders with different names."
+msgstr ""
+
+msgid "Each copy has its own web address."
+msgstr ""
+
+msgid "Everything is completely separated between the parallel copies."
+msgstr ""
+
+msgid "This includes the data and the databases."
+msgstr ""
+
+msgid "Every copy has its own independent databases."
+msgstr ""
+
+msgid "Use one installation of Bibledit."
+msgstr ""
+
+msgid "Give various users read or write access to various Bibles."
+msgstr ""
+
+msgid ""
+"Users with write access together constitute a translation team that can edit "
+"the Bible."
+msgstr ""
+
+msgid "Development version"
+msgstr ""
+
+msgid "The Bibledit source code is kept in a git repository."
+msgstr ""
+
+msgid ""
+"Experienced software developers will be able to create all Bibledit editions "
+"from the source code."
+msgstr ""
+
+msgid "Hosting providers"
+msgstr ""
+
+msgid "To run Bibledit Cloud, a Linux VPS (virtual private server) is needed."
+msgstr ""
+
+msgid "Good providers are:"
+msgstr ""
+
+msgid ""
+"Due to the limited memory, Bibledit Cloud cannot compiled there, but "
+"compatible binaries compiled elsewhere will run fine."
+msgstr ""
+
+msgid "You may also run your Bibledit Cloud instance from bibledit.org."
+msgstr ""
+
+msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
+msgstr ""
+
+msgid "Administrator info"
+msgstr ""
+
+msgid ""
+"It is possible to secure traffic between a user's browser and Bibledit "
+"Cloud, and between Bibledit clients and Bibledit Cloud."
+msgstr ""
+
+msgid ""
+"It is possible to enable an external OpenLDAP server for user authentication."
+msgstr ""
+
+msgid ""
+"The following file in the Bibledit installation provides all information "
+"needed:"
+msgstr ""
+
+msgid "Install Bibledit on Chrome OS"
+msgstr ""
+
+msgid "Install Bibledit from the Google Chrome Web Store."
+msgstr ""
+
+msgid "For easier operation, open the Chrome browser and open this URL:"
+msgstr ""
+
+msgid "Install Bibledit Cloud on Ubuntu"
+msgstr ""
+
+msgid "Follow the steps below to install Bibledit."
+msgstr ""
+
+msgid "It needs basic knowledge about working with Linux servers."
+msgstr ""
+
+msgid "Update the software sources:"
+msgstr ""
+
+msgid "Install the software Bibledit relies on:"
+msgstr ""
+
+msgid "Download Bibledit:"
+msgstr ""
+
+msgid "Unpack Bibledit in folder bibledit:"
+msgstr ""
+
+msgid "Change to the directory:"
+msgstr ""
+
+msgid "Build Bibledit:"
+msgstr ""
+
+msgid "This takes a while."
+msgstr ""
+
+msgid "There will be many technical messages, but there should be no errors."
+msgstr ""
+
+msgid "Start Bibledit:"
+msgstr ""
+
+msgid "Bibledit will be accessible through the IP address port 8080."
+msgstr ""
+
+msgid "Examples:"
+msgstr ""
+
+msgid ""
+"Open the web address in the browser, follow the instructions on the screen "
+"to configure Bibledit, and log in."
+msgstr ""
+
+msgid "Install Bibledit iOS"
+msgstr ""
+
+msgid "Install Bibledit via the App Store."
+msgstr ""
+
+msgid "This works on an iPad (or an iPhone) running iOS 8 or higher."
+msgstr ""
+
+msgid "Hint."
+msgstr ""
+
+msgid "Switch off backup of Bibledit to iCloud via iOS."
+msgstr ""
+
+msgid "Bibledit Cloud already backs up Bibledit iOS."
+msgstr ""
+
+msgid "If there were two backup mechanisms, that might  clash."
+msgstr ""
+
+msgid "Read more."
+msgstr ""
+
+msgid "Install Bibledit on Linux"
+msgstr ""
+
+msgid "Supported Linux distributions:"
+msgstr ""
+
+msgid "Install Bibledit on Ubuntu and derivatives."
+msgstr ""
+
+msgid "Other Linux distributions:"
+msgstr ""
+
+msgid "Follow the steps below to install Bibledit"
+msgstr ""
+
+msgid "Download the Bibledit Linux installer"
+msgstr ""
+
+msgid "Put it in the home directory."
+msgstr ""
+
+msgid "Run the installer:"
+msgstr ""
+
+msgid "Bibledit can be started from the menu."
+msgstr ""
+
+msgid "Install Bibledit on macOS"
+msgstr ""
+
+msgid "This assumes a standard installation of the operating system."
+msgstr ""
+
+msgid "Download Bibledit from the App Store."
+msgstr ""
+
+msgid "Install Bibledit."
+msgstr ""
+
+msgid "Start it from the Applications."
+msgstr ""
+
+msgid "Open Bibledit."
+msgstr ""
+
+msgid "Give it enough time to download all the data from Bibledit Cloud."
+msgstr ""
+
+msgid "Bibledit is ready for online and offline use."
+msgstr ""
+
+msgid "Install Bibledit on Ubuntu"
+msgstr ""
+
+msgid "Add the Bibledit repository:"
+msgstr ""
+
+msgid "Read the repository:"
+msgstr ""
+
+msgid "Install Bibledit:"
+msgstr ""
+
+msgid "Install Bibledit on Windows"
+msgstr ""
+
+msgid "Bibledit runs on Windows 7 and higher."
+msgstr ""
+
+msgid "Install .NET Framework 4.5.2 or higher on Windows 7."
+msgstr ""
+
+msgid "Start it through the menu."
+msgstr ""
+
+msgid "Bibledit is now ready for online and offline use."
+msgstr ""
+
+msgid "Bibledit is an application for translating the Bible."
+msgstr ""
+
+msgid "People can sign up for an account and log in."
+msgstr ""
+
+msgid "Each user has a certain role within the application."
+msgstr ""
+
+msgid ""
+"The first role is Member. A member is somebody who has signed up to the "
+"site, and has confirmed this signup through his email."
+msgstr ""
+
+msgid ""
+"The second role is Consultant. Consultants are people who can be consulted "
+"because of their knowledge of the original language such as Hebrew or Greek, "
+"or because of their knowledge of their target language in case they are "
+"language scholars, or for any other knowledge they have."
+msgstr ""
+
+msgid ""
+"The next role is Translator. These are the ones that have all the rights of "
+"the Consultant, but in addition can change the Bible text."
+msgstr ""
+
+msgid ""
+"Then there's the Manager. The manager has all the privileges of the previous "
+"levels, but in addition can add books to the Bible, delete books, add "
+"chapters, copy Bibles, and so on. The manager can assign privileges to the "
+"translators, consultants, and so on."
+msgstr ""
+
+msgid ""
+"Finally, there is the Administrator. The administrator has all rights to do "
+"anything, and will do the technical setup and maintenance of the site."
+msgstr ""
+
+msgid ""
+"Everybody who has an account can enable the personal notifications. Those "
+"who have switched the relevant notifications on can receive email from "
+"Bibledit. They receive email when new consultation notes get created, or "
+"when consultation notes get changed, or when consultation notes get assigned "
+"to them. They can also get automatic daily email detailing the changes that "
+"have been made in the Bible since the previous email."
+msgstr ""
+
+msgid ""
+"Everybody who has an account can create consultation notes by email, and "
+"respond to these by email."
+msgstr ""
+
+msgid ""
+"Members can view and download all exported Bibles and lists with recent "
+"changes in the Bibles."
+msgstr ""
+
+msgid ""
+"Consultants can create consultation notes online, view these, set parameters "
+"for these, assign the notes to people, and delete notes."
+msgstr ""
+
+msgid "Translators can do the following things:"
+msgstr ""
+
+msgid "Edit the Bible text."
+msgstr ""
+
+msgid "Switch the stylesheet."
+msgstr ""
+
+msgid "View and suppress results of the automatic checks."
+msgstr ""
+
+msgid "Managers can do several things:"
+msgstr ""
+
+msgid "Edit the Bible in raw USFM format."
+msgstr ""
+
+msgid ""
+"Send and receive the Bible text. This means that they can synchronize the "
+"Bible text with a remote git repository. In this way they can collaborate "
+"with people who use Bibledit-Gtk."
+msgstr ""
+
+msgid "View and clear the logbook."
+msgstr ""
+
+msgid "Process the changes, so that lists are created, and email is sent out."
+msgstr ""
+
+msgid "View and edit people who have an account, and create new accounts."
+msgstr ""
+
+msgid "Create and delete Bibles, books, chapters, and import USFM data."
+msgstr ""
+
+msgid ""
+"Initiate the daily export of selected Bibles to OpenDocument, USFM, html, "
+"Online Bible."
+msgstr ""
+
+msgid "Create and edit versification systems."
+msgstr ""
+
+msgid "Create and edit stylesheets."
+msgstr ""
+
+msgid "Import consultation notes from Bibledit-Gtk and remove duplicates."
+msgstr ""
+
+msgid "Deal with automatic hyphenation when exporting to OpenDocument."
+msgstr ""
+
+msgid "Make settings for the automatic check and select Bibles to run them on."
+msgstr ""
+
+msgid "Administrator can do several things:"
+msgstr ""
+
+msgid "Set up Bibledit's email account."
+msgstr ""
+
+msgid ""
+"Set up collaboration through setting up a connection with a remote git "
+"repository."
+msgstr ""
+
+msgid "Maintain the databases."
+msgstr ""
+
+msgid "Set the site's timezone."
+msgstr ""
+
+msgid "Set the site's language."
+msgstr ""
+
+msgid "Lean Bible translation management"
+msgstr ""
+
+msgid "What is lean management?"
+msgstr ""
+
+msgid ""
+"Lean management is about the systematic pursuit of desired translation "
+"competence and conditions by utilizing human capabilities in a coordinated "
+"manner."
+msgstr ""
+
+msgid "Two things are essential for this:"
+msgstr ""
+
+msgid "Developing desired conditions."
+msgstr ""
+
+msgid "Developing capable people who can develop the desired conditions."
+msgstr ""
+
+msgid "External reference"
+msgstr ""
+
+msgid "Build libgit2 for Bibledit"
+msgstr ""
+
+msgid "Bibledit uses libgit2 for interaction with git repositories."
+msgstr ""
+
+msgid "This is optional."
+msgstr ""
+
+msgid ""
+"It is recommended that Bibledit configured as a server uses git repositories "
+"for improved Bible data safety."
+msgstr ""
+
+msgid "The interface of libgit2 is not yet stable."
+msgstr ""
+
+msgid ""
+"Bibledit has been tested to work well with one particular version of libgit2:"
+msgstr ""
+
+msgid "Version 0.21.5."
+msgstr ""
+
+msgid ""
+"The steps below provide information about how to build libgit2 and where to "
+"place the library so that Bibledit can find it."
+msgstr ""
+
+msgid "Download libgit2 from the website."
+msgstr ""
+
+msgid "It is available from the Download link."
+msgstr ""
+
+msgid "Bibledit needs version 0.21.5 exactly."
+msgstr ""
+
+msgid "Store the downloaded libgit2 file "
+msgstr ""
+
+msgid "Run the following commands from a Terminal:"
+msgstr ""
+
+msgid "The above should work without errors."
+msgstr ""
+
+msgid "If program "
+msgstr ""
+
+msgid "If the compiler or linker are missing, install them first."
+msgstr ""
+
+msgid "If other dependencies are missing, install them first."
+msgstr ""
+
+msgid "It will have produced a library file "
+msgstr ""
+
+msgid ""
+"Move this library file to the root directory of the bibledit source code."
+msgstr ""
+
+msgid "Bibledit will search for it there during its configure stage."
+msgstr ""
+
+msgid "If Bibledit finds "
+msgstr ""
+
+msgid "Scrum-based translation process."
+msgstr ""
+
+msgid "Transparent, fair, and argued discussions"
+msgstr ""
+
+msgid "Use of reliable Hebrew and Greek manuscripts."
+msgstr ""
+
+msgid "Looking for and depending on the help of the Lord Jesus."
+msgstr ""
+
+msgid "Use of modern tools and technology."
+msgstr ""
+
+msgid ""
+"Goal: Deliver a reliable Bible translation within a reasonable time frame."
+msgstr ""
+
+msgid "Lean management"
+msgstr ""
+
+msgid "Several pages have a Passage Navigator on top."
+msgstr ""
+
+msgid "It consists of the name of the book, the chapter, and the verse."
+msgstr ""
+
+msgid "Matthew 1:1."
+msgstr ""
+
+msgid "The navigator enables you to go to another passage."
+msgstr ""
+
+msgid "Click on the name of the book to navigate to another book."
+msgstr ""
+
+msgid "In the same way you can click on the chapter and on the verse."
+msgstr ""
+
+msgid "You can also use the keyboard to navigate."
+msgstr ""
+
+msgid "On touch screens you can swipe to navigate."
+msgstr ""
+
+msgid "The Navigator shows two arrows:"
+msgstr ""
+
+msgid "goes back in the navigation history."
+msgstr ""
+
+msgid "goes forward in the navigation history."
+msgstr ""
+
+msgid "There are also keyboard shortcuts for it."
+msgstr ""
+
+msgid "Some pages display one or more clickable passages."
+msgstr ""
+
+msgid "Clicking them updates the Passage Navigator."
+msgstr ""
+
+msgid "Scrum-based Translation"
+msgstr ""
+
+msgid "What is Scrum-based translation?"
+msgstr ""
+
+msgid ""
+"A translation team that works with Scrum frequently releases portions of "
+"translated Scripture."
+msgstr ""
+
+msgid ""
+"This makes it clear to involved parties where the translation project is "
+"going."
+msgstr ""
+
+msgid ""
+"It enables the translation team to make course corrections based on the "
+"facts."
+msgstr ""
+
+msgid ""
+"Burndown charts and the product backlog provide the product owner and others "
+"with a permanent overview over the translation status and progress."
+msgstr ""
+
+msgid ""
+"Scrum is an agile process that enables self-organizing translation teams to "
+"deliver high translation output and accuracy in a short time."
+msgstr ""
+
+msgid ""
+"Using iterative translation, it releases portions of translated Scripture "
+"every iteration, say, every month."
+msgstr ""
+
+msgid ""
+"At the end of the every sprint, anyone can see the translated portion, and "
+"decide whether to release it to the congregations and community for feedback "
+"or continue to enhance it."
+msgstr ""
+
+msgid ""
+"The introduction and the following explanation just outlines the mechanics "
+"of Scrum-based Translation."
+msgstr ""
+
+msgid ""
+"It does not make clear what difficulties and issues you will run into trying "
+"to implement it."
+msgstr ""
+
+msgid "It only hints at the agile spirit that's required to make it work."
+msgstr ""
+
+msgid ""
+"If you're interested in implementing Scrum-based translation, do some "
+"reading, watch videos, follow a course, find a mentor or coach."
+msgstr ""
+
+msgid "Product Owner"
+msgstr ""
+
+msgid "The Product Owner represents the stakeholders."
+msgstr ""
+
+msgid ""
+"He or she is the voice of the target audience, that is the Bible reader."
+msgstr ""
+
+msgid "He understands the requirements for the Bible."
+msgstr ""
+
+msgid "The Product Owner may also be a group of people in a committee."
+msgstr ""
+
+msgid ""
+"He is responsible for ensuring that the team delivers accuracy and "
+"reliability to the Bible translation."
+msgstr ""
+
+msgid "He knows about accuracy and reliability."
+msgstr ""
+
+msgid "He defines items that focus on desired features."
+msgstr ""
+
+msgid ""
+"He makes decisions as to whether to implement footnotes or leave them out."
+msgstr ""
+
+msgid ""
+"In the same way, he defines other features, like headers, introductions, or "
+"decides to leave them out."
+msgstr ""
+
+msgid "He decides about use or non-use of a dialect."
+msgstr ""
+
+msgid "He sets the priorities for the work to be done."
+msgstr ""
+
+msgid "He adds the items to the product backlog."
+msgstr ""
+
+msgid "Scrum teams should have one Product Owner."
+msgstr ""
+
+msgid ""
+"The Product Owner may be part of the Translation Team, but it is recommended "
+"that his role not be combined with the role of Scrum Master."
+msgstr ""
+
+msgid "Release Planning"
+msgstr ""
+
+msgid ""
+"The release planning shows which parts of the Bible will be translated and "
+"delivered during which Sprint."
+msgstr ""
+
+msgid ""
+"It is convenient to define a Sprint in months, so that the release planning "
+"mentions January, February, and so on."
+msgstr ""
+
+msgid ""
+"It is often helpful to stick the release planning to the wall so that "
+"everybody can see the grand picture."
+msgstr ""
+
+msgid "The advantages of a release planning are:"
+msgstr ""
+
+msgid ""
+"1. It gives the team a common vision about what needs to be achieved, and "
+"when."
+msgstr ""
+
+msgid "2. It guides the team to make decisions during detailed planning."
+msgstr ""
+
+msgid "3. It helps prioritize the actions."
+msgstr ""
+
+msgid ""
+"4. It resolves conflicts and guides the teams toward the right balance on "
+"trade-offs."
+msgstr ""
+
+msgid ""
+"Release each completed Bible book to the community and get their feedback."
+msgstr ""
+
+msgid "This implements the important principle of continual improvement."
+msgstr ""
+
+msgid "The release planning is a simple way of doing top-down planning."
+msgstr ""
+
+msgid "It is an estimate, simple and quick to do."
+msgstr ""
+
+msgid "It is based on the Product Backlog."
+msgstr ""
+
+msgid "Product Backlog"
+msgstr ""
+
+msgid ""
+"The product backlog is an ordered list of requirements that is maintained "
+"for the Bible translation."
+msgstr ""
+
+msgid ""
+"It consists of translation tasks, checking tasks, testing tasks, "
+"comprehension tasks, whatever needs to be done to deliver a reliable "
+"manuscript."
+msgstr ""
+
+msgid "The Product Owner prioritizes the items on this list."
+msgstr ""
+
+msgid "It is used to determine the work for the next sprints."
+msgstr ""
+
+msgid "Each item has an associated estimated time to complete."
+msgstr ""
+
+msgid "A sprint typically takes one month."
+msgstr ""
+
+msgid ""
+"This is where the translaton work (translate, review, approve, test) occurs."
+msgstr ""
+
+msgid ""
+"Each member of the team translates independently and in a responsible manner."
+msgstr ""
+
+msgid ""
+"In case a translator is sure of a required change, he enters it without "
+"consulting others."
+msgstr ""
+
+msgid ""
+"If a translator thinks a proposed change needs discussion, he notifies his "
+"colleagues."
+msgstr ""
+
+msgid ""
+"All members of the translation team review the changes made by the team."
+msgstr ""
+
+msgid ""
+"This is to make sure that all changes are reviewed by all members, that no "
+"mistakes occur."
+msgstr ""
+
+msgid "The reviews take place every day."
+msgstr ""
+
+msgid ""
+"This way of working is based on personal responsibility and mutual trust."
+msgstr ""
+
+msgid ""
+"It speeds up the translation procedure because there's more actual "
+"translation work going on, and less discussions."
+msgstr ""
+
+msgid ""
+"The newer members of the team learn from the more experienced ones through "
+"the daily reviews."
+msgstr ""
+
+msgid "Bibledit has the concept of daily Change Notifications."
+msgstr ""
+
+msgid "A member can opt to receive the Change Notifications through email."
+msgstr ""
+
+msgid "This email can be viewed online also."
+msgstr ""
+
+msgid ""
+"Or a member can opt to have the Change Notifications generated for him "
+"online, and can review and approve them there."
+msgstr ""
+
+msgid "Sprint Planning Meeting"
+msgstr ""
+
+msgid ""
+"During this meeting the team selects the portions to translate, review and "
+"test it believes it can commit to in a sprint."
+msgstr ""
+
+msgid ""
+"The team breaks the portions down into tasks and provided estimates for "
+"those tasks as to the time it takes to complete them."
+msgstr ""
+
+msgid "Sprint Backlog"
+msgstr ""
+
+msgid "The sprint backlog is a list of tasks to be completed in a sprint."
+msgstr ""
+
+msgid ""
+"The tasks are created by breaking down the product backlog items during the "
+"planning meeting."
+msgstr ""
+
+msgid "The tasks have estimates in hours or days associated with them."
+msgstr ""
+
+msgid ""
+"For a team it is vitally important to have a clear goal to work towards."
+msgstr ""
+
+msgid ""
+"Thus everybody is focused on the desired outcome, and keeps a good pace."
+msgstr ""
+
+msgid ""
+"Without a clear goal, the team may still do a lot of things and work hard, "
+"but the produced results may not have the desired value."
+msgstr ""
+
+msgid "Team"
+msgstr ""
+
+msgid ""
+"The team consistes of the Bible translators, their assistants, and the "
+"consultants."
+msgstr ""
+
+msgid ""
+"The team organizes itself to carry out the work and deliver a reliable and "
+"good Bible translation."
+msgstr ""
+
+msgid "The team is quick but does not hurry."
+msgstr ""
+
+msgid "The team goes fast, but always has an eye on translation quality."
+msgstr ""
+
+msgid "Scrum Master"
+msgstr ""
+
+msgid "The scrum master organizes the translation process."
+msgstr ""
+
+msgid "He or she keeps track of the progress of the translation team."
+msgstr ""
+
+msgid "He removes obstacles from the path of the team."
+msgstr ""
+
+msgid "Daily Scrum Meeting"
+msgstr ""
+
+msgid ""
+"On each day of a sprint, the Bible translation team holds daily meetings."
+msgstr ""
+
+msgid "These meetings are called: Daily scrum meetings."
+msgstr ""
+
+msgid "The scrum meetings are held in the same place and at the same time."
+msgstr ""
+
+msgid "The meetings are typically held in front of Task Board."
+msgstr ""
+
+msgid ""
+"The daily scrum meeting is best held in the morning, because it assists in "
+"setting the context for the work of that day."
+msgstr ""
+
+msgid ""
+"During the meeting, all members stand, as this keeps the discussion short "
+"and relevant."
+msgstr ""
+
+msgid "The scrum meeting is strictly time-boxed to 15 minutes."
+msgstr ""
+
+msgid ""
+"There is a difference between people who are 'committed' to the Bible "
+"translation project, and those who are 'involved' in it."
+msgstr ""
+
+msgid "Scrum affords special status to those who are committed."
+msgstr ""
+
+msgid ""
+"Many teams enforce a rule in which only those who are committed are allowed "
+"to talk during the daily scrum meeting."
+msgstr ""
+
+msgid "All team members are required to attend the scrum meetings."
+msgstr ""
+
+msgid ""
+"The Scrum Master and the and Product Owner (usually the Bible Translation "
+"Manager) are committed team members."
+msgstr ""
+
+msgid "They are expected to attend and participate."
+msgstr ""
+
+msgid ""
+"Anyone else, for example a Church leader, a Committee member, or a "
+"Translator from another team, is allowed to attend but is there to listen "
+"only."
+msgstr ""
+
+msgid ""
+"This makes the daily scrum meeting an excellent way for a scrum team to "
+"disseminate information."
+msgstr ""
+
+msgid ""
+"If you are interested in hearing the status of the project, attend that "
+"day's meeting."
+msgstr ""
+
+msgid ""
+"The scrum meeting is not the place for solving problems or resolving issues."
+msgstr ""
+
+msgid ""
+"Issues that are raised are usually dealt with by one or two team members "
+"immediately after the scrum."
+msgstr ""
+
+msgid ""
+"During the daily Scrum, each team member answers the following three "
+"questions:"
+msgstr ""
+
+msgid "What did you do yesterday?"
+msgstr ""
+
+msgid "What are you going to do today?"
+msgstr ""
+
+msgid "Are there any impediments in your way?"
+msgstr ""
+
+msgid ""
+"The Scrum Master asks each team member to answer these questions, the member "
+"speaks, the Scrum Master thanks the member, and then goes to the next member."
+msgstr ""
+
+msgid ""
+"By focusing on what each person did yesterday and will do today, the team "
+"gains an understanding of what work has been done and what work remains."
+msgstr ""
+
+msgid ""
+"The daily scrum meeting is not a status update meeting in which the boss is "
+"finding out about who is slow in his work."
+msgstr ""
+
+msgid ""
+"Rather, it is a meeting in which team members make commitments to each other."
+msgstr ""
+
+msgid ""
+"If a translator says: Today, I will prepare chapter 10 and 11 of Matthew, "
+"everyone knows that in tomorrow's meeting, he will say whether or not he did "
+"finish."
+msgstr ""
+
+msgid ""
+"This has the wonderful effect of helping a team realize the significance of "
+"these commitments, and that their commitments are to each other, and not to "
+"anyone else."
+msgstr ""
+
+msgid ""
+"Any impediments that are raised in the daily scrums become the Scrum "
+"Master's responsibility to resolve as quickly as possible."
+msgstr ""
+
+msgid "Typical impediments are:"
+msgstr ""
+
+msgid "My ... broke and I need a new one today."
+msgstr ""
+
+msgid "I still haven't got the ... I requested a month ago."
+msgstr ""
+
+msgid ""
+"I'm struggling to understand ... and would like to discuss it with someone."
+msgstr ""
+
+msgid "The ... has asked me to work on something else for a few days."
+msgstr ""
+
+msgid ""
+"In cases where the Scrum Master cannot remove these impediments directly "
+"himself, he still takes responsibility for making sure someone on the team "
+"does quickly resolve the issue."
+msgstr ""
+
+msgid "Every day a different person leads the daily scrum meeting."
+msgstr ""
+
+msgid "This gets the entire team involved."
+msgstr ""
+
+msgid "It opens up new channels for communication."
+msgstr ""
+
+msgid "It builds trust between the Translators and the Scrum Master."
+msgstr ""
+
+msgid "Team members can learn from one another's techniques."
+msgstr ""
+
+msgid ""
+"The Scrum Master ensures to set a good example for leading the daily scrum "
+"meeting."
+msgstr ""
+
+msgid ""
+"The scrum master uses the information from the meeting to update the "
+"burndown chart illustrating progress."
+msgstr ""
+
+msgid "Side conversations are taken offline."
+msgstr ""
+
+msgid "Burn down chart"
+msgstr ""
+
+msgid ""
+"A burn down chart is a graphical representation of work left to do versus "
+"time."
+msgstr ""
+
+msgid "The outstanding work is on the vertical axis."
+msgstr ""
+
+msgid "The days of the sprint are on the horizontal axis."
+msgstr ""
+
+msgid "It is useful for predicting when all of the work will be completed."
+msgstr ""
+
+msgid "Sprint Review"
+msgstr ""
+
+msgid ""
+"The Product Owner looks through the sprint’s work and provides feedback."
+msgstr ""
+
+msgid "The Translators may demonstrate features."
+msgstr ""
+
+msgid "The Team owns up to deficiencies with the translation."
+msgstr ""
+
+msgid "This attitude helps to build trust with the Product Owner."
+msgstr ""
+
+msgid "Sprint Retrospective"
+msgstr ""
+
+msgid "The Team reviews what went well and what went poorly."
+msgstr ""
+
+msgid "They use retrospection techniques to find potential for improvement."
+msgstr ""
+
+msgid "They pick one or two areas to focus for improvement."
+msgstr ""
+
+msgid "When the Navigator is displayed, it focuses the name of the Bible book."
+msgstr ""
+
+msgid "Cancel any navigation or style operation."
+msgstr ""
+
+msgid "Navigate to the next verse."
+msgstr ""
+
+msgid "Navigate to the previous verse."
+msgstr ""
+
+msgid "Open the styles from the Bible editor."
+msgstr ""
+
+msgid ""
+"Swiping right or left while displaying resources navigates to the previous "
+"or next verse."
+msgstr ""
+
+msgid "The same applies to the two verse-based Bible text editors."
+msgstr ""
+
+msgid ""
+"Swiping right or left in the two chapter-based Bible text editors navigates "
+"to the previous of next chapter."
+msgstr ""
+
+msgid "Bibledit can host many Bibles."
+msgstr ""
+
+msgid "Many users can create an account."
+msgstr ""
+
+msgid ""
+"A translation team is formed by giving a group of users access to a Bible."
+msgstr ""
+
+msgid "A user may be granted read-only access to a Bible, or write access."
+msgstr ""
+
+msgid "The type of access also depends on the role of a user."
+msgstr ""
+
+msgid "Manage users."
+msgstr ""
+
+msgid "Bibles can be made viewable by all users."
+msgstr ""
+
+msgid "Manage Bibles."
+msgstr ""
+
+msgid "Tips and Tricks"
+msgstr ""
+
+msgid "Extensions and plugins"
+msgstr ""
+
+msgid "Browser extensions and plugins may interfere with Bibledit."
+msgstr ""
+
+msgid "There was a case that the USFM editor didn't load the text."
+msgstr ""
+
+msgid "Disabling an extension in Chrome resolved it."
+msgstr ""
+
+msgid "Enable consultants to view the Bible in a workspace"
+msgstr ""
+
+msgid "Just add the desired Bible to the Resources through the link organizer."
+msgstr ""
+
+msgid "Then add the Resources to the workspace through URL resource/index."
+msgstr ""
+
+msgid "Backup"
+msgstr ""
+
+msgid "Bibledit does not do any backups of its own."
+msgstr ""
+
+msgid "Backup is very important."
+msgstr ""
+
+msgid ""
+"The system administrator should have a reliable backup strategy in place."
+msgstr ""
+
+msgid "Bibledit uses SQLite for data storage."
+msgstr ""
+
+msgid ""
+"If a database is backed up while SQLite is storing data in it, the database "
+"may get malformed."
+msgstr ""
+
+msgid "Information."
+msgstr ""
+
+msgid "This applies to any database software, not just SQLite."
+msgstr ""
+
+msgid ""
+"To accommodate backup, Bibledit does not access databases from 0:00 to 0:05 "
+"at midnight."
+msgstr ""
+
+msgid ""
+"If no users access Bibledit during that time, then there is no database "
+"access at all."
+msgstr ""
+
+msgid "Backup can be safely done during that time."
+msgstr ""
+
+msgid "Syncing"
+msgstr ""
+
+msgid "If syncing no longer works, check the Journal for clues."
+msgstr ""
+
+msgid "The Journal may indicate any of the following:"
+msgstr ""
+
+msgid "This may be resolved in two ways:"
+msgstr ""
+
+msgid ""
+"Manually run the two commands in the appropriate directory from a terminal."
+msgstr ""
+
+msgid "Redo the setup of the Collaboration."
+msgstr ""
+
+msgid "It will run those two commands for you."
+msgstr ""
+
+msgid "Bible books in custom order"
+msgstr ""
+
+msgid "To sort the Bible books in a custom order, do this:"
+msgstr ""
+
+msgid "Go to menu Bible / Bibles."
+msgstr ""
+
+msgid "Select a Bible."
+msgstr ""
+
+msgid "Go to Book order."
+msgstr ""
+
+msgid "Drag the books into the desired order."
+msgstr ""
+
+msgid "Font, text direction and writing mode of the Bible editors"
+msgstr ""
+
+msgid ""
+"To set the font, the text direction, or the writing mode for the Bible text "
+"editors, do this:"
+msgstr ""
+
+msgid "Go to Font and text direction."
+msgstr ""
+
+msgid "Make the settings."
+msgstr ""
+
+msgid "Typesetting Bibles"
+msgstr ""
+
+msgid "The Bible has been translated. It is time to publish it."
+msgstr ""
+
+msgid "This article assists with typesetting the Bible."
+msgstr ""
+
+msgid ""
+"At the end of all, you will have a PDF file with part of the Bible, or the "
+"whole Bible, typeset, ready for publishing."
+msgstr ""
+
+msgid "Basic assumptions"
+msgstr ""
+
+msgid "The Bible is available in USFM code."
+msgstr ""
+
+msgid "The USFM code is clean and adheres to the standards."
+msgstr ""
+
+msgid "You have access to Bibledit."
+msgstr ""
+
+msgid "You have OpenOffice, LibreOffice or an equivalent."
+msgstr ""
+
+msgid "Importing the USFM files"
+msgstr ""
+
+msgid ""
+"This section describes the steps to take to prepare the USFM code for export."
+msgstr ""
+
+msgid "Each Bible book is stored as one USFM file."
+msgstr ""
+
+msgid ""
+"Create a new Bible in Bibledit through menu Bibles. Give the Bible a name. "
+"The example calls it 'Ndebele'."
+msgstr ""
+
+msgid "Click the 'Ndebele' Bible."
+msgstr ""
+
+msgid "Import data into it."
+msgstr ""
+
+msgid "Choose the option to upload a file."
+msgstr ""
+
+msgid ""
+"You can upload 66 separate files, or you can put all the 66 files into one "
+"zipped file, and then upload that zipped file. Import takes a while. The "
+"Journal shows the progress."
+msgstr ""
+
+msgid ""
+"Create a new stylesheet in menu Styles. Give it a name. The example calls it "
+"'Ndebele'."
+msgstr ""
+
+msgid ""
+"All the data is now in Bibledit. Everthing is ready for export to "
+"OpenDocument files."
+msgstr ""
+
+msgid "The OpenDocument files are used as a starting point for typesetting."
+msgstr ""
+
+msgid ""
+"Some of the word in the OpenDocument files are long. This results in too "
+"much space between some words."
+msgstr ""
+
+msgid ""
+"The words need to get hyphens so that part of the word goes on the next line."
+msgstr ""
+
+msgid ""
+"LibreOffice and Adobe InDesign have hyphenation algorithms for many "
+"languages. That would solve the problem."
+msgstr ""
+
+msgid ""
+"But the programs do not have a hyphenation algorithms for all languages."
+msgstr ""
+
+msgid "Bibledit has a hyphenater that could assist."
+msgstr ""
+
+msgid "In Bibledit, go to menu Hyphenation."
+msgstr ""
+
+msgid "Enter the first set of characters, and the second set, and save it."
+msgstr ""
+
+msgid ""
+"Set the Bible where to take the data from. In this case it is 'Ndebele'."
+msgstr ""
+
+msgid ""
+"Insert the soft hyphens according to the setting. It takes a while to "
+"complete."
+msgstr ""
+
+msgid "The output Bible is called 'Ndebele-hyphenated'."
+msgstr ""
+
+msgid "Use this Bible from now on."
+msgstr ""
+
+msgid "Exporting to OpenDocument files"
+msgstr ""
+
+msgid "Make an initial export just to see how the text looks."
+msgstr ""
+
+msgid "In Bibledit, go to menu Exports."
+msgstr ""
+
+msgid "Add Bible 'Ndebele' to the ones that will be exported."
+msgstr ""
+
+msgid "Use stylesheet 'Ndebele'."
+msgstr ""
+
+msgid "Output the chapter number in drop caps. Switch that setting on."
+msgstr ""
+
+msgid "Set the page size. I use this: width: 138 mm; height: 210 mm."
+msgstr ""
+
+msgid ""
+"Set the margins. I use this: 10 mm for top and bottom margins, 12 mm for the "
+"outer margins, and 14 mm for the inner margins."
+msgstr ""
+
+msgid ""
+"Do not display the date in the running headers. Switch that setting off."
+msgstr ""
+
+msgid "Do a fresh export."
+msgstr ""
+
+msgid "The Logbook shows the progress. Proceed when it is ready."
+msgstr ""
+
+msgid ""
+"Go to menu Exports and choose your Bible there. Then go to the OpenDocument "
+"folder."
+msgstr ""
+
+msgid "You will see the Bible exported into several formats."
+msgstr ""
+
+msgid "Open the books in LibreOffice to see how they look."
+msgstr ""
+
+msgid "The divine name will be underlined in the OpenDocument files."
+msgstr ""
+
+msgid "The divine name is within this markup:"
+msgstr ""
+
+msgid "Some prefer this in small capitals, not underlined."
+msgstr ""
+
+msgid "This can be changed in the stylesheet."
+msgstr ""
+
+msgid "Go to menu Styles, and choose the 'Ndebele' stylesheet."
+msgstr ""
+
+msgid "Click the 'nd' style."
+msgstr ""
+
+msgid "Switch 'Underline' off."
+msgstr ""
+
+msgid "Switch 'Small caps' on."
+msgstr ""
+
+msgid "Do a new export, wait a while, and review the OpenDocument files again."
+msgstr ""
+
+msgid ""
+"The verse numbers are in superscript. The verse numbers are small and "
+"difficult to read."
+msgstr ""
+
+msgid "The intended audience prefers the verse numbers in bigger print."
+msgstr ""
+
+msgid "Go to the relevant stylesheet and choose the 'v' style."
+msgstr ""
+
+msgid "Switch 'Superscript' off."
+msgstr ""
+
+msgid "Do a new export and review the OpenDocument files."
+msgstr ""
+
+msgid ""
+"The text in the OpenDocument files has been divided into paragraphs. New "
+"paragraphs start when appropriate in the context. This is how the USFM files "
+"have been marked up."
+msgstr ""
+
+msgid ""
+"The people who are going to read this Bible prefer each verse to start a new "
+"paragraph."
+msgstr ""
+
+msgid "Go to the stylesheet, and choose the 'v' style."
+msgstr ""
+
+msgid "Set 'Restart paragraph' on."
+msgstr ""
+
+msgid "Export again."
+msgstr ""
+
+msgid ""
+"Since each verse starts a new paragraph, there is no longer any need to "
+"indent the first line of that paragraph."
+msgstr ""
+
+msgid "In the stylesheet, edit the 'p' style."
+msgstr ""
+
+msgid "Set the 'First line indent' to 0 mm."
+msgstr ""
+
+msgid ""
+"Some verses are short. Chapters that start with short verses no longer have "
+"the chapter number in drop caps in LibreOffice."
+msgstr ""
+
+msgid ""
+"This is because this verse is all on one line, and thus there is no space "
+"for drop caps, as these need two lines of text."
+msgstr ""
+
+msgid ""
+"Setting the text in two columns in LibreOffice solves the problem. The drop "
+"caps are back."
+msgstr ""
+
+msgid ""
+"The letters of the Bible text are too big. This takes up a lot of space. The "
+"Bible would get too many pages."
+msgstr ""
+
+msgid ""
+"Find out which styles start paragraphs. In the Ndebele Bible, these are the "
+"styles p, s, nb, d."
+msgstr ""
+
+msgid "Set these styles to have a font size of 10 points."
+msgstr ""
+
+msgid "The letters of the notes and crossreferences are too big."
+msgstr ""
+
+msgid "Set the fontsize of the styles ft and xt to 6 points."
+msgstr ""
+
+msgid ""
+"Parts of the footnotes are in bold or italics or both. You may prefer it all "
+"in normal script."
+msgstr ""
+
+msgid ""
+"Update the relevant footnote styles and switch bold and italics off. The "
+"styles are fk, fl, fq, fqa."
+msgstr ""
+
+msgid "Typesetting guidelines"
+msgstr ""
+
+msgid ""
+"The following needs consideration if the Bible includes more than one book."
+msgstr ""
+
+msgid ""
+"Does the next book follow on the same page on which the previous book "
+"finished, or do the books follow on from one another in a different way?"
+msgstr ""
+
+msgid ""
+"Whatever method is chosen, it needs to be applied consistently throughout "
+"the Bible."
+msgstr ""
+
+msgid ""
+"Line spacing should be consistent throughout and should be placed line on "
+"line across all pages."
+msgstr ""
+
+msgid ""
+"It means that all lines should line up with each other all the way down the "
+"page and across all pages."
+msgstr ""
+
+msgid ""
+"Then when the Bible is printed, the printed text will be back to back and "
+"not show through from one side of the page to the other."
+msgstr ""
+
+msgid ""
+"In the typesetting software, this can be implemented by setting up a grid in "
+"the document, and then aligning all text to this grid."
+msgstr ""
+
+msgid "The space after the verse numbers would be the same and consistent."
+msgstr ""
+
+msgid ""
+"Bibledit exports the text to OpenDocument format using 'en spaces' after "
+"each verse."
+msgstr ""
+
+msgid "This ensures a consistent width of the spaces after the verse numbers."
+msgstr ""
+
+msgid ""
+"The verse numbers should be set closer to the text that follows than to the "
+"preceding text."
+msgstr ""
+
+msgid "Many fonts have half spaces and hair spaces that can be used for this."
+msgstr ""
+
+msgid "Or set the kerning to a specific amount for the verse numbers."
+msgstr ""
+
+msgid "Superscript numerals could also be considered for verse numbers."
+msgstr ""
+
+msgid ""
+"They are less intrusive while at the same time just as readable and easily "
+"found if they are not made too small."
+msgstr ""
+
+msgid "They should be larger than any note citations in the text."
+msgstr ""
+
+msgid ""
+"The size of the superscript would be between 70 and 80 percent of the size "
+"of the main text."
+msgstr ""
+
+msgid ""
+"The alignment of the drop caps chapter numbers to the text beside it is to "
+"be consistent."
+msgstr ""
+
+msgid "There should be some space between the numbers and the text."
+msgstr ""
+
+msgid ""
+"Drop cap characters should not be too large and not rise too far above the "
+"height of the other letters on the first line."
+msgstr ""
+
+msgid "The top of the highest letters should reach to about the same height."
+msgstr ""
+
+msgid "The drop cap characters in the body of the text should not be indented."
+msgstr ""
+
+msgid ""
+"The chapter divisions would also benefit from some more space between them "
+"and the text of the preceding chapter."
+msgstr ""
+
+msgid ""
+"When there is no heading above a chapter, it may be visually better to start "
+"the chapter number with a line space before it."
+msgstr ""
+
+msgid ""
+"The amount of space given to the Bible book headings should not be too much."
+msgstr ""
+
+msgid "But they can do with some space above and below them."
+msgstr ""
+
+msgid ""
+"Subheadings should not appear squashed amongst the rest of the text and "
+"would benefit from some space."
+msgstr ""
+
+msgid "Subheadings do not need to be set on the grid."
+msgstr ""
+
+msgid "They are much better set a little closer to the text that follows."
+msgstr ""
+
+msgid ""
+"Subheadings are an addition and not Scripture, so it is appropriate to put "
+"these in italics."
+msgstr ""
+
+msgid ""
+"The space between the text and footnotes should not be too tight neither "
+"unnecessarily large."
+msgstr ""
+
+msgid ""
+"Keep the gap between the references in the footer and the main bock of text "
+"as consistent as possible."
+msgstr ""
+
+msgid ""
+"The footnotes and crossreferences should not have a large variation in how "
+"far they finish from the foot of the page."
+msgstr ""
+
+msgid ""
+"In the crossreferences it is pleasing to have the chapter and verse number "
+"kept together with the book name, especially as the small font on long lines "
+"gives scope for this."
+msgstr ""
+
+msgid ""
+"The columns should start at the same height and should be balanced at the "
+"ends."
+msgstr ""
+
+msgid "The gap between the columns should be between 4 and 5 mm."
+msgstr ""
+
+msgid ""
+"The centre line dividing the two columns should start about level or very "
+"slightly above the top of the highest ascenders on the first line of text in "
+"a column and finish about level with the bottom of the lowest descenders on "
+"the bottom line."
+msgstr ""
+
+msgid "The centre line may also be omitted, as most modern Bibles do."
+msgstr ""
+
+msgid "The pages looks cleaner then."
+msgstr ""
+
+msgid ""
+"The Psalm headers need consistent spaces before and after and should be "
+"positioned closer to the Psalm that follows than to the Psalm before."
+msgstr ""
+
+msgid "A 10 mm margin is okay for the top and bottom margins."
+msgstr ""
+
+msgid "A 12 mm margin is good for the outer margin."
+msgstr ""
+
+msgid "The inner margin needs slightly more, for example 14 mm."
+msgstr ""
+
+msgid ""
+"For singable Psalms, readability would be helped by distinguishing the verse "
+"numbers visually."
+msgstr ""
+
+msgid ""
+"It is helpful to distinguish the running head, perhaps by using a semi-bold "
+"version of the same font."
+msgstr ""
+
+msgid ""
+"One way in which the number of pages in a volume could be reduced without "
+"loss of readability would be to choose a font with slightly shorter "
+"ascenders and descenders and then tighten the leading (line spacing) "
+"slightly."
+msgstr ""
+
+msgid ""
+"When producing PDF output, the text needs to be monochrome black, not black "
+"consisting of three or four colours."
+msgstr ""
+
+msgid ""
+"The last line of a verse or paragraph should not appear on its own at the "
+"top of a column."
+msgstr ""
+
+msgid ""
+"The typesetting software will have a setting for 'orphans' to control this."
+msgstr ""
+
+msgid ""
+"An elegant way of avoiding orphans is to increase or decrease the tracking "
+"of the text."
+msgstr ""
+
+msgid "This is the overall spacing of the letters in a paragraph or on a line."
+msgstr ""
+
+msgid "Avoid hyphenations in the headings."
+msgstr ""
+
+msgid ""
+"Many book titles consist of a main title and a subtitle, like 'The gospel of "
+"Matthew'."
+msgstr ""
+
+msgid "'Matthew' is the main title, and the rest is the subtitle."
+msgstr ""
+
+msgid "It is good if there is a clear contrast on size between these two."
+msgstr ""
+
+msgid ""
+"Say 24 points bold for the main title, and 14 points regular for the "
+"subtitle."
+msgstr ""
+
+msgid ""
+"The number of hyphens used in a row should be few for enhanced readability."
+msgstr ""
+
+msgid ""
+"The number of hyphens used in a row should not amount to more than three "
+"consecutive hyphenated lines."
+msgstr ""
+
+msgid ""
+"At times a word that is now hyphenated can be forced down onto the next "
+"line, and become a non-hyphenated word there, without opening up the gaps "
+"between the words too much on the line where the word came from."
+msgstr ""
+
+msgid ""
+"Hyphenation should be set to the optimum result for the column width but "
+"then it is usually necessary to go over every page and make corrections "
+"manually."
+msgstr ""
+
+msgid ""
+"The main page numbering should start at the first page of Genesis, or "
+"Matthew in case of New Testaments."
+msgstr ""
+
+msgid "To avoid what are sometimes referred to as 'rivers' in the text."
+msgstr ""
+
+msgid ""
+"This is where large spaces between words cause rivers of white space to be "
+"seen running through the text."
+msgstr ""
+
+msgid ""
+"The use of hyphenation or tracking adjustments are tools that can be used to "
+"minimise the problem."
+msgstr ""
+
+msgid "But as always they need to be used with discretion."
+msgstr ""
+
+msgid "As a general rule text will be justified on the left and the right."
+msgstr ""
+
+msgid ""
+"A word, part of a word, or very short line should not appear by itself at "
+"the end of a paragraph."
+msgstr ""
+
+msgid ""
+"This result in less much white space between paragraphs or at the bottom of "
+"a page."
+msgstr ""
+
+msgid ""
+"The main page numbering starts at the first page of the text of the "
+"Scripture."
+msgstr ""
+
+msgid ""
+"This first page of Scripture starts on the recto for left to right reading "
+"scripts."
+msgstr ""
+
+msgid "The recto is the right side of a two page spread."
+msgstr ""
+
+msgid "For right to left scripts it starts on the verso."
+msgstr ""
+
+msgid "This is the left side of a two page spread."
+msgstr ""
+
+msgid ""
+"Due to subheadings starting in a new column, there may be spaces at the foot "
+"of pages."
+msgstr ""
+
+msgid ""
+"They can be filled by carefully adjusting tracking in one of the paragraphs."
+msgstr ""
+
+msgid "The paragraph would then take up an extra line to fill that space."
+msgstr ""
+
+msgid ""
+"It may not always be possible to fill gaps completely without creating "
+"unsightly spacing within paragraphs."
+msgstr ""
+
+msgid "It needs to be handled with common sense."
+msgstr ""
+
+msgid "The typesetting"
+msgstr ""
+
+msgid "The typesetting can be done in LibreOffice. This is free software."
+msgstr ""
+
+msgid ""
+"The organisation may want to use specialized typesetting software like Adobe "
+"InDesign."
+msgstr ""
+
+msgid "LibreOffice"
+msgstr ""
+
+msgid "Adobe InDesign"
+msgstr ""
+
+msgid "Typesetting in Adobe InDesign CS5.5"
+msgstr ""
+
+msgid ""
+"See the online help about typesetting for more information and general "
+"principles."
+msgstr ""
+
+msgid "Chapter numbers in drop caps"
+msgstr ""
+
+msgid ""
+"Bibledit normally exports chapter numbers in bigger font in a text frame."
+msgstr ""
+
+msgid "In InDesign it is helpful to have these in drop caps."
+msgstr ""
+
+msgid "Go to Bibledit, menu Export."
+msgstr ""
+
+msgid "There is a setting for using frames in the drop caps. Switch it off."
+msgstr ""
+
+msgid "Creating a new document"
+msgstr ""
+
+msgid "Typesetting in InDesign starts with creating a new document."
+msgstr ""
+
+msgid "Choose menu File / New / Document, or press Ctrl-N."
+msgstr ""
+
+msgid "In the New Document dialog, make some settings."
+msgstr ""
+
+msgid "Facing Pages: on."
+msgstr ""
+
+msgid "Page width: 138 mm."
+msgstr ""
+
+msgid "Page height: 210 mm."
+msgstr ""
+
+msgid "Number of columns: 2."
+msgstr ""
+
+msgid "Gutter: 4.2 mm."
+msgstr ""
+
+msgid "Top, Bottom and Outside margins: 10 mm."
+msgstr ""
+
+msgid "Untick the option to set all margins the same."
+msgstr ""
+
+msgid "Inside margin: 12 mm."
+msgstr ""
+
+msgid ""
+"Click Save Preset, and save the settings as 'Ndebele'. Next time, use this "
+"preset to quickly make another new document with the same settings as this "
+"one."
+msgstr ""
+
+msgid "Click OK to create the new document."
+msgstr ""
+
+msgid "Setting up the baseline grid"
+msgstr ""
+
+msgid "All our text will stick to the baseline grid."
+msgstr ""
+
+msgid "This is a key factor to good typography."
+msgstr ""
+
+msgid "My leading is 12 points, and I will set up a grid to reflect this."
+msgstr ""
+
+msgid "Go to menu Edit / Preferences / Grids."
+msgstr ""
+
+msgid "Start the baseline grid at 0 mm relative to the top margin."
+msgstr ""
+
+msgid "Increment it every 12 points."
+msgstr ""
+
+msgid "Press OK. The grid is now set up."
+msgstr ""
+
+msgid ""
+"Optionally, to make it visible, go to menu View / Grids and Guides / Show "
+"Baseline Grid."
+msgstr ""
+
+msgid "Placing text"
+msgstr ""
+
+msgid "I am going to show how to place Bible text in InDesign."
+msgstr ""
+
+msgid "The text is available from Bibledit as OpenDocument files."
+msgstr ""
+
+msgid ""
+"Open the book of Genesis, the version with text and note citations, in "
+"OpenOffice."
+msgstr ""
+
+msgid "Save it as a Microsoft Word 97 / 2000 / XP (.doc) document."
+msgstr ""
+
+msgid "Create a new document in InDesign."
+msgstr ""
+
+msgid "Go to menu File / Place, or press Ctrl-D."
+msgstr ""
+
+msgid "Select the document in MS Word (.doc) format."
+msgstr ""
+
+msgid ""
+"Move the cursor through the document in InDesign. Notice that the cursor "
+"shows some of the text to be placed."
+msgstr ""
+
+msgid ""
+"Move the cursor to the corner of the first column where the text will start. "
+"Click there. Notice that the first bit of the text will be placed in the "
+"first column."
+msgstr ""
+
+msgid ""
+"There is much more text than what fits in just one column. This extra text "
+"is not visible. What is visible, though, is a red plus near the end of the "
+"first column. This shows that more text is available."
+msgstr ""
+
+msgid "I would like to place this extra text in the second column."
+msgstr ""
+
+msgid ""
+"Click the Selection Tool or press V. The cursor changes to a selection arrow."
+msgstr ""
+
+msgid ""
+"Select the first column, and then click the red plus near the end of the "
+"first column. Notice that the cursor will now show some text."
+msgstr ""
+
+msgid ""
+"Place this text in the second column, in the same way as it was placed in "
+"the first column."
+msgstr ""
+
+msgid ""
+"There is still more text than fits in the second column. I estimate that "
+"there is enough text to fill many pages."
+msgstr ""
+
+msgid ""
+"I am going to insert an extra page, so that we get more space to place the "
+"text."
+msgstr ""
+
+msgid ""
+"To add blank pages, I need to have the Pages palette visible. If the Pages "
+"palette is not visible, choose Window > Pages to open the palette."
+msgstr ""
+
+msgid ""
+"In the Pages palette, click Create new page. A new page will be added. This "
+"is page 2. Press F12 to close the palette."
+msgstr ""
+
+msgid ""
+"Page 2 shows guides for two columns. I can fill these with text in the "
+"manner as described above."
+msgstr ""
+
+msgid ""
+"I can then add as many pages as are needed, and fill each page with text."
+msgstr ""
+
+msgid "Span headlines across columns"
+msgstr ""
+
+msgid ""
+"The headline I have in this example is 'The first book of Moses called "
+"Genesis'. I'd like it to span across the two columns."
+msgstr ""
+
+msgid ""
+"Select the left column, and drag the top to make it shorter, so creating "
+"space above it."
+msgstr ""
+
+msgid "Do the same with the right column."
+msgstr ""
+
+msgid ""
+"Select the text 'The first book of Moses called Genesis'. Cut it to the "
+"clipboard."
+msgstr ""
+
+msgid "Click the Type tool or type Escape T."
+msgstr ""
+
+msgid ""
+"Create a new text box above the two columns. Let it span across the two "
+"columns. Estimate the size it needs to be."
+msgstr ""
+
+msgid "Paste the text into that text box."
+msgstr ""
+
+msgid ""
+"Resize the text box so it looks smart. Then resize both columns so that all "
+"looks good."
+msgstr ""
+
+msgid "Making text align to the grid"
+msgstr ""
+
+msgid "Text aligned to the grid is key to good typesetting."
+msgstr ""
+
+msgid "Select all text you would like to stick to the baseline grid."
+msgstr ""
+
+msgid "Go to menu Type / Paragraph, or press Alt-Ctrl-T."
+msgstr ""
+
+msgid ""
+"Press the Align to baseline grid button in the bottom right hand corner."
+msgstr ""
+
+msgid ""
+"The leading of the text should be equal to the baseline grid. If the leading "
+"of the text is bigger, then it is like as if you have double line spacing."
+msgstr ""
+
+msgid "Total page count"
+msgstr ""
+
+msgid ""
+"The publisher may set limits to the number of pages the typeset Bible may "
+"contain."
+msgstr ""
+
+msgid ""
+"In this example, we expect an entire Bible, with singable Psalms added as an "
+"appendix, to contain no more than 2000 pages. Normal range is 1500 to 1800 "
+"pages."
+msgstr ""
+
+msgid "We suppose that the singable Psalms take up no more than 200 pages."
+msgstr ""
+
+msgid ""
+"Usually the inclusion of the singable Psalms in a Bible will add about 10 "
+"percent to the number of pages."
+msgstr ""
+
+msgid ""
+"The Bible will have footnotes and crossreferences, all lumped together into "
+"a single textframe at the bottom of each page."
+msgstr ""
+
+msgid "Let us now measure how many pages the notes are likely to take up."
+msgstr ""
+
+msgid ""
+"Open the file with all notes in LibreOffice. It is 00_Bible_notes.odt. Save "
+"it in the correct format for InDesign."
+msgstr ""
+
+msgid ""
+"Place the text as described above. But I am going to use Autoflow this time. "
+"Autoflow will automatically create new text boxes and new page till all text "
+"has been placed. This allows us quickly to see how many pages the notes will "
+"take up."
+msgstr ""
+
+msgid "This is how to use Autoflow."
+msgstr ""
+
+msgid ""
+"When you are about the click where you want the text to go, keep the Shift "
+"key down."
+msgstr ""
+
+msgid ""
+"I can now roughly see the total number of pages that the notes will take up."
+msgstr ""
+
+msgid "This is sufficient for an estimate."
+msgstr ""
+
+msgid ""
+"Let us now find out how many pages the main text body is likely to take up."
+msgstr ""
+
+msgid "The text is in the file called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "Place this text and use Autoflow."
+msgstr ""
+
+msgid ""
+"It appears that, on my system, all text cannot be placed at once. It will "
+"cut off after some point."
+msgstr ""
+
+msgid "I will place 01_Genesis_text_and_note_citations.odt instead."
+msgstr ""
+
+msgid ""
+"I can now roughly see the total number of pages that the text of Genesis "
+"will take up."
+msgstr ""
+
+msgid ""
+"The size of the whole Bible is about 22 times more than the size of Genesis."
+msgstr ""
+
+msgid ""
+"The font is of particular influence on the page count. This is not dealt "
+"with here."
+msgstr ""
+
+msgid "Editing a paragraph style"
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, and placing this text into "
+"InDesign, the USFM styles appear in InDesign."
+msgstr ""
+
+msgid ""
+"For example, normal paragraphs usually have style 'p', and section heading "
+"'s'."
+msgstr ""
+
+msgid ""
+"If you like to update a paragraph style, you may update each section heading "
+"individually, but this is a lot of work. It is faster to update the style "
+"for 's', so that this updates all paragraphs that have this style."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, place the cursor in it, and on the palette "
+"choose Paragraph Styles. Right-click the style you want and choose Edit."
+msgstr ""
+
+msgid ""
+"The Bible will have running headers. The headers contain the page number "
+"near the inside margin. At the right margin it shows book and chapters "
+"numbers on that page."
+msgstr ""
+
+msgid "Enter the page numbers on the master pages."
+msgstr ""
+
+msgid "On the Pages palette, double-click the master pages."
+msgstr ""
+
+msgid ""
+"On the left master page, create a text frame, and enter the page number at "
+"the inside margin."
+msgstr ""
+
+msgid ""
+"Page numbers can be found in menu Type / Insert Special Character / Marker / "
+"Current Page Number."
+msgstr ""
+
+msgid ""
+"On the right master page, create a text frame, and enter the page number at "
+"the inside margin too."
+msgstr ""
+
+msgid ""
+"On page 1, create a new text frame at the top, and put the book and chapter "
+"at the outside margin."
+msgstr ""
+
+msgid "This text frame can be copied to each odd page as it is generated."
+msgstr ""
+
+msgid "The same applies for page 2, and any subsequent even pages."
+msgstr ""
+
+msgid "The page where a book starts normally does not display a page number."
+msgstr ""
+
+msgid "In order to do that, apply master page [None] to that particular page."
+msgstr ""
+
+msgid "Space between drop caps and text"
+msgstr ""
+
+msgid ""
+"It may be visually pleasant to have some space between the drop caps chapter "
+"numbers and the text beside it."
+msgstr ""
+
+msgid ""
+"All that is needed is a fixed space after the chapter numbers. Pick any one "
+"from a hair space to an em space. The number of characters in drop caps is "
+"now increased by one. Set this value in the drop cap settings. All lines "
+"after the first will automatically line up."
+msgstr ""
+
+msgid "Managing widows or orphans"
+msgstr ""
+
+msgid ""
+"Widows and orphans are words or short lines at the beginning or end of a "
+"paragraph, which are left dangling at the top or bottom of a column, "
+"separated from the rest of the paragraph."
+msgstr ""
+
+msgid ""
+"There is some disagreement about the definitions of widow and orphan; what "
+"one calls a widow the other calls an orphan."
+msgstr ""
+
+msgid "There are some ways to avoid widows or orphans."
+msgstr ""
+
+msgid ""
+"- Adjusting the spacing between words to produce tighter or looser "
+"paragraphs."
+msgstr ""
+
+msgid ""
+"- Adjusting the tracking of the text. This is the overall spacing of the "
+"letters in a paragraph or on a line. With a good font in justified "
+"paragraphs this can usually be adjusted by up to -25 or +15 without it "
+"looking too out of place."
+msgstr ""
+
+msgid "- Adjusting the hyphenation of words within the paragraph."
+msgstr ""
+
+msgid "- Forcing a word down onto the next line using a soft return."
+msgstr ""
+
+msgid "Scripting"
+msgstr ""
+
+msgid "Here is a sample script."
+msgstr ""
+
+msgid "It runs in InDesign."
+msgstr ""
+
+msgid "It shows how to replace text, and how to update the formatting."
+msgstr ""
+
+msgid "Typesetting in LibreOffice"
+msgstr ""
+
+msgid ""
+"See the online help about typesetting for more information about some "
+"general principles."
+msgstr ""
+
+msgid "You have access to a copy of LibreOffice."
+msgstr ""
+
+msgid "Page count"
+msgstr ""
+
+msgid ""
+"Download the file with notes. It was exported above. It is called "
+"00_Bible_notes.odt."
+msgstr ""
+
+msgid "Open the file in LibreOffice."
+msgstr ""
+
+msgid ""
+"Let it repaginate. A good way of doing this is to press Ctrl-P as if going "
+"to print the document. Then it will repaginate. Cancel the print dialog."
+msgstr ""
+
+msgid "It will now give the page count that the notes are likely to take up."
+msgstr ""
+
+msgid "In our case, this is about 300 pages."
+msgstr ""
+
+msgid ""
+"Each chapter has headings. These headings do not belong to the notes. Thus "
+"the page count is too high."
+msgstr ""
+
+msgid ""
+"Notice that the paragraph style for these headings is called 'Heading 1'."
+msgstr ""
+
+msgid ""
+"Hide the headings. This can be done like this. Right-click on a heading. "
+"Choose 'Edit Paragraph Style'. A dialog comes up. Choose tab 'Font Effects'. "
+"Tick option 'Hidden'."
+msgstr ""
+
+msgid ""
+"Repaginate, and notice the page count. In our case it is down to about 125."
+msgstr ""
+
+msgid ""
+"Download the OpenDocument file with text and note citations. It was exported "
+"above. It is called 00_Bible_text_and_note_citations.odt."
+msgstr ""
+
+msgid "The document has only one column."
+msgstr ""
+
+msgid "Repaginate and notice the page count. In our case this is 1750."
+msgstr ""
+
+msgid ""
+"This is not accurate since it applies to a column count of one rather than "
+"two."
+msgstr ""
+
+msgid "Set the whole document to have two columns."
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page. Choose the Columns tab. Choose two columns. Set "
+"the spacing to 0.2 cm. Set a thin separator line. Click Ok."
+msgstr ""
+
+msgid "Repaginate and notice the page count. It is down to 1520."
+msgstr ""
+
+msgid "We are now able to estimate the page count for the entire Bible:"
+msgstr ""
+
+msgid ""
+"Text body 1520 pages. Notes 125 pages. Singable Psalms 200 pages. Estimated "
+"total is 1845 pages."
+msgstr ""
+
+msgid "Using LibreOffice for typesetting"
+msgstr ""
+
+msgid ""
+"Having used LibreOffice for typesetting for some time, my experience is that "
+"the program is suitable for typesetting Bibles."
+msgstr ""
+
+msgid ""
+"I'd like to give some hints about how to do typographic work in LibreOffice."
+msgstr ""
+
+msgid ""
+"To meet the requirement that line spacing be consistent throughout and be "
+"placed line on line across all pages, do the following:"
+msgstr ""
+
+msgid ""
+"Go to menu Format / Page, and enable Register-true. Set the reference style "
+"to 'Text Body'. Press OK."
+msgstr ""
+
+msgid ""
+"Select all the text, and go to menu Format / Paragraph, and activate "
+"Register-true. Press OK."
+msgstr ""
+
+msgid ""
+"The line spacing specified by the paragraph style 'Text Body' is now used as "
+"the reference line spacing for all paragraphs that have the register-true "
+"feature enabled."
+msgstr ""
+
+msgid ""
+"The line spacing in the document is going to be consistent. It will be equal "
+"to the line spacing of the reference style 'Text Body', or a multiple of it."
+msgstr ""
+
+msgid "Changing the line spacing."
+msgstr ""
+
+msgid "Change the line spacing in paragraph style 'Text Body'."
+msgstr ""
+
+msgid "Press F11 to get the Styles and Formatting dialog."
+msgstr ""
+
+msgid "Locate style 'Text Body'."
+msgstr ""
+
+msgid "Right-click it with the mouse, and choose menu Modify."
+msgstr ""
+
+msgid "Go to tab Indents & Spacing."
+msgstr ""
+
+msgid ""
+"Adjust the spacing above the paragraph, the spacing below the paragrap, and "
+"the line spacing. Press OK."
+msgstr ""
+
+msgid ""
+"It may happen that some paragraphs in the text used to have a line spacing "
+"equal to the line spacing of style 'Text Body', but now suddenly take up a "
+"multiple of it. This may happen when you have tightened the line spacing a "
+"bit."
+msgstr ""
+
+msgid ""
+"To resolve this, make the line spacing of those paragraphs smaller than the "
+"line spacing of style 'Text body'."
+msgstr ""
+
+msgid "Updating a paragraph style."
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, the paragraph styles of the USFM "
+"document appear in LibreOffice."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, right-click the text of this paragraph, and "
+"choose menu Edit Paragraph Style..., and make the desired settings."
+msgstr ""
+
+msgid "Exporting to PDF."
+msgstr ""
+
+msgid "See menu File / Export as PDF."
+msgstr ""
+
+msgid "Hiding the soft hyphens and non-breaking spaces."
+msgstr ""
+
+msgid ""
+"The soft hyphens and the non-breaking spaces are visible as grey fields that "
+"clutter the page. To hide them, do this:"
+msgstr ""
+
+msgid "Go to menu Tools / Options."
+msgstr ""
+
+msgid "Go to LibreOffice Writer / Formatting Aids."
+msgstr ""
+
+msgid "Untick display of custom hyphens."
+msgstr ""
+
+msgid "Untick display of non-breaking spaces."
+msgstr ""
+
+msgid "Clear the entire journal"
+msgstr ""
+
+msgid "Select another Bible"
+msgstr ""
+
+msgid "View the exported data"
+msgstr ""
+
+msgid "view exports"
+msgstr ""
+
+msgid "Remove the exported data"
+msgstr ""
+
+msgid "remove exports"
+msgstr ""
+
+msgid "Web"
+msgstr ""
+
+msgid "Export during the night."
+msgstr ""
+
+msgid "Export now."
+msgstr ""
+
+msgid "Html"
+msgstr ""
+
+msgid "Full USFM"
+msgstr ""
+
+msgid "Secure the export with the password."
+msgstr ""
+
+msgid "Basic USFM and Text"
+msgstr ""
+
+msgid "OpenDocument"
+msgstr ""
+
+msgid ""
+"Use frames for OpenDocument format in case the chapter number gets put just "
+"before the first verse in drop caps."
+msgstr ""
+
+msgid "Page size and margins for export to OpenDocument:"
+msgstr ""
+
+msgid "Page width"
+msgstr ""
+
+msgid "mm"
+msgstr ""
+
+msgid "Page height"
+msgstr ""
+
+msgid "Inner margin"
+msgstr ""
+
+msgid "Outer margin"
+msgstr ""
+
+msgid "Top margin"
+msgstr ""
+
+msgid "Bottom margin"
+msgstr ""
+
+msgid "Display the current date in the running headers."
+msgstr ""
+
+msgid "Info document"
+msgstr ""
+
+msgid "Generate during the night."
+msgstr ""
+
+msgid "Generate now."
+msgstr ""
+
+msgid "e-Sword"
+msgstr ""
+
+msgid "Online Bible"
+msgstr ""
+
+msgid ""
+"The exported file is suitable for the Online Bible module creation process."
+msgstr ""
+
+msgid ""
+"The help within the Online Bible provides more information about creating a "
+"module."
+msgstr ""
+
+msgid "Quick Bible"
+msgstr ""
+
+msgid "The exports use the following stylesheet:"
+msgstr ""
+
+msgid "Password to secure the exports:"
+msgstr ""
+
+msgid "The Bible Drop Box provides many additional export formats."
+msgstr ""
+
+msgid "Submit the Bible to the Bible Drop Box now."
+msgstr ""
+
+msgid "Hyphenation can be used when preparing a Bible for printing."
+msgstr ""
+
+msgid ""
+"It allows for more efficient usage of paper, and for more regular appearance "
+"of margins at the end of the lines without requiring spacing adjustments."
+msgstr ""
+
+msgid ""
+"The details of hyphenating properly are complex and dependent on the "
+"language, and can interact with other orthographic and typesetting practices."
+msgstr ""
+
+msgid ""
+"Hyphenation may not be so important when preparing a Bible for proofreading. "
+"It is usually regarded important for production quality Bibles."
+msgstr ""
+
+msgid ""
+"When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the "
+"wordprocessor itself provides hyphenation algorithms for many languages."
+msgstr ""
+
+msgid ""
+"If no suitable hyphenation algorithm can be used, perhaps Bibledit can "
+"assist to a limited degree."
+msgstr ""
+
+msgid ""
+"Bibledit can take the data from a Bible, insert soft hyphens in the words "
+"according to a certain algorithm, and then save this data as a new Bible."
+msgstr ""
+
+msgid ""
+"This new Bible can then be exported to OpenDocument format, and opened in a "
+"wordprocessor."
+msgstr ""
+
+msgid ""
+"The wordprocessor sees these soft hyphens. When a soft hyphen occurs near "
+"the end of the line, it breaks the word there."
+msgstr ""
+
+msgid ""
+"Bibledit has one hyphenating algorithm. When there is a transition in the "
+"text from any character of a first set of characters, to any character of a "
+"second set of characters, then the soft hyphen will be inserted at that "
+"location in the text."
+msgstr ""
+
+msgid "First set of characters"
+msgstr ""
+
+msgid "Second set of characters"
+msgstr ""
+
+msgid "Enter the sets of characters, and press Save."
+msgstr ""
+
+msgid "The Bible where the data will be taken from is:"
+msgstr ""
+
+msgid "The Bible where the hyphenated data will be written to is:"
+msgstr ""
+
+msgid "Insert the soft hyphens according to the settings."
+msgstr ""
+
+msgid "Indexing"
+msgstr ""
+
+msgid "Bibledit uses indexes for fast lookup."
+msgstr ""
+
+msgid "Normally the indexes are refreshed automatically."
+msgstr ""
+
+msgid ""
+"When the Journal indicates unusual behaviour of an index, or errors, it "
+"needs to be recreated."
+msgstr ""
+
+msgid "Recreate Bibles index."
+msgstr ""
+
+msgid "Recreate Consultation Notes index."
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
+msgid "The following fonts are available in Bibledit:"
+msgstr ""
+
+msgid "You can add or remove fonts in Bibledit Cloud:"
+msgstr ""
+
+msgid "You can upload a new font."
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "You can set the privileges for the user."
+msgstr ""
+
+msgid "User:"
+msgstr ""
+
+msgid "Can view the resources."
+msgstr ""
+
+msgid "Can view the consultation notes."
+msgstr ""
+
+msgid "Can create and comment on consultation notes."
+msgstr ""
+
+msgid "Go back."
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid ""
+"This lists the accounts of the users who have roles you are responsible for."
+msgstr ""
+
+msgid "Click 🗑 before a username to delete the account."
+msgstr ""
+
+msgid "Click ➕ to give a user access to a Bible."
+msgstr ""
+
+msgid "Click 🗑 before a Bible to remove the access of a user to that Bible."
+msgstr ""
+
+msgid "Two numbers appear after the Bible."
+msgstr ""
+
+msgid "It shows how many of the books in the Bible the user can modify."
+msgstr ""
+
+msgid "Click it to change it."
+msgstr ""
+
+msgid ""
+"If no user has been granted access to any Bible, then all users have write "
+"access to all Bibles."
+msgstr ""
+
+msgid "You can create a new user."
+msgstr ""
+
+msgid "The password will be the same as the username."
+msgstr ""
+
+msgid "Normally users register their own account."
+msgstr ""
+
+msgid ""
+"On this page you can set whether a user can modify the text of Bible books."
+msgstr ""
+
+msgid "Bible:"
+msgstr ""
+
+msgid "Toggle the modification privileges for entire Testaments"
+msgstr ""
+
+msgid "Old Testament"
+msgstr ""
+
+msgid "New Testament"
+msgstr ""
+
+msgid "This lists the available verse mappings."
+msgstr ""
+
+msgid "Create new."
+msgstr ""
+
+msgid "To update the verse mappings, make changes above, and save them."
+msgstr ""
+
+msgid "Let's look at a sample mapping:"
+msgstr ""
+
+msgid "At the left side of the equation sign is the passage in your Bible."
+msgstr ""
+
+msgid "And at the right side is the passage in the Hebrew or Greek Bible."
+msgstr ""
+
+msgid "In other words:"
+msgstr ""
+
+msgid ""
+"Genesis 31:55 in this verse mapping matches with Genesis 32:1 in the "
+"original Bible text."
+msgstr ""
+
+msgid ""
+"If this is the English verse mapping, it means that Genesis 31:55 in Bibles "
+"with the English versification system matches with Genesis 32:1 in Hebrew "
+"Bibles."
+msgstr ""
+
+msgid "The same applies to verse mappings for the New Testament."
+msgstr ""
+
+msgid "Delete this mapping"
+msgstr ""
+
+msgid "Go back to the note contents"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "You are subscribed to this note"
+msgstr ""
+
+msgid "Subscribe to this note"
+msgstr ""
+
+msgid "The note has been assigned to"
+msgstr ""
+
+msgid "add assignee"
+msgstr ""
+
+msgid "This note has been assigned to you for you to take action on."
+msgstr ""
+
+msgid "I have done my part on it."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Verses"
+msgstr ""
+
+msgid "This is a general note, it does not apply to any specific Bible"
+msgstr ""
+
+msgid "change"
+msgstr ""
+
+msgid "Edit contents"
+msgstr ""
+
+msgid "The note will be deleted after it expires"
+msgstr ""
+
+msgid "Mark the note for deletion after a week"
+msgstr ""
+
+msgid "Delete the note now"
+msgstr ""
+
+msgid "Public note:"
+msgstr ""
+
+msgid "Select the user to assign the note to"
+msgstr ""
+
+msgid "Select the user to assign the notes to"
+msgstr ""
+
+msgid "Assign this note to another Bible"
+msgstr ""
+
+msgid "Assign the notes to another Bible"
+msgstr ""
+
+msgid "Notes Bulk Update"
+msgstr ""
+
+msgid "This function is powerful."
+msgstr ""
+
+msgid "One mouse click can update many notes at once."
+msgstr ""
+
+msgid "Changes made here are not easily reverted."
+msgstr ""
+
+msgid "Amount of notes to be updated in one go:"
+msgstr ""
+
+msgid "Subscribe to the notes"
+msgstr ""
+
+msgid "Unsubscribe from the notes"
+msgstr ""
+
+msgid "Assign the notes to somebody"
+msgstr ""
+
+msgid "Unassign the notes from somebody"
+msgstr ""
+
+msgid "Change the status of the notes"
+msgstr ""
+
+msgid "Change the severity of the notes"
+msgstr ""
+
+msgid "Change the Bible of the notes"
+msgstr ""
+
+msgid "Delete the notes"
+msgstr ""
+
+msgid "Back to notes list"
+msgstr ""
+
+msgid "Add a comment to this note:"
+msgstr ""
+
+msgid "Create consultation note for"
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "Edit note contents"
+msgstr ""
+
+msgid "Click on your own contributions to this Consultation Note to edit them."
+msgstr ""
+
+msgid "Then save them."
+msgstr ""
+
+msgid "select"
+msgstr ""
+
+msgid "update"
+msgstr ""
+
+msgid "Add a comment to this note"
+msgstr ""
+
+msgid "Select Notes"
+msgstr ""
+
+msgid "Select notes that refer to:"
+msgstr ""
+
+msgid "any passage"
+msgstr ""
+
+msgid "the current verse"
+msgstr ""
+
+msgid "the current chapter"
+msgstr ""
+
+msgid "the current book"
+msgstr ""
+
+msgid "Select notes that have been edited:"
+msgstr ""
+
+msgid "at any time"
+msgstr ""
+
+msgid "during the last 30 days"
+msgstr ""
+
+msgid "during the last 7 days"
+msgstr ""
+
+msgid "since yesterday"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "Select notes that have not been edited for:"
+msgstr ""
+
+msgid "any time"
+msgstr ""
+
+msgid "a day"
+msgstr ""
+
+msgid "two days"
+msgstr ""
+
+msgid "a week"
+msgstr ""
+
+msgid "a month"
+msgstr ""
+
+msgid "a year"
+msgstr ""
+
+msgid "Select notes that have a certain status:"
+msgstr ""
+
+msgid "Any"
+msgstr ""
+
+msgid "Select notes that belong to:"
+msgstr ""
+
+msgid "any Bible"
+msgstr ""
+
+msgid "Select notes that have been assigned to somebody:"
+msgstr ""
+
+msgid "do not care about this"
+msgstr ""
+
+msgid "Currently looking for notes assigned to:"
+msgstr ""
+
+msgid "Select notes by subscription:"
+msgstr ""
+
+msgid "notes I am subscribed to"
+msgstr ""
+
+msgid "Select notes that have a severity of:"
+msgstr ""
+
+msgid "Select notes that contain text:"
+msgstr ""
+
+msgid "Specific text or words:"
+msgstr ""
+
+msgid "Number of notes selected:"
+msgstr ""
+
+msgid "Passage inclusion:"
+msgstr ""
+
+msgid "Do not include the passage text"
+msgstr ""
+
+msgid "Include the passage text"
+msgstr ""
+
+msgid "Text inclusion:"
+msgstr ""
+
+msgid "Do not include the note text"
+msgstr ""
+
+msgid "Include the note text"
+msgstr ""
+
+msgid "Display the notes list"
+msgstr ""
+
+msgid "Update the severity of this note"
+msgstr ""
+
+msgid "Update the severity of the notes"
+msgstr ""
+
+msgid "Select the new status for the note"
+msgstr ""
+
+msgid "Select the new status for the notes"
+msgstr ""
+
+msgid "Edit note summary"
+msgstr ""
+
+msgid "Select the user to unassign the notes from"
+msgstr ""
+
+msgid "Edit the verses?"
+msgstr ""
+
+msgid "Paratext bridge"
+msgstr ""
+
+msgid ""
+"Bibledit can synchronize its Bibles with projects in Paratext installed on "
+"the same computer."
+msgstr ""
+
+msgid "The synchronization works in both directions."
+msgstr ""
+
+msgid ""
+"Changes in the Bible text made in Bibledit will be transferred to Paratext."
+msgstr ""
+
+msgid "And changes made in Paratext will be transferred to Bibledit."
+msgstr ""
+
+msgid "Bible in Bibledit"
+msgstr ""
+
+msgid "disable"
+msgstr ""
+
+msgid "Paratext Projects folder"
+msgstr ""
+
+msgid "Paratext project"
+msgstr ""
+
+msgid "Take initial data from"
+msgstr ""
+
+msgid ""
+"The first time to synchronize the Bible in Bibledit with the project in "
+"Paratext, the system needs to have an authoritative copy of Bible data that "
+"overwrites the other."
+msgstr ""
+
+msgid ""
+"Either the Bible books in the Paratext project overwrite the Bible books in "
+"Bibledit."
+msgstr ""
+
+msgid ""
+"Or the Bible books in Bibledit overwrite the Bible books in the Paratext "
+"project"
+msgstr ""
+
+msgid "This only occurs once during the setup phase."
+msgstr ""
+
+msgid ""
+"While the Paratext bridge is active, Bibledit updates Paratext Scripture "
+"text."
+msgstr ""
+
+msgid "The updates occur in the Paratext files."
+msgstr ""
+
+msgid ""
+"When Paratext is running, and displays a chapter, and the chapter would be "
+"updated in the files, then Paratext does not notice the updated files, and "
+"does not reload the updated Scripture text."
+msgstr ""
+
+msgid ""
+"Then when Paratext saves that chapter, it saves an older copy of the "
+"Scripture text, and so undoes the updates made by Bibledit."
+msgstr ""
+
+msgid ""
+"Therefore it is important to take care that Bibledit does not update "
+"Paratext Scripture text while Paratext is running."
+msgstr ""
+
+msgid ""
+"The easiest way to achieve this is to not run Bibledit and Paratext "
+"simultaneously."
+msgstr ""
+
+msgid "The collaboration is being set up."
+msgstr ""
+
+msgid "General font size for the interface"
+msgstr ""
+
+msgid "Size throughout the interface."
+msgstr ""
+
+msgid "Relative font size for the menu"
+msgstr ""
+
+msgid "The size of the font for the menu, relative to the general font size."
+msgstr ""
+
+msgid "Relative font size for the Bible editors"
+msgstr ""
+
+msgid ""
+"The size of the font for the Bible editors, relative to the general font "
+"size."
+msgstr ""
+
+msgid "Relative font size for the resources"
+msgstr ""
+
+msgid ""
+"The size of the font for the resources, relative to the general font size."
+msgstr ""
+
+msgid "Relative font size for Hebrew resources"
+msgstr ""
+
+msgid ""
+"The size of Hebrew text within resources, relative to the resources font "
+"size."
+msgstr ""
+
+msgid "Relative font size for Greek resources"
+msgstr ""
+
+msgid ""
+"The size of Greek text within resources, relative to the resources font size."
+msgstr ""
+
+msgid "Vertical position of the caret in the Bible editors"
+msgstr ""
+
+msgid "Show breadcrumbs"
+msgstr ""
+
+msgid "Workspace menu fade-out delay"
+msgstr ""
+
+msgid "How long it takes for the desktop menu to start fading out."
+msgstr ""
+
+msgid ""
+"While editing the Bible text and saving it, Bibledit looks at how much the "
+"text of the chapter or verse to be saved differs from the existing chapter "
+"or verse text."
+msgstr ""
+
+msgid ""
+"If the text to be saved differs more than a certain percentage from the "
+"existing text, Bibledit will not save it."
+msgstr ""
+
+msgid ""
+"This safety mechanisms prevents accidental loss of Bible data in many cases."
+msgstr ""
+
+msgid "The permitted difference can be set below as a percentage."
+msgstr ""
+
+msgid "Maximum difference for:"
+msgstr ""
+
+msgid "Keep main menu always visible"
+msgstr ""
+
+msgid "Enable swipe navigation actions"
+msgstr ""
+
+msgid "Enable fast Bible editor switching"
+msgstr ""
+
+msgid "Active Bible editors:"
+msgstr ""
+
+msgid "Visual editors:"
+msgstr ""
+
+msgid "USFM editors:"
+msgstr ""
+
+msgid "Enable the Styles button in the visual Bible editors"
+msgstr ""
+
+msgid "Back to chapter"
+msgstr ""
+
+msgid "Create feedback on"
+msgstr ""
+
+msgid "Summary (no more than 30 characters long)"
+msgstr ""
+
+msgid "Your feedback"
+msgstr ""
+
+msgid "Create new"
+msgstr ""
+
+msgid "Thank you for being interested in providing feedback on the Bible."
+msgstr ""
+
+msgid "Please provide your name and email address."
+msgstr ""
+
+msgid "You will then receive email about any feedback you give."
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "Email address:"
+msgstr ""
+
+msgid "Is this the verse you wish to give feedback on?"
+msgstr ""
+
+msgid "If it is not, use the navigator at the top to go to the correct verse."
+msgstr ""
+
+msgid "Yes, this is the correct verse"
+msgstr ""
+
+msgid "Convert Bible to USFM Resource"
+msgstr ""
+
+msgid "You can convert a Bible to a USFM Resource."
+msgstr ""
+
+msgid "It means that the text of the Bible will be moved to a Resource."
+msgstr ""
+
+msgid "The users can display this resource."
+msgstr ""
+
+msgid "A Resource will be created with the same name and text as the Bible."
+msgstr ""
+
+msgid "When the conversion is complete, the Bible will be deleted."
+msgstr ""
+
+msgid "A Bible can be edited, but a USFM Resource cannot."
+msgstr ""
+
+msgid "A Bible can be searched, but a USFM Resource cannot."
+msgstr ""
+
+msgid "The USFM Resource uses less space."
+msgstr ""
+
+msgid "Start the conversion process."
+msgstr ""
+
+msgid "You can view the conversion process in the Journal."
+msgstr ""
+
+msgid "BibleGateway resources"
+msgstr ""
+
+msgid "Refresh the list of resources from BibleGateway."
+msgstr ""
+
+msgid "The following resources are being installed:"
+msgstr ""
+
+msgid ""
+"Cancelling a resource installation does not erase already installed content."
+msgstr ""
+
+msgid ""
+"When installing the resource again, it will continue from where it was "
+"cancelled."
+msgstr ""
+
+msgid "Click a resource for more information on its status."
+msgstr ""
+
+msgid "Bibledit can display this resource."
+msgstr ""
+
+msgid "It fetches the resource from the Internet."
+msgstr ""
+
+msgid "Bibledit may not always be able to reach the Internet."
+msgstr ""
+
+msgid "Or the connection is slow."
+msgstr ""
+
+msgid "You can install the resource."
+msgstr ""
+
+msgid ""
+"When the resource is displayed, the content is fetched from the installed "
+"copy, rather than from the Internet."
+msgstr ""
+
+msgid "This works faster."
+msgstr ""
+
+msgid "And you can work offline."
+msgstr ""
+
+msgid "Number of installed books for this resource:"
+msgstr ""
+
+msgid "Start installing the resource and view the progress in the Journal."
+msgstr ""
+
+msgid "Installing the resource takes the existing installed verses in account."
+msgstr ""
+
+msgid "It only downloads the missing pieces."
+msgstr ""
+
+msgid "Clear the installed resource to do a clean installation."
+msgstr ""
+
+msgid "Image resource"
+msgstr ""
+
+msgid "Upload an image, or a PDF file, or a compressed archive of them."
+msgstr ""
+
+msgid "Erase this resource."
+msgstr ""
+
+msgid "Create a new empty image resource"
+msgstr ""
+
+msgid ""
+"Image resources provide a way to display scanned pages of a Bible or book."
+msgstr ""
+
+msgid "Each page can be one or more images."
+msgstr ""
+
+msgid "Each image refers to a range of verses."
+msgstr ""
+
+msgid ""
+"When Bibledit has a certain passage focused, it can display the matching "
+"image."
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "This image contains verses from"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Delete this image."
+msgstr ""
+
+msgid "organize"
+msgstr ""
+
+msgid ""
+"To create a USFM resource, go to the Bibles, and convert it to a USFM "
+"resource."
+msgstr ""
+
+msgid "You can delete a USFM resource."
+msgstr ""
+
+msgid "You can convert a USFM resource back to a Bible."
+msgstr ""
+
+msgid "Progress will be visible in the Journal."
+msgstr ""
+
+msgid "Resource Organizer"
+msgstr ""
+
+msgid "Number of verses to display before the focused verse:"
+msgstr ""
+
+msgid "Number of verses to display after the focused verse:"
+msgstr ""
+
+msgid "Display related passages"
+msgstr ""
+
+msgid "Install all the above resources on the device."
+msgstr ""
+
+msgid "Print Resources"
+msgstr ""
+
+msgid "Resources to print:"
+msgstr ""
+
+msgid "Print from"
+msgstr ""
+
+msgid "Generate the document."
+msgstr ""
+
+msgid "Resource categories"
+msgstr ""
+
+msgid "Bibles within Bibledit"
+msgstr ""
+
+msgid "USFM resources"
+msgstr ""
+
+msgid "Web resources"
+msgstr ""
+
+msgid "Original language texts"
+msgstr ""
+
+msgid "Bibles (translations)"
+msgstr ""
+
+msgid "Lexicons"
+msgstr ""
+
+msgid "SWORD modules"
+msgstr ""
+
+msgid "Dividers"
+msgstr ""
+
+msgid "StudyLight resources"
+msgstr ""
+
+msgid "Refresh the list of resources from StudyLight."
+msgstr ""
+
+msgid ""
+"Refresh the list of modules from the SWORD servers and view the progress in "
+"the journal."
+msgstr ""
+
+msgid ""
+"When a module is going to be displayed as a resource, it will be installed "
+"on the fly."
+msgstr ""
+
+msgid ""
+"Update SWORD modules that have a newer version and view the progress in the "
+"journal."
+msgstr ""
+
+msgid "Every week modules update   automatically."
+msgstr ""
+
+msgid ""
+"Installed SWORD modules that have not been used for a week will be "
+"uninstalled."
+msgstr ""
+
+msgid "User-defined resource"
+msgstr ""
+
+msgid "To update the user-defined resource, make changes above, and save them."
+msgstr ""
+
+msgid "The first line will be the internet address of the resource."
+msgstr ""
+
+msgid ""
+"The next lines will be the names or abbreviations for all the Bible books."
+msgstr ""
+
+msgid ""
+"When fetching the user-defined resource, Bibledit will take the internet "
+"address, and replace the three words in brackets with the values of the "
+"passage to fetch."
+msgstr ""
+
+msgid ""
+"The book will be replaced with the book name or abbreviation, for example "
+"Matthew."
+msgstr ""
+
+msgid ""
+"The chapter and the verse will be replaced with the appropriate numbers."
+msgstr ""
+
+msgid "Create a new empty user-defined resource"
+msgstr ""
+
+msgid ""
+"User-defined resources provide a way to display content from other websites."
+msgstr ""
+
+msgid "It displays a web page based on the focused passage within Bibledit."
+msgstr ""
+
+msgid "Search all Bibles and consultation notes:"
+msgstr ""
+
+msgid "Search for"
+msgstr ""
+
+msgid "notes"
+msgstr ""
+
+msgid "verses"
+msgstr ""
+
+msgid "Search in active Bible."
+msgstr ""
+
+msgid "Enter the search term."
+msgstr ""
+
+msgid "Press Enter."
+msgstr ""
+
+msgid ""
+"Search for verses with most Hebrew or Greek words similar to the focused "
+"verse in:"
+msgstr ""
+
+msgid "Load"
+msgstr ""
+
+msgid "Search for words like this"
+msgstr ""
+
+msgid "Replace with"
+msgstr ""
+
+msgid "Case sensitive"
+msgstr ""
+
+msgid "Apply all"
+msgstr ""
+
+msgid "Replace in active Bible."
+msgstr ""
+
+msgid "Enter what to search for."
+msgstr ""
+
+msgid "Enter what to replace with."
+msgstr ""
+
+msgid "Wait till the preview appears."
+msgstr ""
+
+msgid "Replace the text:"
+msgstr ""
+
+msgid "To replace in one passage, click ✔."
+msgstr ""
+
+msgid "To remove a passage, click 🗑"
+msgstr ""
+
+msgid "To open a passage for edit, click that passage."
+msgstr ""
+
+msgid "To replace all passages, click Apply all."
+msgstr ""
+
+msgid "plain text"
+msgstr ""
+
+msgid "underlying USFM"
+msgstr ""
+
+msgid "Current book"
+msgstr ""
+
+msgid "What to do with the search results"
+msgstr ""
+
+msgid "Display them on the page"
+msgstr ""
+
+msgid "Add them to the ones already on the page"
+msgstr ""
+
+msgid "Remove them from the ones already on the page"
+msgstr ""
+
+msgid "Display the intersection of them and the ones already on the page"
+msgstr ""
+
+msgid "Search for verses similar to the focused verse in:"
+msgstr ""
+
+msgid "Search for verses with a certain Strong's number in:"
+msgstr ""
+
+msgid ""
+"Search for verses with most Strong's numbers similar to the focused verse in:"
+msgstr ""
+
+msgid "Send / Receive"
+msgstr ""
+
+msgid "Send and receive:"
+msgstr ""
+
+msgid "now"
+msgstr ""
+
+msgid "every five minutes"
+msgstr ""
+
+msgid "every hour"
+msgstr ""
+
+msgid "manually"
+msgstr ""
+
+msgid "Not connected to Bibledit Cloud"
+msgstr ""
+
+msgid "Connect to start sending and receiving."
+msgstr ""
+
+msgid "It sends changes made here to Bibledit Cloud."
+msgstr ""
+
+msgid "It receives updates from Bibledit Cloud."
+msgstr ""
+
+msgid ""
+"The Paratext bridge sends changes from Bibledit to Paratext on this computer."
+msgstr ""
+
+msgid "Bibledit receives updates from Paratext."
+msgstr ""
+
+msgid "The following Bibles link to a Paratext project:"
+msgstr ""
+
+msgid "Synchronize with Paratext now."
+msgstr ""
+
+msgid "Do not synchronize with Paratext while Paratext is running."
+msgstr ""
+
+msgid "This may cause loss of changes in the chapter Paratext is displaying."
+msgstr ""
+
+msgid ""
+"If Paratext were installed on this computer, and Bibles in Bibledit would be "
+"linked to Paratext projects, then Bibledit would be able to send and receive "
+"Bibles data to and from Paratext."
+msgstr ""
+
+msgid "Synchronize a Bible with a git repository."
+msgstr ""
+
+msgid "This Bible has not been linked to a git repository."
+msgstr ""
+
+msgid "Bibledit sends and receives this Bible every night."
+msgstr ""
+
+msgid "Send and receive it now."
+msgstr ""
+
+msgid "Send and receive it every five minutes."
+msgstr ""
+
+msgid ""
+"The git repository keeps the history of the Bible text with all the changes."
+msgstr ""
+
+msgid "View the history:"
+msgstr ""
+
+msgid "The Journal displays progress and diagnostic messages."
+msgstr ""
+
+msgid "Username or email address:"
+msgstr ""
+
+msgid "Username:"
+msgstr ""
+
+msgid "Password:"
+msgstr ""
+
+msgid "Forgot password?"
+msgstr ""
+
+msgid "Not registered?"
+msgstr ""
+
+msgid "Sign up!"
+msgstr ""
+
+msgid ""
+"Submit your username or email address, and instructions will be emailed to "
+"you."
+msgstr ""
+
+msgid "Your account is pending."
+msgstr ""
+
+msgid "A verification email has been sent."
+msgstr ""
+
+msgid ""
+"After you reply to the verification email, your account will be activated."
+msgstr ""
+
+msgid "This may take five or more minutes."
+msgstr ""
+
+msgid "Which username would you like to use?"
+msgstr ""
+
+msgid "Which password?"
+msgstr ""
+
+msgid "Your email address?"
+msgstr ""
+
+msgid "Security question:"
+msgstr ""
+
+msgid "Hint for answering the security question:"
+msgstr ""
+
+msgid "Switched user"
+msgstr ""
+
+msgid "You have now logged in on behalf of another user:"
+msgstr ""
+
+msgid ""
+"To go back to your own username, log this user out, and then login with your "
+"own credentials."
+msgstr ""
+
+msgid "Mail information to subscribers"
+msgstr ""
+
+msgid "Add task"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Enter task completion categories."
+msgstr ""
+
+msgid "Stylesheets"
+msgstr ""
+
+msgid "Available stylesheets."
+msgstr ""
+
+msgid "Create a new stylesheet."
+msgstr ""
+
+msgid "The various styles for the Bible editor are contained in a stylesheet."
+msgstr ""
+
+msgid "The stylesheet you are currently using is:"
+msgstr ""
+
+msgid "switch"
+msgstr ""
+
+msgid "Add a style to the stylesheet."
+msgstr ""
+
+msgid "Select this stylesheet."
+msgstr ""
+
+msgid "Delete the entire stylesheet."
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "This style"
+msgstr ""
+
+msgid "This one"
+msgstr ""
+
+msgid "Font size"
+msgstr ""
+
+msgid "points"
+msgstr ""
+
+msgid "Italic"
+msgstr ""
+
+msgid "Bold"
+msgstr ""
+
+msgid "Underline"
+msgstr ""
+
+msgid "Small caps"
+msgstr ""
+
+msgid "Superscript"
+msgstr ""
+
+msgid "Text alignment"
+msgstr ""
+
+msgid "Space before"
+msgstr ""
+
+msgid "Space after"
+msgstr ""
+
+msgid "Left margin"
+msgstr ""
+
+msgid "Right margin"
+msgstr ""
+
+msgid "First line indent"
+msgstr ""
+
+msgid "Span columns"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "Background color"
+msgstr ""
+
+msgid "Note numbering"
+msgstr ""
+
+msgid "Column number"
+msgstr ""
+
+msgid "Restart the note numbering"
+msgstr ""
+
+msgid "Position of endnote"
+msgstr ""
+
+msgid "User-defined note numbering sequence"
+msgstr ""
+
+msgid "Addition after word list entry"
+msgstr ""
+
+msgid "Place endnotes when encountering marker"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "The language for Bibledit:"
+msgstr ""
+
+msgid "Your preferred language is not listed?"
+msgstr ""
+
+msgid ""
+"Use your translation skills to assist with bringing another language to "
+"Bibledit."
+msgstr ""
+
+msgid "Start translating right away."
+msgstr ""
+
+msgid ""
+"It is possible to translate only the most important phrases to get your "
+"translation team going in their own language."
+msgstr ""
+
+msgid "Your translation will be included with the next Bibledit release."
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid ""
+"The timezone for Bibledit as an offset from Coordinated Universal Time in "
+"hours"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "RSS feed"
+msgstr ""
+
+msgid "RSS feed for the recent changes in the text of the Bible."
+msgstr ""
+
+msgid "Maximum number of changes it feeds:"
+msgstr ""
+
+msgid "To switch the feed off, set the number of changes to zero."
+msgstr ""
+
+msgid ""
+"You can change your password or your email address. Your current email "
+"address is"
+msgstr ""
+
+msgid "Current password"
+msgstr ""
+
+msgid "New password"
+msgstr ""
+
+msgid "Again new password"
+msgstr ""
+
+msgid "New email address"
+msgstr ""
+
+msgid ""
+"Subscribe to a consultation note you created or edited online or by email."
+msgstr ""
+
+msgid ""
+"Subscribe to a consultation note created or edited by anybody online or by "
+"email."
+msgstr ""
+
+msgid ""
+"Receive email confirmation of your posts to a consultation notes done by "
+"email."
+msgstr ""
+
+msgid ""
+"Receive email about changes in a consultation note you are subscribed to."
+msgstr ""
+
+msgid "A consultation note that get changed will be assigned to you."
+msgstr ""
+
+msgid "Receive email about changes in a consultation note assigned to you."
+msgstr ""
+
+msgid ""
+"Suppress receiving email from an updated consultation note in case the "
+"update was made by you."
+msgstr ""
+
+msgid ""
+"Receive daily mail with the number of consultation notes assigned to you."
+msgstr ""
+
+msgid ""
+"Receive daily mail with the number of consultation notes you are subscribed "
+"to."
+msgstr ""
+
+msgid "Receive email about a deleted consultation note."
+msgstr ""
+
+msgid ""
+"Emails that would normally be sent right after you have created a "
+"consultation note, delay them till the evening."
+msgstr ""
+
+msgid "This setting may be useful in the following scenario:"
+msgstr ""
+
+msgid ""
+"Each time you create a new note, the other members of the team get "
+"interrupted by your email."
+msgstr ""
+
+msgid "This happens many times a day."
+msgstr ""
+
+msgid ""
+"You don't want these interruptions, but the team members need to get your "
+"email eventually."
+msgstr ""
+
+msgid "Tick this setting, and you're done."
+msgstr ""
+
+msgid "Receive daily mail with the changes in the Bible made by you."
+msgstr ""
+
+msgid "Receive daily mail with the changes in the Bible made by anyone."
+msgstr ""
+
+msgid ""
+"Notifications about changes in the Bible made by anyone will be generated "
+"for you online."
+msgstr ""
+
+msgid ""
+"Notifications about changes in the Bible made by you will be generated for "
+"you online."
+msgstr ""
+
+msgid ""
+"Notifications about changes in the Bible made by the individual contributors "
+"will be generated for you online."
+msgstr ""
+
+msgid ""
+"Receive daily mail with the number of online change notifications awaiting "
+"your attention."
+msgstr ""
+
+msgid "Text Checks"
+msgstr ""
+
+msgid "Receive daily mail with results of checks on the text of the Bibles."
+msgstr ""
+
+msgid "Team work"
+msgstr ""
+
+msgid ""
+"Receive weekly mail about the team's progress during the course of the "
+"sprint."
+msgstr ""
+
+msgid "Software updates"
+msgstr ""
+
+msgid ""
+"Receive mail when updated software is available for the platform your client "
+"runs on."
+msgstr ""
+
+msgid "Receive mail when updated software is available for any platform."
+msgstr ""
+
+msgid "This lists the currently available versification systems."
+msgstr ""
+
+msgid "You can create a new versification system."
+msgstr ""
+
+msgid ""
+"This shows how many verses each chapter of the Bible has according to this "
+"versification system, and how many chapters each book has."
+msgstr ""
+
+msgid "It can be edited further down the page."
+msgstr ""
+
+msgid "Delete this versification."
+msgstr ""
+
+msgid "You can modify this versification system."
+msgstr ""
+
+msgid "To do that, edit the data below, and then submit it."
+msgstr ""
+
+msgid "It will overwrite whatever was there before."
+msgstr ""
+
+msgid "chapters"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Drag the list of workspaces into the desired order."
+msgstr ""
+
+msgid "Click 🗑 to remove the workspace."
+msgstr ""
+
+msgid "Click ✎ to edit the workspace."
+msgstr ""
+
+msgid "Click ⎘ to copy the workspace to a new one."
+msgstr ""
+
+msgid "Click ✉ to send the workspace to all users."
+msgstr ""
+
+msgid "Create a new workspace."
+msgstr ""
+
+msgid "Reset all default workspaces."
+msgstr ""
+
+msgid "Edit workspace"
+msgstr ""
+
+msgid "Top row"
+msgstr ""
+
+msgid "height factor"
+msgstr ""
+
+msgid "URLs"
+msgstr ""
+
+msgid "Width factors"
+msgstr ""
+
+msgid "Center row"
+msgstr ""
+
+msgid "Bottom row"
+msgstr ""
+
+msgid "width"
+msgstr ""
+
+msgid "Samples"
+msgstr ""
+
+msgid "Samples to load in the current workspace:"
+msgstr ""
+
+msgid "This page is for configuring the layout of a workspace."
+msgstr ""
+
+msgid ""
+"A workspace enables you to display parts of Bibledit or websites side-by-"
+"side."
+msgstr ""
+
+msgid "There are three rows:"
+msgstr ""
+
+msgid "A top row, a center row, and a bottom row."
+msgstr ""
+
+msgid "Each row has five columns."
+msgstr ""
+
+msgid "Thus there are 15 possible positions."
+msgstr ""
+
+msgid "You can set the relative height of each of the three rows individually."
+msgstr ""
+
+msgid ""
+"The height is set as integer factor relative to the browser window height "
+"and other panes."
+msgstr ""
+
+msgid ""
+"For example use factors of 1 and 2 respectively on two panes to get a split "
+"⅓ / ⅔ layout."
+msgstr ""
+
+msgid ""
+"Or use factors 1, 1, and 2 respectively on three panes for a ¼ / ¼ / ½ "
+"layout."
+msgstr ""
+
+msgid ""
+"You can enter the URLs of internal Bibledit pages or external pages to "
+"display."
+msgstr ""
+
+msgid ""
+"Enter their relative widths as an integer factor relative to the overall "
+"width and other panes."
+msgstr ""
+
+msgid "The factors for the widths work the same as for the heights."
+msgstr ""
+
+msgid ""
+"The internal URL of a Bibledit function can be found by opening that "
+"function in the web browser, and then copying the last two bits from the URL "
+"in the address bar."
+msgstr ""
+
+msgid "The Edit page would have this URL:"
+msgstr ""
+
+msgid "The Resources page is"
+msgstr ""
+
+msgid "The Notes page is"
+msgstr ""
+
+msgid "Some useful websites with resources that can be embedded are"
+msgstr ""
+
+msgid "There are many more of them."
+msgstr ""
+
+msgid "To edit two Bibles side-by side, add two editors to the workspace."
+msgstr ""
+
+msgid "Add the following to each of them:"
+msgstr ""
+
+msgid ""
+"For example, if one of the Bibles would be a Bible called 'Ndebele Bible', "
+"then the URL would be:"
+msgstr ""
+
+msgid "The Notes editor has some preset selectors."
+msgstr ""
+
+msgid ""
+"To display all the notes for a certain passage, enter the following URL:"
+msgstr ""
+
+msgid ""
+"When this workspace will be opened, it will display all the notes that refer "
+"to the focused passage."
+msgstr ""
+
+msgid "Other preset selectors for the Notes editor:"
+msgstr ""
+
+msgid "Display all notes assigned to you."
+msgstr ""
+
+msgid "Display all notes you are subscribed to."
+msgstr ""
+
+msgid "Display subscribed notes that have been idle for a day."
+msgstr ""
+
+msgid "Display subscribed notes that have been idle for a week."
+msgstr ""
+
+msgid "You can set the width of the entire workspace."
+msgstr ""
+
+msgid ""
+"By setting the width wider than the screen, the workspace can be scrolled "
+"horizontally."
+msgstr ""
+
+msgid "This may be useful on devices with smaller screens, such as phones."
+msgstr ""
+
+msgid "This chapter of the target Bible contains cross references"
+msgstr ""
+
+msgid "A cross reference is malformed."
+msgstr ""
+
+msgid "The opening tag does not match the closing tag."
+msgstr ""
+
+msgid "Please fix it first."
+msgstr ""
+
+msgid "Overwrite the existing cross references."
+msgstr ""
+
+msgid ""
+"This chapter of the source Bible does not contain any cross references that "
+"could be extracted."
+msgstr ""
+
+msgid "okay"
+msgstr ""
+
+msgid "Transfer cross references"
+msgstr ""
+
+msgid ""
+"The tool to transfer cross references enables you to easily and quickly "
+"enter cross references in a Bible."
+msgstr ""
+
+msgid "The tool has two main functions:"
+msgstr ""
+
+msgid ""
+"Read the cross references from a source Bible, and transfer them to a target "
+"Bible."
+msgstr ""
+
+msgid ""
+"Move cross references in the target Bible to their proper locations within a "
+"verse."
+msgstr ""
+
+msgid "Transferring cross references"
+msgstr ""
+
+msgid "Click the link to transfer the cross references."
+msgstr ""
+
+msgid ""
+"Bibledit reads the cross references from the entire focused chapter of the "
+"source Bible."
+msgstr ""
+
+msgid "It interprets the book abbreviations."
+msgstr ""
+
+msgid ""
+"It then translates those abbreviations to the abbreviations as used in the "
+"target Bible."
+msgstr ""
+
+msgid ""
+"It then enters the cross references in the entire focused chapter of the "
+"target Bible."
+msgstr ""
+
+msgid "Moving cross references"
+msgstr ""
+
+msgid "The page displays one verse a time."
+msgstr ""
+
+msgid "Select the verses one by one, and move the cross references into place."
+msgstr ""
+
+msgid "Everything can be done through the arrow keys on the keyboard."
+msgstr ""
+
+msgid "Left arrow: Move the selected cross reference one word back."
+msgstr ""
+
+msgid "Right arrow: Move the selected cross reference one word forward."
+msgstr ""
+
+msgid "Up arrow: Select the previous cross reference."
+msgstr ""
+
+msgid "Down arrow: Select the next cross reference."
+msgstr ""
+
+msgid "Alt-Up arrow: Go to the next verse."
+msgstr ""
+
+msgid "Alt-Down arrow: Go to the previous verse."
+msgstr ""
+
+msgid "Cross references"
+msgstr ""
+
+msgid "source Bible:"
+msgstr ""
+
+msgid "Select source Bible"
+msgstr ""
+
+msgid "Copy cross references from source to target for the entire chapter"
+msgstr ""
+
+msgid "transfer cross references entire chapter"
+msgstr ""
+
+msgid "target Bible:"
+msgstr ""
+
+msgid "Select target Bible"
+msgstr ""
+
+msgid "Go to the next chapter without cross references"
+msgstr ""
+
+msgid "next chapter without cross references"
+msgstr ""
+
+msgid "The cross references were inserted into the target Bible."
+msgstr ""
+
+msgid ""
+"The abbreviation below needs clarification as to which Bible book it refers "
+"to."
+msgstr ""
+
+msgid "Optionally update the abbreviation:"
+msgstr ""
+
+msgid "Select the Bible book it represents:"
+msgstr ""
+
+msgid "Save it:"
+msgstr ""
+
+msgid "Remaining abbreviations to clarify:"
+msgstr ""
+
+msgid ""
+"The Bible book below needs a matching abbreviation for the target Bible."
+msgstr ""
+
+msgid "Book name:"
+msgstr ""
+
+msgid "Enter the abbreviation:"
+msgstr ""
+
+msgid "Remaining book names without an abbreviation:"
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
+msgid "Current password is not valid"
+msgstr ""
+
+msgid "The new password was saved"
+msgstr ""
+
+msgid "Email address is not valid"
+msgstr ""
+
+msgid "Email address verification"
+msgstr ""
+
+msgid ""
+"Somebody requested to change the email address that belongs to your account."
+msgstr ""
+
+msgid "Email address change"
+msgstr ""
+
+msgid ""
+"The email address that belongs to your account has been changed successfully."
+msgstr ""
+
+msgid "A verification email was sent to"
+msgstr ""
+
+msgid "No changes were made"
+msgstr ""
+
+msgid "You can set the notifications in Bibledit Cloud."
+msgstr ""
+
+msgid "Please enter the name for the new versification system"
+msgstr ""
+
+msgid "Would you like to delete this versification system?"
+msgstr ""
+
+msgid "Editor and Resources"
+msgstr ""
+
+msgid "Editor and Notes"
+msgstr ""
+
+msgid "Resources and Editor and Notes"
+msgstr ""
+
+msgid "Editor and Consistency tool"
+msgstr ""
+
+msgid "Visual editor and USFM editor"
+msgstr ""
+
+msgid "The workspace was added"
+msgstr ""
+
+msgid "The workspace was moved up"
+msgstr ""
+
+msgid "The workspace was moved down"
+msgstr ""
+
+msgid "The default workspaces were created"
+msgstr ""
+
+msgid "Would you like to delete this desktop configuration?"
+msgstr ""
+
+msgid "The workspace was removed"
+msgstr ""
+
+msgid "Please enter a name for the new desktop"
+msgstr ""
+
+msgid "The workspace was copied"
+msgstr ""
+
+msgid "The workspace was sent to all users"
+msgstr ""
+
+msgid "Delete desktop"
+msgstr ""
+
+msgid "Move desktop up"
+msgstr ""
+
+msgid "Move desktop down"
+msgstr ""
+
+msgid "Edit desktop"
+msgstr ""
+
+msgid "Copy desktop"
+msgstr ""
+
+msgid "Send desktop to all users"
+msgstr ""
+
+msgid "See the help below for information about what to enter"
+msgstr ""
+
+msgid ""
+"Select which Bible to use as the source where to read the cross references "
+"from"
+msgstr ""
+
+msgid "Select which Bible to insert the cross references into"
+msgstr ""

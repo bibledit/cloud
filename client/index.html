@@ -1,0 +1,59 @@
+<h3>translate("Bibledit Cloud connection")</h3>
+
+<!-- #BEGINZONE clienton -->
+<p>
+  translate("Connected to Bibledit Cloud.")
+  <a href="?disable=">translate("Disconnect and log out.")</a>
+</p>
+<p>translate("Internet address"): ##url##</p>
+<p>translate("Your role:") ##role##</p>
+<!-- #ENDZONE clienton -->
+
+<!-- #BEGINZONE clientoff -->
+<p>translate("To connect to Bibledit Cloud, enter the details of the server, and your credentials, and click Connect.")</p>
+
+<br>
+
+<form action="index" name="server" method="post">
+  <table>
+  <tr>
+    <td align="right">translate("Internet address")</td>
+    <td><input type="text" name="address" maxlength="1000" value="##address##" autofocus /></td>
+  </tr>
+    <tr>
+      <td align="right">translate("Port number")</td>
+      <td><input type="text" name="port" maxlength="6" value="##port##" /></td>
+    </tr>
+    <tr>
+    <td align="right">translate("Username")</td>
+    <td><input type="text" name="user" maxlength="30" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Password")</td>
+      <td><input type="password" name="pass" maxlength="30" /></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" name="connect" class="focus" value="translate("Connect")" /></td>
+    </tr>
+  </table>
+</form>
+
+<br>
+
+<p><a href="?demo=">translate("Or else connect to the Bibledit Cloud demo.")</a></p>
+
+<br>
+
+
+<p>
+  translate ("To get access to Bibledit Cloud, install a server instance.")
+  <a href="http://bibledit.org">translate ("Or request a server instance from bibledit.org through the contact form.")</a>
+</p>
+
+<!-- #ENDZONE clientoff -->
+
+<br>
+<p class="error">##error##</p>
+<p class="success">##success##</p>
+<p class="error">##demo##</p>

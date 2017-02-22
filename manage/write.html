@@ -1,0 +1,21 @@
+<h2>translate("Read/write")</h2>
+<p>
+  translate("On this page you can set whether a user can modify the text of Bible books.")
+  <a href="users">[translate("back")]</a>
+</p>
+<p>translate("User:") ##user##</p>
+<p>translate("Bible:") ##bible##</p>
+<p>
+translate("Toggle the modification privileges for entire Testaments"):
+<a href="?testament=ot">translate("Old Testament")</a>
+|
+<a href="?testament=nt">translate("New Testament")</a>
+</p>
+<br>
+<!-- #BEGINITERATION write -->
+<p>
+<input type="checkbox" name="##checkboxname##" onchange="checkbox(this)" ##checked## />
+<label for"emailconfirmationyourposts">##bookname##</label>
+</p>
+<!-- #ENDITERATION write -->
+<script type="text/javascript" src="../assets/checkbox.js"></script>

@@ -1,0 +1,68 @@
+<p><a href="note?id=##id##">translate("Go back to the note contents")</a></p>
+<p>translate("Summary"): ##summary##</p>
+<p>
+<!-- #BEGINZONE subscribed -->
+translate("You are subscribed to this note") <a href="?id=##id##&unsubscribe=">[translate ("unsubscribe")]</a>
+<!-- #ENDZONE subscribed -->
+<!-- #BEGINZONE subscribe -->
+<a href="?id=##id##&subscribe=">translate("Subscribe to this note")</a>
+<!-- #ENDZONE subscribe -->
+<p>translate("The note has been assigned to"):
+##assigneeblock##
+<!-- #BEGINZONE assign -->
+<a href="assign-1?id=##id##">[translate("add assignee")]</a>
+<!-- #ENDZONE assign -->
+</p>
+<!-- #BEGINZONE assigned -->
+<p>
+translate("This note has been assigned to you for you to take action on.")
+<a href="?id=##id##&done=">translate("I have done my part on it.")</a>
+</p>
+<!-- #ENDZONE assigned -->
+<p>
+translate("Status"):
+<!-- #BEGINZONE editstatus -->
+<a href="status-1?id=##id##">##status##</a>
+<!-- #ENDZONE editstatus -->
+<!-- #BEGINZONE viewstatus -->
+##status##
+<!-- #ENDZONE viewstatus -->
+</p>
+<p>translate("Verses"): ##verses## | <a href="verses?id=##id##">[translate("edit")]</a></p>
+<p>translate("Severity"): <a href="severity-1?id=##id##">##severity##</a></p>
+<p>
+translate("Bible"):
+##bible##
+<!-- #BEGINZONE nobible -->
+translate("This is a general note, it does not apply to any specific Bible")
+<!-- #ENDZONE nobible -->
+<a href="bible-1?id=##id##">[translate("change")]</a>
+</p>
+<p><a href="edit?identifier=##id##">translate("Edit contents")</a></p>
+<!-- #BEGINZONE marknote -->
+<p>
+<!-- #BEGINZONE marked -->
+  translate("The note will be deleted after it expires")
+  <a href="?id=##id##&unmarkdel=">[translate("cancel")]</a>
+<!-- #ENDZONE marked -->
+<!-- #BEGINZONE mark -->
+  <a href="?id=##id##&markdel=">translate("Mark the note for deletion after a week")</a>
+<!-- #ENDZONE mark -->
+</p>
+<p><a href="?id=##id##&delete=">translate("Delete the note now")</a></p>
+<!-- #ENDZONE marknote -->
+<!-- #BEGINZONE cloud -->
+<p>
+translate("Public note:")
+<!-- #BEGINZONE translator -->
+<a href="?id=##id##&publicnote=">
+<!-- #ENDZONE translator -->
+##publicnote##
+<!-- #BEGINZONE translator -->
+</a>
+<!-- #ENDZONE translator -->
+</p>
+<!-- #ENDZONE cloud -->
+<p class="error">##error##</p>
+<p class="success">##success##</p>
+<script type="text/javascript" src="poll.js?##VERSION##"></script>

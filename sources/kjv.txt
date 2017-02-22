@@ -1,0 +1,10 @@
+The XML file in this folder has been received from croswire.org.
+It contains the source for the Crosswire tagged KJV SWORD module.
+http://www.crosswire.org/sword/modules/ModInfo.jsp?modName=KJV
+
+kjv.xml: XML source data, originally named kjvfull.xml.
+
+createdatabase
+This script imports the XML file into a SQLite database fit for use in Bibledit.
+
+Info and download: http://www.crosswire.org/~dmsmith/kjv2006/

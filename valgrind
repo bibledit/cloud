@@ -1,0 +1,5 @@
+#!/bin/bash
+
+valgrind --leak-check=yes  --track-origins=yes --show-reachable=yes ./server
+
+# http://valgrind.org/docs/manual/quick-start.html#quick-start.intro

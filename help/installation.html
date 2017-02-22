@@ -1,0 +1,126 @@
+<h1>translate("Installation")</h1>
+
+<h2>translate("Versions")</h2>
+<p>
+translate("There is a Bibledit version for Windows, for the Mac, for Android, for iOS, and for Linux.")
+translate("These are all client editions of Bibledit.")
+</p>
+<p>
+translate("There is also a server edition of Bibledit.")
+translate("That is 'Bibledit Cloud'.")
+translate("It runs on the web.")
+translate("Bibledit Cloud has more capabilities than the standard Bibledit editions.")
+</p>
+<p>
+translate("The standard Bibledit editions connect to an instance of Bibledit Cloud for collaboration, keeping the devices in sync, and for backup.")
+</p>
+<p>
+translate("All Bibledit editions, including Bibledit Cloud, enable Bible translation.")
+translate("With a fast internet connection, it is usually easiest to translate straight in Bibledit Cloud through the web browser.")
+translate("When the internet connection is slow, or when it is off at times, it is recommended to translate through one of the standard Bibledit versions.")
+translate("The changes made in this way can be synchronized with Bibledit Cloud through Send/receive.")
+</p>
+
+<h2>translate("Standard installation")</h2>
+<p><a href="installwindows">translate("Bibledit on Windows")</a></p>
+<p><a href="installandroid">translate("Bibledit on Android")</a></p>
+<p><a href="installosx">translate("Bibledit on macOS")</a></p>
+<p><a href="installlinux">translate("Bibledit on Linux")</a></p>
+<p><a href="installios">translate("Bibledit on iOS")</a></p>
+<p><a href="installchromeos">translate("Bibledit on Chrome OS")</a></p>
+<p><a href="installcloudubuntu">translate("Bibledit Cloud on Ubuntu")</a></p>
+
+<h2>translate("Upgrading")</h2>
+<p>
+  translate("A certain release of Bibledit can upgrade the most recent previous release, but not older releases.")
+  translate("A new release can be installed over the previous release.")
+  translate("There should be no loss of information.")
+  translate("Create a backup of the Bibledit folder before upgrading, just to be sure.")
+  <a href="bibleditweb">translate("Upgrading from Bibledit-Web to Bibledit Cloud works differently.")</a>
+</p>
+
+<h2>translate("Clients")</h2>
+<p>
+  translate("The various Bibledit client editions store the data offline.")
+  translate("You can translate the Bible on a client.")
+  translate("The user needs to regularly synchronize the data on the client with the data on Bibledit Cloud.")
+  translate("A Client is useful when the Internet connection to Bibledit Cloud is not fast or not stable.")
+</p>
+<p>
+  translate("In the Bibledit client, connect to Bibledit Cloud once, and provide your username and password as you normally log in on Bibledit Cloud.")
+  translate("Also provide the port number.")
+  translate("Then synchronize the data.")
+  translate("The first time the client will download all Bible data and Notes from Bibledit Cloud and store it offline.")
+  translate("That may take a while.")
+  translate("After that, synchronizing will send and receive the changes only.")
+</p>
+<p>
+  translate("The client mode is useful in a situation where the Internet connection is not optimal.")
+  translate("All data is stored locally on your computing device.")
+  translate("During translation, the Internet connection is not used.")
+  translate("It is used during synchronization.")
+</p>
+
+<h2>translate("Email")</h2>
+<p>
+  translate("Bibledit Cloud works with email.")
+  translate("After completing the installation of Bibledit, sending and receiving emails does not yet work.")
+  translate("This needs to be set up.")
+  translate("Setting up the email means to pick an email address and setting details for the mail servers in Bibledit.")
+  translate("This can be done from within the web application.")
+</p>
+
+<h2>translate("Multiple translation teams")</h2>
+<p>translate("There are two ways to have multiple translation teams on one server.")</p>
+<ol>
+<li>
+  translate("Install multiple parallel copies of Bibledit on one server.")
+  translate("Unpack the installation zip archive in sub folders with different names.")
+  translate("Each copy has its own web address.")
+  translate("Everything is completely separated between the parallel copies.")
+  translate("This includes the data and the databases.")
+  translate("Every copy has its own independent databases.")
+</li>
+<li>
+  translate("Use one installation of Bibledit.")
+  translate("Give various users read or write access to various Bibles.")
+  translate("Users with write access together constitute a translation team that can edit the Bible.")
+</li>
+</ol>
+
+<h2>translate("Development version")</h2>
+<p>
+  <a href="https://github.com/teusbenschop/bibledit">translate("The Bibledit source code is kept in a git repository.")</a>
+  translate("Experienced software developers will be able to create all Bibledit editions from the source code.")
+</p>
+
+<h2>translate("Hosting providers")</h2>
+<p>
+  translate("To run Bibledit Cloud, a Linux VPS (virtual private server) is needed.")
+  translate("Good providers are:")
+</p>
+<ol>
+  <li>
+    <a href="http://ramnode.com/vps.php">RamNode</a>, Premium OpenVZ SSD 128MB for $15 per year (2016).
+    translate("Due to the limited memory, Bibledit Cloud cannot compiled there, but compatible binaries compiled elsewhere will run fine.")
+  </li>
+  <li>
+    <a href="https://www.digitalocean.com/?refcode=5189a8e56d7a">Digital Ocean</a>, 512 Mb / 1 CPU / 20 Gb SSD Disk for $5 per month = $60 per year (2016).
+  </li>
+</ol>
+<p>
+  translate("You may also run your Bibledit Cloud instance from bibledit.org.")
+  <a href="http://bibledit.org/contact.php">translate("Use the contact form to explain why you need a Bibledit Cloud instance.")</a>
+</p>
+
+<h2>translate("Administrator info")</h2>
+<p>
+translate("It is possible to secure traffic between a user's browser and Bibledit Cloud, and between Bibledit clients and Bibledit Cloud.")
+</p>
+<p>
+translate("It is possible to enable an external OpenLDAP server for user authentication.")
+</p>
+<p>
+translate("The following file in the Bibledit installation provides all information needed:")
+config/config.txt
+</p>

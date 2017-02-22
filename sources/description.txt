@@ -1,0 +1,12 @@
+Description of the data sources
+
+Hebrew morphologies.
+* Morphhb: Currently provides limited morphology. It is a work in progress.
+* Open Scriptures Hebrew Bible (OSHB): Free resource, provides a lot of morphology, a work in progress.
+* Westminster Hebrew Morphology: Non-free resource.
+* ETCBC4: Free resource providing high quality morphology.
+
+Electronic sources for Strong's Hebrew Concordance
+1. https://github.com/openscriptures/HebrewLexicon file HebrewStrong.xml
+2. http://biblehub.com/strongs.htm
+Evaluation: Comparing the entries 1 and 2, it appears that source 1 provides fuller definitions, and has fewer errors.

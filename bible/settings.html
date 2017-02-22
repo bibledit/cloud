@@ -1,0 +1,57 @@
+<h1>translate("Bible") ##bible##</h1>
+<p class="success">##success_message##</p>
+<p class="error">##error_message##</p>
+<p>translate("Available books") (##book_count##): ##bookblock##</p>
+<p>
+  translate("Versification system"):
+  <!-- #BEGINZONE write_access -->
+    <a href="settings?bible=##bible##&versification=">
+  <!-- #ENDZONE write_access -->
+  ##versification##
+  <!-- #BEGINZONE write_access -->
+  </a>
+  <!-- #ENDZONE write_access -->
+</p>
+<p>
+  translate("Verse mapping"):
+  <!-- #BEGINZONE write_access -->
+    <a href="settings?bible=##bible##&mapping=">
+  <!-- #ENDZONE write_access -->
+  ##mapping##
+  <!-- #BEGINZONE write_access -->
+  </a>
+  <!-- #ENDZONE write_access -->
+</p>
+<!-- #BEGINZONE write_access -->
+  <p><a href="settings?bible=##bible##&createbook=">translate("Create book")</a></p>
+  <p><a href="import?bible=##bible##">translate("Import text")</a></p>
+<!-- #ENDZONE write_access -->
+<!-- #BEGINZONE server -->
+<p><a href="manage?copy=##bible##">translate("Copy this Bible")</a></p>
+<!-- #ENDZONE server -->
+<!-- #BEGINZONE write_access -->
+  <!-- #BEGINZONE server -->
+    <p><a href="manage?delete=##bible##">translate("Delete this Bible")</a></p>
+    <p><a href="/resource/bible2resource?bible=##bible##">translate("Convert to USFM resource")</a></p>
+  <!-- #ENDZONE server -->
+<!-- #ENDZONE write_access -->
+<p><a href="../compare/index?bible=##bible##">translate("Compare with ...")</a></p>
+<!-- #BEGINZONE write_access -->
+<p><a href="abbreviations?bible=##bible##">translate("Book abbreviations")</a></p>
+<p><a href="order?bible=##bible##">translate("Book order")</a></p>
+<p><a href="css?bible=##bible##">translate("Font and text settings")</a></p>
+<!-- <p><a href="editing?bible=##bible##">translate("Editing settings")</a></p> -->
+<!-- #ENDZONE write_access -->
+<!-- #BEGINZONE client -->
+<p>##cloudlink##</p>
+<!-- #ENDZONE client -->
+<!-- #BEGINZONE write_access -->
+<!-- #BEGINZONE server -->
+<p>
+<input type="checkbox" name="public" onchange="checkbox(this, 'settings?bible=##bible##')" ##public## />
+translate("The public can give feedback")
+</p>
+<p><a href="?bible=##bible##&resource=">translate("Import text from a resource")</a></p>
+<!-- #ENDZONE server -->
+<!-- #ENDZONE write_access -->
+<script type="text/javascript" src="../assets/checkbox.js"></script>

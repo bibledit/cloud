@@ -1,0 +1,43 @@
+# To enable Bibledit Cloud to query an OpenLDAP server for user authorization,
+# rename this file "ldap.txt" to "ldap.conf" in this "config" folder,
+# and make the appropriate settings in this ldap.conf file.
+
+# The OpenLDAP server's URI.
+# This will be passed as the -H parameter of ldapsearch.
+uri = ldap://ldap.forumsys.com
+
+# The binddn to query the OpenLDAP account with.
+# This will be passsed as the -D parameter of ldapsearch.
+# Bibledit substitutes "[user]" with the username it queries.
+binddn = uid=[user],dc=example,dc=com
+
+# The basedn to query the OpenLDAP account with.
+# This will be passsed as the -b parameter of ldapsearch.
+basedn = dc=example,dc=com
+
+# The search scope for the search query.
+# This will be passed as the -s parameter of ldapsearch.
+scope = sub
+
+# The search filter for the search query.
+# This will be passed as the last parameter to ldapsearch.
+# Bibledit substitutes "[user]" with the username it searches for.
+filter = (uid=[user])
+
+# To retrieve a user's email address, field "mail" is used.
+# This is hard coded in Bibledit
+
+# To retrieve a user's role, the field below will be searched
+# for any of the following words:
+#  "Administrator"
+#  "Manager"
+#  "Translator"
+#  "Consultant"
+#  "Member"
+#  "Guest"
+# Field "ou" is, as per RFC2256, "the organizational unit this object belongs to".
+# Change it to suit your needs.
+role = ou
+
+# Note: Bibledit clients do not query the LDAP server.
+# Instead they use the accounts in Bibledit Cloud.

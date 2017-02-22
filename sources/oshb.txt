@@ -1,0 +1,8 @@
+Open Scriptures Hebrew Bible.
+
+http://hb.openscriptures.org
+
+The data was downloaded from http://hb.openscriptures.org/OSHB-Parsing-Latest.xml.gz, then renamed to oshb.xml.gz
+
+The project to parse the Hebrew Bible is active, and is a work in progress.
+http://hb.openscriptures.org/OshbParse/index.php

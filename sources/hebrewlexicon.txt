@@ -1,0 +1,4 @@
+Source: https://github.com/openscriptures/HebrewLexicon
+
+Note: http://biblehub.com/ has bigger BDB entries.
+Sample: http://biblehub.com/hebrew/7225.htm

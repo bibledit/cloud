@@ -1,0 +1,37 @@
+<div class="center">
+<h3>Bibledit</h3>
+<p class="error ">##error_message##</p>
+<form action="login?request=##forward##" name="form" method="post">
+
+<p><label for="user">
+<!-- #BEGINZONE local -->
+translate ("Username or email address:")
+<!-- #ENDZONE local -->
+<!-- #BEGINZONE ldap -->
+translate ("Username:")
+<!-- #ENDZONE ldap -->
+</label></p>
+<p><input class="width50 center" type="text" name="user" id="user" maxlength="30" /></p>
+<p class="error">##username_invalid##</p>
+
+<br>
+
+<p><label for="pass">translate ("Password:")</label></p>
+<p><input class="width50 center" type="password" name="pass" id="pass" maxlength="30" /></p>
+<p class="error">##password_invalid##</p>
+
+<br>
+
+<p><input class="button" type="submit" id="test" name="submit" value="translate ("Login")" /></p>
+
+<p><input type="hidden" id="touch" name="touch" value="1" /></p>
+
+<br>
+
+<!-- #BEGINZONE local -->
+<p><a href="password">translate ("Forgot password?")</a></p>
+<p>translate ("Not registered?") <a href="signup">translate ("Sign up!")</a></p>
+<!-- #ENDZONE local -->
+</form>
+</div>
+<script type="text/javascript" src="login.js?##VERSION##"></script>

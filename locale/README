@@ -1,0 +1,54 @@
+# Copyright (©) 2003-2016 Teus Benschop.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+  
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+Script to update translations from Launchpad.
+
+#!/bin/bash
+
+# Download and integrate translation strings into Bibledit.
+# Download translations in MO format from launchpad.net, 
+# and store these in ~/documents/dev/bibledit/web/web/locale
+# The script will unpack and integrate these. 
+
+cd
+cd documents/dev/bibledit-pot
+# bzr init
+bzr pull lp:~teusbenschop/bibledit/bibledit-pot
+cp web/web/pot/*.po ~/documents/dev/bibledit/web/web/locale
+cd
+cd documents/dev/bibledit/web/web/locale
+tar zxf launchpad-export.tar.gz
+rm templates/*.pot
+rmdir templates
+cd
+
+# End.
+
+
+Testing the gettext system.
+Presuming that Bibledit is installed in /var/www/bibledit-web,
+run these few lines in the shell: 
+
+export LANGUAGE=nl
+export TEXTDOMAINDIR=/var/www/bibledit-web/locale
+gettext -d bibledit Bible
+
+Update:
+It appeared that the gettext system didn't work well.
+In Chinese, the word "Bible" appears as ?? while it should be 聖經.
+Therefore the localization was moved to Zend_Translate.
+That works well.

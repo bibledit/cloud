@@ -1,0 +1,24 @@
+<h2>translate("Privileges")</h2>
+<p>translate("You can set the privileges for the user.")</p>
+<p>translate("User:") ##user##.</p>
+<br>
+
+<p>
+<input type="checkbox" name="viewresources" onchange="checkbox(this, 'privileges?user=##user##')" ##viewresourceschecked## ##viewresourcesdisabled## />
+translate("Can view the resources.")
+</p>
+
+<p>
+<input type="checkbox" id="view" name="viewnotes" onchange="checkbox(this, 'privileges?user=##user##')" ##viewnoteschecked## ##viewnotesdisabled## />
+translate("Can view the consultation notes.")
+</p>
+
+<p>
+<input type="checkbox" id="create" name="createcommentnotes" onchange="checkbox(this, 'privileges?user=##user##')" ##createcommentnoteschecked## ##createcommentnotesdisabled## />
+translate("Can create and comment on consultation notes.")
+</p>
+
+<br>
+<p><a href="users">translate ("Go back.")</a></p>
+<script type="text/javascript" src="../assets/checkbox.js"></script>
+<script type="text/javascript" src="privileges.js"></script>

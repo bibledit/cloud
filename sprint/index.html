@@ -1,0 +1,47 @@
+<h3>translate("Sprint")</h3>
+<p class="error">##error##</p>
+<p class="success">##success##</p>
+<p>
+  translate("Bible"):
+  <a href="?bible=">##bible##</a>
+  |
+  <a href="?previoussprint=">«</a>
+  <a href="?currentprint=">##sprint##</a>
+  <a href="?nextsprint=">»</a>
+</p>
+<br>
+<table class="burndown">
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    ##categories##
+  </tr>
+  ##tasks##
+</table>
+<br>
+<p>translate("Sprint Burndown Chart - Remaining Tasks")</p>
+<p>##chart##</p>
+<br>
+<p><a href="?mail=">translate("Mail information to subscribers")</a></p>
+<br>
+<form action="index" name="addtask" method="post">
+  <p>
+    translate("Add task")
+    <input type="text" name="add" maxlength="256" ##autofocus## />
+    <input type="submit" name="submit" value="translate("Add")" />
+  </p>
+</form>
+<br>
+<form action="" name="categories" method="post">
+  <p>
+    translate("Enter task completion categories.")
+    translate("One per line.")
+  </p>
+  <p><textarea name="categories" style="width:100px">##categorytext##</textarea></p>
+  <p><input type="submit" name="save" value="translate("Save")" /></p>
+</form>
+<br>
+<a id="help"></a>
+<script type="text/javascript" src="index.js?##VERSION##"></script>

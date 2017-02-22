@@ -1,0 +1,102 @@
+<h3>translate("Send / Receive")</h3>
+
+<p class="success">##success##</p>
+<p class="error">##error##</p>
+
+<!-- #BEGINZONE clienton -->
+
+<p>translate("Send and receive:")
+<a href="?runsync=">translate("now")</a>
+|
+<!-- #BEGINZONE repeatsync2 -->
+⇉
+<!-- #ENDZONE repeatsync2 -->
+<a href="?repeatsync=2">translate("every five minutes")</a>
+<!-- #BEGINZONE repeatsync2 -->
+⇇
+<!-- #ENDZONE repeatsync2 -->
+|
+<!-- #BEGINZONE repeatsync1 -->
+⇉
+<!-- #ENDZONE repeatsync1 -->
+<a href="?repeatsync=1">translate("every hour")</a>
+<!-- #BEGINZONE repeatsync1 -->
+⇇
+<!-- #ENDZONE repeatsync1 -->
+|
+<!-- #BEGINZONE repeatsync0 -->
+⇉
+<!-- #ENDZONE repeatsync0 -->
+<a href="?repeatsync=0">translate("manually")</a>
+<!-- #BEGINZONE repeatsync0 -->
+⇇
+<!-- #ENDZONE repeatsync0 -->
+</p>
+<!-- #ENDZONE clienton -->
+
+<!-- #BEGINZONE clientoff -->
+<br>
+<p class="error">translate ("Not connected to Bibledit Cloud")</p>
+<p><a href="/client/index">translate("Connect to start sending and receiving.")</a></p>
+<!-- #ENDZONE clientoff -->
+
+<!-- #BEGINZONE clienton -->
+<br>
+<p class="error">##demo##</p>
+<p>
+  translate("It sends changes made here to Bibledit Cloud.")
+  translate("It receives updates from Bibledit Cloud.")
+</p>
+<!-- #ENDZONE clienton -->
+
+<br>
+<!-- #BEGINZONE paratexton -->
+<p>
+translate("The Paratext bridge sends changes from Bibledit to Paratext on this computer.")
+translate("Bibledit receives updates from Paratext.")
+</p>
+<p>
+translate("The following Bibles link to a Paratext project:")
+##paratextbibles##.
+</p>
+<p>
+<a href="?syncparatext=">translate("Synchronize with Paratext now.")</a>
+</p>
+<p>
+translate("Do not synchronize with Paratext while Paratext is running.")
+translate("This may cause loss of changes in the chapter Paratext is displaying.")
+</p>
+<!-- #ENDZONE paratexton -->
+<!-- #BEGINZONE paratextoff -->
+<p>
+translate("If Paratext were installed on this computer, and Bibles in Bibledit would be linked to Paratext projects, then Bibledit would be able to send and receive Bibles data to and from Paratext.")
+</p>
+<!-- #ENDZONE paratextoff -->
+
+<!-- #BEGINZONE server -->
+<p class="success">##successbible##</p>
+<p>translate("Synchronize a Bible with a git repository.")</p>
+<p>translate("Bible"): <a href="?bible=">##bible##</a>.</p>
+<!-- #BEGINZONE collab_off -->
+<p>translate("This Bible has not been linked to a git repository.")</p>
+<!-- #ENDZONE collab_off -->
+<!-- #BEGINZONE collab_on -->
+<p>translate("Bibledit sends and receives this Bible every night.")</p>
+<p><a href="?runbible=">translate("Send and receive it now.")</a></p>
+<p>
+<input type="checkbox" name="repeatbible" onchange="checkbox(this)" ##repeatbible## /> translate("Send and receive it every five minutes.")
+</p>
+<p>
+translate("The git repository keeps the history of the Bible text with all the changes.")
+translate("View the history:")
+<a href="##url##">##url##</a>
+</p>
+<!-- #ENDZONE collab_on -->
+<!-- #ENDZONE server -->
+
+<br>
+
+<p><a href="/journal/index">translate("The Journal displays progress and diagnostic messages.")</a></p>
+<p id="status"></p>
+<script type="text/javascript" src="../assets/checkbox.js"></script>
+<script type="text/javascript" src="index.js?"></script>

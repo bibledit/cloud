@@ -1,0 +1,25 @@
+The ETCBC4 project provides a Hebrew morphology with English glosses.
+The ETCBC4 database is in the public domain.
+It contains a lot of useful information, but it also lacks information useful to Bible translators.
+
+https://shebanq.ancient-data.org/
+https://twitter.com/christof77/status/542306145915138048
+https://github.com/ctslearning/etcbc2wlc
+https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=Genesis&chapter=1&verse=1
+https://easy.dans.knaw.nl/ui/datasets/id/easy-dataset:58245
+
+Download the raw html data through the Debug page.
+The progress will be visible in the Journal.
+It takes more than 10 hours.
+After finished, browser through the Journal to look for any download errors.
+Download once more to more clearly see any errors that might have occurred in the previous download.
+
+Check the total verse count:
+sqlite> select count(*) from rawdata;
+23213
+
+Via de Debug page, parse the database.
+After parsing it:
+DROP TABLE rawdata;
+VACUUM;
+Then copy the database into folder "databases" in the source tree.

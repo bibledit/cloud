@@ -1,0 +1,53 @@
+Bibledit Cloud Configuration
+
+
+All configuration files reside in the config folder.
+
+
+When Bibledit Cloud runs behind a proxy server, Bibledit is not able to find out its own URL that faces the user.
+The user-facing URL can be set through a configuration file.
+The name of the configuration file is:
+userfacingurl.conf
+It contains the URL, for example:
+https://bibledit.org:1500/
+An example configuration file is included: userfacingurl.txt
+
+
+The secure http server needs a private key and a public certificate. 
+Bibledit Cloud comes with a key and a certificate that work for localhost.daplie.com, which resolves to localhost. 
+They are taken from https://github.com/Daplie/localhost.daplie.com-certificates.
+In case Bibledit Cloud runs on a public server and uses secure http, it will read the private key and the public certificate and the chain of trusted certificate authorities from the following three files:
+* server.key: The private key for the server.
+* server.crt: The public certificate for the server.
+* authorities.crt: The chain of trusted certificate authorities that have issued the server certificate. At the top of the file will be the intermediate authority that issued the server certificate. Next can be more intermediate authorities. At the bottom of the file should be the trusted root certificate.
+Three example files are included. All of them have the "local." prefix. Bibledit will use them in case the proper files are not there.
+Secure certificates can be purchased from many authorities.
+Free certificates are available from https://letsencrypt.org/ and https://www.startssl.com/ and more.
+
+
+To enforce secure http for browser communications, put a file named browser.https in the config folder.
+The file may be empty. Once this file is found, Bibledit Cloud will redirect any incoming http browser traffic to https traffic.
+A file with the name of client.https will do the same for Bibledit client traffic.
+
+
+Bibledit Cloud can send the Bible text plus changes to a git repository.
+Normally the direction of this traffic is one-way.
+It sends changes in Bibledit Cloud to the git repository.
+Bibledit Cloud does not receive changes from the git repository.
+It is possible to make a manual setting to enable it to receive changes as well.
+$ cd databases/config/general
+$ echo 1 > read-from-git
+When enabled, the mechanism is subject to race condition in rare circumstances, and will at time revert some changes made by users.
+There is no intention to fix this behaviour, because receiving changes from a git repository is going to be phased out soon.
+
+
+OpenLDAP server: See file ldap.txt for more information.
+
+
+Network port for http server: The default value is 8080. Put a different port number in file "network-port".
+
+
+Administrator details: To preset the administrator's account, put the details in the files "admin-username" and "admin-password" and "admin-email", one detail per file.
+
+
+Demo installation: If the file config/demo is present, it behaves as a demo installation.

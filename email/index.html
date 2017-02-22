@@ -1,0 +1,115 @@
+<h1>translate("Mail")</h1>
+<p>translate("This page deals with setting up the email system.")</p>
+<p>translate("Bibledit sends out email. It also collects email every five minutes and acts upon these emails.")</p>
+<p>translate("It needs an external email account for sending and receiving email.")</p>
+<p>translate("The help information on this page assumes that we use a Google mail account. You will have your own email account dedicated to Bibledit.")</p>
+<p>translate("The email address is bibletranslation@gmail.com, and the password is pazzwrd.")</p>
+
+<a name="name"></a>
+<h2>translate("Site name and email address")</h2>
+<form action="index#name" name="email" method="post">
+  <p>translate("Our own sample values are given below. Yours will be different.")</p>
+  <p>translate("Name: Bibledit Cloud")</p>
+  <p>translate("Email address: bibletranslation@gmail.com")</p>
+  <p>translate("To switch the mailer off, leave the fields empty.")</p>
+  <h4>translate("Enter the name and the email address, and press Submit.")</h4>
+  <table>
+    <tr>
+      <td align="right">translate("Name")</td>
+      <td><input type="text" name="sitename" maxlength="50" value="##sitename##" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Email address")</td>
+      <td><input type="text" name="sitemail" maxlength="50" value="##sitemail##" /></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" name="email" value=translate("Submit") /></td>
+      <td class="error">##site_name_error##</td>
+      <td class="success">##site_name_success##</td>
+    </tr>
+  </table>
+</form>
+
+<a name="retrieve"></a>
+<h2>translate("Retrieving mail")</h2>
+<form action="index#retrieve" name="retrieve" method="post">
+  <p>translate("Sample values:")</p>
+  <p>translate("POP3 Host: pop.gmail.com")</p>
+  <p>translate("Username: bibletranslation@gmail.com")</p>
+  <p>translate("Password: pazzwrd")</p>
+  <p>translate("Protocol: POP3S")</p>
+  <p>translate("Port: 995")</p>
+  <h4>translate("Enter the account details, and press Submit.")</h4>
+  <p>translate("When you submit the values, Bibledit will attempt to contact this email account and tell the number of messages in the Inbox.")</p>
+  <table>
+    <tr>
+      <td align="right">POP3 Host</td>
+      <td><input type="text" name="storagehost" maxlength="50" value="##storagehost##" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Username")</td>
+      <td><input type="text" name="storageusername" maxlength="50" value="##storageusername##" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Password")</td>
+      <td><input type="text" name="storagepassword" maxlength="50" value="##storagepassword##" /></td>
+    </tr>
+    <tr>
+      <td align="right">Protocol</td>
+      <td>
+        <select name="storagesecurity">
+        <option value="POP3" >POP3</option>
+        <option value="POP3S" ##storagepop3s## >POP3S</option>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">Port</td>
+      <td><input type="text" name="storageport" maxlength="10" value="##storageport##" /></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" name="retrieve" value="translate("Submit")" onClick="this.value = 'translate ("Please wait")'; return true;" /></td>
+      <td class="error">##storage_error##</td>
+      <td class="success">##storage_success##</td>
+    </tr>
+  </table>
+</form>
+
+<a name="send"></a>
+<h2>translate("Sending mail")</h2>
+<form action="index#send" name="send" method="post">
+  <p>translate("Sample values:")</p>
+  <p>translate("SMTP Host: smtp.gmail.com")</p>
+  <p>translate("Username: bibletranslation@gmail.com")</p>
+  <p>translate("Password: pazzwrd")</p>
+  <p>translate("Port: 587")</p>
+  <p>translate("If the SMTP server does not need authenticaton, just leave the fields for username and password empty.")</p>
+  <h4>translate("Enter the account details, and press Submit.")</h4>
+  <p>translate("When you submit new values, Bibledit will attempt to send an email to the email address of Bibledit.")</p>
+  <table>
+    <tr>
+      <td align="right">SMTP Host</td>
+      <td><input type="text" name="sendhost" maxlength="50" value="##sendhost##" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Username")</td>
+      <td><input type="text" name="sendusername" maxlength="50" value="##sendusername##" /></td>
+    </tr>
+    <tr>
+      <td align="right">translate("Password")</td>
+      <td><input type="text" name="sendpassword" maxlength="50" value="##sendpassword##" /></td>
+    </tr>
+    <tr>
+      <td align="right">Port</td>
+      <td><input type="text" name="sendport" maxlength="10" value="##sendport##" /></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" name="send" value="translate("Submit")" onClick="this.value = 'translate ("Please wait")'; return true;" /></td>
+      <td class="error">##send_error##</td>
+      <td class="success">##send_success##</td>
+    </tr>
+  </table>
+</form>
+<pre>##send_debug##</pre>

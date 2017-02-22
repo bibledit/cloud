@@ -1,0 +1,156 @@
+<script>
+  toggleSetting = function(element) {
+    var base = window.location.href.split("?")[0];
+    window.location.href = base + "?" + element.name + "=" + element.checked;
+  }
+</script>
+<h2>translate("Exports")</h2>
+
+<p class="error">##error##</p>
+<p class="success">##success##</p>
+
+<p>
+  translate("Bible"):
+  <a href="?bible=" title="translate("Select another Bible")">##bible##</a>
+  <a href="/exports" title="translate("View the exported data")">[translate ("view exports")]</a>
+  <a href="?remove=" title="translate("Remove the exported data")">[translate ("remove exports")]</a>
+</p>
+
+<h3>translate("Web")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="web" onchange="checkbox(this)" ##web## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?webnow=">translate("Export now.")</a>
+</p>
+
+<h3>translate("Html")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="html" onchange="checkbox(this)" ##html## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?htmlnow=">translate("Export now.")</a>
+</p>
+
+<h3>translate("Full USFM")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="usfm" onchange="checkbox(this)" ##usfm## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?usfmnow=">translate("Export now.")</a>
+</p>
+<br>
+<p><input type="checkbox" name="usfmsecure" onchange="checkbox(this)" ##usfmsecure## /> translate("Secure the export with the password.")</p>
+
+<h3>translate("Basic USFM and Text")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="text" onchange="checkbox(this)" ##text## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?textnow=">translate("Export now.")</a>
+</p>
+
+<h3>translate("OpenDocument")</h3>
+<p>##odtlink##</p>
+<!-- #BEGINZONE zip -->
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="odt" onchange="checkbox(this)" ##odt## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?odtnow=">translate("Export now.")</a>
+</p>
+<br>
+<p>
+<input type="checkbox" name="dropcaps" onchange="checkbox(this)" ##dropcaps## />
+translate("Use frames for OpenDocument format in case the chapter number gets put just before the first verse in drop caps.")
+</p>
+<br>
+<p>translate("Page size and margins for export to OpenDocument:")</p>
+<table>
+  <tr><td>translate("Page width")</td><td><a href="?pagewidth=">##pagewidth## translate ("mm")</a></td></tr>
+  <tr><td>translate("Page height")</td><td><a href="?pageheight=">##pageheight## translate ("mm")</a></td></tr>
+  <tr><td>translate("Inner margin")</td><td><a href="?innermargin=">##innermargin## translate ("mm")</a></td></tr>
+  <tr><td>translate("Outer margin")</td><td><a href="?outermargin=">##outermargin## translate ("mm")</a></td></tr>
+  <tr><td>translate("Top margin")</td><td><a href="?topmargin=">##topmargin## translate ("mm")</a></td></tr>
+  <tr><td>translate("Bottom margin")</td><td><a href="?bottommargin=">##bottommargin## translate ("mm")</a></td></tr>
+</table>
+<br>
+<p>
+<input type="checkbox" name="dateinheader" onchange="checkbox(this)" ##dateinheader## />
+translate("Display the current date in the running headers.")
+</p>
+<br>
+<p>
+  <input type="checkbox" name="odtsecure" onchange="checkbox(this)" ##odtsecure## />
+  translate("Secure the export with the password.")
+</p>
+<!-- #ENDZONE zip -->
+
+<h3>translate("Info document")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="info" onchange="checkbox(this)" ##info## /> translate("Generate during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?infonow=">translate("Generate now.")</a>
+</p>
+
+<h3>translate("e-Sword")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="esword" onchange="checkbox(this)" ##esword## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?eswordnow=">translate("Export now.")</a>
+</p>
+
+<h3>translate("Online Bible")</h3>
+<p>
+<!-- #BEGINZONE cloud -->
+<input type="checkbox" name="onlinebible" onchange="checkbox(this)" ##onlinebible## /> translate("Export during the night.")
+<!-- #ENDZONE cloud -->
+<a href="?onlinebiblenow=">translate("Export now.")</a>
+</p>
+<br>
+<p>
+translate("The exported file is suitable for the Online Bible module creation process.")
+translate("The help within the Online Bible provides more information about creating a module.")
+</p>
+
+<!-- #BEGINZONE cloud -->
+<h3>translate("Quick Bible")</h3>
+<p>
+<input type="checkbox" name="quickbible" onchange="checkbox(this)" ##quickbible## /> translate("Export during the night.")
+<a href="?quickbiblenow=">translate("Export now.")</a>
+</p>
+<!-- #ENDZONE cloud -->
+
+<br>
+<hr>
+
+<p>translate("The exports use the following stylesheet:") <a href="?sheet=">##stylesheet##</a>.</p>
+
+<br>
+
+<form action="exports" name="passwordform" method="post">
+  <p>
+    translate("Password to secure the exports:")
+    <input type="text" name="passwordentry" maxlength="256" value="##password##" />
+    <input type="submit" name="passwordsubmit" value="translate("Save")" />
+  </p>
+</form>
+
+<hr>
+
+<p>translate("The Bible Drop Box provides many additional export formats.")</a></p>
+<p>
+<!-- #BEGINZONE client -->
+  ##cloudlink##
+<!-- #ENDZONE client -->
+<!-- #BEGINZONE cloud -->
+  <a href="?bibledropboxnow=">translate("Submit the Bible to the Bible Drop Box now.")</a>
+<!-- #ENDZONE cloud -->
+</p>
+<p><a href="http://freely-given.org/Software/BibleDropBox">Visit the Bible Drop Box for more options.</a></p>
+
+<br>
+<hr>
+<script type="text/javascript" src="../assets/checkbox.js"></script>

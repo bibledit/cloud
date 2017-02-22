@@ -1,0 +1,29 @@
+<form style="border:1px #bbb solid;" action="create"  name="form" method="post">
+  <p>
+    translate("Create consultation note for")
+    ##passage##
+  </p>
+  <p>translate("Summary"):</p>
+  <p><input type="text" name="summary" maxlength="100" class="width100" value="##summary##"/></p>
+  <p>translate("Body"): </p>
+  <textarea name="contents" class="width100">##contents##</textarea>
+  <p>
+    <input type="submit" name="submit" value="translate("Save")" onClick="this.value = 'translate ("Please wait")'; return true;" />
+    <input type="submit" name="cancel" value="translate("Cancel")" />
+  </p>
+  <input type="hidden" name="bible" value="##bible##" />
+  <input type="hidden" name="book" value="##book##" />
+  <input type="hidden" name="chapter" value="##chapter##" />
+  <input type="hidden" name="verse" value="##verse##" />
+</form>
+<script src="/nicedit/nicedit.min.js?##VERSION##"></script>
+<script type="text/javascript">
+	bkLib.onDomLoaded (function () { nicEditors.allTextAreas () });
+  $ ("body").on ("paste", function (e) {
+    var data = e.originalEvent.clipboardData.getData ('Text');
+    e.preventDefault();
+    data = data.replace (/\n/g, "<br>");
+    document.execCommand ("insertHTML", false, data);
+  });
+  document.form.summary.focus();
+</script>

@@ -1,0 +1,55 @@
+This is a version of Bibledit that runs on all relevant platforms.
+
+The developer has ported Bibledit-Web, written in PHP, with minimal effort, to C++.
+
+A main reason was that PHP is not well suited to the mobile platforms like Android and in particular iOS.
+On iOS it was possible to compile stock PHP without errors, 
+but newer versions of PHP, like 5.6, crashed, 
+and older versions, like 5.4 left out symbols which crippled the library.
+When everything is written in C or in C++, it can be compiled for the mobile devices without problems.
+
+Another reason for switching to C++ is that when it runs on a server,
+it requires less server memory and places a lower demand on the CPU.
+And such a server is less expensive to rent.
+And for mobile platforms, the battery will last longer.
+According to one benchmark, PHP is 5461% slower than C++.
+
+Other developers and other companies also switch from PHP to C++ for 
+reasons of making it cross-platform and for going beyond what PHP can do.
+
+For mobile platforms it is easier to include all dependent libraries in source form.
+For example, include sqlite.h and sqlite.c to get SQLite support.
+
+Platform iOS needs static libraries so libbibledit.a needs to be a static library.
+
+The Bibledit library runs a webserver.
+
+Since Bibledit is going to run as a server, it may run for years without interruption.
+Therefore it is imperative that it leaks no memory at all.
+Keep it valgrind clean.
+Later on, Bibledit was modified, so it runs for 24 hours as a server, then restarts itself.
+
+An important reason for moving from a LAMP stack to a self-contained Bibledit
+version written in C++ is this: A LAMP stack has many option to run
+shell commands and has options for security holes.
+The self-contained version is offers hardly any options for security holes.
+Thus the server is expected to be more secure.
+
+Libgit2 is working in a way, but when compiling it as a static library, with thread-safety on,
+it appears to crash. This was observed with version 0.21.5.
+For the above reason, Bibledit does not yet use libgit2.
+It uses shell calls to git instead.
+
+Supported web browsers: Chrome, Firefox, Internet Explorer, Safari, Opera, Edge.
+
+Developer design guidelines for Bibledit on mobile devices.
+If the navigation buttons at the top are small, they are difficult to manage. Small buttons may take many tries before getting them to work. One could expand the display, but then, that puts a lot of the user interface outside the screen limits.
+Therefore the navigation buttons at the top should be large enough to be easily operated by touch.
+Bibledit on mobile devices should be very simple and intuitive to operate for beginners and in fact, for anyone.
+Non-sosphisticated computer users are best served by software that is built to conform to their minimalist needs. So it needs to do one or two or maybe three things the user values. Those things need to be interrelated in ways that make good sense to the users, and are necessary elements of processes that solve just one clear overall task.
+A developer should design an interface around that task, and makes the functionalities intuitive and easy to apply.
+Nothing goes into the software that is not an important aspect of solving that task. Then the nuts and bolts under the hood are put in place to make the gui effective for the user.
+Ideally Bibledit should have a dynamic adjustable GUI, large clear buttons, and adjunct functionality that could be brought into play on an as-needed basis (concordance, helps, interlinears, Bibles), and to cull those adjunct resources to the bare minimum. Too much overwhelms non-sophisticated users.
+A major part of the work of developers is about satisfying the needs of people, who need good software to get their work done.
+For people new to computers, good software is not complex software. It's not a lot of things. It's simple. The software should do what the users need with a minimum of fuss, and with an easy learning curve.
+

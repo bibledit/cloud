@@ -1,0 +1,15 @@
+<h3>translate("Book order")</h3>
+<p>translate("Bible"): <a href="settings?bible=##bible##">##bible##</a></p>
+<br>
+<p>
+  translate("Click to move books to another location to update the order of the books in this Bible.")
+  <a href="?bible=##bible##&reset=">translate("Reset order.")</a>
+</p>
+<br>
+<!-- #BEGINITERATION order -->
+<p>
+<a href="?bible=##bible##&moveup=##offset##">##uparrow##</a>
+<a href="?bible=##bible##&movedown=##offset##">##downarrow##</a>
+##bookname##
+</p>
+<!-- #ENDITERATION order -->

@@ -1,0 +1,31 @@
+<h1>translate("Hyphenation")</h1>
+<p>translate("Hyphenation can be used when preparing a Bible for printing.")</p>
+<p>translate("It allows for more efficient usage of paper, and for more regular appearance of margins at the end of the lines without requiring spacing adjustments.")</p>
+<p>translate("The details of hyphenating properly are complex and dependent on the language, and can interact with other orthographic and typesetting practices.")</p>
+<p>translate("Hyphenation may not be so important when preparing a Bible for proofreading. It is usually regarded important for production quality Bibles.")</p>
+<br>
+<p>translate("When preparing a Bible in LibreOffice, OpenOffice, AbiWord, en so on, the wordprocessor itself provides hyphenation algorithms for many languages.")</p>
+<p>translate("If no suitable hyphenation algorithm can be used, perhaps Bibledit can assist to a limited degree.")</p>
+<br>
+<p>translate("Bibledit can take the data from a Bible, insert soft hyphens in the words according to a certain algorithm, and then save this data as a new Bible.")</p>
+<p>translate("This new Bible can then be exported to OpenDocument format, and opened in a wordprocessor.")</p>
+<p>translate("The wordprocessor sees these soft hyphens. When a soft hyphen occurs near the end of the line, it breaks the word there.")</p>
+<br>
+<p>translate("Bibledit has one hyphenating algorithm. When there is a transition in the text from any character of a first set of characters, to any character of a second set of characters, then the soft hyphen will be inserted at that location in the text.")</p>
+<br>
+<a name="sets"></a>
+<form action="hyphenation#sets" method="post">
+<p>translate("First set of characters"):</p>
+<p><input type="text" name="firstset" value="##firstset##" class="width100" /></p>
+<p>translate("Second set of characters"):</p>
+<p><input type="text" name="secondset" value="##secondset##" class="width100" /></p>
+<p>translate("Enter the sets of characters, and press Save.")</p>
+<p><input type="submit" name="sets" value=translate("Save") /></p>
+</form>
+<br>
+<p>translate("The Bible where the data will be taken from is:") <a href="?bible=">##bible##</a></p>
+<p>translate("The Bible where the hyphenated data will be written to is:") ##bible##-hyphenated</p>
+<br>
+<p><a href="?run=">translate("Insert the soft hyphens according to the settings.")</a></p>
+<p class="error">##error##</p>
+<p class="success">##success##</p>

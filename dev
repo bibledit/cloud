@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Run this script to sync all files to a temporary location.
+# Then run bibledit in that location.
+# This ensures that no databases are being created in the source tree.
+watch -n 1 "rsync -a --exclude=libbibledit.a . /tmp/bibledit-dev"

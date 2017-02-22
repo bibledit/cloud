@@ -1,0 +1,142 @@
+<h2>translate("Notifications")</h2>
+
+<!-- #BEGINZONE client -->
+<p>##url##</p>
+<!-- #ENDZONE client -->
+
+<!-- #BEGINZONE server -->
+
+<h3>translate("Consultation Notes")</h3>
+
+<p>
+<input type="checkbox" name="editednotessubscription" onchange="checkbox(this)" ##editednotessubscription## />
+translate("Subscribe to a consultation note you created or edited online or by email.")
+</p>
+
+<p>
+<input type="checkbox" name="anynotessubscription" onchange="checkbox(this)" ##anynotessubscription## />
+translate("Subscribe to a consultation note created or edited by anybody online or by email.")
+</p>
+
+<p>
+<input type="checkbox" name="emailconfirmationyourposts" onchange="checkbox(this)" ##emailconfirmationyourposts## />
+translate("Receive email confirmation of your posts to a consultation notes done by email.")
+</p>
+
+<p>
+<input type="checkbox" name="subscribednotenotification" onchange="checkbox(this)" ##subscribednotenotification## />
+translate("Receive email about changes in a consultation note you are subscribed to.")
+</p>
+
+<p>
+<input type="checkbox" name="notesassignment" onchange="checkbox(this)" ##notesassignment## />
+translate("A consultation note that get changed will be assigned to you.")
+</p>
+
+<p>
+<input type="checkbox" name="assignednotenotification" onchange="checkbox(this)" ##assignednotenotification## />
+translate("Receive email about changes in a consultation note assigned to you.")
+</p>
+
+<p>
+<input type="checkbox" name="suppressemailsfromnotesyouupdated" onchange="checkbox(this)" ##suppressemailsfromnotesyouupdated## />
+translate("Suppress receiving email from an updated consultation note in case the update was made by you.")
+</p>
+
+<p>
+<input type="checkbox" name="assignednotesnotification" onchange="checkbox(this)" ##assignednotesnotification## />
+translate("Receive daily mail with the number of consultation notes assigned to you.")
+</p>
+
+<p>
+<input type="checkbox" name="subscribednotesnotification" onchange="checkbox(this)" ##subscribednotesnotification## />
+translate("Receive daily mail with the number of consultation notes you are subscribed to.")
+</p>
+
+<p>
+<input type="checkbox" name="deletednotenotification" onchange="checkbox(this)" ##deletednotenotification## />
+translate("Receive email about a deleted consultation note.")
+</p>
+
+<p>
+<input type="checkbox" name="postponenewnotesmails" onchange="checkbox(this)" ##postponenewnotesmails## />
+translate("Emails that would normally be sent right after you have created a consultation note, delay them till the evening.")
+translate("This setting may be useful in the following scenario:")
+translate("Each time you create a new note, the other members of the team get interrupted by your email.")
+translate("This happens many times a day.")
+translate("You don't want these interruptions, but the team members need to get your email eventually.")
+translate("Tick this setting, and you're done.")
+</p>
+
+<h3>translate("Change Notifications")</h3>
+
+<!-- #BEGINZONE writebible -->
+<p>
+<input type="checkbox" name="mychangesemailnotifications" onchange="checkbox(this)" ##mychangesemailnotifications## />
+translate("Receive daily mail with the changes in the Bible made by you.")
+</p>
+<!-- #ENDZONE writebible -->
+
+<!-- #BEGINZONE readbible -->
+<p>
+<input type="checkbox" name="anyonechangesemailnotification" onchange="checkbox(this)" ##anyonechangesemailnotification## />
+translate("Receive daily mail with the changes in the Bible made by anyone.")
+</p>
+<!-- #ENDZONE readbible -->
+
+<!-- #BEGINZONE consultant -->
+<p>
+<input type="checkbox" name="anyonechangesonlinenotifications" onchange="checkbox(this)" ##anyonechangesonlinenotifications## />
+<a href="../changes/changes">translate("Notifications about changes in the Bible made by anyone will be generated for you online.")</a>
+</p>
+
+<p>
+<input type="checkbox" name="mychangesonlinenotifications" onchange="checkbox(this)" ##mychangesonlinenotifications## />
+<a href="../changes/changes">translate("Notifications about changes in the Bible made by you will be generated for you online.")</a>
+</p>
+
+<p>
+<input type="checkbox" name="contributorschangesonlinenotifications" onchange="checkbox(this)" ##contributorschangesonlinenotifications## />
+<a href="../changes/changes">translate("Notifications about changes in the Bible made by the individual contributors will be generated for you online.")</a>
+</p>
+
+<p>
+<input type="checkbox" name="pendingchangenotifications" onchange="checkbox(this)" ##pendingchangenotifications## />
+translate("Receive daily mail with the number of online change notifications awaiting your attention.")
+</p>
+<!-- #ENDZONE consultant -->
+
+<!-- #BEGINZONE consultant -->
+<h3>translate("Text Checks")</h3>
+
+<p>
+<input type="checkbox" name="biblechecksnotification" onchange="checkbox(this)" ##biblechecksnotification## />
+translate("Receive daily mail with results of checks on the text of the Bibles.")
+</p>
+
+<h3>translate("Team work")</h3>
+
+<p>
+<input type="checkbox" name="sprintprogressnotification" onchange="checkbox(this)" ##sprintprogressnotification## />
+<a href="../sprint/index">translate("Receive weekly mail about the team's progress during the course of the sprint.")</a>
+</p>
+<!-- #ENDZONE consultant -->
+
+<!-- #ENDZONE server -->
+
+<!-- #BEGINZONE server -->
+
+<h3>translate("Software updates")</h3>
+<p>
+<input type="checkbox" name="yoursoftware" onchange="checkbox(this)" ##yoursoftware## />
+translate("Receive mail when updated software is available for the platform your client runs on.")
+</p>
+<p>
+<input type="checkbox" name="allsoftware" onchange="checkbox(this)" ##allsoftware## />
+translate("Receive mail when updated software is available for any platform.")
+</p>
+
+<!-- #ENDZONE server -->
+
+<br>
+<script type="text/javascript" src="../assets/checkbox.js"></script>

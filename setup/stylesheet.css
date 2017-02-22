@@ -1,0 +1,255 @@
+/*
+ Copyright (©) 2003-2016 Teus Benschop.
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+html {
+  background: #F9F9F9;
+}
+body {
+  margin: 2em auto;
+  padding: 1em 2em;
+  max-width: 700px;
+  border: 1px solid #DFDFDF;
+  border-radius: 3px;
+  background: #FFF;
+  color: #333;
+  font-family: sans-serif;
+}
+h1 {
+  clear: both;
+  margin: 30px 0 0 0;
+  padding: 0;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #DADADA;
+  color: #666;
+  font: 24px Georgia, "Times New Roman", Times, serif;
+}
+#error-page {
+  margin-top: 50px;
+}
+#error-page p {
+  margin: 25px 0 20px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+#error-page code {
+  font-family: Consolas, Monaco, monospace;
+}
+ul li {
+  margin-bottom: 10px;
+  font-size: 14px ;
+}
+a {
+  color: #21759B;
+  text-decoration: none;
+}
+a:hover {
+  color: #D54E21;
+}
+.button {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 10px 1px;
+  height: 24px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #BBB;
+  border-radius: 3px;
+  background: #F3F3F3;
+  color: #333;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #FFF;
+  white-space: nowrap;
+  font-size: 14px;
+  line-height: 23px;
+  cursor: pointer;
+}
+.button.button-large {
+  padding: 0 12px;
+  height: 29px;
+  line-height: 28px;
+}
+.button:hover,
+.button:focus {
+  border-color: #999;
+  background: #F3F3F3;
+  color: #222;
+}
+.button:focus {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+.button:active {
+  outline: none;
+  border-color: #999;
+  background: #EEE;
+  box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+  color: #333;
+  text-shadow: 0 -1px 0 #FFF;
+}
+.step {
+  margin: 20px 0 15px;
+}
+.step,
+th {
+  padding: 0;
+  text-align: left;
+}
+.step .button-large {
+  font-size: 14px;
+}
+textarea {
+  width: 695px;
+  height: 600px;
+  border: 1px solid #DFDFDF;
+  border-radius: 3px;
+  font-family: sans-serif;
+}
+.form-table {
+  margin-top: 1em;
+  width: 100%;
+  border-collapse: collapse;
+}
+.form-table td {
+  margin-bottom: 9px;
+  padding: 10px 20px 10px 0;
+  border-bottom: 8px solid #FFF;
+  vertical-align: top;
+  font-size: 14px;
+}
+.form-table th {
+  padding: 16px 20px 10px 0;
+  width: 140px;
+  border-bottom: 8px solid #FFF;
+  vertical-align: top;
+  text-align: left;
+  font-size: 14px;
+}
+.form-table code {
+  font-size: 14px;
+  line-height: 18px;
+}
+.form-table p {
+  margin: 4px 0 0 0;
+  font-size: 11px;
+}
+.form-table input {
+  padding: 2px;
+  border: 1px #DFDFDF solid;
+  border-radius: 3px;
+  font-size: 15px;
+  font-family: sans-serif;
+  line-height: 20px;
+}
+.form-table input[type=text],
+.form-table input[type=password] {
+  width: 206px;
+}
+.form-table th p {
+  font-weight: normal;
+}
+.form-table.install-success td {
+  padding: 16px 20px 10px 0;
+  vertical-align: middle;
+}
+.form-table.install-success td p {
+  margin: 0;
+  font-size: 14px;
+}
+.form-table.install-success td code {
+  margin: 0;
+  font-size: 18px;
+}
+#error-page {
+  margin-top: 50px;
+}
+#error-page p {
+  margin: 25px 0 20px;
+  font-size: 14px;
+  line-height: 18px;
+}
+#error-page code,
+.code {
+  font-family: Consolas, Monaco, monospace;
+}
+#pass-strength-result {
+  display: none;
+  margin: 5px 5px 5px 0;
+  padding: 5px;
+  width: 200px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #DDD !important;
+  background-color: #EEE;
+  text-align: center;
+}
+#pass-strength-result.bad {
+  border-color: #FF853C !important;
+  background-color: #FFB78C;
+}
+#pass-strength-result.good {
+  border-color: #FC0 !important;
+  background-color: #FFEC8B;
+}
+#pass-strength-result.short {
+  border-color: #F04040 !important;
+  background-color: #FFA0A0;
+}
+#pass-strength-result.strong {
+  border-color: #8DFF1C !important;
+  background-color: #C3FF88;
+}
+.message {
+  margin: 5px 0 15px;
+  padding: 0.5em 0.7em;
+  border: 1px solid #C00;
+  border-radius: 3px;
+  background-color: #FFEBE8;
+}
+/* install-rtl */
+body.rtl {
+  font-family: Tahoma, arial;
+}
+.rtl h1 {
+  margin: 5px -4px 0 0;
+  font-family: arial;
+}
+.rtl ul,
+.rtl ol {
+  padding: 5px 22px 5px 5px;
+}
+.rtl .step,
+.rtl th,
+.rtl .form-table th {
+  text-align: right;
+}
+.rtl .submit input,
+.rtl .button,
+.rtl .button-secondary {
+  margin-right: 0;
+}
+.rtl #dbname,
+.rtl #uname,
+.rtl #pwd,
+.rtl #dbhost,
+.rtl #prefix,
+.rtl #user_login,
+.rtl #admin_email,
+.rtl #pass1,
+.rtl #pass2 {
+  direction: ltr;
+}

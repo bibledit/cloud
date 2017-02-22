@@ -1,0 +1,20 @@
+<h3>translate("Repository setup")</h3>
+<p>translate("Bible"): ##object##</p>
+<br>
+<p>translate("Please enter the URL for your repository below, and press the Submit button to save it.")</p>
+<form action="?object=##object##" name="url" method="post">
+  <p><input type="text" name="urlvalue" value="##url##" class="width100" /></p>
+  <p><input type="submit" name="url" value=translate("Submit") /></p>
+</form>
+<br>
+<p><a href="direction?object=##object##">translate("Next page")</a></p>
+<br>
+<p>translate("Example URLs:")</p>
+<p>
+<ul>
+  <li>translate("Flash Drive"): file:///media/usbstick/repository</li>
+  <li>translate("Open Network Repository"): git://192.168.0.1/repository</li>
+  <li>translate("Password Protected Network Repository"): https://username:password@github.com/joe/repo.git</li>
+  <li>translate("Secured Network Repository"): ssh://username@git.code.sf.net/p/repo/code</li>
+</ul>
+</p>

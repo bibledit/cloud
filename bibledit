@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# What to put into the crontab.
+SIGNATURE="@reboot cd `pwd`; ./bibledit & # bibleditcrontab "
+
+# Get current crontab contents.
+crontab -l 2>&1 > crontab1.txt
+
+# Remove signature.
+sed "/bibleditcrontab/d" crontab1.txt > crontab2.txt
+
+# Remove empty lines.
+sed '/^$/d' crontab2.txt > crontab3.txt
+
+# Add signature.
+echo "$SIGNATURE" >> crontab3.txt
+
+# Save.
+crontab crontab3.txt
+
+# Cleanup.
+rm crontab1.txt crontab2.txt crontab3.txt
+
+# Keep running Bibledit Cloud even if it crashes.
+# Rename the server binary and then run it.
+# This is for easier in-place upgrades.
+while true
+do
+  if [ -f server ]
+  then
+    mv -f server bibleditserver
+  fi
+  ./bibleditserver
+  sleep 0.1
+done

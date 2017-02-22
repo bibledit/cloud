@@ -1,0 +1,64 @@
+<h3>translate("Import")</h3>
+<p class="success">##success_message##</p>
+<p class="error">##error_message##</p>
+<p>
+translate("Bible"): <a href="settings?bible=##bible##">##bible##</a>
+|
+<a href="/journal/index">translate("Journal")</a>
+</p>
+<p>
+translate("Import Bible text.")
+translate("Paste the text into the box below and submit it.")
+</p>
+<form action="?bible=##bible##" id="form" name="form" method="post">
+  <p><textarea name="data" id="data"></textarea></p>
+  <p><input type="submit" name="submit" value=translate("Submit") /></p>
+</form>
+<br>
+<p>
+translate("You can also upload a file with the text.")
+translate("Or a compressed archive of such files.")
+</p>
+<!-- #BEGINZONE enable_upload -->
+<form enctype="multipart/form-data" action="?bible=##bible##" method="POST">
+  <input name="data" type="file" />
+  <input type="submit" name="upload" value="translate("Upload")" />
+</form>
+<p>translate("The upload may take some time.")</p>
+<!-- #ENDZONE enable_upload -->
+<!-- #BEGINZONE disable_upload -->
+<p>translate("This can be done in Bibledit Cloud.")</p>
+<!-- #ENDZONE disable_upload -->
+<script type="text/javascript" src="import.js?##VERSION##"></script>
+<script type="text/javascript" src="/filter/url.js?##VERSION##"></script>
+<h3>translate("Help")</h3>
+<p>
+translate("This page helps with importing Bible text.")
+translate("It recognizes two types of text.")
+</p>
+<br>
+<p>
+1.
+translate("It recognizes Unified Standard Format Markers text.")
+<a href="https://ubsicap.github.io/usfm">translate("More information about that.")</a>
+translate("Bibledit recognizes books through the \id markup and chapters through the \c markup.")
+</p>
+<br>
+<p>
+2.
+translate("It also recognizes plain text.")
+translate("It does that one chapter at a time.")
+translate("It imports the text into the book and chapter indicated by the passage navigator at the top of the window.")
+translate("It considers numbers at the start of a line of text to be verse numbers.")
+translate("It does not discover verse numbers somewhere else in the text.")
+translate("After importing some text, it is recommended to run the checks on it.")
+</p>
+<br>
+<p>
+translate("An imported chapter overwrites the chapter already in the Bible.")
+translate("If you import for example Genesis chapter 1, it will overwrite Genesis 1 if that chapter already was in the Bible.")
+translate("It will not overwrite anything else.")
+translate("If Genesis 1 was not yet there, it will be created.")
+translate("You can import one chapter, or several chapters, or one book, or several books, all in one go.")
+translate("The text to be imported should be in Unicode UTF-8 format.")
+</p>

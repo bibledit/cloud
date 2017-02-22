@@ -1,0 +1,30 @@
+<p class="success">##success##</p>
+<p class="error">##error##</p>
+
+<h3>translate("Indexing")</h3>
+<p>
+  translate("Bibledit uses indexes for fast lookup.")
+  translate("Normally the indexes are refreshed automatically.")
+  translate("When the Journal indicates unusual behaviour of an index, or errors, it needs to be recreated.")
+</p>
+<p><a href="?reindex=bibles">translate("Recreate Bibles index.")</a></p>
+<p><a href="?reindex=notes">translate("Recreate Consultation Notes index.")</a></p>
+<br>
+<h3>translate("Fonts")</h3>
+<p>translate("The following fonts are available in Bibledit:")</p>
+<br>
+##fontsblock##
+<br>
+<!-- #BEGINZONE client -->
+<p>
+  translate("You can add or remove fonts in Bibledit Cloud:")
+  ##cloudlink##
+</p>
+<!-- #ENDZONE client -->
+<!-- #BEGINZONE server -->
+<p>translate("You can upload a new font.")</p>
+<form enctype="multipart/form-data" action="index" method="POST">
+  <input name="fontdata" type="file" />
+  <input type="submit" name="uploadfont" value="translate("Upload")" />
+</form>
+<!-- #ENDZONE server -->

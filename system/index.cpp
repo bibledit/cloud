@@ -95,6 +95,11 @@ string system_index (void * webserver_request)
   
   Assets_View view;
 
+
+  // Get values for setting checkboxes.
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+
   
   // Set the language on the page.
   string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
@@ -164,6 +169,16 @@ string system_index (void * webserver_request)
   }
   view.set_variable ("rsscount", convert_to_string (Database_Config_General::getMaxRssFeedItems ()));
   view.set_variable ("rssfeed", "/" + rss_feed_url ());
+#endif
+
+  
+#ifdef HAVE_CLOUD
+  // Whether to include the author with every change in the RSS feed.
+  if (checkbox == "rssauthor") {
+    Database_Config_General::setAuthorInRssFeed (checked);
+    return "";
+  }
+  view.set_variable ("rssauthor", get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
 #endif
 
   

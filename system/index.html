@@ -28,8 +28,15 @@ translate("The timezone for Bibledit as an offset from Coordinated Universal Tim
 <h3>translate("RSS feed")</h3>
 <p>
 <a href="##rssfeed##" target="_blank">translate("RSS feed for the recent changes in the text of the Bible.")</a>
+</p>
+<p>
 translate("Maximum number of changes it feeds:")
 <a href="?rsscount=">##rsscount##</a>.
 translate ("To switch the feed off, set the number of changes to zero.")
 </p>
+<p>
+<input type="checkbox" name="rssauthor" onchange="checkbox(this)" ##rssauthor## />
+translate("Include the author in the RSS feed.")
+</p>
 <!-- #ENDZONE cloud -->
+<script type="text/javascript" src="../assets/checkbox.js"></script>

@@ -441,3 +441,13 @@ void Database_Config_General::setMaxRssFeedItems (int value)
 {
   setIValue ("max-rss-feed-items", value);
 }
+
+
+bool Database_Config_General::getAuthorInRssFeed ()
+{
+  return getBValue ("author-in-rss-feed", false);
+}
+void Database_Config_General::setAuthorInRssFeed (bool value)
+{
+  setBValue ("author-in-rss-feed", value);
+}

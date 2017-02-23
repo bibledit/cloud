@@ -76,6 +76,13 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   // Mould the USFM back into its original format with new lines.
   oldusfm = filter_string_str_replace (rss_logic_new_line (), "\n", oldusfm);
   newusfm = filter_string_str_replace (rss_logic_new_line (), "\n", newusfm);
+
+  // Whether to include the author in the RSS feed.
+  // For security reasons this can be set off.
+  // This way the author does not get exposed,
+  // and no information is revealed that facilitates a brute-force login attack.
+  bool include_author = Database_Config_General::getAuthorInRssFeed ();
+  if (!include_author) user.clear ();
   
   // Storage for the feed update.
   vector <string> titles, authors, descriptions;
@@ -170,9 +177,12 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     xml_node guid_node = item.append_child ("guid");
     guid_node.append_attribute ("isPermaLink") = "false";
     guid_node.text () = guid2.c_str();
-    item.append_child ("title").text () = titles [i].c_str();
-    string author = authors[i] + "@site.org (" + authors[i] + ")";
-    item.append_child ("author").text () = author.c_str();
+    // Many readers do not display the 'author' field.
+    // To cater for those readers, the author gets included with the title.
+    if (!authors[i].empty ()) titles [i].append (" " + authors[i]);
+    item.append_child ("title").text () = titles[i].c_str();
+    if (!authors[i].empty ()) authors[i].append ("@site.org (" + authors[i] + ")");
+    item.append_child ("author").text () = authors[i].c_str();
     item.append_child ("pubDate").text () = rfc822time.c_str();
     item.append_child ("description").text () = descriptions [i].c_str();
     document_updated = true;

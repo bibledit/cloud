@@ -586,14 +586,14 @@
 		CAA4CF7F1A45A647003ABA25 /* bootstrap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bootstrap.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CF801A45A647003ABA25 /* bootstrap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bootstrap.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CFAD1A45A647003ABA25 /* logic.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = logic.js; sourceTree = "<group>"; };
-		CAA4CFB41A45A647003ABA25 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = compile; path = ../compile; sourceTree = "<group>"; };
+		CAA4CFB41A45A647003ABA25 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = compile; path = compile; sourceTree = "<group>"; };
 		CAA4CFBB1A45A647003ABA25 /* globals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = globals.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4CFBC1A45A647003ABA25 /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = globals.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CFBE1A45A647003ABA25 /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = libraries.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4CFBF1A45A647003ABA25 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAA4CFC01A45A647003ABA25 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAA4CFC31A45A647003ABA25 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = config.h; path = ../config.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CAA4CFC81A45A647003ABA25 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = configure.ac; path = ../configure.ac; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAA4CFC31A45A647003ABA25 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = config.h; path = config.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CAA4CFC81A45A647003ABA25 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = configure.ac; path = configure.ac; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4CFCE1A45A647003ABA25 /* worker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = worker.cpp; sourceTree = "<group>"; };
 		CAA4CFCF1A45A647003ABA25 /* worker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = worker.h; sourceTree = "<group>"; };
 		CAA4CFD11A45A647003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
@@ -669,8 +669,8 @@
 		CAA4D0601A45A647003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D0621A45A647003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D0641A45A647003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D0681A45A647003ABA25 /* dev */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = dev; path = ../dev; sourceTree = "<group>"; };
-		CAA4D0691A45A647003ABA25 /* DEVELOP */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = DEVELOP; path = ../DEVELOP; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAA4D0681A45A647003ABA25 /* dev */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = dev; path = dev; sourceTree = "<group>"; };
+		CAA4D0691A45A647003ABA25 /* DEVELOP */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = DEVELOP; path = DEVELOP; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D0731A45A647003ABA25 /* entry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = entry.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D0741A45A647003ABA25 /* entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = entry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAA4D0751A45A647003ABA25 /* entry.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = entry.html; sourceTree = "<group>"; };
@@ -755,7 +755,7 @@
 		CAA4D1C51A45A648003ABA25 /* translate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = translate.cpp; sourceTree = "<group>"; };
 		CAA4D1C61A45A648003ABA25 /* translate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = translate.h; sourceTree = "<group>"; };
 		CAA4D1CD1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D1CF1A45A648003ABA25 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = Makefile.am; path = ../Makefile.am; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAA4D1CF1A45A648003ABA25 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = Makefile.am; path = Makefile.am; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D1DB1A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D1DC1A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1DD1A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -784,7 +784,7 @@
 		CAA4D2A21A45A648003ABA25 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		CAA4D2A31A45A648003ABA25 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		CAA4D2A81A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D2B71A45A648003ABA25 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; name = reconfigure; path = ../reconfigure; sourceTree = "<group>"; };
+		CAA4D2B71A45A648003ABA25 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; name = reconfigure; path = reconfigure; sourceTree = "<group>"; };
 		CAA4D2C41A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA4D2FB1A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA4D2FD1A45A648003ABA25 /* originals.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = originals.js; sourceTree = "<group>"; };
@@ -848,7 +848,7 @@
 		CAA4D4571A45A648003ABA25 /* unchecked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unchecked.h; sourceTree = "<group>"; };
 		CAA4D4581A45A648003ABA25 /* utf8.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
 		CAA4D4591A45A648003ABA25 /* utf8cpp.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = utf8cpp.html; sourceTree = "<group>"; };
-		CAA4D45A1A45A648003ABA25 /* valgrind */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = valgrind; path = ../valgrind; sourceTree = "<group>"; };
+		CAA4D45A1A45A648003ABA25 /* valgrind */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = valgrind; path = valgrind; sourceTree = "<group>"; };
 		CAA4D4661A45A649003ABA25 /* lens.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lens.png; sourceTree = "<group>"; };
 		CAA4D4711A45A649003ABA25 /* http.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = http.cpp; sourceTree = "<group>"; };
 		CAA4D4721A45A649003ABA25 /* http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
@@ -859,7 +859,7 @@
 		CAA4D4771A45A649003ABA25 /* webserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = webserver.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D4781A45A649003ABA25 /* webserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = webserver.h; sourceTree = "<group>"; };
 		CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = bibledit.xcodeproj; sourceTree = "<group>"; };
-		CAA4D4A11A45FC70003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = TODO; path = ../../../TODO; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAA4D4A11A45FC70003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = TODO; path = ../TODO; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D4A31A460861003ABA25 /* indexm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexm.html; sourceTree = "<group>"; };
 		CAA4D4A41A460861003ABA25 /* indext.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indext.html; sourceTree = "<group>"; };
 		CAA4D4A51A460861003ABA25 /* sheetm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sheetm.html; sourceTree = "<group>"; };
@@ -1188,7 +1188,7 @@
 		CAD1D0341B7DEAC400AEDA70 /* strong.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strong.h; sourceTree = "<group>"; };
 		CAD1D03E1B7E5B6000AEDA70 /* definition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = definition.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAD1D03F1B7E5B6000AEDA70 /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = definition.h; sourceTree = "<group>"; };
-		CAD410D51A6DA1AC00088E26 /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bibledit; path = ../bibledit; sourceTree = "<group>"; };
+		CAD410D51A6DA1AC00088E26 /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bibledit; path = bibledit; sourceTree = "<group>"; };
 		CAD443251AC95A840005B8F6 /* exports.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = exports.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAD443261AC95A840005B8F6 /* exports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = exports.h; sourceTree = "<group>"; };
 		CAD443271AC95BC60005B8F6 /* esword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = esword.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1363,7 +1363,7 @@
 				CA1014121DB26A22009FE31F /* settings.html */,
 			);
 			name = workspace;
-			path = ../workspace;
+			path = workspace;
 			sourceTree = "<group>";
 		};
 		CA1240221A55D6BB002C4752 /* dtl */ = {
@@ -1383,7 +1383,7 @@
 				CA12402E1A55D6BB002C4752 /* variables.hpp */,
 			);
 			name = dtl;
-			path = ../dtl;
+			path = dtl;
 			sourceTree = "<group>";
 		};
 		CA1CC9C51E20ECF500EC3B64 /* editold */ = {
@@ -1403,7 +1403,7 @@
 				CA1CC9CD1E20FAF700EC3B64 /* save.h */,
 			);
 			name = editold;
-			path = ../editold;
+			path = editold;
 			sourceTree = "<group>";
 		};
 		CA2F06D91AE568E2008B8BDB /* editone */ = {
@@ -1423,7 +1423,7 @@
 				CA8F23C11B7B44EE00E3719F /* verse.h */,
 			);
 			name = editone;
-			path = ../editone;
+			path = editone;
 			sourceTree = "<group>";
 		};
 		CA4077461BB0321F000D2712 /* sword */ = {
@@ -1434,7 +1434,7 @@
 				CA4077471BB0321F000D2712 /* dev.txt */,
 			);
 			name = sword;
-			path = ../sword;
+			path = sword;
 			sourceTree = "<group>";
 		};
 		CA4E47F31AB875C30021C61E /* statistics */ = {
@@ -1445,7 +1445,7 @@
 				CA4E47F61AB875C30021C61E /* statistics.o */,
 			);
 			name = statistics;
-			path = ../statistics;
+			path = statistics;
 			sourceTree = "<group>";
 		};
 		CA5856E11A7BE373002BB283 /* client */ = {
@@ -1458,7 +1458,7 @@
 				CA5856E61A7BE374002BB283 /* logic.h */,
 			);
 			name = client;
-			path = ../client;
+			path = client;
 			sourceTree = "<group>";
 		};
 		CA607B641D3FF41500FC5792 /* related */ = {
@@ -1471,7 +1471,7 @@
 				CA607B671D3FF41500FC5792 /* ot-quotations-in-nt.xml */,
 			);
 			name = related;
-			path = ../related;
+			path = related;
 			sourceTree = "<group>";
 		};
 		CA816D821B64047400FD276E /* personalize */ = {
@@ -1483,7 +1483,7 @@
 				CA14EFBC1C4A757D0031BBC7 /* index.js */,
 			);
 			name = personalize;
-			path = ../personalize;
+			path = personalize;
 			sourceTree = "<group>";
 		};
 		CA8AABAF1B2C157E00FCAC51 /* paratext */ = {
@@ -1496,7 +1496,7 @@
 				CA8AABB91B2C157E00FCAC51 /* logic.h */,
 			);
 			name = paratext;
-			path = ../paratext;
+			path = paratext;
 			sourceTree = "<group>";
 		};
 		CA8CF04D1B7CDC1700D07FCE /* lexicon */ = {
@@ -1508,7 +1508,7 @@
 				CA8CF0511B7CDC1700D07FCE /* logic.h */,
 			);
 			name = lexicon;
-			path = ../lexicon;
+			path = lexicon;
 			sourceTree = "<group>";
 		};
 		CA9232531BF0CC8400060FDC /* utf8proc */ = {
@@ -1521,7 +1521,7 @@
 				CA9232581BF0CC8400060FDC /* utf8proc_data.c */,
 			);
 			name = utf8proc;
-			path = ../utf8proc;
+			path = utf8proc;
 			sourceTree = "<group>";
 		};
 		CA97857A1BD24A0600E13388 /* livetest */ = {
@@ -1533,7 +1533,7 @@
 				CA97857D1BD24AAA00E13388 /* paths.sh */,
 			);
 			name = livetest;
-			path = ../livetest;
+			path = livetest;
 			sourceTree = "<group>";
 		};
 		CA9B226B1DA01A6200725C04 /* system */ = {
@@ -1544,7 +1544,7 @@
 				CA9B22791DA0212200725C04 /* index.html */,
 			);
 			name = system;
-			path = ../system;
+			path = system;
 			sourceTree = "<group>";
 		};
 		CAA4CEF51A45A647003ABA25 /* access */ = {
@@ -1558,7 +1558,7 @@
 				CAA4CEFE1A45A647003ABA25 /* user.h */,
 			);
 			name = access;
-			path = ../access;
+			path = access;
 			sourceTree = "<group>";
 		};
 		CAA4CF2F1A45A647003ABA25 /* assets */ = {
@@ -1585,7 +1585,7 @@
 				CAA4CF491A45A647003ABA25 /* xhtml_start.html */,
 			);
 			name = assets;
-			path = ../assets;
+			path = assets;
 			sourceTree = "<group>";
 		};
 		CAA4CF571A45A647003ABA25 /* bible */ = {
@@ -1625,7 +1625,7 @@
 				CA3925461A51E2C7009302B8 /* settings.html */,
 			);
 			name = bible;
-			path = ../bible;
+			path = bible;
 			sourceTree = "<group>";
 		};
 		CAA4CF741A45A647003ABA25 /* bibles */ = {
@@ -1634,7 +1634,7 @@
 				CAA4CF751A45A647003ABA25 /* gitflag */,
 			);
 			name = bibles;
-			path = ../bibles;
+			path = bibles;
 			sourceTree = "<group>";
 		};
 		CAA4CF761A45A647003ABA25 /* book */ = {
@@ -1646,7 +1646,7 @@
 				CAA4CF781A45A647003ABA25 /* create.cpp */,
 			);
 			name = book;
-			path = ../book;
+			path = book;
 			sourceTree = "<group>";
 		};
 		CAA4CF7A1A45A647003ABA25 /* bootstrap */ = {
@@ -1656,7 +1656,7 @@
 				CAA4CF801A45A647003ABA25 /* bootstrap.h */,
 			);
 			name = bootstrap;
-			path = ../bootstrap;
+			path = bootstrap;
 			sourceTree = "<group>";
 		};
 		CAA4CF861A45A647003ABA25 /* changes */ = {
@@ -1681,7 +1681,7 @@
 				CA72B6A01DB7913A00135808 /* statistics.html */,
 			);
 			name = changes;
-			path = ../changes;
+			path = changes;
 			sourceTree = "<group>";
 		};
 		CAA4CF961A45A647003ABA25 /* checks */ = {
@@ -1726,7 +1726,7 @@
 				CA05B0231AC448FE00488ECE /* versification.h */,
 			);
 			name = checks;
-			path = ../checks;
+			path = checks;
 			sourceTree = "<group>";
 		};
 		CAA4CFAB1A45A647003ABA25 /* checksum */ = {
@@ -1737,7 +1737,7 @@
 				CA4694481A57FA0600635799 /* logic.h */,
 			);
 			name = checksum;
-			path = ../checksum;
+			path = checksum;
 			sourceTree = "<group>";
 		};
 		CAA4CFAF1A45A647003ABA25 /* compare */ = {
@@ -1750,7 +1750,7 @@
 				CA442D061A55466F006374D3 /* index.html */,
 			);
 			name = compare;
-			path = ../compare;
+			path = compare;
 			sourceTree = "<group>";
 		};
 		CAA4CFB51A45A647003ABA25 /* config */ = {
@@ -1766,7 +1766,7 @@
 				CAA4CFC01A45A647003ABA25 /* logic.h */,
 			);
 			name = config;
-			path = ../config;
+			path = config;
 			sourceTree = "<group>";
 		};
 		CAA4CFC91A45A647003ABA25 /* confirm */ = {
@@ -1776,7 +1776,7 @@
 				CAA4CFCF1A45A647003ABA25 /* worker.h */,
 			);
 			name = confirm;
-			path = ../confirm;
+			path = confirm;
 			sourceTree = "<group>";
 		};
 		CAA4CFD01A45A647003ABA25 /* consistency */ = {
@@ -1794,7 +1794,7 @@
 				CA180F271AC71542006CA48B /* poll.h */,
 			);
 			name = consistency;
-			path = ../consistency;
+			path = consistency;
 			sourceTree = "<group>";
 		};
 		CAA4CFD81A45A647003ABA25 /* consultations */ = {
@@ -1803,7 +1803,7 @@
 				CAA4CFD91A45A647003ABA25 /* gitflag */,
 			);
 			name = consultations;
-			path = ../consultations;
+			path = consultations;
 			sourceTree = "<group>";
 		};
 		CAA4CFDB1A45A647003ABA25 /* css */ = {
@@ -1815,7 +1815,7 @@
 				CA2401991C4D0AF400F99F15 /* touch.css */,
 			);
 			name = css;
-			path = ../css;
+			path = css;
 			sourceTree = "<group>";
 		};
 		CAA4CFDF1A45A647003ABA25 /* database */ = {
@@ -1902,7 +1902,7 @@
 				CAA4D0481A45A647003ABA25 /* volatile.h */,
 			);
 			name = database;
-			path = ../database;
+			path = database;
 			sourceTree = "<group>";
 		};
 		CAA4D00A1A45A647003ABA25 /* config */ = {
@@ -1932,7 +1932,7 @@
 				CAA4D0631A45A647003ABA25 /* usfmresources */,
 			);
 			name = databases;
-			path = ../databases;
+			path = databases;
 			sourceTree = "<group>";
 		};
 		CAA4D04A1A45A647003ABA25 /* config */ = {
@@ -2053,7 +2053,7 @@
 				CAE4420C1E5316DE00F802FC /* readme.txt */,
 			);
 			name = demo;
-			path = ../demo;
+			path = demo;
 			sourceTree = "<group>";
 		};
 		CAA4D06A1A45A647003ABA25 /* dialog */ = {
@@ -2079,7 +2079,7 @@
 				CAFE13301A497B9800F0DB35 /* yes.html */,
 			);
 			name = dialog;
-			path = ../dialog;
+			path = dialog;
 			sourceTree = "<group>";
 		};
 		CAA4D0861A45A647003ABA25 /* downloads */ = {
@@ -2087,7 +2087,7 @@
 			children = (
 			);
 			name = downloads;
-			path = ../downloads;
+			path = downloads;
 			sourceTree = "<group>";
 		};
 		CAA4D0881A45A647003ABA25 /* dyncss */ = {
@@ -2096,7 +2096,7 @@
 				CAA4D0891A45A647003ABA25 /* create_css.txt */,
 			);
 			name = dyncss;
-			path = ../dyncss;
+			path = dyncss;
 			sourceTree = "<group>";
 		};
 		CAA4D08A1A45A647003ABA25 /* edit */ = {
@@ -2130,7 +2130,7 @@
 				CA2841281A61686C0046C073 /* styles.h */,
 			);
 			name = edit;
-			path = ../edit;
+			path = edit;
 			sourceTree = "<group>";
 		};
 		CAA4D0961A45A647003ABA25 /* editor */ = {
@@ -2148,7 +2148,7 @@
 				CA8E3C551A5C43F8002180D8 /* styles.h */,
 			);
 			name = editor;
-			path = ../editor;
+			path = editor;
 			sourceTree = "<group>";
 		};
 		CAA4D09A1A45A647003ABA25 /* editusfm */ = {
@@ -2168,7 +2168,7 @@
 				CA46945B1A588D1800635799 /* save.h */,
 			);
 			name = editusfm;
-			path = ../editusfm;
+			path = editusfm;
 			sourceTree = "<group>";
 		};
 		CAA4D0A41A45A647003ABA25 /* editverse */ = {
@@ -2184,7 +2184,7 @@
 				CA06BDE61A56D25F00A051FF /* save.h */,
 			);
 			name = editverse;
-			path = ../editverse;
+			path = editverse;
 			sourceTree = "<group>";
 		};
 		CAA4D0AC1A45A647003ABA25 /* email */ = {
@@ -2199,7 +2199,7 @@
 				CAA4D0B91A45A647003ABA25 /* send.h */,
 			);
 			name = email;
-			path = ../email;
+			path = email;
 			sourceTree = "<group>";
 		};
 		CAA4D0BA1A45A647003ABA25 /* esword */ = {
@@ -2209,7 +2209,7 @@
 				CAA4D0C01A45A647003ABA25 /* text.h */,
 			);
 			name = esword;
-			path = ../esword;
+			path = esword;
 			sourceTree = "<group>";
 		};
 		CAA4D0C11A45A647003ABA25 /* executable */ = {
@@ -2221,7 +2221,7 @@
 				CA7098731C75FE780097DBA1 /* generate.h */,
 			);
 			name = executable;
-			path = ../executable;
+			path = executable;
 			sourceTree = "<group>";
 		};
 		CAA4D0C81A45A647003ABA25 /* export */ = {
@@ -2255,7 +2255,7 @@
 				CAD443441AC95BC60005B8F6 /* web.h */,
 			);
 			name = export;
-			path = ../export;
+			path = export;
 			sourceTree = "<group>";
 		};
 		CAA4D0D51A45A647003ABA25 /* exports */ = {
@@ -2264,7 +2264,7 @@
 				CAA4D0D61A45A647003ABA25 /* gitflag */,
 			);
 			name = exports;
-			path = ../exports;
+			path = exports;
 			sourceTree = "<group>";
 		};
 		CAA4D0D71A45A647003ABA25 /* filter */ = {
@@ -2309,7 +2309,7 @@
 				CA715D191BFA0404009444DE /* usfm.js */,
 			);
 			name = filter;
-			path = ../filter;
+			path = filter;
 			sourceTree = "<group>";
 		};
 		CAA4D1161A45A647003ABA25 /* flate */ = {
@@ -2319,7 +2319,7 @@
 				CAA4D11C1A45A647003ABA25 /* flate.h */,
 			);
 			name = flate;
-			path = ../flate;
+			path = flate;
 			sourceTree = "<group>";
 		};
 		CAA4D11D1A45A647003ABA25 /* fonts */ = {
@@ -2333,7 +2333,7 @@
 				CAA4D1251A45A647003ABA25 /* SILEOT.ttf */,
 			);
 			name = fonts;
-			path = ../fonts;
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		CAA4D1261A45A647003ABA25 /* git */ = {
@@ -2342,7 +2342,7 @@
 				CAA4D1271A45A647003ABA25 /* gitflag */,
 			);
 			name = git;
-			path = ../git;
+			path = git;
 			sourceTree = "<group>";
 		};
 		CAA4D1281A45A647003ABA25 /* help */ = {
@@ -2386,7 +2386,7 @@
 				CAEFFBF31C747AEE0035B1BE /* wikipedia.txt */,
 			);
 			name = help;
-			path = ../help;
+			path = help;
 			sourceTree = "<group>";
 		};
 		CAA4D1581A45A647003ABA25 /* html */ = {
@@ -2398,7 +2398,7 @@
 				CAA4D15F1A45A647003ABA25 /* text.h */,
 			);
 			name = html;
-			path = ../html;
+			path = html;
 			sourceTree = "<group>";
 		};
 		CAA4D1601A45A647003ABA25 /* index */ = {
@@ -2412,7 +2412,7 @@
 				CA8689871ABB3DF500427560 /* listing.html */,
 			);
 			name = index;
-			path = ../index;
+			path = index;
 			sourceTree = "<group>";
 		};
 		CAA4D1701A45A647003ABA25 /* ipc */ = {
@@ -2424,7 +2424,7 @@
 				CA4150291AB7651100C30DA5 /* notes.h */,
 			);
 			name = ipc;
-			path = ../ipc;
+			path = ipc;
 			sourceTree = "<group>";
 		};
 		CAA4D1791A45A647003ABA25 /* jobs */ = {
@@ -2435,7 +2435,7 @@
 				CAC9F0681A5554B200D98092 /* index.html */,
 			);
 			name = jobs;
-			path = ../jobs;
+			path = jobs;
 			sourceTree = "<group>";
 		};
 		CAA4D17D1A45A647003ABA25 /* journal */ = {
@@ -2449,7 +2449,7 @@
 				CA2F06D81AE52F84008B8BDB /* logic.h */,
 			);
 			name = journal;
-			path = ../journal;
+			path = journal;
 			sourceTree = "<group>";
 		};
 		CAA4D1A31A45A648003ABA25 /* library */ = {
@@ -2461,7 +2461,7 @@
 				CA5DE2CD1AA5F02100AE051C /* locks.h */,
 			);
 			name = library;
-			path = ../library;
+			path = library;
 			sourceTree = "<group>";
 		};
 		CAA4D1AA1A45A648003ABA25 /* locale */ = {
@@ -2474,7 +2474,7 @@
 				CAA4D1C61A45A648003ABA25 /* translate.h */,
 			);
 			name = locale;
-			path = ../locale;
+			path = locale;
 			sourceTree = "<group>";
 		};
 		CAA4D1CC1A45A648003ABA25 /* logbook */ = {
@@ -2483,7 +2483,7 @@
 				CAA4D1CD1A45A648003ABA25 /* gitflag */,
 			);
 			name = logbook;
-			path = ../logbook;
+			path = logbook;
 			sourceTree = "<group>";
 		};
 		CAA4D1D11A45A648003ABA25 /* manage */ = {
@@ -2512,7 +2512,7 @@
 				CAC61E221B4C3C5400700C8D /* write.html */,
 			);
 			name = manage;
-			path = ../manage;
+			path = manage;
 			sourceTree = "<group>";
 		};
 		CAA4D1E51A45A648003ABA25 /* mapping */ = {
@@ -2526,7 +2526,7 @@
 				CA0D295A1AAA4E7A009B9D40 /* map.html */,
 			);
 			name = mapping;
-			path = ../mapping;
+			path = mapping;
 			sourceTree = "<group>";
 		};
 		CAA4D1F51A45A648003ABA25 /* menu */ = {
@@ -2538,7 +2538,7 @@
 				CAA4D1FD1A45A648003ABA25 /* logic.h */,
 			);
 			name = menu;
-			path = ../menu;
+			path = menu;
 			sourceTree = "<group>";
 		};
 		CAA4D22D1A45A648003ABA25 /* navigation */ = {
@@ -2555,7 +2555,7 @@
 				CA06BDEF1A5722FA00A051FF /* update.h */,
 			);
 			name = navigation;
-			path = ../navigation;
+			path = navigation;
 			sourceTree = "<group>";
 		};
 		CAA4D23A1A45A648003ABA25 /* notes */ = {
@@ -2632,7 +2632,7 @@
 				CABB91DB1AAB1CAA00D500FF /* verses.html */,
 			);
 			name = notes;
-			path = ../notes;
+			path = notes;
 			sourceTree = "<group>";
 		};
 		CAA4D27C1A45A648003ABA25 /* odf */ = {
@@ -2644,7 +2644,7 @@
 				CAA4D2841A45A648003ABA25 /* text.h */,
 			);
 			name = odf;
-			path = ../odf;
+			path = odf;
 			sourceTree = "<group>";
 		};
 		CAA4D2851A45A648003ABA25 /* onlinebible */ = {
@@ -2654,7 +2654,7 @@
 				CAA4D28B1A45A648003ABA25 /* text.h */,
 			);
 			name = onlinebible;
-			path = ../onlinebible;
+			path = onlinebible;
 			sourceTree = "<group>";
 		};
 		CAA4D28C1A45A648003ABA25 /* parsewebdata */ = {
@@ -2669,7 +2669,7 @@
 				CAA4D29A1A45A648003ABA25 /* ParseWebData_local.h */,
 			);
 			name = parsewebdata;
-			path = ../parsewebdata;
+			path = parsewebdata;
 			sourceTree = "<group>";
 		};
 		CAA4D2A01A45A648003ABA25 /* pix */ = {
@@ -2680,7 +2680,7 @@
 				CAA4D2A31A45A648003ABA25 /* loading.gif */,
 			);
 			name = pix;
-			path = ../pix;
+			path = pix;
 			sourceTree = "<group>";
 		};
 		CAA4D2A71A45A648003ABA25 /* processes */ = {
@@ -2689,7 +2689,7 @@
 				CAA4D2A81A45A648003ABA25 /* gitflag */,
 			);
 			name = processes;
-			path = ../processes;
+			path = processes;
 			sourceTree = "<group>";
 		};
 		CAA4D2B91A45A648003ABA25 /* resource */ = {
@@ -2765,7 +2765,7 @@
 				CA69D51D1CEB30220036B21C /* user9view.html */,
 			);
 			name = resource;
-			path = ../resource;
+			path = resource;
 			sourceTree = "<group>";
 		};
 		CAA4D2ED1A45A648003ABA25 /* revisions */ = {
@@ -2773,7 +2773,7 @@
 			children = (
 			);
 			name = revisions;
-			path = ../revisions;
+			path = revisions;
 			sourceTree = "<group>";
 		};
 		CAA4D2F31A45A648003ABA25 /* search */ = {
@@ -2834,7 +2834,7 @@
 				CAA4D31E1A45A648003ABA25 /* strongs.js */,
 			);
 			name = search;
-			path = ../search;
+			path = search;
 			sourceTree = "<group>";
 		};
 		CAA4D3201A45A648003ABA25 /* sendreceive */ = {
@@ -2862,7 +2862,7 @@
 				CA0554621A7D43CC0023BA52 /* settings.h */,
 			);
 			name = sendreceive;
-			path = ../sendreceive;
+			path = sendreceive;
 			sourceTree = "<group>";
 		};
 		CAA4D32E1A45A648003ABA25 /* session */ = {
@@ -2888,7 +2888,7 @@
 				CAF475AB1C96D00A00B6C659 /* switch.html */,
 			);
 			name = session;
-			path = ../session;
+			path = session;
 			sourceTree = "<group>";
 		};
 		CAA4D3471A45A648003ABA25 /* setup */ = {
@@ -2902,7 +2902,7 @@
 				CA0922701BAC69E3004654D7 /* stylesheet.css */,
 			);
 			name = setup;
-			path = ../setup;
+			path = setup;
 			sourceTree = "<group>";
 		};
 		CAA4D3521A45A648003ABA25 /* sprint */ = {
@@ -2916,7 +2916,7 @@
 				CA2B2E331CF06173008A6D74 /* index.js */,
 			);
 			name = sprint;
-			path = ../sprint;
+			path = sprint;
 			sourceTree = "<group>";
 		};
 		CAA4D35E1A45A648003ABA25 /* styles */ = {
@@ -2942,7 +2942,7 @@
 				CAA4D4A61A460861003ABA25 /* view.html */,
 			);
 			name = styles;
-			path = ../styles;
+			path = styles;
 			sourceTree = "<group>";
 		};
 		CAA4D3731A45A648003ABA25 /* sync */ = {
@@ -2970,7 +2970,7 @@
 				CA7387151AA49EEA00FE74D8 /* usfmresources.h */,
 			);
 			name = sync;
-			path = ../sync;
+			path = sync;
 			sourceTree = "<group>";
 		};
 		CAA4D3841A45A648003ABA25 /* tasks */ = {
@@ -2982,7 +2982,7 @@
 				CAA4D38F1A45A648003ABA25 /* run.h */,
 			);
 			name = tasks;
-			path = ../tasks;
+			path = tasks;
 			sourceTree = "<group>";
 		};
 		CAA4D3901A45A648003ABA25 /* text */ = {
@@ -2992,7 +2992,7 @@
 				CAA4D3991A45A648003ABA25 /* text.h */,
 			);
 			name = text;
-			path = ../text;
+			path = text;
 			sourceTree = "<group>";
 		};
 		CAA4D3A01A45A648003ABA25 /* timer */ = {
@@ -3002,7 +3002,7 @@
 				CAA4D3A71A45A648003ABA25 /* index.h */,
 			);
 			name = timer;
-			path = ../timer;
+			path = timer;
 			sourceTree = "<group>";
 		};
 		CAA4D3AB1A45A648003ABA25 /* tmp */ = {
@@ -3012,7 +3012,7 @@
 				CA6339891A65938900514F1E /* tmp.h */,
 			);
 			name = tmp;
-			path = ../tmp;
+			path = tmp;
 			sourceTree = "<group>";
 		};
 		CAA4D3AD1A45A648003ABA25 /* trash */ = {
@@ -3022,7 +3022,7 @@
 				CAA4D3B31A45A648003ABA25 /* handler.h */,
 			);
 			name = trash;
-			path = ../trash;
+			path = trash;
 			sourceTree = "<group>";
 		};
 		CAA4D3B41A45A648003ABA25 /* unittests */ = {
@@ -3129,7 +3129,7 @@
 				CA05DD3F1E33A71700EA2EDF /* workspaces.h */,
 			);
 			name = unittests;
-			path = ../unittests;
+			path = unittests;
 			sourceTree = "<group>";
 		};
 		CAA4D43A1A45A648003ABA25 /* user */ = {
@@ -3145,7 +3145,7 @@
 				CAA4D4451A45A648003ABA25 /* notifications.html */,
 			);
 			name = user;
-			path = ../user;
+			path = user;
 			sourceTree = "<group>";
 		};
 		CAA4D4461A45A648003ABA25 /* utf8 */ = {
@@ -3159,7 +3159,7 @@
 				CAA4D4591A45A648003ABA25 /* utf8cpp.html */,
 			);
 			name = utf8;
-			path = ../utf8;
+			path = utf8;
 			sourceTree = "<group>";
 		};
 		CAA4D45D1A45A648003ABA25 /* versification */ = {
@@ -3175,7 +3175,7 @@
 				CA699A191A51475C00B23E0A /* system.html */,
 			);
 			name = versification;
-			path = ../versification;
+			path = versification;
 			sourceTree = "<group>";
 		};
 		CAA4D4641A45A649003ABA25 /* webbible */ = {
@@ -3187,7 +3187,7 @@
 				CAB9C51C1AD43A2C006A2E43 /* search.h */,
 			);
 			name = webbible;
-			path = ../webbible;
+			path = webbible;
 			sourceTree = "<group>";
 		};
 		CAA4D4691A45A649003ABA25 /* webserver */ = {
@@ -3203,7 +3203,7 @@
 				CAA4D4781A45A649003ABA25 /* webserver.h */,
 			);
 			name = webserver;
-			path = ../webserver;
+			path = webserver;
 			sourceTree = "<group>";
 		};
 		CAA4D4831A45A649003ABA25 /* xcode */ = {
@@ -3254,7 +3254,7 @@
 				CAFEED2E1ACEE12300D53BF3 /* translate.html */,
 			);
 			name = xrefs;
-			path = ../xrefs;
+			path = xrefs;
 			sourceTree = "<group>";
 		};
 		CAA912131C526E1A00F74080 /* basic */ = {
@@ -3265,7 +3265,7 @@
 				CAA9121B1C526E1A00F74080 /* index.html */,
 			);
 			name = basic;
-			path = ../basic;
+			path = basic;
 			sourceTree = "<group>";
 		};
 		CAA9C1C51C651A93006D8709 /* notifit */ = {
@@ -3278,7 +3278,7 @@
 				CAA9C1CC1C651A93006D8709 /* README.md */,
 			);
 			name = notifit;
-			path = ../notifit;
+			path = notifit;
 			sourceTree = "<group>";
 		};
 		CAB29AC01A4480CC00139BD7 = {
@@ -3410,7 +3410,7 @@
 				CAB31B661DDF249B00F77630 /* readme.txt */,
 			);
 			name = quill;
-			path = ../quill;
+			path = quill;
 			sourceTree = "<group>";
 		};
 		CAB35CDB1DABB766002D625A /* ldap */ = {
@@ -3420,7 +3420,7 @@
 				CAB35CE21DABB766002D625A /* logic.h */,
 			);
 			name = ldap;
-			path = ../ldap;
+			path = ldap;
 			sourceTree = "<group>";
 		};
 		CAB7249A1E2557C3008A0F45 /* editoneold */ = {
@@ -3438,7 +3438,7 @@
 				CAB724A61E2557C3008A0F45 /* verse.h */,
 			);
 			name = editoneold;
-			path = ../editoneold;
+			path = editoneold;
 			sourceTree = "<group>";
 		};
 		CABC327D1CCF951600698C7A /* mbedtls */ = {
@@ -3583,7 +3583,7 @@
 				CAB433B21CCFBEFF00D1B158 /* xtea.h */,
 			);
 			name = mbedtls;
-			path = ../mbedtls;
+			path = mbedtls;
 			sourceTree = "<group>";
 		};
 		CABE4D0B1BDBC996000547DB /* pugixml */ = {
@@ -3596,7 +3596,7 @@
 				CABE4D111BDBE8DF000547DB /* utils.h */,
 			);
 			name = pugixml;
-			path = ../pugixml;
+			path = pugixml;
 			sourceTree = "<group>";
 		};
 		CAC0E03B1BE23B2C00640BFE /* public */ = {
@@ -3630,7 +3630,7 @@
 				CA1CE6451BE79710008E0F06 /* note.html */,
 			);
 			name = public;
-			path = ../public;
+			path = public;
 			sourceTree = "<group>";
 		};
 		CAC1A6D81DF9904A005D6889 /* i18n */ = {
@@ -3640,7 +3640,7 @@
 				CAC1A6DB1DF9904A005D6889 /* i18n.sh */,
 			);
 			name = i18n;
-			path = ../i18n;
+			path = i18n;
 			sourceTree = "<group>";
 		};
 		CACDF3C51DF1E74E00C198A2 /* rss */ = {
@@ -3652,7 +3652,7 @@
 				CACDF3CE1DF1E74E00C198A2 /* logic.h */,
 			);
 			name = rss;
-			path = ../rss;
+			path = rss;
 			sourceTree = "<group>";
 		};
 		CAECFB821B84E30100B3634F /* sources */ = {
@@ -3682,7 +3682,7 @@
 				CA753A411E49CC5400C18ECF /* styles.h */,
 			);
 			name = sources;
-			path = ../sources;
+			path = sources;
 			sourceTree = "<group>";
 		};
 		CAECFBDA1B84E30100B3634F /* sblgnt */ = {
@@ -3710,7 +3710,7 @@
 				CAEF4D0C1D6EF82600FBB688 /* logic.h */,
 			);
 			name = developer;
-			path = ../developer;
+			path = developer;
 			sourceTree = "<group>";
 		};
 		CAF6DBE91A72583700E5389F /* collaboration */ = {
@@ -3730,7 +3730,7 @@
 				CAF6DBF21A72583700E5389F /* url.html */,
 			);
 			name = collaboration;
-			path = ../collaboration;
+			path = collaboration;
 			sourceTree = "<group>";
 		};
 		CAF8E68A1C9C326400A2373A /* jsonxx */ = {
@@ -3740,7 +3740,7 @@
 				CAF8E68E1C9C326400A2373A /* jsonxx.h */,
 			);
 			name = jsonxx;
-			path = ../jsonxx;
+			path = jsonxx;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

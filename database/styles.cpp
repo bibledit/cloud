@@ -6772,6 +6772,15 @@ style_record styles_table [] =
 };
 
 
+// The memory cache to speed up reading style values.
+// Access a style item like this: cache [stylesheet] [marker].
+// Timing a Bibledit setup phase gave this information:
+// * Before the cache was implemented, fetching styles took 30 seconds (38%) of the total setup time.
+// * After the cache was there, it took 17 seconds (25%) of the total setup time.
+map <string, map <string, Database_Styles_Item>> database_styles_cache;
+mutex database_styles_cache_mutex;
+
+
 sqlite3 * Database_Styles::connect ()
 {
   return database_sqlite_connect ("styles");
@@ -6818,6 +6827,9 @@ vector <string> Database_Styles::getSheets ()
 void Database_Styles::deleteSheet (string sheet)
 {
   if (!sheet.empty ()) filter_url_rmdir (sheetfolder (sheet));
+  database_styles_cache_mutex.lock ();
+  database_styles_cache.clear ();
+  database_styles_cache_mutex.unlock ();
 }
 
 
@@ -6833,6 +6845,9 @@ void Database_Styles::addMarker (string sheet, string marker)
 void Database_Styles::deleteMarker (string sheet, string marker)
 {
   filter_url_unlink (stylefile (sheet, marker));
+  database_styles_cache_mutex.lock ();
+  database_styles_cache.clear ();
+  database_styles_cache_mutex.unlock ();
 }
 
 
@@ -7191,6 +7206,22 @@ unsigned int Database_Styles::data_count ()
 Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
 {
   Database_Styles_Item item;
+  
+  // Check whether sheet is in cache.
+  bool cache_hit = false;
+  database_styles_cache_mutex.lock ();
+  if (database_styles_cache.count (sheet)) {
+    // Check whether marker is in cache.
+    if (database_styles_cache [sheet].count (marker)) {
+      // Cache hit: Return the item.
+      item = database_styles_cache [sheet] [marker];
+      cache_hit = true;
+    }
+  }
+  database_styles_cache_mutex.unlock ();
+  if (cache_hit) return item;
+  
+  // Read the item.
   bool take_default = sheet.empty ();
   string filename;
   if (!take_default) {
@@ -7233,6 +7264,11 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
         item.userstring2 = styles_table[i].userstring2;
         item.userstring3 = styles_table[i].userstring3;
         item.backgroundcolor = styles_table[i].backgroundcolor;
+        // Cache it.
+        database_styles_cache_mutex.lock ();
+        database_styles_cache [sheet] [marker] = item;
+        database_styles_cache_mutex.unlock ();
+        // Return it.
         return item;
       }
     }
@@ -7278,6 +7314,13 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
       if (i == 30) item.backgroundcolor = lines [i];
     }
   }
+  
+  // Cache the item.
+  database_styles_cache_mutex.lock ();
+  database_styles_cache [sheet] [marker] = item;
+  database_styles_cache_mutex.unlock ();
+  
+  // Return the item.
   return item;
 }
 
@@ -7328,6 +7371,10 @@ void Database_Styles::write_item (string sheet, Database_Styles_Item & item)
   // Save.
   string data = filter_string_implode (lines, "\n");
   filter_url_file_put_contents (stylefile (sheet, item.marker), data);
+  // Clear cache.
+  database_styles_cache_mutex.lock ();
+  database_styles_cache.clear ();
+  database_styles_cache_mutex.unlock ();
 }
 
 

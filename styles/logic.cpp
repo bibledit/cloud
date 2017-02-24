@@ -46,7 +46,6 @@ string styles_logic_category_text (string category)
   if (category == "te" ) return translate ("Table elements");
   if (category == "f"  ) return translate ("Footnotes");
   if (category == "x"  ) return translate ("Crossreferences");
-  if (category == "xsn") return translate ("Extended study notes");
   if (category == "st" ) return translate ("Special text");
   if (category == "cs" ) return translate ("Character styles");
   if (category == "sb" ) return translate ("Spacings and breaks");

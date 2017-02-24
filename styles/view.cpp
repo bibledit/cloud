@@ -138,7 +138,6 @@ string styles_view (void * webserver_request)
       dialog_list.add_row (styles_logic_category_text ("te"),  "category", "te");
       dialog_list.add_row (styles_logic_category_text ("f"),   "category", "f");
       dialog_list.add_row (styles_logic_category_text ("x"),   "category", "x");
-      dialog_list.add_row (styles_logic_category_text ("xsn"), "category", "xsn");
       dialog_list.add_row (styles_logic_category_text ("st"),  "category", "st");
       dialog_list.add_row (styles_logic_category_text ("cs"),  "category", "cs");
       dialog_list.add_row (styles_logic_category_text ("sb"),  "category", "sb");

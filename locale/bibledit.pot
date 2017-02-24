@@ -8686,6 +8686,9 @@ msgstr ""
 msgid "To switch the feed off, set the number of changes to zero."
 msgstr ""
 
+msgid "Include the author in the RSS feed."
+msgstr ""
+
 msgid ""
 "You can change your password or your email address. Your current email "
 "address is"

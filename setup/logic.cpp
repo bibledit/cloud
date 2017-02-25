@@ -277,10 +277,6 @@ void setup_initialize_data ()
   config_globals_setup_message = "stylesheets";
   styles_sheets_create_all ();
   
-  // Preparation of data for the sample Bible.
-  config_globals_setup_message = "samples";
-#ifdef SETUP_PREPARE_SAMPLE_BIBLE // Todo
-#endif
   // Schedule creation of sample Bible if there's no Bible yet.
   // In former versions of Bibledit, creation of the sample Bible was not scheduled,
   // but executed right away.

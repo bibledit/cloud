@@ -355,20 +355,33 @@ void demo_prepare_sample_bible () // Todo
           int chapter = data.chapter;
           string usfm = data.data;
           bible_logic_store_chapter (demo_sample_bible_name (), book, chapter, usfm);
-          // Store the chapter in the database with the sample Bible.
-          // Todo Database_Sample::store_bible (book, chapter, usfm);
-          // Store the index in the sample Bible database.
-          string path = search_logic_chapter_file (demo_sample_bible_name (), book, chapter);
-          string index = filter_url_file_get_contents (path);
-          // Todo Database_Sample::store_search (book, chapter, index);
         }
       }
     }
   }
-  // The sample Bible is now in the standard location and editable by the users.
-  // Remove it from that location.
-  // Same for the search index.
+  // Copy the Bible data to the sample database.
+  directory = database_bibles.bibleFolder (demo_sample_bible_name ());
+  files.clear ();
+  filter_url_recursive_scandir (directory, files);
+  for (auto file : files) {
+    if (!filter_url_is_dir (file)) {
+      string data = filter_url_file_get_contents (file);
+      Database_Sample::store (file, data);
+    }
+  }
+  // Copy the search index data to the sample database.
+  directory = search_logic_index_folder ();
+  files.clear ();
+  filter_url_recursive_scandir (directory, files);
+  for (auto file : files) {
+    if (file.find (demo_sample_bible_name ()) != string::npos) {
+      string data = filter_url_file_get_contents (file);
+      Database_Sample::store (file, data);
+    }
+  }
+  // The sample Bible is now in the standard location and editable by the users: Remove it.
   database_bibles.deleteBible (demo_sample_bible_name ());
+  // Same for the search index.
   search_logic_delete_bible (demo_sample_bible_name ());
   // Clean up the remaining artifacts that were created along the way. Todo
   system ("find . -path '*logbook/14*' -delete");

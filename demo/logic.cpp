@@ -248,7 +248,15 @@ void demo_create_sample_bible ()
   filter_url_dir_cp (source, destination);
    */
 
-  
+  // Copy the sample Bible data and search index.
+  vector <int> rowids = Database_Sample::get ();
+  for (auto rowid : rowids) {
+    string file, data;
+    Database_Sample::get (rowid, file, data);
+    string path = filter_url_dirname (file);
+    if (!file_or_dir_exists (path)) filter_url_mkdir (path);
+    filter_url_file_put_contents (file, data);
+  }
   
   Database_Logs::log ("Sample Bible was created");
 }

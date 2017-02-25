@@ -151,10 +151,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/hebrewlexicon.$(OBJEXT) database/cache.$(OBJEXT) \
 	database/login.$(OBJEXT) database/privileges.$(OBJEXT) \
 	database/git.$(OBJEXT) database/userresources.$(OBJEXT) \
-	database/statistics.$(OBJEXT) session/logic.$(OBJEXT) \
-	session/login.$(OBJEXT) session/logout.$(OBJEXT) \
-	session/password.$(OBJEXT) session/signup.$(OBJEXT) \
-	session/switch.$(OBJEXT) \
+	database/statistics.$(OBJEXT) database/sample.$(OBJEXT) \
+	session/logic.$(OBJEXT) session/login.$(OBJEXT) \
+	session/logout.$(OBJEXT) session/password.$(OBJEXT) \
+	session/signup.$(OBJEXT) session/switch.$(OBJEXT) \
 	parsewebdata/ParseMultipartFormData.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
@@ -373,7 +373,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/passage.$(OBJEXT) unittests/styles.$(OBJEXT) \
 	unittests/diff.$(OBJEXT) unittests/git.$(OBJEXT) \
 	unittests/ipc.$(OBJEXT) unittests/shell.$(OBJEXT) \
-	unittests/ldap.$(OBJEXT) unittests/dev.$(OBJEXT)
+	unittests/ldap.$(OBJEXT) unittests/dev.$(OBJEXT) \
+	unittests/sample.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -658,6 +659,7 @@ libbibledit_a_SOURCES = \
 	database/git.cpp \
 	database/userresources.cpp \
 	database/statistics.cpp \
+	database/sample.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -1080,7 +1082,8 @@ unittest_SOURCES = \
 	unittests/ipc.cpp \
 	unittests/shell.cpp \
 	unittests/ldap.cpp \
-	unittests/dev.cpp
+	unittests/dev.cpp \
+	unittests/sample.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -1381,6 +1384,8 @@ database/git.$(OBJEXT): database/$(am__dirstamp) \
 database/userresources.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/statistics.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/sample.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 session/$(am__dirstamp):
 	@$(MKDIR_P) session
@@ -2725,6 +2730,8 @@ unittests/ldap.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/dev.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/sample.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -2907,6 +2914,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/oshb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/privileges.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sample.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sblgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/sqlite.Po@am__quote@
@@ -3274,6 +3282,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/related.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/roles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/rss.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sample.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/search.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sentences.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/session.Po@am__quote@

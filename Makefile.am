@@ -77,6 +77,7 @@ libbibledit_a_SOURCES = \
 	database/git.cpp \
 	database/userresources.cpp \
 	database/statistics.cpp \
+	database/sample.cpp \
 	session/logic.cpp \
 	session/login.cpp \
 	session/logout.cpp \
@@ -503,7 +504,8 @@ unittest_SOURCES = \
 	unittests/ipc.cpp \
 	unittests/shell.cpp \
 	unittests/ldap.cpp \
-	unittests/dev.cpp
+	unittests/dev.cpp \
+	unittests/sample.cpp
 
 unittest_LDADD = libbibledit.a
 

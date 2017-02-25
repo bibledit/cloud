@@ -2270,9 +2270,6 @@ msgstr ""
 msgid "Crossreferences"
 msgstr ""
 
-msgid "Extended study notes"
-msgstr ""
-
 msgid "Special text"
 msgstr ""
 

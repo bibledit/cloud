@@ -26,8 +26,10 @@ void test_folders ()
 {
   trace_unit_tests (__func__);
   
-  // There should be no empty folders in the library, because git does not include them.
-  int result = system ("find . -type d -empty > /tmp/bibledittest.txt");
+  // There should be no empty folders in the library, because git won't include them.
+  // If there were such empty folders, they would not be included in the git.
+  // Apart from any empty folders in the ./git folder itself.
+  int result = system ("find . -type d -empty -not -path './.git/*' > /tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, 0, result);
   string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, "", contents);

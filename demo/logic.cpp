@@ -249,76 +249,10 @@ void demo_create_sample_bible ()
 
 
 // Prepares a sample Bible.
-// The output will be in folder "samples".
-// This data is intended for quickly creating a sample Bible.
-// This way it is fast even on low power devices.
-void demo_prepare_sample_bible (string * progress) // Todo when removing this, check which functions can be removed too.
-{
-  return; // Todo
-  Database_Bibles database_bibles;
-  // Remove the sample Bible plus all related data.
-  database_bibles.deleteBible (demo_sample_bible_name ());
-  search_logic_delete_bible (demo_sample_bible_name ());
-  // Create a new sample Bible.
-  database_bibles.createBible (demo_sample_bible_name ());
-  // Location of the source USFM files for the sample Bible.
-  string directory = filter_url_create_root_path ("demo");
-  vector <string> files = filter_url_scandir (directory);
-  for (auto file : files) {
-    // Process only USFM files, skipping others.
-    if (filter_url_get_extension (file) == "usfm") {
-      if (progress) * progress = file;
-      else cout << file << endl;
-      // Read the USFM and clean it up.
-      file = filter_url_create_path (directory, file);
-      string usfm = filter_url_file_get_contents (file);
-      usfm = filter_string_str_replace ("  ", " ", usfm);
-      // Import the USFM into the sample Bible.
-      vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
-      for (auto data : book_chapter_data) {
-        if (data.book) {
-          // There is license information at the top of each USFM file.
-          // This results in a book with number 0.
-          // This book gets skipped here, so the license information is skipped as well.
-          bible_logic_store_chapter (demo_sample_bible_name (), data.book, data.chapter, data.data);
-        }
-      }
-    }
-  }
-  // Clean the destination location for the Bible.
-  string destination = sample_bible_bible_path ();
-  filter_url_rmdir (destination);
-  // Copy the Bible data to the destination.
-  string source = database_bibles.bibleFolder (demo_sample_bible_name ());
-  filter_url_dir_cp (source, destination);
-  // Clean the destination location for the Bible search index.
-  destination = sample_bible_index_path ();
-  filter_url_rmdir (destination);
-  // Create destination location.
-  filter_url_mkdir (destination);
-  // Copy the index files over to the destination.
-  source = search_logic_index_folder ();
-  files = filter_url_scandir (source);
-  for (auto file : files) {
-    if (file.find (demo_sample_bible_name ()) != string::npos) {
-      string source_file = filter_url_create_path (source, file);
-      string destination_file = filter_url_create_path (destination, file);
-      filter_url_file_cp (source_file, destination_file);
-    }
-  }
-  // The sample Bible is now in the standard location and editable by the users.
-  // Remove it from that location.
-  // Same for the search index.
-  database_bibles.deleteBible (demo_sample_bible_name ());
-  search_logic_delete_bible (demo_sample_bible_name ());
-}
-
-
-// Prepares a sample Bible.
 // The output will be in database "sample".
 // This data is intended for quickly creating a sample Bible.
 // This way it is fast even on low power devices.
-void demo_prepare_sample_bible () // Todo
+void demo_prepare_sample_bible ()
 {
   Database_Bibles database_bibles;
   Database_Sample::create ();
@@ -377,7 +311,7 @@ void demo_prepare_sample_bible () // Todo
   database_bibles.deleteBible (demo_sample_bible_name ());
   // Same for the search index.
   search_logic_delete_bible (demo_sample_bible_name ());
-  // Clean up the remaining artifacts that were created along the way. Todo
+  // Clean up the remaining artifacts that were created along the way.
   system ("find . -path '*logbook/14*' -delete");
   system ("find . -name state.sqlite -delete");
   system ("find . -name 'Bibledit Sample Bible.*' -delete");
@@ -453,16 +387,4 @@ vector <string> demo_logic_default_resources ()
     resource_external_net_bible_name (),
     SBLGNT_NAME
   };
-}
-
-
-string sample_bible_bible_path ()
-{
-  return filter_url_create_root_path ("samples", "bible");
-}
-
-
-string sample_bible_index_path ()
-{
-  return filter_url_create_root_path ("samples", "index");
 }

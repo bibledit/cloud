@@ -66,7 +66,6 @@ int main (int argc, char **argv)
   } else if (command == sample_bible_command) {
 
     cout << "Generating the sample Bible" << endl;
-    // Todo demo_prepare_sample_bible (nullptr);
     demo_prepare_sample_bible ();
 
   } else if (command == mappings_command) {

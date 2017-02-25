@@ -78,6 +78,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/ipc.h>
 #include <unittests/shell.h>
 #include <unittests/dev.h>
+#include <unittests/sample.h>
 
 
 int main (int argc, char **argv) 
@@ -103,12 +104,15 @@ int main (int argc, char **argv)
   // The previous line is a signature for automated unit testing: Do not change it.
   
   refresh_sandbox (true);
+  test_database_sample ();
   test_dev ();
   test_styles ();
   test_html2usfm ();
   test_usfm2html ();
   test_usfm2html2usfm ();
   test_usfm ();
+  test_folders ();
+  test_rss_feed ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -202,6 +206,7 @@ int main (int argc, char **argv)
   test_git ();
   test_ipc ();
   test_shell ();
+  test_database_sample ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

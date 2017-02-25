@@ -27,6 +27,7 @@
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <database/notes.h>
+#include <database/sample.h>
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <styles/logic.h>
@@ -45,25 +46,25 @@
 
 
 /*
-
+ 
  A demo installation is an open installation.
  A user is always considered to be logged in as admin.
  
  In October 2015 the demo began to often refuse web connections.
  It appears that the server keeps running most of the times, but also crashed often during certain periods.
-
- The number of parallel connections was traced to see if that was the cause. 
+ 
+ The number of parallel connections was traced to see if that was the cause.
  The parallel connection count was mostly 0, at times 1, and higher at rare occassions.
  So this should be excluded as the cause.
  
  Continuous crashes of the server are the likely cause.
  The page requests are now being logged to see what happens.
  After logging them, it appears that the crash often comes after /resource/get
-
+ 
  Next a crash handler was installed, which gives some sort of backtrace in the Journal.
  This showed one crash during the nights. The crash was fixed.
  
-*/
+ */
 
 
 // Returns true for correct credentials for a demo installation.
@@ -131,7 +132,7 @@ string demo_client_warning ()
 void demo_clean_data ()
 {
   Database_Logs::log ("Cleaning up the demo data");
-
+  
   
   Webserver_Request request;
   
@@ -173,12 +174,12 @@ void demo_clean_data ()
     }
     request.database_users ()->set_level (element.first, element.second);
   }
-
+  
   
   // Create / update sample Bible.
   demo_create_sample_bible ();
-
-
+  
+  
   // Create sample notes.
   demo_create_sample_notes (&request);
   
@@ -234,14 +235,20 @@ void demo_create_sample_bible ()
   search_logic_delete_bible (demo_sample_bible_name ());
   
   // Copy the Bible data.
+  /* Todo
   string source = sample_bible_bible_path ();
   string destination = database_bibles.bibleFolder (demo_sample_bible_name ());
   filter_url_dir_cp (source, destination);
-
+   */
+  
   // Copy the Bible search index.
+  /* Todo
   source = sample_bible_index_path ();
   destination = search_logic_index_folder ();
   filter_url_dir_cp (source, destination);
+   */
+
+  
   
   Database_Logs::log ("Sample Bible was created");
 }
@@ -251,8 +258,9 @@ void demo_create_sample_bible ()
 // The output will be in folder "samples".
 // This data is intended for quickly creating a sample Bible.
 // This way it is fast even on low power devices.
-void demo_prepare_sample_bible (string * progress)
+void demo_prepare_sample_bible (string * progress) // Todo when removing this, check which functions can be removed too.
 {
+  return; // Todo
   Database_Bibles database_bibles;
   // Remove the sample Bible plus all related data.
   database_bibles.deleteBible (demo_sample_bible_name ());
@@ -312,6 +320,63 @@ void demo_prepare_sample_bible (string * progress)
 }
 
 
+// Prepares a sample Bible.
+// The output will be in database "sample".
+// This data is intended for quickly creating a sample Bible.
+// This way it is fast even on low power devices.
+void demo_prepare_sample_bible () // Todo
+{
+  Database_Bibles database_bibles;
+  Database_Sample::create ();
+  // Remove the sample Bible plus all related data.
+  database_bibles.deleteBible (demo_sample_bible_name ());
+  search_logic_delete_bible (demo_sample_bible_name ());
+  // Create a new sample Bible.
+  database_bibles.createBible (demo_sample_bible_name ());
+  // Location of the source USFM files for the sample Bible.
+  string directory = filter_url_create_root_path ("demo");
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+    // Process only USFM files, skipping others.
+    if (filter_url_get_extension (file) == "usfm") {
+      cout << file << endl;
+      // Read the USFM and clean it up.
+      file = filter_url_create_path (directory, file);
+      string usfm = filter_url_file_get_contents (file);
+      usfm = filter_string_str_replace ("  ", " ", usfm);
+      // Import the USFM into the sample Bible.
+      vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
+      for (auto data : book_chapter_data) {
+        int book = data.book;
+        if (book) {
+          // There is license information at the top of each USFM file.
+          // This results in a book with number 0.
+          // This book gets skipped here, so the license information is skipped as well.
+          int chapter = data.chapter;
+          string usfm = data.data;
+          bible_logic_store_chapter (demo_sample_bible_name (), book, chapter, usfm);
+          // Store the chapter in the database with the sample Bible.
+          // Todo Database_Sample::store_bible (book, chapter, usfm);
+          // Store the index in the sample Bible database.
+          string path = search_logic_chapter_file (demo_sample_bible_name (), book, chapter);
+          string index = filter_url_file_get_contents (path);
+          // Todo Database_Sample::store_search (book, chapter, index);
+        }
+      }
+    }
+  }
+  // The sample Bible is now in the standard location and editable by the users.
+  // Remove it from that location.
+  // Same for the search index.
+  database_bibles.deleteBible (demo_sample_bible_name ());
+  search_logic_delete_bible (demo_sample_bible_name ());
+  // Clean up the remaining artifacts that were created along the way. Todo
+  system ("find . -path '*logbook/14*' -delete");
+  system ("find . -name state.sqlite -delete");
+  system ("find . -name 'Bibledit Sample Bible.*' -delete");
+}
+
+
 // Create sample notes.
 void demo_create_sample_notes (void * webserver_request)
 {
@@ -356,15 +421,15 @@ void demo_create_sample_workspacees (void * webserver_request)
     make_pair (1, ""),
     make_pair (2, "")
   };
-
+  
   request->database_config_user()->setActiveWorkspace ("USFM");
   workspace_set_urls (request, urls);
   workspace_set_widths (request, widths);
   workspace_set_heights (request, row_heights);
-
+  
   urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
-
+  
   request->database_config_user()->setActiveWorkspace (demo_workspace ());
   workspace_set_urls (request, urls);
   workspace_set_widths (request, widths);

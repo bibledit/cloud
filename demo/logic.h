@@ -34,6 +34,7 @@ void demo_clean_data ();
 string demo_sample_bible_name ();
 void demo_create_sample_bible ();
 void demo_prepare_sample_bible (string * progress);
+void demo_prepare_sample_bible ();
 void demo_create_sample_notes (void * webserver_request);
 string demo_workspace ();
 void demo_create_sample_workspacees (void * webserver_request);

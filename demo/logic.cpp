@@ -234,20 +234,6 @@ void demo_create_sample_bible ()
   // Remove index for the sample Bible.
   search_logic_delete_bible (demo_sample_bible_name ());
   
-  // Copy the Bible data.
-  /* Todo
-  string source = sample_bible_bible_path ();
-  string destination = database_bibles.bibleFolder (demo_sample_bible_name ());
-  filter_url_dir_cp (source, destination);
-   */
-  
-  // Copy the Bible search index.
-  /* Todo
-  source = sample_bible_index_path ();
-  destination = search_logic_index_folder ();
-  filter_url_dir_cp (source, destination);
-   */
-
   // Copy the sample Bible data and search index.
   vector <int> rowids = Database_Sample::get ();
   for (auto rowid : rowids) {

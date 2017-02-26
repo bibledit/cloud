@@ -234,11 +234,14 @@ void demo_create_sample_bible ()
   // Remove index for the sample Bible.
   search_logic_delete_bible (demo_sample_bible_name ());
   
-  // Copy the sample Bible data and search index.
+  // Copy the sample Bible data and search index into place.
   vector <int> rowids = Database_Sample::get ();
   for (auto rowid : rowids) {
     string file, data;
     Database_Sample::get (rowid, file, data);
+    // Remove the "./" from the start.
+    file.erase (0, 2);
+    file = filter_url_create_root_path (file);
     string path = filter_url_dirname (file);
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);

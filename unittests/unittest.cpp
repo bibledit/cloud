@@ -113,6 +113,7 @@ int main (int argc, char **argv)
   test_usfm ();
   test_folders ();
   test_rss_feed ();
+  test_database_bibles ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

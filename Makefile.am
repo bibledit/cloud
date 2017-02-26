@@ -507,7 +507,11 @@ unittest_SOURCES = \
 	unittests/dev.cpp \
 	unittests/sample.cpp \
 	unittests/config.cpp \
-	unittests/log.cpp
+	unittests/log.cpp \
+	unittests/books.cpp \
+	unittests/check.cpp \
+	unittests/localization.cpp \
+	unittests/confirm.cpp
 
 unittest_LDADD = libbibledit.a
 

@@ -20,12 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-void test_database_users ();
-void test_database_books ();
-void test_database_bibleactions ();
-void test_database_check ();
-void test_database_localization ();
-void test_database_confirm ();
 void test_database_ipc ();
 void test_database_jobs ();
 void test_database_kjv ();

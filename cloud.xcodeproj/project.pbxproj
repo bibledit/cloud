@@ -550,6 +550,14 @@
 		CA9DE5971E6329FD00EE3C41 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA9DE5981E632FC500EE3C41 /* log.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = log.cpp; sourceTree = "<group>"; };
 		CA9DE5991E632FC500EE3C41 /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		CA9DE59A1E6356B200EE3C41 /* books.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = books.cpp; sourceTree = "<group>"; };
+		CA9DE59B1E6356B200EE3C41 /* books.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = books.h; sourceTree = "<group>"; };
+		CA9DE59C1E635A0100EE3C41 /* check.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check.cpp; sourceTree = "<group>"; };
+		CA9DE59D1E635A0100EE3C41 /* check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check.h; sourceTree = "<group>"; };
+		CA9DE59E1E635BBF00EE3C41 /* localization.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = localization.cpp; sourceTree = "<group>"; };
+		CA9DE59F1E635BBF00EE3C41 /* localization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = localization.h; sourceTree = "<group>"; };
+		CA9DE5A01E635EC100EE3C41 /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
+		CA9DE5A11E635EC100EE3C41 /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA9F784C1E17DD8E005040C6 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
 		CA9F784D1E17DD8E005040C6 /* studylight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = studylight.h; sourceTree = "<group>"; };
@@ -2961,6 +2969,14 @@
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
 				CAA4D3C11A45A648003ABA25 /* databases.cpp */,
 				CAA4D3C21A45A648003ABA25 /* databases.h */,
+				CA9DE5A01E635EC100EE3C41 /* confirm.cpp */,
+				CA9DE5A11E635EC100EE3C41 /* confirm.h */,
+				CA9DE59E1E635BBF00EE3C41 /* localization.cpp */,
+				CA9DE59F1E635BBF00EE3C41 /* localization.h */,
+				CA9DE59C1E635A0100EE3C41 /* check.cpp */,
+				CA9DE59D1E635A0100EE3C41 /* check.h */,
+				CA9DE59A1E6356B200EE3C41 /* books.cpp */,
+				CA9DE59B1E6356B200EE3C41 /* books.h */,
 				CA9DE5981E632FC500EE3C41 /* log.cpp */,
 				CA9DE5991E632FC500EE3C41 /* log.h */,
 				CA9DE5961E6329FD00EE3C41 /* config.cpp */,

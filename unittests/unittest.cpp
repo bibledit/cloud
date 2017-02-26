@@ -81,6 +81,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/sample.h>
 #include <unittests/config.h>
 #include <unittests/log.h>
+#include <unittests/books.h>
+#include <unittests/check.h>
+#include <unittests/localization.h>
+#include <unittests/confirm.h>
 
 
 int main (int argc, char **argv) 

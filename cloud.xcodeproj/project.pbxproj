@@ -546,6 +546,10 @@
 		CA9C8D261CC805480092E213 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = git.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA9DE5961E6329FD00EE3C41 /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
+		CA9DE5971E6329FD00EE3C41 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		CA9DE5981E632FC500EE3C41 /* log.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = log.cpp; sourceTree = "<group>"; };
+		CA9DE5991E632FC500EE3C41 /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA9F784C1E17DD8E005040C6 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
 		CA9F784D1E17DD8E005040C6 /* studylight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = studylight.h; sourceTree = "<group>"; };
@@ -2955,6 +2959,12 @@
 			children = (
 				CAA4D4361A45A648003ABA25 /* unittest.cpp */,
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
+				CAA4D3C11A45A648003ABA25 /* databases.cpp */,
+				CAA4D3C21A45A648003ABA25 /* databases.h */,
+				CA9DE5981E632FC500EE3C41 /* log.cpp */,
+				CA9DE5991E632FC500EE3C41 /* log.h */,
+				CA9DE5961E6329FD00EE3C41 /* config.cpp */,
+				CA9DE5971E6329FD00EE3C41 /* config.h */,
 				CA2944DF1E618C8A0058BDD6 /* sample.cpp */,
 				CA2944E01E618C8A0058BDD6 /* sample.h */,
 				CA3F4C391E4B521F001BDF13 /* dev.cpp */,
@@ -3003,8 +3013,6 @@
 				CA05DD351E338A6B00EA2EDF /* checksum.h */,
 				CA05DD401E33ABA400EA2EDF /* client.cpp */,
 				CA05DD411E33ABA400EA2EDF /* client.h */,
-				CAA4D3C11A45A648003ABA25 /* databases.cpp */,
-				CAA4D3C21A45A648003ABA25 /* databases.h */,
 				CA05DD541E33BF8800EA2EDF /* editone.cpp */,
 				CA05DD551E33BF8800EA2EDF /* editone.h */,
 				CA05DD321E33872D00EA2EDF /* flate.cpp */,

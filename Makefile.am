@@ -511,7 +511,8 @@ unittest_SOURCES = \
 	unittests/books.cpp \
 	unittests/check.cpp \
 	unittests/localization.cpp \
-	unittests/confirm.cpp
+	unittests/confirm.cpp \
+	unittests/jobs.cpp
 
 unittest_LDADD = libbibledit.a
 

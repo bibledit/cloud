@@ -377,7 +377,7 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/sample.$(OBJEXT) unittests/config.$(OBJEXT) \
 	unittests/log.$(OBJEXT) unittests/books.$(OBJEXT) \
 	unittests/check.$(OBJEXT) unittests/localization.$(OBJEXT) \
-	unittests/confirm.$(OBJEXT)
+	unittests/confirm.$(OBJEXT) unittests/jobs.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1092,7 +1092,8 @@ unittest_SOURCES = \
 	unittests/books.cpp \
 	unittests/check.cpp \
 	unittests/localization.cpp \
-	unittests/confirm.cpp
+	unittests/confirm.cpp \
+	unittests/jobs.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -2753,6 +2754,8 @@ unittests/localization.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/confirm.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/jobs.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3297,6 +3300,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/ipc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/jobs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/ldap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/localization.Po@am__quote@

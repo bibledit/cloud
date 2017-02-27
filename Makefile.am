@@ -512,7 +512,15 @@ unittest_SOURCES = \
 	unittests/check.cpp \
 	unittests/localization.cpp \
 	unittests/confirm.cpp \
-	unittests/jobs.cpp
+	unittests/jobs.cpp \
+	unittests/kjv.cpp \
+	unittests/oshb.cpp \
+	unittests/sblgnt.cpp \
+	unittests/sprint.cpp \
+	unittests/mail.cpp \
+	unittests/navigation.cpp \
+	unittests/resources.cpp \
+	unittests/notes.cpp
 
 unittest_LDADD = libbibledit.a
 

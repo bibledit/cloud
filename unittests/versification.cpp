@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 #include <filter/string.h>
 #include <checks/versification.h>
+#include <database/mappings.h>
 
 
 void test_versification ()
@@ -186,4 +187,195 @@ void test_versification ()
       evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
     }
   }
+}
+
+
+void test_database_mappings ()
+{
+  trace_unit_tests (__func__);
+  
+  // Setup
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    database_mappings.defaults ();
+    database_mappings.create2 ();
+    database_mappings.optimize ();
+    vector <string> names = database_mappings.names ();
+    evaluate (__LINE__, __func__, {"Dutch Traditional", english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
+  }
+  // Import Export
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import =
+    "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("phpunit", import);
+    vector <string> names = database_mappings.names ();
+    evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
+    string output = database_mappings.output ("phpunit");
+    evaluate (__LINE__, __func__, filter_string_trim (import), filter_string_trim (output));
+  }
+  // Create
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    database_mappings.create ("phpunit");
+    vector <string> names = database_mappings.names ();
+    evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
+  }
+  // Translate Same
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    Passage standard = Passage ("", 14, 14, "15");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    passages = database_mappings.translate ("--X", "--X", 15, 16, 17);
+    standard = Passage ("", 15, 16, "17");
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import =
+    "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("ABC", import);
+    import =
+    "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    Passage standard = Passage ("", 14, 14, "15");
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import =
+    "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("ABC", import);
+    import =
+    "2 Chronicles 14:13 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    Passage standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate Double Result.
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import =
+    "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("ABC", import);
+    import =
+    "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
+    "2 Chronicles 14:13 = 2 Chronicles 14:14\n"
+    "Nehemiah 4:1 = Nehemiah 3:33\n"
+    "Song of Solomon 7:2 = Song of Solomon 7:3\n";
+    database_mappings.import ("XYZ", import);
+    // Test mapping 2 Chronicles.
+    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    Passage standard = Passage ("", 14, 14, "12");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+  }
+  // Translate From Original
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    database_mappings.import ("VVV", import);
+    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    Passage standard = Passage ("", 14, 14, "12");
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate From Original Double
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import =
+    "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
+    "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
+    database_mappings.import ("VVV", import);
+    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    Passage standard = Passage ("", 14, 14, "12");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+  }
+  // Translate From Original No Mapping
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    database_mappings.import ("VVV", import);
+    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    Passage standard = Passage ("", 14, 15, "14");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate To Original
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    database_mappings.import ("ABA", import);
+    vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    Passage standard = Passage ("", 14, 14, "14");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+  }
+  // Translate To Original Double
+  {
+    refresh_sandbox (true);
+    Database_Mappings database_mappings;
+    database_mappings.create1 ();
+    string import =
+    "2 Chronicles 14:12 = 2 Chronicles 14:13\n"
+    "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
+    database_mappings.import ("ABA", import);
+    vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    Passage standard = Passage ("", 14, 14, "13");
+    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    standard = Passage ("", 14, 14, "14");
+    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+  }
+  
 }

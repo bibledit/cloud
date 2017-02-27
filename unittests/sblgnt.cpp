@@ -17,26 +17,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <config/libraries.h>
+#include <unittests/sblgnt.h>
+#include <unittests/utilities.h>
+#include <database/sblgnt.h>
 
 
-void test_database_versifications ();
-void test_database_modifications_user ();
-void test_database_modifications_team ();
-void test_database_modifications_notifications ();
-void test_database_volatile ();
-void test_database_state ();
-void test_database_imageresources ();
-void test_database_noteassignment ();
-void test_database_strong ();
-void test_database_morphgnt ();
-void test_database_etcbc4 ();
-void test_database_hebrewlexicon ();
-void test_database_cache ();
-void test_database_bibles ();
-void test_database_login ();
-void test_database_privileges ();
-void test_database_git ();
-void test_database_userresources ();
-void test_database_statistics ();
-void test_database_develop ();
+void test_database_sblgnt ()
+{
+  trace_unit_tests (__func__);
+  
+  Database_Sblgnt database_sblgnt = Database_Sblgnt ();
+  
+  vector <string> data = database_sblgnt.getVerse (43, 11, 35);
+  evaluate (__LINE__, __func__, { "ἐδάκρυσεν", "ὁ", "Ἰησοῦς" }, data);
+  
+  vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
+  evaluate (__LINE__, __func__, 1,   (int)passages.size());
+  evaluate (__LINE__, __func__, 58,  passages[0].book);
+  evaluate (__LINE__, __func__, 6,   passages[0].chapter);
+  evaluate (__LINE__, __func__, "2", passages[0].verse);
+}

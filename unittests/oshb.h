@@ -20,23 +20,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-void test_database_versifications ();
-void test_database_modifications_user ();
-void test_database_modifications_team ();
-void test_database_modifications_notifications ();
-void test_database_volatile ();
-void test_database_state ();
-void test_database_imageresources ();
-void test_database_noteassignment ();
-void test_database_strong ();
-void test_database_morphgnt ();
-void test_database_etcbc4 ();
-void test_database_hebrewlexicon ();
-void test_database_cache ();
-void test_database_bibles ();
-void test_database_login ();
-void test_database_privileges ();
-void test_database_git ();
-void test_database_userresources ();
-void test_database_statistics ();
-void test_database_develop ();
+void test_database_oshb ();

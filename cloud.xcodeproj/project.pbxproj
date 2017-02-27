@@ -370,6 +370,22 @@
 		CA4694581A588D1800635799 /* offset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = offset.h; sourceTree = "<group>"; };
 		CA46945A1A588D1800635799 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = save.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA46945B1A588D1800635799 /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
+		CA495D7F1E64292700BDFDE8 /* kjv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = kjv.cpp; sourceTree = "<group>"; };
+		CA495D801E64292700BDFDE8 /* kjv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kjv.h; sourceTree = "<group>"; };
+		CA495D811E6429D700BDFDE8 /* oshb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oshb.cpp; sourceTree = "<group>"; };
+		CA495D821E6429D700BDFDE8 /* oshb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oshb.h; sourceTree = "<group>"; };
+		CA495D831E642A7800BDFDE8 /* sblgnt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sblgnt.cpp; sourceTree = "<group>"; };
+		CA495D841E642A7800BDFDE8 /* sblgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sblgnt.h; sourceTree = "<group>"; };
+		CA495D851E642B2900BDFDE8 /* sprint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sprint.cpp; sourceTree = "<group>"; };
+		CA495D861E642B2900BDFDE8 /* sprint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprint.h; sourceTree = "<group>"; };
+		CA495D871E642C2800BDFDE8 /* mail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mail.cpp; sourceTree = "<group>"; };
+		CA495D881E642C2800BDFDE8 /* mail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mail.h; sourceTree = "<group>"; };
+		CA495D891E642EDA00BDFDE8 /* navigation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = navigation.cpp; sourceTree = "<group>"; };
+		CA495D8A1E642EDA00BDFDE8 /* navigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = navigation.h; sourceTree = "<group>"; };
+		CA495D8B1E642FDA00BDFDE8 /* resources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = resources.cpp; sourceTree = "<group>"; };
+		CA495D8C1E642FDA00BDFDE8 /* resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resources.h; sourceTree = "<group>"; };
+		CA495D8D1E64342600BDFDE8 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
+		CA495D8E1E64342600BDFDE8 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CA4A9A1A1CEA1D750039133C /* user1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user1edit.cpp; sourceTree = "<group>"; };
 		CA4A9A1B1CEA1D750039133C /* user1edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user1edit.h; sourceTree = "<group>"; };
 		CA4A9A1C1CEA1D750039133C /* user1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = user1edit.html; sourceTree = "<group>"; };
@@ -2971,6 +2987,22 @@
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
 				CAA4D3C11A45A648003ABA25 /* databases.cpp */,
 				CAA4D3C21A45A648003ABA25 /* databases.h */,
+				CA495D8D1E64342600BDFDE8 /* notes.cpp */,
+				CA495D8E1E64342600BDFDE8 /* notes.h */,
+				CA495D8B1E642FDA00BDFDE8 /* resources.cpp */,
+				CA495D8C1E642FDA00BDFDE8 /* resources.h */,
+				CA495D891E642EDA00BDFDE8 /* navigation.cpp */,
+				CA495D8A1E642EDA00BDFDE8 /* navigation.h */,
+				CA495D871E642C2800BDFDE8 /* mail.cpp */,
+				CA495D881E642C2800BDFDE8 /* mail.h */,
+				CA495D851E642B2900BDFDE8 /* sprint.cpp */,
+				CA495D861E642B2900BDFDE8 /* sprint.h */,
+				CA495D831E642A7800BDFDE8 /* sblgnt.cpp */,
+				CA495D841E642A7800BDFDE8 /* sblgnt.h */,
+				CA495D811E6429D700BDFDE8 /* oshb.cpp */,
+				CA495D821E6429D700BDFDE8 /* oshb.h */,
+				CA495D7F1E64292700BDFDE8 /* kjv.cpp */,
+				CA495D801E64292700BDFDE8 /* kjv.h */,
 				CA9DE5A21E6365A400EE3C41 /* jobs.cpp */,
 				CA9DE5A31E6365A400EE3C41 /* jobs.h */,
 				CA9DE5A01E635EC100EE3C41 /* confirm.cpp */,

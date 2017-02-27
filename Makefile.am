@@ -458,7 +458,6 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/databases.cpp \
 	unittests/sqlite.cpp \
 	unittests/session.cpp \
 	unittests/folders.cpp \
@@ -523,7 +522,15 @@ unittest_SOURCES = \
 	unittests/notes.cpp \
 	unittests/modifications.cpp \
 	unittests/volatile.cpp \
-	unittests/state.cpp
+	unittests/state.cpp \
+	unittests/strong.cpp \
+	unittests/morphgnt.cpp \
+	unittests/etcbc4.cpp \
+	unittests/lexicon.cpp \
+	unittests/cache.cpp \
+	unittests/login.cpp \
+	unittests/privileges.cpp \
+	unittests/statistics.cpp
 
 unittest_LDADD = libbibledit.a
 

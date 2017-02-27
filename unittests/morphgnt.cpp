@@ -17,8 +17,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <config/libraries.h>
+#include <unittests/morphgnt.h>
+#include <unittests/utilities.h>
+#include <database/morphgnt.h>
 
 
-void test_git ();
-void test_database_git ();
+void test_database_morphgnt ()
+{
+  trace_unit_tests (__func__);
+  
+  Database_MorphGnt database;
+  
+  vector <int> results;
+  
+  results = database.rowids (0, 1, 2);
+  evaluate (__LINE__, __func__, 0, results.size ());
+  
+  results = database.rowids (20, 3, 4);
+  evaluate (__LINE__, __func__, 0, results.size ());
+  
+  results = database.rowids (40, 5, 6);
+  evaluate (__LINE__, __func__, 10, results.size ());
+  
+  results = database.rowids (66, 7, 8);
+  evaluate (__LINE__, __func__, 16, results.size ());
+}

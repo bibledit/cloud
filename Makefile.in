@@ -349,11 +349,11 @@ am_server_OBJECTS = executable/bibledit.$(OBJEXT)
 server_OBJECTS = $(am_server_OBJECTS)
 server_DEPENDENCIES = libbibledit.a
 am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
-	unittests/utilities.$(OBJEXT) unittests/databases.$(OBJEXT) \
-	unittests/sqlite.$(OBJEXT) unittests/session.$(OBJEXT) \
-	unittests/folders.$(OBJEXT) unittests/flate.$(OBJEXT) \
-	unittests/checksum.$(OBJEXT) unittests/bibles.$(OBJEXT) \
-	unittests/html2usfm.$(OBJEXT) unittests/usfm2html.$(OBJEXT) \
+	unittests/utilities.$(OBJEXT) unittests/sqlite.$(OBJEXT) \
+	unittests/session.$(OBJEXT) unittests/folders.$(OBJEXT) \
+	unittests/flate.$(OBJEXT) unittests/checksum.$(OBJEXT) \
+	unittests/bibles.$(OBJEXT) unittests/html2usfm.$(OBJEXT) \
+	unittests/usfm2html.$(OBJEXT) \
 	unittests/usfm2html2usfm.$(OBJEXT) \
 	unittests/workspaces.$(OBJEXT) unittests/client.$(OBJEXT) \
 	unittests/sentences.$(OBJEXT) \
@@ -383,7 +383,11 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/mail.$(OBJEXT) unittests/navigation.$(OBJEXT) \
 	unittests/resources.$(OBJEXT) unittests/notes.$(OBJEXT) \
 	unittests/modifications.$(OBJEXT) unittests/volatile.$(OBJEXT) \
-	unittests/state.$(OBJEXT)
+	unittests/state.$(OBJEXT) unittests/strong.$(OBJEXT) \
+	unittests/morphgnt.$(OBJEXT) unittests/etcbc4.$(OBJEXT) \
+	unittests/lexicon.$(OBJEXT) unittests/cache.$(OBJEXT) \
+	unittests/login.$(OBJEXT) unittests/privileges.$(OBJEXT) \
+	unittests/statistics.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1045,7 +1049,6 @@ server_LDADD = libbibledit.a
 unittest_SOURCES = \
 	unittests/unittest.cpp \
 	unittests/utilities.cpp \
-	unittests/databases.cpp \
 	unittests/sqlite.cpp \
 	unittests/session.cpp \
 	unittests/folders.cpp \
@@ -1110,7 +1113,15 @@ unittest_SOURCES = \
 	unittests/notes.cpp \
 	unittests/modifications.cpp \
 	unittests/volatile.cpp \
-	unittests/state.cpp
+	unittests/state.cpp \
+	unittests/strong.cpp \
+	unittests/morphgnt.cpp \
+	unittests/etcbc4.cpp \
+	unittests/lexicon.cpp \
+	unittests/cache.cpp \
+	unittests/login.cpp \
+	unittests/privileges.cpp \
+	unittests/statistics.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -2663,8 +2674,6 @@ unittests/unittest.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/utilities.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/databases.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/sqlite.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/session.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -2794,6 +2803,22 @@ unittests/modifications.$(OBJEXT): unittests/$(am__dirstamp) \
 unittests/volatile.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/state.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/strong.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/morphgnt.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/etcbc4.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/lexicon.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/cache.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/login.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/privileges.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/statistics.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
@@ -3320,16 +3345,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/biblegateway.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/bibles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/books.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/cache.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/checksum.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/confirm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/databases.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/dev.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editone.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/etcbc4.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@
@@ -3343,18 +3369,22 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/json.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/kjv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/ldap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/lexicon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/localization.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/modifications.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/morphgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/navigation.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/notes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/odf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/oshb.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/pairs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/passage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/privileges.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/related.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/resources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/roles.Po@am__quote@
@@ -3369,7 +3399,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sprint.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/state.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/string.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/strong.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/styles.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tasks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/text.Po@am__quote@

@@ -17,8 +17,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <config/libraries.h>
+#include <unittests/strong.h>
+#include <unittests/utilities.h>
+#include <database/strong.h>
 
 
-void test_git ();
-void test_database_git ();
+void test_database_strong ()
+{
+  trace_unit_tests (__func__);
+  
+  Database_Strong database;
+  
+  string result = database.definition ("G0");
+  evaluate (__LINE__, __func__, "", result);
+  
+  result = database.definition ("G1");
+  int length_h = result.length ();
+  
+  evaluate (__LINE__, __func__, true, length_h > 100);
+  
+  vector <string> results = database.strong ("χρηστοσ");
+  evaluate (__LINE__, __func__, 1, results.size ());
+  if (!results.empty ()) {
+    evaluate (__LINE__, __func__, "G5543", results[0]);
+  }
+}

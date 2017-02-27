@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <database/state.h>
 #include <database/mail.h>
+#include <database/noteassignment.h>
 #include <filter/date.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -1137,6 +1138,40 @@ void test_database_notes ()
     restored_search = database_notes.selectNotes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, search_results, restored_search);
   }
+}
+
+
+void test_database_noteassignment ()
+{
+  trace_unit_tests (__func__);
+  
+  refresh_sandbox (true);
+  Database_NoteAssignment database;
+  
+  bool exists = database.exists ("unittest");
+  evaluate (__LINE__, __func__, false, exists);
+  
+  vector <string> assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {}, assignees);
+  
+  database.assignees ("unittest", {"one", "two"});
+  assignees = database.assignees ("none-existing");
+  evaluate (__LINE__, __func__, {}, assignees);
+  
+  exists = database.exists ("unittest");
+  evaluate (__LINE__, __func__, true, exists);
+  
+  assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {"one", "two"}, assignees);
+  
+  database.assignees ("unittest", {"1", "2"});
+  assignees = database.assignees ("unittest");
+  evaluate (__LINE__, __func__, {"1", "2"}, assignees);
+  
+  exists = database.exists ("unittest", "1");
+  evaluate (__LINE__, __func__, true, exists);
+  exists = database.exists ("unittest", "none-existing");
+  evaluate (__LINE__, __func__, false, exists);
 }
 
 

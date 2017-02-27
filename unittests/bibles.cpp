@@ -658,3 +658,173 @@ void test_database_bibleactions ()
 }
 
 
+void test_database_bibles ()
+{
+  trace_unit_tests (__func__);
+  
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    vector <string> standard;
+    vector <string> bibles = database_bibles.getBibles ();
+    evaluate (__LINE__, __func__, standard, bibles);
+  }
+  {
+    // Test whether optimizing works without errors.
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    database_bibles.createBible ("phpunit");
+    database_bibles.storeChapter ("phpunit", 2, 3, "a");
+    database_bibles.storeChapter ("phpunit", 2, 3, "b");
+    database_bibles.storeChapter ("phpunit", 2, 3, "c");
+    database_bibles.storeChapter ("phpunit", 2, 3, "d");
+    database_bibles.storeChapter ("phpunit", 2, 3, "e");
+    database_bibles.storeChapter ("phpunit", 2, 3, "f");
+    database_bibles.storeChapter ("phpunit", 2, 3, "g");
+    database_bibles.optimize ();
+    string usfm = database_bibles.getChapter ("phpunit", 2, 3);
+    evaluate (__LINE__, __func__, "g", usfm);
+  }
+  {
+    // Test whether optimizing removes files with 0 size.
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    database_bibles.createBible ("phpunit");
+    database_bibles.storeChapter ("phpunit", 2, 3, "a");
+    database_bibles.storeChapter ("phpunit", 2, 3, "b");
+    database_bibles.storeChapter ("phpunit", 2, 3, "c");
+    database_bibles.storeChapter ("phpunit", 2, 3, "d");
+    database_bibles.storeChapter ("phpunit", 2, 3, "e");
+    database_bibles.storeChapter ("phpunit", 2, 3, "f");
+    database_bibles.storeChapter ("phpunit", 2, 3, "");
+    string usfm = database_bibles.getChapter ("phpunit", 2, 3);
+    evaluate (__LINE__, __func__, "", usfm);
+    database_bibles.optimize ();
+    usfm = database_bibles.getChapter ("phpunit", 2, 3);
+    evaluate (__LINE__, __func__, "f", usfm);
+  }
+  // Test create / get / delete Bibles.
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    
+    database_bibles.createBible ("phpunit");
+    
+    vector <string> bibles = database_bibles.getBibles ();
+    evaluate (__LINE__, __func__, {"phpunit"}, bibles);
+    
+    database_bibles.deleteBible ("phpunit");
+    
+    bibles = database_bibles.getBibles ();
+    evaluate (__LINE__, __func__, {}, bibles);
+  }
+  // Test storeChapter / getChapter
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    
+    database_bibles.createBible ("phpunit");
+    string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
+    database_bibles.storeChapter ("phpunit", 2, 1, usfm);
+    string result = database_bibles.getChapter ("phpunit", 2, 1);
+    evaluate (__LINE__, __func__, usfm, result);
+    result = database_bibles.getChapter ("phpunit2", 2, 1);
+    evaluate (__LINE__, __func__, "", result);
+    result = database_bibles.getChapter ("phpunit", 1, 1);
+    evaluate (__LINE__, __func__, "", result);
+  }
+  // Test books
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    
+    database_bibles.createBible ("phpunit");
+    vector <int> books = database_bibles.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { }, books);
+    
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    books = database_bibles.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { 1 }, books);
+    
+    database_bibles.storeChapter ("phpunit", 2, 3, "\\c 0");
+    books = database_bibles.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { 1, 2 }, books);
+    
+    database_bibles.deleteBook ("phpunit", 3);
+    books = database_bibles.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { 1, 2 }, books);
+    
+    database_bibles.deleteBook ("phpunit", 1);
+    books = database_bibles.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { 2 }, books);
+    
+    database_bibles.deleteBook ("phpunit2", 2);
+    books = database_bibles.getBooks ("phpunit");
+    evaluate (__LINE__, __func__, { 2 }, books);
+  }
+  // Test chapters ()
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    
+    database_bibles.createBible ("phpunit");
+    vector <int> chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate (__LINE__, __func__, { }, chapters);
+    
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate (__LINE__, __func__, { 2 }, chapters);
+    
+    chapters = database_bibles.getChapters ("phpunit", 2);
+    evaluate (__LINE__, __func__, { }, chapters);
+    
+    database_bibles.storeChapter ("phpunit", 1, 3, "\\c 1");
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
+    
+    database_bibles.deleteChapter ("phpunit", 3, 3);
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
+    
+    database_bibles.deleteChapter ("phpunit", 1, 2);
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate (__LINE__, __func__, { 3 }, chapters);
+    
+    database_bibles.deleteChapter ("phpunit", 1, 3);
+    chapters = database_bibles.getChapters ("phpunit", 1);
+    evaluate (__LINE__, __func__, { }, chapters);
+  }
+  // Test chapter IDs
+  {
+    refresh_sandbox (true);
+    Database_Bibles database_bibles;
+    Database_State::create ();
+    
+    database_bibles.createBible ("phpunit");
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    int id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate (__LINE__, __func__, 100000001, id);
+    
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate (__LINE__, __func__, 100000002, id);
+    
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    database_bibles.storeChapter ("phpunit", 1, 2, "\\c 1");
+    id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate (__LINE__, __func__, 100000004, id);
+    
+    database_bibles.storeChapter ("phpunit", 2, 3, "\\c 1");
+    id = database_bibles.getChapterId ("phpunit", 1, 2);
+    evaluate (__LINE__, __func__, 100000004, id);
+  }
+}
+
+

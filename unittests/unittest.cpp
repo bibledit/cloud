@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
-#include <unittests/databases.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
 #include <database/config/user.h>
@@ -97,6 +96,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/modifications.h>
 #include <unittests/volatile.h>
 #include <unittests/state.h>
+#include <unittests/strong.h>
+#include <unittests/morphgnt.h>
+#include <unittests/etcbc4.h>
+#include <unittests/lexicon.h>
+#include <unittests/cache.h>
+#include <unittests/login.h>
+#include <unittests/privileges.h>
+#include <unittests/statistics.h>
 
 
 int main (int argc, char **argv) 
@@ -200,7 +207,6 @@ int main (int argc, char **argv)
   test_database_userresources ();
   test_related ();
   test_editone_logic ();
-  test_database_develop ();
   test_http ();
   test_memory ();
   test_database_statistics ();

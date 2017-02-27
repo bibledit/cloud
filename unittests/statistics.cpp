@@ -73,5 +73,3 @@ void test_database_statistics ()
   }
 #endif
 }
-
-

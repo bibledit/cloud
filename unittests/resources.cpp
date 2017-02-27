@@ -21,6 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <resource/external.h>
 #include <database/usfmresources.h>
+#include <database/imageresources.h>
+#include <database/userresources.h>
+#include <filter/url.h>
+#include <filter/string.h>
 
 
 void test_database_resources ()
@@ -120,3 +124,112 @@ void test_database_usfmresources ()
     evaluate (__LINE__, __func__, {}, books);
   }
 }
+
+
+void test_database_imageresources ()
+{
+  trace_unit_tests (__func__);
+  
+  Database_ImageResources database_imageresources;
+  string image = filter_url_create_root_path ("unittests", "tests", "Genesis-1-1-18.gif");
+  
+  // Empty
+  {
+    refresh_sandbox (true);
+    vector <string> resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 0, resources.size());
+  }
+  
+  // Create, names, erase.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+    vector <string> resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 1, resources.size());
+    bool hit = false;
+    for (auto & resource : resources) if (resource == "unittest") hit = true;
+    evaluate (__LINE__, __func__, true, hit);
+    
+    database_imageresources.erase ("none-existing");
+    resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 1, resources.size());
+    
+    database_imageresources.erase ("unittest");
+    resources = database_imageresources.names ();
+    evaluate (__LINE__, __func__, 0, resources.size());
+  }
+  
+  // Store, get, erase images.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+    
+    string path = "/tmp/unittest.jpg";
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_unlink (path);
+    
+    vector <string> images = database_imageresources.get ("unittest");
+    evaluate (__LINE__, __func__, images, {"unittest.jpg", "unittest0.jpg"});
+    
+    database_imageresources.erase ("unittest", "unittest.jpg");
+    
+    images = database_imageresources.get ("unittest");
+    evaluate (__LINE__, __func__, images, {"unittest0.jpg"});
+  }
+  // Assign passage and get image based on passage.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+    
+    for (int i = 10; i < 20; i++) {
+      string image = "unittest" + convert_to_string (i) + ".jpg";
+      string path = "/tmp/" + image;
+      filter_url_file_cp (image, path);
+      database_imageresources.store ("unittest", path);
+      filter_url_unlink (path);
+      database_imageresources.assign ("unittest", image, i, i, i, i, i, i+10);
+    }
+    
+    vector <string> images = database_imageresources.get ("unittest", 11, 11, 13);
+    evaluate (__LINE__, __func__, images, {"unittest11.jpg"});
+    
+    images = database_imageresources.get ("unittest", 11, 11, 100);
+    evaluate (__LINE__, __func__, images, {});
+  }
+  // Assign passage to image, and retrieve it.
+  {
+    refresh_sandbox (true);
+    
+    database_imageresources.create ("unittest");
+    
+    string image = "unittest.jpg";
+    string path = "/tmp/" + image;
+    filter_url_file_cp (image, path);
+    database_imageresources.store ("unittest", path);
+    filter_url_unlink (path);
+    database_imageresources.assign ("unittest", image, 1, 2, 0, 1, 2, 10);
+    
+    int book1, chapter1, verse1, book2, chapter2, verse2;
+    database_imageresources.get ("unittest", "none-existing",
+                                 book1, chapter1, verse1, book2, chapter2, verse2);
+    evaluate (__LINE__, __func__, book1, 0);
+    evaluate (__LINE__, __func__, chapter1, 0);
+    
+    database_imageresources.get ("unittest", image,
+                                 book1, chapter1, verse1, book2, chapter2, verse2);
+    evaluate (__LINE__, __func__, book1, 1);
+    evaluate (__LINE__, __func__, chapter1, 2);
+    evaluate (__LINE__, __func__, verse1, 0);
+    evaluate (__LINE__, __func__, book2, 1);
+    evaluate (__LINE__, __func__, chapter2, 2);
+    evaluate (__LINE__, __func__, verse2, 10);
+  }
+}
+
+

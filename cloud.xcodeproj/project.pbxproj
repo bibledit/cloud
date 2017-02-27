@@ -386,6 +386,12 @@
 		CA495D8C1E642FDA00BDFDE8 /* resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resources.h; sourceTree = "<group>"; };
 		CA495D8D1E64342600BDFDE8 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CA495D8E1E64342600BDFDE8 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
+		CA495D8F1E64383000BDFDE8 /* modifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = modifications.cpp; sourceTree = "<group>"; };
+		CA495D901E64383000BDFDE8 /* modifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = modifications.h; sourceTree = "<group>"; };
+		CA495D911E64392B00BDFDE8 /* volatile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = volatile.cpp; sourceTree = "<group>"; };
+		CA495D921E64392B00BDFDE8 /* volatile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = volatile.h; sourceTree = "<group>"; };
+		CA495D931E643A2A00BDFDE8 /* state.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = state.cpp; sourceTree = "<group>"; };
+		CA495D941E643A2A00BDFDE8 /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
 		CA4A9A1A1CEA1D750039133C /* user1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user1edit.cpp; sourceTree = "<group>"; };
 		CA4A9A1B1CEA1D750039133C /* user1edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user1edit.h; sourceTree = "<group>"; };
 		CA4A9A1C1CEA1D750039133C /* user1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = user1edit.html; sourceTree = "<group>"; };
@@ -2987,6 +2993,12 @@
 				CAA4D4371A45A648003ABA25 /* unittest.h */,
 				CAA4D3C11A45A648003ABA25 /* databases.cpp */,
 				CAA4D3C21A45A648003ABA25 /* databases.h */,
+				CA495D931E643A2A00BDFDE8 /* state.cpp */,
+				CA495D941E643A2A00BDFDE8 /* state.h */,
+				CA495D911E64392B00BDFDE8 /* volatile.cpp */,
+				CA495D921E64392B00BDFDE8 /* volatile.h */,
+				CA495D8F1E64383000BDFDE8 /* modifications.cpp */,
+				CA495D901E64383000BDFDE8 /* modifications.h */,
 				CA495D8D1E64342600BDFDE8 /* notes.cpp */,
 				CA495D8E1E64342600BDFDE8 /* notes.h */,
 				CA495D8B1E642FDA00BDFDE8 /* resources.cpp */,

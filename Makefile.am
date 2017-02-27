@@ -520,7 +520,10 @@ unittest_SOURCES = \
 	unittests/mail.cpp \
 	unittests/navigation.cpp \
 	unittests/resources.cpp \
-	unittests/notes.cpp
+	unittests/notes.cpp \
+	unittests/modifications.cpp \
+	unittests/volatile.cpp \
+	unittests/state.cpp
 
 unittest_LDADD = libbibledit.a
 

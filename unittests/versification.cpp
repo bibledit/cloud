@@ -379,3 +379,101 @@ void test_database_mappings ()
   }
   
 }
+
+
+void test_database_versifications ()
+{
+  trace_unit_tests (__func__);
+  
+  // Basic operations, create, delete.
+  {
+    refresh_sandbox (true);
+    Database_Versifications database_versifications;
+    database_versifications.create ();
+    database_versifications.optimize ();
+    int id = database_versifications.createSystem ("phpunit");
+    evaluate (__LINE__, __func__, 1000, id);
+    id = database_versifications.getID ("phpunit");
+    evaluate (__LINE__, __func__, 1000, id);
+    vector <string> systems = database_versifications.getSystems ();
+    evaluate (__LINE__, __func__, {"phpunit"}, systems);
+    database_versifications.erase ("phpunit");
+    systems = database_versifications.getSystems ();
+    evaluate (__LINE__, __func__, {}, systems);
+  }
+  {
+    refresh_sandbox (true);
+    Database_Versifications database_versifications;
+    database_versifications.create ();
+    database_versifications.defaults ();
+    
+    // GetID
+    int id = database_versifications.getID (english ());
+    evaluate (__LINE__, __func__, 4 , id);
+    
+    // Test books.
+    vector <int> books = database_versifications.getBooks (english ());
+    vector <int> standard;
+    for (unsigned int i = 1; i <= 66; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, books);
+    
+    // Test chapters.
+    vector <int> chapters = database_versifications.getChapters (english (), 1);
+    standard.clear ();
+    for (unsigned int i = 1; i <= 50; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+    chapters = database_versifications.getChapters (english (), 1, true);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 50; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+    
+    // Test verses.
+    vector <int> verses = database_versifications.getVerses (english (), 1, 2);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, verses);
+    
+    // Verses in chapter 0.
+    verses = database_versifications.getVerses (english (), 1, 0);
+    evaluate (__LINE__, __func__, {0}, verses);
+    
+    // Books Chapters Verses.
+    vector <Passage> data = database_versifications.getBooksChaptersVerses (english ());
+    evaluate (__LINE__, __func__, 1189, (int)data.size());
+    evaluate (__LINE__, __func__, "31", data [0].verse);
+    
+    // Maximum number of books.
+    books = database_versifications.getMaximumBooks ();
+    standard = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 70, 71, 73, 74, 75, 80, 81 };
+    evaluate (__LINE__, __func__, standard, books);
+    
+    // Maximum number of chapters.
+    chapters = database_versifications.getMaximumChapters (5);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 34; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, chapters);
+    
+    // Maximum number of verses.
+    verses = database_versifications.getMaximumVerses (1, 2);
+    standard.clear ();
+    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    evaluate (__LINE__, __func__, standard, verses);
+  }
+  // Import Export
+  {
+    refresh_sandbox (true);
+    Database_Versifications database_versifications;
+    database_versifications.create ();
+    string input =
+    "Genesis 1:31\n"
+    "Genesis 2:25\n";
+    database_versifications.input (input, "phpunit");
+    int id = database_versifications.getID ("phpunit");
+    evaluate (__LINE__, __func__, 1000, id);
+    vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
+    evaluate (__LINE__, __func__, 2, (int)data.size ());
+    evaluate (__LINE__, __func__, "25", data [1].verse);
+    string output = database_versifications.output ("phpunit");
+    evaluate (__LINE__, __func__, filter_string_trim (input), filter_string_trim (output));
+  }
+}

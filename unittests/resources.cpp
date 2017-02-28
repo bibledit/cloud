@@ -277,5 +277,3 @@ void test_database_userresources ()
   fragment = Database_UserResources::book (name, book + 1);
   evaluate (__LINE__, __func__, "", fragment);
 }
-
-

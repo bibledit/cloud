@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_database_login ()
 {
+
   trace_unit_tests (__func__);
   
   {

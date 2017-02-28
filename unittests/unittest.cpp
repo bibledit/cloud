@@ -121,7 +121,7 @@ int main (int argc, char **argv)
 
   // Number of failed unit tests.
   error_count = 0;
-  
+
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
@@ -235,8 +235,8 @@ int main (int argc, char **argv)
   
   // Output possible journal entries.
   refresh_sandbox (true);
-  
-  // Test results.  
+
+  // Test results.
   if (error_count == 0) cout << "All tests passed" << endl;
   else cout << "Number of failures: " << error_count << endl;
 

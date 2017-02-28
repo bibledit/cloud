@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_rss_feed ()
 {
-#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   refresh_sandbox (true);
   
@@ -56,5 +55,4 @@ void test_rss_feed ()
   }
   rss_logic_update_xml (titles, authors, descriptions);
   evaluate (__LINE__, __func__, 2598, filter_url_filesize (path));
-#endif
 }

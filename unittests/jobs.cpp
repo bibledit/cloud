@@ -80,5 +80,3 @@ void test_database_jobs ()
     evaluate (__LINE__, __func__, "result", result);
   }
 }
-
-

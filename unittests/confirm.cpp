@@ -25,10 +25,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_database_confirm ()
 {
+#ifdef HAVE_CLOUD
+
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
-  Database_Confirm database_confirm = Database_Confirm ();
+  Database_Confirm database_confirm;
   database_confirm.create ();
   
   database_confirm.optimize ();
@@ -62,4 +64,6 @@ void test_database_confirm ()
   database_confirm.erase (id);
   query = database_confirm.getQuery (id);
   evaluate (__LINE__, __func__,"", query);
+
+#endif
 }

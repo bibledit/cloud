@@ -24,6 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_database_sprint ()
 {
+#ifdef HAVE_CLOUD
+
   trace_unit_tests (__func__);
   
   // Maintenance.
@@ -112,6 +114,8 @@ void test_database_sprint ()
     evaluate (__LINE__, __func__, 16, history[1].tasks);
     evaluate (__LINE__, __func__, 55, history[1].complete);
   }
+
+#endif
 }
 
 

@@ -75,7 +75,7 @@ void database_maintenance ()
   
   
 #ifdef HAVE_CLOUD
-  Database_Confirm database_confirm = Database_Confirm ();
+  Database_Confirm database_confirm;
   database_confirm.trim ();
   database_confirm.optimize ();
 #endif

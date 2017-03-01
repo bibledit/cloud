@@ -52,7 +52,7 @@ Confirm_Worker::~Confirm_Worker ()
 // subsequent_body   : The body of the email to send upon user confirmation.
 void Confirm_Worker::setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body)
 {
-  Database_Confirm database_confirm = Database_Confirm ();
+  Database_Confirm database_confirm;
   int confirmation_id = database_confirm.getNewID ();
   initial_subject += " " + convert_to_string (confirmation_id);
   initial_body += "\n\n";
@@ -69,7 +69,7 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
   if (from.empty()) {};
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
-  Database_Confirm database_confirm = Database_Confirm ();
+  Database_Confirm database_confirm;
   int id = database_confirm.searchID (subject);
   if (id == 0) {
     return false;

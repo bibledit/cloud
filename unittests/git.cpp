@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void test_filter_git_setup (Webserver_Request * request, string bible, string newbible,
                             string psalms_0_data, string psalms_11_data, string song_of_solomon_2_data)
 {
+#ifdef HAVE_CLOUD
+
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
@@ -914,6 +916,17 @@ void test_database_git ()
   Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
   vector <string> users = Database_Git::get_users (bible);
   evaluate (__LINE__, __func__, {user, "user2"}, users);
+
+#else
+  
+  (void) request;
+  (void) bible;
+  (void) newbible;
+  (void) psalms_0_data;
+  (void) psalms_11_data;
+  (void) song_of_solomon_2_data;
+  
+#endif
 }
 
 

@@ -226,7 +226,7 @@ void setup_initialize_data ()
   setup_generate_locale_databases (false);
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "confirmations";
-  Database_Confirm database_confirm = Database_Confirm ();
+  Database_Confirm database_confirm;
   database_confirm.create ();
 #endif
   config_globals_setup_message = "jobs";

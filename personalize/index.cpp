@@ -284,43 +284,43 @@ string personalize_index (void * webserver_request)
   view.set_variable ("fasteditorswitch", on_off);
 
   
-  // Active visual editors.
+  // Visual editors in the fast Bible editor switcher.
   string editors;
-  const char * activevisualeditors = "activevisualeditors";
-  if (request->query.count (activevisualeditors)) {
-    editors = request->query[activevisualeditors];
+  const char * fastswitchvisualeditors = "fastswitchvisualeditors";
+  if (request->query.count (fastswitchvisualeditors)) {
+    editors = request->query[fastswitchvisualeditors];
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (menu_logic_editor_settings_text (true, i), activevisualeditors, convert_to_string (i));
+        dialog_list.add_row (menu_logic_editor_settings_text (true, i), fastswitchvisualeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user ()->setEnabledVisualEditors (convert_to_int (editors));
+      request->database_config_user ()->setFastSwitchVisualEditors (convert_to_int (editors));
     }
   }
-  editors = menu_logic_editor_settings_text (true, request->database_config_user ()->getEnabledVisualEditors ());
-  view.set_variable (activevisualeditors, editors);
+  editors = menu_logic_editor_settings_text (true, request->database_config_user ()->getFastSwitchVisualEditors ());
+  view.set_variable (fastswitchvisualeditors, editors);
 
   
-  // Active USFM editors.
-  const char * activeusfmeditors = "activeusfmeditors";
-  if (request->query.count (activeusfmeditors)) {
-    editors = request->query[activeusfmeditors];
+  // USFM editors fast Bible editor switcher.
+  const char * fastswitchusfmeditors = "fastswitchusfmeditors";
+  if (request->query.count (fastswitchusfmeditors)) {
+    editors = request->query[fastswitchusfmeditors];
     if (editors.empty ()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
       for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (menu_logic_editor_settings_text (false, i), activeusfmeditors, convert_to_string (i));
+        dialog_list.add_row (menu_logic_editor_settings_text (false, i), fastswitchusfmeditors, convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user ()->setEnabledUsfmEditors (convert_to_int (editors));
+      request->database_config_user ()->setFastSwitchUsfmEditors (convert_to_int (editors));
     }
   }
-  editors = menu_logic_editor_settings_text (false, request->database_config_user ()->getEnabledUsfmEditors ());
-  view.set_variable (activeusfmeditors, editors);
+  editors = menu_logic_editor_settings_text (false, request->database_config_user ()->getFastSwitchUsfmEditors ());
+  view.set_variable (fastswitchusfmeditors, editors);
 
   
   // The names of the two, three, or four Bible editors.

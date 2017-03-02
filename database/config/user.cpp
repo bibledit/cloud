@@ -1213,23 +1213,23 @@ void Database_Config_User::setIncludeRelatedPassages (bool value)
 }
 
 
-int Database_Config_User::getEnabledVisualEditors ()
+int Database_Config_User::getFastSwitchVisualEditors ()
 {
   // Initially only the visual verse editor is enabled.
   return getIValue ("enabled-visual-editors", 2);
 }
-void Database_Config_User::setEnabledVisualEditors (int value)
+void Database_Config_User::setFastSwitchVisualEditors (int value)
 {
   setIValue ("enabled-visual-editors", value);
 }
 
 
-int Database_Config_User::getEnabledUsfmEditors ()
+int Database_Config_User::getFastSwitchUsfmEditors ()
 {
   // Initially only the USFM chapter editor is enabled.
   return getIValue ("enabled-usfm-editors", 1);
 }
-void Database_Config_User::setEnabledUsfmEditors (int value)
+void Database_Config_User::setFastSwitchUsfmEditors (int value)
 {
   setIValue ("enabled-usfm-editors", value);
 }

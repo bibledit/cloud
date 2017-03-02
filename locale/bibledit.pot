@@ -7951,7 +7951,7 @@ msgstr ""
 msgid "Enable fast Bible editor switching"
 msgstr ""
 
-msgid "Active Bible editors:"
+msgid "Available Bible editors in the menu in advanced mode:"
 msgstr ""
 
 msgid "Visual editors:"

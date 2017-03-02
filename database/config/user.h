@@ -217,10 +217,10 @@ public:
   void setConnectedClientsForUser (string username, vector <string> values);
   bool getIncludeRelatedPassages ();
   void setIncludeRelatedPassages (bool value);
-  int getEnabledVisualEditors ();
-  void setEnabledVisualEditors (int value);
-  int getEnabledUsfmEditors ();
-  void setEnabledUsfmEditors (int value);
+  int getFastSwitchVisualEditors ();
+  void setFastSwitchVisualEditors (int value);
+  int getFastSwitchUsfmEditors ();
+  void setFastSwitchUsfmEditors (int value);
   bool getEnableStylesButtonVisualEditors ();
   void setEnableStylesButtonVisualEditors (bool value);
   bool getMenuChangesInBasicMode ();

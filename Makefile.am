@@ -24,6 +24,7 @@ libbibledit_a_SOURCES = \
 	filter/merge.cpp \
 	filter/date.cpp \
 	filter/memory.cpp \
+	filter/webview.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -530,7 +531,10 @@ unittest_SOURCES = \
 	unittests/cache.cpp \
 	unittests/login.cpp \
 	unittests/privileges.cpp \
-	unittests/statistics.cpp
+	unittests/statistics.cpp \
+	unittests/webview.cpp \
+	unittests/javascript.cpp
+
 
 unittest_LDADD = libbibledit.a
 

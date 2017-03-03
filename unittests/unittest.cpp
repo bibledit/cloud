@@ -104,6 +104,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/login.h>
 #include <unittests/privileges.h>
 #include <unittests/statistics.h>
+#include <unittests/webview.h>
+#include <unittests/javascript.h>
 
 
 int main (int argc, char **argv) 
@@ -129,16 +131,9 @@ int main (int argc, char **argv)
   // The previous line is a signature for automated unit testing: Do not change it.
   
   refresh_sandbox (true);
-  test_database_sample ();
+  test_filter_webview ();
+  test_javascript ();
   test_dev ();
-  test_styles ();
-  test_html2usfm ();
-  test_usfm2html ();
-  test_usfm2html2usfm ();
-  test_usfm ();
-  test_folders ();
-  test_rss_feed ();
-  test_database_bibles ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -232,6 +227,8 @@ int main (int argc, char **argv)
   test_ipc ();
   test_shell ();
   test_database_sample ();
+  test_filter_webview ();
+  test_javascript ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

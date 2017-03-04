@@ -153,13 +153,6 @@ void bibledit_set_quit_at_midnight ()
 }
 
 
-// Sets a global flag so the library will use the deprecated visual editors.
-void bibledit_use_deprecated_editors ()
-{
-  config_globals_use_deprecated_editors = true;
-}
-
-
 // Start library.
 // Can be called multiple times during the lifetime of the app
 void bibledit_start_library ()

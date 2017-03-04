@@ -128,11 +128,6 @@ string developer_index (void * webserver_request)
     view.set_variable ("error", error);
   }
   
-  // If the app uses the newest editors, then show the deprecated ones.
-  if (!config_globals_use_deprecated_editors) {
-    view.enable_zone ("old_editors");
-  }
-
   if (debug == "maintain") {
     tasks_logic_queue (MAINTAINDATABASE);
     view.set_variable ("success", "Starting to maintain the databases");

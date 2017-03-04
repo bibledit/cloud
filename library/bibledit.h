@@ -26,7 +26,6 @@ extern "C" {
   void bibledit_initialize_library (const char * package, const char * webroot);
   void bibledit_set_touch_enabled (bool enabled);
   void bibledit_set_quit_at_midnight ();
-  void bibledit_use_deprecated_editors ();
   void bibledit_start_library ();
   const char * bibledit_get_last_page ();
   bool bibledit_is_running ();

@@ -59,7 +59,7 @@ string editone_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  if (config_globals_use_deprecated_editors || request->database_config_user ()->getDowngradeVisualEditors ()) {
+  if (request->database_config_user ()->getDowngradeVisualEditors ()) {
     // Redirect to deprecated editor.
     redirect_browser (webserver_request, editoneold_index_url ());
     return "";

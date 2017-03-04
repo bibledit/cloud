@@ -48,4 +48,3 @@ extern bool config_globals_enforce_https_browser;
 extern bool config_globals_enforce_https_client;
 extern default_random_engine config_globals_random_engine;
 extern uniform_int_distribution <int> config_globals_int_distribution;
-extern bool config_globals_use_deprecated_editors;

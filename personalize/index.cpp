@@ -103,7 +103,14 @@ string personalize_index (void * webserver_request)
     bool state = request->database_config_user ()->getEnableStylesButtonVisualEditors ();
     request->database_config_user ()->setEnableStylesButtonVisualEditors (!state);
   }
+
   
+  // Visual Bible editor downgrading.
+  if (request->query.count ("editordowngrade")) {
+    bool state = request->database_config_user ()->getDowngradeVisualEditors ();
+    request->database_config_user ()->setDowngradeVisualEditors (!state);
+  }
+
   
   string page;
   string success;
@@ -344,7 +351,12 @@ string personalize_index (void * webserver_request)
   view.set_variable ("chaptereditors", chapter_editors);
   if (!verse_editors.empty ()) view.enable_zone ("verseeditors");
   view.set_variable ("verseeditors", verse_editors);
+
   
+  // Whether to downgrade the visual Bible editors.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDowngradeVisualEditors ());
+  view.set_variable ("editordowngrade", on_off);
+
   
   // Whether to enable editing styles in the visual editors.
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getEnableStylesButtonVisualEditors ());

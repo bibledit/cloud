@@ -203,6 +203,8 @@ public:
   void setSwipeActionsAvailable (bool value);
   bool getFastEditorSwitchingAvailable ();
   void setFastEditorSwitchingAvailable (bool value);
+  bool getDowngradeVisualEditors ();
+  void setDowngradeVisualEditors (bool value);
   bool getAllSoftwareUpdatesNotification ();
   bool getAllSoftwareUpdatesNotificationForUser (string username);
   void setAllSoftwareUpdatesNotification (bool value);

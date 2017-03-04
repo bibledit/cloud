@@ -57,15 +57,15 @@ bool edit_index_acl (void * webserver_request)
 
 string edit_index (void * webserver_request)
 {
-  if (config_globals_use_deprecated_editors) {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  
+  if (config_globals_use_deprecated_editors || request->database_config_user ()->getDowngradeVisualEditors ()) {
     // Redirect to deprecated editor.
     redirect_browser (webserver_request, editold_index_url ());
     return "";
   }
   
-  
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-
   
   bool touch = request->session_logic ()->touchEnabled ();
 

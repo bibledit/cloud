@@ -131,9 +131,7 @@ int main (int argc, char **argv)
   // The previous line is a signature for automated unit testing: Do not change it.
   
   refresh_sandbox (true);
-  test_filter_webview ();
-  test_javascript ();
-  test_dev ();
+  test_url ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

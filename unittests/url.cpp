@@ -77,7 +77,8 @@ void test_url ()
   
   // Testing mkdir and rmdir including parents.
   {
-    string directory = filter_url_create_path (testing_directory, "a", "b");
+    // Do test a folder name that starts with a dot.
+    string directory = filter_url_create_path (testing_directory, "a", ".git");
     filter_url_mkdir (directory);
     string path = filter_url_create_path (directory, "c");
     string contents = "unittest";

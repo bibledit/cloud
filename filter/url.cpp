@@ -81,7 +81,8 @@ vector <string> filter_url_scandir_internal (string folder)
     struct dirent * direntry;
     while ((direntry = readdir (dir)) != NULL) {
       string name = direntry->d_name;
-      if (name.substr (0, 1) == ".") continue;
+      if (name == ".") continue;
+      if (name == "..") continue;
       files.push_back (name);
     }
     closedir (dir);

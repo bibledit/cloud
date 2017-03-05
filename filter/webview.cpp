@@ -25,14 +25,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool filter_webview_logged = false;
 
 
-bool filter_webview_downgrade (string user_agent)
+void filter_webview_log_user_agent (string user_agent)
 {
   // Log the browser's user agent once.
   if (!filter_webview_logged) {
     Database_Logs::log (user_agent);
     filter_webview_logged = true;
   }
-  // Downgrading based on the user agent is not easy.
-  // So don't downgrade at all.
-  return false;
 }

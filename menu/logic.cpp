@@ -655,7 +655,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string repository = translate ("Repository");
   string cloud = translate ("Cloud");
   string paratext = translate ("Paratext");
-  string logout = menu_logic_logout_text ();
   string notifications = translate ("Notifications");
   string account = translate ("Account");
   string basic_mode = translate ("Basic mode");
@@ -676,7 +675,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     repository,
     cloud,
     paratext,
-    logout,
+    menu_logic_logout_text (),
     notifications,
     account,
     basic_mode,
@@ -827,8 +826,11 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
 #endif
     
-    if (label == logout) {
-      if (!(client || demo)) {
+#ifdef HAVE_CLOUD
+    // Logout menu entry only in the Cloud, never on the client.
+    if (label == menu_logic_logout_text ()) {
+      // Cannot logout in the demo.
+      if (!demo) {
         // If logged in, but not as guest, put the Logout menu here.
         if (request->session_logic ()->loggedIn ()) {
           if (request->session_logic ()->currentLevel () != Filter_Roles::guest ()) {
@@ -840,6 +842,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         }
       }
     }
+#endif
     
     if (label == notifications) {
       if (user_notifications_acl (webserver_request)) {

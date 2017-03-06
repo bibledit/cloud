@@ -43,7 +43,7 @@ bool editusfm_focus_acl (void * webserver_request)
 
 // Returns two numerical positions: A starting one, and an ending one.
 // These two are for positioning the caret in the editor.
-// The caret should be at a position between these two.
+// The caret should be at or be moved to a position between these two.
 string editusfm_focus (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;

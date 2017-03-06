@@ -264,9 +264,13 @@ function usfmHandleKeyDown (event)
 }
 
 
-function usfmHandleCaret ()
+function usfmHandleCaret () // Todo
 {
-  if (usfmEditorTextChanged) {
+  // While the text has changed or is being saved,
+  // do not run an operation to set the focused verse,
+  // because the focused verse would be inaccurate due to the non-saved text.
+  // This solved an inaccurate focused verse resulting from typing quickly at the end of the verse.
+  if (usfmEditorTextChanged || usfmSaving) {
     usfmCaretChanged ();
     return;
   }

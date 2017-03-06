@@ -142,10 +142,6 @@ string resource_logic_get_html (void * webserver_request,
   vector <string> usfms;
 #ifdef HAVE_CLIENT
   usfms = client_logic_usfm_resources_get ();
-  // As from February 2016 a client no longer automatically downloads USFM resources from the server.
-  // A client still takes in account existing USFM resources it has downloaded before.
-  vector <string> old_usfms = database_usfmresources.getResources ();
-  usfms.insert (usfms.end (), old_usfms.begin (), old_usfms.end ());
 #else
   usfms = database_usfmresources.getResources ();
 #endif
@@ -264,8 +260,6 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   Database_ImageResources database_imageresources;
   
   // Lists of the various types of resources.
-  // As from February 2016 a client no longer automatically downloads USFM resources from the Cloud.
-  // But a client takes in account existing USFM resources it has downloaded before.
   vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> local_usfms = database_usfmresources.getResources ();
   vector <string> remote_usfms;

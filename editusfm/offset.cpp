@@ -41,6 +41,9 @@ bool editusfm_offset_acl (void * webserver_request)
 }
 
 
+// This receives the position of the caret in the editor,
+// and translates that to a verse number,
+// and focuses that verse number.
 string editusfm_offset (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;

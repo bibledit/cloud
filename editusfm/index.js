@@ -264,7 +264,7 @@ function usfmHandleKeyDown (event)
 }
 
 
-function usfmHandleCaret () // Todo
+function usfmHandleCaret ()
 {
   // While the text has changed or is being saved,
   // do not run an operation to set the focused verse,

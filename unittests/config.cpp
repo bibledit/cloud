@@ -70,7 +70,7 @@ void test_database_config_bible ()
   value = Database_Config_Bible::getVerseMapping ("phpunit");
   evaluate (__LINE__, __func__, "VersificatioN", value);
   
-  // Check default value for Bible,
+  // Check default value for Bible.
   string bible = "A Bible";
   string standard = ", ;";
   string suffix = " suffix";
@@ -87,22 +87,23 @@ void test_database_config_bible ()
 }
 
 
+// Test the user configuration database.
 void test_database_config_user ()
 {
   trace_unit_tests (__func__);
-  
-  // Tests for Database_Config_User.
+
+  // Set it up.
+  refresh_sandbox (true);
+  Webserver_Request request = Webserver_Request ();
+  Database_State::create ();
+  Database_Login::create ();
+  Database_Users database_users;
+  database_users.create ();
+  database_users.upgrade ();
+  database_users.add_user ("username", "password", 5, "");
+  request.session_logic ()->attemptLogin ("username", "password", true);
+
   {
-    // Setup.
-    refresh_sandbox (true);
-    Webserver_Request request = Webserver_Request ();
-    Database_State::create ();
-    Database_Login::create ();
-    Database_Users database_users;
-    database_users.create ();
-    database_users.upgrade ();
-    database_users.add_user ("username", "password", 5, "");
-    request.session_logic ()->attemptLogin ("username", "password", true);
     
     // Testing setList, getList, plus add/removeUpdatedSetting.
     evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());

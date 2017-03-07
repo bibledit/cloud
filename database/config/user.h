@@ -231,6 +231,7 @@ private:
   void * webserver_request;
   string file (string user);
   string file (string user, const char * key);
+  string mapkey (string user, const char * key);
   string getValue (const char * key, const char * default_value);
   bool getBValue (const char * key, bool default_value);
   int getIValue (const char * key, int default_value);

@@ -36,7 +36,13 @@ Database_Config_User::Database_Config_User (void * webserver_request_in)
 }
 
 
-// Functions for getting and setting values or lists of values.
+// Cache values in memory for better speed.
+// The speed improvement comes from reading a value from disk only once,
+// and after that to read the value straight from the memory cache.
+map <string, string> database_config_user_cache;
+
+
+// Functions for getting and setting values or lists of values follow here:
 
 
 string Database_Config_User::file (string user)
@@ -48,6 +54,13 @@ string Database_Config_User::file (string user)
 string Database_Config_User::file (string user, const char * key)
 {
   return filter_url_create_path (file (user), key);
+}
+
+
+// The key in the cache for this setting.
+string Database_Config_User::mapkey (string user, const char * key)
+{
+  return user + key;
 }
 
 
@@ -73,12 +86,21 @@ int Database_Config_User::getIValue (const char * key, int default_value)
 }
 
 
-string Database_Config_User::getValueForUser (string user, const char * key, const char * default_value)
+string Database_Config_User::getValueForUser (string user, const char * key, const char * default_value) // Todo
 {
+  // Check the memory cache.
+  string cachekey = mapkey (user, key);
+  if (database_config_user_cache.count (cachekey)) {
+    return database_config_user_cache [cachekey];
+  }
+  // Read from file.
   string value;
   string filename = file (user, key);
   if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
+  // Cache it.
+  database_config_user_cache [cachekey] = value;
+  // Done.
   return value;
 }
 
@@ -116,8 +138,11 @@ void Database_Config_User::setIValue (const char * key, int value)
 }
 
 
-void Database_Config_User::setValueForUser (string user, const char * key, string value)
+void Database_Config_User::setValueForUser (string user, const char * key, string value) // Todo
 {
+  // Store in memory cache.
+  database_config_user_cache [mapkey (user, key)] = value;
+  // Store on disk.
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
@@ -132,10 +157,10 @@ vector <string> Database_Config_User::getList (const char * key)
 }
 
 
-vector <string> Database_Config_User::getListForUser (string user, const char * key)
+vector <string> Database_Config_User::getListForUser (string user, const char * key) // Todo
 {
-  string filename = file (user, key);
   vector <string> list;
+  string filename = file (user, key);
   if (file_or_dir_exists (filename)) {
     string value = filter_url_file_get_contents (filename);
     list = filter_string_explode (value, '\n');
@@ -151,7 +176,7 @@ void Database_Config_User::setList (const char * key, vector <string> values)
 }
 
 
-void Database_Config_User::setListForUser (string user, const char * key, vector <string> values)
+void Database_Config_User::setListForUser (string user, const char * key, vector <string> values) // Todo
 {
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
@@ -195,7 +220,7 @@ void Database_Config_User::trim ()
     if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
         filter_url_unlink (filename);
-        filename = file (users[i], keySprintYear ());
+        filename = file (users[i], keySprintYear ()); // Todo clear cache.
         filter_url_unlink (filename);
       }
     }
@@ -204,7 +229,7 @@ void Database_Config_User::trim ()
 
 
 // Remove any configuration setting of $username.
-void Database_Config_User::remove (string username)
+void Database_Config_User::remove (string username) // Todo clear cache.
 {
   string folder = file (username);
   filter_url_rmdir (folder);

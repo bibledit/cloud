@@ -219,9 +219,12 @@ void Database_Config_User::trim ()
     string filename = file (users[i], keySprintMonth ());
     if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
+        // Remove from disk.
         filter_url_unlink (filename);
-        filename = file (users[i], keySprintYear ()); // Todo clear cache.
+        filename = file (users[i], keySprintYear ());
         filter_url_unlink (filename);
+        // Clear cache.
+        database_config_user_cache.clear ();
       }
     }
   }
@@ -231,8 +234,11 @@ void Database_Config_User::trim ()
 // Remove any configuration setting of $username.
 void Database_Config_User::remove (string username) // Todo clear cache.
 {
+  // Remove from disk.
   string folder = file (username);
   filter_url_rmdir (folder);
+  // Clear cache.
+  database_config_user_cache.clear ();
 }
 
 

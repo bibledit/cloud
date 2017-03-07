@@ -94,7 +94,7 @@ void test_database_config_user ()
 
   // Set it up.
   refresh_sandbox (true);
-  Webserver_Request request = Webserver_Request ();
+  Webserver_Request request;
   Database_State::create ();
   Database_Login::create ();
   Database_Users database_users;
@@ -103,9 +103,8 @@ void test_database_config_user ()
   database_users.add_user ("username", "password", 5, "");
   request.session_logic ()->attemptLogin ("username", "password", true);
 
+  // Testing setList, getList, plus add/removeUpdatedSetting.
   {
-    
-    // Testing setList, getList, plus add/removeUpdatedSetting.
     evaluate (__LINE__, __func__, {}, request.database_config_user ()->getUpdatedSettings ());
     
     vector <int> standard1 = {123, 456};
@@ -119,9 +118,11 @@ void test_database_config_user ()
     request.database_config_user ()->removeUpdatedSetting (456);
     vector <int> standard2 = {123, 789};
     evaluate (__LINE__, __func__, standard2, request.database_config_user ()->getUpdatedSettings ());
-    
-    // Testing the Sprint month and its trim () function.
-    // It should get today's month.
+  }
+  
+  // Testing the Sprint month and trimming it.
+  // It should get today's month.
+  {
     int month = filter_date_numerical_month (filter_date_seconds_since_epoch ());
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
     // Set the sprint month to another month value: It should get this value back from the database.
@@ -142,30 +143,35 @@ void test_database_config_user ()
     utime (filename.c_str(), &new_times);
     request.database_config_user ()->trim ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
-    
-    // Test boolean setting.
+  }
+  
+  // Test boolean setting.
+  {
     evaluate (__LINE__, __func__, false, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
     request.database_config_user ()->setSubscribeToConsultationNotesEditedByMe (true);
     evaluate (__LINE__, __func__, true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
-    
+  }
+  
     // Test integer setting.
+  {
     evaluate (__LINE__, __func__, 1, request.database_config_user ()->getConsultationNotesPassageSelector ());
     request.database_config_user ()->setConsultationNotesPassageSelector (11);
     evaluate (__LINE__, __func__, 11, request.database_config_user ()->getConsultationNotesPassageSelector ());
-    
-    // Test string setting.
+  }
+  
+   // Test string setting.
+  {
     evaluate (__LINE__, __func__, "", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
     request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
     evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
-    
-    evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
-    
-    // Test getting a Bible that does not exist: It creates one.
-    evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());
-    
-    // Filter allowed journal entries.
-    refresh_sandbox (true, {"Creating sample Bible", "Sample Bible was created"});
   }
+
+  // Sprint year.
+  evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
+  
+  // Test getting a Bible that does not exist: It creates one.
+  evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());
+    
+  // Filter allowed journal entries.
+  refresh_sandbox (true, {"Creating sample Bible", "Sample Bible was created"});
 }
-
-

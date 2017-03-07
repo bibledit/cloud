@@ -76,7 +76,7 @@ void test_database_config_bible ()
   string suffix = " suffix";
   value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
   evaluate (__LINE__, __func__, standard, value);
-  // Change value it and check it.
+  // Change value and check it.
   Database_Config_Bible::setSentenceStructureMiddlePunctuation (bible, standard + suffix);
   value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
   evaluate (__LINE__, __func__, standard + suffix, value);

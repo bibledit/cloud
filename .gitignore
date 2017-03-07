@@ -6,15 +6,12 @@ Makefile
 config.log
 config.status
 .deps
-.cvsignore
 autom4te.cache/*
 .dirstamp
 unittest
 .libs
-gdbserver
 generate
 .DS_Store
 UserInterfaceState.xcuserstate
-config.h
 server
 *.in~

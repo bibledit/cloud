@@ -79,7 +79,7 @@ void test_database_ipc ()
   // Test store retrieve
   {
     refresh_sandbox (true);
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     int id = 1;
@@ -102,7 +102,7 @@ void test_database_ipc ()
   // Test delete
   {
     refresh_sandbox (true);
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     int id = 1;
@@ -126,7 +126,7 @@ void test_database_ipc ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     string user = "phpunit";
@@ -152,7 +152,7 @@ void test_database_ipc ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     string user = "phpunit";
@@ -178,7 +178,7 @@ void test_database_ipc ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     string user = "phpunit";

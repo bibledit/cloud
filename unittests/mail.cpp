@@ -33,7 +33,7 @@ void test_database_mail ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
     database_mail.optimize ();
@@ -44,7 +44,7 @@ void test_database_mail ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
     request.session_logic ()->setUsername ("phpunit");
@@ -63,7 +63,7 @@ void test_database_mail ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
     request.session_logic ()->setUsername ("phpunit");
@@ -90,7 +90,7 @@ void test_database_mail ()
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
     request.session_logic ()->setUsername ("phpunit");

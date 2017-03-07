@@ -46,7 +46,7 @@ void test_session ()
     
     // In a demo installation, a client is always logged in as user admin, even after logging out.
     config_globals_open_installation = true;
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     evaluate (__LINE__, __func__, session_admin_credentials (), request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::admin (), request.session_logic ()->currentLevel ());
@@ -70,7 +70,7 @@ void test_session ()
     database_users.create ();
     database_users.upgrade ();
     config_globals_client_prepared = true;
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     evaluate (__LINE__, __func__, session_admin_credentials (), request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, Filter_Roles::admin (), request.session_logic ()->currentLevel ());
@@ -88,7 +88,7 @@ void test_session ()
     int level = 10;
     database_users.add_user (username, "password", level, "email");
     config_globals_client_prepared = true;
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     evaluate (__LINE__, __func__, username, request.session_logic ()->currentUser ());
     evaluate (__LINE__, __func__, level, request.session_logic ()->currentLevel ());
@@ -101,7 +101,7 @@ void test_session ()
     Database_Users database_users;
     database_users.create ();
     database_users.upgrade ();
-    Webserver_Request request = Webserver_Request ();
+    Webserver_Request request;
 
     // Enter a user into the database.
     string username = "ঃইঝম";

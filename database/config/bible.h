@@ -149,6 +149,7 @@ public:
 private:
   static string file (string bible);
   static string file (string bible, const char * key);
+  static string mapkey (string bible, const char * key);
   static string getValue (string bible, const char * key, const char * default_value);
   static void setValue (string bible, const char * key, string value);
   static bool getBValue (string bible, const char * key, bool default_value);

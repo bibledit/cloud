@@ -23,27 +23,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 
 
-// Functions for getting and setting values or lists of values.
+// Cache values in memory for better speed.
+// The speed improvement is supposed to come from reading a value from disk only once,
+// and after that to read the value straight from the memory cache.
+map <string, string> database_config_bible_cache;
 
 
+// Functions for getting and setting values or lists of values follow now:
+
+
+// The path to the folder for storing the settings for the $bible.
 string Database_Config_Bible::file (string bible)
 {
   return filter_url_create_root_path ("databases", "config", "bible", bible);
 }
 
 
+// The path to the file that contains this setting.
 string Database_Config_Bible::file (string bible, const char * key)
 {
   return filter_url_create_path (file (bible), key);
 }
 
 
+// The key in the cache for this setting.
+string Database_Config_Bible::mapkey (string bible, const char * key)
+{
+  return bible + key;
+}
+
+
 string Database_Config_Bible::getValue (string bible, const char * key, const char * default_value)
 {
+  // Check the memory cache.
+  string cachekey = mapkey (bible, key);
+  if (database_config_bible_cache.count (cachekey)) {
+    return database_config_bible_cache [cachekey];
+  }
+  // Get the setting from file.
   string value;
   string filename = file (bible, key);
   if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
+  // Cache it.
+  database_config_bible_cache [cachekey] = value;
+  // Done.
   return value;
 }
 
@@ -51,6 +75,9 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
 void Database_Config_Bible::setValue (string bible, const char * key, string value)
 {
   if (bible.empty ()) return;
+  // Store in memory cache.
+  database_config_bible_cache [mapkey (bible, key)] = value;
+  // Store on disk.
   string filename = file (bible, key);
   string dirname = filter_url_dirname (filename);
   if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);

@@ -39,7 +39,7 @@ string Database_Config_General::file (const char * key)
 }
 
 
-string Database_Config_General::getValue (const char * key, const char * default_value) // Todo
+string Database_Config_General::getValue (const char * key, const char * default_value)
 {
   // Check the memory cache.
   if (database_config_general_cache.count (key)) {
@@ -57,7 +57,7 @@ string Database_Config_General::getValue (const char * key, const char * default
 }
 
 
-void Database_Config_General::setValue (const char * key, string value) // Todo
+void Database_Config_General::setValue (const char * key, string value)
 {
   // Store in memory cache.
   database_config_general_cache [key] = value;

@@ -50,23 +50,20 @@ void test_database_config_bible ()
 {
   trace_unit_tests (__func__);
   
-  // Versification / Mapping
-  {
-    string versification = Database_Config_Bible::getVersificationSystem ("phpunit");
-    evaluate (__LINE__, __func__, english (), versification);
-    string mapping = Database_Config_Bible::getVerseMapping ("phpunit");
-    evaluate (__LINE__, __func__, english (), mapping);
-    versification = Database_Config_Bible::getVersificationSystem ("x");
-    evaluate (__LINE__, __func__, english (), versification);
-    mapping = Database_Config_Bible::getVerseMapping ("x");
-    evaluate (__LINE__, __func__, english (), mapping);
-    Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
-    versification = Database_Config_Bible::getVersificationSystem ("phpunit");
-    evaluate (__LINE__, __func__, "VersificatioN", versification);
-    Database_Config_Bible::setVerseMapping ("phpunit", "VersificatioN");
-    mapping = Database_Config_Bible::getVerseMapping ("phpunit");
-    evaluate (__LINE__, __func__, "VersificatioN", mapping);
-  }
+  string versification = Database_Config_Bible::getVersificationSystem ("phpunit");
+  evaluate (__LINE__, __func__, english (), versification);
+  string mapping = Database_Config_Bible::getVerseMapping ("phpunit");
+  evaluate (__LINE__, __func__, english (), mapping);
+  versification = Database_Config_Bible::getVersificationSystem ("x");
+  evaluate (__LINE__, __func__, english (), versification);
+  mapping = Database_Config_Bible::getVerseMapping ("x");
+  evaluate (__LINE__, __func__, english (), mapping);
+  Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
+  versification = Database_Config_Bible::getVersificationSystem ("phpunit");
+  evaluate (__LINE__, __func__, "VersificatioN", versification);
+  Database_Config_Bible::setVerseMapping ("phpunit", "VersificatioN");
+  mapping = Database_Config_Bible::getVerseMapping ("phpunit");
+  evaluate (__LINE__, __func__, "VersificatioN", mapping);
 }
 
 

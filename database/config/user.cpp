@@ -157,15 +157,25 @@ vector <string> Database_Config_User::getList (const char * key)
 }
 
 
-vector <string> Database_Config_User::getListForUser (string user, const char * key) // Todo
+vector <string> Database_Config_User::getListForUser (string user, const char * key)
 {
-  vector <string> list;
+  // Check whether value is in cache.
+  string cachekey = mapkey (user, key);
+  if (database_config_user_cache.count (cachekey)) {
+    string value = database_config_user_cache [cachekey];
+    return filter_string_explode (value, '\n');
+  }
+  // Read setting from disk.
   string filename = file (user, key);
   if (file_or_dir_exists (filename)) {
     string value = filter_url_file_get_contents (filename);
-    list = filter_string_explode (value, '\n');
+    // Cache it in memory.
+    database_config_user_cache [cachekey] = value;
+    // Done.
+    return filter_string_explode (value, '\n');
   }
-  return list;
+  // Empty value.
+  return {};
 }
 
 
@@ -176,13 +186,17 @@ void Database_Config_User::setList (const char * key, vector <string> values)
 }
 
 
-void Database_Config_User::setListForUser (string user, const char * key, vector <string> values) // Todo
+void Database_Config_User::setListForUser (string user, const char * key, vector <string> values)
 {
+  // Store it on disk.
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   string value = filter_string_implode (values, "\n");
   filter_url_file_put_contents (filename, value);
+  // Put it in the memory cache.
+  string cachekey = mapkey (user, key);
+  database_config_user_cache [cachekey] = value;
 }
 
 

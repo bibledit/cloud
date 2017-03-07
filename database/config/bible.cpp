@@ -111,8 +111,11 @@ void Database_Config_Bible::setIValue (string bible, const char * key, int value
 
 void Database_Config_Bible::remove (string bible)
 {
+  // Remove from disk.
   string folder = file (bible);
   filter_url_rmdir (folder);
+  // Clear cache.
+  database_config_bible_cache.clear ();
 }
 
 

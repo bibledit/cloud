@@ -50,20 +50,40 @@ void test_database_config_bible ()
 {
   trace_unit_tests (__func__);
   
-  string versification = Database_Config_Bible::getVersificationSystem ("phpunit");
-  evaluate (__LINE__, __func__, english (), versification);
-  string mapping = Database_Config_Bible::getVerseMapping ("phpunit");
-  evaluate (__LINE__, __func__, english (), mapping);
-  versification = Database_Config_Bible::getVersificationSystem ("x");
-  evaluate (__LINE__, __func__, english (), versification);
-  mapping = Database_Config_Bible::getVerseMapping ("x");
-  evaluate (__LINE__, __func__, english (), mapping);
+  string value = Database_Config_Bible::getVersificationSystem ("phpunit");
+  evaluate (__LINE__, __func__, english (), value);
+  
+  value = Database_Config_Bible::getVerseMapping ("phpunit");
+  evaluate (__LINE__, __func__, english (), value);
+  
+  value = Database_Config_Bible::getVersificationSystem ("x");
+  evaluate (__LINE__, __func__, english (), value);
+
+  value = Database_Config_Bible::getVerseMapping ("x");
+  evaluate (__LINE__, __func__, english (), value);
+
   Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
-  versification = Database_Config_Bible::getVersificationSystem ("phpunit");
-  evaluate (__LINE__, __func__, "VersificatioN", versification);
+  value = Database_Config_Bible::getVersificationSystem ("phpunit");
+  evaluate (__LINE__, __func__, "VersificatioN", value);
+
   Database_Config_Bible::setVerseMapping ("phpunit", "VersificatioN");
-  mapping = Database_Config_Bible::getVerseMapping ("phpunit");
-  evaluate (__LINE__, __func__, "VersificatioN", mapping);
+  value = Database_Config_Bible::getVerseMapping ("phpunit");
+  evaluate (__LINE__, __func__, "VersificatioN", value);
+  
+  // Check default value for Bible,
+  string bible = "A Bible";
+  string standard = ", ;";
+  string suffix = " suffix";
+  value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  evaluate (__LINE__, __func__, standard, value);
+  // Change value it and check it.
+  Database_Config_Bible::setSentenceStructureMiddlePunctuation (bible, standard + suffix);
+  value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  evaluate (__LINE__, __func__, standard + suffix, value);
+  // Remove that Bible and check that the value is back to default.
+  Database_Config_Bible::remove (bible);
+  value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  evaluate (__LINE__, __func__, standard, value);
 }
 
 

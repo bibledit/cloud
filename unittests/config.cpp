@@ -100,8 +100,10 @@ void test_database_config_user ()
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
-  database_users.add_user ("username", "password", 5, "");
-  request.session_logic ()->attemptLogin ("username", "password", true);
+  string username = "username";
+  string password = "password";
+  database_users.add_user (username, password, 5, "");
+  request.session_logic ()->attemptLogin (username, password, true);
 
   // Testing setList, getList, plus add/removeUpdatedSetting.
   {
@@ -146,32 +148,33 @@ void test_database_config_user ()
   }
   
   // Test boolean setting.
-  {
-    evaluate (__LINE__, __func__, false, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
-    request.database_config_user ()->setSubscribeToConsultationNotesEditedByMe (true);
-    evaluate (__LINE__, __func__, true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
-  }
+  evaluate (__LINE__, __func__, false, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
+  request.database_config_user ()->setSubscribeToConsultationNotesEditedByMe (true);
+  evaluate (__LINE__, __func__, true, request.database_config_user ()->getSubscribeToConsultationNotesEditedByMe ());
   
-    // Test integer setting.
-  {
-    evaluate (__LINE__, __func__, 1, request.database_config_user ()->getConsultationNotesPassageSelector ());
-    request.database_config_user ()->setConsultationNotesPassageSelector (11);
-    evaluate (__LINE__, __func__, 11, request.database_config_user ()->getConsultationNotesPassageSelector ());
-  }
+  // Test integer setting.
+  evaluate (__LINE__, __func__, 1, request.database_config_user ()->getConsultationNotesPassageSelector ());
+  request.database_config_user ()->setConsultationNotesPassageSelector (11);
+  evaluate (__LINE__, __func__, 11, request.database_config_user ()->getConsultationNotesPassageSelector ());
   
-   // Test string setting.
-  {
-    evaluate (__LINE__, __func__, "", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
-    request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
-    evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
-  }
+  // Test string setting.
+  evaluate (__LINE__, __func__, "", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
+  request.database_config_user ()->setConsultationNotesAssignmentSelector ("test");
+  evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
 
   // Sprint year.
   evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
   
   // Test getting a Bible that does not exist: It creates one.
   evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());
-    
+  
+  // Test that after removing a user, the setting reverts to its default value.
+  evaluate (__LINE__, __func__, 0, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
+  request.database_config_user ()->setConsultationNotesTextInclusionSelector (1);
+  evaluate (__LINE__, __func__, 1, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
+  request.database_config_user ()->remove (username);
+  evaluate (__LINE__, __func__, 0, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
+
   // Filter allowed journal entries.
   refresh_sandbox (true, {"Creating sample Bible", "Sample Bible was created"});
 }

@@ -86,7 +86,7 @@ int Database_Config_User::getIValue (const char * key, int default_value)
 }
 
 
-string Database_Config_User::getValueForUser (string user, const char * key, const char * default_value) // Todo
+string Database_Config_User::getValueForUser (string user, const char * key, const char * default_value)
 {
   // Check the memory cache.
   string cachekey = mapkey (user, key);
@@ -138,7 +138,7 @@ void Database_Config_User::setIValue (const char * key, int value)
 }
 
 
-void Database_Config_User::setValueForUser (string user, const char * key, string value) // Todo
+void Database_Config_User::setValueForUser (string user, const char * key, string value)
 {
   // Store in memory cache.
   database_config_user_cache [mapkey (user, key)] = value;
@@ -232,7 +232,7 @@ void Database_Config_User::trim ()
 
 
 // Remove any configuration setting of $username.
-void Database_Config_User::remove (string username) // Todo clear cache.
+void Database_Config_User::remove (string username)
 {
   // Remove from disk.
   string folder = file (username);

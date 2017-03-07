@@ -131,7 +131,9 @@ int main (int argc, char **argv)
   // The previous line is a signature for automated unit testing: Do not change it.
   
   refresh_sandbox (true);
-  test_url ();
+  test_database_config_general ();
+  test_database_config_bible ();
+  test_database_config_user ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

@@ -33,13 +33,15 @@ void test_database_config_general ()
 {
   trace_unit_tests (__func__);
   
-  // Tests for Database_Config_General.
   evaluate (__LINE__, __func__, "Bibledit Cloud", Database_Config_General::getSiteMailName ());
   
-  string ref = "unittest";
-  Database_Config_General::setSiteMailName (ref);
-  evaluate (__LINE__, __func__, ref, Database_Config_General::getSiteMailName ());
-  
+  string value = "unittest";
+  Database_Config_General::setSiteMailName (value);
+  evaluate (__LINE__, __func__, value, Database_Config_General::getSiteMailName ());
+
+  Database_Config_General::setSiteMailName ("");
+  evaluate (__LINE__, __func__, "", Database_Config_General::getSiteMailName ());
+
   evaluate (__LINE__, __func__, "", Database_Config_General::getMailStorageProtocol ());
 }
 

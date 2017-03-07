@@ -24,7 +24,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <system/index.h>
 
 
-// Functions for getting and setting values or lists of values.
+// Cache values in memory for better speed.
+// The speed improvement is supposed to come from reading a value from disk only once,
+// and after that to read the value straight from the memory cache.
+map <string, string> database_config_general_cache;
+
+
+// Functions for getting and setting values or lists of values follow here:
 
 
 string Database_Config_General::file (const char * key)
@@ -33,18 +39,29 @@ string Database_Config_General::file (const char * key)
 }
 
 
-string Database_Config_General::getValue (const char * key, const char * default_value)
+string Database_Config_General::getValue (const char * key, const char * default_value) // Todo
 {
+  // Check the memory cache.
+  if (database_config_general_cache.count (key)) {
+    return database_config_general_cache [key];
+  }
+  // Get value from disk.
   string value;
   string filename = file (key);
   if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
+  // Cache it.
+  database_config_general_cache [key] = value;
+  // Done.
   return value;
 }
 
 
-void Database_Config_General::setValue (const char * key, string value)
+void Database_Config_General::setValue (const char * key, string value) // Todo
 {
+  // Store in memory cache.
+  database_config_general_cache [key] = value;
+  // Store on disk.
   string filename = file (key);
   filter_url_file_put_contents (filename, value);
 }

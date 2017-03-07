@@ -3011,8 +3011,6 @@
 		CAA4D3B41A45A648003ABA25 /* unittests */ = {
 			isa = PBXGroup;
 			children = (
-				CA0E85401E69A1B800B75FEA /* javascript.cpp */,
-				CA0E85411E69A1B800B75FEA /* javascript.h */,
 				CAEB13181E3FBD9400AFC75E /* archive.cpp */,
 				CAEB13191E3FBD9400AFC75E /* archive.h */,
 				CA05DD5C1E33C3C600EA2EDF /* biblegateway.cpp */,
@@ -3061,6 +3059,8 @@
 				CA05DD4D1E33B87500EA2EDF /* hyphenate.h */,
 				CACB0B501E40AC4900C98564 /* ipc.cpp */,
 				CACB0B511E40AC4900C98564 /* ipc.h */,
+				CA0E85401E69A1B800B75FEA /* javascript.cpp */,
+				CA0E85411E69A1B800B75FEA /* javascript.h */,
 				CA9DE5A21E6365A400EE3C41 /* jobs.cpp */,
 				CA9DE5A31E6365A400EE3C41 /* jobs.h */,
 				CA05DD501E33BD9500EA2EDF /* json.cpp */,

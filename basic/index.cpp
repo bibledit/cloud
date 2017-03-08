@@ -105,6 +105,11 @@ string basic_index (void * webserver_request)
 #endif
   
   
+  if (request->database_config_user ()->getPrivilegeUseAdvancedMode ()) {
+    view.enable_zone ("advancedmode");
+  }
+  
+  
   page += view.render ("basic", "index");
   page += Assets_Page::footer ();
   return page;

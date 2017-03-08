@@ -150,6 +150,12 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
 }
 
 
+void Database_Config_User::setBValueForUser (string user, const char * key, bool value)
+{
+  setValueForUser (user, key, convert_to_string (value));
+}
+
+
 vector <string> Database_Config_User::getList (const char * key)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -1307,4 +1313,22 @@ bool Database_Config_User::getMenuChangesInBasicMode ()
 void Database_Config_User::setMenuChangesInBasicMode (bool value)
 {
   setBValue ("menu-changes-in-basic-mode", value);
+}
+
+
+const char * privilege_use_advanced_mode_key ()
+{
+  return "privilege-use-advanced-mode";
+}
+bool Database_Config_User::getPrivilegeUseAdvancedMode ()
+{
+  return getBValue (privilege_use_advanced_mode_key (), true);
+}
+bool Database_Config_User::getPrivilegeUseAdvancedModeForUser (string username)
+{
+  return getBValueForUser (username, privilege_use_advanced_mode_key (), true);
+}
+void Database_Config_User::setPrivilegeUseAdvancedModeForUser (string username, bool value)
+{
+  setBValueForUser (username, privilege_use_advanced_mode_key (), value);
 }

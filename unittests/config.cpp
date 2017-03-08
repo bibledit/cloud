@@ -175,6 +175,20 @@ void test_database_config_user ()
   request.database_config_user ()->remove (username);
   evaluate (__LINE__, __func__, 0, request.database_config_user ()->getConsultationNotesTextInclusionSelector ());
 
+  // Test setting privileges for a user, and the user retrieving them.
+  {
+    // Privilege is on by default.
+    evaluate (__LINE__, __func__, true, request.database_config_user ()->getPrivilegeUseAdvancedMode ());
+    // Privilege is on for another user also.
+    string anotheruser = "anotheruser";
+    evaluate (__LINE__, __func__, true, request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (anotheruser));
+    // Set it off for the other user.
+    request.database_config_user ()->setPrivilegeUseAdvancedModeForUser (anotheruser, false);
+    evaluate (__LINE__, __func__, false, request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (anotheruser));
+    // The privilege is still on for the current user.
+    evaluate (__LINE__, __func__, true, request.database_config_user ()->getPrivilegeUseAdvancedMode ());
+  }
+  
   // Filter allowed journal entries.
   refresh_sandbox (true, {"Creating sample Bible", "Sample Bible was created"});
 }

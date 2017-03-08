@@ -134,6 +134,8 @@ int main (int argc, char **argv)
   test_database_config_general ();
   test_database_config_bible ();
   test_database_config_user ();
+  test_database_privileges ();
+  test_workspaces ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

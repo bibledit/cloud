@@ -227,6 +227,9 @@ public:
   void setEnableStylesButtonVisualEditors (bool value);
   bool getMenuChangesInBasicMode ();
   void setMenuChangesInBasicMode (bool value);
+  bool getPrivilegeUseAdvancedMode ();
+  bool getPrivilegeUseAdvancedModeForUser (string username);
+  void setPrivilegeUseAdvancedModeForUser (string username, bool value);
 private:
   void * webserver_request;
   string file (string user);
@@ -242,6 +245,7 @@ private:
   void setBValue (const char * key, bool value);
   void setIValue (const char * key, int value);
   void setValueForUser (string user, const char * key, string value);
+  void setBValueForUser (string user, const char * key, bool value);
   vector <string> getList (const char * key);
   vector <string> getListForUser (string user, const char * key);
   void setList (const char * key, vector <string> values);

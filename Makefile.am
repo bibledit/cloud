@@ -566,7 +566,7 @@ LIBS += $(WEBKIT2GTK_LIBS)
 # For other platforms, the library remains in the core.
 # debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
 
-EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

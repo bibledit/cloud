@@ -1144,7 +1144,7 @@ AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
 # and by linking to the mbed TLS library provided by the system.
 # For other platforms, the library remains in the core.
 # debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
-EXTRA_DIST = a* basic bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
+EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w* x*
 CLEANFILES = bibledit*.gz *~
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am

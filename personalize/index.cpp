@@ -117,7 +117,7 @@ string personalize_index (void * webserver_request)
   string error;
 
 
-  // Store new fon sizes before displaying the header,
+  // Store new font sizes before displaying the header,
   // so that the page displays the new font sizes immediately.
   if (request->post.count ("fontsizegeneral")) {
     int value = convert_to_int (request->post["entry"]);

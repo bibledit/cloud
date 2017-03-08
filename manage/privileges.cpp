@@ -110,6 +110,17 @@ string manage_privileges (void * webserver_request)
   view.set_variable ("createcommentnoteschecked", get_checkbox_status (state));
 
   
+  // Privilege to use advanced mode.
+  if (checkbox == "useadvancedmode") {
+    request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, checked);
+  }
+  if (level >= access_logic_use_advanced_mode_role ()) {
+    view.set_variable ("useadvancedmodedisabled", get_disabled (true));
+  }
+  state = access_logic_privilege_use_advanced_mode (webserver_request, user);
+  view.set_variable ("useadvancedmodechecked", get_checkbox_status (state));
+
+  
   if (privileges_updated) database_privileges_client_create (user, true);
 
   

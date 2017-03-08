@@ -7417,6 +7417,9 @@ msgstr ""
 msgid "Can create and comment on consultation notes."
 msgstr ""
 
+msgid "Can use advanced mode."
+msgstr ""
+
 msgid "Go back."
 msgstr ""
 

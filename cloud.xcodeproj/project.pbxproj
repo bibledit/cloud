@@ -922,9 +922,6 @@
 		CAA4D4A61A460861003ABA25 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
 		CAA4D4A71A4608BC003ABA25 /* indext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indext.cpp; sourceTree = "<group>"; };
 		CAA4D4A81A4608BC003ABA25 /* indext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indext.h; sourceTree = "<group>"; };
-		CAA912191C526E1A00F74080 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAA9121A1C526E1A00F74080 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CAA9121B1C526E1A00F74080 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAA9C1C71C651A93006D8709 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA9C1C91C651A93006D8709 /* notifit.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = notifit.css; sourceTree = "<group>"; };
 		CAA9C1CA1C651A93006D8709 /* notifit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.js; sourceTree = "<group>"; };
@@ -3289,16 +3286,6 @@
 			path = xrefs;
 			sourceTree = "<group>";
 		};
-		CAA912131C526E1A00F74080 /* basic */ = {
-			isa = PBXGroup;
-			children = (
-				CAA912191C526E1A00F74080 /* index.cpp */,
-				CAA9121A1C526E1A00F74080 /* index.h */,
-				CAA9121B1C526E1A00F74080 /* index.html */,
-			);
-			path = basic;
-			sourceTree = "<group>";
-		};
 		CAA9C1C51C651A93006D8709 /* notifit */ = {
 			isa = PBXGroup;
 			children = (
@@ -3316,7 +3303,6 @@
 			children = (
 				CAA4CEF51A45A647003ABA25 /* access */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
-				CAA912131C526E1A00F74080 /* basic */,
 				CAA4CF571A45A647003ABA25 /* bible */,
 				CAD410D51A6DA1AC00088E26 /* bibledit */,
 				CAA4CF741A45A647003ABA25 /* bibles */,

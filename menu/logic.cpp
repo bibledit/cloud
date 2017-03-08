@@ -91,7 +91,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/index.h>
 #include <public/logic.h>
 #include <filter/url.h>
-#include <basic/index.h>
 #include <bible/logic.h>
 #include <ldap/logic.h>
 
@@ -282,8 +281,8 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
   }
 
-  if (basic_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (basic_index_url (), "⋮", true));
+  if (personalize_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true));
   }
 
   // When a user is not logged in, or a guest,

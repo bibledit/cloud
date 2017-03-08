@@ -372,7 +372,6 @@ libbibledit_a_SOURCES = \
 	public/comment.cpp \
 	utf8proc/utf8proc.c \
 	search/logic.cpp \
-	basic/index.cpp \
 	mbedtls/aes.c \
 	mbedtls/aesni.c \
 	mbedtls/arc4.c \

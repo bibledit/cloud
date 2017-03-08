@@ -210,7 +210,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/create.h>
 #include <public/note.h>
 #include <public/comment.h>
-#include <basic/index.h>
 #include <editor/select.h>
 #include <rss/feed.h>
 
@@ -751,11 +750,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == paratext_index_url ()) && browser_request_security_okay (request) && paratext_index_acl (request)) {
     request->reply = paratext_index (request);
-    return;
-  }
-  
-  if ((url == basic_index_url ()) && browser_request_security_okay (request) && basic_index_acl (request)) {
-    request->reply = basic_index (request);
     return;
   }
   

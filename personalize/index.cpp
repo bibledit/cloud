@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/bible.h>
 #include <dialog/list.h>
 #include <bible/logic.h>
+#include <ipc/focus.h>
 
 
 string personalize_index_url ()
@@ -362,6 +363,42 @@ string personalize_index (void * webserver_request)
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getEnableStylesButtonVisualEditors ());
   view.set_variable ("enablestylesbutton", on_off);
   
+
+  // Change the active Bible.
+  if (request->query.count ("changebible")) {
+    string changebible = request->query ["changebible"];
+    if (changebible == "") {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", "");
+      vector <string> bibles = access_bible_bibles (request);
+      for (auto & bible : bibles) {
+        dialog_list.add_row (bible, "changebible", bible);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      request->database_config_user()->setBible (changebible);
+      // Going to another Bible, ensure that the focused book exists there.
+      int book = Ipc_Focus::getBook (request);
+      vector <int> books = request->database_bibles()->getBooks (changebible);
+      if (find (books.begin(), books.end(), book) == books.end()) {
+        if (!books.empty ()) book = books [0];
+        else book = 0;
+        Ipc_Focus::set (request, book, 1, 1);
+      }
+    }
+  }
+  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+  view.set_variable ("bible", bible);
+
+  
+  // Whether to have a menu entry for the Changes in basic mode.
+  if (request->query.count ("showchanges")) {
+    bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
+    request->database_config_user ()->setMenuChangesInBasicMode (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMenuChangesInBasicMode ());
+  view.set_variable ("showchanges", on_off);
+
   
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
@@ -376,6 +413,28 @@ string personalize_index (void * webserver_request)
   }
   
 
+  // Enable the sections for either basic or advanced mode.
+  if (request->database_config_user ()->getBasicInterfaceMode ()) {
+    view.enable_zone ("basicmode");
+    if (request->database_config_user ()->getPrivilegeUseAdvancedMode ()) {
+      view.enable_zone ("can_use_advanced_mode"); // Todo test.
+    }
+  } else {
+    view.enable_zone ("advancedmode");
+  }
+  
+  
+#ifdef HAVE_CLIENT
+  view.enable_zone ("client_mode");
+  if (client_logic_client_enabled ()) {
+    view.enable_zone ("client_connected");
+  }
+#endif
+#ifdef HAVE_CLOUD
+  view.enable_zone ("cloud_mode");
+#endif
+
+  
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("personalize", "index");

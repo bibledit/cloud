@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/webview.h>
 
 
-
 const char * index_index_url ()
 {
   return "index/index";
@@ -74,7 +73,7 @@ string index_index (void * webserver_request)
   
   // Normally a page does not show the expanded main menu.
   // This is to save space on the screen.
-  // But the home page of Bibledit show the extended main menu.
+  // But the home page of Bibledit shows the extended main menu.
   if (request->query.count ("item") == 0) {
     request->query ["item"] = "main";
   }

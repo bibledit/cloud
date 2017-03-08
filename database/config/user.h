@@ -31,6 +31,7 @@ public:
   Database_Config_User (void * webserver_request_in);
   void trim ();
   void remove (string username);
+  void clear_cache ();
   string getStylesheet ();
   void setStylesheet (string sheet);
   string getBible ();

@@ -262,6 +262,13 @@ void Database_Config_User::remove (string username)
 }
 
 
+// Clear the settings cache.
+void Database_Config_User::clear_cache ()
+{
+  database_config_user_cache.clear ();
+}
+
+
 // Named configuration functions.
 
 

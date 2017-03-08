@@ -23,48 +23,58 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/logic.h>
 
 
+void test_workspaces_setup (Webserver_Request & request)
+{
+  request.database_users ()->create ();
+  request.session_logic ()->setUsername ("phpunit");
+}
+
+
 void test_workspaces ()
 {
   trace_unit_tests (__func__);
 
-  Webserver_Request request;
 
   // Initial setup for the tests.
   refresh_sandbox (true);
-  request.database_users ()->create ();
-  request.session_logic ()->setUsername ("phpunit");
   {
+    Webserver_Request request;
+    test_workspaces_setup (request);
+
     evaluate (__LINE__, __func__, "100", workspace_process_units ("100"));
     evaluate (__LINE__, __func__, "1", workspace_process_units ("100 %"));
     evaluate (__LINE__, __func__, "1", workspace_process_units ("100 px"));
-  }
-  {
+
     evaluate (__LINE__, __func__, "Default", workspace_get_active_name (&request));
     request.database_config_user()->setActiveWorkspace ("unittest");
     evaluate (__LINE__, __func__, "unittest", workspace_get_active_name (&request));
-  }
-  {
+
     map <int, string> standard = { make_pair (0, "editone/index"), make_pair (5, "resource/index")};
     evaluate (__LINE__, __func__, standard, workspace_get_default_urls (1));
+
+    {
+      map <int, string> urls = { make_pair (10, "url1"), make_pair (2, "url2")};
+      workspace_set_urls (&request, urls);
+      map <int, string> result = workspace_get_urls (&request, false);
+      evaluate (__LINE__, __func__, urls, result);
+    }
+  
+    {
+      map <int, string> widths = { make_pair (0, "1"), make_pair (1, "1"), make_pair (2, "1"), make_pair (3, "1")};
+      map <int, string> result = workspace_get_widths (&request);
+      evaluate (__LINE__, __func__, widths, result);
+    }
+
+    {
+      vector <string> workspacees = workspace_get_names (&request);
+      evaluate (__LINE__, __func__, {"unittest"}, workspacees);
+    }
   }
-  {
-    map <int, string> urls = { make_pair (10, "url1"), make_pair (2, "url2")};
-    workspace_set_urls (&request, urls);
-    map <int, string> result = workspace_get_urls (&request, false);
-    evaluate (__LINE__, __func__, urls, result);
-  }
-  {
-    map <int, string> widths = { make_pair (0, "1"), make_pair (1, "1"), make_pair (2, "1"), make_pair (3, "1")};
-    map <int, string> result = workspace_get_widths (&request);
-    evaluate (__LINE__, __func__, widths, result);
-  }
-  {
-    vector <string> workspacees = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest"}, workspacees);
-  }
+
   refresh_sandbox (true);
-  request.database_users ()->create ();
   {
+    Webserver_Request request;
+    test_workspaces_setup (request);
     request.database_config_user()->setActiveWorkspace ("unittest");
     workspace_set_urls (&request, {make_pair (10, "url10")});
     request.database_config_user()->setActiveWorkspace ("unittest2");
@@ -79,9 +89,11 @@ void test_workspaces ()
     workspacees = workspace_get_names (&request);
     evaluate (__LINE__, __func__, {"unittest"}, workspacees);
   }
+
   refresh_sandbox (true);
-  request.database_users ()->create ();
   {
+    Webserver_Request request;
+    test_workspaces_setup (request);
     request.database_config_user()->setActiveWorkspace ("unittest2");
     workspace_set_urls (&request, {make_pair (10, "url10")});
     request.database_config_user()->setActiveWorkspace ("abc32");
@@ -89,7 +101,7 @@ void test_workspaces ()
     request.database_config_user()->setActiveWorkspace ("zzz");
     workspace_set_urls (&request, {make_pair (120, "url120"), make_pair (121, "url121")});
     workspace_reorder (&request, {"zzz", "yyy", "unittest2", "abc32"});
-    vector <string> workspacees = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"zzz", "unittest2", "abc32"}, workspacees);
+    vector <string> workspaces = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"zzz", "unittest2", "abc32"}, workspaces);
   }
 }

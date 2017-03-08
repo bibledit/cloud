@@ -417,7 +417,7 @@ string personalize_index (void * webserver_request)
   if (request->database_config_user ()->getBasicInterfaceMode ()) {
     view.enable_zone ("basicmode");
     if (request->database_config_user ()->getPrivilegeUseAdvancedMode ()) {
-      view.enable_zone ("can_use_advanced_mode"); // Todo test.
+      view.enable_zone ("can_use_advanced_mode");
     }
   } else {
     view.enable_zone ("advancedmode");

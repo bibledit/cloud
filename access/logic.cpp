@@ -69,13 +69,13 @@ bool access_logic_privilege_create_comment_notes (void * webserver_request, stri
 }
 
 
-int access_logic_use_advanced_mode_role () // Todo
+int access_logic_use_advanced_mode_role ()
 {
   return Filter_Roles::manager ();
 }
 
 
-bool access_logic_privilege_use_advanced_mode (void * webserver_request, string user) // Todo
+bool access_logic_privilege_use_advanced_mode (void * webserver_request, string user)
 {
   int level = 0;
   access_logic_user_level (webserver_request, user, level);

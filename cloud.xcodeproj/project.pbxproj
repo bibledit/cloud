@@ -1309,8 +1309,8 @@
 		CAEB13151E3FA0EC00AFC75E /* export.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = export.h; sourceTree = "<group>"; };
 		CAEB13161E3FB17000AFC75E /* html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = html.cpp; sourceTree = "<group>"; };
 		CAEB13171E3FB17000AFC75E /* html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = html.h; sourceTree = "<group>"; };
-		CAEB13181E3FBD9400AFC75E /* archive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = archive.cpp; sourceTree = "<group>"; };
-		CAEB13191E3FBD9400AFC75E /* archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
+		CAEB13181E3FBD9400AFC75E /* archive.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = archive.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		CAEB13191E3FBD9400AFC75E /* archive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = archive.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAEB131A1E3FC48800AFC75E /* odf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = odf.cpp; sourceTree = "<group>"; };
 		CAEB131B1E3FC48800AFC75E /* odf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = odf.h; sourceTree = "<group>"; };
 		CAEB131C1E3FC75F00AFC75E /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };

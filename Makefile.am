@@ -534,7 +534,6 @@ unittest_SOURCES = \
 	unittests/webview.cpp \
 	unittests/javascript.cpp
 
-
 unittest_LDADD = libbibledit.a
 
 generate_SOURCES = \

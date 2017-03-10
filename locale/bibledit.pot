@@ -16,9 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Select which Bible to make the active one for editing"
-msgstr ""
-
 msgid "Abbreviations"
 msgstr ""
 
@@ -1706,6 +1703,9 @@ msgstr ""
 msgid "Which visual Bible editors to enable?"
 msgstr ""
 
+msgid "Select which Bible to make the active one for editing"
+msgstr ""
+
 msgid "Select which Bible to display"
 msgstr ""
 
@@ -2680,42 +2680,6 @@ msgid "The number was saved"
 msgstr ""
 
 msgid "Go back"
-msgstr ""
-
-msgid "Select the Bible for editing:"
-msgstr ""
-
-msgid "Send and receive."
-msgstr ""
-
-msgid ""
-"This is for sending your changes to Bibledit Cloud, and receiving changes "
-"made by others."
-msgstr ""
-
-msgid "Connection to Bibledit Cloud."
-msgstr ""
-
-msgid "This is for collaboration with fellow translators and for backup."
-msgstr ""
-
-msgid "Switch to advanced mode."
-msgstr ""
-
-msgid "Advanced mode offers more options than basic mode."
-msgstr ""
-
-msgid ""
-"Once in advanced mode, return to basic mode via menu Settings / Basic mode."
-msgstr ""
-
-msgid "Show the changes"
-msgstr ""
-
-msgid "Whether to have a menu entry to go to the changes."
-msgstr ""
-
-msgid "Logout."
 msgstr ""
 
 msgid "Update the abbreviations."
@@ -7417,7 +7381,7 @@ msgstr ""
 msgid "Can create and comment on consultation notes."
 msgstr ""
 
-msgid "Can use advanced mode."
+msgid "Can use advanced mode in Cloud."
 msgstr ""
 
 msgid "Go back."
@@ -7972,6 +7936,42 @@ msgid ""
 msgstr ""
 
 msgid "Enable the Styles button in the visual Bible editors"
+msgstr ""
+
+msgid "Select the Bible for editing:"
+msgstr ""
+
+msgid "Send and receive."
+msgstr ""
+
+msgid ""
+"This is for sending your changes to Bibledit Cloud, and receiving changes "
+"made by others."
+msgstr ""
+
+msgid "Connection to Bibledit Cloud."
+msgstr ""
+
+msgid "This is for collaboration with fellow translators and for backup."
+msgstr ""
+
+msgid "Switch to advanced mode."
+msgstr ""
+
+msgid "Advanced mode offers more options than basic mode."
+msgstr ""
+
+msgid ""
+"Once in advanced mode, return to basic mode via menu Settings / Basic mode."
+msgstr ""
+
+msgid "Show the changes"
+msgstr ""
+
+msgid "Whether to have a menu entry to go to the changes."
+msgstr ""
+
+msgid "Logout."
 msgstr ""
 
 msgid "Back to chapter"

@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/list.h>
 #include <bible/logic.h>
 #include <ipc/focus.h>
+#include <client/logic.h>
 
 
 string personalize_index_url ()

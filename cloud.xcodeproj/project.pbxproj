@@ -600,7 +600,6 @@
 		CA9DE5A11E635EC100EE3C41 /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA9DE5A21E6365A400EE3C41 /* jobs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jobs.cpp; sourceTree = "<group>"; };
 		CA9DE5A31E6365A400EE3C41 /* jobs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jobs.h; sourceTree = "<group>"; };
-		CA9F197A1A8BB28B004FF341 /* libgit2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = libgit2.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA9F784C1E17DD8E005040C6 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
 		CA9F784D1E17DD8E005040C6 /* studylight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = studylight.h; sourceTree = "<group>"; };
 		CA9F784E1E17DD8E005040C6 /* studylight.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = studylight.html; sourceTree = "<group>"; };
@@ -2384,7 +2383,6 @@
 				CAA4D14C1A45A647003ABA25 /* installwindows.html */,
 				CAA4D14D1A45A647003ABA25 /* introduction.html */,
 				CAA4D14E1A45A647003ABA25 /* leanmanagement.html */,
-				CA9F197A1A8BB28B004FF341 /* libgit2.html */,
 				CA1B82161BFDD68E006DFA7D /* licenses.html */,
 				CAA4D14F1A45A647003ABA25 /* methodology.html */,
 				CAA4D1501A45A647003ABA25 /* navigation.html */,

@@ -5007,75 +5007,6 @@ msgstr ""
 msgid "External reference"
 msgstr ""
 
-msgid "Build libgit2 for Bibledit"
-msgstr ""
-
-msgid "Bibledit uses libgit2 for interaction with git repositories."
-msgstr ""
-
-msgid "This is optional."
-msgstr ""
-
-msgid ""
-"It is recommended that Bibledit configured as a server uses git repositories "
-"for improved Bible data safety."
-msgstr ""
-
-msgid "The interface of libgit2 is not yet stable."
-msgstr ""
-
-msgid ""
-"Bibledit has been tested to work well with one particular version of libgit2:"
-msgstr ""
-
-msgid "Version 0.21.5."
-msgstr ""
-
-msgid ""
-"The steps below provide information about how to build libgit2 and where to "
-"place the library so that Bibledit can find it."
-msgstr ""
-
-msgid "Download libgit2 from the website."
-msgstr ""
-
-msgid "It is available from the Download link."
-msgstr ""
-
-msgid "Bibledit needs version 0.21.5 exactly."
-msgstr ""
-
-msgid "Store the downloaded libgit2 file "
-msgstr ""
-
-msgid "Run the following commands from a Terminal:"
-msgstr ""
-
-msgid "The above should work without errors."
-msgstr ""
-
-msgid "If program "
-msgstr ""
-
-msgid "If the compiler or linker are missing, install them first."
-msgstr ""
-
-msgid "If other dependencies are missing, install them first."
-msgstr ""
-
-msgid "It will have produced a library file "
-msgstr ""
-
-msgid ""
-"Move this library file to the root directory of the bibledit source code."
-msgstr ""
-
-msgid "Bibledit will search for it there during its configure stage."
-msgstr ""
-
-msgid "If Bibledit finds "
-msgstr ""
-
 msgid "Scrum-based translation process."
 msgstr ""
 
@@ -5697,6 +5628,9 @@ msgid "Navigate to the previous verse."
 msgstr ""
 
 msgid "Open the styles from the Bible editor."
+msgstr ""
+
+msgid "Search for words."
 msgstr ""
 
 msgid ""

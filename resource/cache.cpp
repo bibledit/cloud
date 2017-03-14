@@ -75,7 +75,14 @@ string resource_cache (void * webserver_request)
     view.set_variable ("scheduled", filter_string_implode (resources, " | "));
   }
   
+  
+#ifdef HAVE_CLIENT
+  if (!client_logic_client_enabled ()) {
+    view.enable_zone ("clientdisconnected");
+  }
+#endif
 
+  
   // The first resources listed will be the active one from the resource organizer.
   // They will be listed in the order the user has determined.
   // Then there's a horizontal line dividing the rest of the list.

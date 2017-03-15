@@ -67,6 +67,14 @@ string resource_select (void * webserver_request)
   string caller = resource_logic_selector_caller (webserver_request);
   view.set_variable ("caller", caller);
   
+
+  string disconnected_info;
+#ifdef HAVE_CLIENT
+  if (!client_logic_client_enabled ()) {
+    disconnected_info = translate ("Connect to Bibledit Cloud to have access to the full range of available resources.");
+  }
+#endif
+
   
   if (request->query.count ("bible")) {
     // Any resources added is POSTed because when it was still done through GET,
@@ -104,7 +112,7 @@ string resource_select (void * webserver_request)
   
 
   if (request->query.count ("web_orig")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_original_language_resources ();
     for (auto resource : resources) {
@@ -116,7 +124,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("web_bibles")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_bibles ();
     for (auto resource : resources) {
@@ -153,7 +161,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("sword")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = sword_logic_get_available ();
     for (auto resource : resources) {
@@ -184,7 +192,7 @@ string resource_select (void * webserver_request)
 
   
   if (request->query.count ("biblegateway")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_logic_bible_gateway_module_list_get ();
     for (auto resource : resources) {
@@ -196,7 +204,7 @@ string resource_select (void * webserver_request)
   
   
   if (request->query.count ("studylight")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), "", "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_logic_study_light_module_list_get ();
     for (auto resource : resources) {

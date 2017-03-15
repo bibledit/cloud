@@ -8001,6 +8001,11 @@ msgstr ""
 msgid "Click a resource for more information on its status."
 msgstr ""
 
+msgid ""
+"Connect to Bibledit Cloud to have access to the full range of available "
+"resources."
+msgstr ""
+
 msgid "Bibledit can display this resource."
 msgstr ""
 

@@ -1862,6 +1862,11 @@ msgstr ""
 msgid "The document is being created..."
 msgstr ""
 
+msgid ""
+"Connect to Bibledit Cloud to have access to the full range of available "
+"resources."
+msgstr ""
+
 msgid "Select a USFM resource"
 msgstr ""
 
@@ -7999,11 +8004,6 @@ msgid ""
 msgstr ""
 
 msgid "Click a resource for more information on its status."
-msgstr ""
-
-msgid ""
-"Connect to Bibledit Cloud to have access to the full range of available "
-"resources."
 msgstr ""
 
 msgid "Bibledit can display this resource."

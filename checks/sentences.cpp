@@ -20,6 +20,7 @@
 #include <checks/sentences.h>
 #include <webserver/request.h>
 #include <filter/string.h>
+#include <locale/translate.h>
 
 
 void Checks_Sentences::enterCapitals (string capitals_in)
@@ -128,48 +129,48 @@ void Checks_Sentences::check (map <int, string> texts)
 }
 
 
-void Checks_Sentences::checkCharacter ()
+void Checks_Sentences::checkCharacter () // Todo
 {
   // Handle a capital after a comma: ... He said, Go ...
   if (this->isCapital)
     if (this->spacePosition > 0)
       if (this->currentPosition == this->spacePosition + 1)
         if (this->currentPosition == this->centerMarkPosition + 2)
-          this->addResult ("Capital follows mid-sentence punctuation mark", Checks_Sentences::skipNames);
+          this->addResult (translate ("Capital follows mid-sentence punctuation mark"), Checks_Sentences::skipNames);
   
   
   // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
   if (this->isSmallLetter)
     if (this->centerMarkPosition > 0)
       if (this->currentPosition == this->centerMarkPosition + 1)
-        this->addResult ("Small letter follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
+        this->addResult (translate ("Small letter follows straight after a mid-sentence punctuation mark"), Checks_Sentences::displayContext);
   
   
   // Handle a capital straight after mid-sentence punctuation: ... He said,Go ...
   if (this->isCapital)
     if (this->centerMarkPosition > 0)
       if (this->currentPosition == this->centerMarkPosition + 1)
-        this->addResult ("Capital follows straight after a mid-sentence punctuation mark", Checks_Sentences::displayContext);
+        this->addResult (translate ("Capital follows straight after a mid-sentence punctuation mark"), Checks_Sentences::displayContext);
   
   
   // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
   if ((this->isSmallLetter) || (this->isCapital))
     if (this->endMarkPosition > 0)
       if (this->currentPosition == this->endMarkPosition + 1)
-        this->addResult ("A letter follows straight after an end-sentence punctuation mark", Checks_Sentences::displayContext);
+        this->addResult (translate ("A letter follows straight after an end-sentence punctuation mark"), Checks_Sentences::displayContext);
   
   
   // Handle case of no capital after end-sentence punctuation: He did that. he went.
   if (this->isSmallLetter)
     if (this->endMarkPosition > 0)
       if (this->currentPosition == this->endMarkPosition + 2)
-        this->addResult ("No capital after an end-sentence punctuation mark", Checks_Sentences::displayContext);
+        this->addResult (translate ("No capital after an end-sentence punctuation mark"), Checks_Sentences::displayContext);
   
   
   // Handle two punctuation marks in sequence.
   if (this->isEndMark || this->isCenterMark)
     if (this->currentPosition == this->previousMarkPosition + 1)
-      this->addResult ("Two punctuation marks in sequence", Checks_Sentences::displayContext);
+      this->addResult (translate ("Two punctuation marks in sequence"), Checks_Sentences::displayContext);
   
 }
 
@@ -207,7 +208,7 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         string context = verses_paragraph.begin()->second;
         context = unicode_string_substr (context, 0, 15);
-        checkingResults.push_back (make_pair (verse, "Paragraph does not start with a capital: " + context));
+        checkingResults.push_back (make_pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
       }
     }
     
@@ -244,7 +245,7 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
         if (length >= 15) {
           context = unicode_string_substr (context, length - 15, 15);
         }
-        checkingResults.push_back (make_pair (verse, "Paragraph does not end with an end marker: " + context));
+        checkingResults.push_back (make_pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
       }
     }
     
@@ -306,7 +307,7 @@ void Checks_Sentences::checkUnknownCharacter ()
   if (isSmallLetter) return;
   if (isEndMark) return;
   if (isCenterMark) return;
-  addResult ("Unknown character", Checks_Sentences::displayCharacterOnly);
+  addResult (translate ("Unknown character"), Checks_Sentences::displayCharacterOnly);
 }
 
 

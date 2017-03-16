@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <database/bibles.h>
 #include <database/check.h>
+#include <locale/translate.h>
 
 
 void Checks_Pairs::run (const string & bible, int book, int chapter,
@@ -69,7 +70,9 @@ void Checks_Pairs::run (const string & bible, int book, int chapter,
           mismatch = true;
         }
         if (mismatch) {
-          database_check.recordOutput (bible, book, chapter, verse, "Closing character \"" + character + "\" without its matching opening character \"" + opener + "\"");
+          string fragment1 = translate ("Closing character");
+          string fragment2 = translate ("without its matching opening character");
+          database_check.recordOutput (bible, book, chapter, verse, fragment1 + " \"" + character + "\" " + fragment2 + "\"" + opener + "\"");
         }
       }
     }
@@ -80,7 +83,9 @@ void Checks_Pairs::run (const string & bible, int book, int chapter,
     int verse = verses [i];
     string opener = opened [i];
     string closer = match (opener, pairs);
-    database_check.recordOutput (bible, book, chapter, verse, "Opening character \"" + opener + "\" without its matching closing character \"" + closer + "\"");
+    string fragment1 = translate ("Opening character");
+    string fragment2 = translate ("without its matching closing character");
+    database_check.recordOutput (bible, book, chapter, verse, fragment1 + " \"" + opener + "\" " + fragment2 + " \"" + closer + "\"");
   }
 }
 

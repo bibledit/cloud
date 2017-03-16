@@ -20,6 +20,7 @@
 #include <checks/headers.h>
 #include <filter/string.h>
 #include <database/check.h>
+#include <locale/translate.h>
 
 
 void Checks_Headers::noPunctuationAtEnd (string bible, int book, int chapter,
@@ -39,7 +40,7 @@ void Checks_Headers::noPunctuationAtEnd (string bible, int book, int chapter,
     if (centermarks.find (lastCharacter) != string::npos) message = true;
     if (endmarks.find (lastCharacter) != string::npos) message = true;
     if (message) {
-      database_check.recordOutput (bible, book, chapter, verse, "Punctuation at end of heading: " + heading);
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Punctuation at end of heading:") + " " + heading);
     }
   }
 }

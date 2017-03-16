@@ -59,7 +59,7 @@ string checks_suppress (void * webserver_request)
   if (request->query.count ("release")) {
     int release = convert_to_int (request->query["release"]);
     database_check.release (release);
-    view.set_variable ("success", translate("The check result is no longer suppressed."));
+    view.set_variable ("success", translate ("The check result is no longer suppressed."));
   }
   
                         

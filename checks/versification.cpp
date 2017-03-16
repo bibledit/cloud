@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <database/versifications.h>
 #include <database/config/bible.h>
+#include <locale/translate.h>
 
 
 void Checks_Versification::books (string bible, vector <int> books)
@@ -34,10 +35,10 @@ void Checks_Versification::books (string bible, vector <int> books)
   vector <int> extraBooks = filter_string_array_diff (books, standardBooks);
   Database_Check database_check;
   for (auto book : absentBooks) {
-    database_check.recordOutput (bible, book, 1, 1, "This book is absent from the Bible");
+    database_check.recordOutput (bible, book, 1, 1, translate ("This book is absent from the Bible"));
   }
   for (auto book : extraBooks) {
-    database_check.recordOutput (bible, book, 1, 1, "This book is extra in the Bible");
+    database_check.recordOutput (bible, book, 1, 1, translate ("This book is extra in the Bible"));
   }
 }
 
@@ -52,10 +53,10 @@ void Checks_Versification::chapters (string bible, int book, vector <int> chapte
   vector <int> extraChapters = filter_string_array_diff (chapters, standardChapters);
   Database_Check database_check;
   for (auto chapter : absentChapters) {
-    database_check.recordOutput (bible, book, chapter, 1, "This chapter is missing");
+    database_check.recordOutput (bible, book, chapter, 1, translate ("This chapter is missing"));
   }
   for (auto chapter : extraChapters) {
-    database_check.recordOutput (bible, book, chapter, 1, "This chapter is extra");
+    database_check.recordOutput (bible, book, chapter, 1, translate ("This chapter is extra"));
   }
 }
 
@@ -72,11 +73,11 @@ void Checks_Versification::verses (string bible, int book, int chapter, vector <
   vector <int> extraVerses = filter_string_array_diff (verses, standardVerses);
   Database_Check database_check;
   for (auto verse : absentVerses) {
-    database_check.recordOutput (bible, book, chapter, verse, "This verse is missing according to the versification system");
+    database_check.recordOutput (bible, book, chapter, verse, translate ("This verse is missing according to the versification system"));
   }
   for (auto verse : extraVerses) {
     //if ((chapter == 0) && (verse == 0)) continue;
-    database_check.recordOutput (bible, book, chapter, verse, "This verse is extra according to the versification system");
+    database_check.recordOutput (bible, book, chapter, verse, translate ("This verse is extra according to the versification system"));
   }
   // Look for verses out of order.
   int previousVerse = 0;
@@ -84,7 +85,7 @@ void Checks_Versification::verses (string bible, int book, int chapter, vector <
     int verse = verses[i];
     if (i > 0) {
       if (verse != (previousVerse + 1)) {
-        database_check.recordOutput (bible, book, chapter, verse, "The verse is out of sequence");
+        database_check.recordOutput (bible, book, chapter, verse, translate ("The verse is out of sequence"));
       }
     }
     previousVerse = verse;

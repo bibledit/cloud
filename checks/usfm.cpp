@@ -25,6 +25,7 @@
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <styles/logic.h>
+#include <locale/translate.h>
 
 
 Checks_Usfm::Checks_Usfm (string bible)
@@ -69,7 +70,7 @@ void Checks_Usfm::initialize ()
 void Checks_Usfm::finalize ()
 {
   if (openMatchingMarkers.size () > 0) {
-    addResult ("Unclosed markers: " + filter_string_implode (openMatchingMarkers, " "), displayNothing);
+    addResult (translate ("Unclosed markers:") + " " + filter_string_implode (openMatchingMarkers, " "), displayNothing);
   }
 }
 
@@ -114,7 +115,7 @@ void Checks_Usfm::malformedVerseNumber ()
     string dirtyVerseNumber;
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
-      addResult ("Malformed verse number", displayFull);
+      addResult (translate ("Malformed verse number"), displayFull);
     }
   }
 }
@@ -135,7 +136,7 @@ void Checks_Usfm::newLineInUsfm (string usfm)
     if (position == 0) position = 1;
     string bit = usfm.substr (position - 1, 10);
     bit = filter_string_str_replace ("\n", " ", bit);
-    addResult ("New line within USFM: " + bit, displayNothing);
+    addResult (translate ("New line within USFM:") + " " + bit, displayNothing);
   }
 }
 
@@ -152,7 +153,7 @@ void Checks_Usfm::markerInStylesheet ()
   }
   if (marker == "") return;
   if (in_array (marker, markersStylesheet)) return;
-  addResult ("Marker not in stylesheet", Checks_Usfm::displayCurrent);
+  addResult (translate ("Marker not in stylesheet"), Checks_Usfm::displayCurrent);
 }
 
 
@@ -169,10 +170,10 @@ void Checks_Usfm::malformedId ()
     if (!vid.empty ()) id = vid [0];
     int book = Database_Books::getIdFromUsfm (id);
     if (book == 0) {
-      addResult ("Unknown ID", displayFull);
+      addResult (translate ("Unknown ID"), displayFull);
     } else {
       if (unicode_string_uppercase (id) != id) {
-        addResult ("ID is not in uppercase", displayFull);
+        addResult (translate ("ID is not in uppercase"), displayFull);
       }
     }
   }
@@ -197,7 +198,7 @@ void Checks_Usfm::forwardSlash (string usfm)
     }
     string marker = bit.substr (1, 100);
     if (find (markersStylesheet.begin(), markersStylesheet.end(), marker) != markersStylesheet.end ()) {
-      addResult ("Forward slash instead of backslash: " + bit, displayNothing);
+      addResult (translate ("Forward slash instead of backslash:") + " " + bit, displayNothing);
     }
   }
 }
@@ -208,7 +209,7 @@ void Checks_Usfm::widowBackSlash ()
   string marker = usfmItem;
   marker = filter_string_trim (marker);
   if (marker.length() == 1) {
-    addResult ("Widow backslash", displayCurrent);
+    addResult (translate ("Widow backslash"), displayCurrent);
   }
 }
 
@@ -226,7 +227,7 @@ void Checks_Usfm::matchingEndmarker ()
   if (!in_array (marker, markersRequiringEndmarkers)) return;
   if (isOpener) {
     if (in_array (marker, openMatchingMarkers)) {
-      addResult ("Repeating opening marker", Checks_Usfm::displayCurrent);
+      addResult (translate ("Repeating opening marker"), Checks_Usfm::displayCurrent);
     } else {
       openMatchingMarkers.push_back (marker);
     }
@@ -234,7 +235,7 @@ void Checks_Usfm::matchingEndmarker ()
     if (in_array (marker, openMatchingMarkers)) {
       openMatchingMarkers = filter_string_array_diff (openMatchingMarkers, {marker});
     } else {
-      addResult ("Closing marker does not match opening marker " + filter_string_implode (openMatchingMarkers, " "), displayCurrent);
+      addResult (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (openMatchingMarkers, " "), displayCurrent);
     }
   }
 }

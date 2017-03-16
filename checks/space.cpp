@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <database/check.h>
+#include <locale/translate.h>
 
 
 void Checks_Space::doubleSpaceUsfm (string bible, int book, int chapter, int verse, string data)
@@ -31,7 +32,7 @@ void Checks_Space::doubleSpaceUsfm (string bible, int book, int chapter, int ver
     if (start < 0) start = 0;
     string fragment = data.substr (start, 20);
     Database_Check database_check;
-    database_check.recordOutput (bible, book, chapter, verse, "Double space: ... " + fragment + " ...");
+    database_check.recordOutput (bible, book, chapter, verse, translate ("Double space:") + " ... " + fragment + " ...");
   }
 }
 
@@ -43,22 +44,22 @@ void Checks_Space::spaceBeforePunctuation (string bible, int book, int chapter, 
     int verse = element.first;
     string text = element.second;
     if (text.find (" ,") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, "Space before a comma");
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a comma"));
     }
     if (text.find (" ;") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, "Space before a semicolon");
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a semicolon"));
     }
     if (text.find (" :") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, "Space before a colon");
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a colon"));
     }
     if (text.find (" .") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, "Space before a full stop");
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a full stop"));
     }
     if (text.find (" ?") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, "Space before a question mark");
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a question mark"));
     }
     if (text.find (" !") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, "Space before an exclamation mark");
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before an exclamation mark"));
     }
   }
 }
@@ -84,6 +85,6 @@ void Checks_Space::spaceEndVerse (string bible, int book, int chapter, string us
       char lastchar = text.back ();
       if (lastchar == ' ') hit = true;
     }
-    if (hit) database_check.recordOutput (bible, book, chapter, verse, "Space at the end of the verse");
+    if (hit) database_check.recordOutput (bible, book, chapter, verse, translate ("Space at the end of the verse"));
   }
 }

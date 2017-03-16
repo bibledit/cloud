@@ -25,6 +25,7 @@
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <styles/logic.h>
+#include <locale/translate.h>
 
 
 void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter, map <int, string> verses,
@@ -46,7 +47,7 @@ void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter
     string lastCharacter = unicode_string_substr (text, text_length - 1, 1);
     if (in_array (lastCharacter, centermarks)) continue;
     if (in_array (lastCharacter, endmarks)) continue;
-    database_check.recordOutput (bible, book, chapter, verse, "No punctuation at end of verse: " + lastCharacter);
+    database_check.recordOutput (bible, book, chapter, verse, translate ("No punctuation at end of verse:") + " " + lastCharacter);
   }
 }
 
@@ -60,7 +61,7 @@ void Checks_Verses::patterns (string bible, int book, int chapter, map <int, str
     for (auto pattern : patterns) {
       if (pattern.empty ()) continue;
       if (text.find (pattern) != string::npos) {
-        database_check.recordOutput (bible, book, chapter, verse, "Pattern found in text: " + pattern);
+        database_check.recordOutput (bible, book, chapter, verse, translate ("Pattern found in text:") + " " + pattern);
       }
     }
   }

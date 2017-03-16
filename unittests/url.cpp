@@ -100,20 +100,49 @@ void test_url ()
     evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
   }
 
-  // Encode / decode URL.
+  // Test URL decoder.
   {
-    // Test URL decoder.
     evaluate (__LINE__, __func__, "Store settings", filter_url_urldecode ("Store+settings"));
     evaluate (__LINE__, __func__, "test@mail", filter_url_urldecode ("test%40mail"));
     evaluate (__LINE__, __func__, "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
-    // Test URL encoder.
+    evaluate (__LINE__, __func__, "\xFF", filter_url_urldecode ("%FF"));
+    evaluate (__LINE__, __func__, "\xFF", filter_url_urldecode ("%ff"));
+  }
+  
+  // Test URL encoder.
+  {
     evaluate (__LINE__, __func__, "Store%20settings", filter_url_urlencode ("Store settings"));
     evaluate (__LINE__, __func__, "test%40mail", filter_url_urlencode ("test@mail"));
     evaluate (__LINE__, __func__, "%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
     evaluate (__LINE__, __func__, "foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
     evaluate (__LINE__, __func__, "%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
+    evaluate (__LINE__, __func__, "ABC", filter_url_urlencode ("ABC"));
+    evaluate (__LINE__, __func__, "%FF", filter_url_urlencode ("\xFF"));
+  }
+
+  // Test encode and decode round trip.
+  {
+    string original ("\0\1\2", 3);
+    string encoded ("%00%01%02");
+    evaluate (__LINE__, __func__, encoded, filter_url_urlencode (original));
+    evaluate (__LINE__, __func__, original, filter_url_urldecode (encoded));
+  }
+
+  // Test encode and decode unsafe chars, RFC1738.
+  {
+    string unsafe (" <>#{}|\\^~[]`");
+    string unsafe_encoded = filter_url_urlencode (unsafe);
+    evaluate (__LINE__, __func__, true, unsafe_encoded.find_first_of (unsafe) == string::npos);
+    evaluate (__LINE__, __func__, unsafe, filter_url_urldecode (unsafe_encoded));
   }
   
+  // Test char values used in encoding and decoding.
+  {
+    const char one = -1;
+    const char two = 255;
+    evaluate (__LINE__, __func__, one, two);
+  }
+    
   // Test dirname and basename functions.
   {
     evaluate (__LINE__, __func__, ".", filter_url_dirname (""));

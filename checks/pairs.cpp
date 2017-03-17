@@ -72,7 +72,7 @@ void Checks_Pairs::run (const string & bible, int book, int chapter,
         if (mismatch) {
           string fragment1 = translate ("Closing character");
           string fragment2 = translate ("without its matching opening character");
-          database_check.recordOutput (bible, book, chapter, verse, fragment1 + " \"" + character + "\" " + fragment2 + "\"" + opener + "\"");
+          database_check.recordOutput (bible, book, chapter, verse, fragment1 + " \"" + character + "\" " + fragment2 + " \"" + opener + "\"");
         }
       }
     }

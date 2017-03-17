@@ -39,6 +39,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define whether mimetic/mimetic.h is present */
+#undef HAVE_MIMETIC
+
 /* Define whether pthread.h is present */
 #undef HAVE_PTHREAD
 

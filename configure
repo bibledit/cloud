@@ -6651,6 +6651,19 @@ fi
 
 
 
+# With macports the mimetic library is in /opt/local.
+CPPFLAGS=-I/opt/local/include
+ac_fn_cxx_check_header_mongrel "$LINENO" "mimetic/mimetic.h" "ac_cv_header_mimetic_mimetic_h" "$ac_includes_default"
+if test "x$ac_cv_header_mimetic_mimetic_h" = xyes; then :
+
+$as_echo "#define HAVE_MIMETIC 1" >>confdefs.h
+
+else
+  as_fn_error $? "Library \"mimetic\" is needed. Install this first." "$LINENO" 5
+fi
+
+
+
 
 # Check whether function 'stoi' is available
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5

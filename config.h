@@ -40,6 +40,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
+/* Define whether mimetic/mimetic.h is present */
+#define HAVE_MIMETIC 1
+
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
 

@@ -198,7 +198,9 @@ int email_receive_count (string& error, bool verbose)
   error = "Not implemented with embedded http library";
   if (verbose) {}
   return 0;
-#else
+#endif
+
+#ifdef HAVE_CLOUD
   CURL *curl;
   CURLcode res = CURLE_OK;
 
@@ -256,7 +258,9 @@ string email_receive_message (string& error)
 #ifdef HAVE_CLIENT
   error = "Not implemented with embedded http library";
   return "";
-#else
+#endif
+  
+#ifdef HAVE_CLOUD
   CURL *curl;
   CURLcode res = CURLE_OK;
 

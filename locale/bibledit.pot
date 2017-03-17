@@ -528,6 +528,9 @@ msgstr ""
 msgid "Everyone"
 msgstr ""
 
+msgid "Punctuation at end of heading:"
+msgstr ""
+
 msgid "Checks"
 msgstr ""
 
@@ -537,6 +540,18 @@ msgstr ""
 msgid "The entry was deleted for just now."
 msgstr ""
 
+msgid "Closing character"
+msgstr ""
+
+msgid "without its matching opening character"
+msgstr ""
+
+msgid "Opening character"
+msgstr ""
+
+msgid "without its matching closing character"
+msgstr ""
+
 msgid "Checking results online"
 msgstr ""
 
@@ -544,6 +559,33 @@ msgid "Settings"
 msgstr ""
 
 msgid "Bible Checks"
+msgstr ""
+
+msgid "Capital follows mid-sentence punctuation mark"
+msgstr ""
+
+msgid "Small letter follows straight after a mid-sentence punctuation mark"
+msgstr ""
+
+msgid "Capital follows straight after a mid-sentence punctuation mark"
+msgstr ""
+
+msgid "A letter follows straight after an end-sentence punctuation mark"
+msgstr ""
+
+msgid "No capital after an end-sentence punctuation mark"
+msgstr ""
+
+msgid "Two punctuation marks in sequence"
+msgstr ""
+
+msgid "Paragraph does not start with a capital:"
+msgstr ""
+
+msgid "Paragraph does not end with an end marker:"
+msgstr ""
+
+msgid "Unknown character"
 msgstr ""
 
 msgid "Manage Checks"
@@ -597,10 +639,91 @@ msgid ""
 "saved"
 msgstr ""
 
+msgid "Double space:"
+msgstr ""
+
+msgid "Space before a comma"
+msgstr ""
+
+msgid "Space before a semicolon"
+msgstr ""
+
+msgid "Space before a colon"
+msgstr ""
+
+msgid "Space before a full stop"
+msgstr ""
+
+msgid "Space before a question mark"
+msgstr ""
+
+msgid "Space before an exclamation mark"
+msgstr ""
+
+msgid "Space at the end of the verse"
+msgstr ""
+
 msgid "Suppressed check results"
 msgstr ""
 
 msgid "The check result is no longer suppressed."
+msgstr ""
+
+msgid "Unclosed markers:"
+msgstr ""
+
+msgid "Malformed verse number"
+msgstr ""
+
+msgid "New line within USFM:"
+msgstr ""
+
+msgid "Marker not in stylesheet"
+msgstr ""
+
+msgid "Unknown ID"
+msgstr ""
+
+msgid "ID is not in uppercase"
+msgstr ""
+
+msgid "Forward slash instead of backslash:"
+msgstr ""
+
+msgid "Widow backslash"
+msgstr ""
+
+msgid "Repeating opening marker"
+msgstr ""
+
+msgid "Closing marker does not match opening marker"
+msgstr ""
+
+msgid "No punctuation at end of verse:"
+msgstr ""
+
+msgid "Pattern found in text:"
+msgstr ""
+
+msgid "This book is absent from the Bible"
+msgstr ""
+
+msgid "This book is extra in the Bible"
+msgstr ""
+
+msgid "This chapter is missing"
+msgstr ""
+
+msgid "This chapter is extra"
+msgstr ""
+
+msgid "This verse is missing according to the versification system"
+msgstr ""
+
+msgid "This verse is extra according to the versification system"
+msgstr ""
+
+msgid "The verse is out of sequence"
 msgstr ""
 
 msgid "Connection is okay."

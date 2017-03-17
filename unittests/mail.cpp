@@ -28,7 +28,7 @@ void test_database_mail ()
 {
   trace_unit_tests (__func__);
   
-  // Optimize / Trim.
+  // Optimize / trim.
   {
     refresh_sandbox (true);
     Database_Users database_users;
@@ -39,6 +39,7 @@ void test_database_mail ()
     database_mail.optimize ();
     database_mail.trim ();
   }
+  
   // Empty.
   {
     refresh_sandbox (true);
@@ -58,7 +59,8 @@ void test_database_mail ()
     vector <int> mails_to_send = database_mail.getMailsToSend ();
     evaluate (__LINE__, __func__, {}, mails_to_send);
   }
-  // Normal Cycle
+  
+  // Normal cycle.
   {
     refresh_sandbox (true);
     Database_Users database_users;
@@ -85,7 +87,8 @@ void test_database_mail ()
     count = database_mail.getMailCount ();
     evaluate (__LINE__, __func__, 0, count);
   }
-  // Normal Postpone
+
+  // Normal postpone.
   {
     refresh_sandbox (true);
     Database_Users database_users;

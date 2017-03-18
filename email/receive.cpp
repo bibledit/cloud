@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #include <database/config/general.h>
 #include <filter/string.h>
+#include <filter/mail.h>
 #include <config/globals.h>
 #include <confirm/worker.h>
 #include <notes/logic.h>
@@ -31,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Dissects a raw email.
-void email_dissect (string & body, string & from, string & subject)
+void email_dissect_Todo_goes_out (string & body, string & from, string & subject)
 {
   // Remove \r, remaining with \n only.
   body = filter_string_str_replace ("\r", "", body);
@@ -121,13 +122,14 @@ void email_receive ()
     Notes_Logic notes_logic = Notes_Logic (&request);
     
     error.clear ();
-    string body = email_receive_message (error);
+    string message = email_receive_message (error);
     if (error.empty ()) {
   
       // Extract "from" and subject, and clean body.
       string from;
       string subject;
-      email_dissect (body, from, subject);
+      string body;
+      filter_mail_dissect (message, from, subject, body);
   
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
 

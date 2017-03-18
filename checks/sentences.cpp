@@ -129,7 +129,7 @@ void Checks_Sentences::check (map <int, string> texts)
 }
 
 
-void Checks_Sentences::checkCharacter () // Todo
+void Checks_Sentences::checkCharacter ()
 {
   // Handle a capital after a comma: ... He said, Go ...
   if (this->isCapital)

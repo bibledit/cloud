@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Test the logic used in the visual verse editor.
-void test_editone_logic ()
+void test_editone_logic () // Todo
 {
   trace_unit_tests (__func__);
 
@@ -34,11 +34,11 @@ void test_editone_logic ()
 
   // Prefix.
   {
-    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_1.usfm"));
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.usfm"));
     string html;
     string last_paragraph_style;
     editone_logic_prefix_html_stage_one (usfm, stylesheet, html, last_paragraph_style);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_1.html"));
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
   }
@@ -46,12 +46,12 @@ void test_editone_logic ()
   // Editable verse text.
   {
     // Convert USFM to html.
-    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_2.usfm"));
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone02.usfm"));
     string html;
     string last_paragraph_style;
     string focused_verse_applied_p_style;
     editone_old_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_2.html"));
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone02.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
     evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
@@ -61,15 +61,26 @@ void test_editone_logic ()
     evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
   }
   
+  // Suffix.
+  {
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone03.usfm"));
+    string html;
+    string last_paragraph_style;
+    editone_logic_suffix_html ("q1", usfm, stylesheet, html);
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone03.html"));
+    evaluate (__LINE__, __func__, standard, html);
+    evaluate (__LINE__, __func__, "", last_paragraph_style);
+  }
+  
   // Editable verse text including a \b.
   {
     // Convert USFM to html.
-    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_4.usfm"));
+    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone04.usfm"));
     string html;
     string last_paragraph_style;
     string focused_verse_applied_p_style;
     editone_old_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_4.html"));
+    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone04.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "q1", last_paragraph_style);
     evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
@@ -79,28 +90,17 @@ void test_editone_logic ()
     evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
   }
 
-  // Suffix.
-  {
-    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_3.usfm"));
-    string html;
-    string last_paragraph_style;
-    editone_logic_suffix_html ("q1", usfm, stylesheet, html);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "edit_one_3.html"));
-    evaluate (__LINE__, __func__, standard, html);
-    evaluate (__LINE__, __func__, "", last_paragraph_style);
-  }
-  
   // Removing notes from the prefix and appending them to the notes in the suffix.
   {
     string prefix;
     string suffix;
     string standard;
-    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone1prefix1.html"));
-    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone1suffix1.html"));
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone01prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone01suffix1.html"));
     editone_logic_move_notes (prefix, suffix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone1prefix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone1suffix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
   }
 
@@ -109,12 +109,12 @@ void test_editone_logic ()
     string prefix;
     string suffix;
     string standard;
-    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone2prefix1.html"));
-    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone2suffix1.html"));
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone02prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone02suffix1.html"));
     editone_logic_move_notes (prefix, suffix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone2prefix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone02prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone2suffix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone02suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
   }
   
@@ -123,12 +123,12 @@ void test_editone_logic ()
     string prefix;
     string suffix;
     string standard;
-    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone3prefix1.html"));
-    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone3suffix1.html"));
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone03prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone03suffix1.html"));
     editone_logic_move_notes (prefix, suffix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone3prefix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone03prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone3suffix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone03suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
   }
   
@@ -137,12 +137,12 @@ void test_editone_logic ()
     string prefix;
     string suffix;
     string standard;
-    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone4prefix1.html"));
-    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone4suffix1.html"));
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone04prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone04suffix1.html"));
     editone_logic_move_notes (prefix, suffix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone4prefix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone04prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone4suffix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone04suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
   }
   
@@ -151,12 +151,12 @@ void test_editone_logic ()
     string prefix;
     string suffix;
     string standard;
-    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone5prefix1.html"));
-    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone5suffix1.html"));
+    prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone05prefix1.html"));
+    suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone05suffix1.html"));
     editone_logic_move_notes (prefix, suffix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone5prefix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone05prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone5suffix2.html"));
+    standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone05suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
   }
 }

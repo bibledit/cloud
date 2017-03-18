@@ -22,6 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <webserver/request.h>
 #include <database/mail.h>
+#include <filter/url.h>
+#include <filter/mail.h>
 
 
 void test_database_mail ()
@@ -107,4 +109,65 @@ void test_database_mail ()
     mails = database_mail.getMailsToSend ();
     evaluate (__LINE__, __func__, 0, (int)mails.size ());
   }
+}
+
+
+void test_filter_mail ()
+{
+  trace_unit_tests (__func__);
+  
+  string testfolder = filter_url_create_root_path ("unittests", "tests");
+  
+  // Standard mimetic library's test message.
+  {
+    string msgpath = filter_url_create_path (testfolder, "email1.msg");
+    string msg = filter_url_file_get_contents (msgpath);
+    string from, subject, plaintext;
+    filter_mail_dissect (msg, from, subject, plaintext);
+    string txtpath = filter_url_create_path (testfolder, "email1.txt");
+    string txt = filter_url_file_get_contents (txtpath);
+    evaluate (__LINE__, __func__, "stefano@codesink.org", from);
+    evaluate (__LINE__, __func__, "My picture!", subject);
+    evaluate (__LINE__, __func__, txt, plaintext);
+  }
+   
+  // A plain text message, that is, not a MIME message.
+  {
+    string msgpath = filter_url_create_path (testfolder, "email2.msg");
+    string msg = filter_url_file_get_contents (msgpath);
+    string from, subject, plaintext;
+    filter_mail_dissect (msg, from, subject, plaintext);
+    string txtpath = filter_url_create_path (testfolder, "email2.txt");
+    string txt = filter_url_file_get_contents (txtpath);
+    evaluate (__LINE__, __func__, "developer@device.localdomain (Developer)", from);
+    evaluate (__LINE__, __func__, "plain text", subject);
+    evaluate (__LINE__, __func__, txt, plaintext);
+  }
+  
+  // A UTF-8 quoted-printable message.
+  {
+    string msgpath = filter_url_create_path (testfolder, "email3.msg");
+    string msg = filter_url_file_get_contents (msgpath);
+    string from, subject, plaintext;
+    filter_mail_dissect (msg, from, subject, plaintext);
+    string txtpath = filter_url_create_path (testfolder, "email3.txt");
+    string txt = filter_url_file_get_contents (txtpath);
+    evaluate (__LINE__, __func__, "Sender <sender@domain.net>", from);
+    evaluate (__LINE__, __func__, "Message encoded with quoted-printable", subject);
+    evaluate (__LINE__, __func__, txt, plaintext);
+  }
+
+  // A UTF-8 base64 encoded message.
+  {
+    string msgpath = filter_url_create_path (testfolder, "email4.msg");
+    string msg = filter_url_file_get_contents (msgpath);
+    string from, subject, plaintext;
+    filter_mail_dissect (msg, from, subject, plaintext);
+    string txtpath = filter_url_create_path (testfolder, "email4.txt");
+    string txt = filter_url_file_get_contents (txtpath);
+    evaluate (__LINE__, __func__, "Sender <sender@domain.net>", from);
+    evaluate (__LINE__, __func__, "Message encoded in base64", subject);
+    evaluate (__LINE__, __func__, txt, plaintext);
+  }
+  
 }

@@ -124,13 +124,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/diff.$(OBJEXT) filter/abbreviations.$(OBJEXT) \
 	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
 	filter/date.$(OBJEXT) filter/memory.$(OBJEXT) \
-	filter/webview.$(OBJEXT) flate/flate.$(OBJEXT) \
-	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
-	assets/header.$(OBJEXT) index/index.$(OBJEXT) \
-	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
-	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
-	database/config/general.$(OBJEXT) \
+	filter/webview.$(OBJEXT) filter/mail.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
+	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -523,7 +523,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
-	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS)
+	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) -lmimetic
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -621,6 +621,7 @@ libbibledit_a_SOURCES = \
 	filter/date.cpp \
 	filter/memory.cpp \
 	filter/webview.cpp \
+	filter/mail.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -1273,6 +1274,8 @@ filter/date.$(OBJEXT): filter/$(am__dirstamp) \
 filter/memory.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/webview.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/mail.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -3086,6 +3089,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/date.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/memory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/merge.Po@am__quote@

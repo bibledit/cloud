@@ -271,6 +271,8 @@
 		CA30DA581BE3F7130036F3E8 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA30DA591BE3F7130036F3E8 /* chapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = chapter.cpp; sourceTree = "<group>"; };
 		CA30DA5A1BE3F7130036F3E8 /* chapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chapter.h; sourceTree = "<group>"; };
+		CA3188D21E7BF3470008C7D9 /* mail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mail.cpp; sourceTree = "<group>"; };
+		CA3188D31E7BF3470008C7D9 /* mail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mail.h; sourceTree = "<group>"; };
 		CA31D6C71A69201300C3324A /* strongs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = strongs.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA31D6C81A69201300C3324A /* strongs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strongs.h; sourceTree = "<group>"; };
 		CA31D6C91A69201300C3324A /* strongs.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = strongs.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
@@ -2296,6 +2298,8 @@
 				CA1240301A55D8A1002C4752 /* diff.h */,
 				CA442D021A553DA6006374D3 /* git.cpp */,
 				CA442D031A553DA6006374D3 /* git.h */,
+				CA3188D21E7BF3470008C7D9 /* mail.cpp */,
+				CA3188D31E7BF3470008C7D9 /* mail.h */,
 				CAA4D0F71A45A647003ABA25 /* md5.cpp */,
 				CAA4D0F81A45A647003ABA25 /* md5.h */,
 				CA02DE771DA3B0F8001155A9 /* memory.cpp */,

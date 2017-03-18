@@ -131,7 +131,7 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_url ();
+  test_filter_mail ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -227,6 +227,7 @@ int main (int argc, char **argv)
   test_database_sample ();
   test_filter_webview ();
   test_javascript ();
+  test_filter_mail ();
   
   // Output possible journal entries.
   refresh_sandbox (true);

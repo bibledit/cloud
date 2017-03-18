@@ -25,6 +25,7 @@ libbibledit_a_SOURCES = \
 	filter/date.cpp \
 	filter/memory.cpp \
 	filter/webview.cpp \
+	filter/mail.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -556,6 +557,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(GTK_LIBS)
 LIBS += $(WEBKIT2GTK_LIBS)
+LIBS += -lmimetic
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

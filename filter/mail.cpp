@@ -27,12 +27,15 @@
 // http://www.codesink.org/mimetic_mime_library.html
 
 
+// Suppress warnings in the included header.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma clang diagnostic ignored "-Wdeprecated-register"
 #pragma clang diagnostic ignored "-Wunused-private-field"
 #include <mimetic/mimetic.h>
 #pragma clang diagnostic pop
+
+
 using namespace mimetic;
 
 
@@ -90,7 +93,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
 
 
 // Dissects an email $message.
-// It extracts the $from address, the $subject, and the $plain text body.
+// It extracts the $from address, the $subject, and the plain text body.
 void filter_mail_dissect (string message, string & from, string & subject, string & plaintext)
 {
   // Load the email message into the mimetic library.

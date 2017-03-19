@@ -8794,7 +8794,7 @@ msgid ""
 "Receive email about changes in a consultation note you are subscribed to."
 msgstr ""
 
-msgid "A consultation note that get changed will be assigned to you."
+msgid "A consultation note that gets changed will be assigned to you."
 msgstr ""
 
 msgid "Receive email about changes in a consultation note assigned to you."

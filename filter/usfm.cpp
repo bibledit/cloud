@@ -478,6 +478,10 @@ string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, con
     else verse_usfm = usfm_get_verse_text (usfm, vs);
     // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
     if (verse_usfm == previous_usfm) continue;
+    if (!verse_usfm.empty () && !previous_usfm.empty ()) {
+      if (verse_usfm.find (previous_usfm) != string::npos) continue;
+      if (previous_usfm.find (verse_usfm) != string::npos) continue;
+    }
     previous_usfm = verse_usfm;
     // In case of combined verses, the excluded USFM should not be included in the result.
     if (verse_usfm != exclude_usfm) {

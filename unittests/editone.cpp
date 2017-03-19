@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <styles/logic.h>
 #include <filter/url.h>
+#include <filter/string.h>
+#include <filter/usfm.h>
 #include <editone/logic.h>
 
 
@@ -158,5 +160,49 @@ void test_editone_logic () // Todo
     evaluate (__LINE__, __func__, standard, prefix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone05suffix2.html"));
     evaluate (__LINE__, __func__, standard, suffix);
+  }
+  
+  // Regression test for case of a chapter with references and combined verse.
+  // See issue https://github.com/bibledit/bibledit/issues/496
+  {
+    string chapter_usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone06.usfm"));
+    int highest_verse = 4;
+    string reference;
+    
+    {
+      // Test verse 0.
+      int verse = 0;
+
+      // Test the editable USFM fragment.
+      string editable_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0edit.usfm"));
+      evaluate (__LINE__, __func__, reference, editable_usfm);
+
+      // Test the USFM fragment before the editable verse, in this case it should be empty.
+      string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0prefix.usfm"));
+      evaluate (__LINE__, __func__, reference, prefix_usfm);
+      
+      // Test the USFM fragment that follows the editable verse.
+      string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0suffix.usfm"));
+      evaluate (__LINE__, __func__, reference, suffix_usfm);
+
+      string prefix_html;
+      string not_used;
+      editone_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0prefix.html"));
+      evaluate (__LINE__, __func__, reference, prefix_html);
+
+      string focused_verse_html;
+      editone_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0edit.html"));
+      evaluate (__LINE__, __func__, reference, focused_verse_html);
+      
+      string suffix_html;
+      editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0suffix.html"));
+      evaluate (__LINE__, __func__, reference, suffix_html);
+    }
   }
 }

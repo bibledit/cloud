@@ -73,7 +73,7 @@ string editoneold_load (void * webserver_request)
   string prefix_last_p_style;
 
   string prefix_html;
-  editone_logic_prefix_html_stage_one (prefix_usfm, stylesheet, prefix_html, prefix_last_p_style);
+  editone_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, prefix_last_p_style);
   
   // Last paragraph style of the focused verse: For the starting visual style of the suffix.
   string focused_verse_last_p_style;

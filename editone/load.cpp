@@ -75,7 +75,7 @@ string editone_load (void * webserver_request)
   
   string prefix_html;
   string not_used;
-  editone_logic_prefix_html_stage_one (prefix_usfm, stylesheet, prefix_html, not_used);
+  editone_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
   
   // The focused editable verse also has any footnotes contained in that verse.
   // It is convenient to have the footnote as near as possible to the verse text.

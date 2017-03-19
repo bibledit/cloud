@@ -37,7 +37,7 @@ void test_editone_logic () // Todo
     string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.usfm"));
     string html;
     string last_paragraph_style;
-    editone_logic_prefix_html_stage_one (usfm, stylesheet, html, last_paragraph_style);
+    editone_logic_prefix_html (usfm, stylesheet, html, last_paragraph_style);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);

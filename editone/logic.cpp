@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void editone_logic_prefix_html_stage_one (string usfm, string stylesheet, string & html, string & last_p_style)
+void editone_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;

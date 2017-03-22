@@ -1,11 +1,3 @@
 \c 11
 \s Heading 1
 \r (refs 1)
-\p
-\v 1 Verse 1.
-\p
-\v 2-3 Verse 2-3.
-\s Heading 2
-\r (refs 2)
-\p
-\v 4 Verse 4.

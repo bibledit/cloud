@@ -377,7 +377,7 @@ string usfm_get_verse_text_quill (string usfm, int verse)
   }
 
   // Omit new paragraphs at the end.
-  // In this context that is taken as opening USFM markers without content.
+  // In this context it is taken as opening USFM markers without content.
   string verse_usfm (raw_verse_usfm);
   vector <string> markers_and_text = usfm_get_markers_and_text (verse_usfm);
   while (true) {
@@ -466,7 +466,7 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
 // Returns the USFM text for a range of verses for the input $usfm code.
 // It handles combined verses.
 // It ensures that the $exclude_usfm does not make it to the output of the function.
-// In case of $quill, it uses an routine optimized for a Quill-based editor.
+// In case of $quill, it uses a routine optimized for a Quill-based editor.
 // This means that empty paragraphs at the end of the extracted USFM fragment are not included.
 string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill)
 {
@@ -484,9 +484,12 @@ string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, con
     }
     previous_usfm = verse_usfm;
     // In case of combined verses, the excluded USFM should not be included in the result.
-    if (verse_usfm != exclude_usfm) {
-      bits.push_back (verse_usfm);
+    if (verse_usfm == exclude_usfm) continue;
+    if (!verse_usfm.empty () && !exclude_usfm.empty ()) {
+      if (verse_usfm.find (exclude_usfm) != string::npos) continue;
+      if (exclude_usfm.find (verse_usfm) != string::npos) continue;
     }
+    bits.push_back (verse_usfm);
   }
   usfm = filter_string_implode (bits, "\n");
   return usfm;

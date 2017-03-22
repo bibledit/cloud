@@ -33,7 +33,28 @@ void test_editone_logic () // Todo
 
   string stylesheet = styles_logic_standard_sheet ();
   string directory = filter_url_create_root_path ("unittests", "tests");
-
+  
+  // Development Todo
+  {
+    /*
+    string chapter_usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone06.usfm"));
+    int highest_verse = 4;
+    string reference;
+    int verse = 2;
+    string number = convert_to_string (verse);
+    string editable_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
+    cout << "editable:" << endl;
+    cout << editable_usfm << endl;
+    string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
+    
+    // Test the USFM fragment that follows the editable verse.
+    string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
+    cout << "suffix:" << endl;
+    cout << suffix_usfm << endl;
+    return;
+     */
+  }
+  
   // Prefix.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.usfm"));
@@ -168,25 +189,34 @@ void test_editone_logic () // Todo
     string chapter_usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone06.usfm"));
     int highest_verse = 4;
     string reference;
+    bool evaluation = false;
     
-    {
-      // Test verse 0.
-      int verse = 0;
+    // Test the range of verses found in the USFM fragment.
+    for (int verse = 0; verse <= 4; verse++) {
 
+      string number = convert_to_string (verse);
+      
       // Test the editable USFM fragment.
       string editable_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
-      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0edit.usfm"));
-      evaluate (__LINE__, __func__, reference, editable_usfm);
-
-      // Test the USFM fragment before the editable verse, in this case it should be empty.
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "edit.usfm"));
+      evaluation = evaluate (__LINE__, __func__, reference, editable_usfm);
+      if (!evaluation) cerr << "The above is about verse " << verse << endl << endl;
+      
+      // Test the USFM fragment before the editable verse.
       string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
-      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0prefix.usfm"));
-      evaluate (__LINE__, __func__, reference, prefix_usfm);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "prefix.usfm"));
+      evaluation = evaluate (__LINE__, __func__, reference, prefix_usfm);
+      if (!evaluation) cerr << "The above is about verse " << verse << endl << endl;
       
       // Test the USFM fragment that follows the editable verse.
       string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
-      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0suffix.usfm"));
-      evaluate (__LINE__, __func__, reference, suffix_usfm);
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "suffix.usfm"));
+      evaluation = evaluate (__LINE__, __func__, reference, suffix_usfm);
+      if (!evaluation) cerr << "The above is about verse " << verse << endl << endl;
+
+    }
+    
+    /* Todo
 
       string prefix_html;
       string not_used;
@@ -203,6 +233,6 @@ void test_editone_logic () // Todo
       editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
       reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0suffix.html"));
       evaluate (__LINE__, __func__, reference, suffix_html);
-    }
+    */
   }
 }

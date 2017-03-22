@@ -88,9 +88,13 @@ void error_message (int line, string func, string desired, string actual)
 }
 
 
-void evaluate (int line, string func, string desired, string actual)
+bool evaluate (int line, string func, string desired, string actual)
 {
-  if (desired != actual) error_message (line, func, desired, actual);
+  if (desired != actual) {
+    error_message (line, func, desired, actual);
+    return false;
+  }
+  return true;
 }
 
 

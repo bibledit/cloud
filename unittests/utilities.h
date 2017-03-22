@@ -28,7 +28,7 @@ extern string testing_directory;
 extern int error_count;
 void refresh_sandbox (bool displayjournal, vector <string> allowed = {});
 void error_message (int line, string funct, string desired, string actual);
-void evaluate (int line, string func, string desired, string actual);
+bool evaluate (int line, string func, string desired, string actual);
 void evaluate (int line, string func, int desired, int actual);
 void evaluate (int line, string func, unsigned int desired, unsigned int actual);
 void evaluate (int line, string func, bool desired, bool actual);

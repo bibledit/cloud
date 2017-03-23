@@ -234,17 +234,13 @@ void test_editone_logic () // Todo
       reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "edit.html"));
       evaluation = evaluate (__LINE__, __func__, reference, editable_html);
       if (!evaluation) test_editone_logic_verse_indicator (verse);
-      
-      
 
-    }
-    
-    /* Todo
-
+      // The html rendering of the suffix of the editable verse.
       string suffix_html;
       editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
-      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse0suffix.html"));
-      evaluate (__LINE__, __func__, reference, suffix_html);
-    */
+      reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "suffix.html"));
+      evaluation = evaluate (__LINE__, __func__, reference, suffix_html);
+      if (!evaluation) test_editone_logic_verse_indicator (verse);
+    }
   }
 }

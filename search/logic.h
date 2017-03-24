@@ -42,6 +42,7 @@ void search_logic_delete_book (string bible, int book);
 void search_logic_delete_chapter (string bible, int book, int chapter);
 int search_logic_get_verse_count (string bible);
 void search_logic_copy_bible (string original, string destination);
+string search_logic_plain_replace_verse_text (string usfm);
 
 
 #endif

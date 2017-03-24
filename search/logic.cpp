@@ -516,3 +516,39 @@ void search_logic_copy_bible (string original, string destination)
     }
   }
 }
+
+
+// This generated the plain text that can be used as a reference during a replace operation.
+string search_logic_plain_replace_verse_text (string usfm)
+{
+  // Text filter for getting the plain text.
+  Filter_Text filter_text = Filter_Text ("");
+  filter_text.text_text = new Text_Text ();
+  filter_text.initializeHeadingsAndTextPerVerse (true);
+  filter_text.addUsfmCode (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  
+  // The resulting plain text.
+  string plain_text;
+
+  // Add the clean verse texts.
+  map <int, string> texts = filter_text.getVersesText ();
+  for (auto & element : texts) {
+    plain_text.append (element.second + "\n");
+  }
+
+  // Add any clean headings.
+  map <int, string> headings = filter_text.verses_headings;
+  for (auto & element : headings) {
+    plain_text.append (element.second + "\n");
+  }
+
+  // Add any footnotes.
+  plain_text.append (filter_text.text_text->getnote ());
+  
+  // Clean up.
+  plain_text = filter_string_trim (plain_text);
+  
+  // Done.
+  return plain_text;
+}

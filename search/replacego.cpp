@@ -77,13 +77,18 @@ string search_replacego (void * webserver_request)
   bool write = access_bible_book_write (webserver_request, user, bible, book);
 
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  // Get the old chapter and verse USFM.
+  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
+
   
-  
-  // As a standard to compare against, get the plain text from the search database,
-  // do the replacements, get the length difference due to the replacemenents, and get the desired new plain text.
+  // As a standard to compare against,
+  // get the plain text from the search database,
+  // do the replacements,
+  // get the length difference due to the replacemenents,
+  // and get the desired new plain text.
   int plain_replacement_count = 0;
-  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, verse);
+  string standardPlainText = search_logic_plain_replace_verse_text (old_verse_usfm);
   if (casesensitive) {
     standardPlainText = filter_string_str_replace (searchfor, replacewith, standardPlainText, &plain_replacement_count);
   } else {
@@ -94,14 +99,9 @@ string search_replacego (void * webserver_request)
   }
   
   
-  // Get the old chapter and verse USFM.
-  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
-  
-  
   // Do the replacing in the verse USFM, and count how many replacement were made.
   int usfm_replacement_count = 0;
-  string new_verse_usfm = old_verse_usfm;
+  string new_verse_usfm (old_verse_usfm);
   if (casesensitive) {
     new_verse_usfm = filter_string_str_replace (searchfor, replacewith, new_verse_usfm, &usfm_replacement_count);
   } else {
@@ -112,7 +112,7 @@ string search_replacego (void * webserver_request)
   }
   
   
-  // Create the updated chapter USFM as a string.
+  // Get the updated chapter USFM as a string.
   string new_chapter_usfm = old_chapter_usfm;
   size_t pos = new_chapter_usfm.find (old_verse_usfm);
   if (pos != string::npos) {
@@ -122,35 +122,15 @@ string search_replacego (void * webserver_request)
   }
   
   
-  // Text filter for getting the new plain text from the new USFM.
-  Filter_Text filter_text = Filter_Text (bible);
-  filter_text.text_text = new Text_Text ();
-  filter_text.initializeHeadingsAndTextPerVerse (false);
-  filter_text.addUsfmCode (new_chapter_usfm);
-  filter_text.run (stylesheet);
-  
-  
   // Get the updated plain text of the correct verse of the updated USFM.
-  string updatedPlainText;
-  map <int, string> texts = filter_text.getVersesText ();
-  for (auto & element : texts) {
-    int vs = element.first;
-    string text = element.second;
-    if (vs == verse) updatedPlainText.append (text + "\n");
-  }
-  map <int, string> headings = filter_text.verses_headings;
-  for (auto & element : headings) {
-    int vs = element.first;
-    string heading = element.second;
-    if (vs == verse) updatedPlainText.append (heading + "\n");
-  }
+  string updatedPlainText = search_logic_plain_replace_verse_text (new_verse_usfm);
   
   
   // Check that the standard and real number of replacements, and the standard and new texts, are the same.
   bool replacementOkay = true;
   if (plain_replacement_count != usfm_replacement_count) replacementOkay = false;
   if (filter_string_trim (updatedPlainText) != filter_string_trim (standardPlainText)) replacementOkay = false;
-  
+
   
   // Generate success or failure icon.
   string icon;

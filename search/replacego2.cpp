@@ -78,14 +78,16 @@ string search_replacego2 (void * webserver_request)
   bool write = access_bible_book_write (webserver_request, user, bible, book);
 
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  // Get the old chapter and verse USFM.
+  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
   
   
   // As a standard to compare against, get the plain text from the search database,
   // do the replacements, count the replacements, and then get the desired new plain text.
   // This only applies when searching/replacing in the plain text, not when doing it in the USFM.
   int standardReplacementCount = 0;
-  string standardPlainText = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
+  string standardPlainText = search_logic_plain_replace_verse_text (old_verse_usfm);
   if (searchplain) {
     if (casesensitive) {
       standardPlainText = filter_string_str_replace (searchfor, replacewith, standardPlainText, &standardReplacementCount);
@@ -98,13 +100,8 @@ string search_replacego2 (void * webserver_request)
   }
   
   
-  // Get the old chapter and verse USFM.
-  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
-  
-  
   // Do the replacing in the correct verse of the raw verse USFM.
-  string new_verse_usfm = old_verse_usfm;
+  string new_verse_usfm (old_verse_usfm);
   int usfmReplacementCount = 0;
   if (casesensitive) {
     new_verse_usfm = filter_string_str_replace (searchfor, replacewith, new_verse_usfm, &usfmReplacementCount);
@@ -126,30 +123,9 @@ string search_replacego2 (void * webserver_request)
   }
 
   
-  // Text filter for getting the new plain text from the new USFM.
-  // This is for search/replace in plain text, not in USFM.
-  Filter_Text filter_text = Filter_Text (bible);
-  filter_text.text_text = new Text_Text ();
-  filter_text.initializeHeadingsAndTextPerVerse (false);
-  filter_text.addUsfmCode (new_chapter_usfm);
-  filter_text.run (stylesheet);
-
-  
   // Get the updated plain text of the correct verse of the updated USFM.
   // This is for search/replace in plain text, not in USFM.
-  string updatedPlainText;
-  map <int, string> texts = filter_text.getVersesText ();
-  for (auto & element : texts) {
-    int vs = element.first;
-    string text = element.second;
-    if (vs == verse) updatedPlainText.append (text + "\n");
-  }
-  map <int, string> headings = filter_text.verses_headings;
-  for (auto & element : headings) {
-    int vs = element.first;
-    string heading = element.second;
-    if (vs == verse) updatedPlainText.append (heading + "\n");
-  }
+  string updatedPlainText = search_logic_plain_replace_verse_text (new_verse_usfm);
 
   
   // Check that the standard and real number of replacements, and the standard and new texts, are the same.

@@ -1515,9 +1515,7 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_ctr_drbg_init (&filter_url_mbed_tls_ctr_drbg);
   mbedtls_entropy_init (&filter_url_mbed_tls_entropy);
   const char *pers = "Bibledit Client";
-  ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg,
-                               mbedtls_entropy_func, &filter_url_mbed_tls_entropy,
-                               (const unsigned char *) pers, strlen (pers));
+  ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, (const unsigned char *) pers, strlen (pers));
   filter_url_display_mbed_tls_error (ret, NULL, false);
   // Read the trusted root certificates.
   string path = filter_url_create_root_path ("filter", "cas.crt");

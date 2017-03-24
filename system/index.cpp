@@ -99,6 +99,9 @@ string system_index (void * webserver_request)
   // Get values for setting checkboxes.
   string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);
+#ifdef HAVE_CLIENT
+  (void) checked;
+#endif
 
   
   // Set the language on the page.
@@ -185,7 +188,7 @@ string system_index (void * webserver_request)
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
 #endif
-
+  
 
   // Set some feedback, if any.
   view.set_variable ("success", success);

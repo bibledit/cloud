@@ -88,7 +88,8 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   config_globals_document_root = webroot;
   
   // Initialize SSL/TLS (after webroot has been set).
-  filter_url_ssl_tls_initialize ();
+  thread ssl_tls = thread (filter_url_ssl_tls_initialize);
+  ssl_tls.detach ();
   
 #ifndef HAVE_CLIENT
   // Cloud initializes OpenLDAP server access settings (after webroot has been set).

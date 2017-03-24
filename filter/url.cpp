@@ -1517,8 +1517,11 @@ void filter_url_ssl_tls_initialize ()
   const char *pers = "Bibledit Client";
   ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, (const unsigned char *) pers, strlen (pers));
   filter_url_display_mbed_tls_error (ret, NULL, false);
-  // Read the trusted root certificates.
+  // Wait until the trusted root certificates exist.
+  // This is necessary as there's cases that the data is still being installed at this point.
   string path = filter_url_create_root_path ("filter", "cas.crt");
+  while (!file_or_dir_exists (path)) this_thread::sleep_for (chrono::milliseconds (100));
+  // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
   filter_url_display_mbed_tls_error (ret, NULL, false);
 }

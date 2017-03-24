@@ -33,33 +33,12 @@ void test_editone_logic_verse_indicator (int verse)
 
 
 // Test the logic used in the visual verse editor.
-void test_editone_logic () // Todo
+void test_editone_logic ()
 {
   trace_unit_tests (__func__);
 
   string stylesheet = styles_logic_standard_sheet ();
   string directory = filter_url_create_root_path ("unittests", "tests");
-  
-  // Development Todo
-  {
-    /*
-    string chapter_usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone06.usfm"));
-    int highest_verse = 4;
-    string reference;
-    int verse = 2;
-    string number = convert_to_string (verse);
-    string editable_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
-    cout << "editable:" << endl;
-    cout << editable_usfm << endl;
-    string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
-    
-    // Test the USFM fragment that follows the editable verse.
-    string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
-    cout << "suffix:" << endl;
-    cout << suffix_usfm << endl;
-    return;
-     */
-  }
   
   // Prefix.
   {

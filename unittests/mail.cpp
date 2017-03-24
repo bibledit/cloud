@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_database_mail ()
 {
+#ifdef HAVE_CLOUD
+  
   trace_unit_tests (__func__);
   
   // Optimize / trim.
@@ -169,5 +171,6 @@ void test_filter_mail ()
     evaluate (__LINE__, __func__, "Message encoded in base64", subject);
     evaluate (__LINE__, __func__, txt, plaintext);
   }
-  
+
+#endif
 }

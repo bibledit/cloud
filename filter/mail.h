@@ -24,7 +24,9 @@
 #include <config/libraries.h>
 
 
+#ifdef HAVE_CLOUD
 void filter_mail_dissect (string message, string & from, string & subject, string & plaintext);
+#endif
 
 
 #endif

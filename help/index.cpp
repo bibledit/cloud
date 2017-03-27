@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <locale/translate.h>
 #include <assets/header.h>
+#include <assets/external.h>
 
 
 string help_index_html (const string& url)
@@ -86,6 +87,8 @@ string help_index (void * webserver_request, const string& url)
     }
   }
   view.set_variable ("cloudversion", cloud_version);
+
+  view.set_variable ("external", assets_external_logic_link_addon ());
 
   string filename (url);
   size_t pos = url.find ("/");

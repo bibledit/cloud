@@ -32,6 +32,7 @@
 #include <config/config.h>
 #include <menu/logic.h>
 #include <bible/manage.h>
+#include <assets/external.h>
 
 
 string bible_import_url ()
@@ -120,6 +121,8 @@ string bible_import (void * webserver_request)
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
   
+  view.set_variable ("external", assets_external_logic_link_addon ());
+
   page += view.render ("bible", "import");
   
   page += Assets_Page::footer ();

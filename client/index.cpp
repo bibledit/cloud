@@ -33,6 +33,7 @@
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
+#include <assets/external.h>
 
 
 string client_index_url ()
@@ -164,6 +165,8 @@ string client_index (void * webserver_request)
   }
   
   view.set_variable ("demo", demo_client_warning ());
+
+  view.set_variable ("external", assets_external_logic_link_addon ());
 
   string page;
 

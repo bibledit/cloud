@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <rss/feed.h>
 #include <rss/logic.h>
+#include <assets/external.h>
 
 
 string system_index_url ()
@@ -189,6 +190,9 @@ string system_index (void * webserver_request)
   view.enable_zone ("cloud");
 #endif
   
+  
+  view.set_variable ("external", assets_external_logic_link_addon ());
+
 
   // Set some feedback, if any.
   view.set_variable ("success", success);

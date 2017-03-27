@@ -212,6 +212,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/comment.h>
 #include <editor/select.h>
 #include <rss/feed.h>
+#include <assets/external.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1210,6 +1211,11 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == lexicon_definition_url ()) && browser_request_security_okay (request) && lexicon_definition_acl (request)) {
     request->reply = lexicon_definition (request);
+    return;
+  }
+
+  if ((url == assets_external_url ()) && browser_request_security_okay (request) && assets_external_acl (request)) {
+    request->reply = assets_external (request);
     return;
   }
 

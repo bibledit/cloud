@@ -30,6 +30,7 @@ libbibledit_a_SOURCES = \
 	assets/view.cpp \
 	assets/page.cpp \
 	assets/header.cpp \
+	assets/external.cpp \
 	index/index.cpp \
 	index/listing.cpp \
 	config/globals.cpp \

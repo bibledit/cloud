@@ -1229,6 +1229,9 @@
 		CACCF5A61D1DB31F00AFBC52 /* oshb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oshb.cpp; sourceTree = "<group>"; };
 		CACCF5A71D1DB31F00AFBC52 /* oshb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oshb.h; sourceTree = "<group>"; };
 		CACCF5A81D1DB31F00AFBC52 /* oshb.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = oshb.txt; sourceTree = "<group>"; };
+		CACD4B6F1E8935BF007F330D /* external.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = external.js; sourceTree = "<group>"; };
+		CACD4B701E893D77007F330D /* external.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = external.cpp; sourceTree = "<group>"; };
+		CACD4B711E893D77007F330D /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = external.h; sourceTree = "<group>"; };
 		CACDF3CB1DF1E74E00C198A2 /* feed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = feed.cpp; sourceTree = "<group>"; };
 		CACDF3CC1DF1E74E00C198A2 /* feed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = feed.h; sourceTree = "<group>"; };
 		CACDF3CD1DF1E74E00C198A2 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -1611,6 +1614,9 @@
 				CAA4CF381A45A647003ABA25 /* bibledit.xpm */,
 				CA5FE4121CF72F7B00D3BE90 /* checkbox.js */,
 				CAA4CF3B1A45A647003ABA25 /* error.html */,
+				CACD4B701E893D77007F330D /* external.cpp */,
+				CACD4B711E893D77007F330D /* external.h */,
+				CACD4B6F1E8935BF007F330D /* external.js */,
 				CAA4CF3C1A45A647003ABA25 /* footer.html */,
 				CAA4CF3D1A45A647003ABA25 /* header.cpp */,
 				CAA4CF3E1A45A647003ABA25 /* header.h */,

@@ -35,6 +35,7 @@
 #include <client/logic.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>
+#include <assets/external.h>
 
 
 const char * manage_exports_url ()
@@ -378,7 +379,8 @@ string manage_exports (void * webserver_request)
 #else
   view.enable_zone ("cloud");
 #endif
-
+  view.set_variable ("external", assets_external_logic_link_addon ());
+  
   
   bool zip = true;
   if (!filter_archive_can_zip ()) zip = false;

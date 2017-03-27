@@ -29,6 +29,7 @@
 #include <sync/setup.h>
 #include <client/index.h>
 #include <locale/translate.h>
+#include <assets/external.h>
 
 
 // Returns whether Client mode is enabled.
@@ -149,10 +150,12 @@ void client_logic_create_note_decode (string data,
 }
 
 
-// This provides a html link to Bibledit Cloud / $path, and displays $linktext.
+// This provides a html link to Bibledit Cloud / $path.
+// It displays the $linktext.
 string client_logic_link_to_cloud (string path, string linktext)
 {
   string url;
+  string external;
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
     int port = Database_Config_General::getServerPort ();
@@ -161,6 +164,7 @@ string client_logic_link_to_cloud (string path, string linktext)
       url.append ("/");
       url.append (path);
     }
+    external = " " + assets_external_logic_link_addon ();
   } else {
     // Client disconnected: Provide the link and the text to connect to the Cloud.
     url = "/" + client_index_url ();
@@ -175,7 +179,7 @@ string client_logic_link_to_cloud (string path, string linktext)
     linktext = url;
   }
   
-  string link = "<a href=\"" + url + "\">" + linktext + "</a>";
+  string link = "<a href=\"" + url + "\"" + external + ">" + linktext + "</a>";
   return link;
 }
 

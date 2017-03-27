@@ -238,6 +238,25 @@ const char * bibledit_is_synchronizing ()
 }
 
 
+// Returns the last external URL the user clicked.
+const char * bibledit_get_external_url ()
+{
+  // The mechanism to return an allocated value for the clicked URL works like this:
+  // If there's an URL, it leaves the value untouched, increases a counter, and returns that URL.
+  // Next function call it sees the counter incremented, so it clears the URL plus counter.
+  // This way the value for the URL remains allocated while it gets returned to the caller.
+  // If the URL were clearer during this call, there would only be an empty string to be returned.
+  static int counter = 0;
+  if (counter) {
+    config_globals_external_url.clear ();
+    counter = 0;
+  }
+  if (!config_globals_external_url.empty ()) counter++;
+  // Return the URL.
+  return config_globals_external_url.c_str ();
+}
+
+
 // The normal shutdown procedure works by connecting to the internal webservers,
 // and these connections in turn help with shutting down the listening internal webservers.
 // In case all the internal webservers no longer are able to accept connections,

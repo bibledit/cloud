@@ -30,6 +30,7 @@ extern "C" {
   const char * bibledit_get_last_page ();
   bool bibledit_is_running ();
   const char * bibledit_is_synchronizing ();
+  const char * bibledit_get_external_url ();
   void bibledit_stop_library ();
   void bibledit_shutdown_library ();
   void bibledit_log (const char * message);

@@ -52,3 +52,4 @@ bool config_globals_enforce_https_browser = false;
 bool config_globals_enforce_https_client = false;
 default_random_engine config_globals_random_engine ((random_device())());
 uniform_int_distribution <int> config_globals_int_distribution (0, numeric_limits <int>::max());
+string config_globals_external_url;

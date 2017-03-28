@@ -1214,7 +1214,7 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-#ifdef HAVE_CLOUD
+#ifdef HAVE_CLIENT
   // For security reasons, this is only available in a client configuration.
   if (url == assets_external_url ()) {
     request->reply = assets_external (request);

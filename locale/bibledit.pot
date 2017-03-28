@@ -4821,9 +4821,6 @@ msgstr ""
 msgid "Install Bibledit from the Google Chrome Web Store."
 msgstr ""
 
-msgid "For easier operation, open the Chrome browser and open this URL:"
-msgstr ""
-
 msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
@@ -4877,7 +4874,7 @@ msgstr ""
 msgid "Install Bibledit via the App Store."
 msgstr ""
 
-msgid "This works on an iPad (or an iPhone) running iOS 8 or higher."
+msgid "This works on an iPad or an iPhone running iOS 8 or higher."
 msgstr ""
 
 msgid "Hint."

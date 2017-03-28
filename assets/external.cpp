@@ -18,8 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <assets/external.h>
-#include <filter/roles.h>
 #include <config/globals.h>
+#include <webserver/request.h>
 
 
 string assets_external_url ()
@@ -28,17 +28,32 @@ string assets_external_url ()
 }
 
 
-bool assets_external_acl (void * webserver_request)
-{
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
-}
-
-
 string assets_external (void * webserver_request)
 {
+  // The request from the client.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  config_globals_external_url = request->post ["href"];
-  return "";
+  
+  // Whether a URL was POSTed, that is, whether it was clicked by the user.
+  string href = request->post ["href"];
+  if (!href.empty ()) {
+    config_globals_external_url = request->post ["href"];
+    return "";
+  }
+
+  // Wait for some time till a URL is available.
+  int timer = 100;
+  while (timer) {
+    this_thread::sleep_for (chrono::milliseconds (100));
+    timer--;
+    if (!config_globals_external_url.empty ()) {
+      href = config_globals_external_url;
+      config_globals_external_url.clear ();
+      timer = 0;
+    }
+  }
+  
+  // Return the URL, if it is there.
+  return href;
 }
 
 

@@ -1214,11 +1214,14 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  if ((url == assets_external_url ()) && browser_request_security_okay (request) && assets_external_acl (request)) {
+#ifdef HAVE_CLOUD
+  // For security reasons, this is only available in a client configuration.
+  if (url == assets_external_url ()) {
     request->reply = assets_external (request);
     return;
   }
-
+#endif
+  
   // RSS feed.
   if ((url == rss_feed_url ()) && browser_request_security_okay (request) && rss_feed_acl (request)) {
     request->reply = rss_feed (request);

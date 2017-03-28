@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 string assets_external_url ();
-bool assets_external_acl (void * webserver_request);
 string assets_external (void * webserver_request);
 
 string assets_external_logic_link_addon ();

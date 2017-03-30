@@ -139,7 +139,7 @@ style_record styles_table [] =
   {
     /* marker */ "b",
     /* name */ "Blank line",
-    /* info */ "May be used to explicitely indicate additional white space between paragraphs. Poetry text stanza break (e.g. stanza break)",
+    /* info */ "May be used to explicitly indicate additional white space between paragraphs. Poetry text stanza break (e.g. stanza break)",
     /* category */ "p",
     /* type */ 3,
     /* subtype */ 3,
@@ -3472,7 +3472,7 @@ style_record styles_table [] =
   {
     /* marker */ "mt4",
     /* name */ "Major title level 4",
-    /* info */ "A small secondary title sometimes occuring within parentheses",
+    /* info */ "A small secondary title sometimes occurring within parentheses",
     /* category */ "t",
     /* type */ 3,
     /* subtype */ 0,

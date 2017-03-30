@@ -97,7 +97,7 @@ void test_url ()
   // Test filter_url_escape_shell_argument.
   {
     evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
-    evaluate (__LINE__, __func__, "'argu\\'ment'", filter_url_escape_shell_argument ("argu'ment"));
+    evaluate (__LINE__, __func__, "'arg\\'ument'", filter_url_escape_shell_argument ("arg'ument"));
   }
 
   // Test URL decoder.

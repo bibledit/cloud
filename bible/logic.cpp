@@ -551,7 +551,7 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
   
   // Add some information for the user.
   node = document.append_child ("p");
-  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already avaible in the Cloud.");
+  node.text ().set ("The Bible text you sent to the Cloud was not saved exactly as you sent it. It was merged with changes already available in the Cloud.");
   node = document.append_child ("p");
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());

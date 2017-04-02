@@ -85,6 +85,9 @@ void client_index_enable_client (void * webserver_request, string username, stri
   Database_Config_General::setUnsentBibleDataTime (0);
   Database_Config_General::setUnreceivedBibleDataTime (filter_date_seconds_since_epoch ());
   
+  // Set flag for first run after connecting.
+  Database_Config_General::setJustConnectedToCloud (true);
+  
   // Set it to repeat sync every so often.
   if (Database_Config_General::getRepeatSendReceive () == 0) {
     Database_Config_General::setRepeatSendReceive (2);
@@ -107,6 +110,7 @@ string client_index (void * webserver_request)
     Database_Config_General::setRepeatSendReceive (0);
     Database_Config_General::setUnsentBibleDataTime (0);
     Database_Config_General::setUnreceivedBibleDataTime (0);
+    Database_Config_General::setJustConnectedToCloud (false);
   }
   
   bool connect = request->post.count ("connect");

@@ -468,3 +468,13 @@ void Database_Config_General::setAuthorInRssFeed (bool value)
 {
   setBValue ("author-in-rss-feed", value);
 }
+
+
+bool Database_Config_General::getJustConnectedToCloud ()
+{
+  return getBValue ("just-connected-to-cloud", false);
+}
+void Database_Config_General::setJustConnectedToCloud (bool value)
+{
+  setBValue ("just-connected-to-cloud", value);
+}

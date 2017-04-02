@@ -129,6 +129,9 @@ public:
   static bool getAuthorInRssFeed ();
   static void setAuthorInRssFeed (bool value);
 
+  static bool getJustConnectedToCloud ();
+  static void setJustConnectedToCloud (bool value);
+  
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

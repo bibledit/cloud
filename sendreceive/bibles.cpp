@@ -39,6 +39,7 @@
 #include <sync/bibles.h>
 #include <checksum/logic.h>
 #include <bible/logic.h>
+#include <demo/logic.h>
 
 
 int sendreceive_bibles_watchdog = 0;
@@ -296,7 +297,10 @@ void sendreceive_bibles ()
     // At the first synchronize action after the user connected to the Cloud,
     // any local Bible not available from the server,
     // the client schedules them for upload to the Cloud.
+    // If a new client connects to the Cloud, this new client would upload the sample Bible.
+    // This would be undesired behaviour. Skip it.
     for (auto bible : bibles) {
+      if (bible == demo_sample_bible_name ()) continue; // Todo test it.
       vector <int> books = request.database_bibles ()->getBooks (bible);
       for (auto book : books) {
         vector <int> chapters = request.database_bibles ()->getChapters (bible, book);

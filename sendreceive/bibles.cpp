@@ -290,16 +290,30 @@ void sendreceive_bibles ()
   
   
   // The client now has a list of Bibles the user has access to on the server.
-  // The client deletes any local Bible not in this list.
-  // Except during the first synchronize action after the user connected to the Cloud.
-  // It does not record change Bible actions for this operation.
   bibles = request.database_bibles()->getBibles ();
   bibles = filter_string_array_diff (bibles, v_server_bibles);
-  for (string bible : bibles) {
-    request.database_bibles()->deleteBible (bible); // Todo
-    Database_Privileges::removeBible (bible);
-    Database_Config_Bible::remove (bible);
-    Database_Logs::log (sendreceive_bibles_text () + translate("Deleting Bible because the server did not grant access to it") + ": " + bible, Filter_Roles::translator ());
+  if (first_sync_after_connect) {
+    // At the first synchronize action after the user connected to the Cloud,
+    // any local Bible not available from the server,
+    // the client schedules them for upload to the Cloud.
+    for (auto bible : bibles) {
+      vector <int> books = request.database_bibles ()->getBooks (bible);
+      for (auto book : books) {
+        vector <int> chapters = request.database_bibles ()->getChapters (bible, book);
+        for (auto chapter : chapters) {
+          database_bibleactions.record (bible, book, chapter, "");
+        }
+      }
+    }
+  } else {
+    // The client deletes any local Bible not available from the server.
+    // It does not record change Bible actions for this operation.
+    for (string bible : bibles) {
+      request.database_bibles()->deleteBible (bible);
+      Database_Privileges::removeBible (bible);
+      Database_Config_Bible::remove (bible);
+      Database_Logs::log (sendreceive_bibles_text () + translate("Deleting Bible because the server did not grant access to it") + ": " + bible, Filter_Roles::translator ());
+    }
   }
   
   
@@ -347,14 +361,27 @@ void sendreceive_bibles ()
     for (auto & book : v_server_books) i_server_books.push_back (convert_to_int (book));
 
 
-    // Any books not on the server, delete them from the client as well.
-    // But for more robustness while connected to a very bad network, the client will remove only one book at a time.
+    // Find the books on the client which are not on the server.
     client_books = filter_string_array_diff (client_books, i_server_books);
-    if (!client_books.empty ()) {
-      int book = client_books [0];
-      request.database_bibles()->deleteBook (bible, book); // Todo.
-      string book_name = Database_Books::getEnglishFromId (book);
-      Database_Logs::log (sendreceive_bibles_text () + translate("Deleting book because the server does not have it") + ": " + bible + " " + book_name , Filter_Roles::translator ());
+    if (first_sync_after_connect) {
+      // The first sync action after connecting to the Cloud,
+      // any books on the client and not on the server,
+      // schedule them for upload to the Cloud.
+      for (auto book : client_books) {
+        vector <int> chapters = request.database_bibles ()->getChapters (bible, book);
+        for (auto & chapter : chapters) {
+          database_bibleactions.record (bible, book, chapter, "");
+        }
+      }
+    } else {
+      // Any books not on the server, delete them from the client as well.
+      // But for more robustness while connected to a very bad network, the client will remove only one book at a time.
+      if (!client_books.empty ()) {
+        int book = client_books [0];
+        request.database_bibles()->deleteBook (bible, book);
+        string book_name = Database_Books::getEnglishFromId (book);
+        Database_Logs::log (sendreceive_bibles_text () + translate("Deleting book because the server does not have it") + ": " + bible + " " + book_name , Filter_Roles::translator ());
+      }
     }
     
     

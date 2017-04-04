@@ -164,23 +164,10 @@ string resource_organize (void * webserver_request)
 
   
   if (request->query.count ("install")) {
-    vector <string> usfm_resources = client_logic_usfm_resources_get ();
-    vector <string> original_language_resources = resource_external_get_original_language_resources ();
-    vector <string> bible_resources = resource_external_get_bibles ();
-    vector <string> sword_resources = sword_logic_get_available ();
-    vector <string> biblegateway_resources = resource_logic_bible_gateway_module_list_get ();
-    vector <string> studylight_resources = resource_logic_study_light_module_list_get ();
-    vector <string> installable_resources;
-    installable_resources.insert (installable_resources.end (), usfm_resources.begin (), usfm_resources.end ());
-    installable_resources.insert (installable_resources.end (), original_language_resources.begin (), original_language_resources.end ());
-    installable_resources.insert (installable_resources.end (), bible_resources.begin (), bible_resources.end ());
-    installable_resources.insert (installable_resources.end (), sword_resources.begin (), sword_resources.end ());
-    installable_resources.insert (installable_resources.end (), biblegateway_resources.begin (), biblegateway_resources.end ());
-    installable_resources.insert (installable_resources.end (), studylight_resources.begin (), studylight_resources.end ());
     vector <string> installing_resources = Database_Config_General::getResourcesToCache ();
     vector <string> active_resources = request->database_config_user()->getActiveResources ();
     for (auto & resource : active_resources) {
-      if (in_array (resource, installable_resources)) {
+      if (resource_logic_can_cache (resource)) {
         if (!in_array (resource, installing_resources)) {
           installing_resources.push_back (resource);
           Database_Config_General::setResourcesToCache (installing_resources);

@@ -98,8 +98,15 @@ string resource_download (void * webserver_request)
   }
   if (count == 0) count = Database_Cache::count (name);
   view.set_variable ("count", convert_to_string (count));
-                      
-                      
+  
+  
+  if (resource_logic_can_cache (name)) {
+    view.enable_zone ("installable");
+  } else {
+    view.enable_zone ("embedded");
+  }
+  
+  
   page += view.render ("resource", "download");
   page += Assets_Page::footer ();
   return page;

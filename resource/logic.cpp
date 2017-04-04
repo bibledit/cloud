@@ -565,7 +565,7 @@ string resource_logic_get_divider (string resource)
 
 // In Cloud mode, this function wraps around http GET.
 // It fetches existing content from the cache, and caches new content.
-string resource_logic_web_cache_get (string url, string & error)
+string resource_logic_web_or_cache_get (string url, string & error)
 {
 #ifndef HAVE_CLIENT
   // On the Cloud, check if the URL is in the cache.
@@ -914,7 +914,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
       string url = "https://www.biblegateway.com/passage/?search=" + bookname + "+" + convert_to_string (chapter) + "&version=" + resource;
       // Fetch the html.
       string error;
-      string html = resource_logic_web_cache_get (url, error);
+      string html = resource_logic_web_or_cache_get (url, error);
       // Extract the html that contains the verses content.
       pos = html.find ("<div class=\"passage-text\">");
       if (pos != string::npos) {
@@ -1030,7 +1030,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 
       // Get the html from the server, and tidy it up.
       string error;
-      string html = resource_logic_web_cache_get (url, error);
+      string html = resource_logic_web_or_cache_get (url, error);
       string tidy = html_tidy (html);
       vector <string> tidied = filter_string_explode (tidy, '\n');
       

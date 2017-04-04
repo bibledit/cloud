@@ -133,18 +133,10 @@ string resource_logic_get_html (void * webserver_request,
 
   string html;
   
-  Database_UsfmResources database_usfmresources;
   Database_ImageResources database_imageresources;
   Database_Mappings database_mappings;
   
   // Lists of the various types of resources.
-  vector <string> bibles = request->database_bibles()->getBibles ();
-  vector <string> usfms;
-#ifdef HAVE_CLIENT
-  usfms = client_logic_usfm_resources_get ();
-#else
-  usfms = database_usfmresources.getResources ();
-#endif
   vector <string> externals = resource_external_names ();
   vector <string> images = database_imageresources.names ();
   vector <string> lexicons = lexicon_logic_resource_names ();
@@ -156,8 +148,8 @@ string resource_logic_get_html (void * webserver_request,
   string sword_source = sword_logic_get_source (resource);
   
   // Determine the type of the current resource.
-  bool isBible = in_array (resource, bibles);
-  bool isUsfm = in_array (resource, usfms);
+  bool isBible = resource_logic_is_bible (resource);
+  bool isUsfm = resource_logic_is_usfm (resource);
   bool isExternal = in_array (resource, externals);
   bool isImage = in_array (resource, images);
   bool isLexicon = in_array (resource, lexicons);
@@ -260,7 +252,6 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   Database_ImageResources database_imageresources;
   
   // Lists of the various types of resources.
-  vector <string> bibles = request->database_bibles()->getBibles ();
   vector <string> local_usfms = database_usfmresources.getResources ();
   vector <string> remote_usfms;
 #ifdef HAVE_CLIENT
@@ -277,7 +268,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   string sword_source = sword_logic_get_source (resource);
   
   // Determine the type of the current resource.
-  bool isBible = in_array (resource, bibles);
+  bool isBible = resource_logic_is_bible (resource);
   bool isLocalUsfm = in_array (resource, local_usfms);
   bool isRemoteUsfm = in_array (resource, remote_usfms);
   bool isExternal = in_array (resource, externals);
@@ -350,9 +341,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Lists of the various types of resources.
-  Database_UsfmResources database_usfmresources;
   vector <string> externals = resource_external_names ();
-  vector <string> usfms = database_usfmresources.getResources ();
   vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
   vector <string> studylights = resource_logic_study_light_module_list_get ();
   
@@ -362,7 +351,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   // Determine the type of the current resource.
   bool isExternal = in_array (resource, externals);
-  bool isUsfm = in_array (resource, usfms);
+  bool isUsfm = resource_logic_is_usfm (resource);
   bool isSword = (!sword_source.empty () && !sword_module.empty ());
   bool isBibleGateway = in_array (resource, biblegateways);
   bool isStudyLight = in_array (resource, studylights);
@@ -374,6 +363,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   if (isUsfm) {
     // Fetch from database and convert to html.
+    Database_UsfmResources database_usfmresources;
     string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
@@ -714,6 +704,17 @@ void resource_logic_create_cache ()
   
   // If there's another resource database waiting to be cached, schedule it for caching.
   if (!signatures.empty ()) tasks_logic_queue (CACHERESOURCES);
+}
+
+
+// Returns true if the resource can be installed locally.
+bool resource_logic_can_cache (string resource) // Todo
+{
+  // Bibles are local already, cannot be installed.
+  if (resource_logic_is_bible (resource)) return false;
+  
+  // Remaining resources can be installed locally.
+  return true;
 }
 
 
@@ -1060,4 +1061,25 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 #endif
 
   return result;
+}
+
+
+bool resource_logic_is_bible (string resource) // Todo
+{
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibles.getBibles ();
+  return in_array (resource, bibles);
+}
+
+
+bool resource_logic_is_usfm (string resource) // Todo
+{
+  vector <string> usfms;
+#ifdef HAVE_CLIENT
+  usfms = client_logic_usfm_resources_get ();
+#else
+  Database_UsfmResources database_usfmresources;
+  usfms = database_usfmresources.getResources ();
+#endif
+  return in_array (resource, usfms);
 }

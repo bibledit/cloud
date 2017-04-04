@@ -132,30 +132,18 @@ string resource_logic_get_html (void * webserver_request,
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string html;
-  
-  Database_ImageResources database_imageresources;
-  Database_Mappings database_mappings;
-  
-  // Lists of the various types of resources.
-  vector <string> externals = resource_external_names ();
-  vector <string> images = database_imageresources.names ();
-  vector <string> lexicons = lexicon_logic_resource_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
-  vector <string> studylights = resource_logic_study_light_module_list_get ();
 
-  // Possible SWORD details.
-  string sword_module = sword_logic_get_remote_module (resource);
-  string sword_source = sword_logic_get_source (resource);
-  
-  // Determine the type of the current resource.
+  Database_Mappings database_mappings;
+
+  // Determine the type of the resource.
   bool isBible = resource_logic_is_bible (resource);
   bool isUsfm = resource_logic_is_usfm (resource);
-  bool isExternal = in_array (resource, externals);
-  bool isImage = in_array (resource, images);
-  bool isLexicon = in_array (resource, lexicons);
-  bool isSword = (!sword_source.empty () && !sword_module.empty ());
-  bool isBibleGateway = in_array (resource, biblegateways);
-  bool isStudyLight = in_array (resource, studylights);
+  bool isExternal = resource_logic_is_external (resource);
+  bool isImage = resource_logic_is_image (resource);
+  bool isLexicon = resource_logic_is_lexicon (resource);
+  bool isSword = resource_logic_is_sword (resource);
+  bool isBibleGateway = resource_logic_is_biblegateway (resource);
+  bool isStudyLight = resource_logic_is_studylight (resource);
 
   // Retrieve versification system of the active Bible.
   string bible = request->database_config_user ()->getBible ();
@@ -248,35 +236,22 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
   string data;
 
+  // Determine the type of the current resource.
+  bool isBible = resource_logic_is_bible (resource);
   Database_UsfmResources database_usfmresources;
-  Database_ImageResources database_imageresources;
-  
-  // Lists of the various types of resources.
   vector <string> local_usfms = database_usfmresources.getResources ();
+  bool isLocalUsfm = in_array (resource, local_usfms);
   vector <string> remote_usfms;
 #ifdef HAVE_CLIENT
   remote_usfms = client_logic_usfm_resources_get ();
 #endif
-  vector <string> externals = resource_external_names ();
-  vector <string> images = database_imageresources.names ();
-  vector <string> lexicons = lexicon_logic_resource_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
-  vector <string> studylights = resource_logic_study_light_module_list_get ();
-  
-  // Possible SWORD details.
-  string sword_module = sword_logic_get_remote_module (resource);
-  string sword_source = sword_logic_get_source (resource);
-  
-  // Determine the type of the current resource.
-  bool isBible = resource_logic_is_bible (resource);
-  bool isLocalUsfm = in_array (resource, local_usfms);
   bool isRemoteUsfm = in_array (resource, remote_usfms);
-  bool isExternal = in_array (resource, externals);
-  bool isImage = in_array (resource, images);
-  bool isLexicon = in_array (resource, lexicons);
-  bool isSword = (!sword_source.empty () && !sword_module.empty ());
-  bool isBibleGateway = in_array (resource, biblegateways);
-  bool isStudyLight = in_array (resource, studylights);
+  bool isExternal = resource_logic_is_external (resource);
+  bool isImage = resource_logic_is_image (resource);
+  bool isLexicon = resource_logic_is_lexicon (resource);
+  bool isSword = resource_logic_is_sword (resource);
+  bool isBibleGateway = resource_logic_is_biblegateway (resource);
+  bool isStudyLight = resource_logic_is_studylight (resource);
   
   if (isBible || isLocalUsfm) {
     string chapter_usfm;
@@ -300,6 +275,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     data.append (resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse));
 #endif
   } else if (isImage) {
+    Database_ImageResources database_imageresources;
     vector <string> images = database_imageresources.get (resource, book, chapter, verse);
     for (auto & image : images) {
       data.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
@@ -307,6 +283,8 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   } else if (isLexicon) {
     data = lexicon_logic_get_html (request, resource, book, chapter, verse);
   } else if (isSword) {
+    string sword_module = sword_logic_get_remote_module (resource);
+    string sword_source = sword_logic_get_source (resource);
     data = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   } else if (isBibleGateway) {
     data = resource_logic_bible_gateway_get (resource, book, chapter, verse);
@@ -340,21 +318,12 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 // It gets the html or text contents for a $resource for serving it to a client.
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
-  // Lists of the various types of resources.
-  vector <string> externals = resource_external_names ();
-  vector <string> biblegateways = resource_logic_bible_gateway_module_list_get ();
-  vector <string> studylights = resource_logic_study_light_module_list_get ();
-  
-  // Possible SWORD details in case the client requests a SWORD resource.
-  string sword_module = sword_logic_get_remote_module (resource);
-  string sword_source = sword_logic_get_source (resource);
-  
   // Determine the type of the current resource.
-  bool isExternal = in_array (resource, externals);
+  bool isExternal = resource_logic_is_external (resource);
   bool isUsfm = resource_logic_is_usfm (resource);
-  bool isSword = (!sword_source.empty () && !sword_module.empty ());
-  bool isBibleGateway = in_array (resource, biblegateways);
-  bool isStudyLight = in_array (resource, studylights);
+  bool isSword = resource_logic_is_sword (resource);
+  bool isBibleGateway = resource_logic_is_biblegateway (resource);
+  bool isStudyLight = resource_logic_is_studylight (resource);
   
   if (isExternal) {
     // The server fetches it from the web.
@@ -376,6 +345,8 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   if (isSword) {
     // Fetch it from a SWORD module.
+    string sword_module = sword_logic_get_remote_module (resource);
+    string sword_source = sword_logic_get_source (resource);
     return sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   }
 
@@ -528,18 +499,6 @@ string resource_logic_red_divider ()
 string resource_logic_orange_divider ()
 {
   return "Orange Divider";
-}
-
-
-bool resource_logic_is_divider (string resource)
-{
-  if (resource == resource_logic_yellow_divider ()) return true;
-  if (resource == resource_logic_green_divider ()) return true;
-  if (resource == resource_logic_blue_divider ()) return true;
-  if (resource == resource_logic_violet_divider ()) return true;
-  if (resource == resource_logic_red_divider ()) return true;
-  if (resource == resource_logic_orange_divider ()) return true;
-  return false;
 }
 
 
@@ -708,10 +667,16 @@ void resource_logic_create_cache ()
 
 
 // Returns true if the resource can be installed locally.
-bool resource_logic_can_cache (string resource) // Todo
+bool resource_logic_can_cache (string resource)
 {
   // Bibles are local already, cannot be installed.
   if (resource_logic_is_bible (resource)) return false;
+
+  // Lexicons are local already, cannot be installed.
+  if (resource_logic_is_lexicon (resource)) return false;
+
+  // Dividers are local already, cannot be installed.
+  if (resource_logic_is_divider (resource)) return false;
   
   // Remaining resources can be installed locally.
   return true;
@@ -1064,22 +1029,78 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 }
 
 
-bool resource_logic_is_bible (string resource) // Todo
+bool resource_logic_is_bible (string resource)
 {
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
-  return in_array (resource, bibles);
+  vector <string> names = database_bibles.getBibles ();
+  return in_array (resource, names);
 }
 
 
-bool resource_logic_is_usfm (string resource) // Todo
+bool resource_logic_is_usfm (string resource)
 {
-  vector <string> usfms;
+  vector <string> names;
 #ifdef HAVE_CLIENT
-  usfms = client_logic_usfm_resources_get ();
+  names = client_logic_usfm_resources_get ();
 #else
   Database_UsfmResources database_usfmresources;
-  usfms = database_usfmresources.getResources ();
+  names = database_usfmresources.getResources ();
 #endif
-  return in_array (resource, usfms);
+  return in_array (resource, names);
+}
+
+
+bool resource_logic_is_external (string resource)
+{
+  vector <string> names = resource_external_names ();
+  return in_array (resource, names);
+}
+
+
+bool resource_logic_is_image (string resource)
+{
+  Database_ImageResources database_imageresources;
+  vector <string> names = database_imageresources.names ();
+  return in_array (resource, names);
+}
+
+
+bool resource_logic_is_lexicon (string resource)
+{
+  vector <string> names = lexicon_logic_resource_names ();
+  return in_array (resource, names);
+}
+
+
+bool resource_logic_is_sword (string resource)
+{
+  string module = sword_logic_get_remote_module (resource);
+  string source = sword_logic_get_source (resource);
+  return (!source.empty () && !module.empty ());
+}
+
+
+bool resource_logic_is_divider (string resource)
+{
+  if (resource == resource_logic_yellow_divider ()) return true;
+  if (resource == resource_logic_green_divider ()) return true;
+  if (resource == resource_logic_blue_divider ()) return true;
+  if (resource == resource_logic_violet_divider ()) return true;
+  if (resource == resource_logic_red_divider ()) return true;
+  if (resource == resource_logic_orange_divider ()) return true;
+  return false;
+}
+
+
+bool resource_logic_is_biblegateway (string resource)
+{
+  vector <string> names = resource_logic_bible_gateway_module_list_get ();
+  return in_array (resource, names);
+}
+
+
+bool resource_logic_is_studylight (string resource)
+{
+  vector <string> names = resource_logic_study_light_module_list_get ();
+  return in_array (resource, names);
 }

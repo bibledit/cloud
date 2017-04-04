@@ -300,7 +300,7 @@ void sendreceive_bibles ()
     // If a new client connects to the Cloud, this new client would upload the sample Bible.
     // This would be undesired behaviour. Skip it.
     for (auto bible : bibles) {
-      if (bible == demo_sample_bible_name ()) continue; // Todo test it.
+      if (bible == demo_sample_bible_name ()) continue;
       vector <int> books = request.database_bibles ()->getBooks (bible);
       for (auto book : books) {
         vector <int> chapters = request.database_bibles ()->getChapters (bible, book);

@@ -57,7 +57,7 @@ string editverse_load (void * webserver_request)
   usfm = filter_string_str_replace ("\n", "<br>", usfm);
   string chapter_verse_text;
   string needle = "\\c";
-  if (verse) needle = "\\v";
+  if (verse) needle = usfm_marker_v ();
   size_t pos = usfm.find (needle);
   if (pos != string::npos) {
     if (pos < 2) {

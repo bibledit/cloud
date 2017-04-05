@@ -120,8 +120,7 @@ string editusfm_index (void * webserver_request)
   "var usfmEditorChapterSaved = \"" + chapterSaved + "\";\n"
   "var usfmEditorChapterRetrying = \"" + chapterRetrying + "\";\n"
   "var usfmEditorWriteAccess = true;\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
-  "var unsentBibleDataTimeoutWarning = '" + bible_logic_unsent_unreceived_data_warning (false) + "';\n";
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

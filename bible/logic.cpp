@@ -362,8 +362,7 @@ void bible_logic_kick_unreceived_data_timer ()
 
 // This returns a warning in case there's old Bible data not yet sent to the Cloud,
 // or in case it has not received data from the Cloud for some days.
-// $extended: Whether to give an extended warning.
-string bible_logic_unsent_unreceived_data_warning (bool extended)
+string bible_logic_unsent_unreceived_data_warning ()
 {
   string warning;
 
@@ -378,13 +377,9 @@ string bible_logic_unsent_unreceived_data_warning (bool extended)
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
       warning.clear ();
-      if (extended) {
-        warning.append (translate ("It has been some time ago that changes in the Bible text were received from the Cloud."));
-        warning.append (" ");
-        warning.append (translate ("Please do a Send/receive action to receive them from the Cloud."));
-      } else {
-        warning.append (translate ("Please do a Send/receive to the Cloud"));
-      }
+      warning.append (translate ("It has been some time ago that changes in the Bible text were received from the Cloud."));
+      warning.append (" ");
+      warning.append (translate ("Please do a Send/receive action to receive them from the Cloud."));
     }
   }
   
@@ -397,19 +392,13 @@ string bible_logic_unsent_unreceived_data_warning (bool extended)
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
       warning.clear ();
-      if (extended) {
-        warning.append (translate ("There are pending changes in the Bible text that have not yet been sent to the Cloud for some time."));
-        warning.append (" ");
-        warning.append (translate ("Please do a Send/receive action to send them to the Cloud."));
-      } else {
-        warning.append (translate ("Please do a Send/receive to the Cloud"));
-      }
+      warning.append (translate ("There are pending changes in the Bible text that have not yet been sent to the Cloud for some time."));
+      warning.append (" ");
+      warning.append (translate ("Changes will continue to be saved, but it is recommended to do a Send/receive action as soon as you can."));
     }
   }
 
 #endif
-  
-  (void) extended;
 
   return warning;
 }

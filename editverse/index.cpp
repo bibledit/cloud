@@ -109,8 +109,7 @@ string editverse_index (void * webserver_request)
   "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
   "var verseEditorVerseSaved = '" + chapterSaved + "';\n"
   "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = true;"
-  "var unsentBibleDataTimeoutWarning = '" + bible_logic_unsent_unreceived_data_warning (false) + "';\n";
+  "var verseEditorWriteAccess = true;";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

@@ -53,8 +53,6 @@ $ (document).ready (function ()
     });
   }
   
-  if (unsentBibleDataTimeoutWarning) notifyItError (unsentBibleDataTimeoutWarning);
-  
   $ ("#oneeditor").on ("click", oneEditorNoteCitationClicked);
 });
 

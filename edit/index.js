@@ -52,8 +52,6 @@ $ (document).ready (function ()
       }
     });
   }
-  
-  if (unsentBibleDataTimeoutWarning) notifyItError (unsentBibleDataTimeoutWarning);
 
   $ ("#editor").on ("click", editorNoteCitationClicked);
 });

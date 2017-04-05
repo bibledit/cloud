@@ -61,8 +61,6 @@ $ (document).ready (function ()
       }
     });
   }
-  
-  if (unsentBibleDataTimeoutWarning) notifyItError (unsentBibleDataTimeoutWarning);
 });
 
 

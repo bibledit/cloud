@@ -131,7 +131,8 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_editone_logic ();
+  test_dev ();
+  test_usfm ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

@@ -621,44 +621,6 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
   
-  {
-    string usfm =
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 One\n"
-    "\\v 2-3 Two three\n"
-    "\\v 4 Four\n"
-    "\\v 5 Five";
-    string result;
-    
-    result =
-    "\\v 1 One\n"
-    "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", false));
-    result =
-    "\\p\n"
-    "\\v 1 One\n"
-    "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", true));
-    
-    result =
-    "\\v 1 One\n"
-    "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", false));
-    result =
-    "\\p\n"
-    "\\v 1 One\n"
-    "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", true));
-    
-    result =
-    "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
-    result =
-    "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
-  }
-
   // Testing USFM extraction for Quill-based visual verse editor with more than one empty paragraph in sequence.
   {
     string usfm =
@@ -731,7 +693,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 5));
     evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
   }
-
+  
   // Testing USFM extraction for Quill-based visual verse editor with empty verses.
   {
     string usfm =
@@ -799,6 +761,63 @@ void test_usfm ()
     evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
   }
   
+  // Test getting the USFM for a verse where there's alternate verse number or published verse numbers.
+  // It used to get mixed up on those cases.
+  // Regression tests ensure it keeps behaving as it should.
+  {
+    string path = filter_url_create_root_path ("unittests", "tests", "usfm01.usfm");
+    string chapter_usfm = filter_url_file_get_contents (path);
+    string usfm;
+    
+    usfm = usfm_get_verse_text (chapter_usfm, 1);
+    evaluate (__LINE__, __func__, "\\v 1 Verse 1.", usfm);
+    
+    usfm = usfm_get_verse_text (chapter_usfm, 12);
+    evaluate (__LINE__, __func__, "\\v 12 Verse 12 one.\n"
+              "\\p \\va 1b \\va* Alternate verse 1b, \\va 2 \\va* alternate verse 2.\n"
+              "\\s Header 13\n"
+              "\\r refs 13\n"
+              "\\p", usfm);
+  }
+  
+  {
+    string usfm =
+    "\\c 1\n"
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three\n"
+    "\\v 4 Four\n"
+    "\\v 5 Five";
+    string result;
+    
+    result =
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", false));
+    result =
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", true));
+    
+    result =
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", false));
+    result =
+    "\\p\n"
+    "\\v 1 One\n"
+    "\\v 2-3 Two three";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", true));
+    
+    result =
+    "\\v 4 Four";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
+    result =
+    "\\v 4 Four";
+    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
+  }
+
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\c "));

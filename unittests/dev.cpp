@@ -19,9 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/dev.h>
 #include <unittests/utilities.h>
+#include <filter/url.h>
+#include <filter/usfm.h>
 
 
 void test_dev ()
 {
   trace_unit_tests (__func__);
+
 }

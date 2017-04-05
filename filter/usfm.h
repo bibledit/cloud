@@ -80,5 +80,9 @@ bool usfm_contains_empty_verses (string usfm);
 bool usfm_handle_verse_range (string verse, vector <int> & verses);
 bool usfm_handle_verse_sequence (string verse, vector <int> & verses);
 
+const char * usfm_marker_v ();
+const char * usfm_marker_va ();
+const char * usfm_marker_vp ();
+
 
 #endif

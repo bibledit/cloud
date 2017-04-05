@@ -663,7 +663,7 @@ msgstr ""
 msgid "Space at the end of the verse"
 msgstr ""
 
-msgid "Suppressed check results"
+msgid "Suppressed checking results"
 msgstr ""
 
 msgid "The check result is no longer suppressed."
@@ -3218,10 +3218,10 @@ msgstr ""
 msgid "The Manager can enable or disable checks."
 msgstr ""
 
-msgid "Enable or disable checks."
+msgid "Manage the checks."
 msgstr ""
 
-msgid "Suppressed entries"
+msgid "Suppressed checking results."
 msgstr ""
 
 msgid "It will be checked every night."
@@ -3737,9 +3737,6 @@ msgid "Act on the results of the checks."
 msgstr ""
 
 msgid "Receive the results by email."
-msgstr ""
-
-msgid "Manage the checks."
 msgstr ""
 
 msgid "Notes."
@@ -8165,6 +8162,12 @@ msgid "It only downloads the missing pieces."
 msgstr ""
 
 msgid "Clear the installed resource to do a clean installation."
+msgstr ""
+
+msgid "This resource comes with Bibledit."
+msgstr ""
+
+msgid "It is already installed locally."
 msgstr ""
 
 msgid "Image resource"

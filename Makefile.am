@@ -450,7 +450,8 @@ libbibledit_a_SOURCES = \
 	ldap/logic.cpp \
 	quill/logic.cpp \
 	rss/logic.cpp \
-	rss/feed.cpp
+	rss/feed.cpp \
+	microtar/microtar.c
 
 bin_PROGRAMS = server unittest generate
 

@@ -1288,6 +1288,8 @@
 		CADE4D851A9E248800F16E49 /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = external.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAE2DF071E96434200BFEAA2 /* unload.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unload.cpp; sourceTree = "<group>"; };
 		CAE2DF081E96434200BFEAA2 /* unload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unload.h; sourceTree = "<group>"; };
+		CAE2DF111E968F7E00BFEAA2 /* microtar.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = microtar.c; sourceTree = "<group>"; };
+		CAE2DF121E968F7E00BFEAA2 /* microtar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtar.h; sourceTree = "<group>"; };
 		CAE4420C1E5316DE00F802FC /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CAE4420D1E5328E400F802FC /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		CAE4420E1E532A8500F802FC /* copyright.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copyright.sh; sourceTree = "<group>"; };
@@ -3379,6 +3381,7 @@
 				CAA4D1E51A45A648003ABA25 /* mapping */,
 				CABC327D1CCF951600698C7A /* mbedtls */,
 				CAA4D1F51A45A648003ABA25 /* menu */,
+				CAE2DF0B1E968F7D00BFEAA2 /* microtar */,
 				CAA4D22D1A45A648003ABA25 /* navigation */,
 				CAA4D23A1A45A648003ABA25 /* notes */,
 				CAA9C1C51C651A93006D8709 /* notifit */,
@@ -3673,6 +3676,15 @@
 				CACDF3CE1DF1E74E00C198A2 /* logic.h */,
 			);
 			path = rss;
+			sourceTree = "<group>";
+		};
+		CAE2DF0B1E968F7D00BFEAA2 /* microtar */ = {
+			isa = PBXGroup;
+			children = (
+				CAE2DF111E968F7E00BFEAA2 /* microtar.c */,
+				CAE2DF121E968F7E00BFEAA2 /* microtar.h */,
+			);
+			path = microtar;
 			sourceTree = "<group>";
 		};
 		CAECFB821B84E30100B3634F /* sources */ = {

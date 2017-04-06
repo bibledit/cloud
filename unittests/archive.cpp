@@ -132,13 +132,58 @@ void test_archive ()
   }
 
   {
-    string plain = "This is data that is data to be compressed.";
-    string compressed = filter_archive_compress (plain);
-    string output = filter_archive_decompress (compressed);
-    evaluate (__LINE__, __func__, plain, output);
-    
     evaluate (__LINE__, __func__, true, filter_archive_can_zip ());
     evaluate (__LINE__, __func__, true, filter_archive_can_unzip ());
+  }
+
+  // Test embedded tar and untar routines.
+  {
+    string tarball;
+    string directory;
+    vector <string> files;
+    vector <string> contents;
+    string result;
+    
+    // Fail to open empty tarball.
+    result = filter_archive_microtar_pack ("", "", {});
+    evaluate (__LINE__, __func__, "could not open", result);
+
+    // Store test data in files.
+    directory = filter_url_tempfile ();
+    filter_url_mkdir (directory);
+    int max = 10;
+    for (int i = 1; i <= max; i++) {
+      string file = "file" + convert_to_string (i) + ".txt";
+      files.push_back (file);
+      string data;
+      for (unsigned int i2 = 0; i2 < 100; i2++) {
+        data.append ("Data " + convert_to_string (i) + "\n");
+      }
+      filter_url_file_put_contents (filter_url_create_path (directory, file), data);
+      contents.push_back (data);
+    }
+
+    // Pack files into a tarball.
+    tarball = filter_url_tempfile () + ".tar";
+    result = filter_archive_microtar_pack (tarball, directory, files);
+    evaluate (__LINE__, __func__, "", result);
+
+    // Fail to unpack empty tarball.
+    result = filter_archive_microtar_unpack ("", directory);
+    evaluate (__LINE__, __func__, "could not open", result);
+
+    // Unpack the tarball created just before.
+    directory = filter_url_tempfile ();
+    result = filter_archive_microtar_unpack (tarball, directory);
+    evaluate (__LINE__, __func__, "", result);
+    
+    // Test the unpacked files.
+    for (size_t i = 0; i < files.size (); i++) {
+      string file = files [i];
+      string content = contents [i];
+      string data = filter_url_file_get_contents (filter_url_create_path (directory, file));
+      evaluate (__LINE__, __func__, content, data);
+    }
   }
   
   // Clear up data used for the archive tests.

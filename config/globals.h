@@ -49,3 +49,4 @@ extern bool config_globals_enforce_https_client;
 extern default_random_engine config_globals_random_engine;
 extern uniform_int_distribution <int> config_globals_int_distribution;
 extern string config_globals_external_url;
+extern map <string, int> config_globals_resource_window_positions;

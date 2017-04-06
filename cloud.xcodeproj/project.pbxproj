@@ -1286,6 +1286,8 @@
 		CADE4D831A9E1B0600F16E49 /* get.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = get.h; sourceTree = "<group>"; };
 		CADE4D841A9E248800F16E49 /* external.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = external.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CADE4D851A9E248800F16E49 /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = external.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CAE2DF071E96434200BFEAA2 /* unload.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unload.cpp; sourceTree = "<group>"; };
+		CAE2DF081E96434200BFEAA2 /* unload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unload.h; sourceTree = "<group>"; };
 		CAE4420C1E5316DE00F802FC /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CAE4420D1E5328E400F802FC /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		CAE4420E1E532A8500F802FC /* copyright.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copyright.sh; sourceTree = "<group>"; };
@@ -2752,6 +2754,8 @@
 				CAF0A8EF1BAD76E40066723D /* sword.cpp */,
 				CAF0A8F01BAD76E40066723D /* sword.h */,
 				CAF0A8F11BAD76E40066723D /* sword.html */,
+				CAE2DF071E96434200BFEAA2 /* unload.cpp */,
+				CAE2DF081E96434200BFEAA2 /* unload.h */,
 				CA4A9A1A1CEA1D750039133C /* user1edit.cpp */,
 				CA4A9A1B1CEA1D750039133C /* user1edit.h */,
 				CA4A9A1C1CEA1D750039133C /* user1edit.html */,

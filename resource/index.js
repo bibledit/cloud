@@ -29,6 +29,7 @@ $(document).ready (function () {
       }
     });
   }
+  $ (window).on ("unload", resourceUnload);
 });
 
 
@@ -70,6 +71,9 @@ function resourceGetOne ()
   if (resourceAborting) return;
   resourceDoing++;
   if (resourceDoing > resourceCount) {
+    // No longer position window.
+    resourceWindowPosition = 0;
+    // Done.
     return;
   }
   resourceAjaxRequest = $.ajax ({
@@ -94,6 +98,7 @@ function resourceGetOne ()
         }
       }
       navigationSetup ();
+      resourcePosition ();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       resourceDoing--;
@@ -121,5 +126,31 @@ function resourceSwipeRight (event)
     navigatePreviousVerse (event);
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);
+  }
+}
+
+
+function resourceUnload ()
+{
+  var position = $("#workspacewrapper").scrollTop();
+  $.ajax ({
+    url: "unload",
+    type: "POST",
+    async: false,
+    data: { position: position },
+  });
+}
+
+
+// Scroll the window to the same position it had the previous time it displayed.
+function resourcePosition ()
+{
+  if (resourceWindowPosition != 0) {
+    var position = $("#workspacewrapper").scrollTop();
+    if (position != resourceWindowPosition) {
+      $("#workspacewrapper").scrollTop (resourceWindowPosition);
+    } else {
+      resourceWindowPosition = 0;
+    }
   }
 }

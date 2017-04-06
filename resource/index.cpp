@@ -31,6 +31,7 @@
 #include <resource/external.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <config/globals.h>
 
 
 string resource_index_url ()
@@ -91,7 +92,10 @@ string resource_index (void * webserver_request)
   
   
   int resource_count = resources.size ();
-  string script = "var resourceCount = " + convert_to_string (resource_count) + ";";
+  string username = request->session_logic()->currentUser ();
+  int window_position = config_globals_resource_window_positions [username];
+  string script = "var resourceCount = " + convert_to_string (resource_count) + ";\n"
+                  "var resourceWindowPosition = " + convert_to_string (window_position) + ";";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

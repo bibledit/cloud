@@ -69,15 +69,14 @@ msgstr ""
 msgid "Please do a Send/receive action to receive them from the Cloud."
 msgstr ""
 
-msgid "Please do a Send/receive to the Cloud"
-msgstr ""
-
 msgid ""
 "There are pending changes in the Bible text that have not yet been sent to "
 "the Cloud for some time."
 msgstr ""
 
-msgid "Please do a Send/receive action to send them to the Cloud."
+msgid ""
+"Changes will continue to be saved, but it is recommended to do a Send/"
+"receive action as soon as you can."
 msgstr ""
 
 msgid "Bibles"
@@ -5753,6 +5752,9 @@ msgid "Open the styles from the Bible editor."
 msgstr ""
 
 msgid "Search for words."
+msgstr ""
+
+msgid "Print."
 msgstr ""
 
 msgid ""

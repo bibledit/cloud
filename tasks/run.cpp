@@ -68,6 +68,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <user/logic.h>
 #include <rss/logic.h>
+#include <system/logic.h>
 
 
 mutex mutex_tasks; 
@@ -229,6 +230,14 @@ void tasks_run_one (string filename)
   } else if (command == RSSFEEDUPDATECHAPTER) {
 #ifdef HAVE_CLOUD
     rss_logic_execute_update (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4), parameter5, parameter6);
+#endif
+  } else if (command == PRODUCERESOURCESTRANSFERFILE) {
+#ifdef HAVE_CLIENT
+    system_logic_produce_resources_file (convert_to_int (parameter1));
+#endif
+  } else if (command == PRODUCEBIBLESTRANSFERFILE) {
+#ifdef HAVE_CLIENT
+    system_logic_produce_bibles_file (convert_to_int (parameter1));
 #endif
   } else {
     Database_Logs::log ("Unknown task: " + command);

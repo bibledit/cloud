@@ -194,49 +194,50 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
 	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
 	manage/privileges.$(OBJEXT) system/index.$(OBJEXT) \
-	collaboration/index.$(OBJEXT) collaboration/url.$(OBJEXT) \
-	collaboration/link.$(OBJEXT) collaboration/direction.$(OBJEXT) \
-	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
-	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
-	access/logic.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editverse/index.$(OBJEXT) \
-	editverse/load.$(OBJEXT) editverse/save.$(OBJEXT) \
-	editone/index.$(OBJEXT) editone/load.$(OBJEXT) \
-	editone/save.$(OBJEXT) editone/verse.$(OBJEXT) \
-	editone/logic.$(OBJEXT) editoneold/index.$(OBJEXT) \
-	editoneold/load.$(OBJEXT) editoneold/save.$(OBJEXT) \
-	editoneold/verse.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
-	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
-	edit/logic.$(OBJEXT) edit/preview.$(OBJEXT) \
-	edit/position.$(OBJEXT) edit/navigate.$(OBJEXT) \
-	editold/index.$(OBJEXT) editold/load.$(OBJEXT) \
-	editold/save.$(OBJEXT) editold/offset.$(OBJEXT) \
-	editold/focus.$(OBJEXT) search/all.$(OBJEXT) \
-	search/index.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workspace/index.$(OBJEXT) \
-	workspace/logic.$(OBJEXT) workspace/settings.$(OBJEXT) \
-	workspace/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	system/logic.$(OBJEXT) collaboration/index.$(OBJEXT) \
+	collaboration/url.$(OBJEXT) collaboration/link.$(OBJEXT) \
+	collaboration/direction.$(OBJEXT) search/rebibles.$(OBJEXT) \
+	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
+	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
+	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
+	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
+	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
+	editone/verse.$(OBJEXT) editone/logic.$(OBJEXT) \
+	editoneold/index.$(OBJEXT) editoneold/load.$(OBJEXT) \
+	editoneold/save.$(OBJEXT) editoneold/verse.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
+	editor/select.$(OBJEXT) edit/edit.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
+	edit/navigate.$(OBJEXT) editold/index.$(OBJEXT) \
+	editold/load.$(OBJEXT) editold/save.$(OBJEXT) \
+	editold/offset.$(OBJEXT) editold/focus.$(OBJEXT) \
+	search/all.$(OBJEXT) search/index.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workspace/index.$(OBJEXT) workspace/logic.$(OBJEXT) \
+	workspace/settings.$(OBJEXT) workspace/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
@@ -759,6 +760,7 @@ libbibledit_a_SOURCES = \
 	manage/write.cpp \
 	manage/privileges.cpp \
 	system/index.cpp \
+	system/logic.cpp \
 	collaboration/index.cpp \
 	collaboration/url.cpp \
 	collaboration/link.cpp \
@@ -1725,6 +1727,8 @@ system/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) system/$(DEPDIR)
 	@: > system/$(DEPDIR)/$(am__dirstamp)
 system/index.$(OBJEXT): system/$(am__dirstamp) \
+	system/$(DEPDIR)/$(am__dirstamp)
+system/logic.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 collaboration/$(am__dirstamp):
 	@$(MKDIR_P) collaboration
@@ -3360,6 +3364,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/index.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@

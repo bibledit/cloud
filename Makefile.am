@@ -161,6 +161,7 @@ libbibledit_a_SOURCES = \
 	manage/write.cpp \
 	manage/privileges.cpp \
 	system/index.cpp \
+	system/logic.cpp \
 	collaboration/index.cpp \
 	collaboration/url.cpp \
 	collaboration/link.cpp \

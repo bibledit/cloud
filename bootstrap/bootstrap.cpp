@@ -214,6 +214,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editor/select.h>
 #include <rss/feed.h>
 #include <assets/external.h>
+#include <system/logic.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -959,6 +960,13 @@ void bootstrap_index (void * webserver_request)
     request->reply = index_listing (request, url);
     return;
   }
+  
+#ifdef HAVE_CLIENT
+  if (url == system_logic_resources_file_name ()) {
+    http_serve_cache_file (request);
+    return;
+  }
+#endif
   
   // Client calls.
   if (url == sync_setup_url ()) {

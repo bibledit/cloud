@@ -29,12 +29,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/list.h>
 #include <dialog/entry.h>
 #include <database/config/general.h>
+#include <database/jobs.h>
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <config/globals.h>
 #include <rss/feed.h>
 #include <rss/logic.h>
 #include <assets/external.h>
+#include <jobs/index.h>
+#include <tasks/logic.h>
 
 
 string system_index_url ()
@@ -186,8 +189,28 @@ string system_index (void * webserver_request)
 #endif
 
   
+#ifdef HAVE_CLIENT
+  bool produceresources = request->query.count ("produceresources");
+  bool producebibles = request->query.count ("producebibles");
+  if (produceresources || producebibles) {
+    Database_Jobs database_jobs;
+    int jobId = database_jobs.getNewId ();
+    database_jobs.setLevel (jobId, Filter_Roles::member ());
+    string task;
+    if (produceresources) task = PRODUCERESOURCESTRANSFERFILE;
+    if (producebibles) task = PRODUCEBIBLESTRANSFERFILE;
+    tasks_logic_queue (task, { convert_to_string (jobId) });
+    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+    return "";
+  }
+#endif
+
+  
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
+#endif
+#ifdef HAVE_CLIENT
+  view.enable_zone ("client");
 #endif
   
   

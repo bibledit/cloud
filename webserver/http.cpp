@@ -287,7 +287,9 @@ void http_assemble_response (void * webserver_request)
 
 
 // This function serves a file and enables caching by the browser.
-void http_serve_file (void * webserver_request)
+// $enable_cache: Whether to enable caching by the browser.
+// $erase_after_download: Whether to erase a file from "tmp" after download complete.
+void http_serve_file (void * webserver_request, bool enable_cache, bool erase_after_download)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -296,23 +298,29 @@ void http_serve_file (void * webserver_request)
   string filename = filter_url_create_root_path (url);
   
   // File size for browser caching.
-  int size = filter_url_filesize (filename);
-  request->etag = "\"" + convert_to_string (size) + "\"";
+  if (enable_cache) {
+    int size = filter_url_filesize (filename);
+    request->etag = "\"" + convert_to_string (size) + "\"";
+  }
 
   // Deal with situation that the file in the browser's cache is up to date.
   // https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
-  if (request->etag == request->if_none_match) {
-    request->response_code = 304;
-    return;
+  if (enable_cache) {
+    if (request->etag == request->if_none_match) {
+      request->response_code = 304;
+      return;
+    }
   }
   
   // Get file's contents.
   request->reply = filter_url_file_get_contents (filename);
 
   // If downloading from the temporal folder, delete that temporal file.
-  string folder = filter_url_basename_web (filter_url_dirname_web (url));
-  if (folder == filter_url_temp_dir ()) {
-    filter_url_unlink (filename);
+  if (erase_after_download) {
+    string folder = filter_url_basename_web (filter_url_dirname_web (url));
+    if (folder == filter_url_temp_dir ()) {
+      filter_url_unlink (filename);
+    }
   }
 }
 

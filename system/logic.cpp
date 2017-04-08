@@ -93,6 +93,12 @@ void system_logic_produce_resources_file (int jobid) // Todo
 }
 
 
+string system_logic_bibles_file_name () // Todo
+{
+  return filter_url_create_path (filter_url_temp_dir (), "bibles.tar");
+}
+
+
 void system_logic_produce_bibles_file (int jobid) // Todo
 {
   Database_Jobs database_jobs;

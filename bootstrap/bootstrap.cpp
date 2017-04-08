@@ -962,7 +962,7 @@ void bootstrap_index (void * webserver_request)
   }
   
 #ifdef HAVE_CLIENT
-  if (url == system_logic_resources_file_name ()) {
+  if ((url == system_logic_resources_file_name ()) | (url == system_logic_bibles_file_name ())) {
     http_serve_file (request, false, false);
     return;
   }

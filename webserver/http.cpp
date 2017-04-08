@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <filter/string.h>
 #include <parsewebdata/ParseWebData.h>
+#include <webserver/request.h>
 
 
 /*
@@ -40,8 +41,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  
  It returns true if a header was (or could have been) parsed.
  */
-bool http_parse_header (string header, Webserver_Request * request)
+bool http_parse_header (string header, void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
   // Clean the header line.
   header = filter_string_trim (header);
   
@@ -141,8 +144,10 @@ bool http_parse_header (string header, Webserver_Request * request)
 
 
 // Takes data POSTed from the browser, and parses it.
-void http_parse_post (string content, Webserver_Request * request)
+void http_parse_post (string content, void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // Read and parse the POST data.
   try {
     if (!content.empty ()) {
@@ -184,8 +189,10 @@ contents: the response body to be sent.
 The function inserts the correct headers,
 and creates the entire result to be sent back to the browser.
 */
-void http_assemble_response (Webserver_Request * request)
+void http_assemble_response (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   ostringstream length;
   length << request->reply.size ();
 
@@ -280,8 +287,10 @@ void http_assemble_response (Webserver_Request * request)
 
 
 // This function serves a file and enables caching by the browser.
-void http_serve_file (Webserver_Request * request)
+void http_serve_file (void * webserver_request)
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // Full path to the file.
   string url = filter_url_urldecode (request->get);
   string filename = filter_url_create_root_path (url);

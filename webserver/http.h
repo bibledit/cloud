@@ -22,13 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <webserver/request.h>
 
 
-bool http_parse_header (string header, Webserver_Request * request);
-void http_parse_post (string content, Webserver_Request * request);
-void http_assemble_response (Webserver_Request * request);
-void http_serve_file (Webserver_Request * request);
+bool http_parse_header (string header, void * webserver_request);
+void http_parse_post (string content, void * webserver_request);
+void http_assemble_response (void * webserver_request);
+void http_serve_file (void * webserver_request);
 string http_parse_host (const string & line);
 
 

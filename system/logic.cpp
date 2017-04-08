@@ -35,6 +35,7 @@ string system_logic_resources_file_name ()
 }
 
 
+// This produces a tarball with all installed resources.
 void system_logic_produce_resources_file (int jobid)
 {
   Database_Jobs database_jobs;
@@ -101,6 +102,7 @@ string system_logic_bibles_file_name ()
 }
 
 
+// This produes a tarball with all installed Bibles.
 void system_logic_produce_bibles_file (int jobid)
 {
   Database_Jobs database_jobs;

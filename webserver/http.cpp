@@ -280,7 +280,7 @@ void http_assemble_response (Webserver_Request * request)
 
 
 // This function serves a file and enables caching by the browser.
-void http_serve_cache_file (Webserver_Request * request)
+void http_serve_file (Webserver_Request * request)
 {
   // Full path to the file.
   string url = filter_url_urldecode (request->get);

@@ -255,7 +255,7 @@ void bootstrap_index (void * webserver_request)
       || (extension == "svg")
       || (extension == "map")
       ) {
-    http_serve_cache_file (request);
+    http_serve_file (request);
     return;
   }
 
@@ -266,7 +266,7 @@ void bootstrap_index (void * webserver_request)
 
   // Serve resource downloads.
   if ((extension == "sqlite") && (request->get.find (Database_Cache::fragment ()) != string::npos)) {
-    http_serve_cache_file (request);
+    http_serve_file (request);
     return;
   }
   
@@ -963,7 +963,7 @@ void bootstrap_index (void * webserver_request)
   
 #ifdef HAVE_CLIENT
   if (url == system_logic_resources_file_name ()) {
-    http_serve_cache_file (request);
+    http_serve_file (request);
     return;
   }
 #endif
@@ -987,7 +987,7 @@ void bootstrap_index (void * webserver_request)
   }
   if (extension == "sqlite") {
     if (filter_url_dirname (url) == filter_url_temp_dir ()) {
-      http_serve_cache_file (request);
+      http_serve_file (request);
       return;
     }
   }

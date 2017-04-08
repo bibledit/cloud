@@ -2806,6 +2806,27 @@ msgstr ""
 msgid "The number was saved"
 msgstr ""
 
+msgid "Generating file with resources for download."
+msgstr ""
+
+msgid "In progress..."
+msgstr ""
+
+msgid "The file with the installed resources is ready."
+msgstr ""
+
+msgid "Download it."
+msgstr ""
+
+msgid "It failed to create the file with resources."
+msgstr ""
+
+msgid "Generating file with Bibles for download."
+msgstr ""
+
+msgid "The file with Bibles is ready for download."
+msgstr ""
+
 msgid "Go back"
 msgstr ""
 
@@ -8759,6 +8780,34 @@ msgid "To switch the feed off, set the number of changes to zero."
 msgstr ""
 
 msgid "Include the author in the RSS feed."
+msgstr ""
+
+msgid "Transfer resources and Bibles"
+msgstr ""
+
+msgid ""
+"This helps with transferring resources and Bibles from one Bibledit client "
+"to another one."
+msgstr ""
+
+msgid ""
+"This helps translators with slow Internet connections to quickly setup new "
+"Bibledit clients."
+msgstr ""
+
+msgid "You can produce a file with all relevant data."
+msgstr ""
+
+msgid "Download that file."
+msgstr ""
+
+msgid "Upload that file to the new Bibledit client."
+msgstr ""
+
+msgid "Get the installed Resources."
+msgstr ""
+
+msgid "Get the local Bibles."
 msgstr ""
 
 msgid ""

@@ -24,10 +24,10 @@
 #include <config/libraries.h>
 
 
-string system_logic_resources_file_name ();
-void system_logic_produce_resources_file (int jobid);
 string system_logic_bibles_file_name ();
 void system_logic_produce_bibles_file (int jobid);
+string system_logic_resources_file_name ();
+void system_logic_produce_resources_file (int jobid);
 
 
 #endif

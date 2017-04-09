@@ -29,73 +29,6 @@
 #include <html/text.h>
 
 
-string system_logic_resources_file_name ()
-{
-  return filter_url_create_path (filter_url_temp_dir (), "resources.tar");
-}
-
-
-// This produces a tarball with all installed resources.
-void system_logic_produce_resources_file (int jobid)
-{
-  Database_Jobs database_jobs;
-
-  
-  // Generate the initial page.
-  {
-    Html_Text html_text ("");
-    html_text.newParagraph ();
-    html_text.addText (translate ("Generating file with resources for download."));
-    html_text.newParagraph ();
-    html_text.addText (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.getInnerHtml ());
-  }
-
-  // The location of the tarball to generate.
-  string tarball = filter_url_create_root_path (system_logic_resources_file_name ());
-
-  
-  // The database directory where the cached resources reside.
-  string directory = filter_url_create_root_path ("databases");
-  
-  
-  // The filenames of the cached resources.
-  vector <string> resources;
-  vector <string> rawfiles = filter_url_scandir (directory);
-  for (auto filename : rawfiles) {
-    if (filename.find (Database_Cache::fragment()) != string::npos) {
-      resources.push_back (filename);
-    }
-  }
-  
-  
-  // Pack the resources into one tarball.
-  // It does not compress the files (as could be done).
-  // It just puts them in a tarball.
-  // Compression is not needed because the file is transferred locally,
-  // so the size of the file is not so important.
-  // Not compressing speeds things up a great lot.
-  string error = filter_archive_microtar_pack (tarball, directory, resources);
-
-  
-  // Ready, provide info about how to download the file or about the error.
-  {
-    Html_Text html_text ("");
-    html_text.newParagraph ();
-    if (error.empty ()) {
-      html_text.addText (translate ("The file with the installed resources is ready."));
-      html_text.newParagraph ();
-      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download it."));
-    } else {
-      html_text.addText (translate ("It failed to create the file with resources."));
-      html_text.newParagraph ();
-      html_text.addText (error);
-    }
-    database_jobs.setResult (jobid, html_text.getInnerHtml ());
-  }
-}
-
-
 string system_logic_bibles_file_name ()
 {
   return filter_url_create_path (filter_url_temp_dir (), "bibles.tar");
@@ -167,6 +100,73 @@ void system_logic_produce_bibles_file (int jobid)
       html_text.addLink (html_text.currentPDomElement, "/" + system_logic_bibles_file_name (), "", "", "", translate ("Download it."));
     } else {
       html_text.addText (translate ("It failed to create the file with Bibles."));
+      html_text.newParagraph ();
+      html_text.addText (error);
+    }
+    database_jobs.setResult (jobid, html_text.getInnerHtml ());
+  }
+}
+
+
+string system_logic_resources_file_name ()
+{
+  return filter_url_create_path (filter_url_temp_dir (), "resources.tar");
+}
+
+
+// This produces a tarball with all installed resources.
+void system_logic_produce_resources_file (int jobid)
+{
+  Database_Jobs database_jobs;
+  
+  
+  // Generate the initial page.
+  {
+    Html_Text html_text ("");
+    html_text.newParagraph ();
+    html_text.addText (translate ("Generating file with resources for download."));
+    html_text.newParagraph ();
+    html_text.addText (translate ("In progress..."));
+    database_jobs.setStart (jobid, html_text.getInnerHtml ());
+  }
+  
+  // The location of the tarball to generate.
+  string tarball = filter_url_create_root_path (system_logic_resources_file_name ());
+  
+  
+  // The database directory where the cached resources reside.
+  string directory = filter_url_create_root_path ("databases");
+  
+  
+  // The filenames of the cached resources.
+  vector <string> resources;
+  vector <string> rawfiles = filter_url_scandir (directory);
+  for (auto filename : rawfiles) {
+    if (filename.find (Database_Cache::fragment()) != string::npos) {
+      resources.push_back (filename);
+    }
+  }
+  
+  
+  // Pack the resources into one tarball.
+  // It does not compress the files (as could be done).
+  // It just puts them in a tarball.
+  // Compression is not needed because the file is transferred locally,
+  // so the size of the file is not so important.
+  // Not compressing speeds things up a great lot.
+  string error = filter_archive_microtar_pack (tarball, directory, resources);
+  
+  
+  // Ready, provide info about how to download the file or about the error.
+  {
+    Html_Text html_text ("");
+    html_text.newParagraph ();
+    if (error.empty ()) {
+      html_text.addText (translate ("The file with the installed resources is ready."));
+      html_text.newParagraph ();
+      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download it."));
+    } else {
+      html_text.addText (translate ("It failed to create the file with resources."));
       html_text.newParagraph ();
       html_text.addText (error);
     }

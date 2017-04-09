@@ -98,6 +98,10 @@ void system_logic_produce_bibles_file (int jobid)
       html_text.addText (translate ("The file with Bibles is ready for download."));
       html_text.newParagraph ();
       html_text.addLink (html_text.currentPDomElement, "/" + system_logic_bibles_file_name (), "", "", "", translate ("Download it."));
+      html_text.newParagraph ();
+      html_text.addText (translate ("The downloaded file can be uploaded to another Bibledit client."));
+      html_text.addText (" ");
+      html_text.addText (translate ("This will import the same Bibles to that other client."));
     } else {
       html_text.addText (translate ("It failed to create the file with Bibles."));
       html_text.newParagraph ();
@@ -165,6 +169,10 @@ void system_logic_produce_resources_file (int jobid)
       html_text.addText (translate ("The file with the installed resources is ready."));
       html_text.newParagraph ();
       html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download it."));
+      html_text.newParagraph ();
+      html_text.addText (translate ("The downloaded file can be uploaded to another Bibledit client."));
+      html_text.addText (" ");
+      html_text.addText (translate ("This will import the same resources to that other client."));
     } else {
       html_text.addText (translate ("It failed to create the file with resources."));
       html_text.newParagraph ();

@@ -232,6 +232,30 @@ string system_index (void * webserver_request)
 #endif
 
   
+#ifdef HAVE_CLIENT
+  string importresources = "importresources";
+  if (request->query.count (importresources)) {
+    if (request->post.count ("upload")) {
+      string datafile = filter_url_tempfile () + request->post ["filename"];
+      string data = request->post ["data"];
+      if (!data.empty ()) {
+        filter_url_file_put_contents (datafile, data);
+        success = translate("Import has started.");
+        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
+        tasks_logic_queue (IMPORTRESOURCESTRANSFERFILE, { datafile });
+      } else {
+        error = translate ("Nothing was imported");
+      }
+    } else {
+      Dialog_Upload dialog = Dialog_Upload ("index", translate("Import a file with local Resources"));
+      dialog.add_upload_query (importresources, "");
+      page.append (dialog.run ());
+      return page;
+    }
+  }
+#endif
+
+  
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
 #endif

@@ -250,7 +250,6 @@ string filter_archive_microtar_unpack (string tarball, string directory)
 {
   mtar_t tar;
   mtar_header_t h;
-  char *p;
   int res;
   
   // Open archive for reading.
@@ -271,10 +270,10 @@ string filter_archive_microtar_unpack (string tarball, string directory)
   for (auto file : files) {
     res = mtar_find (&tar, file.c_str(), &h);
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
-    p = (char *)calloc(1, h.size + 1);
+    char *p = (char *)calloc(1, h.size + 1);
     res = mtar_read_data(&tar, p, h.size);
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
-    string data (p);
+    string data (p, h.size);
     free(p);
     filter_url_file_put_contents (filter_url_create_path (directory, file), data);
   }

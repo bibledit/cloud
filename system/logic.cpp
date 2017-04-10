@@ -163,6 +163,7 @@ void system_logic_import_bibles_file (string tarball)
       }
     }
   }
+
   // Ready, hallelujah!
   Database_Logs::log ("Importing Bibles ready");
 }
@@ -241,5 +242,31 @@ void system_logic_produce_resources_file (int jobid)
 
 void system_logic_import_resources_file (string tarball) // Todo
 {
+  Database_Logs::log ("Importing Resources from " + tarball);
   
+  // Unpack the tarball into a directory.
+  string directory = filter_url_tempfile ();
+  filter_url_mkdir (directory);
+  string error= filter_archive_microtar_unpack (tarball, directory);
+  if (!error.empty ()) {
+    Database_Logs::log ("Importing Resources failure: " + error);
+    return;
+  }
+  
+  // Iterate over all the files of the tarball.
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+
+    // Get the file's contents for import.
+    Database_Logs::log ("Importing " + file);
+    string path = filter_url_create_path (directory, file);
+    string data = filter_url_file_get_contents (path);
+
+    // Store the resource into place.
+    path = filter_url_create_root_path ("databases", file);
+    filter_url_file_put_contents (path, data);
+  }
+
+  // Ready, hallelujah!
+  Database_Logs::log ("Importing Resources ready");
 }

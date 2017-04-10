@@ -163,6 +163,10 @@ void system_logic_import_bibles_file (string tarball)
       }
     }
   }
+  
+  // Clean up.
+  filter_url_rmdir (directory);
+  filter_url_unlink (tarball);
 
   // Ready, hallelujah!
   Database_Logs::log ("Importing Bibles ready");
@@ -266,6 +270,10 @@ void system_logic_import_resources_file (string tarball)
     path = filter_url_create_root_path ("databases", file);
     filter_url_file_put_contents (path, data);
   }
+
+  // Clean up.
+  filter_url_rmdir (directory);
+  filter_url_unlink (tarball);
 
   // Ready, hallelujah!
   Database_Logs::log ("Importing Resources ready");

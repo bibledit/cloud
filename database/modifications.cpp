@@ -713,14 +713,14 @@ vector <int> Database_Modifications::getNotificationIdentifiers (const string& u
 }
 
 
-// This gets the identifiers of the personal change proposals.
+// This gets the identifiers of the personal changes.
 // For easier comparison, it also gets the identifiers of the changes
-// in the verses that have changes entered by a person.
-vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit)
+// in the verses that have changes entered by anyone.
+vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit) // Todo add stuff for adding B category stuff.
 {
   sqlite3 * db = connect ();
 
-  // Get all personal change proposals.
+  // Get all personal changes.
   vector <int> personalIDs;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT identifier FROM notifications WHERE username =");
@@ -739,17 +739,17 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
 
   vector <int> allIDs;
 
-  // Go through each of the personal change proposals.
+  // Go through each of the personal changes.
   for (int & personalID : personalIDs) {
-    // Add the personal change proposal to the results.
+    // Add the personal change to the results.
     allIDs.push_back (personalID);
-    // Get the Bible and passage for this change proposal.
+    // Get the Bible and passage for this change.
     string bible = getNotificationBible (personalID);
     Passage passage = getNotificationPassage (personalID);
     int book = passage.book;
     int chapter = passage.chapter;
     int verse = convert_to_int (passage.verse);
-    // Look for change proposals for this Bible and passage.
+    // Look for team's change for this Bible and passage.
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT identifier FROM notifications WHERE username =");
     sql.add (username);
@@ -942,13 +942,13 @@ void Database_Modifications::clearNotificationsUser (const string& username)
 }
 
 
-// This function deletes personal change proposals and their matching change notifications.
+// This function deletes personal changes and their matching change notifications.
 // It returns the deleted identifiers.
 vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
 {
   sqlite3 * db = connect ();
   
-  // Select all identifiers of the personal change proposals.
+  // Select all identifiers of the personal changes.
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT identifier FROM notifications WHERE username =");
   sql.add (username);
@@ -965,7 +965,7 @@ vector <int> Database_Modifications::clearNotificationMatches (const string& use
   // Matches to be deleted.
   vector <int> deletes;
 
-  // Go through each of the personal change proposals.
+  // Go through each of the personal changes.
   for (auto & personalID : personals) {
     string bible = getNotificationBible (personalID);
     Passage passage = getNotificationPassage (personalID);
@@ -1000,7 +1000,7 @@ vector <int> Database_Modifications::clearNotificationMatches (const string& use
     // If there are two or more matching changes, then one could have undone the other, so should not be automatically removed.
     if (teamMatches.size () == 1) {
       // Check there are only two change notifications for this user / Bible / book / chapter / verse.
-      // If there are more, we can't be sure that the personal change proposal was not overwritten somehow.
+      // If there are more, we can't be sure that the personal change was not overwritten somehow.
       vector <int> passageMatches;
       SqliteSQL sql = SqliteSQL ();
       sql.add ("SELECT identifier FROM notifications WHERE username =");
@@ -1019,7 +1019,7 @@ vector <int> Database_Modifications::clearNotificationMatches (const string& use
         passageMatches.push_back (convert_to_int (item));
       }
       if (passageMatches.size () == 2) {
-        // Store the personal change proposal to be deleted.
+        // Store the personal change to be deleted.
         // Store the matching change notification to be deleted also.
         for (auto & passageMatch : passageMatches) {
           deletes.push_back (passageMatch);

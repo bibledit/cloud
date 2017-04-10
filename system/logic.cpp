@@ -240,7 +240,7 @@ void system_logic_produce_resources_file (int jobid)
 }
 
 
-void system_logic_import_resources_file (string tarball) // Todo
+void system_logic_import_resources_file (string tarball)
 {
   Database_Logs::log ("Importing Resources from " + tarball);
   

@@ -151,9 +151,9 @@ void system_logic_import_bibles_file (string tarball)
     for (auto & data : book_chapter_text) {
       if (data.book > 0) {
         // Store the data and log it.
-        // This should not trigger the client to send it to the Cloud in any way.
+        // This does not trigger the client to send it to the Cloud.
         // Reason is that the Cloud is authoritative,
-        // so importing outdated Bibles do not affect the authoritative copy in the Cloud.
+        // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
         database_bibles.storeChapter (bible, data.book, data.chapter, data.data);
         string bookname = Database_Books::getEnglishFromId (data.book);
         Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (data.chapter));

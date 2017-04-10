@@ -126,120 +126,178 @@ void tasks_run_one (string filename)
   
   if (command == ROTATEJOURNAL) {
     Database_Logs::rotate ();
-  } else if (command == RECEIVEEMAIL) {
+  }
+  else if (command == RECEIVEEMAIL) {
     email_receive ();
-  } else if (command == SENDEMAIL) {
+  }
+  else if (command == SENDEMAIL) {
     email_send ();
-  } else if (command == REINDEXBIBLES) {
+  }
+  else if (command == REINDEXBIBLES) {
     search_reindex_bibles (convert_to_bool (parameter1));
-  } else if (command == REINDEXNOTES) {
+  }
+  else if (command == REINDEXNOTES) {
     search_reindex_notes ();
-  } else if (command == CREATECSS) {
+  }
+  else if (command == CREATECSS) {
     styles_sheets_create_all_run ();
-  } else if (command == IMPORTBIBLE) {
+  }
+  else if (command == IMPORTBIBLE) {
     bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
-  } else if (command == IMPORTRESOURCE) {
+  }
+  else if (command == IMPORTRESOURCE) {
     bible_logic_import_resource (parameter1, parameter2);
-  } else if (command == COMPAREUSFM) {
+  }
+  else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
-  } else if (command == MAINTAINDATABASE) {
+  }
+  else if (command == MAINTAINDATABASE) {
     database_maintenance ();
-  } else if (command == CLEANTMPFILES) {
+  }
+  else if (command == CLEANTMPFILES) {
     tmp_tmp ();
-  } else if (command == LINKGITREPOSITORY) {
+  }
+  else if (command == LINKGITREPOSITORY) {
     collaboration_link (parameter1, convert_to_int (parameter2), parameter3);
-  } else if (command == SENDRECEIVEBIBLES) {
+  }
+  else if (command == SENDRECEIVEBIBLES) {
     sendreceive_sendreceive (parameter1);
-  } else if (command == SYNCNOTES) {
+  }
+  else if (command == SYNCNOTES) {
     sendreceive_notes ();
-  } else if (command == SYNCBIBLES) {
+  }
+  else if (command == SYNCBIBLES) {
     sendreceive_bibles ();
-  } else if (command == SYNCSETTINGS) {
+  }
+  else if (command == SYNCSETTINGS) {
     sendreceive_settings ();
-  } else if (command == SYNCCHANGES) {
+  }
+  else if (command == SYNCCHANGES) {
     sendreceive_changes ();
-  } else if (command == SYNCFILES) {
+  }
+  else if (command == SYNCFILES) {
     sendreceive_files ();
-  } else if (command == SYNCRESOURCES) {
+  }
+  else if (command == SYNCRESOURCES) {
     sendreceive_resources ();
-  } else if (command == CLEANDEMO) {
+  }
+  else if (command == CLEANDEMO) {
     demo_clean_data ();
-  } else if (command == CONVERTBIBLE2RESOURCE) {
+  }
+  else if (command == CONVERTBIBLE2RESOURCE) {
     convert_bible_to_resource (parameter1);
-  } else if (command == CONVERTRESOURCE2BIBLE) {
+  }
+  else if (command == CONVERTRESOURCE2BIBLE) {
     convert_resource_to_bible (parameter1);
-  } else if (command == PRINTRESOURCES) {
+  }
+  else if (command == PRINTRESOURCES) {
     resource_print_job (parameter1, parameter2, parameter3);
-  } else if (command == NOTESSTATISTICS) {
+  }
+  else if (command == NOTESSTATISTICS) {
     statistics_statistics ();
-  } else if (command == GENERATECHANGES) {
+  }
+  else if (command == GENERATECHANGES) {
     changes_modifications ();
-  } else if (command == SPRINTBURNDOWN) {
+  }
+  else if (command == SPRINTBURNDOWN) {
     sprint_burndown ("", false);
-  } else if (command == CHECKBIBLE) {
+  }
+  else if (command == CHECKBIBLE) {
     checks_run (parameter1);
-  } else if (command == EXPORTALL) {
+  }
+  else if (command == EXPORTALL) {
     export_index ();
-  } else if (command == EXPORTWEBMAIN) {
+  }
+  else if (command == EXPORTWEBMAIN) {
     export_web_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
-  } else if (command == EXPORTWEBINDEX) {
+  }
+  else if (command == EXPORTWEBINDEX) {
     export_web_index (parameter1, convert_to_bool (parameter2));
-  } else if (command == EXPORTHTML) {
+  }
+  else if (command == EXPORTHTML) {
     export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
-  } else if (command == EXPORTUSFM) {
+  }
+  else if (command == EXPORTUSFM) {
     export_usfm (parameter1, convert_to_bool (parameter2));
-  } else if (command == EXPORTTEXTUSFM) {
+  }
+  else if (command == EXPORTTEXTUSFM) {
     export_text_usfm_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
-  } else if (command == EXPORTODT) {
+  }
+  else if (command == EXPORTODT) {
     export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
-  } else if (command == EXPORTINFO) {
+  }
+  else if (command == EXPORTINFO) {
     export_info (parameter1, convert_to_bool (parameter2));
-  } else if (command == EXPORTESWORD) {
+  }
+  else if (command == EXPORTESWORD) {
     export_esword (parameter1, convert_to_bool (parameter2));
-  } else if (command == EXPORTONLINEBIBLE) {
+  }
+  else if (command == EXPORTONLINEBIBLE) {
     export_onlinebible (parameter1, convert_to_bool (parameter2));
-  } else if (command == EXPORTQUICKBIBLE) {
+  }
+  else if (command == EXPORTQUICKBIBLE) {
     export_quickbible (parameter1, convert_to_bool (parameter2));
-  } else if (command == HYPHENATE) {
+  }
+  else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
-  } else if (command == SETUPPARATEXT) {
+  }
+  else if (command == SETUPPARATEXT) {
     Paratext_Logic::setup (parameter1, parameter2);
-  } else if (command == SYNCPARATEXT) {
+  }
+  else if (command == SYNCPARATEXT) {
     Paratext_Logic::synchronize ();
-  } else if (command == SUBMITBIBLEDROPBOX) {
+  }
+  else if (command == SUBMITBIBLEDROPBOX) {
     export_bibledropbox (parameter1, parameter2);
-  } else if (command == IMPORTIMAGES) {
+  }
+  else if (command == IMPORTIMAGES) {
     resource_logic_import_images (parameter1, parameter2);
-  } else if (command == REFRESHSWORDMODULES) {
+  }
+  else if (command == REFRESHSWORDMODULES) {
     sword_logic_refresh_module_list ();
-  } else if (command == INSTALLSWORDMODULE) {
+  }
+  else if (command == INSTALLSWORDMODULE) {
     sword_logic_run_scheduled_module_install (parameter1, parameter2);
-  } else if (command == UPDATESWORDMODULES) {
+  }
+  else if (command == UPDATESWORDMODULES) {
     sword_logic_update_installed_modules ();
-  } else if (command == LISTUSFMRESOURCES) {
+  }
+  else if (command == LISTUSFMRESOURCES) {
     client_logic_usfm_resources_update ();
-  } else if (command == CREATESAMPLEBIBLE) {
+  }
+  else if (command == CREATESAMPLEBIBLE) {
     demo_create_sample_bible ();
-  } else if (command == CACHERESOURCES) {
+  }
+  else if (command == CACHERESOURCES) {
     resource_logic_create_cache ();
-  } else if (command == NOTIFYSOFTWAREUPDATES) {
+  }
+  else if (command == NOTIFYSOFTWAREUPDATES) {
     user_logic_software_updates_notify ();
-  } else if (command == REFRESHWEBRESOURCES) {
+  }
+  else if (command == REFRESHWEBRESOURCES) {
     resource_logic_bible_gateway_module_list_refresh ();
     resource_logic_study_light_module_list_refresh ();
-  } else if (command == RSSFEEDUPDATECHAPTER) {
+  }
 #ifdef HAVE_CLOUD
+  else if (command == RSSFEEDUPDATECHAPTER) {
     rss_logic_execute_update (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4), parameter5, parameter6);
+  }
 #endif
-  } else if (command == PRODUCERESOURCESTRANSFERFILE) {
 #ifdef HAVE_CLIENT
-    system_logic_produce_resources_file (convert_to_int (parameter1));
-#endif
-  } else if (command == PRODUCEBIBLESTRANSFERFILE) {
-#ifdef HAVE_CLIENT
+  else if (command == PRODUCEBIBLESTRANSFERFILE) {
     system_logic_produce_bibles_file (convert_to_int (parameter1));
+  }
+  else if (command == IMPORTBIBLESTRANSFERFILE) {
+    system_logic_import_bibles_file (parameter1);
+  }
+  else if (command == PRODUCERESOURCESTRANSFERFILE) {
+    system_logic_produce_resources_file (convert_to_int (parameter1));
+  }
+  else if (command == IMPORTRESOURCESTRANSFERFILE) {
+    system_logic_import_resources_file (parameter1);
+  }
 #endif
-  } else {
+  else {
     Database_Logs::log ("Unknown task: " + command);
   }
 

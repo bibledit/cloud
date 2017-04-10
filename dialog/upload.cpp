@@ -23,7 +23,7 @@
 #include <filter/url.h>
 
 
-// Dialog that enables the user to upload a file to the server.
+// Dialog that enables the user to upload a file.
 // $url: The url of the page where to go to on clicking Cancel or Upload.
 // $question: The question to ask.
 Dialog_Upload::Dialog_Upload (string url, string question)
@@ -42,22 +42,23 @@ Dialog_Upload::~Dialog_Upload ()
 }
 
 
-// Adds a query to the URL for going to the page on clicking Cancel or Upload.
-void Dialog_Upload::add_query (string parameter, string value)
+// Adds a query to the URL for going to the page on clicking Upload.
+void Dialog_Upload::add_upload_query (string parameter, string value)
 {
-  base_url = filter_url_build_http_query (base_url, parameter, value);
+  upload_query [parameter] = value;
 }
 
 
 string Dialog_Upload::run ()
 {
   Assets_View * view = (Assets_View *) assets_view;
-  string yes = filter_url_build_http_query (base_url, "confirm", "yes");
-  string cancel = filter_url_build_http_query (base_url, "confirm", "cancel");
-  view->set_variable ("yes", yes);
-  view->set_variable ("cancel", cancel);
+  string import;
+  for (auto & element : upload_query) {
+    import = filter_url_build_http_query (base_url, element.first, element.second);
+  }
+  view->set_variable ("import", import);
+  view->set_variable ("cancel", base_url);
   string page = view->render ("dialog", "upload");
   page += Assets_Page::footer ();
   return page;
 }
-

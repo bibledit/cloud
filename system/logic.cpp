@@ -21,12 +21,16 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/archive.h>
+#include <filter/usfm.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <database/jobs.h>
 #include <database/cache.h>
 #include <database/bibles.h>
+#include <database/books.h>
+#include <database/logs.h>
 #include <html/text.h>
+#include <styles/logic.h>
 
 
 string system_logic_bibles_file_name ()
@@ -46,7 +50,7 @@ void system_logic_produce_bibles_file (int jobid)
   {
     Html_Text html_text ("");
     html_text.newParagraph ();
-    html_text.addText (translate ("Generating file with Bibles for download."));
+    html_text.addText (translate ("Generating a file with the Bibles."));
     html_text.newParagraph ();
     html_text.addText (translate ("In progress..."));
     database_jobs.setStart (jobid, html_text.getInnerHtml ());
@@ -95,13 +99,13 @@ void system_logic_produce_bibles_file (int jobid)
     Html_Text html_text ("");
     html_text.newParagraph ();
     if (error.empty ()) {
-      html_text.addText (translate ("The file with Bibles is ready for download."));
+      html_text.addText (translate ("The file with Bibles is ready."));
       html_text.newParagraph ();
-      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_bibles_file_name (), "", "", "", translate ("Download it."));
+      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_bibles_file_name (), "", "", "", translate ("Get it."));
       html_text.newParagraph ();
-      html_text.addText (translate ("The downloaded file can be uploaded to another Bibledit client."));
+      html_text.addText (translate ("The file can be imported in another Bibledit client."));
       html_text.addText (" ");
-      html_text.addText (translate ("This will import the same Bibles to that other client."));
+      html_text.addText (translate ("This will create the same Bibles in that other client."));
     } else {
       html_text.addText (translate ("It failed to create the file with Bibles."));
       html_text.newParagraph ();
@@ -109,6 +113,58 @@ void system_logic_produce_bibles_file (int jobid)
     }
     database_jobs.setResult (jobid, html_text.getInnerHtml ());
   }
+}
+
+
+void system_logic_import_bibles_file (string tarball)
+{
+  Database_Logs::log ("Importing Bibles from " + tarball);
+
+  Database_Bibles database_bibles;
+  
+  // Unpack the tarball into a directory.
+  string directory = filter_url_tempfile ();
+  filter_url_mkdir (directory);
+  string error= filter_archive_microtar_unpack (tarball, directory);
+  if (!error.empty ()) {
+    Database_Logs::log ("Importing Bibles failure: " + error);
+    return;
+  }
+
+  // Iterate over all the files of the tarball.
+  vector <string> files = filter_url_scandir (directory);
+  for (auto file : files) {
+    
+    // Get the file's contents for import.
+    Database_Logs::log ("Importing from file " + file);
+    string path = filter_url_create_path (directory, file);
+    string data = filter_url_file_get_contents (path);
+    
+    // The name of the Bible this file is to be imported into.
+    string bible (file);
+    size_t pos = bible.find_last_of ("_");
+    if (pos != string::npos) bible.erase (pos);
+    
+    // Get details about the USFM to import.
+    string stylesheet = styles_logic_standard_sheet ();
+    vector <BookChapterData> book_chapter_text = usfm_import (data, stylesheet);
+    for (auto & data : book_chapter_text) {
+      if (data.book > 0) {
+        // Store the data and log it.
+        // This should not trigger the client to send it to the Cloud in any way.
+        // Reason is that the Cloud is authoritative,
+        // so importing outdated Bibles do not affect the authoritative copy in the Cloud.
+        database_bibles.storeChapter (bible, data.book, data.chapter, data.data);
+        string bookname = Database_Books::getEnglishFromId (data.book);
+        Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (data.chapter));
+      } else {
+        // Import error.
+        Database_Logs::log ("Could not import this file: " + file);
+      }
+    }
+  }
+  // Ready, hallelujah!
+  Database_Logs::log ("Importing Bibles ready");
 }
 
 
@@ -128,7 +184,7 @@ void system_logic_produce_resources_file (int jobid)
   {
     Html_Text html_text ("");
     html_text.newParagraph ();
-    html_text.addText (translate ("Generating file with resources for download."));
+    html_text.addText (translate ("Generating a file with the resources."));
     html_text.newParagraph ();
     html_text.addText (translate ("In progress..."));
     database_jobs.setStart (jobid, html_text.getInnerHtml ());
@@ -168,11 +224,11 @@ void system_logic_produce_resources_file (int jobid)
     if (error.empty ()) {
       html_text.addText (translate ("The file with the installed resources is ready."));
       html_text.newParagraph ();
-      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download it."));
+      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Get it."));
       html_text.newParagraph ();
-      html_text.addText (translate ("The downloaded file can be uploaded to another Bibledit client."));
+      html_text.addText (translate ("The file can be imported in another Bibledit client."));
       html_text.addText (" ");
-      html_text.addText (translate ("This will import the same resources to that other client."));
+      html_text.addText (translate ("This will create the same resources in that other client."));
     } else {
       html_text.addText (translate ("It failed to create the file with resources."));
       html_text.newParagraph ();
@@ -180,4 +236,10 @@ void system_logic_produce_resources_file (int jobid)
     }
     database_jobs.setResult (jobid, html_text.getInnerHtml ());
   }
+}
+
+
+void system_logic_import_resources_file (string tarball) // Todo
+{
+  
 }

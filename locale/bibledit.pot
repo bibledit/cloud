@@ -1195,6 +1195,9 @@ msgstr ""
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
 
+msgid "See the Journal for progress."
+msgstr ""
+
 msgid "January"
 msgstr ""
 
@@ -2806,28 +2809,46 @@ msgstr ""
 msgid "The number was saved"
 msgstr ""
 
-msgid "Generating file with resources for download."
+msgid "Import has started."
+msgstr ""
+
+msgid "Nothing was imported"
+msgstr ""
+
+msgid "Import a file with local Bibles"
+msgstr ""
+
+msgid "Generating a file with the Bibles."
 msgstr ""
 
 msgid "In progress..."
 msgstr ""
 
-msgid "The file with the installed resources is ready."
+msgid "The file with Bibles is ready."
 msgstr ""
 
-msgid "Download it."
+msgid "Get it."
 msgstr ""
 
-msgid "It failed to create the file with resources."
+msgid "The file can be imported in another Bibledit client."
 msgstr ""
 
-msgid "Generating file with Bibles for download."
-msgstr ""
-
-msgid "The file with Bibles is ready for download."
+msgid "This will create the same Bibles in that other client."
 msgstr ""
 
 msgid "It failed to create the file with Bibles."
+msgstr ""
+
+msgid "Generating a file with the resources."
+msgstr ""
+
+msgid "The file with the installed resources is ready."
+msgstr ""
+
+msgid "This will create the same resources in that other client."
+msgstr ""
+
+msgid "It failed to create the file with resources."
 msgstr ""
 
 msgid "Go back"
@@ -8801,16 +8822,25 @@ msgstr ""
 msgid "You can produce a file with all relevant data."
 msgstr ""
 
-msgid "Download that file."
+msgid "Get that file."
 msgstr ""
 
-msgid "Upload that file to the new Bibledit client."
+msgid "Copy it to the new Bibledit client."
+msgstr ""
+
+msgid "Import it there."
+msgstr ""
+
+msgid "Get the local Bibles."
+msgstr ""
+
+msgid "Import local Bibles."
 msgstr ""
 
 msgid "Get the installed Resources."
 msgstr ""
 
-msgid "Get the local Bibles."
+msgid "Import installed Resources."
 msgstr ""
 
 msgid ""

@@ -29,11 +29,12 @@ class Dialog_Upload
 public:
   Dialog_Upload (string url, string question);
   ~Dialog_Upload ();
-  void add_query (string parameter, string value);
+  void add_upload_query (string parameter, string value);
   string run ();
 private:
   void * assets_view = NULL;
   string base_url;
+  map <string, string> upload_query;
 };
 
 

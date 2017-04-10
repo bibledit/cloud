@@ -26,6 +26,7 @@
 
 bool journal_logic_filter_entry (const string& entry);
 string journal_logic_filtered_message ();
+string journal_logic_see_journal_for_progress ();
 
 
 #endif

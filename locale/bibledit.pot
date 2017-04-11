@@ -2818,6 +2818,9 @@ msgstr ""
 msgid "Import a file with local Bibles"
 msgstr ""
 
+msgid "Import a file with local Resources"
+msgstr ""
+
 msgid "Generating a file with the Bibles."
 msgstr ""
 
@@ -3179,8 +3182,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The two categories of change notifications enable you to find out whether "
-"your change is now in the Bible text."
+"The different categories of change notifications enable you to find out "
+"whether a change is now in the Bible text."
 msgstr ""
 
 msgid "Dismiss the notifications of the changes of the following categories:"

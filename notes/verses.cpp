@@ -78,9 +78,13 @@ string notes_verses (void * webserver_request)
         }
       }
     }
-    notes_logic.setPassages (id, passages);
-    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
-    return "";
+    if (passages.empty ()) {
+      error = translate ("The note should have one or more passages assigned.");
+    } else {
+      notes_logic.setPassages (id, passages);
+      redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
+      return "";
+    }
   }
   
   

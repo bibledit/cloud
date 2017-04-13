@@ -50,6 +50,7 @@ public:
   static const int settings_get_bible_id = 10;
   static const int settings_get_bible_font = 11;
   static const int settings_send_platform = 12;
+  static const int settings_get_privilege_delete_consultation_notes = 13;
   
   static const int bibles_get_total_checksum = 1;
   static const int bibles_get_bibles = 2;

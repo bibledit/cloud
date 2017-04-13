@@ -171,6 +171,7 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
     // Download Bible text font name: It is the default name for the clients.
     checksum.append (Database_Config_Bible::getTextFont (bible));
   }
+  checksum.append (convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ()));
   return md5 (checksum);
 }
 

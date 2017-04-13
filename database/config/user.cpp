@@ -1349,6 +1349,10 @@ bool Database_Config_User::getPrivilegeDeleteConsultationNotes ()
 {
   return getBValue (privilege_delete_consultation_notes_key (), false);
 }
+void Database_Config_User::setPrivilegeDeleteConsultationNotes (bool value)
+{
+  setBValue (privilege_delete_consultation_notes_key (), value);
+}
 bool Database_Config_User::getPrivilegeDeleteConsultationNotesForUser (string username)
 {
   return getBValueForUser (username, privilege_delete_consultation_notes_key (), false);

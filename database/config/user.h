@@ -232,6 +232,7 @@ public:
   bool getPrivilegeUseAdvancedModeForUser (string username);
   void setPrivilegeUseAdvancedModeForUser (string username, bool value);
   bool getPrivilegeDeleteConsultationNotes ();
+  void setPrivilegeDeleteConsultationNotes (bool value);
   bool getPrivilegeDeleteConsultationNotesForUser (string username);
   void setPrivilegeDeleteConsultationNotesForUser (string username, bool value);
   bool getDismissChangesAtTop ();

@@ -122,6 +122,10 @@ string sync_settings (void * webserver_request)
       }
       return "";
     }
+    case Sync_Logic::settings_get_privilege_delete_consultation_notes: // Todo
+    {
+      return convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ());
+    }
   }
 
   // Bad request.

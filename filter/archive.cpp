@@ -46,7 +46,14 @@ string filter_archive_zip_file (string filename)
   string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
   string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string command = "cd " + dirname + " && zip " + zippedfile + " " + basename + " > " + logfile + " 2>&1";
-  int return_var = system (command.c_str());
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
     zippedfile.clear();
@@ -66,7 +73,14 @@ string filter_archive_zip_folder (string folder)
   string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);
   string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
-  int return_var = system (command.c_str());
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
     zippedfile.clear();
@@ -94,7 +108,14 @@ string filter_archive_unzip (string file)
   string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
   string command = "unzip -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
-  int return_var = system (command.c_str());
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
   if (return_var != 0) {
     filter_url_rmdir (folder);
     folder.clear();
@@ -119,7 +140,14 @@ string filter_archive_tar_gzip_file (string filename)
   string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
-  int return_var = system (command.c_str());
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
   if (return_var != 0) {
     filter_url_unlink (tarball);
     tarball.clear();
@@ -138,7 +166,14 @@ string filter_archive_tar_gzip_folder (string folder)
   folder = filter_url_escape_shell_argument (folder);
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + folder + " && tar -czf " + tarball + " . > " + logfile + " 2>&1";
-  int return_var = system (command.c_str());
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
   if (return_var != 0) {
     filter_url_unlink (tarball);
     tarball.clear();
@@ -159,7 +194,14 @@ string filter_archive_untar_gzip (string file)
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
-  int return_var = system (command.c_str());
+  int return_var;
+#ifdef HAVE_IOS
+  // Crashes on iOS.
+  return_var = 1;
+#else
+  // Run the command.
+  return_var = system (command.c_str());
+#endif
   if (return_var != 0) {
     filter_url_rmdir (folder);
     folder.clear();

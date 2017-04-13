@@ -145,6 +145,10 @@ int filter_shell_run (string command, string & out_err)
 // Returns true if $program is present on the system.
 bool filter_shell_is_present (string program)
 {
+  // Crashes on iOS, so return false there.
+#ifdef HAVE_IOS
+  return false;
+#endif
   string command = "which " + program + " > /dev/null 2>&1";
   int exitcode = system (command.c_str ());
   return (exitcode == 0);

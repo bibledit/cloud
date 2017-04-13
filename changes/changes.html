@@ -1,4 +1,19 @@
 <h3><span id="count"></span> translate("Change Notifications")</h3>
+<!-- #BEGINZONE controlsattop -->
+<br>
+<p>translate("Dismiss the notifications of the changes of the following categories:")</p>
+<!-- #BEGINITERATION matching -->
+<p>* <a href="?matching=##user##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
+<!-- #ENDITERATION matching -->
+<!-- #BEGINZONE personal -->
+<p>* <a href="?personal">😊 translate("(all of them)"): ##personalcount##</a></p>
+<!-- #ENDZONE personal -->
+<!-- #BEGINZONE bible -->
+<p>* <a href="?bible">📖 translate("(all of them)"): ##teamcount##</a></p>
+<!-- #ENDZONE bible -->
+##dismissblock##
+<br>
+<!-- #ENDZONE controlsattop -->
 ##textblock##
 <br>
 <a id="help"></a>
@@ -66,6 +81,7 @@ translate("Bible translation is a collaborative effort.")
 translate("Changes you enter may be updated by others or merged with their changes.")
 translate("The different categories of change notifications enable you to find out whether a change is now in the Bible text.")
 </p>
+<!-- #BEGINZONE controlsatbottom -->
 <br>
 <p>translate("Dismiss the notifications of the changes of the following categories:")</p>
 <!-- #BEGINITERATION matching -->
@@ -78,6 +94,7 @@ translate("The different categories of change notifications enable you to find o
 <p>* <a href="?bible">📖 translate("(all of them)"): ##teamcount##</a></p>
 <!-- #ENDZONE bible -->
 ##dismissblock##
+<!-- #ENDZONE controlsatbottom -->
 <br>
 <p>##interlinks##</p>
 <script>##script##</script>

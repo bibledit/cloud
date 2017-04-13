@@ -716,7 +716,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (const string& u
 // This gets the identifiers of the personal changes.
 // For easier comparison, it also gets the identifiers of the changes
 // in the verses that have changes entered by anyone.
-vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit) // Todo add stuff for adding B category stuff.
+vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit)
 {
   sqlite3 * db = connect ();
 

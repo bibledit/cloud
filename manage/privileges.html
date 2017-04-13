@@ -19,6 +19,11 @@ translate("Can create and comment on consultation notes.")
 </p>
 
 <p>
+<input type="checkbox" name="deletenotes" onchange="checkbox(this, 'privileges?user=##user##')" ##deletenoteschecked## ##deletenotesdisabled## />
+translate("Can delete consultation notes.")
+</p>
+
+<p>
 <input type="checkbox" name="useadvancedmode" onchange="checkbox(this, 'privileges?user=##user##')" ##useadvancedmodechecked## ##useadvancedmodedisabled## />
 translate("Can use advanced mode in Cloud.")
 </p>

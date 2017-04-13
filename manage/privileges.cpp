@@ -110,6 +110,18 @@ string manage_privileges (void * webserver_request)
   view.set_variable ("createcommentnoteschecked", get_checkbox_status (state));
 
   
+  // Privilege to delete Consultation Notes.
+  if (checkbox == "deletenotes") {
+    request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, checked);
+  }
+  state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
+  if (level >= access_logic_delete_consultation_notes_role ()) {
+    view.set_variable ("deletenotesdisabled", get_disabled (true));
+  }
+  state = access_logic_privilege_delete_consultation_notes (webserver_request, user);
+  view.set_variable ("deletenoteschecked", get_checkbox_status (state));
+
+  
   // Privilege to use advanced mode.
   if (checkbox == "useadvancedmode") {
     request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, checked);

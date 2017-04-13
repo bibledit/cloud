@@ -35,6 +35,7 @@
 #include <trash/handler.h>
 #include <database/logs.h>
 #include <styles/logic.h>
+#include <access/logic.h>
 
 
 string notes_actions_url ()
@@ -169,7 +170,7 @@ string notes_actions (void * webserver_request)
   if (level >= Filter_Roles::manager ()) view.enable_zone ("rawedit");
   
 
-  if (level >= Filter_Roles::manager ()) view.enable_zone ("marknote");
+  if (access_logic_privilege_delete_consultation_notes (webserver_request)) view.enable_zone ("deletenote");
   bool marked = database_notes.isMarkedForDeletion (id);
   if (marked) view.enable_zone ("marked");
   else view.enable_zone ("mark");

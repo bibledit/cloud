@@ -69,6 +69,22 @@ bool access_logic_privilege_create_comment_notes (void * webserver_request, stri
 }
 
 
+int access_logic_delete_consultation_notes_role ()
+{
+  return Filter_Roles::manager ();
+}
+
+
+bool access_logic_privilege_delete_consultation_notes (void * webserver_request, string user)
+{
+  int level = 0;
+  access_logic_user_level (webserver_request, user, level);
+  if (level >= access_logic_delete_consultation_notes_role ()) return true;
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  return request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (user);
+}
+
+
 int access_logic_use_advanced_mode_role ()
 {
   return Filter_Roles::manager ();

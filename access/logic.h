@@ -36,6 +36,9 @@ bool access_logic_privilege_view_notes (void * webserver_request, string user = 
 int access_logic_create_comment_notes_role ();
 bool access_logic_privilege_create_comment_notes (void * webserver_request, string user = "");
 
+int access_logic_delete_consultation_notes_role ();
+bool access_logic_privilege_delete_consultation_notes (void * webserver_request, string user = "");
+
 int access_logic_use_advanced_mode_role ();
 bool access_logic_privilege_use_advanced_mode (void * webserver_request, string user = "");
 

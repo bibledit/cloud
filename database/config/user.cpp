@@ -1339,3 +1339,13 @@ void Database_Config_User::setPrivilegeUseAdvancedModeForUser (string username, 
 {
   setBValueForUser (username, privilege_use_advanced_mode_key (), value);
 }
+
+
+bool Database_Config_User::getDismissChangesAtTop ()
+{
+  return getBValue ("dismiss-changes-at-top", false);
+}
+void Database_Config_User::setDismissChangesAtTop (bool value)
+{
+  setBValue ("dismiss-changes-at-top", value);
+}

@@ -401,6 +401,15 @@ string personalize_index (void * webserver_request)
   view.set_variable ("showchanges", on_off);
 
   
+  // Whether to put the controls for dismissing the change notificatios at the top of the page.
+  if (request->query.count ("dismisschangesattop")) {
+    bool state = request->database_config_user ()->getDismissChangesAtTop ();
+    request->database_config_user ()->setDismissChangesAtTop (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDismissChangesAtTop ());
+  view.set_variable ("dismisschangesattop", on_off);
+  
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

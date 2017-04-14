@@ -111,7 +111,8 @@ var oneverseEditorChangedTimeout;
 var oneverseLoadedText;
 var oneverseIdChapter = 0;
 var oneverseIdTimeout;
-var oneverseReload = false;
+var oneverseReloadFlag = false;
+var oneverseReloadPosition = undefined; // Todo
 var oneverseEditorTextChanged = false;
 var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
@@ -140,7 +141,7 @@ function navigationNewPassage ()
     return;
   }
   oneverseEditorSaveVerse ();
-  oneverseReload = false;
+  oneverseReloadFlag = false;
   oneverseEditorLoadVerse ();
 }
 
@@ -154,13 +155,18 @@ function navigationNewPassage ()
 
 function oneverseEditorLoadVerse ()
 {
-  if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter) || (oneverseNavigationVerse != oneverseVerse) || oneverseReload) {
+  if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter) || (oneverseNavigationVerse != oneverseVerse) || oneverseReloadFlag) {
     oneverseBible = navigationBible;
     oneverseBook = oneverseNavigationBook;
     oneverseChapter = oneverseNavigationChapter;
     oneverseVerse = oneverseNavigationVerse;
     oneverseVerseLoading = oneverseNavigationVerse;
     oneverseIdChapter = 0;
+    if (oneverseReloadFlag) {
+      oneverseReloadPosition = oneverseCaretPosition ();
+    } else {
+      oneverseReloadPosition = undefined;
+    }
     if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
       oneverseLoadAjaxRequest.abort();
     }
@@ -198,7 +204,7 @@ function oneverseEditorLoadVerse ()
           quill.enable (oneverseEditorWriteAccess);
           // The browser may reformat the loaded html, so take the possible reformatted data for reference.
           oneverseLoadedText = $ (".ql-editor").html ();
-          oneverseReload = false;
+          oneverseReloadFlag = false;
           oneverseCaretMovedTimeoutStart ();
           // Create CSS for embedded styles.
           css4embeddedstyles ();
@@ -215,7 +221,7 @@ function oneverseEditorLoadVerse ()
         }
         if (response === false) {
           // Checksum or other error: Reload.
-          oneverseReload = true;
+          oneverseReloadFlag = true;
           oneverseEditorLoadVerse ();
         }
       },
@@ -372,7 +378,7 @@ function oneverseEditorPollId ()
       if (!oneverseSaving) {
         if (oneverseIdChapter != 0) {
           if (response != oneverseIdChapter) {
-            oneverseReload = true;
+            oneverseReloadFlag = true;
             oneverseEditorLoadVerse ();
             oneverseIdChapter = 0;
           }
@@ -394,6 +400,15 @@ function oneverseEditorPollId ()
 //
 
 
+function oneverseCaretPosition ()
+{
+  var position = undefined;
+  var range = quill.getSelection();
+  if (range) position = range.index;
+  return position;
+}
+
+
 function oneversePositionCaret ()
 {
   setTimeout (oneversePositionCaretTimeout, 100);
@@ -402,7 +417,13 @@ function oneversePositionCaret ()
 
 function oneversePositionCaretTimeout ()
 {
-  var position = 1 + oneverseVerse.length;
+  var position;
+  if (oneverseReloadPosition != undefined) {
+    position = oneverseReloadPosition;
+    oneverseReloadPosition = undefined;
+  } else {
+    position = 1 + oneverseVerse.length;
+  }
   quill.setSelection (position, 0, "silent");
 }
 

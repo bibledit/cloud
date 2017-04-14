@@ -1780,6 +1780,9 @@ msgstr ""
 msgid "Passages"
 msgstr ""
 
+msgid "The note should have one or more passages assigned."
+msgstr ""
+
 msgid "Please enter the name of the Paratext projects folder"
 msgstr ""
 
@@ -3093,6 +3096,15 @@ msgstr ""
 msgid "Change Notifications"
 msgstr ""
 
+msgid "Dismiss the notifications of the changes of the following categories:"
+msgstr ""
+
+msgid "(if their changes and verses match)"
+msgstr ""
+
+msgid "(all of them)"
+msgstr ""
+
 msgid "This page lists the notifications of the changes in the Bible text."
 msgstr ""
 
@@ -3184,15 +3196,6 @@ msgstr ""
 msgid ""
 "The different categories of change notifications enable you to find out "
 "whether a change is now in the Bible text."
-msgstr ""
-
-msgid "Dismiss the notifications of the changes of the following categories:"
-msgstr ""
-
-msgid "(if their changes and verses match)"
-msgstr ""
-
-msgid "(all of them)"
 msgstr ""
 
 msgid "Bibledit tracks the changes in the text of the Bibles."
@@ -7487,6 +7490,9 @@ msgstr ""
 msgid "Can create and comment on consultation notes."
 msgstr ""
 
+msgid "Can delete consultation notes."
+msgstr ""
+
 msgid "Can use advanced mode in Cloud."
 msgstr ""
 
@@ -8078,6 +8084,15 @@ msgid "Whether to have a menu entry to go to the changes."
 msgstr ""
 
 msgid "Logout."
+msgstr ""
+
+msgid "Controls for dismissing change notifications at the top"
+msgstr ""
+
+msgid "This applies to the page with the change notifications."
+msgstr ""
+
+msgid "Normally the controls are at the bottom of the page."
 msgstr ""
 
 msgid "Back to chapter"

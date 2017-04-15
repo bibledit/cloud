@@ -31,19 +31,23 @@ void test_archive ()
   refresh_sandbox (true);
   
   // Prepare for testing the archive functions.
-  string file1 = "/tmp/testarchive1";
-  string file2 = "/tmp/testarchive2";
+  string directory = filter_url_tempfile ();
+  filter_url_mkdir (directory);
+
+  string file1 = "testarchive1";
+  string file2 = "testarchive2";
+  string path1 = filter_url_create_path (directory, file1);
+  string path2 = filter_url_create_path (directory, file2);
   string data1;
   string data2;
   for (unsigned int i = 0; i < 1000; i++) {
     data1.append ("Data One\n");
     data2.append ("Data Two\n");
   }
-  filter_url_file_put_contents (file1, data1);
-  filter_url_file_put_contents (file2, data2);
+  filter_url_file_put_contents (path1, data1);
+  filter_url_file_put_contents (path2, data2);
+  vector <string> files12 = { file1, file2 };
 
-  string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
   for (int i = 0; i < 5; i++) {
     string path = filter_url_create_path (directory, "testdata" + convert_to_string (i));
     string data = convert_to_string (filter_string_rand (1000000, 2000000));
@@ -57,7 +61,7 @@ void test_archive ()
   
   // Test zip compression of one file.
   {
-    string zipfile = filter_archive_zip_file_shell (file1);
+    string zipfile = filter_archive_zip_file_shell (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
     filter_url_unlink (zipfile);
@@ -68,28 +72,23 @@ void test_archive ()
 
   // Test zip folder.
   {
-    string folder = filter_url_tempfile();
-    filter_url_mkdir (folder);
-    filter_url_file_put_contents (folder + "/file1", data1);
-    filter_url_file_put_contents (folder + "/file2", data2);
-    // Test zip compression.
-    string zipfile = filter_archive_zip_folder_shell (folder);
+    // Zip existing folder.
+    string zipfile = filter_archive_zip_folder_shell (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
-    evaluate (__LINE__, __func__, 396, filter_url_filesize (zipfile));
-    // Clean up the mess.
-    filter_url_unlink (zipfile);
-    filter_url_rmdir (folder);
+    evaluate (__LINE__, __func__, 3332, filter_url_filesize (zipfile));
+    // Zipping non-existing folder fails.
+    zipfile = filter_archive_zip_folder_shell ("xxx");
+    evaluate (__LINE__, __func__, "", zipfile);
   }
   
   // Test unzip through the shell.
   {
-    string zipfile = filter_archive_zip_file_shell (file1);
+    // Create zip file.
+    string zipfile = filter_archive_zip_file_shell (path1);
     // Test unzip.
     string folder = filter_archive_unzip_shell (zipfile);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
-    filter_url_unlink (zipfile);
-    filter_url_rmdir (folder);
     // Test that unzipping garbage returns NULL.
     folder = filter_archive_unzip_shell ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
@@ -114,110 +113,81 @@ void test_archive ()
   // Test tar gzip file.
   {
     // Test gzipped tarball compression.
-    string tarball = filter_archive_tar_gzip_file (file1);
+    string tarball = filter_archive_tar_gzip_file (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     if ((size < 155) || (size > 180)) evaluate (__LINE__, __func__, "between 155 and 180", convert_to_string (size));
-    // Clean up tarball from /tmp folder.
-    filter_url_unlink (tarball);
     // Test that compressing a non-existing file returns NULL.
     tarball = filter_archive_tar_gzip_file ("xxxxx");
     evaluate (__LINE__, __func__, "", tarball);
   }
   
-  // Test tar gzip Folder.
+  // Test tar gzip folder.
   {
-    string folder = filter_url_tempfile ();
-    filter_url_mkdir (folder);
-    filter_url_file_put_contents (folder + "/file1", data1);
-    filter_url_file_put_contents (folder + "/file2", data2);
-    // Test compression.
-    string tarball = filter_archive_tar_gzip_folder (folder);
+    // Test compress.
+    string tarball = filter_archive_tar_gzip_folder (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 235) || (size > 260)) evaluate (__LINE__, __func__, "between 235 and 260", convert_to_string (size));
-    // Clean up.
-    filter_url_unlink (tarball);
-    filter_url_rmdir (folder);
-    // Test that compressing a non-existing folder returns NULL.
-    //tarball = filter_archive_tar_gzip_folder (folder + "/x");
+    if ((size < 620) || (size > 630)) evaluate (__LINE__, __func__, "between 620 and 630", convert_to_string (size));
+    // Test that compressing a non-existing folder returns nothing.
+    //tarball = filter_archive_tar_gzip_folder (directory + "/x");
     //evaluate (__LINE__, __func__, "", tarball);
   }
-
+  
   // Test untargz.
   {
-    string tarball = filter_archive_tar_gzip_file (file1);
+    // Create tarball.
+    string tarball = filter_archive_tar_gzip_file (path1);
     // Test decompression.
     string folder = filter_archive_untar_gzip (tarball);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
-    filter_url_rmdir (folder);
     folder = filter_archive_uncompress (tarball);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
-    filter_url_rmdir (folder);
-    filter_url_unlink (tarball);
     // Test that unzipping garbage returns NULL.
     folder = filter_archive_untar_gzip ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
   }
-
+  
   {
     evaluate (__LINE__, __func__, true, filter_archive_can_zip_shell ());
     evaluate (__LINE__, __func__, true, filter_archive_can_unzip_shell ());
   }
-
+  
   // Test embedded tar and untar routines.
   {
     string tarball;
-    string directory;
-    vector <string> files;
-    vector <string> contents;
+    string folder;
     string result;
     
     // Fail to open empty tarball.
     result = filter_archive_microtar_pack ("", "", {});
     evaluate (__LINE__, __func__, "could not open", result);
-
-    // Store test data in files.
-    directory = filter_url_tempfile ();
-    filter_url_mkdir (directory);
-    int max = 10;
-    for (int i = 1; i <= max; i++) {
-      string file = "file" + convert_to_string (i) + ".txt";
-      files.push_back (file);
-      string data;
-      for (unsigned int i2 = 0; i2 < 100; i2++) {
-        data.append ("Data " + convert_to_string (i) + "\n");
-      }
-      filter_url_file_put_contents (filter_url_create_path (directory, file), data);
-      contents.push_back (data);
-    }
-
+    
     // Pack files into a tarball.
     tarball = filter_url_tempfile () + ".tar";
-    result = filter_archive_microtar_pack (tarball, directory, files);
-    evaluate (__LINE__, __func__, "", result);
-
-    // Fail to unpack empty tarball.
-    result = filter_archive_microtar_unpack ("", directory);
-    evaluate (__LINE__, __func__, "could not open", result);
-
-    // Unpack the tarball created just before.
-    directory = filter_url_tempfile ();
-    result = filter_archive_microtar_unpack (tarball, directory);
+    result = filter_archive_microtar_pack (tarball, directory, files12);
     evaluate (__LINE__, __func__, "", result);
     
-    // Test the unpacked files.
-    for (size_t i = 0; i < files.size (); i++) {
-      string file = files [i];
-      string content = contents [i];
-      string data = filter_url_file_get_contents (filter_url_create_path (directory, file));
+    // Fail to unpack empty tarball.
+    folder = filter_url_tempfile ();
+    result = filter_archive_microtar_unpack ("", folder);
+    evaluate (__LINE__, __func__, "could not open", result);
+    
+    // Unpack the tarball created just before.
+    folder = filter_url_tempfile ();
+    result = filter_archive_microtar_unpack (tarball, folder);
+    evaluate (__LINE__, __func__, "", result);
+
+    // Checked the untarred files.
+    for (size_t i = 0; i < files12.size (); i++) {
+      string file = files12 [i];
+      string content = filter_url_file_get_contents (filter_url_create_path (directory, file));
+      string data = filter_url_file_get_contents (filter_url_create_path (folder, file));
       evaluate (__LINE__, __func__, content, data);
     }
   }
-  
+
   // Clear up data used for the archive tests.
   refresh_sandbox (false);
-  filter_url_unlink (file1);
-  filter_url_unlink (file2);
 }

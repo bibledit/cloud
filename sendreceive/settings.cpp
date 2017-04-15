@@ -201,7 +201,7 @@ void sendreceive_settings ()
     return;
   }
   if (post.count ("b")) post.erase (post.find ("b"));
-  string checksum = sync_logic.settings_checksum (bibles); // Todo
+  string checksum = sync_logic.settings_checksum (bibles);
   if (response == checksum) {
     Database_Logs::log (sendreceive_settings_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_settings_done ();
@@ -265,7 +265,7 @@ void sendreceive_settings ()
     Database_Config_Bible::setTextFont (bible, response);
   }
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes); // Todo
+  post ["a"] = convert_to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving privilege delete consultation notes", Filter_Roles::translator ());

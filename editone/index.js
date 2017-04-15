@@ -112,7 +112,7 @@ var oneverseLoadedText;
 var oneverseIdChapter = 0;
 var oneverseIdTimeout;
 var oneverseReloadFlag = false;
-var oneverseReloadPosition = undefined; // Todo
+var oneverseReloadPosition = undefined;
 var oneverseEditorTextChanged = false;
 var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;

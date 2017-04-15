@@ -1079,7 +1079,7 @@ void Odf_Text::save (string name)
   filter_url_file_put_contents (stylesXmlPath, stylesXml.str ());
 
   // Save the OpenDocument file.
-  string zippedfile = filter_archive_zip_folder (unpackedOdtFolder);
+  string zippedfile = filter_archive_zip_folder_shell (unpackedOdtFolder);
   filter_url_file_put_contents (name, filter_url_file_get_contents (zippedfile));
   filter_url_unlink (zippedfile);
 }

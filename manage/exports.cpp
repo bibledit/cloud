@@ -383,8 +383,8 @@ string manage_exports (void * webserver_request)
   
   
   bool zip = true;
-  if (!filter_archive_can_zip ()) zip = false;
-  if (!filter_archive_can_unzip ()) zip = false;
+  if (!filter_archive_can_zip_shell ()) zip = false;
+  if (!filter_archive_can_unzip_shell ()) zip = false;
   if (zip) {
     view.enable_zone ("zip");
   } else {

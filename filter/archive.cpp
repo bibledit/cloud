@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Whether the operating system can zip data.
-bool filter_archive_can_zip () // Todo check where used, and make it irrelevant.
+bool filter_archive_can_zip_shell () // Todo check where used, and make it irrelevant.
 {
   return filter_shell_is_present ("zip");
 }
@@ -39,7 +39,7 @@ bool filter_archive_can_zip () // Todo check where used, and make it irrelevant.
 
 // Compresses a file identified by $filename into zip format.
 // Returns the path to the zipfile it created.
-string filter_archive_zip_file (string filename)
+string filter_archive_zip_file_shell (string filename)
 {
   if (!file_or_dir_exists (filename)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -67,7 +67,7 @@ string filter_archive_zip_file (string filename)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder (string folder)
+string filter_archive_zip_folder_shell (string folder)
 {
   if (!file_or_dir_exists (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -93,7 +93,7 @@ string filter_archive_zip_folder (string folder)
 
 
 // Whether the operating system can unzip data.
-bool filter_archive_can_unzip () // Todo make it irrelevant.
+bool filter_archive_can_unzip_shell () // Todo make it irrelevant.
 {
   return filter_shell_is_present ("unzip");
 }

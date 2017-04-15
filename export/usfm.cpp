@@ -106,7 +106,7 @@ void export_usfm (string bible, bool log)
   
   // Compress USFM files into one zip file.
   filter_url_unlink (zippath);
-  string archive = filter_archive_zip_folder (usfmDirectoryFull);
+  string archive = filter_archive_zip_folder_shell (usfmDirectoryFull);
   filter_url_rename (archive, zippath);
   
   

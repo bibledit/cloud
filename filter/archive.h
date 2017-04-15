@@ -24,10 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-bool filter_archive_can_zip ();
-string filter_archive_zip_file (string file);
-string filter_archive_zip_folder (string folder);
-bool filter_archive_can_unzip ();
+bool filter_archive_can_zip_shell ();
+string filter_archive_zip_file_shell (string file);
+string filter_archive_zip_folder_shell (string folder);
+bool filter_archive_can_unzip_shell ();
 string filter_archive_unzip_shell (string file);
 string filter_archive_unzip_miniz (string zipfile);
 string filter_archive_tar_gzip_file (string filename);

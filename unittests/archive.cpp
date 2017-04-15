@@ -57,12 +57,12 @@ void test_archive ()
   
   // Test zip compression of one file.
   {
-    string zipfile = filter_archive_zip_file (file1);
+    string zipfile = filter_archive_zip_file_shell (file1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
     filter_url_unlink (zipfile);
     // Test compressing a non-existing file.
-    zipfile = filter_archive_zip_file ("xxxxx");
+    zipfile = filter_archive_zip_file_shell ("xxxxx");
     evaluate (__LINE__, __func__, "", zipfile);
   }
 
@@ -73,7 +73,7 @@ void test_archive ()
     filter_url_file_put_contents (folder + "/file1", data1);
     filter_url_file_put_contents (folder + "/file2", data2);
     // Test zip compression.
-    string zipfile = filter_archive_zip_folder (folder);
+    string zipfile = filter_archive_zip_folder_shell (folder);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 396, filter_url_filesize (zipfile));
     // Clean up the mess.
@@ -83,7 +83,7 @@ void test_archive ()
   
   // Test unzip through the shell.
   {
-    string zipfile = filter_archive_zip_file (file1);
+    string zipfile = filter_archive_zip_file_shell (file1);
     // Test unzip.
     string folder = filter_archive_unzip_shell (zipfile);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
@@ -98,7 +98,7 @@ void test_archive ()
   // Test unzip through the miniz library.
   {
     // Zip a sample.
-    string zipfile = filter_archive_zip_folder (directory);
+    string zipfile = filter_archive_zip_folder_shell (directory);
     // Unzip it and check it.
     string folder = filter_archive_unzip_miniz (zipfile);
     evaluate (__LINE__, __func__, false, folder.empty ());
@@ -162,8 +162,8 @@ void test_archive ()
   }
 
   {
-    evaluate (__LINE__, __func__, true, filter_archive_can_zip ());
-    evaluate (__LINE__, __func__, true, filter_archive_can_unzip ());
+    evaluate (__LINE__, __func__, true, filter_archive_can_zip_shell ());
+    evaluate (__LINE__, __func__, true, filter_archive_can_unzip_shell ());
   }
 
   // Test embedded tar and untar routines.

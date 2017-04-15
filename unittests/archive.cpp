@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/archive.h>
 #include <filter/string.h>
+#include <filter/shell.h>
 
 
 void test_archive ()
@@ -41,8 +42,21 @@ void test_archive ()
   filter_url_file_put_contents (file1, data1);
   filter_url_file_put_contents (file2, data2);
 
+  string directory = filter_url_tempfile ();
+  filter_url_mkdir (directory);
+  for (int i = 0; i < 5; i++) {
+    string path = filter_url_create_path (directory, "testdata" + convert_to_string (i));
+    string data = convert_to_string (filter_string_rand (1000000, 2000000));
+    for (int i2 = 0; i2 <= i; i2++) data.append (data);
+    filter_url_file_put_contents (path, data);
+    path = filter_url_create_path (directory, convert_to_string (i), convert_to_string (i));
+    filter_url_mkdir (path);
+    path = filter_url_create_path (path, "data");
+    filter_url_file_put_contents (path, data);
+  }
+  
+  // Test zip compression of one file.
   {
-    // Test zip compression of one file.
     string zipfile = filter_archive_zip_file (file1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
@@ -67,17 +81,33 @@ void test_archive ()
     filter_url_rmdir (folder);
   }
   
-  // Test unzip.
+  // Test unzip through the shell.
   {
     string zipfile = filter_archive_zip_file (file1);
     // Test unzip.
-    string folder = filter_archive_unzip (zipfile);
+    string folder = filter_archive_unzip_shell (zipfile);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     filter_url_unlink (zipfile);
     filter_url_rmdir (folder);
     // Test that unzipping garbage returns NULL.
-    folder = filter_archive_unzip ("xxxxx");
+    folder = filter_archive_unzip_shell ("xxxxx");
+    evaluate (__LINE__, __func__, "", folder);
+  }
+  
+  // Test unzip through the miniz library.
+  {
+    // Zip a sample.
+    string zipfile = filter_archive_zip_folder (directory);
+    // Unzip it and check it.
+    string folder = filter_archive_unzip_miniz (zipfile);
+    evaluate (__LINE__, __func__, false, folder.empty ());
+    string out_err;
+    int result = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
+    evaluate (__LINE__, __func__, "", out_err);
+    evaluate (__LINE__, __func__, 0, result);
+    // Test that unzipping a non-existing file returns nothing.
+    folder = filter_archive_unzip_miniz ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
   }
   

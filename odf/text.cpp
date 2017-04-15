@@ -45,7 +45,7 @@ Odf_Text::Odf_Text (string bible_in)
 
   // Unpack the .odt template.
   string templateOdf = filter_url_create_root_path ("odf", "template.odt");
-  unpackedOdtFolder = filter_archive_unzip (templateOdf);
+  unpackedOdtFolder = filter_archive_unzip_shell (templateOdf);
   filter_url_rmdir (filter_url_create_path (unpackedOdtFolder, "Configurations2"));
   
   initialize_content_xml ();

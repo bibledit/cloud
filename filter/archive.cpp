@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 #include <database/logs.h>
 #include <microtar/microtar.h>
+#include <miniz/miniz.h>
 
 
 // Work around old Microsoft macro definitions.
@@ -30,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Whether the operating system can zip data.
-bool filter_archive_can_zip ()
+bool filter_archive_can_zip () // Todo check where used, and make it irrelevant.
 {
   return filter_shell_is_present ("zip");
 }
@@ -92,7 +93,7 @@ string filter_archive_zip_folder (string folder)
 
 
 // Whether the operating system can unzip data.
-bool filter_archive_can_unzip ()
+bool filter_archive_can_unzip () // Todo make it irrelevant.
 {
   return filter_shell_is_present ("unzip");
 }
@@ -100,7 +101,7 @@ bool filter_archive_can_unzip ()
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_unzip (string file)
+string filter_archive_unzip_shell (string file)
 {
   string folder = filter_url_tempfile ();
   filter_url_mkdir (folder);
@@ -127,6 +128,60 @@ string filter_archive_unzip (string file)
     int result = system (command.c_str ());
     (void) result;
   }
+  return folder;
+}
+
+
+// Uncompresses the $zipfile.
+// Returns the path to the folder it created.
+string filter_archive_unzip_miniz (string zipfile) // Todo
+{
+  // Directory where to unzip the archive.
+  string folder = filter_url_tempfile ();
+  filter_url_mkdir (folder);
+  
+  // Open the zip archive.
+  mz_bool status;
+  mz_zip_archive zip_archive;
+  memset (&zip_archive, 0, sizeof (zip_archive));
+  status = mz_zip_reader_init_file(&zip_archive, zipfile.c_str(), 0);
+  if (!status) {
+    Database_Logs::log ("mz_zip_reader_init_file failed for " + zipfile);
+    return "";
+  }
+
+  // Iterate over the files in the archive.
+  int filecount = mz_zip_reader_get_num_files (&zip_archive);
+  for (int i = 0; i < filecount; i++) {
+    // Get information about this file.
+    mz_zip_archive_file_stat file_stat;
+    status = mz_zip_reader_file_stat (&zip_archive, i, &file_stat);
+    if (!status) {
+      Database_Logs::log ("mz_zip_reader_file_stat failed for " + zipfile);
+      mz_zip_reader_end (&zip_archive);
+      return "";
+    }
+  
+    string filename = filter_url_create_path (folder, file_stat.m_filename);
+    if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
+      // Create this directory.
+      filter_url_mkdir (filename);
+    } else {
+      // Extract this file.
+      status = mz_zip_reader_extract_to_file (&zip_archive, i, filename.c_str(), 0);
+      if (!status) {
+        Database_Logs::log ("mz_zip_reader_extract_to_file " + zipfile);
+        mz_zip_reader_end (&zip_archive);
+        return "";
+      }
+    }
+
+  }
+
+  // Close the archive, freeing any resources it was using.
+  mz_zip_reader_end (&zip_archive);
+  
+  // The folder where the files were unpacked.
   return folder;
 }
 
@@ -221,7 +276,7 @@ string filter_archive_uncompress (string file)
     return filter_archive_untar_gzip (file);
   }
   if (type == 2) {
-    return filter_archive_unzip (file);
+    return filter_archive_unzip_shell (file);
   }
   return "";
 }

@@ -63,7 +63,24 @@ string filter_archive_zip_file_shell (string filename)
   }
   return zippedfile;
 }
- 
+
+
+// Compresses a file identified by $filename into zip format.
+// Returns the path to the zipfile it created.
+string filter_archive_zip_file_miniz (string filename)
+{
+  if (!file_or_dir_exists (filename)) return "";
+  string zippedfile = filter_url_tempfile () + ".zip";
+  string basename = filter_url_basename (filename);
+  string contents = filter_url_file_get_contents (filename);
+  mz_bool status = mz_zip_add_mem_to_archive_file_in_place (zippedfile.c_str(), basename.c_str(), contents.c_str(), contents.size(), "", 0, MZ_DEFAULT_LEVEL);
+  if (!status) {
+    Database_Logs::log ("mz_zip_add_mem_to_archive_file_in_place failed for " + filename);
+    return "";
+  }
+  return zippedfile;
+}
+
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
@@ -87,6 +104,34 @@ string filter_archive_zip_folder_shell (string folder)
     zippedfile.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
+  }
+  return zippedfile;
+}
+
+
+// Compresses a $folder into zip format.
+// Returns the path to the compressed archive it created.
+string filter_archive_zip_folder_miniz (string folder)
+{
+  if (!file_or_dir_exists (folder)) return "";
+  string zippedfile = filter_url_tempfile () + ".zip";
+  vector <string> paths;
+  filter_url_recursive_scandir (folder, paths);
+  for (auto path : paths) {
+    bool is_dir = filter_url_is_dir (path);
+    string file = path.substr (folder.size () + 1);
+    mz_bool status;
+    if (is_dir) {
+      file.append ("/");
+      status = mz_zip_add_mem_to_archive_file_in_place(zippedfile.c_str(), file.c_str(), NULL, 0, "", 0, MZ_DEFAULT_LEVEL);
+    } else {
+      string contents = filter_url_file_get_contents (path);
+      status = mz_zip_add_mem_to_archive_file_in_place (zippedfile.c_str(), file.c_str(), contents.c_str(), contents.size(), "", 0, MZ_DEFAULT_LEVEL);
+    }
+    if (!status) {
+      Database_Logs::log ("mz_zip_add_mem_to_archive_file_in_place failed for " + path);
+      return "";
+    }
   }
   return zippedfile;
 }
@@ -134,7 +179,7 @@ string filter_archive_unzip_shell (string file)
 
 // Uncompresses the $zipfile.
 // Returns the path to the folder it created.
-string filter_archive_unzip_miniz (string zipfile) // Todo
+string filter_archive_unzip_miniz (string zipfile)
 {
   // Directory where to unzip the archive.
   string folder = filter_url_tempfile ();

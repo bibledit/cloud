@@ -45,7 +45,7 @@ Odf_Text::Odf_Text (string bible_in)
 
   // Unpack the .odt template.
   string templateOdf = filter_url_create_root_path ("odf", "template.odt");
-  unpackedOdtFolder = filter_archive_unzip_shell (templateOdf);
+  unpackedOdtFolder = filter_archive_unzip (templateOdf);
   filter_url_rmdir (filter_url_create_path (unpackedOdtFolder, "Configurations2"));
   
   initialize_content_xml ();
@@ -1079,7 +1079,7 @@ void Odf_Text::save (string name)
   filter_url_file_put_contents (stylesXmlPath, stylesXml.str ());
 
   // Save the OpenDocument file.
-  string zippedfile = filter_archive_zip_folder_shell (unpackedOdtFolder);
+  string zippedfile = filter_archive_zip_folder (unpackedOdtFolder);
   filter_url_file_put_contents (name, filter_url_file_get_contents (zippedfile));
   filter_url_unlink (zippedfile);
 }

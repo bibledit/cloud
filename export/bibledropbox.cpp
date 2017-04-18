@@ -84,7 +84,7 @@ void export_bibledropbox (string user, string bible)
   // Compress USFM files into one zip file.
   string zipfile = filter_url_create_path (directory, Export_Logic::baseBookFileName (0) + ".zip");
   
-  string archive = filter_archive_zip_folder_shell (directory);
+  string archive = filter_archive_zip_folder (directory);
   filter_url_rename (archive, zipfile);
   
   /*

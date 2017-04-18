@@ -30,16 +30,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #undef min
 
 
-// Whether the operating system can zip data.
-bool filter_archive_can_zip_shell () // Todo check where used, and make it irrelevant.
+// Compresses a file identified by $filename into zip format.
+// Returns the path to the zipfile it created.
+string filter_archive_zip_file (string filename)
 {
-  return filter_shell_is_present ("zip");
+#ifdef HAVE_CLOUD
+  return filter_archive_zip_file_shell_internal (filename);
+#endif
+#ifdef HAVE_CLIENT
+  return filter_archive_zip_file_miniz_internal (filename);
+#endif
 }
 
 
 // Compresses a file identified by $filename into zip format.
 // Returns the path to the zipfile it created.
-string filter_archive_zip_file_shell (string filename)
+string filter_archive_zip_file_shell_internal (string filename)
 {
   if (!file_or_dir_exists (filename)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -48,13 +54,8 @@ string filter_archive_zip_file_shell (string filename)
   string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string command = "cd " + dirname + " && zip " + zippedfile + " " + basename + " > " + logfile + " 2>&1";
   int return_var;
-#ifdef HAVE_IOS
-  // Crashes on iOS.
-  return_var = 1;
-#else
   // Run the command.
   return_var = system (command.c_str());
-#endif
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
     zippedfile.clear();
@@ -67,7 +68,7 @@ string filter_archive_zip_file_shell (string filename)
 
 // Compresses a file identified by $filename into zip format.
 // Returns the path to the zipfile it created.
-string filter_archive_zip_file_miniz (string filename)
+string filter_archive_zip_file_miniz_internal (string filename)
 {
   if (!file_or_dir_exists (filename)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -84,7 +85,20 @@ string filter_archive_zip_file_miniz (string filename)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder_shell (string folder)
+string filter_archive_zip_folder (string folder)
+{
+#ifdef HAVE_CLOUD
+  return filter_archive_zip_folder_shell_internal (folder);
+#endif
+#ifdef HAVE_CLIENT
+  return filter_archive_zip_folder_miniz_internal (folder);
+#endif
+}
+
+
+// Compresses a $folder into zip format.
+// Returns the path to the compressed archive it created.
+string filter_archive_zip_folder_shell_internal (string folder)
 {
   if (!file_or_dir_exists (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -92,13 +106,8 @@ string filter_archive_zip_folder_shell (string folder)
   folder = filter_url_escape_shell_argument (folder);
   string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
   int return_var;
-#ifdef HAVE_IOS
-  // Crashes on iOS.
-  return_var = 1;
-#else
   // Run the command.
   return_var = system (command.c_str());
-#endif
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
     zippedfile.clear();
@@ -111,7 +120,7 @@ string filter_archive_zip_folder_shell (string folder)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder_miniz (string folder)
+string filter_archive_zip_folder_miniz_internal (string folder)
 {
   if (!file_or_dir_exists (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -137,16 +146,22 @@ string filter_archive_zip_folder_miniz (string folder)
 }
 
 
-// Whether the operating system can unzip data.
-bool filter_archive_can_unzip_shell () // Todo make it irrelevant.
+// Uncompresses a zip archive identified by $file.
+// Returns the path to the folder it created.
+string filter_archive_unzip (string file)
 {
-  return filter_shell_is_present ("unzip");
+#ifdef HAVE_CLOUD
+  return filter_archive_unzip_shell_internal (file);
+#endif
+#ifdef HAVE_CLIENT
+  return filter_archive_unzip_miniz_internal (file);
+#endif
 }
 
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_unzip_shell (string file)
+string filter_archive_unzip_shell_internal (string file)
 {
   string folder = filter_url_tempfile ();
   filter_url_mkdir (folder);
@@ -179,7 +194,7 @@ string filter_archive_unzip_shell (string file)
 
 // Uncompresses the $zipfile.
 // Returns the path to the folder it created.
-string filter_archive_unzip_miniz (string zipfile)
+string filter_archive_unzip_miniz_internal (string zipfile)
 {
   // Directory where to unzip the archive.
   string folder = filter_url_tempfile ();
@@ -321,7 +336,7 @@ string filter_archive_uncompress (string file)
     return filter_archive_untar_gzip (file);
   }
   if (type == 2) {
-    return filter_archive_unzip_shell (file);
+    return filter_archive_unzip (file);
   }
   return "";
 }

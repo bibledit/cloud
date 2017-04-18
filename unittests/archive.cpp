@@ -63,71 +63,71 @@ void test_archive ()
   // Test zip compression of one file.
   {
     // Test existing folder through the shell.
-    string zipfile = filter_archive_zip_file_shell (path1);
+    string zipfile = filter_archive_zip_file_shell_internal (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
 
     // Test existing folder through the library.
-    zipfile = filter_archive_zip_file_miniz (path1);
+    zipfile = filter_archive_zip_file_miniz_internal (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 186, filter_url_filesize (zipfile));
 
     // Test compressing a non-existing file through the shell.
-    zipfile = filter_archive_zip_file_shell ("xxxxx");
+    zipfile = filter_archive_zip_file_shell_internal ("xxxxx");
     evaluate (__LINE__, __func__, "", zipfile);
 
     // Test compressing a non-existing file through the miniz library.
-    zipfile = filter_archive_zip_file_miniz ("xxx");
+    zipfile = filter_archive_zip_file_miniz_internal ("xxx");
     evaluate (__LINE__, __func__, "", zipfile);
   }
 
   // Test zip entire folder.
   {
     // Zip existing folder through the shell.
-    string zipfile = filter_archive_zip_folder_shell (directory);
+    string zipfile = filter_archive_zip_folder_shell_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 3332, filter_url_filesize (zipfile));
 
     // Zip existing folder through the miniz library.
-    zipfile = filter_archive_zip_folder_miniz (directory);
+    zipfile = filter_archive_zip_folder_miniz_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 2439, filter_url_filesize (zipfile));
 
     // Zipping non-existing folder through the shell fails.
-    zipfile = filter_archive_zip_folder_shell ("xxx");
+    zipfile = filter_archive_zip_folder_shell_internal ("xxx");
     evaluate (__LINE__, __func__, "", zipfile);
 
     // Zipping non-existing folder through the miniz library fails.
-    zipfile = filter_archive_zip_folder_miniz ("xxx");
+    zipfile = filter_archive_zip_folder_miniz_internal ("xxx");
     evaluate (__LINE__, __func__, "", zipfile);
   }
   
   // Test unzip through the shell.
   {
     // Create zip file through miniz.
-    string zipfile = filter_archive_zip_file_miniz (path1);
+    string zipfile = filter_archive_zip_file_miniz_internal (path1);
     // Test unzip through shell.
-    string folder = filter_archive_unzip_shell (zipfile);
+    string folder = filter_archive_unzip_shell_internal (zipfile);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping a non-existing zipfile returns nothing.
-    folder = filter_archive_unzip_shell ("xxxxx");
+    folder = filter_archive_unzip_shell_internal ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
   }
   
   // Test unzip through the miniz library.
   {
     // Create a zipfile with test data through the shell.
-    string zipfile = filter_archive_zip_folder_shell (directory);
+    string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Unzip it through miniz and then check it.
-    string folder = filter_archive_unzip_miniz (zipfile);
+    string folder = filter_archive_unzip_miniz_internal (zipfile);
     evaluate (__LINE__, __func__, false, folder.empty ());
     string out_err;
     int result = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
     evaluate (__LINE__, __func__, "", out_err);
     evaluate (__LINE__, __func__, 0, result);
     // Test that unzipping a non-existing file returns nothing.
-    folder = filter_archive_unzip_miniz ("xxxxx");
+    folder = filter_archive_unzip_miniz_internal ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
   }
   
@@ -168,11 +168,6 @@ void test_archive ()
     // Test that unzipping garbage returns NULL.
     folder = filter_archive_untar_gzip ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
-  }
-  
-  {
-    evaluate (__LINE__, __func__, true, filter_archive_can_zip_shell ());
-    evaluate (__LINE__, __func__, true, filter_archive_can_unzip_shell ());
   }
   
   // Test embedded tar and untar routines.

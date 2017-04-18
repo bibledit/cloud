@@ -1266,7 +1266,7 @@
 		CAD4433A1AC95BC60005B8F6 /* onlinebible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = onlinebible.h; sourceTree = "<group>"; };
 		CAD4433C1AC95BC60005B8F6 /* textusfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = textusfm.cpp; sourceTree = "<group>"; };
 		CAD4433D1AC95BC60005B8F6 /* textusfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = textusfm.h; sourceTree = "<group>"; };
-		CAD4433F1AC95BC60005B8F6 /* usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfm.cpp; sourceTree = "<group>"; };
+		CAD4433F1AC95BC60005B8F6 /* usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = usfm.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAD443401AC95BC60005B8F6 /* usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm.h; sourceTree = "<group>"; };
 		CAD443411AC95BC60005B8F6 /* usfm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = usfm.html; sourceTree = "<group>"; };
 		CAD443431AC95BC60005B8F6 /* web.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = web.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };

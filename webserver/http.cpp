@@ -27,20 +27,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-/*
- The http headers from a browser could look as follows:
- 
- GET /index/page HTTP/1.1
- Host: localhost:8080
- Connection: keep-alive
- User-Agent: Mozilla/n.0 (X11; Linux x86_64) AppleWebKit/nnn.nn (KHTML, like Gecko) Chrome/3nn.n.nnnn.nnn Safari/nnn.nn
- Accept-Language: sn,en-US;q=0.8,en;q=0.6
- Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
- 
- The function extracts the relevant information from the headers.
- 
- It returns true if a header was (or could have been) parsed.
- */
+
+// The http headers from a browser could look as follows:
+//
+// GET /index/page HTTP/1.1
+// Host: localhost:8080
+// Connection: keep-alive
+// User-Agent: Mozilla/n.0 (X11; Linux x86_64) AppleWebKit/nnn.nn (KHTML, like Gecko) Chrome/3nn.n.nnnn.nnn Safari/nnn.nn
+// Accept-Language: sn,en-US;q=0.8,en;q=0.6
+// Cookie: Session=abcdefghijklmnopqrstuvwxyz; foo=bar; extra=clutter
+//
+// The function extracts the relevant information from the headers.
+//
+// It returns true if a header was (or could have been) parsed.
 bool http_parse_header (string header, void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;

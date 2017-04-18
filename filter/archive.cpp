@@ -342,7 +342,7 @@ string filter_archive_uncompress (string file)
 }
 
 
-// Returns 0 is not an archive that Bibledit supports.
+// Returns 0 if it is not an archive that Bibledit supports.
 // Else returns 1, 2, 3... depending on the type of archive.
 int filter_archive_is_archive (string file)
 {

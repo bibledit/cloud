@@ -144,9 +144,8 @@ string workspace_organize (void * webserver_request)
   Assets_View view;
   
   
-  bool workspace_created = false;
   vector <string> desktopblock;
-  vector <string> desktops = workspace_get_names (request, &workspace_created);
+  vector <string> desktops = workspace_get_names (request, false);
   for (size_t i = 0; i < desktops.size (); i++) {
     string desktop = desktops [i];
     desktopblock.push_back ("<p>");
@@ -170,9 +169,6 @@ string workspace_organize (void * webserver_request)
     desktopblock.push_back ("</p>");
   }
   view.set_variable ("desktopblock", filter_string_implode (desktopblock, "\n"));
-  if (workspace_created) {
-    success = translate ("Listing a new default workspace");
-  }
 
   
 #ifndef HAVE_CLIENT

@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/archive.h>
 #include <filter/url.h>
 #include <filter/shell.h>
+#include <filter/string.h>
 #include <database/logs.h>
 #include <microtar/microtar.h>
 #include <miniz/miniz.h>
@@ -225,12 +226,15 @@ string filter_archive_unzip_miniz_internal (string zipfile)
     string filename = filter_url_create_path (folder, file_stat.m_filename);
     if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
       // Create this directory.
-      filter_url_mkdir (filename);
+      if (!file_or_dir_exists (filename)) filter_url_mkdir (filename);
     } else {
+      // Ensure this file's folder exists.
+      string dirname = filter_url_dirname (filename);
+      if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
       // Extract this file.
       status = mz_zip_reader_extract_to_file (&zip_archive, i, filename.c_str(), 0);
       if (!status) {
-        Database_Logs::log ("mz_zip_reader_extract_to_file " + zipfile);
+        Database_Logs::log ("mz_zip_reader_extract_to_file failure for file #" + convert_to_string (i) + " in " + zipfile);
         mz_zip_reader_end (&zip_archive);
         return "";
       }

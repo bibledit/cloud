@@ -131,6 +131,13 @@ void test_archive ()
     evaluate (__LINE__, __func__, "", folder);
   }
   
+  // Test unzipping OpenDocument file through the miniz library.
+  {
+    string zipfile = filter_url_create_root_path ("odf", "template.odt");
+    string folder = filter_archive_unzip_miniz_internal (zipfile);
+    evaluate (__LINE__, __func__, false, folder.empty ());
+  }
+
   // Test tar gzip file.
   {
     // Test gzipped tarball compression.

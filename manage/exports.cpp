@@ -382,14 +382,6 @@ string manage_exports (void * webserver_request)
   view.set_variable ("external", assets_external_logic_link_addon ());
   
   
-  bool zip = true; // Todo goes out.
-  if (zip) {
-    view.enable_zone ("zip");
-  } else {
-    view.set_variable ("odtlink", client_logic_link_to_cloud (manage_exports_url (), translate ("Go to Bibledit Cloud for exports to OpenDocument.")));
-  }
-  
-
   page += view.render ("manage", "exports");
   page += Assets_Page::footer ();
   return page;

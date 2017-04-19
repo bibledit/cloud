@@ -210,7 +210,6 @@ void system_logic_produce_notes_file (int jobid) // Todo
   for (string & file : files) {
     file.erase (0, directory.length () + 1);
   }
-  for (auto file : files) cout << file << endl; // Todo
   
 
   // Pack the contents of all the Bibles into one tarball.

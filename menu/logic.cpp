@@ -323,11 +323,11 @@ string menu_logic_desktop_category (void * webserver_request, string * tooltip)
   // Add the available configured desktops to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
-    vector <string> workspacees = workspace_get_names (webserver_request);
-    for (size_t i = 0; i < workspacees.size(); i++) {
-      string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspacees[i], true);
+    vector <string> workspaces = workspace_get_names (webserver_request);
+    for (size_t i = 0; i < workspaces.size(); i++) {
+      string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspaces[i], true);
       html.push_back (item);
-      labels.push_back (workspacees [i]);
+      labels.push_back (workspaces [i]);
     }
   }
 

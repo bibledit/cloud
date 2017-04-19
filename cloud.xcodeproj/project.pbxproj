@@ -74,7 +74,7 @@
 		CA05DD3B1E339E5A00EA2EDF /* usfm2html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm2html.h; sourceTree = "<group>"; };
 		CA05DD3C1E33A59A00EA2EDF /* usfm2html2usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfm2html2usfm.cpp; sourceTree = "<group>"; };
 		CA05DD3D1E33A59A00EA2EDF /* usfm2html2usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm2html2usfm.h; sourceTree = "<group>"; };
-		CA05DD3E1E33A71700EA2EDF /* workspaces.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = workspaces.cpp; sourceTree = "<group>"; };
+		CA05DD3E1E33A71700EA2EDF /* workspaces.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = workspaces.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA05DD3F1E33A71700EA2EDF /* workspaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = workspaces.h; sourceTree = "<group>"; };
 		CA05DD401E33ABA400EA2EDF /* client.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = client.cpp; sourceTree = "<group>"; };
 		CA05DD411E33ABA400EA2EDF /* client.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = client.h; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 		CA1014061DB26A22009FE31F /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA1014071DB26A22009FE31F /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA1014091DB26A22009FE31F /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CA10140A1DB26A22009FE31F /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA10140A1DB26A22009FE31F /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = logic.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA10140C1DB26A22009FE31F /* organize.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = organize.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA10140D1DB26A22009FE31F /* organize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = organize.h; sourceTree = "<group>"; };
 		CA10140E1DB26A22009FE31F /* organize.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = organize.html; sourceTree = "<group>"; };
@@ -1336,7 +1336,7 @@
 		CAEE85F51A7006B500BE3A1A /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAEE85F61A7006B500BE3A1A /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAEE85F71A7035CD00BE3A1A /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CAEE85F81A7035CD00BE3A1A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CAEE85F81A7035CD00BE3A1A /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = logic.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAEF4D061D6EF82600FBB688 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAEF4D071D6EF82600FBB688 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAEF4D081D6EF82600FBB688 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };

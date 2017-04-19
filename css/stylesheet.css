@@ -381,7 +381,7 @@ textarea {
 @media print {
   body,
   #workspacewrapper,
-  #workspacees,
+  #workspaces,
   .iframewrapper,
   .iframewrapper iframe {
     display: block !important;
@@ -430,7 +430,7 @@ textarea {
     -ms-flex-negative: 0;
           flex-shrink: 0;
 }
-#workspacewrapper > #workspacees {
+#workspacewrapper > #workspaces {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

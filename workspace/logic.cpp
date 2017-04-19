@@ -31,7 +31,7 @@
 #include <sync/logic.h>
 #include <locale/translate.h>
 
-workspace_get_names
+
 vector <string> workspace_get_default_names ()
 {
   // Any of the names below should not contain commas,
@@ -241,11 +241,11 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
 
 void workspace_set_urls (void * webserver_request, const map <int, string> & values)
 {
-  // Get current order of the workspacees.
+  // Get current order of the workspaces.
   vector <string> order = workspace_get_names (webserver_request);
-  // Update the values: This reorders the workspacees.
+  // Update the values: This reorders the workspaces.
   workspace_set_values (webserver_request, URLS, values);
-  // Put the workspacees in the original order.
+  // Put the workspaces in the original order.
   workspace_reorder (webserver_request, order);
 }
 
@@ -362,24 +362,24 @@ string workspace_get_entire_width (void * webserver_request)
 }
 
 
-// Returns the names of the available workspacees.
+// Returns the names of the available workspaces.
 vector <string> workspace_get_names (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  vector <string> workspacees;
-  // The names and the order of the workspacees is taken from the URLs.
+  vector <string> workspaces;
+  // The names and the order of the workspaces is taken from the URLs.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
   vector <string> lines = filter_string_explode (rawvalue, '\n');
   for (auto & line : lines) {
     vector <string> bits = filter_string_explode (line, '_');
     if (bits.size() == 3) {
-      if (find (workspacees.begin(), workspacees.end(), bits[0]) == workspacees.end()) {
-        workspacees.push_back (bits[0]);
+      if (find (workspaces.begin(), workspaces.end(), bits[0]) == workspaces.end()) {
+        workspaces.push_back (bits[0]);
       }
     }
   }
-  if (workspacees.empty ()) workspacees.push_back (workspace_get_active_name (request));
-  return workspacees;
+  if (workspaces.empty ()) workspaces.push_back (workspace_get_active_name (request));
+  return workspaces;
 }
 
 
@@ -425,22 +425,22 @@ void workspace_delete (void * webserver_request, string workspace)
 }
 
 
-// This orders the workspacees.
-// It takes the order as in array $workspacees.
-void workspace_reorder (void * webserver_request, const vector <string> & workspacees)
+// This orders the workspaces.
+// It takes the order as in array $workspaces.
+void workspace_reorder (void * webserver_request, const vector <string> & workspaces)
 {
-  // The order of the workspacees is taken from the URLs.
+  // The order of the workspaces is taken from the URLs.
   // Widths and heights are not considered for the order.
   
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-  // Retrieve the old order of the workspacees, plus their details.
+  // Retrieve the old order of the workspaces, plus their details.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
   vector <string> oldlines = filter_string_explode (rawvalue, '\n');
   
   // Create vector with the sorted workspace definitions.
   vector <string> newlines;
-  for (auto & workspace : workspacees) {
+  for (auto & workspace : workspaces) {
     for (auto & line : oldlines) {
       if (line.find (workspace + "_") == 0) {
         newlines.push_back (line);

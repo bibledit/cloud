@@ -66,8 +66,8 @@ void test_workspaces ()
     }
 
     {
-      vector <string> workspacees = workspace_get_names (&request);
-      evaluate (__LINE__, __func__, {"unittest"}, workspacees);
+      vector <string> workspaces = workspace_get_names (&request);
+      evaluate (__LINE__, __func__, {"unittest"}, workspaces);
     }
   }
 
@@ -80,14 +80,14 @@ void test_workspaces ()
     request.database_config_user()->setActiveWorkspace ("unittest2");
     map <int, string> standard = { make_pair (0, "url0"), make_pair (5, "url5")};
     workspace_set_urls (&request, standard);
-    vector <string> workspacees = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workspacees);
+    vector <string> workspaces = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workspaces);
     workspace_delete (&request, "unittest3");
-    workspacees = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workspacees);
+    workspaces = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, workspaces);
     workspace_delete (&request, "unittest2");
-    workspacees = workspace_get_names (&request);
-    evaluate (__LINE__, __func__, {"unittest"}, workspacees);
+    workspaces = workspace_get_names (&request);
+    evaluate (__LINE__, __func__, {"unittest"}, workspaces);
   }
 
   refresh_sandbox (true);

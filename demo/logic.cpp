@@ -185,7 +185,7 @@ void demo_clean_data ()
   
   
   // Create samples for the workspaces.
-  demo_create_sample_workspacees (&request);
+  demo_create_sample_workspaces (&request);
   
   
   // Set navigator to John 3:16.
@@ -340,7 +340,7 @@ string demo_workspace ()
 }
 
 
-void demo_create_sample_workspacees (void * webserver_request)
+void demo_create_sample_workspaces (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

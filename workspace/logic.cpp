@@ -363,7 +363,8 @@ string workspace_get_entire_width (void * webserver_request)
 
 
 // Returns the names of the available workspaces.
-vector <string> workspace_get_names (void * webserver_request)
+// If $created points to something, it indicates whether a new workspaces as added to the list.
+vector <string> workspace_get_names (void * webserver_request, bool * created)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   vector <string> workspaces;
@@ -378,7 +379,10 @@ vector <string> workspace_get_names (void * webserver_request)
       }
     }
   }
-  if (workspaces.empty ()) workspaces.push_back (workspace_get_active_name (request));
+  if (workspaces.empty ()) {
+    workspaces.push_back (workspace_get_active_name (request));
+    if (created) * created = true;
+  }
   return workspaces;
 }
 

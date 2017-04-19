@@ -41,7 +41,7 @@ map <int, string> workspace_get_urls (void * webserver_request, bool use);
 map <int, string> workspace_get_widths (void * webserver_request);
 map <int, string> workspace_get_heights (void * webserver_request);
 string workspace_get_entire_width (void * webserver_request);
-vector <string> workspace_get_names (void * webserver_request);
+vector <string> workspace_get_names (void * webserver_request, bool * created = NULL);
 void workspace_delete (void * webserver_request, string workspace);
 void workspace_reorder (void * webserver_request, const vector <string> & workspaces);
 void workspace_copy (void * webserver_request, string source, string destination);

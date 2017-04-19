@@ -78,6 +78,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define RSSFEEDUPDATECHAPTER "rssfeedupdatechapter"
 #define PRODUCEBIBLESTRANSFERFILE "producebiblestransferfile"
 #define IMPORTBIBLESTRANSFERFILE "importbiblestransferfile"
+#define PRODUCERENOTESTRANSFERFILE "producerenotestransferfile"
+#define IMPORTNOTESTRANSFERFILE "importnotestransferfile"
 #define PRODUCERESOURCESTRANSFERFILE "produceresourcestransferfile"
 #define IMPORTRESOURCESTRANSFERFILE "importresourcestransferfile"
 

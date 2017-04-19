@@ -193,13 +193,15 @@ string system_index (void * webserver_request)
   
 #ifdef HAVE_CLIENT
   bool producebibles = request->query.count ("producebibles");
+  bool producenotes = request->query.count ("producenotes");
   bool produceresources = request->query.count ("produceresources");
-  if (producebibles || produceresources) {
+  if (producebibles || producenotes || produceresources) {
     Database_Jobs database_jobs;
     int jobId = database_jobs.getNewId ();
     database_jobs.setLevel (jobId, Filter_Roles::member ());
     string task;
     if (producebibles) task = PRODUCEBIBLESTRANSFERFILE;
+    if (producenotes) task = PRODUCERENOTESTRANSFERFILE;
     if (produceresources) task = PRODUCERESOURCESTRANSFERFILE;
     tasks_logic_queue (task, { convert_to_string (jobId) });
     redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));

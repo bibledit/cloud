@@ -31,7 +31,7 @@
 #include <sync/logic.h>
 #include <locale/translate.h>
 
-
+workspace_get_names
 vector <string> workspace_get_default_names ()
 {
   // Any of the names below should not contain commas,

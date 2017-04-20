@@ -1330,9 +1330,6 @@ msgstr ""
 msgid "Go to Bibledit Cloud to submit the Bible there."
 msgstr ""
 
-msgid "Go to Bibledit Cloud for exports to OpenDocument."
-msgstr ""
-
 msgid "Hyphenation"
 msgstr ""
 
@@ -2843,6 +2840,18 @@ msgid "This will create the same Bibles in that other client."
 msgstr ""
 
 msgid "It failed to create the file with Bibles."
+msgstr ""
+
+msgid "Generating a file with the Consultation Notes."
+msgstr ""
+
+msgid "The file with Consultation Notes is ready."
+msgstr ""
+
+msgid "This will create the same Consultation Notes in that other client."
+msgstr ""
+
+msgid "It failed to create the file with Consultation Notes."
 msgstr ""
 
 msgid "Generating a file with the resources."
@@ -5808,6 +5817,9 @@ msgstr ""
 msgid "Print."
 msgstr ""
 
+msgid "Go to the Bible editor selector."
+msgstr ""
+
 msgid ""
 "Swiping right or left while displaying resources navigates to the previous "
 "or next verse."
@@ -8027,10 +8039,10 @@ msgstr ""
 msgid "Enable swipe navigation actions"
 msgstr ""
 
-msgid "Enable fast Bible editor switching"
+msgid "Show a link in the Bible editor to select another Bible editor"
 msgstr ""
 
-msgid "Available Bible editors in fast Bible editor switcher:"
+msgid "Available Bible editors in the Bible editor selector:"
 msgstr ""
 
 msgid "Visual editors:"
@@ -8828,8 +8840,8 @@ msgid "Transfer resources and Bibles"
 msgstr ""
 
 msgid ""
-"This helps with transferring resources and Bibles from one Bibledit client "
-"to another one."
+"This helps with transferring Bibles and consultatation notes and resources "
+"from one Bibledit client to another one."
 msgstr ""
 
 msgid ""
@@ -8853,6 +8865,12 @@ msgid "Get the local Bibles."
 msgstr ""
 
 msgid "Import local Bibles."
+msgstr ""
+
+msgid "Get the local Consultation Notes."
+msgstr ""
+
+msgid "Import installed Consultation Notes."
 msgstr ""
 
 msgid "Get the installed Resources."
@@ -9424,7 +9442,7 @@ msgstr ""
 msgid "The default workspaces were created"
 msgstr ""
 
-msgid "Would you like to delete this desktop configuration?"
+msgid "Would you like to delete this workspace configuration?"
 msgstr ""
 
 msgid "The workspace was removed"

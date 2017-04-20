@@ -33,6 +33,7 @@
 #include <menu/logic.h>
 #include <bible/manage.h>
 #include <assets/external.h>
+#include <journal/logic.h>
 
 
 string bible_import_url ()
@@ -85,7 +86,8 @@ string bible_import (void * webserver_request)
       if (unicode_string_is_valid (data)) {
         string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);
-        success_message = translate("Import has started. See Journal for progress.");
+        success_message = translate("Import has started.");
+        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
         tasks_logic_queue (IMPORTBIBLE, { datafile, bible, convert_to_string (book), convert_to_string (chapter) });
       } else {
         error_message = translate("Please supply valid Unicode UTF-8 text.");
@@ -103,7 +105,8 @@ string bible_import (void * webserver_request)
     string data = request->post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (datafile, data);
-      success_message = translate("Import has started. See Journal for progress.");
+      success_message = translate("Import has started.");
+      view.set_variable ("journal", journal_logic_see_journal_for_progress ());
       tasks_logic_queue (IMPORTBIBLE, { datafile, bible, convert_to_string (book), convert_to_string (chapter) });
     } else {
       error_message = translate ("Nothing was uploaded");

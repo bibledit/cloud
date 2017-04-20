@@ -23,12 +23,14 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <dialog/list.h>
 #include <access/bible.h>
 #include <locale/translate.h>
 #include <tasks/logic.h>
 #include <database/config/bible.h>
 #include <menu/logic.h>
+#include <journal/index.h>
 
 
 const char * manage_hyphenation_url ()
@@ -100,7 +102,8 @@ string manage_hyphenation (void * webserver_request)
       error = translate("No second set of characters given");
     } else {
       tasks_logic_queue (HYPHENATE, {bible, request->session_logic()->currentUser ()});
-      success = translate("The Bible is being hyphenated.") + " " + translate ("See the Journal for details.");
+      redirect_browser (request, journal_index_url ());
+      return "";
     }
   }
   

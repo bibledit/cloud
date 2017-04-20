@@ -36,6 +36,7 @@
 #include <tasks/logic.h>
 #include <menu/logic.h>
 #include <resource/images.h>
+#include <journal/logic.h>
 
 
 string resource_image_url ()
@@ -84,7 +85,8 @@ string resource_image (void * webserver_request)
       if (extension == "pdf") background_import = true;
       if (background_import) {
         tasks_logic_queue (IMPORTIMAGES, { name, file });
-        success = translate("The file was uploaded and is being processed.") + " " + translate ("View the Journal for progress");
+        success = translate("The file was uploaded and is being processed.");
+        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
       } else {
         // Store image.
         string image = database_imageresources.store (name, file);

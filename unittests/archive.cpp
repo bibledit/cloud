@@ -179,36 +179,56 @@ void test_archive ()
   
   // Test embedded tar and untar routines.
   {
-    string tarball;
+    string tarball = filter_url_tempfile () + ".tar";
     string folder;
     string result;
-    
+    int exitcode;
+
     // Fail to open empty tarball.
     result = filter_archive_microtar_pack ("", "", {});
     evaluate (__LINE__, __func__, "could not open", result);
-    
-    // Pack files into a tarball.
-    tarball = filter_url_tempfile () + ".tar";
-    result = filter_archive_microtar_pack (tarball, directory, files12);
-    evaluate (__LINE__, __func__, "", result);
     
     // Fail to unpack empty tarball.
     folder = filter_url_tempfile ();
     result = filter_archive_microtar_unpack ("", folder);
     evaluate (__LINE__, __func__, "could not open", result);
     
+    // Pack files into a tarball.
+    result = filter_archive_microtar_pack (tarball, directory, files12);
+    evaluate (__LINE__, __func__, "", result);
+    
     // Unpack the tarball created just before.
     folder = filter_url_tempfile ();
     result = filter_archive_microtar_unpack (tarball, folder);
     evaluate (__LINE__, __func__, "", result);
 
-    // Checked the untarred files.
+    // Check the untarred files.
     for (size_t i = 0; i < files12.size (); i++) {
       string file = files12 [i];
       string content = filter_url_file_get_contents (filter_url_create_path (directory, file));
       string data = filter_url_file_get_contents (filter_url_create_path (folder, file));
       evaluate (__LINE__, __func__, content, data);
     }
+    
+    // Pack files in a deep directory structure.
+    vector <string> paths;
+    filter_url_recursive_scandir (directory, paths);
+    for (auto & path : paths) {
+      path.erase (0, directory.length () + 1);
+    }
+    result = filter_archive_microtar_pack (tarball, directory, paths);
+    evaluate (__LINE__, __func__, "", result);
+    
+    // Unpack the tarball with the deep directory structure.
+    folder = filter_url_tempfile ();
+    result = filter_archive_microtar_unpack (tarball, folder);
+    evaluate (__LINE__, __func__, "", result);
+
+    // Check the unpacked result.
+    string out_err;
+    exitcode = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
+    evaluate (__LINE__, __func__, "", out_err);
+    evaluate (__LINE__, __func__, 0, exitcode);
   }
 
   // Clear up data used for the archive tests.

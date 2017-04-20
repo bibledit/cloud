@@ -29,8 +29,10 @@
 #include <database/bibles.h>
 #include <database/books.h>
 #include <database/logs.h>
+#include <database/config/general.h>
 #include <html/text.h>
 #include <styles/logic.h>
+#include <tasks/logic.h>
 
 
 string system_logic_bibles_file_name ()
@@ -168,6 +170,10 @@ void system_logic_import_bibles_file (string tarball)
   filter_url_rmdir (directory);
   filter_url_unlink (tarball);
 
+  // Since new Bibles may have been imported, index them all.
+  Database_Config_General::setIndexBibles (true);
+  tasks_logic_queue (REINDEXBIBLES, {"1"});
+
   // Ready, hallelujah!
   Database_Logs::log ("Importing Bibles ready");
 }
@@ -180,7 +186,7 @@ string system_logic_notes_file_name ()
 
 
 // This produes a tarball with all local Consultation Notes.
-void system_logic_produce_notes_file (int jobid) // Todo
+void system_logic_produce_notes_file (int jobid)
 {
   Database_Jobs database_jobs;
  
@@ -238,62 +244,29 @@ void system_logic_produce_notes_file (int jobid) // Todo
 }
 
 
-void system_logic_import_notes_file (string tarball) // Todo
+void system_logic_import_notes_file (string tarball)
 {
-  /*
-  Database_Logs::log ("Importing Bibles from " + tarball);
+  Database_Logs::log ("Importing Consultation Notes from " + tarball);
   
-  Database_Bibles database_bibles;
+  // The database directory where the consultation notes reside.
+  string directory = filter_url_create_root_path ("consultations");
   
-  // Unpack the tarball into a directory.
-  string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
+  // Unpack the tarball into the directory.
   string error= filter_archive_microtar_unpack (tarball, directory);
   if (!error.empty ()) {
-    Database_Logs::log ("Importing Bibles failure: " + error);
+    Database_Logs::log ("Importing Consultation Notes failure: " + error);
     return;
   }
   
-  // Iterate over all the files of the tarball.
-  vector <string> files = filter_url_scandir (directory);
-  for (auto file : files) {
-    
-    // Get the file's contents for import.
-    Database_Logs::log ("Importing from file " + file);
-    string path = filter_url_create_path (directory, file);
-    string data = filter_url_file_get_contents (path);
-    
-    // The name of the Bible this file is to be imported into.
-    string bible (file);
-    size_t pos = bible.find_last_of ("_");
-    if (pos != string::npos) bible.erase (pos);
-    
-    // Get details about the USFM to import.
-    string stylesheet = styles_logic_standard_sheet ();
-    vector <BookChapterData> book_chapter_text = usfm_import (data, stylesheet);
-    for (auto & data : book_chapter_text) {
-      if (data.book > 0) {
-        // Store the data and log it.
-        // This does not trigger the client to send it to the Cloud.
-        // Reason is that the Cloud is authoritative,
-        // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
-        database_bibles.storeChapter (bible, data.book, data.chapter, data.data);
-        string bookname = Database_Books::getEnglishFromId (data.book);
-        Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (data.chapter));
-      } else {
-        // Import error.
-        Database_Logs::log ("Could not import this file: " + file);
-      }
-    }
-  }
-  
   // Clean up.
-  filter_url_rmdir (directory);
   filter_url_unlink (tarball);
-  
+
+  // Since notes may have been imported or updated, index them all.
+  Database_Config_General::setIndexNotes (true);
+  tasks_logic_queue (REINDEXNOTES);
+
   // Ready, hallelujah!
-  Database_Logs::log ("Importing Bibles ready");
-   */
+  Database_Logs::log ("Importing Consultation Notes ready");
 }
 
 

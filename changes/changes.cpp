@@ -247,12 +247,15 @@ string changes_changes (void * webserver_request)
   view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_changes_url ()));
   
   
-  // Whether to put the controls for dismissing changes at the bottom of the page,
-  // as the default location, or whether to put them at the top of the page.
-  if (request->database_config_user ()->getDismissChangesAtTop ()) {
-    view.enable_zone ("controlsattop");
-  } else {
-    view.enable_zone ("controlsatbottom");
+  // Whether to show the controls for dismissing the changes.
+  if (!ids.empty ()) {
+    // Whether to put those controls at the bottom of the page, as the default location,
+    // or whether to put them at the top of the page.
+    if (request->database_config_user ()->getDismissChangesAtTop ()) {
+      view.enable_zone ("controlsattop");
+    } else {
+      view.enable_zone ("controlsatbottom");
+    }
   }
   
   

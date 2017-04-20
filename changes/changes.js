@@ -145,11 +145,14 @@ function selectEntry (entry)
   if (entry) {
     $(".selected").removeClass("selected");
     entry.addClass("selected");
-    var elementOffset = entry.offset().top;
-    var currentScrollTop = $("#workspacewrapper").scrollTop();
-    var workspaceHeight = $("#workspacewrapper").height();
-    $("#workspacewrapper").scrollTop(elementOffset + (entry.height() / 2) - (workspaceHeight / 2) + currentScrollTop);
-    changesFocusTimerStart();
+    var entryOffset = entry.offset();
+    if (entryOffset) {
+      var elementOffset = entryOffset.top;
+      var currentScrollTop = $("#workspacewrapper").scrollTop();
+      var workspaceHeight = $("#workspacewrapper").height();
+      $("#workspacewrapper").scrollTop(elementOffset + (entry.height() / 2) - (workspaceHeight / 2) + currentScrollTop);
+      changesFocusTimerStart();
+    }
   }
 }
 

@@ -186,8 +186,6 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editverse/index.cpp \
-	editverse/load.cpp \
-	editverse/save.cpp \
 	editone/index.cpp \
 	editone/load.cpp \
 	editone/save.cpp \

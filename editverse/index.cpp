@@ -18,23 +18,10 @@
 
 
 #include <editverse/index.h>
-#include <assets/view.h>
-#include <assets/page.h>
-#include <assets/header.h>
+#include <editusfm/index.h>
 #include <filter/roles.h>
-#include <filter/string.h>
-#include <filter/css.h>
-#include <webserver/request.h>
-#include <locale/translate.h>
-#include <locale/logic.h>
+#include <filter/url.h>
 #include <access/bible.h>
-#include <database/config/bible.h>
-#include <fonts/logic.h>
-#include <navigation/passage.h>
-#include <dialog/list.h>
-#include <ipc/focus.h>
-#include <menu/logic.h>
-#include <bible/logic.h>
 
 
 string editverse_index_url ()
@@ -54,90 +41,7 @@ bool editverse_index_acl (void * webserver_request)
 
 string editverse_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  bool touch = request->session_logic ()->touchEnabled ();
-
-  if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
-    int switchbook = convert_to_int (request->query ["switchbook"]);
-    int switchchapter = convert_to_int (request->query ["switchchapter"]);
-    Ipc_Focus::set (request, switchbook, switchchapter, 1);
-    Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
-  }
-  
-  string page;
-  
-  Assets_Header header = Assets_Header (translate("Edit USFM"), request);
-  header.setNavigator ();
-  if (touch) header.jQueryTouchOn ();
-  header.notifItOn ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  page = header.run ();
-  
-  Assets_View view;
-  
-  if (request->query.count ("changebible")) {
-    string changebible = request->query ["changebible"];
-    if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
-      vector <string> bibles = access_bible_bibles (request);
-      for (auto bible : bibles) {
-        dialog_list.add_row (bible, "changebible", bible);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      request->database_config_user()->setBible (changebible);
-    }
-  }
-  
-  // Get active Bible, and check read access to it.
-  // If needed, change Bible to one it has read access to.
-  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
-  view.set_variable ("bible", bible);
-  
-  // Store the active Bible in the page's javascript.
-  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
-  
-  string chapterLoaded = locale_logic_text_loaded ();
-  string chapterSaving = locale_logic_text_saving ();
-  string chapterSaved = locale_logic_text_saved ();
-  string chapterRetrying = locale_logic_text_retrying ();
-  string script =
-  "var verseEditorVerseLoaded = '" + chapterLoaded + "';\n"
-  "var verseEditorVerseSaving = '" + chapterSaving + "';\n"
-  "var verseEditorVerseSaved = '" + chapterSaved + "';\n"
-  "var verseEditorChapterRetrying = '" + chapterRetrying + "';\n"
-  "var verseEditorWriteAccess = true;";
-  config_logic_swipe_enabled (webserver_request, script);
-  view.set_variable ("script", script);
-  
-  string cls = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::getTextFont (bible);
-  int direction = Database_Config_Bible::getTextDirection (bible);
-  int lineheight = Database_Config_Bible::getLineHeight (bible);
-  int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
-  view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_Css::getCss (cls,
-                                                             Fonts_Logic::getFontPath (font),
-                                                             direction,
-                                                             lineheight,
-                                                             letterspacing));
-  
-  // Whether to enable fast Bible editor switching.
-  if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
-    view.enable_zone ("fastswitcheditor");
-  }
-  
-  page += view.render ("editverse", "index");
-  
-  page += Assets_Page::footer ();
-  
-  return page;
+  redirect_browser (webserver_request, editusfm_index_url ());
+  return "";
 }
 
-// Tests for the USFM editor:
-// * Autosave on going to another passage.
-// * Autosave on document unload.
-// * Autosave shortly after any change.

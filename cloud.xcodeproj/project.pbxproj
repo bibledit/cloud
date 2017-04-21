@@ -122,12 +122,6 @@
 		CA06BDD91A56C13E00A051FF /* css.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = css.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA06BDDD1A56D25F00A051FF /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA06BDDE1A56D25F00A051FF /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CA06BDDF1A56D25F00A051FF /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = index.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
-		CA06BDE01A56D25F00A051FF /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CA06BDE21A56D25F00A051FF /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
-		CA06BDE31A56D25F00A051FF /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
-		CA06BDE51A56D25F00A051FF /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = save.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CA06BDE61A56D25F00A051FF /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
 		CA06BDE81A56F39200A051FF /* passage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = passage.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA06BDE91A56F39200A051FF /* passage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passage.h; sourceTree = "<group>"; };
 		CA06BDEA1A570E1900A051FF /* focus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = focus.cpp; sourceTree = "<group>"; };
@@ -2212,12 +2206,6 @@
 			children = (
 				CA06BDDD1A56D25F00A051FF /* index.cpp */,
 				CA06BDDE1A56D25F00A051FF /* index.h */,
-				CA06BDDF1A56D25F00A051FF /* index.html */,
-				CA06BDE01A56D25F00A051FF /* index.js */,
-				CA06BDE21A56D25F00A051FF /* load.cpp */,
-				CA06BDE31A56D25F00A051FF /* load.h */,
-				CA06BDE51A56D25F00A051FF /* save.cpp */,
-				CA06BDE61A56D25F00A051FF /* save.h */,
 			);
 			path = editverse;
 			sourceTree = "<group>";

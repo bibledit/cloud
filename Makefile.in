@@ -206,8 +206,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
 	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
 	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
-	editverse/index.$(OBJEXT) editverse/load.$(OBJEXT) \
-	editverse/save.$(OBJEXT) editone/index.$(OBJEXT) \
+	editverse/index.$(OBJEXT) editone/index.$(OBJEXT) \
 	editone/load.$(OBJEXT) editone/save.$(OBJEXT) \
 	editone/verse.$(OBJEXT) editone/logic.$(OBJEXT) \
 	editoneold/index.$(OBJEXT) editoneold/load.$(OBJEXT) \
@@ -786,8 +785,6 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editverse/index.cpp \
-	editverse/load.cpp \
-	editverse/save.cpp \
 	editone/index.cpp \
 	editone/load.cpp \
 	editone/save.cpp \
@@ -1839,10 +1836,6 @@ editverse/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) editverse/$(DEPDIR)
 	@: > editverse/$(DEPDIR)/$(am__dirstamp)
 editverse/index.$(OBJEXT): editverse/$(am__dirstamp) \
-	editverse/$(DEPDIR)/$(am__dirstamp)
-editverse/load.$(OBJEXT): editverse/$(am__dirstamp) \
-	editverse/$(DEPDIR)/$(am__dirstamp)
-editverse/save.$(OBJEXT): editverse/$(am__dirstamp) \
 	editverse/$(DEPDIR)/$(am__dirstamp)
 editone/$(am__dirstamp):
 	@$(MKDIR_P) editone
@@ -3097,8 +3090,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/offset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/index.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/load.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@editverse/$(DEPDIR)/save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/receive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@email/$(DEPDIR)/send.Po@am__quote@

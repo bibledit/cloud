@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-
+   
 
 #include <bootstrap/bootstrap.h>
 #include <webserver/request.h>
@@ -64,8 +64,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <compare/index.h>
 #include <jobs/index.h>
 #include <editverse/index.h>
-#include <editverse/load.h>
-#include <editverse/save.h>
 #include <navigation/update.h>
 #include <navigation/poll.h>
 #include <editusfm/index.h>
@@ -1020,16 +1018,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == navigation_poll_url ()) && browser_request_security_okay (request) && navigation_poll_acl (request)) {
     request->reply = navigation_poll (request);
-    return;
-  }
-  
-  if ((url == editverse_load_url ()) && browser_request_security_okay (request) && editverse_load_acl (request)) {
-    request->reply = editverse_load (request);
-    return;
-  }
-  
-  if ((url == editverse_save_url ()) && browser_request_security_okay (request) && editverse_save_acl (request)) {
-    request->reply = editverse_save (request);
     return;
   }
   

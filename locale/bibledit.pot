@@ -52,7 +52,7 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-msgid "Import has started. See Journal for progress."
+msgid "Import has started."
 msgstr ""
 
 msgid "Nothing was imported."
@@ -593,7 +593,7 @@ msgstr ""
 msgid "Select which Bible to manage"
 msgstr ""
 
-msgid "Will run the checks. See the Journal for progress."
+msgid "Will run the checks."
 msgstr ""
 
 msgid "Matching pairs"
@@ -1345,12 +1345,6 @@ msgstr ""
 msgid "No second set of characters given"
 msgstr ""
 
-msgid "The Bible is being hyphenated."
-msgstr ""
-
-msgid "See the Journal for details."
-msgstr ""
-
 msgid "The font could not be deleted because it is in use"
 msgstr ""
 
@@ -1883,9 +1877,6 @@ msgid "Download resource"
 msgstr ""
 
 msgid "The file was uploaded and is being processed."
-msgstr ""
-
-msgid "View the Journal for progress"
 msgstr ""
 
 msgid "Would you like to delete this image?"
@@ -2809,13 +2800,13 @@ msgstr ""
 msgid "The number was saved"
 msgstr ""
 
-msgid "Import has started."
-msgstr ""
-
 msgid "Nothing was imported"
 msgstr ""
 
 msgid "Import a file with local Bibles"
+msgstr ""
+
+msgid "Import a file with local Consultation Notes"
 msgstr ""
 
 msgid "Import a file with local Resources"
@@ -7449,7 +7440,9 @@ msgstr ""
 msgid "The Bible where the hyphenated data will be written to is:"
 msgstr ""
 
-msgid "Insert the soft hyphens according to the settings."
+msgid ""
+"Insert the soft hyphens according to the settings and view the progress in "
+"the Journal."
 msgstr ""
 
 msgid "Indexing"
@@ -8173,10 +8166,7 @@ msgstr ""
 msgid "The USFM Resource uses less space."
 msgstr ""
 
-msgid "Start the conversion process."
-msgstr ""
-
-msgid "You can view the conversion process in the Journal."
+msgid "Start the conversion process and view it in the Journal."
 msgstr ""
 
 msgid "BibleGateway resources"
@@ -8864,19 +8854,19 @@ msgstr ""
 msgid "Get the local Bibles."
 msgstr ""
 
-msgid "Import local Bibles."
+msgid "Import and install Bibles."
 msgstr ""
 
 msgid "Get the local Consultation Notes."
 msgstr ""
 
-msgid "Import installed Consultation Notes."
+msgid "Import and install Consultation Notes."
 msgstr ""
 
 msgid "Get the installed Resources."
 msgstr ""
 
-msgid "Import installed Resources."
+msgid "Import and install Resources."
 msgstr ""
 
 msgid ""

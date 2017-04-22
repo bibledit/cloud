@@ -116,6 +116,7 @@ string editusfm_index (void * webserver_request)
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var usfmEditorChapterLoaded = \"" + chapterLoaded + "\";\n"
+  "var usfmEditorWillSave = \"" + locale_logic_text_will_save () + "\";\n"
   "var usfmEditorChapterSaving = \"" + chapterSaving + "\";\n"
   "var usfmEditorChapterSaved = \"" + chapterSaved + "\";\n"
   "var usfmEditorChapterRetrying = \"" + chapterRetrying + "\";\n"

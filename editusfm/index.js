@@ -185,11 +185,12 @@ function usfmEditorSaveChapter (sync)
 function usfmEditorChanged (event)
 {
   if (editKeysIgnoreForContentChange (event)) return;
+  usfmEditorStatus (usfmEditorWillSave);
   usfmEditorTextChanged = true;
   if (usfmEditorChangedTimeout) {
     clearTimeout (usfmEditorChangedTimeout);
   }
-  usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 1000);
+  usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 5000);
   //restartCaretClarifier ();
 }
 
@@ -205,6 +206,7 @@ function usfmEditorStatus (text)
 function usfmEditorSelectiveNotification (message)
 {
   if (message == usfmEditorChapterLoaded) return;
+  if (message == usfmEditorWillSave) return;
   if (message == usfmEditorChapterSaving) return;
   if (message == usfmEditorChapterSaved) return;
   notifyItError (message);

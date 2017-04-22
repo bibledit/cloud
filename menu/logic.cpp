@@ -336,45 +336,34 @@ string menu_logic_desktop_category (void * webserver_request, string * tooltip)
 }
 
 
-string menu_logic_translate_category (void * webserver_request, string * tooltip) // Todo cleanup comments.
+string menu_logic_translate_category (void * webserver_request, string * tooltip)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   vector <string> html;
   vector <string> labels;
   
+  // Visual chapter editor.
   if (edit_index_acl (webserver_request)) {
-    //if (menu_logic_editor_enabled (webserver_request, true, true)) {
-      string label = menu_logic_editor_menu_text (true, true);
-      html.push_back (menu_logic_create_item (edit_index_url (), label, true));
-      labels.push_back (label);
-    //}
-  }
-  
-  if (editone_index_acl (webserver_request)) {
-    //if (menu_logic_editor_enabled (webserver_request, true, false)) {
-      string label = menu_logic_editor_menu_text (true, false);
-      html.push_back (menu_logic_create_item (editone_index_url (), label, true));
-      labels.push_back (label);
-    //}
+    string label = menu_logic_editor_menu_text (true, true);
+    html.push_back (menu_logic_create_item (edit_index_url (), label, true));
+    labels.push_back (label);
   }
 
+  // Visual verse editor.
+  if (editone_index_acl (webserver_request)) {
+    string label = menu_logic_editor_menu_text (true, false);
+    html.push_back (menu_logic_create_item (editone_index_url (), label, true));
+    labels.push_back (label);
+  }
+
+  // USFM (chapter) editor.
   if (editusfm_index_acl (webserver_request)) {
-    //if (menu_logic_editor_enabled (webserver_request, false, true)) {
-      string label = menu_logic_editor_menu_text (false, true);
-      html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
-      labels.push_back (label);
-    //}
+    string label = menu_logic_editor_menu_text (false, true);
+    html.push_back (menu_logic_create_item (editusfm_index_url (), label, true));
+    labels.push_back (label);
   }
     
-  if (editverse_index_acl (webserver_request)) {
-    //if (menu_logic_editor_enabled (webserver_request, false, false)) {
-      string label = menu_logic_editor_menu_text (false, false);
-      html.push_back (menu_logic_create_item (editverse_index_url (), label, true));
-      labels.push_back (label);
-    //}
-  }
-  
   if (notes_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true));
     labels.push_back (menu_logic_consultation_notes_text ());
@@ -1186,15 +1175,9 @@ bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chap
 string menu_logic_editor_menu_text (bool visual, bool chapter) // Todo
 {
   // Get the correct menu text.
-  int selection = 0; // Todo test this going out.
-  bool both = (selection == 0);
-  if (visual && chapter && both) return translate ("Visual chapter editor");
-  if (visual && !chapter && both) return translate ("Visual verse editor");
-  if (visual && !both) return translate ("Text");
-  
-  if (!visual && chapter && both) return translate ("USFM chapter editor");
-  if (!visual && !chapter && both) return translate ("USFM verse editor"); // Todo
-  if (!visual && !both) return translate ("USFM");
-  
+  if (visual && chapter) return translate ("Chapter editor");
+  if (visual && !chapter) return translate ("Verse editor");
+  if (!visual) return translate ("USFM editor");
+  // Fallback.
   return translate ("Bible");
 }

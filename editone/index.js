@@ -140,7 +140,7 @@ function navigationNewPassage ()
   } else {
     return;
   }
-  oneverseEditorSaveVerse ();
+  oneverseEditorSaveVerse (true);
   oneverseReloadFlag = false;
   oneverseEditorLoadVerse ();
 }
@@ -296,7 +296,7 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
   if (!delta.ops [0].retain) {
     quill.history.undo ();
   }
-
+  // Start save delay timer.
   oneverseEditorChanged ();
 }
 
@@ -305,10 +305,11 @@ function oneverseEditorChanged ()
 {
   if (!oneverseEditorWriteAccess) return;
   oneverseEditorTextChanged = true;
+  oneverseEditorStatus (oneverseEditorWillSave);
   if (oneverseEditorChangedTimeout) {
     clearTimeout (oneverseEditorChangedTimeout);
   }
-  oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 1000);
+  oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 5000);
 }
 
 
@@ -345,6 +346,7 @@ function oneverseActiveStylesFeedback ()
 function oneverseEditorSelectiveNotification (message)
 {
   if (message == oneverseEditorVerseLoaded) return;
+  if (message == oneverseEditorWillSave) return;
   if (message == oneverseEditorVerseSaving) return;
   if (message == oneverseEditorVerseSaved) return;
   notifyItError (message);

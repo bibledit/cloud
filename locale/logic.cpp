@@ -159,6 +159,18 @@ map <string, string> locale_logic_read_po (string file)
 }
 
 
+string locale_logic_text_loaded ()
+{
+  return translate ("Loaded");
+}
+
+
+string locale_logic_text_will_save ()
+{
+  return translate ("Will save...");
+}
+
+
 string locale_logic_text_saving ()
 {
   return translate ("Saving...");
@@ -168,12 +180,6 @@ string locale_logic_text_saving ()
 string locale_logic_text_saved ()
 {
   return translate ("Saved");
-}
-
-
-string locale_logic_text_loaded ()
-{
-  return translate ("Loaded");
 }
 
 

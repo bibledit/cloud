@@ -1152,7 +1152,7 @@ string menu_logic_editor_settings_text (bool visual, int selection)
 }
 
 
-bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter) // Todo
+bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

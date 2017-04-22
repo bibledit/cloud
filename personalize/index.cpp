@@ -339,7 +339,7 @@ string personalize_index (void * webserver_request)
     bool visual = (i % 2);
     bool chapter = (i <2);
     if (menu_logic_editor_enabled (webserver_request, visual, chapter)) {
-      string label = menu_logic_editor_menu_text (webserver_request, visual, chapter);
+      string label = menu_logic_editor_menu_text (visual, chapter);
       if (chapter) {
         if (!chapter_editors.empty ()) chapter_editors.append (", ");
         chapter_editors.append (label);

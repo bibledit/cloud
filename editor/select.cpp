@@ -61,7 +61,7 @@ string editor_select (void * webserver_request)
   
   if (edit_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {
-      string label = menu_logic_editor_menu_text (webserver_request, true, true);
+      string label = menu_logic_editor_menu_text (true, true);
       string url = edit_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
       urls.push_back (url);
@@ -70,7 +70,7 @@ string editor_select (void * webserver_request)
   
   if (editone_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, false)) {
-      string label = menu_logic_editor_menu_text (webserver_request, true, false);
+      string label = menu_logic_editor_menu_text (true, false);
       string url = editone_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
       urls.push_back (url);
@@ -79,7 +79,7 @@ string editor_select (void * webserver_request)
   
   if (editusfm_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, false, true)) {
-      string label = menu_logic_editor_menu_text (webserver_request, false, true);
+      string label = menu_logic_editor_menu_text (false, true);
       string url = editusfm_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
       urls.push_back (url);
@@ -88,7 +88,7 @@ string editor_select (void * webserver_request)
   
   if (editverse_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, false, false)) {
-      string label = menu_logic_editor_menu_text (webserver_request, false, false);
+      string label = menu_logic_editor_menu_text (false, false);
       string url = editverse_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
       urls.push_back (url);

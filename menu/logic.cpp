@@ -1145,15 +1145,14 @@ string menu_logic_editor_settings_text (bool visual, int selection)
     if (selection == 1) return translate ("Only the visual chapter editor");
     if (selection == 2) return translate ("Only the visual verse editor");
   } else {
-    if (selection == 0) return translate ("Both the USFM chapter and USFM verse editors"); // Todo
-    if (selection == 1) return translate ("Only the USFM chapter editor");
-    if (selection == 2) return translate ("Only the USFM verse editor");
+    if (selection <= 0) return translate ("Hide");
+    if (selection >= 1) return translate ("Show");
   }
   return "";
 }
 
 
-bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter)
+bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -1162,17 +1161,22 @@ bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chap
   if (visual) selection = request->database_config_user ()->getFastSwitchVisualEditors ();
   else selection = request->database_config_user ()->getFastSwitchUsfmEditors ();
   
-  // Check whether the visual or USFM chapter/verse editor is active.
-  if (selection == 0) return true;
-  if ((selection == 1) && chapter) return true;
-  if ((selection == 2) && !chapter) return true;
-  
+  if (visual) {
+    // Check whether the visual chapter or verse editor is active.
+    if (selection == 0) return true;
+    if ((selection == 1) && chapter) return true;
+    if ((selection == 2) && !chapter) return true;
+  } else {
+    // Check whether the USFM chapter editor is active.
+    if (selection >= 1) return true;
+  }
+
   // The requested editor is inactive.
   return false;
 }
 
 
-string menu_logic_editor_menu_text (bool visual, bool chapter) // Todo
+string menu_logic_editor_menu_text (bool visual, bool chapter)
 {
   // Get the correct menu text.
   if (visual && chapter) return translate ("Chapter editor");

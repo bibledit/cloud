@@ -318,8 +318,8 @@ string personalize_index (void * webserver_request)
   if (request->query.count (fastswitchusfmeditors)) {
     editors = request->query[fastswitchusfmeditors];
     if (editors.empty ()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
-      for (int i = 0; i < 3; i++) {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Enable the USFM Bible editor?"), "", "");
+      for (int i = 0; i < 2; i++) {
         dialog_list.add_row (menu_logic_editor_settings_text (false, i), fastswitchusfmeditors, convert_to_string (i));
       }
       page += dialog_list.run ();

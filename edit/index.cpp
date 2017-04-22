@@ -132,6 +132,7 @@ string edit_index (void * webserver_request)
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var editorChapterLoaded = '" + locale_logic_text_loaded () + "';\n"
+  "var editorWillSave = '" + locale_logic_text_will_save () + "';\n"
   "var editorChapterSaving = '" + locale_logic_text_saving () + "';\n"
   "var editorChapterSaved = '" + locale_logic_text_saved () + "';\n"
   "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"

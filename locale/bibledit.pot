@@ -79,6 +79,21 @@ msgid ""
 "receive action as soon as you can."
 msgstr ""
 
+msgid "The Cloud already had some changes in this chapter."
+msgstr ""
+
+msgid "You sent some changes for this chapter too."
+msgstr ""
+
+msgid "The Cloud merged the two."
+msgstr ""
+
+msgid "Most likely this is okay."
+msgstr ""
+
+msgid "You may want to check the result of the merge, whether it is correct."
+msgstr ""
+
 msgid "Bibles"
 msgstr ""
 
@@ -4845,12 +4860,7 @@ msgstr ""
 msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
 msgstr ""
 
-msgid "Administrator info"
-msgstr ""
-
-msgid ""
-"It is possible to secure traffic between a user's browser and Bibledit "
-"Cloud, and between Bibledit clients and Bibledit Cloud."
+msgid "OpenLDAP"
 msgstr ""
 
 msgid ""
@@ -4860,6 +4870,17 @@ msgstr ""
 msgid ""
 "The following file in the Bibledit installation provides all information "
 "needed:"
+msgstr ""
+
+msgid "Security"
+msgstr ""
+
+msgid ""
+"It is possible to secure traffic between a user's browser and Bibledit "
+"Cloud, and between Bibledit clients and Bibledit Cloud."
+msgstr ""
+
+msgid "For better security, access Bibledit Cloud through a Tor browser."
 msgstr ""
 
 msgid "Install Bibledit on Chrome OS"
@@ -5802,7 +5823,10 @@ msgstr ""
 msgid "Open the styles from the Bible editor."
 msgstr ""
 
-msgid "Search for words."
+msgid "Find text."
+msgstr ""
+
+msgid "Find next."
 msgstr ""
 
 msgid "Print."

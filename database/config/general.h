@@ -132,6 +132,9 @@ public:
   static bool getJustConnectedToCloud ();
   static void setJustConnectedToCloud (bool value);
   
+  static bool getMenuInTabbedView ();
+  static void setMenuInTabbedView (bool value);
+  
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

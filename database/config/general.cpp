@@ -478,3 +478,17 @@ void Database_Config_General::setJustConnectedToCloud (bool value)
 {
   setBValue ("just-connected-to-cloud", value);
 }
+
+
+const char * menu_in_tabbed_view_key ()
+{
+  return "menu-in-tabbed-view";
+}
+bool Database_Config_General::getMenuInTabbedView ()
+{
+  return getBValue (menu_in_tabbed_view_key (), false);
+}
+void Database_Config_General::setMenuInTabbedView (bool value)
+{
+  setBValue (menu_in_tabbed_view_key (), value);
+}

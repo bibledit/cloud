@@ -1252,13 +1252,16 @@ msgstr ""
 msgid "Month"
 msgstr ""
 
+msgid "Loaded"
+msgstr ""
+
+msgid "Will save..."
+msgstr ""
+
 msgid "Saving..."
 msgstr ""
 
 msgid "Saved"
-msgstr ""
-
-msgid "Loaded"
 msgstr ""
 
 msgid "Retrying..."
@@ -1594,28 +1597,19 @@ msgstr ""
 msgid "Only the visual verse editor"
 msgstr ""
 
-msgid "Both the USFM chapter and USFM verse editors"
+msgid "Hide"
 msgstr ""
 
-msgid "Only the USFM chapter editor"
+msgid "Show"
 msgstr ""
 
-msgid "Only the USFM verse editor"
+msgid "Chapter editor"
 msgstr ""
 
-msgid "Visual chapter editor"
+msgid "Verse editor"
 msgstr ""
 
-msgid "Visual verse editor"
-msgstr ""
-
-msgid "Text"
-msgstr ""
-
-msgid "USFM chapter editor"
-msgstr ""
-
-msgid "USFM verse editor"
+msgid "USFM editor"
 msgstr ""
 
 msgid "Back"
@@ -1835,6 +1829,9 @@ msgid "Incorrect fade-out delay in seconds"
 msgstr ""
 
 msgid "Which visual Bible editors to enable?"
+msgstr ""
+
+msgid "Enable the USFM Bible editor?"
 msgstr ""
 
 msgid "Select which Bible to make the active one for editing"
@@ -8062,10 +8059,10 @@ msgstr ""
 msgid "Available Bible editors in the Bible editor selector:"
 msgstr ""
 
-msgid "Visual editors:"
+msgid "Text editors:"
 msgstr ""
 
-msgid "USFM editors:"
+msgid "USFM editor:"
 msgstr ""
 
 msgid "Downgrade the visual Bible editors:"

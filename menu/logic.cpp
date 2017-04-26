@@ -1187,7 +1187,7 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
 }
 
 
-void menu_logic_tabbed_mode (void * webserver_request, string & url) // Todo
+void menu_logic_tabbed_mode (void * webserver_request, string & url)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 #ifdef HAVE_ANDROID

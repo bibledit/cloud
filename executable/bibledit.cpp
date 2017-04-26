@@ -90,15 +90,6 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
 #endif
 
 
-void test_api () // Todo
-{
-  while (true) {
-    this_thread::sleep_for (chrono::seconds (1));
-    cout << "|" << bibledit_get_pages_to_open () << "|" << endl; // Todo
-  }
-}
-
-
 int main (int argc, char **argv)
 {
   (void) argc;
@@ -192,8 +183,6 @@ int main (int argc, char **argv)
   bibledit_set_quit_at_midnight ();
 #endif
 
-  new thread (test_api); // Todo
-  
   // Keep running till Bibledit stops or gets interrupted.
   while (bibledit_is_running ()) { }
 

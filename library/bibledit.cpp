@@ -258,7 +258,7 @@ const char * bibledit_get_external_url ()
 
 
 // Returns the pages the calling app should open.
-const char * bibledit_get_pages_to_open () // Todo test what it returns.
+const char * bibledit_get_pages_to_open ()
 {
   static int call_counter = 0;
   if (!config_globals_pages_to_open.empty ()) call_counter++;

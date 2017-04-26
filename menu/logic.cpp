@@ -1185,3 +1185,23 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
   // Fallback.
   return translate ("Bible");
 }
+
+
+void menu_logic_tabbed_mode (void * webserver_request, string & url) // Todo
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+#ifdef HAVE_ANDROID
+  if (Database_Config_General::getMenuInTabbedView ()) {
+    if (request->database_config_user ()->getBasicInterfaceMode ()) {
+      bool enable_tabs = false;
+      if (url == editone_index_url ()) enable_tabs = true;
+      if (url == changes_changes_url ()) enable_tabs = true;
+      if (url == notes_index_url ()) enable_tabs = true;
+      if (url == resource_index_url ()) enable_tabs = true;
+      bool disable_tabs = (url == personalize_index_url ());
+      if (enable_tabs) url = index_index_url ();
+    }
+  }
+#endif
+  cout << url << endl;
+}

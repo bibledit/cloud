@@ -8121,6 +8121,9 @@ msgstr ""
 msgid "Normally the controls are at the bottom of the page."
 msgstr ""
 
+msgid "Display main menu in tabbed view"
+msgstr ""
+
 msgid "Back to chapter"
 msgstr ""
 

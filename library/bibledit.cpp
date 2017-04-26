@@ -257,6 +257,19 @@ const char * bibledit_get_external_url ()
 }
 
 
+// Returns the pages the calling app should open.
+const char * bibledit_get_pages_to_open () // Todo test what it returns.
+{
+  static int call_counter = 0;
+  if (!config_globals_pages_to_open.empty ()) call_counter++;
+  if (call_counter > 1) {
+    config_globals_pages_to_open.clear ();
+    call_counter = 0;
+  }
+  return config_globals_pages_to_open.c_str ();
+}
+
+
 // The normal shutdown procedure works by connecting to the internal webservers,
 // and these connections in turn help with shutting down the listening internal webservers.
 // In case all the internal webservers no longer are able to accept connections,

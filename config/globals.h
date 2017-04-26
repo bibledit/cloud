@@ -50,3 +50,4 @@ extern default_random_engine config_globals_random_engine;
 extern uniform_int_distribution <int> config_globals_int_distribution;
 extern string config_globals_external_url;
 extern map <string, int> config_globals_resource_window_positions;
+extern string config_globals_pages_to_open;

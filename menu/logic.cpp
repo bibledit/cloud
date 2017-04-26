@@ -1198,10 +1198,24 @@ void menu_logic_tabbed_mode (void * webserver_request, string & url) // Todo
       if (url == changes_changes_url ()) enable_tabs = true;
       if (url == notes_index_url ()) enable_tabs = true;
       if (url == resource_index_url ()) enable_tabs = true;
+      if (enable_tabs) {
+        url = index_index_url ();
+        config_globals_pages_to_open.clear ();
+        config_globals_pages_to_open.append (editone_index_url ());
+        if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
+          config_globals_pages_to_open.append ("\n");
+          config_globals_pages_to_open.append (changes_changes_url ());
+        }
+        config_globals_pages_to_open.append ("\n");
+        config_globals_pages_to_open.append (notes_index_url ());
+        config_globals_pages_to_open.append ("\n");
+        config_globals_pages_to_open.append (resource_index_url ());
+      }
       bool disable_tabs = (url == personalize_index_url ());
-      if (enable_tabs) url = index_index_url ();
+      if (disable_tabs) {
+        config_globals_pages_to_open = personalize_index_url ();
+      }
     }
   }
 #endif
-  cout << url << endl;
 }

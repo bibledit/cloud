@@ -30,8 +30,9 @@ using namespace jsonxx;
 void test_json ()
 {
   trace_unit_tests (__func__);
+  
+  // Convert JSON to xml.
   {
-    // Convert JSON to xml.
     string json ("{"
                  "  \"foo\" : 1,"
                  "  \"bar\" : false,"
@@ -40,12 +41,13 @@ void test_json ()
                  "}");
     Object object;
     object.parse (json);
-    string path = filter_url_create_root_path ("unittests", "tests", "jsonxx.txt");
+    string path = filter_url_create_root_path ("unittests", "tests", "json1.txt");
     string xml = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, xml, object.xml (JSONx));
   }
+
+  // Test malformed JSON.
   {
-    // Test malformed JSON.
     string json ("{"
                  "  \"foo\" 1,"
                  "  \"bar : false,"
@@ -55,5 +57,42 @@ void test_json ()
     Object object;
     object.parse (json);
     evaluate (__LINE__, __func__, "{\n} \n", object.json ());
+  }
+  
+  // JSON roundtrip.
+  {
+    string json;
+    {
+      Array array;
+      {
+        Object object;
+        object << "key1" << "content1";
+        object << "key2" << "content2";
+        array << object;
+      }
+      {
+        Object object;
+        object << "key3" << "content3";
+        object << "key4" << "content4";
+        array << object;
+      }
+      json = array.json ();
+      string path = filter_url_create_root_path ("unittests", "tests", "json2.txt");
+      string standard = filter_url_file_get_contents (path);
+      evaluate (__LINE__, __func__, standard, json);
+    }
+    {
+      Array array;
+      array.parse (json);
+      Object object;
+      object = array.get<Object>(0);
+      evaluate (__LINE__, __func__, "content1", object.get<String>("key1"));
+      evaluate (__LINE__, __func__, "content2", object.get<String>("key2"));
+      evaluate (__LINE__, __func__, false, object.has<String>("key3"));
+      object = array.get<Object>(1);
+      evaluate (__LINE__, __func__, "content3", object.get<String>("key3"));
+      evaluate (__LINE__, __func__, "content4", object.get<String>("key4"));
+      evaluate (__LINE__, __func__, false, object.has<String>("key5"));
+    }
   }
 }

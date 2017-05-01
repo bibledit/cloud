@@ -93,6 +93,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <bible/logic.h>
 #include <ldap/logic.h>
+#include <jsonxx/jsonxx.h>
 
 
 string menu_logic_href (string href)
@@ -274,11 +275,11 @@ string menu_logic_basic_categories (void * webserver_request)
   }
 
   if (notes_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (notes_index_url (), translate ("Notes"), true));
+    html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true));
   }
   
   if (resource_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_index_url (), translate ("Resources"), true));
+    html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true));
   }
 
   if (personalize_index_acl (webserver_request)) {
@@ -370,7 +371,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   }
 
   if (resource_index_acl (webserver_request)) {
-    string label = translate ("Resources");
+    string label = menu_logic_resources_text ();
     html.push_back (menu_logic_create_item (resource_index_url (), label, true));
     labels.push_back (label);
   }
@@ -993,7 +994,7 @@ string menu_logic_menu_text (string menu_item)
   if (menu_item == menu_logic_settings_menu ()) {
     return menu_logic_settings_text ();
   }
-  return translate ("Menu");
+  return menu_logic_menu_text ();
 }
 
 
@@ -1138,6 +1139,13 @@ string menu_logic_styles_text ()
 }
 
 
+string menu_logic_menu_text ()
+{
+  return translate ("Menu");
+  
+}
+
+
 string menu_logic_editor_settings_text (bool visual, int selection)
 {
   if (visual) {
@@ -1187,35 +1195,63 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
 }
 
 
+jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label, bool active)
+{
+  jsonxx::Object object;
+  object << "url" << url;
+  object << "label" << label;
+  object << "active" << active;
+  return object;
+}
+
+
+// This cares for tabbed mode on certain devices.
 void menu_logic_tabbed_mode (void * webserver_request, string & url)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
 #ifdef HAVE_ANDROID
+  // Check conditions for tabbed mode.
   if (Database_Config_General::getMenuInTabbedView ()) {
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
     if (request->database_config_user ()->getBasicInterfaceMode ()) {
+      // Certain URLs enable tabbed mode: Check on them.
       bool enable_tabs = false;
       if (url == editone_index_url ()) enable_tabs = true;
       if (url == changes_changes_url ()) enable_tabs = true;
       if (url == notes_index_url ()) enable_tabs = true;
       if (url == resource_index_url ()) enable_tabs = true;
+      // Whether to disable tabbed view.
+      bool disable_tabs = (url == index_index_url ());
+      // Deal with enabling tabbed view.
       if (enable_tabs) {
-        url = index_index_url ();
-        config_globals_pages_to_open.clear ();
-        config_globals_pages_to_open.append (editone_index_url ());
+        // Storage for the URLs.
+        jsonxx::Array json_array;
+        // Start off with the Menu tab.
+        json_array << menu_logic_tabbed_mode_add_tab (index_index_url (), menu_logic_menu_text (), false);
+        // Add the Bible editor tab.
+        json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text (), url == editone_index_url ());
+        // Add the Changes, if enabled.
         if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
-          config_globals_pages_to_open.append ("\n");
-          config_globals_pages_to_open.append (changes_changes_url ());
+          json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text (), url == changes_changes_url ());
         }
-        config_globals_pages_to_open.append ("\n");
-        config_globals_pages_to_open.append (notes_index_url ());
-        config_globals_pages_to_open.append ("\n");
-        config_globals_pages_to_open.append (resource_index_url ());
+        // Add the consultation notes tab.
+        json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text (), url == notes_index_url ());
+        // Add the resources tab.
+        json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text (), url == resource_index_url ());
+        // JSON representation of the URLs.
+        config_globals_pages_to_open = json_array.json ();
+        // Just open the home page.
+        url = index_index_url ();
       }
-      bool disable_tabs = (url == personalize_index_url ());
+      // Deal with disabling tabbed view.
       if (disable_tabs) {
-        config_globals_pages_to_open = personalize_index_url ();
+        jsonxx::Array json_array;
+        json_array << menu_logic_tabbed_mode_add_tab (index_index_url (), "", false);
+        config_globals_pages_to_open = json_array.json ();
       }
     }
   }
+#else
+  (void) webserver_request;
+  (void) url;
 #endif
 }

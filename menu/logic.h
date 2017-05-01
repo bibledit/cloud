@@ -73,6 +73,7 @@ string menu_logic_styles_indext_text ();
 string menu_logic_styles_indexm_text ();
 string menu_logic_changes_text ();
 string menu_logic_styles_text ();
+string menu_logic_menu_text ();
 
 string menu_logic_editor_settings_text (bool visual, int selection);
 bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter);

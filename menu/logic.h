@@ -79,6 +79,7 @@ string menu_logic_editor_settings_text (bool visual, int selection);
 bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter);
 string menu_logic_editor_menu_text (bool visual, bool chapter);
 
+bool menu_logic_tabbed_mode_active (void * webserver_request, string & url);
 void menu_logic_tabbed_mode (void * webserver_request, string & url);
 
 

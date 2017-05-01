@@ -1205,53 +1205,52 @@ jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label, bool ac
 }
 
 
+// Whether device can go to tabbed viewer mode.
+bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
+{
+  // Whether the device type has tabbed mode.
+  bool tabbed_mode = false;
+#ifdef HAVE_ANDROID
+  tabbed_mode = true;
+#endif
+  if (!tabbed_mode) return false;
+  // Whether tabbed mode enabled in the preferences.
+  if (!Database_Config_General::getMenuInTabbedView ()) return false;
+  // Whether the interface is in basic mode.
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  if (!request->database_config_user ()->getBasicInterfaceMode ()) return false;
+  // Certain URLs enable tabbed mode: Check on them.
+  if (url != editone_index_url () &&
+      url != changes_changes_url () &&
+      url != notes_index_url () &&
+      url != resource_index_url ()) return false;
+  // All conditions met: It's on.
+  return true;
+}
+
+
 // This cares for tabbed mode on certain devices.
 void menu_logic_tabbed_mode (void * webserver_request, string & url)
 {
-#ifdef HAVE_ANDROID
-  // Check conditions for tabbed mode.
-  if (Database_Config_General::getMenuInTabbedView ()) {
+  if (menu_logic_tabbed_mode_active (webserver_request, url)) {
+    // Storage for the URLs.
+    jsonxx::Array json_array;
+    // Start off with the Menu tab.
+    json_array << menu_logic_tabbed_mode_add_tab (index_index_url (), menu_logic_menu_text (), false);
+    // Add the Bible editor tab.
+    json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text (), url == editone_index_url ());
+    // Add the Changes, if enabled.
     Webserver_Request * request = (Webserver_Request *) webserver_request;
-    if (request->database_config_user ()->getBasicInterfaceMode ()) {
-      // Certain URLs enable tabbed mode: Check on them.
-      bool enable_tabs = false;
-      if (url == editone_index_url ()) enable_tabs = true;
-      if (url == changes_changes_url ()) enable_tabs = true;
-      if (url == notes_index_url ()) enable_tabs = true;
-      if (url == resource_index_url ()) enable_tabs = true;
-      // Whether to disable tabbed view.
-      bool disable_tabs = (url == index_index_url ());
-      // Deal with enabling tabbed view.
-      if (enable_tabs) {
-        // Storage for the URLs.
-        jsonxx::Array json_array;
-        // Start off with the Menu tab.
-        json_array << menu_logic_tabbed_mode_add_tab (index_index_url (), menu_logic_menu_text (), false);
-        // Add the Bible editor tab.
-        json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text (), url == editone_index_url ());
-        // Add the Changes, if enabled.
-        if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
-          json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text (), url == changes_changes_url ());
-        }
-        // Add the consultation notes tab.
-        json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text (), url == notes_index_url ());
-        // Add the resources tab.
-        json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text (), url == resource_index_url ());
-        // JSON representation of the URLs.
-        config_globals_pages_to_open = json_array.json ();
-        // Just open the home page.
-        url = index_index_url ();
-      }
-      // Deal with disabling tabbed view.
-      if (disable_tabs) {
-        jsonxx::Array json_array;
-        json_array << menu_logic_tabbed_mode_add_tab (index_index_url (), "", false);
-        config_globals_pages_to_open = json_array.json ();
-      }
+    if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
+      json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text (), url == changes_changes_url ());
     }
+    // Add the consultation notes tab.
+    json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text (), url == notes_index_url ());
+    // Add the resources tab.
+    json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text (), url == resource_index_url ());
+    // JSON representation of the URLs.
+    config_globals_pages_to_open = json_array.json ();
+    // Just open the home page.
+    url = index_index_url ();
   }
-#else
-  (void) webserver_request;
-  (void) url;
-#endif
 }

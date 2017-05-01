@@ -1195,16 +1195,6 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
 }
 
 
-jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label, bool active)
-{
-  jsonxx::Object object;
-  object << "url" << url;
-  object << "label" << label;
-  object << "active" << active;
-  return object;
-}
-
-
 // Whether device can go to tabbed viewer mode.
 bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
 {
@@ -1226,6 +1216,16 @@ bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
       url != resource_index_url ()) return false;
   // All conditions met: It's on.
   return true;
+}
+
+
+jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label, bool active)
+{
+  jsonxx::Object object;
+  object << "url" << url;
+  object << "label" << label;
+  object << "active" << active;
+  return object;
 }
 
 

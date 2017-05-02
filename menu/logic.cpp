@@ -1209,16 +1209,17 @@ bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
   // Whether the interface is in basic mode.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (!request->database_config_user ()->getBasicInterfaceMode ()) return false;
-  // Certain URLs enable tabbed mode: Check on them.
-  if (url != editone_index_url () &&
-      url != changes_changes_url () &&
-      url != notes_index_url () &&
-      url != resource_index_url ()) return false;
+  // Certain URLs enable tabbed mode: Check on them. Todo search for pos == 0 or pos == 1.
+  if ((url.find (editone_index_url ()) != string::npos)  &&
+      (url.find (changes_changes_url ()) != string::npos) &&
+      (url.find (notes_index_url ()) != string::npos) &&
+      (url.find (resource_index_url ()) != string::npos)) return false;
   // All conditions met: It's on.
   return true;
 }
 
 
+// For internal repatitive use.
 jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label, bool active)
 {
   jsonxx::Object object;

@@ -1459,12 +1459,6 @@ msgstr ""
 msgid "Translation"
 msgstr ""
 
-msgid "Notes"
-msgstr ""
-
-msgid "Resources"
-msgstr ""
-
 msgid "User resources"
 msgstr ""
 
@@ -1558,9 +1552,6 @@ msgstr ""
 msgid "Help and About"
 msgstr ""
 
-msgid "Menu"
-msgstr ""
-
 msgid "Translate"
 msgstr ""
 
@@ -1573,7 +1564,13 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Notes"
+msgstr ""
+
 msgid "Workspaces"
+msgstr ""
+
+msgid "Resources"
 msgstr ""
 
 msgid "Image resources"
@@ -1586,6 +1583,9 @@ msgid "Edit stylesheet"
 msgstr ""
 
 msgid "Styles"
+msgstr ""
+
+msgid "Menu"
 msgstr ""
 
 msgid "Both the visual chapter and visual verse editors"

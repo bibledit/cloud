@@ -189,10 +189,13 @@ string Assets_Header::run ()
     }
     
     // The start button to be displayed only when there's no menu.
-    bool start_button = true;
+    bool start_button = true; // Todo
+    
     
     string menublock;
     string item = request->query ["item"];
+    cout << item << endl; // Todo
+    cout << request->get << endl; // Todo Search for pos = 0 or 1.
     bool main_menu_always_on = false;
     if (item.empty ())
       if (request->database_config_user ()->getMainMenuAlwaysVisible ())
@@ -221,6 +224,10 @@ string Assets_Header::run ()
       menublock = menu_logic_help_category (webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
+
+    // Not to display the "start button" in tabbed mode.
+    // That would take up screen space unnecessarily.
+    if (menu_logic_tabbed_mode_active (webserver_request, item)) start_button = false;
 
     if (start_button) {
       view->enable_zone ("start_button");

@@ -1198,7 +1198,7 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
 // Whether device can go to tabbed viewer mode.
 bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
 {
-  // Whether the device type has tabbed mode.
+  // Whether the device can do tabbed mode.
   bool tabbed_mode = false;
 #ifdef HAVE_ANDROID
   tabbed_mode = true;
@@ -1209,13 +1209,13 @@ bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
   // Whether the interface is in basic mode.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (!request->database_config_user ()->getBasicInterfaceMode ()) return false;
-  // Certain URLs enable tabbed mode: Check on them. Todo search for pos == 0 or pos == 1.
-  if ((url.find (editone_index_url ()) != string::npos)  &&
-      (url.find (changes_changes_url ()) != string::npos) &&
-      (url.find (notes_index_url ()) != string::npos) &&
-      (url.find (resource_index_url ()) != string::npos)) return false;
-  // All conditions met: It's on.
-  return true;
+  // Certain URLs enable tabbed mode.
+  if (url.find (editone_index_url ()) != string::npos) return true;
+  if (url.find (changes_changes_url ()) != string::npos) return true;
+  if (url.find (notes_index_url ()) != string::npos) return true;
+  if (url.find (resource_index_url ()) != string::npos) return true;
+  // It's off for other URLs.
+  return false;
 }
 
 

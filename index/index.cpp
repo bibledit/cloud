@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/login.h>
 #include <bible/logic.h>
 #include <filter/webview.h>
+#include <menu/logic.h>
 
 
 const char * index_index_url ()
@@ -65,10 +66,9 @@ string index_index (void * webserver_request)
   // Basic or advanced mode setting.
   string mode = request->query ["mode"];
   if (!mode.empty ()) {
-    bool basic = false;
-    if (mode == "basic") basic = true;
-    if (mode == "advanced") basic = false;
+    bool basic = (mode == "basic");
     request->database_config_user ()->setBasicInterfaceMode (basic);
+    menu_logic_tabbed_mode_save_json (webserver_request, false);
   }
   
   // Normally a page does not show the expanded main menu.

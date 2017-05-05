@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <index/index.h>
 #include <webserver/request.h>
+#include <database/config/general.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request_in)
@@ -225,7 +226,7 @@ string Assets_Header::run ()
 
     // Not to display the "start button" in tabbed mode.
     // That would take up screen space unnecessarily.
-    if (menu_logic_tabbed_mode_active (webserver_request, request->get)) start_button = false;
+    if (!Database_Config_General::getMenuInTabbedViewJSON ().empty ()) start_button = false;
 
     if (start_button) {
       view->enable_zone ("start_button");

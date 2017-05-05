@@ -260,12 +260,7 @@ const char * bibledit_get_external_url ()
 // Returns the pages the calling app should open.
 const char * bibledit_get_pages_to_open ()
 {
-  static int call_counter = 0;
-  if (!config_globals_pages_to_open.empty ()) call_counter++;
-  if (call_counter > 1) {
-    config_globals_pages_to_open.clear ();
-    call_counter = 0;
-  }
+  config_globals_pages_to_open = Database_Config_General::getMenuInTabbedViewJSON ();
   return config_globals_pages_to_open.c_str ();
 }
 

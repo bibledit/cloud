@@ -41,7 +41,6 @@ string menu_index (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string item = request->query ["item"];
   item = menu_logic_click (item);
-  menu_logic_tabbed_mode (webserver_request, item);
   redirect_browser (request, item);
   return "";
 }

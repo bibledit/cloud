@@ -410,18 +410,17 @@ string personalize_index (void * webserver_request)
   view.set_variable ("dismisschangesattop", on_off);
   
   
-  // Whether to show the main menu in tabbed view in basic mode on phones and tablets.
-#ifdef HAVE_ANDROID
-  if (request->query.count ("mainmenutabs")) {
-    bool state = Database_Config_General::getMenuInTabbedView ();
-    Database_Config_General::setMenuInTabbedView (!state);
+  // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
+  if (menu_logic_can_do_tabbed_mode ()) {
+    if (request->query.count ("mainmenutabs")) {
+      menu_logic_tabbed_mode_save_json (webserver_request, true);
+    }
   }
-  on_off = styles_logic_off_on_inherit_toggle_text (Database_Config_General::getMenuInTabbedView ());
+  on_off = styles_logic_off_on_inherit_toggle_text (!Database_Config_General::getMenuInTabbedViewJSON ().empty ());
   view.set_variable ("mainmenutabs", on_off);
   if (request->database_config_user ()->getBasicInterfaceMode ()) {
     view.enable_zone ("tabs_possible");
   }
-#endif
 
   
   // Enable the sections with settings relevant to the user and device.

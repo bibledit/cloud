@@ -480,15 +480,15 @@ void Database_Config_General::setJustConnectedToCloud (bool value)
 }
 
 
-const char * menu_in_tabbed_view_key ()
+const char * menu_in_tabbed_view_json_key ()
 {
-  return "menu-in-tabbed-view";
+  return "menu-in-tabbed-view-json";
 }
-bool Database_Config_General::getMenuInTabbedView ()
+string Database_Config_General::getMenuInTabbedViewJSON ()
 {
-  return getBValue (menu_in_tabbed_view_key (), false);
+  return getValue (menu_in_tabbed_view_json_key (), "");
 }
-void Database_Config_General::setMenuInTabbedView (bool value)
+void Database_Config_General::setMenuInTabbedViewJSON (string value)
 {
-  setBValue (menu_in_tabbed_view_key (), value);
+  setValue (menu_in_tabbed_view_json_key (), value);
 }

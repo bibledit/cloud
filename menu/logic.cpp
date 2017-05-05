@@ -1195,63 +1195,69 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
 }
 
 
-// Whether device can go to tabbed viewer mode.
-bool menu_logic_tabbed_mode_active (void * webserver_request, string & url)
-{
-  // Whether the device can do tabbed mode.
-  bool tabbed_mode = false;
-#ifdef HAVE_ANDROID
-  tabbed_mode = true;
-#endif
-  if (!tabbed_mode) return false;
-  // Whether tabbed mode enabled in the preferences.
-  if (!Database_Config_General::getMenuInTabbedView ()) return false;
-  // Whether the interface is in basic mode.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  if (!request->database_config_user ()->getBasicInterfaceMode ()) return false;
-  // Certain URLs enable tabbed mode.
-  if (url.find (editone_index_url ()) != string::npos) return true;
-  if (url.find (changes_changes_url ()) != string::npos) return true;
-  if (url.find (notes_index_url ()) != string::npos) return true;
-  if (url.find (resource_index_url ()) != string::npos) return true;
-  // It's off for other URLs.
-  return false;
-}
-
-
 // For internal repatitive use.
-jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label, bool active)
+jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
 {
   jsonxx::Object object;
   object << "url" << url;
   object << "label" << label;
-  object << "active" << active;
   return object;
 }
 
 
-// This cares for tabbed mode on certain devices.
-void menu_logic_tabbed_mode (void * webserver_request, string & url)
+// Whether the device can do tabbed mode.
+bool menu_logic_can_do_tabbed_mode () // Todo
 {
-  if (menu_logic_tabbed_mode_active (webserver_request, url)) {
-    // Storage for the URLs.
-    jsonxx::Array json_array;
-    // Start off with the Menu tab.
-    json_array << menu_logic_tabbed_mode_add_tab (index_index_url (), menu_logic_menu_text (), false);
-    // Add the Bible editor tab.
-    json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text (), url == editone_index_url ());
-    // Add the Changes, if enabled.
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
-    if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
-      json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text (), url == changes_changes_url ());
+#ifdef HAVE_ANDROID
+  return true;
+#endif
+#ifdef HAVE_IOS
+  return true;
+#endif
+  return false;
+}
+
+
+// This looks at the settings, and then generates JSON, and stores that in the general configuration.
+void menu_logic_tabbed_mode_save_json (void * webserver_request, bool toggle)
+{
+  string json;
+
+  // Whether the device can do tabbed mode.
+  if (menu_logic_can_do_tabbed_mode ()) {
+    
+    bool  generate_json = false;
+    
+    // Whether to toggle tabbed view.
+    if (toggle) {
+      generate_json = Database_Config_General::getMenuInTabbedViewJSON ().empty ();
     }
-    // Add the consultation notes tab.
-    json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text (), url == notes_index_url ());
-    // Add the resources tab.
-    json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text (), url == resource_index_url ());
-    // JSON representation of the URLs.
-    config_globals_pages_to_open = json_array.json ();
-    // Just open the home page.
-    url = index_index_url ();
+    
+    // Tabbed view not possible in advanced mode.
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    if (!request->database_config_user ()->getBasicInterfaceMode ()) {
+      generate_json = false;
+    }
+    
+    if (generate_json) {
+      // Storage for the tabbed view.
+      jsonxx::Array json_array;
+      // Add the Bible editor tab.
+      json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text ());
+      // Add the Changes, if enabled.
+      if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
+        json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text ());
+      }
+      // Add the consultation notes tab.
+      json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text ());
+      // Add the resources tab.
+      json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text ());
+      // Add the preferences page.
+      json_array << menu_logic_tabbed_mode_add_tab (personalize_index_url (), menu_logic_settings_text ());
+      // JSON representation of the URLs.
+      json = json_array.json ();
+    }
   }
+
+  Database_Config_General::setMenuInTabbedViewJSON (json);
 }

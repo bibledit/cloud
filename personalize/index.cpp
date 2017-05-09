@@ -418,7 +418,7 @@ string personalize_index (void * webserver_request)
   }
   on_off = styles_logic_off_on_inherit_toggle_text (!Database_Config_General::getMenuInTabbedViewJSON ().empty ());
   view.set_variable ("mainmenutabs", on_off);
-  if (request->database_config_user ()->getBasicInterfaceMode ()) {
+  if (menu_logic_can_do_tabbed_mode ()) {
     view.enable_zone ("tabs_possible");
   }
 

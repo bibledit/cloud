@@ -1206,7 +1206,7 @@ jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
 
 
 // Whether the device can do tabbed mode.
-bool menu_logic_can_do_tabbed_mode () // Todo
+bool menu_logic_can_do_tabbed_mode ()
 {
 #ifdef HAVE_ANDROID
   return true;

@@ -114,6 +114,12 @@ string personalize_index (void * webserver_request)
   }
 
   
+  // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
+  if (request->query.count ("mainmenutabs")) {
+    menu_logic_tabbed_mode_save_json (webserver_request, true);
+  }
+
+  
   string page;
   string success;
   string error;
@@ -411,11 +417,6 @@ string personalize_index (void * webserver_request)
   
   
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
-  if (menu_logic_can_do_tabbed_mode ()) {
-    if (request->query.count ("mainmenutabs")) {
-      menu_logic_tabbed_mode_save_json (webserver_request, true);
-    }
-  }
   on_off = styles_logic_off_on_inherit_toggle_text (!Database_Config_General::getMenuInTabbedViewJSON ().empty ());
   view.set_variable ("mainmenutabs", on_off);
   if (menu_logic_can_do_tabbed_mode ()) {

@@ -192,6 +192,8 @@ string Assets_Header::run ()
     // The start button to be displayed only when there's no menu.
     bool start_button = true;
     
+    // Whether tabbed mode is on.
+    bool tabbed_mode_on = !Database_Config_General::getMenuInTabbedViewJSON ().empty ();
     
     string menublock;
     string item = request->query ["item"];
@@ -201,7 +203,10 @@ string Assets_Header::run ()
         main_menu_always_on = true;
     if ((item == "main") || main_menu_always_on) {
       if (basic_mode) {
-        menublock = menu_logic_basic_categories (webserver_request);
+        // Basic mode gives basic menu, but nothing in tabbed mode.
+        if (!tabbed_mode_on) {
+          menublock = menu_logic_basic_categories (webserver_request);
+        }
       } else {
         string devnull;
         menublock = menu_logic_main_categories (webserver_request, devnull);
@@ -226,7 +231,7 @@ string Assets_Header::run ()
 
     // Not to display the "start button" in tabbed mode.
     // That would take up screen space unnecessarily.
-    if (!Database_Config_General::getMenuInTabbedViewJSON ().empty ()) start_button = false;
+    if (tabbed_mode_on) start_button = false; // Todo
 
     if (start_button) {
       view->enable_zone ("start_button");

@@ -231,7 +231,7 @@ string Assets_Header::run ()
 
     // Not to display the "start button" in tabbed mode.
     // That would take up screen space unnecessarily.
-    if (tabbed_mode_on) start_button = false; // Todo
+    if (tabbed_mode_on) start_button = false;
 
     if (start_button) {
       view->enable_zone ("start_button");

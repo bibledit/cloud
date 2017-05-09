@@ -1214,7 +1214,6 @@ bool menu_logic_can_do_tabbed_mode ()
 #ifdef HAVE_IOS
   return true;
 #endif
-  return true; // Todo
   return false;
 }
 

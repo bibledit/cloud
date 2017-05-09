@@ -1227,11 +1227,12 @@ void menu_logic_tabbed_mode_save_json (void * webserver_request, bool toggle)
   // Whether the device can do tabbed mode.
   if (menu_logic_can_do_tabbed_mode ()) {
     
-    bool  generate_json = false;
+    // If the setting is already on, generate the JSON.
+    bool generate_json = !Database_Config_General::getMenuInTabbedViewJSON ().empty ();
     
     // Whether to toggle tabbed view.
     if (toggle) {
-      generate_json = Database_Config_General::getMenuInTabbedViewJSON ().empty ();
+      generate_json = !generate_json;
     }
     
     // Tabbed view not possible in advanced mode.

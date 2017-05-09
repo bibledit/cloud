@@ -118,6 +118,7 @@ string personalize_index (void * webserver_request)
   if (request->query.count ("showchanges")) {
     bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
     request->database_config_user ()->setMenuChangesInBasicMode (!state);
+    menu_logic_tabbed_mode_save_json (webserver_request, false);
   }
 
   

@@ -114,6 +114,13 @@ string personalize_index (void * webserver_request)
   }
 
   
+  // Whether to have a menu entry for the Changes in basic mode.
+  if (request->query.count ("showchanges")) {
+    bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
+    request->database_config_user ()->setMenuChangesInBasicMode (!state);
+  }
+
+  
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
   if (request->query.count ("mainmenutabs")) {
     menu_logic_tabbed_mode_save_json (webserver_request, true);
@@ -399,10 +406,6 @@ string personalize_index (void * webserver_request)
 
   
   // Whether to have a menu entry for the Changes in basic mode.
-  if (request->query.count ("showchanges")) {
-    bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
-    request->database_config_user ()->setMenuChangesInBasicMode (!state);
-  }
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMenuChangesInBasicMode ());
   view.set_variable ("showchanges", on_off);
 

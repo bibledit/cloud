@@ -840,8 +840,9 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       }
     }
     
+#ifdef HAVE_CLOUD
     if (label == account) {
-      if (!(client || demo)) {
+      if (!demo) {
         if (!ldap_logic_is_on ()) {
           if (user_account_acl (webserver_request)) {
             html.push_back (menu_logic_create_item (user_account_url (), label, true));
@@ -850,6 +851,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         }
       }
     }
+#endif
     
     if (label == basic_mode) {
       if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {

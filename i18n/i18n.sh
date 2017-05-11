@@ -80,6 +80,10 @@ echo Failure running xgettext
 fi
 
 
+# The message ids in bibledit.pot are unique already.
+# If this were not the case, then $ msguniq could help to make them unique.
+
+
 echo Copying bibledit.pot into place.
 cp /tmp/bibledit.pot $SRC/locale
 

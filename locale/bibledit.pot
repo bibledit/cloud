@@ -8050,6 +8050,9 @@ msgstr ""
 msgid "Keep main menu always visible"
 msgstr ""
 
+msgid "This works in both basic and advanced mode."
+msgstr ""
+
 msgid "Enable swipe navigation actions"
 msgstr ""
 

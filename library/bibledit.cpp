@@ -187,7 +187,7 @@ void bibledit_start_library ()
   
   // Run the plain web server in a thread.
   config_globals_http_worker = new thread (http_server);
-
+  
   // Run the secure web server in a thread.
   config_globals_https_worker = new thread (https_server);
   

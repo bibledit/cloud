@@ -237,6 +237,8 @@ public:
   void setPrivilegeDeleteConsultationNotesForUser (string username, bool value);
   bool getDismissChangesAtTop ();
   void setDismissChangesAtTop (bool value);
+  bool getQuickNoteEditLink ();
+  void setQuickNoteEditLink (bool value);
 private:
   void * webserver_request;
   string file (string user);

@@ -1371,3 +1371,17 @@ void Database_Config_User::setDismissChangesAtTop (bool value)
 {
   setBValue ("dismiss-changes-at-top", value);
 }
+
+
+const char * quick_note_edit_link_key ()
+{
+  return "quick-note-edit-link";
+}
+bool Database_Config_User::getQuickNoteEditLink ()
+{
+  return getBValue (quick_note_edit_link_key (), false);
+}
+void Database_Config_User::setQuickNoteEditLink (bool value)
+{
+  setBValue (quick_note_edit_link_key (), value);
+}

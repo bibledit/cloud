@@ -107,6 +107,11 @@ string notes_note (void * webserver_request)
   view.set_variable ("content", content);
 
   
+  if (request->database_config_user ()->getQuickNoteEditLink ()) {
+    view.enable_zone ("editcontent");
+  }
+    
+  
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
     view.enable_zone ("consultant");
   }

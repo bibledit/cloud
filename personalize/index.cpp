@@ -428,6 +428,15 @@ string personalize_index (void * webserver_request)
   }
 
   
+  // Whether to enable a quick link to edit the content of a consultation note.
+  if (request->query.count ("quickeditnotecontents")) {
+    bool state = request->database_config_user ()->getQuickNoteEditLink ();
+    request->database_config_user ()->setQuickNoteEditLink (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getQuickNoteEditLink ());
+  view.set_variable ("quickeditnotecontents", on_off);
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

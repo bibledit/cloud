@@ -34,8 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 typedef struct
 {
   const char * marker;
-  const char * name;
-  const char * info;
+  string name;
+  string info;
   const char * category;
   int type;
   int subtype;
@@ -72,7 +72,7 @@ style_record styles_table [] =
 {
   {
     /* marker */ "add",
-    /* name */ "Translator’s addition",
+    /* name */ translate ("Translator’s addition"),
     /* info */ "A translator’s explanation; words added by the translator for clarity – text which is not literally a part of the original language, but which was supplied to make the meaning of the original clear.",
     /* category */ "st",
     /* type */ 4,
@@ -105,7 +105,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "addpn",
-    /* name */ "Combined add and pn style",
+    /* name */ translate ("Combined add and pn style"),
     /* info */ "Support for overlapping pn ...pn* and add ...add* occurrences. Deprecated (i.e. use is strongly discouraged).",
     /* category */ "st",
     /* type */ 4,
@@ -138,7 +138,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "b",
-    /* name */ "Blank line",
+    /* name */ translate ("Blank line"),
     /* info */ "May be used to explicitly indicate additional white space between paragraphs. Poetry text stanza break (e.g. stanza break)",
     /* category */ "p",
     /* type */ 3,
@@ -171,7 +171,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "bd",
-    /* name */ "Bold text",
+    /* name */ translate ("Bold text"),
     /* info */ "Bold text",
     /* category */ "cs",
     /* type */ 4,
@@ -204,7 +204,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "bdit",
-    /* name */ "* Bold-italic text",
+    /* name */ translate ("Bold-italic text"),
     /* info */ "A character style, use bold + italic text",
     /* category */ "cs",
     /* type */ 4,
@@ -237,7 +237,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "bk",
-    /* name */ "Quoted book title",
+    /* name */ translate ("Quoted book title"),
     /* info */ "For the quoted name of a book",
     /* category */ "st",
     /* type */ 4,
@@ -270,7 +270,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "c",
-    /* name */ "Chapter number",
+    /* name */ translate ("Chapter number"),
     /* info */ "Chapter number",
     /* category */ "cv",
     /* type */ 5,
@@ -303,7 +303,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ca",
-    /* name */ "Alternate chapter number",
+    /* name */ translate ("Alternate chapter number"),
     /* info */ "Second (alternate) chapter number (for coding dual versification; useful for places where different traditions of chapter breaks need to be supported in the same translation). Bibledit does nothing with this marker yet.",
     /* category */ "cv",
     /* type */ 0,
@@ -336,7 +336,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "cat",
-    /* name */ "Category tag",
+    /* name */ translate ("Category tag"),
     /* info */ "Extended note or sidebar category tag.",
     /* category */ "id",
     /* type */ 4,
@@ -369,7 +369,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "cd",
-    /* name */ "Chapter description",
+    /* name */ translate ("Chapter description"),
     /* info */ "Chapter Description (Publishing option D, e.g. in Russian Bibles)",
     /* category */ "cv",
     /* type */ 3,
@@ -402,7 +402,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "cl",
-    /* name */ "Chapter label",
+    /* name */ translate ("Chapter label"),
     /* info */ "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers (e.g. Psalms).",
     /* category */ "cv",
     /* type */ 0,
@@ -435,7 +435,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "cls",
-    /* name */ "Closure of an epistle",
+    /* name */ translate ("Closure of an epistle"),
     /* info */ "Closure of an epistle",
     /* category */ "p",
     /* type */ 3,
@@ -468,7 +468,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "cp",
-    /* name */ "Published chapter character",
+    /* name */ translate ("Published chapter character"),
     /* info */ "Published chapter number (this is a chapter marking that would be used in the published text).",
     /* category */ "cv",
     /* type */ 0,
@@ -501,7 +501,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "d",
-    /* name */ "Descriptive title (or Hebrew subtitle)",
+    /* name */ translate ("Descriptive title or Hebrew subtitle"),
     /* info */ "A Hebrew text heading, to provide description (e.g. Psalms)",
     /* category */ "t",
     /* type */ 3,
@@ -534,7 +534,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "dc",
-    /* name */ "Deuterocanonical",
+    /* name */ translate ("Deuterocanonical"),
     /* info */ "Deuterocanonical / LXX additions or insertions in the Protocanonical text",
     /* category */ "st",
     /* type */ 4,
@@ -567,7 +567,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ef",
-    /* name */ "Extended footnote",
+    /* name */ translate ("Extended footnote"),
     /* info */ "Extended footnote element.",
     /* category */ "f",
     /* type */ 7,
@@ -600,7 +600,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "em",
-    /* name */ "Emphasized text",
+    /* name */ translate ("Emphasized text"),
     /* info */ "A character style, use emphasized text style.",
     /* category */ "cs",
     /* type */ 4,
@@ -633,7 +633,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "esb",
-    /* name */ "Sidebar start",
+    /* name */ translate ("Sidebar start"),
     /* info */ "Beginning (opening) of the sidebar content section",
     /* category */ "p",
     /* type */ 3,
@@ -666,7 +666,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "esbe",
-    /* name */ "Sidebar end",
+    /* name */ translate ("Sidebar end"),
     /* info */ "End (closing) of the sidebar content section",
     /* category */ "p",
     /* type */ 3,
@@ -699,7 +699,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ex",
-    /* name */ "Extended cross reference",
+    /* name */ translate ("Extended cross reference"),
     /* info */ "Extended cross reference element.",
     /* category */ "x",
     /* type */ 8,
@@ -732,7 +732,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "f",
-    /* name */ "Footnote",
+    /* name */ translate ("Footnote"),
     /* info */ "A Footnote text item.",
     /* category */ "f",
     /* type */ 7,
@@ -765,7 +765,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fdc",
-    /* name */ "Footnote Deuterocanonical content",
+    /* name */ translate ("Footnote Deuterocanonical content"),
     /* info */ "Text between these markers is material to be included only in published editions that contain the Deuterocanonical books. Deprecated (i.e. use is discouraged).",
     /* category */ "f",
     /* type */ 7,
@@ -798,7 +798,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fe",
-    /* name */ "Endnote",
+    /* name */ translate ("Endnote"),
     /* info */ "An endnote text item.",
     /* category */ "f",
     /* type */ 7,
@@ -831,7 +831,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fig",
-    /* name */ "* Figure / illustration / map",
+    /* name */ translate ("Figure / illustration / map"),
     /* info */ "Illustration [Columns to span, height, filename, caption text]",
     /* category */ "sf",
     /* type */ 10,
@@ -864,7 +864,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fk",
-    /* name */ "Footnote keyword",
+    /* name */ translate ("Footnote keyword"),
     /* info */ "The specific keyword/term from the text for which the footnote is being provided.",
     /* category */ "f",
     /* type */ 7,
@@ -897,7 +897,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fl",
-    /* name */ "Footnote label text",
+    /* name */ translate ("Footnote label text"),
     /* info */ "Can be used for marking or “labeling” a word or words which are used consistently across certain types of translation notes (such as the words 'Or' in an alternative translation note, 'Others', 'Heb.', 'LXX' etc.).",
     /* category */ "f",
     /* type */ 7,
@@ -930,7 +930,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fm",
-    /* name */ "Footnote reference mark",
+    /* name */ translate ("Footnote reference mark"),
     /* info */ "An additional footnote marker location for a previous footnote.",
     /* category */ "f",
     /* type */ 4,
@@ -963,7 +963,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fp",
-    /* name */ "Footnote additional paragraph",
+    /* name */ translate ("Footnote additional paragraph"),
     /* info */ "Use this marker to if you need to indicate the start of a new paragraph within a footnote (uncommon).",
     /* category */ "f",
     /* type */ 7,
@@ -996,7 +996,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fq",
-    /* name */ "Footnote translation quotation",
+    /* name */ translate ("Footnote translation quotation"),
     /* info */ "A quotation from the current scripture text translation for which the note is being provided.",
     /* category */ "f",
     /* type */ 7,
@@ -1029,7 +1029,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fqa",
-    /* name */ "Footnote alternate translation",
+    /* name */ translate ("Footnote alternate translation"),
     /* info */ "Used to distinguish between a quotation of the current scripture text translation, and an alternate translation.",
     /* category */ "f",
     /* type */ 7,
@@ -1062,7 +1062,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fr",
-    /* name */ "Footnote origin reference",
+    /* name */ translate ("Footnote origin reference"),
     /* info */ "This is the chapter and verse(s) that note refers to.",
     /* category */ "f",
     /* type */ 7,
@@ -1095,7 +1095,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ft",
-    /* name */ "Footnote text",
+    /* name */ translate ("Footnote text"),
     /* info */ "The essential (explanatory) text of the footnote.",
     /* category */ "f",
     /* type */ 7,
@@ -1128,7 +1128,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "fv",
-    /* name */ "Footnote verse number",
+    /* name */ translate ("Footnote verse number"),
     /* info */ "A verse number within the footnote text.",
     /* category */ "f",
     /* type */ 7,
@@ -1161,7 +1161,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "h",
-    /* name */ "Running Header",
+    /* name */ translate ("Running header"),
     /* info */ "Running header text for a book",
     /* category */ "id",
     /* type */ 0,
@@ -1194,7 +1194,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "h1",
-    /* name */ "Deprecated Running Header",
+    /* name */ translate ("Deprecated running header"),
     /* info */ "Deprecated running header text",
     /* category */ "id",
     /* type */ 0,
@@ -1227,7 +1227,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "h2",
-    /* name */ "Deprecated Left Running Header",
+    /* name */ translate ("Deprecated Left running header"),
     /* info */ "Deprecated running header text, left side of page",
     /* category */ "id",
     /* type */ 0,
@@ -1260,7 +1260,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "h3",
-    /* name */ "Deprecated Right Running Header",
+    /* name */ translate ("Deprecated right running header"),
     /* info */ "Deprecated running header text, right side of page",
     /* category */ "id",
     /* type */ 0,
@@ -1293,7 +1293,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ib",
-    /* name */ "Introduction blank line",
+    /* name */ translate ("Introduction blank line"),
     /* info */ "May be used to explicitly indicate additional white space between paragraphs.",
     /* category */ "ipp",
     /* type */ 3,
@@ -1326,7 +1326,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "id",
-    /* name */ "Identification",
+    /* name */ translate ("Identification"),
     /* info */ "File identification information (Name of file, Book name, Language, Last edited, Date etc.)",
     /* category */ "id",
     /* type */ 0,
@@ -1359,7 +1359,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ide",
-    /* name */ "Encoding",
+    /* name */ translate ("Encoding"),
     /* info */ "File encoding information. Bibledit disregards this marker, as all text in Bibledit are in UTF-8 encoding.",
     /* category */ "id",
     /* type */ 0,
@@ -1392,7 +1392,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ie",
-    /* name */ "Introduction end",
+    /* name */ translate ("Introduction end"),
     /* info */ "Optionally included to explicitly indicate the end of the introduction material",
     /* category */ "ioe",
     /* type */ 0,
@@ -1425,7 +1425,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iex",
-    /* name */ "Explanatory or Bridge Text",
+    /* name */ translate ("Explanatory or bridge text"),
     /* info */ "Introduction explanatory or bridge text (e.g. explanation of missing book in Short Old Testament)",
     /* category */ "ipp",
     /* type */ 3,
@@ -1458,7 +1458,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ili",
-    /* name */ "Introduction list item",
+    /* name */ translate ("Introduction list item"),
     /* info */ "A list entry, level 1 (if single level)",
     /* category */ "l",
     /* type */ 3,
@@ -1491,7 +1491,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ili1",
-    /* name */ "Introduction list item Level 1",
+    /* name */ translate ("Introduction list item level 1"),
     /* info */ "A list entry, level 1 (if multiple levels)",
     /* category */ "l",
     /* type */ 3,
@@ -1524,7 +1524,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ili2",
-    /* name */ "Introduction list item Level 2",
+    /* name */ translate ("Introduction list item level 2"),
     /* info */ "A list entry, level 2",
     /* category */ "l",
     /* type */ 3,
@@ -1557,7 +1557,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "im",
-    /* name */ "Introduction flush left (margin) paragraph",
+    /* name */ translate ("Introduction flush left paragraph"),
     /* info */ "Introduction prose paragraph, with no first line indent (may occur after poetry)",
     /* category */ "ipp",
     /* type */ 3,
@@ -1590,7 +1590,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imi",
-    /* name */ "Indented introduction flush left (margin) paragraph",
+    /* name */ translate ("Indented introduction flush left paragraph"),
     /* info */ "Introduction prose paragraph text, indented, with no first line indent",
     /* category */ "ipp",
     /* type */ 3,
@@ -1623,7 +1623,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imq",
-    /* name */ "Introduction flush left (margin) quote from text paragraph",
+    /* name */ translate ("Introduction flush left quote from text paragraph"),
     /* info */ "Introduction prose paragraph, quote from the body text, with no first line indent",
     /* category */ "ipp",
     /* type */ 3,
@@ -1656,7 +1656,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imt",
-    /* name */ "Introduction Major Title Level 1",
+    /* name */ translate ("Introduction major title level 1"),
     /* info */ "Introduction major title, level 1 (if single level)",
     /* category */ "ith",
     /* type */ 3,
@@ -1689,7 +1689,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imt1",
-    /* name */ "Introduction Major Title Level 1",
+    /* name */ translate ("Introduction major title level 1"),
     /* info */ "Introduction major title, level 1 (if multiple levels)",
     /* category */ "ith",
     /* type */ 3,
@@ -1722,7 +1722,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imt2",
-    /* name */ "Introduction Major Title Level 2",
+    /* name */ translate ("Introduction major title level 2"),
     /* info */ "Introduction major title, level 2",
     /* category */ "ith",
     /* type */ 3,
@@ -1755,7 +1755,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imt3",
-    /* name */ "Introduction Major Title Level 3",
+    /* name */ translate ("Introduction major title level 3"),
     /* info */ "Introduction major title, level 3",
     /* category */ "ith",
     /* type */ 3,
@@ -1788,7 +1788,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imt4",
-    /* name */ "Introduction Major Title Level 4",
+    /* name */ translate ("Introduction major title level 4"),
     /* info */ "Introduction major title, level 4 (usually within parenthesis)",
     /* category */ "ith",
     /* type */ 3,
@@ -1821,7 +1821,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imte",
-    /* name */ "Introduction major title ending",
+    /* name */ translate ("Introduction major title ending"),
     /* info */ "Used to mark a major title indicating the end of the introduction",
     /* category */ "ith",
     /* type */ 3,
@@ -1854,7 +1854,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imte1",
-    /* name */ "Introduction major title ending level 1",
+    /* name */ translate ("Introduction major title ending level 1"),
     /* info */ "Used to mark a major title indicating the end of the introduction",
     /* category */ "ith",
     /* type */ 3,
@@ -1887,7 +1887,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "imte2",
-    /* name */ "Introduction major title ending level 2",
+    /* name */ translate ("Introduction major title ending level 2"),
     /* info */ "Used to mark a major title indicating the end of the introduction",
     /* category */ "ith",
     /* type */ 3,
@@ -1920,7 +1920,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "io",
-    /* name */ "Introduction outline entry",
+    /* name */ translate ("Introduction outline entry"),
     /* info */ "Introduction outline text, level 1 (if single level)",
     /* category */ "ioe",
     /* type */ 3,
@@ -1953,7 +1953,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "io1",
-    /* name */ "Introduction outline entry Level 1",
+    /* name */ translate ("Introduction outline entry Level 1"),
     /* info */ "Introduction outline text, level 1 (if multiple levels)",
     /* category */ "ioe",
     /* type */ 3,
@@ -1986,7 +1986,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "io2",
-    /* name */ "Introduction outline entry Level 2",
+    /* name */ translate ("Introduction outline entry Level 2"),
     /* info */ "Introduction outline text, level 2",
     /* category */ "ioe",
     /* type */ 3,
@@ -2019,7 +2019,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "io3",
-    /* name */ "Introduction outline entry Level 3",
+    /* name */ translate ("Introduction outline entry Level 3"),
     /* info */ "Introduction outline text, level 3",
     /* category */ "ioe",
     /* type */ 3,
@@ -2052,7 +2052,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "io4",
-    /* name */ "Introduction outline entry Level 4",
+    /* name */ translate ("Introduction outline entry Level 4"),
     /* info */ "Introduction outline text, level 4",
     /* category */ "ioe",
     /* type */ 3,
@@ -2085,7 +2085,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ior",
-    /* name */ "Introduction outline reference range",
+    /* name */ translate ("Introduction outline reference range"),
     /* info */ "Introduction references range for outline entry; for marking references separately",
     /* category */ "ioe",
     /* type */ 4,
@@ -2118,7 +2118,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iot",
-    /* name */ "Introduction outline title",
+    /* name */ translate ("Introduction outline title"),
     /* info */ "Introduction outline title",
     /* category */ "ioe",
     /* type */ 3,
@@ -2151,7 +2151,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ip",
-    /* name */ "Introduction Paragraph",
+    /* name */ translate ("Introduction paragraph"),
     /* info */ "Introduction prose paragraph",
     /* category */ "ipp",
     /* type */ 3,
@@ -2184,7 +2184,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ipi",
-    /* name */ "Indented Introduction Paragraph",
+    /* name */ translate ("Indented introduction paragraph"),
     /* info */ "Introduction prose paragraph, with first line indent",
     /* category */ "ipp",
     /* type */ 3,
@@ -2217,7 +2217,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ipq",
-    /* name */ "Introduction quote from text paragraph",
+    /* name */ translate ("Introduction quote from text paragraph"),
     /* info */ "Introduction prose paragraph, quote from the body text",
     /* category */ "ipp",
     /* type */ 3,
@@ -2250,7 +2250,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ipr",
-    /* name */ "Introduction right-aligned paragraph",
+    /* name */ translate ("Introduction right-aligned paragraph"),
     /* info */ "Introduction prose paragraph, right aligned",
     /* category */ "ipp",
     /* type */ 3,
@@ -2283,7 +2283,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iq",
-    /* name */ "Introduction poetic line",
+    /* name */ translate ("Introduction poetic line"),
     /* info */ "Introduction poetry text, level 1 (if single level)",
     /* category */ "ipp",
     /* type */ 3,
@@ -2316,7 +2316,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iq1",
-    /* name */ "Introduction poetic line Level 1",
+    /* name */ translate ("Introduction poetic line Level 1"),
     /* info */ "Introduction poetry text, level 1 (if multiple levels)",
     /* category */ "ipp",
     /* type */ 3,
@@ -2349,7 +2349,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iq2",
-    /* name */ "Introduction poetic line Level 2",
+    /* name */ translate ("Introduction poetic line Level 2"),
     /* info */ "Introduction poetry text, level 2",
     /* category */ "ipp",
     /* type */ 3,
@@ -2382,7 +2382,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iq3",
-    /* name */ "Introduction poetic line Level 3",
+    /* name */ translate ("Introduction poetic line Level 3"),
     /* info */ "Introduction poetry text, level 3",
     /* category */ "ipp",
     /* type */ 3,
@@ -2415,7 +2415,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "iqt",
-    /* name */ "Introduction quoted text",
+    /* name */ translate ("Introduction quoted text"),
     /* info */ "Scripture quotations, or other quoted text, appearing in the introduction",
     /* category */ "ioe",
     /* type */ 4,
@@ -2448,7 +2448,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "is",
-    /* name */ "Introduction Section Heading Level 1",
+    /* name */ translate ("Introduction section heading level 1"),
     /* info */ "Introduction section heading, level 1 (if single level)",
     /* category */ "ith",
     /* type */ 3,
@@ -2481,7 +2481,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "is1",
-    /* name */ "Introduction Section Heading Level 1",
+    /* name */ translate ("Introduction section heading level 1"),
     /* info */ "Introduction section heading, level 1 (if multiple levels)",
     /* category */ "ith",
     /* type */ 3,
@@ -2514,7 +2514,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "is2",
-    /* name */ "Introduction Section Heading Level 2",
+    /* name */ translate ("Introduction section heading level 2"),
     /* info */ "Introduction section heading, level 2",
     /* category */ "ith",
     /* type */ 3,
@@ -2547,7 +2547,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "it",
-    /* name */ "Italic text",
+    /* name */ translate ("Italic text"),
     /* info */ "A character style, use italic text",
     /* category */ "cs",
     /* type */ 4,
@@ -2580,7 +2580,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "jmp",
-    /* name */ "Link text",
+    /* name */ translate ("Link text"),
     /* info */ "Optionally used for associating linking attributes to a span of text when no other character level markup is applied to the same span.",
     /* category */ "sf",
     /* type */ 4,
@@ -2613,7 +2613,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "k",
-    /* name */ "Keyword",
+    /* name */ translate ("Keyword"),
     /* info */ "Keyword / keyterm",
     /* category */ "st",
     /* type */ 4,
@@ -2646,7 +2646,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lf",
-    /* name */ "List footer",
+    /* name */ translate ("List footer"),
     /* info */ "Some lists include an introductory and concluding remark. They are an integral part of the list content, but are not list items. A list does not require either or both of these elements.",
     /* category */ "l",
     /* type */ 3,
@@ -2679,7 +2679,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lh",
-    /* name */ "List header",
+    /* name */ translate ("List header"),
     /* info */ "Some lists include an introductory and concluding remark. They are an integral part of the list content, but are not list items. A list does not require either or both of these elements.",
     /* category */ "l",
     /* type */ 3,
@@ -2712,7 +2712,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "li",
-    /* name */ "List entry",
+    /* name */ translate ("List entry"),
     /* info */ "A list entry, level 1 (if single level)",
     /* category */ "l",
     /* type */ 3,
@@ -2745,7 +2745,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "li1",
-    /* name */ "List entry level 1",
+    /* name */ translate ("List entry level 1"),
     /* info */ "A list entry, level 1 (if multiple levels)",
     /* category */ "l",
     /* type */ 3,
@@ -2778,7 +2778,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "li2",
-    /* name */ "List entry level 2",
+    /* name */ translate ("List entry level 2"),
     /* info */ "A list entry, level 2",
     /* category */ "l",
     /* type */ 3,
@@ -2811,7 +2811,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "li3",
-    /* name */ "List entry level 3",
+    /* name */ translate ("List entry level 3"),
     /* info */ "A list entry, level 3",
     /* category */ "l",
     /* type */ 3,
@@ -2844,7 +2844,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "li4",
-    /* name */ "List entry level 4",
+    /* name */ translate ("List entry level 4"),
     /* info */ "A list entry, level 4",
     /* category */ "l",
     /* type */ 3,
@@ -2877,7 +2877,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lik",
-    /* name */ "	List entry 'key' content",
+    /* name */ translate ("List entry 'key' content"),
     /* info */ "The 'key' content will be followed by 'value' content",
     /* category */ "l",
     /* type */ 4,
@@ -2910,7 +2910,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lim",
-    /* name */ "Embedded list entry",
+    /* name */ translate ("Embedded list entry"),
     /* info */ "An out-dented paragraph meant to highlight the items of an embedded list",
     /* category */ "l",
     /* type */ 3,
@@ -2943,7 +2943,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lim1",
-    /* name */ "Embedded list entry level 1",
+    /* name */ translate ("Embedded list entry level 1"),
     /* info */ "An out-dented paragraph meant to highlight the items of an embedded list, level 1",
     /* category */ "l",
     /* type */ 3,
@@ -2976,7 +2976,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lim2",
-    /* name */ "Embedded list entry level 2",
+    /* name */ translate ("Embedded list entry level 2"),
     /* info */ "An out-dented paragraph meant to highlight the items of an embedded list, level 2",
     /* category */ "l",
     /* type */ 3,
@@ -3009,7 +3009,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "lit",
-    /* name */ "Liturgical note",
+    /* name */ translate ("Liturgical note"),
     /* info */ "A guide which tells the reader/worshipper that he should recite a prayer or recitation etc.",
     /* category */ "p",
     /* type */ 3,
@@ -3042,7 +3042,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "litl",
-    /* name */ "List entry total",
+    /* name */ translate ("List entry total"),
     /* info */ "Use in “accounting” lists for denoting the total component of the text within a list item",
     /* category */ "l",
     /* type */ 4,
@@ -3075,7 +3075,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "liv",
-    /* name */ "	List entry 'value' content",
+    /* name */ translate ("List entry 'value' content"),
     /* info */ "The 'value' content follows the 'key' content",
     /* category */ "l",
     /* type */ 4,
@@ -3108,7 +3108,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "liv1",
-    /* name */ "	List entry 'value' content level 1",
+    /* name */ translate ("List entry 'value' content level 1"),
     /* info */ "The 'value' content follows the 'key' content, level 1",
     /* category */ "l",
     /* type */ 4,
@@ -3141,7 +3141,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "m",
-    /* name */ "Continuation (margin) paragraph",
+    /* name */ translate ("Continuation paragraph"),
     /* info */ "Paragraph text, with no first line indent (may occur after poetry)",
     /* category */ "p",
     /* type */ 3,
@@ -3174,7 +3174,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mi",
-    /* name */ "Indented flush left paragraph",
+    /* name */ translate ("Indented flush left paragraph"),
     /* info */ "Paragraph text, indented, with no first line indent; often used for discourse",
     /* category */ "p",
     /* type */ 3,
@@ -3207,7 +3207,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mr",
-    /* name */ "Major section reference range",
+    /* name */ translate ("Major section reference range"),
     /* info */ "The text reference range listed under a major section heading",
     /* category */ "h",
     /* type */ 3,
@@ -3240,7 +3240,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ms",
-    /* name */ "Major section heading",
+    /* name */ translate ("Major section heading"),
     /* info */ "A major section division heading, level 1 (if single level)",
     /* category */ "h",
     /* type */ 3,
@@ -3273,7 +3273,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ms1",
-    /* name */ "Major section heading level 1",
+    /* name */ translate ("Major section heading level 1"),
     /* info */ "A major section division heading, level 1 (if multiple levels)",
     /* category */ "h",
     /* type */ 3,
@@ -3306,7 +3306,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ms2",
-    /* name */ "Major section heading level 2",
+    /* name */ translate ("Major section heading level 2"),
     /* info */ "A major section division heading, level 2",
     /* category */ "h",
     /* type */ 3,
@@ -3339,7 +3339,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mt",
-    /* name */ "Major title",
+    /* name */ translate ("Major title"),
     /* info */ "The main title of the book (if single level)",
     /* category */ "t",
     /* type */ 3,
@@ -3372,7 +3372,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mt1",
-    /* name */ "Major title level 1",
+    /* name */ translate ("Major title level 1"),
     /* info */ "The main title of the book (if multiple levels)",
     /* category */ "t",
     /* type */ 3,
@@ -3405,7 +3405,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mt2",
-    /* name */ "Major title level 2",
+    /* name */ translate ("Major title level 2"),
     /* info */ "A secondary title with less important information than the main title.",
     /* category */ "t",
     /* type */ 3,
@@ -3438,7 +3438,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mt3",
-    /* name */ "Major title level 3",
+    /* name */ translate ("Major title level 3"),
     /* info */ "A secondary title, less important than the main title",
     /* category */ "t",
     /* type */ 3,
@@ -3471,7 +3471,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mt4",
-    /* name */ "Major title level 4",
+    /* name */ translate ("Major title level 4"),
     /* info */ "A small secondary title sometimes occurring within parentheses",
     /* category */ "t",
     /* type */ 3,
@@ -3504,7 +3504,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mte",
-    /* name */ "Major title at ending",
+    /* name */ translate ("Major title at ending"),
     /* info */ "The main title of the book repeated at the end of the book (if single level)",
     /* category */ "t",
     /* type */ 3,
@@ -3537,7 +3537,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mte1",
-    /* name */ "Major title at ending level 1",
+    /* name */ translate ("Major title at ending level 1"),
     /* info */ "The main title of the book repeated at the end of the book (if multiple levels)",
     /* category */ "t",
     /* type */ 3,
@@ -3570,7 +3570,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "mte2",
-    /* name */ "Major title at ending level 2",
+    /* name */ translate ("Major title at ending level 2"),
     /* info */ "A secondary title occurring before or after the 'ending' main title",
     /* category */ "t",
     /* type */ 3,
@@ -3603,7 +3603,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "nb",
-    /* name */ "No break with previous paragraph",
+    /* name */ translate ("No break with previous paragraph"),
     /* info */ "Paragraph text, with no break from previous paragraph text (at chapter boundary)",
     /* category */ "p",
     /* type */ 3,
@@ -3636,7 +3636,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "nd",
-    /* name */ "Name of God (Deity)",
+    /* name */ translate ("Name of God"),
     /* info */ "For name of God (Diety)",
     /* category */ "st",
     /* type */ 4,
@@ -3669,7 +3669,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ndx",
-    /* name */ "Subject index entry",
+    /* name */ translate ("Subject index entry"),
     /* info */ "Surround word(s) with this markup to indicate that it appears (or should appear) in the subject index.",
     /* category */ "sf",
     /* type */ 13,
@@ -3702,7 +3702,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "no",
-    /* name */ "Normal text",
+    /* name */ translate ("Normal text"),
     /* info */ "May be used when a larger paragraph element is set in an alternate font style (e.g. italic), and a selected section of text should be displayed in normal text.",
     /* category */ "cs",
     /* type */ 4,
@@ -3735,7 +3735,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "ord",
-    /* name */ "Ordinal number ending",
+    /* name */ translate ("Ordinal number ending"),
     /* info */ "For the text portion of an ordinal number, like '1st' is 1\\ord st\\ord*",
     /* category */ "st",
     /* type */ 4,
@@ -3768,7 +3768,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "p",
-    /* name */ "Normal paragraph",
+    /* name */ translate ("Normal paragraph"),
     /* info */ "Paragraph text, with first line indent",
     /* category */ "p",
     /* type */ 3,
@@ -3801,7 +3801,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pb",
-    /* name */ "Page break",
+    /* name */ translate ("Page break"),
     /* info */ "Page break used for new reader portions and children's bibles where content is controlled by the page",
     /* category */ "sb",
     /* type */ 11,
@@ -3834,7 +3834,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pc",
-    /* name */ "Centered paragraph",
+    /* name */ translate ("Centered paragraph"),
     /* info */ "Paragraph text, centered (for Inscription)",
     /* category */ "p",
     /* type */ 3,
@@ -3867,7 +3867,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pi",
-    /* name */ "Indented paragraph",
+    /* name */ translate ("Indented paragraph"),
     /* info */ "Paragraph text, level 1 indent (if single level), with first line indent; often used for discourse",
     /* category */ "p",
     /* type */ 3,
@@ -3900,7 +3900,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pi1",
-    /* name */ "Indented paragraph level 1",
+    /* name */ translate ("Indented paragraph level 1"),
     /* info */ "Paragraph text, level 1 indent (if multiple levels), with first line indent; often used for discourse",
     /* category */ "p",
     /* type */ 3,
@@ -3933,7 +3933,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pi2",
-    /* name */ "Indented paragraph level 2",
+    /* name */ translate ("Indented paragraph level 2"),
     /* info */ "Paragraph text, level 2 indent, with first line indent; often used for discourse",
     /* category */ "p",
     /* type */ 3,
@@ -3966,7 +3966,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pi3",
-    /* name */ "Indented paragraph level 3",
+    /* name */ translate ("Indented paragraph level 3"),
     /* info */ "Paragraph text, level 3 indent, with first line indent; often used for discourse",
     /* category */ "p",
     /* type */ 3,
@@ -3999,7 +3999,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pm",
-    /* name */ "Embedded text paragraph",
+    /* name */ translate ("Embedded text paragraph"),
     /* info */ "Embedded text paragraph",
     /* category */ "p",
     /* type */ 3,
@@ -4032,7 +4032,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pmc",
-    /* name */ "Embedded text closing",
+    /* name */ translate ("Embedded text closing"),
     /* info */ "Embedded text closing",
     /* category */ "p",
     /* type */ 3,
@@ -4065,7 +4065,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pmo",
-    /* name */ "Embedded text opening",
+    /* name */ translate ("Embedded text opening"),
     /* info */ "Embedded text opening",
     /* category */ "p",
     /* type */ 3,
@@ -4098,7 +4098,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pmr",
-    /* name */ "Embedded text refrain",
+    /* name */ translate ("Embedded text refrain"),
     /* info */ "Embedded text refrain (e.g. Then all the people shall say, Amen!)",
     /* category */ "p",
     /* type */ 3,
@@ -4131,7 +4131,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pn",
-    /* name */ "Proper name",
+    /* name */ translate ("Proper name"),
     /* info */ "For a proper name",
     /* category */ "st",
     /* type */ 4,
@@ -4164,7 +4164,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "png",
-    /* name */ "Geographic proper name",
+    /* name */ translate ("Geographic proper name"),
     /* info */ "For a geographic proper name",
     /* category */ "st",
     /* type */ 4,
@@ -4197,7 +4197,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "po",
-    /* name */ "Paragraph opening an epistle",
+    /* name */ translate ("Paragraph opening an epistle"),
     /* info */ "Paragraph opening an epistle or letter, without first line indent",
     /* category */ "p",
     /* type */ 3,
@@ -4230,7 +4230,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "pro",
-    /* name */ "Pronunciation annotation",
+    /* name */ translate ("Pronunciation annotation"),
     /* info */ "For indicating pronunciation in CJK texts. Deprecated (i.e. use is strongly discouraged).",
     /* category */ "sf",
     /* type */ 0,
@@ -4263,7 +4263,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "q",
-    /* name */ "Poetic line",
+    /* name */ translate ("Poetic line"),
     /* info */ "Poetry text, level 1 indent (if single level)",
     /* category */ "pe",
     /* type */ 3,
@@ -4296,7 +4296,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "q1",
-    /* name */ "Poetic line level 1",
+    /* name */ translate ("Poetic line level 1"),
     /* info */ "Poetry text, level 1 indent (if multiple levels)",
     /* category */ "pe",
     /* type */ 3,
@@ -4329,7 +4329,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "q2",
-    /* name */ "Poetic line level 2",
+    /* name */ translate ("Poetic line level 2"),
     /* info */ "Poetry text, level 2 indent",
     /* category */ "pe",
     /* type */ 3,
@@ -4362,7 +4362,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "q3",
-    /* name */ "Poetic line level 3",
+    /* name */ translate ("Poetic line level 3"),
     /* info */ "Poetry text, level 3 indent",
     /* category */ "pe",
     /* type */ 3,
@@ -4395,7 +4395,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qa",
-    /* name */ "Acrostic heading",
+    /* name */ translate ("Acrostic heading"),
     /* info */ "Poetry text, Acrostic marker/heading",
     /* category */ "pe",
     /* type */ 3,
@@ -4428,7 +4428,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qac",
-    /* name */ "Acrostic letter",
+    /* name */ translate ("Acrostic letter"),
     /* info */ "Poetry text, Acrostic markup of the first character of a line of acrostic poetry",
     /* category */ "pe",
     /* type */ 4,
@@ -4461,7 +4461,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qc",
-    /* name */ "Centered poetic line",
+    /* name */ translate ("Centered poetic line"),
     /* info */ "Poetry text, centered",
     /* category */ "pe",
     /* type */ 3,
@@ -4494,7 +4494,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qd",
-    /* name */ "Hebrew note",
+    /* name */ translate ("Hebrew note"),
     /* info */ "A Hebrew musical performance comment similar in content to many of the Hebrew Psalm titles, but placed at the end of the poetic section",
     /* category */ "pe",
     /* type */ 3,
@@ -4527,7 +4527,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qm",
-    /* name */ "Embedded text poetic line",
+    /* name */ translate ("Embedded text poetic line"),
     /* info */ "Poetry text, embedded, level 1 indent (if single level)",
     /* category */ "pe",
     /* type */ 3,
@@ -4560,7 +4560,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qm1",
-    /* name */ "Embedded text poetic line level 1",
+    /* name */ translate ("Embedded text poetic line level 1"),
     /* info */ "Poetry text, embedded, level 1 indent (if multiple levels)",
     /* category */ "pe",
     /* type */ 3,
@@ -4593,7 +4593,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qm2",
-    /* name */ "Embedded text poetic line level 2",
+    /* name */ translate ("Embedded text poetic line level 2"),
     /* info */ "Poetry text, embedded, level 2 indent",
     /* category */ "pe",
     /* type */ 3,
@@ -4626,7 +4626,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qm3",
-    /* name */ "Embedded text poetic line level 3",
+    /* name */ translate ("Embedded text poetic line level 3"),
     /* info */ "Poetry text, embedded, level 3 indent",
     /* category */ "pe",
     /* type */ 3,
@@ -4659,7 +4659,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qr",
-    /* name */ "Right-aligned poetic line",
+    /* name */ translate ("Right-aligned poetic line"),
     /* info */ "Commonly used for a poetic refrain",
     /* category */ "pe",
     /* type */ 3,
@@ -4692,7 +4692,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qs",
-    /* name */ "Selah",
+    /* name */ translate ("Selah"),
     /* info */ "Poetry text, Selah",
     /* category */ "pe",
     /* type */ 4,
@@ -4725,7 +4725,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "qt",
-    /* name */ "Quoted text",
+    /* name */ translate ("Quoted text"),
     /* info */ "Old Testament quotations in the New Testament, or other quotations.",
     /* category */ "st",
     /* type */ 4,
@@ -4758,7 +4758,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "r",
-    /* name */ "Parallel passage reference(s)",
+    /* name */ translate ("Parallel passage references"),
     /* info */ "Parallel reference(s)",
     /* category */ "h",
     /* type */ 3,
@@ -4791,7 +4791,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "rb",
-    /* name */ "Annotated base text",
+    /* name */ translate ("Annotated base text"),
     /* info */ "Used to mark the base text being annotated with ruby characters.",
     /* category */ "st",
     /* type */ 4,
@@ -4824,7 +4824,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "rem",
-    /* name */ "Remark",
+    /* name */ translate ("Remark"),
     /* info */ "Comments and remarks",
     /* category */ "id",
     /* type */ 0,
@@ -4857,7 +4857,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "rq",
-    /* name */ "Inline quotation reference(s)",
+    /* name */ translate ("Inline quotation references"),
     /* info */ "A cross-reference indicating the source text for the preceding quotation.",
     /* category */ "h",
     /* type */ 3,
@@ -4890,7 +4890,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "rt",
-    /* name */ "Ruby annotation text",
+    /* name */ translate ("Ruby annotation text"),
     /* info */ "In the case where the annotation text is associated with only a single preceding ideogram, only the 'rt ...rt*' marker is required. The base text markup 'rb ...rb*' is optional in these cases.",
     /* category */ "st",
     /* type */ 4,
@@ -4923,7 +4923,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "s",
-    /* name */ "Section heading",
+    /* name */ translate ("Section heading"),
     /* info */ "A section heading, level 1 (if single level)",
     /* category */ "h",
     /* type */ 3,
@@ -4956,7 +4956,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "s1",
-    /* name */ "Section heading level 1",
+    /* name */ translate ("Section heading level 1"),
     /* info */ "A section heading, level 1 (if multiple levels)",
     /* category */ "h",
     /* type */ 3,
@@ -4989,7 +4989,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "s2",
-    /* name */ "Section heading Level 2",
+    /* name */ translate ("Section heading Level 2"),
     /* info */ "A section heading, level 2 (e.g. Proverbs 22-24)",
     /* category */ "h",
     /* type */ 3,
@@ -5022,7 +5022,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "s3",
-    /* name */ "Section heading level 3",
+    /* name */ translate ("Section heading level 3"),
     /* info */ "A section heading, level 3 (e.g. Genesis: The First Day)",
     /* category */ "h",
     /* type */ 3,
@@ -5055,7 +5055,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "s4",
-    /* name */ "Section heading level 4",
+    /* name */ translate ("Section heading level 4"),
     /* info */ "A section heading, level 4",
     /* category */ "h",
     /* type */ 3,
@@ -5088,7 +5088,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sc",
-    /* name */ "Small-cap text",
+    /* name */ translate ("Small-cap text"),
     /* info */ "A character style, for small capitalization text",
     /* category */ "cs",
     /* type */ 4,
@@ -5121,7 +5121,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sd",
-    /* name */ "Semantic division",
+    /* name */ translate ("Semantic division"),
     /* info */ "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     /* category */ "p",
     /* type */ 3,
@@ -5154,7 +5154,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sd1",
-    /* name */ "Semantic division level 1",
+    /* name */ translate ("Semantic division level 1"),
     /* info */ "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     /* category */ "p",
     /* type */ 3,
@@ -5187,7 +5187,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sd2",
-    /* name */ "Semantic division level 2",
+    /* name */ translate ("Semantic division level 2"),
     /* info */ "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     /* category */ "p",
     /* type */ 3,
@@ -5220,7 +5220,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sd3",
-    /* name */ "Semantic division level 3",
+    /* name */ translate ("Semantic division level 3"),
     /* info */ "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     /* category */ "p",
     /* type */ 3,
@@ -5253,7 +5253,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sd4",
-    /* name */ "Semantic division level 4",
+    /* name */ translate ("Semantic division level 4"),
     /* info */ "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     /* category */ "p",
     /* type */ 3,
@@ -5286,7 +5286,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sig",
-    /* name */ "Signature of the author",
+    /* name */ translate ("Signature of the author"),
     /* info */ "Signature of the author (of a letter or epistle).",
     /* category */ "st",
     /* type */ 4,
@@ -5319,7 +5319,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sls",
-    /* name */ "Secondary language or text source",
+    /* name */ translate ("Secondary language or text source"),
     /* info */ "Passage of text based on a secondary language or alternate text source.",
     /* category */ "st",
     /* type */ 4,
@@ -5352,7 +5352,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sp",
-    /* name */ "Speaker",
+    /* name */ translate ("Speaker"),
     /* info */ "A heading to identify the speaker (e.g. Job)",
     /* category */ "h",
     /* type */ 3,
@@ -5385,7 +5385,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sr",
-    /* name */ "Section reference range",
+    /* name */ translate ("Section reference range"),
     /* info */ "The text reference range listed under a section heading",
     /* category */ "h",
     /* type */ 3,
@@ -5418,7 +5418,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "sts",
-    /* name */ "Status",
+    /* name */ translate ("Status"),
     /* info */ "Project text status tracking",
     /* category */ "id",
     /* type */ 0,
@@ -5451,7 +5451,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tc1",
-    /* name */ "Table column 1 cell",
+    /* name */ translate ("Table column 1 cell"),
     /* info */ "A table cell item, column 1",
     /* category */ "te",
     /* type */ 12,
@@ -5484,7 +5484,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tc2",
-    /* name */ "Table column 2 cell",
+    /* name */ translate ("Table column 2 cell"),
     /* info */ "A table cell item, column 2",
     /* category */ "te",
     /* type */ 12,
@@ -5517,7 +5517,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tc3",
-    /* name */ "Table column 3 cell",
+    /* name */ translate ("Table column 3 cell"),
     /* info */ "A table cell item, column 3",
     /* category */ "te",
     /* type */ 12,
@@ -5550,7 +5550,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tc4",
-    /* name */ "Table column 4 cell",
+    /* name */ translate ("Table column 4 cell"),
     /* info */ "A table cell item, column 4",
     /* category */ "te",
     /* type */ 12,
@@ -5583,7 +5583,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tcr1",
-    /* name */ "Right aligned table cell column 1",
+    /* name */ translate ("Right aligned table cell column 1"),
     /* info */ "A table cell item, column 1, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5616,7 +5616,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tcr2",
-    /* name */ "Right aligned table cell column 2",
+    /* name */ translate ("Right aligned table cell column 2"),
     /* info */ "A table cell item, column 2, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5649,7 +5649,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tcr3",
-    /* name */ "Right aligned table cell column 3",
+    /* name */ translate ("Right aligned table cell column 3"),
     /* info */ "A table cell item, column 3, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5682,7 +5682,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tcr4",
-    /* name */ "Right aligned table cell column 4",
+    /* name */ translate ("Right aligned table cell column 4"),
     /* info */ "A table cell item, column 4, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5715,7 +5715,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "th1",
-    /* name */ "Table column 1 heading",
+    /* name */ translate ("Table column 1 heading"),
     /* info */ "A table heading, column 1.",
     /* category */ "te",
     /* type */ 12,
@@ -5748,7 +5748,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "th2",
-    /* name */ "Table column 2 heading",
+    /* name */ translate ("Table column 2 heading"),
     /* info */ "A table heading, column 2",
     /* category */ "te",
     /* type */ 12,
@@ -5781,7 +5781,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "th3",
-    /* name */ "Table column 3 heading",
+    /* name */ translate ("Table column 3 heading"),
     /* info */ "A table heading, column 3",
     /* category */ "te",
     /* type */ 12,
@@ -5814,7 +5814,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "th4",
-    /* name */ "Table column 4 heading",
+    /* name */ translate ("Table column 4 heading"),
     /* info */ "A table heading, column 4",
     /* category */ "te",
     /* type */ 12,
@@ -5847,7 +5847,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "thr1",
-    /* name */ "Right aligned table column 1 heading",
+    /* name */ translate ("Right aligned table column 1 heading"),
     /* info */ "A table heading, column 1, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5880,7 +5880,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "thr2",
-    /* name */ "Right aligned table column 2 heading",
+    /* name */ translate ("Right aligned table column 2 heading"),
     /* info */ "A table heading, column 2, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5913,7 +5913,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "thr3",
-    /* name */ "Right aligned table 3 column heading",
+    /* name */ translate ("Right aligned table 3 column heading"),
     /* info */ "A table heading, column 3, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5946,7 +5946,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "thr4",
-    /* name */ "Right aligned table column 4 heading",
+    /* name */ translate ("Right aligned table column 4 heading"),
     /* info */ "A table heading, column 4, right aligned",
     /* category */ "te",
     /* type */ 12,
@@ -5979,7 +5979,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tl",
-    /* name */ "* Transliterated word",
+    /* name */ translate ("Transliterated word"),
     /* info */ "Transliterated (or foreign) word(s).",
     /* category */ "st",
     /* type */ 4,
@@ -6012,7 +6012,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "toc",
-    /* name */ "Table of Contents",
+    /* name */ translate ("Table of contents"),
     /* info */ "Front matter table of contents.",
     /* category */ "pm",
     /* type */ 9,
@@ -6045,7 +6045,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "toc1",
-    /* name */ "Long Table of Contents Text",
+    /* name */ translate ("Long table of contents text"),
     /* info */ "Long table of contents text",
     /* category */ "id",
     /* type */ 0,
@@ -6078,7 +6078,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "toc2",
-    /* name */ "Short Table of Contents Text",
+    /* name */ translate ("Short table of contents text"),
     /* info */ "Short table of contents text",
     /* category */ "id",
     /* type */ 0,
@@ -6111,7 +6111,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "toc3",
-    /* name */ "Book Abbreviation",
+    /* name */ translate ("Book abbreviation"),
     /* info */ "Book Abbreviation (not yet supported in Bibledit).",
     /* category */ "id",
     /* type */ 0,
@@ -6144,7 +6144,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "tr",
-    /* name */ "Table row start",
+    /* name */ translate ("Table row start"),
     /* info */ "A new table row.",
     /* category */ "te",
     /* type */ 12,
@@ -6177,7 +6177,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "v",
-    /* name */ "Verse number",
+    /* name */ translate ("Verse number"),
     /* info */ "A verse number (Necessary for normal Bibledit operation)",
     /* category */ "cv",
     /* type */ 6,
@@ -6210,7 +6210,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "va",
-    /* name */ "* Alternate verse number",
+    /* name */ translate ("Alternate verse number"),
     /* info */ "Second (alternate) verse number (for coding dual numeration in Psalms; see also NRSV Exo 22.1-4)",
     /* category */ "cv",
     /* type */ 4,
@@ -6243,7 +6243,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "vp",
-    /* name */ "* Publishing alternate verse",
+    /* name */ translate ("Publishing alternate verse"),
     /* info */ "Published verse marker - this is a verse marking that would be used in the published text.",
     /* category */ "cv",
     /* type */ 4,
@@ -6276,7 +6276,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "w",
-    /* name */ "Wordlist entry",
+    /* name */ translate ("Wordlist entry"),
     /* info */ "Surround word(s) with this markup to indicate that it appears (or should appear) in the word list.",
     /* category */ "sf",
     /* type */ 13,
@@ -6309,7 +6309,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "wa",
-    /* name */ "Aramaic word list entry",
+    /* name */ translate ("Aramaic word list entry"),
     /* info */ "Surround word(s) with this markup to indicate that it appears (or should appear) in the Aramaic word list.",
     /* category */ "sf",
     /* type */ 13,
@@ -6342,7 +6342,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "wg",
-    /* name */ "Greek word list entry",
+    /* name */ translate ("Greek word list entry"),
     /* info */ "A Greek word list text item.",
     /* category */ "sf",
     /* type */ 13,
@@ -6375,7 +6375,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "wh",
-    /* name */ "Hebrew word list entry",
+    /* name */ translate ("Hebrew word list entry"),
     /* info */ "A Hebrew word list text item.",
     /* category */ "sf",
     /* type */ 13,
@@ -6408,7 +6408,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "wj",
-    /* name */ "Words of Jesus",
+    /* name */ translate ("Words of Jesus"),
     /* info */ "For marking the words of Jesus",
     /* category */ "st",
     /* type */ 4,
@@ -6441,7 +6441,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "x",
-    /* name */ "Cross reference",
+    /* name */ translate ("Cross reference"),
     /* info */ "A list of cross references.",
     /* category */ "x",
     /* type */ 8,
@@ -6474,7 +6474,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xdc",
-    /* name */ "Cross reference deuterocanonical",
+    /* name */ translate ("Cross reference deuterocanonical"),
     /* info */ "References (or other text) between these markers is material to be included only in published editions that contain the Deuterocanonical books. Deprecated (i.e. use is discouraged).",
     /* category */ "x",
     /* type */ 8,
@@ -6507,7 +6507,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xk",
-    /* name */ "Cross reference keyword",
+    /* name */ translate ("Cross reference keyword"),
     /* info */ "A keyword from the scripture translation text which the target reference(s) also refer to.",
     /* category */ "x",
     /* type */ 8,
@@ -6540,7 +6540,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xnt",
-    /* name */ "Cross reference New Testament",
+    /* name */ translate ("Cross reference New Testament"),
     /* info */ "References or other text between these markers is material to be included only in published editions that contain the New Testament books.",
     /* category */ "x",
     /* type */ 8,
@@ -6573,7 +6573,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xo",
-    /* name */ "Cross reference origin reference",
+    /* name */ translate ("Cross reference origin reference"),
     /* info */ "This is the chapter and verse(s) that target reference(s) are being provided for.",
     /* category */ "x",
     /* type */ 8,
@@ -6606,7 +6606,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xop",
-    /* name */ "Published cross reference origin text",
+    /* name */ translate ("Published cross reference origin text"),
     /* info */ "In some texts, the content intended to be published in the position of the cross reference origin text 'xo' does not follow the typical chapter-separator-verse pattern. An origin reference following this pattern is required for validation of the cross reference location. 'xop' ...'xop*' can be used in order to supply the content intended for publishing, similar to the use of 'cp' and 'vp ...vp*'.",
     /* category */ "x",
     /* type */ 8,
@@ -6639,7 +6639,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xot",
-    /* name */ "Cross reference Old Testament",
+    /* name */ translate ("Cross reference Old Testament"),
     /* info */ "References or other text between these markers is material to be included only in published editions that contain the Old Testament books.",
     /* category */ "x",
     /* type */ 8,
@@ -6672,7 +6672,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xq",
-    /* name */ "Cross reference quotation",
+    /* name */ translate ("Cross reference quotation"),
     /* info */ "A cross-reference quotation from the scripture text.",
     /* category */ "x",
     /* type */ 8,
@@ -6705,7 +6705,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xt",
-    /* name */ "Cross reference target reference(s)",
+    /* name */ translate ("Cross reference target references"),
     /* info */ "The cross reference target reference(s).",
     /* category */ "x",
     /* type */ 8,
@@ -6738,7 +6738,7 @@ style_record styles_table [] =
   },
   {
     /* marker */ "xta",
-    /* name */ "Target reference(s) added text",
+    /* name */ translate ("Target references added text"),
     /* info */ "Used for marking text which should be ignored when identifying or linking to cross reference target references.",
     /* category */ "x",
     /* type */ 8,

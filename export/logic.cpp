@@ -57,11 +57,15 @@ void Export_Logic::scheduleUsfm (string bible, bool log)
 // $bible: Bible.
 void Export_Logic::scheduleOpenDocument (string bible, bool log)
 {
+  // Get the available books in the Bible.
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
+  // Export the books, one OpenDocument file per book.
   for (auto book : books) {
     tasks_logic_queue (EXPORTODT, {bible, convert_to_string (book), convert_to_string (log)});
   }
+  // Export the whole Bible to one OpenDocument file.
+  tasks_logic_queue (EXPORTODT, {bible, "0", convert_to_string (log)});
 }
 
 

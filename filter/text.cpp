@@ -249,6 +249,7 @@ void Filter_Text::preprocessingStage ()
                     currentChapterNumber = 0;
                     numberOfChaptersPerBook[currentBookIdentifier] = 0;
                     currentVerseNumber = "0";
+                    // Done.
                     break;
                   }
                   case IdentifierSubtypeRunningHeader:
@@ -416,6 +417,20 @@ void Filter_Text::processUsfm ()
                   if (onlinebible_text) onlinebible_text->storeData ();
                   // eSword.
                   if (esword_text) esword_text->newBook (currentBookIdentifier);
+                  // The hidden header in the text normally displays in the running header.
+                  // It does this only when it's the first header on the page.
+                  // The book starts here.
+                  // So create a correct hidden header for displaying in the running header.
+                  string runningHeader = Database_Books::getEnglishFromId (currentBookIdentifier);
+                  for (auto item : runningHeaders) {
+                    if (item.book == currentBookIdentifier) {
+                      runningHeader = item.value;
+                    }
+                  }
+                  if (odf_text_standard) odf_text_standard->newHeading1 (runningHeader, true);
+                  if (odf_text_text_only) odf_text_text_only->newHeading1 (runningHeader, true);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newHeading1 (runningHeader, true);
+                  if (odf_text_notes) odf_text_notes->newHeading1 (runningHeader, false);
                   // Done.
                   break;
                 }

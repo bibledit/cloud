@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Class for creating OpenDocument text documents.
-// At first the ODF Toolkit was used. But the Java code to generate this became too big for the compiler.
+// Initially the ODF Toolkit was used. But the Java code to generate this became too big for the compiler.
 // The other thing is that Java is slow as compared to this method employed here.
 
 
@@ -474,8 +474,7 @@ void Odf_Text::initialize_styles_xml ()
           node.text ().set ("1");
         }
         {
-          xml_node node = text_p.append_child ("text:tab");
-          if (node) {}
+          text_p.append_child ("text:tab");
         }
         // Whether and how to put the date in the running headers.
         if (Database_Config_Bible::getDateInHeader (bible)) {
@@ -485,8 +484,7 @@ void Odf_Text::initialize_styles_xml ()
           node.text ().set ("");
         }
         {
-          xml_node node = text_p.append_child ("text:tab");
-          if (node) {}
+          text_p.append_child ("text:tab");
         }
         {
           xml_node node = text_p.append_child ("text:chapter");
@@ -504,8 +502,7 @@ void Odf_Text::initialize_styles_xml ()
           node.append_attribute ("text:outline-level") = "1";
         }
         {
-          xml_node node = text_p.append_child ("text:tab");
-          if (node) {}
+          text_p.append_child ("text:tab");
         }
         // Whether and how to put the date in the running headers.
         if (Database_Config_Bible::getDateInHeader (bible)) {
@@ -515,8 +512,7 @@ void Odf_Text::initialize_styles_xml ()
           node.text ().set ("");
         }
         {
-          xml_node node = text_p.append_child ("text:tab");
-          if (node) {}
+          text_p.append_child ("text:tab");
         }
         {
           xml_node node = text_p.append_child ("text:page-number");

@@ -165,6 +165,8 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Header4\n"
+    "=======\n"
     "\n"
     "Header4 Ⅰ\n"
     "=========\n"
@@ -189,7 +191,8 @@ void test_text ()
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
 
-  // There are two books here. This normally gives one new page between these two books.
+  // There are two books here.
+  // This normally gives one new page between these two books.
   // Test that basic USFM code gets transformed correctly.
   {
     string usfm =
@@ -217,6 +220,8 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
     "\n"
     "Genesis 1\n"
     "=========\n"
@@ -227,6 +232,9 @@ void test_text ()
     "=========\n"
     "\n"
     "Text Genesis 2\n"
+    "\n"
+    "Matthew\n"
+    "=======\n"
     "\n"
     "Matthew 1\n"
     "=========\n"
@@ -241,6 +249,54 @@ void test_text ()
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
     evaluate (__LINE__, __func__, {"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}, filter_text.fallout);
     evaluate (__LINE__, __func__, {"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}, filter_text.info);
+  }
+
+  
+  // Test multiple books in one OpenDocument file.
+  // The headers of each new book should be correct.
+  {
+    string directory = filter_url_create_root_path ("unittests", "tests");
+    string usfm_ruth = filter_url_file_get_contents (filter_url_create_path (directory, "08-Ruth.usfm"));
+    string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path (directory, "60-1Peter.usfm"));
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (usfm_ruth);
+    filter_text.addUsfmCode (usfm_1_peter);
+    filter_text.run (styles_logic_standard_sheet ());
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
+    string standard = ""
+    "Ruth\n"
+    "====\n"
+    "\n"
+    "The Book of\n"
+    "\n"
+    "Ruth\n"
+    "\n"
+    "Ruth 1\n"
+    "======\n"
+    "\n"
+    "1 In the days when the judges judged, there was a famine in the\n"
+    "land. A certain man of Bethlehem Judah went to live in the\n"
+    "country of Moab with his wife and his two sons.\n"
+    "\n"
+    "1 Peter\n"
+    "=======\n"
+    "\n"
+    "Peter’s First Letter\n"
+    "\n"
+    "1 Peter 1\n"
+    "=========\n"
+    "\n"
+    "1 Peter, an apostle of Jesus Christ, to the chosen ones who are\n"
+    "living as foreigners in the Dispersion in Pontus, Galatia,\n"
+    "Cappadocia, Asia, and Bithynia,\n"
+    "\n";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
   // Test transformation of verse numbers and text following.
@@ -265,6 +321,8 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
     "\n"
     "1" + en_space () + "Verse One.\n"
     "\n"
@@ -290,6 +348,8 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
     "\n"
     "1" + en_space () + "Text 1a\n"
     "\n"
@@ -671,6 +731,9 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
+    "\n"
     "Genesis 1\n"
     "=========\n"
     "\n"
@@ -693,6 +756,9 @@ void test_text ()
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
+    "\n"
     "1 Text 1a text1 text1.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -716,6 +782,9 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
+    "\n"
     "Genesis 1\n"
     "=========\n"
     "\n"
@@ -742,6 +811,9 @@ void test_text ()
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
+    "Genesis\n"
+    "=======\n"
+    "\n"
     "Genesis 1\n"
     "=========\n"
     "\n"

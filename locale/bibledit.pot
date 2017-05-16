@@ -7747,6 +7747,9 @@ msgstr ""
 msgid "update"
 msgstr ""
 
+msgid "Edit the note content"
+msgstr ""
+
 msgid "Add a comment to this note"
 msgstr ""
 
@@ -8125,6 +8128,17 @@ msgid "Normally the controls are at the bottom of the page."
 msgstr ""
 
 msgid "Display main menu in tabbed view"
+msgstr ""
+
+msgid "Quickly edit consultation note contents"
+msgstr ""
+
+msgid ""
+"This adds a control for editing the note contents right below the note "
+"contents."
+msgstr ""
+
+msgid "This is an extra control in addition to the normal one."
 msgstr ""
 
 msgid "Back to chapter"

@@ -923,6 +923,609 @@ msgstr ""
 msgid "Critical"
 msgstr ""
 
+msgid "Translator’s addition"
+msgstr ""
+
+msgid "Combined add and pn style"
+msgstr ""
+
+msgid "Blank line"
+msgstr ""
+
+msgid "Bold text"
+msgstr ""
+
+msgid "Bold-italic text"
+msgstr ""
+
+msgid "Quoted book title"
+msgstr ""
+
+msgid "Chapter number"
+msgstr ""
+
+msgid "Alternate chapter number"
+msgstr ""
+
+msgid "Category tag"
+msgstr ""
+
+msgid "Chapter description"
+msgstr ""
+
+msgid "Chapter label"
+msgstr ""
+
+msgid "Closure of an epistle"
+msgstr ""
+
+msgid "Published chapter character"
+msgstr ""
+
+msgid "Descriptive title or Hebrew subtitle"
+msgstr ""
+
+msgid "Deuterocanonical"
+msgstr ""
+
+msgid "Extended footnote"
+msgstr ""
+
+msgid "Emphasized text"
+msgstr ""
+
+msgid "Sidebar start"
+msgstr ""
+
+msgid "Sidebar end"
+msgstr ""
+
+msgid "Extended cross reference"
+msgstr ""
+
+msgid "Footnote"
+msgstr ""
+
+msgid "Footnote Deuterocanonical content"
+msgstr ""
+
+msgid "Endnote"
+msgstr ""
+
+msgid "Figure / illustration / map"
+msgstr ""
+
+msgid "Footnote keyword"
+msgstr ""
+
+msgid "Footnote label text"
+msgstr ""
+
+msgid "Footnote reference mark"
+msgstr ""
+
+msgid "Footnote additional paragraph"
+msgstr ""
+
+msgid "Footnote translation quotation"
+msgstr ""
+
+msgid "Footnote alternate translation"
+msgstr ""
+
+msgid "Footnote origin reference"
+msgstr ""
+
+msgid "Footnote text"
+msgstr ""
+
+msgid "Footnote verse number"
+msgstr ""
+
+msgid "Running header"
+msgstr ""
+
+msgid "Deprecated running header"
+msgstr ""
+
+msgid "Deprecated Left running header"
+msgstr ""
+
+msgid "Deprecated right running header"
+msgstr ""
+
+msgid "Introduction blank line"
+msgstr ""
+
+msgid "Identification"
+msgstr ""
+
+msgid "Encoding"
+msgstr ""
+
+msgid "Introduction end"
+msgstr ""
+
+msgid "Explanatory or bridge text"
+msgstr ""
+
+msgid "Introduction list item"
+msgstr ""
+
+msgid "Introduction list item level 1"
+msgstr ""
+
+msgid "Introduction list item level 2"
+msgstr ""
+
+msgid "Introduction flush left paragraph"
+msgstr ""
+
+msgid "Indented introduction flush left paragraph"
+msgstr ""
+
+msgid "Introduction flush left quote from text paragraph"
+msgstr ""
+
+msgid "Introduction major title level 1"
+msgstr ""
+
+msgid "Introduction major title level 2"
+msgstr ""
+
+msgid "Introduction major title level 3"
+msgstr ""
+
+msgid "Introduction major title level 4"
+msgstr ""
+
+msgid "Introduction major title ending"
+msgstr ""
+
+msgid "Introduction major title ending level 1"
+msgstr ""
+
+msgid "Introduction major title ending level 2"
+msgstr ""
+
+msgid "Introduction outline entry"
+msgstr ""
+
+msgid "Introduction outline entry Level 1"
+msgstr ""
+
+msgid "Introduction outline entry Level 2"
+msgstr ""
+
+msgid "Introduction outline entry Level 3"
+msgstr ""
+
+msgid "Introduction outline entry Level 4"
+msgstr ""
+
+msgid "Introduction outline reference range"
+msgstr ""
+
+msgid "Introduction outline title"
+msgstr ""
+
+msgid "Introduction paragraph"
+msgstr ""
+
+msgid "Indented introduction paragraph"
+msgstr ""
+
+msgid "Introduction quote from text paragraph"
+msgstr ""
+
+msgid "Introduction right-aligned paragraph"
+msgstr ""
+
+msgid "Introduction poetic line"
+msgstr ""
+
+msgid "Introduction poetic line Level 1"
+msgstr ""
+
+msgid "Introduction poetic line Level 2"
+msgstr ""
+
+msgid "Introduction poetic line Level 3"
+msgstr ""
+
+msgid "Introduction quoted text"
+msgstr ""
+
+msgid "Introduction section heading level 1"
+msgstr ""
+
+msgid "Introduction section heading level 2"
+msgstr ""
+
+msgid "Italic text"
+msgstr ""
+
+msgid "Link text"
+msgstr ""
+
+msgid "Keyword"
+msgstr ""
+
+msgid "List footer"
+msgstr ""
+
+msgid "List header"
+msgstr ""
+
+msgid "List entry"
+msgstr ""
+
+msgid "List entry level 1"
+msgstr ""
+
+msgid "List entry level 2"
+msgstr ""
+
+msgid "List entry level 3"
+msgstr ""
+
+msgid "List entry level 4"
+msgstr ""
+
+msgid "List entry 'key' content"
+msgstr ""
+
+msgid "Embedded list entry"
+msgstr ""
+
+msgid "Embedded list entry level 1"
+msgstr ""
+
+msgid "Embedded list entry level 2"
+msgstr ""
+
+msgid "Liturgical note"
+msgstr ""
+
+msgid "List entry total"
+msgstr ""
+
+msgid "List entry 'value' content"
+msgstr ""
+
+msgid "List entry 'value' content level 1"
+msgstr ""
+
+msgid "Continuation paragraph"
+msgstr ""
+
+msgid "Indented flush left paragraph"
+msgstr ""
+
+msgid "Major section reference range"
+msgstr ""
+
+msgid "Major section heading"
+msgstr ""
+
+msgid "Major section heading level 1"
+msgstr ""
+
+msgid "Major section heading level 2"
+msgstr ""
+
+msgid "Major title"
+msgstr ""
+
+msgid "Major title level 1"
+msgstr ""
+
+msgid "Major title level 2"
+msgstr ""
+
+msgid "Major title level 3"
+msgstr ""
+
+msgid "Major title level 4"
+msgstr ""
+
+msgid "Major title at ending"
+msgstr ""
+
+msgid "Major title at ending level 1"
+msgstr ""
+
+msgid "Major title at ending level 2"
+msgstr ""
+
+msgid "No break with previous paragraph"
+msgstr ""
+
+msgid "Name of God"
+msgstr ""
+
+msgid "Subject index entry"
+msgstr ""
+
+msgid "Normal text"
+msgstr ""
+
+msgid "Ordinal number ending"
+msgstr ""
+
+msgid "Normal paragraph"
+msgstr ""
+
+msgid "Page break"
+msgstr ""
+
+msgid "Centered paragraph"
+msgstr ""
+
+msgid "Indented paragraph"
+msgstr ""
+
+msgid "Indented paragraph level 1"
+msgstr ""
+
+msgid "Indented paragraph level 2"
+msgstr ""
+
+msgid "Indented paragraph level 3"
+msgstr ""
+
+msgid "Embedded text paragraph"
+msgstr ""
+
+msgid "Embedded text closing"
+msgstr ""
+
+msgid "Embedded text opening"
+msgstr ""
+
+msgid "Embedded text refrain"
+msgstr ""
+
+msgid "Proper name"
+msgstr ""
+
+msgid "Geographic proper name"
+msgstr ""
+
+msgid "Paragraph opening an epistle"
+msgstr ""
+
+msgid "Pronunciation annotation"
+msgstr ""
+
+msgid "Poetic line"
+msgstr ""
+
+msgid "Poetic line level 1"
+msgstr ""
+
+msgid "Poetic line level 2"
+msgstr ""
+
+msgid "Poetic line level 3"
+msgstr ""
+
+msgid "Acrostic heading"
+msgstr ""
+
+msgid "Acrostic letter"
+msgstr ""
+
+msgid "Centered poetic line"
+msgstr ""
+
+msgid "Hebrew note"
+msgstr ""
+
+msgid "Embedded text poetic line"
+msgstr ""
+
+msgid "Embedded text poetic line level 1"
+msgstr ""
+
+msgid "Embedded text poetic line level 2"
+msgstr ""
+
+msgid "Embedded text poetic line level 3"
+msgstr ""
+
+msgid "Right-aligned poetic line"
+msgstr ""
+
+msgid "Selah"
+msgstr ""
+
+msgid "Quoted text"
+msgstr ""
+
+msgid "Parallel passage references"
+msgstr ""
+
+msgid "Annotated base text"
+msgstr ""
+
+msgid "Remark"
+msgstr ""
+
+msgid "Inline quotation references"
+msgstr ""
+
+msgid "Ruby annotation text"
+msgstr ""
+
+msgid "Section heading"
+msgstr ""
+
+msgid "Section heading level 1"
+msgstr ""
+
+msgid "Section heading Level 2"
+msgstr ""
+
+msgid "Section heading level 3"
+msgstr ""
+
+msgid "Section heading level 4"
+msgstr ""
+
+msgid "Small-cap text"
+msgstr ""
+
+msgid "Semantic division"
+msgstr ""
+
+msgid "Semantic division level 1"
+msgstr ""
+
+msgid "Semantic division level 2"
+msgstr ""
+
+msgid "Semantic division level 3"
+msgstr ""
+
+msgid "Semantic division level 4"
+msgstr ""
+
+msgid "Signature of the author"
+msgstr ""
+
+msgid "Secondary language or text source"
+msgstr ""
+
+msgid "Speaker"
+msgstr ""
+
+msgid "Section reference range"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Table column 1 cell"
+msgstr ""
+
+msgid "Table column 2 cell"
+msgstr ""
+
+msgid "Table column 3 cell"
+msgstr ""
+
+msgid "Table column 4 cell"
+msgstr ""
+
+msgid "Right aligned table cell column 1"
+msgstr ""
+
+msgid "Right aligned table cell column 2"
+msgstr ""
+
+msgid "Right aligned table cell column 3"
+msgstr ""
+
+msgid "Right aligned table cell column 4"
+msgstr ""
+
+msgid "Table column 1 heading"
+msgstr ""
+
+msgid "Table column 2 heading"
+msgstr ""
+
+msgid "Table column 3 heading"
+msgstr ""
+
+msgid "Table column 4 heading"
+msgstr ""
+
+msgid "Right aligned table column 1 heading"
+msgstr ""
+
+msgid "Right aligned table column 2 heading"
+msgstr ""
+
+msgid "Right aligned table 3 column heading"
+msgstr ""
+
+msgid "Right aligned table column 4 heading"
+msgstr ""
+
+msgid "Transliterated word"
+msgstr ""
+
+msgid "Table of contents"
+msgstr ""
+
+msgid "Long table of contents text"
+msgstr ""
+
+msgid "Short table of contents text"
+msgstr ""
+
+msgid "Book abbreviation"
+msgstr ""
+
+msgid "Table row start"
+msgstr ""
+
+msgid "Verse number"
+msgstr ""
+
+msgid "Alternate verse number"
+msgstr ""
+
+msgid "Publishing alternate verse"
+msgstr ""
+
+msgid "Wordlist entry"
+msgstr ""
+
+msgid "Aramaic word list entry"
+msgstr ""
+
+msgid "Greek word list entry"
+msgstr ""
+
+msgid "Hebrew word list entry"
+msgstr ""
+
+msgid "Words of Jesus"
+msgstr ""
+
+msgid "Cross reference"
+msgstr ""
+
+msgid "Cross reference deuterocanonical"
+msgstr ""
+
+msgid "Cross reference keyword"
+msgstr ""
+
+msgid "Cross reference New Testament"
+msgstr ""
+
+msgid "Cross reference origin reference"
+msgstr ""
+
+msgid "Published cross reference origin text"
+msgstr ""
+
+msgid "Cross reference Old Testament"
+msgstr ""
+
+msgid "Cross reference quotation"
+msgstr ""
+
+msgid "Cross reference target references"
+msgstr ""
+
+msgid "Target references added text"
+msgstr ""
+
 msgid "Name"
 msgstr ""
 
@@ -1061,6 +1664,9 @@ msgid "Exported to html"
 msgstr ""
 
 msgid "Documents with information and fallout were created"
+msgstr ""
+
+msgid "whole Bible"
 msgstr ""
 
 msgid "Exported to OpenDocument files"
@@ -7640,9 +8246,6 @@ msgid "This note has been assigned to you for you to take action on."
 msgstr ""
 
 msgid "I have done my part on it."
-msgstr ""
-
-msgid "Status"
 msgstr ""
 
 msgid "Verses"

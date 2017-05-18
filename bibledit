@@ -21,6 +21,14 @@ crontab crontab3.txt
 # Cleanup.
 rm crontab1.txt crontab2.txt crontab3.txt
 
+# If Bibledit Cloud already runs for the current user,
+# do not start another instance.
+pgrep -u `whoami` bibleditserver
+if [ $? -eq 0 ]
+then
+exit
+fi
+
 # Keep running Bibledit Cloud even if it crashes.
 # Rename the server binary and then run it.
 # This is for easier in-place upgrades.

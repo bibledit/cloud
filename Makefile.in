@@ -274,50 +274,51 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	checks/suppress.$(OBJEXT) checks/usfm.$(OBJEXT) \
 	checks/verses.$(OBJEXT) checks/versification.$(OBJEXT) \
 	checks/pairs.$(OBJEXT) checks/settingspairs.$(OBJEXT) \
-	consistency/index.$(OBJEXT) consistency/input.$(OBJEXT) \
-	consistency/logic.$(OBJEXT) consistency/poll.$(OBJEXT) \
-	export/esword.$(OBJEXT) export/html.$(OBJEXT) \
-	export/index.$(OBJEXT) export/info.$(OBJEXT) \
-	export/logic.$(OBJEXT) export/odt.$(OBJEXT) \
-	export/onlinebible.$(OBJEXT) export/textusfm.$(OBJEXT) \
-	export/usfm.$(OBJEXT) export/web.$(OBJEXT) \
-	export/bibledropbox.$(OBJEXT) export/quickbible.$(OBJEXT) \
-	xrefs/clear.$(OBJEXT) xrefs/extract.$(OBJEXT) \
-	xrefs/help.$(OBJEXT) xrefs/index.$(OBJEXT) \
-	xrefs/insert.$(OBJEXT) xrefs/interpret.$(OBJEXT) \
-	xrefs/move.$(OBJEXT) xrefs/next.$(OBJEXT) \
-	xrefs/source.$(OBJEXT) xrefs/target.$(OBJEXT) \
-	xrefs/translate.$(OBJEXT) webbible/search.$(OBJEXT) \
-	developer/index.$(OBJEXT) developer/logic.$(OBJEXT) \
-	paratext/logic.$(OBJEXT) paratext/index.$(OBJEXT) \
-	personalize/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
-	lexicon/definition.$(OBJEXT) sources/etcbc4.$(OBJEXT) \
-	sources/kjv.$(OBJEXT) sources/morphhb.$(OBJEXT) \
-	sources/morphgnt.$(OBJEXT) sources/hebrewlexicon.$(OBJEXT) \
-	sources/oshb.$(OBJEXT) sword/logic.$(OBJEXT) \
-	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
-	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
-	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
-	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
-	public/create.$(OBJEXT) public/note.$(OBJEXT) \
-	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
-	search/logic.$(OBJEXT) mbedtls/aes.$(OBJEXT) \
-	mbedtls/aesni.$(OBJEXT) mbedtls/arc4.$(OBJEXT) \
-	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
-	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
-	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
-	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
-	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
-	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
-	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
-	mbedtls/ecdh.$(OBJEXT) mbedtls/ecdsa.$(OBJEXT) \
-	mbedtls/ecjpake.$(OBJEXT) mbedtls/ecp.$(OBJEXT) \
-	mbedtls/ecp_curves.$(OBJEXT) mbedtls/entropy.$(OBJEXT) \
-	mbedtls/entropy_poll.$(OBJEXT) mbedtls/error.$(OBJEXT) \
-	mbedtls/gcm.$(OBJEXT) mbedtls/havege.$(OBJEXT) \
-	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
-	mbedtls/md2.$(OBJEXT) mbedtls/md4.$(OBJEXT) \
-	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
+	checks/french.$(OBJEXT) consistency/index.$(OBJEXT) \
+	consistency/input.$(OBJEXT) consistency/logic.$(OBJEXT) \
+	consistency/poll.$(OBJEXT) export/esword.$(OBJEXT) \
+	export/html.$(OBJEXT) export/index.$(OBJEXT) \
+	export/info.$(OBJEXT) export/logic.$(OBJEXT) \
+	export/odt.$(OBJEXT) export/onlinebible.$(OBJEXT) \
+	export/textusfm.$(OBJEXT) export/usfm.$(OBJEXT) \
+	export/web.$(OBJEXT) export/bibledropbox.$(OBJEXT) \
+	export/quickbible.$(OBJEXT) xrefs/clear.$(OBJEXT) \
+	xrefs/extract.$(OBJEXT) xrefs/help.$(OBJEXT) \
+	xrefs/index.$(OBJEXT) xrefs/insert.$(OBJEXT) \
+	xrefs/interpret.$(OBJEXT) xrefs/move.$(OBJEXT) \
+	xrefs/next.$(OBJEXT) xrefs/source.$(OBJEXT) \
+	xrefs/target.$(OBJEXT) xrefs/translate.$(OBJEXT) \
+	webbible/search.$(OBJEXT) developer/index.$(OBJEXT) \
+	developer/logic.$(OBJEXT) paratext/logic.$(OBJEXT) \
+	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
+	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
+	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
+	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
+	sources/hebrewlexicon.$(OBJEXT) sources/oshb.$(OBJEXT) \
+	sword/logic.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
+	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
+	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
+	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
+	public/new.$(OBJEXT) public/create.$(OBJEXT) \
+	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
+	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
+	mbedtls/aes.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
+	mbedtls/arc4.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
+	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
+	mbedtls/bignum.$(OBJEXT) mbedtls/blowfish.$(OBJEXT) \
+	mbedtls/camellia.$(OBJEXT) mbedtls/ccm.$(OBJEXT) \
+	mbedtls/certs.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
+	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
+	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
+	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
+	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
+	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
+	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
+	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
+	mbedtls/havege.$(OBJEXT) mbedtls/hmac_drbg.$(OBJEXT) \
+	mbedtls/md.$(OBJEXT) mbedtls/md2.$(OBJEXT) \
+	mbedtls/md4.$(OBJEXT) mbedtls/md5.$(OBJEXT) \
+	mbedtls/md_wrap.$(OBJEXT) \
 	mbedtls/memory_buffer_alloc.$(OBJEXT) mbedtls/net.$(OBJEXT) \
 	mbedtls/oid.$(OBJEXT) mbedtls/padlock.$(OBJEXT) \
 	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
@@ -391,7 +392,7 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/lexicon.$(OBJEXT) unittests/cache.$(OBJEXT) \
 	unittests/login.$(OBJEXT) unittests/privileges.$(OBJEXT) \
 	unittests/statistics.$(OBJEXT) unittests/webview.$(OBJEXT) \
-	unittests/javascript.$(OBJEXT)
+	unittests/javascript.$(OBJEXT) unittests/french.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -918,6 +919,7 @@ libbibledit_a_SOURCES = \
 	checks/versification.cpp \
 	checks/pairs.cpp \
 	checks/settingspairs.cpp \
+	checks/french.cpp \
 	consistency/index.cpp \
 	consistency/input.cpp \
 	consistency/logic.cpp \
@@ -1131,7 +1133,8 @@ unittest_SOURCES = \
 	unittests/privileges.cpp \
 	unittests/statistics.cpp \
 	unittests/webview.cpp \
-	unittests/javascript.cpp
+	unittests/javascript.cpp \
+	unittests/french.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -2231,6 +2234,8 @@ checks/pairs.$(OBJEXT): checks/$(am__dirstamp) \
 	checks/$(DEPDIR)/$(am__dirstamp)
 checks/settingspairs.$(OBJEXT): checks/$(am__dirstamp) \
 	checks/$(DEPDIR)/$(am__dirstamp)
+checks/french.$(OBJEXT): checks/$(am__dirstamp) \
+	checks/$(DEPDIR)/$(am__dirstamp)
 consistency/$(am__dirstamp):
 	@$(MKDIR_P) consistency
 	@: > consistency/$(am__dirstamp)
@@ -2848,6 +2853,8 @@ unittests/webview.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/javascript.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/french.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -2973,6 +2980,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/manage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/modifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@changes/$(DEPDIR)/statistics.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/french.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/headers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/index.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@checks/$(DEPDIR)/logic.Po@am__quote@
@@ -3392,6 +3400,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/export.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/french.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/git.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2usfm.Po@am__quote@

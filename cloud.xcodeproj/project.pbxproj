@@ -1228,6 +1228,10 @@
 		CACD4B6F1E8935BF007F330D /* external.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = external.js; sourceTree = "<group>"; };
 		CACD4B701E893D77007F330D /* external.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = external.cpp; sourceTree = "<group>"; };
 		CACD4B711E893D77007F330D /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = external.h; sourceTree = "<group>"; };
+		CACD9B521ECCBDC7003ACC40 /* french.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = french.cpp; sourceTree = "<group>"; };
+		CACD9B531ECCBDC7003ACC40 /* french.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = french.h; sourceTree = "<group>"; };
+		CACD9B541ECCBFEE003ACC40 /* french.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = french.cpp; sourceTree = "<group>"; };
+		CACD9B551ECCBFEE003ACC40 /* french.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = french.h; sourceTree = "<group>"; };
 		CACDF3CB1DF1E74E00C198A2 /* feed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = feed.cpp; sourceTree = "<group>"; };
 		CACDF3CC1DF1E74E00C198A2 /* feed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = feed.h; sourceTree = "<group>"; };
 		CACDF3CD1DF1E74E00C198A2 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -1732,8 +1736,8 @@
 		CAA4CF961A45A647003ABA25 /* checks */ = {
 			isa = PBXGroup;
 			children = (
-				CA05AFF81AC448FE00488ECE /* run.cpp */,
-				CA05AFF91AC448FE00488ECE /* run.h */,
+				CACD9B521ECCBDC7003ACC40 /* french.cpp */,
+				CACD9B531ECCBDC7003ACC40 /* french.h */,
 				CA05AFFB1AC448FE00488ECE /* headers.cpp */,
 				CA05AFFC1AC448FE00488ECE /* headers.h */,
 				CA05AFFE1AC448FE00488ECE /* index.cpp */,
@@ -1744,6 +1748,8 @@
 				CA05B0041AC448FE00488ECE /* logic.h */,
 				CADCC7CC1D4D1AF50076FF17 /* pairs.cpp */,
 				CADCC7CD1D4D1AF50076FF17 /* pairs.h */,
+				CA05AFF81AC448FE00488ECE /* run.cpp */,
+				CA05AFF91AC448FE00488ECE /* run.h */,
 				CA05B0061AC448FE00488ECE /* sentences.cpp */,
 				CA05B0071AC448FE00488ECE /* sentences.h */,
 				CA05B0091AC448FE00488ECE /* settings.cpp */,
@@ -3050,6 +3056,8 @@
 				CA05DD331E33872D00EA2EDF /* flate.h */,
 				CA05DD301E33858800EA2EDF /* folders.cpp */,
 				CA05DD311E33858800EA2EDF /* folders.h */,
+				CACD9B541ECCBFEE003ACC40 /* french.cpp */,
+				CACD9B551ECCBFEE003ACC40 /* french.h */,
 				CACB0B4E1E40A43200C98564 /* git.cpp */,
 				CACB0B4F1E40A43200C98564 /* git.h */,
 				CAEB13161E3FB17000AFC75E /* html.cpp */,

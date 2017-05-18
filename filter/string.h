@@ -53,7 +53,7 @@ bool filter_string_is_numeric (string s);
 string filter_string_sanitize_html (string html);
 string filter_string_desanitize_html (string html);
 string soft_hyphen ();
-string non_breaking_space_utf8_00a0 ();
+string no_break_space_utf8_00a0 ();
 string non_breaking_space_utf8_c2a0 ();
 string en_space ();
 size_t unicode_string_length (string s);

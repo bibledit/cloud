@@ -319,6 +319,7 @@ libbibledit_a_SOURCES = \
 	checks/versification.cpp \
 	checks/pairs.cpp \
 	checks/settingspairs.cpp \
+	checks/french.cpp \
 	consistency/index.cpp \
 	consistency/input.cpp \
 	consistency/logic.cpp \
@@ -536,7 +537,8 @@ unittest_SOURCES = \
 	unittests/privileges.cpp \
 	unittests/statistics.cpp \
 	unittests/webview.cpp \
-	unittests/javascript.cpp
+	unittests/javascript.cpp \
+	unittests/french.cpp
 
 unittest_LDADD = libbibledit.a
 

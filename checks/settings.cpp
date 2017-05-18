@@ -168,6 +168,12 @@ string checks_settings (void * webserver_request)
   view.set_variable ("spaceendverse", get_checkbox_status (Database_Config_Bible::getCheckSpaceEndVerse (bible)));
 
   
+  if (checkbox == "frenchpunctuation") {
+    Database_Config_Bible::setCheckFrenchPunctuation (bible, checked);
+  }
+  view.set_variable ("frenchpunctuation", get_checkbox_status (Database_Config_Bible::getCheckFrenchPunctuation (bible)));
+
+  
   view.set_variable ("bible", bible);
 
   

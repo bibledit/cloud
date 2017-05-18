@@ -41,10 +41,10 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
       while (pos != string::npos) {
         text.erase (0, pos + left_guillemet.size ());
         if (text.find (" ") == 0) {
-          string message = left_guillemet + " - " + translate ("Should be followed by a no-break space rather than a plain space");
+          string message = left_guillemet + " - " + translate ("Should be followed by a no-break space rather than a plain space in French");
           database_check.recordOutput (bible, book, chapter, verse, message);
         } else if (text.find (nbsp) != 0) {
-          string message = left_guillemet + " - " + translate ("Should be followed by a no-break space");
+          string message = left_guillemet + " - " + translate ("Should be followed by a no-break space in French");
           database_check.recordOutput (bible, book, chapter, verse, message);
         }
         pos = text.find (left_guillemet);
@@ -56,10 +56,10 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
       size_t pos = text.find (punctuation);
       while (pos != string::npos) {
         if ((pos > 0) && (text.substr (pos - 1, 1) == " ")) {
-          string message = punctuation + " - " + translate ("Should be preceded by a no-break space rather than a plain space");
+          string message = punctuation + " - " + translate ("Should be preceded by a no-break space rather than a plain space in French");
           database_check.recordOutput (bible, book, chapter, verse, message);
         } else if ((pos > 2) && (text.substr (pos - 2, 2) != nbsp)) {
-          string message = punctuation + " - " + translate ("Should be preceded by a no-break space");
+          string message = punctuation + " - " + translate ("Should be preceded by a no-break space in French");
           database_check.recordOutput (bible, book, chapter, verse, message);
         }
         text.erase (0, pos + punctuation.size ());

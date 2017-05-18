@@ -34,7 +34,7 @@ void test_french ()
   string bible = "unit test";
   string nbsp = no_break_space_utf8_00a0 ();
   
-  // Test reporting lacking non-break space at French square brackets and other punctuation.
+  // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
     database_check.truncateOutput (bible);
     map <int, string> texts;
@@ -48,12 +48,19 @@ void test_french ()
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 6, hits.size ());
     if (hits.size () == 6) {
-      evaluate (__LINE__, __func__, "« - Should be followed by a no-break space", hits [0].data);
-      evaluate (__LINE__, __func__, "» - Should be preceded by a no-break space", hits [1].data);
-      evaluate (__LINE__, __func__, "« - Should be followed by a no-break space rather than a plain space", hits [2].data);
-      evaluate (__LINE__, __func__, "» - Should be preceded by a no-break space rather than a plain space", hits [3].data);
-      evaluate (__LINE__, __func__, "; - Should be preceded by a no-break space rather than a plain space", hits [4].data);
-      evaluate (__LINE__, __func__, "; - Should be preceded by a no-break space", hits [5].data);
+      string standard;
+      standard = "« - Should be followed by a no-break space in French";
+      evaluate (__LINE__, __func__, standard, hits [0].data);
+      standard = "» - Should be preceded by a no-break space in French";
+      evaluate (__LINE__, __func__, standard, hits [1].data);
+      standard = "« - Should be followed by a no-break space rather than a plain space in French";
+      evaluate (__LINE__, __func__, standard, hits [2].data);
+      standard = "» - Should be preceded by a no-break space rather than a plain space in French";
+      evaluate (__LINE__, __func__, standard, hits [3].data);
+      standard = "; - Should be preceded by a no-break space rather than a plain space in French";
+      evaluate (__LINE__, __func__, standard, hits [4].data);
+      standard = "; - Should be preceded by a no-break space in French";
+      evaluate (__LINE__, __func__, standard, hits [5].data);
     }
   }
 }

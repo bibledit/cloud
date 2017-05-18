@@ -40,6 +40,7 @@
 #include <checks/pairs.h>
 #include <checks/index.h>
 #include <checks/settings.h>
+#include <checks/french.h>
 #include <email/send.h>
 
 
@@ -101,6 +102,7 @@ void checks_run (string bible)
     }
   }
   bool check_space_end_verse = Database_Config_Bible::getCheckSpaceEndVerse (bible);
+  bool check_french_punctuation = Database_Config_Bible::getCheckFrenchPunctuation (bible);
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
@@ -196,6 +198,12 @@ void checks_run (string bible)
       if (check_space_end_verse) {
         Checks_Space::spaceEndVerse (bible, book, chapter, chapterUsfm);
       }
+      
+      if (check_french_punctuation) {
+        Checks_French::spaceBeforeAfterPunctuation (bible, book, chapter, verses_headings);
+        Checks_French::spaceBeforeAfterPunctuation (bible, book, chapter, verses_text);
+      }
+      
     }
   }
   

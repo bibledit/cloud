@@ -17,8 +17,8 @@
  */
 
 
-#ifndef INCLUDED_CHECK_SPACE_H
-#define INCLUDED_CHECK_SPACE_H
+#ifndef INCLUDED_CHECK_FRENCH_H
+#define INCLUDED_CHECK_FRENCH_H
 
 
 #include <config/libraries.h>

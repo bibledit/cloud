@@ -1,6 +1,8 @@
 <h1>ChangeLog</h1>
 
-<h2>Version 5.1.xxx</h2>
+<p></p>
+
+<h2>Version 5.0.185</h2>
 <p>Version bump to 5.1 to make it higher than version 4.9 now in Debian and derivatives.</p>
 <p>Partial support for \ca ...\ca* in USFM 3.</p>
 <p>Workspaces in Edge fill the available space.</p>
@@ -43,7 +45,6 @@
 <p>Localized stylesheets.</p>
 <p>Check for no-break space at French punctuation.</p>
 <p>Cloud shell wrapper no longer can start multiple Cloud instances.</p>
-<p></p>
 
 <h2>Version 1.0.xxx</h2>
 <p>17 February 2017</p>
@@ -79,7 +80,7 @@
 <p>Fixed: On Windows, a burst of logs leads to an unclear journal.</p>
 <p>The Bible editor indicates the focused verse after reload.</p>
 <p>Fixed: Marker not in stylesheet: \+add*.</p>
-<p>The workbench can pass a Bible to any of the four editors.</p>
+<p>The workspace can pass a Bible to any of the four editors.</p>
 <p>Fixed: The number of business day in a month on the sprint planning is incorrect.</p>
 <p>Client synchronizes the Change Notifications with the Cloud.</p>
 <p>Client refers user notifications to the Cloud.</p>
@@ -90,14 +91,14 @@
 <p>Clickable arrows for navigating to the previous or the next verse.</p>
 <p>Can set write access to Bible per book.</p>
 <p>Fixed: Server sends spurious messages about unable to merge client Bible data.</p>
-<p>Improved transfer of workbenches between client and server.</p>
+<p>Improved transfer of workspaces between client and server.</p>
 <p>Fixed: Loses any + sign when a client sends a Bible chapter to the cloud.</p>
 <p>Support for combined verses like 10-12 and 12,13 and 10,11b.</p>
 <p>Renumber notes after inserting or removing one in the visual chapter editor.</p>
 <p>Deletes note body after removing the note caller in the visual chapter editor. </p>
 <p>Can display context in the Resources.</p>
 <p>Sprint planning is available in the Cloud only.</p>
-<p>Can set the width of the entire workbench.</p>
+<p>Can set the width of the entire workspace.</p>
 <p>Watchdog timers on all sync actions for increased robustness on bad networks.</p>
 <p>Central cache for external resources for clustered Bibledit Cloud installations.</p>
 <p>Improved caching of the NET Bible.</p>
@@ -145,7 +146,7 @@
 <p>Can dismiss entire categories of change notifications.</p>
 <p>User is logged out after one year of inactivity.</p>
 <p>A client does not run the nightly exports.</p>
-<p>Fixed: In a Workbench and shifting from viewing a NT-only project to viewing a full Bible project, Bibledit will not give the updated full table of books for the full Bible project.</p>
+<p>Fixed: In a workspace and shifting from viewing a NT-only project to viewing a full Bible project, Bibledit will not give the updated full table of books for the full Bible project.</p>
 <p>All commentaries from studylight.org are available as external resources.</p>
 <p>Fixed: When a client unsubscribes from a note from a change notification, it does not update the Cloud, so a sync action reverses the unsubscribe action.</p>
 <p>The \ide has moved from the fallout document to the info document on export.</p>
@@ -165,16 +166,15 @@
 <p>Fixed: Applying style \add in the visual editor reloads the text in the editor.</p>
 <p>Fixed: Visual editor at times trembles after focusing another verse.</p>
 <p>Uses Hebrew font or Greek font in the original languages search.</p>
-<p>The demo displays an interesting workbench with selection of resources to the visitor.</p>
+<p>The demo displays an interesting workspace with selection of resources to the visitor.</p>
 <p>Unmatched \f and \add markers in the visual editor are dealt with properly.</p>
 <p>User can set the relative font size of Hebrew and Greek resources.</p>
 <p>No index on search database: Saving will be faster on low power devices.</p>
 <p>Can personalize the vertical scrolling position of the caret in the Bible editors.</p>
 <p>Fixed: Missing bits from the KJV lexicon.</p>
 <p>Open Scripures Hebrew Lexicon displays the ketiv and the qere and has better word spacing.</p>
-<p>The workbenches have been renamed to "Desktops".</p>
 <p>It sets an initial selection of resources.</p>
-<p>Home page offers link for opening last used desktop.</p>
+<p>Home page offers link for opening last used workspace.</p>
 <p>Menu reorganisation for easier operation by touch.</p>
 <p>Clearer order of the items of the morphology of the ETCBC4 Hebrew database, <a href="/help/licenses">see the license section for the sources</a>.</p>
 <p>Linux installer script fetches the tarball with the highest version number.</p>
@@ -199,11 +199,11 @@
 <p>Fixed: Crash when saving malformed USFM.</p>
 <p>Manually indexing Bibles forces their indexes to be rebuilt from scratch.</p>
 <p>Searches in footnotes also (re-index Bibles for this to work).</p>
-<p>In the desktop settings, the user can create all default desktops.</p>
-<p>Automatically creates default workbenches if a user has none.</p>
-<p>The desktop organizer informs the user that loading the samples overwrites the current desktop.</p>
-<p>Copy a desktop to a new one.</p>
-<p>The desktop settings have pop-up help.</p>
+<p>In the workspace settings, the user can create all default workspaces.</p>
+<p>Automatically creates default workspaces if a user has none.</p>
+<p>The workspace organizer informs the user that loading the samples overwrites the current workspace.</p>
+<p>Copy a workspace to a new one.</p>
+<p>The workspace settings have pop-up help.</p>
 <p>Can set font size for the resources.</p>
 <p>Can set font size for the Bible editors.</p>
 <p>Can set the background color for styles that support font color.</p>
@@ -225,7 +225,7 @@
 <p>Import Web resource or SWORD module into a Bible.</p>
 <p>The context of the mechanical checks respects the word boundaries.</p>
 <p>Unified resource selector for consistency tool and resource printing.</p>
-<p>Can copy a desktop to all other users.</p>
+<p>Can copy a workspace to all other users.</p>
 <p>If zip and unzip are not found, it refers to the Cloud for Bible export to OpenDocument.</p>
 <p>Fixed: A fresh installation of Bibledit on Android takes so long that the progress bar goes past 100%.</p>
 <p>The font setting is also applied to the non-editable portion of the visual verse editor.</p>
@@ -240,8 +240,8 @@
 <p>Can drag resources into another order on touch-enabled devices.</p>
 <p>Client prioritizes synchronizing Bibles, consultation notes, settings, and change notifications.</p>
 <p>Server prioritizes synchronizing Bibles, consultation notes, setting, and change notifications per client IP address.</p>
-<p>When the active desktop is deleted, it activates the first available desktop, rather than the default one.</p>
-<p>Personalize the delay for fading out de desktop menu.</p>
+<p>When the active workspace is deleted, it activates the first available workspace, rather than the default one.</p>
+<p>Personalize the delay for fading out de workspace menu.</p>
 <p>The consultation notes are sorted on passage.</p>
 <p>The progress bar keeps going during the initialization phase even if it takes long.</p>
 <p>Easier entry of verse text in an empty verse through the USFM verse editor.</p>
@@ -279,7 +279,7 @@
 <p>Fixed: After switching to another Bible in the public feedback, the previous Bible remains active.</p>
 <p>The Linux installer no longer runs 'su' on Ubuntu.</p>
 <p>Fixed: Network error while updating available SWORD modules results in erasing the existing list of modules.</p>
-<p>Sending a desktop to all users does not work on a client, so the interface was updated to match that.</p>
+<p>Sending a workspace to all users does not work on a client, so the interface was updated to match that.</p>
 <p>More informative installation phase.</p>
 <p>Faster installation on mobile devices.</p>
 <p>Fixed: Caret jumps to unexpected locations in the USFM chapter editor.</p>
@@ -291,7 +291,7 @@
 <p>Fixed: The "Reformat" message in the visual chapter editor appears as a popup.</p>
 <p>Fixed: The visual chapter editor continually kept scrolling the caret into view.</p>
 <p>Viewing a note now also shows the passage navigator.</p>
-<p>The email with a consultation notification now has a link to go to the active desktop in the Cloud.</p>
+<p>The email with a consultation notification now has a link to go to the active workspace in the Cloud.</p>
 <p>Improved readability of the list of consultation notes.</p>
 <p>On a public demo, web crawlers no longer import resources into Bibles at will.</p>
 <p>The nightly indexing of the change notifications no longer builds the index from scratch.</p>
@@ -342,7 +342,7 @@
 <p>Fixed: Notification "Retrying" without reason in visual verse editor.</p>
 <p>Fixed: Server uninstalls a SWORD module too soon.</p>
 <p>Fixed: Cannot set font size for the menu.</p>
-<p>Fixed: Cannot edit desktops on Android and iOS.</p>
+<p>Fixed: Cannot edit workspaces on Android and iOS.</p>
 <p>The Chrome OS port automatically opens the system browser to display the app's interface.</p>
 <p>Translators can now create and edit stylesheets.</p>
 <p>Fixed: Failure to import USFM Bible text from ZIP file.</p>
@@ -395,8 +395,8 @@
 <p>The Cloud confirms successful receipt of a Bible chapter.</p>
 <p>When a client does not get confirmation of Bible data it sent, it will resend it.</p>
 <p>The visual chapter editor's menu always remains in view.</p>
-<p>Fixed: USFM chapter editor says "Nothing to save" when switching to it within a desktop.</p>
-<p>Fixed: USFM verse editor says "Don't know where to save" when switching to it within a desktop.</p>
+<p>Fixed: USFM chapter editor says "Nothing to save" when switching to it within a workspace.</p>
+<p>Fixed: USFM verse editor says "Don't know where to save" when switching to it within a workspace.</p>
 <p>Clearer information about the checks.</p>
 <p>Checks on matching pairs.</p>
 <p>The email about a merge irregularity indicates the chapter and book.</p>
@@ -418,7 +418,7 @@
 <p>Embedded SQLite library, no longer an external dependency.</p>
 <p>Support for IPv6.</p>
 <p>The menu for the USFM chapter editor always remains in view.</p>
-<p>Selecting a passage immediately hides any open desktop menu rather than allowing it to slowly fade it out.</p>
+<p>Selecting a passage immediately hides any open workspace menu rather than allowing it to slowly fade it out.</p>
 <p>The emails about updated software contains information about how to install it.</p>
 <p>Members and consultants and translators run in basic mode after first login.</p>
 <p>In basic mode the main menu is visible by default.</p>
@@ -426,7 +426,6 @@
 <p>Any user with any role can change the language on a client.</p>
 <p>Can query an external OpenLDAP server for authentication.</p>
 <p>Disable and enable user account.</p>
-<p>The Desktop was renamed to Workbench.</p>
 <p>Menu item Personalize was renamed to Preferences.</p>
 <p>Statistics of the number of changes per day per user.</p>
 <p>Crashes in the SWORD library no longer take the whole Cloud instance down.</p>

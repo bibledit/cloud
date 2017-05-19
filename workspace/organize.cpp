@@ -63,24 +63,24 @@ string workspace_organize (void * webserver_request)
   }
   
   
-  // Re-ordering desktops.
+  // Re-ordering workspaces.
   if (request->query.count ("up")) {
     size_t item = convert_to_int (request->query ["up"]);
-    vector <string> desktops = workspace_get_names (request);
-    array_move_up_down (desktops, item, true);
-    workspace_reorder (request, desktops);
+    vector <string> workspaces = workspace_get_names (request);
+    array_move_up_down (workspaces, item, true);
+    workspace_reorder (request, workspaces);
     success = translate ("The workspace was moved up");
   }
   if (request->query.count ("down")) {
     size_t item = convert_to_int (request->query ["down"]);
-    vector <string> desktops = workspace_get_names (request);
-    array_move_up_down (desktops, item, false);
-    workspace_reorder (request, desktops);
+    vector <string> workspaces = workspace_get_names (request);
+    array_move_up_down (workspaces, item, false);
+    workspace_reorder (request, workspaces);
     success = translate ("The workspace was moved down");
   }
   
   
-  // Create and reset all default desktops.
+  // Create and reset all default workspaces.
   if (request->query.count ("defaults")) {
     workspace_create_defaults (webserver_request);
     success = translate ("The default workspaces were created");
@@ -111,11 +111,11 @@ string workspace_organize (void * webserver_request)
   }
   
   
-  // Copy desktop.
+  // Copy workspace.
   if (request->query.count ("copy")) {
-    string desktop = request->query ["copy"];
-    Dialog_Entry dialog_entry ("organize", translate("Please enter a name for the new desktop"), "", "destination", "");
-    dialog_entry.add_query ("source", desktop);
+    string workspace = request->query ["copy"];
+    Dialog_Entry dialog_entry ("organize", translate("Please enter a name for the new workspace"), "", "destination", "");
+    dialog_entry.add_query ("source", workspace);
     page.append (dialog_entry.run ());
     return page;
   }
@@ -127,7 +127,7 @@ string workspace_organize (void * webserver_request)
   }
 
   
-  // Send desktop to all users.
+  // Send workspace to all users.
   string send = request->query ["send"];
   if (!send.empty ()) {
     string me = request->session_logic ()->currentUser ();
@@ -144,31 +144,31 @@ string workspace_organize (void * webserver_request)
   Assets_View view;
   
   
-  vector <string> desktopblock;
-  vector <string> desktops = workspace_get_names (request, false);
-  for (size_t i = 0; i < desktops.size (); i++) {
-    string desktop = desktops [i];
-    desktopblock.push_back ("<p>");
-    desktopblock.push_back ("<a href=\"?remove=" + desktop + "\" title=\"" + translate("Delete desktop") + "\">" + emoji_wastebasket () + "</a>");
-    desktopblock.push_back ("|");
-    desktopblock.push_back ("<a href=\"?up=" + convert_to_string (i) + "\" title=\"" + translate("Move desktop up") + "\"> " + unicode_black_up_pointing_triangle () + " </a>");
-    desktopblock.push_back ("|");
-    desktopblock.push_back ("<a href=\"?down=" + convert_to_string (i) + "\" title=\"" + translate("Move desktop down") + "\"> " + unicode_black_down_pointing_triangle () + " </a>");
-    desktopblock.push_back ("|");
-    desktopblock.push_back ("<a href=\"settings?name=" + desktop + "\" title=\"" + translate("Edit desktop") + "\"> ✎ </a>");
-    desktopblock.push_back ("|");
-    desktopblock.push_back ("<a href=\"?copy=" + desktop + "\" title=\"" + translate("Copy desktop") + "\"> ⎘ </a>");
+  vector <string> workspaceblock;
+  vector <string> workspaces = workspace_get_names (request, false);
+  for (size_t i = 0; i < workspaces.size (); i++) {
+    string workspace = workspaces [i];
+    workspaceblock.push_back ("<p>");
+    workspaceblock.push_back ("<a href=\"?remove=" + workspace + "\" title=\"" + translate("Delete workspace") + "\">" + emoji_wastebasket () + "</a>");
+    workspaceblock.push_back ("|");
+    workspaceblock.push_back ("<a href=\"?up=" + convert_to_string (i) + "\" title=\"" + translate("Move workspace up") + "\"> " + unicode_black_up_pointing_triangle () + " </a>");
+    workspaceblock.push_back ("|");
+    workspaceblock.push_back ("<a href=\"?down=" + convert_to_string (i) + "\" title=\"" + translate("Move workspace down") + "\"> " + unicode_black_down_pointing_triangle () + " </a>");
+    workspaceblock.push_back ("|");
+    workspaceblock.push_back ("<a href=\"settings?name=" + workspace + "\" title=\"" + translate("Edit workspace") + "\"> ✎ </a>");
+    workspaceblock.push_back ("|");
+    workspaceblock.push_back ("<a href=\"?copy=" + workspace + "\" title=\"" + translate("Copy workspace") + "\"> ⎘ </a>");
 #ifndef HAVE_CLIENT
-    // In the Cloud, one can send the desktop configuration to other users.
-    // On a client, sending a desktop to other users does not work.
-    desktopblock.push_back ("|");
-    desktopblock.push_back ("<a href=\"?send=" + desktop + "\" title=\"" + translate("Send desktop to all users") + "\"> ✉ </a>");
+    // In the Cloud, one can send the workspace configuration to other users.
+    // On a client, sending a workspace to other users does not work.
+    workspaceblock.push_back ("|");
+    workspaceblock.push_back ("<a href=\"?send=" + workspace + "\" title=\"" + translate("Send workspace to all users") + "\"> ✉ </a>");
 #endif
-    desktopblock.push_back ("|");
-    desktopblock.push_back ("<span>" + desktop + "</span>");
-    desktopblock.push_back ("</p>");
+    workspaceblock.push_back ("|");
+    workspaceblock.push_back ("<span>" + workspace + "</span>");
+    workspaceblock.push_back ("</p>");
   }
-  view.set_variable ("desktopblock", filter_string_implode (desktopblock, "\n"));
+  view.set_variable ("workspaceblock", filter_string_implode (workspaceblock, "\n"));
 
   
 #ifndef HAVE_CLIENT

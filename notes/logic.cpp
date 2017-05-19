@@ -473,7 +473,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   string passages = filter_passage_display_inline (database_notes.getPassages (identifier));
   string contents = database_notes.getContents (identifier);
 
-  // Include links to the Cloud: One to the note, and one to the active desktop.
+  // Include links to the Cloud: One to the note, and one to the active workspace.
   contents.append ("<br>\n");
   contents.append ("<p>");
   contents.append ("<a href=\"");
@@ -485,10 +485,10 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   contents.append (" " + translate ("or") + " ");
 
   contents.append ("<a href=\"");
-  string desktoplink = config_logic_site_url (webserver_request) + workspace_index_url () + "?note=" + convert_to_string (identifier);
-  contents.append (desktoplink);
+  string workspacelink = config_logic_site_url (webserver_request) + workspace_index_url () + "?note=" + convert_to_string (identifier);
+  contents.append (workspacelink);
   contents.append ("\">");
-  contents.append (translate ("open the desktop online"));
+  contents.append (translate ("open the workspace online"));
   contents.append ("</a>");
 
   contents.append ("</p>\n");

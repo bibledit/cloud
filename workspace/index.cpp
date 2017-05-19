@@ -48,41 +48,41 @@ bool workspace_index_acl (void * webserver_request)
 string workspace_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  vector <string> desktops = workspace_get_names (request);
+  vector <string> workspaces = workspace_get_names (request);
 
   
-  // Set the requested desktop as the active one.
+  // Set the requested workspace as the active one.
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
-    if (bench < desktops.size ()) {
-      string workspace = desktops [bench];
+    if (bench < workspaces.size ()) {
+      string workspace = workspaces [bench];
       request->database_config_user()->setActiveWorkspace (workspace);
     }
   }
   
   
-  // Check that the active desktop exists, else set the first available desktop as the active one.
+  // Check that the active workspace exists, else set the first available workspace as the active one.
   {
-    string desktop = request->database_config_user ()->getActiveWorkspace ();
-    if (!in_array (desktop, desktops)) {
-      if (!desktops.empty ()) {
-        request->database_config_user ()->setActiveWorkspace (desktops [0]);
+    string workspace = request->database_config_user ()->getActiveWorkspace ();
+    if (!in_array (workspace, workspaces)) {
+      if (!workspaces.empty ()) {
+        request->database_config_user ()->setActiveWorkspace (workspaces [0]);
       }
     }
   }
   
   
-  // Create default set of desktops if there are none.
-  bool create = desktops.empty ();
+  // Create default set of workspaces if there are none.
+  bool create = workspaces.empty ();
   if (!create) {
-    create = (desktops [0] == workspace_get_default_name ());
+    create = (workspaces [0] == workspace_get_default_name ());
   }
   if (create) {
     workspace_create_defaults (webserver_request);
   }
 
   
-  // In case the desktop is opened from a consultation note email,
+  // In case the workspace is opened from a consultation note email,
   // read the note, and set the active passage to the passage the note refers to.
   int noteid = convert_to_int (request->query ["note"]);
   if (noteid) {
@@ -98,7 +98,7 @@ string workspace_index (void * webserver_request)
   string page;
   Assets_Header header = Assets_Header (translate("Workspace"), request);
   header.setNavigator ();
-  header.setFadingMenu (menu_logic_desktop_category (webserver_request));
+  header.setFadingMenu (menu_logic_workspace_category (webserver_request));
   page = header.run ();
   Assets_View view;
 

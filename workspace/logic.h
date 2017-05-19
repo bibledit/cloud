@@ -47,7 +47,7 @@ void workspace_reorder (void * webserver_request, const vector <string> & worksp
 void workspace_copy (void * webserver_request, string source, string destination);
 void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights);
 string workspace_get_default_name ();
-void workspace_send (void * webserver_request, string desktop, string user);
+void workspace_send (void * webserver_request, string workspace, string user);
 
 
 #endif

@@ -179,7 +179,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   if (workspace_index_acl (webserver_request)) {
     string label = translate ("Workspace");
     string tooltip;
-    menu_logic_desktop_category (webserver_request, &tooltip);
+    menu_logic_workspace_category (webserver_request, &tooltip);
     html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip));
     tooltipbits.push_back (label);
   }
@@ -316,12 +316,12 @@ string menu_logic_basic_categories (void * webserver_request)
 }
 
 
-string menu_logic_desktop_category (void * webserver_request, string * tooltip)
+string menu_logic_workspace_category (void * webserver_request, string * tooltip)
 {
   vector <string> html;
   vector <string> labels;
 
-  // Add the available configured desktops to the menu.
+  // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
     vector <string> workspaces = workspace_get_names (webserver_request);
@@ -629,7 +629,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 
   // The labels that may end up in the menu.
   string bibles = menu_logic_bible_manage_text ();
-  string desktops = menu_logic_desktop_organize_text ();
+  string workspaces = menu_logic_workspace_organize_text ();
   string checks = menu_logic_checks_settings_text ();
   string resources = menu_logic_resources_text ();
   string changes = menu_logic_changes_text ();
@@ -649,7 +649,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string system = translate ("System");
   vector <string> labels = {
     bibles,
-    desktops,
+    workspaces,
     checks,
     resources,
     changes,
@@ -686,10 +686,10 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       }
     }
     
-    if (label == desktops) {
+    if (label == workspaces) {
       if (workspace_organize_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (workspace_organize_url (), menu_logic_desktop_organize_text (), true));
-        tiplabels.push_back (menu_logic_desktop_organize_text ());
+        html.push_back (menu_logic_create_item (workspace_organize_url (), menu_logic_workspace_organize_text (), true));
+        tiplabels.push_back (menu_logic_workspace_organize_text ());
       }
     }
     
@@ -1074,7 +1074,7 @@ string menu_logic_bible_manage_text ()
 }
 
 
-string menu_logic_desktop_organize_text ()
+string menu_logic_workspace_organize_text ()
 {
   return translate ("Workspaces");
 }

@@ -542,7 +542,18 @@ msgstr ""
 msgid "Everyone"
 msgstr ""
 
-msgid "Space before a comma"
+msgid ""
+"Should be followed by a no-break space rather than a plain space in French"
+msgstr ""
+
+msgid "Should be followed by a no-break space in French"
+msgstr ""
+
+msgid ""
+"Should be preceded by a no-break space rather than a plain space in French"
+msgstr ""
+
+msgid "Should be preceded by a no-break space in French"
 msgstr ""
 
 msgid "Punctuation at end of heading:"
@@ -657,6 +668,9 @@ msgid ""
 msgstr ""
 
 msgid "Double space:"
+msgstr ""
+
+msgid "Space before a comma"
 msgstr ""
 
 msgid "Space before a semicolon"
@@ -4621,6 +4635,9 @@ msgid "matching pairs"
 msgstr ""
 
 msgid "space at the end of a verse"
+msgstr ""
+
+msgid "no-break space at French punctuation"
 msgstr ""
 
 msgid "Settings for the sentence structure"

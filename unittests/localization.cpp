@@ -39,7 +39,7 @@ void test_database_localization ()
   result = database_localization.backtranslate (msgstr);
   evaluate (__LINE__, __func__, msgid, result);
   
-  msgid = "When this workbench will be opened, it will display all the notes that refer to the focused passage.";
+  msgid = "When this workspace will be opened, it will display all the notes that refer to the focused passage.";
   msgstr = "Als de werkbank geopend wordt, dan toont het alle aantekeningen die betrekking hebben op de gefocuste passage.";
   result = database_localization.translate (msgid);
   evaluate (__LINE__, __func__, msgstr, result);

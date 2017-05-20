@@ -3022,7 +3022,7 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-msgid "open the desktop online"
+msgid "open the workspace online"
 msgstr ""
 
 msgid "Your comment was posted"
@@ -8585,6 +8585,9 @@ msgstr ""
 msgid "Untick display of non-breaking spaces."
 msgstr ""
 
+msgid "Enable JavaScript to work with Bibledit"
+msgstr ""
+
 msgid "Clear the entire journal"
 msgstr ""
 
@@ -9325,7 +9328,7 @@ msgstr ""
 msgid "Workspace menu fade-out delay"
 msgstr ""
 
-msgid "How long it takes for the desktop menu to start fading out."
+msgid "How long it takes for the workspace menu to start fading out."
 msgstr ""
 
 msgid ""
@@ -10392,7 +10395,7 @@ msgstr ""
 msgid "Create a new workspace."
 msgstr ""
 
-msgid "Reset all default workspaces."
+msgid "Create all default workspaces."
 msgstr ""
 
 msgid "Edit workspace"
@@ -10778,7 +10781,7 @@ msgstr ""
 msgid "The workspace was removed"
 msgstr ""
 
-msgid "Please enter a name for the new desktop"
+msgid "Please enter a name for the new workspace"
 msgstr ""
 
 msgid "The workspace was copied"
@@ -10787,22 +10790,19 @@ msgstr ""
 msgid "The workspace was sent to all users"
 msgstr ""
 
-msgid "Delete desktop"
+msgid "Delete workspace"
 msgstr ""
 
-msgid "Move desktop up"
+msgid "Move workspace up"
 msgstr ""
 
-msgid "Move desktop down"
+msgid "Move workspace down"
 msgstr ""
 
-msgid "Edit desktop"
+msgid "Copy workspace"
 msgstr ""
 
-msgid "Copy desktop"
-msgstr ""
-
-msgid "Send desktop to all users"
+msgid "Send workspace to all users"
 msgstr ""
 
 msgid "See the help below for information about what to enter"

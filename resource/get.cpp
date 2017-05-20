@@ -65,7 +65,7 @@ string resource_get (void * webserver_request)
     // In JavaScript the resource identifier starts at 1 instead of at 0.
     resource--;
     vector <string> resources = request->database_config_user()->getActiveResources ();
-    if (resource <= resources.size ()) {
+    if (resource < resources.size ()) {
       s_resource = resources [resource];
 
 

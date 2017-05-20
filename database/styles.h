@@ -111,9 +111,9 @@ private:
   string databasefolder ();
   string sheetfolder (string sheet);
   string stylefile (string sheet, string marker);
-  unsigned int data_count ();
   Database_Styles_Item read_item (string sheet, string marker);
   void write_item (string sheet, Database_Styles_Item & item);
+  void cache_defaults ();
 };
 
 

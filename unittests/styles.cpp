@@ -334,6 +334,16 @@ void test_styles ()
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "should be there");
   }
 
+  // Testing empty stylesheet.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.create ();
+    vector <string> markers = database_styles.getMarkers ("");
+    string marker = "zhq";
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+  }
+  
   // Done.
   refresh_sandbox (true);
 }

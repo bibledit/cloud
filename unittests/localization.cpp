@@ -45,5 +45,4 @@ void test_database_localization ()
   evaluate (__LINE__, __func__, msgstr, result);
   result = database_localization.backtranslate (msgstr);
   evaluate (__LINE__, __func__, msgid, result);
-  exit (0); // Todo
 }

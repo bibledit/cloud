@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.0.187],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.189],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -141,7 +141,7 @@ ENABLEANDROID=yes
 ]
 )
 
-# Mac.
+# macOS.
 ENABLEMAC=no
 AC_ARG_ENABLE(mac,
 [  --enable-mac Compile for Mac],
@@ -199,7 +199,7 @@ Bibledit $VERSION configuration summary:
 Installation prefix             : ${prefix}
 Windows    (--enable-windows)   : ${ENABLEWINDOWS}
 Android    (--enable-android)   : ${ENABLEANDROID}
-Mac        (--enable-mac)       : ${ENABLEMAC}
+macOS      (--enable-mac)       : ${ENABLEMAC}
 Linux      (--enable-linux)     : ${ENABLELINUX}
 iOS        (--enable-ios)       : ${ENABLEIOS}
 Chrome OS  (--enable-chromeos)  : ${ENABLECHROMEOS}

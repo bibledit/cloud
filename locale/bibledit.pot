@@ -937,6 +937,12 @@ msgstr ""
 msgid "Critical"
 msgstr ""
 
+msgid "Name"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
 msgid "Translator’s addition"
 msgstr ""
 
@@ -2217,12 +2223,6 @@ msgstr ""
 msgid ""
 "Used for marking text which should be ignored when identifying or linking to "
 "cross reference target references."
-msgstr ""
-
-msgid "Name"
-msgstr ""
-
-msgid "Information"
 msgstr ""
 
 msgid "You are connected to a public demo of Bibledit Cloud."

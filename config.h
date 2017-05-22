@@ -82,6 +82,9 @@
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "http://bibledit.org"
 
+/* Package data directory */
+#define PACKAGE_DATA_DIR "/usr/share/bibledit"
+
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "bibledit"
 

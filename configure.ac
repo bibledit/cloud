@@ -102,6 +102,12 @@ AC_CHECK_HEADER(sys/sysctl.h,AC_DEFINE([HAVE_SYS_SYSCTL],[1],[Define whether sys
 
 AC_CHECK_HEADER(mach/mach.h,AC_DEFINE([HAVE_MACH_MACH],[1],[Define whether mach/mach.h is present]),)
 
+if test "x${prefix}" = "xNONE"; then
+  AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${ac_default_prefix}/share/bibledit", [Package data directory])
+else
+  AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${prefix}/share/bibledit", [Package data directory])
+fi
+
 # With macports the mimetic library is in /opt/local.
 CPPFLAGS=-I/opt/local/include
 AC_CHECK_HEADER(mimetic/mimetic.h,AC_DEFINE([HAVE_MIMETIC],[1],[Define whether mimetic/mimetic.h is present]),AC_MSG_ERROR(Library "mimetic" is needed. Install this first.))

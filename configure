@@ -6660,6 +6660,20 @@ fi
 
 
 
+if test "x${prefix}" = "xNONE"; then
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_DATA_DIR "${ac_default_prefix}/share/bibledit"
+_ACEOF
+
+else
+
+cat >>confdefs.h <<_ACEOF
+#define PACKAGE_DATA_DIR "${prefix}/share/bibledit"
+_ACEOF
+
+fi
+
 # With macports the mimetic library is in /opt/local.
 CPPFLAGS=-I/opt/local/include
 ac_fn_cxx_check_header_mongrel "$LINENO" "mimetic/mimetic.h" "ac_cv_header_mimetic_mimetic_h" "$ac_includes_default"
@@ -6729,7 +6743,7 @@ ENABLEANDROID=yes
 fi
 
 
-# Mac.
+# macOS.
 ENABLEMAC=no
 # Check whether --enable-mac was given.
 if test "${enable_mac+set}" = set; then :
@@ -8286,7 +8300,7 @@ Bibledit $VERSION configuration summary:
 Installation prefix             : ${prefix}
 Windows    (--enable-windows)   : ${ENABLEWINDOWS}
 Android    (--enable-android)   : ${ENABLEANDROID}
-Mac        (--enable-mac)       : ${ENABLEMAC}
+macOS      (--enable-mac)       : ${ENABLEMAC}
 Linux      (--enable-linux)     : ${ENABLELINUX}
 iOS        (--enable-ios)       : ${ENABLEIOS}
 Chrome OS  (--enable-chromeos)  : ${ENABLECHROMEOS}

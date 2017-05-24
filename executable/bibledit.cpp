@@ -94,15 +94,18 @@ int main (int argc, char **argv)
 {
   (void) argc;
   (void) argv;
+
   
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   signal (SIGINT, sigint_handler);
+
   
 #ifdef HAVE_EXECINFO
   // Handler for logging segmentation fault.
   signal (SIGSEGV, sigsegv_handler);
 #endif
 
+  
 #ifdef HAVE_WINDOWS
   // Set our own invalid parameter handler for on Windows.
   _set_invalid_parameter_handler(my_invalid_parameter_handler);
@@ -110,7 +113,8 @@ int main (int argc, char **argv)
   _CrtSetReportMode(_CRT_ASSERT, 0);
 #endif
 
-  // Get the executable path and base the document root on it.
+  
+  // Get the executable path and derive the document root from it.
   string webroot;
 #ifndef HAVE_WINDOWS
   {
@@ -153,17 +157,19 @@ int main (int argc, char **argv)
   }
 #endif
   bibledit_initialize_library (webroot.c_str(), webroot.c_str());
+
   
   // Start the Bibledit library.
   bibledit_start_library ();
   bibledit_log ("The server started");
   cout << "Listening on http://localhost:" << config_logic_http_network_port ();
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   cout << " and https://localhost:" << config_logic_https_network_port ();
 #endif
   cout << endl;
   cout << "Press Ctrl-C to quit" << endl;
 
+  
   // Log possible backtrace from a previous crash.
   string backtrace = filter_url_file_get_contents (backtrace_path ());
   filter_url_unlink (backtrace_path ());
@@ -175,6 +181,7 @@ int main (int argc, char **argv)
     }
   }
 
+  
 #ifndef HAVE_WINDOWS
   // Bibledit Cloud should restart itself at midnight.
   // This is to be sure that any memory leaks don't accumulate too much
@@ -183,10 +190,15 @@ int main (int argc, char **argv)
   bibledit_set_quit_at_midnight ();
 #endif
 
+  
   // Keep running till Bibledit stops or gets interrupted.
   while (bibledit_is_running ()) { }
 
+  
+  // Shut the library down.
   bibledit_shutdown_library ();
 
+  
+  // Done.
   return EXIT_SUCCESS;
 }

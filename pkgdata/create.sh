@@ -16,19 +16,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
+# Remove unwanted files.
 find . -name ".DS_Store" -delete
+
+# Create file with the directories and files to install in the package data directory.
+# Remove the first bit of it.
 find . | cut -c 2- > pkgdata/files.txt
+if [ $? -ne 0 ]; then exit 1; fi
+
+# Remove blank lines.
 sed -i.bak '/^$/d' pkgdata/files.txt
+
+# Do not install source files.
 sed -i.bak '/\.cpp$/d' pkgdata/files.txt
 sed -i.bak '/\.c$/d' pkgdata/files.txt
 sed -i.bak '/\.h$/d' pkgdata/files.txt
 sed -i.bak '/\.hpp$/d' pkgdata/files.txt
-sed -i.bak '/\.o$/d' pkgdata/files.txt
+
+# No git repository data.
 sed -i.bak '/\.git/d' pkgdata/files.txt
+
+# No build artifacts.
 sed -i.bak '/\.deps/d' pkgdata/files.txt
 sed -i.bak '/\.dirstamp/d' pkgdata/files.txt
-sed -i.bak '/COPYING/d' pkgdata/files.txt
+sed -i.bak '/\.o$/d' pkgdata/files.txt
+sed -i.bak '/\.a$/d' pkgdata/files.txt
 sed -i.bak '/autom4te/d' pkgdata/files.txt
-sed -i.bak '/xcodeproj/d' pkgdata/files.txt
 sed -i.bak '/~$/d' pkgdata/files.txt
+
+# Do not install license files.
+# This fixes the lintian warning:
+# W: bibledit: extra-license-file usr/share/bibledit/COPYING
+# What happens is that running ./reconfigure creates COPYING.
+# That causes the lintian warning.
+# So even if present, it should not be installed.
+sed -i.bak '/COPYING/d' pkgdata/files.txt
+
+# No Xcode project data.
+sed -i.bak '/xcodeproj/d' pkgdata/files.txt
+
+# Clean backup file
 rm pkgdata/files.txt.bak

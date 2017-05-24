@@ -343,7 +343,6 @@
 /jsonxx/README.md
 /ldap
 /lexicon
-/libbibledit.a
 /library
 /livetest
 /livetest/initialize.sh

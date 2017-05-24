@@ -588,3 +588,13 @@ dist-hook:
 	rm -f $(distdir)/config.status
 
 CLEANFILES = bibledit*.gz *~
+
+all-local:
+	pkgdata/create.sh
+
+install-data-hook:
+	$(srcdir)/pkgdata/install.sh $(srcdir) $(DESTDIR) $(pkgdatadir)
+
+uninstall-local:
+	rm -rf $(DESTDIR)$(pkgdatadir)/*
+

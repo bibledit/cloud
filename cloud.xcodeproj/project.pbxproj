@@ -1364,6 +1364,7 @@
 		CAF83B3E1D22E98200B6C885 /* select.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = select.cpp; sourceTree = "<group>"; };
 		CAF83B3F1D22E98200B6C885 /* select.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = select.h; sourceTree = "<group>"; };
 		CAF83B401D22E98200B6C885 /* select.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = select.html; sourceTree = "<group>"; };
+		CAF8E3A21ED46A1F002543F7 /* pkgdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pkgdata; sourceTree = "<group>"; };
 		CAF8E68E1C9C326400A2373A /* jsonxx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsonxx.h; sourceTree = "<group>"; };
 		CAF8E6921C9C335D00A2373A /* jsonxx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx.cpp; sourceTree = "<group>"; };
 		CAFE132C1A48ABEA00F0DB35 /* sheetm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = sheetm.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -3391,6 +3392,7 @@
 				CAA4D28C1A45A648003ABA25 /* parsewebdata */,
 				CA816D821B64047400FD276E /* personalize */,
 				CAA4D2A01A45A648003ABA25 /* pix */,
+				CAF8E3A21ED46A1F002543F7 /* pkgdata */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
 				CAC0E03B1BE23B2C00640BFE /* public */,
 				CABE4D0B1BDBC996000547DB /* pugixml */,

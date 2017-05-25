@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.0.191],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.192],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -107,6 +107,8 @@ if test "x${prefix}" = "xNONE"; then
 else
   AC_DEFINE_UNQUOTED(PACKAGE_DATA_DIR, "${prefix}/share/bibledit", [Package data directory])
 fi
+
+AC_DEFINE_UNQUOTED(PACKAGE_PREFIX_DIR, "${prefix}", [Package prefix directory])
 
 # With macports the mimetic library is in /opt/local.
 CPPFLAGS=-I/opt/local/include

@@ -175,8 +175,8 @@ int main (int argc, char **argv)
       // If the web root is the package prefix, it should be updated,
       // because it now runs the binary installed in /usr/bin.
       if ((webroot == homefolder) || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
-        // Update web root to ~/bibledit.
-        webroot = filter_url_create_path (homefolder, "bibledit");
+        // Update web root to ~/bibledit or ~/bibledit-cloud.
+        webroot = filter_url_create_path (homefolder, filter_url_basename (PACKAGE_DATA_DIR));
       }
     }
   }

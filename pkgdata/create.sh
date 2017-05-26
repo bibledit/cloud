@@ -42,8 +42,10 @@ sed -i.bak '/\.deps/d' pkgdata/files.txt
 sed -i.bak '/\.dirstamp/d' pkgdata/files.txt
 sed -i.bak '/\.o$/d' pkgdata/files.txt
 sed -i.bak '/\.a$/d' pkgdata/files.txt
+sed -i.bak '/\.tar\.gz$/d' pkgdata/files.txt
 sed -i.bak '/autom4te/d' pkgdata/files.txt
 sed -i.bak '/~$/d' pkgdata/files.txt
+sed -i.bak '/\.o-/d' pkgdata/files.txt
 
 # Do not install license files.
 # This fixes the lintian warning:

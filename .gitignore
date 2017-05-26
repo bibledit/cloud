@@ -15,3 +15,4 @@ generate
 UserInterfaceState.xcuserstate
 server
 *.in~
+*.tar.gz

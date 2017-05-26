@@ -49,7 +49,7 @@ sed -i.bak '/\.o-/d' pkgdata/files.txt
 
 # Do not install license files.
 # This fixes the lintian warning:
-# W: bibledit: extra-license-file usr/share/bibledit/COPYING
+# W: bibledit: extra-license-file usr/share/bibledit-cloud/COPYING
 # What happens is that running ./reconfigure creates COPYING.
 # That causes the lintian warning.
 # So even if present, it should not be installed.

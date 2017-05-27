@@ -59,5 +59,8 @@ sed -i.bak '/COPYING/d' pkgdata/files.txt
 # No Xcode project data.
 sed -i.bak '/xcodeproj/d' pkgdata/files.txt
 
+# No Debian packaging information.
+sed -i.bak '/debian/d' pkgdata/files.txt
+
 # Clean backup file
 rm pkgdata/files.txt.bak

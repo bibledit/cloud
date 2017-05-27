@@ -22,7 +22,7 @@ find . -name ".DS_Store" -delete
 
 # Create file with the directories and files to install in the package data directory.
 # Remove the first bit of it.
-find . | cut -c 2- > pkgdata/files.txt
+find . | cut -c 2- | sort > pkgdata/files.txt
 if [ $? -ne 0 ]; then exit 1; fi
 
 # Remove blank lines.

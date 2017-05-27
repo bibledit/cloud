@@ -1274,6 +1274,7 @@
 		CAD470861DC4E55800C4AC3D /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CADCC7CC1D4D1AF50076FF17 /* pairs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pairs.cpp; sourceTree = "<group>"; };
 		CADCC7CD1D4D1AF50076FF17 /* pairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pairs.h; sourceTree = "<group>"; };
+		CADCEE701ED96A06003C532D /* man */ = {isa = PBXFileReference; lastKnownFileType = folder; path = man; sourceTree = "<group>"; };
 		CADE4D7A1A9DE2FD00F16E49 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CADE4D7B1A9DE2FD00F16E49 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE4D7C1A9DE99200F16E49 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -3378,6 +3379,7 @@
 				CAA4D1AA1A45A648003ABA25 /* locale */,
 				CAA4D1CC1A45A648003ABA25 /* logbook */,
 				CAA4D1CF1A45A648003ABA25 /* Makefile.am */,
+				CADCEE701ED96A06003C532D /* man */,
 				CAA4D1D11A45A648003ABA25 /* manage */,
 				CAA4D1E51A45A648003ABA25 /* mapping */,
 				CABC327D1CCF951600698C7A /* mbedtls */,

@@ -598,3 +598,4 @@ install-data-hook:
 uninstall-local:
 	rm -rf $(DESTDIR)$(pkgdatadir)/*
 
+man_MANS = man/bibledit.1 man/bibledit-cloud.1

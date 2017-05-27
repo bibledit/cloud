@@ -375,6 +375,9 @@
 /Makefile
 /Makefile.am
 /Makefile.in
+/man
+/man/bibledit-cloud.1
+/man/bibledit.1
 /manage
 /manage/exports.html
 /manage/hyphenation.html

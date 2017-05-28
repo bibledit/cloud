@@ -385,7 +385,6 @@
 /manage/users.html
 /manage/write.html
 /man/bibledit.1
-/man/bibledit-cloud.1
 /mapping
 /mapping/Dutch_Traditional.txt
 /mapping/English.txt

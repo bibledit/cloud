@@ -340,7 +340,7 @@ void test_string ()
     string folder = filter_url_create_root_path ("unittests", "tests");
     string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
     vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
-    evaluate (__LINE__, __func__, 752, (int)tidy.size());
+    evaluate (__LINE__, __func__, 747, (int)tidy.size());
   }
   
   {

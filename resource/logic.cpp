@@ -835,12 +835,18 @@ struct bible_gateway_walker: xml_tree_walker
     if (clas == "versenum") {
       skip_next_text = true;
       string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
-      within_verse = (versenum == verse);
+      vector <int> verses;
+      if (usfm_handle_verse_range (versenum, verses)) {
+        int iverse = convert_to_int (verse);
+        within_verse = in_array (iverse, verses);
+      } else {
+        within_verse = (versenum == verse);
+      }
       return true;
     }
     
     // This really signals the parser is at the end of the chapter.
-    if (name == "div") {
+    if ((name == "div") || (name == "h3")) {
       within_verse = false;
       return true;
     }

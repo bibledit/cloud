@@ -75,7 +75,7 @@ void test_biblegateway ()
   evaluate (__LINE__, __func__, "", text);
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "This is the ·message [oracle; burden] for the city of Nineveh [C the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [L the Elkoshite; C of uncertain location].The Lord Is Angry with Nineveh", text);
+  evaluate (__LINE__, __func__, "This is the ·message [oracle; burden] for the city of Nineveh [C the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [L the Elkoshite; C of uncertain location].", text);
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 2);
   evaluate (__LINE__, __func__, "The Lord is a ·jealous [zealous] God [Ex. 20:5; 34:14; Deut. 4:24; 5:9; Josh. 24:19] who ·punishes [avenges]; the Lord ·punishes [avenges] and is filled with ·anger [wrath]. The Lord ·punishes [takes vengeance on] ·those who are against him [his adversaries/enemies], and he ·stays angry with [or vents his wrath against] his enemies.", text);
@@ -85,4 +85,11 @@ void test_biblegateway ()
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 12);
   evaluate (__LINE__, __func__, "This is what the Lord says: “Although Assyria ·is strong [or has allies] and has many people, it will be ·defeated [destroyed] and ·brought to an end [pass away]. Although I have ·made you suffer, Judah [L afflicted you], I will ·make you suffer [afflict you] no more.", text);
+  
+  resource = "J.B. Phillips New Testament (PHILLIPS)";
+  
+  book = 63; // 2 John.
+  
+  text = resource_logic_bible_gateway_get (resource, book, 1, 3);
+  evaluate (__LINE__, __func__, "This letter comes from the Elder to a certain Christian lady and her children, held in the highest affection not only by me but by all who know the truth. For the truth’s sake (which even now we know and which will be our companion for ever) I wish you, in all love and sincerity, grace, mercy and peace from God the Father and the Lord Jesus Christ, the Father’s Son.", text);
 }

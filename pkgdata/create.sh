@@ -48,6 +48,7 @@ sed -i.bak '/autom4te/d' pkgdata/files.txt
 sed -i.bak '/~$/d' pkgdata/files.txt
 sed -i.bak '/\.o-/d' pkgdata/files.txt
 sed -i.bak '/bibledit-cloud/d' pkgdata/files.txt
+sed -i.bak '/^\/bibledit$/d' pkgdata/files.txt
 
 # Do not install license files.
 # This fixes the lintian warning:

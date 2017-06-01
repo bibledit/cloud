@@ -1,0 +1,53 @@
+<h2>translate("Install Bibledit Cloud on Debian and Ubuntu")</h2>
+<p>
+  translate("Follow the steps below to install Bibledit.")
+  translate("It needs basic knowledge about working with Linux servers.")
+</p>
+<ol>
+<li>translate("Open a terminal.")</li>
+<li>
+  <p>translate("Update the software sources:")</p>
+  <p><code>sudo apt-get update</code></p>
+</li>
+<li>
+  <p>translate("Install the software Bibledit relies on:")</p>
+  <p><code>sudo apt-get install build-essential git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke default-jre-headless ldap-utils libmimetic-dev</code></p>
+</li>
+<li>
+  <p>translate("Download Bibledit:")</p>
+  <p><code>wget http://bibledit.org/cloud/bibledit-##cloudversion##.tar.gz</code></p>
+</li>
+<li>
+  <p>translate("Unpack Bibledit in folder bibledit:")</p>
+  <p><code>mkdir -p bibledit</code></p>
+  <p><code>tar xf bibledit-##cloudversion##.tar.gz -C bibledit --strip-components=1</code></p>
+</li>
+<li>
+  <p>translate("Change to the directory:")</p>
+  <p><code>cd bibledit</code></p>
+</li>
+<li>
+  <p>translate("Build Bibledit:")</p>
+  <p><code>./configure</code></p>
+  <p><code>make</code></p>
+  <p>
+  translate("This takes a while.")
+  translate("There will be many technical messages, but there should be no errors.")
+  </p>
+</li>
+<li>
+  <p>translate("Start Bibledit:")</p>
+  <p><code>./bibledit &amp;</code></p>
+</li>
+<li>
+  <p>
+  translate("Bibledit will be accessible through the IP address port 8080.")
+  translate("Examples:")
+  </p>
+  <p><a href="http://website.org:8080">http://website.org:8080</a></p>
+  <p><a href="http://192.168.2.1:8080">http://192.168.2.1:8080</a></p>
+  <p><a href="http://localhost:8080">http://localhost:8080</a></p>
+</li>
+<li>translate("Open the web address in the browser, follow the instructions on the screen to configure Bibledit Cloud, and log in.")
+</li>
+</ol>

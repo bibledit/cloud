@@ -541,6 +541,7 @@
 		CA8689851ABB3DF500427560 /* listing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = listing.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8689861ABB3DF500427560 /* listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = listing.h; sourceTree = "<group>"; };
 		CA8689871ABB3DF500427560 /* listing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listing.html; sourceTree = "<group>"; };
+		CA87FC031EE0185700D000E6 /* installcloudsourcedebian.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudsourcedebian.html; sourceTree = "<group>"; };
 		CA8AABB51B2C157E00FCAC51 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8AABB61B2C157E00FCAC51 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA8AABB71B2C157E00FCAC51 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -2387,8 +2388,9 @@
 				CAA4D1441A45A647003ABA25 /* index.html */,
 				CA816D0F1B63634C00FD276E /* install.sh */,
 				CAA4D1451A45A647003ABA25 /* installandroid.html */,
-				CABC327F1CCFA21700698C7A /* installchromeos.html */,
 				CAA4D1461A45A647003ABA25 /* installation.html */,
+				CABC327F1CCFA21700698C7A /* installchromeos.html */,
+				CA87FC031EE0185700D000E6 /* installcloudsourcedebian.html */,
 				CA1A4EA51B076BF200731796 /* installcloudubuntu.html */,
 				CAA4D1481A45A647003ABA25 /* installios.html */,
 				CAA4D14B1A45A647003ABA25 /* installlinux.html */,

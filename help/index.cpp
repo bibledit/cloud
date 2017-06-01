@@ -64,7 +64,7 @@ string help_index (void * webserver_request, const string& url)
 
   view.set_variable ("version", config_logic_version ());
   
-  string linux_version = "1.0.xxx";
+  string linux_version = "5.0.xxx";
   string linux_path = "/var/www/bibledit.org/linux";
   if (file_or_dir_exists (linux_path)) {
     vector <string> files = filter_url_scandir (linux_path);
@@ -76,7 +76,7 @@ string help_index (void * webserver_request, const string& url)
   }
   view.set_variable ("linuxversion", linux_version);
 
-  string cloud_version = "1.0.xxx";
+  string cloud_version = "5.0.xxx";
   string cloud_path = "/var/www/bibledit.org/cloud";
   if (file_or_dir_exists (cloud_path)) {
     vector <string> files = filter_url_scandir (cloud_path);

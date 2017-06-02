@@ -1294,6 +1294,7 @@
 		CAE4420C1E5316DE00F802FC /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CAE4420D1E5328E400F802FC /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		CAE4420E1E532A8500F802FC /* copyright.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copyright.sh; sourceTree = "<group>"; };
+		CAEA13211EE1C78E00B4DD39 /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bibledit; sourceTree = "<group>"; };
 		CAEAA5211A49BA660055F6D5 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = view.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAEAA5221A49BA660055F6D5 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
 		CAEABB161A76A4F7008DBBA4 /* direction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = direction.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -3321,6 +3322,7 @@
 				CAA4CEF51A45A647003ABA25 /* access */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
 				CAA4CF571A45A647003ABA25 /* bible */,
+				CAEA13211EE1C78E00B4DD39 /* bibledit */,
 				CAA4CF741A45A647003ABA25 /* bibles */,
 				CAA4CF761A45A647003ABA25 /* book */,
 				CAA4CF7A1A45A647003ABA25 /* bootstrap */,

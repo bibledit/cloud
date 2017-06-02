@@ -200,7 +200,7 @@ void tasks_run_one (string filename)
     changes_modifications ();
   }
   else if (command == SPRINTBURNDOWN) {
-    sprint_burndown ("", false);
+    sprint_burndown ("", 0, 0);
   }
   else if (command == CHECKBIBLE) {
     checks_run (parameter1);

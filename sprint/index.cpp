@@ -138,8 +138,9 @@ string sprint_index (void * webserver_request)
   
   
   if (request->query.count ("mail")) {
-    string mail = request->query ["mail"];
-    sprint_burndown (bible, true);
+    int year = request->database_config_user()->getSprintYear ();
+    int month = request->database_config_user()->getSprintMonth ();
+    sprint_burndown (bible, year, month);
     view.set_variable ("success", translate("The information was mailed to the subscribers"));
   }
   

@@ -21,7 +21,6 @@
 /bible/book.html
 /bible/chapter.html
 /bible/css.html
-/bibledit
 /bible/editing.html
 /bible/import.html
 /bible/import.js

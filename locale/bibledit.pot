@@ -6188,7 +6188,7 @@ msgstr ""
 msgid "Install Bibledit from the Google Chrome Web Store."
 msgstr ""
 
-msgid "Install Bibledit Cloud on Ubuntu"
+msgid "Install Bibledit Cloud on Debian and Ubuntu"
 msgstr ""
 
 msgid "Follow the steps below to install Bibledit."
@@ -6232,7 +6232,27 @@ msgstr ""
 
 msgid ""
 "Open the web address in the browser, follow the instructions on the screen "
-"to configure Bibledit, and log in."
+"to configure Bibledit Cloud, and log in."
+msgstr ""
+
+msgid "Install Bibledit Cloud on Ubuntu"
+msgstr ""
+
+msgid "Add the Bibledit repository:"
+msgstr ""
+
+msgid "Read the repository:"
+msgstr ""
+
+msgid "Install Bibledit:"
+msgstr ""
+
+msgid ""
+"Open the web address in a browser, follow the instructions on the screen to "
+"configure Bibledit Cloud, and log in."
+msgstr ""
+
+msgid "The Ubuntu packages support Ubuntu 15.05 and higher."
 msgstr ""
 
 msgid "Install Bibledit iOS"
@@ -6311,15 +6331,6 @@ msgid "Bibledit is ready for online and offline use."
 msgstr ""
 
 msgid "Install Bibledit on Ubuntu"
-msgstr ""
-
-msgid "Add the Bibledit repository:"
-msgstr ""
-
-msgid "Read the repository:"
-msgstr ""
-
-msgid "Install Bibledit:"
 msgstr ""
 
 msgid "Install Bibledit on Windows"

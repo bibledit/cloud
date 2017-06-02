@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/hebrewlexicon.h>
 #endif
 #include <resource/external.h>
-#include <database/logs.h>
 #include <config/globals.h>
 
 
@@ -53,7 +52,7 @@ string developer_index (void * webserver_request)
   
   if (request->query.count ("log")) {
     string message = request->query ["log"];
-    Database_Logs::log (message);
+    cerr << message << endl;
     return "";
   }
   

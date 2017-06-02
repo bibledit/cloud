@@ -26,7 +26,7 @@ $(document).ready (function () {
   rangy.init ();
   navigationNewPassage ();
   $ ("#usfmeditor").on ("paste cut keydown", usfmEditorChanged);
-  $ (window).on ("unload", usfmEditorUnload ());
+  $ (window).on ("unload", usfmEditorUnload);
   $ ("#usfmeditor").on ("paste", function (e) {
     var data = e.originalEvent.clipboardData.getData ('Text');
     e.preventDefault();

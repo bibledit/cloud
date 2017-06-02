@@ -133,7 +133,9 @@ void sprint_burndown (string bible, bool email)
             
             vector <string> body;
             
-            body.push_back ("<h3>" + translate("Sprint Planning and Team's Progress") + " | " + bible + "</h3>");
+            body.push_back ("<h4>" + bible + "</h4>");
+            body.push_back ("<h4>" + locale_logic_month (month) + "</h4>");
+            body.push_back ("<h4>" + translate("Sprint Planning and Team's Progress") + "</h4>");
             body.push_back ("<table>");
             vector <int> tasks = database_sprint.getTasks (bible, year, month);
             for (auto id : tasks) {
@@ -149,7 +151,7 @@ void sprint_burndown (string bible, bool email)
             }
             body.push_back ("</table>");
             
-            body.push_back ("<h3>" + translate("Sprint Burndown Chart - Remaining Tasks") + "</h3>");
+            body.push_back ("<h4>" + translate("Sprint Burndown Chart - Remaining Tasks") + "</h4>");
             string burndownchart = sprint_create_burndown_chart (bible, year, month);
             body.push_back ("<p>" + burndownchart + "</p>");
             

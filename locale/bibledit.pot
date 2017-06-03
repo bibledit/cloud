@@ -5029,7 +5029,7 @@ msgid "Port: 587"
 msgstr ""
 
 msgid ""
-"If the SMTP server does not need authenticaton, just leave the fields for "
+"If the SMTP server does not need authentication, just leave the fields for "
 "username and password empty."
 msgstr ""
 

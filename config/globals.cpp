@@ -33,7 +33,6 @@ thread * config_globals_https_worker = NULL;
 thread * config_globals_timer = NULL;
 bool config_globals_mail_receive_running = false;
 bool config_globals_mail_send_running = false;
-bool config_globals_quit_at_midnight = false;
 int config_globals_touch_enabled = 0;
 int config_globals_timezone_offset_utc = 100;
 bool config_globals_change_notifications_available = true;

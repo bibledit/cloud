@@ -146,16 +146,8 @@ void bibledit_set_touch_enabled (bool enabled)
 }
 
 
-// Sets a global flag, so the library will quit at midnight.
-void bibledit_set_quit_at_midnight ()
-{
-  Database_Config_General::setJustStarted (true);
-  config_globals_quit_at_midnight = true;
-}
-
-
 // Start library.
-// Can be called multiple times during the lifetime of the app
+// Can be called multiple times during the lifetime of the app.
 void bibledit_start_library ()
 {
   // Repeating start guard.
@@ -171,6 +163,13 @@ void bibledit_start_library ()
   if (config_logic_demo_enabled ()) {
     config_globals_open_installation = true;
   }
+
+  
+#ifdef HAVE_CLOUD
+  // Indicate that the Cloud has started just now.
+  Database_Config_General::setJustStarted (true);
+#endif
+
   
   // Ignore SIGPIPE signal on Linux: When the browser cancels the request, it won't kill Bibledit.
   // On Windows, this is not needed.

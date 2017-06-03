@@ -187,27 +187,30 @@ void timer_index ()
       }
 #endif
 
-      // Quit at midnight if flag is set.
-      if (config_globals_quit_at_midnight) {
-        if (hour == 0) {
-          if (minute == 1) {
-            if (!Database_Config_General::getJustStarted ()) {
-              if (tasks_run_active_count ()) {
-                Database_Logs::log ("Server is due to restart itself but does not because of active jobs");
-              } else {
-                Database_Logs::log ("Server restarts itself");
-                exit (0);
-              }
+#ifdef HAVE_CLOUD
+      // Bibledit Cloud quits at midnight.
+      // This is to be sure that any memory leaks don't accumulate too much
+      // in case Bibledit Cloud would run for months and years.
+      // The shell script notices that the binary has quit, and restarts the binary again.
+      if (hour == 0) {
+        if (minute == 1) {
+          if (!Database_Config_General::getJustStarted ()) {
+            if (tasks_run_active_count ()) {
+              Database_Logs::log ("Server is due to restart itself but does not because of active jobs");
+            } else {
+              Database_Logs::log ("Server restarts itself");
+              exit (0);
             }
           }
-          // Clear flag in preparation of restart next minute.
-          // This flag also has the purpose of ensuring the server restarts once during that minute,
-          // rather than restarting repeatedly many times during that minute.
-          if (minute == 0) {
-            Database_Config_General::setJustStarted (false);
-          }
+        }
+        // Clear flag in preparation of restart next minute.
+        // This flag also has the purpose of ensuring the server restarts once during that minute,
+        // rather than restarting repeatedly many times during that minute.
+        if (minute == 0) {
+          Database_Config_General::setJustStarted (false);
         }
       }
+#endif
       
 #ifndef HAVE_CLIENT
       // Email notes statistics to the users.

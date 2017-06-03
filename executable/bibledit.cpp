@@ -213,15 +213,6 @@ int main (int argc, char **argv)
   }
 
   
-#ifndef HAVE_WINDOWS
-  // Bibledit Cloud should restart itself at midnight.
-  // This is to be sure that any memory leaks don't accumulate too much
-  // in case Bibledit Cloud would run for months and years.
-  // The Windows port uses this ./server also, but should not quit at midnight.
-  bibledit_set_quit_at_midnight ();
-#endif
-
-  
   // Keep running till Bibledit stops or gets interrupted.
   while (bibledit_is_running ()) { }
 

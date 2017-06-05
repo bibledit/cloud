@@ -30,17 +30,6 @@ The file may be empty. Once this file is found, Bibledit Cloud will redirect any
 A file with the name of client.https will do the same for Bibledit client traffic.
 
 
-Bibledit Cloud can send the Bible text plus changes to a git repository.
-Normally the direction of this traffic is one-way.
-It sends changes in Bibledit Cloud to the git repository.
-Bibledit Cloud does not receive changes from the git repository.
-It is possible to make a manual setting to enable it to receive changes as well.
-$ cd databases/config/general
-$ echo 1 > read-from-git
-When enabled, the mechanism is subject to race condition in rare circumstances, and will at time revert some changes made by users.
-There is no intention to fix this behaviour, because receiving changes from a git repository is going to be phased out soon.
-
-
 OpenLDAP server: See file ldap.txt for more information.
 
 

@@ -40,4 +40,4 @@ filter = (uid=[user])
 role = ou
 
 # Note: Bibledit clients do not query the LDAP server.
-# Instead they use the accounts in Bibledit Cloud.
+# Instead they use accounts in Bibledit Cloud.

@@ -63,12 +63,13 @@ string collaboration_settings (void * webserver_request)
 
   
   if (request->post.count ("url")) {
-    string url = request->post["url"];
-    Database_Config_Bible::setRemoteRepositoryUrl (object, url);
-
-    string source = request->post["source"];
-
     if (!object.empty ()) {
+      string url = request->post["url"];
+      Database_Config_Bible::setRemoteRepositoryUrl (object, url);
+      string source = request->post["source"];
+      string readwrite = request->post["readwrite"];
+      Database_Config_Bible::setReadFromGit (object, readwrite == "sendreceive");
+      cout << readwrite << endl;
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.getNewId ();
       database_jobs.setLevel (jobId, Filter_Roles::admin ());
@@ -77,7 +78,6 @@ string collaboration_settings (void * webserver_request)
       redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
       return "";
     }
-
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);

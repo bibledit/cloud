@@ -160,7 +160,7 @@ void sendreceive_sendreceive (string bible)
   // This is normally off due to some race conditions that came up now and then,
   // where a change made by a user was committed was reverted by the system.
   // So having it off by default is the safest thing one can do.
-  if (Database_Config_General::getReadFromGit ()) {
+  if (Database_Config_Bible::getReadFromGit (bible)) {
     if (success) {
       pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
       for (auto & pull_message : pull_messages) {

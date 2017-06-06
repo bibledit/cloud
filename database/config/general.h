@@ -115,8 +115,6 @@ public:
   static bool getIndexBibles ();
   static void setIndexBibles (bool value);
   
-  static bool getReadFromGit ();
-  
   static int getUnsentBibleDataTime ();
   static void setUnsentBibleDataTime (int value);
 

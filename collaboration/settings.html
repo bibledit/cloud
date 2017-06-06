@@ -13,16 +13,30 @@
     <input type="radio" name="source" value="bibledit" checked>
     translate ("Bibledit.")
     translate ("Take your own data in Bibledit as the source.")
-    translate ("Taking your own data means that your data is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.")
+    translate ("This means that your data is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.")
   </p>
   <p>
     <input type="radio" name="source" value="repository">
     translate ("Repository.")
     translate ("Take the data in the repository as the source.")
-    translate ("Taking the data in the repository means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit.")
+    translate ("This means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit.")
   </p>
-  
+
   <h4>translate ("Step 3")</h4>
+  <p>translate("Subsequent sending and/or receiving.")</p>
+  <p>
+    <input type="radio" name="readwrite" value="send" checked>
+    translate ("Send data to repository only.")
+    translate ("After the setup is complete, Bibledit will only send the data to the repository.")
+    translate ("It won't receive any data from the repositoroy.")
+  </p>
+  <p>
+    <input type="radio" name="readwrite" value="sendreceive">
+    translate ("Send data to and receive it from the repository.")
+    translate ("After the setup is complete, Bibledit will send data to the repository, and receive data from the repository.")
+  </p>
+
+  <h4>translate ("Step 4")</h4>
   <p><input type="submit" name="submit" value=translate("Submit") /></p>
 </form>
 <hr>

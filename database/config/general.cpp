@@ -424,12 +424,6 @@ void Database_Config_General::setIndexBibles (bool value)
 }
 
 
-bool Database_Config_General::getReadFromGit ()
-{
-  return getBValue ("read-from-git", false);
-}
-
-
 int Database_Config_General::getUnsentBibleDataTime ()
 {
   return getIValue ("unsent-bible-data-time", 0);

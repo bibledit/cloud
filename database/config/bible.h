@@ -148,6 +148,8 @@ public:
   static void setLetterSpacing (string bible, int value);
   static bool getPublicFeedbackEnabled (string bible);
   static void setPublicFeedbackEnabled (string bible, bool value);
+  static bool getReadFromGit (string bible);
+  static void setReadFromGit (string bible, bool value);
 private:
   static string file (string bible);
   static string file (string bible, const char * key);

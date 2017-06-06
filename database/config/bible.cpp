@@ -732,3 +732,13 @@ void Database_Config_Bible::setPublicFeedbackEnabled (string bible, bool value)
 {
   setBValue (bible, "public-feedback-enabled", value);
 }
+
+
+bool Database_Config_Bible::getReadFromGit (string bible)
+{
+  return getBValue (bible, "read-from-git", false);
+}
+void Database_Config_Bible::setReadFromGit (string bible, bool value)
+{
+  setBValue (bible, "read-from-git", value);
+}

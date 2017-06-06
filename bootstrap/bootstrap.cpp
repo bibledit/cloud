@@ -44,8 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/privileges.h>
 #include <system/index.h>
 #include <collaboration/index.h>
-#include <collaboration/url.h>
-#include <collaboration/direction.h>
+#include <collaboration/settings.h>
 #include <styles/indext.h>
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
@@ -863,13 +862,8 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == collaboration_url_url ()) && browser_request_security_okay (request) && collaboration_url_acl (request)) {
-    request->reply = collaboration_url (request);
-    return;
-  }
-  
-  if ((url == collaboration_direction_url ()) && browser_request_security_okay (request) && collaboration_direction_acl (request)) {
-    request->reply = collaboration_direction (request);
+  if ((url == collaboration_settings_url ()) && browser_request_security_okay (request) && collaboration_settings_acl (request)) {
+    request->reply = collaboration_settings (request);
     return;
   }
   

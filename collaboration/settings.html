@@ -1,0 +1,37 @@
+<h3>translate("Repository setup")</h3>
+<p>translate("Bible"): ##object##</p>
+<br>
+<form action="?object=##object##" name="url" method="post">
+  <h4>translate ("Step 1")</h4>
+  <p>translate("URL for the git repository:")</p>
+  <p><input type="text" name="url" value="##url##" class="width100" /></p>
+  
+  <h4>translate ("Step 2")</h4>
+  <p>translate("The source for the data.")</p>
+  
+  <p>
+    <input type="radio" name="source" value="bibledit" checked>
+    translate ("Bibledit.")
+    translate ("Take your own data in Bibledit as the source.")
+    translate ("Taking your own data means that your data is taken as it is, and that this is copied to the repository, overwriting whatever is there in the repository now.")
+  </p>
+  <p>
+    <input type="radio" name="source" value="repository">
+    translate ("Repository.")
+    translate ("Take the data in the repository as the source.")
+    translate ("Taking the data in the repository means that the data in the repository is left as it is, and that a copy of that data overwrites your own data in Bibledit.")
+  </p>
+  
+  <h4>translate ("Step 3")</h4>
+  <p><input type="submit" name="submit" value=translate("Submit") /></p>
+</form>
+<hr>
+<p>translate("Example URLs:")</p>
+<p>
+<ul>
+  <li>translate("USB drive"): file:///media/usbstick/repository</li>
+  <li>translate("Open network repository"): git://192.168.0.1/repository</li>
+  <li>translate("Password protected network repository"): https://username:password@github.com/joe/repo.git</li>
+  <li>translate("Secured network repository"): ssh://username@git.code.sf.net/p/repo/code</li>
+</ul>
+</p>

@@ -163,9 +163,8 @@ libbibledit_a_SOURCES = \
 	system/index.cpp \
 	system/logic.cpp \
 	collaboration/index.cpp \
-	collaboration/url.cpp \
 	collaboration/link.cpp \
-	collaboration/direction.cpp \
+	collaboration/settings.cpp \
 	search/rebibles.cpp \
 	search/renotes.cpp \
 	access/user.cpp \

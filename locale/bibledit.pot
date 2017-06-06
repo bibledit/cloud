@@ -6131,12 +6131,7 @@ msgstr ""
 msgid "Development version"
 msgstr ""
 
-msgid "The Bibledit source code is kept in a git repository."
-msgstr ""
-
-msgid ""
-"Experienced software developers will be able to create all Bibledit editions "
-"from the source code."
+msgid "The Bibledit source code is kept in git repositories."
 msgstr ""
 
 msgid "Hosting providers"
@@ -6146,11 +6141,6 @@ msgid "To run Bibledit Cloud, a Linux VPS (virtual private server) is needed."
 msgstr ""
 
 msgid "Good providers are:"
-msgstr ""
-
-msgid ""
-"Due to the limited memory, Bibledit Cloud cannot compiled there, but "
-"compatible binaries compiled elsewhere will run fine."
 msgstr ""
 
 msgid "You may also run your Bibledit Cloud instance from bibledit.org."

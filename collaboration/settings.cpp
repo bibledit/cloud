@@ -17,7 +17,7 @@
  */
 
 
-#include <collaboration/url.h>
+#include <collaboration/settings.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -29,22 +29,26 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
+#include <database/jobs.h>
 #include <dialog/list.h>
+#include <collaboration/link.h>
+#include <tasks/logic.h>
+#include <jobs/index.h>
 
 
-string collaboration_url_url ()
+string collaboration_settings_url ()
 {
-  return "collaboration/url";
+  return "collaboration/settings";
 }
 
 
-bool collaboration_url_acl (void * webserver_request)
+bool collaboration_settings_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
 }
 
 
-string collaboration_url (void * webserver_request)
+string collaboration_settings (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -56,17 +60,30 @@ string collaboration_url (void * webserver_request)
   
   string object = request->query ["object"];
   view.set_variable ("object", object);
-  
+
   
   if (request->post.count ("url")) {
-    string url = request->post["urlvalue"];
+    string url = request->post["url"];
     Database_Config_Bible::setRemoteRepositoryUrl (object, url);
+
+    string source = request->post["source"];
+
+    if (!object.empty ()) {
+      Database_Jobs database_jobs = Database_Jobs ();
+      int jobId = database_jobs.getNewId ();
+      database_jobs.setLevel (jobId, Filter_Roles::admin ());
+      database_jobs.setStart (jobId, collaboration_link_header ());
+      tasks_logic_queue (LINKGITREPOSITORY, {object, convert_to_string (jobId), source});
+      redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+      return "";
+    }
+
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
   
   
-  page += view.render ("collaboration", "url");
+  page += view.render ("collaboration", "settings");
   page += Assets_Page::footer ();
   return page;
 }

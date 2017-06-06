@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_COLLABORATION_DIRECTION_H
-#define INCLUDED_COLLABORATION_DIRECTION_H
+#ifndef INCLUDED_COLLABORATION_SETTINGS_H
+#define INCLUDED_COLLABORATION_SETTINGS_H
 
 
 #include <config/libraries.h>
 
 
-string collaboration_direction_url ();
-bool collaboration_direction_acl (void * webserver_request);
-string collaboration_direction (void * webserver_request);
+string collaboration_settings_url ();
+bool collaboration_settings_acl (void * webserver_request);
+string collaboration_settings (void * webserver_request);
 
 
 #endif

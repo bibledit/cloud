@@ -47,8 +47,8 @@ void collaboration_link (string object, int jobid, string direction)
   bool result = true;
   vector <string> success;
   string error;
-  bool takeme = (direction == "me");
-  bool takerepo = (direction == "repo");
+  bool takeme = (direction == "bibledit");
+  bool takerepo = (direction == "repository");
 
   Database_Jobs database_jobs;
 
@@ -57,8 +57,8 @@ void collaboration_link (string object, int jobid, string direction)
   Assets_View view;
   view.set_variable ("object", object);
   view.set_variable ("url", url);
-  if (direction == "me") view.enable_zone ("takeme");
-  if (direction == "repo") view.enable_zone ("takerepo");
+  if (takeme) view.enable_zone ("takeme");
+  if (takerepo) view.enable_zone ("takerepo");
   page += view.render ("collaboration", "link");
   page += Assets_Page::footer ();
   database_jobs.setStart (jobid, page);
@@ -244,8 +244,8 @@ void collaboration_link (string object, int jobid, string direction)
   view = Assets_View ();
   view.set_variable ("object", object);
   view.set_variable ("url", url);
-  if (direction == "me") view.enable_zone ("takeme");
-  if (direction == "repo") view.enable_zone ("takerepo");
+  if (takeme) view.enable_zone ("takeme");
+  if (takerepo) view.enable_zone ("takerepo");
   if (result) view.enable_zone ("okay");
   else view.enable_zone ("error");
   view.set_variable ("success", filter_string_implode (success, "<br>\n"));

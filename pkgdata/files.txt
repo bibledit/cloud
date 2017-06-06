@@ -52,10 +52,9 @@
 /client
 /client/index.html
 /collaboration
-/collaboration/direction.html
 /collaboration/index.html
 /collaboration/link.html
-/collaboration/url.html
+/collaboration/settings.html
 /compare
 /compare/index.html
 /compile

@@ -769,9 +769,6 @@ msgstr ""
 msgid "Connect."
 msgstr ""
 
-msgid "Collaboration"
-msgstr ""
-
 msgid "Repository"
 msgstr ""
 
@@ -854,6 +851,9 @@ msgid "Pushing the local Bible data to the repository failed."
 msgstr ""
 
 msgid "Link repository"
+msgstr ""
+
+msgid "Collaboration"
 msgstr ""
 
 msgid "Comparing Bibles"
@@ -4766,42 +4766,6 @@ msgid ""
 "Or request a server instance from bibledit.org through the contact form."
 msgstr ""
 
-msgid "Data copy direction"
-msgstr ""
-
-msgid "Repository URL"
-msgstr ""
-
-msgid "One last question:"
-msgstr ""
-
-msgid "Should the data be copied from Bibledit to the remote repository?"
-msgstr ""
-
-msgid "Or should it be copied from the remote repository to Bibledit?"
-msgstr ""
-
-msgid "There are two options:"
-msgstr ""
-
-msgid "Take the data in the repository."
-msgstr ""
-
-msgid ""
-"Taking the data in the repository means that the data in the repository is "
-"left as it is, and that a copy of that data overwrites your own data in "
-"Bibledit. This option is used most of the time."
-msgstr ""
-
-msgid "Take your own data."
-msgstr ""
-
-msgid ""
-"Taking your own data means that your data is taken as it is, and that this "
-"is copied to the repository, overwriting whatever is there in the repository "
-"now."
-msgstr ""
-
 msgid "Git repository"
 msgstr ""
 
@@ -4827,6 +4791,9 @@ msgid "Disable it."
 msgstr ""
 
 msgid "Set it up."
+msgstr ""
+
+msgid "Repository URL"
 msgstr ""
 
 msgid "Bibledit links to the remote repository."
@@ -4861,27 +4828,81 @@ msgstr ""
 msgid "Repository setup"
 msgstr ""
 
-msgid ""
-"Please enter the URL for your repository below, and press the Submit button "
-"to save it."
+msgid "Step 1"
 msgstr ""
 
-msgid "Next page"
+msgid "URL for the git repository:"
+msgstr ""
+
+msgid "Step 2"
+msgstr ""
+
+msgid "The source for the data."
+msgstr ""
+
+msgid "Bibledit."
+msgstr ""
+
+msgid "Take your own data in Bibledit as the source."
+msgstr ""
+
+msgid ""
+"This means that your data is taken as it is, and that this is copied to the "
+"repository, overwriting whatever is there in the repository now."
+msgstr ""
+
+msgid "Repository."
+msgstr ""
+
+msgid "Take the data in the repository as the source."
+msgstr ""
+
+msgid ""
+"This means that the data in the repository is left as it is, and that a copy "
+"of that data overwrites your own data in Bibledit."
+msgstr ""
+
+msgid "Step 3"
+msgstr ""
+
+msgid "Subsequent sending and/or receiving."
+msgstr ""
+
+msgid "Send data to repository only."
+msgstr ""
+
+msgid ""
+"After the setup is complete, Bibledit will only send the data to the "
+"repository."
+msgstr ""
+
+msgid "It won't receive any data from the repositoroy."
+msgstr ""
+
+msgid "Send data to and receive it from the repository."
+msgstr ""
+
+msgid ""
+"After the setup is complete, Bibledit will send data to the repository, and "
+"receive data from the repository."
+msgstr ""
+
+msgid "Step 4"
 msgstr ""
 
 msgid "Example URLs:"
 msgstr ""
 
-msgid "Flash Drive"
+msgid "USB drive"
 msgstr ""
 
-msgid "Open Network Repository"
+msgid "Open network repository"
 msgstr ""
 
-msgid "Password Protected Network Repository"
+msgid "Password protected network repository"
 msgstr ""
 
-msgid "Secured Network Repository"
+msgid "Secured network repository"
 msgstr ""
 
 msgid "Compare this Bible with any of the Bibles or USFM Resources below."

@@ -49,7 +49,9 @@ bool journal_logic_filter_entry (const string& entry)
   if (entry.find (sendreceive_files_sendreceive_text ()) != string::npos) return true;
   if (entry.find (sendreceive_files_up_to_date_text ()) != string::npos) return true;
   if (entry.find (sendreceive_sendreceive_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_sendreceive_up_to_date_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_send_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_sendreceive_ready_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_send_ready_text ()) != string::npos) return true;
   return false;
 }
 

@@ -75,16 +75,39 @@ translate("If Paratext were installed on this computer, and Bibles in Bibledit w
 
 <!-- #BEGINZONE server -->
 <p class="success">##successbible##</p>
+<!-- #BEGINZONE gitreadwrite -->
 <p>translate("Synchronize a Bible with a git repository.")</p>
+<!-- #ENDZONE gitreadwrite -->
+<!-- #BEGINZONE gitwrite -->
+<p>translate("Send a Bible to a git repository.")</p>
+<!-- #ENDZONE gitwrite -->
 <p>translate("Bible"): <a href="?bible=">##bible##</a>.</p>
 <!-- #BEGINZONE collab_off -->
 <p>translate("This Bible has not been linked to a git repository.")</p>
 <!-- #ENDZONE collab_off -->
 <!-- #BEGINZONE collab_on -->
+<!-- #BEGINZONE gitreadwrite -->
 <p>translate("Bibledit sends and receives this Bible every night.")</p>
-<p><a href="?runbible=">translate("Send and receive it now.")</a></p>
+<!-- #ENDZONE gitreadwrite -->
+<!-- #BEGINZONE gitwrite -->
+<p>translate("Bibledit sends this Bible every night.")</p>
+<!-- #ENDZONE gitwrite -->
+<p><a href="?runbible=">
+<!-- #BEGINZONE gitreadwrite -->
+translate("Send and receive it now.")
+<!-- #ENDZONE gitreadwrite -->
+<!-- #BEGINZONE gitwrite -->
+translate("Send it now.")
+<!-- #ENDZONE gitwrite -->
+</a></p>
 <p>
-<input type="checkbox" name="repeatbible" onchange="checkbox(this)" ##repeatbible## /> translate("Send and receive it every five minutes.")
+<input type="checkbox" name="repeatbible" onchange="checkbox(this)" ##repeatbible## />
+<!-- #BEGINZONE gitreadwrite -->
+translate("Send and receive it every five minutes.")
+<!-- #ENDZONE gitreadwrite -->
+<!-- #BEGINZONE gitwrite -->
+translate("Send it every five minutes.")
+<!-- #ENDZONE gitwrite -->
 </p>
 <p>
 translate("The git repository keeps the history of the Bible text with all the changes.")

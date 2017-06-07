@@ -69,7 +69,6 @@ string collaboration_settings (void * webserver_request)
       string source = request->post["source"];
       string readwrite = request->post["readwrite"];
       Database_Config_Bible::setReadFromGit (object, readwrite == "sendreceive");
-      cout << readwrite << endl;
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.getNewId ();
       database_jobs.setLevel (jobId, Filter_Roles::admin ());

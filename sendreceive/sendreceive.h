@@ -27,7 +27,9 @@
 
 void sendreceive_sendreceive (string bible);
 string sendreceive_sendreceive_sendreceive_text ();
-string sendreceive_sendreceive_up_to_date_text ();
+string sendreceive_sendreceive_send_text ();
+string sendreceive_sendreceive_sendreceive_ready_text ();
+string sendreceive_sendreceive_send_ready_text ();
 
 
 #endif

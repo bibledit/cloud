@@ -43,15 +43,25 @@ void sendreceive_sendreceive (string bible)
   // The git repository directory for this object.
   string directory = filter_git_directory (bible);
   
+  
+  bool read_from_git = Database_Config_Bible::getReadFromGit (bible);
+  
 
   // Check that the repository directory is there.
   if (!file_or_dir_exists (directory)) {
-    Database_Logs::log ("Cannot send and receive because the local git repository was not found.");
+    string msg = "Cannot send ";
+    if (read_from_git) msg.append ("and receive ");
+    msg.append ("because the local git repository was not found.");
+    Database_Logs::log (msg);
     return;
   }
   
   
-  Database_Logs::log (sendreceive_sendreceive_sendreceive_text () + bible, Filter_Roles::translator ());
+  if (read_from_git) {
+    Database_Logs::log (sendreceive_sendreceive_sendreceive_text () + bible, Filter_Roles::translator ());
+  } else {
+    Database_Logs::log (sendreceive_sendreceive_send_text () + bible, Filter_Roles::translator ());
+  }
   Webserver_Request request;
   bool success = true;
   string error;
@@ -177,9 +187,19 @@ void sendreceive_sendreceive (string bible)
   
   // Done.
   if (!success) {
-    Database_Logs::log ("Failure during sending and receiving", Filter_Roles::translator ());
+    string msg = "Failure during sending";
+    if (read_from_git) msg.append ("and receiving");
+    Database_Logs::log (msg, Filter_Roles::translator ());
   }
-  Database_Logs::log (sendreceive_sendreceive_up_to_date_text () + bible, Filter_Roles::translator ());
+  {
+    string msg;
+    if (read_from_git) {
+      msg = sendreceive_sendreceive_sendreceive_ready_text ();
+    } else {
+      msg = sendreceive_sendreceive_send_ready_text ();
+    }
+    Database_Logs::log (msg + " " + bible, Filter_Roles::translator ());
+  }
 #endif
 }
 
@@ -190,7 +210,19 @@ string sendreceive_sendreceive_sendreceive_text ()
 }
 
 
-string sendreceive_sendreceive_up_to_date_text ()
+string sendreceive_sendreceive_send_text ()
 {
-  return "Ready sending and receiving Bible ";
+  return "Send Bible ";
+}
+
+
+string sendreceive_sendreceive_sendreceive_ready_text ()
+{
+  return "Ready sending and receiving Bible";
+}
+
+
+string sendreceive_sendreceive_send_ready_text ()
+{
+  return "Ready sending Bible";
 }

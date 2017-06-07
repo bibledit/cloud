@@ -87,9 +87,6 @@ string sendreceive_index (void * webserver_request)
   Assets_View view;
   
   
-  string starting_to_sync = translate ("Starting to send and receive now.");
-  
-  
   string bible;
   if (request->query.count ("bible")) {
     bible = request->query["bible"];
@@ -113,6 +110,14 @@ string sendreceive_index (void * webserver_request)
   bible = access_bible_clamp (request, request->database_config_user()->getBible ());
   view.set_variable ("bible", bible);
 
+
+  string starting_to_sync;
+  if (Database_Config_Bible::getReadFromGit (bible)) {
+    starting_to_sync = translate ("Starting to send and receive now.");
+  } else {
+    starting_to_sync = translate ("Starting to send now.");
+  }
+  
   
   if (request->query.count ("runbible")) {
     sendreceive_queue_bible (bible);
@@ -191,6 +196,12 @@ string sendreceive_index (void * webserver_request)
   }
 #endif
 
+  
+  if (Database_Config_Bible::getReadFromGit (bible)) {
+    view.enable_zone ("gitreadwrite");
+  } else {
+    view.enable_zone ("gitwrite");
+  }
   
   page += view.render ("sendreceive", "index");
   page += Assets_Page::footer ();

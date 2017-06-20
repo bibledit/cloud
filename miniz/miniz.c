@@ -3011,7 +3011,10 @@ static FILE *mz_freopen(const char *pPath, const char *pMode, FILE *pStream)
 #define MZ_DELETE_FILE remove
 
 #else
-#pragma message("Using fopen, ftello, fseeko, stat() etc. path for file I/O - this path may not support large files.")
+// The following warning is not relevant to how miniz is used by Bibledit.
+// It clutters the output of compilation on Android.
+// It was disabled.
+// #pragma message("Using fopen, ftello, fseeko, stat() etc. path for file I/O - this path may not support large files.")
 #ifndef MINIZ_NO_TIME
 #include <utime.h>
 #endif

@@ -3446,6 +3446,9 @@ msgstr ""
 msgid "Starting to send and receive now."
 msgstr ""
 
+msgid "Starting to send now."
+msgstr ""
+
 msgid "Still sending and receiving from the last time."
 msgstr ""
 
@@ -9939,16 +9942,28 @@ msgstr ""
 msgid "Synchronize a Bible with a git repository."
 msgstr ""
 
+msgid "Send a Bible to a git repository."
+msgstr ""
+
 msgid "This Bible has not been linked to a git repository."
 msgstr ""
 
 msgid "Bibledit sends and receives this Bible every night."
 msgstr ""
 
+msgid "Bibledit sends this Bible every night."
+msgstr ""
+
 msgid "Send and receive it now."
 msgstr ""
 
+msgid "Send it now."
+msgstr ""
+
 msgid "Send and receive it every five minutes."
+msgstr ""
+
+msgid "Send it every five minutes."
 msgstr ""
 
 msgid ""

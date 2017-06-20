@@ -522,6 +522,9 @@
 		CA7E21D81A8D318C00EAABE4 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA7E21D91A8D318C00EAABE4 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA7EA6E11B3C0DED00C30611 /* url.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = url.js; sourceTree = "<group>"; };
+		CA8016E11EF9308B0044DFB3 /* miniz.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = miniz.c; sourceTree = "<group>"; };
+		CA8016E21EF9308B0044DFB3 /* miniz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = miniz.h; sourceTree = "<group>"; };
+		CA8016E41EF9308B0044DFB3 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA80A6FE1AA069FE00C7208F /* download.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = download.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA80A6FF1AA069FE00C7208F /* download.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = download.h; sourceTree = "<group>"; };
 		CA80A7001AA069FE00C7208F /* download.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = download.html; sourceTree = "<group>"; };
@@ -1529,6 +1532,16 @@
 				CA607B671D3FF41500FC5792 /* ot-quotations-in-nt.xml */,
 			);
 			path = related;
+			sourceTree = "<group>";
+		};
+		CA8016DC1EF9308B0044DFB3 /* miniz */ = {
+			isa = PBXGroup;
+			children = (
+				CA8016E11EF9308B0044DFB3 /* miniz.c */,
+				CA8016E21EF9308B0044DFB3 /* miniz.h */,
+				CA8016E41EF9308B0044DFB3 /* readme.txt */,
+			);
+			path = miniz;
 			sourceTree = "<group>";
 		};
 		CA816D821B64047400FD276E /* personalize */ = {
@@ -3384,6 +3397,7 @@
 				CABC327D1CCF951600698C7A /* mbedtls */,
 				CAA4D1F51A45A648003ABA25 /* menu */,
 				CAE2DF0B1E968F7D00BFEAA2 /* microtar */,
+				CA8016DC1EF9308B0044DFB3 /* miniz */,
 				CAA4D22D1A45A648003ABA25 /* navigation */,
 				CAA4D23A1A45A648003ABA25 /* notes */,
 				CAA9C1C51C651A93006D8709 /* notifit */,

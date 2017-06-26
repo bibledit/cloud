@@ -33,7 +33,8 @@ $(document).ready(function() {
     });
   }
   navigationSetup ();
-  pendingidentifiers = pendingidentifiers.split (" ");
+  if (pendingidentifiers) pendingidentifiers = pendingidentifiers.split (" ");
+  else pendingidentifiers = [];
   fetchChangeNotifications ();
 });
 

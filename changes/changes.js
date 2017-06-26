@@ -20,10 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 $(document).ready(function() {
   changesFocusTimerId = 0;
   updateIdCount ();
-  var entries = $ ("div[id^='entry']");
-  selectEntry (entries.first ());
   $("body").on ("keydown", keyDown);
-  entries.on ("click", handleClick);
+  $ ("#ids").on ("click", handleClick);
   if (swipe_operations) {
     entries.swipe ( {
       swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
@@ -35,7 +33,46 @@ $(document).ready(function() {
     });
   }
   navigationSetup ();
+  pendingidentifiers = pendingidentifiers.split (" ");
+  fetchChangeNotifications ();
 });
+
+
+var notificationEntriesSelector = "div[id^='entry']";
+var firstNotificationSelected = false;
+
+
+function fetchChangeNotifications ()
+{
+  if (pendingidentifiers.length == 0) {
+    return;
+  }
+  ajaxRequest = $.ajax ({
+    url: "changes",
+    type: "GET",
+    data: { load: pendingidentifiers[0] },
+    success: function (response) {
+      $ ("#ids").append (response);
+      if (!firstNotificationSelected) {
+        setTimeout (initiallySelectFirstNotification, 100);
+        firstNotificationSelected = true;
+      }
+      updateIdCount ();
+      pendingidentifiers.shift ();
+      fetchChangeNotifications ();
+    },
+    complete: function (xhr, status) {
+    }
+  });
+}
+
+
+function initiallySelectFirstNotification ()
+{
+  var entries = $ (notificationEntriesSelector);
+  selectEntry (entries.first ());
+
+}
 
 
 function keyDown (event) {
@@ -69,44 +106,51 @@ function keyDown (event) {
 
 
 function handleClick (event) {
-  var entry = $(event.currentTarget);
+
+  var entry = $(event.target).closest (notificationEntriesSelector);
 
   selectEntry (entry);
 
+  var href = $(event.target).attr ("href");
+  if (!href) {
+    return;
+  }
+
   var identifier = entry.attr ("id").substring (5, 100);
 
-  var eventTarget = $(event.target);
-  var actionID = eventTarget.attr ("id");
-  if (!actionID) return;
-
-  if (actionID == ("remove" + identifier)) {
+  if (href == "remove") {
     var newEntry = getEntryAfterDelete ();
     removeEntry ();
     selectEntry (newEntry);
     event.preventDefault ();
+    return;
   }
 
-  if (actionID == ("expand" + identifier)) {
+  if (href == "expand") {
     toggleEntry ();
     event.preventDefault ();
+    return;
   }
-
-  if (actionID.substring (0, 11) == ("unsubscribe")) {
-    $.post ("change", { unsubscribe:actionID });
-    eventTarget.fadeOut ();
+  
+  if (href.substring (0, 11) == ("unsubscribe")) {
+    $.post ("change", { unsubscribe:href });
+    $ (event.target).fadeOut ();
     event.preventDefault ();
+    return;
   }
-
-  if (actionID.substring (0, 8) == ("unassign")) {
-    $.post ("change", { unassign:actionID });
-    eventTarget.fadeOut ();
+  
+  if (href.substring (0, 8) == ("unassign")) {
+    $.post ("change", { unassign:href });
+    $ (event.target).fadeOut ();
     event.preventDefault ();
+    return;
   }
-
-  if (actionID.substring (0, 6) == ("delete")) {
-    $.post ("change", { delete:actionID });
-    eventTarget.parent ().parent ().fadeOut ();
+  
+  if (href.substring (0, 6) == ("delete")) {
+    $.post ("change", { delete:href });
+    $ (event.target).parent ().parent ().fadeOut ();
     event.preventDefault ();
+    return;
   }
 }
 
@@ -167,7 +211,7 @@ function removeEntry () {
 
 
 function updateIdCount () {
-  var idCount = $("div[id^='entry']").length;
+  var idCount = $(notificationEntriesSelector).length;
   $("#count").html (idCount);
 }
 
@@ -246,7 +290,7 @@ function changesFocusTimeout ()
 
 function handleSwipeAway (event)
 {
-  var entry = $(event.currentTarget);
+  var entry = $(event.target).closest (notificationEntriesSelector);
   selectEntry (entry);
   var newEntry = getEntryAfterDelete ();
   removeEntry ();
@@ -256,7 +300,7 @@ function handleSwipeAway (event)
 
 function handleSwipeExpand (event)
 {
-  var entry = $(event.currentTarget);
+  var entry = $(event.target).closest (notificationEntriesSelector);
   selectEntry (entry);
   toggleEntry ();
 }

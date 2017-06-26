@@ -169,17 +169,17 @@ string changes_change (void * webserver_request)
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");
     if (subscription) {
-      notesblock.append ("<a href=\"unsubscribe\" id=\"unsubscribe" + convert_to_string (note) + "\">[" + translate("unsubscribe") + "]</a>");
+      notesblock.append ("<a href=\"unsubscribe" + convert_to_string (note) + "\">[" + translate("unsubscribe") + "]</a>");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");
     if (assignment) {
-      notesblock.append ("<a href=\"unassign\" id=\"unassign" + convert_to_string (note) + "\">[" + translate("I have done my part on it") + "]</a>");
+      notesblock.append ("<a href=\"unassign" + convert_to_string (note) + "\">[" + translate("I have done my part on it") + "]</a>");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("<td>");
     if (level >= Filter_Roles::manager ()) {
-      notesblock.append ("<a href=\"delete\" id=\"delete" + convert_to_string (note) + "\">[" + translate("mark for deletion") + "]</a>");
+      notesblock.append ("<a href=\"delete" + convert_to_string (note) + "\">[" + translate("mark for deletion") + "]</a>");
     }
     notesblock.append ("</td>\n");
     notesblock.append ("</tr>\n");

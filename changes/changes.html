@@ -14,7 +14,8 @@
 ##dismissblock##
 <br>
 <!-- #ENDZONE controlsattop -->
-##textblock##
+<div id="ids">
+</div>
 <br>
 <a id="help"></a>
 <p>translate("This page lists the notifications of the changes in the Bible text.")</p>
@@ -98,6 +99,9 @@ translate("The different categories of change notifications enable you to find o
 <br>
 <p>##interlinks##</p>
 <script>##script##</script>
+<script>
+var pendingidentifiers = '##pendingidentifiers##';
+</script>
 <script type="text/javascript" src="changes.js?##VERSION##"></script>
 <script type="text/javascript" src="/navigation/nav.js?##VERSION##"></script>
 <script type="text/javascript" src="/notes/click.js?##VERSION##"></script>

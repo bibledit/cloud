@@ -156,7 +156,7 @@ void test_archive ()
     string tarball = filter_archive_tar_gzip_folder (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 620) || (size > 630)) evaluate (__LINE__, __func__, "between 620 and 630", convert_to_string (size));
+    if ((size < 620) || (size > 630)) evaluate (__LINE__, __func__, "between 618 and 630", convert_to_string (size));
     // Test that compressing a non-existing folder returns nothing.
     //tarball = filter_archive_tar_gzip_folder (directory + "/x");
     //evaluate (__LINE__, __func__, "", tarball);

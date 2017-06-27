@@ -309,7 +309,7 @@ function oneverseEditorChanged ()
   if (oneverseEditorChangedTimeout) {
     clearTimeout (oneverseEditorChangedTimeout);
   }
-  oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 5000);
+  oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 1000);
 }
 
 

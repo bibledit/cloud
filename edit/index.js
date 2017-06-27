@@ -306,7 +306,7 @@ function editorContentChanged ()
 function editorContentChangedTimeoutStart ()
 {
   if (editorContentChangedTimeoutId) clearTimeout (editorContentChangedTimeoutId);
-  editorContentChangedTimeoutId = setTimeout (editorSaveChapter, 5000);
+  editorContentChangedTimeoutId = setTimeout (editorSaveChapter, 1000);
 }
 
 

@@ -190,7 +190,7 @@ function usfmEditorChanged (event)
   if (usfmEditorChangedTimeout) {
     clearTimeout (usfmEditorChangedTimeout);
   }
-  usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 5000);
+  usfmEditorChangedTimeout = setTimeout (usfmEditorSaveChapter, 1000);
   //restartCaretClarifier ();
 }
 

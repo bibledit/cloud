@@ -109,17 +109,13 @@ string editusfm_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   
-  string chapterLoaded = locale_logic_text_loaded ();
-  string chapterSaving = locale_logic_text_saving ();
-  string chapterSaved = locale_logic_text_saved ();
-  string chapterRetrying = locale_logic_text_retrying ();
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
-  "var usfmEditorChapterLoaded = \"" + chapterLoaded + "\";\n"
+  "var usfmEditorChapterLoaded = \"" + locale_logic_text_loaded () + "\";\n"
   "var usfmEditorWillSave = \"" + locale_logic_text_will_save () + "\";\n"
-  "var usfmEditorChapterSaving = \"" + chapterSaving + "\";\n"
-  "var usfmEditorChapterSaved = \"" + chapterSaved + "\";\n"
-  "var usfmEditorChapterRetrying = \"" + chapterRetrying + "\";\n"
+  "var usfmEditorChapterSaving = \"" + locale_logic_text_saving () + "\";\n"
+  "var usfmEditorChapterSaved = \"" + locale_logic_text_saved () + "\";\n"
+  "var usfmEditorChapterRetrying = \"" + locale_logic_text_retrying () + "\";\n"
   "var usfmEditorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);

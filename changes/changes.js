@@ -46,6 +46,7 @@ var firstNotificationSelected = false;
 function fetchChangeNotifications ()
 {
   if (pendingidentifiers.length == 0) {
+    passageConnectToAll ();
     return;
   }
   ajaxRequest = $.ajax ({

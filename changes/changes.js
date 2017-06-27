@@ -23,6 +23,7 @@ $(document).ready(function() {
   $("body").on ("keydown", keyDown);
   $ ("#ids").on ("click", handleClick);
   if (swipe_operations) {
+    var entries = $ ("#ids");
     entries.swipe ( {
       swipeLeft:function (event, direction, distance, duration, fingerCount, fingerData) {
         handleSwipeAway (event);

@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <confirm/worker.h>
+#include <email/send.h>
 
 
 class Verification
@@ -147,6 +148,8 @@ string session_signup (void * webserver_request)
       signed_up = true;
     }
   }
+  
+  view.set_variable ("mailer", email_setup_information ());
 
   if (signed_up) page += view.render ("session", "signedup");
   else page += view.render ("session", "signup");

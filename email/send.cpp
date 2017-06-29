@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <email/send.h>
+#include <email/index.h>
 #include <webserver/request.h>
 #include <database/logs.h>
 #include <database/mail.h>
@@ -36,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/mail.h>
 #include <sync/logic.h>
 #include <client/logic.h>
+#include <locale/translate.h>
 
 
 void email_send ()
@@ -326,4 +328,32 @@ void email_schedule (string to, string subject, string body, int time)
   database_mail.send (to, subject, body, time);
   // Schedule a task to send the scheduled mail right away.
   tasks_logic_queue (SENDEMAIL);
+}
+
+
+// If the email sending and receiving has not yet been (completely) set up,
+// it returns information about that.
+// If everything's OK, it returns nothing.
+string email_setup_information ()
+{
+#ifdef HAVE_CLOUD
+  int missing_items = 0;
+  if (Database_Config_General::getSiteMailName ().empty ()) missing_items++;
+  if (Database_Config_General::getSiteMailAddress ().empty ()) missing_items++;
+  if (Database_Config_General::getMailStorageHost ().empty ()) missing_items++;
+  if (Database_Config_General::getMailStorageUsername ().empty ()) missing_items++;
+  if (Database_Config_General::getMailStoragePassword ().empty ()) missing_items++;
+  if (Database_Config_General::getMailStorageProtocol ().empty ()) missing_items++;
+  if (Database_Config_General::getMailStoragePort ().empty ()) missing_items++;
+  if (Database_Config_General::getMailSendHost ().empty ()) missing_items++;
+  if (Database_Config_General::getMailSendUsername ().empty ()) missing_items++;
+  if (Database_Config_General::getMailSendPassword ().empty ()) missing_items++;
+  if (Database_Config_General::getMailSendPort ().empty ()) missing_items++;
+  if (missing_items) {
+    string msg1 = translate ("Cannot send email yet.");
+    string msg2 = translate ("The emailer is not yet set up.");
+    return msg1 + " <a href=\"../" + email_index_url () + + "\">" + msg2 + "</a>";
+  }
+#endif
+  return "";
 }

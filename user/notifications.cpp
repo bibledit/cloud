@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <access/bible.h>
+#include <email/send.h>
 
 
 string user_notifications_url ()
@@ -212,6 +213,8 @@ string user_notifications (void * webserver_request)
   if (write_bible) view.enable_zone ("writebible");
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
     view.enable_zone ("consultant");
+  
+  view.set_variable ("error", email_setup_information ());
   
   page += view.render ("user", "notifications");
 

@@ -2344,6 +2344,12 @@ msgid ""
 "sent out to the account above:"
 msgstr ""
 
+msgid "Cannot send email yet."
+msgstr ""
+
+msgid "Set up the mailer."
+msgstr ""
+
 msgid "Submit to the Bible Drop Box"
 msgstr ""
 

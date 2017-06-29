@@ -35,6 +35,7 @@
 #include <dialog/list.h>
 #include <sprint/burndown.h>
 #include <menu/logic.h>
+#include <email/send.h>
 
 
 string sprint_index_url ()
@@ -254,7 +255,10 @@ string sprint_index (void * webserver_request)
 
   
   view.set_variable ("chart", sprint_create_burndown_chart (bible, year, month));
-                                                                                                                                                                                                                  
+  
+  
+  view.set_variable ("mailer", email_setup_information ());
+
 
   page += view.render ("sprint", "index");
   page += Assets_Page::footer ();

@@ -98,6 +98,8 @@ string session_password (void * webserver_request)
     }
   }
   
+  view.set_variable ("mailer", email_setup_information ());
+
   page += view.render ("session", "password");
 
   page += Assets_Page::footer ();

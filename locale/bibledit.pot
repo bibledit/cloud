@@ -2347,7 +2347,7 @@ msgstr ""
 msgid "Cannot send email yet."
 msgstr ""
 
-msgid "Set up the mailer."
+msgid "The emailer is not yet set up."
 msgstr ""
 
 msgid "Submit to the Bible Drop Box"

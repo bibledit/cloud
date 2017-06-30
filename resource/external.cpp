@@ -881,7 +881,7 @@ string resource_external_convert_book_netbible (int book)
 
 string resource_external_convert_book_blueletterbible (int book)
 {
-  // This array maps the the book identifiers from Bibledit-web
+  // This array maps the the book identifiers from Bibledit
   // to the book names as used by the blueletterbible.org web service.
   map <int, string> mapping = {
     make_pair (1, "Gen"),

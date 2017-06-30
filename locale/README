@@ -37,18 +37,3 @@ rmdir templates
 cd
 
 # End.
-
-
-Testing the gettext system.
-Presuming that Bibledit is installed in /var/www/bibledit-web,
-run these few lines in the shell: 
-
-export LANGUAGE=nl
-export TEXTDOMAINDIR=/var/www/bibledit-web/locale
-gettext -d bibledit Bible
-
-Update:
-It appeared that the gettext system didn't work well.
-In Chinese, the word "Bible" appears as ?? while it should be 聖經.
-Therefore the localization was moved to Zend_Translate.
-That works well.

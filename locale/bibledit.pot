@@ -5077,50 +5077,6 @@ msgstr ""
 msgid "Licenses"
 msgstr ""
 
-msgid "Upgrade from Bibledit-Web to Bibledit Cloud"
-msgstr ""
-
-msgid ""
-"Follow the steps below to upgrade from the most recent release of Bibledit-"
-"Web to the first release of Bibledit Cloud."
-msgstr ""
-
-msgid "It is not supported for the client edition of Bibledit."
-msgstr ""
-
-msgid "You need basic knowledge of the Linux server Bibledit runs on."
-msgstr ""
-
-msgid ""
-"In the steps below, the Bibledit-Web installation is located in the "
-"following folder:"
-msgstr ""
-
-msgid ""
-"The Bibledit Cloud installation will be located in this folder in the user's "
-"home folder:"
-msgstr ""
-
-msgid "Remove folder ~/bibledit:"
-msgstr ""
-
-msgid "Open a terminal."
-msgstr ""
-
-msgid "Copy all Bibledit-Web data:"
-msgstr ""
-
-msgid ""
-"It may be unable to copy one or more files in the 'tmp' folder, but that is "
-"fine."
-msgstr ""
-
-msgid "Copying may take a while."
-msgstr ""
-
-msgid "Install Bibledit Cloud in the usual way."
-msgstr ""
-
 msgid "Bibledit runs a number of checks on the text of the Bibles."
 msgstr ""
 
@@ -6042,9 +5998,6 @@ msgid ""
 "Create a backup of the Bibledit folder before upgrading, just to be sure."
 msgstr ""
 
-msgid "Upgrading from Bibledit-Web to Bibledit Cloud works differently."
-msgstr ""
-
 msgid "Clients"
 msgstr ""
 
@@ -6215,6 +6168,9 @@ msgid "Follow the steps below to install Bibledit."
 msgstr ""
 
 msgid "It needs basic knowledge about working with Linux servers."
+msgstr ""
+
+msgid "Open a terminal."
 msgstr ""
 
 msgid "Update the software sources:"

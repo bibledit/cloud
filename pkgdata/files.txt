@@ -278,7 +278,6 @@
 /git/gitflag
 /help
 /help/about.html
-/help/bibleditweb.html
 /help/changelog.html
 /help/checks.html
 /help/consistency.html

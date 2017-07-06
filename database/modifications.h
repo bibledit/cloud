@@ -72,9 +72,9 @@ public:
   int getNextAvailableNotificationIdentifier ();
   void recordNotification (const vector <string> & users, const string& category, const string& bible, int book, int chapter, int verse, const string& oldtext, const string& modification, const string& newtext);
   void indexTrimAllNotifications ();
-  vector <int> getNotificationIdentifiers (const string& username = "", bool limit = false);
-  vector <int> getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit = false);
-  vector <int> getNotificationTeamIdentifiers (const string& username, const string& category, bool limit = false);
+  vector <int> getNotificationIdentifiers (const string& username = "");
+  vector <int> getNotificationPersonalIdentifiers (const string& username, const string& category);
+  vector <int> getNotificationTeamIdentifiers (const string& username, const string& category);
   void deleteNotification (int identifier, sqlite3 * db = NULL);
   int getNotificationTimeStamp (int id);
   string getNotificationCategory (int id);

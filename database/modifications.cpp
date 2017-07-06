@@ -686,7 +686,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (const string& username, bool limit)
+vector <int> Database_Modifications::getNotificationIdentifiers (const string& username)
 {
   vector <int> ids;
 
@@ -697,10 +697,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (const string& u
     sql.add (username);
   }
   // Sort on reference, so that related change notifications are near each other.
-  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC");
-  // Optionally limit the hits.
-  if (limit) sql.add ("LIMIT 1000");
-  sql.add (";");
+  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
 
   sqlite3 * db = connect ();
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
@@ -716,7 +713,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (const string& u
 // This gets the identifiers of the personal changes.
 // For easier comparison, it also gets the identifiers of the changes
 // in the verses that have changes entered by anyone.
-vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category, bool limit)
+vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category)
 {
   sqlite3 * db = connect ();
 
@@ -727,10 +724,7 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
   sql.add (username);
   sql.add ("AND category =");
   sql.add (category);
-  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC");
-  // Optionally limit the hits.
-  if (limit) sql.add ("LIMIT 1000");
-  sql.add (";");
+  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
 
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
   for (auto & identifier : sidentifiers) {
@@ -779,7 +773,7 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
 
 
 // This gets the identifiers of the team's changes.
-vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, bool limit)
+vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category)
 {
   vector <int> ids;
   SqliteSQL sql = SqliteSQL ();
@@ -787,9 +781,7 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
   sql.add (username);
   sql.add ("AND category =");
   sql.add (category);
-  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC");
-  if (limit) sql.add ("LIMIT 1000");
-  sql.add (";");
+  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
   sqlite3 * db = connect ();
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
   database_sqlite_disconnect (db);

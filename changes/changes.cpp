@@ -137,7 +137,7 @@ string changes_changes (void * webserver_request)
   
   // Remove all the personal change notifications.
   if (request->query.count ("personal")) {
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), true);
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category ());
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -151,7 +151,7 @@ string changes_changes (void * webserver_request)
   
   // Remove all the Bible change notifications.
   if (request->query.count ("bible")) {
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), true);
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category ());
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -166,7 +166,7 @@ string changes_changes (void * webserver_request)
   // Remove all the change notifications made by a certain user.
   if (request->query.count ("dismiss")) {
     string user = request->query ["dismiss"];
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user);
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -180,9 +180,9 @@ string changes_changes (void * webserver_request)
   
   // Read the identifiers.
   // Limit the number of results to keep the page reasonably fast even if there are many notifications.
-  vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), true);
-  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), true);
-  vector <int> ids = database_modifications.getNotificationIdentifiers (username, true);
+  vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category ());
+  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category ());
+  vector <int> ids = database_modifications.getNotificationIdentifiers (username);
   // Send the identifiers to the browser for download there.
   string pendingidentifiers;
   for (auto id : ids) {
@@ -217,7 +217,7 @@ string changes_changes (void * webserver_request)
     if (category == changes_personal_category ()) continue;
     if (category == changes_bible_category ()) continue;
     string user = category;
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user);
     if (!ids.empty ()) {
       dismissblock.append ("<p>* <a href=\"?dismiss=");
       dismissblock.append (user);
@@ -237,7 +237,7 @@ string changes_changes (void * webserver_request)
   for (auto & category : categories) {
     if (category == changes_bible_category ()) continue;
     string user = category;
-    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user, true);
+    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user);
     string icon = category;
     if (category == changes_personal_category ()) icon = emoji_smiling_face_with_smiling_eyes ();
     if (!personal_ids.empty () && !bible_ids.empty ()) {

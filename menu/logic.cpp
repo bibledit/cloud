@@ -1244,17 +1244,18 @@ void menu_logic_tabbed_mode_save_json (void * webserver_request, bool toggle)
     if (generate_json) {
       // Storage for the tabbed view.
       jsonxx::Array json_array;
+      // Adding tabs in the order an average translator uses them most of the time:
       // Add the Bible editor tab.
       json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text ());
-      // Add the Changes, if enabled.
+      // Add the resources tab.
+      json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text ());
+      // Add the consultation notes tab.
+      json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text ());
+      // Add the change notifications, if enabled.
       if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
         json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text ());
       }
-      // Add the consultation notes tab.
-      json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text ());
-      // Add the resources tab.
-      json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text ());
-      // Add the preferences page.
+      // Add the preferences tab.
       json_array << menu_logic_tabbed_mode_add_tab (personalize_index_url (), menu_logic_settings_text ());
       // JSON representation of the URLs.
       json = json_array.json ();

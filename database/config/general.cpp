@@ -474,6 +474,20 @@ void Database_Config_General::setJustConnectedToCloud (bool value)
 }
 
 
+const char * menu_in_tabbed_view_on_key ()
+{
+  return "menu-in-tabbed-view-on";
+}
+bool Database_Config_General::getMenuInTabbedViewOn ()
+{
+  return getBValue (menu_in_tabbed_view_on_key (), true);
+}
+void Database_Config_General::setMenuInTabbedViewOn (bool value)
+{
+  setBValue (menu_in_tabbed_view_on_key (), value);
+}
+
+
 const char * menu_in_tabbed_view_json_key ()
 {
   return "menu-in-tabbed-view-json";

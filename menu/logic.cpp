@@ -1196,16 +1196,6 @@ string menu_logic_editor_menu_text (bool visual, bool chapter)
 }
 
 
-// For internal repatitive use.
-jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
-{
-  jsonxx::Object object;
-  object << "url" << url;
-  object << "label" << label;
-  return object;
-}
-
-
 // Whether the device can do tabbed mode.
 bool menu_logic_can_do_tabbed_mode ()
 {
@@ -1219,21 +1209,26 @@ bool menu_logic_can_do_tabbed_mode ()
 }
 
 
+// For internal repatitive use.
+jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
+{
+  jsonxx::Object object;
+  object << "url" << url;
+  object << "label" << label;
+  return object;
+}
+
+
 // This looks at the settings, and then generates JSON, and stores that in the general configuration.
-void menu_logic_tabbed_mode_save_json (void * webserver_request, bool toggle)
+void menu_logic_tabbed_mode_save_json (void * webserver_request)
 {
   string json;
 
   // Whether the device can do tabbed mode.
   if (menu_logic_can_do_tabbed_mode ()) {
     
-    // If the setting is already on, generate the JSON.
-    bool generate_json = !Database_Config_General::getMenuInTabbedViewJSON ().empty ();
-    
-    // Whether to toggle tabbed view.
-    if (toggle) {
-      generate_json = !generate_json;
-    }
+    // If the setting is on, generate the JSON.
+    bool generate_json = Database_Config_General::getMenuInTabbedViewOn ();
     
     // Tabbed view not possible in advanced mode.
     Webserver_Request * request = (Webserver_Request *) webserver_request;

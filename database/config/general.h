@@ -130,6 +130,8 @@ public:
   static bool getJustConnectedToCloud ();
   static void setJustConnectedToCloud (bool value);
   
+  static bool getMenuInTabbedViewOn ();
+  static void setMenuInTabbedViewOn (bool value);
   static string getMenuInTabbedViewJSON ();
   static void setMenuInTabbedViewJSON (string value);
   

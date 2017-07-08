@@ -80,7 +80,7 @@ bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chap
 string menu_logic_editor_menu_text (bool visual, bool chapter);
 
 bool menu_logic_can_do_tabbed_mode ();
-void menu_logic_tabbed_mode_save_json (void * webserver_request, bool toggle);
+void menu_logic_tabbed_mode_save_json (void * webserver_request);
 
 
 #endif

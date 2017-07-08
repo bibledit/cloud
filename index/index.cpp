@@ -57,7 +57,7 @@ string index_index (void * webserver_request)
   Assets_Header header = Assets_Header ("Bibledit", webserver_request);
   
   if (config_logic_demo_enabled ()) {
-    // The demo, when there's no active menu, forwards to a the active workspace.
+    // The demo, when there's no active menu, forwards to the active workspace.
     if (request->query.empty ()) {
       header.refresh (5, "/" + workspace_index_url ());
     }
@@ -68,7 +68,19 @@ string index_index (void * webserver_request)
   if (!mode.empty ()) {
     bool basic = (mode == "basic");
     request->database_config_user ()->setBasicInterfaceMode (basic);
-    menu_logic_tabbed_mode_save_json (webserver_request, false);
+    menu_logic_tabbed_mode_save_json (webserver_request);
+  }
+  
+  // Upon app start, initialize the JSON for tabbed mode.
+  // It should be done during the setup phase.
+  // But in this case the setup phase does not provide user information.
+  // Here on this page, the user information is available.
+  static bool tabbed_json_initialized = false;
+  if (!tabbed_json_initialized) {
+    if (menu_logic_can_do_tabbed_mode ()) {
+      menu_logic_tabbed_mode_save_json (webserver_request);
+    }
+    tabbed_json_initialized = true;
   }
   
   // Normally a page does not show the expanded main menu.

@@ -193,7 +193,7 @@ string Assets_Header::run ()
     bool start_button = true;
     
     // Whether tabbed mode is on.
-    bool tabbed_mode_on = !Database_Config_General::getMenuInTabbedViewJSON ().empty ();
+    bool tabbed_mode_on = menu_logic_can_do_tabbed_mode () && Database_Config_General::getMenuInTabbedViewOn ();
     
     string menublock;
     string item = request->query ["item"];

@@ -117,14 +117,18 @@ string personalize_index (void * webserver_request)
   // Whether to have a menu entry for the Changes in basic mode.
   if (request->query.count ("showchanges")) {
     bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
-    request->database_config_user ()->setMenuChangesInBasicMode (!state);
-    menu_logic_tabbed_mode_save_json (webserver_request, false);
+    state = !state;
+    request->database_config_user ()->setMenuChangesInBasicMode (state);
+    menu_logic_tabbed_mode_save_json (webserver_request);
   }
 
   
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
   if (request->query.count ("mainmenutabs")) {
-    menu_logic_tabbed_mode_save_json (webserver_request, true);
+    bool state = Database_Config_General::getMenuInTabbedViewOn ();
+    state = !state;
+    Database_Config_General::setMenuInTabbedViewOn (state);
+    menu_logic_tabbed_mode_save_json (webserver_request);
   }
 
   
@@ -398,10 +402,10 @@ string personalize_index (void * webserver_request)
   
   
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
-  on_off = styles_logic_off_on_inherit_toggle_text (!Database_Config_General::getMenuInTabbedViewJSON ().empty ());
-  view.set_variable ("mainmenutabs", on_off);
   if (menu_logic_can_do_tabbed_mode ()) {
     view.enable_zone ("tabs_possible");
+    on_off = styles_logic_off_on_inherit_toggle_text (Database_Config_General::getMenuInTabbedViewOn ());
+    view.set_variable ("mainmenutabs", on_off);
   }
 
   

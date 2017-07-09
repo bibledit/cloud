@@ -214,30 +214,39 @@ void setup_initialize_data ()
   // This alerts the user that installation is in progress, and is not stuck,
   // as the user might think when the install takes longer than expected.
   config_globals_setup_message = "users";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   request.database_users ()->create ();
   request.database_users ()->upgrade ();
   config_globals_setup_message = "styles";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   request.database_styles ()->create ();
   config_globals_setup_message = "bible actions";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   Database_BibleActions database_bibleactions;
   database_bibleactions.create ();
   config_globals_setup_message = "checks";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   request.database_check ()->create ();
   setup_generate_locale_databases (false);
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "confirmations";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   Database_Confirm database_confirm;
   database_confirm.create ();
 #endif
   config_globals_setup_message = "jobs";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.create ();
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "sprint";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   Database_Sprint database_sprint = Database_Sprint ();
   database_sprint.create ();
 #endif
   config_globals_setup_message = "mail";
+  this_thread::sleep_for (chrono::seconds(1)); // Todo
   Database_Mail database_mail = Database_Mail (&request);
   database_mail.create ();
   config_globals_setup_message = "navigation";

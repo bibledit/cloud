@@ -60,7 +60,6 @@ void collaboration_link (string object, int jobid, string direction)
   if (takeme) view.enable_zone ("takeme");
   if (takerepo) view.enable_zone ("takerepo");
   page += view.render ("collaboration", "link");
-  page += Assets_Page::footer ();
   database_jobs.setStart (jobid, page);
 
   // Some checks on input values.
@@ -78,30 +77,38 @@ void collaboration_link (string object, int jobid, string direction)
   }
 
   // Try read access.
+  database_jobs.setProgress (jobid, translate ("Reading"));
   result = filter_git_remote_read (url, error);
   if (result) {
     success.push_back (translate("Read access to the repository is successful."));
   } else {
     error.append (" " + translate ("Read access failed."));
   }
+  database_jobs.setPercentage (jobid, 8);
   
   // Clone the remote repository, with feedback about progress.
+  database_jobs.setProgress (jobid, translate ("Cloning"));
   if (result) {
     success.push_back ("Copy repository to Bibledit");
     result = filter_git_remote_clone (url, path, jobid, error);
   }
+  database_jobs.setPercentage (jobid, 16);
 
   // Set some configuration values.
+  database_jobs.setProgress (jobid, translate ("Configuring"));
   if (result) {
     success.push_back (translate ("Configure copied data"));
     filter_git_config (path);
   }
+  database_jobs.setPercentage (jobid, 24);
   
   // Store a temporal file for trying whether Bibledit has write access.
+  database_jobs.setProgress (jobid, translate ("Writing"));
   string temporal_file_name = filter_url_create_path (path, "test_repository_writable");
   if (result) {
     filter_url_file_put_contents (temporal_file_name, "contents");
   }
+  database_jobs.setPercentage (jobid, 32);
   
   // Add this file.
   if (result) {
@@ -112,8 +119,10 @@ void collaboration_link (string object, int jobid, string direction)
       error.append (" " + translate("Failure adding a file to the data."));
     }
   }
+  database_jobs.setPercentage (jobid, 40);
   
   // Commit the file locally.
+  database_jobs.setProgress (jobid, translate ("Committing"));
   if (result) {
     vector <string> messages;
     result = filter_git_commit (path, "", "Write test 1", messages, error);
@@ -123,19 +132,23 @@ void collaboration_link (string object, int jobid, string direction)
       error.append (" " + translate("Failure committing the file."));
     }
   }
+  database_jobs.setPercentage (jobid, 48);
   
   // Pull changes from the remote repository.
   // We cannot look at the exit code here in case the repository is empty,
   // because in such cases the exit code is undefined.
+  database_jobs.setProgress (jobid, translate ("Pulling"));
   if (result) {
     vector <string> messages;
     filter_git_pull (path, messages);
     success.insert (success.end(), messages.begin(), messages.end());
     success.push_back (translate("Changes were pulled from the repository successfully."));
   }
+  database_jobs.setPercentage (jobid, 56);
   
   // Push the changes to see if there is write access.
   // The --all switch is needed for when the remote repository is empty.
+  database_jobs.setProgress (jobid, translate ("Pushing"));
   if (result) {
     vector <string> messages;
     result = filter_git_push (path, messages, true);
@@ -146,8 +159,10 @@ void collaboration_link (string object, int jobid, string direction)
       error.append (" " + translate("Pushing changes to the repository failed."));
     }
   }
+  database_jobs.setPercentage (jobid, 64);
   
   // Remove the temporal file from the cloned repository.
+  database_jobs.setProgress (jobid, translate ("Cleaning"));
   filter_url_unlink (temporal_file_name);
   if (result) {
     result = filter_git_add_remove_all (path, error);
@@ -166,8 +181,10 @@ void collaboration_link (string object, int jobid, string direction)
       error.append (" " + translate("Failure committing the removed temporal file."));
     }
   }
+  database_jobs.setPercentage (jobid, 72);
 
   // Push changes to the remote repository.
+  database_jobs.setProgress (jobid, translate ("Pushing"));
   if (result) {
     vector <string> messages;
     result = filter_git_push (path, messages);
@@ -178,16 +195,19 @@ void collaboration_link (string object, int jobid, string direction)
       error.append (" " + translate("Pushing changes to the repository failed."));
     }
   }
+  database_jobs.setPercentage (jobid, 80);
   
   // If so requested by the user,
   // copy the data from the local cloned repository,
   // and store it in Bibledit's Bible given in $object,
   // overwriting the whole Bible that was there before.
-  if (takerepo && result) {
+  database_jobs.setProgress (jobid, translate ("Copying"));
+ if (takerepo && result) {
     success.push_back (translate ("Copying the data from the repository and storing it in Bibledit."));
     Webserver_Request request;
     filter_git_sync_git_to_bible (&request, path, object);
   }
+  database_jobs.setPercentage (jobid, 88);
   
   // If so requested by the user,
   // copy the data from Bibledit to the local cloned repository,
@@ -224,6 +244,7 @@ void collaboration_link (string object, int jobid, string direction)
     }
 
     // Push changes to the remote repository.
+    database_jobs.setProgress (jobid, translate ("Pushing"));
     if (result) {
       vector <string> messages;
       result = filter_git_push (path, messages);
@@ -235,9 +256,12 @@ void collaboration_link (string object, int jobid, string direction)
       }
     }
   }
+  database_jobs.setPercentage (jobid, 96);
   
   // Just in case it uses a removable flash disk for the repository, flush any pending writes to disk.
+  database_jobs.setProgress (jobid, translate ("Syncing"));
   sync ();
+  database_jobs.setPercentage (jobid, 100);
  
   // Ready linking the repository.
   page = collaboration_link_header ();
@@ -261,3 +285,15 @@ string collaboration_link_header ()
 {
   return "<h1>" + translate ("Link repository") + "</h1>\n";
 }
+
+
+/*
+
+Here is how to create a local git server:
+
+ $ mkdir /tmp/gitdaemon
+ $ cd /tmp/gitdaemon
+ $ git --bare init
+ $ git daemon --enable=receive-pack --base-path=/tmp/gitdaemon --verbose --export-all
+
+*/

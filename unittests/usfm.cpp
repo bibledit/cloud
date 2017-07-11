@@ -30,7 +30,7 @@ void test_usfm ()
 {
   trace_unit_tests (__func__);
   
-  // Test malformed verse.
+  // Test check on malformed verse.
   {
     string usfm =
     "\\c 1\n"
@@ -47,7 +47,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test new line in USFM as properly formatted.
+  // Test check on new line in USFM as properly formatted.
   {
     string usfm =
     "\\c 1\n"
@@ -64,7 +64,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test new line in USFM.
+  // Test check on new line in USFM.
   {
     string usfm =
     "\\c 1\n"
@@ -84,7 +84,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test new line in USFM.
+  // Test check on new line in USFM.
   {
     string usfm =
     "\\c 1\n"
@@ -104,7 +104,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
   
-  // Test unknown USFM.
+  // Test check on unknown USFM.
   {
     string usfm =
     "\\c 1\n"
@@ -123,7 +123,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test unknown USFM.
+  // Test check on unknown USFM.
   {
     string usfm =
     "\\c 1\n"
@@ -142,7 +142,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test \id.
+  // Test check on \id.
   {
     string usfm =
     "\\id GENN\n"
@@ -159,7 +159,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test \id.
+  // Test check on \id.
   {
     string usfm =
     "\\id\n"
@@ -176,7 +176,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test \id.
+  // Test check on \id.
   {
     string usfm =
     "\\id Gen\n"
@@ -193,7 +193,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test forward slash.
+  // Test check on forward slash.
   {
     string usfm =
     "\\id GEN\n"
@@ -210,7 +210,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test forward slash.
+  // Test check on forward slash.
   {
     string usfm =
     "\\id GEN\n"
@@ -227,7 +227,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test clean USFM.
+  // Test that checking clean USFM has no output.
   {
     string usfm =
     "\\id GEN\n"
@@ -280,7 +280,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test widow backslash.
+  // Test check on a widow backslash.
   {
     string usfm =
     "\\id GEN\n"
@@ -297,7 +297,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test matching markers.
+  // Test check on matching markers.
   {
     string usfm =
     "\\id GEN\n"
@@ -311,7 +311,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test matching markers.
+  // Test check on matching markers.
   {
     string usfm =
     "\\id GEN\n"
@@ -327,7 +327,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test matching markers.
+  // Test check on matching markers.
   {
     string usfm =
     "\\id GEN\n"
@@ -344,7 +344,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test matching markers.
+  // Test check on matching markers.
   {
     string usfm =
     "\\id GEN\n"
@@ -359,7 +359,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test matching markers.
+  // Test check on matching markers.
   {
     string usfm =
     "\\id GEN\n"
@@ -375,12 +375,14 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
+  // Test converting line number to verse number.
   {
     string usfm =
     "\\id MIC";
     evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
   }
   
+  // Test converting line number to verse number.
   {
     string usfm =
     "\\id MIC\n"
@@ -388,12 +390,14 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 1));
   }
   
+  // Test converting line number to verse number.
   {
     string usfm =
     "\\v 1 Verse";
     evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 0));
   }
   
+  // Test converting line number to verse number.
   {
     string usfm =
     "\\p\n"
@@ -406,6 +410,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {2}, usfm_linenumber_to_versenumber (usfm, 3));
   }
   
+  // Test converting line number to verse number.
   {
     string usfm =
     "\\id MIC\n"
@@ -413,6 +418,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {1, 2}, usfm_linenumber_to_versenumber (usfm, 1));
   }
   
+  // Test converting offset to verse number.
   {
     string usfm = "\\id MIC";
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
@@ -420,6 +426,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 17));
   }
   
+  // Test converting offset to verse number.
   {
     string usfm =
     "\\id MIC\n"
@@ -428,6 +435,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 8));
   }
   
+  // Test converting offset to verse number.
   {
     string usfm =
     "\\id MIC\n"
@@ -436,6 +444,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {1, 2, 3}, usfm_offset_to_versenumber (usfm, 8));
   }
   
+  // Test converting offset to verse number.
   {
     string usfm =
     "\\v 1 Verse";
@@ -443,6 +452,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 2));
   }
   
+  // Test converting offset to verse number.
   {
     string usfm =
     "\\p\n"
@@ -466,6 +476,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 47));
   }
   
+  // Test converting verse number to offset.
   {
     string usfm =
     "\\p\n"
@@ -596,7 +607,8 @@ void test_usfm ()
     evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 15));
     evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 15));
   }
-  
+ 
+  // Test getting the verse text from USFM.
   {
     string usfm =
     "\\v 1 Verse 1.\n"
@@ -763,7 +775,7 @@ void test_usfm ()
   
   // Test getting the USFM for a verse where there's alternate verse number or published verse numbers.
   // It used to get mixed up on those cases.
-  // Regression tests ensure it keeps behaving as it should.
+  // This regression test notices whether it keeps behaving as it should.
   {
     string path = filter_url_create_root_path ("unittests", "tests", "usfm01.usfm");
     string chapter_usfm = filter_url_file_get_contents (path);
@@ -779,7 +791,8 @@ void test_usfm ()
               "\\r refs 13\n"
               "\\p", usfm);
   }
-  
+ 
+  // Test getting text from USFM with a range of verses.
   {
     string usfm =
     "\\c 1\n"
@@ -818,6 +831,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
   }
 
+  // Test on detecting a general USFM marker.
   {
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\c "));
@@ -827,6 +841,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\+add*"));
   }
   
+  // Test on detecting an opening marker.
   {
     evaluate (__LINE__, __func__, true, usfm_is_opening_marker ("\\id"));
     evaluate (__LINE__, __func__, true, usfm_is_opening_marker ("\\c "));
@@ -835,6 +850,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, false, usfm_is_opening_marker ("\\+add*"));
   }
   
+  // Test on detecting embedded marker.
   {
     evaluate (__LINE__, __func__, false, usfm_is_embedded_marker ("\\add"));
     evaluate (__LINE__, __func__, false, usfm_is_embedded_marker ("\\add*"));
@@ -842,7 +858,8 @@ void test_usfm ()
     evaluate (__LINE__, __func__, true, usfm_is_embedded_marker ("\\+add "));
     evaluate (__LINE__, __func__, true, usfm_is_embedded_marker ("\\+add*"));
   }
-  
+
+  // Test on extracting a book identifier.
   {
     evaluate (__LINE__, __func__, "GEN", usfm_get_book_identifier ({ "\\id", "GEN" }, 0));
     evaluate (__LINE__, __func__, "XXX", usfm_get_book_identifier ({ "\\id", "GEN" }, 1));
@@ -851,6 +868,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "GEN", usfm_get_book_identifier ({ "", "GENxxx" }, 0));
   }
   
+  // Test on extracting a verse number.
   {
     evaluate (__LINE__, __func__, "1", usfm_peek_verse_number ("1"));
     evaluate (__LINE__, __func__, "1", usfm_peek_verse_number ("1 "));
@@ -861,17 +879,18 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "2a-3b", usfm_peek_verse_number ("2a-3b And he said"));
   }
 
+  // Test on Genesis USFM.
   {
     string directory = filter_url_create_root_path ("unittests", "tests");
     string bookusfm = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN.SFM"));
     
-    // All chapters.
+    // Test getting all chapter number from USFM.
     vector <int> chapters = usfm_get_chapter_numbers (bookusfm);
     vector <int> all_chapters;
     for (int i = 0; i <= 50; i++) all_chapters.push_back (i);
     evaluate (__LINE__, __func__, all_chapters, chapters);
     
-    // Chapter 0.
+    // Test getting contents for chapter 0.
     string usfm = usfm_get_chapter_text (bookusfm, 0);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-0.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
@@ -879,7 +898,7 @@ void test_usfm ()
     chapters = usfm_get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0 }, chapters);
     
-    // Last chapter.
+    // Test getting contents for last chapter in USFM.
     usfm = usfm_get_chapter_text (bookusfm, 50);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-50.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
@@ -887,7 +906,7 @@ void test_usfm ()
     chapters = usfm_get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 50 }, chapters);
     
-    // Intermediate chapter.
+    // Test getting the text of a chapter somewhere within a block of USFM.
     usfm = usfm_get_chapter_text (bookusfm, 25);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-25.SFM"));
     evaluate (__LINE__, __func__, standard, usfm);
@@ -895,14 +914,14 @@ void test_usfm ()
     chapters = usfm_get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 25 }, chapters);
     
-    // Non-existing chapter.
+    // Test getting non-existing chapter text.
     usfm = usfm_get_chapter_text (bookusfm, 51);
     evaluate (__LINE__, __func__, "", usfm);
     
     chapters = usfm_get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0 }, chapters);
     
-    // Space after chapter number.
+    // Test getting text for chapter that has a space after chapter number.
     string modified_book_usfm = filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm);
     usfm = usfm_get_chapter_text (modified_book_usfm, 10);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-10.SFM"));
@@ -912,7 +931,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, all_chapters, chapters);
   }
   
-  // Test the USFM filter functions.
+  // Test making one string out of the USFM.
   {
     evaluate (__LINE__, __func__, "", usfm_one_string (""));
     evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
@@ -927,6 +946,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, outputusfm);
   }
   
+  // Test getting the markers and the text from USFM.
   {
     evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
     evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
@@ -934,7 +954,8 @@ void test_usfm ()
     evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
     evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
   }
-  
+
+  // Test getting the markers from a fragment of USFM.
   {
     evaluate (__LINE__, __func__, "", usfm_get_marker (""));
     evaluate (__LINE__, __func__, "id", usfm_get_marker ("\\id GEN"));
@@ -945,7 +966,8 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
   }
-  
+
+  // Test importing USFM.
   {
     evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
     vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
@@ -962,13 +984,15 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
   
+  // Test importing USFM.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "92-1JNeng-web.usfm"));
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     evaluate (__LINE__, __func__, 7, (int)import.size());
   }
-  
+
+  // Test building opening USFM marker.
   {
     evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
     evaluate (__LINE__, __func__, "\\add ", usfm_get_opening_usfm ("add"));
@@ -976,6 +1000,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "\\+add ", usfm_get_opening_usfm ("add", true));
   }
   
+  // Test building closing USFM marker.
   {
     evaluate (__LINE__, __func__, "\\wj*", usfm_get_closing_usfm ("wj"));
     evaluate (__LINE__, __func__, "\\add*", usfm_get_closing_usfm ("add"));
@@ -983,6 +1008,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "\\+add*", usfm_get_closing_usfm ("add", true));
   }
 
+  // Test getting verse numbers from USFM.
   {
     string usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
     evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }, usfm_get_verse_numbers (usfm));
@@ -1019,6 +1045,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, usfm_get_verse_numbers (usfm));
   }
   
+  // Test getting verse numbers from USFM.
   {
     string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
     vector <int> verses = usfm_get_verse_numbers (usfm);
@@ -1037,6 +1064,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, { 0, 10, 12, 13 }, verses);
   }
   
+  // Test extracting notes from USFM.
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\x + Hlab. 81.5.\\x* njengomhlambi\\x + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\x*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> xrefs = usfm_extract_notes (usfm, {"x"});
@@ -1053,6 +1081,7 @@ void test_usfm ()
     }
   }
   
+  // Test extracting notes from USFM.
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa\\f + Hlab. 81.5.\\f* njengomhlambi\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> notes = usfm_extract_notes (usfm, { "x", "f", "fe" });
@@ -1069,6 +1098,7 @@ void test_usfm ()
     }
   }
   
+  // Test extracting notes from USFM.
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi\\f + Hlab. 81.5.\\f*\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     vector <UsfmNote> notes = usfm_extract_notes (usfm, { "x", "f", "fe" });
@@ -1084,7 +1114,8 @@ void test_usfm ()
       evaluate (__LINE__, __func__, "\\x + Hlab. 50.2.\\x*", notes[3].data);
     }
   }
-  
+
+  // Test removing notes from USFM.
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi\\f + Hlab. 81.5.\\f*\\fe + Gen. 48.15. 49.24. Hlab. 77.20. Hlab. 95.7.\\fe*, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**\\x + Hlab. 99.1. Eks. 25.22.\\x*, khanyisa\\x + Hlab. 50.2.\\x*.";
     usfm = usfm_remove_notes (usfm, {"x", "f", "fe"});
@@ -1092,7 +1123,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, usfm);
   }
   
-  // Test inserting empty notes
+  // Test inserting empty notes.
   {
     UsfmNote usfmnote (1, "");
     string usfm = usfm_insert_notes ("", {usfmnote}, 0.9);
@@ -1158,6 +1189,19 @@ void test_usfm ()
     string standard = "\\v 1 Zvino namazuva okutonga kwavatongi\\x + Judg. 2.16.\\x* nzara yakange iripo panyika. Umwe\\x + Judg. 6.4,5,6.\\x* murume weBheterehemu-judha akanogara\\x + Judg. 17.8.\\x* panyika yaMoabhu, iye nomukadzi wake navanakomana vake vaviri.";
     evaluate (__LINE__, __func__, standard, usfm);
   }
+  
+  // Test moving note around the \p new paragraph.
+  {
+    string usfm = "\\v 1 Word word\\x + Note.\\x* word word.\n\\p";
+    usfm = usfm_move_note (usfm, 1, 1);
+    string standard = "\\v 1 Word word word\\x + Note.\\x* word.\n\\p";
+    usfm = usfm_move_note (usfm, 1, 1);
+    standard = "\\v 1 Word word word word\\x + Note.\\x*.\n\\p";
+    usfm = usfm_move_note (usfm, 1, 1);
+    standard = "\\v 1 Word word word word.\n\\p\\x + Note.\\x*";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  
 
   // Test getting new note position.
   {
@@ -1217,7 +1261,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, 19, position);
   }
 
-  // It tests whether a note is not inserted within another note.
+  // Test whether a note is not inserted within another note.
   {
     string usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
     

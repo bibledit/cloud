@@ -742,7 +742,7 @@ string usfm_move_note (string usfm, int direction, int number)
   if (key >= (int)notes.size()) return usfm;
   usfm = usfm_remove_notes (usfm, markers);
   int position = notes[key].offset;
-  position += (direction * 3);
+  position += (direction * 1);
   position = usfm_get_new_note_position (usfm, position, direction);
   notes[key].offset = position;
   usfm = usfm_insert_notes (usfm, notes, 1);
@@ -757,9 +757,12 @@ string usfm_move_note (string usfm, int direction, int number)
 //   -1: Go back to the previous slot.
 //    0: Attempt current position, else take next slot.
 //    1: Go forward to the next slot.
-// The positions take the string as UTF8.
+// The positions take the string as UTF-8.
 size_t usfm_get_new_note_position (string usfm, size_t position, int direction)
 {
+  // New lines count as a word separator too.
+  usfm = filter_string_str_replace ("\n", " ", usfm);
+  
   vector <string> words = filter_string_explode (usfm, ' ');
 
   size_t length = 0;

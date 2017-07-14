@@ -155,9 +155,9 @@ string changes_change (void * webserver_request)
   // Details for the notes.
   string notesblock;
   for (auto & note : notes) {
-    string summary = database_notes.getSummary (note);
+    string summary = database_notes.get_summary_v1 (note);
     summary = filter_string_sanitize_html (summary);
-    bool subscription = database_notes.isSubscribed (note, username);
+    bool subscription = database_notes.is_subscribed_v1 (note, username);
     bool assignment = database_notes.isAssigned (note, username);
     notesblock.append ("<tr>\n");
     notesblock.append ("<td>\n");

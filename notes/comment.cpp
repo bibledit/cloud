@@ -68,7 +68,7 @@ string notes_comment (void * webserver_request)
   
   if (request->post.count ("submit")) {
     string comment = filter_string_trim (request->post ["comment"]);
-    notes_logic.addComment (id, comment);
+    notes_logic.add_comment_v1 (id, comment);
     redirect_browser (request, notes_note_url () + "?id=" + convert_to_string (id) + "&temporal=");
     return "";
   }
@@ -83,11 +83,11 @@ string notes_comment (void * webserver_request)
   view.set_variable ("id", convert_to_string (id));
   
   
-  string summary = database_notes.getSummary (id);
+  string summary = database_notes.get_summary_v1 (id);
   view.set_variable ("summary", summary);
   
   
-  string content = database_notes.getContents (id);
+  string content = database_notes.get_contents_v1 (id);
   view.set_variable ("content", content);
   
   

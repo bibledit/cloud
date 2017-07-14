@@ -61,7 +61,7 @@ string notes_click (void * webserver_request)
     string open = request->query ["open"];
     open = filter_url_basename_web (open);
     int iopen = convert_to_int (open);
-    if (database_notes.identifierExists (iopen)) {
+    if (database_notes.identifier_exists_v12 (iopen)) {
       Ipc_Notes::open (request, iopen);
     }
   }

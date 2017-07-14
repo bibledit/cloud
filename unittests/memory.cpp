@@ -85,9 +85,9 @@ void test_memory ()
   {
     Database_State::create ();
     Database_Notes database_notes (NULL);
-    database_notes.create ();
+    database_notes.create_v12 ();
     for (int i = 0; i < 100; i++) {
-      database_notes.storeNewNote ("bible", i, i, i, "summary", "contents", true);
+      database_notes.store_new_note_v1 ("bible", i, i, i, "summary", "contents", true);
     }
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();

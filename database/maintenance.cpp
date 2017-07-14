@@ -95,9 +95,9 @@ void database_maintenance ()
   
   
   Database_Notes database_notes = Database_Notes (&webserver_request);
-  database_notes.trim ();
-  if (!client_mode) database_notes.trim_server ();
-  database_notes.optimize ();
+  database_notes.trim_v12 ();
+  if (!client_mode) database_notes.trim_server_v12 ();
+  database_notes.optimize_v12 ();
   
   
   /*

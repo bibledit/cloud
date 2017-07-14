@@ -76,7 +76,7 @@ sqlite3 * Database_Notes::connect_checksums ()
 }
 
 
-void Database_Notes::create ()
+void Database_Notes::create_v12 ()
 {
   // Create the main database and table.
   sqlite3 * db = connect ();
@@ -113,60 +113,60 @@ void Database_Notes::create ()
   database_sqlite_disconnect (db);
 
   // Enter the standard statuses in the list of translatable strings.
-  if (false) {
-    translate("New");
-    translate("Pending");
-    translate("In progress");
-    translate("Done");
-    translate("Reopened");
-  }
-
+#ifdef NONE
+  translate("New");
+  translate("Pending");
+  translate("In progress");
+  translate("Done");
+  translate("Reopened");
+#endif
+  
   // Enter the standard severities in the list of translatable strings.
-  if (false) {
-    translate("Wish");
-    translate("Minor");
-    translate("Normal");
-    translate("Important");
-    translate("Major");
-    translate("Critical");
-  }
+#ifdef NONE
+  translate("Wish");
+  translate("Minor");
+  translate("Normal");
+  translate("Important");
+  translate("Major");
+  translate("Critical");
+#endif
 }
 
 
-string Database_Notes::database_path ()
+string Database_Notes::database_path_v12 ()
 {
   return filter_url_create_root_path ("databases", "notes.sqlite");
 }
 
 
-string Database_Notes::checksums_database_path ()
+string Database_Notes::checksums_database_path_v12 ()
 {
   return filter_url_create_root_path ("databases", "notes_checksums.sqlite");
 }
 
 
 // Returns whether the notes database is healthy, as a boolean.
-bool Database_Notes::healthy ()
+bool Database_Notes::healthy_v12 ()
 {
-  return database_sqlite_healthy (database_path ());
+  return database_sqlite_healthy (database_path_v12 ());
 }
 
 
 // Returns whether the notes checksums database is healthy, as a boolean.
-bool Database_Notes::checksums_healthy ()
+bool Database_Notes::checksums_healthy_v12 ()
 {
-  return database_sqlite_healthy (checksums_database_path ());
+  return database_sqlite_healthy (checksums_database_path_v12 ());
 }
 
 
 // Does a checkup on the health of the main database.
 // Optionally recreates it.
 // Returns true if to be synced, else false.
-bool Database_Notes::checkup ()
+bool Database_Notes::checkup_v12 ()
 {
-  if (healthy ()) return false;
-  filter_url_unlink (database_path ());
-  create ();
+  if (healthy_v12 ()) return false;
+  filter_url_unlink (database_path_v12 ());
+  create_v12 ();
   return true;
 }
 
@@ -174,24 +174,24 @@ bool Database_Notes::checkup ()
 // Does a checkup on the health of the checksums database.
 // Optionally recreates it.
 // Returns true if to synced, else false.
-bool Database_Notes::checkup_checksums ()
+bool Database_Notes::checkup_checksums_v12 ()
 {
-  if (checksums_healthy ()) return false;
-  filter_url_unlink (checksums_database_path ());
-  create ();
+  if (checksums_healthy_v12 ()) return false;
+  filter_url_unlink (checksums_database_path_v12 ());
+  create_v12 ();
   return true;
 }
 
 
-void Database_Notes::trim ()
+void Database_Notes::trim_v12 ()
 {
   // Clean empty directories.
   string message = "Deleting empty notes folder ";
-  string mainfolder = mainFolder ();
-  vector <string> bits1 = filter_url_scandir (mainfolder);
+  string main_folder = main_folder_v12 ();
+  vector <string> bits1 = filter_url_scandir (main_folder);
   for (auto bit1 : bits1) {
     if (bit1.length () == 3) {
-      string folder = filter_url_create_path (mainfolder, bit1);
+      string folder = filter_url_create_path (main_folder, bit1);
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
         Database_Logs::log (message + folder);
@@ -199,7 +199,7 @@ void Database_Notes::trim ()
       }
       for (auto bit2 : bits2) {
         if (bit2.length () == 3) {
-          string folder = filter_url_create_path (mainfolder, bit1, bit2);
+          string folder = filter_url_create_path (main_folder, bit1, bit2);
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
             Database_Logs::log (message + folder);
@@ -212,19 +212,19 @@ void Database_Notes::trim ()
 }
 
 
-void Database_Notes::trim_server ()
+void Database_Notes::trim_server_v12 ()
 {
   // Notes expiry.
   touchMarkedForDeletion ();
   vector <int> identifiers = getDueForDeletion ();
   for (auto & identifier : identifiers) {
     trash_consultation_note (webserver_request, identifier);
-    erase (identifier);
+    erase_v12 (identifier);
   }
 }
 
 
-void Database_Notes::optimize ()
+void Database_Notes::optimize_v12 ()
 {
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "VACUUM notes;");
@@ -234,27 +234,27 @@ void Database_Notes::optimize ()
 
 void Database_Notes::sync ()
 {
-  string mainfolder = mainFolder ();
+  string main_folder = main_folder_v12 ();
 
   // List of notes in the filesystem.
   vector <int> identifiers;
 
-  vector <string> bits1 = filter_url_scandir (mainfolder);
+  vector <string> bits1 = filter_url_scandir (main_folder);
   for (auto & bit1 : bits1) {
     // Bit1/2/3 may start with a 0, so conversion to int cannot be used, rather use a length of 3.
     // It used conversion to int before to determine it was a real note,
     // with the result that it missed 10% of the notes, which subsequently got deleted, oops!
     if (bit1.length () == 3) {
-      vector <string> bits2 = filter_url_scandir (filter_url_create_path (mainfolder, bit1));
+      vector <string> bits2 = filter_url_scandir (filter_url_create_path (main_folder, bit1));
       for (auto & bit2 : bits2) {
         if (bit2.length () == 3) {
-          vector <string> bits3 = filter_url_scandir (filter_url_create_path (mainfolder, bit1, bit2));
+          vector <string> bits3 = filter_url_scandir (filter_url_create_path (main_folder, bit1, bit2));
           for (auto & bit3 : bits3) {
             if (bit3.length () == 3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
               updateDatabase (identifier);
-              updateSearchFields (identifier);
+              update_search_fields_v1 (identifier);
               updateChecksum (identifier);
             }
           }
@@ -276,7 +276,7 @@ void Database_Notes::sync ()
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
       trash_consultation_note (webserver_request, id);
-      erase (id);
+      erase_v12 (id);
     }
   }
   
@@ -304,10 +304,10 @@ void Database_Notes::updateDatabase (int identifier)
   // Read the relevant values from the filesystem.
   int modified = getModified (identifier);
 
-  string file = assignedFile (identifier);
+  string file = assigned_file_v1 (identifier);
   string assigned = filter_url_file_get_contents (file);
 
-  file = subscriptionsFile (identifier);
+  file = subscriptions_file_v1 (identifier);
   string subscriptions = filter_url_file_get_contents (file);
 
   string bible = getBible (identifier);
@@ -318,9 +318,9 @@ void Database_Notes::updateDatabase (int identifier)
 
   int severity = getRawSeverity (identifier);
 
-  string summary = getSummary (identifier);
+  string summary = get_summary_v1 (identifier);
 
-  string contents = getContents (identifier);
+  string contents = get_contents_v1 (identifier);
 
   // Read the relevant values from the database.
   // If all the values in the database are the same as the values on the filesystem,
@@ -395,13 +395,13 @@ void Database_Notes::updateDatabase (int identifier)
 }
 
 
-string Database_Notes::mainFolder ()
+string Database_Notes::main_folder_v12 ()
 {
   return filter_url_create_root_path ("consultations");
 }
 
 
-string Database_Notes::noteFolder (int identifier)
+string Database_Notes::note_folder_v1 (int identifier)
 {
   // The maximum number of folders a folder may contain is constrained by the filesystem.
   // To overcome this, the notes will be stored in a deep folder structure.
@@ -409,80 +409,95 @@ string Database_Notes::noteFolder (int identifier)
   string bit1 = sidentifier.substr (0, 3);
   string bit2 = sidentifier.substr (3, 3);
   string bit3 = sidentifier.substr (6, 3);
-  return filter_url_create_path (mainFolder (), bit1, bit2, bit3);
+  return filter_url_create_path (main_folder_v12 (), bit1, bit2, bit3);
 }
 
 
-string Database_Notes::bibleFile (int identifier)
+string Database_Notes::note_file_v2 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "bible");
+  // The maximum number of folders a folder may contain is constrained by the filesystem.
+  // To overcome this, the notes will be stored in a folder structure.
+  string sidentifier = convert_to_string (identifier);
+  string folder = sidentifier.substr (0, 3);
+  string file = sidentifier.substr (3, 6) + ".json";
+  return filter_url_create_path (main_folder_v12 (), folder, file);
 }
 
 
-string Database_Notes::passageFile (int identifier)
+string Database_Notes::bible_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "passage");
+  return filter_url_create_path (note_folder_v1 (identifier), "bible");
 }
 
 
-string Database_Notes::statusFile (int identifier)
+string Database_Notes::passage_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "status");
+  return filter_url_create_path (note_folder_v1 (identifier), "passage");
 }
 
 
-string Database_Notes::severityFile (int identifier)
+string Database_Notes::status_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "severity");
+  return filter_url_create_path (note_folder_v1 (identifier), "status");
 }
 
 
-string Database_Notes::modifiedFile (int identifier)
+string Database_Notes::severity_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "modified");
+  return filter_url_create_path (note_folder_v1 (identifier), "severity");
 }
 
 
-string Database_Notes::summaryFile (int identifier)
+string Database_Notes::modified_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "summary");
+  return filter_url_create_path (note_folder_v1 (identifier), "modified");
 }
 
 
-string Database_Notes::contentsFile (int identifier)
+string Database_Notes::summary_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "contents");
+  return filter_url_create_path (note_folder_v1 (identifier), "summary");
 }
 
 
-string Database_Notes::subscriptionsFile (int identifier)
+string Database_Notes::contents_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "subscriptions");
+  return filter_url_create_path (note_folder_v1 (identifier), "contents");
 }
 
 
-string Database_Notes::assignedFile (int identifier)
+string Database_Notes::subscriptions_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "assigned");
+  return filter_url_create_path (note_folder_v1 (identifier), "subscriptions");
 }
 
 
-string Database_Notes::publicFile (int identifier)
+string Database_Notes::assigned_file_v1 (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "public");
+  return filter_url_create_path (note_folder_v1 (identifier), "assigned");
+}
+
+
+string Database_Notes::public_file_v1 (int identifier)
+{
+  return filter_url_create_path (note_folder_v1 (identifier), "public");
 }
 
 
 string Database_Notes::expiryFile (int identifier)
 {
-  return filter_url_create_path (noteFolder (identifier), "expiry");
+  return filter_url_create_path (note_folder_v1 (identifier), "expiry");
 }
 
 
 // This checks whether the note identifier exists.
-bool Database_Notes::identifierExists (int identifier)
+// It works for the old way of storing notes in many files,
+// and for the new way of storing notes in JSON.
+bool Database_Notes::identifier_exists_v12 (int identifier)
 {
-  return file_or_dir_exists (noteFolder (identifier));
+  if (file_or_dir_exists (note_file_v2 (identifier))) return true;
+  if (file_or_dir_exists (note_folder_v1 (identifier))) return true;
+  return false;
 }
 
 
@@ -491,9 +506,9 @@ bool Database_Notes::identifierExists (int identifier)
 void Database_Notes::setIdentifier (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
-  erase (new_identifier);
-  string file = noteFolder (identifier);
-  string newfile = noteFolder (new_identifier);
+  erase_v12 (new_identifier);
+  string file = note_folder_v1 (identifier);
+  string newfile = note_folder_v1 (new_identifier);
   filter_url_mkdir (filter_url_dirname (newfile));
   filter_url_rename (file, newfile);
   
@@ -523,12 +538,14 @@ void Database_Notes::setIdentifier (int identifier, int new_identifier)
 }
 
 
+// Gets new unique note identifier.
+// Works for the old and new storage system.
 int Database_Notes::getNewUniqueIdentifier ()
 {
   int identifier = 0;
   do {
     identifier = filter_string_rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
-  } while (identifierExists (identifier));
+  } while (identifier_exists_v12 (identifier));
   return identifier;
 }
 
@@ -549,7 +566,33 @@ vector <int> Database_Notes::getIdentifiers ()
 string Database_Notes::assembleContents (int identifier, string contents)
 {
   string new_contents;
-  new_contents = getContents (identifier);
+  new_contents = get_contents_v1 (identifier);
+  int time = filter_date_seconds_since_epoch ();
+  string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  
+  new_contents.append ("\n");
+  new_contents.append ("<p>");
+  new_contents.append (user);
+  new_contents.append (" (");
+  new_contents.append (datetime);
+  new_contents.append ("):</p>\n");
+  if (contents == "<br>") contents.clear();
+  vector <string> lines = filter_string_explode (contents, '\n');
+  for (auto line : lines) {
+    line = filter_string_trim (line);
+    new_contents.append ("<p>");
+    new_contents.append (line);
+    new_contents.append ("</p>\n");
+  }
+  return new_contents;
+}
+
+
+string Database_Notes::assembleContentsV2 (int identifier, string contents)
+{
+  string new_contents;
+  new_contents = get_contents_v2 (identifier);
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -577,9 +620,9 @@ string Database_Notes::assembleContents (int identifier, string contents)
 // book, chapter, verse: The note's passage.
 // summary: The note's summary.
 // contents: The note's contents.
-// raw: Import contents as it is. Useful for import from Bibledit-Gtk.
+// raw: Import contents as it is.
 // It returns the identifier of this new note.
-int Database_Notes::storeNewNote (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
   // Create a new identifier.
   int identifier = getNewUniqueIdentifier ();
@@ -603,13 +646,13 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
   if ((contents.empty()) && (summary.empty())) return 0;
   
   // Store the note in the file system.
-  filter_url_mkdir (noteFolder (identifier));
-  filter_url_file_put_contents (bibleFile (identifier), bible);
-  filter_url_file_put_contents (passageFile (identifier), passage);
-  filter_url_file_put_contents (statusFile (identifier), status);
-  filter_url_file_put_contents (severityFile (identifier), convert_to_string (severity));
-  filter_url_file_put_contents (summaryFile (identifier), summary);
-  filter_url_file_put_contents (contentsFile (identifier), contents);
+  filter_url_mkdir (note_folder_v1 (identifier));
+  filter_url_file_put_contents (bible_file_v1 (identifier), bible);
+  filter_url_file_put_contents (passage_file_v1 (identifier), passage);
+  filter_url_file_put_contents (status_file_v1 (identifier), status);
+  filter_url_file_put_contents (severity_file_v1 (identifier), convert_to_string (severity));
+  filter_url_file_put_contents (summary_file_v1 (identifier), summary);
+  filter_url_file_put_contents (contents_file_v1 (identifier), contents);
   
   // Store new default note into the database.
   sqlite3 * db = connect ();
@@ -633,9 +676,83 @@ int Database_Notes::storeNewNote (const string& bible, int book, int chapter, in
   database_sqlite_disconnect (db);
 
   // Updates.
-  updateSearchFields (identifier);
-  noteEditedActions (identifier);
+  update_search_fields_v1 (identifier);
+  note_edited_actions_v1 (identifier);
 
+  // Return this new note´s identifier.
+  return identifier;
+}
+
+
+// Store a new consultation note into the database and in JSON.
+// bible: The notes's Bible.
+// book, chapter, verse: The note's passage.
+// summary: The note's summary.
+// contents: The note's contents.
+// raw: Import contents as it is.
+// It returns the identifier of this new note.
+int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+{
+  // Create a new identifier.
+  int identifier = getNewUniqueIdentifier ();
+  
+  // Passage.
+  string passage = encodePassage (book, chapter, verse);
+  
+  string status = "New";
+  int severity = 2;
+  
+  // If the summary is not given, take the first line of the contents as the summary.
+  if (summary == "") {
+    // The notes editor does not put new lines at each line, but instead <div>s. Handle these also.
+    summary = filter_string_str_replace ("<", "\n", contents);
+    vector <string> bits = filter_string_explode (summary, '\n');
+    if (!bits.empty ()) summary = bits [0];
+  }
+  
+  // Assemble contents.
+  if (!raw) contents = assembleContents (identifier, contents);
+  if ((contents.empty()) && (summary.empty())) return 0;
+  
+  // Store the JSON representation of the note in the file system.
+  string path = note_file_v2 (identifier);
+  string folder = filter_url_dirname (path);
+  filter_url_mkdir (folder);
+  Object note;
+  note << "bible" << bible;
+  note << "passage" << passage;
+  note << "status" << status;
+  note << "severity" << severity;
+  note << "summary" << summary;
+  note << "contents" << contents;
+  string json = note.json ();
+  filter_url_file_put_contents (path, json);
+  
+  // Store new default note into the database.
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
+  sql.add (identifier);
+  sql.add (", 0, '', '',");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (passage);
+  sql.add (",");
+  sql.add (status);
+  sql.add (",");
+  sql.add (severity);
+  sql.add (",");
+  sql.add (summary);
+  sql.add (",");
+  sql.add (contents);
+  sql.add (")");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  
+  // Updates.
+  update_search_fields_v1 (identifier); // Todo update those
+  note_edited_actions_v1 (identifier); // Todo update those.
+  
   // Return this new note´s identifier.
   return identifier;
 }
@@ -828,17 +945,23 @@ vector <int> Database_Notes::selectNotes (vector <string> bibles, int book, int 
 }
 
 
-string Database_Notes::getSummary (int identifier)
+string Database_Notes::get_summary_v1 (int identifier)
 {
-  string file = summaryFile (identifier);
+  string file = summary_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
 
-void Database_Notes::setSummary (int identifier, const string& summary)
+string Database_Notes::get_summary_v2 (int identifier)
+{
+  return getFieldV2 (identifier, "summary");
+}
+
+
+void Database_Notes::set_summary_v1 (int identifier, const string& summary)
 {
   // Store authoritative copy in the filesystem.
-  string file = summaryFile (identifier);
+  string file = summary_file_v1 (identifier);
   filter_url_file_put_contents (file, summary);
   // Update the shadow database.
   SqliteSQL sql;
@@ -851,23 +974,50 @@ void Database_Notes::setSummary (int identifier, const string& summary)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update the search data in the database.
-  updateSearchFields (identifier);
+  update_search_fields_v1 (identifier);
   // Update checksum.
   updateChecksum (identifier);
 }
 
 
-string Database_Notes::getContents (int identifier)
+void Database_Notes::set_summary_v2 (int identifier, string summary)
 {
-  string file = contentsFile (identifier);
+  // Store authoritative copy in the filesystem.
+  set_field_v2 (identifier, "summary", summary);
+  // Update the shadow database.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET summary =");
+  sql.add (summary);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  // Update the search data in the database.
+  update_search_fields_v1 (identifier);
+  // Update checksum.
+  updateChecksum (identifier);
+}
+
+
+string Database_Notes::get_contents_v1 (int identifier)
+{
+  string file = contents_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
 
-void Database_Notes::setContents (int identifier, const string& contents)
+string Database_Notes::get_contents_v2 (int identifier)
+{
+  return getFieldV2 (identifier, "contents");
+}
+
+
+void Database_Notes::set_contents_v1 (int identifier, const string& contents)
 {
   // Store in file system.
-  string file = contentsFile (identifier);
+  string file = contents_file_v1 (identifier);
   filter_url_file_put_contents (file, contents);
   // Update database.
   SqliteSQL sql;
@@ -880,17 +1030,42 @@ void Database_Notes::setContents (int identifier, const string& contents)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update search system.
-  updateSearchFields (identifier);
+  update_search_fields_v1 (identifier);
   // Update checksum.
   updateChecksum (identifier);
 }
 
 
-void Database_Notes::erase (int identifier)
+void Database_Notes::set_contents_v2 (int identifier, const string& contents)
 {
-  // Delete from filesystem.
-  string folder = noteFolder (identifier);
+  // Store in file system.
+  set_field_v2 (identifier, "contents", contents);
+  // Update database.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET contents =");
+  sql.add (contents);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  // Update search system.
+  update_search_fields_v1 (identifier);
+  // Update checksum.
+  updateChecksum (identifier);
+}
+
+
+// Erases a note stored in the old and in the new format.
+void Database_Notes::erase_v12 (int identifier)
+{
+  // Delete old storage from filesystem.
+  string folder = note_folder_v1 (identifier);
   filter_url_rmdir (folder);
+  // Delete new storage from filesystem.
+  string path = note_file_v2 (identifier);
+  filter_url_unlink (path);
   // Update database as well.
   deleteChecksum (identifier);
   SqliteSQL sql;
@@ -904,17 +1079,42 @@ void Database_Notes::erase (int identifier)
 
 
 // Add a comment to an exiting note identified by identifier.
-void Database_Notes::addComment (int identifier, const string& comment)
+void Database_Notes::add_comment_v1 (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
   string contents = assembleContents (identifier, comment);
-  setContents (identifier, contents);
-
+  set_contents_v1 (identifier, contents);
+  
   // Some triggers.
-  noteEditedActions (identifier);
+  note_edited_actions_v1 (identifier);
   unmarkForDeletion (identifier);
+  
+  // Update shadow database.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET contents =");
+  sql.add (contents);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
 
+
+// Add a comment to an exiting note identified by identifier.
+void Database_Notes::add_comment_v2 (int identifier, const string& comment) // Todo
+{
+  // Assemble the new content and store it.
+  // This updates the search database also.
+  string contents = assembleContentsV2 (identifier, comment);
+  set_contents_v2 (identifier, contents);
+  
+  // Some triggers.
+  note_edited_actions_v1 (identifier);
+  unmarkForDeletion (identifier);
+  
   // Update shadow database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET contents =");
@@ -940,18 +1140,18 @@ void Database_Notes::subscribe (int identifier)
 void Database_Notes::subscribeUser (int identifier, const string& user)
 {
   // If the user already is subscribed to the note, bail out.
-  vector <string> subscribers = getSubscribers (identifier);
+  vector <string> subscribers = get_subscribers_v1 (identifier);
   if (find (subscribers.begin(), subscribers.end(), user) != subscribers.end()) return;
   // Subscribe user.
   subscribers.push_back (user);
-  setSubscribers (identifier, subscribers);
+  set_subscribers_v1 (identifier, subscribers);
 }
 
 
 // Returns an array with the subscribers to the note identified by identifier.
-vector <string> Database_Notes::getSubscribers (int identifier)
+vector <string> Database_Notes::get_subscribers_v1 (int identifier)
 {
-  string file = subscriptionsFile (identifier);
+  string file = subscriptions_file_v1 (identifier);
   string contents = filter_url_file_get_contents (file);
   if (contents.empty()) return {};
   vector <string> subscribers = filter_string_explode (contents, '\n');
@@ -962,7 +1162,20 @@ vector <string> Database_Notes::getSubscribers (int identifier)
 }
 
 
-void Database_Notes::setSubscribers (int identifier, vector <string> subscribers)
+// Returns an array with the subscribers to the note identified by identifier.
+vector <string> Database_Notes::get_subscribers_v2 (int identifier)
+{
+  string contents = getFieldV2 (identifier, "subscribers");
+  if (contents.empty()) return {};
+  vector <string> subscribers = filter_string_explode (contents, '\n');
+  for (auto & subscriber : subscribers) {
+    subscriber = filter_string_trim (subscriber);
+  }
+  return subscribers;
+}
+
+
+void Database_Notes::set_subscribers_v1 (int identifier, vector <string> subscribers)
 {
   // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
   for (auto & subscriber : subscribers) {
@@ -972,7 +1185,7 @@ void Database_Notes::setSubscribers (int identifier, vector <string> subscribers
   string subscriberstring = filter_string_implode (subscribers, "\n");
   
   // Store them in the filesystem, and remove the file if there's no data to store.
-  string file = subscriptionsFile (identifier);
+  string file = subscriptions_file_v1 (identifier);
   if (subscriberstring.empty ()) filter_url_unlink (file);
   else filter_url_file_put_contents (file, subscriberstring);
   
@@ -992,31 +1205,87 @@ void Database_Notes::setSubscribers (int identifier, vector <string> subscribers
 }
 
 
-// Returns true if user is subscribed to the note identified by identifier.
-bool Database_Notes::isSubscribed (int identifier, const string& user)
+void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscribers) // Todo test it.
 {
-  vector <string> subscribers = getSubscribers (identifier);
+  // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
+  for (auto & subscriber : subscribers) {
+    subscriber.insert (0, " ");
+    subscriber.append (" ");
+  }
+  string subscriberstring = filter_string_implode (subscribers, "\n");
+  
+  // Store them in the filesystem.
+  set_field_v2 (identifier, "subscribers", subscriberstring);
+  
+  // Store them in the database as well.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET subscriptions =");
+  sql.add (subscriberstring);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  
+  // Checksum.
+  updateChecksum (identifier);
+}
+
+
+// Returns true if user is subscribed to the note identified by identifier.
+bool Database_Notes::is_subscribed_v1 (int identifier, const string& user)
+{
+  vector <string> subscribers = get_subscribers_v1 (identifier);
+  return find (subscribers.begin(), subscribers.end(), user) != subscribers.end();
+}
+
+
+// Returns true if user is subscribed to the note identified by identifier.
+bool Database_Notes::is_subscribed_v2 (int identifier, const string& user)
+{
+  vector <string> subscribers = get_subscribers_v2 (identifier);
   return find (subscribers.begin(), subscribers.end(), user) != subscribers.end();
 }
 
 
 // Unsubscribes the currently logged in user from the note identified by identifier.
-void Database_Notes::unsubscribe (int identifier)
+void Database_Notes::unsubscribe_v1 (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  unsubscribeUser (identifier, user);
+  unsubscribe_user_v1 (identifier, user);
+}
+
+
+// Unsubscribes the currently logged in user from the note identified by identifier.
+void Database_Notes::unsubscribe_v2 (int identifier)
+{
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  unsubscribe_user_v2 (identifier, user);
 }
 
 
 // Unsubscribes user from the note identified by identifier.
-void Database_Notes::unsubscribeUser (int identifier, const string& user)
+void Database_Notes::unsubscribe_user_v1 (int identifier, const string& user)
 {
   // If the user is not subscribed to the note, bail out.
-  vector <string> subscribers = getSubscribers (identifier);
+  vector <string> subscribers = get_subscribers_v1 (identifier);
   if (find (subscribers.begin(), subscribers.end(), user) == subscribers.end()) return;
   // Unsubscribe user.
   subscribers.erase (remove (subscribers.begin(), subscribers.end(), user), subscribers.end());
-  setSubscribers (identifier, subscribers);
+  set_subscribers_v1 (identifier, subscribers);
+}
+
+
+// Unsubscribes user from the note identified by identifier.
+void Database_Notes::unsubscribe_user_v2 (int identifier, const string& user)
+{
+  // If the user is not subscribed to the note, bail out.
+  vector <string> subscribers = get_subscribers_v2 (identifier);
+  if (find (subscribers.begin(), subscribers.end(), user) == subscribers.end()) return;
+  // Unsubscribe user.
+  subscribers.erase (remove (subscribers.begin(), subscribers.end(), user), subscribers.end());
+  set_subscribers_v2 (identifier, subscribers);
 }
 
 
@@ -1058,7 +1327,7 @@ vector <string> Database_Notes::getAllAssignees (const vector <string>& bibles)
 vector <string> Database_Notes::getAssignees (int identifier)
 {
   // Get the asssignees from the filesystem.
-  string file = assignedFile (identifier);
+  string file = assigned_file_v1 (identifier);
   string assignees = filter_url_file_get_contents (file);
   return getAssigneesInternal (assignees);
 }
@@ -1089,7 +1358,7 @@ void Database_Notes::setAssignees (int identifier, vector <string> assignees)
   string assignees_string = filter_string_implode (assignees, "\n");
 
   // Store the assignees in the filesystem, or remove the file if there's no data to store.
-  string file = assignedFile (identifier);
+  string file = assigned_file_v1 (identifier);
   if (assignees_string.empty ()) filter_url_unlink (file);
   else filter_url_file_put_contents (file, assignees_string);
 
@@ -1104,7 +1373,7 @@ void Database_Notes::setAssignees (int identifier, vector <string> assignees)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  noteEditedActions (identifier);
+  note_edited_actions_v1 (identifier);
 }
 
 
@@ -1143,7 +1412,7 @@ void Database_Notes::unassignUser (int identifier, const string& user)
 
 string Database_Notes::getBible (int identifier)
 {
-  string file = bibleFile (identifier);
+  string file = bible_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
@@ -1151,7 +1420,7 @@ string Database_Notes::getBible (int identifier)
 void Database_Notes::setBible (int identifier, const string& bible)
 {
   // Write the bible to the filesystem, or remove the bible in case there's no data to store.
-  string file = bibleFile (identifier);
+  string file = bible_file_v1 (identifier);
   if (bible.empty ()) filter_url_unlink (file);
   else filter_url_file_put_contents (file, bible);
 
@@ -1166,7 +1435,7 @@ void Database_Notes::setBible (int identifier, const string& bible)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 
-  noteEditedActions (identifier);
+  note_edited_actions_v1 (identifier);
 }
 
 
@@ -1226,7 +1495,7 @@ Passage Database_Notes::decodePassage (string passage)
 // Returns the raw passage text of the note identified by identifier.
 string Database_Notes::getRawPassage (int identifier)
 {
-  string file = passageFile (identifier);
+  string file = passage_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
@@ -1262,7 +1531,7 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
   // Store it.
   setRawPassage (identifier, line);
 
-  if (!import) noteEditedActions (identifier);
+  if (!import) note_edited_actions_v1 (identifier);
 }
 
 
@@ -1278,7 +1547,7 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
 void Database_Notes::setRawPassage (int identifier, const string& passage)
 {
   // Store the authoritative copy in the filesystem.
-  string file = passageFile (identifier);
+  string file = passage_file_v1 (identifier);
   filter_url_file_put_contents (file, passage);
   
   // Update the shadow database also.
@@ -1298,7 +1567,7 @@ void Database_Notes::setRawPassage (int identifier, const string& passage)
 // Returns it as a string.
 string Database_Notes::getRawStatus (int identifier)
 {
-  string file = statusFile (identifier);
+  string file = status_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
@@ -1321,10 +1590,10 @@ string Database_Notes::getStatus (int identifier)
 void Database_Notes::setStatus (int identifier, const string& status, bool import)
 {
   // Store the authoritative copy in the filesystem.
-  string file = statusFile (identifier);
+  string file = status_file_v1 (identifier);
   filter_url_file_put_contents (file, status);
 
-  if (!import) noteEditedActions (identifier);
+  if (!import) note_edited_actions_v1 (identifier);
 
   // Store a copy in the database also.
   SqliteSQL sql;
@@ -1378,7 +1647,7 @@ vector <string> Database_Notes::standard_severities ()
 // Returns the severity of a note as a number.
 int Database_Notes::getRawSeverity (int identifier)
 {
-  string file = severityFile (identifier);
+  string file = severity_file_v1 (identifier);
   string severity = filter_url_file_get_contents (file);
   if (severity.empty ()) return 2;
   return convert_to_int (severity);
@@ -1403,10 +1672,10 @@ string Database_Notes::getSeverity (int identifier)
 void Database_Notes::setRawSeverity (int identifier, int severity)
 {
   // Update the file system.
-  string file = severityFile (identifier);
+  string file = severity_file_v1 (identifier);
   filter_url_file_put_contents (file, convert_to_string (severity));
   
-  noteEditedActions (identifier);
+  note_edited_actions_v1 (identifier);
   
   // Update the database also.
   SqliteSQL sql;
@@ -1438,17 +1707,17 @@ vector <Database_Notes_Text> Database_Notes::getPossibleSeverities ()
 
 int Database_Notes::getModified (int identifier)
 {
-  string file = modifiedFile (identifier);
+  string file = modified_file_v1 (identifier);
   string modified = filter_url_file_get_contents (file);
   if (modified.empty ()) return 0;
   return convert_to_int (modified);
 }
 
 
-void Database_Notes::setModified (int identifier, int time)
+void Database_Notes::set_modified_v1 (int identifier, int time) // Todo update
 {
   // Update the filesystem.
-  string file = modifiedFile (identifier);
+  string file = modified_file_v1 (identifier);
   filter_url_file_put_contents (file, convert_to_string (time));
   // Update the database.
   SqliteSQL sql;
@@ -1465,16 +1734,35 @@ void Database_Notes::setModified (int identifier, int time)
 }
 
 
+void Database_Notes::set_modified_v2 (int identifier, int time) // Todo update
+{
+  // Update the filesystem.
+  set_field_v2 (identifier, "modified", convert_to_string (time));
+  // Update the database.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET modified =");
+  sql.add (time);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  // Update checksum.
+  updateChecksum (identifier); // Todo update this.
+}
+
+
 bool Database_Notes::getPublic (int identifier)
 {
-  string file = publicFile (identifier);
+  string file = public_file_v1 (identifier);
   return file_or_dir_exists (file);
 }
 
 
 void Database_Notes::setPublic (int identifier, bool value)
 {
-  string file = publicFile (identifier);
+  string file = public_file_v1 (identifier);
   if (value) {
     filter_url_file_put_contents (file, "");
   } else {
@@ -1484,10 +1772,18 @@ void Database_Notes::setPublic (int identifier, bool value)
 
 
 // Takes actions when a note has been edited.
-void Database_Notes::noteEditedActions (int identifier)
+void Database_Notes::note_edited_actions_v1 (int identifier)
 {
   // Update 'modified' field.
-  setModified (identifier, filter_date_seconds_since_epoch());
+  set_modified_v1 (identifier, filter_date_seconds_since_epoch());
+}
+
+
+// Takes actions when a note has been edited.
+void Database_Notes::note_edited_actions_v2 (int identifier) // Todo test it.
+{
+  // Update 'modified' field.
+  set_modified_v1 (identifier, filter_date_seconds_since_epoch()); // Todo update
 }
 
 
@@ -1513,12 +1809,34 @@ vector <int> Database_Notes::selectDuplicateNotes (const string& rawpassage, con
 }
 
 
-void Database_Notes::updateSearchFields (int identifier)
+void Database_Notes::update_search_fields_v1 (int identifier)
 {
   // The search field is a combination of the summary and content converted to clean text.
   // It enables us to search with wildcards before and after the search query.
-  string noteSummary = getSummary (identifier);
-  string noteContents = getContents (identifier);
+  string noteSummary = get_summary_v1 (identifier);
+  string noteContents = get_contents_v1 (identifier);
+  string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
+  // Bail out if the search field is already up to date.
+  if (cleanText == getSearchField (identifier)) return;
+  // Update the field.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET cleantext =");
+  sql.add (cleanText);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
+void Database_Notes::update_search_fields_v2 (int identifier) // Todo test it.
+{
+  // The search field is a combination of the summary and content converted to clean text.
+  // It enables us to search with wildcards before and after the search query.
+  string noteSummary = get_summary_v2 (identifier);
+  string noteContents = get_contents_v2 (identifier);
   string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
   if (cleanText == getSearchField (identifier)) return;
@@ -1718,23 +2036,23 @@ void Database_Notes::updateChecksum (int identifier)
   // Read the raw data from disk to speed up checksumming.
   string checksum;
   checksum.append ("modified");
-  checksum.append (filter_url_file_get_contents (modifiedFile (identifier)));
+  checksum.append (filter_url_file_get_contents (modified_file_v1 (identifier)));
   checksum.append ("assignees");
-  checksum.append (filter_url_file_get_contents (assignedFile (identifier)));
+  checksum.append (filter_url_file_get_contents (assigned_file_v1 (identifier)));
   checksum.append ("subscribers");
-  checksum.append (filter_url_file_get_contents (subscriptionsFile (identifier)));
+  checksum.append (filter_url_file_get_contents (subscriptions_file_v1 (identifier)));
   checksum.append ("bible");
-  checksum.append (filter_url_file_get_contents (bibleFile (identifier)));
+  checksum.append (filter_url_file_get_contents (bible_file_v1 (identifier)));
   checksum.append ("passages");
-  checksum.append (filter_url_file_get_contents (passageFile (identifier)));
+  checksum.append (filter_url_file_get_contents (passage_file_v1 (identifier)));
   checksum.append ("status");
-  checksum.append (filter_url_file_get_contents (statusFile (identifier)));
+  checksum.append (filter_url_file_get_contents (status_file_v1 (identifier)));
   checksum.append ("severity");
-  checksum.append (filter_url_file_get_contents (severityFile (identifier)));
+  checksum.append (filter_url_file_get_contents (severity_file_v1 (identifier)));
   checksum.append ("summary");
-  checksum.append (filter_url_file_get_contents (summaryFile (identifier)));
+  checksum.append (filter_url_file_get_contents (summary_file_v1 (identifier)));
   checksum.append ("contents");
-  checksum.append (filter_url_file_get_contents (contentsFile (identifier)));
+  checksum.append (filter_url_file_get_contents (contents_file_v1 (identifier)));
   checksum = md5 (checksum);
   setChecksum (identifier, checksum);
 }
@@ -1877,20 +2195,20 @@ string Database_Notes::getBulk (vector <int> identifiers)
     // JSON object for the note.
     Object note;
     // Add all the fields of the note.
-    string assigned = filter_url_file_get_contents (assignedFile (identifier));
+    string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));
     note << "a" << assigned;
     string bible = getBible (identifier);
     note << "b" << bible;
-    string contents = getContents (identifier);
+    string contents = get_contents_v1 (identifier);
     note << "c" << contents;
     note << "i" << identifier;
     int modified = getModified (identifier);
     note << "m" << modified;
     string passage = getRawPassage (identifier);
     note << "p" << passage;
-    string subscriptions = filter_url_file_get_contents (subscriptionsFile (identifier));
+    string subscriptions = filter_url_file_get_contents (subscriptions_file_v1 (identifier));
     note << "sb" << subscriptions;
-    string summary = getSummary (identifier);
+    string summary = get_summary_v1 (identifier);
     note << "sm" << summary;
     string status = getRawStatus (identifier);
     note << "st" << status;
@@ -1931,23 +2249,49 @@ vector <string> Database_Notes::setBulk (string json)
     int severity = note.get<Number> ("sv");
 
     // Store the note in the filesystem.
-    filter_url_mkdir (noteFolder (identifier));
-    filter_url_file_put_contents (assignedFile (identifier), assigned);
-    filter_url_file_put_contents (bibleFile (identifier), bible);
-    filter_url_file_put_contents (contentsFile (identifier), contents);
-    filter_url_file_put_contents (modifiedFile (identifier), convert_to_string (modified));
-    filter_url_file_put_contents (passageFile (identifier), passage);
-    filter_url_file_put_contents (severityFile (identifier), convert_to_string (severity));
-    filter_url_file_put_contents (statusFile (identifier), status);
-    filter_url_file_put_contents (subscriptionsFile (identifier), subscriptions);
-    filter_url_file_put_contents (summaryFile (identifier), summary);
+    filter_url_mkdir (note_folder_v1 (identifier));
+    filter_url_file_put_contents (assigned_file_v1 (identifier), assigned);
+    filter_url_file_put_contents (bible_file_v1 (identifier), bible);
+    filter_url_file_put_contents (contents_file_v1 (identifier), contents);
+    filter_url_file_put_contents (modified_file_v1 (identifier), convert_to_string (modified));
+    filter_url_file_put_contents (passage_file_v1 (identifier), passage);
+    filter_url_file_put_contents (severity_file_v1 (identifier), convert_to_string (severity));
+    filter_url_file_put_contents (status_file_v1 (identifier), status);
+    filter_url_file_put_contents (subscriptions_file_v1 (identifier), subscriptions);
+    filter_url_file_put_contents (summary_file_v1 (identifier), summary);
 
     // Update the indexes.
     updateDatabase (identifier);
-    updateSearchFields (identifier);
+    update_search_fields_v1 (identifier);
     updateChecksum (identifier);
   }
   
   // Container with all the summaries of the notes that were stored.
   return summaries;
+}
+
+
+// Gets a field from a note in JSON format.
+string Database_Notes::getFieldV2 (int identifier, string key)
+{
+  string file = note_file_v2 (identifier);
+  string json = filter_url_file_get_contents (file);
+  Object note;
+  note.parse (json);
+  string value;
+  if (note.has<String> (key)) value = note.get<String> (key);
+  return value;
+}
+
+
+// Sets a field in a note in JSON format.
+void Database_Notes::set_field_v2 (int identifier, string key, string value)
+{
+  string file = note_file_v2 (identifier);
+  string json = filter_url_file_get_contents (file);
+  Object note;
+  note.parse (json);
+  note << key << value;
+  json = note.json ();
+  filter_url_file_put_contents (file, json);
 }

@@ -69,10 +69,10 @@ string public_note (void * webserver_request)
   
   
   if (database_notes.getPublic (id)) {
-    string summary = database_notes.getSummary (id);
+    string summary = database_notes.get_summary_v1 (id);
     view.set_variable ("summary", summary);
 
-    string content = database_notes.getContents (id);
+    string content = database_notes.get_contents_v1 (id);
     view.set_variable ("content", content);
   }
 

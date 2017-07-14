@@ -781,13 +781,25 @@ msgstr ""
 msgid "It is unclear which data to copy to where"
 msgstr ""
 
+msgid "Reading"
+msgstr ""
+
 msgid "Read access to the repository is successful."
 msgstr ""
 
 msgid "Read access failed."
 msgstr ""
 
+msgid "Cloning"
+msgstr ""
+
+msgid "Configuring"
+msgstr ""
+
 msgid "Configure copied data"
+msgstr ""
+
+msgid "Writing"
 msgstr ""
 
 msgid "A file was added to the data successfully."
@@ -796,19 +808,31 @@ msgstr ""
 msgid "Failure adding a file to the data."
 msgstr ""
 
+msgid "Committing"
+msgstr ""
+
 msgid "The file was committed successfully."
 msgstr ""
 
 msgid "Failure committing the file."
 msgstr ""
 
+msgid "Pulling"
+msgstr ""
+
 msgid "Changes were pulled from the repository successfully."
+msgstr ""
+
+msgid "Pushing"
 msgstr ""
 
 msgid "Changes were pushed to the repository successfully."
 msgstr ""
 
 msgid "Pushing changes to the repository failed."
+msgstr ""
+
+msgid "Cleaning"
 msgstr ""
 
 msgid "The temporal file was removed from the data successfully."
@@ -824,6 +848,9 @@ msgid "Failure committing the removed temporal file."
 msgstr ""
 
 msgid "The changes were pushed to the repository successfully."
+msgstr ""
+
+msgid "Copying"
 msgstr ""
 
 msgid "Copying the data from the repository and storing it in Bibledit."
@@ -848,6 +875,9 @@ msgid "The local Bible data was pushed to the repository successfully."
 msgstr ""
 
 msgid "Pushing the local Bible data to the repository failed."
+msgstr ""
+
+msgid "Syncing"
 msgstr ""
 
 msgid "Link repository"
@@ -7223,9 +7253,6 @@ msgstr ""
 msgid "Backup can be safely done during that time."
 msgstr ""
 
-msgid "Syncing"
-msgstr ""
-
 msgid "If syncing no longer works, check the Journal for clues."
 msgstr ""
 
@@ -7275,6 +7302,28 @@ msgid "Go to Font and text direction."
 msgstr ""
 
 msgid "Make the settings."
+msgstr ""
+
+msgid "Restore a Bible from a git repository"
+msgstr ""
+
+msgid ""
+"A Bible that has been backed up to a git repository, can also be restored "
+"again from that repository."
+msgstr ""
+
+msgid ""
+"While linking this Bible to that repository afresh, take the Bible data from "
+"that repository."
+msgstr ""
+
+msgid "That will restore the Bible."
+msgstr ""
+
+msgid ""
+"When there is a need to restore the Bible to an older commit in the "
+"repository, copy the data from that older commit to the master branch, "
+"commit it, then link this Bible afresh."
 msgstr ""
 
 msgid "Typesetting Bibles"
@@ -9337,6 +9386,12 @@ msgid "The permitted difference can be set below as a percentage."
 msgstr ""
 
 msgid "Maximum difference for:"
+msgstr ""
+
+msgid "Chapter editors:"
+msgstr ""
+
+msgid "Verse editor:"
 msgstr ""
 
 msgid "Keep main menu always visible"

@@ -105,7 +105,7 @@ string notes_notes (void * webserver_request)
   string notesblock;
   for (auto & identifier : identifiers) {
 
-    string summary = database_notes.getSummary (identifier);
+    string summary = database_notes.get_summary_v1 (identifier);
     vector <Passage> passages = database_notes.getPassages (identifier);
     string verses = filter_passage_display_inline (passages);
     // A simple way to make it easier to see the individual notes in the list,
@@ -125,7 +125,7 @@ string notes_notes (void * webserver_request)
     
     string content;
     if (text_inclusion_selector) {
-      content = database_notes.getContents (identifier);
+      content = database_notes.get_contents_v1 (identifier);
     }
     
     notesblock.append ("<a name=\"note" + convert_to_string (identifier) + "\"></a>\n");

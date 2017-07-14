@@ -38,8 +38,8 @@ public:
   static const int notifyMarkNoteForDeletion = 4;
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void setContent (int identifier, const string& content);
-  void addComment (int identifier, const string& comment);
-  void setSummary (int identifier, const string& summary);
+  void add_comment_v1 (int identifier, const string& comment);
+  void set_summary_v1 (int identifier, const string& summary);
   void subscribe (int identifier);
   void unsubscribe (int identifier);
   void assignUser (int identifier, const string& user);
@@ -51,7 +51,8 @@ public:
   void markForDeletion (int identifier);
   void unmarkForDeletion (int identifier);
   void erase (int identifier);
-  void handlerNewNote (int identifier);
+  void handler_new_note_v1 (int identifier);
+  void handler_new_note_v2 (int identifier);
   void handlerAddComment (int identifier);
   void handlerAssignNote (int identifier, const string& user);
   void handlerMarkNoteForDeletion (int identifier);
@@ -61,7 +62,8 @@ public:
   string generalBibleName ();
 private:
   void * webserver_request;
-  void notifyUsers (int identifier, int notification);
+  void notify_users_v1 (int identifier, int notification);
+  void notify_users_v2 (int identifier, int notification);
   void emailUsers (int identifier, const string& label, const vector <string> & users, bool postpone);
 };
 

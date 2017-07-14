@@ -64,13 +64,13 @@ string notes_summary (void * webserver_request)
   
   if (request->post.count ("submit")) {
     string summary = request->post["entry"];
-    notes_logic.setSummary (id, summary);
+    notes_logic.set_summary_v1 (id, summary);
     redirect_browser (request, notes_note_url () + "?id=" + convert_to_string (id));
     return "";
   }
   
   
-  string summary = database_notes.getSummary (id);
+  string summary = database_notes.get_summary_v1 (id);
   view.set_variable ("summary", filter_string_sanitize_html (summary));
 
   

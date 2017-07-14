@@ -156,7 +156,7 @@ bool sendreceive_notes_upload ()
   for (auto identifier : notes) {
     
 
-    string summary = database_notes.getSummary (identifier);
+    string summary = database_notes.get_summary_v1 (identifier);
     if (summary.empty ()) summary = "<deleted>";
     Database_Logs::log (sendreceive_notes_text () + translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
     
@@ -187,7 +187,7 @@ bool sendreceive_notes_upload ()
         case Sync_Logic::notes_put_create_complete: break;
         case Sync_Logic::notes_put_summary:
         {
-          content = database_notes.getSummary (identifier);
+          content = database_notes.get_summary_v1 (identifier);
           break;
         }
         case Sync_Logic::notes_put_contents: break;
@@ -290,20 +290,20 @@ bool sendreceive_notes_upload ()
       response = sync_logic.post (post, url, error);
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
-          if (response != database_notes.getContents (identifier)) {
-            database_notes.setContents (identifier, response);
+          if (response != database_notes.get_contents_v1 (identifier)) {
+            database_notes.set_contents_v1 (identifier, response);
           }
         }
         if (action == Sync_Logic::notes_get_subscribers) {
           vector <string> subscribers = filter_string_explode (response, '\n');
-          database_notes.setSubscribers (identifier, subscribers);
+          database_notes.set_subscribers_v1 (identifier, subscribers);
         }
         if (action == Sync_Logic::notes_get_assignees) {
           vector <string> assignees = filter_string_explode (response, '\n');
           database_notes.setAssignees (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
-          database_notes.setModified (identifier, convert_to_int (response));
+          database_notes.set_modified_v1 (identifier, convert_to_int (response));
         }
       }
     }
@@ -349,8 +349,8 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   // Check for the health of the notes databases and take action if needed.
   bool healthy = true;
-  if (!database_notes.healthy ()) healthy = false;
-  if (!database_notes.checksums_healthy ()) healthy = false;
+  if (!database_notes.healthy_v12 ()) healthy = false;
+  if (!database_notes.checksums_healthy_v12 ()) healthy = false;
   if (!healthy) {
     Database_Logs::log (sendreceive_notes_text () + "Abort receive just now because of database problems", Filter_Roles::translator ());
     return false;
@@ -468,8 +468,8 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Therefore limit the number of notes a client can delete in one go.
     delete_counter++;
     if (delete_counter > 15) continue;
-    string summary = database_notes.getSummary (identifier);
-    database_notes.erase (identifier);
+    string summary = database_notes.get_summary_v1 (identifier);
+    database_notes.erase_v12 (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());
   }
   

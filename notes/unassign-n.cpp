@@ -63,7 +63,7 @@ string notes_unassign_n (void * webserver_request)
   // the currently logged-in user has access to, and who have notes assigned.
   string userblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
-  vector <string> users = database_notes.getAllAssignees (bibles);
+  vector <string> users = database_notes.get_all_assignees_v12 (bibles);
   for (auto & user : users) {
     userblock.append ("<li><a href=\"bulk?unassign=" + user + "\">" + user + "</a></li>\n");
   }

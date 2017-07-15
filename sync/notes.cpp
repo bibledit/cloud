@@ -155,7 +155,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_assignees:
     {
-      vector <string> assignees = database_notes.getAssignees (identifier);
+      vector <string> assignees = database_notes.get_assignees_v1 (identifier);
       return filter_string_implode (assignees, "\n");
     }
     case Sync_Logic::notes_get_status:
@@ -233,7 +233,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_subscribe:
     {
       // Subscribe to the note on the server.
-      database_notes.subscribeUser (identifier, user);
+      database_notes.subscribe_user_v1 (identifier, user);
       // Info.
       Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary_v1 (identifier), Filter_Roles::manager ());
       // Done.
@@ -251,7 +251,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_assign:
     {
       // Assign user to the note on the server.
-      notes_logic.assignUser (identifier, content);
+      notes_logic.assign_user_v1 (identifier, content);
       // Info
       Database_Logs::log ("Client assigned the note to a user on server: " + database_notes.get_summary_v1 (identifier), Filter_Roles::manager ());
       // Notifications.
@@ -262,7 +262,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_unassign:
     {
       // Unassign the user from the note on the server.
-      notes_logic.unassignUser (identifier, content);
+      notes_logic.unassign_user_v1 (identifier, content);
       // Info.
       Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.get_summary_v1 (identifier), Filter_Roles::manager ());
       // Done.

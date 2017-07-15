@@ -42,8 +42,8 @@ public:
   void set_summary_v1 (int identifier, const string& summary);
   void subscribe (int identifier);
   void unsubscribe (int identifier);
-  void assignUser (int identifier, const string& user);
-  void unassignUser (int identifier, const string& user);
+  void assign_user_v1 (int identifier, const string& user);
+  void unassign_user_v1 (int identifier, const string& user);
   void setStatus (int identifier, const string& status);
   void setPassages (int identifier, const vector <Passage> & passages);
   void setRawSeverity (int identifier, int severity);

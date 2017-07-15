@@ -339,15 +339,14 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v1 (identifier, "phpunit_phpunit"));
     database_notes.unsubscribe_v1 (identifier);
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v1 (identifier, "unittest"));
-    database_notes.subscribeUser (identifier, "phpunit_phpunit_phpunit");
+    database_notes.subscribe_user_v1 (identifier, "phpunit_phpunit_phpunit");
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v1 (identifier, "phpunit_phpunit_phpunit"));
     database_notes.unsubscribe_user_v1 (identifier, "phpunit_phpunit_phpunit");
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v1 (identifier, "phpunit_phpunit_phpunit"));
   }
 
-  // Test subscriptions for the new JSON notes storage. Todo it's messy.
+  // Test subscriptions for the new JSON notes storage. Todo working here.
   {
-    /*
     refresh_sandbox (true);
     Database_State::create ();
     Database_Login::create ();
@@ -372,20 +371,40 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.store_new_note_v2 ("", 1, 1, 1, "Summary", "Contents", false);
-    notes_logic.handler_new_note_v1 (identifier); // Todo
+    notes_logic.handler_new_note_v2 (identifier); // Todo
     subscribers = database_notes.get_subscribers_v2 (identifier);
-    evaluate (__LINE__, __func__, {"unittest"}, subscribers);
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest")); // Todo
+    // Todo fix evaluate (__LINE__, __func__, {"unittest"}, subscribers);
+    // Todo fix evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest"));
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     // Test various other subscription related functions.
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest_unittest")); // Todo
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest_unittest"));
     database_notes.unsubscribe_v2 (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest")); // Todo
-    database_notes.subscribeUser (identifier, "unittest_unittest_unittest");
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest_unittest_unittest")); // Todo
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest"));
+    database_notes.subscribe_user_v1 (identifier, "unittest_unittest_unittest");
+    // Todo fix evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest_unittest_unittest")); 
     database_notes.unsubscribe_user_v1 (identifier, "unittest_unittest_unittest");
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest_unittest_unittest")); // Todo
-     */
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest_unittest_unittest"));
+    
+    // With the username still set, test the plan subscribe and unsubscribe mechanisms.
+    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
+    identifier = database_notes.store_new_note_v2 ("", 1, 1, 1, "Summary", "Contents", false);
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest"));
+    database_notes.subscribe_v2 (identifier);
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest"));
+    database_notes.unsubscribe_v2 (identifier);
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest"));
+    
+    // Test subscribing and unsubscribing other users.
+    database_notes.subscribe_user_v2 (identifier, "a");
+    database_notes.subscribe_user_v2 (identifier, "b");
+    subscribers = database_notes.get_subscribers_v2 (identifier);
+    evaluate (__LINE__, __func__, {"a", "b"}, subscribers);
+    database_notes.unsubscribe_user_v2 (identifier, "a");
+    subscribers = database_notes.get_subscribers_v2 (identifier);
+    evaluate (__LINE__, __func__, {"b"}, subscribers);
+    database_notes.set_subscribers_v2 (identifier, {"aa", "bb"});
+    subscribers = database_notes.get_subscribers_v2 (identifier);
+    evaluate (__LINE__, __func__, {"aa", "bb"}, subscribers);
   }
   
   // Assignments ()
@@ -405,39 +424,39 @@ void test_database_notes ()
     
     // Create a note and check that it was not assigned to anybody.
     int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> assignees = database_notes.getAssignees (identifier);
+    vector <string> assignees = database_notes.get_assignees_v1 (identifier);
     evaluate (__LINE__, __func__, {}, assignees);
     
     // Assign the note to a user, and check that this reflects in the list of assignees.
-    database_notes.assignUser (identifier, "unittest");
-    assignees = database_notes.getAssignees (identifier);
+    database_notes.assign_user_v1 (identifier, "unittest");
+    assignees = database_notes.get_assignees_v1 (identifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
-    // Test the setAssignees function.
-    database_notes.setAssignees (identifier, {"unittest"});
-    assignees = database_notes.getAssignees (identifier);
+    // Test the set_assignees_v1 function.
+    database_notes.set_assignees_v1 (identifier, {"unittest"});
+    assignees = database_notes.get_assignees_v1 (identifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
-    database_notes.assignUser (identifier, "unittest2");
-    assignees = database_notes.getAssignees (identifier);
+    database_notes.assign_user_v1 (identifier, "unittest2");
+    assignees = database_notes.get_assignees_v1 (identifier);
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
     
-    // Based on the above, check the isAssigned function.
-    evaluate (__LINE__, __func__, true, database_notes.isAssigned (identifier, "unittest"));
-    evaluate (__LINE__, __func__, true, database_notes.isAssigned (identifier, "unittest2"));
-    evaluate (__LINE__, __func__, false, database_notes.isAssigned (identifier, "PHPUnit3"));
+    // Based on the above, check the is_assigned_v1 function.
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v1 (identifier, "unittest"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v1 (identifier, "unittest2"));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v1 (identifier, "PHPUnit3"));
     
-    // Based on the above, test getAllAssignees().
-    assignees = database_notes.getAllAssignees ({""});
+    // Based on the above, test get_all_assignees_v12().
+    assignees = database_notes.get_all_assignees_v12 ({""});
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
     
-    // Based on the above, test the unassignUser function.
-    database_notes.unassignUser (identifier, "unittest");
-    assignees = database_notes.getAssignees (identifier);
+    // Based on the above, test the unassign_user_v1 function.
+    database_notes.unassign_user_v1 (identifier, "unittest");
+    assignees = database_notes.get_assignees_v1 (identifier);
     evaluate (__LINE__, __func__, {"unittest2"}, assignees);
-    database_notes.unassignUser (identifier, "unittest2");
-    assignees = database_notes.getAssignees (identifier);
+    database_notes.unassign_user_v1 (identifier, "unittest2");
+    assignees = database_notes.get_assignees_v1 (identifier);
     evaluate (__LINE__, __func__, {}, assignees);
   }
   // Bible

@@ -954,7 +954,7 @@ string Database_Notes::get_summary_v1 (int identifier)
 
 string Database_Notes::get_summary_v2 (int identifier)
 {
-  return getFieldV2 (identifier, "summary");
+  return get_field_v2 (identifier, summary_key_v2 ());
 }
 
 
@@ -983,7 +983,7 @@ void Database_Notes::set_summary_v1 (int identifier, const string& summary)
 void Database_Notes::set_summary_v2 (int identifier, string summary)
 {
   // Store authoritative copy in the filesystem.
-  set_field_v2 (identifier, "summary", summary);
+  set_field_v2 (identifier, summary_key_v2 (), summary);
   // Update the shadow database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET summary =");
@@ -1010,7 +1010,7 @@ string Database_Notes::get_contents_v1 (int identifier)
 
 string Database_Notes::get_contents_v2 (int identifier)
 {
-  return getFieldV2 (identifier, "contents");
+  return get_field_v2 (identifier, contents_key_v2 ());
 }
 
 
@@ -1039,7 +1039,7 @@ void Database_Notes::set_contents_v1 (int identifier, const string& contents)
 void Database_Notes::set_contents_v2 (int identifier, const string& contents)
 {
   // Store in file system.
-  set_field_v2 (identifier, "contents", contents);
+  set_field_v2 (identifier, contents_key_v2 (), contents);
   // Update database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET contents =");
@@ -1129,15 +1129,23 @@ void Database_Notes::add_comment_v2 (int identifier, const string& comment) // T
 
 
 // Subscribe the current user to the note identified by identifier.
-void Database_Notes::subscribe (int identifier)
+void Database_Notes::subscribe_v1 (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  subscribeUser (identifier, user);
+  subscribe_user_v1 (identifier, user);
+}
+
+
+// Subscribe the current user to the note identified by identifier.
+void Database_Notes::subscribe_v2 (int identifier)
+{
+  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  subscribe_user_v2 (identifier, user);
 }
 
 
 // Subscribe the user to the note identified by identifier.
-void Database_Notes::subscribeUser (int identifier, const string& user)
+void Database_Notes::subscribe_user_v1 (int identifier, const string& user)
 {
   // If the user already is subscribed to the note, bail out.
   vector <string> subscribers = get_subscribers_v1 (identifier);
@@ -1145,6 +1153,18 @@ void Database_Notes::subscribeUser (int identifier, const string& user)
   // Subscribe user.
   subscribers.push_back (user);
   set_subscribers_v1 (identifier, subscribers);
+}
+
+
+// Subscribe the user to the note identified by identifier.
+void Database_Notes::subscribe_user_v2 (int identifier, const string& user)
+{
+  // If the user already is subscribed to the note, bail out.
+  vector <string> subscribers = get_subscribers_v2 (identifier);
+  if (find (subscribers.begin(), subscribers.end(), user) != subscribers.end()) return;
+  // Subscribe user.
+  subscribers.push_back (user);
+  set_subscribers_v2 (identifier, subscribers);
 }
 
 
@@ -1165,7 +1185,7 @@ vector <string> Database_Notes::get_subscribers_v1 (int identifier)
 // Returns an array with the subscribers to the note identified by identifier.
 vector <string> Database_Notes::get_subscribers_v2 (int identifier)
 {
-  string contents = getFieldV2 (identifier, "subscribers");
+  string contents = get_field_v2 (identifier, subscriptions_key_v2 ());
   if (contents.empty()) return {};
   vector <string> subscribers = filter_string_explode (contents, '\n');
   for (auto & subscriber : subscribers) {
@@ -1215,7 +1235,7 @@ void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscri
   string subscriberstring = filter_string_implode (subscribers, "\n");
   
   // Store them in the filesystem.
-  set_field_v2 (identifier, "subscribers", subscriberstring);
+  set_field_v2 (identifier, subscriptions_key_v2 (), subscriberstring);
   
   // Store them in the database as well.
   SqliteSQL sql;
@@ -1296,7 +1316,7 @@ void Database_Notes::unsubscribe_user_v2 (int identifier, const string& user)
 // But as retrieving the assignees from the file system would be slow, 
 // this function retrieves them from the database.
 // Normally the database is in sync with the filesystem.
-vector <string> Database_Notes::getAllAssignees (const vector <string>& bibles)
+vector <string> Database_Notes::get_all_assignees_v12 (const vector <string>& bibles)
 {
   set <string> unique_assignees;
   SqliteSQL sql;
@@ -1324,16 +1344,26 @@ vector <string> Database_Notes::getAllAssignees (const vector <string>& bibles)
 
 
 // Returns an array with the assignees to the note identified by identifier.
-vector <string> Database_Notes::getAssignees (int identifier)
+vector <string> Database_Notes::get_assignees_v1 (int identifier)
 {
   // Get the asssignees from the filesystem.
   string file = assigned_file_v1 (identifier);
   string assignees = filter_url_file_get_contents (file);
-  return getAssigneesInternal (assignees);
+  return get_assignees_internal_v12 (assignees);
 }
 
 
-vector <string> Database_Notes::getAssigneesInternal (string assignees)
+// Returns an array with the assignees to the note identified by identifier.
+vector <string> Database_Notes::get_assignees_v2 (int identifier) // Todo write and test.
+{
+  // Get the asssignees from the filesystem.
+  string file = assigned_file_v1 (identifier);
+  string assignees = filter_url_file_get_contents (file);
+  return get_assignees_internal_v12 (assignees);
+}
+
+
+vector <string> Database_Notes::get_assignees_internal_v12 (string assignees)
 {
   if (assignees.empty ()) return {};
   vector <string> assignees_vector = filter_string_explode (assignees, '\n');
@@ -1348,7 +1378,7 @@ vector <string> Database_Notes::getAssigneesInternal (string assignees)
 // Sets the note's assignees.
 // identifier : note identifier.
 // assignees : array of user names.
-void Database_Notes::setAssignees (int identifier, vector <string> assignees)
+void Database_Notes::set_assignees_v1 (int identifier, vector <string> assignees)
 {
   // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
   for (auto & assignee : assignees) {
@@ -1356,12 +1386,44 @@ void Database_Notes::setAssignees (int identifier, vector <string> assignees)
     assignee.append (" ");
   }
   string assignees_string = filter_string_implode (assignees, "\n");
-
+  
   // Store the assignees in the filesystem, or remove the file if there's no data to store.
   string file = assigned_file_v1 (identifier);
   if (assignees_string.empty ()) filter_url_unlink (file);
   else filter_url_file_put_contents (file, assignees_string);
+  
+  // Store the assignees in the database also.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET assigned =");
+  sql.add (assignees_string);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  
+  note_edited_actions_v1 (identifier);
+}
 
+
+// Sets the note's assignees.
+// identifier : note identifier.
+// assignees : array of user names.
+void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees) // Todo write and test.
+{
+  // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
+  for (auto & assignee : assignees) {
+    assignee.insert (0, " ");
+    assignee.append (" ");
+  }
+  string assignees_string = filter_string_implode (assignees, "\n");
+  
+  // Store the assignees in the filesystem, or remove the file if there's no data to store.
+  string file = assigned_file_v1 (identifier);
+  if (assignees_string.empty ()) filter_url_unlink (file);
+  else filter_url_file_put_contents (file, assignees_string);
+  
   // Store the assignees in the database also.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET assigned =");
@@ -1378,35 +1440,68 @@ void Database_Notes::setAssignees (int identifier, vector <string> assignees)
 
 
 // Assign the note identified by identifier to user.
-void Database_Notes::assignUser (int identifier, const string& user)
+void Database_Notes::assign_user_v1 (int identifier, const string& user)
 {
   // If the note already is assigned to the user, bail out.
-  vector <string> assignees = getAssignees (identifier);
+  vector <string> assignees = get_assignees_v1 (identifier);
   if (find (assignees.begin (), assignees.end(), user) != assignees.end()) return;
   // Assign the note to the user.
   assignees.push_back (user);
   // Store the whole lot.
-  setAssignees (identifier, assignees);
+  set_assignees_v1 (identifier, assignees);
+}
+
+
+// Assign the note identified by identifier to user.
+void Database_Notes::assign_user_v2 (int identifier, const string& user) // Todo write and check.
+{
+  // If the note already is assigned to the user, bail out.
+  vector <string> assignees = get_assignees_v1 (identifier);
+  if (find (assignees.begin (), assignees.end(), user) != assignees.end()) return;
+  // Assign the note to the user.
+  assignees.push_back (user);
+  // Store the whole lot.
+  set_assignees_v1 (identifier, assignees);
 }
 
 
 // Returns true if the note identified by identifier has been assigned to user.
-bool Database_Notes::isAssigned (int identifier, const string& user)
+bool Database_Notes::is_assigned_v1 (int identifier, const string& user)
 {
-  vector <string> assignees = getAssignees (identifier);
+  vector <string> assignees = get_assignees_v1 (identifier);
+  return find (assignees.begin(), assignees.end(), user) != assignees.end();
+}
+
+
+// Returns true if the note identified by identifier has been assigned to user.
+bool Database_Notes::is_assigned_v2 (int identifier, const string& user) // Todo write and check.
+{
+  vector <string> assignees = get_assignees_v1 (identifier);
   return find (assignees.begin(), assignees.end(), user) != assignees.end();
 }
 
 
 // Unassigns user from the note identified by identifier.
-void Database_Notes::unassignUser (int identifier, const string& user)
+void Database_Notes::unassign_user_v1 (int identifier, const string& user)
 {
   // If the note is not assigned to the user, bail out.
-  vector <string> assignees = getAssignees (identifier);
+  vector <string> assignees = get_assignees_v1 (identifier);
   if (find (assignees.begin(), assignees.end(), user) == assignees.end()) return;
   // Remove assigned user.
   assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
-  setAssignees (identifier, assignees);
+  set_assignees_v1 (identifier, assignees);
+}
+
+
+// Unassigns user from the note identified by identifier.
+void Database_Notes::unassign_user_v2 (int identifier, const string& user) // Todo write and check.
+{
+  // If the note is not assigned to the user, bail out.
+  vector <string> assignees = get_assignees_v1 (identifier);
+  if (find (assignees.begin(), assignees.end(), user) == assignees.end()) return;
+  // Remove assigned user.
+  assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
+  set_assignees_v1 (identifier, assignees);
 }
 
 
@@ -1737,7 +1832,7 @@ void Database_Notes::set_modified_v1 (int identifier, int time) // Todo update
 void Database_Notes::set_modified_v2 (int identifier, int time) // Todo update
 {
   // Update the filesystem.
-  set_field_v2 (identifier, "modified", convert_to_string (time));
+  set_field_v2 (identifier, modified_key_v2 (), convert_to_string (time));
   // Update the database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET modified =");
@@ -2272,7 +2367,7 @@ vector <string> Database_Notes::setBulk (string json)
 
 
 // Gets a field from a note in JSON format.
-string Database_Notes::getFieldV2 (int identifier, string key)
+string Database_Notes::get_field_v2 (int identifier, string key)
 {
   string file = note_file_v2 (identifier);
   string json = filter_url_file_get_contents (file);
@@ -2294,4 +2389,64 @@ void Database_Notes::set_field_v2 (int identifier, string key, string value)
   note << key << value;
   json = note.json ();
   filter_url_file_put_contents (file, json);
+}
+
+
+const char * Database_Notes::bible_key_v2 ()
+{
+  return "bible";
+}
+
+
+const char * Database_Notes::passage_key_v2 ()
+{
+  return "passage";
+}
+
+
+const char * Database_Notes::status_key_v2 ()
+{
+  return "status";
+}
+
+
+const char * Database_Notes::severity_key_v2 ()
+{
+  return "severity";
+}
+
+
+const char * Database_Notes::modified_key_v2 ()
+{
+  return "modified";
+}
+
+
+const char * Database_Notes::summary_key_v2 ()
+{
+  return "summary";
+}
+
+
+const char * Database_Notes::contents_key_v2 ()
+{
+  return "contents";
+}
+
+
+const char * Database_Notes::subscriptions_key_v2 ()
+{
+  return "subscriptions";
+}
+
+
+const char * Database_Notes::assigned_key_v2 ()
+{
+  return "assigned";
+}
+
+
+const char * Database_Notes::public_key_v2 ()
+{
+  return "public";
 }

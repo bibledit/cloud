@@ -300,7 +300,7 @@ bool sendreceive_notes_upload ()
         }
         if (action == Sync_Logic::notes_get_assignees) {
           vector <string> assignees = filter_string_explode (response, '\n');
-          database_notes.setAssignees (identifier, assignees);
+          database_notes.set_assignees_v1 (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
           database_notes.set_modified_v1 (identifier, convert_to_int (response));

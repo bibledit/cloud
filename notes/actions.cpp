@@ -86,12 +86,12 @@ string notes_actions (void * webserver_request)
   
   if (request->query.count ("unassign")) {
     string unassign = request->query["unassign"];
-    notes_logic.unassignUser (id, unassign);
+    notes_logic.unassign_user_v1 (id, unassign);
   }
   
   
   if (request->query.count ("done")) {
-    notes_logic.unassignUser (id, user);
+    notes_logic.unassign_user_v1 (id, user);
   }
   
   
@@ -131,7 +131,7 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("subscribe");
   
 
-  vector <string> assignees = database_notes.getAssignees (id);
+  vector <string> assignees = database_notes.get_assignees_v1 (id);
   string assigneeblock;
   for (auto & assignee : assignees) {
     assigneeblock.append (assignee);
@@ -144,7 +144,7 @@ string notes_actions (void * webserver_request)
   if (level >= Filter_Roles::manager ()) view.enable_zone ("assign");
 
   
-  bool assigned = database_notes.isAssigned (id, user);
+  bool assigned = database_notes.is_assigned_v1 (id, user);
   if (assigned) view.enable_zone ("assigned");
   
   

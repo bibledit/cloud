@@ -72,7 +72,7 @@ string notes_assign_1 (void * webserver_request)
   if (request->query.count ("assign")) {
     string assign = request->query ["assign"];
     if (database_noteassignment.exists (user, assign)) {
-      notes_logic.assignUser (id, assign);
+      notes_logic.assign_user_v1 (id, assign);
     }
     redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";

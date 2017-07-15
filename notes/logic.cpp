@@ -137,7 +137,7 @@ void Notes_Logic::set_summary_v1 (int identifier, const string& summary)
 void Notes_Logic::subscribe (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.subscribe (identifier);
+  database_notes.subscribe_v1 (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -164,7 +164,7 @@ void Notes_Logic::unsubscribe (int identifier)
 }
 
 
-void Notes_Logic::assignUser (int identifier, const string& user)
+void Notes_Logic::assign_user_v1 (int identifier, const string& user)
 {
   Database_Notes database_notes (webserver_request);
   if (client_logic_client_enabled ()) {
@@ -177,14 +177,14 @@ void Notes_Logic::assignUser (int identifier, const string& user)
     // Assign logic comes before the database action in this particular case.
     handlerAssignNote (identifier, user);
   }
-  database_notes.assignUser (identifier, user);
+  database_notes.assign_user_v1 (identifier, user);
 }
 
 
-void Notes_Logic::unassignUser (int identifier, const string& user)
+void Notes_Logic::unassign_user_v1 (int identifier, const string& user)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.unassignUser (identifier, user);
+  database_notes.unassign_user_v1 (identifier, user);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string myuser = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -316,7 +316,7 @@ void Notes_Logic::handler_new_note_v1 (int identifier)
 
 void Notes_Logic::handler_new_note_v2 (int identifier)
 {
-  notify_users_v1 (identifier, notifyNoteNew); // Todo update to V2
+  notify_users_v2 (identifier, notifyNoteNew); // Todo update to V2
 }
 
 
@@ -341,7 +341,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (webserver_request);
-    vector <string> assignees = database_notes.getAssignees (identifier);
+    vector <string> assignees = database_notes.get_assignees_v1 (identifier);
     if (find (assignees.begin(), assignees.end(), user) == assignees.end()) {
       emailUsers (identifier, translate("Assigned"), {user}, false);
     }
@@ -382,7 +382,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
 
     // Whether current user gets subscribed to the note.
     if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
-      database_notes.subscribe (identifier);
+      database_notes.subscribe_v1 (identifier);
     }
 
     // Users to get subscribed to the note, or to whom the note is to be assigned.
@@ -390,10 +390,10 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
     for (const string & user : users) {
       if (access_bible_read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
-          database_notes.subscribeUser (identifier, user);
+          database_notes.subscribe_user_v1 (identifier, user);
         }
         if (request->database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
-          database_notes.assignUser (identifier, user);
+          database_notes.assign_user_v1 (identifier, user);
         }
       }
     }
@@ -411,7 +411,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
   }
 
   // Assignees who receive email.
-  vector <string> assignees = database_notes.getAssignees (identifier);
+  vector <string> assignees = database_notes.get_assignees_v1 (identifier);
   for (const string & assignee : assignees) {
     if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);
@@ -485,7 +485,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
     
     // Whether current user gets subscribed to the note.
     if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
-      database_notes.subscribe (identifier);
+      database_notes.subscribe_v1 (identifier);
     }
     
     // Users to get subscribed to the note, or to whom the note is to be assigned.
@@ -493,10 +493,10 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
     for (const string & user : users) {
       if (access_bible_read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
-          database_notes.subscribeUser (identifier, user);
+          database_notes.subscribe_user_v1 (identifier, user);
         }
         if (request->database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
-          database_notes.assignUser (identifier, user);
+          database_notes.assign_user_v1 (identifier, user);
         }
       }
     }
@@ -514,7 +514,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
   }
   
   // Assignees who receive email.
-  vector <string> assignees = database_notes.getAssignees (identifier);
+  vector <string> assignees = database_notes.get_assignees_v1 (identifier);
   for (const string & assignee : assignees) {
     if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);

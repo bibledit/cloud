@@ -80,8 +80,10 @@ public:
   void erase_v12 (int identifier);
   void add_comment_v1 (int identifier, const string& comment);
   void add_comment_v2 (int identifier, const string& comment);
-  void subscribe (int identifier);
-  void subscribeUser (int identifier, const string& user);
+  void subscribe_v1 (int identifier);
+  void subscribe_v2 (int identifier);
+  void subscribe_user_v1 (int identifier, const string& user);
+  void subscribe_user_v2 (int identifier, const string& user);
   vector <string> get_subscribers_v1 (int identifier);
   vector <string> get_subscribers_v2 (int identifier);
   void set_subscribers_v1 (int identifier, vector <string> subscribers);
@@ -92,12 +94,17 @@ public:
   void unsubscribe_v2 (int identifier);
   void unsubscribe_user_v1 (int identifier, const string& user);
   void unsubscribe_user_v2 (int identifier, const string& user);
-  vector <string> getAllAssignees (const vector <string>& bibles);
-  vector <string> getAssignees (int identifier);
-  void setAssignees (int identifier, vector <string> assignees);
-  void assignUser (int identifier, const string& user);
-  bool isAssigned (int identifier, const string& user);
-  void unassignUser (int identifier, const string& user);
+  vector <string> get_all_assignees_v12 (const vector <string>& bibles);
+  vector <string> get_assignees_v1 (int identifier);
+  vector <string> get_assignees_v2 (int identifier);
+  void set_assignees_v1 (int identifier, vector <string> assignees);
+  void set_assignees_v2 (int identifier, vector <string> assignees);
+  void assign_user_v1 (int identifier, const string& user);
+  void assign_user_v2 (int identifier, const string& user);
+  bool is_assigned_v1 (int identifier, const string& user);
+  bool is_assigned_v2 (int identifier, const string& user);
+  void unassign_user_v1 (int identifier, const string& user);
+  void unassign_user_v2 (int identifier, const string& user);
   string getBible (int identifier);
   void setBible (int identifier, const string& bible);
   vector <string> getAllBibles ();
@@ -147,7 +154,7 @@ private:
   string expiryFile (int identifier);
   string assembleContents (int identifier, string contents);
   string assembleContentsV2 (int identifier, string contents);
-  vector <string> getAssigneesInternal (string assignees);
+  vector <string> get_assignees_internal_v12 (string assignees);
   vector <string> standard_severities ();
   void note_edited_actions_v1 (int identifier);
   void note_edited_actions_v2 (int identifier);
@@ -158,8 +165,18 @@ private:
   string notesFromWhereStatement ();
   string notesOptionalFulltextSearchStatement (string search);
   string notesOrderByRelevanceStatement ();
-  string getFieldV2 (int identifier, string key);
+  string get_field_v2 (int identifier, string key);
   void set_field_v2 (int identifier, string key, string value);
+  const char * bible_key_v2 ();
+  const char * passage_key_v2 ();
+  const char * status_key_v2 ();
+  const char * severity_key_v2 ();
+  const char * modified_key_v2 ();
+  const char * summary_key_v2 ();
+  const char * contents_key_v2 ();
+  const char * subscriptions_key_v2 ();
+  const char * assigned_key_v2 ();
+  const char * public_key_v2 ();
 };
 
 

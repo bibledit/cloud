@@ -356,6 +356,9 @@ void changes_modifications ()
     
     // Email the changes to the subscribed users.
     if (!email_changes.empty ()) {
+      // Split large emails up into parts.
+      // The size of the parts has been found by checking the maximum size that the emailer will send,
+      // then each part should remain well below that maximum size.
       vector <string> bodies;
       int counter = 0;
       string body;

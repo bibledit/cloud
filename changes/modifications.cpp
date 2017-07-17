@@ -356,19 +356,33 @@ void changes_modifications ()
     
     // Email the changes to the subscribed users.
     if (!email_changes.empty ()) {
+      vector <string> bodies;
+      int counter = 0;
       string body;
       for (auto & line : email_changes) {
         body.append ("<div>");
         body.append (line);
         body.append ("</div>\n");
+        counter++;
+        if (counter >= 200) {
+          bodies.push_back (body);
+          body.clear ();
+          counter = 0;
+        }
       }
-      string subject = translate("Recent changes:") + " " + bible;
-      vector <string> users = request.database_users ()->getUsers ();
-      for (auto & user : users) {
-        if (request.database_config_user()->getUserBibleChangesNotification (user)) {
-          if (access_bible_read (&request, bible, user)) {
-            if (!client_logic_client_enabled ()) {
-              email_schedule (user, subject, body);
+      if (!body.empty ()) bodies.push_back (body);
+      for (size_t b = 0; b < bodies.size (); b++) {
+        string subject = translate("Recent changes:") + " " + bible;
+        if (bodies.size () > 1) {
+          subject.append (" (" + convert_to_string (b + 1) + "/" + convert_to_string (bodies.size ()) + ")");
+        }
+        vector <string> users = request.database_users ()->getUsers ();
+        for (auto & user : users) {
+          if (request.database_config_user()->getUserBibleChangesNotification (user)) {
+            if (access_bible_read (&request, bible, user)) {
+              if (!client_logic_client_enabled ()) {
+                email_schedule (user, subject, bodies[b]);
+              }
             }
           }
         }

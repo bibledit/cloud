@@ -105,7 +105,7 @@ string search_all (void * webserver_request)
     
     // The title.
     string summary = database_notes.get_summary_v1 (identifier);
-    string verses = filter_passage_display_inline (database_notes.getPassages (identifier));
+    string verses = filter_passage_display_inline (database_notes.get_passages_v1 (identifier));
     string title = summary + " | " + verses;
     title = filter_string_sanitize_html (title);
     

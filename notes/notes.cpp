@@ -88,7 +88,7 @@ string notes_notes (void * webserver_request)
     for (auto & identifier : identifiers) {
       int passage_sort_key = 0;
       vector <float> numeric_passages;
-      vector <Passage> passages = database_notes.getPassages (identifier);
+      vector <Passage> passages = database_notes.get_passages_v1 (identifier);
       for (auto & passage : passages) {
         numeric_passages.push_back (filter_passage_to_integer (passage));
       }
@@ -106,7 +106,7 @@ string notes_notes (void * webserver_request)
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.get_summary_v1 (identifier);
-    vector <Passage> passages = database_notes.getPassages (identifier);
+    vector <Passage> passages = database_notes.get_passages_v1 (identifier);
     string verses = filter_passage_display_inline (passages);
     // A simple way to make it easier to see the individual notes in the list,
     // when the summaries of some notes are long, is to display the passage first.
@@ -114,7 +114,7 @@ string notes_notes (void * webserver_request)
 
     string verse_text;
     if (passage_inclusion_selector) {
-      vector <Passage> passages = database_notes.getPassages (identifier);
+      vector <Passage> passages = database_notes.get_passages_v1 (identifier);
       for (auto & passage : passages) {
         string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
         string text = usfm_get_verse_text (usfm, convert_to_int (passage.verse));

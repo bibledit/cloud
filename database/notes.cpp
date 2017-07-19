@@ -310,9 +310,9 @@ void Database_Notes::updateDatabase (int identifier)
   file = subscriptions_file_v1 (identifier);
   string subscriptions = filter_url_file_get_contents (file);
 
-  string bible = getBible (identifier);
+  string bible = get_bible_v1 (identifier);
 
-  string passage = getRawPassage (identifier);
+  string passage = get_raw_passage_v1 (identifier);
 
   string status = getRawStatus (identifier);
 
@@ -628,7 +628,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
   int identifier = getNewUniqueIdentifier ();
 
   // Passage.
-  string passage = encodePassage (book, chapter, verse);
+  string passage = encode_passage_v12 (book, chapter, verse);
   
   string status = "New";
   int severity = 2;
@@ -697,7 +697,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   int identifier = getNewUniqueIdentifier ();
   
   // Passage.
-  string passage = encodePassage (book, chapter, verse);
+  string passage = encode_passage_v12 (book, chapter, verse);
   
   string status = "New";
   int severity = 2;
@@ -789,19 +789,19 @@ vector <int> Database_Notes::selectNotes (vector <string> bibles, int book, int 
     case 0:
       // Select notes that refer to the current verse.
       // It means that the book, the chapter, and the verse, should match.
-      passage = encodePassage (book, chapter, verse);
+      passage = encode_passage_v12 (book, chapter, verse);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 1:
       // Select notes that refer to the current chapter.
       // It means that the book and the chapter should match.
-      passage = encodePassage (book, chapter, -1);
+      passage = encode_passage_v12 (book, chapter, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 2:
       // Select notes that refer to the current book.
       // It means that the book should match.
-      passage = encodePassage (book, -1, -1);
+      passage = encode_passage_v12 (book, -1, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 3:
@@ -1104,7 +1104,7 @@ void Database_Notes::add_comment_v1 (int identifier, const string& comment)
 
 
 // Add a comment to an exiting note identified by identifier.
-void Database_Notes::add_comment_v2 (int identifier, const string& comment) // Todo
+void Database_Notes::add_comment_v2 (int identifier, const string& comment) // Todo update
 {
   // Assemble the new content and store it.
   // This updates the search database also.
@@ -1225,7 +1225,7 @@ void Database_Notes::set_subscribers_v1 (int identifier, vector <string> subscri
 }
 
 
-void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscribers) // Todo test it.
+void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscribers)
 {
   // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
   for (auto & subscriber : subscribers) {
@@ -1354,11 +1354,10 @@ vector <string> Database_Notes::get_assignees_v1 (int identifier)
 
 
 // Returns an array with the assignees to the note identified by identifier.
-vector <string> Database_Notes::get_assignees_v2 (int identifier) // Todo write and test.
+vector <string> Database_Notes::get_assignees_v2 (int identifier)
 {
   // Get the asssignees from the filesystem.
-  string file = assigned_file_v1 (identifier);
-  string assignees = filter_url_file_get_contents (file);
+  string assignees = get_field_v2 (identifier, assigned_key_v2 ());
   return get_assignees_internal_v12 (assignees);
 }
 
@@ -1410,7 +1409,7 @@ void Database_Notes::set_assignees_v1 (int identifier, vector <string> assignees
 // Sets the note's assignees.
 // identifier : note identifier.
 // assignees : array of user names.
-void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees) // Todo write and test.
+void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees)
 {
   // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
   for (auto & assignee : assignees) {
@@ -1419,10 +1418,8 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
   }
   string assignees_string = filter_string_implode (assignees, "\n");
   
-  // Store the assignees in the filesystem, or remove the file if there's no data to store.
-  string file = assigned_file_v1 (identifier);
-  if (assignees_string.empty ()) filter_url_unlink (file);
-  else filter_url_file_put_contents (file, assignees_string);
+  // Store the assignees in the filesystem.
+  set_field_v2 (identifier, assigned_key_v2 (), assignees_string);
   
   // Store the assignees in the database also.
   SqliteSQL sql;
@@ -1435,7 +1432,7 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  note_edited_actions_v1 (identifier);
+  note_edited_actions_v1 (identifier); // Todo update
 }
 
 
@@ -1453,15 +1450,15 @@ void Database_Notes::assign_user_v1 (int identifier, const string& user)
 
 
 // Assign the note identified by identifier to user.
-void Database_Notes::assign_user_v2 (int identifier, const string& user) // Todo write and check.
+void Database_Notes::assign_user_v2 (int identifier, const string& user)
 {
   // If the note already is assigned to the user, bail out.
-  vector <string> assignees = get_assignees_v1 (identifier);
+  vector <string> assignees = get_assignees_v2 (identifier);
   if (find (assignees.begin (), assignees.end(), user) != assignees.end()) return;
   // Assign the note to the user.
   assignees.push_back (user);
   // Store the whole lot.
-  set_assignees_v1 (identifier, assignees);
+  set_assignees_v2 (identifier, assignees);
 }
 
 
@@ -1474,9 +1471,9 @@ bool Database_Notes::is_assigned_v1 (int identifier, const string& user)
 
 
 // Returns true if the note identified by identifier has been assigned to user.
-bool Database_Notes::is_assigned_v2 (int identifier, const string& user) // Todo write and check.
+bool Database_Notes::is_assigned_v2 (int identifier, const string& user)
 {
-  vector <string> assignees = get_assignees_v1 (identifier);
+  vector <string> assignees = get_assignees_v2 (identifier);
   return find (assignees.begin(), assignees.end(), user) != assignees.end();
 }
 
@@ -1494,31 +1491,37 @@ void Database_Notes::unassign_user_v1 (int identifier, const string& user)
 
 
 // Unassigns user from the note identified by identifier.
-void Database_Notes::unassign_user_v2 (int identifier, const string& user) // Todo write and check.
+void Database_Notes::unassign_user_v2 (int identifier, const string& user)
 {
   // If the note is not assigned to the user, bail out.
-  vector <string> assignees = get_assignees_v1 (identifier);
+  vector <string> assignees = get_assignees_v2 (identifier);
   if (find (assignees.begin(), assignees.end(), user) == assignees.end()) return;
   // Remove assigned user.
   assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
-  set_assignees_v1 (identifier, assignees);
+  set_assignees_v2 (identifier, assignees);
 }
 
 
-string Database_Notes::getBible (int identifier)
+string Database_Notes::get_bible_v1 (int identifier)
 {
   string file = bible_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
 
-void Database_Notes::setBible (int identifier, const string& bible)
+string Database_Notes::get_bible_v2 (int identifier)
+{
+  return get_field_v2 (identifier, bible_key_v2 ());
+}
+
+
+void Database_Notes::set_bible_v1 (int identifier, const string& bible)
 {
   // Write the bible to the filesystem, or remove the bible in case there's no data to store.
   string file = bible_file_v1 (identifier);
   if (bible.empty ()) filter_url_unlink (file);
   else filter_url_file_put_contents (file, bible);
-
+  
   // Update the database also.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET bible =");
@@ -1529,12 +1532,32 @@ void Database_Notes::setBible (int identifier, const string& bible)
   sqlite3 * db = connect ();
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
-
+  
   note_edited_actions_v1 (identifier);
 }
 
 
-vector <string> Database_Notes::getAllBibles ()
+void Database_Notes::set_bible_v2 (int identifier, const string& bible)
+{
+  // Write the bible to the filesystem.
+  set_field_v2 (identifier, bible_key_v2 (), bible);
+  
+  // Update the database also.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET bible =");
+  sql.add (bible);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  
+  note_edited_actions_v2 (identifier);
+}
+
+
+vector <string> Database_Notes::get_all_bibles_v12 ()
 {
   vector <string> bibles;
   sqlite3 * db = connect ();
@@ -1552,7 +1575,7 @@ vector <string> Database_Notes::getAllBibles ()
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
 // The chapter and the verse can be negative, in which case they won't be included.
-string Database_Notes::encodePassage (int book, int chapter, int verse)
+string Database_Notes::encode_passage_v12 (int book, int chapter, int verse)
 {
   // Space before and after the passage enables notes selection on passage.
   // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
@@ -1575,7 +1598,7 @@ string Database_Notes::encodePassage (int book, int chapter, int verse)
 
 
 // Takes the passage as a string, and returns an object with book, chapter, and verse.
-Passage Database_Notes::decodePassage (string passage)
+Passage Database_Notes::decode_passage_v12 (string passage)
 {
   passage = filter_string_trim (passage);
   Passage decodedpassage = Passage ();
@@ -1588,7 +1611,15 @@ Passage Database_Notes::decodePassage (string passage)
 
 
 // Returns the raw passage text of the note identified by identifier.
-string Database_Notes::getRawPassage (int identifier)
+string Database_Notes::get_raw_passage_v1 (int identifier)
+{
+  string file = passage_file_v1 (identifier);
+  return filter_url_file_get_contents (file);
+}
+
+
+// Returns the raw passage text of the note identified by identifier.
+string Database_Notes::get_raw_passage_v2 (int identifier) // Todo test
 {
   string file = passage_file_v1 (identifier);
   return filter_url_file_get_contents (file);
@@ -1597,15 +1628,32 @@ string Database_Notes::getRawPassage (int identifier)
 
 // Returns an array with the passages that the note identified by identifier refers to.
 // Each passages is an array (book, chapter, verse).
-vector <Passage> Database_Notes::getPassages (int identifier)
+vector <Passage> Database_Notes::get_passages_v1 (int identifier)
 {
-  string contents = getRawPassage (identifier);
+  string contents = get_raw_passage_v1 (identifier);
   if (contents.empty()) return {};
   vector <string> lines = filter_string_explode (contents, '\n');
   vector <Passage> passages;
   for (auto & line : lines) {
     if (line.empty()) continue;
-    Passage passage = decodePassage (line);
+    Passage passage = decode_passage_v12 (line);
+    passages.push_back (passage);
+  }
+  return passages;
+}
+
+
+// Returns an array with the passages that the note identified by identifier refers to.
+// Each passages is an array (book, chapter, verse).
+vector <Passage> Database_Notes::get_passages_v2 (int identifier) // Todo test
+{
+  string contents = get_raw_passage_v1 (identifier);
+  if (contents.empty()) return {};
+  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <Passage> passages;
+  for (auto & line : lines) {
+    if (line.empty()) continue;
+    Passage passage = decode_passage_v12 (line);
     passages.push_back (passage);
   }
   return passages;
@@ -1615,17 +1663,35 @@ vector <Passage> Database_Notes::getPassages (int identifier)
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
-void Database_Notes::setPassages (int identifier, const vector <Passage>& passages, bool import)
+void Database_Notes::set_passages_v1 (int identifier, const vector <Passage>& passages, bool import)
 {
   // Format the passages.
   string line;
   for (auto & passage : passages) {
     if (!line.empty ()) line.append ("\n");
-    line.append (encodePassage (passage.book, passage.chapter, convert_to_int (passage.verse)));
+    line.append (encode_passage_v12 (passage.book, passage.chapter, convert_to_int (passage.verse)));
   }
   // Store it.
-  setRawPassage (identifier, line);
+  set_raw_passage_v1 (identifier, line);
 
+  if (!import) note_edited_actions_v1 (identifier);
+}
+
+
+// Set the passages for note identifier.
+// passages is an array of an array (book, chapter, verse) passages.
+// import: If true, just write passages, no further actions.
+void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& passages, bool import) // Todo test
+{
+  // Format the passages.
+  string line;
+  for (auto & passage : passages) {
+    if (!line.empty ()) line.append ("\n");
+    line.append (encode_passage_v12 (passage.book, passage.chapter, convert_to_int (passage.verse)));
+  }
+  // Store it.
+  set_raw_passage_v1 (identifier, line);
+  
   if (!import) note_edited_actions_v1 (identifier);
 }
 
@@ -1639,7 +1705,35 @@ void Database_Notes::setPassages (int identifier, const vector <Passage>& passag
 // it should download the exact passage file contents as it is on the server,
 // so as to prevent keeping to download the same notes over and over,
 // due to the above mentioned difference in adding a new line or not.
-void Database_Notes::setRawPassage (int identifier, const string& passage)
+void Database_Notes::set_raw_passage_v1 (int identifier, const string& passage)
+{
+  // Store the authoritative copy in the filesystem.
+  string file = passage_file_v1 (identifier);
+  filter_url_file_put_contents (file, passage);
+  
+  // Update the shadow database also.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET passage =");
+  sql.add (passage);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
+// Sets the raw $passage(s) for a note $identifier.
+// The reason for having this function is this:
+// There is a slight difference in adding a new line or not to the passage
+// between Bibledit as it was written in PHP,
+// and Bibledit as it is now written in C++.
+// Due to this difference, when a client downloads a note from the server,
+// it should download the exact passage file contents as it is on the server,
+// so as to prevent keeping to download the same notes over and over,
+// due to the above mentioned difference in adding a new line or not.
+void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage) // Todo update
 {
   // Store the authoritative copy in the filesystem.
   string file = passage_file_v1 (identifier);
@@ -1809,7 +1903,7 @@ int Database_Notes::getModified (int identifier)
 }
 
 
-void Database_Notes::set_modified_v1 (int identifier, int time) // Todo update
+void Database_Notes::set_modified_v1 (int identifier, int time) // Todo
 {
   // Update the filesystem.
   string file = modified_file_v1 (identifier);
@@ -1829,7 +1923,7 @@ void Database_Notes::set_modified_v1 (int identifier, int time) // Todo update
 }
 
 
-void Database_Notes::set_modified_v2 (int identifier, int time) // Todo update
+void Database_Notes::set_modified_v2 (int identifier, int time) // Todo
 {
   // Update the filesystem.
   set_field_v2 (identifier, modified_key_v2 (), convert_to_string (time));
@@ -2292,14 +2386,14 @@ string Database_Notes::getBulk (vector <int> identifiers)
     // Add all the fields of the note.
     string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));
     note << "a" << assigned;
-    string bible = getBible (identifier);
+    string bible = get_bible_v1 (identifier);
     note << "b" << bible;
     string contents = get_contents_v1 (identifier);
     note << "c" << contents;
     note << "i" << identifier;
     int modified = getModified (identifier);
     note << "m" << modified;
-    string passage = getRawPassage (identifier);
+    string passage = get_raw_passage_v1 (identifier);
     note << "p" << passage;
     string subscriptions = filter_url_file_get_contents (subscriptions_file_v1 (identifier));
     note << "sb" << subscriptions;

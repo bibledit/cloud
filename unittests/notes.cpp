@@ -345,7 +345,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v1 (identifier, "phpunit_phpunit_phpunit"));
   }
 
-  // Test subscriptions for the new JSON notes storage. Todo working here.
+  // Test subscriptions for the new JSON notes storage.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -363,7 +363,7 @@ void test_database_notes ()
     // But since this unit test runs without sessions, it would have subscribed an empty user.
     request.session_logic()->setUsername ("");
     int identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> subscribers = database_notes.get_subscribers_v2 (identifier); // Todo
+    vector <string> subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
@@ -407,7 +407,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {"aa", "bb"}, subscribers);
   }
   
-  // Assignments ()
+  // Test assignments.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -423,43 +423,65 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest2");
     
     // Create a note and check that it was not assigned to anybody.
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> assignees = database_notes.get_assignees_v1 (identifier);
+    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    vector <string> assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
-    
+    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary2", "Contents2", false);
+    assignees = database_notes.get_assignees_v2 (newidentifier);
+    evaluate (__LINE__, __func__, {}, assignees);
+
     // Assign the note to a user, and check that this reflects in the list of assignees.
-    database_notes.assign_user_v1 (identifier, "unittest");
-    assignees = database_notes.get_assignees_v1 (identifier);
+    database_notes.assign_user_v1 (oldidentifier, "unittest");
+    assignees = database_notes.get_assignees_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, {"unittest"}, assignees);
+    database_notes.assign_user_v2 (newidentifier, "unittest");
+    assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
-    // Test the set_assignees_v1 function.
-    database_notes.set_assignees_v1 (identifier, {"unittest"});
-    assignees = database_notes.get_assignees_v1 (identifier);
+    // Test the set_assignees function.
+    database_notes.set_assignees_v1 (oldidentifier, {"unittest"});
+    assignees = database_notes.get_assignees_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, {"unittest"}, assignees);
+    database_notes.set_assignees_v2 (newidentifier, {"unittest"});
+    assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
-    database_notes.assign_user_v1 (identifier, "unittest2");
-    assignees = database_notes.get_assignees_v1 (identifier);
+    database_notes.assign_user_v1 (oldidentifier, "unittest2");
+    assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
+    database_notes.assign_user_v2 (newidentifier, "unittest3");
+    assignees = database_notes.get_assignees_v2 (newidentifier);
+    evaluate (__LINE__, __func__, {"unittest", "unittest3"}, assignees);
     
-    // Based on the above, check the is_assigned_v1 function.
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v1 (identifier, "unittest"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v1 (identifier, "unittest2"));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v1 (identifier, "PHPUnit3"));
+    // Based on the above, check the is_assigned function.
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v1 (oldidentifier, "unittest"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v1 (oldidentifier, "unittest2"));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v1 (oldidentifier, "PHPUnit3"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v2 (newidentifier, "unittest"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v2 (newidentifier, "unittest3"));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v2 (newidentifier, "PHPUnit3"));
     
-    // Based on the above, test get_all_assignees_v12().
+    // Based on the above, test get_all_assignees.
     assignees = database_notes.get_all_assignees_v12 ({""});
-    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
+    evaluate (__LINE__, __func__, {"unittest", "unittest2", "unittest3"}, assignees);
     
-    // Based on the above, test the unassign_user_v1 function.
-    database_notes.unassign_user_v1 (identifier, "unittest");
-    assignees = database_notes.get_assignees_v1 (identifier);
+    // Based on the above, test the unassign_user function.
+    database_notes.unassign_user_v1 (oldidentifier, "unittest");
+    assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest2"}, assignees);
-    database_notes.unassign_user_v1 (identifier, "unittest2");
-    assignees = database_notes.get_assignees_v1 (identifier);
+    database_notes.unassign_user_v1 (oldidentifier, "unittest2");
+    assignees = database_notes.get_assignees_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, {}, assignees);
+    database_notes.unassign_user_v2 (newidentifier, "unittest");
+    assignees = database_notes.get_assignees_v2 (newidentifier);
+    evaluate (__LINE__, __func__, {"unittest3"}, assignees);
+    database_notes.unassign_user_v2 (newidentifier, "unittest3");
+    assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
   }
-  // Bible
+
+  // Test the getters and the setters for the Bible.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -471,17 +493,27 @@ void test_database_notes ()
     database_notes.create_v12 ();
     
     request.session_logic()->setUsername ("unittest");
-    int identifier = database_notes.store_new_note_v1 ("unittest", 0, 0, 0, "Summary", "Contents", false);
-    string bible = database_notes.getBible (identifier);
+    int oldidentifier = database_notes.store_new_note_v1 ("unittest", 0, 0, 0, "Summary", "Contents", false);
+    string bible = database_notes.get_bible_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "unittest", bible);
-    database_notes.setBible (identifier, "PHPUnit2");
-    bible = database_notes.getBible (identifier);
+    int newidentifier = database_notes.store_new_note_v2 ("unittest2", 0, 0, 0, "Summary", "Contents", false);
+    bible = database_notes.get_bible_v2 (newidentifier);
+    evaluate (__LINE__, __func__, "unittest2", bible);
+    database_notes.set_bible_v1 (oldidentifier, "PHPUnit2");
+    bible = database_notes.get_bible_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "PHPUnit2", bible);
-    database_notes.setBible (identifier, "");
-    bible = database_notes.getBible (identifier);
+    database_notes.set_bible_v2 (newidentifier, "PHPUnit3");
+    bible = database_notes.get_bible_v2 (newidentifier);
+    evaluate (__LINE__, __func__, "PHPUnit3", bible);
+    database_notes.set_bible_v1 (oldidentifier, "");
+    bible = database_notes.get_bible_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, "", bible);
+    database_notes.set_bible_v2 (newidentifier, "");
+    bible = database_notes.get_bible_v2 (newidentifier);
     evaluate (__LINE__, __func__, "", bible);
   }
-  // Passage.
+  
+  // Test getting and setting the passage(s). Todo
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -498,15 +530,15 @@ void test_database_notes ()
     int identifier = database_notes.store_new_note_v1 ("", 10, 9, 8, "Summary", "Contents", false);
     
     // Test the getPassages method.
-    vector <Passage> passages = database_notes.getPassages (identifier);
+    vector <Passage> passages = database_notes.get_passages_v1 (identifier);
     Passage standard = Passage ("", 10, 9, "8");
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     
     // Test the setPassage method.
     standard = Passage ("", 5, 6, "7");
-    database_notes.setPassages (identifier, {standard});
-    passages = database_notes.getPassages (identifier);
+    database_notes.set_passages_v1 (identifier, {standard});
+    passages = database_notes.get_passages_v1 (identifier);
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
@@ -848,14 +880,14 @@ void test_database_notes ()
     database_notes.setChecksum (identifier, "");
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.setBible (identifier, "unittest");
+    database_notes.set_bible_v1 (identifier, "unittest");
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
     database_notes.deleteChecksum (identifier);
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.setPassages (identifier, {});
+    database_notes.set_passages_v1 (identifier, {});
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1219,8 +1251,8 @@ void test_database_notes ()
       database_notes.erase_v12 (identifier);
       evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_contents_v1 (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.getBible (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.getRawPassage (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_bible_v1 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.getRawStatus (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.getRawSeverity (identifier));
       evaluate (__LINE__, __func__, 0, database_notes.getModified (identifier));
@@ -1246,13 +1278,13 @@ void test_database_notes ()
       int identifier = v_identifier [i];
       string assigned = filter_url_file_get_contents (database_notes.assigned_file_v1 (identifier));
       evaluate (__LINE__, __func__, v_assigned [i], assigned);
-      string bible = database_notes.getBible (identifier);
+      string bible = database_notes.get_bible_v1 (identifier);
       evaluate (__LINE__, __func__, v_bible [i], bible);
       string contents = database_notes.get_contents_v1 (identifier);
       evaluate (__LINE__, __func__, v_contents [i], contents);
       int modified = database_notes.getModified (identifier);
       evaluate (__LINE__, __func__, v_modified [i], modified);
-      string passage = database_notes.getRawPassage (identifier);
+      string passage = database_notes.get_raw_passage_v1 (identifier);
       evaluate (__LINE__, __func__, v_passage [i], passage);
       int severity = database_notes.getRawSeverity (identifier);
       evaluate (__LINE__, __func__, v_severity [i], severity);

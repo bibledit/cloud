@@ -203,7 +203,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_passages:
         {
-          content = database_notes.getRawPassage (identifier);
+          content = database_notes.get_raw_passage_v1 (identifier);
           break;
         }
         case Sync_Logic::notes_put_severity:
@@ -213,7 +213,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_bible:
         {
-          content = database_notes.getBible (identifier);
+          content = database_notes.get_bible_v1 (identifier);
           break;
         }
         case Sync_Logic::notes_put_mark_delete: break;

@@ -154,7 +154,7 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("viewstatus");
 
   
-  string verses = filter_passage_display_inline (database_notes.getPassages (id));
+  string verses = filter_passage_display_inline (database_notes.get_passages_v1 (id));
   view.set_variable ("verses", verses);
                                           
                                           
@@ -162,7 +162,7 @@ string notes_actions (void * webserver_request)
   view.set_variable ("severity",  severity);
 
   
-  string bible = database_notes.getBible (id);
+  string bible = database_notes.get_bible_v1 (id);
   view.set_variable ("bible", bible);
   if (bible.empty ()) view.enable_zone ("nobible");
 

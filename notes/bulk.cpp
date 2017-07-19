@@ -221,7 +221,7 @@ string notes_bulk (void * webserver_request)
     string bible = request->query["bible"];
     if (bible == notes_logic.generalBibleName ()) bible = "";
     for (auto identifier : identifiers) {
-      if (database_notes.getBible (identifier) != bible) {
+      if (database_notes.get_bible_v1 (identifier) != bible) {
         notes_logic.setBible (identifier, bible);
       }
     }

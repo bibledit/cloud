@@ -59,7 +59,7 @@ string public_notes (void * webserver_request)
     if (database_notes.getPublic (identifier)) {
       notesblock.append ("<p class=\"nowrap\">");
       notesblock.append ("<a href=\"note?id=" + convert_to_string (identifier) + "\">");
-      vector <Passage> passages = database_notes.getPassages (identifier);
+      vector <Passage> passages = database_notes.get_passages_v1 (identifier);
       string verses;
       for (auto & passage : passages) {
         if (passage.book != book) continue;

@@ -215,7 +215,7 @@ void Notes_Logic::setStatus (int identifier, const string& status)
 void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.setPassages (identifier, passages);
+  database_notes.set_passages_v1 (identifier, passages);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -247,7 +247,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
 void Notes_Logic::setBible (int identifier, const string& bible)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.setBible (identifier, bible);
+  database_notes.set_bible_v1 (identifier, bible);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -374,7 +374,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.getBible (identifier);
+  string bible = database_notes.get_bible_v1 (identifier);
 
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.
@@ -477,7 +477,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.getBible (identifier);
+  string bible = database_notes.get_bible_v1 (identifier);
   
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.
@@ -579,7 +579,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
 
   // Send mail to all users.
   string summary = database_notes.get_summary_v1 (identifier);
-  string passages = filter_passage_display_inline (database_notes.getPassages (identifier));
+  string passages = filter_passage_display_inline (database_notes.get_passages_v1 (identifier));
   string contents = database_notes.get_contents_v1 (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.

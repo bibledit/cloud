@@ -165,7 +165,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_passages:
     {
       // Send the raw passage contents to the client, see the client code for the reason why.
-      return database_notes.getRawPassage (identifier);
+      return database_notes.get_raw_passage_v1 (identifier);
     }
     case Sync_Logic::notes_get_severity:
     {
@@ -173,7 +173,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_bible:
     {
-      return database_notes.getBible (identifier);
+      return database_notes.get_bible_v1 (identifier);
     }
     case Sync_Logic::notes_get_modified:
     {
@@ -280,7 +280,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_passages:
     {
       // Set the passage(s) for a note on the server.
-      database_notes.setRawPassage (identifier, content);
+      database_notes.set_raw_passage_v1 (identifier, content);
       // Done.
       return "";
     }

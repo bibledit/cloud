@@ -181,7 +181,7 @@ string notes_select (void * webserver_request)
   vector <string> bibles = access_bible_bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) {
-    vector <string> notesbibles = database_notes.getAllBibles ();
+    vector <string> notesbibles = database_notes.get_all_bibles_v12 ();
     bibles.insert (bibles.end (), notesbibles.begin (), notesbibles.end ());
     bibles = array_unique (bibles);
   }

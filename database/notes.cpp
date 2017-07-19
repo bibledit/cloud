@@ -1619,10 +1619,9 @@ string Database_Notes::get_raw_passage_v1 (int identifier)
 
 
 // Returns the raw passage text of the note identified by identifier.
-string Database_Notes::get_raw_passage_v2 (int identifier) // Todo test
+string Database_Notes::get_raw_passage_v2 (int identifier)
 {
-  string file = passage_file_v1 (identifier);
-  return filter_url_file_get_contents (file);
+  return get_field_v2 (identifier, passage_key_v2 ());
 }
 
 
@@ -1645,9 +1644,9 @@ vector <Passage> Database_Notes::get_passages_v1 (int identifier)
 
 // Returns an array with the passages that the note identified by identifier refers to.
 // Each passages is an array (book, chapter, verse).
-vector <Passage> Database_Notes::get_passages_v2 (int identifier) // Todo test
+vector <Passage> Database_Notes::get_passages_v2 (int identifier)
 {
-  string contents = get_raw_passage_v1 (identifier);
+  string contents = get_raw_passage_v2 (identifier);
   if (contents.empty()) return {};
   vector <string> lines = filter_string_explode (contents, '\n');
   vector <Passage> passages;
@@ -1681,7 +1680,7 @@ void Database_Notes::set_passages_v1 (int identifier, const vector <Passage>& pa
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
-void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& passages, bool import) // Todo test
+void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& passages, bool import)
 {
   // Format the passages.
   string line;
@@ -1690,7 +1689,7 @@ void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& pa
     line.append (encode_passage_v12 (passage.book, passage.chapter, convert_to_int (passage.verse)));
   }
   // Store it.
-  set_raw_passage_v1 (identifier, line);
+  set_raw_passage_v2 (identifier, line);
   
   if (!import) note_edited_actions_v1 (identifier);
 }
@@ -1733,11 +1732,10 @@ void Database_Notes::set_raw_passage_v1 (int identifier, const string& passage)
 // it should download the exact passage file contents as it is on the server,
 // so as to prevent keeping to download the same notes over and over,
 // due to the above mentioned difference in adding a new line or not.
-void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage) // Todo update
+void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage)
 {
   // Store the authoritative copy in the filesystem.
-  string file = passage_file_v1 (identifier);
-  filter_url_file_put_contents (file, passage);
+  set_field_v2 (identifier, passage_key_v2 (), passage);
   
   // Update the shadow database also.
   SqliteSQL sql;

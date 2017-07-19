@@ -513,7 +513,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "", bible);
   }
   
-  // Test getting and setting the passage(s). Todo
+  // Test getting and setting the passage(s).
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -526,22 +526,33 @@ void test_database_notes ()
     
     request.session_logic()->setUsername ("unittest");
     
-    // Create note for a certain passage.
-    int identifier = database_notes.store_new_note_v1 ("", 10, 9, 8, "Summary", "Contents", false);
+    // Create notes for certain passages.
+    int oldidentifier = database_notes.store_new_note_v1 ("", 10, 9, 8, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note_v2 ("", 5, 4, 3, "Summary", "Contents", false);
     
-    // Test the getPassages method.
-    vector <Passage> passages = database_notes.get_passages_v1 (identifier);
+    // Test getting passage.
+    vector <Passage> passages = database_notes.get_passages_v1 (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+    passages = database_notes.get_passages_v2 (newidentifier);
+    standard = Passage ("", 5, 4, "3");
+    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     
-    // Test the setPassage method.
+    // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
-    database_notes.set_passages_v1 (identifier, {standard});
-    passages = database_notes.get_passages_v1 (identifier);
+    database_notes.set_passages_v1 (oldidentifier, {standard});
+    passages = database_notes.get_passages_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+    standard = Passage ("", 12, 13, "14");
+    database_notes.set_passages_v2 (newidentifier, {standard});
+    passages = database_notes.get_passages_v2 (newidentifier);
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
+  
   // Status.
   {
     refresh_sandbox (true);

@@ -120,10 +120,13 @@ public:
   void set_passages_v2 (int identifier, const vector <Passage>& passages, bool import = false);
   void set_raw_passage_v1 (int identifier, const string& passage);
   void set_raw_passage_v2 (int identifier, const string& passage);
-  string getRawStatus (int identifier);
-  string getStatus (int identifier);
-  void setStatus (int identifier, const string& status, bool import = false);
-  vector <Database_Notes_Text> getPossibleStatuses ();
+  string get_raw_status_v1 (int identifier);
+  string get_raw_status_v2 (int identifier);
+  string get_status_v1 (int identifier);
+  string get_status_v2 (int identifier);
+  void set_status_v1 (int identifier, const string& status, bool import = false);
+  void set_status_v2 (int identifier, const string& status, bool import = false);
+  vector <Database_Notes_Text> get_possible_statuses_v12 ();
   int getRawSeverity (int identifier);
   string getSeverity (int identifier);
   void setRawSeverity (int identifier, int severity);

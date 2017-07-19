@@ -199,7 +199,7 @@ void Notes_Logic::unassign_user_v1 (int identifier, const string& user)
 void Notes_Logic::setStatus (int identifier, const string& status)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.setStatus (identifier, status);
+  database_notes.set_status_v1 (identifier, status);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -325,9 +325,9 @@ void Notes_Logic::handlerAddComment (int identifier)
   notify_users_v1 (identifier, notifyNoteComment);
   // If the note status was Done, and a comment is added, mark it Reopened.
   Database_Notes database_notes (webserver_request);
-  string status = database_notes.getRawStatus (identifier);
+  string status = database_notes.get_raw_status_v1 (identifier);
   if (status == "Done") {
-    database_notes.setStatus (identifier, "Reopened");
+    database_notes.set_status_v1 (identifier, "Reopened");
   }
 }
 

@@ -196,7 +196,7 @@ string notes_bulk (void * webserver_request)
   if (status) {
     string status = request->query["status"];
     for (auto identifier : identifiers) {
-      if (database_notes.getRawStatus (identifier) != status) {
+      if (database_notes.get_raw_status_v1 (identifier) != status) {
         notes_logic.setStatus (identifier, status);
       }
     }

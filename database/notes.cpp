@@ -314,7 +314,7 @@ void Database_Notes::updateDatabase (int identifier)
 
   string passage = get_raw_passage_v1 (identifier);
 
-  string status = getRawStatus (identifier);
+  string status = get_raw_status_v1 (identifier);
 
   int severity = getRawSeverity (identifier);
 
@@ -1752,18 +1752,38 @@ void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage)
 
 // Gets the raw status of a note.
 // Returns it as a string.
-string Database_Notes::getRawStatus (int identifier)
+string Database_Notes::get_raw_status_v1 (int identifier)
 {
   string file = status_file_v1 (identifier);
   return filter_url_file_get_contents (file);
 }
 
 
+// Gets the raw status of a note.
+// Returns it as a string.
+string Database_Notes::get_raw_status_v2 (int identifier)
+{
+  return get_field_v2 (identifier, status_key_v2 ());
+}
+
+
 // Gets the localized status of a note.
 // Returns it as a string.
-string Database_Notes::getStatus (int identifier)
+string Database_Notes::get_status_v1 (int identifier)
 {
-  string status = getRawStatus (identifier);
+  string status = get_raw_status_v1 (identifier);
+  // Localize status if possible.
+  status = translate (status.c_str());
+  // Return status.
+  return status;
+}
+
+
+// Gets the localized status of a note.
+// Returns it as a string.
+string Database_Notes::get_status_v2 (int identifier)
+{
+  string status = get_raw_status_v2 (identifier);
   // Localize status if possible.
   status = translate (status.c_str());
   // Return status.
@@ -1774,14 +1794,37 @@ string Database_Notes::getStatus (int identifier)
 // Sets the status of the note identified by identifier.
 // status is a string.
 // import: Just write the status, and skip any logic.
-void Database_Notes::setStatus (int identifier, const string& status, bool import)
+void Database_Notes::set_status_v1 (int identifier, const string& status, bool import)
 {
   // Store the authoritative copy in the filesystem.
   string file = status_file_v1 (identifier);
   filter_url_file_put_contents (file, status);
-
+  
   if (!import) note_edited_actions_v1 (identifier);
+  
+  // Store a copy in the database also.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET status =");
+  sql.add (status);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
 
+
+// Sets the status of the note identified by identifier.
+// status is a string.
+// import: Just write the status, and skip any logic.
+void Database_Notes::set_status_v2 (int identifier, const string& status, bool import)
+{
+  // Store the authoritative copy in the filesystem.
+  set_field_v2 (identifier, status_key_v2 (), status);
+  
+  if (!import) note_edited_actions_v2 (identifier);
+  
   // Store a copy in the database also.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET status =");
@@ -1797,7 +1840,7 @@ void Database_Notes::setStatus (int identifier, const string& status, bool impor
 
 // Gets an array of array with the possible statuses of consultation notes,
 // both raw and localized versions.
-vector <Database_Notes_Text> Database_Notes::getPossibleStatuses ()
+vector <Database_Notes_Text> Database_Notes::get_possible_statuses_v12 ()
 {
   // Get an array with the statuses used in the database, ordered by occurrence, most often used ones first.
   string query = "SELECT status, COUNT(status) AS occurrences FROM notes GROUP BY status ORDER BY occurrences DESC;";
@@ -2397,7 +2440,7 @@ string Database_Notes::getBulk (vector <int> identifiers)
     note << "sb" << subscriptions;
     string summary = get_summary_v1 (identifier);
     note << "sm" << summary;
-    string status = getRawStatus (identifier);
+    string status = get_raw_status_v1 (identifier);
     note << "st" << status;
     int severity = getRawSeverity (identifier);
     note << "sv" << severity;

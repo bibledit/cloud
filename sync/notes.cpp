@@ -160,7 +160,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_status:
     {
-      return database_notes.getRawStatus (identifier);
+      return database_notes.get_raw_status_v1 (identifier);
     }
     case Sync_Logic::notes_get_passages:
     {

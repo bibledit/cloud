@@ -159,7 +159,7 @@ string notes_select (void * webserver_request)
   
   string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
   if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
-  vector <Database_Notes_Text> possible_statuses = database_notes.getPossibleStatuses ();
+  vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses_v12 ();
   string statusblock;
   for (Database_Notes_Text possible_status : possible_statuses) {
     statusblock.append (" | ");

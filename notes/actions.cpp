@@ -148,7 +148,7 @@ string notes_actions (void * webserver_request)
   if (assigned) view.enable_zone ("assigned");
   
   
-  string status = database_notes.getStatus (id);
+  string status = database_notes.get_status_v1 (id);
   view.set_variable ("status", status);
   if (Filter_Roles::translator ()) view.enable_zone ("editstatus");
   else view.enable_zone ("viewstatus");

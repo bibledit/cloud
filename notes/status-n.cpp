@@ -60,7 +60,7 @@ string notes_status_n (void * webserver_request)
   
   
   string statusblock;
-  vector <Database_Notes_Text> statuses = database_notes.getPossibleStatuses ();
+  vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses_v12 ();
   for (auto & status : statuses) {
     statusblock.append ("<li><a href=\"bulk?status=" + status.raw + "\">" + status.raw + "</a></li>\n");
   }

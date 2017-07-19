@@ -553,7 +553,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
   
-  // Status.
+  // Test getting and setting the note status.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -566,26 +566,33 @@ void test_database_notes ()
     
     request.session_logic()->setUsername ("unittest");
     
-    // Create note.
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    // Create notes.
+    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default status = New.
-    string status = database_notes.getStatus (identifier);
+    string status = database_notes.get_status_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, "New", status);
+    status = database_notes.get_status_v2 (newidentifier);
     evaluate (__LINE__, __func__, "New", status);
     
-    // Test setStatus function.
-    database_notes.setStatus (identifier, "xxxxx");
-    status = database_notes.getStatus (identifier);
+    // Test setting the status.
+    database_notes.set_status_v1 (oldidentifier, "xxxxx");
+    status = database_notes.get_status_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "xxxxx", status);
+    database_notes.set_status_v2 (newidentifier, "yyyyy");
+    status = database_notes.get_status_v2 (newidentifier);
+    evaluate (__LINE__, __func__, "yyyyy", status);
     
-    // Test the getStatuses function.
-    vector <Database_Notes_Text> statuses = database_notes.getPossibleStatuses ();
+    // Test getting all possible statuses.
+    vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses_v12 ();
     vector <string> rawstatuses;
     for (auto & status : statuses) {
       rawstatuses.push_back (status.raw);
     }
-    evaluate (__LINE__, __func__, {"xxxxx", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
+    evaluate (__LINE__, __func__, {"xxxxx", "yyyyy", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
   }
+
   // Severity
   {
     refresh_sandbox (true);
@@ -905,7 +912,7 @@ void test_database_notes ()
     database_notes.setChecksum (identifier, "");
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.setStatus (identifier, "Status");
+    database_notes.set_status_v1 (identifier, "Status");
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1264,7 +1271,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, "", database_notes.get_contents_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_bible_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v1 (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.getRawStatus (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v1 (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.getRawSeverity (identifier));
       evaluate (__LINE__, __func__, 0, database_notes.getModified (identifier));
     }
@@ -1299,7 +1306,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_passage [i], passage);
       int severity = database_notes.getRawSeverity (identifier);
       evaluate (__LINE__, __func__, v_severity [i], severity);
-      string status = database_notes.getRawStatus (identifier);
+      string status = database_notes.get_raw_status_v1 (identifier);
       evaluate (__LINE__, __func__, v_status [i], status);
       string subscriptions = filter_url_file_get_contents (database_notes.subscriptions_file_v1 (identifier));
       evaluate (__LINE__, __func__, v_subscriptions [i], subscriptions);

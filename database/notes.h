@@ -134,7 +134,8 @@ public:
   void set_raw_severity_v2 (int identifier, int severity);
   void set_raw_severity_v1 (int identifier, int severity);
   vector <Database_Notes_Text> get_possible_severities_v12 ();
-  int getModified (int identifier);
+  int get_modified_v1 (int identifier);
+  int get_modified_v2 (int identifier);
   void set_modified_v1 (int identifier, int time);
   void set_modified_v2 (int identifier, int time);
   bool getPublic (int identifier);

@@ -302,7 +302,7 @@ void Database_Notes::sync ()
 void Database_Notes::updateDatabase (int identifier)
 {
   // Read the relevant values from the filesystem.
-  int modified = getModified (identifier);
+  int modified = get_modified_v1 (identifier);
 
   string file = assigned_file_v1 (identifier);
   string assigned = filter_url_file_get_contents (file);
@@ -1885,7 +1885,7 @@ int Database_Notes::get_raw_severity_v1 (int identifier)
 
 
 // Returns the severity of a note as a number.
-int Database_Notes::get_raw_severity_v2 (int identifier) // Todo write
+int Database_Notes::get_raw_severity_v2 (int identifier)
 {
   string severity = get_field_v2 (identifier, severity_key_v2 ());
   if (severity.empty ()) return 2;
@@ -1907,7 +1907,7 @@ string Database_Notes::get_severity_v1 (int identifier)
 
 
 // Returns the severity of a note as a localized string.
-string Database_Notes::get_severity_v2 (int identifier) // Todo write
+string Database_Notes::get_severity_v2 (int identifier)
 {
   int severity = get_raw_severity_v2 (identifier);
   vector <string> standard = standard_severities_v12 ();
@@ -1944,7 +1944,7 @@ void Database_Notes::set_raw_severity_v1 (int identifier, int severity)
 
 // Sets the severity of the note identified by identifier.
 // severity is a number.
-void Database_Notes::set_raw_severity_v2 (int identifier, int severity) // Todo write
+void Database_Notes::set_raw_severity_v2 (int identifier, int severity)
 {
   // Update the file system.
   set_field_v2 (identifier, severity_key_v2 (), convert_to_string (severity));
@@ -1979,7 +1979,7 @@ vector <Database_Notes_Text> Database_Notes::get_possible_severities_v12 ()
 }
 
 
-int Database_Notes::getModified (int identifier)
+int Database_Notes::get_modified_v1 (int identifier)
 {
   string file = modified_file_v1 (identifier);
   string modified = filter_url_file_get_contents (file);
@@ -1988,7 +1988,15 @@ int Database_Notes::getModified (int identifier)
 }
 
 
-void Database_Notes::set_modified_v1 (int identifier, int time) // Todo
+int Database_Notes::get_modified_v2 (int identifier) // Todo test
+{
+  string modified = get_field_v2 (identifier, modified_key_v2 ());
+  if (modified.empty ()) return 0;
+  return convert_to_int (modified);
+}
+
+
+void Database_Notes::set_modified_v1 (int identifier, int time) // Todo test
 {
   // Update the filesystem.
   string file = modified_file_v1 (identifier);
@@ -2008,7 +2016,7 @@ void Database_Notes::set_modified_v1 (int identifier, int time) // Todo
 }
 
 
-void Database_Notes::set_modified_v2 (int identifier, int time) // Todo
+void Database_Notes::set_modified_v2 (int identifier, int time) // Todo test
 {
   // Update the filesystem.
   set_field_v2 (identifier, modified_key_v2 (), convert_to_string (time));
@@ -2023,7 +2031,7 @@ void Database_Notes::set_modified_v2 (int identifier, int time) // Todo
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update checksum.
-  updateChecksum (identifier); // Todo update this.
+  updateChecksum (identifier);
 }
 
 
@@ -2476,7 +2484,7 @@ string Database_Notes::getBulk (vector <int> identifiers)
     string contents = get_contents_v1 (identifier);
     note << "c" << contents;
     note << "i" << identifier;
-    int modified = getModified (identifier);
+    int modified = get_modified_v1 (identifier);
     note << "m" << modified;
     string passage = get_raw_passage_v1 (identifier);
     note << "p" << passage;

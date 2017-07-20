@@ -642,7 +642,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
   }
   
-  // Modified
+  // Test setting and getting the "modified" property of notes.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -657,17 +657,25 @@ void test_database_notes ()
     int time = filter_date_seconds_since_epoch ();
     
     // Create note.
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
     
-    // Test getModified.
-    int value = database_notes.getModified (identifier);
+    // Test getter.
+    int value = database_notes.get_modified_v1 (oldidentifier);
     if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
-    // Test setModified.
+    value = database_notes.get_modified_v2 (newidentifier);
+    if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
+    
+    // Test setter.
     time = 123456789;
-    database_notes.set_modified_v1 (identifier, time);
-    value = database_notes.getModified (identifier);
+    database_notes.set_modified_v1 (oldidentifier, time);
+    value = database_notes.get_modified_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, time, value);;
+    database_notes.set_modified_v2 (newidentifier, time);
+    value = database_notes.get_modified_v2 (newidentifier);
     evaluate (__LINE__, __func__, time, value);;
   }
+  
   // GetIdentifiers
   {
     refresh_sandbox (true);
@@ -1283,7 +1291,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v1 (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity_v1 (identifier));
-      evaluate (__LINE__, __func__, 0, database_notes.getModified (identifier));
+      evaluate (__LINE__, __func__, 0, database_notes.get_modified_v1 (identifier));
     }
     
     // The checksums should now be gone.
@@ -1310,7 +1318,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_bible [i], bible);
       string contents = database_notes.get_contents_v1 (identifier);
       evaluate (__LINE__, __func__, v_contents [i], contents);
-      int modified = database_notes.getModified (identifier);
+      int modified = database_notes.get_modified_v1 (identifier);
       evaluate (__LINE__, __func__, v_modified [i], modified);
       string passage = database_notes.get_raw_passage_v1 (identifier);
       evaluate (__LINE__, __func__, v_passage [i], passage);

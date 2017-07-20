@@ -127,10 +127,13 @@ public:
   void set_status_v1 (int identifier, const string& status, bool import = false);
   void set_status_v2 (int identifier, const string& status, bool import = false);
   vector <Database_Notes_Text> get_possible_statuses_v12 ();
-  int getRawSeverity (int identifier);
-  string getSeverity (int identifier);
-  void setRawSeverity (int identifier, int severity);
-  vector <Database_Notes_Text> getPossibleSeverities ();
+  int get_raw_severity_v1 (int identifier);
+  int get_raw_severity_v2 (int identifier);
+  string get_severity_v1 (int identifier);
+  string get_severity_v2 (int identifier);
+  void set_raw_severity_v2 (int identifier, int severity);
+  void set_raw_severity_v1 (int identifier, int severity);
+  vector <Database_Notes_Text> get_possible_severities_v12 ();
   int getModified (int identifier);
   void set_modified_v1 (int identifier, int time);
   void set_modified_v2 (int identifier, int time);
@@ -164,7 +167,7 @@ private:
   string assembleContents (int identifier, string contents);
   string assembleContentsV2 (int identifier, string contents);
   vector <string> get_assignees_internal_v12 (string assignees);
-  vector <string> standard_severities ();
+  vector <string> standard_severities_v12 ();
   void note_edited_actions_v1 (int identifier);
   void note_edited_actions_v2 (int identifier);
   string getBibleSelector (vector <string> bibles);

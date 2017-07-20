@@ -316,7 +316,7 @@ void Database_Notes::updateDatabase (int identifier)
 
   string status = get_raw_status_v1 (identifier);
 
-  int severity = getRawSeverity (identifier);
+  int severity = get_raw_severity_v1 (identifier);
 
   string summary = get_summary_v1 (identifier);
 
@@ -1868,14 +1868,14 @@ vector <Database_Notes_Text> Database_Notes::get_possible_statuses_v12 ()
 }
 
 
-vector <string> Database_Notes::standard_severities ()
+vector <string> Database_Notes::standard_severities_v12 ()
 {
   return {"Wish", "Minor", "Normal", "Important", "Major", "Critical"};
 }
 
 
 // Returns the severity of a note as a number.
-int Database_Notes::getRawSeverity (int identifier)
+int Database_Notes::get_raw_severity_v1 (int identifier)
 {
   string file = severity_file_v1 (identifier);
   string severity = filter_url_file_get_contents (file);
@@ -1884,11 +1884,33 @@ int Database_Notes::getRawSeverity (int identifier)
 }
 
 
-// Returns the severity of a note as a localized string.
-string Database_Notes::getSeverity (int identifier)
+// Returns the severity of a note as a number.
+int Database_Notes::get_raw_severity_v2 (int identifier) // Todo write
 {
-  int severity = getRawSeverity (identifier);
-  vector <string> standard = standard_severities ();
+  string severity = get_field_v2 (identifier, severity_key_v2 ());
+  if (severity.empty ()) return 2;
+  return convert_to_int (severity);
+}
+
+
+// Returns the severity of a note as a localized string.
+string Database_Notes::get_severity_v1 (int identifier)
+{
+  int severity = get_raw_severity_v1 (identifier);
+  vector <string> standard = standard_severities_v12 ();
+  string severitystring;
+  if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [severity];
+  if (severitystring.empty()) severitystring = "Normal";
+  severitystring = translate (severitystring.c_str());
+  return severitystring;
+}
+
+
+// Returns the severity of a note as a localized string.
+string Database_Notes::get_severity_v2 (int identifier) // Todo write
+{
+  int severity = get_raw_severity_v2 (identifier);
+  vector <string> standard = standard_severities_v12 ();
   string severitystring;
   if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [severity];
   if (severitystring.empty()) severitystring = "Normal";
@@ -1899,7 +1921,7 @@ string Database_Notes::getSeverity (int identifier)
 
 // Sets the severity of the note identified by identifier.
 // severity is a number.
-void Database_Notes::setRawSeverity (int identifier, int severity)
+void Database_Notes::set_raw_severity_v1 (int identifier, int severity)
 {
   // Update the file system.
   string file = severity_file_v1 (identifier);
@@ -1920,10 +1942,32 @@ void Database_Notes::setRawSeverity (int identifier, int severity)
 }
 
 
-// Gets an array with the possible severities.
-vector <Database_Notes_Text> Database_Notes::getPossibleSeverities ()
+// Sets the severity of the note identified by identifier.
+// severity is a number.
+void Database_Notes::set_raw_severity_v2 (int identifier, int severity) // Todo write
 {
-  vector <string> standard = standard_severities ();
+  // Update the file system.
+  set_field_v2 (identifier, severity_key_v2 (), convert_to_string (severity));
+  
+  note_edited_actions_v2 (identifier);
+  
+  // Update the database also.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET severity =");
+  sql.add (severity);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
+// Gets an array with the possible severities.
+vector <Database_Notes_Text> Database_Notes::get_possible_severities_v12 ()
+{
+  vector <string> standard = standard_severities_v12 ();
   vector <Database_Notes_Text> severities;
   for (size_t i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
@@ -2442,7 +2486,7 @@ string Database_Notes::getBulk (vector <int> identifiers)
     note << "sm" << summary;
     string status = get_raw_status_v1 (identifier);
     note << "st" << status;
-    int severity = getRawSeverity (identifier);
+    int severity = get_raw_severity_v1 (identifier);
     note << "sv" << severity;
     // Add the note to the bulk container.
     bulk << note;

@@ -208,8 +208,8 @@ string notes_bulk (void * webserver_request)
   if (severity) {
     int severity = convert_to_int (request->query["severity"]);
     for (auto identifier : identifiers) {
-      if (database_notes.getRawSeverity (identifier) != severity) {
-        notes_logic.setRawSeverity (identifier, severity);
+      if (database_notes.get_raw_severity_v1 (identifier) != severity) {
+        notes_logic.set_raw_severity_v1 (identifier, severity);
       }
     }
     success = translate("The severity of the notes was updated");

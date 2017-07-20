@@ -66,14 +66,14 @@ string notes_severity_1 (void * webserver_request)
   
   if (request->query.count ("severity")) {
     int severity = convert_to_int (request->query["severity"]);
-    notes_logic.setRawSeverity (id, severity);
+    notes_logic.set_raw_severity_v1 (id, severity);
     redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";
   }
   
   
   string severityblock;
-  vector <Database_Notes_Text> severities = database_notes.getPossibleSeverities ();
+  vector <Database_Notes_Text> severities = database_notes.get_possible_severities_v12 ();
   for (auto & severity : severities) {
     severityblock.append ("<li><a href=\"severity-1?id=" + convert_to_string (id) + "&severity=" + severity.raw + "\">" + severity.localized + "</a></li>\n");
   }

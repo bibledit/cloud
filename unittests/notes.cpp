@@ -593,7 +593,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {"xxxxx", "yyyyy", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
   }
 
-  // Severity
+  // Getting and setting the severity.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -607,22 +607,31 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     
     // Create note.
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default severity = Normal.
-    string severity = database_notes.getSeverity (identifier);
+    string severity = database_notes.get_severity_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, "Normal", severity);
+    severity = database_notes.get_severity_v2 (newidentifier);
     evaluate (__LINE__, __func__, "Normal", severity);
     
-    // Test setSeverity.
-    database_notes.setRawSeverity (identifier, 0);
-    severity = database_notes.getSeverity (identifier);
+    // Test setting the severity.
+    database_notes.set_raw_severity_v1 (oldidentifier, 0);
+    severity = database_notes.get_severity_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "Wish", severity);
-    database_notes.setRawSeverity (identifier, 4);
-    severity = database_notes.getSeverity (identifier);
+    database_notes.set_raw_severity_v2 (newidentifier, 0);
+    severity = database_notes.get_severity_v2 (newidentifier);
+    evaluate (__LINE__, __func__, "Wish", severity);
+    database_notes.set_raw_severity_v1 (oldidentifier, 4);
+    severity = database_notes.get_severity_v1 (oldidentifier);
+    evaluate (__LINE__, __func__, "Major", severity);
+    database_notes.set_raw_severity_v2 (newidentifier, 4);
+    severity = database_notes.get_severity_v2 (newidentifier);
     evaluate (__LINE__, __func__, "Major", severity);
     
-    // Test getSeverities.
-    vector <Database_Notes_Text> severities = database_notes.getPossibleSeverities ();
+    // Test getting all unique severities.
+    vector <Database_Notes_Text> severities = database_notes.get_possible_severities_v12 ();
     vector <string> rawseverities;
     vector <string> localizedseverities;
     for (auto & severity : severities) {
@@ -632,6 +641,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {"0", "1", "2", "3", "4", "5"}, rawseverities);
     evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
   }
+  
   // Modified
   {
     refresh_sandbox (true);
@@ -919,7 +929,7 @@ void test_database_notes ()
     database_notes.deleteChecksum (identifier);
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.setRawSeverity (identifier, 123);
+    database_notes.set_raw_severity_v1 (identifier, 123);
     checksum = database_notes.getChecksum (identifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1272,7 +1282,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, "", database_notes.get_bible_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v1 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v1 (identifier));
-      evaluate (__LINE__, __func__, 2, database_notes.getRawSeverity (identifier));
+      evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity_v1 (identifier));
       evaluate (__LINE__, __func__, 0, database_notes.getModified (identifier));
     }
     
@@ -1304,7 +1314,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_modified [i], modified);
       string passage = database_notes.get_raw_passage_v1 (identifier);
       evaluate (__LINE__, __func__, v_passage [i], passage);
-      int severity = database_notes.getRawSeverity (identifier);
+      int severity = database_notes.get_raw_severity_v1 (identifier);
       evaluate (__LINE__, __func__, v_severity [i], severity);
       string status = database_notes.get_raw_status_v1 (identifier);
       evaluate (__LINE__, __func__, v_status [i], status);

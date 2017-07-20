@@ -208,7 +208,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_severity:
         {
-          content = convert_to_string (database_notes.getRawSeverity (identifier));
+          content = convert_to_string (database_notes.get_raw_severity_v1 (identifier));
           break;
         }
         case Sync_Logic::notes_put_bible:

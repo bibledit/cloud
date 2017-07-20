@@ -60,7 +60,7 @@ string notes_severity_n (void * webserver_request)
   
   
   string severityblock;
-  vector <Database_Notes_Text> severities = database_notes.getPossibleSeverities ();
+  vector <Database_Notes_Text> severities = database_notes.get_possible_severities_v12 ();
   for (auto & severity : severities) {
     severityblock.append ("<li><a href=\"bulk?severity=" + severity.raw + "\">" + severity.localized + "</a></li>\n");
   }

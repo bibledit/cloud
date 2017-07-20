@@ -169,7 +169,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_severity:
     {
-      return convert_to_string (database_notes.getRawSeverity (identifier));
+      return convert_to_string (database_notes.get_raw_severity_v1 (identifier));
     }
     case Sync_Logic::notes_get_bible:
     {
@@ -287,7 +287,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_severity:
     {
       // Set the severity for a note on the server.
-      notes_logic.setRawSeverity (identifier, convert_to_int (content));
+      notes_logic.set_raw_severity_v1 (identifier, convert_to_int (content));
       // Info
       Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary_v1 (identifier), Filter_Roles::manager ());
       // Done.

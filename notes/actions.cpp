@@ -158,7 +158,7 @@ string notes_actions (void * webserver_request)
   view.set_variable ("verses", verses);
                                           
                                           
-  string severity = database_notes.getSeverity (id);
+  string severity = database_notes.get_severity_v1 (id);
   view.set_variable ("severity",  severity);
 
   

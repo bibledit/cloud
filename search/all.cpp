@@ -92,7 +92,7 @@ string search_all (void * webserver_request)
 
 
   // Search the notes.
-  vector <int> identifiers = database_notes.searchNotes (queryString, bibles);
+  vector <int> identifiers = database_notes.search_notes_v12 (queryString, bibles);
   
   
   int noteCount = identifiers.size();
@@ -113,7 +113,7 @@ string search_all (void * webserver_request)
     string url = siteUrl + notes_note_url () + "?id=" + convert_to_string (identifier);
     
     // The excerpt.
-    string stext = database_notes.getSearchField (identifier);
+    string stext = database_notes.get_search_field_v12 (identifier);
     vector <string> vtext = filter_string_explode (stext, '\n');
     string excerpt;
     // Go through each line of text separately.

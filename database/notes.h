@@ -144,8 +144,8 @@ public:
   void set_public_v2 (int identifier, bool value);
   void update_search_fields_v1 (int identifier);
   void update_search_fields_v2 (int identifier);
-  string getSearchField (int identifier);
-  vector <int> searchNotes (string search, const vector <string> & bibles);
+  string get_search_field_v12 (int identifier);
+  vector <int> search_notes_v12 (string search, const vector <string> & bibles);
   void markForDeletion (int identifier);
   void unmarkForDeletion (int identifier);
   bool isMarkedForDeletion (int identifier);

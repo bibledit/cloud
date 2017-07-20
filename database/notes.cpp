@@ -2090,7 +2090,7 @@ void Database_Notes::update_search_fields_v1 (int identifier)
   string noteContents = get_contents_v1 (identifier);
   string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
-  if (cleanText == getSearchField (identifier)) return;
+  if (cleanText == get_search_field_v12 (identifier)) return;
   // Update the field.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET cleantext =");
@@ -2112,7 +2112,7 @@ void Database_Notes::update_search_fields_v2 (int identifier)
   string noteContents = get_contents_v2 (identifier);
   string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
-  if (cleanText == getSearchField (identifier)) return;
+  if (cleanText == get_search_field_v12 (identifier)) return;
   // Update the field.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET cleantext =");
@@ -2126,7 +2126,7 @@ void Database_Notes::update_search_fields_v2 (int identifier)
 }
 
 
-string Database_Notes::getSearchField (int identifier)
+string Database_Notes::get_search_field_v12 (int identifier)
 {
   SqliteSQL sql;
   sql.add ("SELECT cleantext FROM notes WHERE identifier =");
@@ -2147,7 +2147,7 @@ string Database_Notes::getSearchField (int identifier)
 // Returns an array of note identifiers.
 // search: Contains the text to search for.
 // bibles: Array of Bibles the notes should refer to.
-vector <int> Database_Notes::searchNotes (string search, const vector <string> & bibles)
+vector <int> Database_Notes::search_notes_v12 (string search, const vector <string> & bibles)
 {
   vector <int> identifiers;
 

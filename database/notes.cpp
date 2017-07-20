@@ -2082,28 +2082,6 @@ void Database_Notes::note_edited_actions_v2 (int identifier)
 }
 
 
-// Returns an array of duplicate note identifiers selected.
-vector <int> Database_Notes::selectDuplicateNotes (const string& rawpassage, const string& summary, const string& contents)
-{
-  vector <int> identifiers;
-  SqliteSQL sql;
-  sql.add ("SELECT identifier FROM notes WHERE passage =");
-  sql.add (rawpassage);
-  sql.add ("AND summary =");
-  sql.add (summary);
-  sql.add ("AND contents =");
-  sql.add (contents);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
-  database_sqlite_disconnect (db);
-  for (auto & id : result) {
-    identifiers.push_back (convert_to_int (id));
-  }
-  return identifiers;
-}
-
-
 void Database_Notes::update_search_fields_v1 (int identifier)
 {
   // The search field is a combination of the summary and content converted to clean text.

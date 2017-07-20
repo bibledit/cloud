@@ -142,7 +142,6 @@ public:
   bool get_public_v2 (int identifier);
   void set_public_v1 (int identifier, bool value);
   void set_public_v2 (int identifier, bool value);
-  vector <int> selectDuplicateNotes (const string& rawpassage, const string& summary, const string& contents);
   void update_search_fields_v1 (int identifier);
   void update_search_fields_v2 (int identifier);
   string getSearchField (int identifier);

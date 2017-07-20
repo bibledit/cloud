@@ -540,7 +540,7 @@ void Database_Notes::setIdentifier (int identifier, int new_identifier)
 
 // Gets new unique note identifier.
 // Works for the old and new storage system.
-int Database_Notes::getNewUniqueIdentifier ()
+int Database_Notes::get_new_unique_identifier_v12 ()
 {
   int identifier = 0;
   do {
@@ -550,7 +550,7 @@ int Database_Notes::getNewUniqueIdentifier ()
 }
 
 
-vector <int> Database_Notes::getIdentifiers ()
+vector <int> Database_Notes::get_identifiers_v12 ()
 {
   sqlite3 * db = connect ();
   vector <int> identifiers;
@@ -625,7 +625,7 @@ string Database_Notes::assembleContentsV2 (int identifier, string contents)
 int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
   // Create a new identifier.
-  int identifier = getNewUniqueIdentifier ();
+  int identifier = get_new_unique_identifier_v12 ();
 
   // Passage.
   string passage = encode_passage_v12 (book, chapter, verse);
@@ -694,7 +694,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
 int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
   // Create a new identifier.
-  int identifier = getNewUniqueIdentifier ();
+  int identifier = get_new_unique_identifier_v12 ();
   
   // Passage.
   string passage = encode_passage_v12 (book, chapter, verse);
@@ -751,7 +751,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   
   // Updates.
   update_search_fields_v1 (identifier); // Todo update those
-  note_edited_actions_v1 (identifier); // Todo update those.
+  note_edited_actions_v2 (identifier);
   
   // Return this new note´s identifier.
   return identifier;
@@ -1432,7 +1432,7 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  note_edited_actions_v1 (identifier); // Todo update
+  note_edited_actions_v2 (identifier);
 }
 
 
@@ -1988,7 +1988,7 @@ int Database_Notes::get_modified_v1 (int identifier)
 }
 
 
-int Database_Notes::get_modified_v2 (int identifier) // Todo test
+int Database_Notes::get_modified_v2 (int identifier)
 {
   string modified = get_field_v2 (identifier, modified_key_v2 ());
   if (modified.empty ()) return 0;
@@ -1996,7 +1996,7 @@ int Database_Notes::get_modified_v2 (int identifier) // Todo test
 }
 
 
-void Database_Notes::set_modified_v1 (int identifier, int time) // Todo test
+void Database_Notes::set_modified_v1 (int identifier, int time)
 {
   // Update the filesystem.
   string file = modified_file_v1 (identifier);
@@ -2016,7 +2016,7 @@ void Database_Notes::set_modified_v1 (int identifier, int time) // Todo test
 }
 
 
-void Database_Notes::set_modified_v2 (int identifier, int time) // Todo test
+void Database_Notes::set_modified_v2 (int identifier, int time)
 {
   // Update the filesystem.
   set_field_v2 (identifier, modified_key_v2 (), convert_to_string (time));
@@ -2035,14 +2035,21 @@ void Database_Notes::set_modified_v2 (int identifier, int time) // Todo test
 }
 
 
-bool Database_Notes::getPublic (int identifier)
+bool Database_Notes::get_public_v1 (int identifier)
 {
   string file = public_file_v1 (identifier);
   return file_or_dir_exists (file);
 }
 
 
-void Database_Notes::setPublic (int identifier, bool value)
+bool Database_Notes::get_public_v2 (int identifier) // Todo test true and false
+{
+  string value = get_field_v2 (identifier, public_key_v2 ());
+  return convert_to_bool (value);
+}
+
+
+void Database_Notes::set_public_v1 (int identifier, bool value)
 {
   string file = public_file_v1 (identifier);
   if (value) {
@@ -2050,6 +2057,12 @@ void Database_Notes::setPublic (int identifier, bool value)
   } else {
     filter_url_unlink (file);
   }
+}
+
+
+void Database_Notes::set_public_v2 (int identifier, bool value)
+{
+  set_field_v2 (identifier, public_key_v2 (), convert_to_string (value));
 }
 
 
@@ -2062,10 +2075,10 @@ void Database_Notes::note_edited_actions_v1 (int identifier)
 
 
 // Takes actions when a note has been edited.
-void Database_Notes::note_edited_actions_v2 (int identifier) // Todo test it.
+void Database_Notes::note_edited_actions_v2 (int identifier)
 {
   // Update 'modified' field.
-  set_modified_v1 (identifier, filter_date_seconds_since_epoch()); // Todo update
+  set_modified_v2 (identifier, filter_date_seconds_since_epoch());
 }
 
 
@@ -2113,7 +2126,7 @@ void Database_Notes::update_search_fields_v1 (int identifier)
 }
 
 
-void Database_Notes::update_search_fields_v2 (int identifier) // Todo test it.
+void Database_Notes::update_search_fields_v2 (int identifier)
 {
   // The search field is a combination of the summary and content converted to clean text.
   // It enables us to search with wildcards before and after the search query.
@@ -2229,7 +2242,7 @@ bool Database_Notes::isMarkedForDeletion (int identifier)
 
 void Database_Notes::touchMarkedForDeletion ()
 {
-  vector <int> identifiers = getIdentifiers ();
+  vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
     if (isMarkedForDeletion (identifier)) {
       string file = expiryFile (identifier);
@@ -2244,7 +2257,7 @@ void Database_Notes::touchMarkedForDeletion ()
 vector <int> Database_Notes::getDueForDeletion ()
 {
   vector <int> deletes;
-  vector <int> identifiers = getIdentifiers ();
+  vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
     if (isMarkedForDeletion (identifier)) {
       string file = expiryFile (identifier);

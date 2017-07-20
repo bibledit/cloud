@@ -114,8 +114,8 @@ string notes_actions (void * webserver_request)
   
   
   if (request->query.count ("publicnote")) {
-    bool state = database_notes.getPublic (id);
-    database_notes.setPublic (id, !state);
+    bool state = database_notes.get_public_v1 (id);
+    database_notes.set_public_v1 (id, !state);
   }
 
   
@@ -178,7 +178,7 @@ string notes_actions (void * webserver_request)
   
 #ifndef HAVE_CLIENT
   view.enable_zone ("cloud");
-  string on_off = styles_logic_off_on_inherit_toggle_text (database_notes.getPublic (id));
+  string on_off = styles_logic_off_on_inherit_toggle_text (database_notes.get_public_v1 (id));
   view.set_variable ("publicnote", on_off);
 #endif
   // Roles of translator or higher can edit the public visibility of a note.

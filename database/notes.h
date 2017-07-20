@@ -64,8 +64,8 @@ public:
   string public_file_v1 (int identifier);
   bool identifier_exists_v12 (int identifier);
   void setIdentifier (int identifier, int new_identifier);
-  int getNewUniqueIdentifier ();
-  vector <int> getIdentifiers ();
+  int get_new_unique_identifier_v12 ();
+  vector <int> get_identifiers_v12 ();
   int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   vector <int> selectNotes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
@@ -138,8 +138,10 @@ public:
   int get_modified_v2 (int identifier);
   void set_modified_v1 (int identifier, int time);
   void set_modified_v2 (int identifier, int time);
-  bool getPublic (int identifier);
-  void setPublic (int identifier, bool value);
+  bool get_public_v1 (int identifier);
+  bool get_public_v2 (int identifier);
+  void set_public_v1 (int identifier, bool value);
+  void set_public_v2 (int identifier, bool value);
   vector <int> selectDuplicateNotes (const string& rawpassage, const string& summary, const string& contents);
   void update_search_fields_v1 (int identifier);
   void update_search_fields_v2 (int identifier);

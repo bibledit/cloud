@@ -91,7 +91,9 @@ void test_archive ()
     // Zip existing folder through the miniz library.
     zipfile = filter_archive_zip_folder_miniz_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
-    evaluate (__LINE__, __func__, 2445, filter_url_filesize (zipfile));
+    int size = filter_url_filesize (zipfile);
+    if (size < 2437) evaluate (__LINE__, __func__, "Should be at least 2437 bytes", "");
+    if (size > 2445) evaluate (__LINE__, __func__, "Should be no larger than 2445 bytes", "");
 
     // Zipping non-existing folder through the shell fails.
     zipfile = filter_archive_zip_folder_shell_internal ("xxx");

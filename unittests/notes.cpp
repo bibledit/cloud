@@ -371,7 +371,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.store_new_note_v2 ("", 1, 1, 1, "Summary", "Contents", false);
-    notes_logic.handler_new_note_v2 (identifier); // Todo
+    notes_logic.handler_new_note_v2 (identifier);
     subscribers = database_notes.get_subscribers_v2 (identifier);
     // Todo fix evaluate (__LINE__, __func__, {"unittest"}, subscribers);
     // Todo fix evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest"));
@@ -664,7 +664,7 @@ void test_database_notes ()
     int value = database_notes.get_modified_v1 (oldidentifier);
     if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
     value = database_notes.get_modified_v2 (newidentifier);
-    if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value); // Todo
+    if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
     
     // Test setter.
     time = 123456789;
@@ -727,7 +727,7 @@ void test_database_notes ()
     
     // Change the identifier.
     int newId = 1234567;
-    database_notes.setIdentifier (identifier, newId);
+    database_notes.set_identifier_v1 (identifier, newId);
     
     // Check old and new identifier.
     string contents = database_notes.get_contents_v1 (identifier);
@@ -740,7 +740,8 @@ void test_database_notes ()
     checksum = database_notes.getChecksum (newId);
     evaluate (__LINE__, __func__, originalChecksum, checksum);
   }
-  // ExpireOneNote
+
+  // Testing note due for deletion.
   {
     // It tests whether a note marked for deletion,
     // after touching it 7 or 8 times, is returned as due for deletion,
@@ -754,26 +755,50 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
     
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    database_notes.markForDeletion (identifier);
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    vector <int> identifiers = database_notes.getDueForDeletion ();
+    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+
+    database_notes.mark_for_deletion_v1 (oldidentifier);
+    database_notes.mark_for_deletion_v2 (newidentifier);
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+
+    vector <int> identifiers = database_notes.get_due_for_deletion_v1 ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
-    evaluate (__LINE__, __func__, {identifier}, identifiers);
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
-    evaluate (__LINE__, __func__, {identifier}, identifiers);
+
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    
+    database_notes.touch_marked_for_deletion_v1 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {oldidentifier}, identifiers);
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {newidentifier}, identifiers);
+    
+    database_notes.touch_marked_for_deletion_v1 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {oldidentifier}, identifiers);
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {newidentifier}, identifiers);
   }
-  // ExpireUnmarkNote.
+
+  // Test unmarking a note for deletion.
   {
     // It tests whethe a note marked for deletion,
     // touched 6 times, then unmarked, touched again,
@@ -787,22 +812,40 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
     
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    database_notes.markForDeletion (identifier);
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.unmarkForDeletion (identifier);
-    vector <int> identifiers = database_notes.getDueForDeletion ();
+    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+
+    database_notes.mark_for_deletion_v1 (oldidentifier);
+    database_notes.mark_for_deletion_v2 (newidentifier);
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.unmark_for_deletion_v1 (oldidentifier);
+    database_notes.unmark_for_deletion_v2 (newidentifier);
+
+    vector <int> identifiers = database_notes.get_due_for_deletion_v1 ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    
+    database_notes.touch_marked_for_deletion_v1 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
     evaluate (__LINE__, __func__, {}, identifiers);
   }
-  // ExpireMoreNotes.
+
+  // Test touching several notes marked for deletion.
   {
     // It tests whether three notes, marked for deletion on different days,
     // are properly touched so they keep their own number of days.
@@ -815,33 +858,64 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
     
-    int identifier1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int identifier2 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int identifier3 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    database_notes.markForDeletion (identifier1);
-    database_notes.touchMarkedForDeletion ();
-    database_notes.markForDeletion (identifier2);
-    database_notes.touchMarkedForDeletion ();
-    database_notes.markForDeletion (identifier3);
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    database_notes.touchMarkedForDeletion ();
-    vector <int> identifiers = database_notes.getDueForDeletion ();
+    int oldidentifier1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int oldidentifier2 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int oldidentifier3 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier1 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier3 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+
+    database_notes.mark_for_deletion_v1 (oldidentifier1);
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.mark_for_deletion_v1 (oldidentifier2);
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.mark_for_deletion_v1 (oldidentifier3);
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.touch_marked_for_deletion_v1 ();
+    database_notes.mark_for_deletion_v2 (newidentifier1);
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.mark_for_deletion_v2 (newidentifier2);
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.mark_for_deletion_v2 (newidentifier3);
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion_v2 ();
+    
+    vector <int> identifiers = database_notes.get_due_for_deletion_v1 ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
-    evaluate (__LINE__, __func__, {identifier1}, identifiers);
-    database_notes.unmarkForDeletion (identifier1);
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
-    evaluate (__LINE__, __func__, {identifier2}, identifiers);
-    database_notes.unmarkForDeletion (identifier2);
-    database_notes.touchMarkedForDeletion ();
-    identifiers = database_notes.getDueForDeletion ();
-    evaluate (__LINE__, __func__, {identifier3}, identifiers);
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+
+    database_notes.touch_marked_for_deletion_v1 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {oldidentifier1}, identifiers);
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {newidentifier1}, identifiers);
+
+    database_notes.unmark_for_deletion_v1 (oldidentifier1);
+    database_notes.touch_marked_for_deletion_v1 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {oldidentifier2}, identifiers);
+    database_notes.unmark_for_deletion_v2 (newidentifier1);
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {newidentifier2}, identifiers);
+
+    database_notes.unmark_for_deletion_v1 (oldidentifier2);
+    database_notes.touch_marked_for_deletion_v1 ();
+    identifiers = database_notes.get_due_for_deletion_v1 ();
+    evaluate (__LINE__, __func__, {oldidentifier3}, identifiers);
+    database_notes.unmark_for_deletion_v2 (newidentifier2);
+    database_notes.touch_marked_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion_v2 ();
+    evaluate (__LINE__, __func__, {newidentifier3}, identifiers);
   }
-  // ExpireIsMarked
+
+  // Testing whether note is marked for deletion. Todo test
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -852,22 +926,42 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
     
-    int identifier1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int identifier2 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int identifier3 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    database_notes.markForDeletion (identifier1);
-    evaluate (__LINE__, __func__, true, database_notes.isMarkedForDeletion (identifier1));
-    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier2));
-    database_notes.unmarkForDeletion (identifier2);
-    evaluate (__LINE__, __func__, true, database_notes.isMarkedForDeletion (identifier1));
-    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier2));
-    database_notes.unmarkForDeletion (identifier1);
-    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier1));
-    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier2));
-    database_notes.markForDeletion (identifier2);
-    evaluate (__LINE__, __func__, true, database_notes.isMarkedForDeletion (identifier2));
-    evaluate (__LINE__, __func__, false, database_notes.isMarkedForDeletion (identifier3));
+    int oldidentifier1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int oldidentifier2 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int oldidentifier3 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier1 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier3 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+
+    database_notes.mark_for_deletion_v1 (oldidentifier1);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v1 (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
+    database_notes.mark_for_deletion_v2 (newidentifier1);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
+    
+    database_notes.unmark_for_deletion_v1 (oldidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v1 (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
+    database_notes.unmark_for_deletion_v2 (newidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
+
+    database_notes.unmark_for_deletion_v1 (oldidentifier1);
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
+    database_notes.unmark_for_deletion_v2 (newidentifier1);
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
+
+    database_notes.mark_for_deletion_v1 (oldidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier3));
+    database_notes.mark_for_deletion_v2 (newidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier3));
   }
+
   // ChecksumOne
   {
     refresh_sandbox (true);
@@ -993,15 +1087,15 @@ void test_database_notes ()
     // Create a couple of notes to work with.
     int identifier = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary", "contents", false);
     int identifier1 = 100000000;
-    database_notes.setIdentifier (identifier, identifier1);
+    database_notes.set_identifier_v1 (identifier, identifier1);
     
     identifier = database_notes.store_new_note_v1 ("bible2", 1, 2, 3, "summary", "contents", false);
     int identifier2 = 500000000;
-    database_notes.setIdentifier (identifier, identifier2);
+    database_notes.set_identifier_v1 (identifier, identifier2);
     
     identifier = database_notes.store_new_note_v1 ("", 1, 2, 3, "summary", "contents", false);
     int identifier3 = 999999999;
-    database_notes.setIdentifier (identifier, identifier3);
+    database_notes.set_identifier_v1 (identifier, identifier3);
     
     // Test selection mechanism for certain Bibles.
     vector <int> identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {"bible1", "bible2"}, false);
@@ -1085,25 +1179,25 @@ void test_database_notes ()
     int identifier3 = database_notes.store_new_note_v1 ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // Select notes while varying Bible selection.
-    vector <int> identifiers = database_notes.selectNotes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    vector <int> identifiers = database_notes.select_notes_v12 ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier1}, identifiers);
     
-    identifiers = database_notes.selectNotes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier2}, identifiers);
     
-    identifiers = database_notes.selectNotes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier1, identifier2}, identifiers);
     
-    identifiers = database_notes.selectNotes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    identifiers = database_notes.selectNotes ({}, 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", -1);
+    identifiers = database_notes.select_notes_v12 ({}, 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    identifiers = database_notes.selectNotes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
     
-    identifiers = database_notes.selectNotes ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes_v12 ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
   }
   // ResilienceNotes.
@@ -1293,7 +1387,7 @@ void test_database_notes ()
     
     // Get some search results for later reference.
     vector <int> search_results;
-    search_results = database_notes.selectNotes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
     string json = database_notes.getBulk (v_identifier);
@@ -1320,7 +1414,7 @@ void test_database_notes ()
     
     // There should be no search results anymore.
     vector <int> no_search_results;
-    no_search_results = database_notes.selectNotes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    no_search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
@@ -1358,7 +1452,7 @@ void test_database_notes ()
     
     // The search results should be back.
     vector <int> restored_search;
-    restored_search = database_notes.selectNotes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    restored_search = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, search_results, restored_search);
   }
 }

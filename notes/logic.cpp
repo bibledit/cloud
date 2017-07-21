@@ -262,7 +262,7 @@ void Notes_Logic::setBible (int identifier, const string& bible)
 void Notes_Logic::markForDeletion (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.markForDeletion (identifier);
+  database_notes.mark_for_deletion_v1 (identifier);
   trash_consultation_note (webserver_request, identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
@@ -279,7 +279,7 @@ void Notes_Logic::markForDeletion (int identifier)
 void Notes_Logic::unmarkForDeletion (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.unmarkForDeletion (identifier);
+  database_notes.unmark_for_deletion_v1 (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();

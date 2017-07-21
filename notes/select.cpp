@@ -252,7 +252,7 @@ string notes_select (void * webserver_request)
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
-  vector <int> identifiers = database_notes.selectNotes (bibles,
+  vector <int> identifiers = database_notes.select_notes_v12 (bibles,
                                                          book,
                                                          chapter,
                                                          verse,

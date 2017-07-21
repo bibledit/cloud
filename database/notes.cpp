@@ -215,8 +215,8 @@ void Database_Notes::trim_v12 ()
 void Database_Notes::trim_server_v12 ()
 {
   // Notes expiry.
-  touchMarkedForDeletion ();
-  vector <int> identifiers = getDueForDeletion ();
+  touch_marked_for_deletion_v1 ();
+  vector <int> identifiers = get_due_for_deletion_v1 ();
   for (auto & identifier : identifiers) {
     trash_consultation_note (webserver_request, identifier);
     erase_v12 (identifier);
@@ -503,7 +503,7 @@ bool Database_Notes::identifier_exists_v12 (int identifier)
 
 // Update a note's identifier.
 // new_identifier is the value given to the note identifier by identifier.
-void Database_Notes::setIdentifier (int identifier, int new_identifier)
+void Database_Notes::set_identifier_v1 (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
   erase_v12 (new_identifier);
@@ -771,7 +771,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-vector <int> Database_Notes::selectNotes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
+vector <int> Database_Notes::select_notes_v12 (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
 {
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <int> identifiers;
@@ -1088,7 +1088,7 @@ void Database_Notes::add_comment_v1 (int identifier, const string& comment)
   
   // Some triggers.
   note_edited_actions_v1 (identifier);
-  unmarkForDeletion (identifier);
+  unmark_for_deletion_v1 (identifier);
   
   // Update shadow database.
   SqliteSQL sql;
@@ -1113,7 +1113,7 @@ void Database_Notes::add_comment_v2 (int identifier, const string& comment) // T
   
   // Some triggers.
   note_edited_actions_v1 (identifier);
-  unmarkForDeletion (identifier);
+  unmark_for_deletion_v1 (identifier);
   
   // Update shadow database.
   SqliteSQL sql;
@@ -2042,7 +2042,7 @@ bool Database_Notes::get_public_v1 (int identifier)
 }
 
 
-bool Database_Notes::get_public_v2 (int identifier) // Todo test true and false
+bool Database_Notes::get_public_v2 (int identifier)
 {
   string value = get_field_v2 (identifier, public_key_v2 ());
   return convert_to_bool (value);
@@ -2196,7 +2196,7 @@ vector <int> Database_Notes::search_notes_v12 (string search, const vector <stri
 }
 
 
-void Database_Notes::markForDeletion (int identifier)
+void Database_Notes::mark_for_deletion_v1 (int identifier)
 {
   string file = expiryFile (identifier);
   // Delete after 7 days.
@@ -2204,25 +2204,45 @@ void Database_Notes::markForDeletion (int identifier)
 }
 
 
-void Database_Notes::unmarkForDeletion (int identifier)
+void Database_Notes::mark_for_deletion_v2 (int identifier) // Todo test
+{
+  // Delete after 7 days.
+  set_field_v2 (identifier, expiry_key_v2 (), "7");
+}
+
+
+void Database_Notes::unmark_for_deletion_v1 (int identifier)
 {
   string file = expiryFile (identifier);
   filter_url_unlink (file);
 }
 
 
-bool Database_Notes::isMarkedForDeletion (int identifier)
+void Database_Notes::unmark_for_deletion_v2 (int identifier) // Todo test
+{
+  set_field_v2 (identifier, expiry_key_v2 (), "");
+}
+
+
+bool Database_Notes::is_marked_for_deletion_v1 (int identifier)
 {
   string file = expiryFile (identifier);
   return file_or_dir_exists (file);
 }
 
 
-void Database_Notes::touchMarkedForDeletion ()
+bool Database_Notes::is_marked_for_deletion_v2 (int identifier) // Todo test
+{
+  string expiry = get_field_v2 (identifier, expiry_key_v2 ());
+  return !expiry.empty ();
+}
+
+
+void Database_Notes::touch_marked_for_deletion_v1 ()
 {
   vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
-    if (isMarkedForDeletion (identifier)) {
+    if (is_marked_for_deletion_v1 (identifier)) {
       string file = expiryFile (identifier);
       int days = convert_to_int (filter_url_file_get_contents (file));
       days--;
@@ -2232,14 +2252,45 @@ void Database_Notes::touchMarkedForDeletion ()
 }
 
 
-vector <int> Database_Notes::getDueForDeletion ()
+void Database_Notes::touch_marked_for_deletion_v2 () // Todo
+{
+  vector <int> identifiers = get_identifiers_v12 ();
+  for (auto & identifier : identifiers) {
+    if (is_marked_for_deletion_v2 (identifier)) {
+      string expiry = get_field_v2 (identifier, expiry_key_v2 ());
+      int days = convert_to_int (expiry);
+      days--;
+      set_field_v2 (identifier, expiry_key_v2 (), convert_to_string (days));
+    }
+  }
+}
+
+
+vector <int> Database_Notes::get_due_for_deletion_v1 ()
 {
   vector <int> deletes;
   vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
-    if (isMarkedForDeletion (identifier)) {
+    if (is_marked_for_deletion_v1 (identifier)) {
       string file = expiryFile (identifier);
       string sdays = filter_url_file_get_contents (file);
+      int idays = convert_to_int (sdays);
+      if ((sdays == "0") || (idays < 0)) {
+        deletes.push_back (identifier);
+      }
+    }
+  }
+  return deletes;
+}
+
+
+vector <int> Database_Notes::get_due_for_deletion_v2 () // Todo test
+{
+  vector <int> deletes;
+  vector <int> identifiers = get_identifiers_v12 ();
+  for (auto & identifier : identifiers) {
+    if (is_marked_for_deletion_v2 (identifier)) {
+      string sdays = get_field_v2 (identifier, expiry_key_v2 ());
       int idays = convert_to_int (sdays);
       if ((sdays == "0") || (idays < 0)) {
         deletes.push_back (identifier);
@@ -2621,6 +2672,12 @@ const char * Database_Notes::subscriptions_key_v2 ()
 const char * Database_Notes::assigned_key_v2 ()
 {
   return "assigned";
+}
+
+
+const char * Database_Notes::expiry_key_v2 ()
+{
+  return "expiry";
 }
 
 

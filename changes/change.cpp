@@ -113,7 +113,7 @@ string changes_change (void * webserver_request)
   
   
   // Get notes for the passage.
-  vector <int> notes = database_notes.selectNotes (bibles, // Bibles.
+  vector <int> notes = database_notes.select_notes_v12 (bibles, // Bibles.
                                                    passage.book, passage.chapter, convert_to_int (passage.verse),
                                                    0,  // Passage selector.
                                                    0,  // Edit selector.
@@ -130,7 +130,7 @@ string changes_change (void * webserver_request)
   // Remove the ones marked for deletion.
   vector <int> notes2;
   for (auto note : notes) {
-    if (!database_notes.isMarkedForDeletion (note)) {
+    if (!database_notes.is_marked_for_deletion_v1 (note)) {
       notes2.push_back (note);
     }
   }

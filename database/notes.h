@@ -63,12 +63,12 @@ public:
   string assigned_file_v1 (int identifier);
   string public_file_v1 (int identifier);
   bool identifier_exists_v12 (int identifier);
-  void setIdentifier (int identifier, int new_identifier);
+  void set_identifier_v1 (int identifier, int new_identifier);
   int get_new_unique_identifier_v12 ();
   vector <int> get_identifiers_v12 ();
   int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
-  vector <int> selectNotes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
+  vector <int> select_notes_v12 (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
   string get_summary_v1 (int identifier);
   string get_summary_v2 (int identifier);
   void set_summary_v1 (int identifier, const string& summary);
@@ -146,11 +146,16 @@ public:
   void update_search_fields_v2 (int identifier);
   string get_search_field_v12 (int identifier);
   vector <int> search_notes_v12 (string search, const vector <string> & bibles);
-  void markForDeletion (int identifier);
-  void unmarkForDeletion (int identifier);
-  bool isMarkedForDeletion (int identifier);
-  void touchMarkedForDeletion ();
-  vector <int> getDueForDeletion ();
+  void mark_for_deletion_v1 (int identifier);
+  void mark_for_deletion_v2 (int identifier);
+  void unmark_for_deletion_v1 (int identifier);
+  void unmark_for_deletion_v2 (int identifier);
+  bool is_marked_for_deletion_v1 (int identifier);
+  bool is_marked_for_deletion_v2 (int identifier);
+  void touch_marked_for_deletion_v1 ();
+  void touch_marked_for_deletion_v2 ();
+  vector <int> get_due_for_deletion_v1 ();
+  vector <int> get_due_for_deletion_v2 ();
   void setChecksum (int identifier, const string & checksum);
   string getChecksum (int identifier);
   void deleteChecksum (int identifier);
@@ -190,6 +195,7 @@ private:
   const char * contents_key_v2 ();
   const char * subscriptions_key_v2 ();
   const char * assigned_key_v2 ();
+  const char * expiry_key_v2 ();
   const char * public_key_v2 ();
 };
 

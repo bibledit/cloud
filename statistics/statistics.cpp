@@ -64,7 +64,7 @@ void statistics_statistics ()
     
     
     if (request.database_config_user()->getUserAssignedNotesStatisticsNotification (user)) {
-      vector <int> ids = database_notes.selectNotes (
+      vector <int> ids = database_notes.select_notes_v12 (
                                                      bibles, // Bibles.
                                                      0,      // Book
                                                      0,      // Chapter
@@ -89,7 +89,7 @@ void statistics_statistics ()
       body.push_back ("<ul>\n");
       request.session_logic ()->setUsername (user);
       
-      vector <int> ids = database_notes.selectNotes (
+      vector <int> ids = database_notes.select_notes_v12 (
                                                      bibles, // Bible.
                                                      0,      // Book
                                                      0,      // Chapter
@@ -106,7 +106,7 @@ void statistics_statistics ()
                                                      "",     // Search text.
                                                      -1);     // Limit.
       body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribed\">" + translate("Total") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
-      ids = database_notes.selectNotes (
+      ids = database_notes.select_notes_v12 (
                                                      bibles, // Bible.
                                                      0,      // Book
                                                      0,      // Chapter
@@ -123,7 +123,7 @@ void statistics_statistics ()
                                                      "",     // Search text.
                                                      -1);     // Limit.
       body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribeddayidle\">" + translate("Inactive for a day") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
-      ids = database_notes.selectNotes (
+      ids = database_notes.select_notes_v12 (
                                                      bibles, // Bible.
                                                      0,      // Book
                                                      0,      // Chapter

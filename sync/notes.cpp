@@ -114,7 +114,7 @@ string sync_notes (void * webserver_request)
       // Else the server would run at 100% cpu for some time to get the total checksums of notes.
       string checksum = Database_State::getNotesChecksum (lowId, highId);
       if (checksum.empty ()) {
-        checksum = database_notes.getMultipleChecksum (identifiers);
+        checksum = database_notes.get_multiple_checksum_v12 (identifiers);
         Database_State::putNotesChecksum (lowId, highId, checksum);
       }
       string response = convert_to_string (identifiers.size ()) + "\n" + checksum;
@@ -129,7 +129,7 @@ string sync_notes (void * webserver_request)
         if (!response.empty ()) response.append ("\n");
         response.append (convert_to_string (identifier));
         response.append ("\n");
-        response.append (database_notes.getChecksum (identifier));
+        response.append (database_notes.get_checksum_v12 (identifier));
       }
       return response;
     }
@@ -139,7 +139,7 @@ string sync_notes (void * webserver_request)
       // because this is the first thing a client does when it requests a full note.
       // The client requests the notes in bits and pieces.
       database_notes.update_search_fields_v1 (identifier);
-      database_notes.updateChecksum (identifier);
+      database_notes.update_checksum_v1 (identifier);
       // Return summary.
       string summary = database_notes.get_summary_v1 (identifier);
       return summary;

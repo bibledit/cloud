@@ -241,12 +241,13 @@ void Database_Notes::sync ()
 
   vector <string> bits1 = filter_url_scandir (main_folder);
   for (auto & bit1 : bits1) {
-    // Bit1/2/3 may start with a 0, so conversion to int cannot be used, rather use a length of 3.
+    // Bit 1 / 2 / 3 may start with a 0, so conversion to int cannot be used, rather use a length of 3.
     // It used conversion to int before to determine it was a real note,
     // with the result that it missed 10% of the notes, which subsequently got deleted, oops!
     if (bit1.length () == 3) {
       vector <string> bits2 = filter_url_scandir (filter_url_create_path (main_folder, bit1));
       for (auto & bit2 : bits2) {
+        // Old storage mechanism, e.g. folder "425".
         if (bit2.length () == 3) {
           vector <string> bits3 = filter_url_scandir (filter_url_create_path (main_folder, bit1, bit2));
           for (auto & bit3 : bits3) {
@@ -255,9 +256,17 @@ void Database_Notes::sync ()
               identifiers.push_back (identifier);
               updateDatabase (identifier);
               update_search_fields_v1 (identifier);
-              updateChecksum (identifier);
+              update_checksum_v1 (identifier);
             }
           }
+        }
+        // New JSON storage mechanism, e.g. file "894093.json".
+        if ((bit2.length () == 11) && bit2.find (".json") != string::npos) {
+          int identifier = convert_to_int (bit1 + bit2.substr (0,6));
+          identifiers.push_back (identifier);
+          updateDatabase (identifier); // Todo
+          update_search_fields_v2 (identifier);
+          update_checksum_v2 (identifier);
         }
       }
     }
@@ -292,7 +301,7 @@ void Database_Notes::sync ()
   // Any note identifiers in the checksums database, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      deleteChecksum (id);
+      delete_checksum_v12 (id);
     }
   }
   
@@ -722,7 +731,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   note << "bible" << bible;
   note << "passage" << passage;
   note << "status" << status;
-  note << "severity" << severity;
+  note << "severity" << convert_to_string (severity);
   note << "summary" << summary;
   note << "contents" << contents;
   string json = note.json ();
@@ -750,7 +759,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   database_sqlite_disconnect (db);
   
   // Updates.
-  update_search_fields_v1 (identifier); // Todo update those
+  update_search_fields_v2 (identifier); // Todo test
   note_edited_actions_v2 (identifier);
   
   // Return this new note´s identifier.
@@ -976,7 +985,7 @@ void Database_Notes::set_summary_v1 (int identifier, const string& summary)
   // Update the search data in the database.
   update_search_fields_v1 (identifier);
   // Update checksum.
-  updateChecksum (identifier);
+  update_checksum_v1 (identifier);
 }
 
 
@@ -997,7 +1006,7 @@ void Database_Notes::set_summary_v2 (int identifier, string summary)
   // Update the search data in the database.
   update_search_fields_v1 (identifier);
   // Update checksum.
-  updateChecksum (identifier);
+  update_checksum_v2 (identifier);
 }
 
 
@@ -1032,7 +1041,7 @@ void Database_Notes::set_contents_v1 (int identifier, const string& contents)
   // Update search system.
   update_search_fields_v1 (identifier);
   // Update checksum.
-  updateChecksum (identifier);
+  update_checksum_v1 (identifier);
 }
 
 
@@ -1053,7 +1062,7 @@ void Database_Notes::set_contents_v2 (int identifier, const string& contents)
   // Update search system.
   update_search_fields_v1 (identifier);
   // Update checksum.
-  updateChecksum (identifier);
+  update_checksum_v2 (identifier);
 }
 
 
@@ -1067,7 +1076,7 @@ void Database_Notes::erase_v12 (int identifier)
   string path = note_file_v2 (identifier);
   filter_url_unlink (path);
   // Update database as well.
-  deleteChecksum (identifier);
+  delete_checksum_v12 (identifier);
   SqliteSQL sql;
   sql.add ("DELETE FROM notes WHERE identifier =");
   sql.add (identifier);
@@ -1221,7 +1230,7 @@ void Database_Notes::set_subscribers_v1 (int identifier, vector <string> subscri
   database_sqlite_disconnect (db);
 
   // Checksum.
-  updateChecksum (identifier);
+  update_checksum_v1 (identifier);
 }
 
 
@@ -1249,7 +1258,7 @@ void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscri
   database_sqlite_disconnect (db);
   
   // Checksum.
-  updateChecksum (identifier);
+  update_checksum_v2 (identifier);
 }
 
 
@@ -2012,7 +2021,7 @@ void Database_Notes::set_modified_v1 (int identifier, int time)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update checksum.
-  updateChecksum (identifier);
+  update_checksum_v1 (identifier);
 }
 
 
@@ -2031,7 +2040,7 @@ void Database_Notes::set_modified_v2 (int identifier, int time)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update checksum.
-  updateChecksum (identifier);
+  update_checksum_v2 (identifier);
 }
 
 
@@ -2204,7 +2213,7 @@ void Database_Notes::mark_for_deletion_v1 (int identifier)
 }
 
 
-void Database_Notes::mark_for_deletion_v2 (int identifier) // Todo test
+void Database_Notes::mark_for_deletion_v2 (int identifier)
 {
   // Delete after 7 days.
   set_field_v2 (identifier, expiry_key_v2 (), "7");
@@ -2218,7 +2227,7 @@ void Database_Notes::unmark_for_deletion_v1 (int identifier)
 }
 
 
-void Database_Notes::unmark_for_deletion_v2 (int identifier) // Todo test
+void Database_Notes::unmark_for_deletion_v2 (int identifier)
 {
   set_field_v2 (identifier, expiry_key_v2 (), "");
 }
@@ -2231,7 +2240,7 @@ bool Database_Notes::is_marked_for_deletion_v1 (int identifier)
 }
 
 
-bool Database_Notes::is_marked_for_deletion_v2 (int identifier) // Todo test
+bool Database_Notes::is_marked_for_deletion_v2 (int identifier)
 {
   string expiry = get_field_v2 (identifier, expiry_key_v2 ());
   return !expiry.empty ();
@@ -2252,7 +2261,7 @@ void Database_Notes::touch_marked_for_deletion_v1 ()
 }
 
 
-void Database_Notes::touch_marked_for_deletion_v2 () // Todo
+void Database_Notes::touch_marked_for_deletion_v2 ()
 {
   vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
@@ -2284,7 +2293,7 @@ vector <int> Database_Notes::get_due_for_deletion_v1 ()
 }
 
 
-vector <int> Database_Notes::get_due_for_deletion_v2 () // Todo test
+vector <int> Database_Notes::get_due_for_deletion_v2 ()
 {
   vector <int> deletes;
   vector <int> identifiers = get_identifiers_v12 ();
@@ -2302,12 +2311,12 @@ vector <int> Database_Notes::get_due_for_deletion_v2 () // Todo test
 
 
 // Writes the checksum for note identifier in the database.
-void Database_Notes::setChecksum (int identifier, const string & checksum)
+void Database_Notes::set_checksum_v12 (int identifier, const string & checksum)
 {
   // Do not write the checksum if it is already up to date.
-  if (checksum == getChecksum (identifier)) return;
+  if (checksum == get_checksum_v12 (identifier)) return;
   // Write the checksum to the database.
-  deleteChecksum (identifier);
+  delete_checksum_v12 (identifier);
   SqliteSQL sql;
   sql.add ("INSERT INTO checksums VALUES (");
   sql.add (identifier);
@@ -2321,7 +2330,7 @@ void Database_Notes::setChecksum (int identifier, const string & checksum)
 
 
 // Reads the checksum for note identifier from the database.
-string Database_Notes::getChecksum (int identifier)
+string Database_Notes::get_checksum_v12 (int identifier)
 {
   SqliteSQL sql;
   sql.add ("SELECT checksum FROM checksums WHERE identifier =");
@@ -2339,7 +2348,7 @@ string Database_Notes::getChecksum (int identifier)
 
 
 // Deletes the checksum for note identifier from the database.
-void Database_Notes::deleteChecksum (int identifier)
+void Database_Notes::delete_checksum_v12 (int identifier)
 {
   SqliteSQL sql;
   sql.add ("DELETE FROM checksums WHERE identifier =");
@@ -2355,7 +2364,7 @@ void Database_Notes::deleteChecksum (int identifier)
 
 // The function calculates the checksum of the note signature,
 // and writes it to the filesystem.
-void Database_Notes::updateChecksum (int identifier)
+void Database_Notes::update_checksum_v1 (int identifier)
 {
   // Read the raw data from disk to speed up checksumming.
   string checksum;
@@ -2378,12 +2387,41 @@ void Database_Notes::updateChecksum (int identifier)
   checksum.append ("contents");
   checksum.append (filter_url_file_get_contents (contents_file_v1 (identifier)));
   checksum = md5 (checksum);
-  setChecksum (identifier, checksum);
+  set_checksum_v12 (identifier, checksum);
+}
+
+
+// The function calculates the checksum of the note signature,
+// and writes it to the filesystem.
+void Database_Notes::update_checksum_v2 (int identifier)
+{
+  // Read the raw data from disk to speed up checksumming.
+  string checksum;
+  checksum.append ("modified");
+  checksum.append (get_field_v2 (identifier, modified_key_v2 ()));
+  checksum.append ("assignees");
+  checksum.append (get_field_v2 (identifier, assigned_key_v2 ()));
+  checksum.append ("subscribers");
+  checksum.append (get_field_v2 (identifier, subscriptions_key_v2 ()));
+  checksum.append ("bible");
+  checksum.append (get_field_v2 (identifier, bible_key_v2 ()));
+  checksum.append ("passages");
+  checksum.append (get_field_v2 (identifier, passage_key_v2 ()));
+  checksum.append ("status");
+  checksum.append (get_field_v2 (identifier, status_key_v2 ()));
+  checksum.append ("severity");
+  checksum.append (get_field_v2 (identifier, severity_key_v2 ()));
+  checksum.append ("summary");
+  checksum.append (get_field_v2 (identifier, summary_key_v2 ()));
+  checksum.append ("contents");
+  checksum.append (get_field_v2 (identifier, contents_key_v2 ()));
+  checksum = md5 (checksum);
+  set_checksum_v12 (identifier, checksum);
 }
 
 
 // Queries the database for the checksum for the notes given in the list of $identifiers.
-string Database_Notes::getMultipleChecksum (const vector <int> & identifiers)
+string Database_Notes::get_multiple_checksum_v12 (const vector <int> & identifiers)
 {
   sqlite3 * db = connect_checksums ();
   string checksum;
@@ -2587,7 +2625,7 @@ vector <string> Database_Notes::setBulk (string json)
     // Update the indexes.
     updateDatabase (identifier);
     update_search_fields_v1 (identifier);
-    updateChecksum (identifier);
+    update_checksum_v1 (identifier);
   }
   
   // Container with all the summaries of the notes that were stored.

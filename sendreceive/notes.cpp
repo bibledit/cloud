@@ -396,7 +396,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // Checksum cache to speed things up in case of thousands of notes.
   string client_checksum = Database_State::getNotesChecksum (lowId, highId);
   if (client_checksum.empty ()) {
-    client_checksum = database_notes.getMultipleChecksum (identifiers);
+    client_checksum = database_notes.get_multiple_checksum_v12 (identifiers);
     Database_State::putNotesChecksum (lowId, highId, client_checksum);
   }
   if (server_total == client_total) {
@@ -487,7 +487,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     if (database_noteactions.exists (identifier)) continue;
     
     string server_checksum = server_checksums [i];
-    string client_checksum = database_notes.getChecksum (identifier);
+    string client_checksum = database_notes.get_checksum_v12 (identifier);
     if (client_checksum == server_checksum) continue;
     
     // Store the identifier to be downloaded as part of a bulk download.

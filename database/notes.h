@@ -156,11 +156,12 @@ public:
   void touch_marked_for_deletion_v2 ();
   vector <int> get_due_for_deletion_v1 ();
   vector <int> get_due_for_deletion_v2 ();
-  void setChecksum (int identifier, const string & checksum);
-  string getChecksum (int identifier);
-  void deleteChecksum (int identifier);
-  void updateChecksum (int identifier);
-  string getMultipleChecksum (const vector <int> & identifiers);
+  void set_checksum_v12 (int identifier, const string & checksum);
+  string get_checksum_v12 (int identifier);
+  void delete_checksum_v12 (int identifier);
+  void update_checksum_v1 (int identifier);
+  void update_checksum_v2 (int identifier);
+  string get_multiple_checksum_v12 (const vector <int> & identifiers);
   vector <int> getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles, bool anybible);
   void set_availability (bool available);
   bool available ();

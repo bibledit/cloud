@@ -47,7 +47,7 @@ public:
   void trim_v12 ();
   void trim_server_v12 ();
   void optimize_v12 ();
-  void sync ();
+  void sync_v12 ();
   void updateDatabase (int identifier);
   string main_folder_v12 ();
   string note_folder_v1 (int identifier);

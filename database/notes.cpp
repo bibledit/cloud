@@ -232,7 +232,7 @@ void Database_Notes::optimize_v12 ()
 }
 
 
-void Database_Notes::sync ()
+void Database_Notes::sync_v12 ()
 {
   string main_folder = main_folder_v12 ();
 

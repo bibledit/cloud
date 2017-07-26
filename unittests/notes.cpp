@@ -996,7 +996,7 @@ void test_database_notes ()
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, outdated_checksum, checksum);
     // Old and new.
-    database_notes.sync ();
+    database_notes.sync_v12 ();
     // Sometimes something strange happens:
     // At times the checksum gets erased as the sync routine cannot find the original note.
     // The sync (2) call did not make any difference.

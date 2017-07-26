@@ -79,7 +79,7 @@ void search_reindex_notes ()
   // Then the notes index would not match the notes data.
   // Syncing ensures the index matches the notes data in the filesystem.
   Database_Logs::log ("Updating Consultation Notes databases", Filter_Roles::manager ());
-  database_notes.sync ();
+  database_notes.sync_v12 ();
   
   
   // Set the availability flag so that clients and other parties access the notes databases again.

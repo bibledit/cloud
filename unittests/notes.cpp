@@ -1168,7 +1168,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, newchecksum1, newchecksum2);
   }
   
-  // Test updating checksums. Todo
+  // Test updating checksums.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1398,7 +1398,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, true, database_notes.available ());
   }
   
-  // Testing public notes. Todo
+  // Testing public notes.
   {
     refresh_sandbox (true);
     Database_State::create ();

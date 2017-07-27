@@ -702,7 +702,8 @@ void test_database_notes ()
     sort (identifiers.begin(), identifiers.end());
     evaluate (__LINE__, __func__, standardids, identifiers);
   }
-  // SetIdentifier
+
+  // Setting the note identifier.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -715,32 +716,47 @@ void test_database_notes ()
     
     // Create note.
     request.session_logic()->setUsername ("unittest");
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int identifier_v1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int identifier_v2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
     
     // Contents of the note.
-    string originalContents = database_notes.get_contents_v1 (identifier);
-    if (originalContents.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int)originalContents.length ()));
+    string original_contents_v1 = database_notes.get_contents_v1 (identifier_v1);
+    if (original_contents_v1.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v1.length ()));
+    string original_contents_v2 = database_notes.get_contents_v2 (identifier_v2);
+    if (original_contents_v2.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v2.length ()));
     
-    // Checksum of the note.
-    string originalChecksum = database_notes.get_checksum_v12 (identifier);
-    evaluate (__LINE__, __func__, 32, (int)originalChecksum.length());
+    // Checksum of the note, v1 and v2.
+    string original_checksum_v1 = database_notes.get_checksum_v12 (identifier_v1);
+    evaluate (__LINE__, __func__, 32, (int) original_checksum_v1.length());
+    string original_checksum_v2 = database_notes.get_checksum_v12 (identifier_v2);
+    evaluate (__LINE__, __func__, 32, (int) original_checksum_v2.length());
     
     // Change the identifier.
-    int newId = 1234567;
-    database_notes.set_identifier_v1 (identifier, newId);
+    int new_id_v1 = database_notes.get_new_unique_identifier_v12 ();
+    database_notes.set_identifier_v1 (identifier_v1, new_id_v1);
+    int new_id_v2 = database_notes.get_new_unique_identifier_v12 ();
+    database_notes.set_identifier_v2 (identifier_v2, new_id_v2);
     
-    // Check old and new identifier.
-    string contents = database_notes.get_contents_v1 (identifier);
+    // Check old and new identifier for v2 and v2.
+    string contents = database_notes.get_contents_v1 (identifier_v1);
     evaluate (__LINE__, __func__, "", contents);
-    contents = database_notes.get_contents_v1 (newId);
-    evaluate (__LINE__, __func__, originalContents, contents);
+    contents = database_notes.get_contents_v1 (new_id_v1);
+    evaluate (__LINE__, __func__, original_contents_v1, contents);
+    contents = database_notes.get_contents_v2 (identifier_v2);
+    evaluate (__LINE__, __func__, "", contents);
+    contents = database_notes.get_contents_v2 (new_id_v2);
+    evaluate (__LINE__, __func__, original_contents_v2, contents);
     
-    string checksum = database_notes.get_checksum_v12 (identifier);
+    string checksum = database_notes.get_checksum_v12 (identifier_v1);
     evaluate (__LINE__, __func__, "", checksum);
-    checksum = database_notes.get_checksum_v12 (newId);
-    evaluate (__LINE__, __func__, originalChecksum, checksum);
+    checksum = database_notes.get_checksum_v12 (new_id_v1);
+    evaluate (__LINE__, __func__, original_checksum_v1, checksum);
+    checksum = database_notes.get_checksum_v12 (identifier_v2);
+    evaluate (__LINE__, __func__, "", checksum);
+    checksum = database_notes.get_checksum_v12 (new_id_v2);
+    evaluate (__LINE__, __func__, original_checksum_v2, checksum);
   }
-
+  
   // Testing note due for deletion.
   {
     // It tests whether a note marked for deletion,

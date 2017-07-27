@@ -547,6 +547,49 @@ void Database_Notes::set_identifier_v1 (int identifier, int new_identifier)
 }
 
 
+// Update a note's identifier.
+// $new_identifier is the value given to the note $identifier.
+void Database_Notes::set_identifier_v2 (int identifier, int new_identifier)
+{
+  // Move data on the filesystem.
+  erase_v12 (new_identifier);
+  string path = note_file_v2 (identifier);
+  string json = filter_url_file_get_contents (path);
+  path = note_file_v2 (new_identifier);
+  string folder = filter_url_dirname (path);
+  filter_url_mkdir (folder);
+  filter_url_file_put_contents (path, json);
+  
+  // Update main notes database.
+  sqlite3 * db = connect ();
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET identifier =");
+  sql.add (new_identifier);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  
+  // Update checksums database.
+  db = connect_checksums ();
+  sql.clear ();
+  sql.add ("UPDATE checksums SET identifier =");
+  sql.add (new_identifier);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+  
+  // Update the range-based checksum also.
+  Database_State::eraseNoteChecksum (identifier);
+  
+  // Remove old identifier that was copied to the new.
+  erase_v12 (identifier);
+}
+
+
 // Gets new unique note identifier.
 // Works for the old and new storage system.
 int Database_Notes::get_new_unique_identifier_v12 ()

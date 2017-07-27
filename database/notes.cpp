@@ -254,7 +254,7 @@ void Database_Notes::sync_v12 ()
             if (bit3.length () == 3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
-              updateDatabase (identifier);
+              update_database_v1 (identifier);
               update_search_fields_v1 (identifier);
               update_checksum_v1 (identifier);
             }
@@ -264,7 +264,7 @@ void Database_Notes::sync_v12 ()
         if ((bit2.length () == 11) && bit2.find (".json") != string::npos) {
           int identifier = convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
-          updateDatabase (identifier); // Todo
+          update_database_v2 (identifier); // Todo
           update_search_fields_v2 (identifier);
           update_checksum_v2 (identifier);
         }
@@ -308,29 +308,29 @@ void Database_Notes::sync_v12 ()
 }
 
 
-void Database_Notes::updateDatabase (int identifier)
+void Database_Notes::update_database_v1 (int identifier) // Todo test it in embedded situation.
 {
   // Read the relevant values from the filesystem.
   int modified = get_modified_v1 (identifier);
-
+  
   string file = assigned_file_v1 (identifier);
   string assigned = filter_url_file_get_contents (file);
-
+  
   file = subscriptions_file_v1 (identifier);
   string subscriptions = filter_url_file_get_contents (file);
-
+  
   string bible = get_bible_v1 (identifier);
-
+  
   string passage = get_raw_passage_v1 (identifier);
-
+  
   string status = get_raw_status_v1 (identifier);
-
+  
   int severity = get_raw_severity_v1 (identifier);
-
+  
   string summary = get_summary_v1 (identifier);
-
+  
   string contents = get_contents_v1 (identifier);
-
+  
   // Read the relevant values from the database.
   // If all the values in the database are the same as the values on the filesystem,
   // it means that the database is already in sync with the filesystem.
@@ -366,16 +366,16 @@ void Database_Notes::updateDatabase (int identifier)
     if (contents != vcontents [i]) database_in_sync = false;
   }
   if (database_in_sync && record_in_database) return;
-
+  
   // At this stage, the index needs to be brought in sync with the filesystem.
   db = connect ();
-
+  
   sql.clear ();
   sql.add ("DELETE FROM notes WHERE identifier =");
   sql.add (identifier);
   sql.add (";");
   database_sqlite_exec (db, sql.sql);
-
+  
   sql.clear ();
   sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
   sql.add (identifier);
@@ -399,7 +399,93 @@ void Database_Notes::updateDatabase (int identifier)
   sql.add (contents);
   sql.add (")");
   database_sqlite_exec (db, sql.sql);
+  
+  database_sqlite_disconnect (db);
+}
 
+
+void Database_Notes::update_database_v2 (int identifier) // Todo write and test.
+{
+  // Read the relevant values from the filesystem.
+  int modified = get_modified_v2 (identifier);
+  string assigned = get_field_v2 (identifier, assigned_key_v2 ());
+  string subscriptions = get_field_v2 (identifier, subscriptions_key_v2 ());
+  string bible = get_bible_v2 (identifier);
+  string passage = get_raw_passage_v2 (identifier);
+  string status = get_raw_status_v2 (identifier);
+  int severity = get_raw_severity_v2 (identifier);
+  string summary = get_summary_v2 (identifier);
+  string contents = get_contents_v2 (identifier);
+  
+  // Read the relevant values from the database.
+  // If all the values in the database are the same as the values on the filesystem,
+  // it means that the database is already in sync with the filesystem.
+  // Bail out in that case.
+  sqlite3 * db = connect ();
+  bool database_in_sync = true;
+  bool record_in_database = false;
+  SqliteSQL sql;
+  sql.add ("SELECT modified, assigned, subscriptions, bible, passage, status, severity, summary, contents FROM notes WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  database_sqlite_disconnect (db);
+  vector <string> vmodified = result ["modified"];
+  vector <string> vassigned = result ["assigned"];
+  vector <string> vsubscriptions = result ["subscriptions"];
+  vector <string> vbible = result ["bible"];
+  vector <string> vpassage = result ["passage"];
+  vector <string> vstatus = result ["status"];
+  vector <string> vseverity = result ["severity"];
+  vector <string> vsummary = result ["summary"];
+  vector <string> vcontents = result ["contents"];
+  for (unsigned int i = 0; i < vmodified.size(); i++) {
+    record_in_database = true;
+    if (modified != convert_to_int (vmodified[i])) database_in_sync = false;
+    if (assigned != vassigned[i]) database_in_sync = false;
+    if (subscriptions != vsubscriptions[i]) database_in_sync = false;
+    if (bible != vbible [i]) database_in_sync = false;
+    if (passage != vpassage [i]) database_in_sync = false;
+    if (status != vstatus [i]) database_in_sync = false;
+    if (severity != convert_to_int (vseverity [i])) database_in_sync = false;
+    if (summary != vsummary [i]) database_in_sync = false;
+    if (contents != vcontents [i]) database_in_sync = false;
+  }
+  if (database_in_sync && record_in_database) return;
+  
+  // At this stage, the index needs to be brought in sync with the filesystem.
+  db = connect ();
+  
+  sql.clear ();
+  sql.add ("DELETE FROM notes WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  database_sqlite_exec (db, sql.sql);
+  
+  sql.clear ();
+  sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
+  sql.add (identifier);
+  sql.add (",");
+  sql.add (modified);
+  sql.add (",");
+  sql.add (assigned);
+  sql.add (",");
+  sql.add (subscriptions);
+  sql.add (",");
+  sql.add (bible);
+  sql.add (",");
+  sql.add (passage);
+  sql.add (",");
+  sql.add (status);
+  sql.add (",");
+  sql.add (severity);
+  sql.add (",");
+  sql.add (summary);
+  sql.add (",");
+  sql.add (contents);
+  sql.add (")");
+  database_sqlite_exec (db, sql.sql);
+  
   database_sqlite_disconnect (db);
 }
 
@@ -2666,7 +2752,7 @@ vector <string> Database_Notes::setBulk (string json)
     filter_url_file_put_contents (summary_file_v1 (identifier), summary);
 
     // Update the indexes.
-    updateDatabase (identifier);
+    update_database_v1 (identifier);
     update_search_fields_v1 (identifier);
     update_checksum_v1 (identifier);
   }

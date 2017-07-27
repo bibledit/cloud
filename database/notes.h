@@ -48,7 +48,6 @@ public:
   void trim_server_v12 ();
   void optimize_v12 ();
   void sync_v12 ();
-  void updateDatabase (int identifier);
   string main_folder_v12 ();
   string note_folder_v1 (int identifier);
   string note_file_v2 (int identifier);
@@ -172,6 +171,8 @@ private:
   void * webserver_request;
   sqlite3 * connect ();
   sqlite3 * connect_checksums ();
+  void update_database_v1 (int identifier);
+  void update_database_v2 (int identifier);
   string expiryFile (int identifier);
   string assembleContents (int identifier, string contents);
   string assembleContentsV2 (int identifier, string contents);

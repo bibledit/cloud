@@ -391,7 +391,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   if (vresponse.size () >= 1) server_total = convert_to_int (vresponse [0]);
   string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
-  vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, {}, true);
+  vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, {}, true);
   int client_total = identifiers.size ();
   // Checksum cache to speed things up in case of thousands of notes.
   string client_checksum = Database_State::getNotesChecksum (lowId, highId);
@@ -452,7 +452,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
 
   // Get note identifiers as locally on the client.
-  vector <int> client_identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, {}, true);
+  vector <int> client_identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, {}, true);
   
   
   // The client deletes notes no longer on the server.
@@ -511,7 +511,7 @@ bool sendreceive_notes_download (int lowId, int highId)
       return false;
     }
     // Store the notes in the file system.
-    vector <string> summaries = database_notes.setBulk (json);
+    vector <string> summaries = database_notes.set_bulk_v1 (json);
     // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
     if (identifiers_bulk_download.size () < 3) {
       for (auto & summary : summaries) {

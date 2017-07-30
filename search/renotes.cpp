@@ -54,7 +54,7 @@ void search_reindex_notes ()
 
 
   // Set a flag indicating that the notes databases are not available to clients and other parties.
-  database_notes.set_availability (false);
+  database_notes.set_availability_v12 (false);
   
   
   // Delay shortly to give existing processes a change to complete.
@@ -83,7 +83,7 @@ void search_reindex_notes ()
   
   
   // Set the availability flag so that clients and other parties access the notes databases again.
-  database_notes.set_availability (true);
+  database_notes.set_availability_v12 (true);
   
   
   Database_Logs::log ("Updating Consultation Notes databases ready", Filter_Roles::manager ());

@@ -856,7 +856,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   string path = note_file_v2 (identifier);
   string folder = filter_url_dirname (path);
   filter_url_mkdir (folder);
-  Object note;
+  Object note; // Todo use existing keys here rather than strings. Check elsewhere.
   note << "bible" << bible;
   note << "passage" << passage;
   note << "status" << status;
@@ -1323,13 +1323,37 @@ vector <string> Database_Notes::get_subscribers_v1 (int identifier)
 // Returns an array with the subscribers to the note identified by identifier.
 vector <string> Database_Notes::get_subscribers_v2 (int identifier)
 {
-  string contents = get_field_v2 (identifier, subscriptions_key_v2 ());
+  string contents = get_raw_subscriptions_v2 (identifier);
   if (contents.empty()) return {};
   vector <string> subscribers = filter_string_explode (contents, '\n');
   for (auto & subscriber : subscribers) {
     subscriber = filter_string_trim (subscriber);
   }
   return subscribers;
+}
+
+
+string Database_Notes::get_raw_subscriptions_v2 (int identifier) // Todo write and use and test.
+{
+  return get_field_v2 (identifier, subscriptions_key_v2 ()); // Todo
+}
+
+
+void Database_Notes::set_raw_subscriptions_v2 (int identifier, const string& subscriptions) // Todo use
+{
+  // Store them in the filesystem.
+  set_field_v2 (identifier, subscriptions_key_v2 (), subscriptions);
+  
+  // Store them in the database as well.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET subscriptions =");
+  sql.add (subscriptions);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
 }
 
 
@@ -1372,19 +1396,8 @@ void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscri
   }
   string subscriberstring = filter_string_implode (subscribers, "\n");
   
-  // Store them in the filesystem.
-  set_field_v2 (identifier, subscriptions_key_v2 (), subscriberstring);
-  
-  // Store them in the database as well.
-  SqliteSQL sql;
-  sql.add ("UPDATE notes SET subscriptions =");
-  sql.add (subscriberstring);
-  sql.add ("WHERE identifier =");
-  sql.add (identifier);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  // Store them to file and in the database.
+  set_raw_subscriptions_v2 (identifier, subscriberstring);
   
   // Checksum.
   update_checksum_v2 (identifier);
@@ -1447,6 +1460,31 @@ void Database_Notes::unsubscribe_user_v2 (int identifier, const string& user)
 }
 
 
+string Database_Notes::get_raw_assigned_v2 (int identifier) // Todo use and write of course.  :)
+{
+  // Get the asssignees from the filesystem.
+  return get_field_v2 (identifier, assigned_key_v2 ());
+}
+
+
+void Database_Notes::set_raw_assigned_v2 (int identifier, const string& assigned)
+{
+  // Store the assignees in the filesystem.
+  set_field_v2 (identifier, assigned_key_v2 (), assigned);
+  
+  // Store the assignees in the database also.
+  SqliteSQL sql;
+  sql.add ("UPDATE notes SET assigned =");
+  sql.add (assigned);
+  sql.add ("WHERE identifier =");
+  sql.add (identifier);
+  sql.add (";");
+  sqlite3 * db = connect ();
+  database_sqlite_exec (db, sql.sql);
+  database_sqlite_disconnect (db);
+}
+
+
 // Returns an array with all assignees to the notes selection.
 // These are the usernames to which one or more notes have been assigned.
 // This means that if no notes have been assigned to anybody, it will return an empty array.
@@ -1495,7 +1533,7 @@ vector <string> Database_Notes::get_assignees_v1 (int identifier)
 vector <string> Database_Notes::get_assignees_v2 (int identifier)
 {
   // Get the asssignees from the filesystem.
-  string assignees = get_field_v2 (identifier, assigned_key_v2 ());
+  string assignees = get_raw_assigned_v2 (identifier);
   return get_assignees_internal_v12 (assignees);
 }
 
@@ -1555,21 +1593,7 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
     assignee.append (" ");
   }
   string assignees_string = filter_string_implode (assignees, "\n");
-  
-  // Store the assignees in the filesystem.
-  set_field_v2 (identifier, assigned_key_v2 (), assignees_string);
-  
-  // Store the assignees in the database also.
-  SqliteSQL sql;
-  sql.add ("UPDATE notes SET assigned =");
-  sql.add (assignees_string);
-  sql.add ("WHERE identifier =");
-  sql.add (identifier);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
-  
+  set_raw_assigned_v2 (identifier, assignees_string);
   note_edited_actions_v2 (identifier);
 }
 
@@ -2593,7 +2617,7 @@ string Database_Notes::getBibleSelector (vector <string> bibles)
 // within the note identifier range of lowId to highId
 // which refer to any Bible in the array of bibles
 // or refer to no Bible.
-vector <int> Database_Notes::getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles, bool anybible)
+vector <int> Database_Notes::get_notes_in_range_for_bibles_v12 (int lowId, int highId, const vector <string> & bibles, bool anybible)
 {
   vector <int> identifiers;
   string bibleSelector = getBibleSelector (bibles);
@@ -2621,7 +2645,7 @@ string Database_Notes::availability_flag ()
 
 
 // Sets whether the notes databases are available, as a boolean.
-void Database_Notes::set_availability (bool available)
+void Database_Notes::set_availability_v12 (bool available)
 {
   if (available) {
     filter_url_unlink (availability_flag ());
@@ -2632,7 +2656,7 @@ void Database_Notes::set_availability (bool available)
 
 
 // Returns whether the notes databases are available, as a boolean.
-bool Database_Notes::available ()
+bool Database_Notes::available_v12 ()
 {
   return !file_or_dir_exists (availability_flag ());
 }
@@ -2677,7 +2701,7 @@ string Database_Notes::notesOrderByRelevanceStatement ()
 
 
 // This returns JSON that contains the notes indicated by $identifiers.
-string Database_Notes::getBulk (vector <int> identifiers)
+string Database_Notes::get_bulk_v12 (vector <int> identifiers) // Todo write it and test it.
 {
   // JSON container for the bulk notes.
   Array bulk;
@@ -2685,25 +2709,45 @@ string Database_Notes::getBulk (vector <int> identifiers)
   for (auto identifier : identifiers) {
     // JSON object for the note.
     Object note;
+    // Determine the note's storage mechanism: Version 1 (old) or version 2 (new, JSON).
+    bool v1 = is_v1 (identifier);
     // Add all the fields of the note.
-    string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));
+    string assigned;
+    if (v1) assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));
+    else assigned = get_field_v2 (identifier, assigned_key_v2 ());
     note << "a" << assigned;
-    string bible = get_bible_v1 (identifier);
+    string bible;
+    if (v1) bible = get_bible_v1 (identifier);
+    else bible = get_bible_v2 (identifier);;
     note << "b" << bible;
-    string contents = get_contents_v1 (identifier);
+    string contents;
+    if (v1) contents = get_contents_v1 (identifier);
+    else contents = get_contents_v2 (identifier);
     note << "c" << contents;
     note << "i" << identifier;
-    int modified = get_modified_v1 (identifier);
+    int modified;
+    if (v1) modified = get_modified_v1 (identifier);
+    else modified = get_modified_v2 (identifier);
     note << "m" << modified;
-    string passage = get_raw_passage_v1 (identifier);
+    string passage;
+    if (v1) passage = get_raw_passage_v1 (identifier);
+    else passage = get_raw_passage_v2 (identifier);
     note << "p" << passage;
-    string subscriptions = filter_url_file_get_contents (subscriptions_file_v1 (identifier));
+    string subscriptions;
+    if (v1) subscriptions = filter_url_file_get_contents (subscriptions_file_v1 (identifier));
+    else subscriptions = get_field_v2 (identifier, subscriptions_key_v2 ());
     note << "sb" << subscriptions;
-    string summary = get_summary_v1 (identifier);
+    string summary;
+    if (v1) summary = get_summary_v1 (identifier);
+    else summary = get_summary_v2 (identifier);
     note << "sm" << summary;
-    string status = get_raw_status_v1 (identifier);
+    string status;
+    if (v1) status = get_raw_status_v1 (identifier);
+    else status = get_raw_status_v2 (identifier);
     note << "st" << status;
-    int severity = get_raw_severity_v1 (identifier);
+    int severity;
+    if (v1) severity = get_raw_severity_v1 (identifier);
+    else severity = get_raw_severity_v2 (identifier);
     note << "sv" << severity;
     // Add the note to the bulk container.
     bulk << note;
@@ -2714,7 +2758,7 @@ string Database_Notes::getBulk (vector <int> identifiers)
 
 
 // This takes $json and stores all the notes it contains in the filesystem.
-vector <string> Database_Notes::setBulk (string json)
+vector <string> Database_Notes::set_bulk_v1 (string json)
 {
   // Container for the summaries that were stored.
   vector <string> summaries;
@@ -2762,6 +2806,60 @@ vector <string> Database_Notes::setBulk (string json)
 }
 
 
+// This takes $json and stores all the notes it contains in the filesystem.
+vector <string> Database_Notes::set_bulk_v2 (string json) // Todo test it.
+{
+  // Container for the summaries that were stored.
+  vector <string> summaries;
+  
+  // Parse the incoming JSON.
+  Array bulk;
+  bulk.parse (json);
+  
+  // Go through the notes the JSON contains.
+  for (size_t i = 0; i < bulk.size (); i++) {
+    
+    // Get all the different fields for this note.
+    Object note = bulk.get<Object>(i);
+    string assigned = note.get<String> ("a");
+    string bible = note.get<String> ("b");
+    string contents = note.get<String> ("c");
+    int identifier = note.get<Number> ("i");
+    int modified = note.get<Number> ("m");
+    string passage = note.get<String> ("p");
+    string subscriptions = note.get<String> ("sb");
+    string summary = note.get<String> ("sm");
+    string status = note.get<String> ("st");
+    int severity = note.get<Number> ("sv");
+    
+    // Store the note in the filesystem.
+    string path = note_file_v2 (identifier);
+    string folder = filter_url_dirname (path);
+    filter_url_mkdir (folder);
+    Object note2;
+    note2 << assigned_key_v2 () << assigned;
+    note2 << bible_key_v2 () << bible;
+    note2 << contents_key_v2 () << contents;
+    note2 << modified_key_v2 () << convert_to_string (modified);
+    note2 << passage_key_v2 () << passage;
+    note2 << subscriptions_key_v2 () << subscriptions;
+    note2 << summary_key_v2 () << summary;
+    note2 << status_key_v2 () << status;
+    note2 << severity_key_v2 () << convert_to_string (severity);
+    string json = note2.json ();
+    filter_url_file_put_contents (path, json);
+    
+    // Update the indexes.
+    update_database_v2 (identifier);
+    update_search_fields_v2 (identifier);
+    update_checksum_v2 (identifier);
+  }
+  
+  // Container with all the summaries of the notes that were stored.
+  return summaries;
+}
+
+
 // Gets a field from a note in JSON format.
 string Database_Notes::get_field_v2 (int identifier, string key)
 {
@@ -2788,67 +2886,77 @@ void Database_Notes::set_field_v2 (int identifier, string key, string value)
 }
 
 
-const char * Database_Notes::bible_key_v2 ()
+string Database_Notes::bible_key_v2 ()
 {
   return "bible";
 }
 
 
-const char * Database_Notes::passage_key_v2 ()
+string Database_Notes::passage_key_v2 ()
 {
   return "passage";
 }
 
 
-const char * Database_Notes::status_key_v2 ()
+string Database_Notes::status_key_v2 ()
 {
   return "status";
 }
 
 
-const char * Database_Notes::severity_key_v2 ()
+string Database_Notes::severity_key_v2 ()
 {
   return "severity";
 }
 
 
-const char * Database_Notes::modified_key_v2 ()
+string Database_Notes::modified_key_v2 ()
 {
   return "modified";
 }
 
 
-const char * Database_Notes::summary_key_v2 ()
+string Database_Notes::summary_key_v2 ()
 {
   return "summary";
 }
 
 
-const char * Database_Notes::contents_key_v2 ()
+string Database_Notes::contents_key_v2 ()
 {
   return "contents";
 }
 
 
-const char * Database_Notes::subscriptions_key_v2 ()
+string Database_Notes::subscriptions_key_v2 ()
 {
   return "subscriptions";
 }
 
 
-const char * Database_Notes::assigned_key_v2 ()
+string Database_Notes::assigned_key_v2 ()
 {
   return "assigned";
 }
 
 
-const char * Database_Notes::expiry_key_v2 ()
+string Database_Notes::expiry_key_v2 ()
 {
   return "expiry";
 }
 
 
-const char * Database_Notes::public_key_v2 ()
+string Database_Notes::public_key_v2 ()
 {
   return "public";
+}
+
+
+// Returns true if the note $identifier is stored in format version 1.
+// If the note is stored in the new format, version 2, it returns false.
+// That is the JSON format.
+bool Database_Notes::is_v1 (int identifier) // Todo
+{
+  string file_v2 = note_file_v2 (identifier);
+  return !file_or_dir_exists (file_v2);
 }

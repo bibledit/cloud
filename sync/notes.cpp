@@ -65,7 +65,7 @@ string sync_notes (void * webserver_request)
   bool available = true;
   if (!database_notes.healthy_v12 ()) available = false;
   if (!database_notes.checksums_healthy_v12 ()) available = false;
-  if (!database_notes.available ()) available = false;
+  if (!database_notes.available_v12 ()) available = false;
   if (!available) {
     request->response_code = 503;
     return "";
@@ -109,7 +109,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_total:
     {
       vector <string> bibles = access_bible_bibles (webserver_request, user);
-      vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, bibles, false);
+      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% cpu for some time to get the total checksums of notes.
       string checksum = Database_State::getNotesChecksum (lowId, highId);
@@ -123,7 +123,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_identifiers:
     {
       vector <string> bibles = access_bible_bibles (webserver_request, user);
-      vector <int> identifiers = database_notes.getNotesInRangeForBibles (lowId, highId, bibles, false);
+      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, bibles, false);
       string response;
       for (auto identifier : identifiers) {
         if (!response.empty ()) response.append ("\n");
@@ -340,7 +340,7 @@ string sync_notes (void * webserver_request)
       vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (convert_to_int (note));
       // Return the JSON that contains all the requested notes.
-      string json = database_notes.getBulk (identifiers);
+      string json = database_notes.get_bulk_v12 (identifiers);
       return json;
     }
   }

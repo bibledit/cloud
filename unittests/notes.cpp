@@ -1247,17 +1247,17 @@ void test_database_notes ()
     database_notes.set_identifier_v1 (identifier, identifier3);
     
     // Test selection mechanism for certain Bibles.
-    vector <int> identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {"bible1", "bible2"}, false);
+    vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {"bible1", "bible2"}, false);
     evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
     
-    identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {"bible1", "bible3"}, false);
+    identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {"bible1", "bible3"}, false);
     evaluate (__LINE__, __func__, {100000000, 999999999}, identifiers);
     
-    identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {}, false);
+    identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {}, false);
     evaluate (__LINE__, __func__, {999999999}, identifiers);
     
     // Test selection mechanism for any Bible.
-    identifiers = database_notes.getNotesInRangeForBibles (100000000, 999999999, {}, true);
+    identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {}, true);
     evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
   }
   // CreateRange
@@ -1407,11 +1407,11 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
-    evaluate (__LINE__, __func__, true, database_notes.available ());
-    database_notes.set_availability (false);
-    evaluate (__LINE__, __func__, false, database_notes.available ());
-    database_notes.set_availability (true);
-    evaluate (__LINE__, __func__, true, database_notes.available ());
+    evaluate (__LINE__, __func__, true, database_notes.available_v12 ());
+    database_notes.set_availability_v12 (false);
+    evaluate (__LINE__, __func__, false, database_notes.available_v12 ());
+    database_notes.set_availability_v12 (true);
+    evaluate (__LINE__, __func__, true, database_notes.available_v12 ());
   }
   
   // Testing public notes.
@@ -1464,7 +1464,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, true, database_notes.get_public_v2 (newidentifier2));
   }
   
-  // Bulk notes transfer elaborate tests.
+  // Bulk notes transfer elaborate tests for version 1.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1539,7 +1539,7 @@ void test_database_notes ()
     search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
-    string json = database_notes.getBulk (v_identifier);
+    string json = database_notes.get_bulk_v12 (v_identifier);
     
     // Delete all notes again.
     for (int i = 0; i < 5; i++) {
@@ -1567,7 +1567,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
-    database_notes.setBulk (json);
+    database_notes.set_bulk_v1 (json);
     
     // Check the notes are back.
     for (int i = 0; i < 5; i++) {
@@ -1600,6 +1600,155 @@ void test_database_notes ()
     }
     
     // The search results should be back.
+    vector <int> restored_search;
+    restored_search = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    evaluate (__LINE__, __func__, search_results, restored_search);
+  }
+  
+  // Bulk notes transfer elaborate tests for version 2 stored in JSON format.
+  {
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
+    Database_Users database_users;
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes (&request);
+    database_notes.create_v12 ();
+    
+    // Keep the stored values for the notes.
+    vector <string> v_assigned;
+    vector <string> v_bible;
+    vector <string> v_contents;
+    vector <int> v_identifier;
+    vector <int> v_modified;
+    vector <string> v_passage;
+    vector <int> v_severity;
+    vector <string> v_status;
+    vector <string> v_subscriptions;
+    vector <string> v_summary;
+    
+    // Create several notes.
+    for (int i = 0; i < 5; i++) {
+      // Basic fields for the note.
+      string offset = convert_to_string (i);
+      string bible = "bible" + offset;
+      int book = i;
+      int chapter = i + 1;
+      int verse = i + 2;
+      string summary = "summary" + offset;
+      string contents = "contents" + offset;
+      int identifier = database_notes.store_new_note_v2 (bible, book, chapter, verse, summary, contents, false);
+      database_notes.set_contents_v2 (identifier, contents);
+      // Additional fields for the note.
+      string assigned = "assigned" + offset;
+      database_notes.set_raw_assigned_v2 (identifier, assigned);
+      string passage = "passage" + offset;
+      database_notes.set_raw_passage_v2 (identifier, passage);
+      int severity = 4 * i;
+      database_notes.set_raw_severity_v2 (identifier, severity);
+      string status = "status" + offset;
+      database_notes.set_status_v2 (identifier, status);
+      string subscriptions = "subscriptions" + offset;
+      database_notes.set_raw_subscriptions_v2 (identifier, subscriptions);
+      // Store modification time last because the previous functions update it.
+      int modified = 2 * i;
+      database_notes.set_modified_v2 (identifier, modified);
+      // Store all fields for the round-trip check.
+      v_assigned.push_back (assigned);
+      v_bible.push_back (bible);
+      v_contents.push_back (contents);
+      v_identifier.push_back (identifier);
+      v_modified.push_back (modified);
+      v_passage.push_back (passage);
+      v_severity.push_back (severity);
+      v_status.push_back (status);
+      v_subscriptions.push_back (subscriptions);
+      v_summary.push_back (summary);
+    }
+    
+    // Get the checksums for later reference.
+    vector <string> checksums;
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      database_notes.update_checksum_v2 (identifier);
+      string checksum = database_notes.get_checksum_v12 (identifier);
+      checksums.push_back (checksum);
+    }
+    
+    // Get some search results for later reference.
+    vector <int> search_results;
+    search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    
+    // Get the notes in bulk in a database.
+    string json = database_notes.get_bulk_v12 (v_identifier);
+    
+    // Delete all notes again.
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      evaluate (__LINE__, __func__, false, database_notes.get_summary_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_contents_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_bible_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_raw_passage_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_raw_status_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, true, database_notes.get_raw_severity_v2 (identifier) != 2);
+      evaluate (__LINE__, __func__, true, database_notes.get_modified_v2 (identifier) < 1000);
+      database_notes.erase_v12 (identifier);
+      evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_contents_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_bible_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v2 (identifier));
+      evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity_v2 (identifier));
+      evaluate (__LINE__, __func__, 0, database_notes.get_modified_v2 (identifier));
+    }
+    
+    // The checksums should now be gone.
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      string checksum = database_notes.get_checksum_v12 (identifier);
+      evaluate (__LINE__, __func__, "", checksum);
+    }
+    
+    // There should be no search results anymore.
+    vector <int> no_search_results;
+    no_search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    evaluate (__LINE__, __func__, {}, no_search_results);
+    
+    // Copy the notes from the database back to the filesystem.
+    database_notes.set_bulk_v2 (json);
+    
+    // Check that the notes are back.
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      string assigned = database_notes.get_raw_assigned_v2 (identifier);
+      evaluate (__LINE__, __func__, v_assigned [i], assigned);
+      string bible = database_notes.get_bible_v2 (identifier);
+      evaluate (__LINE__, __func__, v_bible [i], bible);
+      string contents = database_notes.get_contents_v2 (identifier);
+      evaluate (__LINE__, __func__, v_contents [i], contents);
+      int modified = database_notes.get_modified_v2 (identifier);
+      evaluate (__LINE__, __func__, v_modified [i], modified);
+      string passage = database_notes.get_raw_passage_v2 (identifier);
+      evaluate (__LINE__, __func__, v_passage [i], passage);
+      int severity = database_notes.get_raw_severity_v2 (identifier);
+      evaluate (__LINE__, __func__, v_severity [i], severity);
+      string status = database_notes.get_raw_status_v2 (identifier);
+      evaluate (__LINE__, __func__, v_status [i], status);
+      string subscriptions = database_notes.get_raw_subscriptions_v2 (identifier);
+      evaluate (__LINE__, __func__, v_subscriptions [i], subscriptions);
+      string summary = database_notes.get_summary_v2 (identifier);
+      evaluate (__LINE__, __func__, v_summary [i], summary);
+    }
+    
+    // The checksums should be back also.
+    for (int i = 0; i < 5; i++) {
+      int identifier = v_identifier [i];
+      string checksum = database_notes.get_checksum_v12 (identifier);
+      evaluate (__LINE__, __func__, checksums [i], checksum);
+    }
+    
+    // The search results should be back too.
     vector <int> restored_search;
     restored_search = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, search_results, restored_search);

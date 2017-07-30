@@ -86,6 +86,8 @@ public:
   void subscribe_user_v2 (int identifier, const string& user);
   vector <string> get_subscribers_v1 (int identifier);
   vector <string> get_subscribers_v2 (int identifier);
+  string get_raw_subscriptions_v2 (int identifier);
+  void set_raw_subscriptions_v2 (int identifier, const string& subscriptions);
   void set_subscribers_v1 (int identifier, vector <string> subscribers);
   void set_subscribers_v2 (int identifier, vector <string> subscribers);
   bool is_subscribed_v1 (int identifier, const string& user);
@@ -94,6 +96,8 @@ public:
   void unsubscribe_v2 (int identifier);
   void unsubscribe_user_v1 (int identifier, const string& user);
   void unsubscribe_user_v2 (int identifier, const string& user);
+  string get_raw_assigned_v2 (int identifier);
+  void set_raw_assigned_v2 (int identifier, const string& assigned);
   vector <string> get_all_assignees_v12 (const vector <string>& bibles);
   vector <string> get_assignees_v1 (int identifier);
   vector <string> get_assignees_v2 (int identifier);
@@ -162,11 +166,12 @@ public:
   void update_checksum_v1 (int identifier);
   void update_checksum_v2 (int identifier);
   string get_multiple_checksum_v12 (const vector <int> & identifiers);
-  vector <int> getNotesInRangeForBibles (int lowId, int highId, const vector <string> & bibles, bool anybible);
-  void set_availability (bool available);
-  bool available ();
-  string getBulk (vector <int> identifiers);
-  vector <string> setBulk (string json);
+  vector <int> get_notes_in_range_for_bibles_v12 (int lowId, int highId, const vector <string> & bibles, bool anybible);
+  void set_availability_v12 (bool available);
+  bool available_v12 ();
+  string get_bulk_v12 (vector <int> identifiers);
+  vector <string> set_bulk_v1 (string json);
+  vector <string> set_bulk_v2 (string json);
 private:
   void * webserver_request;
   sqlite3 * connect ();
@@ -189,17 +194,18 @@ private:
   string notesOrderByRelevanceStatement ();
   string get_field_v2 (int identifier, string key);
   void set_field_v2 (int identifier, string key, string value);
-  const char * bible_key_v2 ();
-  const char * passage_key_v2 ();
-  const char * status_key_v2 ();
-  const char * severity_key_v2 ();
-  const char * modified_key_v2 ();
-  const char * summary_key_v2 ();
-  const char * contents_key_v2 ();
-  const char * subscriptions_key_v2 ();
-  const char * assigned_key_v2 ();
-  const char * expiry_key_v2 ();
-  const char * public_key_v2 ();
+  string bible_key_v2 ();
+  string passage_key_v2 ();
+  string status_key_v2 ();
+  string severity_key_v2 ();
+  string modified_key_v2 ();
+  string summary_key_v2 ();
+  string contents_key_v2 ();
+  string subscriptions_key_v2 ();
+  string assigned_key_v2 ();
+  string expiry_key_v2 ();
+  string public_key_v2 ();
+  bool is_v1 (int identifier);
 };
 
 

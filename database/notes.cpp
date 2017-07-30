@@ -856,13 +856,13 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   string path = note_file_v2 (identifier);
   string folder = filter_url_dirname (path);
   filter_url_mkdir (folder);
-  Object note; // Todo use existing keys here rather than strings. Check elsewhere.
-  note << "bible" << bible;
-  note << "passage" << passage;
-  note << "status" << status;
-  note << "severity" << convert_to_string (severity);
-  note << "summary" << summary;
-  note << "contents" << contents;
+  Object note;
+  note << bible_key_v2 () << bible;
+  note << passage_key_v2 () << passage;
+  note << status_key_v2 () << status;
+  note << severity_key_v2 () << convert_to_string (severity);
+  note << summary_key_v2 () << summary;
+  note << contents_key_v2 () << contents;
   string json = note.json ();
   filter_url_file_put_contents (path, json);
   

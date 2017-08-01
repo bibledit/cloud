@@ -76,6 +76,7 @@ public:
   string get_contents_v1 (int identifier);
   string get_contents_v2 (int identifier);
   void set_raw_contents_v1 (int identifier, const string& contents);
+  void set_raw_contents_v2 (int identifier, const string& contents);
   void set_contents_v1 (int identifier, const string& contents);
   void set_contents_v2 (int identifier, const string& contents);
   void erase_v12 (int identifier);
@@ -176,6 +177,7 @@ public:
   vector <string> set_bulk_v2 (string json);
   void update_database_v1 (int identifier);
   void update_database_v2 (int identifier);
+  bool is_v1 (int identifier);
 private:
   void * webserver_request;
   sqlite3 * connect ();
@@ -207,7 +209,6 @@ private:
   string assigned_key_v2 ();
   string expiry_key_v2 ();
   string public_key_v2 ();
-  bool is_v1 (int identifier);
 };
 
 

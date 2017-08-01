@@ -1152,10 +1152,16 @@ string Database_Notes::get_contents_v2 (int identifier)
 }
 
 
-void Database_Notes::set_raw_contents_v1 (int identifier, const string& contents) // Todo
+void Database_Notes::set_raw_contents_v1 (int identifier, const string& contents)
 {
   string file = contents_file_v1 (identifier);
   filter_url_file_put_contents (file, contents);
+}
+
+
+void Database_Notes::set_raw_contents_v2 (int identifier, const string& contents) // Todo test and use
+{
+  set_field_v2 (identifier, contents_key_v2 (), contents);
 }
 
 
@@ -1183,7 +1189,7 @@ void Database_Notes::set_contents_v1 (int identifier, const string& contents)
 void Database_Notes::set_contents_v2 (int identifier, const string& contents)
 {
   // Store in file system.
-  set_field_v2 (identifier, contents_key_v2 (), contents);
+  set_raw_contents_v2 (identifier, contents);
   // Update database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET contents =");

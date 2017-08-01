@@ -467,7 +467,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo update and test it.
+void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo update and test it in unit tests and real life.
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
@@ -477,7 +477,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.get_bible_v1 (identifier);
+  string bible = database_notes.get_bible_v2 (identifier);
   
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.
@@ -485,7 +485,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
     
     // Whether current user gets subscribed to the note.
     if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
-      database_notes.subscribe_v1 (identifier);
+      database_notes.subscribe_v2 (identifier);
     }
     
     // Users to get subscribed to the note, or to whom the note is to be assigned.
@@ -493,10 +493,10 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
     for (const string & user : users) {
       if (access_bible_read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
-          database_notes.subscribe_user_v1 (identifier, user);
+          database_notes.subscribe_user_v2 (identifier, user);
         }
         if (request->database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
-          database_notes.assign_user_v1 (identifier, user);
+          database_notes.assign_user_v2 (identifier, user);
         }
       }
     }
@@ -506,7 +506,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
   vector <string> recipients;
   
   // Subscribers who receive email.
-  vector <string> subscribers = database_notes.get_subscribers_v1 (identifier);
+  vector <string> subscribers = database_notes.get_subscribers_v2 (identifier);
   for (const string & subscriber : subscribers) {
     if (request->database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
       recipients.push_back (subscriber);
@@ -514,7 +514,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
   }
   
   // Assignees who receive email.
-  vector <string> assignees = database_notes.get_assignees_v1 (identifier);
+  vector <string> assignees = database_notes.get_assignees_v2 (identifier);
   for (const string & assignee : assignees) {
     if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);
@@ -535,7 +535,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo upd
     }
   }
   
-  // Remove duplicates from the recipients.
+  // Remove duplicate recipients.
   set <string> unique (recipients.begin (), recipients.end ());
   recipients.assign (unique.begin (), unique.end());
   

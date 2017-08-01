@@ -75,6 +75,7 @@ public:
   void set_summary_v2 (int identifier, string summary);
   string get_contents_v1 (int identifier);
   string get_contents_v2 (int identifier);
+  void set_raw_contents_v1 (int identifier, const string& contents);
   void set_contents_v1 (int identifier, const string& contents);
   void set_contents_v2 (int identifier, const string& contents);
   void erase_v12 (int identifier);
@@ -124,6 +125,7 @@ public:
   void set_passages_v2 (int identifier, const vector <Passage>& passages, bool import = false);
   void set_raw_passage_v1 (int identifier, const string& passage);
   void set_raw_passage_v2 (int identifier, const string& passage);
+  void index_raw_passage_v12 (int identifier, const string& passage);
   string get_raw_status_v1 (int identifier);
   string get_raw_status_v2 (int identifier);
   string get_status_v1 (int identifier);
@@ -172,12 +174,12 @@ public:
   string get_bulk_v12 (vector <int> identifiers);
   vector <string> set_bulk_v1 (string json);
   vector <string> set_bulk_v2 (string json);
+  void update_database_v1 (int identifier);
+  void update_database_v2 (int identifier);
 private:
   void * webserver_request;
   sqlite3 * connect ();
   sqlite3 * connect_checksums ();
-  void update_database_v1 (int identifier);
-  void update_database_v2 (int identifier);
   string expiryFile (int identifier);
   string assembleContents (int identifier, string contents);
   string assembleContentsV2 (int identifier, string contents);

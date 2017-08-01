@@ -264,7 +264,7 @@ void Database_Notes::sync_v12 ()
         if ((bit2.length () == 11) && bit2.find (".json") != string::npos) {
           int identifier = convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
-          update_database_v2 (identifier); // Todo
+          update_database_v2 (identifier);
           update_search_fields_v2 (identifier);
           update_checksum_v2 (identifier);
         }
@@ -308,7 +308,7 @@ void Database_Notes::sync_v12 ()
 }
 
 
-void Database_Notes::update_database_v1 (int identifier) // Todo test it in embedded situation.
+void Database_Notes::update_database_v1 (int identifier)
 {
   // Read the relevant values from the filesystem.
   int modified = get_modified_v1 (identifier);
@@ -790,7 +790,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
   filter_url_file_put_contents (status_file_v1 (identifier), status);
   filter_url_file_put_contents (severity_file_v1 (identifier), convert_to_string (severity));
   filter_url_file_put_contents (summary_file_v1 (identifier), summary);
-  filter_url_file_put_contents (contents_file_v1 (identifier), contents);
+  set_raw_contents_v1 (identifier, contents);
   
   // Store new default note into the database.
   sqlite3 * db = connect ();
@@ -1152,11 +1152,17 @@ string Database_Notes::get_contents_v2 (int identifier)
 }
 
 
+void Database_Notes::set_raw_contents_v1 (int identifier, const string& contents) // Todo
+{
+  string file = contents_file_v1 (identifier);
+  filter_url_file_put_contents (file, contents);
+}
+
+
 void Database_Notes::set_contents_v1 (int identifier, const string& contents)
 {
   // Store in file system.
-  string file = contents_file_v1 (identifier);
-  filter_url_file_put_contents (file, contents);
+  set_raw_contents_v1 (identifier, contents);
   // Update database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET contents =");
@@ -1835,6 +1841,9 @@ void Database_Notes::set_passages_v1 (int identifier, const vector <Passage>& pa
   // Store it.
   set_raw_passage_v1 (identifier, line);
 
+  // Update index.
+  index_raw_passage_v12 (identifier, line);
+
   if (!import) note_edited_actions_v1 (identifier);
 }
 
@@ -1853,6 +1862,9 @@ void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& pa
   // Store it.
   set_raw_passage_v2 (identifier, line);
   
+  // Update index.
+  index_raw_passage_v12 (identifier, line);
+
   if (!import) note_edited_actions_v1 (identifier);
 }
 
@@ -1871,17 +1883,6 @@ void Database_Notes::set_raw_passage_v1 (int identifier, const string& passage)
   // Store the authoritative copy in the filesystem.
   string file = passage_file_v1 (identifier);
   filter_url_file_put_contents (file, passage);
-  
-  // Update the shadow database also.
-  SqliteSQL sql;
-  sql.add ("UPDATE notes SET passage =");
-  sql.add (passage);
-  sql.add ("WHERE identifier =");
-  sql.add (identifier);
-  sql.add (";");
-  sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
 }
 
 
@@ -1898,8 +1899,12 @@ void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage)
 {
   // Store the authoritative copy in the filesystem.
   set_field_v2 (identifier, passage_key_v2 (), passage);
-  
-  // Update the shadow database also.
+}
+
+
+void Database_Notes::index_raw_passage_v12 (int identifier, const string& passage)
+{
+  // Update the search index database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET passage =");
   sql.add (passage);
@@ -1909,6 +1914,7 @@ void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage)
   sqlite3 * db = connect ();
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
+  
 }
 
 
@@ -2787,7 +2793,7 @@ vector <string> Database_Notes::set_bulk_v1 (string json)
     filter_url_mkdir (note_folder_v1 (identifier));
     filter_url_file_put_contents (assigned_file_v1 (identifier), assigned);
     filter_url_file_put_contents (bible_file_v1 (identifier), bible);
-    filter_url_file_put_contents (contents_file_v1 (identifier), contents);
+    set_raw_contents_v1 (identifier, contents);
     filter_url_file_put_contents (modified_file_v1 (identifier), convert_to_string (modified));
     filter_url_file_put_contents (passage_file_v1 (identifier), passage);
     filter_url_file_put_contents (severity_file_v1 (identifier), convert_to_string (severity));

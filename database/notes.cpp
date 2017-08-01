@@ -598,6 +598,16 @@ bool Database_Notes::identifier_exists_v12 (int identifier)
 
 // Update a note's identifier.
 // new_identifier is the value given to the note identifier by identifier.
+void Database_Notes::set_identifier_v12 (int identifier, int new_identifier)
+{
+  if (is_v1 (identifier)) {
+    set_identifier_v1 (identifier, new_identifier);
+  } else {
+    set_identifier_v2 (identifier, new_identifier);
+  }
+}
+
+
 void Database_Notes::set_identifier_v1 (int identifier, int new_identifier)
 {
   // Move data on the filesystem.

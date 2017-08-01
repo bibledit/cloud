@@ -62,8 +62,12 @@ public:
   string assigned_file_v1 (int identifier);
   string public_file_v1 (int identifier);
   bool identifier_exists_v12 (int identifier);
+public:
+  void set_identifier_v12 (int identifier, int new_identifier);
+private:
   void set_identifier_v1 (int identifier, int new_identifier);
   void set_identifier_v2 (int identifier, int new_identifier);
+public:
   int get_new_unique_identifier_v12 ();
   vector <int> get_identifiers_v12 ();
   int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
@@ -178,6 +182,7 @@ public:
   void update_database_v1 (int identifier);
   void update_database_v2 (int identifier);
   bool is_v1 (int identifier);
+  friend void test_database_notes ();
 private:
   void * webserver_request;
   sqlite3 * connect ();

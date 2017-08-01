@@ -404,7 +404,7 @@ void Database_Notes::update_database_v1 (int identifier)
 }
 
 
-void Database_Notes::update_database_v2 (int identifier) // Todo write and test.
+void Database_Notes::update_database_v2 (int identifier)
 {
   // Read the relevant values from the filesystem.
   int modified = get_modified_v2 (identifier);
@@ -701,36 +701,11 @@ vector <int> Database_Notes::get_identifiers_v12 ()
 }
 
 
-string Database_Notes::assembleContents (int identifier, string contents)
+string Database_Notes::assemble_contents_v12 (int identifier, string contents)
 {
   string new_contents;
-  new_contents = get_contents_v1 (identifier);
-  int time = filter_date_seconds_since_epoch ();
-  string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
-  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  
-  new_contents.append ("\n");
-  new_contents.append ("<p>");
-  new_contents.append (user);
-  new_contents.append (" (");
-  new_contents.append (datetime);
-  new_contents.append ("):</p>\n");
-  if (contents == "<br>") contents.clear();
-  vector <string> lines = filter_string_explode (contents, '\n');
-  for (auto line : lines) {
-    line = filter_string_trim (line);
-    new_contents.append ("<p>");
-    new_contents.append (line);
-    new_contents.append ("</p>\n");
-  }
-  return new_contents;
-}
-
-
-string Database_Notes::assembleContentsV2 (int identifier, string contents)
-{
-  string new_contents;
-  new_contents = get_contents_v2 (identifier);
+  if (is_v1 (identifier)) new_contents = get_contents_v1 (identifier);
+  else new_contents = get_contents_v2 (identifier);
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -780,7 +755,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
   }
 
   // Assemble contents.
-  if (!raw) contents = assembleContents (identifier, contents);
+  if (!raw) contents = assemble_contents_v12 (identifier, contents);
   if ((contents.empty()) && (summary.empty())) return 0;
   
   // Store the note in the file system.
@@ -849,7 +824,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   }
   
   // Assemble contents.
-  if (!raw) contents = assembleContents (identifier, contents);
+  if (!raw) contents = assemble_contents_v12 (identifier, contents);
   if ((contents.empty()) && (summary.empty())) return 0;
   
   // Store the JSON representation of the note in the file system.
@@ -888,7 +863,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   database_sqlite_disconnect (db);
   
   // Updates.
-  update_search_fields_v2 (identifier); // Todo test
+  update_search_fields_v2 (identifier);
   note_edited_actions_v2 (identifier);
   
   // Return this new note´s identifier.
@@ -1159,7 +1134,7 @@ void Database_Notes::set_raw_contents_v1 (int identifier, const string& contents
 }
 
 
-void Database_Notes::set_raw_contents_v2 (int identifier, const string& contents) // Todo test and use
+void Database_Notes::set_raw_contents_v2 (int identifier, const string& contents)
 {
   set_field_v2 (identifier, contents_key_v2 (), contents);
 }
@@ -1233,7 +1208,7 @@ void Database_Notes::add_comment_v1 (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
-  string contents = assembleContents (identifier, comment);
+  string contents = assemble_contents_v12 (identifier, comment);
   set_contents_v1 (identifier, contents);
   
   // Some triggers.
@@ -1254,16 +1229,16 @@ void Database_Notes::add_comment_v1 (int identifier, const string& comment)
 
 
 // Add a comment to an exiting note identified by identifier.
-void Database_Notes::add_comment_v2 (int identifier, const string& comment) // Todo update
+void Database_Notes::add_comment_v2 (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
-  string contents = assembleContentsV2 (identifier, comment);
+  string contents = assemble_contents_v12 (identifier, comment);
   set_contents_v2 (identifier, contents);
   
   // Some triggers.
-  note_edited_actions_v1 (identifier);
-  unmark_for_deletion_v1 (identifier);
+  note_edited_actions_v2 (identifier);
+  unmark_for_deletion_v2 (identifier);
   
   // Update shadow database.
   SqliteSQL sql;
@@ -1345,13 +1320,13 @@ vector <string> Database_Notes::get_subscribers_v2 (int identifier)
 }
 
 
-string Database_Notes::get_raw_subscriptions_v2 (int identifier) // Todo write and use and test.
+string Database_Notes::get_raw_subscriptions_v2 (int identifier)
 {
-  return get_field_v2 (identifier, subscriptions_key_v2 ()); // Todo
+  return get_field_v2 (identifier, subscriptions_key_v2 ());
 }
 
 
-void Database_Notes::set_raw_subscriptions_v2 (int identifier, const string& subscriptions) // Todo use
+void Database_Notes::set_raw_subscriptions_v2 (int identifier, const string& subscriptions)
 {
   // Store them in the filesystem.
   set_field_v2 (identifier, subscriptions_key_v2 (), subscriptions);
@@ -1472,7 +1447,7 @@ void Database_Notes::unsubscribe_user_v2 (int identifier, const string& user)
 }
 
 
-string Database_Notes::get_raw_assigned_v2 (int identifier) // Todo use and write of course.  :)
+string Database_Notes::get_raw_assigned_v2 (int identifier)
 {
   // Get the asssignees from the filesystem.
   return get_field_v2 (identifier, assigned_key_v2 ());
@@ -2713,7 +2688,7 @@ string Database_Notes::notesOrderByRelevanceStatement ()
 
 
 // This returns JSON that contains the notes indicated by $identifiers.
-string Database_Notes::get_bulk_v12 (vector <int> identifiers) // Todo write it and test it.
+string Database_Notes::get_bulk_v12 (vector <int> identifiers)
 {
   // JSON container for the bulk notes.
   Array bulk;
@@ -2819,7 +2794,7 @@ vector <string> Database_Notes::set_bulk_v1 (string json)
 
 
 // This takes $json and stores all the notes it contains in the filesystem.
-vector <string> Database_Notes::set_bulk_v2 (string json) // Todo test it.
+vector <string> Database_Notes::set_bulk_v2 (string json)
 {
   // Container for the summaries that were stored.
   vector <string> summaries;
@@ -2967,7 +2942,7 @@ string Database_Notes::public_key_v2 ()
 // Returns true if the note $identifier is stored in format version 1.
 // If the note is stored in the new format, version 2, it returns false.
 // That is the JSON format.
-bool Database_Notes::is_v1 (int identifier) // Todo
+bool Database_Notes::is_v1 (int identifier)
 {
   string file_v2 = note_file_v2 (identifier);
   return !file_or_dir_exists (file_v2);

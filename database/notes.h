@@ -183,8 +183,7 @@ private:
   sqlite3 * connect ();
   sqlite3 * connect_checksums ();
   string expiryFile (int identifier);
-  string assembleContents (int identifier, string contents);
-  string assembleContentsV2 (int identifier, string contents);
+  string assemble_contents_v12 (int identifier, string contents);
   vector <string> get_assignees_internal_v12 (string assignees);
   vector <string> standard_severities_v12 ();
   void note_edited_actions_v1 (int identifier);

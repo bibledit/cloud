@@ -316,7 +316,7 @@ void Notes_Logic::handler_new_note_v1 (int identifier)
 
 void Notes_Logic::handler_new_note_v2 (int identifier)
 {
-  notify_users_v2 (identifier, notifyNoteNew); // Todo update to V2
+  notify_users_v2 (identifier, notifyNoteNew);
 }
 
 

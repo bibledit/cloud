@@ -467,7 +467,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo update and test it in unit tests and real life.
+void Notes_Logic::notify_users_v2 (int identifier, int notification)
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;

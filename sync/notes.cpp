@@ -281,7 +281,7 @@ string sync_notes (void * webserver_request)
     {
       // Set the passage(s) for a note on the server.
       database_notes.set_raw_passage_v1 (identifier, content);
-      database_notes.index_raw_passage_v12 (identifier, content); // Todo test this in real life.
+      database_notes.index_raw_passage_v12 (identifier, content);
       // Done.
       return "";
     }

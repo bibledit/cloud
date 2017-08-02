@@ -183,11 +183,12 @@ public:
   void update_database_v2 (int identifier);
   bool is_v1 (int identifier);
   friend void test_database_notes ();
+  friend void test_dev ();
 private:
   void * webserver_request;
   sqlite3 * connect ();
   sqlite3 * connect_checksums ();
-  string expiryFile (int identifier);
+  string expiry_file_v1 (int identifier);
   string assemble_contents_v12 (int identifier, string contents);
   vector <string> get_assignees_internal_v12 (string assignees);
   vector <string> standard_severities_v12 ();
@@ -213,6 +214,7 @@ private:
   string assigned_key_v2 ();
   string expiry_key_v2 ();
   string public_key_v2 ();
+  void convert_v1_to_v2 (int identifier);
 };
 
 

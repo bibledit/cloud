@@ -579,7 +579,7 @@ string Database_Notes::public_file_v1 (int identifier)
 }
 
 
-string Database_Notes::expiryFile (int identifier)
+string Database_Notes::expiry_file_v1 (int identifier)
 {
   return filter_url_create_path (note_folder_v1 (identifier), "expiry");
 }
@@ -2357,7 +2357,7 @@ vector <int> Database_Notes::search_notes_v12 (string search, const vector <stri
 
 void Database_Notes::mark_for_deletion_v1 (int identifier)
 {
-  string file = expiryFile (identifier);
+  string file = expiry_file_v1 (identifier);
   // Delete after 7 days.
   filter_url_file_put_contents (file, "7");
 }
@@ -2372,7 +2372,7 @@ void Database_Notes::mark_for_deletion_v2 (int identifier)
 
 void Database_Notes::unmark_for_deletion_v1 (int identifier)
 {
-  string file = expiryFile (identifier);
+  string file = expiry_file_v1 (identifier);
   filter_url_unlink (file);
 }
 
@@ -2385,7 +2385,7 @@ void Database_Notes::unmark_for_deletion_v2 (int identifier)
 
 bool Database_Notes::is_marked_for_deletion_v1 (int identifier)
 {
-  string file = expiryFile (identifier);
+  string file = expiry_file_v1 (identifier);
   return file_or_dir_exists (file);
 }
 
@@ -2402,7 +2402,7 @@ void Database_Notes::touch_marked_for_deletion_v1 ()
   vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion_v1 (identifier)) {
-      string file = expiryFile (identifier);
+      string file = expiry_file_v1 (identifier);
       int days = convert_to_int (filter_url_file_get_contents (file));
       days--;
       filter_url_file_put_contents (file, convert_to_string (days));
@@ -2431,7 +2431,7 @@ vector <int> Database_Notes::get_due_for_deletion_v1 ()
   vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion_v1 (identifier)) {
-      string file = expiryFile (identifier);
+      string file = expiry_file_v1 (identifier);
       string sdays = filter_url_file_get_contents (file);
       int idays = convert_to_int (sdays);
       if ((sdays == "0") || (idays < 0)) {
@@ -2956,4 +2956,50 @@ bool Database_Notes::is_v1 (int identifier)
 {
   string file_v2 = note_file_v2 (identifier);
   return !file_or_dir_exists (file_v2);
+}
+
+
+// Converts the storage model of note $identifier
+// from version 1 to version 2 - JSON.
+void Database_Notes::convert_v1_to_v2 (int identifier) // Todo
+{
+  // Read the note in version 1 format.
+  string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));
+  string bible = filter_url_file_get_contents (bible_file_v1 (identifier));
+  string contents = filter_url_file_get_contents (contents_file_v1 (identifier));
+  string expiry = filter_url_file_get_contents (expiry_file_v1 (identifier));
+  string modified = filter_url_file_get_contents (modified_file_v1 (identifier));
+  string passage = filter_url_file_get_contents (passage_file_v1 (identifier));
+  string publicc = filter_url_file_get_contents (public_file_v1 (identifier));
+  string severity = filter_url_file_get_contents (severity_file_v1 (identifier));
+  string status = filter_url_file_get_contents (status_file_v1 (identifier));
+  string subscriptions = filter_url_file_get_contents (subscriptions_file_v1 (identifier));
+  string summary = filter_url_file_get_contents (summary_file_v1 (identifier));
+
+  // Remove the note's folder.
+  string folder = note_folder_v1 (identifier);
+  filter_url_rmdir (folder);
+ 
+  // Get the note in version 2 - JSON - format.
+  Object note;
+  note << assigned_key_v2 () << assigned;
+  note << bible_key_v2 () << bible;
+  note << contents_key_v2 () << contents;
+  note << expiry_key_v2 () << expiry;
+  note << modified_key_v2 () << convert_to_string (modified);
+  note << passage_key_v2 () << passage;
+  note << public_key_v2 () << publicc;
+  note << severity_key_v2 () << convert_to_string (severity);
+  note << status_key_v2 () << status;
+  note << subscriptions_key_v2 () << subscriptions;
+  note << summary_key_v2 () << summary;
+  string json = note.json ();
+
+  // Store the JSON note to file.
+  string path = note_file_v2 (identifier);
+  folder = filter_url_dirname (path);
+  filter_url_mkdir (folder);
+  filter_url_file_put_contents (path, json);
+
+  // No need to update any database, as there's no change there.
 }

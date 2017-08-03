@@ -101,9 +101,21 @@ string xrefs_insert (void * webserver_request)
   
   
   // Replace the abbreviations in the cross references.
+  // Replace the longer abbreviations first, the shorter ones later.
+  // This is to do a greedy replacement.
+  size_t shortest = 100;
+  size_t longest = 0;
+  for (auto needle : find) {
+    if (needle.size () < shortest) shortest = needle.size ();
+    if (needle.size () > longest) longest = needle.size ();
+  }
   for (unsigned int i = 0; i < allxrefs.size () - 2; i += 3) {
-    for (unsigned int i2 = 0; i2 < find.size (); i2++) {
-      allxrefs [i + 2] = filter_string_str_replace (find [i2], replace [i2], allxrefs [i + 2]);
+    for (unsigned int length = longest; length >= shortest; length--) {
+      for (unsigned int i2 = 0; i2 < find.size (); i2++) {
+        if (find [i2].size () == length) {
+          allxrefs [i + 2] = filter_string_str_replace (find [i2], replace [i2], allxrefs [i + 2]);
+        }
+      }
     }
   }
   

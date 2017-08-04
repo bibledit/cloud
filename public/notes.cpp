@@ -69,7 +69,7 @@ string public_notes (void * webserver_request)
       }
       notesblock.append (verses);
       notesblock.append (" | ");
-      string summary = database_notes.get_summary_v1 (identifier);
+      string summary = database_notes.get_summary_v12 (identifier);
       notesblock.append (summary);
       notesblock.append ("</a>");
       notesblock.append ("</p>");

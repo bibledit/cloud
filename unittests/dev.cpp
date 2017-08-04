@@ -30,9 +30,96 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-void test_dev ()
+void test_dev () // Todo move into place.
 {
   trace_unit_tests (__func__);
   
+  // Test universal methods for setting note properties.
+  {
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
+    Database_Users database_users;
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes (&request);
+    database_notes.create_v12 ();
+    
+    // Create note in the old format, and one in the new format.
+    int identifier_v1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int newidentifier_v1 = identifier_v1 + 2;
+    int identifier_v2 = database_notes.store_new_note_v2 ("bible2", 4, 5, 6, "summary2", "contents2", false);
+    int newidentifier_v2 = identifier_v2 + 4;
+    
+    // Call the universal method to set a new identifier.
+    database_notes.set_identifier_v12 (identifier_v1, newidentifier_v1);
+    database_notes.set_identifier_v12 (identifier_v2, newidentifier_v2);
+
+    // Test the specific methods and the single universal method to get the summaries.
+    evaluate (__LINE__, __func__, "summary1", database_notes.get_summary_v1 (newidentifier_v1));
+    evaluate (__LINE__, __func__, "summary1", database_notes.get_summary_v12 (newidentifier_v1));
+    evaluate (__LINE__, __func__, "summary2", database_notes.get_summary_v2 (newidentifier_v2));
+    evaluate (__LINE__, __func__, "summary2", database_notes.get_summary_v12 (newidentifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (newidentifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (newidentifier_v1));
+    
+  }
+
+  /*
+  {
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
+    Database_Users database_users;
+    database_users.create ();
+    Webserver_Request request;
+    Database_Notes database_notes (&request);
+    database_notes.create_v12 ();
+    
+    // Create note in the old format.
+    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", "", false);
+    
+    // Set the properties.
+    string assigned = "assigned";
+    filter_url_file_put_contents (database_notes.assigned_file_v1 (identifier), assigned);
+    string bible = "bible";
+    filter_url_file_put_contents (database_notes.bible_file_v1 (identifier), bible);
+    string contents = "contents";
+    filter_url_file_put_contents (database_notes.contents_file_v1 (identifier), contents);
+    string expiry = "7";
+    filter_url_file_put_contents (database_notes.expiry_file_v1 (identifier), expiry);
+    string modified = "123";
+    filter_url_file_put_contents (database_notes.modified_file_v1 (identifier), modified);
+    string passage = "passage";
+    filter_url_file_put_contents (database_notes.passage_file_v1 (identifier), passage);
+    string publicc = "1";
+    filter_url_file_put_contents (database_notes.public_file_v1 (identifier), publicc);
+    string severity = "55";
+    filter_url_file_put_contents (database_notes.severity_file_v1 (identifier), severity);
+    string status = "Important";
+    filter_url_file_put_contents (database_notes.status_file_v1 (identifier), status);
+    string subscriptions = "foo";
+    filter_url_file_put_contents (database_notes.subscriptions_file_v1 (identifier), subscriptions);
+    string summary = "summary";
+    filter_url_file_put_contents (database_notes.summary_file_v1 (identifier), summary);
+    
+    // Convert the note to the JSON storage, which is version 2.
+    database_notes.convert_v1_to_v2 (identifier);
+    
+    // Check all properties of the converted note.
+    evaluate (__LINE__, __func__, assigned, database_notes.get_raw_assigned_v2 (identifier));
+    evaluate (__LINE__, __func__, bible, database_notes.get_bible_v2 (identifier));
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v2 (identifier));
+    evaluate (__LINE__, __func__, expiry, database_notes.get_field_v2 (identifier, database_notes.expiry_key_v2 ()));
+    evaluate (__LINE__, __func__, convert_to_int (modified), database_notes.get_modified_v2 (identifier));
+    evaluate (__LINE__, __func__, passage, database_notes.get_raw_passage_v2 (identifier));
+    evaluate (__LINE__, __func__, convert_to_bool (publicc), database_notes.get_public_v2 (identifier));
+    evaluate (__LINE__, __func__, convert_to_int (severity), database_notes.get_raw_severity_v2 (identifier));
+    evaluate (__LINE__, __func__, status, database_notes.get_raw_status_v2 (identifier));
+    evaluate (__LINE__, __func__, subscriptions, database_notes.get_raw_subscriptions_v2 (identifier));
+    evaluate (__LINE__, __func__, summary, database_notes.get_summary_v2 (identifier));
+  }
+  */
   
+  cout << "dev done" << endl; // Todo
 }

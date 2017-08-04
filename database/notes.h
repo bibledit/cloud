@@ -38,8 +38,10 @@ class Database_Notes
 public:
   Database_Notes (void * webserver_request_in);
   void create_v12 ();
+private:
   string database_path_v12 ();
   string checksums_database_path_v12 ();
+public:
   bool healthy_v12 ();
   bool checksums_healthy_v12 ();
   bool checkup_v12 ();
@@ -48,6 +50,7 @@ public:
   void trim_server_v12 ();
   void optimize_v12 ();
   void sync_v12 ();
+private:
   string main_folder_v12 ();
   string note_folder_v1 (int identifier);
   string note_file_v2 (int identifier);
@@ -61,6 +64,7 @@ public:
   string subscriptions_file_v1 (int identifier);
   string assigned_file_v1 (int identifier);
   string public_file_v1 (int identifier);
+public:
   bool identifier_exists_v12 (int identifier);
 public:
   void set_identifier_v12 (int identifier, int new_identifier);
@@ -73,8 +77,12 @@ public:
   int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   vector <int> select_notes_v12 (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
+public:
+  string get_summary_v12 (int identifier);
+private:
   string get_summary_v1 (int identifier);
   string get_summary_v2 (int identifier);
+public:
   void set_summary_v1 (int identifier, const string& summary);
   void set_summary_v2 (int identifier, string summary);
   string get_contents_v1 (int identifier);

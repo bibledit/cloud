@@ -70,7 +70,7 @@ string notes_summary (void * webserver_request)
   }
   
   
-  string summary = database_notes.get_summary_v1 (id);
+  string summary = database_notes.get_summary_v12 (id);
   view.set_variable ("summary", filter_string_sanitize_html (summary));
 
   

@@ -1068,6 +1068,16 @@ vector <int> Database_Notes::select_notes_v12 (vector <string> bibles, int book,
 }
 
 
+string Database_Notes::get_summary_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_summary_v1 (identifier);
+  } else {
+    return get_summary_v2 (identifier);
+  }
+}
+
+
 string Database_Notes::get_summary_v1 (int identifier)
 {
   string file = summary_file_v1 (identifier);
@@ -2343,7 +2353,7 @@ vector <int> Database_Notes::search_notes_v12 (string search, const vector <stri
 
   // Complete query.
   query.append (";");
-
+  
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, query) ["identifier"];
   database_sqlite_disconnect (db);
@@ -2961,7 +2971,7 @@ bool Database_Notes::is_v1 (int identifier)
 
 // Converts the storage model of note $identifier
 // from version 1 to version 2 - JSON.
-void Database_Notes::convert_v1_to_v2 (int identifier) // Todo
+void Database_Notes::convert_v1_to_v2 (int identifier)
 {
   // Read the note in version 1 format.
   string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));

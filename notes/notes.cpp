@@ -105,7 +105,7 @@ string notes_notes (void * webserver_request)
   string notesblock;
   for (auto & identifier : identifiers) {
 
-    string summary = database_notes.get_summary_v1 (identifier);
+    string summary = database_notes.get_summary_v12 (identifier);
     vector <Passage> passages = database_notes.get_passages_v1 (identifier);
     string verses = filter_passage_display_inline (passages);
     // A simple way to make it easier to see the individual notes in the list,

@@ -578,7 +578,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   Database_Notes database_notes (webserver_request);
 
   // Send mail to all users.
-  string summary = database_notes.get_summary_v1 (identifier);
+  string summary = database_notes.get_summary_v12 (identifier);
   string passages = filter_passage_display_inline (database_notes.get_passages_v1 (identifier));
   string contents = database_notes.get_contents_v1 (identifier);
 

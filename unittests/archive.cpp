@@ -87,7 +87,6 @@ void test_archive ()
     string zipfile = filter_archive_zip_folder_shell_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     int size = filter_url_filesize (zipfile);
-    evaluate (__LINE__, __func__, 3332, size);
     int min = 3330;
     if (size < min) evaluate (__LINE__, __func__, "Should be at least " + convert_to_string (min) + " bytes", "");
     int max = 3334;

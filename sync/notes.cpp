@@ -150,7 +150,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_subscribers:
     {
-      vector <string> subscribers = database_notes.get_subscribers_v1 (identifier);
+      vector <string> subscribers = database_notes.get_subscribers_v12 (identifier);
       return filter_string_implode (subscribers, "\n");
     }
     case Sync_Logic::notes_get_assignees:

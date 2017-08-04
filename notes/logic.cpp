@@ -403,7 +403,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
   vector <string> recipients;
 
   // Subscribers who receive email.
-  vector <string> subscribers = database_notes.get_subscribers_v1 (identifier);
+  vector <string> subscribers = database_notes.get_subscribers_v12 (identifier);
   for (const string & subscriber : subscribers) {
     if (request->database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
       recipients.push_back (subscriber);
@@ -506,7 +506,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification)
   vector <string> recipients;
   
   // Subscribers who receive email.
-  vector <string> subscribers = database_notes.get_subscribers_v2 (identifier);
+  vector <string> subscribers = database_notes.get_subscribers_v12 (identifier);
   for (const string & subscriber : subscribers) {
     if (request->database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
       recipients.push_back (subscriber);

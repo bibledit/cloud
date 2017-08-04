@@ -89,9 +89,9 @@ public:
 private:
   string get_contents_v1 (int identifier);
   string get_contents_v2 (int identifier);
-public: 
   void set_raw_contents_v1 (int identifier, const string& contents);
   void set_raw_contents_v2 (int identifier, const string& contents);
+public:
   void set_contents_v1 (int identifier, const string& contents);
   void set_contents_v2 (int identifier, const string& contents);
   void erase_v12 (int identifier);
@@ -101,8 +101,11 @@ public:
   void subscribe_v2 (int identifier);
   void subscribe_user_v1 (int identifier, const string& user);
   void subscribe_user_v2 (int identifier, const string& user);
+  vector <string> get_subscribers_v12 (int identifier);
+private:
   vector <string> get_subscribers_v1 (int identifier);
   vector <string> get_subscribers_v2 (int identifier);
+public:
   string get_raw_subscriptions_v2 (int identifier);
   void set_raw_subscriptions_v2 (int identifier, const string& subscriptions);
   void set_subscribers_v1 (int identifier, vector <string> subscribers);

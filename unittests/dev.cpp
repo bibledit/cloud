@@ -73,6 +73,19 @@ void test_dev () // Todo move into place.
     evaluate (__LINE__, __func__, "", database_notes.get_contents_v1 (newidentifier_v2));
     evaluate (__LINE__, __func__, "", database_notes.get_contents_v2 (newidentifier_v1));
 
+    // Test the specific method to get the subscribers.
+    vector <string> subscribers_v1 = { "subscriber1" };
+    vector <string> subscribers_v2 = { "subscriber2" };
+    database_notes.set_subscribers_v1 (newidentifier_v1, subscribers_v1);
+    database_notes.set_subscribers_v2 (newidentifier_v2, subscribers_v2);
+    evaluate (__LINE__, __func__, subscribers_v1, database_notes.get_subscribers_v1 (newidentifier_v1));
+    evaluate (__LINE__, __func__, subscribers_v2, database_notes.get_subscribers_v2 (newidentifier_v2));
+    evaluate (__LINE__, __func__, subscribers_v1, database_notes.get_subscribers_v12 (newidentifier_v1));
+    evaluate (__LINE__, __func__, subscribers_v2, database_notes.get_subscribers_v12 (newidentifier_v2));
+    
+
+    
+    
   }
 
   /*

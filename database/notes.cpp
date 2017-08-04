@@ -1324,6 +1324,17 @@ void Database_Notes::subscribe_user_v2 (int identifier, const string& user)
 
 
 // Returns an array with the subscribers to the note identified by identifier.
+vector <string> Database_Notes::get_subscribers_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_subscribers_v1 (identifier);
+  } else {
+    return get_subscribers_v2 (identifier);
+  }
+}
+
+
+// Returns an array with the subscribers to the note identified by identifier.
 vector <string> Database_Notes::get_subscribers_v1 (int identifier)
 {
   string file = subscriptions_file_v1 (identifier);

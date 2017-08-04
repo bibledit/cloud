@@ -85,8 +85,11 @@ private:
 public:
   void set_summary_v1 (int identifier, const string& summary);
   void set_summary_v2 (int identifier, string summary);
+  string get_contents_v12 (int identifier);
+private:
   string get_contents_v1 (int identifier);
   string get_contents_v2 (int identifier);
+public: 
   void set_raw_contents_v1 (int identifier, const string& contents);
   void set_raw_contents_v2 (int identifier, const string& contents);
   void set_contents_v1 (int identifier, const string& contents);

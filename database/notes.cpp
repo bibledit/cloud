@@ -1134,6 +1134,16 @@ void Database_Notes::set_summary_v2 (int identifier, string summary)
 }
 
 
+string Database_Notes::get_contents_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_contents_v1 (identifier);
+  } else {
+    return get_contents_v2 (identifier);
+  }
+}
+
+
 string Database_Notes::get_contents_v1 (int identifier)
 {
   string file = contents_file_v1 (identifier);

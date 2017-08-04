@@ -125,7 +125,7 @@ string notes_notes (void * webserver_request)
     
     string content;
     if (text_inclusion_selector) {
-      content = database_notes.get_contents_v1 (identifier);
+      content = database_notes.get_contents_v12 (identifier);
     }
     
     notesblock.append ("<a name=\"note" + convert_to_string (identifier) + "\"></a>\n");

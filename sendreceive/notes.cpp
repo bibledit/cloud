@@ -290,7 +290,7 @@ bool sendreceive_notes_upload ()
       response = sync_logic.post (post, url, error);
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
-          if (response != database_notes.get_contents_v1 (identifier)) {
+          if (response != database_notes.get_contents_v12 (identifier)) {
             database_notes.set_contents_v1 (identifier, response);
           }
         }

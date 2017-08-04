@@ -92,7 +92,7 @@ string notes_edit (void * webserver_request)
   
   if (identifier) {
     if (database_notes.identifier_exists_v12 (identifier)) {
-      string noteData = database_notes.get_contents_v1 (identifier);
+      string noteData = database_notes.get_contents_v12 (identifier);
       bool editable = false;
       vector <string> lines = filter_string_explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {

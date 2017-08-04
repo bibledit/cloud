@@ -43,7 +43,7 @@ void trash_consultation_note (void * webserver_request, int id)
   vector <Passage> passages = database_notes.get_passages_v1 (id);
   string passageText = filter_passage_display_inline (passages);
   string summary = database_notes.get_summary_v12 (id);
-  string contents = database_notes.get_contents_v1 (id);
+  string contents = database_notes.get_contents_v12 (id);
   contents = filter_string_html2text (contents);
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string username = request->session_logic()->currentUser ();

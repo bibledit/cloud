@@ -66,7 +66,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_initiate, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_summary, "");
     // The contents to submit to the server, take it from the database, as it was updated in the logic above.
-    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, database_notes.get_contents_v1 (note_id));
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, database_notes.get_contents_v12 (note_id));
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_bible, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_passages, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_complete, "");
@@ -580,7 +580,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
   // Send mail to all users.
   string summary = database_notes.get_summary_v12 (identifier);
   string passages = filter_passage_display_inline (database_notes.get_passages_v1 (identifier));
-  string contents = database_notes.get_contents_v1 (identifier);
+  string contents = database_notes.get_contents_v12 (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.
   contents.append ("<br>\n");

@@ -103,7 +103,7 @@ string notes_note (void * webserver_request)
   }
   
   
-  string content = database_notes.get_contents_v1 (id);
+  string content = database_notes.get_contents_v12 (id);
   view.set_variable ("content", content);
 
   

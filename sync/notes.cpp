@@ -146,7 +146,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_contents:
     {
-      return database_notes.get_contents_v1 (identifier);
+      return database_notes.get_contents_v12 (identifier);
     }
     case Sync_Logic::notes_get_subscribers:
     {

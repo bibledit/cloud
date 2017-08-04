@@ -105,22 +105,30 @@ public:
 private:
   vector <string> get_subscribers_v1 (int identifier);
   vector <string> get_subscribers_v2 (int identifier);
-public:
   string get_raw_subscriptions_v2 (int identifier);
+public:
   void set_raw_subscriptions_v2 (int identifier, const string& subscriptions);
   void set_subscribers_v1 (int identifier, vector <string> subscribers);
   void set_subscribers_v2 (int identifier, vector <string> subscribers);
+  bool is_subscribed_v12 (int identifier, const string& user);
+private:
   bool is_subscribed_v1 (int identifier, const string& user);
   bool is_subscribed_v2 (int identifier, const string& user);
+public:
   void unsubscribe_v1 (int identifier);
   void unsubscribe_v2 (int identifier);
   void unsubscribe_user_v1 (int identifier, const string& user);
   void unsubscribe_user_v2 (int identifier, const string& user);
+private:
   string get_raw_assigned_v2 (int identifier);
+public:
   void set_raw_assigned_v2 (int identifier, const string& assigned);
   vector <string> get_all_assignees_v12 (const vector <string>& bibles);
+  vector <string> get_assignees_v12 (int identifier);
+private:
   vector <string> get_assignees_v1 (int identifier);
   vector <string> get_assignees_v2 (int identifier);
+public:
   void set_assignees_v1 (int identifier, vector <string> assignees);
   void set_assignees_v2 (int identifier, vector <string> assignees);
   void assign_user_v1 (int identifier, const string& user);

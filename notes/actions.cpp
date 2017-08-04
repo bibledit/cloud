@@ -126,12 +126,12 @@ string notes_actions (void * webserver_request)
   view.set_variable ("summary", summary);
                                           
                                           
-  bool subscribed = database_notes.is_subscribed_v1 (id, user);
+  bool subscribed = database_notes.is_subscribed_v12 (id, user);
   if (subscribed) view.enable_zone ("subscribed");
   else view.enable_zone ("subscribe");
   
 
-  vector <string> assignees = database_notes.get_assignees_v1 (id);
+  vector <string> assignees = database_notes.get_assignees_v12 (id);
   string assigneeblock;
   for (auto & assignee : assignees) {
     assigneeblock.append (assignee);

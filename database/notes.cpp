@@ -1433,6 +1433,17 @@ void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscri
 
 
 // Returns true if user is subscribed to the note identified by identifier.
+bool Database_Notes::is_subscribed_v12 (int identifier, const string& user)
+{
+  if (is_v1 (identifier)) {
+    return is_subscribed_v1 (identifier, user);
+  } else {
+    return is_subscribed_v2 (identifier, user);
+  }
+}
+
+
+// Returns true if user is subscribed to the note identified by identifier.
 bool Database_Notes::is_subscribed_v1 (int identifier, const string& user)
 {
   vector <string> subscribers = get_subscribers_v1 (identifier);
@@ -1546,6 +1557,16 @@ vector <string> Database_Notes::get_all_assignees_v12 (const vector <string>& bi
   return assignees;
 }
 
+
+// Returns an array with the assignees to the note identified by identifier.
+vector <string> Database_Notes::get_assignees_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_assignees_v1 (identifier);
+  } else {
+    return get_assignees_v2 (identifier);
+  }
+}
 
 // Returns an array with the assignees to the note identified by identifier.
 vector <string> Database_Notes::get_assignees_v1 (int identifier)

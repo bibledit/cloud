@@ -341,7 +341,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (webserver_request);
-    vector <string> assignees = database_notes.get_assignees_v1 (identifier);
+    vector <string> assignees = database_notes.get_assignees_v12 (identifier);
     if (find (assignees.begin(), assignees.end(), user) == assignees.end()) {
       emailUsers (identifier, translate("Assigned"), {user}, false);
     }
@@ -411,7 +411,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
   }
 
   // Assignees who receive email.
-  vector <string> assignees = database_notes.get_assignees_v1 (identifier);
+  vector <string> assignees = database_notes.get_assignees_v12 (identifier);
   for (const string & assignee : assignees) {
     if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);
@@ -514,7 +514,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification)
   }
   
   // Assignees who receive email.
-  vector <string> assignees = database_notes.get_assignees_v2 (identifier);
+  vector <string> assignees = database_notes.get_assignees_v12 (identifier);
   for (const string & assignee : assignees) {
     if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);

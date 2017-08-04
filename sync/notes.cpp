@@ -155,7 +155,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_assignees:
     {
-      vector <string> assignees = database_notes.get_assignees_v1 (identifier);
+      vector <string> assignees = database_notes.get_assignees_v12 (identifier);
       return filter_string_implode (assignees, "\n");
     }
     case Sync_Logic::notes_get_status:

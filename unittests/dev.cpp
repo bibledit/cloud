@@ -46,45 +46,60 @@ void test_dev () // Todo move into place.
     database_notes.create_v12 ();
     
     // Create note in the old format, and one in the new format.
-    int identifier_v1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int newidentifier_v1 = identifier_v1 + 2;
-    int identifier_v2 = database_notes.store_new_note_v2 ("bible2", 4, 5, 6, "summary2", "contents2", false);
-    int newidentifier_v2 = identifier_v2 + 4;
+    int oldidentifier_v1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int identifier_v1 = oldidentifier_v1 + 2;
+    int oldidentifier_v2 = database_notes.store_new_note_v2 ("bible2", 4, 5, 6, "summary2", "contents2", false);
+    int identifier_v2 = oldidentifier_v2 + 4;
     
     // Call the universal method to set a new identifier.
-    database_notes.set_identifier_v12 (identifier_v1, newidentifier_v1);
-    database_notes.set_identifier_v12 (identifier_v2, newidentifier_v2);
+    database_notes.set_identifier_v12 (oldidentifier_v1, identifier_v1);
+    database_notes.set_identifier_v12 (oldidentifier_v2, identifier_v2);
 
     // Test the specific methods and the single universal method to get the summaries.
-    evaluate (__LINE__, __func__, "summary1", database_notes.get_summary_v1 (newidentifier_v1));
-    evaluate (__LINE__, __func__, "summary1", database_notes.get_summary_v12 (newidentifier_v1));
-    evaluate (__LINE__, __func__, "summary2", database_notes.get_summary_v2 (newidentifier_v2));
-    evaluate (__LINE__, __func__, "summary2", database_notes.get_summary_v12 (newidentifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (newidentifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (newidentifier_v1));
+    evaluate (__LINE__, __func__, "summary1", database_notes.get_summary_v1 (identifier_v1));
+    evaluate (__LINE__, __func__, "summary1", database_notes.get_summary_v12 (identifier_v1));
+    evaluate (__LINE__, __func__, "summary2", database_notes.get_summary_v2 (identifier_v2));
+    evaluate (__LINE__, __func__, "summary2", database_notes.get_summary_v12 (identifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (identifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (identifier_v1));
 
     // Test the specific methods and the single universal method to get the contents.
-    string contents = database_notes.get_contents_v1 (newidentifier_v1);
+    string contents = database_notes.get_contents_v1 (identifier_v1);
     evaluate (__LINE__, __func__, true, contents.find ("contents1") != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (newidentifier_v1));
-    contents = database_notes.get_contents_v2 (newidentifier_v2);
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (identifier_v1));
+    contents = database_notes.get_contents_v2 (identifier_v2);
     evaluate (__LINE__, __func__, true, contents.find ("contents2") != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (newidentifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_contents_v1 (newidentifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_contents_v2 (newidentifier_v1));
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (identifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_contents_v1 (identifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_contents_v2 (identifier_v1));
 
-    // Test the specific method to get the subscribers.
-    vector <string> subscribers_v1 = { "subscriber1" };
-    vector <string> subscribers_v2 = { "subscriber2" };
-    database_notes.set_subscribers_v1 (newidentifier_v1, subscribers_v1);
-    database_notes.set_subscribers_v2 (newidentifier_v2, subscribers_v2);
-    evaluate (__LINE__, __func__, subscribers_v1, database_notes.get_subscribers_v1 (newidentifier_v1));
-    evaluate (__LINE__, __func__, subscribers_v2, database_notes.get_subscribers_v2 (newidentifier_v2));
-    evaluate (__LINE__, __func__, subscribers_v1, database_notes.get_subscribers_v12 (newidentifier_v1));
-    evaluate (__LINE__, __func__, subscribers_v2, database_notes.get_subscribers_v12 (newidentifier_v2));
+    // Test the general method to get the subscribers.
+    string subscriber_v1 = "subscriber1";
+    string subscriber_v2 = "subscriber2";
+    database_notes.set_subscribers_v1 (identifier_v1, { subscriber_v1 });
+    database_notes.set_subscribers_v2 (identifier_v2, { subscriber_v2 });
+    evaluate (__LINE__, __func__, { subscriber_v1 }, database_notes.get_subscribers_v1 (identifier_v1));
+    evaluate (__LINE__, __func__, { subscriber_v2 }, database_notes.get_subscribers_v2 (identifier_v2));
+    evaluate (__LINE__, __func__, { subscriber_v1 }, database_notes.get_subscribers_v12 (identifier_v1));
+    evaluate (__LINE__, __func__, { subscriber_v2 }, database_notes.get_subscribers_v12 (identifier_v2));
+
+    // Test the general method to test a subscriber to a note.
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v1 (identifier_v1, subscriber_v1));
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier_v2, subscriber_v2));
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v12 (identifier_v1, subscriber_v1));
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v12 (identifier_v2, subscriber_v2));
+
+    // Test the general methods for the assignees.
+    string assignee_v1 = "assignee1";
+    string assignee_v2 = "assignee2";
+    database_notes.set_assignees_v1 (identifier_v1, { assignee_v1 });
+    database_notes.set_assignees_v2 (identifier_v2, { assignee_v2 });
+    evaluate (__LINE__, __func__, { assignee_v1 }, database_notes.get_assignees_v12 (identifier_v1));
+    evaluate (__LINE__, __func__, { assignee_v2 }, database_notes.get_assignees_v12 (identifier_v2));
+
+    
     
 
-    
     
   }
 
@@ -121,5 +136,5 @@ void test_dev () // Todo move into place.
   }
   */
   
-  cout << "dev done" << endl; // Todo
+  cout << "dev done" << endl;
 }

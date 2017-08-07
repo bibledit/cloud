@@ -75,7 +75,7 @@ string notes_note (void * webserver_request)
   
   
   // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
-  vector <Passage> passages = database_notes.get_passages_v1 (id);
+  vector <Passage> passages = database_notes.get_passages_v12 (id);
   if (!passages.empty ()) {
     int desired_book = passages[0].book;
     int desired_chapter = passages[0].chapter;

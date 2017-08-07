@@ -144,7 +144,7 @@ string notes_actions (void * webserver_request)
   if (level >= Filter_Roles::manager ()) view.enable_zone ("assign");
 
   
-  bool assigned = database_notes.is_assigned_v1 (id, user);
+  bool assigned = database_notes.is_assigned_v12 (id, user);
   if (assigned) view.enable_zone ("assigned");
   
   
@@ -154,7 +154,7 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("viewstatus");
 
   
-  string verses = filter_passage_display_inline (database_notes.get_passages_v1 (id));
+  string verses = filter_passage_display_inline (database_notes.get_passages_v12 (id));
   view.set_variable ("verses", verses);
                                           
                                           
@@ -162,7 +162,7 @@ string notes_actions (void * webserver_request)
   view.set_variable ("severity",  severity);
 
   
-  string bible = database_notes.get_bible_v1 (id);
+  string bible = database_notes.get_bible_v12 (id);
   view.set_variable ("bible", bible);
   if (bible.empty ()) view.enable_zone ("nobible");
 

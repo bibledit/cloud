@@ -374,7 +374,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.get_bible_v1 (identifier);
+  string bible = database_notes.get_bible_v12 (identifier);
 
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.
@@ -477,7 +477,7 @@ void Notes_Logic::notify_users_v2 (int identifier, int notification)
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.get_bible_v2 (identifier);
+  string bible = database_notes.get_bible_v12 (identifier);
   
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.
@@ -579,7 +579,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
 
   // Send mail to all users.
   string summary = database_notes.get_summary_v12 (identifier);
-  string passages = filter_passage_display_inline (database_notes.get_passages_v1 (identifier));
+  string passages = filter_passage_display_inline (database_notes.get_passages_v12 (identifier));
   string contents = database_notes.get_contents_v12 (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.

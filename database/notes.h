@@ -133,21 +133,33 @@ public:
   void set_assignees_v2 (int identifier, vector <string> assignees);
   void assign_user_v1 (int identifier, const string& user);
   void assign_user_v2 (int identifier, const string& user);
+  bool is_assigned_v12 (int identifier, const string& user);
+private:
   bool is_assigned_v1 (int identifier, const string& user);
   bool is_assigned_v2 (int identifier, const string& user);
+public:
   void unassign_user_v1 (int identifier, const string& user);
   void unassign_user_v2 (int identifier, const string& user);
+  string get_bible_v12 (int identifier);
+private:
   string get_bible_v1 (int identifier);
   string get_bible_v2 (int identifier);
+public:
   void set_bible_v1 (int identifier, const string& bible);
   void set_bible_v2 (int identifier, const string& bible);
   vector <string> get_all_bibles_v12 ();
   string encode_passage_v12 (int book, int chapter, int verse);
   Passage decode_passage_v12 (string passage);
+  string get_raw_passage_v12 (int identifier);
+private:
   string get_raw_passage_v1 (int identifier);
   string get_raw_passage_v2 (int identifier);
+public:
+  vector <Passage> get_passages_v12 (int identifier);
+private:
   vector <Passage> get_passages_v1 (int identifier);
   vector <Passage> get_passages_v2 (int identifier);
+public:
   void set_passages_v1 (int identifier, const vector <Passage>& passages, bool import = false);
   void set_passages_v2 (int identifier, const vector <Passage>& passages, bool import = false);
   void set_raw_passage_v1 (int identifier, const string& passage);

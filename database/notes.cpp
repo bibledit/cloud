@@ -1674,6 +1674,17 @@ void Database_Notes::assign_user_v2 (int identifier, const string& user)
 
 
 // Returns true if the note identified by identifier has been assigned to user.
+bool Database_Notes::is_assigned_v12 (int identifier, const string& user)
+{
+  if (is_v1 (identifier)) {
+    return is_assigned_v1 (identifier, user);
+  } else {
+    return is_assigned_v2 (identifier, user);
+  }
+}
+
+
+// Returns true if the note identified by identifier has been assigned to user.
 bool Database_Notes::is_assigned_v1 (int identifier, const string& user)
 {
   vector <string> assignees = get_assignees_v1 (identifier);
@@ -1710,6 +1721,16 @@ void Database_Notes::unassign_user_v2 (int identifier, const string& user)
   // Remove assigned user.
   assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
   set_assignees_v2 (identifier, assignees);
+}
+
+
+string Database_Notes::get_bible_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_bible_v1 (identifier);
+  } else {
+    return get_bible_v2 (identifier);
+  }
 }
 
 
@@ -1822,6 +1843,17 @@ Passage Database_Notes::decode_passage_v12 (string passage)
 
 
 // Returns the raw passage text of the note identified by identifier.
+string Database_Notes::get_raw_passage_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_raw_passage_v1 (identifier);
+  } else {
+    return get_raw_passage_v2 (identifier);
+  }
+}
+
+
+// Returns the raw passage text of the note identified by identifier.
 string Database_Notes::get_raw_passage_v1 (int identifier)
 {
   string file = passage_file_v1 (identifier);
@@ -1833,6 +1865,18 @@ string Database_Notes::get_raw_passage_v1 (int identifier)
 string Database_Notes::get_raw_passage_v2 (int identifier)
 {
   return get_field_v2 (identifier, passage_key_v2 ());
+}
+
+
+// Returns an array with the passages that the note identified by identifier refers to.
+// Each passages is an array (book, chapter, verse).
+vector <Passage> Database_Notes::get_passages_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_passages_v1 (identifier);
+  } else {
+    return get_passages_v2 (identifier);
+  }
 }
 
 

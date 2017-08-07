@@ -44,11 +44,16 @@ void test_dev () // Todo move into place.
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
-    
+
+    string bible_v1 = "bible1";
+    string bible_v2 = "bible2";
+    Passage passage_v1 = Passage ("", 1, 2, "3");
+    Passage passage_v2 = Passage ("", 4, 5, "6");
+
     // Create note in the old format, and one in the new format.
-    int oldidentifier_v1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int oldidentifier_v1 = database_notes.store_new_note_v1 (bible_v1, passage_v1.book, passage_v1.chapter, convert_to_int (passage_v1.verse), "summary1", "contents1", false);
     int identifier_v1 = oldidentifier_v1 + 2;
-    int oldidentifier_v2 = database_notes.store_new_note_v2 ("bible2", 4, 5, 6, "summary2", "contents2", false);
+    int oldidentifier_v2 = database_notes.store_new_note_v2 (bible_v2, passage_v2.book, passage_v2.chapter, convert_to_int (passage_v2.verse), "summary2", "contents2", false);
     int identifier_v2 = oldidentifier_v2 + 4;
     
     // Call the universal method to set a new identifier.
@@ -96,8 +101,26 @@ void test_dev () // Todo move into place.
     database_notes.set_assignees_v2 (identifier_v2, { assignee_v2 });
     evaluate (__LINE__, __func__, { assignee_v1 }, database_notes.get_assignees_v12 (identifier_v1));
     evaluate (__LINE__, __func__, { assignee_v2 }, database_notes.get_assignees_v12 (identifier_v2));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (identifier_v1, assignee_v1));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (identifier_v2, assignee_v2));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v12 (identifier_v1, assignee_v2));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v12 (identifier_v2, assignee_v1));
 
+    // Test the general methods for the Bible.
+    evaluate (__LINE__, __func__, bible_v1, database_notes.get_bible_v12 (identifier_v1));
+    evaluate (__LINE__, __func__, bible_v2, database_notes.get_bible_v12 (identifier_v2));
     
+    // Test the general methods for the passage.
+    vector <Passage> passages;
+    passages = database_notes.get_passages_v12 (identifier_v1);
+    evaluate (__LINE__, __func__, 1, passages.size());
+    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage_v1.equal (passage));
+    passages = database_notes.get_passages_v12 (identifier_v2);
+    evaluate (__LINE__, __func__, 1, passages.size());
+    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage_v2.equal (passage));
+    evaluate (__LINE__, __func__, " 1.2.3 ", database_notes.get_raw_passage_v12 (identifier_v1));
+    evaluate (__LINE__, __func__, " 4.5.6 ", database_notes.get_raw_passage_v12 (identifier_v2));
+
     
 
     
@@ -105,8 +128,6 @@ void test_dev () // Todo move into place.
 
   /*
   {
-    string assigned = "assigned";
-    filter_url_file_put_contents (database_notes.assigned_file_v1 (identifier), assigned);
     string bible = "bible";
     filter_url_file_put_contents (database_notes.bible_file_v1 (identifier), bible);
     string expiry = "7";

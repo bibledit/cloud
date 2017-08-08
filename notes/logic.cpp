@@ -325,7 +325,7 @@ void Notes_Logic::handlerAddComment (int identifier)
   notify_users_v1 (identifier, notifyNoteComment);
   // If the note status was Done, and a comment is added, mark it Reopened.
   Database_Notes database_notes (webserver_request);
-  string status = database_notes.get_raw_status_v1 (identifier);
+  string status = database_notes.get_raw_status_v12 (identifier);
   if (status == "Done") {
     database_notes.set_status_v1 (identifier, "Reopened");
   }

@@ -196,7 +196,7 @@ string notes_bulk (void * webserver_request)
   if (status) {
     string status = request->query["status"];
     for (auto identifier : identifiers) {
-      if (database_notes.get_raw_status_v1 (identifier) != status) {
+      if (database_notes.get_raw_status_v12 (identifier) != status) {
         notes_logic.setStatus (identifier, status);
       }
     }
@@ -208,7 +208,7 @@ string notes_bulk (void * webserver_request)
   if (severity) {
     int severity = convert_to_int (request->query["severity"]);
     for (auto identifier : identifiers) {
-      if (database_notes.get_raw_severity_v1 (identifier) != severity) {
+      if (database_notes.get_raw_severity_v12 (identifier) != severity) {
         notes_logic.set_raw_severity_v1 (identifier, severity);
       }
     }

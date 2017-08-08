@@ -165,26 +165,44 @@ public:
   void set_raw_passage_v1 (int identifier, const string& passage);
   void set_raw_passage_v2 (int identifier, const string& passage);
   void index_raw_passage_v12 (int identifier, const string& passage);
+  string get_raw_status_v12 (int identifier);
+private:
   string get_raw_status_v1 (int identifier);
   string get_raw_status_v2 (int identifier);
+public:
+  string get_status_v12 (int identifier);
+private:
   string get_status_v1 (int identifier);
   string get_status_v2 (int identifier);
+public:
   void set_status_v1 (int identifier, const string& status, bool import = false);
   void set_status_v2 (int identifier, const string& status, bool import = false);
   vector <Database_Notes_Text> get_possible_statuses_v12 ();
+  int get_raw_severity_v12 (int identifier);
+private:
   int get_raw_severity_v1 (int identifier);
   int get_raw_severity_v2 (int identifier);
+public:
+  string get_severity_v12 (int identifier);
+private:
   string get_severity_v1 (int identifier);
   string get_severity_v2 (int identifier);
+public:
   void set_raw_severity_v2 (int identifier, int severity);
   void set_raw_severity_v1 (int identifier, int severity);
   vector <Database_Notes_Text> get_possible_severities_v12 ();
+  int get_modified_v12 (int identifier);
+private:
   int get_modified_v1 (int identifier);
   int get_modified_v2 (int identifier);
+public:
   void set_modified_v1 (int identifier, int time);
   void set_modified_v2 (int identifier, int time);
+  bool get_public_v12 (int identifier);
+private:
   bool get_public_v1 (int identifier);
   bool get_public_v2 (int identifier);
+public:
   void set_public_v1 (int identifier, bool value);
   void set_public_v2 (int identifier, bool value);
   void update_search_fields_v1 (int identifier);
@@ -195,12 +213,15 @@ public:
   void mark_for_deletion_v2 (int identifier);
   void unmark_for_deletion_v1 (int identifier);
   void unmark_for_deletion_v2 (int identifier);
+  bool is_marked_for_deletion_v12 (int identifier);
+private:
   bool is_marked_for_deletion_v1 (int identifier);
   bool is_marked_for_deletion_v2 (int identifier);
-  void touch_marked_for_deletion_v1 ();
-  void touch_marked_for_deletion_v2 ();
+  void touch_marked_for_deletion_v12 ();
+private:
   vector <int> get_due_for_deletion_v1 ();
   vector <int> get_due_for_deletion_v2 ();
+public:
   void set_checksum_v12 (int identifier, const string & checksum);
   string get_checksum_v12 (int identifier);
   void delete_checksum_v12 (int identifier);

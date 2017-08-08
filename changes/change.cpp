@@ -130,7 +130,7 @@ string changes_change (void * webserver_request)
   // Remove the ones marked for deletion.
   vector <int> notes2;
   for (auto note : notes) {
-    if (!database_notes.is_marked_for_deletion_v1 (note)) {
+    if (!database_notes.is_marked_for_deletion_v12 (note)) {
       notes2.push_back (note);
     }
   }
@@ -139,7 +139,7 @@ string changes_change (void * webserver_request)
   // Sort them, most recent notes first.
   vector <int> timestamps;
   for (auto note : notes) {
-    int timestap = database_notes.get_modified_v1 (note);
+    int timestap = database_notes.get_modified_v12 (note);
     timestamps.push_back (timestap);
   }
   quick_sort (timestamps, notes, 0, notes.size ());

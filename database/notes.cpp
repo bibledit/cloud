@@ -215,8 +215,17 @@ void Database_Notes::trim_v12 ()
 void Database_Notes::trim_server_v12 ()
 {
   // Notes expiry.
-  touch_marked_for_deletion_v1 ();
-  vector <int> identifiers = get_due_for_deletion_v1 ();
+  touch_marked_for_deletion_v12 ();
+  /// Storage for notes to be deleted.
+  vector <int> identifiers;
+  // Deal with old notes storage.
+  identifiers = get_due_for_deletion_v1 ();
+  for (auto & identifier : identifiers) {
+    trash_consultation_note (webserver_request, identifier);
+    erase_v12 (identifier);
+  }
+  // Deal with new notes storage in JSON.
+  identifiers = get_due_for_deletion_v2 ();
   for (auto & identifier : identifiers) {
     trash_consultation_note (webserver_request, identifier);
     erase_v12 (identifier);
@@ -2007,6 +2016,18 @@ void Database_Notes::index_raw_passage_v12 (int identifier, const string& passag
 
 // Gets the raw status of a note.
 // Returns it as a string.
+string Database_Notes::get_raw_status_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_raw_status_v1 (identifier);
+  } else {
+    return get_raw_status_v2 (identifier);
+  }
+}
+
+
+// Gets the raw status of a note.
+// Returns it as a string.
 string Database_Notes::get_raw_status_v1 (int identifier)
 {
   string file = status_file_v1 (identifier);
@@ -2019,6 +2040,18 @@ string Database_Notes::get_raw_status_v1 (int identifier)
 string Database_Notes::get_raw_status_v2 (int identifier)
 {
   return get_field_v2 (identifier, status_key_v2 ());
+}
+
+
+// Gets the localized status of a note.
+// Returns it as a string.
+string Database_Notes::get_status_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_status_v1 (identifier);
+  } else {
+    return get_status_v2 (identifier);
+  }
 }
 
 
@@ -2130,6 +2163,17 @@ vector <string> Database_Notes::standard_severities_v12 ()
 
 
 // Returns the severity of a note as a number.
+int Database_Notes::get_raw_severity_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_raw_severity_v1 (identifier);
+  } else {
+    return get_raw_severity_v2 (identifier);
+  }
+}
+
+
+// Returns the severity of a note as a number.
 int Database_Notes::get_raw_severity_v1 (int identifier)
 {
   string file = severity_file_v1 (identifier);
@@ -2145,6 +2189,17 @@ int Database_Notes::get_raw_severity_v2 (int identifier)
   string severity = get_field_v2 (identifier, severity_key_v2 ());
   if (severity.empty ()) return 2;
   return convert_to_int (severity);
+}
+
+
+// Returns the severity of a note as a localized string.
+string Database_Notes::get_severity_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_severity_v1 (identifier);
+  } else {
+    return get_severity_v2 (identifier);
+  }
 }
 
 
@@ -2234,6 +2289,16 @@ vector <Database_Notes_Text> Database_Notes::get_possible_severities_v12 ()
 }
 
 
+int Database_Notes::get_modified_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_modified_v1 (identifier);
+  } else {
+    return get_modified_v2 (identifier);
+  }
+}
+
+
 int Database_Notes::get_modified_v1 (int identifier)
 {
   string file = modified_file_v1 (identifier);
@@ -2287,6 +2352,16 @@ void Database_Notes::set_modified_v2 (int identifier, int time)
   database_sqlite_disconnect (db);
   // Update checksum.
   update_checksum_v2 (identifier);
+}
+
+
+bool Database_Notes::get_public_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return get_public_v1 (identifier);
+  } else {
+    return get_public_v2 (identifier);
+  }
 }
 
 
@@ -2479,6 +2554,16 @@ void Database_Notes::unmark_for_deletion_v2 (int identifier)
 }
 
 
+bool Database_Notes::is_marked_for_deletion_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    return is_marked_for_deletion_v1 (identifier);
+  } else {
+    return is_marked_for_deletion_v2 (identifier);
+  }
+}
+
+
 bool Database_Notes::is_marked_for_deletion_v1 (int identifier)
 {
   string file = expiry_file_v1 (identifier);
@@ -2493,29 +2578,24 @@ bool Database_Notes::is_marked_for_deletion_v2 (int identifier)
 }
 
 
-void Database_Notes::touch_marked_for_deletion_v1 ()
+void Database_Notes::touch_marked_for_deletion_v12 ()
 {
   vector <int> identifiers = get_identifiers_v12 ();
   for (auto & identifier : identifiers) {
-    if (is_marked_for_deletion_v1 (identifier)) {
-      string file = expiry_file_v1 (identifier);
-      int days = convert_to_int (filter_url_file_get_contents (file));
-      days--;
-      filter_url_file_put_contents (file, convert_to_string (days));
-    }
-  }
-}
-
-
-void Database_Notes::touch_marked_for_deletion_v2 ()
-{
-  vector <int> identifiers = get_identifiers_v12 ();
-  for (auto & identifier : identifiers) {
-    if (is_marked_for_deletion_v2 (identifier)) {
-      string expiry = get_field_v2 (identifier, expiry_key_v2 ());
-      int days = convert_to_int (expiry);
-      days--;
-      set_field_v2 (identifier, expiry_key_v2 (), convert_to_string (days));
+    if (is_v1 (identifier)) {
+      if (is_marked_for_deletion_v1 (identifier)) {
+        string file = expiry_file_v1 (identifier);
+        int days = convert_to_int (filter_url_file_get_contents (file));
+        days--;
+        filter_url_file_put_contents (file, convert_to_string (days));
+      }
+    } else {
+      if (is_marked_for_deletion_v2 (identifier)) {
+        string expiry = get_field_v2 (identifier, expiry_key_v2 ());
+        int days = convert_to_int (expiry);
+        days--;
+        set_field_v2 (identifier, expiry_key_v2 (), convert_to_string (days));
+      }
     }
   }
 }

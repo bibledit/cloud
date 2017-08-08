@@ -160,7 +160,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_status:
     {
-      return database_notes.get_raw_status_v1 (identifier);
+      return database_notes.get_raw_status_v12 (identifier);
     }
     case Sync_Logic::notes_get_passages:
     {
@@ -169,7 +169,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_severity:
     {
-      return convert_to_string (database_notes.get_raw_severity_v1 (identifier));
+      return convert_to_string (database_notes.get_raw_severity_v12 (identifier));
     }
     case Sync_Logic::notes_get_bible:
     {
@@ -177,7 +177,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_modified:
     {
-      return convert_to_string (database_notes.get_modified_v1 (identifier));
+      return convert_to_string (database_notes.get_modified_v12 (identifier));
     }
     case Sync_Logic::notes_put_create_initiate:
     {

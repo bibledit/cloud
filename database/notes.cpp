@@ -809,7 +809,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
 
   // Updates.
   update_search_fields_v1 (identifier);
-  note_edited_actions_v1 (identifier);
+  note_modified_actions_v12 (identifier);
 
   // Return this new note´s identifier.
   return identifier;
@@ -883,7 +883,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   
   // Updates.
   update_search_fields_v2 (identifier);
-  note_edited_actions_v2 (identifier);
+  note_modified_actions_v12 (identifier);
   
   // Return this new note´s identifier.
   return identifier;
@@ -1251,7 +1251,7 @@ void Database_Notes::add_comment_v1 (int identifier, const string& comment)
   set_contents_v1 (identifier, contents);
   
   // Some triggers.
-  note_edited_actions_v1 (identifier);
+  note_modified_actions_v12 (identifier);
   unmark_for_deletion_v1 (identifier);
   
   // Update shadow database.
@@ -1276,7 +1276,7 @@ void Database_Notes::add_comment_v2 (int identifier, const string& comment)
   set_contents_v2 (identifier, contents);
   
   // Some triggers.
-  note_edited_actions_v2 (identifier);
+  note_modified_actions_v12 (identifier);
   unmark_for_deletion_v2 (identifier);
   
   // Update shadow database.
@@ -1636,7 +1636,7 @@ void Database_Notes::set_assignees_v1 (int identifier, vector <string> assignees
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  note_edited_actions_v1 (identifier);
+  note_modified_actions_v12 (identifier);
 }
 
 
@@ -1652,7 +1652,7 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
   }
   string assignees_string = filter_string_implode (assignees, "\n");
   set_raw_assigned_v2 (identifier, assignees_string);
-  note_edited_actions_v2 (identifier);
+  note_modified_actions_v12 (identifier);
 }
 
 
@@ -1774,7 +1774,7 @@ void Database_Notes::set_bible_v1 (int identifier, const string& bible)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  note_edited_actions_v1 (identifier);
+  note_modified_actions_v12 (identifier);
 }
 
 
@@ -1794,7 +1794,7 @@ void Database_Notes::set_bible_v2 (int identifier, const string& bible)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  note_edited_actions_v2 (identifier);
+  note_modified_actions_v12 (identifier);
 }
 
 
@@ -1940,7 +1940,7 @@ void Database_Notes::set_passages_v1 (int identifier, const vector <Passage>& pa
   // Update index.
   index_raw_passage_v12 (identifier, line);
 
-  if (!import) note_edited_actions_v1 (identifier);
+  if (!import) note_modified_actions_v12 (identifier);
 }
 
 
@@ -1961,7 +1961,7 @@ void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& pa
   // Update index.
   index_raw_passage_v12 (identifier, line);
 
-  if (!import) note_edited_actions_v1 (identifier);
+  if (!import) note_modified_actions_v12 (identifier);
 }
 
 
@@ -2088,7 +2088,7 @@ void Database_Notes::set_status_v1 (int identifier, const string& status, bool i
   string file = status_file_v1 (identifier);
   filter_url_file_put_contents (file, status);
   
-  if (!import) note_edited_actions_v1 (identifier);
+  if (!import) note_modified_actions_v12(identifier);
   
   // Store a copy in the database also.
   SqliteSQL sql;
@@ -2111,7 +2111,7 @@ void Database_Notes::set_status_v2 (int identifier, const string& status, bool i
   // Store the authoritative copy in the filesystem.
   set_field_v2 (identifier, status_key_v2 (), status);
   
-  if (!import) note_edited_actions_v2 (identifier);
+  if (!import) note_modified_actions_v12 (identifier);
   
   // Store a copy in the database also.
   SqliteSQL sql;
@@ -2237,7 +2237,7 @@ void Database_Notes::set_raw_severity_v1 (int identifier, int severity)
   string file = severity_file_v1 (identifier);
   filter_url_file_put_contents (file, convert_to_string (severity));
   
-  note_edited_actions_v1 (identifier);
+  note_modified_actions_v12 (identifier);
   
   // Update the database also.
   SqliteSQL sql;
@@ -2259,7 +2259,7 @@ void Database_Notes::set_raw_severity_v2 (int identifier, int severity)
   // Update the file system.
   set_field_v2 (identifier, severity_key_v2 (), convert_to_string (severity));
   
-  note_edited_actions_v2 (identifier);
+  note_modified_actions_v12 (identifier);
   
   // Update the database also.
   SqliteSQL sql;
@@ -2397,18 +2397,14 @@ void Database_Notes::set_public_v2 (int identifier, bool value)
 
 
 // Takes actions when a note has been edited.
-void Database_Notes::note_edited_actions_v1 (int identifier)
+void Database_Notes::note_modified_actions_v12 (int identifier)
 {
   // Update 'modified' field.
-  set_modified_v1 (identifier, filter_date_seconds_since_epoch());
-}
-
-
-// Takes actions when a note has been edited.
-void Database_Notes::note_edited_actions_v2 (int identifier)
-{
-  // Update 'modified' field.
-  set_modified_v2 (identifier, filter_date_seconds_since_epoch());
+  if (is_v1 (identifier)) {
+    set_modified_v1 (identifier, filter_date_seconds_since_epoch());
+  } else {
+    set_modified_v2 (identifier, filter_date_seconds_since_epoch());
+  }
 }
 
 
@@ -2769,44 +2765,41 @@ string Database_Notes::get_multiple_checksum_v12 (const vector <int> & identifie
 }
 
 
-// Internal function.
-string Database_Notes::getBibleSelector (vector <string> bibles)
-{
-  bibles.push_back (""); // Select general note also
-  string bibleSelector = " AND (";
-  for (unsigned int i = 0; i < bibles.size(); i++) {
-    bibles[i] = database_sqlite_no_sql_injection (bibles[i]);
-    if (i > 0) bibleSelector.append (" OR ");
-    bibleSelector.append (" bible = '");
-    bibleSelector.append (bibles[i]);
-    bibleSelector.append ("' ");
-  }
-  bibleSelector.append (")");
-  return bibleSelector;
-}
-
-
 // This function gets the identifiers for notes
 // within the note identifier range of lowId to highId
 // which refer to any Bible in the array of bibles
 // or refer to no Bible.
-vector <int> Database_Notes::get_notes_in_range_for_bibles_v12 (int lowId, int highId, const vector <string> & bibles, bool anybible)
+vector <int> Database_Notes::get_notes_in_range_for_bibles_v12 (int lowId, int highId, vector <string> bibles, bool anybible)
 {
   vector <int> identifiers;
-  string bibleSelector = getBibleSelector (bibles);
+  
   string query = "SELECT identifier FROM notes WHERE identifier >= ";
   query.append (convert_to_string (lowId));
   query.append (" AND identifier <= ");
   query.append (convert_to_string (highId));
   query.append (" ");
-  if (!anybible) query.append (bibleSelector);
+  if (!anybible) {
+    bibles.push_back (""); // Select general note also
+    string bibleSelector = " AND (";
+    for (unsigned int i = 0; i < bibles.size(); i++) {
+      bibles[i] = database_sqlite_no_sql_injection (bibles[i]);
+      if (i > 0) bibleSelector.append (" OR ");
+      bibleSelector.append (" bible = '");
+      bibleSelector.append (bibles[i]);
+      bibleSelector.append ("' ");
+    }
+    bibleSelector.append (")");
+    query.append (bibleSelector);
+  }
   query.append (" ORDER BY identifier;");
+
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, query) ["identifier"];
   database_sqlite_disconnect (db);
   for (auto & row : result) {
     identifiers.push_back (convert_to_int (row));
   }
+  
   return identifiers;
 }
 

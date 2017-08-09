@@ -293,18 +293,26 @@ public:
   string get_bulk_v12 (vector <int> identifiers);
   vector <string> set_bulk_v1 (string json);
   vector <string> set_bulk_v2 (string json);
+  
+public:
   void update_database_v1 (int identifier);
   void update_database_v2 (int identifier);
+  
+public:
   bool is_v1 (int identifier);
+  void convert_v1_to_v2 (int identifier);
+  
+private:
   friend void test_database_notes ();
   friend void test_dev ();
 
 private:
   sqlite3 * connect ();
   sqlite3 * connect_checksums ();
+  
+private:
   string get_field_v2 (int identifier, string key);
   void set_field_v2 (int identifier, string key, string value);
-  void convert_v1_to_v2 (int identifier);
 };
 
 

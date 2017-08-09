@@ -2071,7 +2071,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, summary, database_notes.get_summary_v2 (identifier));
   }
   
-  // Test universal methods for setting note properties.
+  // Test universal methods for getting note properties.
   {
     refresh_sandbox (true);
     Database_State::create ();

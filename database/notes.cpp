@@ -908,13 +908,13 @@ vector <int> Database_Notes::select_notes_v12 (vector <string> bibles, int book,
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <int> identifiers;
   // SQL SELECT statement.
-  string query = notesSelectIdentifier ();
+  string query = notes_select_identifier ();
   // SQL optional fulltext search statement sorted on relevance.
   if (text_selector == 1) {
-    query.append (notesOptionalFulltextSearchRelevanceStatement (search_text));
+    query.append (notes_optional_fulltext_search_relevance_statement (search_text));
   }
   // SQL FROM ... WHERE statement.
-  query.append (notesFromWhereStatement ());
+  query.append (notes_from_where_statement ());
   // Consider passage selector.
   string passage;
   switch (passage_selector) {
@@ -1050,11 +1050,11 @@ vector <int> Database_Notes::select_notes_v12 (vector <string> bibles, int book,
   }
   // Consider text contained in notes.
   if (text_selector == 1) {
-    query.append (notesOptionalFulltextSearchStatement (search_text));
+    query.append (notes_optional_fulltext_search_statement (search_text));
   }
   if (text_selector == 1) {
     // If searching in fulltext mode, notes get ordered on relevance of search hits.
-    query.append (notesOrderByRelevanceStatement ());
+    query.append (notes_order_by_relevance_statement ());
   } else {
     // Notes get ordered by the passage they refer to. It is a rough method and better ordering is needed.
     query.append (" ORDER BY ABS (passage) ");
@@ -2481,16 +2481,16 @@ vector <int> Database_Notes::search_notes_v12 (string search, const vector <stri
   if (search == "") return identifiers;
 
   // SQL SELECT statement.
-  string query = notesSelectIdentifier ();
+  string query = notes_select_identifier ();
 
   // SQL fulltext search statement sorted on relevance.
-  query.append (notesOptionalFulltextSearchRelevanceStatement (search));
+  query.append (notes_optional_fulltext_search_relevance_statement (search));
 
   // SQL FROM ... WHERE statement.
-  query.append (notesFromWhereStatement ());
+  query.append (notes_from_where_statement ());
 
   // Consider text contained in notes.
-  query.append (notesOptionalFulltextSearchStatement (search));
+  query.append (notes_optional_fulltext_search_statement (search));
 
   // Consider Bible constraints:
   // * A user has access to notes that refer to Bibles the user has access to.
@@ -2506,7 +2506,7 @@ vector <int> Database_Notes::search_notes_v12 (string search, const vector <stri
   query.append (" ) ");
 
   // Notes get ordered on relevance of search hits.
-  query.append (notesOrderByRelevanceStatement ());
+  query.append (notes_order_by_relevance_statement ());
 
   // Complete query.
   query.append (";");
@@ -2828,13 +2828,13 @@ bool Database_Notes::available_v12 ()
 }
 
 
-string Database_Notes::notesSelectIdentifier ()
+string Database_Notes::notes_select_identifier ()
 {
   return " SELECT identifier ";
 }
 
 
-string Database_Notes::notesOptionalFulltextSearchRelevanceStatement (string search)
+string Database_Notes::notes_optional_fulltext_search_relevance_statement (string search)
 {
   if (search == "") return "";
   search = filter_string_str_replace (",", "", search);
@@ -2844,13 +2844,13 @@ string Database_Notes::notesOptionalFulltextSearchRelevanceStatement (string sea
 }
 
 
-string Database_Notes::notesFromWhereStatement ()
+string Database_Notes::notes_from_where_statement ()
 {
   return " FROM notes WHERE 1 ";
 }
 
 
-string Database_Notes::notesOptionalFulltextSearchStatement (string search)
+string Database_Notes::notes_optional_fulltext_search_statement (string search)
 {
   if (search == "") return "";
   search = filter_string_str_replace (",", "", search);
@@ -2860,7 +2860,7 @@ string Database_Notes::notesOptionalFulltextSearchStatement (string search)
 }
 
 
-string Database_Notes::notesOrderByRelevanceStatement ()
+string Database_Notes::notes_order_by_relevance_statement ()
 {
   return "";
 }

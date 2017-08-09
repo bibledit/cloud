@@ -62,25 +62,26 @@ public:
 
 public:
   bool identifier_exists_v12 (int identifier);
-public:
   void set_identifier_v12 (int identifier, int new_identifier);
 private:
   void set_identifier_v1 (int identifier, int new_identifier);
   void set_identifier_v2 (int identifier, int new_identifier);
+
 public:
-  int get_new_unique_identifier_v12 ();
   vector <int> get_identifiers_v12 ();
   int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
+private:
+  int get_new_unique_identifier_v12 ();
   
 public:
   vector <int> select_notes_v12 (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
 private:
-  string notesSelectIdentifier ();
-  string notesOptionalFulltextSearchRelevanceStatement (string search);
-  string notesFromWhereStatement ();
-  string notesOptionalFulltextSearchStatement (string search);
-  string notesOrderByRelevanceStatement ();
+  string notes_select_identifier ();
+  string notes_optional_fulltext_search_relevance_statement (string search);
+  string notes_from_where_statement ();
+  string notes_optional_fulltext_search_statement (string search);
+  string notes_order_by_relevance_statement ();
 
 public:
   string get_summary_v12 (int identifier);

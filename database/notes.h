@@ -307,6 +307,7 @@ private:
   void update_database_v12 (int identifier);
   void update_database_v1 (int identifier);
   void update_database_v2 (int identifier);
+  void update_database_internal (int identifier, int modified, string assigned, string subscriptions, string bible, string passage, string status, int severity, string summary, string contents);
   
 public:
   bool is_v1 (int identifier);

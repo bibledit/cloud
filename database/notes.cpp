@@ -348,77 +348,9 @@ void Database_Notes::update_database_v1 (int identifier)
   string summary = get_summary_v1 (identifier);
   
   string contents = get_contents_v1 (identifier);
-  
-  // Read the relevant values from the database.
-  // If all the values in the database are the same as the values on the filesystem,
-  // it means that the database is already in sync with the filesystem.
-  // Bail out in that case.
-  sqlite3 * db = connect ();
-  bool database_in_sync = true;
-  bool record_in_database = false;
-  SqliteSQL sql;
-  sql.add ("SELECT modified, assigned, subscriptions, bible, passage, status, severity, summary, contents FROM notes WHERE identifier =");
-  sql.add (identifier);
-  sql.add (";");
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
-  vector <string> vmodified = result ["modified"];
-  vector <string> vassigned = result ["assigned"];
-  vector <string> vsubscriptions = result ["subscriptions"];
-  vector <string> vbible = result ["bible"];
-  vector <string> vpassage = result ["passage"];
-  vector <string> vstatus = result ["status"];
-  vector <string> vseverity = result ["severity"];
-  vector <string> vsummary = result ["summary"];
-  vector <string> vcontents = result ["contents"];
-  for (unsigned int i = 0; i < vmodified.size(); i++) {
-    record_in_database = true;
-    if (modified != convert_to_int (vmodified[i])) database_in_sync = false;
-    if (assigned != vassigned[i]) database_in_sync = false;
-    if (subscriptions != vsubscriptions[i]) database_in_sync = false;
-    if (bible != vbible [i]) database_in_sync = false;
-    if (passage != vpassage [i]) database_in_sync = false;
-    if (status != vstatus [i]) database_in_sync = false;
-    if (severity != convert_to_int (vseverity [i])) database_in_sync = false;
-    if (summary != vsummary [i]) database_in_sync = false;
-    if (contents != vcontents [i]) database_in_sync = false;
-  }
-  if (database_in_sync && record_in_database) return;
-  
-  // At this stage, the index needs to be brought in sync with the filesystem.
-  db = connect ();
-  
-  sql.clear ();
-  sql.add ("DELETE FROM notes WHERE identifier =");
-  sql.add (identifier);
-  sql.add (";");
-  database_sqlite_exec (db, sql.sql);
-  
-  sql.clear ();
-  sql.add ("INSERT INTO notes (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents) VALUES (");
-  sql.add (identifier);
-  sql.add (",");
-  sql.add (modified);
-  sql.add (",");
-  sql.add (assigned);
-  sql.add (",");
-  sql.add (subscriptions);
-  sql.add (",");
-  sql.add (bible);
-  sql.add (",");
-  sql.add (passage);
-  sql.add (",");
-  sql.add (status);
-  sql.add (",");
-  sql.add (severity);
-  sql.add (",");
-  sql.add (summary);
-  sql.add (",");
-  sql.add (contents);
-  sql.add (")");
-  database_sqlite_exec (db, sql.sql);
-  
-  database_sqlite_disconnect (db);
+
+  // Sync the values to the database.
+  update_database_internal (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents);
 }
 
 
@@ -435,8 +367,15 @@ void Database_Notes::update_database_v2 (int identifier)
   string summary = get_summary_v2 (identifier);
   string contents = get_contents_v2 (identifier);
   
+  // Sync the values to the database.
+  update_database_internal (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents);
+}
+
+
+void Database_Notes::update_database_internal (int identifier, int modified, string assigned, string subscriptions, string bible, string passage, string status, int severity, string summary, string contents)
+{
   // Read the relevant values from the database.
-  // If all the values in the database are the same as the values on the filesystem,
+  // If all the values in the database are the same as the values in the filesystem,
   // it means that the database is already in sync with the filesystem.
   // Bail out in that case.
   sqlite3 * db = connect ();
@@ -817,7 +756,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
   database_sqlite_disconnect (db);
 
   // Updates.
-  update_search_fields_v1 (identifier);
+  update_search_fields_v1 (identifier); // Todo is there a _v12 version for this?
   note_modified_actions_v12 (identifier);
 
   // Return this new note´s identifier.
@@ -891,7 +830,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   database_sqlite_disconnect (db);
   
   // Updates.
-  update_search_fields_v2 (identifier);
+  update_search_fields_v2 (identifier); // Todo use _v12 version?
   note_modified_actions_v12 (identifier);
   
   // Return this new note´s identifier.
@@ -1259,7 +1198,7 @@ void Database_Notes::erase_v12 (int identifier)
   // Delete new storage from filesystem.
   string path = note_file_v2 (identifier);
   filter_url_unlink (path);
-  // Update database as well.
+  // Update databases as well.
   delete_checksum_v12 (identifier);
   SqliteSQL sql;
   sql.add ("DELETE FROM notes WHERE identifier =");

@@ -317,6 +317,16 @@ void Database_Notes::sync_v12 ()
 }
 
 
+void Database_Notes::update_database_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    update_database_v1 (identifier);
+  } else {
+    update_database_v2 (identifier);
+  }
+}
+
+
 void Database_Notes::update_database_v1 (int identifier)
 {
   // Read the relevant values from the filesystem.
@@ -1875,6 +1885,16 @@ string Database_Notes::get_bible_v2 (int identifier)
 }
 
 
+void Database_Notes::set_bible_v12 (int identifier, const string& bible)
+{
+  if (is_v1 (identifier)) {
+    set_bible_v1 (identifier, bible);
+  } else {
+    set_bible_v2 (identifier, bible);
+  }
+}
+
+
 void Database_Notes::set_bible_v1 (int identifier, const string& bible)
 {
   // Write the bible to the filesystem, or remove the bible in case there's no data to store.
@@ -2045,6 +2065,19 @@ vector <Passage> Database_Notes::get_passages_v2 (int identifier)
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
+void Database_Notes::set_passages_v12 (int identifier, const vector <Passage>& passages, bool import)
+{
+  if (is_v1 (identifier)) {
+    set_passages_v1 (identifier, passages, import);
+  } else {
+    set_passages_v2 (identifier, passages, import);
+  }
+}
+
+
+// Set the passages for note identifier.
+// passages is an array of an array (book, chapter, verse) passages.
+// import: If true, just write passages, no further actions.
 void Database_Notes::set_passages_v1 (int identifier, const vector <Passage>& passages, bool import)
 {
   // Format the passages.
@@ -2081,6 +2114,25 @@ void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& pa
   index_raw_passage_v12 (identifier, line);
 
   if (!import) note_modified_actions_v12 (identifier);
+}
+
+
+// Sets the raw $passage(s) for a note $identifier.
+// The reason for having this function is this:
+// There is a slight difference in adding a new line or not to the passage
+// between Bibledit as it was written in PHP,
+// and Bibledit as it is now written in C++.
+// Due to this difference, when a client downloads a note from the server,
+// it should download the exact passage file contents as it is on the server,
+// so as to prevent keeping to download the same notes over and over,
+// due to the above mentioned difference in adding a new line or not.
+void Database_Notes::set_raw_passage_v12 (int identifier, const string& passage)
+{
+  if (is_v1 (identifier)) {
+    set_raw_passage_v1 (identifier, passage);
+  } else {
+    set_raw_passage_v2 (identifier, passage);
+  }
 }
 
 
@@ -2195,6 +2247,19 @@ string Database_Notes::get_status_v2 (int identifier)
   status = translate (status.c_str());
   // Return status.
   return status;
+}
+
+
+// Sets the status of the note identified by identifier.
+// status is a string.
+// import: Just write the status, and skip any logic.
+void Database_Notes::set_status_v12 (int identifier, const string& status, bool import)
+{
+  if (is_v1 (identifier)) {
+    set_status_v1 (identifier, status, import);
+  } else {
+    set_status_v2 (identifier, status, import);
+  }
 }
 
 
@@ -2350,6 +2415,18 @@ string Database_Notes::get_severity_v2 (int identifier)
 
 // Sets the severity of the note identified by identifier.
 // severity is a number.
+void Database_Notes::set_raw_severity_v12 (int identifier, int severity)
+{
+  if (is_v1 (identifier)) {
+    set_raw_severity_v1 (identifier, severity);
+  } else {
+    set_raw_severity_v2 (identifier, severity);
+  }
+}
+
+
+// Sets the severity of the note identified by identifier.
+// severity is a number.
 void Database_Notes::set_raw_severity_v1 (int identifier, int severity)
 {
   // Update the file system.
@@ -2435,6 +2512,15 @@ int Database_Notes::get_modified_v2 (int identifier)
 }
 
 
+void Database_Notes::set_modified_v12 (int identifier, int time)
+{
+  if (is_v1 (identifier)) {
+    set_modified_v1 (identifier, time);
+  } else {
+    set_modified_v2 (identifier, time);
+  }
+}
+
 void Database_Notes::set_modified_v1 (int identifier, int time)
 {
   // Update the filesystem.
@@ -2498,6 +2584,16 @@ bool Database_Notes::get_public_v2 (int identifier)
 }
 
 
+void Database_Notes::set_public_v12 (int identifier, bool value)
+{
+  if (is_v1 (identifier)) {
+    set_public_v1 (identifier, value);
+  } else {
+    set_public_v2 (identifier, value);
+  }
+}
+
+
 void Database_Notes::set_public_v1 (int identifier, bool value)
 {
   string file = public_file_v1 (identifier);
@@ -2523,6 +2619,16 @@ void Database_Notes::note_modified_actions_v12 (int identifier)
     set_modified_v1 (identifier, filter_date_seconds_since_epoch());
   } else {
     set_modified_v2 (identifier, filter_date_seconds_since_epoch());
+  }
+}
+
+
+void Database_Notes::update_search_fields_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    update_search_fields_v1 (identifier);
+  } else {
+    update_search_fields_v2 (identifier);
   }
 }
 
@@ -2641,6 +2747,16 @@ vector <int> Database_Notes::search_notes_v12 (string search, const vector <stri
 }
 
 
+void Database_Notes::mark_for_deletion_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    mark_for_deletion_v1 (identifier);
+  } else {
+    mark_for_deletion_v2 (identifier);
+  }
+}
+
+
 void Database_Notes::mark_for_deletion_v1 (int identifier)
 {
   string file = expiry_file_v1 (identifier);
@@ -2653,6 +2769,16 @@ void Database_Notes::mark_for_deletion_v2 (int identifier)
 {
   // Delete after 7 days.
   set_field_v2 (identifier, expiry_key_v2 (), "7");
+}
+
+
+void Database_Notes::unmark_for_deletion_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    unmark_for_deletion_v1 (identifier);
+  } else {
+    unmark_for_deletion_v2 (identifier);
+  }
 }
 
 
@@ -2802,6 +2928,16 @@ void Database_Notes::delete_checksum_v12 (int identifier)
   Database_State::eraseNoteChecksum (identifier);
 }
 
+
+void Database_Notes::update_checksum_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    update_checksum_v1 (identifier);
+  }
+  else {
+    update_checksum_v2 (identifier); 
+  }
+}
 
 // The function calculates the checksum of the note signature,
 // and writes it to the filesystem.

@@ -35,6 +35,7 @@ public:
 
 class Database_Notes
 {
+
 public:
   Database_Notes (void * webserver_request_in);
 private:
@@ -171,110 +172,112 @@ private:
   
 public:
   string get_bible_v12 (int identifier);
-  void set_bible_v1 (int identifier, const string& bible);
-  void set_bible_v2 (int identifier, const string& bible);
+  void set_bible_v12 (int identifier, const string& bible);
   vector <string> get_all_bibles_v12 ();
 private:
   string bible_file_v1 (int identifier);
   string bible_key_v2 ();
   string get_bible_v1 (int identifier);
   string get_bible_v2 (int identifier);
+  void set_bible_v1 (int identifier, const string& bible);
+  void set_bible_v2 (int identifier, const string& bible);
 
 public:
   string encode_passage_v12 (int book, int chapter, int verse);
   Passage decode_passage_v12 (string passage);
   string get_raw_passage_v12 (int identifier);
+  vector <Passage> get_passages_v12 (int identifier);
+  void set_passages_v12 (int identifier, const vector <Passage>& passages, bool import = false);
+  void set_raw_passage_v12 (int identifier, const string& passage);
+  void index_raw_passage_v12 (int identifier, const string& passage);
 private:
+  void set_passages_v1 (int identifier, const vector <Passage>& passages, bool import = false);
+  void set_passages_v2 (int identifier, const vector <Passage>& passages, bool import = false);
   string passage_file_v1 (int identifier);
   string passage_key_v2 ();
   string get_raw_passage_v1 (int identifier);
   string get_raw_passage_v2 (int identifier);
-public:
-  vector <Passage> get_passages_v12 (int identifier);
-private:
   vector <Passage> get_passages_v1 (int identifier);
   vector <Passage> get_passages_v2 (int identifier);
-public:
-  void set_passages_v1 (int identifier, const vector <Passage>& passages, bool import = false);
-  void set_passages_v2 (int identifier, const vector <Passage>& passages, bool import = false);
   void set_raw_passage_v1 (int identifier, const string& passage);
   void set_raw_passage_v2 (int identifier, const string& passage);
-  void index_raw_passage_v12 (int identifier, const string& passage);
   
 public:
   string get_raw_status_v12 (int identifier);
+  string get_status_v12 (int identifier);
+  void set_status_v12 (int identifier, const string& status, bool import = false);
+  vector <Database_Notes_Text> get_possible_statuses_v12 ();
 private:
   string status_file_v1 (int identifier);
   string status_key_v2 ();
   string get_raw_status_v1 (int identifier);
   string get_raw_status_v2 (int identifier);
-public:
-  string get_status_v12 (int identifier);
-private:
   string get_status_v1 (int identifier);
   string get_status_v2 (int identifier);
-public:
   void set_status_v1 (int identifier, const string& status, bool import = false);
   void set_status_v2 (int identifier, const string& status, bool import = false);
-  vector <Database_Notes_Text> get_possible_statuses_v12 ();
 
 public:
+  string get_severity_v12 (int identifier);
   int get_raw_severity_v12 (int identifier);
+  void set_raw_severity_v12 (int identifier, int severity);
+  vector <Database_Notes_Text> get_possible_severities_v12 ();
 private:
   string severity_file_v1 (int identifier);
   string severity_key_v2 ();
   vector <string> standard_severities_v12 ();
   int get_raw_severity_v1 (int identifier);
   int get_raw_severity_v2 (int identifier);
-public:
-  string get_severity_v12 (int identifier);
-private:
   string get_severity_v1 (int identifier);
   string get_severity_v2 (int identifier);
-public:
-  void set_raw_severity_v2 (int identifier, int severity);
   void set_raw_severity_v1 (int identifier, int severity);
-  vector <Database_Notes_Text> get_possible_severities_v12 ();
+  void set_raw_severity_v2 (int identifier, int severity);
 
 public:
   int get_modified_v12 (int identifier);
-  void set_modified_v1 (int identifier, int time);
-  void set_modified_v2 (int identifier, int time);
+  void set_modified_v12 (int identifier, int time);
 private:
   string modified_file_v1 (int identifier);
   string modified_key_v2 ();
   int get_modified_v1 (int identifier);
   int get_modified_v2 (int identifier);
+  void set_modified_v1 (int identifier, int time);
+  void set_modified_v2 (int identifier, int time);
   void note_modified_actions_v12 (int identifier);
 
 public:
   bool get_public_v12 (int identifier);
+  void set_public_v12 (int identifier, bool value);
 private:
   string public_file_v1 (int identifier);
   string public_key_v2 ();
   bool get_public_v1 (int identifier);
   bool get_public_v2 (int identifier);
-public:
   void set_public_v1 (int identifier, bool value);
   void set_public_v2 (int identifier, bool value);
+  
+public:
+  string get_search_field_v12 (int identifier);
+  void update_search_fields_v12 (int identifier);
+  vector <int> search_notes_v12 (string search, const vector <string> & bibles);
+private:
   void update_search_fields_v1 (int identifier);
   void update_search_fields_v2 (int identifier);
-  string get_search_field_v12 (int identifier);
-  vector <int> search_notes_v12 (string search, const vector <string> & bibles);
 
 public:
-  void mark_for_deletion_v1 (int identifier);
-  void mark_for_deletion_v2 (int identifier);
-  void unmark_for_deletion_v1 (int identifier);
-  void unmark_for_deletion_v2 (int identifier);
+  void mark_for_deletion_v12 (int identifier);
+  void unmark_for_deletion_v12 (int identifier);
   bool is_marked_for_deletion_v12 (int identifier);
 private:
   string expiry_file_v1 (int identifier);
   string expiry_key_v2 ();
+  void mark_for_deletion_v1 (int identifier);
+  void mark_for_deletion_v2 (int identifier);
   bool is_marked_for_deletion_v1 (int identifier);
   bool is_marked_for_deletion_v2 (int identifier);
+  void unmark_for_deletion_v1 (int identifier);
+  void unmark_for_deletion_v2 (int identifier);
   void touch_marked_for_deletion_v12 ();
-private:
   vector <int> get_due_for_deletion_v1 ();
   vector <int> get_due_for_deletion_v2 ();
 
@@ -282,10 +285,12 @@ public:
   void set_checksum_v12 (int identifier, const string & checksum);
   string get_checksum_v12 (int identifier);
   void delete_checksum_v12 (int identifier);
-  void update_checksum_v1 (int identifier);
-  void update_checksum_v2 (int identifier);
+  void update_checksum_v12 (int identifier);
   string get_multiple_checksum_v12 (const vector <int> & identifiers);
   vector <int> get_notes_in_range_for_bibles_v12 (int lowId, int highId, vector <string> bibles, bool anybible);
+private:
+  void update_checksum_v1 (int identifier);
+  void update_checksum_v2 (int identifier);
   
 public:
   void set_availability_v12 (bool available);
@@ -298,7 +303,8 @@ public:
   vector <string> set_bulk_v1 (string json);
   vector <string> set_bulk_v2 (string json);
   
-public:
+private:
+  void update_database_v12 (int identifier);
   void update_database_v1 (int identifier);
   void update_database_v2 (int identifier);
   
@@ -317,6 +323,7 @@ private:
 private:
   string get_field_v2 (int identifier, string key);
   void set_field_v2 (int identifier, string key, string value);
+
 };
 
 

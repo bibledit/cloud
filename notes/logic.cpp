@@ -199,7 +199,7 @@ void Notes_Logic::unassign_user_v1 (int identifier, const string& user)
 void Notes_Logic::setStatus (int identifier, const string& status)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_status_v1 (identifier, status);
+  database_notes.set_status_v12 (identifier, status);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -215,7 +215,7 @@ void Notes_Logic::setStatus (int identifier, const string& status)
 void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_passages_v1 (identifier, passages);
+  database_notes.set_passages_v12 (identifier, passages);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -231,7 +231,7 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
 void Notes_Logic::set_raw_severity_v1 (int identifier, int severity)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_raw_severity_v1 (identifier, severity);
+  database_notes.set_raw_severity_v12 (identifier, severity);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -247,7 +247,7 @@ void Notes_Logic::set_raw_severity_v1 (int identifier, int severity)
 void Notes_Logic::setBible (int identifier, const string& bible)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_bible_v1 (identifier, bible);
+  database_notes.set_bible_v12 (identifier, bible);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -262,7 +262,7 @@ void Notes_Logic::setBible (int identifier, const string& bible)
 void Notes_Logic::markForDeletion (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.mark_for_deletion_v1 (identifier);
+  database_notes.mark_for_deletion_v12 (identifier);
   trash_consultation_note (webserver_request, identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
@@ -279,7 +279,7 @@ void Notes_Logic::markForDeletion (int identifier)
 void Notes_Logic::unmarkForDeletion (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.unmark_for_deletion_v1 (identifier);
+  database_notes.unmark_for_deletion_v12 (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -327,7 +327,7 @@ void Notes_Logic::handlerAddComment (int identifier)
   Database_Notes database_notes (webserver_request);
   string status = database_notes.get_raw_status_v12 (identifier);
   if (status == "Done") {
-    database_notes.set_status_v1 (identifier, "Reopened");
+    database_notes.set_status_v12 (identifier, "Reopened");
   }
 }
 

@@ -115,7 +115,7 @@ string notes_actions (void * webserver_request)
   
   if (request->query.count ("publicnote")) {
     bool state = database_notes.get_public_v12 (id);
-    database_notes.set_public_v1 (id, !state);
+    database_notes.set_public_v12 (id, !state);
   }
 
   

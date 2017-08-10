@@ -516,16 +516,16 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note_v2 ("unittest2", 0, 0, 0, "Summary", "Contents", false);
     bible = database_notes.get_bible_v2 (newidentifier);
     evaluate (__LINE__, __func__, "unittest2", bible);
-    database_notes.set_bible_v1 (oldidentifier, "PHPUnit2");
+    database_notes.set_bible_v12 (oldidentifier, "PHPUnit2");
     bible = database_notes.get_bible_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "PHPUnit2", bible);
-    database_notes.set_bible_v2 (newidentifier, "PHPUnit3");
+    database_notes.set_bible_v12 (newidentifier, "PHPUnit3");
     bible = database_notes.get_bible_v2 (newidentifier);
     evaluate (__LINE__, __func__, "PHPUnit3", bible);
-    database_notes.set_bible_v1 (oldidentifier, "");
+    database_notes.set_bible_v12 (oldidentifier, "");
     bible = database_notes.get_bible_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "", bible);
-    database_notes.set_bible_v2 (newidentifier, "");
+    database_notes.set_bible_v12 (newidentifier, "");
     bible = database_notes.get_bible_v2 (newidentifier);
     evaluate (__LINE__, __func__, "", bible);
   }
@@ -559,12 +559,12 @@ void test_database_notes ()
     
     // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
-    database_notes.set_passages_v1 (oldidentifier, {standard});
+    database_notes.set_passages_v12 (oldidentifier, {standard});
     passages = database_notes.get_passages_v1 (oldidentifier);
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     standard = Passage ("", 12, 13, "14");
-    database_notes.set_passages_v2 (newidentifier, {standard});
+    database_notes.set_passages_v12 (newidentifier, {standard});
     passages = database_notes.get_passages_v2 (newidentifier);
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
@@ -594,10 +594,10 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "New", status);
     
     // Test setting the status.
-    database_notes.set_status_v1 (oldidentifier, "xxxxx");
+    database_notes.set_status_v12 (oldidentifier, "xxxxx");
     status = database_notes.get_status_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "xxxxx", status);
-    database_notes.set_status_v2 (newidentifier, "yyyyy");
+    database_notes.set_status_v12 (newidentifier, "yyyyy");
     status = database_notes.get_status_v2 (newidentifier);
     evaluate (__LINE__, __func__, "yyyyy", status);
     
@@ -634,16 +634,16 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "Normal", severity);
     
     // Test setting the severity.
-    database_notes.set_raw_severity_v1 (oldidentifier, 0);
+    database_notes.set_raw_severity_v12 (oldidentifier, 0);
     severity = database_notes.get_severity_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "Wish", severity);
-    database_notes.set_raw_severity_v2 (newidentifier, 0);
+    database_notes.set_raw_severity_v12 (newidentifier, 0);
     severity = database_notes.get_severity_v2 (newidentifier);
     evaluate (__LINE__, __func__, "Wish", severity);
-    database_notes.set_raw_severity_v1 (oldidentifier, 4);
+    database_notes.set_raw_severity_v12 (oldidentifier, 4);
     severity = database_notes.get_severity_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "Major", severity);
-    database_notes.set_raw_severity_v2 (newidentifier, 4);
+    database_notes.set_raw_severity_v12 (newidentifier, 4);
     severity = database_notes.get_severity_v2 (newidentifier);
     evaluate (__LINE__, __func__, "Major", severity);
     
@@ -685,10 +685,10 @@ void test_database_notes ()
     
     // Test setter.
     time = 123456789;
-    database_notes.set_modified_v1 (oldidentifier, time);
+    database_notes.set_modified_v12 (oldidentifier, time);
     value = database_notes.get_modified_v1 (oldidentifier);
     evaluate (__LINE__, __func__, time, value);;
-    database_notes.set_modified_v2 (newidentifier, time);
+    database_notes.set_modified_v12 (newidentifier, time);
     value = database_notes.get_modified_v2 (newidentifier);
     evaluate (__LINE__, __func__, time, value);;
   }
@@ -791,8 +791,8 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
     
-    database_notes.mark_for_deletion_v1 (oldidentifier);
-    database_notes.mark_for_deletion_v2 (newidentifier);
+    database_notes.mark_for_deletion_v12 (oldidentifier);
+    database_notes.mark_for_deletion_v12 (newidentifier);
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
     
@@ -840,16 +840,16 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
 
-    database_notes.mark_for_deletion_v1 (oldidentifier);
-    database_notes.mark_for_deletion_v2 (newidentifier);
+    database_notes.mark_for_deletion_v12 (oldidentifier);
+    database_notes.mark_for_deletion_v12 (newidentifier);
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.unmark_for_deletion_v1 (oldidentifier);
-    database_notes.unmark_for_deletion_v2 (newidentifier);
+    database_notes.unmark_for_deletion_v12 (oldidentifier);
+    database_notes.unmark_for_deletion_v12 (newidentifier);
 
     vector <int> identifiers = database_notes.get_due_for_deletion_v1 ();
     evaluate (__LINE__, __func__, {}, identifiers);
@@ -883,14 +883,14 @@ void test_database_notes ()
     int newidentifier2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier3 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
 
-    database_notes.mark_for_deletion_v1 (oldidentifier1);
-    database_notes.mark_for_deletion_v2 (newidentifier1);
+    database_notes.mark_for_deletion_v12 (oldidentifier1);
+    database_notes.mark_for_deletion_v12 (newidentifier1);
     database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.mark_for_deletion_v1 (oldidentifier2);
-    database_notes.mark_for_deletion_v2 (newidentifier2);
+    database_notes.mark_for_deletion_v12 (oldidentifier2);
+    database_notes.mark_for_deletion_v12 (newidentifier2);
     database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.mark_for_deletion_v1 (oldidentifier3);
-    database_notes.mark_for_deletion_v2 (newidentifier3);
+    database_notes.mark_for_deletion_v12 (oldidentifier3);
+    database_notes.mark_for_deletion_v12 (newidentifier3);
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
     database_notes.touch_marked_for_deletion_v12 ();
@@ -907,16 +907,16 @@ void test_database_notes ()
     identifiers = database_notes.get_due_for_deletion_v2 ();
     evaluate (__LINE__, __func__, {newidentifier1}, identifiers);
 
-    database_notes.unmark_for_deletion_v1 (oldidentifier1);
-    database_notes.unmark_for_deletion_v2 (newidentifier1);
+    database_notes.unmark_for_deletion_v12 (oldidentifier1);
+    database_notes.unmark_for_deletion_v12 (newidentifier1);
     database_notes.touch_marked_for_deletion_v12 ();
     identifiers = database_notes.get_due_for_deletion_v1 ();
     evaluate (__LINE__, __func__, {oldidentifier2}, identifiers);
     identifiers = database_notes.get_due_for_deletion_v2 ();
     evaluate (__LINE__, __func__, {newidentifier2}, identifiers);
     
-    database_notes.unmark_for_deletion_v1 (oldidentifier2);
-    database_notes.unmark_for_deletion_v2 (newidentifier2);
+    database_notes.unmark_for_deletion_v12 (oldidentifier2);
+    database_notes.unmark_for_deletion_v12 (newidentifier2);
     database_notes.touch_marked_for_deletion_v12 ();
     identifiers = database_notes.get_due_for_deletion_v1 ();
     evaluate (__LINE__, __func__, {oldidentifier3}, identifiers);
@@ -942,45 +942,45 @@ void test_database_notes ()
     int newidentifier2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier3 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
 
-    database_notes.mark_for_deletion_v1 (oldidentifier1);
+    database_notes.mark_for_deletion_v12 (oldidentifier1);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v1 (oldidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    database_notes.mark_for_deletion_v2 (newidentifier1);
+    database_notes.mark_for_deletion_v12 (newidentifier1);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (newidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier2));
     
-    database_notes.unmark_for_deletion_v1 (oldidentifier2);
+    database_notes.unmark_for_deletion_v12 (oldidentifier2);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v1 (oldidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    database_notes.unmark_for_deletion_v2 (newidentifier2);
+    database_notes.unmark_for_deletion_v12 (newidentifier2);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (newidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier2));
 
-    database_notes.unmark_for_deletion_v1 (oldidentifier1);
+    database_notes.unmark_for_deletion_v12 (oldidentifier1);
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    database_notes.unmark_for_deletion_v2 (newidentifier1);
+    database_notes.unmark_for_deletion_v12 (newidentifier1);
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier1));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier2));
 
-    database_notes.mark_for_deletion_v1 (oldidentifier2);
+    database_notes.mark_for_deletion_v12 (oldidentifier2);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v1 (oldidentifier2));
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v1 (oldidentifier3));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier3));
-    database_notes.mark_for_deletion_v2 (newidentifier2);
+    database_notes.mark_for_deletion_v12 (newidentifier2);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier2));
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (newidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier3));
@@ -1039,14 +1039,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_modified_v1 (oldidentifier, 1234567);
+    database_notes.set_modified_v12 (oldidentifier, 1234567);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_modified_v2 (newidentifier, 1234567);
+    database_notes.set_modified_v12 (newidentifier, 1234567);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
 
@@ -1069,14 +1069,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_bible_v1 (oldidentifier, "unittest");
+    database_notes.set_bible_v12 (oldidentifier, "unittest");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_bible_v2 (newidentifier, "unittest");
+    database_notes.set_bible_v12 (newidentifier, "unittest");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
 
@@ -1084,14 +1084,14 @@ void test_database_notes ()
     database_notes.delete_checksum_v12 (oldidentifier);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_passages_v1 (oldidentifier, {});
+    database_notes.set_passages_v12 (oldidentifier, {});
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.delete_checksum_v12 (newidentifier);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_passages_v2 (newidentifier, {});
+    database_notes.set_passages_v12 (newidentifier, {});
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1099,14 +1099,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_status_v1 (oldidentifier, "Status");
+    database_notes.set_status_v12 (oldidentifier, "Status");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_status_v2 (newidentifier, "Status");
+    database_notes.set_status_v12 (newidentifier, "Status");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1114,14 +1114,14 @@ void test_database_notes ()
     database_notes.delete_checksum_v12 (oldidentifier);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_raw_severity_v1 (oldidentifier, 123);
+    database_notes.set_raw_severity_v12 (oldidentifier, 123);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.delete_checksum_v12 (newidentifier);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_raw_severity_v2 (newidentifier, 123);
+    database_notes.set_raw_severity_v12 (newidentifier, 123);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1219,14 +1219,14 @@ void test_database_notes ()
     database_notes.delete_checksum_v12 (oldidentifier);
     string checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.update_checksum_v1 (oldidentifier);
+    database_notes.update_checksum_v12 (oldidentifier);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, oldchecksum, checksum);
     // New.
     database_notes.delete_checksum_v12 (newidentifier);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.update_checksum_v2 (newidentifier);
+    database_notes.update_checksum_v12 (newidentifier);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, newchecksum, checksum);
   }
@@ -1453,10 +1453,10 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier1 + 1));
     
     // Set some public.
-    database_notes.set_public_v1 (oldidentifier1, true);
-    database_notes.set_public_v1 (oldidentifier2, true);
-    database_notes.set_public_v2 (newidentifier1, true);
-    database_notes.set_public_v2 (newidentifier2, true);
+    database_notes.set_public_v12 (oldidentifier1, true);
+    database_notes.set_public_v12 (oldidentifier2, true);
+    database_notes.set_public_v12 (newidentifier1, true);
+    database_notes.set_public_v12 (newidentifier2, true);
     evaluate (__LINE__, __func__, true, database_notes.get_public_v1 (oldidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.get_public_v1 (oldidentifier2));
     evaluate (__LINE__, __func__, false, database_notes.get_public_v1 (oldidentifier3));
@@ -1465,10 +1465,10 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier3));
     
     // Unset some of them.
-    database_notes.set_public_v1 (oldidentifier1, false);
+    database_notes.set_public_v12 (oldidentifier1, false);
     evaluate (__LINE__, __func__, false, database_notes.get_public_v1 (oldidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.get_public_v1 (oldidentifier2));
-    database_notes.set_public_v2 (newidentifier1, false);
+    database_notes.set_public_v12 (newidentifier1, false);
     evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.get_public_v2 (newidentifier2));
   }
@@ -1538,7 +1538,7 @@ void test_database_notes ()
     vector <string> checksums;
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      database_notes.update_checksum_v1 (identifier);
+      database_notes.update_checksum_v12 (identifier);
       string checksum = database_notes.get_checksum_v12 (identifier);
       checksums.push_back (checksum);
     }
@@ -1653,16 +1653,16 @@ void test_database_notes ()
       string assigned = "assigned" + offset;
       database_notes.set_raw_assigned_v2 (identifier, assigned);
       string passage = "passage" + offset;
-      database_notes.set_raw_passage_v2 (identifier, passage);
+      database_notes.set_raw_passage_v12 (identifier, passage);
       int severity = 4 * i;
-      database_notes.set_raw_severity_v2 (identifier, severity);
+      database_notes.set_raw_severity_v12 (identifier, severity);
       string status = "status" + offset;
-      database_notes.set_status_v2 (identifier, status);
+      database_notes.set_status_v12 (identifier, status);
       string subscriptions = "subscriptions" + offset;
       database_notes.set_raw_subscriptions_v2 (identifier, subscriptions);
       // Store modification time last because the previous functions update it.
       int modified = 2 * i;
-      database_notes.set_modified_v2 (identifier, modified);
+      database_notes.set_modified_v12 (identifier, modified);
       // Store all fields for the round-trip check.
       v_assigned.push_back (assigned);
       v_bible.push_back (bible);
@@ -1680,7 +1680,7 @@ void test_database_notes ()
     vector <string> checksums;
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      database_notes.update_checksum_v2 (identifier);
+      database_notes.update_checksum_v12 (identifier);
       string checksum = database_notes.get_checksum_v12 (identifier);
       checksums.push_back (checksum);
     }
@@ -1822,8 +1822,8 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index.
     // Search results should be back to normal.
-    database_notes.update_database_v1 (identifier);
-    database_notes.update_search_fields_v1 (identifier);
+    database_notes.update_database_v12 (identifier);
+    database_notes.update_search_fields_v12 (identifier);
     identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
@@ -1860,7 +1860,7 @@ void test_database_notes ()
     // Search result should be there.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     // Update the passage of the note without updating the search index.
-    database_notes.set_raw_passage_v1 (identifier, " 1.2.3 ");
+    database_notes.set_raw_passage_v12 (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
     identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
                                                    1, // Book given.
@@ -1879,7 +1879,7 @@ void test_database_notes ()
                                                    0); // Don't limit the search results.
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index. There should be search results now.
-    database_notes.update_database_v1 (identifier);
+    database_notes.update_database_v12 (identifier);
     identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
@@ -1957,8 +1957,8 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index.
     // Search results should be back to normal.
-    database_notes.update_database_v2 (identifier);
-    database_notes.update_search_fields_v2 (identifier);
+    database_notes.update_database_v12 (identifier);
+    database_notes.update_search_fields_v12 (identifier);
     identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
@@ -1995,7 +1995,7 @@ void test_database_notes ()
     // Search result should be there.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     // Update the passage of the note without updating the search index.
-    database_notes.set_raw_passage_v2 (identifier, " 1.2.3 ");
+    database_notes.set_raw_passage_v12 (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
     identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
                                                    1, // Book given.
@@ -2014,7 +2014,7 @@ void test_database_notes ()
                                                    0); // Don't limit the search results.
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index. There should be search results now.
-    database_notes.update_database_v2 (identifier);
+    database_notes.update_database_v12 (identifier);
     identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
@@ -2186,8 +2186,8 @@ void test_database_notes ()
     // Test the general methods for the status.
     string status_v1 = "status1";
     string status_v2 = "status2";
-    database_notes.set_status_v1 (identifier_v1, status_v1);
-    database_notes.set_status_v2 (identifier_v2, status_v2);
+    database_notes.set_status_v12 (identifier_v1, status_v1);
+    database_notes.set_status_v12 (identifier_v2, status_v2);
     evaluate (__LINE__, __func__, status_v1, database_notes.get_raw_status_v12 (identifier_v1));
     evaluate (__LINE__, __func__, status_v1, database_notes.get_status_v12 (identifier_v1));
     evaluate (__LINE__, __func__, status_v2, database_notes.get_raw_status_v12 (identifier_v2));
@@ -2197,8 +2197,8 @@ void test_database_notes ()
     int severity_v1 = 4;
     int severity_v2 = 5;
     vector <string> standard_severities = database_notes.standard_severities_v12 ();
-    database_notes.set_raw_severity_v1 (identifier_v1, severity_v1);
-    database_notes.set_raw_severity_v2 (identifier_v2, severity_v2);
+    database_notes.set_raw_severity_v12 (identifier_v1, severity_v1);
+    database_notes.set_raw_severity_v12 (identifier_v2, severity_v2);
     evaluate (__LINE__, __func__, severity_v1, database_notes.get_raw_severity_v12 (identifier_v1));
     evaluate (__LINE__, __func__, severity_v2, database_notes.get_raw_severity_v12 (identifier_v2));
     evaluate (__LINE__, __func__, standard_severities [severity_v1], database_notes.get_severity_v12 (identifier_v1));
@@ -2207,18 +2207,18 @@ void test_database_notes ()
     // Test the general methods for the modification time.
     int modified_v1 = 1000;
     int modified_v2 = 2000;
-    database_notes.set_modified_v1 (identifier_v1, modified_v1);
-    database_notes.set_modified_v2 (identifier_v2, modified_v2);
+    database_notes.set_modified_v12 (identifier_v1, modified_v1);
+    database_notes.set_modified_v12 (identifier_v2, modified_v2);
     evaluate (__LINE__, __func__, modified_v1, database_notes.get_modified_v12 (identifier_v1));
     evaluate (__LINE__, __func__, modified_v2, database_notes.get_modified_v12 (identifier_v2));
     
     // Test the general methods for a note being public.
-    database_notes.set_public_v1 (identifier_v1, true);
-    database_notes.set_public_v2 (identifier_v2, false);
+    database_notes.set_public_v12 (identifier_v1, true);
+    database_notes.set_public_v12 (identifier_v2, false);
     evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (identifier_v1));
     evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (identifier_v2));
-    database_notes.set_public_v1 (identifier_v1, false);
-    database_notes.set_public_v2 (identifier_v2, true);
+    database_notes.set_public_v12 (identifier_v1, false);
+    database_notes.set_public_v12 (identifier_v2, true);
     evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (identifier_v1));
     evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (identifier_v2));
   }

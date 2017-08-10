@@ -303,7 +303,7 @@ bool sendreceive_notes_upload ()
           database_notes.set_assignees_v12 (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
-          database_notes.set_modified_v1 (identifier, convert_to_int (response));
+          database_notes.set_modified_v12 (identifier, convert_to_int (response));
         }
       }
     }

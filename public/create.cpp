@@ -87,7 +87,7 @@ string public_create (void * webserver_request)
     database_notes.set_public_v1 (identifier, true);
     // Subscribe the user to the note.
     // Then the user receives email about any updates made on this note.
-    database_notes.subscribe_v1 (identifier);
+    database_notes.subscribe_v12 (identifier);
     // Go to the main public notes page.
     redirect_browser (request, public_index_url ());
     return "";

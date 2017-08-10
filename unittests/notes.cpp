@@ -302,6 +302,19 @@ void test_database_notes ()
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     pos = value.find ("comment2");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
+    // Universal method to add comment to old storage.
+    database_notes.add_comment_v12 (oldidentifier, "comment4");
+    value = database_notes.get_contents_v12 (oldidentifier);
+    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
+    pos = value.find ("comment4");
+    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment4'", value);
+    // Universal method to add comment to new storage.
+    database_notes.add_comment_v12 (newidentifier, "comment5");
+    value = database_notes.get_contents_v12 (newidentifier);
+    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
+    pos = value.find ("comment5");
+    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
+    
   }
 
   // Test subscriptions for the old notes storage.
@@ -341,7 +354,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v1 (identifier, "unittest"));
     database_notes.subscribe_user_v1 (identifier, "phpunit_phpunit_phpunit");
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v1 (identifier, "phpunit_phpunit_phpunit"));
-    database_notes.unsubscribe_user_v1 (identifier, "phpunit_phpunit_phpunit");
+    database_notes.unsubscribe_user_v12 (identifier, "phpunit_phpunit_phpunit");
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v1 (identifier, "phpunit_phpunit_phpunit"));
   }
 
@@ -382,7 +395,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest"));
     database_notes.subscribe_user_v2 (identifier, "unittest_unittest_unittest");
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest_unittest_unittest"));
-    database_notes.unsubscribe_user_v2 (identifier, "unittest_unittest_unittest");
+    database_notes.unsubscribe_user_v12 (identifier, "unittest_unittest_unittest");
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest_unittest_unittest"));
     
     // With the username still set, test the plan subscribe and unsubscribe mechanisms.
@@ -393,13 +406,17 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest"));
     database_notes.unsubscribe_v2 (identifier);
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest"));
+    database_notes.subscribe_v12 (identifier);
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v12 (identifier, "unittest"));
+    database_notes.unsubscribe_v12 (identifier);
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v12 (identifier, "unittest"));
     
     // Test subscribing and unsubscribing other users.
-    database_notes.subscribe_user_v2 (identifier, "a");
-    database_notes.subscribe_user_v2 (identifier, "b");
+    database_notes.subscribe_user_v12 (identifier, "a");
+    database_notes.subscribe_user_v12 (identifier, "b");
     subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {"a", "b"}, subscribers);
-    database_notes.unsubscribe_user_v2 (identifier, "a");
+    database_notes.unsubscribe_user_v12 (identifier, "a");
     subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {"b"}, subscribers);
     database_notes.set_subscribers_v2 (identifier, {"aa", "bb"});
@@ -431,26 +448,26 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {}, assignees);
 
     // Assign the note to a user, and check that this reflects in the list of assignees.
-    database_notes.assign_user_v1 (oldidentifier, "unittest");
+    database_notes.assign_user_v12 (oldidentifier, "unittest");
     assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
-    database_notes.assign_user_v2 (newidentifier, "unittest");
+    database_notes.assign_user_v12 (newidentifier, "unittest");
     assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
     // Test the set_assignees function.
-    database_notes.set_assignees_v1 (oldidentifier, {"unittest"});
+    database_notes.set_assignees_v12 (oldidentifier, {"unittest"});
     assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
-    database_notes.set_assignees_v2 (newidentifier, {"unittest"});
+    database_notes.set_assignees_v12 (newidentifier, {"unittest"});
     assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
-    database_notes.assign_user_v1 (oldidentifier, "unittest2");
+    database_notes.assign_user_v12 (oldidentifier, "unittest2");
     assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
-    database_notes.assign_user_v2 (newidentifier, "unittest3");
+    database_notes.assign_user_v12 (newidentifier, "unittest3");
     assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {"unittest", "unittest3"}, assignees);
     
@@ -467,16 +484,16 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {"unittest", "unittest2", "unittest3"}, assignees);
     
     // Based on the above, test the unassign_user function.
-    database_notes.unassign_user_v1 (oldidentifier, "unittest");
+    database_notes.unassign_user_v12 (oldidentifier, "unittest");
     assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest2"}, assignees);
-    database_notes.unassign_user_v1 (oldidentifier, "unittest2");
+    database_notes.unassign_user_v12 (oldidentifier, "unittest2");
     assignees = database_notes.get_assignees_v1 (oldidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
-    database_notes.unassign_user_v2 (newidentifier, "unittest");
+    database_notes.unassign_user_v12 (newidentifier, "unittest");
     assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {"unittest3"}, assignees);
-    database_notes.unassign_user_v2 (newidentifier, "unittest3");
+    database_notes.unassign_user_v12 (newidentifier, "unittest3");
     assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
   }
@@ -2071,7 +2088,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, summary, database_notes.get_summary_v2 (identifier));
   }
   
-  // Test universal methods for getting note properties.
+  // Test universal methods for getting and setting note properties.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -2086,22 +2103,22 @@ void test_database_notes ()
     string bible_v2 = "bible2";
     Passage passage_v1 = Passage ("", 1, 2, "3");
     Passage passage_v2 = Passage ("", 4, 5, "6");
-    string summary_v1 = "summary1";
-    string summary_v2 = "summary2";
-    string contents_v1 = "contents1";
-    string contents_v2 = "contents2";
     
     // Create note in the old format, and one in the new format.
-    int oldidentifier_v1 = database_notes.store_new_note_v1 (bible_v1, passage_v1.book, passage_v1.chapter, convert_to_int (passage_v1.verse), summary_v1, contents_v1, false);
+    int oldidentifier_v1 = database_notes.store_new_note_v1 (bible_v1, passage_v1.book, passage_v1.chapter, convert_to_int (passage_v1.verse), "v1", "v1", false);
     int identifier_v1 = oldidentifier_v1 + 2;
-    int oldidentifier_v2 = database_notes.store_new_note_v2 (bible_v2, passage_v2.book, passage_v2.chapter, convert_to_int (passage_v2.verse), summary_v2, contents_v2, false);
+    int oldidentifier_v2 = database_notes.store_new_note_v2 (bible_v2, passage_v2.book, passage_v2.chapter, convert_to_int (passage_v2.verse), "v2", "v2", false);
     int identifier_v2 = oldidentifier_v2 + 4;
     
     // Call the universal method to set a new identifier.
     database_notes.set_identifier_v12 (oldidentifier_v1, identifier_v1);
     database_notes.set_identifier_v12 (oldidentifier_v2, identifier_v2);
     
-    // Test the specific methods and the single universal method to get the summaries.
+    // Test the specific methods and the single universal method to get or to set the summaries.
+    string summary_v1 = "summary1";
+    string summary_v2 = "summary2";
+    database_notes.set_summary_v12 (identifier_v1, summary_v1);
+    database_notes.set_summary_v12 (identifier_v2, summary_v2);
     evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary_v1 (identifier_v1));
     evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary_v12 (identifier_v1));
     evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary_v2 (identifier_v2));
@@ -2109,7 +2126,11 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (identifier_v2));
     evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (identifier_v1));
     
-    // Test the specific methods and the single universal method to get the contents.
+    // Test the specific methods and the single universal method to get and to set the contents.
+    string contents_v1 = "contents1";
+    string contents_v2 = "contents2";
+    database_notes.set_contents_v12 (identifier_v1, contents_v1);
+    database_notes.set_contents_v12 (identifier_v2, contents_v2);
     string contents = database_notes.get_contents_v1 (identifier_v1);
     evaluate (__LINE__, __func__, true, contents.find (contents_v1) != string::npos);
     evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (identifier_v1));
@@ -2122,8 +2143,8 @@ void test_database_notes ()
     // Test the general method to get the subscribers.
     string subscriber_v1 = "subscriber1";
     string subscriber_v2 = "subscriber2";
-    database_notes.set_subscribers_v1 (identifier_v1, { subscriber_v1 });
-    database_notes.set_subscribers_v2 (identifier_v2, { subscriber_v2 });
+    database_notes.set_subscribers_v12 (identifier_v1, { subscriber_v1 });
+    database_notes.set_subscribers_v12 (identifier_v2, { subscriber_v2 });
     evaluate (__LINE__, __func__, { subscriber_v1 }, database_notes.get_subscribers_v1 (identifier_v1));
     evaluate (__LINE__, __func__, { subscriber_v2 }, database_notes.get_subscribers_v2 (identifier_v2));
     evaluate (__LINE__, __func__, { subscriber_v1 }, database_notes.get_subscribers_v12 (identifier_v1));
@@ -2138,8 +2159,8 @@ void test_database_notes ()
     // Test the general methods for the assignees.
     string assignee_v1 = "assignee1";
     string assignee_v2 = "assignee2";
-    database_notes.set_assignees_v1 (identifier_v1, { assignee_v1 });
-    database_notes.set_assignees_v2 (identifier_v2, { assignee_v2 });
+    database_notes.set_assignees_v12 (identifier_v1, { assignee_v1 });
+    database_notes.set_assignees_v12 (identifier_v2, { assignee_v2 });
     evaluate (__LINE__, __func__, { assignee_v1 }, database_notes.get_assignees_v12 (identifier_v1));
     evaluate (__LINE__, __func__, { assignee_v2 }, database_notes.get_assignees_v12 (identifier_v2));
     evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (identifier_v1, assignee_v1));

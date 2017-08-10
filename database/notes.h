@@ -85,16 +85,18 @@ private:
 
 public:
   string get_summary_v12 (int identifier);
-  void set_summary_v1 (int identifier, const string& summary);
-  void set_summary_v2 (int identifier, string summary);
+  void set_summary_v12 (int identifier, const string& summary);
 private:
-  string get_summary_v1 (int identifier);
-  string get_summary_v2 (int identifier);
   string summary_file_v1 (int identifier);
   string summary_key_v2 ();
+  string get_summary_v1 (int identifier);
+  string get_summary_v2 (int identifier);
+  void set_summary_v1 (int identifier, const string& summary);
+  void set_summary_v2 (int identifier, string summary);
 
 public:
   string get_contents_v12 (int identifier);
+  void set_contents_v12 (int identifier, const string& contents);
 private:
   string contents_file_v1 (int identifier);
   string contents_key_v2 ();
@@ -103,7 +105,6 @@ private:
   string get_contents_v2 (int identifier);
   void set_raw_contents_v1 (int identifier, const string& contents);
   void set_raw_contents_v2 (int identifier, const string& contents);
-public:
   void set_contents_v1 (int identifier, const string& contents);
   void set_contents_v2 (int identifier, const string& contents);
   
@@ -111,71 +112,73 @@ public:
   void erase_v12 (int identifier);
   
 public:
+  void add_comment_v12 (int identifier, const string& comment);
+private:
   void add_comment_v1 (int identifier, const string& comment);
   void add_comment_v2 (int identifier, const string& comment);
   
 public:
-  void subscribe_v1 (int identifier);
-  void subscribe_v2 (int identifier);
-  void subscribe_user_v1 (int identifier, const string& user);
-  void subscribe_user_v2 (int identifier, const string& user);
+  void subscribe_v12 (int identifier);
+  void unsubscribe_v12 (int identifier);
+  void subscribe_user_v12 (int identifier, const string& user);
+  void unsubscribe_user_v12 (int identifier, const string& user);
   vector <string> get_subscribers_v12 (int identifier);
+  bool is_subscribed_v12 (int identifier, const string& user);
+  void set_subscribers_v12 (int identifier, vector <string> subscribers);
 private:
   string subscriptions_file_v1 (int identifier);
   string subscriptions_key_v2 ();
   vector <string> get_subscribers_v1 (int identifier);
   vector <string> get_subscribers_v2 (int identifier);
   string get_raw_subscriptions_v2 (int identifier);
-public:
-  void set_raw_subscriptions_v2 (int identifier, const string& subscriptions);
-  void set_subscribers_v1 (int identifier, vector <string> subscribers);
-  void set_subscribers_v2 (int identifier, vector <string> subscribers);
-  bool is_subscribed_v12 (int identifier, const string& user);
-private:
-  bool is_subscribed_v1 (int identifier, const string& user);
-  bool is_subscribed_v2 (int identifier, const string& user);
-public:
+  void subscribe_v1 (int identifier);
+  void subscribe_v2 (int identifier);
+  void subscribe_user_v1 (int identifier, const string& user);
+  void subscribe_user_v2 (int identifier, const string& user);
   void unsubscribe_v1 (int identifier);
   void unsubscribe_v2 (int identifier);
+  void set_raw_subscriptions_v2 (int identifier, const string& subscriptions);
+  bool is_subscribed_v1 (int identifier, const string& user);
+  bool is_subscribed_v2 (int identifier, const string& user);
+  void set_subscribers_v1 (int identifier, vector <string> subscribers);
+  void set_subscribers_v2 (int identifier, vector <string> subscribers);
   void unsubscribe_user_v1 (int identifier, const string& user);
   void unsubscribe_user_v2 (int identifier, const string& user);
 
+public:
+  void assign_user_v12 (int identifier, const string& user);
+  bool is_assigned_v12 (int identifier, const string& user);
+  void unassign_user_v12 (int identifier, const string& user);
+  vector <string> get_all_assignees_v12 (const vector <string>& bibles);
+  vector <string> get_assignees_v12 (int identifier);
+  void set_assignees_v12 (int identifier, vector <string> assignees);
 private:
   string assigned_file_v1 (int identifier);
   string assigned_key_v2 ();
-  vector <string> get_assignees_internal_v12 (string assignees);
-  string get_raw_assigned_v2 (int identifier);
-public:
-  void set_raw_assigned_v2 (int identifier, const string& assigned);
-  vector <string> get_all_assignees_v12 (const vector <string>& bibles);
-  vector <string> get_assignees_v12 (int identifier);
-private:
-  vector <string> get_assignees_v1 (int identifier);
-  vector <string> get_assignees_v2 (int identifier);
-public:
-  void set_assignees_v1 (int identifier, vector <string> assignees);
-  void set_assignees_v2 (int identifier, vector <string> assignees);
   void assign_user_v1 (int identifier, const string& user);
   void assign_user_v2 (int identifier, const string& user);
-  bool is_assigned_v12 (int identifier, const string& user);
-private:
   bool is_assigned_v1 (int identifier, const string& user);
   bool is_assigned_v2 (int identifier, const string& user);
-public:
   void unassign_user_v1 (int identifier, const string& user);
   void unassign_user_v2 (int identifier, const string& user);
+  vector <string> get_assignees_internal_v12 (string assignees);
+  vector <string> get_assignees_v1 (int identifier);
+  vector <string> get_assignees_v2 (int identifier);
+  void set_assignees_v1 (int identifier, vector <string> assignees);
+  void set_assignees_v2 (int identifier, vector <string> assignees);
+  void set_raw_assigned_v2 (int identifier, const string& assigned);
+  string get_raw_assigned_v2 (int identifier);
   
 public:
   string get_bible_v12 (int identifier);
+  void set_bible_v1 (int identifier, const string& bible);
+  void set_bible_v2 (int identifier, const string& bible);
+  vector <string> get_all_bibles_v12 ();
 private:
   string bible_file_v1 (int identifier);
   string bible_key_v2 ();
   string get_bible_v1 (int identifier);
   string get_bible_v2 (int identifier);
-public:
-  void set_bible_v1 (int identifier, const string& bible);
-  void set_bible_v2 (int identifier, const string& bible);
-  vector <string> get_all_bibles_v12 ();
 
 public:
   string encode_passage_v12 (int book, int chapter, int verse);

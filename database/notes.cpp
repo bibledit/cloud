@@ -1100,6 +1100,16 @@ string Database_Notes::get_summary_v2 (int identifier)
 }
 
 
+void Database_Notes::set_summary_v12 (int identifier, const string& summary)
+{
+  if (is_v1 (identifier)) {
+    set_summary_v1 (identifier, summary);
+  } else {
+    set_summary_v2 (identifier, summary);
+  }
+}
+
+
 void Database_Notes::set_summary_v1 (int identifier, const string& summary)
 {
   // Store authoritative copy in the filesystem.
@@ -1179,6 +1189,16 @@ void Database_Notes::set_raw_contents_v2 (int identifier, const string& contents
 }
 
 
+void Database_Notes::set_contents_v12 (int identifier, const string& contents)
+{
+  if (is_v1 (identifier)) {
+    set_contents_v1 (identifier, contents);
+  } else {
+    set_contents_v2 (identifier, contents);
+  }
+}
+
+
 void Database_Notes::set_contents_v1 (int identifier, const string& contents)
 {
   // Store in file system.
@@ -1243,6 +1263,17 @@ void Database_Notes::erase_v12 (int identifier)
 
 
 // Add a comment to an exiting note identified by identifier.
+void Database_Notes::add_comment_v12 (int identifier, const string& comment)
+{
+  if (is_v1 (identifier)) {
+    add_comment_v1 (identifier, comment);
+  } else {
+    add_comment_v2 (identifier, comment);
+  }
+}
+
+
+// Add a comment to an exiting note identified by identifier.
 void Database_Notes::add_comment_v1 (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
@@ -1293,6 +1324,17 @@ void Database_Notes::add_comment_v2 (int identifier, const string& comment)
 
 
 // Subscribe the current user to the note identified by identifier.
+void Database_Notes::subscribe_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    subscribe_v1 (identifier);
+  } else {
+    subscribe_v2 (identifier);
+  }
+}
+
+
+// Subscribe the current user to the note identified by identifier.
 void Database_Notes::subscribe_v1 (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -1305,6 +1347,17 @@ void Database_Notes::subscribe_v2 (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   subscribe_user_v2 (identifier, user);
+}
+
+
+// Subscribe the user to the note identified by identifier.
+void Database_Notes::subscribe_user_v12 (int identifier, const string& user)
+{
+  if (is_v1 (identifier)) {
+    subscribe_user_v1 (identifier, user);
+  } else {
+    subscribe_user_v2 (identifier, user);
+  }
 }
 
 
@@ -1394,6 +1447,15 @@ void Database_Notes::set_raw_subscriptions_v2 (int identifier, const string& sub
 }
 
 
+void Database_Notes::set_subscribers_v12 (int identifier, vector <string> subscribers)
+{
+  if (is_v1 (identifier)) {
+    set_subscribers_v1 (identifier, subscribers);
+  } else {
+    set_subscribers_v2 (identifier, subscribers);
+  }
+}
+
 void Database_Notes::set_subscribers_v1 (int identifier, vector <string> subscribers)
 {
   // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
@@ -1469,6 +1531,17 @@ bool Database_Notes::is_subscribed_v2 (int identifier, const string& user)
 
 
 // Unsubscribes the currently logged in user from the note identified by identifier.
+void Database_Notes::unsubscribe_v12 (int identifier)
+{
+  if (is_v1 (identifier)) {
+    unsubscribe_v1 (identifier);
+  } else {
+    unsubscribe_v2 (identifier);
+  }
+}
+
+
+// Unsubscribes the currently logged in user from the note identified by identifier.
 void Database_Notes::unsubscribe_v1 (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -1481,6 +1554,17 @@ void Database_Notes::unsubscribe_v2 (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   unsubscribe_user_v2 (identifier, user);
+}
+
+
+// Unsubscribes user from the note identified by identifier.
+void Database_Notes::unsubscribe_user_v12 (int identifier, const string& user)
+{
+  if (is_v1 (identifier)) {
+    unsubscribe_user_v1 (identifier, user);
+  } else {
+    unsubscribe_user_v2 (identifier, user);
+  }
 }
 
 
@@ -1611,6 +1695,19 @@ vector <string> Database_Notes::get_assignees_internal_v12 (string assignees)
 // Sets the note's assignees.
 // identifier : note identifier.
 // assignees : array of user names.
+void Database_Notes::set_assignees_v12 (int identifier, vector <string> assignees)
+{
+  if (is_v1 (identifier)) {
+    set_assignees_v1 (identifier, assignees);
+  } else {
+    set_assignees_v2 (identifier, assignees);
+  }
+}
+
+
+// Sets the note's assignees.
+// identifier : note identifier.
+// assignees : array of user names.
 void Database_Notes::set_assignees_v1 (int identifier, vector <string> assignees)
 {
   // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
@@ -1653,6 +1750,17 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
   string assignees_string = filter_string_implode (assignees, "\n");
   set_raw_assigned_v2 (identifier, assignees_string);
   note_modified_actions_v12 (identifier);
+}
+
+
+// Assign the note identified by identifier to user.
+void Database_Notes::assign_user_v12 (int identifier, const string& user)
+{
+  if (is_v1 (identifier)) {
+    assign_user_v1 (identifier, user);
+  } else {
+    assign_user_v2 (identifier, user);
+  }
 }
 
 
@@ -1706,6 +1814,17 @@ bool Database_Notes::is_assigned_v2 (int identifier, const string& user)
 {
   vector <string> assignees = get_assignees_v2 (identifier);
   return find (assignees.begin(), assignees.end(), user) != assignees.end();
+}
+
+
+// Unassigns user from the note identified by identifier.
+void Database_Notes::unassign_user_v12 (int identifier, const string& user)
+{
+  if (is_v1 (identifier)) {
+    unassign_user_v1 (identifier, user);
+  } else {
+    unassign_user_v2 (identifier, user);
+  }
 }
 
 

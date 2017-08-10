@@ -200,7 +200,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_summary:
     {
       // Set the summary of the note on the server.
-      notes_logic.set_summary_v1 (identifier, content);
+      notes_logic.set_summary_v12 (identifier, content);
       // Update search field.
       database_notes.update_search_fields_v1 (identifier);
       // Info.
@@ -211,7 +211,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_contents:
     {
       // Set the note's contents on the server.
-      database_notes.set_contents_v1 (identifier, content);
+      database_notes.set_contents_v12 (identifier, content);
       // Update search field.
       database_notes.update_search_fields_v1 (identifier);
       // Done.
@@ -233,7 +233,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_subscribe:
     {
       // Subscribe to the note on the server.
-      database_notes.subscribe_user_v1 (identifier, user);
+      database_notes.subscribe_user_v12 (identifier, user);
       // Info.
       Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
       // Done.
@@ -242,7 +242,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_unsubscribe:
     {
       // Unsubscribe from the note on the server.
-      database_notes.unsubscribe_user_v1 (identifier, user);
+      database_notes.unsubscribe_user_v12 (identifier, user);
       // Info.
       Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
       // Done.

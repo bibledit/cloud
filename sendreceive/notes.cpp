@@ -291,16 +291,16 @@ bool sendreceive_notes_upload ()
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
           if (response != database_notes.get_contents_v12 (identifier)) {
-            database_notes.set_contents_v1 (identifier, response);
+            database_notes.set_contents_v12 (identifier, response);
           }
         }
         if (action == Sync_Logic::notes_get_subscribers) {
           vector <string> subscribers = filter_string_explode (response, '\n');
-          database_notes.set_subscribers_v1 (identifier, subscribers);
+          database_notes.set_subscribers_v12 (identifier, subscribers);
         }
         if (action == Sync_Logic::notes_get_assignees) {
           vector <string> assignees = filter_string_explode (response, '\n');
-          database_notes.set_assignees_v1 (identifier, assignees);
+          database_notes.set_assignees_v12 (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
           database_notes.set_modified_v1 (identifier, convert_to_int (response));

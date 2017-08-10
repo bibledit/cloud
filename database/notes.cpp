@@ -48,13 +48,12 @@ using namespace jsonxx;
 
 
 /*
- Storing notes, now being done as separate files, each file taking up a default space,
- will become more efficient, that is, take up less space,
- when each note is stored as a separate SQLite database.
- On a Linux server, one notes takes up 32kbytes, and a lot of that space is wasted.
- If one notes was stored in one file, it would take up 4kbytes.
+ Storing notes, previously being done as separate files, each file took up a default space,
+ has now become more efficient, that is, takes up less space,
+ since now each note is stored as a separate JSON file.
+ On a Linux server, one notes took 32 kbytes, and a lot of that space is wasted.
+ Since now one notes is stored in one file, it takes only 4 kbytes.
  That is a difference of 8 times.
- This would be a possible improvement.
 */
 
 

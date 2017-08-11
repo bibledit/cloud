@@ -42,11 +42,6 @@ Notes_Logic::Notes_Logic (void * webserver_request_in)
 }
 
 
-Notes_Logic::~Notes_Logic ()
-{
-}
-
-
 // Create a consultation note.
 // $bible: The notes's Bible.
 // $book, $chapter, $verse: The note's passage.

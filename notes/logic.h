@@ -29,7 +29,6 @@ class Notes_Logic
 {
 public:
   Notes_Logic (void * webserver_request_in);
-  ~Notes_Logic ();
   static const int lowNoteIdentifier  = 100000000;
   static const int highNoteIdentifier = 999999999;
   static const int notifyNoteNew = 1;

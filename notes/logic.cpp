@@ -95,7 +95,7 @@ void Notes_Logic::setContent (int identifier, const string& content)
 
 
 // Add a comment to an exiting note identified by identifier.
-void Notes_Logic::add_comment_v1 (int identifier, const string& comment)
+void Notes_Logic::add_comment_v1 (int identifier, const string& comment) // Todo make v12 or remove altogether.
 {
   // Do nothing if there was no content.
   if (comment == "") return;
@@ -159,7 +159,7 @@ void Notes_Logic::unsubscribe (int identifier)
 }
 
 
-void Notes_Logic::assign_user_v1 (int identifier, const string& user)
+void Notes_Logic::assign_user_v1 (int identifier, const string& user) // Todo rename to v12 or remove version number.
 {
   Database_Notes database_notes (webserver_request);
   if (client_logic_client_enabled ()) {
@@ -176,7 +176,7 @@ void Notes_Logic::assign_user_v1 (int identifier, const string& user)
 }
 
 
-void Notes_Logic::unassign_user_v1 (int identifier, const string& user)
+void Notes_Logic::unassign_user_v1 (int identifier, const string& user) // Todo rename to v12 or remove v number.
 {
   Database_Notes database_notes (webserver_request);
   database_notes.unassign_user_v12 (identifier, user);
@@ -223,7 +223,7 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
 
 
 // Sets the severity as a number for note identifier.
-void Notes_Logic::set_raw_severity_v1 (int identifier, int severity)
+void Notes_Logic::set_raw_severity_v1 (int identifier, int severity) // Todo version 12.
 {
   Database_Notes database_notes (webserver_request);
   database_notes.set_raw_severity_v12 (identifier, severity);
@@ -303,19 +303,19 @@ void Notes_Logic::erase (int identifier)
 }
 
 
-void Notes_Logic::handler_new_note_v1 (int identifier)
+void Notes_Logic::handler_new_note_v1 (int identifier) // Todo combine this and the next one into one.
 {
   notify_users_v1 (identifier, notifyNoteNew);
 }
 
 
-void Notes_Logic::handler_new_note_v2 (int identifier)
+void Notes_Logic::handler_new_note_v2 (int identifier) // Todo combine with the previous function.
 {
   notify_users_v2 (identifier, notifyNoteNew);
 }
 
 
-void Notes_Logic::handlerAddComment (int identifier)
+void Notes_Logic::handlerAddComment (int identifier) // Todo call universion functions, not version specific.
 {
   notify_users_v1 (identifier, notifyNoteComment);
   // If the note status was Done, and a comment is added, mark it Reopened.
@@ -344,13 +344,13 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
 }
 
 
-void Notes_Logic::handlerMarkNoteForDeletion (int identifier)
+void Notes_Logic::handlerMarkNoteForDeletion (int identifier) // Todo call universal method.
 {
   notify_users_v1 (identifier, notifyMarkNoteForDeletion);
 }
 
 
-void Notes_Logic::handlerDeleteNote (int identifier)
+void Notes_Logic::handlerDeleteNote (int identifier) // Todo call universal method.
 {
   notify_users_v1 (identifier, notifyNoteDelete);
 }
@@ -359,7 +359,7 @@ void Notes_Logic::handlerDeleteNote (int identifier)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notify_users_v1 (int identifier, int notification)
+void Notes_Logic::notify_users_v1 (int identifier, int notification) // Todo: Create one v12 method.
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
@@ -462,7 +462,7 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification)
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notify_users_v2 (int identifier, int notification)
+void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo create one v12 method.
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
@@ -671,7 +671,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   // Make comment on the consultation note.
   string sessionuser = request->session_logic ()->currentUser ();
   request->session_logic ()->setUsername (username);
-  add_comment_v1 (identifier, body);
+  add_comment_v1 (identifier, body); // Todo call universal one.
   request->session_logic ()->setUsername (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
@@ -759,8 +759,8 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   request->session_logic()->setUsername (username);
   Database_Notes database_notes = Database_Notes(webserver_request);
   string bible = request->database_config_user()->getBible ();
-  int identifier = database_notes.store_new_note_v1 (bible, book, chapter, verse, summary, body, false);
-  handler_new_note_v1 (identifier);
+  int identifier = database_notes.store_new_note_v1 (bible, book, chapter, verse, summary, body, false); // Todo eventually move to v2.
+  handler_new_note_v1 (identifier); // Todo call universal one.
   request->session_logic()->setUsername (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {

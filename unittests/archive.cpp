@@ -87,10 +87,10 @@ void test_archive ()
     string zipfile = filter_archive_zip_folder_shell_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     int size = filter_url_filesize (zipfile);
-    int min = 3330;
-    if (size < min) evaluate (__LINE__, __func__, "Should be at least " + convert_to_string (min) + " bytes", "Is " + convert_to_string (size) + "bytes");
+    int min = 3328;
+    if (size < min) evaluate (__LINE__, __func__, "Should be at least " + convert_to_string (min) + " bytes", convert_to_string (size));
     int max = 3334;
-    if (size > max) evaluate (__LINE__, __func__, "Should be no larger than " + convert_to_string (max) + " bytes", "Is " + convert_to_string (size) + "bytes");
+    if (size > max) evaluate (__LINE__, __func__, "Should be no larger than " + convert_to_string (max) + " bytes", convert_to_string (size));
 
     // Zip existing folder through the miniz library.
     zipfile = filter_archive_zip_folder_miniz_internal (directory);

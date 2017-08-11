@@ -263,7 +263,7 @@ void Database_Notes::sync_v12 ()
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
               update_database_v1 (identifier);
-              update_search_fields_v1 (identifier);
+              update_search_fields_v12 (identifier);
               update_checksum_v1 (identifier);
             }
           }
@@ -273,7 +273,7 @@ void Database_Notes::sync_v12 ()
           int identifier = convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
           update_database_v2 (identifier);
-          update_search_fields_v2 (identifier);
+          update_search_fields_v12 (identifier);
           update_checksum_v2 (identifier);
         }
       }
@@ -756,7 +756,7 @@ int Database_Notes::store_new_note_v1 (const string& bible, int book, int chapte
   database_sqlite_disconnect (db);
 
   // Updates.
-  update_search_fields_v1 (identifier); // Todo is there a _v12 version for this?
+  update_search_fields_v12 (identifier);
   note_modified_actions_v12 (identifier);
 
   // Return this new note´s identifier.
@@ -830,7 +830,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   database_sqlite_disconnect (db);
   
   // Updates.
-  update_search_fields_v2 (identifier); // Todo use _v12 version?
+  update_search_fields_v12 (identifier);
   note_modified_actions_v12 (identifier);
   
   // Return this new note´s identifier.
@@ -1074,7 +1074,7 @@ void Database_Notes::set_summary_v1 (int identifier, const string& summary)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update the search data in the database.
-  update_search_fields_v1 (identifier);
+  update_search_fields_v12 (identifier);
   // Update checksum.
   update_checksum_v1 (identifier);
 }
@@ -1095,7 +1095,7 @@ void Database_Notes::set_summary_v2 (int identifier, string summary)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update the search data in the database.
-  update_search_fields_v1 (identifier);
+  update_search_fields_v12 (identifier);
   // Update checksum.
   update_checksum_v2 (identifier);
 }
@@ -1162,7 +1162,7 @@ void Database_Notes::set_contents_v1 (int identifier, const string& contents)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update search system.
-  update_search_fields_v1 (identifier);
+  update_search_fields_v12 (identifier);
   // Update checksum.
   update_checksum_v1 (identifier);
 }
@@ -1183,7 +1183,7 @@ void Database_Notes::set_contents_v2 (int identifier, const string& contents)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update search system.
-  update_search_fields_v1 (identifier);
+  update_search_fields_v12 (identifier);
   // Update checksum.
   update_checksum_v2 (identifier);
 }
@@ -3156,7 +3156,7 @@ vector <string> Database_Notes::set_bulk_v1 (string json)
 
     // Update the indexes.
     update_database_v1 (identifier);
-    update_search_fields_v1 (identifier);
+    update_search_fields_v12 (identifier);
     update_checksum_v1 (identifier);
   }
   
@@ -3210,7 +3210,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     
     // Update the indexes.
     update_database_v2 (identifier);
-    update_search_fields_v2 (identifier);
+    update_search_fields_v12 (identifier);
     update_checksum_v2 (identifier);
   }
   

@@ -65,7 +65,7 @@ string public_comment (void * webserver_request)
   
   if (request->post.count ("submit")) {
     string comment = filter_string_trim (request->post ["comment"]);
-    notes_logic.add_comment_v1 (id, comment);
+    notes_logic.addComment (id, comment);
     redirect_browser (request, public_note_url () + "?id=" + convert_to_string (id));
     return "";
   }

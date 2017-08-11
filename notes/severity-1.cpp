@@ -66,7 +66,7 @@ string notes_severity_1 (void * webserver_request)
   
   if (request->query.count ("severity")) {
     int severity = convert_to_int (request->query["severity"]);
-    notes_logic.set_raw_severity_v1 (id, severity);
+    notes_logic.setRawSeverity (id, severity);
     redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
     return "";
   }

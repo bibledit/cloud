@@ -111,7 +111,7 @@ string sync_notes (void * webserver_request)
       vector <string> bibles = access_bible_bibles (webserver_request, user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
-      // Else the server would run at 100% cpu for some time to get the total checksums of notes.
+      // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
       string checksum = Database_State::getNotesChecksum (lowId, highId);
       if (checksum.empty ()) {
         checksum = database_notes.get_multiple_checksum_v12 (identifiers);
@@ -182,7 +182,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_create_initiate:
     {
       // Create the note on the server.
-      int server_id = database_notes.store_new_note_v1 ("", 1, 1, 1, "<empty>", "<empty>", false);
+      int server_id = database_notes.store_new_note_v2 ("", 1, 1, 1, "<empty>", "<empty>", false);
       // Update the note identifier on the server to be same as on the client.
       database_notes.set_identifier_v12 (server_id, identifier);
       // Update search field.
@@ -193,7 +193,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_create_complete:
     {
       // Do notifications.
-      notes_logic.handler_new_note_v1 (identifier);
+      notes_logic.handlerNewNote (identifier);
       // Done.
       return "";
     }
@@ -220,7 +220,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_comment:
     {
       // Add the comment to the note on the server.
-      notes_logic.add_comment_v1 (identifier, content);
+      notes_logic.addComment (identifier, content);
       // Update search field.
       database_notes.update_search_fields_v12 (identifier);
       // Info.
@@ -251,7 +251,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_assign:
     {
       // Assign user to the note on the server.
-      notes_logic.assign_user_v1 (identifier, content);
+      notes_logic.assignUser (identifier, content);
       // Info
       Database_Logs::log ("Client assigned the note to a user on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
       // Notifications.
@@ -262,7 +262,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_unassign:
     {
       // Unassign the user from the note on the server.
-      notes_logic.unassign_user_v1 (identifier, content);
+      notes_logic.unassignUser (identifier, content);
       // Info.
       Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
       // Done.
@@ -288,7 +288,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_severity:
     {
       // Set the severity for a note on the server.
-      notes_logic.set_raw_severity_v1 (identifier, convert_to_int (content));
+      notes_logic.setRawSeverity (identifier, convert_to_int (content));
       // Info
       Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
       // Done.

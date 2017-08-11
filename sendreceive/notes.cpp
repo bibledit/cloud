@@ -494,7 +494,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     identifiers_bulk_download.push_back (convert_to_string (identifier));
   }
   
-  // Download the notes in bulk from the Cloud, in a database, for faster download.
+  // Download the notes in bulk from the Cloud, for faster transfer.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
     if (identifiers_bulk_download.size () >= 3) {
@@ -511,7 +511,7 @@ bool sendreceive_notes_download (int lowId, int highId)
       return false;
     }
     // Store the notes in the file system.
-    vector <string> summaries = database_notes.set_bulk_v1 (json);
+    vector <string> summaries = database_notes.set_bulk_v2 (json);
     // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
     if (identifiers_bulk_download.size () < 3) {
       for (auto & summary : summaries) {

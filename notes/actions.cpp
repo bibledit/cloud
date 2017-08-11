@@ -86,12 +86,12 @@ string notes_actions (void * webserver_request)
   
   if (request->query.count ("unassign")) {
     string unassign = request->query["unassign"];
-    notes_logic.unassign_user_v1 (id, unassign);
+    notes_logic.unassignUser (id, unassign);
   }
   
   
   if (request->query.count ("done")) {
-    notes_logic.unassign_user_v1 (id, user);
+    notes_logic.unassignUser (id, user);
   }
   
   

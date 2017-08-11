@@ -343,7 +343,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.store_new_note_v1 ("", 1, 1, 1, "Summary", "Contents", false);
-    notes_logic.handler_new_note_v1 (identifier);
+    notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers_v1 (identifier);
     evaluate (__LINE__, __func__, {"unittest"}, subscribers);
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v1 (identifier, "unittest"));
@@ -384,7 +384,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.store_new_note_v2 ("", 1, 1, 1, "Summary", "Contents", false);
-    notes_logic.handler_new_note_v2 (identifier);
+    notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {"unittest"}, subscribers);
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest"));

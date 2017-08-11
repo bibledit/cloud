@@ -3191,6 +3191,15 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     string status = note.get<String> ("st");
     int severity = note.get<Number> ("sv");
     
+    // Feedback about which note it received in bulk.
+    summaries.push_back (summary);
+    
+    // If the note exists in the old format, delete it.
+    string oldfolder = note_folder_v1 (identifier);
+    if (file_or_dir_exists (oldfolder)) {
+      filter_url_rmdir (oldfolder);
+    }
+    
     // Store the note in the filesystem.
     string path = note_file_v2 (identifier);
     string folder = filter_url_dirname (path);

@@ -53,7 +53,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
 {
   summary = filter_string_str_replace ("\n", "", summary);
   Database_Notes database_notes (webserver_request);
-  int note_id = database_notes.store_new_note_v1 (bible, book, chapter, verse, summary, contents, raw);
+  int note_id = database_notes.store_new_note_v2 (bible, book, chapter, verse, summary, contents, raw);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
@@ -67,7 +67,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_complete, "");
   } else {
     // Server: do the notifications.
-    handler_new_note_v1 (note_id);
+    handlerNewNote (note_id);
   }
   return note_id;
 }
@@ -95,7 +95,7 @@ void Notes_Logic::setContent (int identifier, const string& content)
 
 
 // Add a comment to an exiting note identified by identifier.
-void Notes_Logic::add_comment_v1 (int identifier, const string& comment) // Todo make v12 or remove altogether.
+void Notes_Logic::addComment (int identifier, const string& comment)
 {
   // Do nothing if there was no content.
   if (comment == "") return;
@@ -159,7 +159,7 @@ void Notes_Logic::unsubscribe (int identifier)
 }
 
 
-void Notes_Logic::assign_user_v1 (int identifier, const string& user) // Todo rename to v12 or remove version number.
+void Notes_Logic::assignUser (int identifier, const string& user)
 {
   Database_Notes database_notes (webserver_request);
   if (client_logic_client_enabled ()) {
@@ -176,7 +176,7 @@ void Notes_Logic::assign_user_v1 (int identifier, const string& user) // Todo re
 }
 
 
-void Notes_Logic::unassign_user_v1 (int identifier, const string& user) // Todo rename to v12 or remove v number.
+void Notes_Logic::unassignUser (int identifier, const string& user)
 {
   Database_Notes database_notes (webserver_request);
   database_notes.unassign_user_v12 (identifier, user);
@@ -223,7 +223,7 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
 
 
 // Sets the severity as a number for note identifier.
-void Notes_Logic::set_raw_severity_v1 (int identifier, int severity) // Todo version 12.
+void Notes_Logic::setRawSeverity (int identifier, int severity)
 {
   Database_Notes database_notes (webserver_request);
   database_notes.set_raw_severity_v12 (identifier, severity);
@@ -303,21 +303,15 @@ void Notes_Logic::erase (int identifier)
 }
 
 
-void Notes_Logic::handler_new_note_v1 (int identifier) // Todo combine this and the next one into one.
+void Notes_Logic::handlerNewNote (int identifier)
 {
-  notify_users_v1 (identifier, notifyNoteNew);
+  notifyUsers (identifier, notifyNoteNew);
 }
 
 
-void Notes_Logic::handler_new_note_v2 (int identifier) // Todo combine with the previous function.
+void Notes_Logic::handlerAddComment (int identifier)
 {
-  notify_users_v2 (identifier, notifyNoteNew);
-}
-
-
-void Notes_Logic::handlerAddComment (int identifier) // Todo call universion functions, not version specific.
-{
-  notify_users_v1 (identifier, notifyNoteComment);
+  notifyUsers (identifier, notifyNoteComment);
   // If the note status was Done, and a comment is added, mark it Reopened.
   Database_Notes database_notes (webserver_request);
   string status = database_notes.get_raw_status_v12 (identifier);
@@ -344,22 +338,22 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
 }
 
 
-void Notes_Logic::handlerMarkNoteForDeletion (int identifier) // Todo call universal method.
+void Notes_Logic::handlerMarkNoteForDeletion (int identifier)
 {
-  notify_users_v1 (identifier, notifyMarkNoteForDeletion);
+  notifyUsers (identifier, notifyMarkNoteForDeletion);
 }
 
 
-void Notes_Logic::handlerDeleteNote (int identifier) // Todo call universal method.
+void Notes_Logic::handlerDeleteNote (int identifier)
 {
-  notify_users_v1 (identifier, notifyNoteDelete);
+  notifyUsers (identifier, notifyNoteDelete);
 }
 
 
 // This handles notifications for the users
 // identifier: the note that is being handled.
 // notification: the type of action on the consultation note.
-void Notes_Logic::notify_users_v1 (int identifier, int notification) // Todo: Create one v12 method.
+void Notes_Logic::notifyUsers (int identifier, int notification)
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
@@ -454,109 +448,6 @@ void Notes_Logic::notify_users_v1 (int identifier, int notification) // Todo: Cr
     }
   }
 
-  // Send mail to all recipients.
-  emailUsers (identifier, label, recipients, postpone);
-}
-
-
-// This handles notifications for the users
-// identifier: the note that is being handled.
-// notification: the type of action on the consultation note.
-void Notes_Logic::notify_users_v2 (int identifier, int notification) // Todo create one v12 method.
-{
-  // Take no action in client mode.
-  if (client_logic_client_enabled ()) return;
-  
-  // Data objects.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  Database_Notes database_notes (webserver_request);
-  
-  // This note's Bible.
-  string bible = database_notes.get_bible_v12 (identifier);
-  
-  // Subscription and assignment not to be used for notes marked for deletion,
-  // because marking notes for deletion is nearly the same as deleting them straightaway.
-  if (notification != notifyMarkNoteForDeletion) {
-    
-    // Whether current user gets subscribed to the note.
-    if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
-      database_notes.subscribe_v12 (identifier);
-    }
-    
-    // Users to get subscribed to the note, or to whom the note is to be assigned.
-    vector <string> users = request->database_users ()->getUsers ();
-    for (const string & user : users) {
-      if (access_bible_read (webserver_request, bible, user)) {
-        if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
-          database_notes.subscribe_user_v12 (identifier, user);
-        }
-        if (request->database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
-          database_notes.assign_user_v12 (identifier, user);
-        }
-      }
-    }
-  }
-  
-  // The recipients who receive a notification by email.
-  vector <string> recipients;
-  
-  // Subscribers who receive email.
-  vector <string> subscribers = database_notes.get_subscribers_v12 (identifier);
-  for (const string & subscriber : subscribers) {
-    if (request->database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
-      recipients.push_back (subscriber);
-    }
-  }
-  
-  // Assignees who receive email.
-  vector <string> assignees = database_notes.get_assignees_v12 (identifier);
-  for (const string & assignee : assignees) {
-    if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
-      recipients.push_back (assignee);
-    }
-  }
-  
-  // In case the consultation note is deleted or marked for deletion,
-  // notify only the users with this specific notification set.
-  if ((notification == notifyNoteDelete) || (notification == notifyMarkNoteForDeletion)) {
-    recipients.clear ();
-    vector <string> users = request->database_users ()->getUsers ();
-    for (const auto & user : users) {
-      if (request->database_config_user ()->getUserDeletedConsultationNoteNotification (user)) {
-        if (access_bible_read (webserver_request, bible, user)) {
-          recipients.push_back (user);
-        }
-      }
-    }
-  }
-  
-  // Remove duplicate recipients.
-  set <string> unique (recipients.begin (), recipients.end ());
-  recipients.assign (unique.begin (), unique.end());
-  
-  // Deal with suppressing mail to the user when he made the update himself.
-  string username = request->session_logic ()->currentUser ();
-  if (request->database_config_user ()->getUserSuppressMailFromYourUpdatesNotes (username)) {
-    recipients.erase (remove (recipients.begin(), recipients.end(), username), recipients.end());
-  }
-  
-  // Generate the label prefixed to the subject line of the email.
-  string label = translate("General");
-  switch (notification) {
-    case notifyNoteNew             : label = translate("New");                 break;
-    case notifyNoteComment         : label = translate("Comment");             break;
-    case notifyNoteDelete          : label = translate("Deleted");             break;
-    case notifyMarkNoteForDeletion : label = translate("Marked for deletion"); break;
-  }
-  
-  // Optional postponing sending email.
-  bool postpone = false;
-  if (notification == notifyNoteNew) {
-    if (request->database_config_user ()->getPostponeNewNotesMails ()) {
-      postpone = true;
-    }
-  }
-  
   // Send mail to all recipients.
   emailUsers (identifier, label, recipients, postpone);
 }
@@ -671,7 +562,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   // Make comment on the consultation note.
   string sessionuser = request->session_logic ()->currentUser ();
   request->session_logic ()->setUsername (username);
-  add_comment_v1 (identifier, body); // Todo call universal one.
+  addComment (identifier, body);
   request->session_logic ()->setUsername (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
@@ -759,8 +650,8 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   request->session_logic()->setUsername (username);
   Database_Notes database_notes = Database_Notes(webserver_request);
   string bible = request->database_config_user()->getBible ();
-  int identifier = database_notes.store_new_note_v1 (bible, book, chapter, verse, summary, body, false); // Todo eventually move to v2.
-  handler_new_note_v1 (identifier); // Todo call universal one.
+  int identifier = database_notes.store_new_note_v2 (bible, book, chapter, verse, summary, body, false);
+  handlerNewNote (identifier);
   request->session_logic()->setUsername (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {

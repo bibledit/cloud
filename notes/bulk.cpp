@@ -172,7 +172,7 @@ string notes_bulk (void * webserver_request)
     if (in_array (assign, assignees)) {
       for (auto identifier : identifiers) {
         if (!database_notes.is_assigned_v12 (identifier, assign)) {
-          notes_logic.assign_user_v1 (identifier, assign);
+          notes_logic.assignUser (identifier, assign);
         }
       }
     }
@@ -185,7 +185,7 @@ string notes_bulk (void * webserver_request)
     string unassign = request->query["unassign"];
     for (auto identifier : identifiers) {
       if (database_notes.is_assigned_v12 (identifier, unassign)) {
-        notes_logic.unassign_user_v1 (identifier, unassign);
+        notes_logic.unassignUser (identifier, unassign);
       }
     }
     success = translate("The notes are no longer assigned to the user");
@@ -209,7 +209,7 @@ string notes_bulk (void * webserver_request)
     int severity = convert_to_int (request->query["severity"]);
     for (auto identifier : identifiers) {
       if (database_notes.get_raw_severity_v12 (identifier) != severity) {
-        notes_logic.set_raw_severity_v1 (identifier, severity);
+        notes_logic.setRawSeverity (identifier, severity);
       }
     }
     success = translate("The severity of the notes was updated");

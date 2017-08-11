@@ -37,21 +37,20 @@ public:
   static const int notifyMarkNoteForDeletion = 4;
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void setContent (int identifier, const string& content);
-  void add_comment_v1 (int identifier, const string& comment);
+  void addComment (int identifier, const string& comment);
   void set_summary_v12 (int identifier, const string& summary);
   void subscribe (int identifier);
   void unsubscribe (int identifier);
-  void assign_user_v1 (int identifier, const string& user);
-  void unassign_user_v1 (int identifier, const string& user);
+  void assignUser (int identifier, const string& user);
+  void unassignUser (int identifier, const string& user);
   void setStatus (int identifier, const string& status);
   void setPassages (int identifier, const vector <Passage> & passages);
-  void set_raw_severity_v1 (int identifier, int severity);
+  void setRawSeverity (int identifier, int severity);
   void setBible (int identifier, const string& bible);
   void markForDeletion (int identifier);
   void unmarkForDeletion (int identifier);
   void erase (int identifier);
-  void handler_new_note_v1 (int identifier);
-  void handler_new_note_v2 (int identifier);
+  void handlerNewNote (int identifier);
   void handlerAddComment (int identifier);
   void handlerAssignNote (int identifier, const string& user);
   void handlerMarkNoteForDeletion (int identifier);
@@ -61,8 +60,7 @@ public:
   string generalBibleName ();
 private:
   void * webserver_request;
-  void notify_users_v1 (int identifier, int notification);
-  void notify_users_v2 (int identifier, int notification);
+  void notifyUsers (int identifier, int notification);
   void emailUsers (int identifier, const string& label, const vector <string> & users, bool postpone);
 };
 

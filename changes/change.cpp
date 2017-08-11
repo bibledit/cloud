@@ -70,7 +70,7 @@ string changes_change (void * webserver_request)
   if (request->post.count ("unassign")) {
     string unassign = request->post["unassign"];
     unassign.erase (0, 8);
-    notes_logic.unassign_user_v1 (convert_to_int (unassign), request->session_logic()->currentUser ());
+    notes_logic.unassignUser (convert_to_int (unassign), request->session_logic()->currentUser ());
     return "";
   }
   

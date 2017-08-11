@@ -70,9 +70,9 @@ private:
 
 public:
   vector <int> get_identifiers_v12 ();
-  int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
 private:
+  int store_new_note_v1 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   int get_new_unique_identifier_v12 ();
   
 public:
@@ -300,8 +300,9 @@ private:
 
 public:
   string get_bulk_v12 (vector <int> identifiers);
-  vector <string> set_bulk_v1 (string json);
   vector <string> set_bulk_v2 (string json);
+private:
+  vector <string> set_bulk_v1 (string json);
   
 private:
   void update_database_v12 (int identifier);

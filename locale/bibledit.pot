@@ -4795,6 +4795,9 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
+msgid "Please wait"
+msgstr ""
+
 msgid "Or else connect to the Bibledit Cloud demo."
 msgstr ""
 
@@ -5074,9 +5077,6 @@ msgstr ""
 msgid ""
 "When you submit the values, Bibledit will attempt to contact this email "
 "account and tell the number of messages in the Inbox."
-msgstr ""
-
-msgid "Please wait"
 msgstr ""
 
 msgid "Sending mail"

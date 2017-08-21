@@ -45,7 +45,7 @@ bool journal_index_acl (void * webserver_request)
 #ifdef HAVE_CLIENT
   return true;
 #endif
-  // The role of Consultant or higher can view the journal.
+  // In the Cloud, the role of Consultant or higher can view the journal.
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
     return true;
   }
@@ -106,7 +106,7 @@ string render_journal_entry (string filename, int userlevel)
 
 
 // Deal with AJAX call for a possible new journal entry.
-string journal_index_ajax (Webserver_Request * request, string filename)
+string journal_index_ajax_next (Webserver_Request * request, string filename)
 {
   int userLevel = request->session_logic()->currentLevel ();
   string result = Database_Logs::next (filename);
@@ -126,7 +126,7 @@ string journal_index (void * webserver_request)
   
   string filename = request->query ["filename"];
   if (!filename.empty ()) {
-    return journal_index_ajax (request, filename);
+    return journal_index_ajax_next (request, filename);
   }
   
   

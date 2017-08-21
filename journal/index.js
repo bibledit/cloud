@@ -16,12 +16,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+
 $(window).on ('load', function () {
   $ ("#logbook").on ("click", journal_clicked);
   $ ("#workspacewrapper").animate ({ scrollTop: $("#workspacewrapper").prop("scrollHeight") }, 3000);
 });
 
-var getMore = function () 
+
+function getMore ()
 {
   $.ajax ({
     url: "index",
@@ -44,7 +46,9 @@ var getMore = function ()
   });
 }
 
+
 setTimeout (getMore, 3000);
+
 
 function journal_clicked (event)
 {

@@ -104,7 +104,7 @@ function resourceGetOne ()
       resourceDoing--;
     },
     complete: function (jqXHR) {
-      resourceGetOne ();
+      setTimeout (resourceGetOne, 10);
     }
   });
 }

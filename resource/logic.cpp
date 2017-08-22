@@ -568,7 +568,8 @@ string resource_logic_default_user_url ()
 void resource_logic_create_cache ()
 {
   // Because clients usually request caches in a quick sequence,
-  // the Cloud starts to cache several books in parallel.
+  // the Cloud would start to cache several books in parallel.
+  // This is undesired.
   // Here's some logic to ensure there's only one book at a time being cached.
   static bool resource_logic_create_cache_running = false;
   if (resource_logic_create_cache_running) return;
@@ -632,6 +633,8 @@ void resource_logic_create_cache ()
 
       // Fetch the text for the passage.
       bool server_is_installing_module = false;
+      bool server_is_updating = false;
+      bool server_is_unavailable = false;
       int wait_iterations = 0;
       string html, error;
       do {
@@ -642,10 +645,18 @@ void resource_logic_create_cache ()
         server_is_installing_module = (html == sword_logic_installing_module_text ());
         if (server_is_installing_module) {
           Database_Logs::log ("Waiting while installing SWORD module: " + resource);
+        }
+        server_is_updating = html.find ("... upgrading ...") != string::npos;
+        if (server_is_updating) {
+          Database_Logs::log ("Waiting while Cloud is upgrading itself");
+        }
+        // In case of server unavailability, wait a while, then try again.
+        server_is_unavailable = server_is_installing_module || server_is_updating;
+        if (server_is_unavailable) {
           this_thread::sleep_for (chrono::seconds (60));
           wait_iterations++;
         }
-      } while (server_is_installing_module && (wait_iterations < 5));
+      } while (server_is_unavailable && (wait_iterations < 5));
 
       // Cache the verse data, even if there's an error.
       // If it were not cached at, say, Leviticus, then the caching mechanism,

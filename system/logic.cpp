@@ -270,9 +270,10 @@ void system_logic_import_notes_file (string tarball)
 }
 
 
-string system_logic_resources_file_name ()
+string system_logic_resources_file_name (string resourcename)
 {
-  return filter_url_create_path (filter_url_temp_dir (), "resources.tar");
+  if (!resourcename.empty ()) resourcename.append ("_");
+  return filter_url_create_path (filter_url_temp_dir (), resourcename + "resources.tar");
 }
 
 
@@ -292,7 +293,7 @@ void system_logic_produce_resources_file (int jobid)
     database_jobs.setStart (jobid, html_text.getInnerHtml ());
   }
   
-  // The location of the tarball to generate.
+  // The location of the single tarball to generate.
   string tarball = filter_url_create_root_path (system_logic_resources_file_name ());
   
   
@@ -310,13 +311,54 @@ void system_logic_produce_resources_file (int jobid)
   }
   
   
+  // Get the filenames to pack the resources, one resource per tarball.
+  // This is to generate smaller tarballs which can be handled on devices with limited internal memory.
+  // Such devices fail to have sufficient memory to handle one tarball with logs and logs of resources.
+  // It fails to allocate enough memory on such devices.
+  // So that's the reason for doing one resource per tarball.
+  map <string, vector <string> > single_resources;
+  for (auto filename : rawfiles) {
+    // Sample filename: cache_resource_[CrossWire][LXX]_62.sqlite
+    // Look for the last underscore.
+    // This indicates which resource it is, by leaving the book number out.
+    if (filename.find (Database_Cache::fragment()) != string::npos) {
+      size_t pos = filename.find_last_of ("_");
+      if (pos != string::npos) {
+        string resource = filename.substr (0, pos);
+        single_resources[resource].push_back (filename);
+      }
+    }
+  }
+
+  
+  // Progress bar data: How many tarballs to create.
+  int tarball_count = 1 + single_resources.size ();
+  int tarball_counter = 0;
+
+  
   // Pack the resources into one tarball.
   // It does not compress the files (as could be done).
   // It just puts them in a tarball.
   // Compression is not needed because the file is transferred locally,
-  // so the size of the file is not so important.
+  // so the size of the file is not very important.
   // Not compressing speeds things up a great lot.
+  tarball_counter++;
+  database_jobs.setPercentage (jobid, 100 * tarball_counter / tarball_count);
+  database_jobs.setProgress (jobid, translate ("All"));
   string error = filter_archive_microtar_pack (tarball, directory, resources);
+
+  
+  // Create one tarball per resource.
+  for (auto element : single_resources) {
+    tarball_counter++;
+    string resource_name = element.first;
+    vector <string> resources = element.second;
+    database_jobs.setPercentage (jobid, 100 * tarball_counter / tarball_count);
+    database_jobs.setProgress (jobid, resource_name);
+    string tarball = filter_url_create_root_path (system_logic_resources_file_name (resource_name));
+    string error = filter_archive_microtar_pack (tarball, directory, resources);
+  }
+  
   
   
   // Ready, provide info about how to download the file or about the error.
@@ -324,13 +366,24 @@ void system_logic_produce_resources_file (int jobid)
     Html_Text html_text ("");
     html_text.newParagraph ();
     if (error.empty ()) {
-      html_text.addText (translate ("The file with the installed resources is ready."));
+      html_text.addText (translate ("The file with all of the installed resources is ready."));
       html_text.newParagraph ();
       html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Get it."));
       html_text.newParagraph ();
       html_text.addText (translate ("The file can be imported in another Bibledit client."));
       html_text.addText (" ");
       html_text.addText (translate ("This will create the same resources in that other client."));
+      html_text.newParagraph ();
+      html_text.addText (translate ("The above file may be huge in case there is lots of installed resources."));
+      html_text.addText (" ");
+      html_text.addText (translate ("For that reason there are alternative files with individual resources below."));
+      html_text.addText (" ");
+      html_text.addText (translate ("These are smaller in size."));
+      for (auto element : single_resources) {
+        string resource_name = element.first;
+        html_text.newParagraph ();
+        html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (resource_name), "", "", "", resource_name);
+      }
     } else {
       html_text.addText (translate ("It failed to create the file with resources."));
       html_text.newParagraph ();

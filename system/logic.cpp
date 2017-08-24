@@ -365,29 +365,40 @@ void system_logic_produce_resources_file (int jobid)
   {
     Html_Text html_text ("");
     html_text.newParagraph ();
-    if (error.empty ()) {
-      html_text.addText (translate ("The file with all of the installed resources is ready."));
-      html_text.newParagraph ();
-      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Get it."));
-      html_text.newParagraph ();
-      html_text.addText (translate ("The file can be imported in another Bibledit client."));
-      html_text.addText (" ");
-      html_text.addText (translate ("This will create the same resources in that other client."));
-      html_text.newParagraph ();
-      html_text.addText (translate ("The above file may be huge in case there is lots of installed resources."));
-      html_text.addText (" ");
-      html_text.addText (translate ("For that reason there are alternative files with individual resources below."));
-      html_text.addText (" ");
-      html_text.addText (translate ("These are smaller in size."));
-      for (auto element : single_resources) {
-        string resource_name = element.first;
+    if (!resources.empty ()) {
+      if (error.empty ()) {
+        html_text.addText (translate ("The file with all of the installed resources is ready."));
+        html_text.addText (" ");
+        html_text.addText (translate ("Amount of resources:"));
+        html_text.addText (" ");
+        html_text.addText (convert_to_string (single_resources.size()));
+        html_text.addText (".");
         html_text.newParagraph ();
-        html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (resource_name), "", "", "", resource_name);
+        html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download the archive with all installed resources."));
+        html_text.newParagraph ();
+        html_text.addText (translate ("The file can be imported in another Bibledit client."));
+        html_text.addText (" ");
+        html_text.addText (translate ("This will create the same resources in that other client."));
+        html_text.newParagraph ();
+        html_text.addText (translate ("The above file may be huge in case there is lots of installed resources."));
+        html_text.addText (" ");
+        html_text.addText (translate ("For that reason there are alternative files with individual resources below."));
+        html_text.addText (" ");
+        html_text.addText (translate ("These are smaller in size."));
+        for (auto element : single_resources) {
+          string resource_name = element.first;
+          html_text.newParagraph ();
+          html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (resource_name), "", "", "", translate ("Download") + " " + resource_name);
+        }
+      } else {
+        html_text.addText (translate ("It failed to create the file with resources."));
+        html_text.newParagraph ();
+        html_text.addText (error);
       }
     } else {
-      html_text.addText (translate ("It failed to create the file with resources."));
-      html_text.newParagraph ();
-      html_text.addText (error);
+      html_text.addText (translate ("There were no installed resources to make an archive from."));
+      html_text.addText (" ");
+      html_text.addText (translate ("Install some resources on the device, and try again."));
     }
     database_jobs.setResult (jobid, html_text.getInnerHtml ());
   }

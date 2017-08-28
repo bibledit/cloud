@@ -4198,13 +4198,39 @@ msgstr ""
 msgid "Generating a file with the resources."
 msgstr ""
 
-msgid "The file with the installed resources is ready."
+msgid "All"
+msgstr ""
+
+msgid "The file with all of the installed resources is ready."
+msgstr ""
+
+msgid "Amount of resources:"
+msgstr ""
+
+msgid "Download the archive with all installed resources."
 msgstr ""
 
 msgid "This will create the same resources in that other client."
 msgstr ""
 
+msgid ""
+"The above file may be huge in case there is lots of installed resources."
+msgstr ""
+
+msgid ""
+"For that reason there are alternative files with individual resources below."
+msgstr ""
+
+msgid "These are smaller in size."
+msgstr ""
+
 msgid "It failed to create the file with resources."
+msgstr ""
+
+msgid "There were no installed resources to make an archive from."
+msgstr ""
+
+msgid "Install some resources on the device, and try again."
 msgstr ""
 
 msgid "Go back"
@@ -10248,22 +10274,22 @@ msgstr ""
 msgid "Import it there."
 msgstr ""
 
-msgid "Get the local Bibles."
+msgid "Make an archive of all the Bibles available on this device."
 msgstr ""
 
-msgid "Import and install Bibles."
+msgid "Import a Bibles archive into this device."
 msgstr ""
 
-msgid "Get the local Consultation Notes."
+msgid "Make an archive of all the Consultation Notes available on this device."
 msgstr ""
 
-msgid "Import and install Consultation Notes."
+msgid "Import a Consultation Notes archive into this device."
 msgstr ""
 
-msgid "Get the installed Resources."
+msgid "Make an archive of all the Resources installed on this device."
 msgstr ""
 
-msgid "Import and install Resources."
+msgid "Import a Resources archive into this device."
 msgstr ""
 
 msgid ""

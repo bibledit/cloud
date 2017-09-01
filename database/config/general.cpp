@@ -444,16 +444,6 @@ void Database_Config_General::setUnreceivedBibleDataTime (int value)
 }
 
 
-int Database_Config_General::getMaxRssFeedItems ()
-{
-  return getIValue ("max-rss-feed-items", 0);
-}
-void Database_Config_General::setMaxRssFeedItems (int value)
-{
-  setIValue ("max-rss-feed-items", value);
-}
-
-
 bool Database_Config_General::getAuthorInRssFeed ()
 {
   return getBValue ("author-in-rss-feed", false);

@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/entry.h>
 #include <dialog/upload.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
 #include <database/jobs.h>
 #include <assets/header.h>
 #include <menu/logic.h>
@@ -153,41 +154,28 @@ string system_index (void * webserver_request)
 
   
 #ifdef HAVE_CLOUD
-  // The maximum number of items in the RSS feed.
-  if (request->query.count ("rsscount")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate ("Please enter the maximum number of items in the RSS feed"), convert_to_string (Database_Config_General::getMaxRssFeedItems ()), "rsscount", "");
-    page += dialog_entry.run ();
-    return page;
-  }
-  if (request->post.count ("rsscount")) {
-    string input = request->post ["entry"];
-    int count = convert_to_int (input);
-    bool clipped = false;
-    if (count < 0) {
-      count = 0;
-      clipped = true;
-    }
-    if (count > 2000) {
-      count = 2000;
-      clipped = true;
-    }
-    if (clipped) error = translate ("The number was trimmed");
-    Database_Config_General::setMaxRssFeedItems (count);
-    success = translate ("The number was saved");
-    rss_logic_update_xml ({}, {}, {});
-  }
-  view.set_variable ("rsscount", convert_to_string (Database_Config_General::getMaxRssFeedItems ()));
-  view.set_variable ("rssfeed", "/" + rss_feed_url ());
-#endif
-
-  
-#ifdef HAVE_CLOUD
   // Whether to include the author with every change in the RSS feed.
   if (checkbox == "rssauthor") {
     Database_Config_General::setAuthorInRssFeed (checked);
     return "";
   }
   view.set_variable ("rssauthor", get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
+  // The location of the RSS feed.
+  view.set_variable ("rssfeed", rss_feed_url ());
+  // The Bibles that send their changes to the RSS feed.
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibles.getBibles ();
+  string rssbibles;
+  for (auto bible : bibles) {
+    if (Database_Config_Bible::getSendChangesToRSS (bible)) {
+      if (!rssbibles.empty ()) rssbibles.append (" ");
+      rssbibles.append (bible);
+    }
+  }
+  if (rssbibles.empty ()) {
+    rssbibles.append (translate ("none"));
+  }
+  view.set_variable ("rssbibles", rssbibles);
 #endif
 
   

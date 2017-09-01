@@ -38,6 +38,30 @@ using namespace pugi;
 #ifdef HAVE_CLOUD
 
 
+void rss_logic_feed_on_off ()
+{
+  // See whether there's Bibles that send their changes to the RSS feed.
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibles.getBibles ();
+  bool rss_enabled = false;
+  for (auto bible : bibles) {
+    if (Database_Config_Bible::getSendChangesToRSS (bible)) {
+      rss_enabled = true;
+    }
+  }
+  if (rss_enabled) {
+    // The RSS feed is enabled: Ensure the feed exists right now.
+    rss_logic_update_xml ({}, {}, {});
+  } else {
+    // The RSS feed is disabled: Remove the last trace of it entirely.
+    string path = rss_logic_xml_path ();
+    if (file_or_dir_exists (path)) {
+      filter_url_unlink (path);
+    }
+  }
+}
+
+
 string rss_logic_new_line ()
 {
   return "rss_new_line";
@@ -48,8 +72,7 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
                                 string oldusfm, string newusfm)
 {
   // If the RSS feed system is off, bail out.
-  int size = Database_Config_General::getMaxRssFeedItems ();
-  if (size == 0) return;
+  if (!Database_Config_Bible::getSendChangesToRSS (bible)) return;
   
   // Mould the USFM into one line.
   oldusfm = filter_string_str_replace ("\n", rss_logic_new_line (), oldusfm);
@@ -133,17 +156,12 @@ string rss_logic_xml_path ()
 
 void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions)
 {
-  string path = rss_logic_xml_path ();
-  int size = Database_Config_General::getMaxRssFeedItems ();
-  if (size == 0) {
-    if (file_or_dir_exists (path)) filter_url_unlink (path);
-    return;
-  }
   int seconds = filter_date_seconds_since_epoch ();
   string rfc822time = filter_date_rfc822 (seconds);
   string guid = convert_to_string (seconds);
   bool document_updated = false;
   xml_document document;
+  string path = rss_logic_xml_path ();
   document.load_file (path.c_str());
   xml_node rss_node = document.first_child ();
   if (strcmp (rss_node.name (), "rss") != 0) {
@@ -160,7 +178,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     node.text () = Database_Config_General::getSiteURL().c_str();
     // Description.
     node = channel.append_child ("description");
-    node.text () = translate ("Recent changes in the Bible text").c_str ();
+    node.text () = translate ("Recent changes in the Bible texts").c_str ();
     // Feed's URL.
     node = channel.append_child ("atom:link");
     string link = Database_Config_General::getSiteURL() + rss_feed_url ();
@@ -187,9 +205,10 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     item.append_child ("description").text () = descriptions [i].c_str();
     document_updated = true;
   }
+  int rss_size = 100;
   int count = distance (channel.children ().begin (), channel.children ().end ());
   count -= 3;
-  count -= size;
+  count -= rss_size;
   while (count > 0) {
     xml_node node = channel.child ("item");
     channel.remove_child (node);

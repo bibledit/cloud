@@ -150,6 +150,8 @@ public:
   static void setPublicFeedbackEnabled (string bible, bool value);
   static bool getReadFromGit (string bible);
   static void setReadFromGit (string bible, bool value);
+  static bool getSendChangesToRSS (string bible);
+  static void setSendChangesToRSS (string bible, bool value);
 private:
   static string file (string bible);
   static string file (string bible, const char * key);

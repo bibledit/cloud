@@ -742,3 +742,17 @@ void Database_Config_Bible::setReadFromGit (string bible, bool value)
 {
   setBValue (bible, "read-from-git", value);
 }
+
+
+const char * send_changes_to_rss_key ()
+{
+  return "send-changes-to-rss";
+}
+bool Database_Config_Bible::getSendChangesToRSS (string bible)
+{
+  return getBValue (bible, send_changes_to_rss_key (), false);
+}
+void Database_Config_Bible::setSendChangesToRSS (string bible, bool value)
+{
+  setBValue (bible, send_changes_to_rss_key (), value);
+}

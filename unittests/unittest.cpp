@@ -133,6 +133,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
+  test_rss_feed ();
   test_database_noteactions ();
   test_database_notes ();
   test_database_noteassignment ();

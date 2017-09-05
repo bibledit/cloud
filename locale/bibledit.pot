@@ -3381,7 +3381,7 @@ msgstr ""
 msgid "The user-defined resource was created"
 msgstr ""
 
-msgid "Recent changes in the Bible text"
+msgid "Recent changes in the Bible texts"
 msgstr ""
 
 msgid ""
@@ -4141,13 +4141,7 @@ msgstr ""
 msgid "The timezone was saved"
 msgstr ""
 
-msgid "Please enter the maximum number of items in the RSS feed"
-msgstr ""
-
-msgid "The number was trimmed"
-msgstr ""
-
-msgid "The number was saved"
+msgid "none"
 msgstr ""
 
 msgid "Nothing was imported"
@@ -4455,6 +4449,9 @@ msgid "Compare with ..."
 msgstr ""
 
 msgid "The public can give feedback"
+msgstr ""
+
+msgid "Send the changes to the RSS feed"
 msgstr ""
 
 msgid "Import text from a resource"
@@ -10240,13 +10237,10 @@ msgstr ""
 msgid "RSS feed for the recent changes in the text of the Bible."
 msgstr ""
 
-msgid "Maximum number of changes it feeds:"
-msgstr ""
-
-msgid "To switch the feed off, set the number of changes to zero."
-msgstr ""
-
 msgid "Include the author in the RSS feed."
+msgstr ""
+
+msgid "The changes in the following Bibles will be visible in the RSS feed:"
 msgstr ""
 
 msgid "Transfer resources and Bibles"

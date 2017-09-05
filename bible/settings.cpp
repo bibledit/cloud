@@ -214,6 +214,7 @@ string bible_settings (void * webserver_request)
 
   
   // RSS feed.
+#ifdef HAVE_CLOUD
   if (checkbox == "rss") {
     if (write_access) {
       Database_Config_Bible::setSendChangesToRSS (bible, checked);
@@ -221,6 +222,7 @@ string bible_settings (void * webserver_request)
     }
   }
   view.set_variable ("rss", get_checkbox_status (Database_Config_Bible::getSendChangesToRSS (bible)));
+#endif
   
   
   view.set_variable ("systemindex", system_index_url());

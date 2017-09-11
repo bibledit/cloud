@@ -37,7 +37,6 @@
 #include <menu/logic.h>
 #include <bible/logic.h>
 #include <config/globals.h>
-#include <editoneold/index.h>
 
 
 string editone_index_url ()

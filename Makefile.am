@@ -190,10 +190,6 @@ libbibledit_a_SOURCES = \
 	editone/save.cpp \
 	editone/verse.cpp \
 	editone/logic.cpp \
-	editoneold/index.cpp \
-	editoneold/load.cpp \
-	editoneold/save.cpp \
-	editoneold/verse.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \

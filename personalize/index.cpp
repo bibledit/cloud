@@ -107,13 +107,6 @@ string personalize_index (void * webserver_request)
   }
 
   
-  // Visual Bible editor downgrading.
-  if (request->query.count ("editordowngrade")) {
-    bool state = request->database_config_user ()->getDowngradeVisualEditors ();
-    request->database_config_user ()->setDowngradeVisualEditors (!state);
-  }
-
-  
   // Whether to have a menu entry for the Changes in basic mode.
   if (request->query.count ("showchanges")) {
     bool state = request->database_config_user ()->getMenuChangesInBasicMode ();
@@ -348,11 +341,6 @@ string personalize_index (void * webserver_request)
   }
   editors = menu_logic_editor_settings_text (false, request->database_config_user ()->getFastSwitchUsfmEditors ());
   view.set_variable (fastswitchusfmeditors, editors);
-
-  
-  // Whether to downgrade the visual Bible editors.
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDowngradeVisualEditors ());
-  view.set_variable ("editordowngrade", on_off);
 
   
   // Whether to enable editing styles in the visual editors.

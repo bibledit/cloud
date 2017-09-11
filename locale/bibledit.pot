@@ -6267,6 +6267,9 @@ msgstr ""
 msgid "Install Bibledit Cloud on Ubuntu"
 msgstr ""
 
+msgid "Install required software:"
+msgstr ""
+
 msgid "Add the Bibledit repository:"
 msgstr ""
 

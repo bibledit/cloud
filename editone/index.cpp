@@ -59,12 +59,6 @@ string editone_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  if (request->database_config_user ()->getDowngradeVisualEditors ()) {
-    // Redirect to deprecated editor.
-    redirect_browser (webserver_request, editoneold_index_url ());
-    return "";
-  }
-
   bool touch = request->session_logic ()->touchEnabled ();
   
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {

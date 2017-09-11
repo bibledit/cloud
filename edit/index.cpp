@@ -37,7 +37,6 @@
 #include <menu/logic.h>
 #include <bible/logic.h>
 #include <config/globals.h>
-#include <editold/index.h>
 
 
 string edit_index_url ()
@@ -58,13 +57,6 @@ bool edit_index_acl (void * webserver_request)
 string edit_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  
-  
-  if (request->database_config_user ()->getDowngradeVisualEditors ()) {
-    // Redirect to deprecated editor.
-    redirect_browser (webserver_request, editold_index_url ());
-    return "";
-  }
   
   
   bool touch = request->session_logic ()->touchEnabled ();

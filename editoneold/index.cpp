@@ -37,7 +37,7 @@
 #include <bible/logic.h>
 
 
-string editoneold_index_url ()
+string editoneold_index_url () // Todo out.
 {
   return "editoneold/index";
 }

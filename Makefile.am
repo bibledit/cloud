@@ -219,11 +219,6 @@ libbibledit_a_SOURCES = \
 	edit/preview.cpp \
 	edit/position.cpp \
 	edit/navigate.cpp \
-	editold/index.cpp \
-	editold/load.cpp \
-	editold/save.cpp \
-	editold/offset.cpp \
-	editold/focus.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \

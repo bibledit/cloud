@@ -235,8 +235,6 @@
 /edit/index.js
 /edit/keys.js
 /editold
-/editold/index.html
-/editold/index.js
 /editone
 /editone/index.html
 /editone/index.js

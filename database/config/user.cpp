@@ -1205,16 +1205,6 @@ void Database_Config_User::setFastEditorSwitchingAvailable (bool value)
 }
 
 
-bool Database_Config_User::getDowngradeVisualEditors ()
-{
-  return getBValue ("downgrade-visual-editors", false);
-}
-void Database_Config_User::setDowngradeVisualEditors (bool value)
-{
-  setBValue ("downgrade-visual-editors", value);
-}
-
-
 bool Database_Config_User::getAllSoftwareUpdatesNotification ()
 {
   return getBValue ("all-software-updates-notification", false);

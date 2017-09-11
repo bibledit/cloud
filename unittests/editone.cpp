@@ -51,24 +51,6 @@ void test_editone_logic ()
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
   }
   
-  // Editable verse text.
-  {
-    // Convert USFM to html.
-    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone02.usfm"));
-    string html;
-    string last_paragraph_style;
-    string focused_verse_applied_p_style;
-    editone_old_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone02.html"));
-    evaluate (__LINE__, __func__, standard, html);
-    evaluate (__LINE__, __func__, "p", last_paragraph_style);
-    evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
-    
-    // Convert the html back to USFM again.
-    string round_tripped_usfm = editone_old_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
-    evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
-  }
-  
   // Suffix.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone03.usfm"));
@@ -80,24 +62,6 @@ void test_editone_logic ()
     evaluate (__LINE__, __func__, "", last_paragraph_style);
   }
   
-  // Editable verse text including a \b.
-  {
-    // Convert USFM to html.
-    string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone04.usfm"));
-    string html;
-    string last_paragraph_style;
-    string focused_verse_applied_p_style;
-    editone_old_logic_editable_html ("p", usfm, stylesheet, html, last_paragraph_style, focused_verse_applied_p_style);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone04.html"));
-    evaluate (__LINE__, __func__, standard, html);
-    evaluate (__LINE__, __func__, "q1", last_paragraph_style);
-    evaluate (__LINE__, __func__, "p", focused_verse_applied_p_style);
-    
-    // Convert the html back to USFM again.
-    string round_tripped_usfm = editone_old_logic_html_to_usfm (stylesheet, html, focused_verse_applied_p_style);
-    evaluate (__LINE__, __func__, usfm, round_tripped_usfm);
-  }
-
   // Removing notes from the prefix and appending them to the notes in the suffix.
   {
     string prefix;

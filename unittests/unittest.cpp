@@ -138,6 +138,7 @@ int main (int argc, char **argv)
   test_database_notes ();
   test_database_noteassignment ();
   test_archive ();
+  test_editone_logic ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

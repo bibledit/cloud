@@ -24,6 +24,7 @@
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <editor/usfm2html.h>
+#include <styles/logic.h>
 
 
 string xrefs_source_url ()
@@ -38,7 +39,7 @@ bool xrefs_source_acl (void * webserver_request)
 }
 
 
-string xrefs_source (void * webserver_request)
+string xrefs_source (void * webserver_request) // Todo update.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
  
@@ -54,6 +55,20 @@ string xrefs_source (void * webserver_request)
   
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   usfm = usfm_get_verse_text (usfm, verse);
+  
+  
+  // Remove the footnotes end endnotes from the USFM.
+  // This way they won't be visible and mix up the cross references placement.
+  Database_Styles database_styles;
+  vector <string> markers = database_styles.getMarkers (stylesheet);
+  for (auto marker : markers) {
+    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
+    if (style.type == StyleTypeFootEndNote) {
+      string opener = usfm_get_opening_usfm (marker);
+      string closer = usfm_get_closing_usfm (marker);
+      filter_string_replace_between (usfm, opener, closer, "");
+    }
+  }
   
   
   Editor_Usfm2Html editor_usfm2html;

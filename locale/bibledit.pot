@@ -9441,14 +9441,6 @@ msgstr ""
 msgid "USFM editor:"
 msgstr ""
 
-msgid "Downgrade the visual Bible editors:"
-msgstr ""
-
-msgid ""
-"Downgrade them on older computing devices if they do not run the current "
-"visual Bible editors."
-msgstr ""
-
 msgid "Enable the Styles button in the visual Bible editors"
 msgstr ""
 

@@ -70,7 +70,7 @@ string xrefs_extract (void * webserver_request)
   vector <int> verses = usfm_get_verse_numbers (usfm);
   for (auto verse : verses) {
     string verse_usfm = usfm_get_verse_text (usfm, verse);
-    vector <UsfmNote> xrefs = usfm_extract_notes (verse_usfm, {"x"});
+    vector <UsfmNote> xrefs = usfm_extract_notes (verse_usfm, {"x"}); // Todo unit testing?
     for (auto xref : xrefs) {
       allxrefs.push_back (convert_to_string (verse));
       allxrefs.push_back (convert_to_string (xref.offset));

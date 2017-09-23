@@ -30,7 +30,7 @@ void system_logic_import_bibles_file (string tarball);
 string system_logic_notes_file_name ();
 void system_logic_produce_notes_file (int jobid);
 void system_logic_import_notes_file (string tarball);
-string system_logic_resources_file_name ();
+string system_logic_resources_file_name (string resourcename = "");
 void system_logic_produce_resources_file (int jobid);
 void system_logic_import_resources_file (string tarball);
 

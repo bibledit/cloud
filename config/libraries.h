@@ -50,9 +50,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
+#include <sys/param.h>
 #endif
 #include <sys/types.h>
-#include <sys/param.h>
 
 
 // C++ headers.

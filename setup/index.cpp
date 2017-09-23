@@ -77,6 +77,7 @@ const char * setup_initialization_notice ()
   "<div style=\"text-align: center;\">\n"
   "<h1>Bibledit</h1>\n"
   "<h2>... upgrading ...</h2>\n";
+  // The above signature (... upgrading ...) is used elsewhere and should match with this for proper operation.
 
   // Visual progress indicator.
   // The progress bar restarts when it is near the end and the device is not yet ready initializing.

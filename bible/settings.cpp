@@ -42,6 +42,8 @@
 #include <resource/external.h>
 #include <sword/logic.h>
 #include <tasks/logic.h>
+#include <system/index.h>
+#include <rss/logic.h>
 
 
 string bible_settings_url ()
@@ -80,7 +82,12 @@ string bible_settings (void * webserver_request)
   // Whether the user has write access to this Bible.
   bool write_access = access_bible_write (request, bible);
   if (write_access) view.enable_zone ("write_access");
+
   
+  // The state of the checkbox.
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+
   
   // Versification.
   if (request->query.count ("versification")) {
@@ -198,15 +205,27 @@ string bible_settings (void * webserver_request)
   view.set_variable ("bookblock", bookblock);
   view.set_variable ("book_count", convert_to_string ((int)book_ids.size()));
 
-  
-  string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+
+  // Public feedback.
   if (checkbox == "public") {
     if (write_access) Database_Config_Bible::setPublicFeedbackEnabled (bible, checked);
   }
-  view.set_variable ("public", get_checkbox_status  (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
+  view.set_variable ("public", get_checkbox_status (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
 
   
+  // RSS feed.
+#ifdef HAVE_CLOUD
+  if (checkbox == "rss") {
+    if (write_access) {
+      Database_Config_Bible::setSendChangesToRSS (bible, checked);
+      rss_logic_feed_on_off ();
+    }
+  }
+  view.set_variable ("rss", get_checkbox_status (Database_Config_Bible::getSendChangesToRSS (bible)));
+#endif
+  
+  
+  view.set_variable ("systemindex", system_index_url());
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
 

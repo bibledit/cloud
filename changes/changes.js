@@ -62,9 +62,9 @@ function fetchChangeNotifications ()
       }
       updateIdCount ();
       pendingidentifiers.shift ();
-      setTimeout (fetchChangeNotifications, 10);
     },
     complete: function (xhr, status) {
+      setTimeout (fetchChangeNotifications, 10);
     }
   });
 }

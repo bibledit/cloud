@@ -63,7 +63,7 @@ string xrefs_insert (void * webserver_request)
   
   
   // Retrieve all abbreviations for the source Bible, sort them, longest first.
-  // The replace routines replaces the longer strings first,
+  // The replace routine replaces the longer strings first,
   // to be sure that no partial book abbreviations will be replaced before a fuller abbeviation.
   string abbrevs = Database_Config_Bible::getBookAbbreviations (sourceBible);
   vector <pair <int, string> > sourceAbbreviations = filter_abbreviations_read (abbrevs);
@@ -164,7 +164,7 @@ string xrefs_insert (void * webserver_request)
     
     
     // Insert the notes.
-    usfm = usfm_insert_notes (usfm, notes, ratio);
+    usfm = usfm_insert_notes (usfm, notes, ratio); // Todo this does it in the wrong order.
     usfmMap [verse] = usfm;
   }
 

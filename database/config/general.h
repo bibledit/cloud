@@ -121,9 +121,6 @@ public:
   static int getUnreceivedBibleDataTime ();
   static void setUnreceivedBibleDataTime (int value);
 
-  static int getMaxRssFeedItems ();
-  static void setMaxRssFeedItems (int value);
-  
   static bool getAuthorInRssFeed ();
   static void setAuthorInRssFeed (bool value);
 

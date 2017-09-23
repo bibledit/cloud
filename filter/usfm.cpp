@@ -671,10 +671,10 @@ string usfm_remove_notes (string usfm, const vector <string> & markers)
 // This function inserts notes into USFM.
 // It replaces $search with $replace in the $notes.
 // $usfm: string where to insert the notes - it is assumed not to contain any notes yet.
-// $notes: object of offsets => notes.
+// $notes: objects with offset and note.
 // $ratio: ratio to multiply the offsets with.
 // It returns the updated USFM.
-string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio)
+string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio) // Todo
 {
   if (usfm.empty()) return usfm;
   if (notes.empty()) return usfm;
@@ -698,30 +698,24 @@ string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio)
   // Add existing notes data.
   notes.insert (notes.end(), existing.begin(), existing.end());
 
-  // Sort the notes such that the last one gets inserted first.
+  // Deal with the notes in such a way that the last one gets inserted first.
   // This way inserting happens from the end of the USFM towards the start.
   // Inserted text does not affect any insertion positions this way.
-  int highest_position = 0;
-  for (UsfmNote note : notes) {
-    int position = note.offset;
-    if (position > highest_position) {
-      highest_position = position;
-    }
-  }
-  vector <UsfmNote> notes2;
-  for (int i = highest_position; i >= 0; i--) {
-    for (UsfmNote note : notes) {
-      if (note.offset == i) {
-        notes2.push_back (note);
+  // Also make sure that notes with the same insert position gets inserted in the correct order.
+  while (!notes.empty ()) {
+    // Look for last note with highest insert position.
+    int highest_offset = 0;
+    size_t position = 0;
+    for (size_t i = 0; i < notes.size (); i++) {
+      if (notes[i].offset >= highest_offset) {
+        highest_offset = notes[i].offset;
+        position = i;
       }
     }
-  }
-
-  // Insert the notes into the USFM at the correct position.
-  for (UsfmNote note : notes2) {
-    int position = note.offset;
-    string text = note.data;
-    usfm.insert (position, text);
+    // Insert the note into the USFM at the correct position.
+    usfm.insert (notes[position].offset, notes[position].data);
+    // Remove the inserted note from the container.
+    notes.erase (notes.begin() + position);
   }
 
   return usfm;

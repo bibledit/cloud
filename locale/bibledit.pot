@@ -3381,7 +3381,7 @@ msgstr ""
 msgid "The user-defined resource was created"
 msgstr ""
 
-msgid "Recent changes in the Bible text"
+msgid "Recent changes in the Bible texts"
 msgstr ""
 
 msgid ""
@@ -4141,13 +4141,7 @@ msgstr ""
 msgid "The timezone was saved"
 msgstr ""
 
-msgid "Please enter the maximum number of items in the RSS feed"
-msgstr ""
-
-msgid "The number was trimmed"
-msgstr ""
-
-msgid "The number was saved"
+msgid "none"
 msgstr ""
 
 msgid "Nothing was imported"
@@ -4198,13 +4192,39 @@ msgstr ""
 msgid "Generating a file with the resources."
 msgstr ""
 
-msgid "The file with the installed resources is ready."
+msgid "All"
+msgstr ""
+
+msgid "The file with all of the installed resources is ready."
+msgstr ""
+
+msgid "Amount of resources:"
+msgstr ""
+
+msgid "Download the archive with all installed resources."
 msgstr ""
 
 msgid "This will create the same resources in that other client."
 msgstr ""
 
+msgid ""
+"The above file may be huge in case there is lots of installed resources."
+msgstr ""
+
+msgid ""
+"For that reason there are alternative files with individual resources below."
+msgstr ""
+
+msgid "These are smaller in size."
+msgstr ""
+
 msgid "It failed to create the file with resources."
+msgstr ""
+
+msgid "There were no installed resources to make an archive from."
+msgstr ""
+
+msgid "Install some resources on the device, and try again."
 msgstr ""
 
 msgid "Go back"
@@ -4429,6 +4449,9 @@ msgid "Compare with ..."
 msgstr ""
 
 msgid "The public can give feedback"
+msgstr ""
+
+msgid "Send the changes to the RSS feed"
 msgstr ""
 
 msgid "Import text from a resource"
@@ -4795,6 +4818,9 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
+msgid "Please wait"
+msgstr ""
+
 msgid "Or else connect to the Bibledit Cloud demo."
 msgstr ""
 
@@ -5074,9 +5100,6 @@ msgstr ""
 msgid ""
 "When you submit the values, Bibledit will attempt to contact this email "
 "account and tell the number of messages in the Inbox."
-msgstr ""
-
-msgid "Please wait"
 msgstr ""
 
 msgid "Sending mail"
@@ -6242,6 +6265,9 @@ msgid ""
 msgstr ""
 
 msgid "Install Bibledit Cloud on Ubuntu"
+msgstr ""
+
+msgid "Install required software:"
 msgstr ""
 
 msgid "Add the Bibledit repository:"
@@ -9415,14 +9441,6 @@ msgstr ""
 msgid "USFM editor:"
 msgstr ""
 
-msgid "Downgrade the visual Bible editors:"
-msgstr ""
-
-msgid ""
-"Downgrade them on older computing devices if they do not run the current "
-"visual Bible editors."
-msgstr ""
-
 msgid "Enable the Styles button in the visual Bible editors"
 msgstr ""
 
@@ -10214,13 +10232,10 @@ msgstr ""
 msgid "RSS feed for the recent changes in the text of the Bible."
 msgstr ""
 
-msgid "Maximum number of changes it feeds:"
-msgstr ""
-
-msgid "To switch the feed off, set the number of changes to zero."
-msgstr ""
-
 msgid "Include the author in the RSS feed."
+msgstr ""
+
+msgid "The changes in the following Bibles will be visible in the RSS feed:"
 msgstr ""
 
 msgid "Transfer resources and Bibles"
@@ -10248,22 +10263,22 @@ msgstr ""
 msgid "Import it there."
 msgstr ""
 
-msgid "Get the local Bibles."
+msgid "Make an archive of all the Bibles available on this device."
 msgstr ""
 
-msgid "Import and install Bibles."
+msgid "Import a Bibles archive into this device."
 msgstr ""
 
-msgid "Get the local Consultation Notes."
+msgid "Make an archive of all the Consultation Notes available on this device."
 msgstr ""
 
-msgid "Import and install Consultation Notes."
+msgid "Import a Consultation Notes archive into this device."
 msgstr ""
 
-msgid "Get the installed Resources."
+msgid "Make an archive of all the Resources installed on this device."
 msgstr ""
 
-msgid "Import and install Resources."
+msgid "Import a Resources archive into this device."
 msgstr ""
 
 msgid ""

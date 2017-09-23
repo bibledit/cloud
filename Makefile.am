@@ -190,10 +190,6 @@ libbibledit_a_SOURCES = \
 	editone/save.cpp \
 	editone/verse.cpp \
 	editone/logic.cpp \
-	editoneold/index.cpp \
-	editoneold/load.cpp \
-	editoneold/save.cpp \
-	editoneold/verse.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
@@ -219,11 +215,6 @@ libbibledit_a_SOURCES = \
 	edit/preview.cpp \
 	edit/position.cpp \
 	edit/navigate.cpp \
-	editold/index.cpp \
-	editold/load.cpp \
-	editold/save.cpp \
-	editold/offset.cpp \
-	editold/focus.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \

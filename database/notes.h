@@ -123,8 +123,8 @@ public:
   void unsubscribe_v12 (int identifier);
   void subscribe_user_v12 (int identifier, const string& user);
   void unsubscribe_user_v12 (int identifier, const string& user);
-  vector <string> get_subscribers_v12 (int identifier);
   bool is_subscribed_v12 (int identifier, const string& user);
+  vector <string> get_subscribers_v12 (int identifier);
   void set_subscribers_v12 (int identifier, vector <string> subscribers);
 private:
   string subscriptions_file_v1 (int identifier);

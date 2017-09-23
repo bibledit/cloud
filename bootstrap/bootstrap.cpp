@@ -83,15 +83,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone/load.h>
 #include <editone/save.h>
 #include <editone/verse.h>
-#include <editold/index.h>
-#include <editold/load.h>
-#include <editold/save.h>
-#include <editold/offset.h>
-#include <editold/focus.h>
-#include <editoneold/index.h>
-#include <editoneold/load.h>
-#include <editoneold/save.h>
-#include <editoneold/verse.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -389,16 +380,6 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == edit_navigate_url ()) && browser_request_security_okay (request) && edit_navigate_acl (request)) {
     request->reply = edit_navigate (request);
-    return;
-  }
-  
-  if ((url == editold_index_url ()) && browser_request_security_okay (request) && editold_index_acl (request)) {
-    request->reply = editold_index (request);
-    return;
-  }
-  
-  if ((url == editoneold_index_url ()) && browser_request_security_okay (request) && editoneold_index_acl (request)) {
-    request->reply = editoneold_index (request);
     return;
   }
   
@@ -954,7 +935,7 @@ void bootstrap_index (void * webserver_request)
   }
   
 #ifdef HAVE_CLIENT
-  if ((url == system_logic_resources_file_name ()) | (url == system_logic_bibles_file_name ()) || (url == system_logic_notes_file_name ())) {
+  if (extension == "tar") {
     http_serve_file (request, false, false);
     return;
   }
@@ -1030,23 +1011,8 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == editoneold_load_url ()) && browser_request_security_okay (request) && editoneold_load_acl (request)) {
-    request->reply = editoneold_load (request);
-    return;
-  }
-  
-  if ((url == editoneold_save_url ()) && browser_request_security_okay (request) && editoneold_save_acl (request)) {
-    request->reply = editoneold_save (request);
-    return;
-  }
-  
   if ((url == editone_verse_url ()) && browser_request_security_okay (request) && editone_verse_acl (request)) {
     request->reply = editone_verse (request);
-    return;
-  }
-
-  if ((url == editoneold_verse_url ()) && browser_request_security_okay (request) && editoneold_verse_acl (request)) {
-    request->reply = editoneold_verse (request);
     return;
   }
 
@@ -1100,26 +1066,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == editold_load_url ()) && browser_request_security_okay (request) && editold_load_acl (request)) {
-    request->reply = editold_load (request);
-    return;
-  }
-  
-  if ((url == editold_save_url ()) && browser_request_security_okay (request) && editold_save_acl (request)) {
-    request->reply = editold_save (request);
-    return;
-  }
-  
-  if ((url == editold_offset_url ()) && browser_request_security_okay (request) && editold_offset_acl (request)) {
-    request->reply = editold_offset (request);
-    return;
-  }
-
-  if ((url == editold_focus_url ()) && browser_request_security_okay (request) && editold_focus_acl (request)) {
-    request->reply = editold_focus (request);
-    return;
-  }
-
   if ((url == search_getids_url ()) && browser_request_security_okay (request) && search_getids_acl (request)) {
     request->reply = search_getids (request);
     return;

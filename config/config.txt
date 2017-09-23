@@ -23,6 +23,14 @@ In case Bibledit Cloud runs on a public server and uses secure http, it will rea
 Three example files are included. All of them have the "local." prefix. Bibledit will use them in case the proper files are not there.
 Secure certificates can be purchased from many authorities.
 Free certificates are available from https://letsencrypt.org/ and https://www.startssl.com/ and more.
+Here is an example of how to get and update certificates through Let's Encrypt:
+1. Obtain the certificate: $ letsencrypt-auto certonly --webroot -w /var/www/bibledit.org -d bibledit.org -d www.bibledit.org
+2. Regularly renew it: $ letsencrypt-auto renew
+3. Copy the renewed certificates into place:
+   $ cp /etc/letsencrypt/live/bibledit.org/privkey.pem /home/foo/bibledit/config/server.key
+   $ cp /etc/letsencrypt/live/bibledit.org/cert.pem    /home/foo/bibledit/config/server.crt
+   $ cp /etc/letsencrypt/live/bibledit.org/chain.pem   /home/foo/bibledit/config/authorities.crt
+After the certificates have been updated, Bibledit Cloud needs to be restarted, and it will then load the new certificates.
 
 
 To enforce secure http for browser communications, put a file named browser.https in the config folder.

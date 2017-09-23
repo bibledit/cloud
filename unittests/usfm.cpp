@@ -1152,6 +1152,20 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, usfm);
   }
 
+  // Test that inserting several notes into the same position keeps the order of the notes. Todo
+  {
+    string usfm = "\\v 1 This is the text of verse one.";
+    vector <UsfmNote> notes = {
+      {9, "\\x + Book 1.1.\\x*"},
+      {9, "\\x + Book 2.2.\\x*"},
+      {9, "\\x + Book 3.3.\\x*"},
+      {21, "\\x + Book 4.4.\\x*"}
+    };
+    usfm = usfm_insert_notes (usfm, notes, 0.9);
+    string standard = "\\v 1 This\\x + Book 1.1.\\x*\\x + Book 2.2.\\x*\\x + Book 3.3.\\x* is the text\\x + Book 4.4.\\x* of verse one.";
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  
   // Test notes placement where non-placed notes are added to the very end of the string.
   {
     string usfm = "\\v 1 Melusi kaIsrayeli, beka indlebe, okhokhela uJosefa njengomhlambi, ohlezi \\add phakathi\\add* \\w kwamakherubhi\\w**, khanyisa.";

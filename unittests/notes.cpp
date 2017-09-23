@@ -1007,7 +1007,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, good_checksum_old.empty());
     string good_checksum_new = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, good_checksum_new.empty());
-    // Editions v2 and v2 should match.
+    // Old and new editions should match.
     evaluate (__LINE__, __func__, good_checksum_old, good_checksum_new);
     
     // Clear checksum, and recalculate it.

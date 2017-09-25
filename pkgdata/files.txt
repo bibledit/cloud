@@ -17,7 +17,6 @@
 /assets/xhtml_start.html
 /AUTHORS
 /bible
-/bible/abbreviations.html
 /bible/book.html
 /bible/chapter.html
 /bible/css.html
@@ -923,12 +922,3 @@
 /workspace/index.html
 /workspace/organize.html
 /workspace/settings.html
-/xrefs
-/xrefs/clear.html
-/xrefs/extract.html
-/xrefs/help.html
-/xrefs/index.html
-/xrefs/index.js
-/xrefs/insert.html
-/xrefs/interpret.html
-/xrefs/translate.html

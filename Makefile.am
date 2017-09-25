@@ -19,7 +19,6 @@ libbibledit_a_SOURCES = \
 	filter/css.cpp \
 	filter/git.cpp \
 	filter/diff.cpp \
-	filter/abbreviations.cpp \
 	filter/shell.cpp \
 	filter/merge.cpp \
 	filter/date.cpp \
@@ -117,7 +116,6 @@ libbibledit_a_SOURCES = \
 	bible/chapter.cpp \
 	bible/import_run.cpp \
 	bible/import.cpp \
-	bible/abbreviations.cpp \
 	bible/order.cpp \
 	bible/css.cpp \
 	bible/editing.cpp \
@@ -326,17 +324,6 @@ libbibledit_a_SOURCES = \
 	export/web.cpp \
 	export/bibledropbox.cpp \
 	export/quickbible.cpp \
-	xrefs/clear.cpp \
-	xrefs/extract.cpp \
-	xrefs/help.cpp \
-	xrefs/index.cpp \
-	xrefs/insert.cpp \
-	xrefs/interpret.cpp \
-	xrefs/move.cpp \
-	xrefs/next.cpp \
-	xrefs/source.cpp \
-	xrefs/target.cpp \
-	xrefs/translate.cpp \
 	webbible/search.cpp \
 	developer/index.cpp \
 	developer/logic.cpp \

@@ -876,26 +876,6 @@ void Database_Config_User::setPrintPassageTo (Passage value)
 }
 
 
-string Database_Config_User::getSourceXrefBible ()
-{
-  return getValue ("source-xref-bible", "");
-}
-void Database_Config_User::setSourceXrefBible (string bible)
-{
-  setValue ("source-xref-bible", bible);
-}
-
-
-string Database_Config_User::getTargetXrefBible ()
-{
-  return getValue ("target-xref-bible", "");
-}
-void Database_Config_User::setTargetXrefBible (string bible)
-{
-  setValue ("target-xref-bible", bible);
-}
-
-
 int Database_Config_User::getFocusedBook ()
 {
   return getIValue ("focused-book", 1);

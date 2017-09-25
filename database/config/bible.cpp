@@ -514,16 +514,6 @@ void Database_Config_Bible::setVerseMapping (string bible, string value)
 }
 
 
-string Database_Config_Bible::getBookAbbreviations (string bible)
-{
-  return getValue (bible, "book-abbreviations", "");
-}
-void Database_Config_Bible::setBookAbbreviations (string bible, string value)
-{
-  setValue (bible, "book-abbreviations", value);
-}
-
-
 bool Database_Config_Bible::getExportWebDuringNight (string bible)
 {
   return getBValue (bible, "export-web-during-night", false);

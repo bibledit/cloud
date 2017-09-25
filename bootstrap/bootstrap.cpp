@@ -56,7 +56,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bible/book.h>
 #include <bible/chapter.h>
 #include <bible/import.h>
-#include <bible/abbreviations.h>
 #include <bible/order.h>
 #include <bible/css.h>
 #include <bible/editing.h>
@@ -172,17 +171,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/suppress.h>
 #include <consistency/poll.h>
 #include <consistency/input.h>
-#include <xrefs/index.h>
-#include <xrefs/source.h>
-#include <xrefs/target.h>
-#include <xrefs/help.h>
-#include <xrefs/extract.h>
-#include <xrefs/interpret.h>
-#include <xrefs/translate.h>
-#include <xrefs/clear.h>
-#include <xrefs/insert.h>
-#include <xrefs/move.h>
-#include <xrefs/next.h>
 #include <webbible/search.h>
 #include <developer/index.h>
 #include <paratext/index.h>
@@ -335,11 +323,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == compare_index_url ()) && browser_request_security_okay (request) && compare_index_acl (request)) {
     request->reply = compare_index (request);
-    return;
-  }
-  
-  if ((url == bible_abbreviations_url ()) && browser_request_security_okay (request) && bible_abbreviations_acl (request)) {
-    request->reply = bible_abbreviations (request);
     return;
   }
   
@@ -643,11 +626,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == xrefs_index_url ()) && browser_request_security_okay (request) && xrefs_index_acl (request)) {
-    request->reply = xrefs_index (request);
-    return;
-  }
-  
   if ((url == developer_index_url ()) && browser_request_security_okay (request) && developer_index_acl (request)) {
     request->reply = developer_index (request);
     return;
@@ -865,36 +843,6 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == checks_suppress_url ()) && browser_request_security_okay (request) && checks_suppress_acl (request)) {
     request->reply = checks_suppress (request);
-    return;
-  }
-  
-  if ((url == xrefs_help_url ()) && browser_request_security_okay (request) && xrefs_help_acl (request)) {
-    request->reply = xrefs_help (request);
-    return;
-  }
-  
-  if ((url == xrefs_extract_url ()) && browser_request_security_okay (request) && xrefs_extract_acl (request)) {
-    request->reply = xrefs_extract (request);
-    return;
-  }
-  
-  if ((url == xrefs_interpret_url ()) && browser_request_security_okay (request) && xrefs_interpret_acl (request)) {
-    request->reply = xrefs_interpret (request);
-    return;
-  }
-  
-  if ((url == xrefs_translate_url ()) && browser_request_security_okay (request) && xrefs_translate_acl (request)) {
-    request->reply = xrefs_translate (request);
-    return;
-  }
-  
-  if ((url == xrefs_clear_url ()) && browser_request_security_okay (request) && xrefs_clear_acl (request)) {
-    request->reply = xrefs_clear (request);
-    return;
-  }
-  
-  if ((url == xrefs_insert_url ()) && browser_request_security_okay (request) && xrefs_insert_acl (request)) {
-    request->reply = xrefs_insert (request);
     return;
   }
   
@@ -1128,26 +1076,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == consistency_input_url ()) && browser_request_security_okay (request) && consistency_input_acl (request)) {
     request->reply = consistency_input (request);
-    return;
-  }
-  
-  if ((url == xrefs_source_url ()) && browser_request_security_okay (request) && xrefs_source_acl (request)) {
-    request->reply = xrefs_source (request);
-    return;
-  }
-  
-  if ((url == xrefs_target_url ()) && browser_request_security_okay (request) && xrefs_target_acl (request)) {
-    request->reply = xrefs_target (request);
-    return;
-  }
-  
-  if ((url == xrefs_move_url ()) && browser_request_security_okay (request) && xrefs_move_acl (request)) {
-    request->reply = xrefs_move (request);
-    return;
-  }
-  
-  if ((url == xrefs_next_url ()) && browser_request_security_okay (request) && xrefs_next_acl (request)) {
-    request->reply = xrefs_next (request);
     return;
   }
   

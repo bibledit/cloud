@@ -87,7 +87,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/logic.h>
 #include <workspace/organize.h>
 #include <workspace/organize.h>
-#include <xrefs/index.h>
 #include <public/index.h>
 #include <public/logic.h>
 #include <filter/url.h>
@@ -500,7 +499,6 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
   string planning = translate ("Planning");
   string send_receive = translate ("Send/receive");
   string hyphenation = translate ("Hyphenate");
-  string cross_references = translate ("Transfer cross-references");
   string develop = translate ("Develop");
   string exporting = translate ("Export");
   string journal = translate ("Journal");
@@ -512,7 +510,6 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     planning,
     send_receive,
     hyphenation,
-    cross_references,
     develop,
     exporting,
     journal
@@ -579,13 +576,6 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     if (label == hyphenation) {
       if (manage_hyphenation_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (manage_hyphenation_url (), label, true));
-        tiplabels.push_back (label);
-      }
-    }
-    
-    if (label == cross_references) {
-      if (xrefs_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (xrefs_index_url (), label, true));
         tiplabels.push_back (label);
       }
     }

@@ -34,15 +34,6 @@ public:
 };
 
 
-class UsfmNote
-{
-public:
-  UsfmNote (int offset_in, string data_in);
-  int offset;
-  string data;
-};
-
-
 string usfm_one_string (string usfm);
 vector <string> usfm_get_markers_and_text (string code);
 string usfm_get_marker (string usfm);
@@ -65,11 +56,6 @@ string usfm_peek_text_following_marker (const vector <string>& usfm, unsigned in
 string usfm_peek_verse_number (string usfm);
 string usfm_get_opening_usfm (string text, bool embedded = false);
 string usfm_get_closing_usfm (string text, bool embedded = false);
-vector <UsfmNote> usfm_extract_notes (string usfm, const vector <string> & markers);
-string usfm_remove_notes (string usfm, const vector <string> & markers);
-string usfm_insert_notes (string usfm, vector <UsfmNote> notes, float ratio);
-string usfm_move_note (string usfm, int direction, int number);
-size_t usfm_get_new_note_position (string usfm, size_t position, int direction);
 string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation);
 string usfm_safely_store_chapter (void * webserver_request,
                                   string bible, int book, int chapter, string usfm, string & explanation);

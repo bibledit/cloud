@@ -144,10 +144,6 @@ public:
   Passage getPrintPassageTo ();
   Passage getPrintPassageToForUser (string user);
   void setPrintPassageTo (Passage value);
-  string getSourceXrefBible ();
-  void setSourceXrefBible (string bible);
-  string getTargetXrefBible ();
-  void setTargetXrefBible (string bible);
   int getFocusedBook ();
   void setFocusedBook (int book);
   int getFocusedChapter ();

@@ -104,8 +104,6 @@ public:
   static void setVersificationSystem (string bible, string value);
   static string getVerseMapping (string bible);
   static void setVerseMapping (string bible, string value);
-  static string getBookAbbreviations (string bible);
-  static void setBookAbbreviations (string bible, string value);
   static bool getExportWebDuringNight (string bible);
   static void setExportWebDuringNight (string bible, bool value);
   static bool getExportHtmlDuringNight (string bible);

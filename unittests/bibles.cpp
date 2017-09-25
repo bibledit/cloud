@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibleactions.h>
 #include <filter/usfm.h>
 #include <filter/string.h>
-#include <filter/abbreviations.h>
 
 
 void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
@@ -496,116 +495,6 @@ void test_bibles ()
       refresh_sandbox (false);
     }
   }
-  
-  // Reading Bible book abbreviations.
-  {
-    string input =
-    "Psalms = Ps.\n"
-    "\n"
-    "Exodus = Exod.\n"
-    "\n"
-    "Exodu = Exod.\n"
-    "\n"
-    "Psalms = Psa.\n"
-    "\n"
-    "Joshua =\n"
-    "\n";
-    vector <pair <int, string> > output = filter_abbreviations_read (input);
-    vector <pair <int, string> > standard = { make_pair (19, "Ps."), make_pair (2, "Exod."), make_pair (19, "Psa.") };
-    evaluate (__LINE__, __func__, standard, output);
-  }
-  
-  // Displaying Bible book abbreviations.
-  {
-    string input =
-    "Psalms = Ps.\n"
-    "\n"
-    "Exodus = Exod.\n"
-    "\n";
-    string output = filter_abbreviations_display (input);
-    string standard =
-    "Genesis = \n"
-    "Exodus = Exod.\n"
-    "Leviticus = \n"
-    "Numbers = \n"
-    "Deuteronomy = \n"
-    "Joshua = \n"
-    "Judges = \n"
-    "Ruth = \n"
-    "1 Samuel = \n"
-    "2 Samuel = \n"
-    "1 Kings = \n"
-    "2 Kings = \n"
-    "1 Chronicles = \n"
-    "2 Chronicles = \n"
-    "Ezra = \n"
-    "Nehemiah = \n"
-    "Esther = \n"
-    "Job = \n"
-    "Psalms = Ps.\n"
-    "Proverbs = \n"
-    "Ecclesiastes = \n"
-    "Song of Solomon = \n"
-    "Isaiah = \n"
-    "Jeremiah = \n"
-    "Lamentations = \n"
-    "Ezekiel = \n"
-    "Daniel = \n"
-    "Hosea = \n"
-    "Joel = \n"
-    "Amos = \n"
-    "Obadiah = \n"
-    "Jonah = \n"
-    "Micah = \n"
-    "Nahum = \n"
-    "Habakkuk = \n"
-    "Zephaniah = \n"
-    "Haggai = \n"
-    "Zechariah = \n"
-    "Malachi = \n"
-    "Matthew = \n"
-    "Mark = \n"
-    "Luke = \n"
-    "John = \n"
-    "Acts = \n"
-    "Romans = \n"
-    "1 Corinthians = \n"
-    "2 Corinthians = \n"
-    "Galatians = \n"
-    "Ephesians = \n"
-    "Philippians = \n"
-    "Colossians = \n"
-    "1 Thessalonians = \n"
-    "2 Thessalonians = \n"
-    "1 Timothy = \n"
-    "2 Timothy = \n"
-    "Titus = \n"
-    "Philemon = \n"
-    "Hebrews = \n"
-    "James = \n"
-    "1 Peter = \n"
-    "2 Peter = \n"
-    "1 John = \n"
-    "2 John = \n"
-    "3 John = \n"
-    "Jude = \n"
-    "Revelation = \n"
-    "Front Matter = \n"
-    "Back Matter = \n"
-    "Other Material = ";
-    evaluate (__LINE__, __func__, standard, output);
-  }
-
-  // Sorting Bible book abbreviations.
-  {
-    vector <pair <int, string> > input =
-      { make_pair (1, "One"), make_pair (2, "Two"), make_pair (2, "Two."), make_pair (3, "3") };
-    vector <pair <int, string> > output = filter_abbreviations_sort (input);
-    vector <pair <int, string> > standard =
-      { make_pair (2, "Two."), make_pair (1, "One"), make_pair (2, "Two"), make_pair (3, "3") };
-    evaluate (__LINE__, __func__, standard, output);
-  }
- 
 }
 
 

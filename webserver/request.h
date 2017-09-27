@@ -55,6 +55,7 @@ public:
   int response_code; // Response code to be sent to the browser.
   string etag; // The requested file's size for browser caching.
   string response_content_type; // The content type of the response.
+  string stream_file; // The path of the file to copy from disk straight to the network without loading it in memory.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();

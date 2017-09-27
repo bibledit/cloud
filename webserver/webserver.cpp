@@ -157,9 +157,24 @@ void webserver_process_request (int connfd, string clientaddress)
           
           // Send response to browser.
           const char * output = request.reply.c_str();
-          // The C function strlen () fails on null characters in the reply, so take string::size()
+          // The C function strlen () fails on null characters in the reply, so use string::size() instead.
           size_t length = request.reply.size ();
-          send(connfd, output, length, 0);
+          send (connfd, output, length, 0);
+          
+          // When streaming a file, copy file contents straight from disk to the network file descriptor. Todo
+          // Do not load the entire file into memory.
+          // This enables large file transfers on low-memory devices.
+          if (!request.stream_file.empty ()) {
+            int filefd = open (request.stream_file.c_str(), O_RDONLY);
+            unsigned char buffer [1024];
+            int bytecount;
+            do {
+              bytecount = read (filefd, buffer, 1024);
+              send (connfd, buffer, bytecount, 0);
+            }
+            while (bytecount != 0); 
+            close (filefd);
+          }
         }
       }
     }

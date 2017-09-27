@@ -188,12 +188,18 @@ contents: the response body to be sent.
 The function inserts the correct headers,
 and creates the entire result to be sent back to the browser.
 */
-void http_assemble_response (void * webserver_request)
+void http_assemble_response (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   ostringstream length;
-  length << request->reply.size ();
+  if (request->stream_file.empty()) {
+    // Serving data: Take the length from the size of the reply.
+    length << request->reply.size ();
+  } else {
+    // Streaming a file: Take the file size as the length.
+    length << filter_url_filesize (request->stream_file);
+  }
 
   // Assemble the HTTP response code fragment.
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
@@ -223,6 +229,7 @@ void http_assemble_response (void * webserver_request)
   else if (extension == "html")     content_type = "text/html";
   else if (extension == "")         content_type = "text/html";
   else if (extension == "download") content_type = "application/octet-stream";
+  else if (extension == "bin")      content_type = "application/octet-stream"; // Todo out.
   else                              content_type = "application/octet-stream";
   // If already defined, take that.
   if (!request->response_content_type.empty ()) content_type = request->response_content_type;
@@ -274,8 +281,14 @@ void http_assemble_response (void * webserver_request)
   }
   if (!request->header.empty ()) response.push_back (request->header);
   response.push_back ("");
-  response.push_back (request->reply);
-
+  if (request->stream_file.empty()) {
+    // Serving data: Add the data from the "reply" property.
+    response.push_back (request->reply); // Todo.
+  } else {
+    // Streaming a file: Add empty string, to get the new line added.
+    response.push_back ("");
+  }
+  
   string assembly;
   for (unsigned int i = 0; i < response.size (); i++) {
     if (i > 0) assembly += "\n";
@@ -321,6 +334,39 @@ void http_serve_file (void * webserver_request, bool enable_cache, bool erase_af
       filter_url_unlink (filename);
     }
   }
+}
+
+
+// This function serves a file and enables caching by the browser.
+// It enables streaming the file straight from disk to the network connection,
+// without loading it in memory first.
+// By doing so, it uses little memory, independent from the size of the file it serves.
+// $enable_cache: Whether to enable caching by the browser.
+void http_stream_file (void * webserver_request, bool enable_cache) // Todo
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  // Full path to the file.
+  string url = filter_url_urldecode (request->get);
+  string filename = filter_url_create_root_path (url);
+  
+  // File size for browser caching.
+  if (enable_cache) {
+    int size = filter_url_filesize (filename);
+    request->etag = "\"" + convert_to_string (size) + "\"";
+  }
+  
+  // Deal with situation that the file in the browser's cache is up to date.
+  // https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
+  if (enable_cache) {
+    if (request->etag == request->if_none_match) {
+      request->response_code = 304;
+      return;
+    }
+  }
+  
+  // Store the file name as a flag for processing the streaming.
+  request->stream_file = filename;
 }
 
 

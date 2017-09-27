@@ -235,6 +235,14 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
+  // Serve graphics, stylesheets, JavaScript, fonts, using low memory.
+  if (   (extension == "Todo out")
+      || (extension == "bin") // Todo out.
+      ) {
+    http_stream_file (request, true);
+    return;
+  }
+
   if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) {
     request->reply = resource_imagefetch (request);
     return;

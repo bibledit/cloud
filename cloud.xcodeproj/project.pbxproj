@@ -2056,13 +2056,6 @@
 			path = dialog;
 			sourceTree = "<group>";
 		};
-		CAA4D0861A45A647003ABA25 /* downloads */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = downloads;
-			sourceTree = "<group>";
-		};
 		CAA4D0881A45A647003ABA25 /* dyncss */ = {
 			isa = PBXGroup;
 			children = (
@@ -3237,7 +3230,6 @@
 				CAA4D0691A45A647003ABA25 /* DEVELOP */,
 				CAEF4D001D6EF82600FBB688 /* developer */,
 				CAA4D06A1A45A647003ABA25 /* dialog */,
-				CAA4D0861A45A647003ABA25 /* downloads */,
 				CA1240221A55D6BB002C4752 /* dtl */,
 				CAA4D0881A45A647003ABA25 /* dyncss */,
 				CAA4D08A1A45A647003ABA25 /* edit */,

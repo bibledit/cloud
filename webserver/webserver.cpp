@@ -611,6 +611,44 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         }
       }
 
+      // When streaming a file, copy file contents straight from disk to the network file descriptor. Todo
+      // Do not load the entire file into memory.
+      // This enables large file transfers on low-memory devices.
+      if (!request.stream_file.empty ()) {
+        int filefd = open (request.stream_file.c_str(), O_RDONLY);
+        unsigned char buffer [1024];
+        int bytecount;
+        do {
+          bytecount = read (filefd, buffer, 1024);
+          size_t len = bytecount;
+          const unsigned char * buf = (const unsigned char *) &buffer;
+          while (connection_healthy && (len > 0)) {
+            // Function
+            // int ret = mbedtls_ssl_write (&ssl, buf, len)
+            // will do partial writes in some cases.
+            // If the return value is non-negative but less than length,
+            // the function must be called again with updated arguments:
+            // buf + ret, len - ret
+            // until it returns a value equal to the last 'len' argument.
+            ret = mbedtls_ssl_write (&ssl, buf, len);
+            if (ret > 0) {
+              buf += ret;
+              len -= ret;
+            } else {
+              // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
+              // it must be called later with the *same* arguments,
+              // until it returns a positive value.
+              if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
+              if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+              filter_url_display_mbed_tls_error (ret, NULL, true);
+              connection_healthy = false;
+            }
+          }
+        }
+        while (bytecount != 0);
+        close (filefd);
+      }
+      
       // Close SSL/TLS connection.
       if (connection_healthy) {
         while ((ret = mbedtls_ssl_close_notify (&ssl)) < 0) {

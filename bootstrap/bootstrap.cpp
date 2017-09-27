@@ -235,11 +235,11 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  // Serve graphics, stylesheets, JavaScript, fonts, using low memory.
+  // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.
   if (   (extension == "Todo out")
       || (extension == "bin") // Todo out.
       ) {
-    http_stream_file (request, true);
+    http_s_stream_file (request, true);
     return;
   }
 

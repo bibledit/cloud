@@ -285,7 +285,8 @@ void http_assemble_response (void * webserver_request) // Todo
     // Serving data: Add the data from the "reply" property.
     response.push_back (request->reply); // Todo.
   } else {
-    // Streaming a file: Add empty string, to get the new line added.
+    // Streaming a file: Add empty string.
+    // This triggers adding the new line between headers and body.
     response.push_back ("");
   }
   
@@ -342,7 +343,7 @@ void http_serve_file (void * webserver_request, bool enable_cache, bool erase_af
 // without loading it in memory first.
 // By doing so, it uses little memory, independent from the size of the file it serves.
 // $enable_cache: Whether to enable caching by the browser.
-void http_stream_file (void * webserver_request, bool enable_cache) // Todo
+void http_s_stream_file (void * webserver_request, bool enable_cache) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

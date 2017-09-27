@@ -36,26 +36,47 @@ class Webserver_Request
 public:
   Webserver_Request ();
   ~Webserver_Request ();
-  bool secure; // Whether the connection runs via the secure server.
-  string session_identifier; // The session identifier of the cookie sent by the browser.
-  bool resend_cookie; // Whether to resend the cookie to the browser.
-  string remote_address; // The browser's or client's remote IPv4 address.
-  string get; // The page the browser requests via GET or via POST.
-  bool is_post; // Whether it is a POST request.
-  map <string, string> query; // The query from the browser, e.g. foo=bar&baz=qux, neatly arranged into a map.
-  string user_agent; // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
-  string accept_language; // The browser's or client's Accept-Language header.
-  string host; // The server's host as requested by the client.
-  string content_type; // The content type of the browser request.
-  int content_length; // The content length of the browser request.
-  map <string, string> post; // The raw POST data from the browser, item by item.
-  string if_none_match; // Header as received from the browser.
-  string header; // Extra header to be sent back to the browser.
-  string reply; // Body to be sent back to the browser.
-  int response_code; // Response code to be sent to the browser.
-  string etag; // The requested file's size for browser caching.
-  string response_content_type; // The content type of the response.
-  string stream_file; // The path of the file to copy from disk straight to the network without loading it in memory.
+  // Whether the connection runs via the secure server.
+  bool secure;
+  // The session identifier of the cookie sent by the browser.
+  string session_identifier;
+   // Whether to resend the cookie to the browser.
+  bool resend_cookie;
+   // The browser's or client's remote IPv4 or IPv6 address.
+  string remote_address;
+  // The page the browser requests via GET or via POST.
+  string get;
+   // Whether it is a POST request.
+  bool is_post;
+   // The query from the browser, e.g. foo=bar&baz=qux, neatly arranged into a map.
+  map <string, string> query;
+   // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
+  string user_agent;
+   // The browser's or client's Accept-Language header.
+  string accept_language;
+   // The server's host as requested by the client.
+  string host;
+   // The content type of the browser request.
+  string content_type;
+   // The content length of the browser request.
+  int content_length;
+   // The raw POST data from the browser, item by item.
+  map <string, string> post;
+   // Header as received from the browser.
+  string if_none_match;
+   // Extra header to be sent back to the browser.
+  string header;
+   // Body to be sent back to the browser.
+  string reply;
+   // Response code to be sent to the browser.
+  int response_code;
+   // The requested file's size for browser caching.
+  string etag;
+   // The content type of the response.
+  string response_content_type;
+   // The path of the file to copy from disk straight to the network without loading it in memory.
+  string stream_file;
+  // Extra objects.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();

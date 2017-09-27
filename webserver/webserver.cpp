@@ -161,7 +161,7 @@ void webserver_process_request (int connfd, string clientaddress)
           size_t length = request.reply.size ();
           send (connfd, output, length, 0);
           
-          // When streaming a file, copy file contents straight from disk to the network file descriptor. Todo
+          // When streaming a file, copy the file's contents straight from disk to the network file descriptor.
           // Do not load the entire file into memory.
           // This enables large file transfers on low-memory devices.
           if (!request.stream_file.empty ()) {

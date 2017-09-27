@@ -16,18 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Abbreviations"
-msgstr ""
-
-msgid "The abbreviations were saved."
-msgstr ""
-
-msgid "Please supply valid Unicode UTF-8 text."
-msgstr ""
-
-msgid "Nothing was saved."
-msgstr ""
-
 msgid "Book"
 msgstr ""
 
@@ -53,6 +41,9 @@ msgid "Import"
 msgstr ""
 
 msgid "Import has started."
+msgstr ""
+
+msgid "Please supply valid Unicode UTF-8 text."
 msgstr ""
 
 msgid "Nothing was imported."
@@ -2294,6 +2285,9 @@ msgstr ""
 msgid "There was no text."
 msgstr ""
 
+msgid "Nothing was saved."
+msgstr ""
+
 msgid "The original text of the chapter was reloaded."
 msgstr ""
 
@@ -2837,9 +2831,6 @@ msgid "Send/receive"
 msgstr ""
 
 msgid "Hyphenate"
-msgstr ""
-
-msgid "Transfer cross-references"
 msgstr ""
 
 msgid "Develop"
@@ -4230,23 +4221,6 @@ msgstr ""
 msgid "Go back"
 msgstr ""
 
-msgid "Update the abbreviations."
-msgstr ""
-
-msgid "One line per book."
-msgstr ""
-
-msgid "Book lines may repeat with different abbreviations for the same book."
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid ""
-"Book abbreviations are used while copying cross references from a source "
-"Bible to a target Bible."
-msgstr ""
-
 msgid "Chapters:"
 msgstr ""
 
@@ -4317,6 +4291,9 @@ msgid "Line height"
 msgstr ""
 
 msgid "Letter spacing"
+msgstr ""
+
+msgid "Save"
 msgstr ""
 
 msgid ""
@@ -10618,164 +10595,6 @@ msgstr ""
 msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
-msgid "This chapter of the target Bible contains cross references"
-msgstr ""
-
-msgid "A cross reference is malformed."
-msgstr ""
-
-msgid "The opening tag does not match the closing tag."
-msgstr ""
-
-msgid "Please fix it first."
-msgstr ""
-
-msgid "Overwrite the existing cross references."
-msgstr ""
-
-msgid ""
-"This chapter of the source Bible does not contain any cross references that "
-"could be extracted."
-msgstr ""
-
-msgid "okay"
-msgstr ""
-
-msgid "Transfer cross references"
-msgstr ""
-
-msgid ""
-"The tool to transfer cross references enables you to easily and quickly "
-"enter cross references in a Bible."
-msgstr ""
-
-msgid "The tool has two main functions:"
-msgstr ""
-
-msgid ""
-"Read the cross references from a source Bible, and transfer them to a target "
-"Bible."
-msgstr ""
-
-msgid ""
-"Move cross references in the target Bible to their proper locations within a "
-"verse."
-msgstr ""
-
-msgid "Transferring cross references"
-msgstr ""
-
-msgid "Click the link to transfer the cross references."
-msgstr ""
-
-msgid ""
-"Bibledit reads the cross references from the entire focused chapter of the "
-"source Bible."
-msgstr ""
-
-msgid "It interprets the book abbreviations."
-msgstr ""
-
-msgid ""
-"It then translates those abbreviations to the abbreviations as used in the "
-"target Bible."
-msgstr ""
-
-msgid ""
-"It then enters the cross references in the entire focused chapter of the "
-"target Bible."
-msgstr ""
-
-msgid "Moving cross references"
-msgstr ""
-
-msgid "The page displays one verse a time."
-msgstr ""
-
-msgid "Select the verses one by one, and move the cross references into place."
-msgstr ""
-
-msgid "Everything can be done through the arrow keys on the keyboard."
-msgstr ""
-
-msgid "Left arrow: Move the selected cross reference one word back."
-msgstr ""
-
-msgid "Right arrow: Move the selected cross reference one word forward."
-msgstr ""
-
-msgid "Up arrow: Select the previous cross reference."
-msgstr ""
-
-msgid "Down arrow: Select the next cross reference."
-msgstr ""
-
-msgid "Alt-Up arrow: Go to the next verse."
-msgstr ""
-
-msgid "Alt-Down arrow: Go to the previous verse."
-msgstr ""
-
-msgid "Cross references"
-msgstr ""
-
-msgid "source Bible:"
-msgstr ""
-
-msgid "Select source Bible"
-msgstr ""
-
-msgid "Copy cross references from source to target for the entire chapter"
-msgstr ""
-
-msgid "transfer cross references entire chapter"
-msgstr ""
-
-msgid "target Bible:"
-msgstr ""
-
-msgid "Select target Bible"
-msgstr ""
-
-msgid "Go to the next chapter without cross references"
-msgstr ""
-
-msgid "next chapter without cross references"
-msgstr ""
-
-msgid "The cross references were inserted into the target Bible."
-msgstr ""
-
-msgid ""
-"The abbreviation below needs clarification as to which Bible book it refers "
-"to."
-msgstr ""
-
-msgid "Optionally update the abbreviation:"
-msgstr ""
-
-msgid "Select the Bible book it represents:"
-msgstr ""
-
-msgid "Save it:"
-msgstr ""
-
-msgid "Remaining abbreviations to clarify:"
-msgstr ""
-
-msgid ""
-"The Bible book below needs a matching abbreviation for the target Bible."
-msgstr ""
-
-msgid "Book name:"
-msgstr ""
-
-msgid "Enter the abbreviation:"
-msgstr ""
-
-msgid "Remaining book names without an abbreviation:"
-msgstr ""
-
 msgid "Passwords do not match"
 msgstr ""
 
@@ -10875,12 +10694,4 @@ msgid "Send workspace to all users"
 msgstr ""
 
 msgid "See the help below for information about what to enter"
-msgstr ""
-
-msgid ""
-"Select which Bible to use as the source where to read the cross references "
-"from"
-msgstr ""
-
-msgid "Select which Bible to insert the cross references into"
 msgstr ""

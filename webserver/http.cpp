@@ -188,7 +188,7 @@ contents: the response body to be sent.
 The function inserts the correct headers,
 and creates the entire result to be sent back to the browser.
 */
-void http_assemble_response (void * webserver_request) // Todo
+void http_assemble_response (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -229,7 +229,6 @@ void http_assemble_response (void * webserver_request) // Todo
   else if (extension == "html")     content_type = "text/html";
   else if (extension == "")         content_type = "text/html";
   else if (extension == "download") content_type = "application/octet-stream";
-  else if (extension == "bin")      content_type = "application/octet-stream"; // Todo out.
   else                              content_type = "application/octet-stream";
   // If already defined, take that.
   if (!request->response_content_type.empty ()) content_type = request->response_content_type;
@@ -283,7 +282,7 @@ void http_assemble_response (void * webserver_request) // Todo
   response.push_back ("");
   if (request->stream_file.empty()) {
     // Serving data: Add the data from the "reply" property.
-    response.push_back (request->reply); // Todo.
+    response.push_back (request->reply);
   } else {
     // Streaming a file: Add empty string.
     // This triggers adding the new line between headers and body.
@@ -343,7 +342,7 @@ void http_serve_file (void * webserver_request, bool enable_cache, bool erase_af
 // without loading it in memory first.
 // By doing so, it uses little memory, independent from the size of the file it serves.
 // $enable_cache: Whether to enable caching by the browser.
-void http_s_stream_file (void * webserver_request, bool enable_cache) // Todo
+void http_s_stream_file (void * webserver_request, bool enable_cache)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   

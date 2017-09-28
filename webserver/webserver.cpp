@@ -611,7 +611,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         }
       }
 
-      // When streaming a file, copy file contents straight from disk to the network file descriptor. Todo
+      // When streaming a file, copy file contents straight from disk to the network file descriptor.
       // Do not load the entire file into memory.
       // This enables large file transfers on low-memory devices.
       if (!request.stream_file.empty ()) {

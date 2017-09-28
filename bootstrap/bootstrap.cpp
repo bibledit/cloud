@@ -219,7 +219,7 @@ void bootstrap_index (void * webserver_request)
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
   
-  // Serve graphics, stylesheets, JavaScript, fonts.
+  // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.
   if (   (extension == "ico")
       || (extension == "png")
       || (extension == "gif")
@@ -231,15 +231,13 @@ void bootstrap_index (void * webserver_request)
       || (extension == "svg")
       || (extension == "map")
       ) {
-    http_serve_file (request, true, false);
+    http_s_stream_file (request, true);
     return;
   }
 
-  // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.
-  if (   (extension == "Todo out")
-      || (extension == "bin") // Todo out.
-      ) {
-    http_s_stream_file (request, true);
+  // Serve graphics, stylesheets, JavaScript, fonts. Todo out.
+  if (false) {
+    http_serve_file (request, true, false);
     return;
   }
 

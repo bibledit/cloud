@@ -235,12 +235,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  // Serve graphics, stylesheets, JavaScript, fonts. Todo out.
-  if (false) {
-    http_serve_file (request, true, false);
-    return;
-  }
-
   if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) {
     request->reply = resource_imagefetch (request);
     return;
@@ -248,7 +242,7 @@ void bootstrap_index (void * webserver_request)
 
   // Serve resource downloads.
   if ((extension == "sqlite") && (request->get.find (Database_Cache::fragment ()) != string::npos)) {
-    http_serve_file (request, false, false);
+    http_s_stream_file (request, false); // Todo test it.
     return;
   }
   
@@ -890,7 +884,7 @@ void bootstrap_index (void * webserver_request)
   
 #ifdef HAVE_CLIENT
   if (extension == "tar") {
-    http_serve_file (request, false, false);
+    http_s_stream_file (request, false); // Todo test it.
     return;
   }
 #endif
@@ -914,7 +908,7 @@ void bootstrap_index (void * webserver_request)
   }
   if (extension == "sqlite") {
     if (filter_url_dirname (url) == filter_url_temp_dir ()) {
-      http_serve_file (request, false, true);
+      http_s_stream_file (request, false); // Todo test it, and check whether it deletes the .sqlite file.
       return;
     }
   }

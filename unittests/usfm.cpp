@@ -37,7 +37,7 @@ void test_usfm ()
     "\\p\n"
     "\\v 2,He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -56,7 +56,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 2 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -74,7 +74,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 2 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -94,7 +94,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 3 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -113,7 +113,7 @@ void test_usfm ()
     "\\p,p He said.\n"
     "\\v 3 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -132,7 +132,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 3 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -149,7 +149,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 1 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -166,7 +166,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 1 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -183,7 +183,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 1 He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -200,7 +200,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 1 He said. He said something/add*.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -217,7 +217,7 @@ void test_usfm ()
     "\\p He said.\n"
     "\\v 1 /v He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -272,7 +272,7 @@ void test_usfm ()
     "\\v 28 Lensuku zikaIsaka zaziyiminyaka elikhulu lamatshumi ayisificaminwembili.\n"
     "\\v 29 UIsaka wasehodoza, wafa, wabuthelwa ezizweni zakibo\\x + 15.15; 25.8.\\x*, emdala, enele ngensuku. Amadodana akhe uEsawu loJakobe asemngcwaba\\x + 25.9; 49.31.\\x*.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -287,7 +287,7 @@ void test_usfm ()
     "\\p\n"
     "\\v 1 \\ He said.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -303,7 +303,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\v 1  He said \\add addition\\add*.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -317,7 +317,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\v 1  He said addition\\add*.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -333,7 +333,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\v 1  He said \\add addition\\add .\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -351,7 +351,7 @@ void test_usfm ()
     "\\v 8 Kodwa uNowa wazuza umusa emehlweni eN\\nd kosi\\x + 19.19.\\nd*\\x*.\n"
     "\\v 9 Kodwa uNowa wazuza umusa emehlweni eN\\nd kosi\\x + 19.19.\\x*\\nd*.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
@@ -365,7 +365,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\v 8 Kodwa uNowa wazuza umusa \\add emehlweni eN\\nd kosi\\x + 19.19.\\nd*\\x*.\n";
     Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize ();
+    check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();

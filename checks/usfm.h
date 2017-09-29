@@ -28,7 +28,7 @@ class Checks_Usfm
 {
 public:
   Checks_Usfm (string bible);
-  void initialize ();
+  void initialize (int book, int chapter);
   void finalize ();
   void check (string usfm);
   vector <pair<int, string>> getResults ();
@@ -37,6 +37,8 @@ private:
   vector <string> usfmMarkersAndText;
   unsigned int usfmMarkersAndTextPointer;
   string usfmItem;
+  int bookNumber;
+  int chapterNumber;
   int verseNumber;
   
   // Results of the checks.

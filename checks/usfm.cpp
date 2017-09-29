@@ -57,11 +57,13 @@ Checks_Usfm::Checks_Usfm (string bible)
 }
 
 
-void Checks_Usfm::initialize ()
+void Checks_Usfm::initialize (int book, int chapter)
 {
   checkingResults.clear ();
   usfmMarkersAndText.clear ();
   usfmMarkersAndTextPointer = 0;
+  bookNumber = book;
+  chapterNumber = chapter;
   verseNumber = 0;
   openMatchingMarkers.clear ();
 }
@@ -75,7 +77,7 @@ void Checks_Usfm::finalize ()
 }
 
 
-void Checks_Usfm::check (string usfm)
+void Checks_Usfm::check (string usfm) // Todo
 {
   newLineInUsfm (usfm);
   

@@ -718,6 +718,15 @@ msgstr ""
 msgid "Closing marker does not match opening marker"
 msgstr ""
 
+msgid "The book lacks the marker for the verbose book name:"
+msgstr ""
+
+msgid "The book lacks the marker for the short book name:"
+msgstr ""
+
+msgid "The following marker belongs in chapter 0:"
+msgstr ""
+
 msgid "No punctuation at end of verse:"
 msgstr ""
 

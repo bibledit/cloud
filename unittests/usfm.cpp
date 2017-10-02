@@ -375,6 +375,59 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
+  // Check on correct \toc[1-3] markers.
+  {
+    string usfm =
+    "\\id GEN\n"
+    "\\toc1 The book of Genesis\n"
+    "\\toc2 Genesis\n"
+    "\\toc3 Gen\n";
+    Checks_Usfm check ("");
+    check.initialize (1, 0);
+    check.check (usfm);
+    check.finalize ();
+    evaluate (__LINE__, __func__, 0, check.getResults ().size ());
+    vector <pair<int, string>> results = check.getResults ();
+  }
+
+  // The \toc[1-3] markers are the wrong chapter.
+  {
+    string usfm =
+    "\\id GEN\n"
+    "\\toc1 The book of Genesis\n"
+    "\\toc2 Genesis\n"
+    "\\toc3 Gen\n";
+    Checks_Usfm check ("");
+    check.initialize (1, 2);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.getResults ();
+    evaluate (__LINE__, __func__, 3, results.size ());
+    vector <pair<int, string>> standard = {
+      make_pair (0, "The following marker belongs in chapter 0: \\toc1 "),
+      make_pair (0, "The following marker belongs in chapter 0: \\toc2 "),
+      make_pair (0, "The following marker belongs in chapter 0: \\toc3 ")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
+  // Lacks \toc# markers.
+  {
+    string usfm =
+    "\\id GEN\n";
+    Checks_Usfm check ("");
+    check.initialize (3, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.getResults ();
+    evaluate (__LINE__, __func__, 2, results.size ());
+    vector <pair<int, string>> standard = {
+      make_pair (0, "The book lacks the marker for the verbose book name: \\toc1 "),
+      make_pair (0, "The book lacks the marker for the short book name: \\toc2 ")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  
   // Test converting line number to verse number.
   {
     string usfm =

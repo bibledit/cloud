@@ -35,9 +35,11 @@ Checks_Usfm::Checks_Usfm (string bible)
   markersStylesheet = database_styles.getMarkers (stylesheet);
   for (auto marker : markersStylesheet) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
-    bool requiredEndmarker = false;
     int styleType = style.type;
     int styleSubtype = style.subtype;
+
+    // Find out which markers require an endmarker.
+    bool requiredEndmarker = false;
     if (styleType == StyleTypeFootEndNote) {
       if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
         requiredEndmarker = true;
@@ -52,6 +54,13 @@ Checks_Usfm::Checks_Usfm (string bible)
     if (styleType == StyleTypeWordlistElement) requiredEndmarker = true;
     if (requiredEndmarker) {
       markersRequiringEndmarkers.push_back (marker);
+    }
+    
+    // Look for the \toc[1-3] markers.
+    if (styleType == StyleTypeIdentifier) {
+      if (styleSubtype == IdentifierSubtypeLongTOC) longToc1Marker = marker;
+      if (styleSubtype == IdentifierSubtypeShortTOC) shortToc2Marker = marker;
+      if (styleSubtype == IdentifierSubtypeBookAbbrev) abbrevToc3Marker = marker;
     }
   }
 }
@@ -71,18 +80,21 @@ void Checks_Usfm::initialize (int book, int chapter)
 
 void Checks_Usfm::finalize ()
 {
+  // Check on unclosed markers.
   if (openMatchingMarkers.size () > 0) {
     addResult (translate ("Unclosed markers:") + " " + filter_string_implode (openMatchingMarkers, " "), displayNothing);
   }
 }
 
 
-void Checks_Usfm::check (string usfm) // Todo
+void Checks_Usfm::check (string usfm)
 {
   newLineInUsfm (usfm);
   
   forwardSlash (usfm);
-  
+
+  toc (usfm);
+
   usfmMarkersAndText = usfm_get_markers_and_text (usfm);
   for (usfmMarkersAndTextPointer = 0; usfmMarkersAndTextPointer < usfmMarkersAndText.size(); usfmMarkersAndTextPointer++) {
     usfmItem = usfmMarkersAndText [usfmMarkersAndTextPointer];
@@ -238,6 +250,46 @@ void Checks_Usfm::matchingEndmarker ()
       openMatchingMarkers = filter_string_array_diff (openMatchingMarkers, {marker});
     } else {
       addResult (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (openMatchingMarkers, " "), displayCurrent);
+    }
+  }
+}
+
+
+void Checks_Usfm::toc (string usfm)
+{
+  // Only check the 66 canonical books.
+  // Skip any of the other books.
+  string type = Database_Books::getType (bookNumber);
+  if ((type == "ot") || (type == "nt")) {
+
+    // Check on the presence of the table of contents markers in this chapter.
+    bool toc1_present = usfm.find (usfm_get_opening_usfm (longToc1Marker)) != string::npos;
+    bool toc2_present = usfm.find (usfm_get_opening_usfm (shortToc2Marker)) != string::npos;
+    bool toc3_present = usfm.find (usfm_get_opening_usfm (abbrevToc3Marker)) != string::npos;
+
+    // The markers should be on chapter 0 only.
+    if (chapterNumber == 0) {
+      // Required: \toc1
+      if (!toc1_present) {
+        addResult (translate ("The book lacks the marker for the verbose book name:") + " " + usfm_get_opening_usfm (longToc1Marker), displayNothing);
+      }
+      // Required: \toc2
+      if (!toc2_present) {
+        addResult (translate ("The book lacks the marker for the short book name:") + " " + usfm_get_opening_usfm (shortToc2Marker), displayNothing);
+      }
+    } else {
+      string msg = translate ("The following marker belongs in chapter 0:") + " ";
+      // Required markers.
+      if (toc1_present) {
+        addResult (msg + usfm_get_opening_usfm (longToc1Marker), displayNothing);
+      }
+      if (toc2_present) {
+        addResult (msg + usfm_get_opening_usfm (shortToc2Marker), displayNothing);
+      }
+      // Optional markers, but should not be anywhere else except in chapter 0.
+      if (toc3_present) {
+        addResult (msg + usfm_get_opening_usfm (abbrevToc3Marker), displayNothing);
+      }
     }
   }
 }

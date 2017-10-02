@@ -55,6 +55,12 @@ private:
   vector <string> markersRequiringEndmarkers;
   vector <string> openMatchingMarkers;
   
+  // Table of contents markers and flags.
+  string longToc1Marker;
+  string shortToc2Marker;
+  string abbrevToc3Marker;
+
+  // Methods.
   void malformedVerseNumber ();
   void newLineInUsfm (string usfm);
   void markerInStylesheet ();
@@ -62,6 +68,7 @@ private:
   void forwardSlash (string usfm);
   void widowBackSlash ();
   void matchingEndmarker ();
+  void toc (string usfm);
   void addResult (string text, int modifier);
 };
 

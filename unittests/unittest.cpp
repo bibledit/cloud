@@ -134,6 +134,7 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   test_dev ();
   test_usfm ();
+  test_url ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

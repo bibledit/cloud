@@ -187,7 +187,7 @@ void test_url ()
     string result, error;
     result = filter_url_http_request_mbed ("http://bibledit.org:8082/non-existing", error, {}, "", false);
     evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "bibledit.org:8082: Connection refused | bibledit.org:8082: No route to host", error);
+    evaluate (__LINE__, __func__, "bibledit.org:8082: Connection refused | bibledit.org:8082: Connection refused", error);
   }
   
   // Test low-level http(s) client result.

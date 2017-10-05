@@ -57,6 +57,7 @@
 /compare
 /compare/index.html
 /compile
+/conf64055.dir
 /config
 /config/config.txt
 /config.guess
@@ -123,6 +124,8 @@
 /databases/search/gitflag
 /databases/styles
 /databases/styles/gitflag
+/databases/users
+/databases/users/gitflag
 /databases/usfmresources
 /databases/usfmresources/gitflag
 /demo
@@ -669,7 +672,6 @@
 /sprint/index.js
 /sqlite
 /sqlite/readme.txt
-/stamp-h1
 /statistics
 /styles
 /styles/indexm.html

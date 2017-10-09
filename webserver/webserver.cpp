@@ -178,7 +178,13 @@ void webserver_process_request (int connfd, string clientaddress)
             unsigned char buffer [1024];
             int bytecount;
             do {
-              bytecount = read (filefd, buffer, 1024);
+              bytecount =
+#ifdef HAVE_WINDOWS
+              _read
+#else
+              read
+#endif
+              (filefd, buffer, 1024);
               if (bytecount > 0) {
                 int sendbytes = send (connfd, (const char *)buffer, bytecount, 0);
                 (void) sendbytes;
@@ -637,7 +643,13 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         unsigned char buffer [1024];
         int bytecount;
         do {
-          bytecount = read (filefd, buffer, 1024);
+          bytecount =
+#ifdef HAVE_WINDOWS
+          _read
+#else
+          read
+#endif
+          (filefd, buffer, 1024);
           int len = bytecount;
           const unsigned char * buf = (const unsigned char *) &buffer;
           while (connection_healthy && (len > 0)) {

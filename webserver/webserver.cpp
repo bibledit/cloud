@@ -168,13 +168,19 @@ void webserver_process_request (int connfd, string clientaddress)
           // So the number of bytes read should be larger than zero, not unequal to zero.
           // In the case of != 0, it falls in an endless loop, because -1 indicates failure.
           if (!request.stream_file.empty ()) {
-            int filefd = open (request.stream_file.c_str(), O_RDONLY);
+            int filefd =
+#ifdef HAVE_WINDOWS
+            _open
+#else
+            open
+#endif
+            (request.stream_file.c_str(), O_RDONLY);
             unsigned char buffer [1024];
             int bytecount;
             do {
               bytecount = read (filefd, buffer, 1024);
               if (bytecount > 0) {
-                int sendbytes = send (connfd, buffer, bytecount, 0);
+                int sendbytes = send (connfd, (const char *)buffer, bytecount, 0);
                 (void) sendbytes;
               }
             }
@@ -621,7 +627,13 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       // Do not load the entire file into memory.
       // This enables large file transfers on low-memory devices. Todo
       if (!request.stream_file.empty ()) {
-        int filefd = open (request.stream_file.c_str(), O_RDONLY);
+        int filefd =
+#ifdef HAVE_WINDOWS
+        _open
+#else
+        open
+#endif
+        (request.stream_file.c_str(), O_RDONLY);
         unsigned char buffer [1024];
         int bytecount;
         do {

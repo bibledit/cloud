@@ -163,16 +163,22 @@ void webserver_process_request (int connfd, string clientaddress)
           
           // When streaming a file, copy the file's contents straight from disk to the network file descriptor.
           // Do not load the entire file into memory.
-          // This enables large file transfers on low-memory devices.
+          // This enables large file transfers on low-memory devices. Todo
+          // Also handle cases that the requested file does not exist.
+          // So the number of bytes read should be larger than zero, not unequal to zero.
+          // In the case of != 0, it falls in an endless loop, because -1 indicates failure.
           if (!request.stream_file.empty ()) {
             int filefd = open (request.stream_file.c_str(), O_RDONLY);
             unsigned char buffer [1024];
             int bytecount;
             do {
               bytecount = read (filefd, buffer, 1024);
-              send (connfd, buffer, bytecount, 0);
+              if (bytecount > 0) {
+                int sendbytes = send (connfd, buffer, bytecount, 0);
+                (void) sendbytes;
+              }
             }
-            while (bytecount != 0); 
+            while (bytecount > 0);
             close (filefd);
           }
         }
@@ -613,14 +619,14 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
       // When streaming a file, copy file contents straight from disk to the network file descriptor.
       // Do not load the entire file into memory.
-      // This enables large file transfers on low-memory devices.
+      // This enables large file transfers on low-memory devices. Todo
       if (!request.stream_file.empty ()) {
         int filefd = open (request.stream_file.c_str(), O_RDONLY);
         unsigned char buffer [1024];
         int bytecount;
         do {
           bytecount = read (filefd, buffer, 1024);
-          size_t len = bytecount;
+          int len = bytecount;
           const unsigned char * buf = (const unsigned char *) &buffer;
           while (connection_healthy && (len > 0)) {
             // Function
@@ -645,7 +651,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
             }
           }
         }
-        while (bytecount != 0);
+        while (bytecount > 0);
         close (filefd);
       }
       

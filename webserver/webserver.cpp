@@ -191,7 +191,12 @@ void webserver_process_request (int connfd, string clientaddress)
               }
             }
             while (bytecount > 0);
-            close (filefd);
+#ifdef HAVE_WINDOWS
+            _close
+#else
+            close
+#endif
+            (filefd);
           }
         }
       }
@@ -676,7 +681,12 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           }
         }
         while (bytecount > 0);
-        close (filefd);
+#ifdef HAVE_WINDOWS
+        _close
+#else
+        close
+#endif
+        (filefd);
       }
       
       // Close SSL/TLS connection.

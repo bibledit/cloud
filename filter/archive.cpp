@@ -103,6 +103,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
 {
   if (!file_or_dir_exists (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
+#ifdef HAVE_CLOUD
   string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);
   string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
@@ -115,6 +116,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
   }
+#endif
   return zippedfile;
 }
 

@@ -315,9 +315,11 @@ void demo_prepare_sample_bible ()
   // Same for the search index.
   search_logic_delete_bible (demo_sample_bible_name ());
   // Clean up the remaining artifacts that were created along the way.
-  system ("find . -path '*logbook/14*' -delete");
+#ifdef HAVE_CLOUD
+  system ("find . -path '*logbook/15*' -delete");
   system ("find . -name state.sqlite -delete");
   system ("find . -name 'Bibledit Sample Bible.*' -delete");
+#endif
 }
 
 

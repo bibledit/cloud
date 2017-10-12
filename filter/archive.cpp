@@ -167,6 +167,7 @@ string filter_archive_unzip (string file)
 string filter_archive_unzip_shell_internal (string file)
 {
   string folder = filter_url_tempfile ();
+#ifdef HAVE_CLOUD
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
@@ -191,6 +192,7 @@ string filter_archive_unzip_shell_internal (string file)
     int result = system (command.c_str ());
     (void) result;
   }
+#endif
   return folder;
 }
 

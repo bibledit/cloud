@@ -41,7 +41,9 @@ void sources_oshb_parse ()
   cout << file << endl;
 
   string command = "gunzip sources/oshb.xml.gz";
+#ifndef HAVE_IOS
   system (command.c_str ());
+#endif
   
   map <int, int> mapping = {
     

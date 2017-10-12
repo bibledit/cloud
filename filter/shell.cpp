@@ -135,11 +135,15 @@ int filter_shell_run (string command, const char * parameter, string & output)
 // The output of the process, both stdout and stderr, go into $out_err.
 int filter_shell_run (string command, string & out_err)
 {
+#ifdef HAVE_IOS
+  return 0;
+#else
   string pipe = filter_url_tempfile ();
   command.append (" > " + pipe + " 2>&1");
   int result = system (command.c_str());
   out_err = filter_url_file_get_contents (pipe);
   return result;
+#endif
 }
 
 
@@ -149,10 +153,11 @@ bool filter_shell_is_present (string program)
   // This crashes on iOS, so skip it.
 #ifdef HAVE_IOS
   return false;
-#endif
+#else
   string command = "which " + program + " > /dev/null 2>&1";
   int exitcode = system (command.c_str ());
   return (exitcode == 0);
+#endif
 }
 
 

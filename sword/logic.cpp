@@ -505,8 +505,9 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
   string script_path = filter_url_create_path (sword_logic_get_path (), "script.sh");
   filter_url_file_put_contents (script_path, filter_string_implode (script, "\n"));
   string chmod = "chmod +x " + script_path;
+  int result;
 #ifdef HAVE_CLOUD
-  int result = system (chmod.c_str ());
+  result = system (chmod.c_str ());
   (void) result;
 #endif
 

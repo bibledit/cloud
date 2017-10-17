@@ -27,8 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool http_parse_header (string header, void * webserver_request);
 void http_parse_post (string content, void * webserver_request);
 void http_assemble_response (void * webserver_request);
-void http_serve_file (void * webserver_request, bool enable_cache, bool erase_after_download);
-void http_s_stream_file (void * webserver_request, bool enable_cache);
+void http_stream_file (void * webserver_request, bool enable_cache);
 string http_parse_host (const string & line);
 
 

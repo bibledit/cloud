@@ -231,7 +231,7 @@ void bootstrap_index (void * webserver_request)
       || (extension == "svg")
       || (extension == "map")
       ) {
-    http_s_stream_file (request, true);
+    http_stream_file (request, true);
     return;
   }
 
@@ -242,7 +242,7 @@ void bootstrap_index (void * webserver_request)
 
   // Serve resource downloads.
   if ((extension == "sqlite") && (request->get.find (Database_Cache::fragment ()) != string::npos)) {
-    http_s_stream_file (request, false);
+    http_stream_file (request, false);
     return;
   }
   
@@ -884,7 +884,7 @@ void bootstrap_index (void * webserver_request)
   
 #ifdef HAVE_CLIENT
   if (extension == "tar") {
-    http_s_stream_file (request, false);
+    http_stream_file (request, false);
     return;
   }
 #endif
@@ -908,7 +908,7 @@ void bootstrap_index (void * webserver_request)
   }
   if (extension == "sqlite") {
     if (filter_url_dirname (url) == filter_url_temp_dir ()) {
-      http_s_stream_file (request, false); // Todo test it, and check whether it deletes the .sqlite file.
+      http_stream_file (request, false);
       return;
     }
   }

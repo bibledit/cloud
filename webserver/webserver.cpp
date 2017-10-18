@@ -163,7 +163,7 @@ void webserver_process_request (int connfd, string clientaddress)
           
           // When streaming a file, copy the file's contents straight from disk to the network file descriptor.
           // Do not load the entire file into memory.
-          // This enables large file transfers on low-memory devices. Todo
+          // This enables large file transfers on low-memory devices.
           // Also handle cases that the requested file does not exist.
           // So the number of bytes read should be larger than zero, not unequal to zero.
           // In the case of != 0, it falls in an endless loop, because -1 indicates failure.
@@ -636,7 +636,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
       // When streaming a file, copy file contents straight from disk to the network file descriptor.
       // Do not load the entire file into memory.
-      // This enables large file transfers on low-memory devices. Todo
+      // This enables large file transfers on low-memory devices.
       if (!request.stream_file.empty ()) {
         int filefd =
 #ifdef HAVE_WINDOWS

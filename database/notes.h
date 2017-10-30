@@ -312,6 +312,7 @@ private:
   
 public:
   bool is_v1 (int identifier);
+private:
   void convert_v1_to_v2 (int identifier);
   
 private:

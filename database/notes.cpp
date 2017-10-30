@@ -48,11 +48,12 @@ using namespace jsonxx;
 
 
 /*
- Storing notes, previously being done as separate files, each file took up a default space,
- has now become more efficient, that is, takes up less space,
- since now each note is stored as a separate JSON file.
- On a Linux server, one notes took 32 kbytes, and a lot of that space is wasted.
- Since now one notes is stored in one file, it takes only 4 kbytes.
+ In older versions the notes were stored as a bundle of separate files.
+ In newer versions each note is stored as one JSON file.
+ This uses less space on disk.
+ In older versions, on a Linux server, one notes took 32 kbytes.
+ A lot of that space is wasted.
+ In newer versions one notes takes only 4 kbytes.
  That is a difference of 8 times.
 */
 
@@ -3332,7 +3333,7 @@ bool Database_Notes::is_v1 (int identifier)
 
 // Converts the storage model of note $identifier
 // from version 1 to version 2 - JSON.
-void Database_Notes::convert_v1_to_v2 (int identifier)
+void Database_Notes::convert_v1_to_v2 (int identifier) // Todo
 {
   // Read the note in version 1 format.
   string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));

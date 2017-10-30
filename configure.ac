@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.0.330],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.335],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -110,8 +110,6 @@ fi
 
 AC_DEFINE_UNQUOTED(PACKAGE_PREFIX_DIR, "${prefix}", [Package prefix directory])
 
-# With macports the mimetic library is in /opt/local.
-CPPFLAGS=-I/opt/local/include
 AC_CHECK_HEADER(mimetic/mimetic.h,AC_DEFINE([HAVE_MIMETIC],[1],[Define whether mimetic/mimetic.h is present]),AC_MSG_ERROR(Library "mimetic" is needed. Install this first.))
 
 

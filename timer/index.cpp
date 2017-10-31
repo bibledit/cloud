@@ -89,7 +89,7 @@ void timer_index ()
       // Every minute send out queued email.
       tasks_logic_queue (SENDEMAIL);
 
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.
       if ((minute % 5) == 0) {
@@ -116,7 +116,7 @@ void timer_index ()
         sendreceive_queue_all (sendreceive);
       }
       
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Deal with the changes in the Bible made per user.
       // Deal with notifications for the daily changes in the Bibles.
       // This takes a few minutes on a production machine with two Bibles and changes in several chapters.
@@ -126,7 +126,7 @@ void timer_index ()
       }
 #endif
 
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Run the checks on the Bibles.
       // This takes 15 minutes on a production machine with two Bibles.
       if ((hour == 0) && (minute == 30)) {
@@ -140,7 +140,7 @@ void timer_index ()
         tasks_logic_queue (MAINTAINDATABASE);
       }
       
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Export the Bibles to the various output formats.
       // This may take an hour on a production machine.
       // This hour was in PHP. In C++ it is much faster.
@@ -154,7 +154,7 @@ void timer_index ()
         tasks_logic_queue (CLEANTMPFILES);
       }
       
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Software update notifications.
       if (hour == 2 && minute == 20) {
         tasks_logic_queue (NOTIFYSOFTWAREUPDATES);
@@ -178,7 +178,7 @@ void timer_index ()
         }
       }
       
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Sprint burndown.
       // It runs every hour in the Cloud.
       // The script itself determines what to do at which hour of the day or day of the week or day of the month.
@@ -212,14 +212,15 @@ void timer_index ()
       }
 #endif
       
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // Email notes statistics to the users.
       if ((hour == 3) && (minute == 0)) {
         tasks_logic_queue (NOTESSTATISTICS);
       }
 #endif
 
-#ifndef HAVE_CLIENT
+	
+#ifdef HAVE_CLOUD
       // Update SWORD modules and other web resources once a week.
       if (weekday == 1) {
         // Refresh.
@@ -234,7 +235,7 @@ void timer_index ()
       }
 #endif
 
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
       // The Cloud updates the list of USFM resources once a week.
       if (weekday == 1) {
         if ((hour == 3) && (minute == 10)) {

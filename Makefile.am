@@ -539,7 +539,7 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(GTK_LIBS)
 LIBS += $(WEBKIT2GTK_LIBS)
-LIBS += -lmimetic
+LIBS += -L/usr/local/lib -lmimetic
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

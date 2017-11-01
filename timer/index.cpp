@@ -80,6 +80,7 @@ void timer_index ()
       int fraction = second / 5;
       if (fraction != previous_fraction) {
         previous_fraction = fraction;
+        tasks_logic_queue (CONVERTCONSULTATIONNOTES); // Todo temporal.
       }
       
       // Run the part below once per minute.
@@ -243,6 +244,9 @@ void timer_index ()
         }
       }
 #endif
+
+      // Once an hour, convert any old consultation notes to the new format. // Todo
+      if (minute == 11) tasks_logic_queue (CONVERTCONSULTATIONNOTES);
 
       // Suppress compiler warning on client.
       (void) weekday;

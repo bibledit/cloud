@@ -183,7 +183,7 @@ bool Database_Notes::checkup_checksums_v12 ()
 }
 
 
-void Database_Notes::trim_v12 ()
+void Database_Notes::trim_v12 () // Todo
 {
   // Clean empty directories.
   string message = "Deleting empty notes folder ";
@@ -3374,4 +3374,45 @@ void Database_Notes::convert_v1_to_v2 (int identifier) // Todo
   filter_url_file_put_contents (path, json);
 
   // No need to update any database, as there's no change there.
+}
+
+
+// This function assist with gradually converting notes from storage version 1 to version 2.
+bool Database_Notes::gradually_convert_v1_to_v2 (int amount, vector <int> & ids) // Todo
+{
+  // This is to skip checking for more notes once all have been done.
+  static bool done = false;
+  // Saves system resources.
+  if (done) return true;
+  // Scan the main notes folder.
+  string main_folder = main_folder_v12 ();
+  vector <string> bits1 = filter_url_scandir (main_folder);
+  for (auto & bit1 : bits1) {
+    if (bit1.length () == 3) {
+      // Scan the folder one level deeper.
+      vector <string> bits2 = filter_url_scandir (filter_url_create_path (main_folder, bit1));
+      for (auto & bit2 : bits2) {
+        if (bit2.length () == 3) {
+          // Scan the deepest folder level.
+          vector <string> bits3 = filter_url_scandir (filter_url_create_path (main_folder, bit1, bit2));
+          for (auto & bit3 : bits3) {
+            if (bit3.length () == 3) {
+              // Convert the note from V1 to V2.
+              int identifier = convert_to_int (bit1 + bit2 + bit3);
+              convert_v1_to_v2 (identifier);
+              // Store the converted identifier.
+              ids.push_back (identifier);
+              // Limit the number of notes to be done in one go.
+              amount--;
+              // All notes not yet done: Indicate that to the caller.
+              if (amount <= 0) return false;
+            }
+          }
+        }
+      }
+    }
+  }
+  // All notes done.
+  done = true;
+  return true;
 }

@@ -303,6 +303,10 @@ void tasks_run_one (string filename)
     system_logic_import_resources_file (parameter1);
   }
 #endif
+  else if (command == CONVERTCONSULTATIONNOTES) {
+    // Todo
+    Database_Logs::log (CONVERTCONSULTATIONNOTES);
+  }
   else {
     Database_Logs::log ("Unknown task: " + command);
   }

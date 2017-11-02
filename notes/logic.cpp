@@ -713,3 +713,20 @@ void notes_logic_maintain_note_assignees (bool force)
     database_noteassignment.assignees (user, assignees);
   }
 }
+
+
+void notes_logic_gradual_upgrader ()
+{
+  Webserver_Request request;
+  Database_Notes database_notes (&request);
+  vector <int> identifiers;
+  database_notes.gradually_convert_v1_to_v2 (20, identifiers);
+  if (!identifiers.empty ()) {
+    string message = translate ("The following notes were upgraded to the newest storage format:");
+    for (auto id : identifiers) {
+      message.append (" ");
+      message.append (convert_to_string (id));
+    }
+    Database_Logs::log (message);
+  }
+}

@@ -69,6 +69,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/logic.h>
 #include <rss/logic.h>
 #include <system/logic.h>
+#include <notes/logic.h>
 
 
 mutex mutex_tasks; 
@@ -304,8 +305,7 @@ void tasks_run_one (string filename)
   }
 #endif
   else if (command == CONVERTCONSULTATIONNOTES) {
-    // Todo
-    Database_Logs::log (CONVERTCONSULTATIONNOTES);
+    notes_logic_gradual_upgrader ();
   }
   else {
     Database_Logs::log ("Unknown task: " + command);

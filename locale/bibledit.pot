@@ -3072,6 +3072,9 @@ msgstr ""
 msgid "no Bible"
 msgstr ""
 
+msgid "The following notes were upgraded to the newest storage format:"
+msgstr ""
+
 msgid "Query about a change in the text"
 msgstr ""
 

@@ -2223,7 +2223,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (identifier_v2));
   }
   
-  // Test automatic and gradual upgrading notes from v1 to v2. Todo
+  // Test automatic and gradual upgrading notes from v1 to v2.
   {
     refresh_sandbox (true);
     Database_State::create ();

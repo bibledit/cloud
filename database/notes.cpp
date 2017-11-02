@@ -183,7 +183,7 @@ bool Database_Notes::checkup_checksums_v12 ()
 }
 
 
-void Database_Notes::trim_v12 () // Todo
+void Database_Notes::trim_v12 ()
 {
   // Clean empty directories.
   string message = "Deleting empty notes folder ";
@@ -3333,7 +3333,7 @@ bool Database_Notes::is_v1 (int identifier)
 
 // Converts the storage model of note $identifier
 // from version 1 to version 2 - JSON.
-void Database_Notes::convert_v1_to_v2 (int identifier) // Todo
+void Database_Notes::convert_v1_to_v2 (int identifier)
 {
   // Read the note in version 1 format.
   string assigned = filter_url_file_get_contents (assigned_file_v1 (identifier));
@@ -3378,7 +3378,7 @@ void Database_Notes::convert_v1_to_v2 (int identifier) // Todo
 
 
 // This function assist with gradually converting notes from storage version 1 to version 2.
-bool Database_Notes::gradually_convert_v1_to_v2 (int amount, vector <int> & ids) // Todo
+bool Database_Notes::gradually_convert_v1_to_v2 (int amount, vector <int> & ids)
 {
   // This is to skip checking for more notes once all have been done.
   static bool done = false;
@@ -3416,3 +3416,4 @@ bool Database_Notes::gradually_convert_v1_to_v2 (int amount, vector <int> & ids)
   done = true;
   return true;
 }
+

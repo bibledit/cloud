@@ -263,7 +263,7 @@ string menu_logic_basic_categories (void * webserver_request)
 
   vector <string> html;
   
-  if (edit_index_acl (webserver_request)) {
+  if (editone_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true));
   }
   

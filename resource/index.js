@@ -36,7 +36,7 @@ $(document).ready (function () {
 var resourceBook;
 var resourceChapter;
 var resourceVerse;
-var resourceAjaxRequest;
+var resourceAjaxRequests = [];
 var resourceDoing;
 var resourceAborting = false;
 
@@ -56,11 +56,16 @@ function navigationNewPassage ()
   }
   if (resourceBook == undefined) return;
   resourceAborting = true;
-  try {
-    resourceAjaxRequest.abort ();
-  } catch (err) {
+  for (var i = 0; i < resourceAjaxRequests.length; ++i) {
+    try {
+      if (resourceAjaxRequests[i].readystate != 4) {
+        resourceAjaxRequests[i].abort();
+      }
+    } catch (err) {
+    }
   }
   resourceAborting = false;
+  resourceAjaxRequests = [];
   resourceDoing = 0;
   resourceGetOne ();
 }
@@ -76,37 +81,39 @@ function resourceGetOne ()
     // Done.
     return;
   }
-  resourceAjaxRequest = $.ajax ({
+  var ajaxRequest = $.ajax ({
     url: "get",
     type: "GET",
     data: { resource: resourceDoing, book: resourceBook, chapter: resourceChapter, verse: resourceVerse },
+    resourceDoing: resourceDoing,
     success: function (response) {
       if (response == "") {
-        $ ("#line" + resourceDoing).hide ();
-        $ ("#name" + resourceDoing).hide ();
+        $ ("#line" + this.resourceDoing).hide ();
+        $ ("#name" + this.resourceDoing).hide ();
       } else {
-        $ ("#line" + resourceDoing).show ();
-        $ ("#name" + resourceDoing).show ();
+        $ ("#line" + this.resourceDoing).show ();
+        $ ("#name" + this.resourceDoing).show ();
         if (response.charAt (0) == "$") {
-          $ ("#name" + resourceDoing).hide ();
+          $ ("#name" + this.resourceDoing).hide ();
           response = response.substring (1);
         }
-        var current_content = String ($ ("#content" + resourceDoing).html ());
+        var current_content = String ($ ("#content" + this.resourceDoing).html ());
         $ ("#reload").html (response);
         if (current_content != String ($ ("#reload").html ())) {
-          $ ("#content" + resourceDoing).html (response);
+          $ ("#content" + this.resourceDoing).html (response);
         }
       }
       navigationSetup ();
       resourcePosition ();
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      resourceDoing--;
+      if (!resourceAborting) resourceDoing--;
     },
     complete: function (jqXHR) {
-      setTimeout (resourceGetOne, 10);
+      if (!resourceAborting) setTimeout (resourceGetOne, 10);
     }
   });
+  resourceAjaxRequests.push (ajaxRequest);
 }
 
 

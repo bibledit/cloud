@@ -275,7 +275,12 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
   }
   view.set_variable ("odtsecure", get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
-                     
+
+  
+  if (request->query.count ("odtwhitespace")) { // Todo
+    string space = request->query ["odtwhitespace"];
+  }
+  
                                           
   if (checkbox == "info") {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, checked);

@@ -174,22 +174,30 @@ void test_string ()
     evaluate (__LINE__, __func__, "xx  ", filter_string_ltrim ("  xx  "));
     evaluate (__LINE__, __func__, "0000012345", filter_string_fill ("12345", 10, '0'));
   }
+  
+  // Numeric tests.
   {
     evaluate (__LINE__, __func__, true, filter_string_is_numeric ("1"));
     evaluate (__LINE__, __func__, true, filter_string_is_numeric ("1234"));
     evaluate (__LINE__, __func__, false, filter_string_is_numeric ("X"));
     evaluate (__LINE__, __func__, false, filter_string_is_numeric ("120X"));
   }
+  
+  // String conversion to int.
   {
     evaluate (__LINE__, __func__, 0, convert_to_int (""));
     evaluate (__LINE__, __func__, 123, convert_to_int ("123"));
     evaluate (__LINE__, __func__, 123, convert_to_int ("123xx"));
     evaluate (__LINE__, __func__, 0, convert_to_int ("xxx123xx"));
   }
+  
+  // Unicode validity test.
   {
     evaluate (__LINE__, __func__, true, unicode_string_is_valid ("valid"));
     evaluate (__LINE__, __func__, true, unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
   }
+  
+  // Searching in array.
   {
     vector <string> haystack = {"needle"};
     string needle = "needle";
@@ -465,6 +473,20 @@ void test_string ()
     string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
     string desanitized = filter_string_desanitize_html (html);
     evaluate (__LINE__, __func__, html, desanitized);
+  }
+  
+  // Test whitespace characters, breaking and non-breaking. Todo
+  {
+    // The "­" below is not an empty string, but the soft hyphen U+00AD.
+    string standard_soft_hyphen = "­";
+    evaluate (__LINE__, __func__, standard_soft_hyphen, soft_hyphen ());
+    evaluate (__LINE__, __func__, "\u00AD", soft_hyphen ());
+
+    evaluate (__LINE__, __func__, "\u00A0", no_break_space_u00a0 ());
+    filter_url_file_put_contents ("/tmp/utf8.txt", no_break_space_u00a0 ()); // Todo
+
+    
+    
   }
 
 }

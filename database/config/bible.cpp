@@ -746,3 +746,18 @@ void Database_Config_Bible::setSendChangesToRSS (string bible, bool value)
 {
   setBValue (bible, send_changes_to_rss_key (), value);
 }
+
+
+const char * odt_space_after_verse_key ()
+{
+  return "odt-space-after-verse";
+}
+string Database_Config_Bible::getOdtSpaceAfterVerse (string bible)
+{
+  return getValue (bible, odt_space_after_verse_key (), " ");
+}
+void Database_Config_Bible::setOdtSpaceAfterVerse (string bible, string value)
+{
+  setValue (bible, odt_space_after_verse_key (), value);
+}
+

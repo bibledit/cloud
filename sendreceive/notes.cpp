@@ -101,7 +101,6 @@ bool sendreceive_notes_upload ()
   Sync_Logic sync_logic = Sync_Logic (&request);
   Database_Notes database_notes (&request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
-  Notes_Logic notes_logic = Notes_Logic (&request);
   
   
   Database_Logs::log (sendreceive_notes_sendreceive_text (), Filter_Roles::translator ());
@@ -320,7 +319,6 @@ bool sendreceive_notes_download (int lowId, int highId)
   Database_Notes database_notes (&request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   Sync_Logic sync_logic = Sync_Logic (&request);
-  Notes_Logic notes_logic = Notes_Logic (&request);
   
   
   string response = client_logic_connection_setup ("", "");

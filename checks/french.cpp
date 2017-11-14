@@ -29,7 +29,7 @@
 void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int chapter, map <int, string> texts)
 {
   Database_Check database_check;
-  string nbsp = no_break_space_utf8_00a0 ();
+  string nbsp = no_break_space_u00a0 ();
   string left_guillemet = "«";
   vector <string> right_punctuation = { "»", "!", "?", ":", ";" };
   for (auto element : texts) {

@@ -150,6 +150,8 @@ public:
   static void setReadFromGit (string bible, bool value);
   static bool getSendChangesToRSS (string bible);
   static void setSendChangesToRSS (string bible, bool value);
+  static string getOdtSpaceAfterVerse (string bible);
+  static void setOdtSpaceAfterVerse (string bible, string value);
 private:
   static string file (string bible);
   static string file (string bible, const char * key);

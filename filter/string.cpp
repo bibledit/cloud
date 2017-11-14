@@ -328,7 +328,7 @@ string filter_string_desanitize_html (string html)
   html = filter_string_str_replace ("&gt;", ">", html);
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
   html = filter_string_str_replace (non_breaking_space_utf8_c2a0 (), " ", html);
-  html = filter_string_str_replace (no_break_space_utf8_00a0 (), " ", html);
+  html = filter_string_str_replace (no_break_space_u00a0 (), " ", html);
   return html;
 }
 
@@ -336,16 +336,19 @@ string filter_string_desanitize_html (string html)
 // Returns a soft hyphen.
 string soft_hyphen ()
 {
-  // The "­" below is not an empty string, but the soft hyphen U+00AD.
-  return "­";
+  // Soft hyphen U+00AD.
+  return "\u00AD";
 }
 
 
 // Returns a no-break space (NBSP) (x00A0).
-string no_break_space_utf8_00a0 ()
+string no_break_space_u00a0 ()
 {
-  unsigned char c[2] = { 0x00, 0xa0 };
-  return string (c, c + sizeof c / sizeof c[0]);
+  // Use C-style code.
+  return "\u00A0";
+  // The following provides the wrong space:
+  //unsigned char c[2] = { 0x00, 0xa0 };
+  //return string (c, c + sizeof c / sizeof c[0]);
 }
 
 

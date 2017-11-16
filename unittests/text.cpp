@@ -324,11 +324,11 @@ void test_text ()
     "Genesis\n"
     "=======\n"
     "\n"
-    "1" + en_space () + "Verse One.\n"
+    "1" + en_space_u2002 () + "Verse One.\n"
     "\n"
-    "Paragraph One. 2" + en_space () + "Verse Two.\n"
+    "Paragraph One. 2" + en_space_u2002 () + "Verse Two.\n"
     "\n"
-    "3" + en_space () + "Verse Three. 4" + en_space () + "Verse Four. 5" + en_space () + "Verse Five.\n";
+    "3" + en_space_u2002 () + "Verse Three. 4" + en_space_u2002 () + "Verse Four. 5" + en_space_u2002 () + "Verse Five.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
@@ -351,7 +351,7 @@ void test_text ()
     "Genesis\n"
     "=======\n"
     "\n"
-    "1" + en_space () + "Text 1a\n"
+    "1" + en_space_u2002 () + "Text 1a\n"
     "\n"
     "Isa. 1.1.\n"
     "\n"

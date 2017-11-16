@@ -199,3 +199,27 @@ string locale_logic_text_no_privileges_modify_book ()
 {
   return translate ("You do not have enough privileges to modify this book.");
 }
+
+
+// Returns the Unicode name of the $space.
+string locale_logic_space_get_name (string space, bool english)
+{
+  if (space == " ") {
+    if (english) return "space";
+    else return translate ("space");
+  }
+  if (space == non_breaking_space_u00A0 ()) {
+    if (english) return "non-breaking space";
+    else return translate ("non-breaking space");
+  }
+  if (space == en_space_u2002 ()) {
+    if (english) return "en space";
+    else return translate ("en space");
+  }
+  if (space == figure_space_u2007 ()) {
+    if (english) return "figure space";
+    else return translate ("figure space");
+  }
+  return translate ("unknown");
+}
+

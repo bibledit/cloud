@@ -39,5 +39,7 @@ string locale_logic_text_retrying ();
 string locale_logic_text_reformat ();
 string locale_logic_text_no_privileges_modify_book ();
 
+string locale_logic_space_get_name (string space, bool english);
+
 
 #endif

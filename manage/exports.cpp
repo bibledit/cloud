@@ -36,6 +36,7 @@
 #include <tasks/logic.h>
 #include <menu/logic.h>
 #include <assets/external.h>
+#include <locale/logic.h>
 
 
 const char * manage_exports_url ()
@@ -47,6 +48,14 @@ const char * manage_exports_url ()
 bool manage_exports_acl (void * webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+}
+
+
+string space_href (string name)
+{
+  name = filter_string_str_replace ("-", "", name);
+  name = filter_string_str_replace (" ", "", name);
+  return name;
 }
 
 
@@ -277,11 +286,30 @@ string manage_exports (void * webserver_request)
   view.set_variable ("odtsecure", get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
 
   
+  vector <string> spaces = { " ", non_breaking_space_u00A0 (), en_space_u2002 (), figure_space_u2007 () };
   if (request->query.count ("odtwhitespace")) { // Todo
-    string space = request->query ["odtwhitespace"];
+    string odtwhitespace = request->query ["odtwhitespace"];
+    for (auto space : spaces) {
+      // Work with non-localized, English, space names.
+      // Then it works across localizations.
+      string href = space_href (locale_logic_space_get_name (space, true));
+      if (odtwhitespace == href) {
+        Database_Config_Bible::setOdtSpaceAfterVerse (bible, space);
+      }
+    }
+  }
+  string space_setting = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
+  for (auto space : spaces) {
+    string name = locale_logic_space_get_name (space, false);
+    string href = space_href (name);
+    string cssclass;
+    if (space == space_setting) {
+      cssclass = "active";
+    }
+    view.add_iteration ("spaces", { make_pair ("space", href), make_pair ("class", cssclass), make_pair ("name", name) } );
   }
   
-                                          
+  
   if (checkbox == "info") {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, checked);
     Database_State::setExport (bible, 0, Export_Logic::export_needed);

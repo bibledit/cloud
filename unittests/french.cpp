@@ -32,7 +32,7 @@ void test_french ()
   Database_Check database_check;
   database_check.create ();
   string bible = "unit test";
-  string nbsp = no_break_space_u00a0 ();
+  string nbsp = non_breaking_space_u00A0 ();
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {

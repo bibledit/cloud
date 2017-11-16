@@ -1878,6 +1878,21 @@ msgstr ""
 msgid "You do not have enough privileges to modify this book."
 msgstr ""
 
+msgid "space"
+msgstr ""
+
+msgid "non-breaking space"
+msgstr ""
+
+msgid "en space"
+msgstr ""
+
+msgid "figure space"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+
 msgid "This book is absent from the Bible"
 msgstr ""
 
@@ -5864,6 +5879,9 @@ msgid "Bottom margin"
 msgstr ""
 
 msgid "Display the current date in the running headers."
+msgstr ""
+
+msgid "The type of space to insert after a verse number"
 msgstr ""
 
 msgid "Info document"

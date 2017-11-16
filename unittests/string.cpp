@@ -475,18 +475,19 @@ void test_string ()
     evaluate (__LINE__, __func__, html, desanitized);
   }
   
-  // Test whitespace characters, breaking and non-breaking. Todo
+  // Test whitespace characters, breaking and non-breaking.
   {
     // The "­" below is not an empty string, but the soft hyphen U+00AD.
     string standard_soft_hyphen = "­";
-    evaluate (__LINE__, __func__, standard_soft_hyphen, soft_hyphen ());
-    evaluate (__LINE__, __func__, "\u00AD", soft_hyphen ());
+    evaluate (__LINE__, __func__, standard_soft_hyphen, soft_hyphen_u00AD ());
+    evaluate (__LINE__, __func__, "\u00AD", soft_hyphen_u00AD ());
 
-    evaluate (__LINE__, __func__, "\u00A0", no_break_space_u00a0 ());
-    filter_url_file_put_contents ("/tmp/utf8.txt", no_break_space_u00a0 ()); // Todo
+    evaluate (__LINE__, __func__, "\u00A0", non_breaking_space_u00A0 ());
 
-    
-    
+    // The space below is "en space", U+2002.
+    string standard_en_space_u2002 = " ";
+    evaluate (__LINE__, __func__, standard_en_space_u2002, en_space_u2002 ());
+    evaluate (__LINE__, __func__, "\u2002", en_space_u2002 ());
   }
 
 }

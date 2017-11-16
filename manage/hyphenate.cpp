@@ -141,7 +141,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
         thisCharacterIsRelevant = in_array (character, secondset);
         if ((thisCharacterIsRelevant) && (previousCharacterWasRelevant)) {
           if (!hyphenate_is_near_white_space (characters, i)) {
-            characters[i] = soft_hyphen () + character;
+            characters[i] = soft_hyphen_u00AD () + character;
           }
         }
         

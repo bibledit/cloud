@@ -72,16 +72,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 
 
-mutex mutex_tasks; 
-int running_tasks = 0;
+atomic <int> running_tasks (0);
 
 
 void tasks_run_one (string filename)
 {
   // Increase running tasks count.
-  mutex_tasks.lock ();
   running_tasks++;
-  mutex_tasks.unlock ();
 
   // Read the task from disk and erase the file.
   string path = filter_url_create_path (tasks_logic_folder (), filename);
@@ -312,9 +309,7 @@ void tasks_run_one (string filename)
   }
 
   // Decrease running tasks count.
-  mutex_tasks.lock ();
   running_tasks--;
-  mutex_tasks.unlock ();
 }
 
 
@@ -335,9 +330,7 @@ void tasks_run_check ()
 int tasks_run_active_count ()
 {
   int taskscount = 0;
-  mutex_tasks.lock ();
   taskscount = running_tasks;
-  mutex_tasks.unlock ();
   return taskscount;
 }
 

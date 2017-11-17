@@ -287,7 +287,7 @@ string manage_exports (void * webserver_request)
 
   
   vector <string> spaces = { " ", non_breaking_space_u00A0 (), en_space_u2002 (), figure_space_u2007 () };
-  if (request->query.count ("odtwhitespace")) { // Todo
+  if (request->query.count ("odtwhitespace")) {
     string odtwhitespace = request->query ["odtwhitespace"];
     for (auto space : spaces) {
       // Work with non-localized, English, space names.

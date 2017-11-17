@@ -73,6 +73,7 @@ Filter_Text::Filter_Text (string bible_in)
   esword_text = NULL;
   text_text = NULL;
   headings_text_per_verse_active = false;
+  space_type_after_verse = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
 }
 
 
@@ -803,13 +804,14 @@ void Filter_Text::processUsfm ()
                   textFollowingMarker = textFollowingMarker.substr (pos + number.length ());
                 }
                 // If a chapter number was put, remove any whitespace from the start of the following text.
-                // Remove whitespace from the start of the following text, and replace it with the en-space.
-                // This en-space is a fixed-width space.
-                // This type of space makes the layout of the text following the verse number look tidier.
+                // Remove whitespace from the start of the following text,
+                // and replace it with the type of space that the user has set.
+                // This could be a fixed-width space, or a non-breaking space, or a combination of the two.
+                // These types of spaces make the layout of the text following the verse number look tidier.
                 // But if a chapter number was put, than do not put any space at the start of the following verse.
                 textFollowingMarker = filter_string_ltrim (textFollowingMarker);
                 if (outputChapterTextAtFirstVerse.empty()) {
-                  textFollowingMarker = en_space_u2002 () + textFollowingMarker;
+                  textFollowingMarker = space_type_after_verse + textFollowingMarker;
                 }
                 chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer] = textFollowingMarker;
                 chapterUsfmMarkersAndTextPointer--;
@@ -990,8 +992,9 @@ void Filter_Text::processUsfm ()
             verses_text [iverse].append (currentItem);
             actual_verses_paragraph [iverse].append (currentItem);
           } else {
-            // The verse text straight after the \v starts with an enSpace. Remove it.
-            string item = filter_string_str_replace (en_space_u2002 (), " ", currentItem);
+            // The verse text straight after the \v starts with certain space type.
+            // Replace it with a normal space.
+            string item = filter_string_str_replace (space_type_after_verse, " ", currentItem);
             verses_text [iverse] = filter_string_ltrim (item);
             actual_verses_paragraph [iverse] = filter_string_ltrim (item);
           }

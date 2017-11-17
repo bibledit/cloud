@@ -107,11 +107,11 @@ public:
   vector <Filter_Text_Passage_Marker_Value> shortTOCs; // Vector with objects (book, chapter, verse, marker, TOC value).
   vector <Filter_Text_Passage_Marker_Value> bookAbbreviations; // Vector with objects (book, chapter, verse, marker, abbreviation value).
 
-private:
-  string outputChapterTextAtFirstVerse; // String holding the chapter number or text to output at the first verse.
 public:
   vector <Filter_Text_Passage_Marker_Value> chapterLabels; // Vector with objects (book, chapter, verse, marker, label value).
   vector <Filter_Text_Passage_Marker_Value> publishedChapterMarkers; // Vector with object (book, chapter, verse, marker, marker value).
+private:
+  string outputChapterTextAtFirstVerse; // String holding the chapter number or text to output at the first verse.
 
 public:
   Odf_Text * odf_text_standard; // Object for creating OpenDocument with text in standard form.
@@ -164,6 +164,9 @@ private:
   bool text_started; // Flag for text per verse processor.
   void storeVersesParagraphs ();
   map <int, string> actual_verses_paragraph;
+  
+private:
+  string space_type_after_verse; // The type of space to follow a verse number.
 };
 
 

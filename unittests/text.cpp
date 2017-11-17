@@ -37,29 +37,13 @@ void test_text ()
   
   // The unittests depend on known settings.
   Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
-  
+  Database_Config_Bible::setOdtSpaceAfterVerse (bible, " ");
+
   // Test extraction of all sorts of information from USFM code.
   // Test basic formatting into OpenDocument.
   {
-    string usfm = ""
-    "\\id GEN\n"
-    "\\h Header\n"
-    "\\h1 Header1\n"
-    "\\h2 Header2\n"
-    "\\h3 Header3\n"
-    "\\toc1 The Book of Genesis\n"
-    "\\toc2 Genesis\n"
-    "\\toc3 Gen\n"
-    "\\cl Chapter\n"
-    "\\c 1\n"
-    "\\cp Ⅰ\n"
-    "\\p\n"
-    "\\v 1 Text chapter 1\n"
-    "\\c 2\n"
-    "\\cp ②\n"
-    "\\h Header4\n"
-    "\\p\n"
-    "\\v 2 Text chapter 2\n";
+    string usfm_path = filter_url_create_root_path ("unittests", "tests", "odt01.usfm");
+    string usfm = filter_url_file_get_contents (usfm_path);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
@@ -159,7 +143,10 @@ void test_text ()
     
     // OpenDocument output.
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    // The binary odt2txt will detect the Terminal's encoding.
+    // This may not be UTF-8. This has been happening at times.
+    // So set it here.
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -280,19 +267,19 @@ void test_text ()
     "Ruth 1\n"
     "======\n"
     "\n"
-    "1 In the days when the judges judged, there was a famine in the\n"
+    "1 In the days when the judges judged, there was a famine in the\n"
     "land. A certain man of Bethlehem Judah went to live in the\n"
     "country of Moab with his wife and his two sons.\n"
     "\n"
     "1 Peter\n"
     "=======\n"
     "\n"
-    "Peter’s First Letter\n"
+    "Peter's First Letter\n"
     "\n"
     "1 Peter 1\n"
     "=========\n"
     "\n"
-    "1 Peter, an apostle of Jesus Christ, to the chosen ones who are\n"
+    "1 Peter, an apostle of Jesus Christ, to the chosen ones who are\n"
     "living as foreigners in the Dispersion in Pontus, Galatia,\n"
     "Cappadocia, Asia, and Bithynia,\n"
     "\n";
@@ -324,11 +311,11 @@ void test_text ()
     "Genesis\n"
     "=======\n"
     "\n"
-    "1" + en_space_u2002 () + "Verse One.\n"
+    "1 Verse One.\n"
     "\n"
-    "Paragraph One. 2" + en_space_u2002 () + "Verse Two.\n"
+    "Paragraph One. 2 Verse Two.\n"
     "\n"
-    "3" + en_space_u2002 () + "Verse Three. 4" + en_space_u2002 () + "Verse Four. 5" + en_space_u2002 () + "Verse Five.\n";
+    "3 Verse Three. 4 Verse Four. 5 Verse Five.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
@@ -351,7 +338,7 @@ void test_text ()
     "Genesis\n"
     "=======\n"
     "\n"
-    "1" + en_space_u2002 () + "Text 1a\n"
+    "1 Text 1a\n"
     "\n"
     "Isa. 1.1.\n"
     "\n"
@@ -657,7 +644,7 @@ void test_text ()
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
-    "<span> I will sing </span>"
+    "<span> I will sing </span>"
     "<span class=\"add\">to the </span>"
     "<span class=\"add nd\">Lord</span>"
     "<span>.</span>"
@@ -680,7 +667,7 @@ void test_text ()
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
-    "<span> I will sing </span>"
+    "<span> I will sing </span>"
     "<span class=\"add\">to the </span>"
     "<span class=\"add nd\">Lord</span>"
     "<span class=\"add\"> God</span>"
@@ -704,7 +691,7 @@ void test_text ()
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
-    "<span> I will sing </span>"
+    "<span> I will sing </span>"
     "<span class=\"add\">to the </span>"
     "<span class=\"add nd\">Lord</span>"
     "<span>.</span>"
@@ -737,7 +724,7 @@ void test_text ()
     "Genesis 1\n"
     "=========\n"
     "\n"
-    "1 I will sing to the Lord.\n";
+    "1 I will sing to the Lord.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
@@ -759,7 +746,7 @@ void test_text ()
     "Genesis\n"
     "=======\n"
     "\n"
-    "1 Text 1a text1 text1.";
+    "1 Text 1a text1 text1.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
@@ -788,7 +775,7 @@ void test_text ()
     "Genesis 1\n"
     "=========\n"
     "\n"
-    "1 I will sing to the Lord God.\n";
+    "1 I will sing to the Lord God.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
@@ -817,7 +804,7 @@ void test_text ()
     "Genesis 1\n"
     "=========\n"
     "\n"
-    "1 I will sing to the Lord.\n";
+    "1 I will sing to the Lord.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   

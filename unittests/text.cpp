@@ -201,7 +201,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -251,7 +251,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm_1_peter);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -302,7 +302,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -329,7 +329,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -712,7 +712,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -738,7 +738,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -763,7 +763,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
@@ -792,7 +792,7 @@ void test_text ()
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt " + TextTestOdt + " > " + TextTestTxt;
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);

@@ -48,7 +48,7 @@
 /*
  
  A demo installation is an open installation.
- A user is always considered to be logged in as admin.
+ Any user is always considered to be logged in as admin.
  
  In October 2015 the demo began to often refuse web connections.
  It appears that the server keeps running most of the times, but also crashed often during certain periods.
@@ -67,8 +67,7 @@
  */
 
 
-// Returns true for correct credentials for a demo installation.
-// Else returns false.
+// Returns true if the credentials are correct for a demo installation.
 bool demo_acl (string user, string pass)
 {
   if (config_logic_demo_enabled ()) {

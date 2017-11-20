@@ -274,7 +274,7 @@ void test_text ()
     "1 Peter\n"
     "=======\n"
     "\n"
-    "Peter's First Letter\n"
+    "Peter’s First Letter\n"
     "\n"
     "1 Peter 1\n"
     "=========\n"

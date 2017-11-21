@@ -525,9 +525,9 @@ Job 21:34
 Job 22:30
 Job 23:17
 Job 24:25
-Job 25:14
+Job 25:6
 Job 26:14
-Job 27:24
+Job 27:23
 Job 28:28
 Job 29:25
 Job 30:31
@@ -592,7 +592,7 @@ Psalms 46:12
 Psalms 47:10
 Psalms 48:15
 Psalms 49:21
-Psalms 50:24
+Psalms 50:23
 Psalms 51:21
 Psalms 52:11
 Psalms 53:7
@@ -643,7 +643,7 @@ Psalms 97:12
 Psalms 98:9
 Psalms 99:9
 Psalms 100:5
-Psalms 101:9
+Psalms 101:8
 Psalms 102:29
 Psalms 103:22
 Psalms 104:35
@@ -739,7 +739,7 @@ Ecclesiastes 12:14
 Song of Solomon 1:17
 Song of Solomon 2:17
 Song of Solomon 3:11
-Song of Solomon 4:17
+Song of Solomon 4:16
 Song of Solomon 5:16
 Song of Solomon 6:12
 Song of Solomon 7:14
@@ -752,7 +752,7 @@ Wisdom 5:23
 Wisdom 6:25
 Wisdom 7:30
 Wisdom 8:21
-Wisdom 9:19
+Wisdom 9:18
 Wisdom 10:21
 Wisdom 11:26
 Wisdom 12:27
@@ -768,7 +768,7 @@ Sirach 1:30
 Sirach 2:18
 Sirach 3:31
 Sirach 4:31
-Sirach 5:17
+Sirach 5:15
 Sirach 6:37
 Sirach 7:36
 Sirach 8:19
@@ -806,7 +806,7 @@ Sirach 39:35
 Sirach 40:30
 Sirach 41:27
 Sirach 42:25
-Sirach 43:35
+Sirach 43:33
 Sirach 44:23
 Sirach 45:26
 Sirach 46:20
@@ -823,7 +823,7 @@ Isaiah 5:30
 Isaiah 6:13
 Isaiah 7:25
 Isaiah 8:24
-Isaiah 9:21
+Isaiah 9:20
 Isaiah 10:34
 Isaiah 11:16
 Isaiah 12:6
@@ -1005,7 +1005,7 @@ Daniel 10:21
 Daniel 11:45
 Daniel 12:13
 Daniel 13:64
-Daniel 14:43
+Daniel 14:42
 Hosea 1:9
 Hosea 2:25
 Hosea 3:5
@@ -1059,7 +1059,7 @@ Haggai 2:23
 Zechariah 1:17
 Zechariah 2:17
 Zechariah 3:10
-Zechariah 4:16
+Zechariah 4:14
 Zechariah 5:11
 Zechariah 6:15
 Zechariah 7:14
@@ -1234,7 +1234,7 @@ Romans 16:27
 2 Corinthians 10:18
 2 Corinthians 11:33
 2 Corinthians 12:21
-2 Corinthians 13:14
+2 Corinthians 13:13
 Galatians 1:24
 Galatians 2:21
 Galatians 3:29
@@ -1309,7 +1309,7 @@ James 5:20
 1 John 4:21
 1 John 5:21
 2 John 1:13
-3 John 1:14
+3 John 1:15
 Jude 1:25
 Revelation 1:20
 Revelation 2:29
@@ -1322,7 +1322,7 @@ Revelation 8:13
 Revelation 9:21
 Revelation 10:11
 Revelation 11:19
-Revelation 12:17
+Revelation 12:18
 Revelation 13:18
 Revelation 14:20
 Revelation 15:8

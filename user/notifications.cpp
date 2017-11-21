@@ -185,18 +185,6 @@ string user_notifications (void * webserver_request)
     return "";
   }
   view.set_variable ("sprintprogressnotification", get_checkbox_status (database_config_user.getSprintProgressNotification ()));
-
-  if (checkbox == "yoursoftware") {
-    database_config_user.setYourSoftwareUpdatesNotification (checked);
-    return "";
-  }
-  view.set_variable ("yoursoftware", get_checkbox_status (database_config_user.getYourSoftwareUpdatesNotification ()));
-  
-  if (checkbox == "allsoftware") {
-    database_config_user.setAllSoftwareUpdatesNotification (checked);
-    return "";
-  }
-  view.set_variable ("allsoftware", get_checkbox_status (database_config_user.getAllSoftwareUpdatesNotification ()));
   
 #ifdef HAVE_CLIENT
   view.enable_zone ("client");

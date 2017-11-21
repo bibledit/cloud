@@ -115,11 +115,7 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_send_platform:
     {
-      vector <string> clients = request->database_config_user()->getConnectedClients ();
-      if (!in_array (value, clients)) {
-        clients.push_back (value);
-        request->database_config_user()->setConnectedClients (clients);
-      }
+      // No longer in use, just discard this.
       return "";
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:

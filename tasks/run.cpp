@@ -269,9 +269,6 @@ void tasks_run_one (string filename)
   else if (command == CACHERESOURCES) {
     resource_logic_create_cache ();
   }
-  else if (command == NOTIFYSOFTWAREUPDATES) {
-    user_logic_software_updates_notify ();
-  }
   else if (command == REFRESHWEBRESOURCES) {
     resource_logic_bible_gateway_module_list_refresh ();
     resource_logic_study_light_module_list_refresh ();

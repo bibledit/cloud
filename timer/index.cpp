@@ -154,13 +154,6 @@ void timer_index ()
         tasks_logic_queue (CLEANTMPFILES);
       }
       
-#ifdef HAVE_CLOUD
-      // Software update notifications.
-      if (hour == 2 && minute == 20) {
-        tasks_logic_queue (NOTIFYSOFTWAREUPDATES);
-      }
-#endif
-      
       // Re-index Bibles and notes.
       // Only update missing indexes.
       if ((hour == 2) && (minute == 0)) {

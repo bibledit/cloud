@@ -200,18 +200,6 @@ public:
   void setSwipeActionsAvailable (bool value);
   bool getFastEditorSwitchingAvailable ();
   void setFastEditorSwitchingAvailable (bool value);
-  bool getAllSoftwareUpdatesNotification ();
-  bool getAllSoftwareUpdatesNotificationForUser (string username);
-  void setAllSoftwareUpdatesNotification (bool value);
-  bool getYourSoftwareUpdatesNotification ();
-  bool getYourSoftwareUpdatesNotificationForUser (string username);
-  void setYourSoftwareUpdatesNotification (bool value);
-  vector <string> getLastMailedSoftwareVersionForUser (string username);
-  void setLastMailedSoftwareVersionForUser (string username, vector <string> values);
-  vector <string> getConnectedClientsForUser (string username);
-  vector <string> getConnectedClients ();
-  void setConnectedClients (vector <string> values);
-  void setConnectedClientsForUser (string username, vector <string> values);
   bool getIncludeRelatedPassages ();
   void setIncludeRelatedPassages (bool value);
   int getFastSwitchVisualEditors ();

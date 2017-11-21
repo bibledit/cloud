@@ -74,6 +74,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <numeric>
 #include <random>
 #include <limits>
+#include <atomic>
 
 
 // Headers dependencies.

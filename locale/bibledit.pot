@@ -5005,17 +5005,6 @@ msgid ""
 "sprint."
 msgstr ""
 
-msgid "Software updates"
-msgstr ""
-
-msgid ""
-"Receive mail when updated software is available for the platform your client "
-"runs on."
-msgstr ""
-
-msgid "Receive mail when updated software is available for any platform."
-msgstr ""
-
 msgid ""
 "You can change your password or your email address. Your current email "
 "address is"
@@ -9648,12 +9637,6 @@ msgid "To run Bibledit Cloud, a Linux VPS (virtual private server) is needed."
 msgstr ""
 
 msgid "Good providers are:"
-msgstr ""
-
-msgid "You may also run your Bibledit Cloud instance from bibledit.org."
-msgstr ""
-
-msgid "Use the contact form to explain why you need a Bibledit Cloud instance."
 msgstr ""
 
 msgid "OpenLDAP"

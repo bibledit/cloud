@@ -84,9 +84,11 @@ vector <string> filter_url_scandir_internal (string folder)
       // Exclude short-hand directory names.
       if (name == ".") continue;
       if (name == "..") continue;
-      // Include developer temporal files.
+      // Exclude developer temporal files.
       if (name == ".deps") continue;
       if (name == ".dirstamp") continue;
+      // Exclude macOS files.
+      if (name == ".DS_Store") continue;
       // Store the name.
       files.push_back (name);
     }

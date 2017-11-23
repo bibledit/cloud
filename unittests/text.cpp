@@ -171,31 +171,36 @@ void test_text () // Todo
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
-    string standard = ""
-    "Header4\n"
-    "=======\n"
-    "\n"
-    "Header4 Ⅰ\n"
-    "=========\n"
-    "\n"
-    "[-- Image: frame1 --]\n"
-    "\n"
-    "Ⅰ\n"
-    "\n"
-    "Text chapter 1\n"
-    "\n"
-    "Header4 ②\n"
-    "=========\n"
-    "\n"
-    "[-- Image: frame2 --]\n"
-    "\n"
-    "②\n"
-    "\n"
-    "Text chapter 2\n"
-    "\n";
+    string standard = R"(
+Header4
+=======
+
+Header4 Ⅰ
+=========
+
+[-- Image: frame1 --]
+
+Ⅰ
+
+This is the text of chapter 1, verse 1. This is the text of
+chapter 1, verse 1. This is the text of chapter 1, verse 1.
+This is the text of chapter 1, verse 1. This is the text of
+chapter 1, verse 1. This is the text of chapter 1, verse 1.
+
+Header4 ②
+=========
+
+[-- Image: frame2 --]
+
+②
+
+This is the text of chapter 2, verse 2. This is the text of
+chapter 2, verse 2. This is the text of chapter 2, verse 2.
+This is the text of chapter 2, verse 2. This is the text of
+chapter 2, verse 2. This is the text of chapter 2, verse 2.
+    )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  exit (0); // Todo
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
 

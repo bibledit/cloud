@@ -935,7 +935,6 @@
 /unittests/tests/json2.txt
 /unittests/tests/nl.po
 /unittests/tests/notes.sqlite.damaged
-/unittests/tests/odt01.usfm
 /unittests/tests/onlinebible1.exp
 /unittests/tests/onlinebible2.exp
 /unittests/tests/paula_1_base.usfm

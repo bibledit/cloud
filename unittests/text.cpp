@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_text ()
+void test_text () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -42,8 +42,26 @@ void test_text ()
   // Test extraction of all sorts of information from USFM code.
   // Test basic formatting into OpenDocument.
   {
-    string usfm_path = filter_url_create_root_path ("unittests", "tests", "odt01.usfm");
-    string usfm = filter_url_file_get_contents (usfm_path);
+    string usfm = R"(
+\id GEN
+\h Header
+\h1 Header1
+\h2 Header2
+\h3 Header3
+\toc1 The Book of Genesis
+\toc2 Genesis
+\toc3 Gen
+\cl Chapter
+\c 1
+\cp Ⅰ
+\p
+\v 1 This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1.
+\c 2
+\cp ②
+\h Header4
+\p
+\v 2 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
+    )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
@@ -114,7 +132,7 @@ void test_text ()
       evaluate (__LINE__, __func__, "Gen", filter_text.bookAbbreviations[0].value);
     }
     
-    // Check chapter specials.
+    // Check chapter labels.
     int desiredchapterLabels = 1;
     int actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
@@ -125,10 +143,12 @@ void test_text ()
       evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].marker);
       evaluate (__LINE__, __func__, "Chapter", filter_text.chapterLabels[0].value);
     }
+    
+    // Check published chapter markers.
     int desiredpublishedChapterMarkers = 2;
     int actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
     evaluate (__LINE__, __func__, desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
-    if (desiredlongTOCs == actuallongTOCs) {
+    if (desiredpublishedChapterMarkers == actualpublishedChapterMarkers) {
       evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].book);
       evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[0].verse);
@@ -175,6 +195,7 @@ void test_text ()
     "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
+  exit (0); // Todo
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
 

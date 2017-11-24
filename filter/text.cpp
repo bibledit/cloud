@@ -626,7 +626,7 @@ void Filter_Text::processUsfm ()
                 // Putting the chapter number at the first verse is determined by the style of the \c marker.
                 // But if a chapter label (\cl) is found in the current book, that disables the above.
                 bool cl_found = book_has_chapter_label[currentBookIdentifier];
-                if (style.userbool1 && !cl_found) { // Todo
+                if (style.userbool1 && !cl_found) {
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.
                   outputChapterTextAtFirstVerse = number;
@@ -725,8 +725,8 @@ void Filter_Text::processUsfm ()
 
               }
               // Deal with the case of a pending chapter number.
-              if (outputChapterTextAtFirstVerse != "") { // Todo
-                if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) { // Todo
+              if (outputChapterTextAtFirstVerse != "") {
+                if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) {
                   int dropCapsLength = unicode_string_length (outputChapterTextAtFirstVerse);
                   applyDropCapsToCurrentParagraph (dropCapsLength);
                   if (odf_text_standard) odf_text_standard->addText (outputChapterTextAtFirstVerse);

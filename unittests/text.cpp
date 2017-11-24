@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_text () // Todo
+void test_text ()
 {
   trace_unit_tests (__func__);
   
@@ -819,7 +819,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
-  // Test the behaviour of a chapter label put in chapter zero. Todo
+  // Test the behaviour of a chapter label put in chapter zero.
   {
     // The following USFM has the \cl - chapter label - before the first chapter.
     // It means that the \cl represents the text for "chapter" to be used throughout the book.
@@ -884,7 +884,81 @@ Chapter 2
 2 Jesus came to save the people.
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
-    //exit (0); // Todo
+  }
+  
+  // Test the behaviour of a chapter label put in each separate chapter.
+  {
+    // The following USFM has the \cl - chapter label - in each chapter.
+    // It means that the \cl represents the particular text to be used
+    // for the display of the current chapter heading.
+    // Usually this is done if numbers are being presented as words, not numerals.
+    // So it will output:
+    // "Chapter One"
+    // ...
+    // "Chapter Two"
+    // ... and so on.
+    string usfm = R"(
+\id GEN
+\c 1
+\cl Chapter One
+\p
+\v 1 I will sing to the LORD.
+\c 2
+\cl Chapter Two
+\p
+\v 2 Jesus came to save the people.
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    
+    // Check chapter labels.
+    int desiredchapterLabels = 2;
+    int actualchapterLabels = filter_text.chapterLabels.size();
+    evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
+    if (desiredchapterLabels == actualchapterLabels) {
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
+      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].marker);
+      evaluate (__LINE__, __func__, "Chapter One", filter_text.chapterLabels[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[1].book);
+      evaluate (__LINE__, __func__, 2, filter_text.chapterLabels[1].chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[1].verse);
+      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[1].marker);
+      evaluate (__LINE__, __func__, "Chapter Two", filter_text.chapterLabels[1].value);
+    }
+    
+    // OpenDocument output.
+    filter_text.odf_text_standard->save (TextTestOdt);
+    // The binary odt2txt will detect the Terminal's encoding.
+    // This may not be UTF-8. This has been happening at times.
+    // So set it here.
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
+    string standard = R"(
+Genesis
+=======
+
+Genesis 1
+=========
+
+Chapter One
+
+1 I will sing to the LORD.
+
+Genesis 2
+=========
+
+Chapter Two
+
+2 Jesus came to save the people.
+    )";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
   filter_url_unlink (TextTestOdt);

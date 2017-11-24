@@ -201,8 +201,6 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink (TextTestOdt);
-  filter_url_unlink (TextTestHtml);
 
   // There are two books here.
   // This normally gives one new page between these two books.
@@ -636,7 +634,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, {"p", "p", "p", "p"}, filter_text.paragraph_starting_markers);
   }
   
-  // Test embedded text.
+  // Test embedded character styles to text output.
   {
     string usfm =
     "\\c 1\n"
@@ -655,7 +653,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, standard, output);
   }
   
-  // Test embedded html.
+  // Test embedded character styles to html output.
   {
     // Open character style, and embedded character style, and close both normally.
     string usfm =
@@ -678,7 +676,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   
-  // Test embedded html.
+  // Test embedded character styles to html output.
   {
     // Open character style, open embedded character style, close embedded one, then close the outer one.
     string usfm =
@@ -702,7 +700,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   
-  // Test embedded html.
+  // Test embedded character styles to html output.
   {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
     string usfm =
@@ -725,7 +723,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
   }
   
-  // Test embedded OpenDocument.
+  // Test embedded character styles to OpenDocument output.
   {
     // Open character style, and embedded character style, and close both normally.
     string usfm =
@@ -776,7 +774,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
-  // Test embedded OpenDocument.
+  // Test embedded character styles to OpenDocument output.
   {
     // Open character style, open embedded character style, close embedded one, then close the outer one.
     string usfm =
@@ -805,7 +803,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
-  // Test embedded OpenDocument.
+  // Test embedded character styles to OpenDocument output.
   {
     // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
     string usfm =

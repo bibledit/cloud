@@ -51,7 +51,6 @@ void test_text () // Todo
 \toc1 The Book of Genesis
 \toc2 Genesis
 \toc3 Gen
-\cl Chapter
 \c 1
 \cp Ⅰ
 \p
@@ -130,18 +129,6 @@ void test_text () // Todo
       evaluate (__LINE__, __func__, "0", filter_text.bookAbbreviations[0].verse);
       evaluate (__LINE__, __func__, "toc3", filter_text.bookAbbreviations[0].marker);
       evaluate (__LINE__, __func__, "Gen", filter_text.bookAbbreviations[0].value);
-    }
-    
-    // Check chapter labels.
-    int desiredchapterLabels = 1;
-    int actualchapterLabels = filter_text.chapterLabels.size();
-    evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == actualchapterLabels) {
-      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
-      evaluate (__LINE__, __func__, 0, filter_text.chapterLabels[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
-      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].marker);
-      evaluate (__LINE__, __func__, "Chapter", filter_text.chapterLabels[0].value);
     }
     
     // Check published chapter markers.
@@ -832,8 +819,15 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
-  // Test behaviour of chapter labels. Todo
+  // Test the behaviour of a chapter label put in chapter zero. Todo
   {
+    // The following USFM has the \cl - chapter label - before the first chapter.
+    // It means that the \cl represents the text for "chapter" to be used throughout the book.
+    // So it will output:
+    // "Chapter 1"
+    // ...
+    // "Chapter 2"
+    // ... and so on.
     string usfm = R"(
 \id GEN
 \cl Chapter
@@ -872,34 +866,25 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = R"(
-    Header4
-    =======
-    
-    Header4 Ⅰ
-    =========
-    
-    [-- Image: frame1 --]
-    
-    Ⅰ
-    
-    This is the text of chapter 1, verse 1. This is the text of
-    chapter 1, verse 1. This is the text of chapter 1, verse 1.
-    This is the text of chapter 1, verse 1. This is the text of
-    chapter 1, verse 1. This is the text of chapter 1, verse 1.
-    
-    Header4 ②
-    =========
-    
-    [-- Image: frame2 --]
-    
-    ②
-    
-    This is the text of chapter 2, verse 2. This is the text of
-    chapter 2, verse 2. This is the text of chapter 2, verse 2.
-    This is the text of chapter 2, verse 2. This is the text of
-    chapter 2, verse 2. This is the text of chapter 2, verse 2.
+Genesis
+=======
+
+Genesis 1
+=========
+
+Chapter 1
+
+1 I will sing to the LORD.
+
+Genesis 2
+=========
+
+Chapter 2
+
+2 Jesus came to save the people.
     )";
-    // Todo evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    //exit (0); // Todo
   }
   
   filter_url_unlink (TextTestOdt);

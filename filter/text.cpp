@@ -623,7 +623,10 @@ void Filter_Text::processUsfm ()
               }
               // The chapter number is only output when there is more than one chapter in a book.
               if (numberOfChaptersPerBook [currentBookIdentifier] > 1) {
-                if (style.userbool1) {
+                // Putting the chapter number at the first verse is determined by the style of the \c marker.
+                // But if a chapter label (\cl) is found in the current book, that disables the above.
+                bool cl_found = book_has_chapter_label[currentBookIdentifier];
+                if (style.userbool1 && !cl_found) { // Todo
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.
                   outputChapterTextAtFirstVerse = number;

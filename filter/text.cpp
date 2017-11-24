@@ -279,8 +279,12 @@ void Filter_Text::preprocessingStage ()
                   }
                   case IdentifierSubtypeChapterLabel:
                   {
+                    // Store the chapter label for this book and chapter.
                     string chapterLabel = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                     chapterLabels.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
+                    // If a chapter label is in the book, there's no drop caps output of the chapter number.
+                    book_has_chapter_label [currentBookIdentifier] = true;
+                    // Done.
                     break;
                   }
                   case IdentifierSubtypePublishedChapterMarker:
@@ -718,8 +722,8 @@ void Filter_Text::processUsfm ()
 
               }
               // Deal with the case of a pending chapter number.
-              if (outputChapterTextAtFirstVerse != "") {
-                if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) {
+              if (outputChapterTextAtFirstVerse != "") { // Todo
+                if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) { // Todo
                   int dropCapsLength = unicode_string_length (outputChapterTextAtFirstVerse);
                   applyDropCapsToCurrentParagraph (dropCapsLength);
                   if (odf_text_standard) odf_text_standard->addText (outputChapterTextAtFirstVerse);

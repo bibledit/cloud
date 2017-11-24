@@ -167,6 +167,7 @@ private:
   
 private:
   string space_type_after_verse; // The type of space to follow a verse number.
+  map <int, bool> book_has_chapter_label; // Whether \cl was found in the book. Todo
 };
 
 

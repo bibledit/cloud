@@ -6847,7 +6847,7 @@ void Database_Styles::cache_defaults ()
       /* bold */ 0,
       /* underline */ 0,
       /* smallcaps */ 0,
-      /* superscript */ 0,
+      /* superscript */ 1,
       /* justification */ 0,
       /* spacebefore */ 0,
       /* spaceafter */ 0,

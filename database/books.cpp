@@ -162,11 +162,11 @@ book_record books_table [] =
   {"Reproof",                    "",        "REP",  "",     "",    102, "ap",        false}, // Proverbs part 2. Used in the Ethiopian Bible.
   {"4 Baruch",                   "",        "4BA",  "",     "",    103, "ap",        false}, // Paralipomenon of Jeremiah, called ‘Rest of the Words of Baruch’ in Ethiopia. May include or exclude the Letter of Jeremiah as chapter 1. Used in the Ethiopian Bible.
   {"Letter to the Laodiceans",   "",        "LAO",  "",     "",    104, "ap",        false}, // A Latin Vulgate book, found in the Vulgate and some medieval Catholic translations.
-  {"Introduction Matter",        "",        "INT",  "",     "",     89, "frontback", false},
-  {"Concordance",                "",        "CNC",  "",     "",     90, "frontback", false},
-  {"Glossary / Wordlist",        "",        "GLO",  "",     "",     91, "frontback", false},
-  {"Topical Index",              "",        "TDX",  "",     "",     92, "frontback", false},
-  {"Names Index",                "",        "NDX",  "",     "",     93, "frontback", false}
+  {"Introduction Matter",        "",        "INT",  "",     "",    105, "frontback", false},
+  {"Concordance",                "",        "CNC",  "",     "",    106, "frontback", false},
+  {"Glossary / Wordlist",        "",        "GLO",  "",     "",    107, "frontback", false},
+  {"Topical Index",              "",        "TDX",  "",     "",    108, "frontback", false},
+  {"Names Index",                "",        "NDX",  "",     "",    109, "frontback", false}
 };
 
 

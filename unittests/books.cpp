@@ -46,7 +46,7 @@ void test_database_books ()
   evaluate (__LINE__, __func__, "nt", Database_Books::getType (40));
   evaluate (__LINE__, __func__, "ot", Database_Books::getType (39));
   evaluate (__LINE__, __func__, "", Database_Books::getType (0));
-  evaluate (__LINE__, __func__, 89, Database_Books::getIdFromUsfm ("INT"));
+  evaluate (__LINE__, __func__, 105, Database_Books::getIdFromUsfm ("INT"));
 }
 
 

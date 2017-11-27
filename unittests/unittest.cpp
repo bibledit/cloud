@@ -133,8 +133,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_string ();
-  test_text ();
+  test_database_books ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

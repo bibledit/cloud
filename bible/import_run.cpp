@@ -55,12 +55,16 @@ void bible_import_run (string location, string bible, int book, int chapter)
         // Check whether this is USFM data.
         bool id = data.find ("\\id ") != string::npos;
         bool c = data.find ("\\c ") != string::npos;
-        if (id || c) {
-          bible_import_usfm (data, bible, book, chapter);
+        bool xml = data.find ("<?xml") != string::npos;
+        if (!xml) {
+          if (id || c) {
+            bible_import_usfm (data, bible, book, chapter);
+          } else {
+            bible_import_text (data, bible, book, chapter);
+          }
         } else {
-          bible_import_text (data, bible, book, chapter);
+          Database_Logs::log ("The file seems to be an XML file.", true);
         }
-        
       } else {
         Database_Logs::log ("The file does not contain valid Unicode UTF-8 text.", true);
       }

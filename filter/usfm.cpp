@@ -156,7 +156,7 @@ string usfm_get_marker (string usfm)
 // This imports USFM $input.
 // It takes raw $input,
 // and returns a vector with objects with book_number, chapter_number, chapter_data.
-vector <BookChapterData> usfm_import (string input, string stylesheet) // Todo
+vector <BookChapterData> usfm_import (string input, string stylesheet)
 {
   vector <BookChapterData> result;
 

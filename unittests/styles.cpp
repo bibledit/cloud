@@ -45,7 +45,6 @@ void test_styles ()
     styles_css.generate ();
     string css = styles_css.css ();
     string standard = filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css"));
-    //filter_url_file_put_contents ("basic.css", css);
     evaluate (__LINE__, __func__, standard, css);
   }
   
@@ -59,7 +58,6 @@ void test_styles ()
     styles_css.generate ();
     string css = styles_css.css ();
     string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "exports.css")));
-    //filter_url_file_put_contents ("exports.css", css);
     evaluate (__LINE__, __func__, standard, css);
   }
   

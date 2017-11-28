@@ -662,8 +662,12 @@ font-size: x-small;
 vertical-align: super;
 }
 .va, .i-va {
+font-size: x-small;
+vertical-align: super;
 }
 .vp, .i-vp {
+font-size: x-small;
+vertical-align: super;
 }
 .wj, .i-wj {
 color: #FF0000;

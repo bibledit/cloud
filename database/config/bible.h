@@ -74,6 +74,8 @@ public:
   static void setCheckSpaceEndVerse (string bible, bool value);
   static bool getCheckFrenchPunctuation (string bible);
   static void setCheckFrenchPunctuation (string bible, bool value);
+  static bool getCheckFrenchCitationStyle (string bible);
+  static void setCheckFrenchCitationStyle (string bible, bool value);
   static string getSprintTaskCompletionCategories (string bible);
   static void setSprintTaskCompletionCategories (string bible, string value);
   static int getRepeatSendReceive (string bible);

@@ -364,6 +364,20 @@ void Database_Config_Bible::setCheckFrenchPunctuation (string bible, bool value)
 }
 
 
+const char * check_french_citation_style_key ()
+{
+  return "check-french-citation-style";
+}
+bool Database_Config_Bible::getCheckFrenchCitationStyle (string bible)
+{
+  return getBValue (bible, check_french_citation_style_key (), false);
+}
+void Database_Config_Bible::setCheckFrenchCitationStyle (string bible, bool value)
+{
+  setBValue (bible, check_french_citation_style_key (), value);
+}
+
+
 string Database_Config_Bible::getSprintTaskCompletionCategories (string bible)
 {
   return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");

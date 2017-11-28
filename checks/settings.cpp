@@ -174,6 +174,12 @@ string checks_settings (void * webserver_request)
   view.set_variable ("frenchpunctuation", get_checkbox_status (Database_Config_Bible::getCheckFrenchPunctuation (bible)));
 
   
+  if (checkbox == "frenchcitation") {
+    Database_Config_Bible::setCheckFrenchCitationStyle (bible, checked);
+  }
+  view.set_variable ("frenchcitation", get_checkbox_status (Database_Config_Bible::getCheckFrenchCitationStyle (bible)));
+
+  
   view.set_variable ("bible", bible);
 
   

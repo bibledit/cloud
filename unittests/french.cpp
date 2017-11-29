@@ -23,9 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/text.h>
 
 
-void test_french ()
+void test_french () // Todo
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
@@ -63,4 +64,43 @@ void test_french ()
       evaluate (__LINE__, __func__, standard, hits [5].data);
     }
   }
+  
+  // Test French citation style.
+  {
+    database_check.truncateOutput (bible);
+    string usfm = R"(
+\c 1
+\p
+\v 1 This is a «citation».
+\v 2 Verse text.
+\v 3 Verse text and « citation.
+\p
+\v 4 « New paragraph with continued citation.
+\p
+\v 5 « New paragraph with continued citation.
+\p
+\v 6 New paragraph without continued citation and with end of citation ».
+\p
+\v 7 New «citation.
+\p
+\v 8 Forgot citation opener.
+\v 9 End of citation ».
+)";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.initializeHeadingsAndTextPerVerse (false);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
+    Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 2, hits.size ());
+    if (hits.size () == 2) {
+      string standard = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
+      evaluate (__LINE__, __func__, 6, hits [0].verse);
+      evaluate (__LINE__, __func__, standard, hits [0].data);
+      evaluate (__LINE__, __func__, 8, hits [1].verse);
+      evaluate (__LINE__, __func__, standard, hits [1].data);
+    }
+  }
+  
 }

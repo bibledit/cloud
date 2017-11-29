@@ -26,7 +26,8 @@
 
 // In French there is a no-break space after the « and before the » ! ? : ;
 // The Unicode value for the no-break space is U+00A0.
-void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int chapter, map <int, string> texts)
+void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int chapter,
+                                                 map <int, string> texts)
 {
   Database_Check database_check;
   string nbsp = non_breaking_space_u00A0 ();
@@ -67,5 +68,59 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
       }
     }
     
+  }
+}
+
+
+// In French, if a citation starts with "«", all subsequent paragraphs within that citation, may begin with a new «.
+// Example:
+// « This is the text of the citation.
+// « This is a new paragraph, and it ends the citation ».
+// This checks on that style.
+void Checks_French::citationStyle (string bible, int book, int chapter,
+                                   vector <map <int, string>> verses_paragraphs) // Todo
+{
+  Database_Check database_check;
+
+  // Store the state of the previous paragraph.
+  // It indicates whether any citation was left open at the end of the paragraph.
+  bool previous_paragraph_open_citation = false;
+  
+  // Iterate over the paragraphs.
+  for (unsigned int paragraph_counter = 0; paragraph_counter < verses_paragraphs.size (); paragraph_counter++) {
+    
+    // Container with verse numbers as the keys, plus the text of the whole paragraph.
+    map <int, string> verses_paragraph = verses_paragraphs [paragraph_counter];
+    
+    // Skip empty containers.
+    if (verses_paragraph.empty ()) continue;
+
+    // If this the first paragraph in the chapter, leave it as it is.
+    // If it is not the first paragraph, and if the previous paragraph left an open citation,
+    // this new paragraph should start with the French citation marker.
+    if (paragraph_counter) {
+      if (previous_paragraph_open_citation) {
+        int verse = verses_paragraph.begin()->first;
+        string text = verses_paragraph.begin()->second;
+        if (!text.empty ()) {
+          string character = unicode_string_substr (text, 0, 1);
+          if (character != "«") {
+            string message = translate ("The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French");
+            database_check.recordOutput (bible, book, chapter, verse, message);
+          }
+        }
+      }
+    }
+    
+    // Determine whether the current paragraph opens a citation and does not close it.
+    string paragraph;
+    for (auto element : verses_paragraph) {
+      paragraph.append (element.second);
+    }
+    int opener_count = 0;
+    filter_string_str_replace ("«", "", paragraph, &opener_count);
+    int closer_count = 0;
+    filter_string_str_replace ("»", "", paragraph, &closer_count);
+    previous_paragraph_open_citation = (opener_count > closer_count);
   }
 }

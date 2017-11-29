@@ -4422,6 +4422,9 @@ msgstr ""
 msgid "no-break space at French punctuation"
 msgstr ""
 
+msgid "multiple « in French citation style"
+msgstr ""
+
 msgid "Settings for the sentence structure"
 msgstr ""
 

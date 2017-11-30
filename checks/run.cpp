@@ -103,6 +103,7 @@ void checks_run (string bible)
   }
   bool check_space_end_verse = Database_Config_Bible::getCheckSpaceEndVerse (bible);
   bool check_french_punctuation = Database_Config_Bible::getCheckFrenchPunctuation (bible);
+  bool check_french_citation_style = Database_Config_Bible::getCheckFrenchCitationStyle (bible);
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
@@ -146,7 +147,6 @@ void checks_run (string bible)
         Checks_Space::spaceBeforePunctuation (bible, book, chapter, verses_text);
       }
       
-      
       if (check_sentence_structure || check_paragraph_structure) {
         checks_sentences.initialize ();
         if (check_sentence_structure) checks_sentences.check (verses_text);
@@ -155,9 +155,7 @@ void checks_run (string bible)
                                        within_sentence_paragraph_markers,
                                        verses_paragraphs);
         }
-          
-          
-          
+        
         vector <pair<int, string>> results = checks_sentences.getResults ();
         for (auto result : results) {
           int verse = result.first;
@@ -165,7 +163,6 @@ void checks_run (string bible)
           database_check.recordOutput (bible, book, chapter, verse, msg);
         }
       }
-
 
       if (check_well_formed_usfm) {
         checks_usfm.initialize (book, chapter);
@@ -179,21 +176,17 @@ void checks_run (string bible)
         }
       }
 
-
       if (check_missing_punctuation_end_verse) {
         Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, center_marks, end_marks, disregards);
       }
       
-      
       if (check_patterns) {
         Checks_Verses::patterns (bible, book, chapter, verses_text, checking_patterns);
       }
-
       
       if (check_matching_pairs) {
-        Checks_Pairs::run (bible, book, chapter, verses_text, matching_pairs);
+        Checks_Pairs::run (bible, book, chapter, verses_text, matching_pairs, check_french_citation_style);
       }
-      
       
       if (check_space_end_verse) {
         Checks_Space::spaceEndVerse (bible, book, chapter, chapterUsfm);
@@ -202,6 +195,10 @@ void checks_run (string bible)
       if (check_french_punctuation) {
         Checks_French::spaceBeforeAfterPunctuation (bible, book, chapter, verses_headings);
         Checks_French::spaceBeforeAfterPunctuation (bible, book, chapter, verses_text);
+      }
+      
+      if (check_french_citation_style) {
+        Checks_French::citationStyle (bible, book, chapter, verses_paragraphs);
       }
       
     }

@@ -29,9 +29,10 @@ class Checks_Pairs
 public:
   static void run (const string & bible, int book, int chapter,
                    const map <int, string> & texts,
-                   const vector <pair <string, string> > & pairs);
-  static string match (const string & character, const vector <pair <string, string> > & pairs);
+                   const vector <pair <string, string> > & pairs,
+                   bool french_citation_style);
 private:
+  static string match (const string & character, const vector <pair <string, string> > & pairs);
 };
 
 

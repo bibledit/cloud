@@ -22,11 +22,13 @@
 #include <database/bibles.h>
 #include <database/check.h>
 #include <locale/translate.h>
+#include <checks/french.h>
 
 
 void Checks_Pairs::run (const string & bible, int book, int chapter,
                         const map <int, string> & texts,
-                        const vector <pair <string, string> > & pairs)
+                        const vector <pair <string, string> > & pairs,
+                        bool french_citation_style)
 {
   // This holds the opener characters of the pairs which were opened in the text.
   // For example, it may hold the "[".
@@ -34,11 +36,17 @@ void Checks_Pairs::run (const string & bible, int book, int chapter,
   vector <string> opened;
   
   // Containers with the openers and the closers.
+  // If the check on the French citation style is active,
+  // skip the French guillemets.
   vector <string> openers;
   vector <string> closers;
   for (auto & element : pairs) {
-    openers.push_back (element.first);
-    closers.push_back (element.second);
+    string opener = element.first;
+    if (french_citation_style && (opener == Checks_French::left_guillemet ())) continue;
+    string closer = element.second;
+    if (french_citation_style && (opener == Checks_French::right_guillemet ())) continue;
+    openers.push_back (opener);
+    closers.push_back (closer);
   }
 
   Database_Check database_check;

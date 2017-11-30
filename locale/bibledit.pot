@@ -2072,6 +2072,12 @@ msgstr ""
 msgid "Should be preceded by a no-break space in French"
 msgstr ""
 
+msgid ""
+"The previous paragraph contains a citation not closed with a » therefore the "
+"current paragraph is expected to start with a « to continue that citation in "
+"French"
+msgstr ""
+
 msgid "Patterns"
 msgstr ""
 

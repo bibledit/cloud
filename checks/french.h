@@ -31,6 +31,8 @@ public:
                                            map <int, string> texts);
   static void citationStyle  (string bible, int book, int chapter,
                               vector <map <int, string>> verses_paragraphs);
+  static string left_guillemet ();
+  static string right_guillemet ();
 private:
 };
 

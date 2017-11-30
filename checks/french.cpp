@@ -31,24 +31,23 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
 {
   Database_Check database_check;
   string nbsp = non_breaking_space_u00A0 ();
-  string left_guillemet = "«";
-  vector <string> right_punctuation = { "»", "!", "?", ":", ";" };
+  vector <string> right_punctuation = { right_guillemet(), "!", "?", ":", ";" };
   for (auto element : texts) {
     int verse = element.first;
 
     {
       string text = element.second;
-      size_t pos = text.find (left_guillemet);
+      size_t pos = text.find (left_guillemet ());
       while (pos != string::npos) {
-        text.erase (0, pos + left_guillemet.size ());
+        text.erase (0, pos + left_guillemet ().size ());
         if (text.find (" ") == 0) {
-          string message = left_guillemet + " - " + translate ("Should be followed by a no-break space rather than a plain space in French");
+          string message = left_guillemet () + " - " + translate ("Should be followed by a no-break space rather than a plain space in French");
           database_check.recordOutput (bible, book, chapter, verse, message);
         } else if (text.find (nbsp) != 0) {
-          string message = left_guillemet + " - " + translate ("Should be followed by a no-break space in French");
+          string message = left_guillemet () + " - " + translate ("Should be followed by a no-break space in French");
           database_check.recordOutput (bible, book, chapter, verse, message);
         }
-        pos = text.find (left_guillemet);
+        pos = text.find (left_guillemet ());
       }
     }
     
@@ -78,7 +77,7 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
 // « This is a new paragraph, and it ends the citation ».
 // This checks on that style.
 void Checks_French::citationStyle (string bible, int book, int chapter,
-                                   vector <map <int, string>> verses_paragraphs) // Todo
+                                   vector <map <int, string>> verses_paragraphs)
 {
   Database_Check database_check;
 
@@ -120,7 +119,19 @@ void Checks_French::citationStyle (string bible, int book, int chapter,
     int opener_count = 0;
     filter_string_str_replace ("«", "", paragraph, &opener_count);
     int closer_count = 0;
-    filter_string_str_replace ("»", "", paragraph, &closer_count);
+    filter_string_str_replace (right_guillemet (), "", paragraph, &closer_count);
     previous_paragraph_open_citation = (opener_count > closer_count);
   }
+}
+
+
+string Checks_French::left_guillemet ()
+{
+  return "«";
+}
+
+
+string Checks_French::right_guillemet ()
+{
+  return "»";
 }

@@ -920,17 +920,26 @@ string Database_Modifications::getNotificationNewText (int id)
 }
 
 
-void Database_Modifications::clearNotificationsUser (const string& username)
+// Clears change notifications for $username.
+// It does not clear all of the change notifications in all cases.
+// It clears a limited number of them.
+// It returns how many change notifications it cleared.
+int Database_Modifications::clearNotificationsUser (const string& username)
 {
+  int cleared_counter = 0;
   vector <int> identifiers = getNotificationIdentifiers (username);
   sqlite3 * db = connect ();
-  // Transaction speeds up the operation.
+  // A transaction speeds up the operation.
   database_sqlite_exec (db, "BEGIN;");
   for (auto& identifier : identifiers) {
+    if (cleared_counter >= 100) continue;
     deleteNotification (identifier, db);
+    cleared_counter++;
   }
   database_sqlite_exec (db, "COMMIT;");
   database_sqlite_disconnect (db);
+  // How many change notifications it cleared.
+  return cleared_counter;
 }
 
 

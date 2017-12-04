@@ -25,6 +25,11 @@
 #include <pugixml/pugixml.hpp>
 #include <locale/translate.h>
 #include <index/listing.h>
+#include <database/logs.h>
+#include <database/modifications.h>
+#include <database/jobs.h>
+#include <filter/string.h>
+#include <webserver/request.h>
 
 
 using namespace pugi;
@@ -92,4 +97,41 @@ string changes_interlinks (void * webserver_request, string my_url)
   stringstream output;
   document.print (output, "", format_raw);
   return output.str ();
+}
+
+
+void changes_clear_notifications_user (string jobid, string username)
+{
+  Database_Logs::log (translate ("Start clearing change notifications") + " " + username);
+  
+  Database_Modifications database_modifications;
+  Database_Jobs database_jobs;
+
+  // Get the total amount of change notifications to clear for the user.
+  vector <int> identifiers = database_modifications.getNotificationIdentifiers (username);
+  
+  // Total notes cleared.
+  int total_cleared = 0;
+  
+  // Feedback.
+  database_jobs.setPercentage (convert_to_int (jobid), 0);
+  database_jobs.setProgress (convert_to_int (jobid), translate ("Total:") + " " + convert_to_string (identifiers.size()));
+
+
+  // The amount of notifications it clears in the next iteration.
+  int cleared_count_in_one_go = 0;
+  do {
+    cleared_count_in_one_go = database_modifications.clearNotificationsUser (username);
+    total_cleared += cleared_count_in_one_go;
+    if (!identifiers.empty ()) {
+      database_jobs.setPercentage (convert_to_int (jobid), 100 * total_cleared / identifiers.size());
+    }
+  } while (cleared_count_in_one_go);
+  
+  Webserver_Request request;
+  request.database_config_user ()->setUserChangeNotificationsChecksum (username, "");
+  
+  database_jobs.setResult (convert_to_int (jobid), translate ("Ready clearing change notifications"));
+  
+  Database_Logs::log (translate ("Ready clearing change notifications") + " " + username);
 }

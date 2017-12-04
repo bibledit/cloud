@@ -134,6 +134,10 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   test_dev ();
   test_french ();
+  test_database_modifications_user ();
+  test_database_modifications_team ();
+  test_database_modifications_notifications ();
+  test_styles ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

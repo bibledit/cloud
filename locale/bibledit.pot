@@ -2162,10 +2162,19 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
+msgid "Start clearing change notifications"
+msgstr ""
+
+msgid "Ready clearing change notifications"
+msgstr ""
+
 msgid "Change statistics"
 msgstr ""
 
 msgid "Everyone"
+msgstr ""
+
+msgid "Clearing change notifications"
 msgstr ""
 
 msgid "Will generate lists of changes"

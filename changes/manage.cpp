@@ -31,11 +31,14 @@
 #include <demo/logic.h>
 #include <database/modifications.h>
 #include <database/notes.h>
+#include <database/jobs.h>
 #include <trash/handler.h>
 #include <ipc/focus.h>
 #include <access/user.h>
 #include <changes/logic.h>
 #include <menu/logic.h>
+#include <tasks/logic.h>
+#include <jobs/index.h>
 
 
 string changes_manage_url ()
@@ -64,10 +67,18 @@ string changes_manage (void * webserver_request)
   
   
   if (request->query.count("clear")) {
-    string clear = request->query["clear"];
+    string username = request->query["clear"];
     // This may take time in case there are many change notifications to clear.
-    database_modifications.clearNotificationsUser (clear);
-    request->database_config_user ()->setChangeNotificationsChecksum ("");
+    // If there's 2000+ notifications, it takes a considerable time.
+    // For that reason, it starts a background job to clear the change notifications.
+    // The app will remain responsive to the user.
+    Database_Jobs database_jobs = Database_Jobs ();
+    int jobId = database_jobs.getNewId ();
+    database_jobs.setLevel (jobId, Filter_Roles::manager ());
+    database_jobs.setStart (jobId, translate ("Clearing change notifications."));
+    tasks_logic_queue (DELETECHANGES, {convert_to_string (jobId), username});
+    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+    return "";
   }
   
   

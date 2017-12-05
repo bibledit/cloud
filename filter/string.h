@@ -56,6 +56,7 @@ string non_breaking_space_u00A0 ();
 string soft_hyphen_u00AD ();
 string en_space_u2002 ();
 string figure_space_u2007 ();
+string narrow_non_breaking_space_u202F ();
 size_t unicode_string_length (string s);
 string unicode_string_substr (string s, size_t pos = 0, size_t len = 0);
 size_t unicode_string_strpos (string haystack, string needle, size_t offset = 0);

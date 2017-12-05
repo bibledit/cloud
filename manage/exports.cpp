@@ -286,7 +286,7 @@ string manage_exports (void * webserver_request)
   view.set_variable ("odtsecure", get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
 
   
-  vector <string> spaces = { " ", non_breaking_space_u00A0 (), en_space_u2002 (), figure_space_u2007 () };
+  vector <string> spaces = { " ", non_breaking_space_u00A0 (), en_space_u2002 (), figure_space_u2007 (), narrow_non_breaking_space_u202F () };
   if (request->query.count ("odtwhitespace")) {
     string odtwhitespace = request->query ["odtwhitespace"];
     for (auto space : spaces) {

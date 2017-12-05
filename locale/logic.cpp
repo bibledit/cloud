@@ -220,6 +220,10 @@ string locale_logic_space_get_name (string space, bool english)
     if (english) return "figure space";
     else return translate ("figure space");
   }
+  if (space == narrow_non_breaking_space_u202F ()) {
+    if (english) return "narrow non-breaking space";
+    else return translate ("narrow non-breaking space");
+  }
   return translate ("unknown");
 }
 

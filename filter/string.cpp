@@ -366,6 +366,12 @@ string figure_space_u2007 ()
 }
 
 
+// Returns a "narrow no-break space (x202F)
+string narrow_non_breaking_space_u202F () // Todo
+{
+  return "\u202F";
+}
+
 // Returns the length of string s in unicode points, not in bytes.
 size_t unicode_string_length (string s)
 {

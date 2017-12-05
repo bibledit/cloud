@@ -367,7 +367,7 @@ string figure_space_u2007 ()
 
 
 // Returns a "narrow no-break space (x202F)
-string narrow_non_breaking_space_u202F () // Todo
+string narrow_non_breaking_space_u202F ()
 {
   return "\u202F";
 }

@@ -34,6 +34,7 @@ void test_french ()
   database_check.create ();
   string bible = "unit test";
   string nbsp = non_breaking_space_u00A0 ();
+  string nnbsp = narrow_non_breaking_space_u202F ();
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
@@ -41,27 +42,36 @@ void test_french ()
     map <int, string> texts;
     texts [1] = "This is «French» text.";
     texts [2] = "This is « French » text.";
-    texts [3] = "This is «" + nbsp + "French" + nbsp + "» text.";
+    texts [3] = "This is «" + nbsp + "French" + nbsp + "» with non-breaking spaces.";
     texts [4] = "This is it ;";
     texts [5] = "This is it;";
     texts [6] = "This is it" + nbsp + ";";
+    texts [7] = "This is «" + nnbsp + "French" + nnbsp + "» with narrow non-breaking spaces.";
     Checks_French::spaceBeforeAfterPunctuation (bible, 2, 3, texts);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 6, hits.size ());
-    if (hits.size () == 6) {
+    unsigned int hitcount = 6;
+    evaluate (__LINE__, __func__, hitcount, hits.size ());
+    if (hits.size () == hitcount) {
       string standard;
       standard = "« - Should be followed by a no-break space in French";
       evaluate (__LINE__, __func__, standard, hits [0].data);
+      evaluate (__LINE__, __func__, 1, hits [0].verse);
       standard = "» - Should be preceded by a no-break space in French";
       evaluate (__LINE__, __func__, standard, hits [1].data);
+      evaluate (__LINE__, __func__, 1, hits [1].verse);
       standard = "« - Should be followed by a no-break space rather than a plain space in French";
       evaluate (__LINE__, __func__, standard, hits [2].data);
+      evaluate (__LINE__, __func__, 2, hits [2].verse);
       standard = "» - Should be preceded by a no-break space rather than a plain space in French";
       evaluate (__LINE__, __func__, standard, hits [3].data);
+      evaluate (__LINE__, __func__, 2, hits [3].verse);
       standard = "; - Should be preceded by a no-break space rather than a plain space in French";
       evaluate (__LINE__, __func__, standard, hits [4].data);
+      evaluate (__LINE__, __func__, 4, hits [4].verse);
       standard = "; - Should be preceded by a no-break space in French";
       evaluate (__LINE__, __func__, standard, hits [5].data);
+      evaluate (__LINE__, __func__, 5, hits [5].verse);
+      standard = "» - Should be preceded by a no-break space in French";
     }
   }
   

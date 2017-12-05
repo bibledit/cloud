@@ -156,7 +156,7 @@ string usfm_get_marker (string usfm)
 // This imports USFM $input.
 // It takes raw $input,
 // and returns a vector with objects with book_number, chapter_number, chapter_data.
-vector <BookChapterData> usfm_import (string input, string stylesheet)
+vector <BookChapterData> usfm_import (string input, string stylesheet) // Todo
 {
   vector <BookChapterData> result;
 
@@ -182,6 +182,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
     string marker = usfm_get_marker (marker_or_text);
     if (marker != "") {
       // USFM marker found.
+      bool opener = usfm_is_opening_marker (marker_or_text);
       bool store_chapter_data = false;
       if (marker == "id") {
         retrieve_book_number_on_next_iteration = true;
@@ -202,8 +203,11 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       Database_Styles_Item marker_data = database_styles.getMarkerData (stylesheet, marker);
       int type = marker_data.type;
       int subtype = marker_data.subtype;
-      if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
-        chapter_data += "\n";
+      // Only opening markers can start on a new line. Closing markers never do.
+      if (opener) {
+        if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
+          chapter_data += "\n";
+        }
       }
     }
     chapter_data += marker_or_text;

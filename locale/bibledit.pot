@@ -2165,6 +2165,9 @@ msgstr ""
 msgid "Start clearing change notifications"
 msgstr ""
 
+msgid "Total:"
+msgstr ""
+
 msgid "Ready clearing change notifications"
 msgstr ""
 
@@ -2174,7 +2177,7 @@ msgstr ""
 msgid "Everyone"
 msgstr ""
 
-msgid "Clearing change notifications"
+msgid "Clearing change notifications."
 msgstr ""
 
 msgid "Will generate lists of changes"
@@ -3740,7 +3743,13 @@ msgstr ""
 msgid "Line height"
 msgstr ""
 
+msgid "percent"
+msgstr ""
+
 msgid "Letter spacing"
+msgstr ""
+
+msgid "pixels"
 msgstr ""
 
 msgid "Save"

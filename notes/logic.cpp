@@ -325,14 +325,14 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
-
+  
   Database_Config_User database_config_user = Database_Config_User (webserver_request);
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (webserver_request);
     vector <string> assignees = database_notes.get_assignees_v12 (identifier);
     if (find (assignees.begin(), assignees.end(), user) == assignees.end()) {
-      emailUsers (identifier, translate("Assigned"), {user}, false);
+      emailUsers (identifier, translate("Assigned"), "", {user}, false);
     }
   }
 }
@@ -449,16 +449,17 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   }
 
   // Send mail to all recipients.
-  emailUsers (identifier, label, recipients, postpone);
+  emailUsers (identifier, label, bible, recipients, postpone);
 }
 
 
 // This handles email to users.
 // identifier: the note that is being handled.
 // label: prefix to the subject line of the email.
+// bible: If given, to include in the subject line of the email.
 // users: array of users to be mailed.
 // postpone: whether to postpone sending the email till the evening.
-void Notes_Logic::emailUsers (int identifier, const string& label, const vector <string> & users, bool postpone)
+void Notes_Logic::emailUsers (int identifier, const string& label, string bible, const vector <string> & users, bool postpone)
 {
   // Databases.
   Database_Notes database_notes (webserver_request);
@@ -508,6 +509,10 @@ void Notes_Logic::emailUsers (int identifier, const string& label, const vector 
     if (!client_logic_client_enabled ()) {
       string subject = label;
       subject.append (" | ");
+      if (!bible.empty ()) {
+        subject.append (bible);
+        subject.append (" ");
+      }
       subject.append (passages);
       subject.append (" | ");
       subject.append (summary);

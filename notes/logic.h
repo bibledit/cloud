@@ -61,7 +61,7 @@ public:
 private:
   void * webserver_request;
   void notifyUsers (int identifier, int notification);
-  void emailUsers (int identifier, const string& label, const vector <string> & users, bool postpone);
+  void emailUsers (int identifier, const string& label, string bible, const vector <string> & users, bool postpone);
 };
 
 

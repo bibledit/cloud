@@ -1890,6 +1890,9 @@ msgstr ""
 msgid "figure space"
 msgstr ""
 
+msgid "narrow non-breaking space"
+msgstr ""
+
 msgid "unknown"
 msgstr ""
 
@@ -6443,6 +6446,15 @@ msgid ""
 "account and tell the number of messages in the Inbox."
 msgstr ""
 
+msgid "POP3 Host"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
 msgid "Sending mail"
 msgstr ""
 
@@ -6460,6 +6472,9 @@ msgstr ""
 msgid ""
 "When you submit new values, Bibledit will attempt to send an email to the "
 "email address of Bibledit."
+msgstr ""
+
+msgid "SMTP Host"
 msgstr ""
 
 msgid "Select editor"
@@ -7387,6 +7402,52 @@ msgstr ""
 msgid "External reference"
 msgstr ""
 
+msgid "Bibledit software"
+msgstr ""
+
+msgid "Copyright (©) 2003-2017 Teus Benschop."
+msgstr ""
+
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the GNU General Public License as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) "
+"any later version."
+msgstr ""
+
+msgid ""
+"This program is distributed in the hope that it will be useful, but without "
+"any warranty; without even the implied warranty of merchantability or "
+"fitness for a particular purpose. See the GNU General Public License for "
+"more details."
+msgstr ""
+
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program. See also"
+msgstr ""
+
+msgid "ETCBC4 Hebrew text database"
+msgstr ""
+
+msgid "Bibledit obtained the data from"
+msgstr ""
+
+msgid "SHEBANQ, a search engine for the Hebrew Bible"
+msgstr ""
+
+msgid "Creative Commons Attribution-NonCommercial 4.0 International License"
+msgstr ""
+
+msgid "You may not use the data for commercial applications without consent."
+msgstr ""
+
+msgid "Other code and data"
+msgstr ""
+
+msgid "See the source code repository"
+msgstr ""
+
 msgid "Install Bibledit on Windows"
 msgstr ""
 
@@ -7630,6 +7691,9 @@ msgid ""
 msgstr ""
 
 msgid "The Ubuntu packages support Ubuntu 15.05 and higher."
+msgstr ""
+
+msgid "Bibledit Cloud can also be installed from source."
 msgstr ""
 
 msgid "When the Navigator is displayed, it focuses the name of the Bible book."

@@ -221,6 +221,8 @@ public:
   void setDismissChangesAtTop (bool value);
   bool getQuickNoteEditLink ();
   void setQuickNoteEditLink (bool value);
+  bool getShowBibleInNotesList ();
+  void setShowBibleInNotesList (bool value);
 private:
   void * webserver_request;
   string file (string user);

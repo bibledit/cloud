@@ -1299,3 +1299,17 @@ void Database_Config_User::setQuickNoteEditLink (bool value)
 {
   setBValue (quick_note_edit_link_key (), value);
 }
+
+
+const char * show_bible_in_notes_list_key ()
+{
+  return "show-bible-in-notes-list";
+}
+bool Database_Config_User::getShowBibleInNotesList ()
+{
+  return getBValue (show_bible_in_notes_list_key (), false);
+}
+void Database_Config_User::setShowBibleInNotesList (bool value)
+{
+  setBValue (show_bible_in_notes_list_key (), value);
+}

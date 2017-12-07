@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
+#include <locale/translate.h>
 
 
 // Database resilience.
@@ -153,7 +154,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     // It has been seen on a service provider that its system shut Bibledit's server down
     // due to excessive CPU usage during a long time.
     if (count == 9) {
-      data.append (_(" (displaying no more of these)"));
+      data.append (" (" + translate ("displaying no more of these") + ")");
       sql.clear ();
       sql.add ("INSERT INTO output2 VALUES (");
       sql.add (bible);

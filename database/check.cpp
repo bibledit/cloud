@@ -153,7 +153,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     // It has been seen on a service provider that its system shut Bibledit's server down
     // due to excessive CPU usage during a long time.
     if (count == 9) {
-      data.append (" _((displaying no more of these))");
+      data.append (_(" (displaying no more of these)"));
       sql.clear ();
       sql.add ("INSERT INTO output2 VALUES (");
       sql.add (bible);

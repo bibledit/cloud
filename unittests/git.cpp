@@ -742,14 +742,14 @@ void test_git ()
     // Commit and push the result.
     success = filter_git_commit (repository, "", "message", messages, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 4, (int)messages.size());
+    evaluate (__LINE__, __func__, 5, (int)messages.size());
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, 2, (int)messages.size());
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, 3, (int)messages.size ());
+    evaluate (__LINE__, __func__, 4, (int)messages.size ());
     
     // Remove journal entries.
     refresh_sandbox (false);

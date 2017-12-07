@@ -136,6 +136,7 @@ int main (int argc, char **argv)
   test_styles ();
   test_usfm ();
   test_french ();
+  test_git ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

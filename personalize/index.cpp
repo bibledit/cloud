@@ -406,6 +406,15 @@ string personalize_index (void * webserver_request)
   view.set_variable ("quickeditnotecontents", on_off);
 
   
+  // Whether the list of consultation notes shows the Bible the note refers to.
+  if (request->query.count ("showbibleinnoteslist")) {
+    bool state = request->database_config_user ()->getShowBibleInNotesList ();
+    request->database_config_user ()->setShowBibleInNotesList (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getShowBibleInNotesList ());
+  view.set_variable ("showbibleinnoteslist", on_off);
+  
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

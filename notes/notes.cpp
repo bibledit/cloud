@@ -108,6 +108,10 @@ string notes_notes (void * webserver_request)
     string summary = database_notes.get_summary_v12 (identifier);
     vector <Passage> passages = database_notes.get_passages_v12 (identifier);
     string verses = filter_passage_display_inline (passages);
+    if (request->database_config_user ()->getShowBibleInNotesList ()) {
+      string bible = database_notes.get_bible_v12 (identifier);
+      verses.insert (0, bible + " ");
+    }
     // A simple way to make it easier to see the individual notes in the list,
     // when the summaries of some notes are long, is to display the passage first.
     summary.insert (0, verses + " | ");

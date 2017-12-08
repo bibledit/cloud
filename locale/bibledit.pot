@@ -1539,6 +1539,9 @@ msgid ""
 "cross reference target references."
 msgstr ""
 
+msgid "displaying no more of these"
+msgstr ""
+
 msgid "No Bible given"
 msgstr ""
 
@@ -4236,6 +4239,10 @@ msgid ""
 msgstr ""
 
 msgid "This is an extra control in addition to the normal one."
+msgstr ""
+
+msgid ""
+"The list of consultation notes shows the name of the Bible the note refers to"
 msgstr ""
 
 msgid "Send / Receive"

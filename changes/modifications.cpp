@@ -46,7 +46,7 @@
 
 // Helper function.
 // $user: The user whose changes are being processed.
-// $recipients: The users who opted to receive online notifications of any contributors.
+// $recipients: The users who opted for receiving online notifications of any contributor.
 void changes_process_identifiers (Webserver_Request * request,
                                   string user,
                                   vector <string> recipients,

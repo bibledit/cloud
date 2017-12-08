@@ -27,11 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
-#include <pugixml/pugixml.hpp>
 #include <database/statistics.h>
-
-
-using namespace pugi;
 
 
 string changes_statistics_url ()

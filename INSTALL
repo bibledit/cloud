@@ -12,7 +12,7 @@ without warranty of any kind.
 Basic Installation
 ==================
 
-   Briefly, the shell command `./configure && make && make install'
+   Briefly, the shell command `./configure && make', (and optionnaly 'make install')
 should configure, build, and install this package.  The following
 more-detailed instructions are generic; see the `README' file for
 instructions specific to this package.  Some packages provide this
@@ -61,7 +61,7 @@ of `autoconf'.
   3. Optionally, type `make check' to run any self-tests that come with
      the package, generally using the just-built uninstalled binaries.
 
-  4. Type `make install' to install the programs and any data files and
+  4. Optionally, type `make install' to install the programs and any data files and
      documentation.  When installing into a prefix owned by root, it is
      recommended that the package be configured and built as a regular
      user, and only the `make install' phase executed with root

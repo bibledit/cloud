@@ -12,7 +12,7 @@ without warranty of any kind.
 Basic Installation
 ==================
 
-   Briefly, the shell command `./configure && make', (and optionnaly 'make install')
+   Briefly, the shell command `./configure && make', (and optionally 'make install')
 should configure, build, and install this package.  The following
 more-detailed instructions are generic; see the `README' file for
 instructions specific to this package.  Some packages provide this

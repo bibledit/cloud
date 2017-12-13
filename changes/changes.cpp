@@ -174,7 +174,7 @@ string changes_changes (void * webserver_request)
   // Remove all the change notifications made by a certain user.
   if (request->query.count ("dismiss")) {
     string user = request->query ["dismiss"];
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible); // Todo based on selected bible. Test it.,
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -227,12 +227,12 @@ string changes_changes (void * webserver_request)
   
   // Enable links to dismiss categories of notifications depending on whether there's anything to dismiss.
   // And give details about the number of changes.
-  vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible); // Todo test it.
+  vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
   if (!personal_ids.empty ()) {
     view.enable_zone ("personal");
     view.set_variable ("personalcount", convert_to_string (personal_ids.size ()));
   }
-  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible); // Todo test it.
+  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
   if (!bible_ids.empty ()) {
     view.enable_zone ("bible");
     view.set_variable ("teamcount", convert_to_string (bible_ids.size ()));
@@ -268,7 +268,7 @@ string changes_changes (void * webserver_request)
   for (auto & category : categories) {
     if (category == changes_bible_category ()) continue;
     string user = category;
-    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible); // Todo test it.
+    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     string icon = category;
     if (category == changes_personal_category ()) icon = emoji_smiling_face_with_smiling_eyes ();
     if (!personal_ids.empty () && !bible_ids.empty ()) {

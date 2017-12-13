@@ -602,18 +602,6 @@ void test_database_modifications_notifications ()
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
-  // Notification personal identifiers
-  {
-    refresh_sandbox (true);
-    Database_Modifications database_modifications;
-    database_modifications.create ();
-    database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
-    database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationPersonalIdentifiers ("phpunit1", "A");
-    evaluate (__LINE__, __func__, {1, 4}, ids);
-  }
   // Notification team identifiers
   {
     refresh_sandbox (true);

@@ -714,68 +714,6 @@ vector <int> Database_Modifications::getNotificationIdentifiers (string username
 }
 
 
-// This gets the identifiers of the personal changes.
-// For easier comparison, it also gets the identifiers of the changes
-// in the verses that have changes entered by anyone.
-vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const string& username, const string& category)
-{
-  sqlite3 * db = connect ();
-
-  // Get all personal changes.
-  vector <int> personalIDs;
-  SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT identifier FROM notifications WHERE username =");
-  sql.add (username);
-  sql.add ("AND category =");
-  sql.add (category);
-  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
-
-  vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
-  for (auto & identifier : sidentifiers) {
-    personalIDs.push_back (convert_to_int (identifier));
-  }
-
-  vector <int> allIDs;
-
-  // Go through each of the personal changes.
-  for (int & personalID : personalIDs) {
-    // Add the personal change to the results.
-    allIDs.push_back (personalID);
-    // Get the Bible and passage for this change.
-    string bible = getNotificationBible (personalID);
-    Passage passage = getNotificationPassage (personalID);
-    int book = passage.book;
-    int chapter = passage.chapter;
-    int verse = convert_to_int (passage.verse);
-    // Look for team's change for this Bible and passage.
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("SELECT identifier FROM notifications WHERE username =");
-    sql.add (username);
-    sql.add ("AND bible =");
-    sql.add (bible);
-    sql.add ("AND book =");
-    sql.add (book);
-    sql.add ("AND chapter =");
-    sql.add (chapter);
-    sql.add ("AND verse =");
-    sql.add (verse);
-    sql.add ("ORDER BY identifier ASC;");
-    vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
-    for (auto & identifier : sidentifiers) {
-      int id = convert_to_int (identifier);
-      // Add the identifier if it's not yet in.
-      if (find (allIDs.begin(), allIDs.end(), id) == allIDs.end()) {
-        allIDs.push_back (id);
-      }
-    }
-  }
-  
-  database_sqlite_disconnect (db);
-
-  return allIDs;
-}
-
-
 // This gets the identifiers of the team's changes.
 vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, string bible)
 {

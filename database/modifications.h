@@ -73,7 +73,6 @@ public:
   void recordNotification (const vector <string> & users, const string& category, const string& bible, int book, int chapter, int verse, const string& oldtext, const string& modification, const string& newtext);
   void indexTrimAllNotifications ();
   vector <int> getNotificationIdentifiers (string username = "", string bible = "");
-  vector <int> getNotificationPersonalIdentifiers (const string& username, const string& category);
   vector <int> getNotificationTeamIdentifiers (const string& username, const string& category, string bible = "");
   vector <string> getNotificationDistinctBibles (string username = "");
   void deleteNotification (int identifier, sqlite3 * db = NULL);

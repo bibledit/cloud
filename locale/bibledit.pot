@@ -2126,6 +2126,9 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
+msgid "All Bibles"
+msgstr ""
+
 msgid "all of them"
 msgstr ""
 

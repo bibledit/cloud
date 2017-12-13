@@ -3,13 +3,13 @@
 <br>
 <p>translate("Dismiss the notifications of the changes of the following categories:")</p>
 <!-- #BEGINITERATION matching -->
-<p>* <a href="?matching=##user##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
+<p>* <a href="?matching=##user##&selectedbible=##selectedbible##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
 <!-- #ENDITERATION matching -->
 <!-- #BEGINZONE personal -->
-<p>* <a href="?personal">😊 translate("(all of them)"): ##personalcount##</a></p>
+<p>* <a href="?personal=&selectedbible=##selectedbible##">😊 translate("(all of them)"): ##personalcount##</a></p>
 <!-- #ENDZONE personal -->
 <!-- #BEGINZONE bible -->
-<p>* <a href="?bible">📖 translate("(all of them)"): ##teamcount##</a></p>
+<p>* <a href="?bible=&selectedbible=##selectedbible##">📖 translate("(all of them)"): ##teamcount##</a></p>
 <!-- #ENDZONE bible -->
 ##dismissblock##
 <br>
@@ -18,7 +18,13 @@
 </div>
 <br>
 <a id="help"></a>
-<p>translate("This page lists the notifications of the changes in the Bible text.")</p>
+<p>
+translate("This page lists the notifications of the changes in the Bible text.")
+<!-- #BEGINITERATION bibleselector -->
+|
+<a href="?selectbible=##selectbible##">##biblename##</a>
+<!-- #ENDITERATION bibleselector -->
+</p>
 <p>translate("Use the up and down arrow keys to navigate through the entries.")</p>
 <p>
 translate("Press the delete key to remove the selected entry.")
@@ -86,13 +92,13 @@ translate("The different categories of change notifications enable you to find o
 <br>
 <p>translate("Dismiss the notifications of the changes of the following categories:")</p>
 <!-- #BEGINITERATION matching -->
-<p>* <a href="?matching=##user##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
+<p>* <a href="?matching=##user##&selectedbible=##selectedbible##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
 <!-- #ENDITERATION matching -->
 <!-- #BEGINZONE personal -->
-<p>* <a href="?personal">😊 translate("(all of them)"): ##personalcount##</a></p>
+<p>* <a href="?personal=&selectedbible=##selectedbible##">😊 translate("(all of them)"): ##personalcount##</a></p>
 <!-- #ENDZONE personal -->
 <!-- #BEGINZONE bible -->
-<p>* <a href="?bible">📖 translate("(all of them)"): ##teamcount##</a></p>
+<p>* <a href="?bible=&selectedbible=##selectedbible##">📖 translate("(all of them)"): ##teamcount##</a></p>
 <!-- #ENDZONE bible -->
 ##dismissblock##
 <!-- #ENDZONE controlsatbottom -->

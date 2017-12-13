@@ -318,7 +318,6 @@ private:
   
 private:
   friend void test_database_notes ();
-  friend void test_dev ();
 
 private:
   sqlite3 * connect ();

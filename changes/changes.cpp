@@ -119,11 +119,19 @@ string changes_changes (void * webserver_request)
   page += header.run ();
   Assets_View view;
   
+
+  // The selected Bible, that is, the Bible for which to show the change notifications.
+  string selectedbible = request->query ["selectedbible"];
+  if (request->query.count ("selectbible")) {
+    selectedbible = request->query ["selectbible"];
+  }
+  view.set_variable ("selectedbible", selectedbible);
+
   
   // Remove a user's personal changes notifications and their matching change notifications in the Bible.
   string matching = request->query ["matching"];
   if (!matching.empty ()) {
-    vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category ());
+    vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category ()); // Todo based on selected bible.
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
     for (auto & id : ids) {
@@ -137,7 +145,7 @@ string changes_changes (void * webserver_request)
   
   // Remove all the personal change notifications.
   if (request->query.count ("personal")) {
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category ());
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -151,7 +159,7 @@ string changes_changes (void * webserver_request)
   
   // Remove all the Bible change notifications.
   if (request->query.count ("bible")) {
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category ());
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -166,7 +174,7 @@ string changes_changes (void * webserver_request)
   // Remove all the change notifications made by a certain user.
   if (request->query.count ("dismiss")) {
     string user = request->query ["dismiss"];
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user);
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible); // Todo based on selected bible. Test it.,
     for (auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
@@ -179,13 +187,10 @@ string changes_changes (void * webserver_request)
   
   
   // Read the identifiers.
-  // Limit the number of results to keep the page reasonably fast even if there are many notifications.
-  vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category ());
-  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category ());
-  vector <int> ids = database_modifications.getNotificationIdentifiers (username);
+  vector <int> notification_ids = database_modifications.getNotificationIdentifiers (username, selectedbible);
   // Send the identifiers to the browser for download there.
   string pendingidentifiers;
-  for (auto id : ids) {
+  for (auto id : notification_ids) {
     if (!pendingidentifiers.empty ()) pendingidentifiers.append (" ");
     pendingidentifiers.append (convert_to_string (id));
   }
@@ -198,12 +203,36 @@ string changes_changes (void * webserver_request)
   view.set_variable ("script", script);
 
   
+  // Add links to enable the user to show the change notifications for one Bible or for all Bibles.
+  vector <string> distinct_bibles = database_modifications.getNotificationDistinctBibles (username);
+  // Show the Bible selector if there's more than one distinct Bible.
+  bool show_bible_selector = distinct_bibles.size () > 1;
+  // Also show the Bible selector if there's no change notifications to display, yet there's at least one distinct Bible.
+  // This situation often occurs after clearing a Bible's notifications, so there's no notifications after clearing them,
+  // yet there's notifications for other Bibles.
+  // Showing the Bible selector in this situation enables the user to select the other Bible(s).
+  if (notification_ids.empty () && !distinct_bibles.empty ()) show_bible_selector = true;
+  // Show the Bible selector if needed.
+  if (show_bible_selector) {
+    // If there's more than one distinct Bible, add the "All Bibles" selector.
+    if (distinct_bibles.size () > 1) distinct_bibles.insert (distinct_bibles.begin(), "");
+    // Iterate over the Bibles and make them all selectable.
+    for (auto bible : distinct_bibles) {
+      string name (bible);
+      if (name.empty ()) name = translate ("All Bibles");
+      view.add_iteration ("bibleselector", { make_pair ("selectbible", bible), make_pair ("biblename", name) } );
+    }
+  }
+
+  
   // Enable links to dismiss categories of notifications depending on whether there's anything to dismiss.
   // And give details about the number of changes.
+  vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible); // Todo test it.
   if (!personal_ids.empty ()) {
     view.enable_zone ("personal");
     view.set_variable ("personalcount", convert_to_string (personal_ids.size ()));
   }
+  vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible); // Todo test it.
   if (!bible_ids.empty ()) {
     view.enable_zone ("bible");
     view.set_variable ("teamcount", convert_to_string (bible_ids.size ()));
@@ -217,10 +246,12 @@ string changes_changes (void * webserver_request)
     if (category == changes_personal_category ()) continue;
     if (category == changes_bible_category ()) continue;
     string user = category;
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user);
+    vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     if (!ids.empty ()) {
       dismissblock.append ("<p>* <a href=\"?dismiss=");
       dismissblock.append (user);
+      dismissblock.append ("&selectbible=");
+      dismissblock.append (selectedbible);
       dismissblock.append ("\">");
       dismissblock.append (user);
       dismissblock.append (": ");
@@ -237,7 +268,7 @@ string changes_changes (void * webserver_request)
   for (auto & category : categories) {
     if (category == changes_bible_category ()) continue;
     string user = category;
-    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user);
+    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible); // Todo test it.
     string icon = category;
     if (category == changes_personal_category ()) icon = emoji_smiling_face_with_smiling_eyes ();
     if (!personal_ids.empty () && !bible_ids.empty ()) {
@@ -256,7 +287,7 @@ string changes_changes (void * webserver_request)
   
   
   // Whether to show the controls for dismissing the changes.
-  if (!ids.empty ()) {
+  if (!notification_ids.empty ()) {
     // Whether to put those controls at the bottom of the page, as the default location,
     // or whether to put them at the top of the page.
     if (request->database_config_user ()->getDismissChangesAtTop ()) {

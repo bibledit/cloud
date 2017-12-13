@@ -686,15 +686,19 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (const string& username)
+vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible) // Todo
 {
   vector <int> ids;
 
   SqliteSQL sql = SqliteSQL ();
-  sql.add ("SELECT identifier FROM notifications");
+  sql.add ("SELECT identifier FROM notifications WHERE 1");
   if (username != "") {
-    sql.add ("WHERE username =");
+    sql.add ("AND username =");
     sql.add (username);
+  }
+  if (bible != "") {
+    sql.add ("AND bible =");
+    sql.add (bible);
   }
   // Sort on reference, so that related change notifications are near each other.
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
@@ -773,7 +777,7 @@ vector <int> Database_Modifications::getNotificationPersonalIdentifiers (const s
 
 
 // This gets the identifiers of the team's changes.
-vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category)
+vector <int> Database_Modifications::getNotificationTeamIdentifiers (const string& username, const string& category, string bible)
 {
   vector <int> ids;
   SqliteSQL sql = SqliteSQL ();
@@ -781,6 +785,10 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
   sql.add (username);
   sql.add ("AND category =");
   sql.add (category);
+  if (bible != "") {
+    sql.add ("AND bible =");
+    sql.add (bible);
+  }
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
   sqlite3 * db = connect ();
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
@@ -789,6 +797,25 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
     ids.push_back (convert_to_int (sid));
   }
   return ids;
+}
+
+
+// This gets the distinct Bibles in the user's notifications.
+vector <string> Database_Modifications::getNotificationDistinctBibles (string username) // Todo
+{
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT DISTINCT bible FROM notifications WHERE 1");
+  if (username != "") {
+    sql.add ("AND username =");
+    sql.add (username);
+  }
+  sql.add (";");
+  
+  sqlite3 * db = connect ();
+  vector <string> bibles = database_sqlite_query (db, sql.sql) ["bible"];
+  database_sqlite_disconnect (db);
+  
+  return bibles;
 }
 
 

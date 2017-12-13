@@ -423,7 +423,7 @@ void test_database_modifications_notifications ()
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, {2}, ids);
   }
-  // Next Identifier.
+  // Next identifier.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -437,7 +437,7 @@ void test_database_modifications_notifications ()
     identifier = database_modifications.getNextAvailableNotificationIdentifier ();
     evaluate (__LINE__, __func__, 1, identifier);
   }
-  // Record Details Retrieval.
+  // Record details retrieval.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -448,9 +448,9 @@ void test_database_modifications_notifications ()
     evaluate (__LINE__, __func__, {}, ids);
     
     // Record three notifications and reindex.
-    database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit3"}, "A", "1", 4, 5, 6, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "bible1", 1, 2, 3, "old1", "mod1", "new1");
+    database_modifications.recordNotification ({"phpunit2", "phpunit3"}, "A", "bible2", 4, 5, 6, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     
     // There should be six notifications now: Two users per recordNotification call.
@@ -462,6 +462,20 @@ void test_database_modifications_notifications ()
     evaluate (__LINE__, __func__, {1}, ids);
     ids = database_modifications.getNotificationIdentifiers ("phpunit3");
     evaluate (__LINE__, __func__, {4, 5}, ids);
+    
+    // Test notifications per Bible.
+    ids = database_modifications.getNotificationIdentifiers ("", "bible1");
+    evaluate (__LINE__, __func__, {1, 2, 5, 6}, ids);
+    ids = database_modifications.getNotificationIdentifiers ("", "bible2");
+    evaluate (__LINE__, __func__, {3, 4}, ids);
+    
+    // Test distinct Bibles.
+    vector <string> bibles = database_modifications.getNotificationDistinctBibles ();
+    evaluate (__LINE__, __func__, {"bible1", "bible2"}, bibles);
+    bibles = database_modifications.getNotificationDistinctBibles ("phpunit5");
+    evaluate (__LINE__, __func__, {}, bibles);
+    bibles = database_modifications.getNotificationDistinctBibles ("phpunit1");
+    evaluate (__LINE__, __func__, {"bible1"}, bibles);
   }
   // Timestamps
   {
@@ -588,7 +602,7 @@ void test_database_modifications_notifications ()
     ids = database_modifications.getNotificationIdentifiers ();
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
-  // Notification Personal Identifiers
+  // Notification personal identifiers
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -600,7 +614,7 @@ void test_database_modifications_notifications ()
     vector <int> ids = database_modifications.getNotificationPersonalIdentifiers ("phpunit1", "A");
     evaluate (__LINE__, __func__, {1, 4}, ids);
   }
-  // Notification Team Identifiers
+  // Notification team identifiers
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -613,6 +627,10 @@ void test_database_modifications_notifications ()
     evaluate (__LINE__, __func__, {1}, ids);
     ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
     evaluate (__LINE__, __func__, {4}, ids);
+    ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category (), "1");
+    evaluate (__LINE__, __func__, {4}, ids);
+    ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category (), "2");
+    evaluate (__LINE__, __func__, {}, ids);
   }
   // Record on client.
   {

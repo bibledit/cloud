@@ -131,7 +131,7 @@ string changes_changes (void * webserver_request)
   // Remove a user's personal changes notifications and their matching change notifications in the Bible.
   string matching = request->query ["matching"];
   if (!matching.empty ()) {
-    vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category ()); // Todo based on selected bible.
+    vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category (), selectedbible);
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
     for (auto & id : ids) {
@@ -218,9 +218,11 @@ string changes_changes (void * webserver_request)
     if (distinct_bibles.size () > 1) distinct_bibles.insert (distinct_bibles.begin(), "");
     // Iterate over the Bibles and make them all selectable.
     for (auto bible : distinct_bibles) {
+      string cssclass;
+      if (selectedbible == bible) cssclass = "active";
       string name (bible);
       if (name.empty ()) name = translate ("All Bibles");
-      view.add_iteration ("bibleselector", { make_pair ("selectbible", bible), make_pair ("biblename", name) } );
+      view.add_iteration ("bibleselector", { make_pair ("selectbible", bible), make_pair ("biblename", name), make_pair ("class", cssclass) } );
     }
   }
 

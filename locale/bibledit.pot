@@ -7446,6 +7446,9 @@ msgstr ""
 msgid "SHEBANQ, a search engine for the Hebrew Bible"
 msgstr ""
 
+msgid "This work is licensed under a"
+msgstr ""
+
 msgid "Creative Commons Attribution-NonCommercial 4.0 International License"
 msgstr ""
 
@@ -7453,6 +7456,12 @@ msgid "You may not use the data for commercial applications without consent."
 msgstr ""
 
 msgid "Other code and data"
+msgstr ""
+
+msgid ""
+"All the code and data included in Bibledit that does not fall in the above "
+"license categories has been licensed as mentioned in various bits of source "
+"code included in Bibledit."
 msgstr ""
 
 msgid "See the source code repository"
@@ -7709,10 +7718,19 @@ msgstr ""
 msgid "When the Navigator is displayed, it focuses the name of the Bible book."
 msgstr ""
 
+msgid "Escape"
+msgstr ""
+
 msgid "Cancel any navigation or style operation."
 msgstr ""
 
+msgid "Alt-Down Arrow"
+msgstr ""
+
 msgid "Navigate to the next verse."
+msgstr ""
+
+msgid "Alt-Up Arrow"
 msgstr ""
 
 msgid "Navigate to the previous verse."
@@ -10148,6 +10166,11 @@ msgstr ""
 msgid ""
 "Submit your username or email address, and instructions will be emailed to "
 "you."
+msgstr ""
+
+msgid ""
+"The ETCBC database of the Hebrew Bible contains the scholarly text of the "
+"Hebrew Bible with linguistic markup."
 msgstr ""
 
 msgid "No files in this folder"

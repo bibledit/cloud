@@ -686,7 +686,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible) // Todo
+vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible)
 {
   vector <int> ids;
 
@@ -739,7 +739,7 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
 
 
 // This gets the distinct Bibles in the user's notifications.
-vector <string> Database_Modifications::getNotificationDistinctBibles (string username) // Todo
+vector <string> Database_Modifications::getNotificationDistinctBibles (string username) 
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT bible FROM notifications WHERE 1");
@@ -910,7 +910,7 @@ int Database_Modifications::clearNotificationsUser (const string& username)
 
 // This function deletes personal changes and their matching change notifications.
 // It returns the deleted identifiers.
-vector <int> Database_Modifications::clearNotificationMatches (const string& username, const string& personal, const string& team)
+vector <int> Database_Modifications::clearNotificationMatches (string username, string personal, string team, string bible)
 {
   sqlite3 * db = connect ();
   
@@ -920,6 +920,10 @@ vector <int> Database_Modifications::clearNotificationMatches (const string& use
   sql.add (username);
   sql.add ("AND category =");
   sql.add (personal);
+  if (!bible.empty ()) {
+    sql.add ("AND bible =");
+    sql.add (bible);
+  }
   sql.add (";");
 
   vector <int> personals;

@@ -267,6 +267,7 @@ void locale_logic_obfuscate_initialize ()
   }
 
   // Sort the original strings by their lengths.
+  // This enables the obfuscation to replace the longest string first, and the shortest last.
   sort (locale_translate_obfuscation_search.begin(), locale_translate_obfuscation_search.end (), locale_logic_obfuscate_compare);
   
   // Store the obfuscation data for use.

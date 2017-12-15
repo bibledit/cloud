@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #include <sendreceive/logic.h>
 #include <ldap/logic.h>
+#include <locale/logic.h>
 
 
 bool bibledit_started = false;
@@ -118,6 +119,9 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   Database_Logs::log ("Timezone offset in hours: " + convert_to_string (hours));
 #endif
 
+  // Initialize obfuscation data.
+  locale_logic_obfuscate_initialize ();
+  
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
   setup_thread.detach ();

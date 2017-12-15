@@ -24,6 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+extern vector <string> locale_translate_obfuscation_search;
+extern vector <string> locale_translate_obfuscation_replace;
 string translate (string english);
 
 

@@ -41,5 +41,7 @@ string locale_logic_text_no_privileges_modify_book ();
 
 string locale_logic_space_get_name (string space, bool english);
 
+void locale_logic_obfuscate_initialize ();
+
 
 #endif

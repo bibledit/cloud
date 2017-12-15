@@ -22,6 +22,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/localization.h>
 
 
+// Storage for the user interface obfuscation strings.
+vector <string> locale_translate_obfuscation_search;
+vector <string> locale_translate_obfuscation_replace;
+
+
 // Translates $english to its localized string.
 string translate (string english)
 {

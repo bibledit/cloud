@@ -227,3 +227,50 @@ string locale_logic_space_get_name (string space, bool english)
   return translate ("unknown");
 }
 
+
+bool locale_logic_obfuscate_compare (const string& a, const string& b)
+{
+  return (a.size() > b.size());
+}
+
+
+void locale_logic_obfuscate_initialize ()
+{
+  // Load the contents of the obfuscation configuration file
+  string filename = filter_url_create_root_path ("config", "obfuscate.txt" );
+  string contents = filter_url_file_get_contents (filename);
+  vector <string> lines = filter_string_explode (contents, '\n');
+  
+  // Container to map the original string to the obfuscated version.
+  map <string, string> original_to_obfuscated;
+  
+  // Iterate over each line.
+  for (auto & line : lines) {
+
+    // Trim lines.
+    line = filter_string_trim (line);
+    
+    // Skip empty lines.
+    if (line.empty ()) continue;
+    
+    // Skip lines that start with the number sign #.
+    size_t pos = line.find ("#");
+    if (pos != string::npos) if (pos < 3) continue;
+    
+    // Lines require the equal sign = once.
+    vector <string> obfuscation_pair = filter_string_explode (line, '=');
+    if (obfuscation_pair.size () != 2) continue;
+
+    // Store the unsorted obfuscation data.
+    original_to_obfuscated [obfuscation_pair[0]] = obfuscation_pair [1];
+    locale_translate_obfuscation_search.push_back (obfuscation_pair[0]);
+  }
+
+  // Sort the original strings by their lengths.
+  sort (locale_translate_obfuscation_search.begin(), locale_translate_obfuscation_search.end (), locale_logic_obfuscate_compare);
+  
+  // Store the obfuscation data for use.
+  for (auto original : locale_translate_obfuscation_search) {
+    locale_translate_obfuscation_replace.push_back (original_to_obfuscated [original]);
+  }
+}

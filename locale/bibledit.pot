@@ -7440,13 +7440,21 @@ msgstr ""
 msgid "ETCBC4 Hebrew text database"
 msgstr ""
 
-msgid "Bibledit obtained the data from"
+msgid ""
+"The ETCBC database of the Hebrew Bible contains the scholarly text of the "
+"Hebrew Bible with linguistic markup."
+msgstr ""
+
+msgid "Original data source:"
+msgstr ""
+
+msgid "Bibledit's data source:"
 msgstr ""
 
 msgid "SHEBANQ, a search engine for the Hebrew Bible"
 msgstr ""
 
-msgid "This work is licensed under a"
+msgid "License:"
 msgstr ""
 
 msgid "Creative Commons Attribution-NonCommercial 4.0 International License"
@@ -7464,7 +7472,7 @@ msgid ""
 "code included in Bibledit."
 msgstr ""
 
-msgid "See the source code repository"
+msgid "See the source code repository."
 msgstr ""
 
 msgid "Install Bibledit on Windows"
@@ -10166,11 +10174,6 @@ msgstr ""
 msgid ""
 "Submit your username or email address, and instructions will be emailed to "
 "you."
-msgstr ""
-
-msgid ""
-"The ETCBC database of the Hebrew Bible contains the scholarly text of the "
-"Hebrew Bible with linguistic markup."
 msgstr ""
 
 msgid "No files in this folder"

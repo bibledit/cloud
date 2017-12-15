@@ -66,6 +66,7 @@
 /config/local.server.crt
 /config/local.server.key
 /config.log
+/config/obfuscate.txt
 /config.status
 /config.sub
 /configure
@@ -671,7 +672,6 @@
 /sprint/index.js
 /sqlite
 /sqlite/readme.txt
-/stamp-h1
 /statistics
 /styles
 /styles/indexm.html

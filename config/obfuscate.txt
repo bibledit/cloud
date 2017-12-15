@@ -1,0 +1,18 @@
+# Configuration file for obfuscating the user interface.
+
+# Lines that start with a number sign (#) are comments.
+
+# The following will change the name of Bibledit to Scriptedit.
+# This will take effect after removing the number sign, saving the file, and restarting Bibledit.
+
+# Bibledit=Scriptedit
+
+# Search and replace is case sensitive.
+# Longer strings get replaced before shorter ones.
+
+# More examples:
+
+# bible=volume
+# Bible=Volume
+# Genesis=Startup
+# Proverbs=Oneliners

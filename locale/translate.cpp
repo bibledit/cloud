@@ -43,6 +43,7 @@ string translate (string english)
   // Check whether there's obfuscation to be done.
   if (!locale_translate_obfuscation_search.empty ()) {
     // Obfuscate: Search and replace text.
+    // It replaces strings, not whole words as having certain boundaries.
     for (unsigned int i = 0; i < locale_translate_obfuscation_search.size(); i++) {
       result = filter_string_str_replace (locale_translate_obfuscation_search [i], locale_translate_obfuscation_replace [i], result);
     }

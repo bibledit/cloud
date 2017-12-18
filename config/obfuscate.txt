@@ -2,16 +2,16 @@
 
 # Lines that start with a number sign (#) are comments.
 
-# The following will change the name of Bibledit to Scriptedit.
-# This will take effect after removing the number sign, saving the file, and restarting Bibledit.
-
+# The following will change the name of Bibledit to Scriptedit:
 # Bibledit=Scriptedit
 
+# Obfuscating will take effect after removing the number sign, saving the file, and restarting Bibledit.
+
 # Search and replace is case sensitive.
+
 # Longer strings get replaced before shorter ones.
 
 # More examples:
-
 # bible=volume
 # Bible=Volume
 # Genesis=Startup

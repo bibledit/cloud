@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <database/config/general.h>
 #include <database/localization.h>
+#include <filter/string.h>
 
 
 // Storage for the user interface obfuscation strings.
@@ -30,9 +31,23 @@ vector <string> locale_translate_obfuscation_replace;
 // Translates $english to its localized string.
 string translate (string english)
 {
+  // Start off with the English message.
+  string result (english);
+  // Check whether a language has been set on the website or the app.
   string localization = Database_Config_General::getSiteLanguage ();
-  if (localization.empty ()) return english;
-  Database_Localization database_localization = Database_Localization (localization);
-  return database_localization.translate (english);
+  if (!localization.empty ()) {
+    // Localize it.
+    Database_Localization database_localization = Database_Localization (localization);
+    result = database_localization.translate (english);
+  }
+  // Check whether there's obfuscation to be done.
+  if (!locale_translate_obfuscation_search.empty ()) {
+    // Obfuscate: Search and replace text.
+    for (unsigned int i = 0; i < locale_translate_obfuscation_search.size(); i++) {
+      result = filter_string_str_replace (locale_translate_obfuscation_search [i], locale_translate_obfuscation_replace [i], result);
+    }
+  }
+  // Ready.
+  return result;
 }
 

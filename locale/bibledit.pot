@@ -9782,11 +9782,22 @@ msgid "Security"
 msgstr ""
 
 msgid ""
-"It is possible to secure traffic between a user's browser and Bibledit "
-"Cloud, and between Bibledit clients and Bibledit Cloud."
+"There are various ways to improve the security of working with Bibledit."
 msgstr ""
 
-msgid "For better security, access Bibledit Cloud through a Tor browser."
+msgid ""
+"Securing traffic between a users' browsers and Bibledit Cloud, and between "
+"Bibledit clients and Bibledit Cloud."
+msgstr ""
+
+msgid "Obfuscating Bibledit Cloud and Bibledit Linux clients."
+msgstr ""
+
+msgid "Accessing Bibledit Cloud through a Tor browser."
+msgstr ""
+
+msgid ""
+"The following file in the Bibledit installation provides more information:"
 msgstr ""
 
 msgid "Install Bibledit on macOS"

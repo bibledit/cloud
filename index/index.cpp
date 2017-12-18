@@ -54,7 +54,7 @@ string index_index (void * webserver_request)
   
   filter_webview_log_user_agent (request->user_agent);
   
-  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
+  Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
   
   if (config_logic_demo_enabled ()) {
     // The demo, when there's no active menu, forwards to the active workspace.

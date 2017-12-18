@@ -214,7 +214,7 @@ void demo_clean_data ()
 // The name of the sample Bible.
 string demo_sample_bible_name ()
 {
-  return "Bibledit Sample Bible";
+  return "Sample";
 }
 
 
@@ -323,7 +323,7 @@ void demo_prepare_sample_bible ()
 #ifdef HAVE_CLOUD
   system ("find . -path '*logbook/15*' -delete");
   system ("find . -name state.sqlite -delete");
-  system ("find . -name 'Bibledit Sample Bible.*' -delete");
+  system ("find . -name 'Sample.*' -delete");
 #endif
 }
 

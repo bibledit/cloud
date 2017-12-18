@@ -772,7 +772,7 @@ void https_server ()
   if (ret != 0) filter_url_display_mbed_tls_error (ret, NULL, true);
 
   // Seed the random number generator.
-  const char *pers = "Bibledit Cloud";
+  const char *pers = "Cloud";
   ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *) pers, strlen (pers));
   if (ret != 0) {
     filter_url_display_mbed_tls_error (ret, NULL, true);

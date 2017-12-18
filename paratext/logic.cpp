@@ -151,12 +151,12 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
 {
   Database_Bibles database_bibles;
   
-  Database_Logs::log ("Copying Bible from Bibledit to a Paratext project.");
+  Database_Logs::log (translate ("Copying Bible from Bibledit to a Paratext project."));
 
   string paratext_project_folder = projectFolder (bible);
 
-  Database_Logs::log ("Bibledit Bible: " + bible);
-  Database_Logs::log ("Paratext project: " + paratext_project_folder);
+  Database_Logs::log (translate ("Bibledit Bible:") + " " + bible);
+  Database_Logs::log (translate ("Paratext project:") + " " + paratext_project_folder);
 
   map <int, string> paratext_books = searchBooks (paratext_project_folder);
   
@@ -206,12 +206,12 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
 {
   Database_Bibles database_bibles;
 
-  Database_Logs::log ("Copying Paratext project to a Bible in Bibledit.");
+  Database_Logs::log (translate ("Copying Paratext project to a Bible in Bibledit."));
   
   string project_folder = projectFolder (bible);
   
-  Database_Logs::log ("Paratext project: " + project_folder);
-  Database_Logs::log ("Bibledit Bible: " + bible);
+  Database_Logs::log (translate ("Paratext project:") + " " + project_folder);
+  Database_Logs::log (translate ("Bibledit Bible:") + " " + bible);
 
   vector <int> bibledit_books = database_bibles.getBooks (bible);
 
@@ -393,14 +393,14 @@ void Paratext_Logic::synchronize ()
         if (!bibledit.empty () && paratext.empty ()) {
           // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
           usfm = bibledit;
-          Database_Logs::log (journalTag (bible, book, chapter) + "Copy Bibledit to Paratext", Filter_Roles::translator ());
+          Database_Logs::log (journalTag (bible, book, chapter) + translate ("Copy Bibledit to Paratext"), Filter_Roles::translator ());
           ancestor_usfm [chapter] = usfm;
           paratext_usfm [chapter] = usfm;
         }
         else if (bibledit.empty () && !paratext.empty ()) {
           // If Paratext has the chapter, and Bibledit does not, take the Paratext chapter.
           usfm = paratext;
-          Database_Logs::log (journalTag (bible, book, chapter) + "Copy Paratext to Bibledit", Filter_Roles::translator ());
+          Database_Logs::log (journalTag (bible, book, chapter) + translate ("Copy Paratext to Bibledit"), Filter_Roles::translator ());
           ancestor_usfm [chapter] = usfm;
           paratext_usfm [chapter] = usfm;
         }

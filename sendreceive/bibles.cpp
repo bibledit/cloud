@@ -195,7 +195,7 @@ void sendreceive_bibles ()
             
             // The Cloud sends a response to the client in case of an error.
             communication_errors = true;
-            Database_Logs::log (sendreceive_bibles_text () + "Failure sending chapter, Bibledit Cloud says: " + response, Filter_Roles::translator ());
+            Database_Logs::log (sendreceive_bibles_text () + translate ("Failure sending chapter") + ", " + translate ("Bibledit Cloud says:") + " " + response, Filter_Roles::translator ());
             // Restore the Bible action for this chapter.
             database_bibleactions.erase (bible, book, chapter);
             database_bibleactions.record (bible, book, chapter, oldusfm);

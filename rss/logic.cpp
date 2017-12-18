@@ -172,7 +172,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     xml_node channel = rss_node.append_child ("channel");
     // Title.
     xml_node node = channel.append_child ("title");
-    node.text () = "Bibledit";
+    node.text () = translate ("Bibledit").c_str();
     // Link to website.
     node = channel.append_child ("link");
     node.text () = Database_Config_General::getSiteURL().c_str();

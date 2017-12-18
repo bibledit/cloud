@@ -361,7 +361,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   }
 
   // Nothing found.
-  return "Bibledit Cloud could not localize this resource";
+  return translate ("Bibledit Cloud could not localize this resource");
 }
 
 

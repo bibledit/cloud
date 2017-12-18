@@ -58,7 +58,7 @@ string developer_index (void * webserver_request)
   
   string page;
 
-  Assets_Header header = Assets_Header ("Bibledit", webserver_request);
+  Assets_Header header = Assets_Header ("Development", webserver_request);
   header.notifItOn ();
   page = header.run ();
 

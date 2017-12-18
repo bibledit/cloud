@@ -224,7 +224,7 @@ void bible_logic_import_resource (string bible, string resource)
           html = resource_logic_get_verse (&webserver_request, resource, book, chapter, verse);
           server_is_installing_module = (html == sword_logic_installing_module_text ());
           if (server_is_installing_module) {
-            Database_Logs::log ("Waiting while Bibledit Cloud installs the requested SWORD module");
+            Database_Logs::log (translate ("Waiting while Bibledit Cloud installs the requested SWORD module"));
             this_thread::sleep_for (chrono::seconds (60));
             wait_iterations++;
           }
@@ -425,7 +425,7 @@ void bible_logic_merge_irregularity_mail (vector <string> users,
     
     // Add some information for the user.
     node = document.append_child ("p");
-    node.text ().set ("While saving Bible text, Bibledit detected something unusual.");
+    node.text ().set ("While saving the text, something unusual was detected.");
     
     // Add the base text.
     document.append_child ("br");
@@ -482,7 +482,7 @@ void bible_logic_unsafe_save_mail (const string & message, const string & explan
   node = document.append_child ("p");
   node.text ().set (explanation.c_str ());
   node = document.append_child ("p");
-  node.text ().set ("Bibledit failed to save the Bible text below.");
+  node.text ().set ("Failed to save the text below.");
   
   // Add the base text.
   document.append_child ("br");

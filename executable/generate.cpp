@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 int main (int argc, char **argv)
 {
-  cout << "Bibledit Data Generator " << config_logic_version () << endl;
+  cout << "Data Generator " << config_logic_version () << endl;
   
   if (argc < 2) {
     cerr << "Please pass the document root folder as the first argument" << endl;

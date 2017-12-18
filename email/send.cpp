@@ -146,7 +146,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   }
   
   // Deal with empty subject.
-  if (subject.empty ()) subject = "Bibledit";
+  if (subject.empty ()) subject = translate ("Bibledit");
   
 #ifdef HAVE_CLIENT
 
@@ -215,7 +215,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   payload_text.push_back ("Content-Type: text/plain; charset=utf-8\n");
   payload_text.push_back ("Content-Transfer-Encoding: 7bit\n");
   payload_text.push_back ("\n");
-  payload_text.push_back ("Bibledit plain text message.\n");
+  payload_text.push_back ("Plain text message.\n");
   payload_text.push_back ("--------------010001060501040600060905\n");
   payload_text.push_back ("Content-Type: text/html; charset=\"utf-8\"\n");
   payload_text.push_back ("Content-Transfer-Encoding: 8bit\n");

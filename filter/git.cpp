@@ -566,7 +566,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   if (!unmerged_paths.empty ()) {
     vector <string> messages;
     string error;
-    filter_git_commit (repository, "", "Bibledit fixed merge conflicts", messages, error);
+    filter_git_commit (repository, "", translate ("Bibledit fixed merge conflicts"), messages, error);
   }
   
   // Done.

@@ -25,6 +25,7 @@
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <webserver/request.h>
+#include <locale/translate.h>
 
 
 void sendreceive_sendreceive (string bible)
@@ -106,7 +107,7 @@ void sendreceive_sendreceive (string bible)
   // In case of local changes, commit the index to the repository.
   if (success && localchanges) {
     vector <string> messages;
-    success = filter_git_commit (directory, "", "Changes made in Bibledit", messages, error);
+    success = filter_git_commit (directory, "", translate ("Changes made in Bibledit"), messages, error);
     if (!success) {
       Database_Logs::log (error, Filter_Roles::translator ());
     }
@@ -138,12 +139,12 @@ void sendreceive_sendreceive (string bible)
       }
     }
     if (conflict) {
-      Database_Logs::log ("Bibledit will resolve the conflicts.", Filter_Roles::translator ());
+      Database_Logs::log (translate ("Bibledit will resolve the conflicts"), Filter_Roles::translator ());
       filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
       if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
       vector <string> messages;
       string error;
-      filter_git_commit (directory, "", "Bibledit resolved the conflicts", messages, error);
+      filter_git_commit (directory, "", translate ("Bibledit resolved the conflicts"), messages, error);
       for (auto & msg : messages) Database_Logs::log ("conflict resolution: " + msg, Filter_Roles::translator ());
       // The above "git pull" operation failed due to the conflict(s).
       // Since the conflicts have now been resolved, set "success" to true again.

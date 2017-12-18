@@ -1521,7 +1521,7 @@ void filter_url_ssl_tls_initialize ()
   // Random number generator.
   mbedtls_ctr_drbg_init (&filter_url_mbed_tls_ctr_drbg);
   mbedtls_entropy_init (&filter_url_mbed_tls_entropy);
-  const char *pers = "Bibledit Client";
+  const char *pers = "Client";
   ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, (const unsigned char *) pers, strlen (pers));
   filter_url_display_mbed_tls_error (ret, NULL, false);
   // Wait until the trusted root certificates exist.

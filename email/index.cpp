@@ -124,10 +124,10 @@ string email_index (void * webserver_request)
     string send_success  = translate("The details were saved.");
     string send_error;
     string send_debug;
-    string result = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to try out whether Bibledit can send email.", true);
+    string result = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to check sending email.", true);
     if (result.empty()) {
       send_success.append (" ");
-      send_success.append (translate("For the purpose of trying whether Bibledit can send email, a test email was sent out to the account above:"));
+      send_success.append ("For checking sending email, a test email was sent out to the account above:");
       send_success.append (" ");
       send_success.append (Database_Config_General::getSiteMailAddress());
     } else {

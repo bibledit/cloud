@@ -89,7 +89,7 @@ void collaboration_link (string object, int jobid, string direction)
   // Clone the remote repository, with feedback about progress.
   database_jobs.setProgress (jobid, translate ("Cloning"));
   if (result) {
-    success.push_back ("Copy repository to Bibledit");
+    success.push_back (translate("Copy repository to Bibledit"));
     result = filter_git_remote_clone (url, path, jobid, error);
   }
   database_jobs.setPercentage (jobid, 16);

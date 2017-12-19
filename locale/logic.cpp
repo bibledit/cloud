@@ -261,9 +261,15 @@ void locale_logic_obfuscate_initialize ()
     vector <string> obfuscation_pair = filter_string_explode (line, '=');
     if (obfuscation_pair.size () != 2) continue;
 
+    // Un-obfuscate recognized search terms.
+    string searchfor = obfuscation_pair[0];
+    if (searchfor == "Bbe") searchfor = "Bibledit";
+    else if (searchfor == "bb") searchfor = "bible";
+    else if (searchfor == "Bb") searchfor = "Bible";
+      
     // Store the unsorted obfuscation data.
-    original_to_obfuscated [obfuscation_pair[0]] = obfuscation_pair [1];
-    locale_translate_obfuscation_search.push_back (obfuscation_pair[0]);
+    original_to_obfuscated [searchfor] = obfuscation_pair [1];
+    locale_translate_obfuscation_search.push_back (searchfor);
   }
 
   // Sort the original strings by their lengths.

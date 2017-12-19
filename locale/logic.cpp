@@ -237,7 +237,7 @@ bool locale_logic_obfuscate_compare (const string& a, const string& b)
 void locale_logic_obfuscate_initialize ()
 {
   // Load the contents of the obfuscation configuration file
-  string filename = filter_url_create_root_path ("config", "obfuscate.txt" );
+  string filename = filter_url_create_root_path ("obfuscate", "texts.txt");
   string contents = filter_url_file_get_contents (filename);
   vector <string> lines = filter_string_explode (contents, '\n');
   

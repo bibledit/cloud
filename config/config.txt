@@ -50,5 +50,5 @@ Administrator details: To preset the administrator's account, put the details in
 Demo installation: If the file config/demo is present, it behaves as a demo installation.
 
 
-Obfuscating the user interface: See file obfuscate.txt for more information.
+Obfuscating the user interface: See folder obfuscate for more information.
 

@@ -194,7 +194,6 @@
 		CA201E941C88763400646D98 /* privileges.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = privileges.cpp; sourceTree = "<group>"; };
 		CA201E951C88763400646D98 /* privileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = privileges.h; sourceTree = "<group>"; };
 		CA201E961C88763400646D98 /* privileges.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = privileges.html; sourceTree = "<group>"; };
-		CA2104621FE2B8ED002F8A21 /* obfuscate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = obfuscate.txt; sourceTree = "<group>"; };
 		CA2104631FE2B8F7002F8A21 /* userfacingurl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = userfacingurl.txt; sourceTree = "<group>"; };
 		CA2401981C4D0A1900F99F15 /* mouse.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = mouse.css; sourceTree = "<group>"; };
 		CA2401991C4D0AF400F99F15 /* touch.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = touch.css; sourceTree = "<group>"; };
@@ -1747,7 +1746,6 @@
 				CAA4CFBE1A45A647003ABA25 /* libraries.h */,
 				CAA4CFBF1A45A647003ABA25 /* logic.cpp */,
 				CAA4CFC01A45A647003ABA25 /* logic.h */,
-				CA2104621FE2B8ED002F8A21 /* obfuscate.txt */,
 				CA2104631FE2B8F7002F8A21 /* userfacingurl.txt */,
 			);
 			path = config;

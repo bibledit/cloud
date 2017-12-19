@@ -61,6 +61,9 @@ msgstr ""
 msgid "Font and text direction"
 msgstr ""
 
+msgid "Waiting while Bibledit Cloud installs the requested SWORD module"
+msgstr ""
+
 msgid ""
 "It has been some time ago that changes in the Bible text were received from "
 "the Cloud."
@@ -1560,6 +1563,9 @@ msgstr ""
 msgid "Cloning"
 msgstr ""
 
+msgid "Copy repository to Bibledit"
+msgstr ""
+
 msgid "Configuring"
 msgstr ""
 
@@ -1734,6 +1740,12 @@ msgstr ""
 msgid "Sending to server"
 msgstr ""
 
+msgid "Failure sending chapter"
+msgstr ""
+
+msgid "Bibledit Cloud says:"
+msgstr ""
+
 msgid "Failure getting total checksum"
 msgstr ""
 
@@ -1786,6 +1798,15 @@ msgid "Checksum error while receiving chapter from server:"
 msgstr ""
 
 msgid "Merging changes on server and client"
+msgstr ""
+
+msgid "Changes made in Bibledit"
+msgstr ""
+
+msgid "Bibledit will resolve the conflicts"
+msgstr ""
+
+msgid "Bibledit resolved the conflicts"
 msgstr ""
 
 msgid "Settings"
@@ -2270,6 +2291,9 @@ msgstr ""
 msgid "Workspace"
 msgstr ""
 
+msgid "Bibledit"
+msgstr ""
+
 msgid "Recent changes in the Bible texts"
 msgstr ""
 
@@ -2301,6 +2325,24 @@ msgid "Go to next verse"
 msgstr ""
 
 msgid "cancel"
+msgstr ""
+
+msgid "Copying Bible from Bibledit to a Paratext project."
+msgstr ""
+
+msgid "Bibledit Bible:"
+msgstr ""
+
+msgid "Paratext project:"
+msgstr ""
+
+msgid "Copying Paratext project to a Bible in Bibledit."
+msgstr ""
+
+msgid "Copy Bibledit to Paratext"
+msgstr ""
+
+msgid "Copy Paratext to Bibledit"
 msgstr ""
 
 msgid "Paratext: Send/receive"
@@ -6382,10 +6424,6 @@ msgstr ""
 msgid "To get access to Bibledit Cloud, install a server instance."
 msgstr ""
 
-msgid ""
-"Or request a server instance from bibledit.org through the contact form."
-msgstr ""
-
 msgid "This page deals with setting up the email system."
 msgstr ""
 
@@ -10421,6 +10459,9 @@ msgstr ""
 msgid "A collaborator deleted chapter"
 msgstr ""
 
+msgid "Bibledit fixed merge conflicts"
+msgstr ""
+
 msgid "Received from client"
 msgstr ""
 
@@ -10440,6 +10481,9 @@ msgid "Exported to Quick Bible"
 msgstr ""
 
 msgid "Submit to the Bible Drop Box"
+msgstr ""
+
+msgid "Bible translation through Bibledit"
 msgstr ""
 
 msgid "Ready"
@@ -10554,6 +10598,9 @@ msgid "Please give a name for the image resource"
 msgstr ""
 
 msgid "The image resource was created"
+msgstr ""
+
+msgid "Bibledit Cloud could not localize this resource"
 msgstr ""
 
 msgid "Please enter the number of verses"
@@ -10722,11 +10769,6 @@ msgid "The account was accessed successfully."
 msgstr ""
 
 msgid "Messages on server:"
-msgstr ""
-
-msgid ""
-"For the purpose of trying whether Bibledit can send email, a test email was "
-"sent out to the account above:"
 msgstr ""
 
 msgid "Select style"

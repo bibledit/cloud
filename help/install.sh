@@ -38,7 +38,6 @@ cat > install2.sh <<'scriptblock'
 
 #!/bin/bash
 
-clear
 echo Updating the software sources...
 which apt-get > /dev/null
 if [ $? -eq 0 ]; then

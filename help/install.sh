@@ -112,6 +112,9 @@ zypper -n --non-interactive --no-gpg-checks install gtk3-devel
 zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 fi
 
+if [ "$1" != "noinstall" ]
+then
+
 echo Creating the script to start bibledit.
 rm -f /usr/bin/bibledit
 echo #!/bin/bash >> /usr/bin/bibledit
@@ -125,6 +128,8 @@ echo Install launcher to start bibledit.
 wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O /usr/share/applications/bibledit.desktop
 desktop-file-install /usr/share/applications/bibledit.desktop
 wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.png -O /usr/share/icons/bibledit.png
+
+fi
 
 # Act as if the script ran successfully, no matter whether it really did.
 exit 0
@@ -151,7 +156,7 @@ fi
 if [ $EXIT_CODE != 0 ]; then
 
 echo Please provide the password for the administrative user and press Enter:
-sudo ./install2.sh
+sudo ./install2.sh $@
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
 exit

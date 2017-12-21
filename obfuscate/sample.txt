@@ -1,11 +1,13 @@
-# Configuration file for obfuscating the user interface.
+# Sample configuration file for obfuscating the user interface.
 
 # Lines that start with a number sign (#) are comments.
 
 # Obfuscating will take effect after completing all of the following steps:
-# 1. Removing the relevant number sign.
-# 2. Saving the file.
-# 3  Restarting Bibledit.
+# 1. Renaming sample.txt to texts.txt.
+# 2. Removing the relevant number signs.
+# 3. Updating the file.
+# 4. Saving the file.
+# 5. Restarting Bibledit.
 
 # Search and replace is case sensitive.
 
@@ -16,10 +18,10 @@
 # "Bbe" searches for "Bibledit", and "bb" for "bible", and "Bb" for "Bible".
 
 # The following will change the name of Bibledit to Scriptedit:
-# Bbe=Scriptedit
+Bbe=Scriptedit
 
 # More examples:
-# bb=volume
-# Bb=Volume
-# Genesis=Startup
-# Proverbs=Oneliners
+bb=volume
+Bb=Volume
+Genesis=Startup
+Proverbs=Oneliners

@@ -442,6 +442,7 @@
 /notifit/README.md
 /notifit/tests.html
 /obfuscate
+/obfuscate/check
 /obfuscate/texts.txt
 /odf
 /odf/README

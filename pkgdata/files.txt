@@ -268,6 +268,7 @@
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
 /fonts/SIL-README.txt
+/generate
 /git
 /git/gitflag
 /help
@@ -441,8 +442,10 @@
 /notifit/README.md
 /notifit/tests.html
 /obfuscate
-/obfuscate/check
-/obfuscate/texts.txt
+/obfuscate/check.sh
+/obfuscate/prepare.sh
+/obfuscate/readme.txt
+/obfuscate/sample.txt
 /odf
 /odf/README
 /odf/template.odt
@@ -561,6 +564,7 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
+/server
 /session
 /session/login.html
 /session/login.js
@@ -781,6 +785,7 @@
 /timer
 /tmp
 /trash
+/unittest
 /unittests
 /unittests/stress
 /unittests/tests

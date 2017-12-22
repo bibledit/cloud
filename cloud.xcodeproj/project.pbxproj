@@ -2582,13 +2582,13 @@
 			path = odf;
 			sourceTree = "<group>";
 		};
-		CAA4D2851A45A648003ABA25 /* onlinebible */ = {
+		CAA4D2851A45A648003ABA25 /* olb */ = {
 			isa = PBXGroup;
 			children = (
 				CAA4D28A1A45A648003ABA25 /* text.cpp */,
 				CAA4D28B1A45A648003ABA25 /* text.h */,
 			);
-			path = onlinebible;
+			path = olb;
 			sourceTree = "<group>";
 		};
 		CAA4D28C1A45A648003ABA25 /* parsewebdata */ = {
@@ -3276,7 +3276,7 @@
 				CAA9C1C51C651A93006D8709 /* notifit */,
 				CA8A09F41FEA6A6300A4FF4A /* obfuscate */,
 				CAA4D27C1A45A648003ABA25 /* odf */,
-				CAA4D2851A45A648003ABA25 /* onlinebible */,
+				CAA4D2851A45A648003ABA25 /* olb */,
 				CA8AABAF1B2C157E00FCAC51 /* paratext */,
 				CAA4D28C1A45A648003ABA25 /* parsewebdata */,
 				CA816D821B64047400FD276E /* personalize */,

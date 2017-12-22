@@ -449,7 +449,7 @@
 /odf
 /odf/README
 /odf/template.odt
-/onlinebible
+/olb
 /paratext
 /paratext/index.html
 /parsewebdata

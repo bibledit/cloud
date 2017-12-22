@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <text/text.h>
 #include <esword/text.h>
-#include <onlinebible/text.h>
+#include <olb/text.h>
 #include <html/text.h>
 #include <odf/text.h>
 #include <filter/url.h>

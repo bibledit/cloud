@@ -101,7 +101,7 @@ libbibledit_a_SOURCES = \
 	styles/sheets.cpp \
 	text/text.cpp \
 	esword/text.cpp \
-	onlinebible/text.cpp \
+	olb/text.cpp \
 	html/text.cpp \
 	html/header.cpp \
 	odf/text.cpp \

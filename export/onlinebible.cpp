@@ -33,7 +33,7 @@
 #include <filter/shell.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
-#include <onlinebible/text.h>
+#include <olb/text.h>
 
 
 void export_onlinebible (string bible, bool log)

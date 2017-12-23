@@ -978,7 +978,7 @@
 /versification/Russian_Protestant.txt
 /versification/Septuagint.txt
 /versification/Spanish.txt
-/versification/Staten_Bible.txt
+/versification/Staten_Bb.txt
 /versification/system.html
 /versification/Vulgate.txt
 /webbible

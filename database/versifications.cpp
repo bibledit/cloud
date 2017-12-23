@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 #include <database/logs.h>
 #include <versification/logic.h>
+#include <locale/logic.h>
 
 
 // This is a database for the versification systems.
@@ -316,7 +317,15 @@ void Database_Versifications::defaults ()
   creating_defaults = true;
   vector <string> names = versification_logic_names ();
   for (auto name : names) {
+    // Read the file contents.
     string contents = versification_logic_data (name);
+    // Due to a need of obfuscating "Bible" and similar,
+    // If a versification system is called "Staten Bible",
+    // it will be stored in the file system as "Staten Bb",
+    // so here deobfuscate the word "Bb",
+    // and give the full word "Bible" instead.
+    name = locale_logic_deobfuscate (name);
+    // Parse it and store it in the database.
     input (contents, name);
   }
   creating_defaults = false;

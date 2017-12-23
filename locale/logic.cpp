@@ -228,7 +228,18 @@ string locale_logic_space_get_name (string space, bool english)
 }
 
 
-bool locale_logic_obfuscate_compare (const string& a, const string& b)
+string locale_logic_deobfuscate (string value) // Todo
+{
+  // Change "Bb" to "Bible". This includes "Bbe" to "Bibledit".
+  value = filter_string_str_replace ("Bb", "Bible", value);
+  // Change "bb" to "bible". This includes "bbe" to "Bibledit".
+  value = filter_string_str_replace ("bb", "bible", value);
+  // Done.
+  return value;
+}
+
+
+bool locale_logic_obfuscate_compare_internal (const string& a, const string& b)
 {
   return (a.size() > b.size());
 }
@@ -261,12 +272,9 @@ void locale_logic_obfuscate_initialize ()
     vector <string> obfuscation_pair = filter_string_explode (line, '=');
     if (obfuscation_pair.size () != 2) continue;
 
-    // Un-obfuscate recognized search terms.
-    string searchfor = obfuscation_pair[0];
-    if (searchfor == "Bbe") searchfor = "Bibledit";
-    else if (searchfor == "bb") searchfor = "bible";
-    else if (searchfor == "Bb") searchfor = "Bible";
-      
+    // Deobfuscate recognized search terms.
+    string searchfor = locale_logic_deobfuscate (obfuscation_pair[0]);
+    
     // Store the unsorted obfuscation data.
     original_to_obfuscated [searchfor] = obfuscation_pair [1];
     locale_translate_obfuscation_search.push_back (searchfor);
@@ -274,7 +282,7 @@ void locale_logic_obfuscate_initialize ()
 
   // Sort the original strings by their lengths.
   // This enables the obfuscation to replace the longest string first, and the shortest last.
-  sort (locale_translate_obfuscation_search.begin(), locale_translate_obfuscation_search.end (), locale_logic_obfuscate_compare);
+  sort (locale_translate_obfuscation_search.begin(), locale_translate_obfuscation_search.end (), locale_logic_obfuscate_compare_internal);
   
   // Store the obfuscation data for use.
   for (auto original : locale_translate_obfuscation_search) {

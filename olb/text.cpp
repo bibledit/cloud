@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <onlinebible/text.h>
+#include <olb/text.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/url.h>

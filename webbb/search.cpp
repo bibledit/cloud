@@ -17,7 +17,7 @@
  */
 
 
-#include <webbible/search.h>
+#include <webbb/search.h>
 #include <assets/view.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -29,7 +29,7 @@
 
 string webbible_search_url ()
 {
-  return "webbible/search";
+  return "webbb/search";
 }
 
 
@@ -125,5 +125,5 @@ string webbible_search (void * webserver_request)
   
   view.set_variable ("hitsblock", hitsblock);
   
-  return view.render ("webbible", "search");
+  return view.render ("webbb", "search");
 }

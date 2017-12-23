@@ -150,8 +150,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/verses.h>
 #include <notes/severity-1.h>
 #include <notes/severity-n.h>
-#include <notes/bible-1.h>
-#include <notes/bible-n.h>
+#include <notes/bb-1.h>
+#include <notes/bb-n.h>
 #include <notes/bulk.h>
 #include <notes/edit.h>
 #include <notes/summary.h>
@@ -171,7 +171,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <checks/suppress.h>
 #include <consistency/poll.h>
 #include <consistency/input.h>
-#include <webbible/search.h>
+#include <webbb/search.h>
 #include <developer/index.h>
 #include <paratext/index.h>
 #include <personalize/index.h>

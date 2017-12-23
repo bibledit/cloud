@@ -132,6 +132,7 @@
 		CA0D29581AAA4E7A009B9D40 /* map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = map.cpp; sourceTree = "<group>"; };
 		CA0D29591AAA4E7A009B9D40 /* map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
 		CA0D295A1AAA4E7A009B9D40 /* map.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = map.html; sourceTree = "<group>"; };
+		CA0E82651FEEDA27008F5C34 /* pix */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pix; sourceTree = "<group>"; };
 		CA0E85401E69A1B800B75FEA /* javascript.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = javascript.cpp; sourceTree = "<group>"; };
 		CA0E85411E69A1B800B75FEA /* javascript.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = javascript.h; sourceTree = "<group>"; };
 		CA1014051DB26A22009FE31F /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -825,9 +826,6 @@
 		CAA4D2981A45A648003ABA25 /* ParseWebData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParseWebData.cpp; sourceTree = "<group>"; };
 		CAA4D2991A45A648003ABA25 /* ParseWebData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData.h; sourceTree = "<group>"; };
 		CAA4D29A1A45A648003ABA25 /* ParseWebData_local.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseWebData_local.h; sourceTree = "<group>"; };
-		CAA4D2A11A45A648003ABA25 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
-		CAA4D2A21A45A648003ABA25 /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
-		CAA4D2A31A45A648003ABA25 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		CAA4D2A81A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CAA4D2B71A45A648003ABA25 /* reconfigure */ = {isa = PBXFileReference; lastKnownFileType = text; path = reconfigure; sourceTree = "<group>"; };
 		CAA4D2C41A45A648003ABA25 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
@@ -1084,12 +1082,12 @@
 		CABB916F1AAB1CAA00D500FF /* assign-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = "assign-n.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CABB91701AAB1CAA00D500FF /* assign-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "assign-n.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CABB91711AAB1CAA00D500FF /* assign-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "assign-n.html"; sourceTree = "<group>"; };
-		CABB91731AAB1CAA00D500FF /* bible-1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = "bible-1.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CABB91741AAB1CAA00D500FF /* bible-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "bible-1.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CABB91751AAB1CAA00D500FF /* bible-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bible-1.html"; sourceTree = "<group>"; };
-		CABB91771AAB1CAA00D500FF /* bible-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = "bible-n.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CABB91781AAB1CAA00D500FF /* bible-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "bible-n.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		CABB91791AAB1CAA00D500FF /* bible-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bible-n.html"; sourceTree = "<group>"; };
+		CABB91731AAB1CAA00D500FF /* bb-1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = "bb-1.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		CABB91741AAB1CAA00D500FF /* bb-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "bb-1.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CABB91751AAB1CAA00D500FF /* bb-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bb-1.html"; sourceTree = "<group>"; };
+		CABB91771AAB1CAA00D500FF /* bb-n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = "bb-n.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		CABB91781AAB1CAA00D500FF /* bb-n.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "bb-n.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CABB91791AAB1CAA00D500FF /* bb-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bb-n.html"; sourceTree = "<group>"; };
 		CABB917B1AAB1CAA00D500FF /* bulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bulk.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CABB917C1AAB1CAA00D500FF /* bulk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bulk.h; sourceTree = "<group>"; };
 		CABB917D1AAB1CAA00D500FF /* bulk.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bulk.html; sourceTree = "<group>"; };
@@ -2507,12 +2505,12 @@
 				CABB916F1AAB1CAA00D500FF /* assign-n.cpp */,
 				CABB91701AAB1CAA00D500FF /* assign-n.h */,
 				CABB91711AAB1CAA00D500FF /* assign-n.html */,
-				CABB91731AAB1CAA00D500FF /* bible-1.cpp */,
-				CABB91741AAB1CAA00D500FF /* bible-1.h */,
-				CABB91751AAB1CAA00D500FF /* bible-1.html */,
-				CABB91771AAB1CAA00D500FF /* bible-n.cpp */,
-				CABB91781AAB1CAA00D500FF /* bible-n.h */,
-				CABB91791AAB1CAA00D500FF /* bible-n.html */,
+				CABB91731AAB1CAA00D500FF /* bb-1.cpp */,
+				CABB91741AAB1CAA00D500FF /* bb-1.h */,
+				CABB91751AAB1CAA00D500FF /* bb-1.html */,
+				CABB91771AAB1CAA00D500FF /* bb-n.cpp */,
+				CABB91781AAB1CAA00D500FF /* bb-n.h */,
+				CABB91791AAB1CAA00D500FF /* bb-n.html */,
 				CABB917B1AAB1CAA00D500FF /* bulk.cpp */,
 				CABB917C1AAB1CAA00D500FF /* bulk.h */,
 				CABB917D1AAB1CAA00D500FF /* bulk.html */,
@@ -2603,16 +2601,6 @@
 				CAA4D29A1A45A648003ABA25 /* ParseWebData_local.h */,
 			);
 			path = parsewebdata;
-			sourceTree = "<group>";
-		};
-		CAA4D2A01A45A648003ABA25 /* pix */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D2A11A45A648003ABA25 /* check.png */,
-				CAA4D2A21A45A648003ABA25 /* favicon.ico */,
-				CAA4D2A31A45A648003ABA25 /* loading.gif */,
-			);
-			path = pix;
 			sourceTree = "<group>";
 		};
 		CAA4D2A71A45A648003ABA25 /* processes */ = {
@@ -3151,7 +3139,7 @@
 			path = versification;
 			sourceTree = "<group>";
 		};
-		CAA4D4641A45A649003ABA25 /* webbible */ = {
+		CAA4D4641A45A649003ABA25 /* webbb */ = {
 			isa = PBXGroup;
 			children = (
 				CAA4D4661A45A649003ABA25 /* lens.png */,
@@ -3159,7 +3147,7 @@
 				CAB0634B1AD53D56006D9683 /* search.html */,
 				CAB9C51C1AD43A2C006A2E43 /* search.h */,
 			);
-			path = webbible;
+			path = webbb;
 			sourceTree = "<group>";
 		};
 		CAA4D4691A45A649003ABA25 /* webserver */ = {
@@ -3280,7 +3268,7 @@
 				CA8AABAF1B2C157E00FCAC51 /* paratext */,
 				CAA4D28C1A45A648003ABA25 /* parsewebdata */,
 				CA816D821B64047400FD276E /* personalize */,
-				CAA4D2A01A45A648003ABA25 /* pix */,
+				CA0E82651FEEDA27008F5C34 /* pix */,
 				CAF8E3A21ED46A1F002543F7 /* pkgdata */,
 				CAA4D2A71A45A648003ABA25 /* processes */,
 				CAC0E03B1BE23B2C00640BFE /* public */,
@@ -3314,7 +3302,7 @@
 				CA9232531BF0CC8400060FDC /* utf8proc */,
 				CAA4D45A1A45A648003ABA25 /* valgrind */,
 				CAA4D45D1A45A648003ABA25 /* versification */,
-				CAA4D4641A45A649003ABA25 /* webbible */,
+				CAA4D4641A45A649003ABA25 /* webbb */,
 				CAA4D4691A45A649003ABA25 /* webserver */,
 				CA1013FD1DB26A22009FE31F /* workspace */,
 				CAA4D4831A45A649003ABA25 /* xcode */,

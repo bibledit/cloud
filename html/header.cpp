@@ -63,7 +63,7 @@ void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
   }
   tableDataElement = html_text->newTableData (tableRowElement, true);
   xml_node formElement = tableDataElement.append_child ("form");
-  formElement.append_attribute ("action") = "/webbible/search";
+  formElement.append_attribute ("action") = "/webbb/search";
   formElement.append_attribute ("method") = "GET";
   formElement.append_attribute ("name") = "search";
   formElement.append_attribute ("id") = "search";

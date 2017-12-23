@@ -413,8 +413,8 @@
 /notes/actions.html
 /notes/assign-1.html
 /notes/assign-n.html
-/notes/bible-1.html
-/notes/bible-n.html
+/notes/bb-1.html
+/notes/bb-n.html
 /notes/bulk.html
 /notes/click.js
 /notes/comment.html
@@ -457,7 +457,7 @@
 /personalize/index.html
 /personalize/index.js
 /pix
-/pix/bible.svg
+/pix/book.svg
 /pix/check.png
 /pix/favicon.ico
 /pix/loading.gif
@@ -538,11 +538,6 @@
 /revisions
 /revisions/gitflag
 /rss
-/samples
-/samples/bible
-/samples/bible/gitflag
-/samples/index
-/samples/index/gitflag
 /search
 /search/all.html
 /search/index.html
@@ -981,9 +976,9 @@
 /versification/Staten_Bb.txt
 /versification/system.html
 /versification/Vulgate.txt
-/webbible
-/webbible/lens.png
-/webbible/search.html
+/webbb
+/webbb/lens.png
+/webbb/search.html
 /webserver
 /workspace
 /workspace/index.html

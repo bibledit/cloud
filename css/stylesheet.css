@@ -522,7 +522,7 @@ iframe {
   -webkit-flex-grow: 100;
   -ms-flex-positive: 100;
           flex-grow: 100;
-  background-image: url(/pix/bible.svg);
+  background-image: url(/pix/book.svg);
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;

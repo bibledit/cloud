@@ -130,11 +130,11 @@ libbibledit_a_SOURCES = \
 	notes/click.cpp \
 	notes/poll.cpp \
 	notes/summary.cpp \
-	notes/bible-1.cpp \
+	notes/bb-1.cpp \
 	notes/comment.cpp \
 	notes/select.cpp \
 	notes/unassign-n.cpp \
-	notes/bible-n.cpp \
+	notes/bb-n.cpp \
 	notes/create.cpp \
 	notes/severity-1.cpp \
 	notes/verses.cpp \
@@ -324,7 +324,7 @@ libbibledit_a_SOURCES = \
 	export/web.cpp \
 	export/bibledropbox.cpp \
 	export/quickbible.cpp \
-	webbible/search.cpp \
+	webbb/search.cpp \
 	developer/index.cpp \
 	developer/logic.cpp \
 	paratext/logic.cpp \

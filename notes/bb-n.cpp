@@ -17,7 +17,7 @@
  */
 
 
-#include <notes/bible-n.h>
+#include <notes/bb-n.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -36,7 +36,7 @@
 
 string notes_bible_n_url ()
 {
-  return "notes/bible-n";
+  return "notes/bb-n";
 }
 
 
@@ -68,7 +68,7 @@ string notes_bible_n (void * webserver_request)
   view.set_variable ("bibleblock", bibleblock);
   
   
-  page += view.render ("notes", "bible-n");
+  page += view.render ("notes", "bb-n");
   page += Assets_Page::footer ();
   return page;
 }

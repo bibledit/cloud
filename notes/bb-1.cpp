@@ -17,7 +17,7 @@
  */
 
 
-#include <notes/bible-1.h>
+#include <notes/bb-1.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -36,7 +36,7 @@
 
 string notes_bible_1_url ()
 {
-  return "notes/bible-1";
+  return "notes/bb-1";
 }
 
 
@@ -77,7 +77,7 @@ string notes_bible_1 (void * webserver_request)
   vector <string> bibles = access_bible_bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {
-    bibleblock.append ("<li><a href=\"bible-1?id=" + convert_to_string (id) + "&bible=" + bible + "\">" + bible + "</a></li>\n");
+    bibleblock.append ("<li><a href=\"bb-1?id=" + convert_to_string (id) + "&bible=" + bible + "\">" + bible + "</a></li>\n");
   }
   view.set_variable ("bibleblock", bibleblock);
   
@@ -85,7 +85,7 @@ string notes_bible_1 (void * webserver_request)
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);
-  page += view.render ("notes", "bible-1");
+  page += view.render ("notes", "bb-1");
   page += Assets_Page::footer ();
   return page;
 }

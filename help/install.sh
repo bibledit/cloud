@@ -126,7 +126,7 @@ echo Install launcher to start bibledit.
 # It does that here at this stage in the script, because here it has root privileges.
 wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O /usr/share/applications/bibledit.desktop
 desktop-file-install /usr/share/applications/bibledit.desktop
-wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.png -O /usr/share/icons/bibledit.png
+wget https://raw.githubusercontent.com/bibledit/linux/master/bbe512x512.png -O /usr/share/icons/bbe512x512.png
 
 fi
 

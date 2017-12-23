@@ -1,7 +1,6 @@
 /access
 /aclocal.m4
 /assets
-/assets/bibledit.xpm
 /assets/checkbox.js
 /assets/error.html
 /assets/external.js
@@ -9,6 +8,7 @@
 /assets/header.html
 /assets/header.js
 /assets/logo48x48.png
+/assets/logo48x48.xpm
 /assets/message.html
 /assets/success.html
 /assets/workspacewrapper_finish.html

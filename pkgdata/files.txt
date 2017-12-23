@@ -1,7 +1,6 @@
 /access
 /aclocal.m4
 /assets
-/assets/bibledit.png
 /assets/bibledit.xpm
 /assets/checkbox.js
 /assets/error.html
@@ -9,6 +8,7 @@
 /assets/footer.html
 /assets/header.html
 /assets/header.js
+/assets/logo48x48.png
 /assets/message.html
 /assets/success.html
 /assets/workspacewrapper_finish.html
@@ -278,7 +278,7 @@
 /help/consistency.html
 /help/consultations.html
 /help/discussions.html
-/help/freebible.html
+/help/freebb.html
 /help/index.html
 /help/installandroid.html
 /help/installation.html

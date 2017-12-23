@@ -17,7 +17,7 @@
  */
 
 
-#include <resource/biblegateway.h>
+#include <resource/bbgateway.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -39,7 +39,7 @@ using namespace pugi;
 
 string resource_biblegateway_url ()
 {
-  return "resource/biblegateway";
+  return "resource/bbgateway";
 }
 
 
@@ -82,7 +82,7 @@ string resource_biblegateway (void * webserver_request)
   view.set_variable ("moduleblock", moduleblock);
 
   
-  page += view.render ("resource", "biblegateway");
+  page += view.render ("resource", "bbgateway");
   page += Assets_Page::footer ();
   return page;
 }

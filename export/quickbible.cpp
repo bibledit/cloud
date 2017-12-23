@@ -128,8 +128,8 @@ void export_quickbible (string bible, bool log)
   
   filter_shell_run ("", "java", { "-jar", yet2yes_jar, bible_yet, bible_yes }, NULL, NULL);
   
-  string quickbible_html_source = filter_url_create_root_path ("export", "quickbible.html");
-  string quickbible_html_destination = filter_url_create_path (directory, "quickbible.html");
+  string quickbible_html_source = filter_url_create_root_path ("export", "quickbb.html");
+  string quickbible_html_destination = filter_url_create_path (directory, "readme.html");
   filter_url_file_cp (quickbible_html_source, quickbible_html_destination);
   
   Database_State::clearExport (bible, 0, Export_Logic::export_quick_bible);

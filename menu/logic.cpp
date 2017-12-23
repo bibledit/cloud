@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/cache.h>
 #include <resource/user9edit.h>
 #include <resource/user9view.h>
-#include <resource/biblegateway.h>
+#include <resource/bbgateway.h>
 #include <resource/studylight.h>
 #include <search/index.h>
 #include <search/replace.h>

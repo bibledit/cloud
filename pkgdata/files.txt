@@ -252,7 +252,7 @@
 /esword
 /executable
 /export
-/export/quickbible.html
+/export/quickbb.html
 /exports
 /exports/gitflag
 /export/usfm.html
@@ -515,8 +515,8 @@
 /related/parallel-passages-nt.xml
 /related/parallel-passages-ot.xml
 /resource
-/resource/bible2resource.html
-/resource/biblegateway.html
+/resource/bb2resource.html
+/resource/bbgateway.html
 /resource/cache.html
 /resource/download.html
 /resource/image.html

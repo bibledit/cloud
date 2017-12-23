@@ -49,20 +49,6 @@ sed -i '' "s/bibledit.png/$bibledit.png/g" Makefile.am setup/index.html
 if [ $? -ne 0 ]; then exit; fi
 
 
-# Deal with "biblegateway.html" and where it is called.
-mmv ";*biblegateway.html*" "#1#2${bible}gateway.html#3"
-if [ $? -ne 0 ]; then exit; fi
-sed -i '' "s/\"biblegateway\"/\"${bible}gateway\"/g" resource/biblegateway.cpp
-if [ $? -ne 0 ]; then exit; fi
-
-
-# Deal with "bible2resource.html" and where it is called.
-mmv ";*bible2resource.html*" "#1#2${bible}2resource.html#3"
-if [ $? -ne 0 ]; then exit; fi
-sed -i '' "s/\"bible2resource\"/\"${bible}2resource\"/g" resource/bible2resource.cpp
-if [ $? -ne 0 ]; then exit; fi
-
-
 # Deal with "quickbible.html" and where it is called.
 mmv ";*quickbible.html*" "#1#2quick${bible}.html#3"
 if [ $? -ne 0 ]; then exit; fi

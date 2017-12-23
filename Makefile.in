@@ -242,7 +242,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sync/mail.$(OBJEXT) resource/index.$(OBJEXT) \
 	resource/organize.$(OBJEXT) resource/logic.$(OBJEXT) \
 	resource/get.$(OBJEXT) resource/external.$(OBJEXT) \
-	resource/bible2resource.$(OBJEXT) \
+	resource/bb2resource.$(OBJEXT) \
 	resource/convert2resource.$(OBJEXT) \
 	resource/convert2bible.$(OBJEXT) resource/manage.$(OBJEXT) \
 	resource/print.$(OBJEXT) resource/download.$(OBJEXT) \
@@ -251,7 +251,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/sword.$(OBJEXT) resource/select.$(OBJEXT) \
 	resource/cache.$(OBJEXT) resource/user9edit.$(OBJEXT) \
 	resource/user1edit.$(OBJEXT) resource/user9view.$(OBJEXT) \
-	resource/user1view.$(OBJEXT) resource/biblegateway.$(OBJEXT) \
+	resource/user1view.$(OBJEXT) resource/bbgateway.$(OBJEXT) \
 	resource/studylight.$(OBJEXT) resource/unload.$(OBJEXT) \
 	jsonxx/jsonxx.$(OBJEXT) mapping/index.$(OBJEXT) \
 	mapping/map.$(OBJEXT) statistics/statistics.$(OBJEXT) \
@@ -878,7 +878,7 @@ libbibledit_a_SOURCES = \
 	resource/logic.cpp \
 	resource/get.cpp \
 	resource/external.cpp \
-	resource/bible2resource.cpp \
+	resource/bb2resource.cpp \
 	resource/convert2resource.cpp \
 	resource/convert2bible.cpp \
 	resource/manage.cpp \
@@ -895,7 +895,7 @@ libbibledit_a_SOURCES = \
 	resource/user1edit.cpp \
 	resource/user9view.cpp \
 	resource/user1view.cpp \
-	resource/biblegateway.cpp \
+	resource/bbgateway.cpp \
 	resource/studylight.cpp \
 	resource/unload.cpp \
 	jsonxx/jsonxx.cpp \
@@ -2063,7 +2063,7 @@ resource/get.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/external.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
-resource/bible2resource.$(OBJEXT): resource/$(am__dirstamp) \
+resource/bb2resource.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/convert2resource.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
@@ -2097,7 +2097,7 @@ resource/user9view.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/user1view.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
-resource/biblegateway.$(OBJEXT): resource/$(am__dirstamp) \
+resource/bbgateway.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/studylight.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
@@ -3199,8 +3199,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@quill/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@related/$(DEPDIR)/logic.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bible2resource.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/biblegateway.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bb2resource.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bbgateway.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/cache.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2resource.Po@am__quote@

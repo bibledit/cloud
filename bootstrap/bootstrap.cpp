@@ -114,7 +114,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/index.h>
 #include <resource/organize.h>
 #include <resource/get.h>
-#include <resource/bible2resource.h>
+#include <resource/bb2resource.h>
 #include <resource/manage.h>
 #include <resource/print.h>
 #include <resource/download.h>
@@ -129,7 +129,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/user1edit.h>
 #include <resource/user9view.h>
 #include <resource/user1view.h>
-#include <resource/biblegateway.h>
+#include <resource/bbgateway.h>
 #include <resource/studylight.h>
 #include <resource/unload.h>
 #include <mapping/index.h>

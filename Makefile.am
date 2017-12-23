@@ -260,7 +260,7 @@ libbibledit_a_SOURCES = \
 	resource/logic.cpp \
 	resource/get.cpp \
 	resource/external.cpp \
-	resource/bible2resource.cpp \
+	resource/bb2resource.cpp \
 	resource/convert2resource.cpp \
 	resource/convert2bible.cpp \
 	resource/manage.cpp \
@@ -277,7 +277,7 @@ libbibledit_a_SOURCES = \
 	resource/user1edit.cpp \
 	resource/user9view.cpp \
 	resource/user1view.cpp \
-	resource/biblegateway.cpp \
+	resource/bbgateway.cpp \
 	resource/studylight.cpp \
 	resource/unload.cpp \
 	jsonxx/jsonxx.cpp \

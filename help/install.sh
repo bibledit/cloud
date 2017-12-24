@@ -130,8 +130,6 @@ wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O
 desktop-file-install /usr/share/applications/bibledit.desktop
 wget https://raw.githubusercontent.com/bibledit/linux/master/bbe512x512.png -O /usr/share/icons/bbe512x512.png
 
-fi
-
 # Act as if the script ran successfully, no matter whether it really did.
 exit 0
 

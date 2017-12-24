@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/import.h>
+#include <bb/import.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -31,7 +31,7 @@
 #include <ipc/focus.h>
 #include <config/config.h>
 #include <menu/logic.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 #include <assets/external.h>
 #include <journal/logic.h>
 
@@ -126,7 +126,7 @@ string bible_import (void * webserver_request)
   
   view.set_variable ("external", assets_external_logic_link_addon ());
 
-  page += view.render ("bible", "import");
+  page += view.render ("bb", "import");
   
   page += Assets_Page::footer ();
   

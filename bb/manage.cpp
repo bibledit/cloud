@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/manage.h>
+#include <bb/manage.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -33,7 +33,7 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <access/bible.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <client/logic.h>
 #include <menu/logic.h>
 #include <demo/logic.h>
@@ -169,7 +169,7 @@ string bible_manage (void * webserver_request)
 
   if (!client_logic_client_enabled ()) view.enable_zone ("server");
 
-  page += view.render ("bible", "manage");
+  page += view.render ("bb", "manage");
   
   page += Assets_Page::footer ();
   

@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <menu/index.h>
 #include <system/index.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 #include <changes/changes.h>
 #include <changes/manage.h>
 #include <checks/index.h>
@@ -90,7 +90,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <public/index.h>
 #include <public/logic.h>
 #include <filter/url.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <ldap/logic.h>
 #include <jsonxx/jsonxx.h>
 

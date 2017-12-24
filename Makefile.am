@@ -109,14 +109,14 @@ libbibledit_a_SOURCES = \
 	tasks/logic.cpp \
 	tasks/run.cpp \
 	config/logic.cpp \
-	bible/logic.cpp \
-	bible/manage.cpp \
-	bible/settings.cpp \
+	bb/logic.cpp \
+	bb/manage.cpp \
+	bb/settings.cpp \
 	bb/book.cpp \
 	bb/chapter.cpp \
-	bible/import_run.cpp \
-	bible/import.cpp \
-	bible/order.cpp \
+	bb/import_run.cpp \
+	bb/import.cpp \
+	bb/order.cpp \
 	bb/css.cpp \
 	notes/logic.cpp \
 	notes/actions.cpp \

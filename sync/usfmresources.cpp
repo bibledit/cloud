@@ -36,7 +36,7 @@
 #include <sync/logic.h>
 #include <checksum/logic.h>
 #include <access/bible.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 
 
 string sync_usfmresources_url ()

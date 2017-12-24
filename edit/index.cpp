@@ -35,7 +35,7 @@
 #include <dialog/list.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <config/globals.h>
 
 

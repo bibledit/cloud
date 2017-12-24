@@ -33,7 +33,7 @@
 #include <journal/index.h>
 #include <resource/external.h>
 #include <menu/logic.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 
 
 string resource_bible2resource_url ()

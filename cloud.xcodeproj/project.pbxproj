@@ -1578,23 +1578,6 @@
 		CAA4CF571A45A647003ABA25 /* bible */ = {
 			isa = PBXGroup;
 			children = (
-				CAA0BC831B9A00A300115B42 /* import.cpp */,
-				CAA0BC841B9A00A300115B42 /* import.h */,
-				CAA0BC851B9A00A300115B42 /* import.html */,
-				CAA0BC861B9A00A300115B42 /* import.js */,
-				CA3925551A53104E009302B8 /* import_run.cpp */,
-				CA3925561A53104E009302B8 /* import_run.h */,
-				CAA4CF641A45A647003ABA25 /* logic.cpp */,
-				CAA4CF651A45A647003ABA25 /* logic.h */,
-				CA3925411A51D63A009302B8 /* manage.cpp */,
-				CA3925421A51D63A009302B8 /* manage.h */,
-				CA3925431A51D63A009302B8 /* manage.html */,
-				CA06BDD41A56AFE600A051FF /* order.cpp */,
-				CA06BDD51A56AFE600A051FF /* order.h */,
-				CA06BDD61A56AFE600A051FF /* order.html */,
-				CA3925441A51E2C7009302B8 /* settings.cpp */,
-				CA3925451A51E2C7009302B8 /* settings.h */,
-				CA3925461A51E2C7009302B8 /* settings.html */,
 			);
 			path = bible;
 			sourceTree = "<group>";
@@ -3537,6 +3520,23 @@
 				CA06BDD71A56C13E00A051FF /* css.cpp */,
 				CA06BDD81A56C13E00A051FF /* css.h */,
 				CA06BDD91A56C13E00A051FF /* css.html */,
+				CAA0BC831B9A00A300115B42 /* import.cpp */,
+				CAA0BC841B9A00A300115B42 /* import.h */,
+				CAA0BC851B9A00A300115B42 /* import.html */,
+				CAA0BC861B9A00A300115B42 /* import.js */,
+				CA3925551A53104E009302B8 /* import_run.cpp */,
+				CA3925561A53104E009302B8 /* import_run.h */,
+				CAA4CF641A45A647003ABA25 /* logic.cpp */,
+				CAA4CF651A45A647003ABA25 /* logic.h */,
+				CA3925411A51D63A009302B8 /* manage.cpp */,
+				CA3925421A51D63A009302B8 /* manage.h */,
+				CA3925431A51D63A009302B8 /* manage.html */,
+				CA06BDD41A56AFE600A051FF /* order.cpp */,
+				CA06BDD51A56AFE600A051FF /* order.h */,
+				CA06BDD61A56AFE600A051FF /* order.html */,
+				CA3925441A51E2C7009302B8 /* settings.cpp */,
+				CA3925451A51E2C7009302B8 /* settings.h */,
+				CA3925461A51E2C7009302B8 /* settings.html */,
 			);
 			path = bb;
 			sourceTree = "<group>";

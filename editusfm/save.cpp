@@ -32,7 +32,7 @@
 #include <locale/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 

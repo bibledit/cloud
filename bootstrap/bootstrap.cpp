@@ -51,12 +51,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/view.h>
 #include <versification/index.h>
 #include <versification/system.h>
-#include <bible/manage.h>
-#include <bible/settings.h>
+#include <bb/manage.h>
+#include <bb/settings.h>
 #include <bb/book.h>
 #include <bb/chapter.h>
-#include <bible/import.h>
-#include <bible/order.h>
+#include <bb/import.h>
+#include <bb/order.h>
 #include <bb/css.h>
 #include <compare/index.h>
 #include <jobs/index.h>

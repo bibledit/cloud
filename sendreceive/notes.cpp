@@ -38,7 +38,7 @@
 #include <sync/logic.h>
 #include <sync/notes.h>
 #include <checksum/logic.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <notes/logic.h>
 
 

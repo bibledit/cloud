@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <search/rebibles.h>
 #include <search/renotes.h>
 #include <styles/sheets.h>
-#include <bible/import_run.h>
+#include <bb/import_run.h>
 #include <compare/compare.h>
 #include <database/maintenance.h>
 #include <database/config/general.h>
@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <paratext/logic.h>
 #include <resource/logic.h>
 #include <sword/logic.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <client/logic.h>
 #include <user/logic.h>
 #include <rss/logic.h>

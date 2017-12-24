@@ -27,7 +27,7 @@
 #include <database/jobs.h>
 #include <database/git.h>
 #include <database/config/general.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <locale/translate.h>
 #include <rss/logic.h>
 

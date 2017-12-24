@@ -34,11 +34,11 @@
 #include <dialog/books.h>
 #include <access/bible.h>
 #include <book/create.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <client/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 
 
 string bible_book_url ()

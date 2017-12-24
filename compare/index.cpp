@@ -32,7 +32,7 @@
 #include <jobs/index.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 
 
 string compare_index_url ()

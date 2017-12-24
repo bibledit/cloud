@@ -25,7 +25,7 @@
 #include <database/config/bible.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <filter/string.h>
 
 

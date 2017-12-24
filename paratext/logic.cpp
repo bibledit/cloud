@@ -34,7 +34,7 @@
 #include <database/bibles.h>
 #include <tasks/logic.h>
 #include <locale/translate.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 
 
 string Paratext_Logic::searchProjectsFolder ()

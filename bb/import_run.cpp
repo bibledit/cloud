@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/import_run.h>
+#include <bb/import_run.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/archive.h>
@@ -26,7 +26,7 @@
 #include <locale/translate.h>
 #include <database/logs.h>
 #include <database/books.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <styles/logic.h>
 
 

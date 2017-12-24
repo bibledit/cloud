@@ -31,7 +31,7 @@
 #include <locale/logic.h>
 #include <editor/html2usfm.h>
 #include <access/bible.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <editone/logic.h>
 #include <developer/logic.h>
 #include <rss/logic.h>

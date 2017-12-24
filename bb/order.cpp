@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/order.h>
+#include <bb/order.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -29,7 +29,7 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <menu/logic.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 
 
 string bible_order_url ()
@@ -86,7 +86,7 @@ string bible_order (void * webserver_request)
   view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());
   view.set_variable ("downarrow", unicode_black_down_pointing_triangle ());
 
-  page += view.render ("bible", "order");
+  page += view.render ("bb", "order");
   
   page += Assets_Page::footer ();
   

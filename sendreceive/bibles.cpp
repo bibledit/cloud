@@ -38,7 +38,7 @@
 #include <sync/logic.h>
 #include <sync/bibles.h>
 #include <checksum/logic.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <demo/logic.h>
 
 

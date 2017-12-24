@@ -31,7 +31,7 @@
 #include <access/bible.h>
 #include <fonts/logic.h>
 #include <menu/logic.h>
-#include <bible/manage.h>
+#include <bb/manage.h>
 
 
 string bible_css_url ()

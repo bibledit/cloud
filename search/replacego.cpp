@@ -29,7 +29,7 @@
 #include <locale/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
-#include <bible/logic.h>
+#include <bb/logic.h>
 #include <search/logic.h>
 #include <access/bible.h>
 

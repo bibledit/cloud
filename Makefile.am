@@ -112,13 +112,12 @@ libbibledit_a_SOURCES = \
 	bible/logic.cpp \
 	bible/manage.cpp \
 	bible/settings.cpp \
-	bible/book.cpp \
-	bible/chapter.cpp \
+	bb/book.cpp \
+	bb/chapter.cpp \
 	bible/import_run.cpp \
 	bible/import.cpp \
 	bible/order.cpp \
-	bible/css.cpp \
-	bible/editing.cpp \
+	bb/css.cpp \
 	notes/logic.cpp \
 	notes/actions.cpp \
 	notes/note.cpp \

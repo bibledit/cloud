@@ -53,12 +53,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <versification/system.h>
 #include <bible/manage.h>
 #include <bible/settings.h>
-#include <bible/book.h>
-#include <bible/chapter.h>
+#include <bb/book.h>
+#include <bb/chapter.h>
 #include <bible/import.h>
 #include <bible/order.h>
-#include <bible/css.h>
-#include <bible/editing.h>
+#include <bb/css.h>
 #include <compare/index.h>
 #include <jobs/index.h>
 #include <editverse/index.h>
@@ -378,11 +377,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == workspace_organize_url ()) && browser_request_security_okay (request) && workspace_organize_acl (request)) {
     request->reply = workspace_organize (request);
-    return;
-  }
-  
-  if ((url == bible_editing_url ()) && browser_request_security_okay (request) && bible_editing_acl (request)) {
-    request->reply = bible_editing (request);
     return;
   }
   

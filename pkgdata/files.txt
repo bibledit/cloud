@@ -16,11 +16,11 @@
 /assets/xhtml_finish.html
 /assets/xhtml_start.html
 /AUTHORS
+/bb
+/bb/book.html
+/bb/chapter.html
+/bb/css.html
 /bible
-/bible/book.html
-/bible/chapter.html
-/bible/css.html
-/bible/editing.html
 /bible/import.html
 /bible/import.js
 /bible/manage.html

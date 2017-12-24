@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/css.h>
+#include <bb/css.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -132,7 +132,7 @@ string bible_css (void * webserver_request)
                       lineheight,
                       Database_Config_Bible::getLetterSpacing (bible)));
 
-  page += view.render ("bible", "css");
+  page += view.render ("bb", "css");
   
   page += Assets_Page::footer ();
   

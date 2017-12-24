@@ -307,9 +307,6 @@
 		CA3925481A529544009302B8 /* books.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = books.h; sourceTree = "<group>"; };
 		CA3925491A529544009302B8 /* books.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = books.html; sourceTree = "<group>"; };
 		CA39254A1A52A960009302B8 /* create.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = create.h; sourceTree = "<group>"; };
-		CA39254B1A52BD69009302B8 /* book.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = book.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CA39254C1A52BD69009302B8 /* book.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = book.h; sourceTree = "<group>"; };
-		CA39254D1A52BD69009302B8 /* book.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = book.html; sourceTree = "<group>"; };
 		CA39254E1A52CDAB009302B8 /* chapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = chapter.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA39254F1A52CDAB009302B8 /* chapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chapter.h; sourceTree = "<group>"; };
 		CA3925501A52CDAB009302B8 /* chapter.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = chapter.html; sourceTree = "<group>"; };
@@ -1148,9 +1145,6 @@
 		CABE4D0E1BDBC996000547DB /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
 		CABE4D101BDBE8DF000547DB /* utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
 		CABE4D111BDBE8DF000547DB /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
-		CABF088E1A8E29A600003101 /* editing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = editing.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		CABF088F1A8E29A600003101 /* editing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = editing.h; sourceTree = "<group>"; };
-		CABF08901A8E2B9400003101 /* editing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editing.html; sourceTree = "<group>"; };
 		CAC0E0421BE23B2C00640BFE /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAC0E0431BE23B2C00640BFE /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAC0E0441BE284CD00640BFE /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -1265,6 +1259,9 @@
 		CADE4D831A9E1B0600F16E49 /* get.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = get.h; sourceTree = "<group>"; };
 		CADE4D841A9E248800F16E49 /* external.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = external.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CADE4D851A9E248800F16E49 /* external.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = external.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CAE2562F1FEFC8E300EEC341 /* book.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = book.h; sourceTree = "<group>"; };
+		CAE256301FEFC8E300EEC341 /* book.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = book.html; sourceTree = "<group>"; };
+		CAE256311FEFC8E300EEC341 /* book.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = book.cpp; sourceTree = "<group>"; };
 		CAE2DF071E96434200BFEAA2 /* unload.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unload.cpp; sourceTree = "<group>"; };
 		CAE2DF081E96434200BFEAA2 /* unload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unload.h; sourceTree = "<group>"; };
 		CAE2DF111E968F7E00BFEAA2 /* microtar.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = microtar.c; sourceTree = "<group>"; };
@@ -1581,18 +1578,6 @@
 		CAA4CF571A45A647003ABA25 /* bible */ = {
 			isa = PBXGroup;
 			children = (
-				CA39254B1A52BD69009302B8 /* book.cpp */,
-				CA39254C1A52BD69009302B8 /* book.h */,
-				CA39254D1A52BD69009302B8 /* book.html */,
-				CA39254E1A52CDAB009302B8 /* chapter.cpp */,
-				CA39254F1A52CDAB009302B8 /* chapter.h */,
-				CA3925501A52CDAB009302B8 /* chapter.html */,
-				CA06BDD71A56C13E00A051FF /* css.cpp */,
-				CA06BDD81A56C13E00A051FF /* css.h */,
-				CA06BDD91A56C13E00A051FF /* css.html */,
-				CABF088E1A8E29A600003101 /* editing.cpp */,
-				CABF088F1A8E29A600003101 /* editing.h */,
-				CABF08901A8E2B9400003101 /* editing.html */,
 				CAA0BC831B9A00A300115B42 /* import.cpp */,
 				CAA0BC841B9A00A300115B42 /* import.h */,
 				CAA0BC851B9A00A300115B42 /* import.html */,
@@ -3195,6 +3180,7 @@
 			children = (
 				CAA4CEF51A45A647003ABA25 /* access */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
+				CAE2562E1FEFC8E300EEC341 /* bb */,
 				CAA4CF571A45A647003ABA25 /* bible */,
 				CAEA13211EE1C78E00B4DD39 /* bibledit */,
 				CAA4CF741A45A647003ABA25 /* bibles */,
@@ -3537,6 +3523,22 @@
 				CACDF3CE1DF1E74E00C198A2 /* logic.h */,
 			);
 			path = rss;
+			sourceTree = "<group>";
+		};
+		CAE2562E1FEFC8E300EEC341 /* bb */ = {
+			isa = PBXGroup;
+			children = (
+				CAE2562F1FEFC8E300EEC341 /* book.h */,
+				CAE256301FEFC8E300EEC341 /* book.html */,
+				CAE256311FEFC8E300EEC341 /* book.cpp */,
+				CA39254E1A52CDAB009302B8 /* chapter.cpp */,
+				CA39254F1A52CDAB009302B8 /* chapter.h */,
+				CA3925501A52CDAB009302B8 /* chapter.html */,
+				CA06BDD71A56C13E00A051FF /* css.cpp */,
+				CA06BDD81A56C13E00A051FF /* css.h */,
+				CA06BDD91A56C13E00A051FF /* css.html */,
+			);
+			path = bb;
 			sourceTree = "<group>";
 		};
 		CAE2DF0B1E968F7D00BFEAA2 /* microtar */ = {

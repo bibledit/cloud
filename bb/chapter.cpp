@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/chapter.h>
+#include <bb/chapter.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>

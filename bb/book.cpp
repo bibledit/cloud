@@ -17,7 +17,7 @@
  */
 
 
-#include <bible/book.h>
+#include <bb/book.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/roles.h>
@@ -144,7 +144,7 @@ string bible_book (void * webserver_request)
   
   if (!client_logic_client_enabled ()) view.enable_zone ("server");
 
-  page += view.render ("bible", "book");
+  page += view.render ("bb", "book");
   
   page += Assets_Page::footer ();
   

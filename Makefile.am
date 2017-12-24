@@ -548,7 +548,7 @@ LIBS += -L/usr/local/lib -lmimetic
 # For other platforms, the library remains in the core.
 # debian LIBS += -lmbedtls -lmbedcrypto -lmbedx509
 
-EXTRA_DIST = a* bible bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w*
+EXTRA_DIST = a* bb bibledit bibles book bootstrap c* d* D* e* f* g* h* i* j* l* m* n* o* p* q* r* s* t* u* v* w*
 
 dist-hook:
 	rm -rf `find $(distdir) -name *.o`

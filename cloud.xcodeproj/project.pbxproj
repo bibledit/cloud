@@ -1575,13 +1575,6 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
-		CAA4CF571A45A647003ABA25 /* bible */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = bible;
-			sourceTree = "<group>";
-		};
 		CAA4CF741A45A647003ABA25 /* bibles */ = {
 			isa = PBXGroup;
 			children = (
@@ -3164,7 +3157,6 @@
 				CAA4CEF51A45A647003ABA25 /* access */,
 				CAA4CF2F1A45A647003ABA25 /* assets */,
 				CAE2562E1FEFC8E300EEC341 /* bb */,
-				CAA4CF571A45A647003ABA25 /* bible */,
 				CAEA13211EE1C78E00B4DD39 /* bibledit */,
 				CAA4CF741A45A647003ABA25 /* bibles */,
 				CAA4CF761A45A647003ABA25 /* book */,

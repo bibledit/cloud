@@ -113,7 +113,7 @@ fi
 
 
 # If installing the dependencies only, don't proceed beyond this point.
-if [ "$1" == "deps" ]; then exit 0; fi
+if [ "$1" = "deps" ]; then exit 0; fi
 
 
 echo Creating the script to start bibledit.
@@ -204,7 +204,7 @@ exit
 fi
 
 # If installing the dependencies only, don't proceed beyond this point.
-if [ "$1" == "deps" ]; then exit 0; fi
+if [ "$1" = "deps" ]; then exit 0; fi
 
 cd bibledit
 # Remove bits from any older build that might cause crashes in the new build.

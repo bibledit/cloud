@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Checks for certain words whether they occur in the filenames and in the data.
 
@@ -10,30 +10,35 @@ Bible=Scripture
 bible=scripture
 
 
-# Change the program name and installation location.
-sed -i '' "s/bibledit/$bibledit/g" configure.ac
+echo Changing the program name and installation location to ${bibledit}/${Bibledit}
+sed -i.bak "s/bibledit/$bibledit/g" configure.ac
 if [ $? -ne 0 ]; then exit; fi
-sed -i '' "s/Bibledit/$Bibledit/g" configure.ac
+sed -i.bak "s/Bibledit/$Bibledit/g" configure.ac
 if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm *.bak
 
 
+echo Updating and renaming bibledit.desktop to ${bibledit}/${Bibledit}
 # The bibledit.desktop has the following lines, among others:
 # Name=Bibledit
 # Comment=Bible Editor
 # Exec=bibledit
 # Update those.
-sed -i '' "s/Bibledit/${Bibledit}/g" bibledit.desktop
+sed -i.bak "s/Bibledit/${Bibledit}/g" bibledit.desktop
 if [ $? -ne 0 ]; then exit; fi
-sed -i '' "s/Bible/${Bible}/g" bibledit.desktop
+sed -i.bak "s/Bible/${Bible}/g" bibledit.desktop
 if [ $? -ne 0 ]; then exit; fi
-sed -i '' "s/bibledit/${bibledit}/g" bibledit.desktop
+sed -i.bak "s/bibledit/${bibledit}/g" bibledit.desktop
 if [ $? -ne 0 ]; then exit; fi
 # Change the name of the file also.
-mmv "bibledit.desktop" "${bibledit}.desktop"
+mv "bibledit.desktop" "${bibledit}.desktop"
 if [ $? -ne 0 ]; then exit; fi
 # Change the builder that uses this desktop file.
-sed -i '' "s/bibledit.desktop/$bibledit.desktop/g" Makefile.am
+sed -i.bak "s/bibledit.desktop/$bibledit.desktop/g" Makefile.am
 if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm *.bak
 
 
 # Remove the binary "bibledit" itself.
@@ -48,25 +53,32 @@ rm -f locale/bibledit.pot
 if [ $? -ne 0 ]; then exit; fi
 
 
-# Rename the "bibles" folder where to store the Bibles in.
+echo Renaming the bibles folder where to store the Bibles to ${bible}s
 mv bibles ${bible}s
 if [ $? -ne 0 ]; then exit; fi
 # Update the references to this folder in the code.
-sed -i '' "s/\"bibles\"/\"${bible}s\"/g" database/bibles.cpp setup/logic.cpp
+sed -i.bak "s/\"bibles\"/\"${bible}s\"/g" database/bibles.cpp setup/logic.cpp
 if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm database/*.bak
+rm setup/*.bak
 
 
-# Rename the "databases/config/bible" folder where to store the Bibles configuration data.
+echo Renaming the databases/config/bible folder where to store the Bibles configuration data
 mv databases/config/bible databases/config/${bible}
 if [ $? -ne 0 ]; then exit; fi
 # Update the references to this folder in the code.
-sed -i '' "s/\"bible\"/\"${bible}\"/g" database/config/bible.cpp
+sed -i.bak "s/\"bible\"/\"${bible}\"/g" database/config/bible.cpp
 if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm database/config/*.bak
 
 
-# Remove the man file as not necessary in this situation.
+echo Removing the man file as not needed in this situation
 rm -f man/bibledit.1
-sed -i '' "/man_MANS/g" Makefile.am
+sed -i.bak "/man_MANS/g" Makefile.am
+# Remove backup file(s).
+rm *.bak
 
 
 # Change any files with the fragment "Bible" in them to "Scripture".
@@ -104,14 +116,6 @@ sed -i '' "/man_MANS/g" Makefile.am
 # if [ $? -ne 0 ]; then exit; fi
 # sed -i '' "s/\"quickbible\"/\"quick${bible}\"/g" export/quickbible.cpp
 # if [ $? -ne 0 ]; then exit; fi
-
-
-
-
-# Todo ./reconfigure
-if [ $? -ne 0 ]; then exit; fi
-
-
 
 
 echo Ready preparing $Bibledit

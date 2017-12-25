@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Checks for certain words whether they occur in the filenames.
 

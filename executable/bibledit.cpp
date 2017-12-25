@@ -105,7 +105,7 @@ int main (int argc, char **argv)
   signal (SIGSEGV, sigsegv_handler);
 #endif
 
-  
+
 #ifdef HAVE_WINDOWS
   // Set our own invalid parameter handler for on Windows.
   _set_invalid_parameter_handler(my_invalid_parameter_handler);

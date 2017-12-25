@@ -228,7 +228,7 @@ string locale_logic_space_get_name (string space, bool english)
 }
 
 
-string locale_logic_deobfuscate (string value) // Todo
+string locale_logic_deobfuscate (string value)
 {
   // Change "Bb" to "Bible". This includes "Bbe" to "Bibledit".
   value = filter_string_str_replace ("Bb", "Bible", value);

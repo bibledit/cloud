@@ -164,12 +164,13 @@ echo Updating ${bibledit}.desktop
 # Comment=Bible Editor
 # Exec=bibledit
 # Update those.
-sed -i.bak "s/Bibledit/${Bibledit}/g" ${bibledit}.desktop
+sed -i.bak "s/Bibledit/${Bibledit}/g" /usr/share/applications/${bibledit}.desktop
 if [ $? -ne 0 ]; then exit; fi
-sed -i.bak "s/Bible/${Bible}/g" ${bibledit}.desktop
+sed -i.bak "s/Bible/${Bible}/g" /usr/share/applications/${bibledit}.desktop
 if [ $? -ne 0 ]; then exit; fi
-sed -i.bak "s/bibledit/${bibledit}/g" ${bibledit}.desktop
+sed -i.bak "s/bibledit/${bibledit}/g" /usr/share/applications/${bibledit}.desktop
 if [ $? -ne 0 ]; then exit; fi
+rm /usr/share/applications/*.bak
 # Install it.
 desktop-file-install /usr/share/applications/${bibledit}.desktop
 wget https://raw.githubusercontent.com/bibledit/linux/master/bbe512x512.png -O /usr/share/icons/bbe512x512.png
@@ -323,6 +324,26 @@ sed -i.bak "/man_MANS/g" Makefile.am
 rm *.bak
 
 
+if [ "$Bibledit" != "Bibledit" ]
+then
+echo Updating title of $Bibledit
+sed -i.bak "s/\"Bibledit\"/\"${Bibledit}\"/g" executable/bibledit.cpp
+if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+find . -name "*.bak" -delete
+fi
+
+
+if [ "$bibledit" != "bibledit" ]
+then
+echo Updating data directory for $bibledit
+sed -i.bak "s/\"bibledit\"/\"${bibledit}\"/g" executable/bibledit.cpp
+if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+find . -name "*.bak" -delete
+fi
+
+
 # Change any files with the fragment "Bible" in them to "Scripture".
 # At the time of writing this script, there was only one file.
 # The wildcard ; matches any directory.
@@ -335,28 +356,26 @@ rm *.bak
 # Deal with "freebible.html" and where it is called.
 # mmv ";*freebible*" "#1#2free$bible#3"
 # if [ $? -ne 0 ]; then exit; fi
-# find . -name "*.html" -print0 | xargs -0 sed -i '' -e "s/freebible/free$bible/g"
+# find . -name "*.html" -print0 | xargs -0 sed -i.bak -e "s/freebible/free$bible/g"
 # if [ $? -ne 0 ]; then exit; fi
 
 
 # Deal with "bibledit.xpm" and where it is called.
 # mmv ";*bibledit.xpm*" "#1#2$bibledit.xpm#3"
 # if [ $? -ne 0 ]; then exit; fi
-# sed -i '' "s/bibledit.xpm/$bibledit.xpm/g" Makefile.am executable/bibledit.cpp
+# sed -i.bak "s/bibledit.xpm/$bibledit.xpm/g" Makefile.am executable/bibledit.cpp
 # if [ $? -ne 0 ]; then exit; fi
 
 
 # Deal with "bibledit.png" and where it is called.
 # mmv ";*bibledit.png*" "#1#2$bibledit.png#3"
 # if [ $? -ne 0 ]; then exit; fi
-# sed -i '' "s/bibledit.png/$bibledit.png/g" Makefile.am setup/index.html
+# sed -i.bak "s/bibledit.png/$bibledit.png/g" Makefile.am setup/index.html
 # if [ $? -ne 0 ]; then exit; fi
 
 
 # Deal with "quickbible.html" and where it is called.
 # mmv ";*quickbible.html*" "#1#2quick${bible}.html#3"
-# if [ $? -ne 0 ]; then exit; fi
-# sed -i '' "s/\"quickbible\"/\"quick${bible}\"/g" export/quickbible.cpp
 # if [ $? -ne 0 ]; then exit; fi
 
 

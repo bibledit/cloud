@@ -58,148 +58,6 @@ msgstr ""
 msgid "Inactive for a week"
 msgstr ""
 
-msgid "Font and text direction"
-msgstr ""
-
-msgid "Waiting while Bibledit Cloud installs the requested SWORD module"
-msgstr ""
-
-msgid ""
-"It has been some time ago that changes in the Bible text were received from "
-"the Cloud."
-msgstr ""
-
-msgid "Please do a Send/receive action to receive them from the Cloud."
-msgstr ""
-
-msgid ""
-"There are pending changes in the Bible text that have not yet been sent to "
-"the Cloud for some time."
-msgstr ""
-
-msgid ""
-"Changes will continue to be saved, but it is recommended to do a Send/"
-"receive action as soon as you can."
-msgstr ""
-
-msgid "The Cloud already had some changes in this chapter."
-msgstr ""
-
-msgid "You sent some changes for this chapter too."
-msgstr ""
-
-msgid "The Cloud merged the two."
-msgstr ""
-
-msgid "Most likely this is okay."
-msgstr ""
-
-msgid "You may want to check the result of the merge, whether it is correct."
-msgstr ""
-
-msgid "Bibles"
-msgstr ""
-
-msgid "Please enter a name for the new empty Bible"
-msgstr ""
-
-msgid "This Bible already exists"
-msgstr ""
-
-msgid "The Bible was created"
-msgstr ""
-
-msgid "Please enter a name for where to copy the Bible to"
-msgstr ""
-
-msgid "Cannot copy the Bible because the destination Bible already exists."
-msgstr ""
-
-msgid "The Bible was copied."
-msgstr ""
-
-msgid "Would you like to delete this Bible?"
-msgstr ""
-
-msgid "Chapter"
-msgstr ""
-
-msgid "Book"
-msgstr ""
-
-msgid "Would you like to delete this chapter?"
-msgstr ""
-
-msgid "Please enter the number for the new chapter"
-msgstr ""
-
-msgid "This chapter already exists"
-msgstr ""
-
-msgid "Editing settings"
-msgstr ""
-
-msgid "Order"
-msgstr ""
-
-msgid "Bible"
-msgstr ""
-
-msgid "Would you like to change the versification system?"
-msgstr ""
-
-msgid ""
-"A versification system determines how many chapters are in each book, and "
-"how many verses are in each chapter. Please make your choice below."
-msgstr ""
-
-msgid "Would you like to change the verse mapping?"
-msgstr ""
-
-msgid ""
-"A verse mapping can be used to match verses for parallel Bible display. "
-"Please make your choice below."
-msgstr ""
-
-msgid "Create book"
-msgstr ""
-
-msgid "Would you like to delete this book?"
-msgstr ""
-
-msgid "Select a resource to import into the Bible"
-msgstr ""
-
-msgid "The resource will be imported."
-msgstr ""
-
-msgid "It will overwrite the content of the Bible."
-msgstr ""
-
-msgid "The resource will be imported into the Bible."
-msgstr ""
-
-msgid "The journal shows the progress."
-msgstr ""
-
-msgid "More operations in the Cloud"
-msgstr ""
-
-msgid "Import"
-msgstr ""
-
-msgid "Import has started."
-msgstr ""
-
-msgid "Please supply valid Unicode UTF-8 text."
-msgstr ""
-
-msgid "Nothing was imported."
-msgstr ""
-
-msgid "Nothing was uploaded"
-msgstr ""
-
 msgid "Verse mappings"
 msgstr ""
 
@@ -1737,6 +1595,9 @@ msgstr ""
 msgid "Sending note to server"
 msgstr ""
 
+msgid "Bibles"
+msgstr ""
+
 msgid "Sending to server"
 msgstr ""
 
@@ -1918,6 +1779,142 @@ msgid "narrow non-breaking space"
 msgstr ""
 
 msgid "unknown"
+msgstr ""
+
+msgid "Font and text direction"
+msgstr ""
+
+msgid "Waiting while Bibledit Cloud installs the requested SWORD module"
+msgstr ""
+
+msgid ""
+"It has been some time ago that changes in the Bible text were received from "
+"the Cloud."
+msgstr ""
+
+msgid "Please do a Send/receive action to receive them from the Cloud."
+msgstr ""
+
+msgid ""
+"There are pending changes in the Bible text that have not yet been sent to "
+"the Cloud for some time."
+msgstr ""
+
+msgid ""
+"Changes will continue to be saved, but it is recommended to do a Send/"
+"receive action as soon as you can."
+msgstr ""
+
+msgid "The Cloud already had some changes in this chapter."
+msgstr ""
+
+msgid "You sent some changes for this chapter too."
+msgstr ""
+
+msgid "The Cloud merged the two."
+msgstr ""
+
+msgid "Most likely this is okay."
+msgstr ""
+
+msgid "You may want to check the result of the merge, whether it is correct."
+msgstr ""
+
+msgid "Please enter a name for the new empty Bible"
+msgstr ""
+
+msgid "This Bible already exists"
+msgstr ""
+
+msgid "The Bible was created"
+msgstr ""
+
+msgid "Please enter a name for where to copy the Bible to"
+msgstr ""
+
+msgid "Cannot copy the Bible because the destination Bible already exists."
+msgstr ""
+
+msgid "The Bible was copied."
+msgstr ""
+
+msgid "Would you like to delete this Bible?"
+msgstr ""
+
+msgid "Chapter"
+msgstr ""
+
+msgid "Book"
+msgstr ""
+
+msgid "Would you like to delete this chapter?"
+msgstr ""
+
+msgid "Please enter the number for the new chapter"
+msgstr ""
+
+msgid "This chapter already exists"
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
+msgid "Would you like to change the versification system?"
+msgstr ""
+
+msgid ""
+"A versification system determines how many chapters are in each book, and "
+"how many verses are in each chapter. Please make your choice below."
+msgstr ""
+
+msgid "Would you like to change the verse mapping?"
+msgstr ""
+
+msgid ""
+"A verse mapping can be used to match verses for parallel Bible display. "
+"Please make your choice below."
+msgstr ""
+
+msgid "Create book"
+msgstr ""
+
+msgid "Would you like to delete this book?"
+msgstr ""
+
+msgid "Select a resource to import into the Bible"
+msgstr ""
+
+msgid "The resource will be imported."
+msgstr ""
+
+msgid "It will overwrite the content of the Bible."
+msgstr ""
+
+msgid "The resource will be imported into the Bible."
+msgstr ""
+
+msgid "The journal shows the progress."
+msgstr ""
+
+msgid "More operations in the Cloud"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import has started."
+msgstr ""
+
+msgid "Please supply valid Unicode UTF-8 text."
+msgstr ""
+
+msgid "Nothing was imported."
+msgstr ""
+
+msgid "Nothing was uploaded"
 msgstr ""
 
 msgid "This book is absent from the Bible"
@@ -3726,223 +3723,7 @@ msgstr ""
 msgid "Clear the entire journal"
 msgstr ""
 
-msgid "Book order"
-msgstr ""
-
-msgid ""
-"Click to move books to another location to update the order of the books in "
-"this Bible."
-msgstr ""
-
-msgid "Reset order."
-msgstr ""
-
-msgid "Font and text settings"
-msgstr ""
-
-msgid "Make settings for font and text for the Bible editors."
-msgstr ""
-
-msgid "Font"
-msgstr ""
-
-msgid "Enter the name of a locally available font."
-msgstr ""
-
-msgid "Example:"
-msgstr ""
-
-msgid "Upload a font file."
-msgstr ""
-
-msgid "Then enter its name."
-msgstr ""
-
-msgid "Enter the name of a font available on the Internet."
-msgstr ""
-
-msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
-msgstr ""
-
-msgid "Direction"
-msgstr ""
-
-msgid "Unspecified"
-msgstr ""
-
-msgid "Left-to-right"
-msgstr ""
-
-msgid "Right-to-left"
-msgstr ""
-
-msgid "Writing mode"
-msgstr ""
-
-msgid "Top to bottom and left to right"
-msgstr ""
-
-msgid "Top to bottom and right to left"
-msgstr ""
-
-msgid "Bottom to top and left to right"
-msgstr ""
-
-msgid "Bottom to top and right to left"
-msgstr ""
-
-msgid "Line height"
-msgstr ""
-
-msgid "percent"
-msgstr ""
-
-msgid "Letter spacing"
-msgstr ""
-
-msgid "pixels"
-msgstr ""
-
 msgid "Save"
-msgstr ""
-
-msgid ""
-"After saving, the settings will be applied to the editable sample text below."
-msgstr ""
-
-msgid "Available Bibles:"
-msgstr ""
-
-msgid "Create a new empty Bible"
-msgstr ""
-
-msgid "Chapters:"
-msgstr ""
-
-msgid "Create chapter"
-msgstr ""
-
-msgid "Delete this book"
-msgstr ""
-
-msgid "Import Bible text."
-msgstr ""
-
-msgid "Paste the text into the box below and submit it."
-msgstr ""
-
-msgid "Submit"
-msgstr ""
-
-msgid "You can also upload a file with the text."
-msgstr ""
-
-msgid "Or a compressed archive of such files."
-msgstr ""
-
-msgid "Upload"
-msgstr ""
-
-msgid "The upload may take some time."
-msgstr ""
-
-msgid "This can be done in Bibledit Cloud."
-msgstr ""
-
-msgid "This page helps with importing Bible text."
-msgstr ""
-
-msgid "It recognizes two types of text."
-msgstr ""
-
-msgid "It recognizes Unified Standard Format Markers text."
-msgstr ""
-
-msgid "More information about that."
-msgstr ""
-
-msgid ""
-"Bibledit recognizes books through the id markup and chapters through the c "
-"markup."
-msgstr ""
-
-msgid "It also recognizes plain text."
-msgstr ""
-
-msgid "It does that one chapter at a time."
-msgstr ""
-
-msgid ""
-"It imports the text into the book and chapter indicated by the passage "
-"navigator at the top of the window."
-msgstr ""
-
-msgid ""
-"It considers numbers at the start of a line of text to be verse numbers."
-msgstr ""
-
-msgid "It does not discover verse numbers somewhere else in the text."
-msgstr ""
-
-msgid "After importing some text, it is recommended to run the checks on it."
-msgstr ""
-
-msgid "An imported chapter overwrites the chapter already in the Bible."
-msgstr ""
-
-msgid ""
-"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
-"that chapter already was in the Bible."
-msgstr ""
-
-msgid "It will not overwrite anything else."
-msgstr ""
-
-msgid "If Genesis 1 was not yet there, it will be created."
-msgstr ""
-
-msgid ""
-"You can import one chapter, or several chapters, or one book, or several "
-"books, all in one go."
-msgstr ""
-
-msgid "The text to be imported should be in Unicode UTF-8 format."
-msgstr ""
-
-msgid "Delete this chapter"
-msgstr ""
-
-msgid "Available books"
-msgstr ""
-
-msgid "Versification system"
-msgstr ""
-
-msgid "Verse mapping"
-msgstr ""
-
-msgid "Import text"
-msgstr ""
-
-msgid "Copy this Bible"
-msgstr ""
-
-msgid "Delete this Bible"
-msgstr ""
-
-msgid "Convert to USFM resource"
-msgstr ""
-
-msgid "Compare with ..."
-msgstr ""
-
-msgid "The public can give feedback"
-msgstr ""
-
-msgid "Send the changes to the RSS feed"
-msgstr ""
-
-msgid "Import text from a resource"
 msgstr ""
 
 msgid "To update the verse mappings, make changes above, and save them."
@@ -4105,6 +3886,9 @@ msgid ""
 msgstr ""
 
 msgid "Step 4"
+msgstr ""
+
+msgid "Submit"
 msgstr ""
 
 msgid "Example URLs:"
@@ -4380,6 +4164,222 @@ msgid "View the history:"
 msgstr ""
 
 msgid "The Journal displays progress and diagnostic messages."
+msgstr ""
+
+msgid "Book order"
+msgstr ""
+
+msgid ""
+"Click to move books to another location to update the order of the books in "
+"this Bible."
+msgstr ""
+
+msgid "Reset order."
+msgstr ""
+
+msgid "Font and text settings"
+msgstr ""
+
+msgid "Make settings for font and text for the Bible editors."
+msgstr ""
+
+msgid "Font"
+msgstr ""
+
+msgid "Enter the name of a locally available font."
+msgstr ""
+
+msgid "Example:"
+msgstr ""
+
+msgid "Upload a font file."
+msgstr ""
+
+msgid "Then enter its name."
+msgstr ""
+
+msgid "Enter the name of a font available on the Internet."
+msgstr ""
+
+msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
+msgstr ""
+
+msgid "Direction"
+msgstr ""
+
+msgid "Unspecified"
+msgstr ""
+
+msgid "Left-to-right"
+msgstr ""
+
+msgid "Right-to-left"
+msgstr ""
+
+msgid "Writing mode"
+msgstr ""
+
+msgid "Top to bottom and left to right"
+msgstr ""
+
+msgid "Top to bottom and right to left"
+msgstr ""
+
+msgid "Bottom to top and left to right"
+msgstr ""
+
+msgid "Bottom to top and right to left"
+msgstr ""
+
+msgid "Line height"
+msgstr ""
+
+msgid "percent"
+msgstr ""
+
+msgid "Letter spacing"
+msgstr ""
+
+msgid "pixels"
+msgstr ""
+
+msgid ""
+"After saving, the settings will be applied to the editable sample text below."
+msgstr ""
+
+msgid "Available Bibles:"
+msgstr ""
+
+msgid "Create a new empty Bible"
+msgstr ""
+
+msgid "Chapters:"
+msgstr ""
+
+msgid "Create chapter"
+msgstr ""
+
+msgid "Delete this book"
+msgstr ""
+
+msgid "Import Bible text."
+msgstr ""
+
+msgid "Paste the text into the box below and submit it."
+msgstr ""
+
+msgid "You can also upload a file with the text."
+msgstr ""
+
+msgid "Or a compressed archive of such files."
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "The upload may take some time."
+msgstr ""
+
+msgid "This can be done in Bibledit Cloud."
+msgstr ""
+
+msgid "This page helps with importing Bible text."
+msgstr ""
+
+msgid "It recognizes two types of text."
+msgstr ""
+
+msgid "It recognizes Unified Standard Format Markers text."
+msgstr ""
+
+msgid "More information about that."
+msgstr ""
+
+msgid ""
+"Bibledit recognizes books through the id markup and chapters through the c "
+"markup."
+msgstr ""
+
+msgid "It also recognizes plain text."
+msgstr ""
+
+msgid "It does that one chapter at a time."
+msgstr ""
+
+msgid ""
+"It imports the text into the book and chapter indicated by the passage "
+"navigator at the top of the window."
+msgstr ""
+
+msgid ""
+"It considers numbers at the start of a line of text to be verse numbers."
+msgstr ""
+
+msgid "It does not discover verse numbers somewhere else in the text."
+msgstr ""
+
+msgid "After importing some text, it is recommended to run the checks on it."
+msgstr ""
+
+msgid "An imported chapter overwrites the chapter already in the Bible."
+msgstr ""
+
+msgid ""
+"If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
+"that chapter already was in the Bible."
+msgstr ""
+
+msgid "It will not overwrite anything else."
+msgstr ""
+
+msgid "If Genesis 1 was not yet there, it will be created."
+msgstr ""
+
+msgid ""
+"You can import one chapter, or several chapters, or one book, or several "
+"books, all in one go."
+msgstr ""
+
+msgid "The text to be imported should be in Unicode UTF-8 format."
+msgstr ""
+
+msgid "Delete this chapter"
+msgstr ""
+
+msgid "Available books"
+msgstr ""
+
+msgid "Versification system"
+msgstr ""
+
+msgid "Verse mapping"
+msgstr ""
+
+msgid "Import text"
+msgstr ""
+
+msgid "Copy this Bible"
+msgstr ""
+
+msgid "Delete this Bible"
+msgstr ""
+
+msgid "Convert to USFM resource"
+msgstr ""
+
+msgid "Compare with ..."
+msgstr ""
+
+msgid "Editing settings"
+msgstr ""
+
+msgid "The public can give feedback"
+msgstr ""
+
+msgid "Send the changes to the RSS feed"
+msgstr ""
+
+msgid "Import text from a resource"
 msgstr ""
 
 msgid "help"

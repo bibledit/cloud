@@ -84,6 +84,7 @@ echo Installing dependencies through apt-get...
 # On Debian and derivates it is sufficient to use the --yes switch only.
 # The package manager apt-get is also found on openSUSE, and there is also needs --assume-yes. 
 apt-get --yes --assume-yes install build-essential
+apt-get --yes --assume-yes install autoconf-archive
 apt-get --yes --assume-yes install git
 apt-get --yes --assume-yes install zip
 apt-get --yes --assume-yes install pkgconf
@@ -100,6 +101,7 @@ which dnf > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through dnf...
+dnf --assumeyes install autoconf-archive
 dnf --assumeyes install gcc-c++
 dnf --assumeyes install git
 dnf --assumeyes install zip
@@ -115,6 +117,7 @@ which yum > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through yum...
+yum --assumeyes install autoconf-archive
 yum --assumeyes install gcc-c++
 yum --assumeyes install git
 yum --assumeyes install zip
@@ -131,6 +134,7 @@ which zypper > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through zypper...
+zypper -n --non-interactive --no-gpg-checks install autoconf-archive
 zypper -n --non-interactive --no-gpg-checks install gcc-c++
 zypper -n --non-interactive --no-gpg-checks install git
 zypper -n --non-interactive --no-gpg-checks install zip
@@ -152,9 +156,22 @@ echo "./${bibledit} 2>&1 | grep -v WARNING | tr -d 012" >> /usr/bin/${bibledit}
 chmod +x /usr/bin/${bibledit}
 
 echo Install launcher to start ${Bibledit}
-# It does that here at this stage in the script, because here it has root privileges. Todo: Copy to /tmp, edit it there, move it into place, install it as now.
-wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O /usr/share/applications/bibledit.desktop
-desktop-file-install /usr/share/applications/bibledit.desktop
+# It does that here at this stage in the script, because here it has root privileges.
+wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O /usr/share/applications/${bibledit}.desktop
+echo Updating ${bibledit}.desktop
+# The .desktop file has the following lines, among others:
+# Name=Bibledit
+# Comment=Bible Editor
+# Exec=bibledit
+# Update those.
+sed -i.bak "s/Bibledit/${Bibledit}/g" ${bibledit}.desktop
+if [ $? -ne 0 ]; then exit; fi
+sed -i.bak "s/Bible/${Bible}/g" ${bibledit}.desktop
+if [ $? -ne 0 ]; then exit; fi
+sed -i.bak "s/bibledit/${bibledit}/g" ${bibledit}.desktop
+if [ $? -ne 0 ]; then exit; fi
+# Install it.
+desktop-file-install /usr/share/applications/${bibledit}.desktop
 wget https://raw.githubusercontent.com/bibledit/linux/master/bbe512x512.png -O /usr/share/icons/bbe512x512.png
 
 # Act as if the script ran successfully, no matter whether it really did.
@@ -221,6 +238,8 @@ echo Failed to download Bibledit
 exit
 fi
 
+
+# Create the directory and unpack the tarball there.
 mkdir -p ${bibledit}
 tar xf $TARBALL -C ${bibledit} --strip-components=1
 if [ $? -ne 0 ]
@@ -230,22 +249,126 @@ rm $TARBALL
 exit
 fi
 
+
+# The working directory.
 cd ${bibledit}
+
+
 # Remove bits from any older build that might cause crashes in the new build.
 find . -name "*.o" -delete
+
+
+echo Changing the program name and installation location to ${bibledit}/${Bibledit}
+sed -i.bak "s/bibledit/$bibledit/g" configure.ac
+if [ $? -ne 0 ]; then exit; fi
+sed -i.bak "s/Bibledit/$Bibledit/g" configure.ac
+if [ $? -ne 0 ]; then exit; fi
+sed -i.bak "s/bin_PROGRAMS = bibledit/bin_PROGRAMS = ${bibledit}/g" Makefile.am
+if [ $? -ne 0 ]; then exit; fi
+sed -i.bak "s/bibledit_SOURCES/${bibledit}_SOURCES/g" Makefile.am
+if [ $? -ne 0 ]; then exit; fi
+sed -i.bak "s/bibledit_LDADD/${bibledit}_LDADD/g" Makefile.am
+if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm *.bak
+
+
+# Change the builder that uses the desktop file.
+# sed -i.bak "s/bibledit.desktop/$bibledit.desktop/g" Makefile.am
+# Remove backup file(s).
+# rm *.bak
+
+
+# Remove the internationalization file.
+# It is not needed.
+rm locale/bibledit.pot
+if [ $? -ne 0 ]; then exit; fi
+
+
+if [ "$bible" != "bible" ]
+then
+echo Renaming the bibles folder where to store the Bibles to ${bible}s
+cp -r bibles ${bible}s
+if [ $? -ne 0 ]; then exit; fi
+rm -rf bibles
+if [ $? -ne 0 ]; then exit; fi
+# Update the references to this folder in the code.
+sed -i.bak "s/\"bibles\"/\"${bible}s\"/g" database/bibles.cpp setup/logic.cpp
+if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm database/*.bak
+rm setup/*.bak
+fi
+
+
+if [ "$bible" != "bible" ]
+then
+echo Renaming the databases/config/bible folder where to store the Bibles configuration data
+cp -r databases/config/bible databases/config/${bible}
+if [ $? -ne 0 ]; then exit; fi
+rm -rf databases/config/bible
+if [ $? -ne 0 ]; then exit; fi
+# Update the references to this folder in the code.
+sed -i.bak "s/\"bible\"/\"${bible}\"/g" database/config/bible.cpp
+if [ $? -ne 0 ]; then exit; fi
+# Remove backup file(s).
+rm database/config/*.bak
+fi
+
+
+echo Removing the man file as not needed in this situation
+rm -f man/bibledit.1
+sed -i.bak "/man_MANS/g" Makefile.am
+# Remove backup file(s).
+rm *.bak
+
+
+# Change any files with the fragment "Bible" in them to "Scripture".
+# At the time of writing this script, there was only one file.
+# The wildcard ; matches any directory.
+# The wildcard * is the well-known one.
+# The #1 matches the first wildcard, #2 the second wildcard, and so on.
+# mmv ";*Bible*" "#1#2$Bible#3"
+# if [ $? -ne 0 ]; then exit; fi
+
+
+# Deal with "freebible.html" and where it is called.
+# mmv ";*freebible*" "#1#2free$bible#3"
+# if [ $? -ne 0 ]; then exit; fi
+# find . -name "*.html" -print0 | xargs -0 sed -i '' -e "s/freebible/free$bible/g"
+# if [ $? -ne 0 ]; then exit; fi
+
+
+# Deal with "bibledit.xpm" and where it is called.
+# mmv ";*bibledit.xpm*" "#1#2$bibledit.xpm#3"
+# if [ $? -ne 0 ]; then exit; fi
+# sed -i '' "s/bibledit.xpm/$bibledit.xpm/g" Makefile.am executable/bibledit.cpp
+# if [ $? -ne 0 ]; then exit; fi
+
+
+# Deal with "bibledit.png" and where it is called.
+# mmv ";*bibledit.png*" "#1#2$bibledit.png#3"
+# if [ $? -ne 0 ]; then exit; fi
+# sed -i '' "s/bibledit.png/$bibledit.png/g" Makefile.am setup/index.html
+# if [ $? -ne 0 ]; then exit; fi
+
+
+# Deal with "quickbible.html" and where it is called.
+# mmv ";*quickbible.html*" "#1#2quick${bible}.html#3"
+# if [ $? -ne 0 ]; then exit; fi
+# sed -i '' "s/\"quickbible\"/\"quick${bible}\"/g" export/quickbible.cpp
+# if [ $? -ne 0 ]; then exit; fi
+
+
+./reconfigure
+if [ $? -ne 0 ]; then exit; fi
 ./configure
-if [ $? -ne 0 ]
-then
-echo Failed to configure ${Bibledit}
-exit
-fi
+if [ $? -ne 0 ]; then exit; fi
 make clean
+if [ $? -ne 0 ]; then exit; fi
 make --jobs=4
-if [ $? -ne 0 ]
-then
-echo Failed to build ${Bibledit}
-exit
-fi
+if [ $? -ne 0 ]; then exit; fi
+
 
 # Remove the script, so people cannot reuse it.
 # Reusing scripts have given problems in the past as newer scripts were different.

@@ -17,13 +17,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+# Definitions for what to obfuscate.
+# Bibledit=Scripturedit
+# bibledit=scripturedit
+# Bible=Scripture
+# bible=scripture
+
+
+if [ "$Bibledit" = "" ]
+then
+Bibledit=Bibledit
+fi
+if [ "$bibledit" = "" ]
+then
+bibledit=bibledit
+fi
+if [ "$Bible" = "" ]
+then
+Bible=Bible
+fi
+if [ "$bible" = "" ]
+then
+bible=bible
+fi
+
+
 SCRIPTPATH=`readlink -f "$0"`
 echo Running script $SCRIPTPATH
 
 
 # Some distro's cannot run $ su.
 UNAME=`uname -a`
-echo -n "Installing Bibledit on "
+echo -n "Installing ${Bibledit} on "
 echo $UNAME
 RUNSU=1;
 echo "$UNAME" | grep -q Ubuntu
@@ -38,13 +63,19 @@ cat > install2.sh <<'scriptblock'
 
 #!/bin/bash
 
+# Obfuscation information.
+Bibledit=$1
+bibledit=$2
+Bible=$3
+bible=$4
+
 echo Updating the software sources...
 which apt-get > /dev/null
 if [ $? -eq 0 ]; then
 apt-get update
 fi
 
-echo Installing the software Bibledit relies on...
+echo Installing the software ${Bibledit} relies on...
 
 which apt-get > /dev/null
 if [ $? -eq 0 ]
@@ -112,20 +143,16 @@ zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 fi
 
 
-# If installing the dependencies only, don't proceed beyond this point.
-if [ "$1" = "deps" ]; then exit 0; fi
+echo Creating the script to start ${bibledit}
+rm -f /usr/bin/${bibledit}
+echo #!/bin/bash >> /usr/bin/${bibledit}
+echo cd  >> /usr/bin/${bibledit}
+echo cd ${bibledit} >> /usr/bin/${bibledit}
+echo "./${bibledit} 2>&1 | grep -v WARNING | tr -d 012" >> /usr/bin/${bibledit}
+chmod +x /usr/bin/${bibledit}
 
-
-echo Creating the script to start bibledit.
-rm -f /usr/bin/bibledit
-echo #!/bin/bash >> /usr/bin/bibledit
-echo cd  >> /usr/bin/bibledit
-echo cd bibledit >> /usr/bin/bibledit
-echo './bibledit 2>&1 | grep -v WARNING | tr -d 012' >> /usr/bin/bibledit
-chmod +x /usr/bin/bibledit
-
-echo Install launcher to start bibledit.
-# It does that here at this stage in the script, because here it has root privileges.
+echo Install launcher to start ${Bibledit}
+# It does that here at this stage in the script, because here it has root privileges. Todo: Copy to /tmp, edit it there, move it into place, install it as now.
 wget https://raw.githubusercontent.com/bibledit/linux/master/bibledit.desktop -O /usr/share/applications/bibledit.desktop
 desktop-file-install /usr/share/applications/bibledit.desktop
 wget https://raw.githubusercontent.com/bibledit/linux/master/bbe512x512.png -O /usr/share/icons/bbe512x512.png
@@ -143,7 +170,7 @@ chmod +x install2.sh
 # Conditionally run $ su.
 if [ $RUNSU -ne 0 ]; then
 echo Please provide the password for the root user and press Enter
-su -c ./install2.sh
+su -c ./install2.sh "${Bibledit}" "${bibledit}" "${Bible}" "${bible}"
 fi
 
 EXIT_CODE=$?
@@ -155,7 +182,7 @@ fi
 if [ $EXIT_CODE != 0 ]; then
 
 echo Please provide the password for the administrative user and press Enter:
-sudo ./install2.sh $@
+sudo ./install2.sh "${Bibledit}" "${bibledit}" "${Bible}" "${bible}"
 EXIT_CODE=$?
 if [ $EXIT_CODE != 0 ]; then
 exit
@@ -171,7 +198,7 @@ rm install2.sh
 # Remove any possible local launcher.
 # The reason is that a local launcher takes precendence over a system-wide one.
 cd
-rm -f .local/share/applications/bibledit.desktop
+rm -f .local/share/applications/${bibledit}.desktop
 
 
 cd
@@ -194,32 +221,29 @@ echo Failed to download Bibledit
 exit
 fi
 
-mkdir -p bibledit
-tar xf $TARBALL -C bibledit --strip-components=1
+mkdir -p ${bibledit}
+tar xf $TARBALL -C ${bibledit} --strip-components=1
 if [ $? -ne 0 ]
 then
-echo Failed to unpack Bibledit
+echo Failed to unpack ${Bibledit}
 rm $TARBALL
 exit
 fi
 
-# If installing the dependencies only, don't proceed beyond this point.
-if [ "$1" = "deps" ]; then exit 0; fi
-
-cd bibledit
+cd ${bibledit}
 # Remove bits from any older build that might cause crashes in the new build.
 find . -name "*.o" -delete
 ./configure
 if [ $? -ne 0 ]
 then
-echo Failed to configure Bibledit
+echo Failed to configure ${Bibledit}
 exit
 fi
 make clean
 make --jobs=4
 if [ $? -ne 0 ]
 then
-echo Failed to build Bibledit
+echo Failed to build ${Bibledit}
 exit
 fi
 
@@ -227,8 +251,8 @@ fi
 # Reusing scripts have given problems in the past as newer scripts were different.
 rm $SCRIPTPATH
 
-echo If there were no errors, Bibledit should be working now.
+echo If there were no errors, ${Bibledit} should be working now.
 echo --
-echo To start Bibledit, open a terminal, and type:
-echo bibledit
+echo To start ${Bibledit}, open a terminal, and type:
+echo ${bibledit}
 echo and press Enter.

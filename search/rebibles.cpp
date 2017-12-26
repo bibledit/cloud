@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibles.h>
 #include <database/config/general.h>
 #include <search/logic.h>
+#include <locale/translate.h>
 
 
 bool search_reindex_bibles_running = false;
@@ -38,25 +39,28 @@ void search_reindex_bibles (bool force)
   
   // One simultaneous instance.
   if (search_reindex_bibles_running) {
-    Database_Logs::log ("Still indexing Bibles", Filter_Roles::manager ());
+    Database_Logs::log (translate ("Still indexing Bibles"), Filter_Roles::manager ());
     return;
   }
   search_reindex_bibles_running = true;
+
   
+  string indexing_bible = translate ("Indexing Bible:");
+
   
   // This checks whether the data in the search index exists for all chapters in all Bibles.
   // If it does not exist for a certain chapter, the index will be created.
   Database_Bibles database_bibles;
   vector <string> bibles = database_bibles.getBibles ();
   for (auto & bible : bibles) {
-    Database_Logs::log ("Indexing Bible: Checking " + bible, Filter_Roles::manager ());
+    Database_Logs::log (indexing_bible + " " + translate ("Checking") + " " + bible, Filter_Roles::manager ());
     vector <int> books = database_bibles.getBooks (bible);
     for (auto book : books) {
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto chapter : chapters) {
         string index = search_logic_chapter_file (bible, book, chapter);
         if (!file_or_dir_exists (index) || force) {
-          string msg = "Indexing Bible: " + bible + " " + filter_passage_display (book, chapter, "");
+          string msg = indexing_bible + " " + bible + " " + filter_passage_display (book, chapter, "");
           Database_Logs::log (msg, Filter_Roles::manager ());
           search_logic_index_chapter (bible, book, chapter);
         }
@@ -65,7 +69,7 @@ void search_reindex_bibles (bool force)
   }
   
   
-  Database_Logs::log ("Indexing Bible: Ready", Filter_Roles::manager ());
+  Database_Logs::log (indexing_bible + " " + translate ("Ready"), Filter_Roles::manager ());
   Database_Config_General::setIndexBibles (false);
   search_reindex_bibles_running = false;
 }

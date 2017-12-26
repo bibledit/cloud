@@ -885,8 +885,10 @@ string menu_logic_settings_resources_category (void * webserver_request)
 #endif
   
 #ifdef HAVE_CLOUD
-  if (resource_sword_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD"), true));
+  if (!config_globals_hide_bible_resources) {
+    if (resource_sword_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD"), true));
+    }
   }
 #endif
 
@@ -897,14 +899,18 @@ string menu_logic_settings_resources_category (void * webserver_request)
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_biblegateway_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_biblegateway_url (), "BibleGateway", true));
+  if (!config_globals_hide_bible_resources) {
+    if (resource_biblegateway_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_biblegateway_url (), "BibleGateway", true));
+    }
   }
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_studylight_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_studylight_url (), "StudyLight", true));
+  if (!config_globals_hide_bible_resources) {
+    if (resource_studylight_acl (webserver_request)) {
+      html.push_back (menu_logic_create_item (resource_studylight_url (), "StudyLight", true));
+    }
   }
 #endif
 

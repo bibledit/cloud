@@ -54,3 +54,5 @@ uniform_int_distribution <int> config_globals_int_distribution (0, numeric_limit
 string config_globals_external_url;
 map <string, int> config_globals_resource_window_positions;
 string config_globals_pages_to_open;
+bool config_globals_hide_bible_resources = false;
+

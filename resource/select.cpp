@@ -38,6 +38,7 @@
 #include <lexicon/logic.h>
 #include <sword/logic.h>
 #include <access/logic.h>
+#include <config/globals.h>
 
 
 string resource_select_url ()
@@ -214,6 +215,12 @@ string resource_select (void * webserver_request)
     return page;
   }
   
+  
+  // Whether to show or to hide sensitive Bible resources for in countries where Jesus' followers are in danger.
+  if (!config_globals_hide_bible_resources) {
+    view.enable_zone ("sensitive_bible_resource");
+  }
+
   
   page += view.render ("resource", "select");
   page += Assets_Page::footer ();

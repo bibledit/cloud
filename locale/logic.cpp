@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/date.h>
+#include <config/globals.h>
 
 
 // Filters out the default language.
@@ -267,6 +268,15 @@ void locale_logic_obfuscate_initialize ()
     // Skip lines that start with the number sign #.
     size_t pos = line.find ("#");
     if (pos != string::npos) if (pos < 3) continue;
+    
+    // Apart from texts to obfuscate,
+    // the settings can also contain a line to hide the Bible resources.
+    // Deal with it here.
+    pos = line.find ("HideBibleResources");
+    if (pos != string::npos) {
+      config_globals_hide_bible_resources = true;
+      continue;
+    }
     
     // Lines require the equal sign = once.
     vector <string> obfuscation_pair = filter_string_explode (line, '=');

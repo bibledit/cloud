@@ -50,3 +50,4 @@ extern uniform_int_distribution <int> config_globals_int_distribution;
 extern string config_globals_external_url;
 extern map <string, int> config_globals_resource_window_positions;
 extern string config_globals_pages_to_open;
+extern bool config_globals_hide_bible_resources;

@@ -2,12 +2,10 @@
 
 # Lines that start with a number sign (#) are comments.
 
-# Obfuscating will take effect after completing all of the following steps:
-# 1. Renaming sample.txt to texts.txt.
-# 2. Removing the relevant number signs.
-# 3. Updating the file.
-# 4. Saving the file.
-# 5. Restarting Bibledit.
+# Obfuscating will take effect after completing the following steps:
+# 1. Copying this file sample.txt to texts.txt.
+# 2. Updating file texts.txt.
+# 3. Restarting Bibledit.
 
 # Search and replace is case sensitive.
 
@@ -25,3 +23,7 @@ bb=volume
 Bb=Volume
 Genesis=Startup
 Proverbs=Oneliners
+
+# Uncomment the following line to hide the Bible resources.
+HideBibleResources
+

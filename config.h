@@ -29,7 +29,7 @@
 #define HAVE_LIBPROC 1
 
 /* Define whether to compile for Linux */
-/* #undef HAVE_LINUX */
+#define HAVE_LINUX 1
 
 /* Define whether to compile for Mac */
 /* #undef HAVE_MAC */

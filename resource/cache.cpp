@@ -37,6 +37,7 @@
 #include <database/usfmresources.h>
 #include <sendreceive/resources.h>
 #include <client/logic.h>
+#include <config/globals.h>
 
 
 string resource_cache_url ()
@@ -108,15 +109,19 @@ string resource_cache (void * webserver_request)
     all_resources.push_back (resource);
   }
   // External resources.
-  resources = resource_external_names ();
-  for (auto & resource : resources) {
-    all_resources.push_back (resource);
+  if (!config_globals_hide_bible_resources) {
+    resources = resource_external_names ();
+    for (auto & resource : resources) {
+      all_resources.push_back (resource);
+    }
   }
   // SWORD resources.
-  resources = sword_logic_get_available ();
-  for (auto & resource : resources) {
-    resource_types [resource] = sword_type;
-    all_resources.push_back (resource);
+  if (!config_globals_hide_bible_resources) {
+    resources = sword_logic_get_available ();
+    for (auto & resource : resources) {
+      resource_types [resource] = sword_type;
+      all_resources.push_back (resource);
+    }
   }
   // Any old USFM resources still available on the client.
   Database_UsfmResources database_usfmresources;
@@ -126,14 +131,18 @@ string resource_cache (void * webserver_request)
     all_resources.push_back (resource);
   }
   // BibleGateway resources.
-  resources = resource_logic_bible_gateway_module_list_get ();
-  for (auto & resource : resources) {
-    all_resources.push_back (resource);
+  if (!config_globals_hide_bible_resources) {
+    resources = resource_logic_bible_gateway_module_list_get ();
+    for (auto & resource : resources) {
+      all_resources.push_back (resource);
+    }
   }
   // StudyLight resources.
-  resources = resource_logic_study_light_module_list_get ();
-  for (auto & resource : resources) {
-    all_resources.push_back (resource);
+  if (!config_globals_hide_bible_resources) {
+    resources = resource_logic_study_light_module_list_get ();
+    for (auto & resource : resources) {
+      all_resources.push_back (resource);
+    }
   }
 
   

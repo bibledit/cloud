@@ -49,7 +49,10 @@ void test_odf ()
     odf_text.newParagraph ();
     odf_text.addText ("Paragraph Three");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    // The binary odt2txt will detect the Terminal's encoding.
+    // This may not be UTF-8. This has been happening at times.
+    // So set it here.
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -72,7 +75,7 @@ void test_odf ()
     Odf_Text odf_text ("phpunit");
     odf_text.addText ("Should create new paragraph automatically");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -92,7 +95,7 @@ void test_odf ()
     odf_text.addNoteText ("Note");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -121,7 +124,7 @@ void test_odf ()
     odf_text.addText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -146,7 +149,7 @@ void test_odf ()
     odf_text.addNoteText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -190,7 +193,7 @@ void test_odf ()
     odf_text.addText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -230,7 +233,7 @@ void test_odf ()
     odf_text.addNoteText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
@@ -258,7 +261,7 @@ void test_odf ()
     odf_text.addText ("Paragraph with d style at first, then Standard");
     odf_text.updateCurrentParagraphStyle (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);

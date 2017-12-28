@@ -132,10 +132,7 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_database_modifications_user ();
-  test_database_modifications_team ();
-  test_database_modifications_notifications ();
-  test_database_config_general ();
+  test_odf ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

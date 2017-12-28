@@ -2466,6 +2466,18 @@ msgid ""
 "manually."
 msgstr ""
 
+msgid "Still indexing Bibles"
+msgstr ""
+
+msgid "Indexing Bible:"
+msgstr ""
+
+msgid "Checking"
+msgstr ""
+
+msgid "Ready"
+msgstr ""
+
 msgid "Here are the various options:"
 msgstr ""
 
@@ -10484,9 +10496,6 @@ msgid "Submit to the Bible Drop Box"
 msgstr ""
 
 msgid "Bible translation through Bibledit"
-msgstr ""
-
-msgid "Ready"
 msgstr ""
 
 msgid "Go back to"

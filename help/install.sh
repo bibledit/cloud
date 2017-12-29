@@ -84,6 +84,8 @@ echo Installing dependencies through apt-get...
 # On Debian and derivates it is sufficient to use the --yes switch only.
 # The package manager apt-get is also found on openSUSE, and there is also needs --assume-yes.
 apt-get --yes --assume-yes install build-essential
+apt-get --yes --assume-yes install autoconf
+apt-get --yes --assume-yes install automake
 apt-get --yes --assume-yes install autoconf-archive
 apt-get --yes --assume-yes install git
 apt-get --yes --assume-yes install zip
@@ -101,6 +103,8 @@ which dnf > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through dnf...
+dnf --assumeyes install autoconf
+dnf --assumeyes install automake
 dnf --assumeyes install autoconf-archive
 dnf --assumeyes install gcc-c++
 dnf --assumeyes install git
@@ -117,6 +121,8 @@ which yum > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through yum...
+yum --assumeyes install autoconf
+yum --assumeyes install automake
 yum --assumeyes install autoconf-archive
 yum --assumeyes install gcc-c++
 yum --assumeyes install git
@@ -134,6 +140,8 @@ which zypper > /dev/null
 if [ $? -eq 0 ]
 then
 echo Installing dependencies through zypper...
+zypper -n --non-interactive --no-gpg-checks install autoconf
+zypper -n --non-interactive --no-gpg-checks install automake
 zypper -n --non-interactive --no-gpg-checks install autoconf-archive
 zypper -n --non-interactive --no-gpg-checks install gcc-c++
 zypper -n --non-interactive --no-gpg-checks install git

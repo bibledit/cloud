@@ -26,12 +26,10 @@
 #include <database/books.h>
 
 
-/**
- * Constructs a Bible books selection dialog
- * $action - GET action to take: Will be added to the base url upon selection.
- * $inclusions - vector of book IDs to include, empty vector does nothing.
- * $exclusions - vector of book IDs to exclude, empty vector does nothing.
- */
+// Constructs a Bible books selection dialog
+// $action - GET action to take: Will be added to the base url upon selection.
+// $inclusions - vector of book IDs to include, empty vector does nothing.
+// $exclusions - vector of book IDs to exclude, empty vector does nothing.
 Dialog_Books::Dialog_Books (string url, string header, string info_top, string info_bottom, string action, vector <int> inclusions, vector <int> exclusions)
 {
   Assets_View * view = new Assets_View ();

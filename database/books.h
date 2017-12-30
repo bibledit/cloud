@@ -40,7 +40,7 @@ public:
   static int getIdFromOnlinebible (string onlinebible);
   static int getIdLastEffort (string text);
   static string getOnlinebibleFromId (int id);
-  static int getSequenceFromId (int id);
+  static int getOrderFromId (int id);
   static string getType (int id);
 private:
   static unsigned int data_count ();

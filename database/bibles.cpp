@@ -129,12 +129,12 @@ vector <int> Database_Bibles::getBooks (string bible)
     if (filter_string_is_numeric (book)) books.push_back (convert_to_int (book));
   }
 
-  // Sort the books according to the sequence defined in the books database.
-  vector <int> sequence;
+  // Sort the books according to the order defined in the books database.
+  vector <int> order;
   for (auto & book : books) {
-    sequence.push_back (Database_Books::getSequenceFromId (book));
+    order.push_back (Database_Books::getOrderFromId (book));
   }
-  quick_sort (sequence, books, 0, sequence.size());
+  quick_sort (order, books, 0, order.size());
 
   // Result.
   return books;

@@ -43,7 +43,7 @@ void export_odt_book (string bible, int book, bool log)
   
   
   // Filenames for the various types of OpenDocument files.
-  string basename = Export_Logic::baseBookFileName (book);
+  string basename = Export_Logic::baseBookFileName (bible, book);
   string standardFilename = filter_url_create_path (directory, basename + "_standard.odt");
   string textOnlyFilename = filter_url_create_path (directory, basename + "_text_only.odt");
   string textAndCitationsFilename = filter_url_create_path (directory, basename + "_text_and_note_citations.odt");

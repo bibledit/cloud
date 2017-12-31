@@ -63,7 +63,7 @@ void export_usfm (string bible, bool log)
     
     
     // The filename for the USFM for this book.
-    string filename = Export_Logic::baseBookFileName (book);
+    string filename = Export_Logic::baseBookFileName (bible, book);
     string path = filter_url_create_path (usfmDirectoryFull, filename + ".usfm");
     
     
@@ -100,7 +100,7 @@ void export_usfm (string bible, bool log)
 
   
   // Base name of the zip file.
-  string zipfile = Export_Logic::baseBookFileName (0) + ".zip";
+  string zipfile = Export_Logic::baseBookFileName ("", 0) + ".zip";
   string zippath = filter_url_create_path (usfmDirectoryFull, zipfile);
   
   

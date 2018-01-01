@@ -95,7 +95,7 @@ map <string, string> locale_logic_localizations ()
       string basename = filter_string_str_replace ("." + suffix, "", file);
       string path = filter_url_create_path (directory, file);
       string contents = filter_url_file_get_contents (path);
-      string language = "Unknown";
+      string language = translate ("Unknown");
       vector <string> lines = filter_string_explode (contents, '\n');
       for (auto line : lines) {
         if (line.find ("translation for bibledit") != string::npos) {

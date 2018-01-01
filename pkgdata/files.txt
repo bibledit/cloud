@@ -56,6 +56,8 @@
 /compare
 /compare/index.html
 /compile
+/conf25677.dir
+/conf25677.file
 /config
 /config/config.txt
 /config.guess
@@ -670,7 +672,6 @@
 /sprint/index.js
 /sqlite
 /sqlite/readme.txt
-/stamp-h1
 /statistics
 /styles
 /styles/indexm.html

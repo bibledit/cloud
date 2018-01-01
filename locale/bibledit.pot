@@ -79,6 +79,9 @@ msgstr ""
 msgid "The verse mapping was deleted"
 msgstr ""
 
+msgid "Unknown"
+msgstr ""
+
 msgid "New"
 msgstr ""
 

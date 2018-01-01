@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/string.h>
 #include <filter/diff.h>
+#include <locale/translate.h>
 
 
 // All data is stored in the code in memory, not in a database on disk.
@@ -204,7 +205,7 @@ string Database_Books::getEnglishFromId (int id)
       return books_table[i].english;
     }
   }
-  return "Unknown";
+  return translate ("Unknown");
 }
 
 
@@ -237,7 +238,7 @@ string Database_Books::getOsisFromId (int id)
       return books_table[i].osis;
     }
   }
-  return "Unknown";
+  return translate ("Unknown");
 }
 
 

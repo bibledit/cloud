@@ -205,13 +205,7 @@ string Database_Books::getEnglishFromId (int id)
       return books_table[i].english;
     }
   }
-  return "Unknown";
-}
-
-
-string Database_Books::getLocalizedFromId (int id)
-{
-  return translate (getEnglishFromId (id));
+  return translate ("Unknown");
 }
 
 

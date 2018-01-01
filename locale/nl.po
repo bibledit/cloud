@@ -3545,16 +3545,16 @@ msgid "Matthew"
 msgstr ""
 
 msgid "Mark"
-msgstr ""
+msgstr "Marcus"
 
 msgid "Luke"
-msgstr ""
+msgstr "Lukas"
 
 msgid "John"
-msgstr ""
+msgstr "Johannes"
 
 msgid "Acts"
-msgstr ""
+msgstr "Handelingen"
 
 msgid "Romans"
 msgstr ""

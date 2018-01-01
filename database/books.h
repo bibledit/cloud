@@ -30,7 +30,6 @@ public:
   static vector <int> getIDs ();
   static int getIdFromEnglish (string english);
   static string getEnglishFromId (int id);
-  static string getLocalizedFromId (int id);
   static string getUsfmFromId (int id);
   static string getBibleworksFromId (int id);
   static string getOsisFromId (int id);

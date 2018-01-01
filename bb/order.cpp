@@ -80,6 +80,7 @@ string bible_order (void * webserver_request)
   vector <int> books = filter_passage_get_ordered_books (bible);
   for (size_t i = 0; i < books.size (); i++) {
     string bookname = Database_Books::getEnglishFromId (books[i]);
+    bookname = translate (bookname);
     view.add_iteration ("order", { make_pair ("offset", convert_to_string (i)), make_pair ("bookname", bookname) } );
   }
 

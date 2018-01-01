@@ -61,13 +61,13 @@ A note about this data.
 */
 book_record books_table [] =
 {
-  {"Genesis",                    "Gen",     "GEN",  "Gen",  "Ge",    1, 3, "ot",        false}, // ‘1 Moses’ in some Bibles.
-  {"Exodus",                     "Exod",    "EXO",  "Exo",  "Ex",    2, 4, "ot",        false}, // ‘2 Moses’ in some Bibles.
-  {"Leviticus",                  "Lev",     "LEV",  "Lev",  "Le",    3, 5, "ot",        false}, // ‘3 Moses’ in some Bibles.
-  {"Numbers",                    "Num",     "NUM",  "Num",  "Nu",    4, 6, "ot",        false}, // ‘4 Moses’ in some Bibles.
-  {"Deuteronomy",                "Deut",    "DEU",  "Deu",  "De",    5, 7, "ot",        false}, // ‘5 Moses’ in some Bibles.
-  {"Joshua",                     "Josh",    "JOS",  "Jos",  "Jos",   6, 8, "ot",        false},
-  {"Judges",                     "Judg",    "JDG",  "Jdg",  "Jud",   7, 9, "ot",        false},
+  {"Genesis",                    "Gen",     "GEN",  "Gen",  "Ge",    1,  3, "ot",        false}, // ‘1 Moses’ in some Bibles.
+  {"Exodus",                     "Exod",    "EXO",  "Exo",  "Ex",    2,  4, "ot",        false}, // ‘2 Moses’ in some Bibles.
+  {"Leviticus",                  "Lev",     "LEV",  "Lev",  "Le",    3,  5, "ot",        false}, // ‘3 Moses’ in some Bibles.
+  {"Numbers",                    "Num",     "NUM",  "Num",  "Nu",    4,  6, "ot",        false}, // ‘4 Moses’ in some Bibles.
+  {"Deuteronomy",                "Deut",    "DEU",  "Deu",  "De",    5,  7, "ot",        false}, // ‘5 Moses’ in some Bibles.
+  {"Joshua",                     "Josh",    "JOS",  "Jos",  "Jos",   6,  8, "ot",        false},
+  {"Judges",                     "Judg",    "JDG",  "Jdg",  "Jud",   7,  9, "ot",        false},
   {"Ruth",                       "Ruth",    "RUT",  "Rut",  "Ru",    8, 10, "ot",        false},
   {"1 Samuel",                   "1Sam",    "1SA",  "1Sa",  "1Sa",   9, 11, "ot",        false}, // 1 Kings or Kingdoms in Orthodox Bibles. Do not confuse this abbreviation with ISA for Isaiah.
   {"2 Samuel",                   "2Sam",    "2SA",  "2Sa",  "2Sa",  10, 12, "ot",        false}, // 2 Kings or Kingdoms in Orthodox Bibles.
@@ -205,7 +205,13 @@ string Database_Books::getEnglishFromId (int id)
       return books_table[i].english;
     }
   }
-  return translate ("Unknown");
+  return "Unknown";
+}
+
+
+string Database_Books::getLocalizedFromId (int id)
+{
+  return translate (getEnglishFromId (id));
 }
 
 

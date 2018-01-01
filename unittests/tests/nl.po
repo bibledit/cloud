@@ -1,0 +1,36 @@
+# Dutch translation for bibledit
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the bibledit package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bibledit\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-10-13 01:30+0200\n"
+"PO-Revision-Date: 2012-03-03 13:52+0000\n"
+"Last-Translator: ZENODotus <Unknown>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-10-14 04:31+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
+
+msgid "Switch the editors to the desired Bibles, and start editing."
+msgstr "Stel de tekstverwerkers in op de gewenste Bijbels, en begin te bewerken."
+
+msgid "The Notes editor has some preset selectors."
+msgstr "De Aantekeningenverwerker heeft enkele vooraf ingestelde keuzes."
+
+msgid ""
+"To display all the notes for a certain passage, enter the following URL:"
+msgstr ""
+"Om alle aantekeningen voor een bepaalde passage te tonen voert u de volgende URL in:"
+
+msgid ""
+"When this workbench will be opened, it will display all the notes that refer "
+"to the focused passage."
+msgstr ""
+"Als de werkbank geopend wordt, dan toont het alle aantekeningen die betrekking hebben "
+"op de gefocuste passage."

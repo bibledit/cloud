@@ -390,11 +390,18 @@ void demo_create_sample_workspaces (void * webserver_request)
 
 vector <string> demo_logic_default_resources ()
 {
-  return {
+  vector <string> resources;
+  // Add a few resources that are also safe in an obfuscated version.
+  resources = {
     demo_sample_bible_name (),
-    resource_logic_violet_divider (),
-    resource_external_biblehub_interlinear_name (),
-    resource_external_net_bible_name (),
-    SBLGNT_NAME
+    resource_logic_violet_divider ()
   };
+  // For demo purposes, add some more resources to show-case some of the capabilities.
+  if (config_logic_demo_enabled ()) {
+    resources.push_back (resource_external_biblehub_interlinear_name ());
+    resources.push_back (resource_external_net_bible_name ());
+    resources.push_back (SBLGNT_NAME);
+  }
+  // Done.
+  return resources;
 }

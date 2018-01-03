@@ -231,10 +231,20 @@ string locale_logic_space_get_name (string space, bool english)
 
 string locale_logic_deobfuscate (string value)
 {
-  // Change "Bb" to "Bible". This includes "Bbe" to "Bibledit".
+  // Replace longest strings first.
+  
+  // Change "Bbe" to "Bibledit".
+  value = filter_string_str_replace ("Bbe", "Bibledit", value);
+
+  // Change "bbe" to "bibledit".
+  value = filter_string_str_replace ("bbe", "bibledit", value);
+  
+  // Change "Bb" to "Bible".
   value = filter_string_str_replace ("Bb", "Bible", value);
+  
   // Change "bb" to "bible". This includes "bbe" to "Bibledit".
   value = filter_string_str_replace ("bb", "bible", value);
+  
   // Done.
   return value;
 }
@@ -284,6 +294,7 @@ void locale_logic_obfuscate_initialize ()
 
     // Deobfuscate recognized search terms.
     string searchfor = locale_logic_deobfuscate (obfuscation_pair[0]);
+    cout << searchfor << endl; // Todo
     
     // Store the unsorted obfuscation data.
     original_to_obfuscated [searchfor] = obfuscation_pair [1];

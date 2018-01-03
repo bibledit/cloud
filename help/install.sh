@@ -351,7 +351,7 @@ echo Updating data directory for $bibledit
 sed -i.bak "s/\"bibledit\"/\"${bibledit}\"/g" executable/bibledit.cpp
 if [ $? -ne 0 ]; then exit; fi
 echo Updating ${bibledit}.org
-sed -i.bak "s/\"bibledit\"/\"${bibledit}\"/g" help/about.html
+sed -i.bak "s/bibledit/${bibledit}/g" help/about.html
 # Remove backup file(s).
 find . -name "*.bak" -delete
 fi

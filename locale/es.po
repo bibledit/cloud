@@ -6017,6 +6017,9 @@ msgstr ""
 msgid "Submit the Bible to the Bible Drop Box now."
 msgstr ""
 
+msgid "Visit the Bible Drop Box for more options."
+msgstr ""
+
 msgid "Username"
 msgstr "Nombre de usuario"
 

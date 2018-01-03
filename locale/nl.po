@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2017-12-31 15:11+0000\n"
+"PO-Revision-Date: 2018-01-01 13:40+0000\n"
 "Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3423,208 +3423,208 @@ msgid "Front Matter"
 msgstr ""
 
 msgid "Genesis"
-msgstr ""
+msgstr "Genesis"
 
 msgid "Exodus"
-msgstr ""
+msgstr "Exodus"
 
 msgid "Leviticus"
-msgstr ""
+msgstr "Leviticus"
 
 msgid "Numbers"
-msgstr ""
+msgstr "Numeri"
 
 msgid "Deuteronomy"
-msgstr ""
+msgstr "Deuteronomium"
 
 msgid "Joshua"
-msgstr ""
+msgstr "Jozua"
 
 msgid "Judges"
-msgstr ""
+msgstr "Rechters"
 
 msgid "Ruth"
-msgstr ""
+msgstr "Ruth"
 
 msgid "1 Samuel"
-msgstr ""
+msgstr "1 Samuël"
 
 msgid "2 Samuel"
-msgstr ""
+msgstr "2 Samuël"
 
 msgid "1 Kings"
-msgstr ""
+msgstr "1 Koningen"
 
 msgid "2 Kings"
-msgstr ""
+msgstr "2 Koningen"
 
 msgid "1 Chronicles"
-msgstr ""
+msgstr "1 Kronieken"
 
 msgid "2 Chronicles"
-msgstr ""
+msgstr "2 Kronieken"
 
 msgid "Ezra"
-msgstr ""
+msgstr "Ezra"
 
 msgid "Nehemiah"
-msgstr ""
+msgstr "Nehemia"
 
 msgid "Esther"
-msgstr ""
+msgstr "Esther"
 
 msgid "Job"
-msgstr ""
+msgstr "Job"
 
 msgid "Psalms"
-msgstr ""
+msgstr "Psalmen"
 
 msgid "Proverbs"
-msgstr ""
+msgstr "Spreuken"
 
 msgid "Ecclesiastes"
-msgstr ""
+msgstr "Prediker"
 
 msgid "Song of Solomon"
-msgstr ""
+msgstr "Hooglied"
 
 msgid "Isaiah"
-msgstr ""
+msgstr "Jesaja"
 
 msgid "Jeremiah"
-msgstr ""
+msgstr "Jeremia"
 
 msgid "Lamentations"
-msgstr ""
+msgstr "Klaagliederen"
 
 msgid "Ezekiel"
-msgstr ""
+msgstr "Ezechiël"
 
 msgid "Daniel"
-msgstr ""
+msgstr "Daniël"
 
 msgid "Hosea"
-msgstr ""
+msgstr "Hosea"
 
 msgid "Joel"
-msgstr ""
+msgstr "Joël"
 
 msgid "Amos"
-msgstr ""
+msgstr "Amos"
 
 msgid "Obadiah"
-msgstr ""
+msgstr "Obadja"
 
 msgid "Jonah"
-msgstr ""
+msgstr "Jona"
 
 msgid "Micah"
-msgstr ""
+msgstr "Micha"
 
 msgid "Nahum"
-msgstr ""
+msgstr "Nahum"
 
 msgid "Habakkuk"
-msgstr ""
+msgstr "Habakuk"
 
 msgid "Zephaniah"
-msgstr ""
+msgstr "Sefanja"
 
 msgid "Haggai"
-msgstr ""
+msgstr "Haggai"
 
 msgid "Zechariah"
-msgstr ""
+msgstr "Zacharia"
 
 msgid "Malachi"
-msgstr ""
+msgstr "Maleachi"
 
 msgid "Matthew"
-msgstr ""
+msgstr "Matteüs"
 
 msgid "Mark"
-msgstr ""
+msgstr "Marcus"
 
 msgid "Luke"
-msgstr ""
+msgstr "Lucas"
 
 msgid "John"
-msgstr ""
+msgstr "Johannes"
 
 msgid "Acts"
-msgstr ""
+msgstr "Handelingen"
 
 msgid "Romans"
-msgstr ""
+msgstr "Romeinen"
 
 msgid "1 Corinthians"
-msgstr ""
+msgstr "1 Korintiërs"
 
 msgid "2 Corinthians"
-msgstr ""
+msgstr "2 Korintiërs"
 
 msgid "Galatians"
-msgstr ""
+msgstr "Galaten"
 
 msgid "Ephesians"
-msgstr ""
+msgstr "Efeziërs"
 
 msgid "Philippians"
-msgstr ""
+msgstr "Filippenzen"
 
 msgid "Colossians"
-msgstr ""
+msgstr "Kolossenzen"
 
 msgid "1 Thessalonians"
-msgstr ""
+msgstr "1 Tessalonicenzen"
 
 msgid "2 Thessalonians"
-msgstr ""
+msgstr "2 Tessalonicenzen"
 
 msgid "1 Timothy"
-msgstr ""
+msgstr "1 Timoteüs"
 
 msgid "2 Timothy"
-msgstr ""
+msgstr "2 Timoteüs"
 
 msgid "Titus"
-msgstr ""
+msgstr "Titus"
 
 msgid "Philemon"
-msgstr ""
+msgstr "Filemon"
 
 msgid "Hebrews"
-msgstr ""
+msgstr "Hebreeën"
 
 msgid "James"
-msgstr ""
+msgstr "Jakobus"
 
 msgid "1 Peter"
-msgstr ""
+msgstr "1 Petrus"
 
 msgid "2 Peter"
-msgstr ""
+msgstr "2 Petrus"
 
 msgid "1 John"
-msgstr ""
+msgstr "1 Johannes"
 
 msgid "2 John"
-msgstr ""
+msgstr "2 Johannes"
 
 msgid "3 John"
-msgstr ""
+msgstr "3 Johannes"
 
 msgid "Jude"
-msgstr ""
+msgstr "Judas"
 
 msgid "Revelation"
-msgstr ""
+msgstr "Openbaring"
 
 msgid "Back Matter"
-msgstr ""
+msgstr "Achterkant"
 
 msgid "Other Material"
-msgstr ""
+msgstr "Ander materiaal"
 
 msgid "Tobit"
 msgstr ""
@@ -6034,6 +6034,9 @@ msgid "The Bible Drop Box provides many additional export formats."
 msgstr ""
 
 msgid "Submit the Bible to the Bible Drop Box now."
+msgstr ""
+
+msgid "Visit the Bible Drop Box for more options."
 msgstr ""
 
 msgid "Username"

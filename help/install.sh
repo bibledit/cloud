@@ -285,12 +285,6 @@ if [ $? -ne 0 ]; then exit; fi
 rm *.bak
 
 
-# Change the builder that uses the desktop file.
-# sed -i.bak "s/bibledit.desktop/$bibledit.desktop/g" Makefile.am
-# Remove backup file(s).
-# rm *.bak
-
-
 # Remove the internationalization file.
 # It is not needed.
 rm locale/bibledit.pot
@@ -400,6 +394,18 @@ make clean
 if [ $? -ne 0 ]; then exit; fi
 make --jobs=4
 if [ $? -ne 0 ]; then exit; fi
+
+
+if [ "$bibledit" != "bibledit" ]
+then
+echo Removing existing bibledit binaries and desktop file
+rm -f bibledit
+rm -f libbibledit.a
+rm -f bibledit.desktop
+echo Removing Sample Bible
+rm -rf bibles
+rm -f databases/sample.sqlite
+fi
 
 
 # Remove the script, so people cannot reuse it.

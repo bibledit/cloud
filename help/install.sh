@@ -24,6 +24,9 @@
 # bible=scripture
 
 
+# Do not update anything below this line.
+
+
 if [ "$Bibledit" = "" ]
 then
 Bibledit=Bibledit

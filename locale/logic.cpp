@@ -294,7 +294,6 @@ void locale_logic_obfuscate_initialize ()
 
     // Deobfuscate recognized search terms.
     string searchfor = locale_logic_deobfuscate (obfuscation_pair[0]);
-    cout << searchfor << endl; // Todo
     
     // Store the unsorted obfuscation data.
     original_to_obfuscated [searchfor] = obfuscation_pair [1];

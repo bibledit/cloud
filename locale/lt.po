@@ -6485,6 +6485,16 @@ msgid ""
 "The email address is bibletranslation@gmail.com, and the password is pazzwrd."
 msgstr ""
 
+msgid "The Google mail account should let less secure apps use the account."
+msgstr ""
+
+msgid "Bibledit email setup requires this."
+msgstr ""
+
+msgid ""
+"In case the setup fails to work, all diagnostics can be seen in the Journal."
+msgstr ""
+
 msgid "Site name and email address"
 msgstr ""
 

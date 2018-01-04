@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2017-12-28 14:30+0000\n"
+"PO-Revision-Date: 2018-01-02 18:49+0000\n"
 "Last-Translator: L'Africain <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgid "The verse mapping was deleted"
 msgstr "Le mappage de verset a été supprimé"
 
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu"
 
 msgid "New"
 msgstr "Nouveau"
@@ -6591,7 +6591,7 @@ msgid "Submit the Bible to the Bible Drop Box now."
 msgstr "Soumettez la Bible à Bible Drop Box maintenant."
 
 msgid "Visit the Bible Drop Box for more options."
-msgstr ""
+msgstr "Visitez Bible Drop Box pour plus d'options."
 
 msgid "Username"
 msgstr "Identifiant"
@@ -7111,6 +7111,16 @@ msgid ""
 msgstr ""
 "L'adresse courriel est bibletranslation@gmail.com, et le mot de passe est "
 "pazzwrd."
+
+msgid "The Google mail account should let less secure apps use the account."
+msgstr ""
+
+msgid "Bibledit email setup requires this."
+msgstr ""
+
+msgid ""
+"In case the setup fails to work, all diagnostics can be seen in the Journal."
+msgstr ""
 
 msgid "Site name and email address"
 msgstr "Nom du site et adresse courriel"

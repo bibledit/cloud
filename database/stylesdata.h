@@ -54,6 +54,8 @@ typedef struct
 style_record;
 
 
+// Default stylesheet values.
+// In English.
 style_record styles_table [] =
 {
   {

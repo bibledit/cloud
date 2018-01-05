@@ -73,6 +73,7 @@ string Editor_Styles::getAll (void * webserver_request)
   for (auto & item : data) {
     string marker = item.first;
     string name = item.second;
+    name = translate (name);
     Database_Styles_Item data = request->database_styles()->getMarkerData (stylesheet, marker);
     string category = data.category;
     category = styles_logic_category_text (category);

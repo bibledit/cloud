@@ -98,7 +98,7 @@ string styles_view (void * webserver_request)
     name = request->post["entry"];
     if (write) database_styles.updateName (sheet, style, name);
   }
-  view.set_variable ("name", filter_string_sanitize_html (name));
+  view.set_variable ("name", filter_string_sanitize_html (translate (name)));
   
 
   // The style's info.
@@ -114,7 +114,7 @@ string styles_view (void * webserver_request)
     info = request->post["entry"];
     if (write) database_styles.updateInfo (sheet, style, info);
   }
-  view.set_variable ("info", filter_string_sanitize_html (info));
+  view.set_variable ("info", filter_string_sanitize_html (translate (info)));
   
   
   // The style's category.

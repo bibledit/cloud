@@ -101,6 +101,7 @@ string styles_sheetm (void * webserver_request)
   for (auto & item : markers_names) {
     string marker = item.first;
     string marker_name = item.second;
+    marker_name = translate (marker_name);
     markerblock.push_back ("<tr>");
     markerblock.push_back ("<td><a href=\"view?sheet=" + name + "&style=" + marker + "\">" + marker + "</a></td>");
     markerblock.push_back ("<td>" + marker_name + "</td>");

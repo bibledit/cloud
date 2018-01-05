@@ -7172,6 +7172,9 @@ msgstr ""
 msgid "Show from the Word where this is the case."
 msgstr ""
 
+msgid "bibledit"
+msgstr ""
+
 msgid "Licenses"
 msgstr ""
 

@@ -8016,6 +8016,9 @@ msgstr "Mais voulait-il aussi le droit d'auteur sur les Bibles ?"
 msgid "Show from the Word where this is the case."
 msgstr "Montrez où cela est dit dans la Parole si c'est le cas."
 
+msgid "bibledit"
+msgstr ""
+
 msgid "Licenses"
 msgstr "Licences"
 

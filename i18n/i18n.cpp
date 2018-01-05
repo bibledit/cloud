@@ -40,7 +40,10 @@
 using namespace std;
 
 
-string file_get_contents(string filename)
+#include "../database/stylesdata.h"
+
+
+string file_get_contents (string filename)
 {
   ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
   streamoff filesize = ifs.tellg();

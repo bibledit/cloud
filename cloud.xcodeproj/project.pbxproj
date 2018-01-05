@@ -524,6 +524,7 @@
 		CA8266311A7FFC9C0049DFD3 /* bibles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibles.h; sourceTree = "<group>"; };
 		CA8266321A7FFCCF0049DFD3 /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = bibles.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8266331A7FFCCF0049DFD3 /* bibles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = bibles.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		CA82AC031FFF992E00AAB728 /* stylesdata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stylesdata.h; sourceTree = "<group>"; };
 		CA8669C11A793629009E8E3F /* merge.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = merge.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8669C21A793629009E8E3F /* merge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = merge.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA8689851ABB3DF500427560 /* listing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = listing.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1830,6 +1831,7 @@
 				CAD1D0341B7DEAC400AEDA70 /* strong.h */,
 				CAA4D03E1A45A647003ABA25 /* styles.cpp */,
 				CAA4D03F1A45A647003ABA25 /* styles.h */,
+				CA82AC031FFF992E00AAB728 /* stylesdata.h */,
 				CAACBC6C1CE7AE9500D7D40D /* userresources.cpp */,
 				CAACBC6D1CE7AE9500D7D40D /* userresources.h */,
 				CAA4D0401A45A647003ABA25 /* users.cpp */,

@@ -156,6 +156,19 @@ int main ()
     }
   }
 
+  // Go over all USFM styles to internationalize them.
+  unsigned int styles_data_count = sizeof (styles_table) / sizeof (*styles_table);
+  for (unsigned int i = 0; i < styles_data_count; i++) {
+    string english = styles_table[i].name;
+    english.insert (0, "translate(\"");
+    english.append ("\")");
+    translatables.push_back (english);
+    english = styles_table[i].info;
+    english.insert (0, "translate(\"");
+    english.append ("\")");
+    translatables.push_back (english);
+  }
+  
   // Store translatable strings.
   contents = implode (translatables, "\n");
   file_put_contents ("translatables.cpp", contents);

@@ -3722,7 +3722,7 @@ style_record styles_table [] =
   {
     /* marker */ "ord",
     /* name */ "Ordinal number ending",
-    /* info */ "For the text portion of an ordinal number, like '1st' is 1\\ord st\\ord*",
+    /* info */ "For the text portion of an ordinal number",
     /* category */ "st",
     /* type */ 4,
     /* subtype */ 0,

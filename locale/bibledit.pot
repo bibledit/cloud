@@ -10256,6 +10256,9 @@ msgid ""
 "you."
 msgstr ""
 
+msgid "For the text portion of an ordinal number"
+msgstr ""
+
 msgid "No files in this folder"
 msgstr ""
 

@@ -41,6 +41,7 @@ using namespace std;
 
 
 #include "../database/stylesdata.h"
+#include "../database/booksdata.h"
 
 
 string file_get_contents (string filename)
@@ -164,6 +165,15 @@ int main ()
     english.append ("\")");
     translatables.push_back (english);
     english = styles_table[i].info;
+    english.insert (0, "translate(\"");
+    english.append ("\")");
+    translatables.push_back (english);
+  }
+
+  // Go over all Bible books to internationalize them. // Todo
+  unsigned int books_data_count = sizeof (books_table) / sizeof (*books_table);
+  for (unsigned int i = 0; i < books_data_count; i++) {
+    string english = books_table[i].english;
     english.insert (0, "translate(\"");
     english.append ("\")");
     translatables.push_back (english);

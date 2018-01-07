@@ -300,12 +300,13 @@ string manage_exports (void * webserver_request)
   }
   string space_setting = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
   for (auto space : spaces) {
-    string name = locale_logic_space_get_name (space, false);
+    string name = locale_logic_space_get_name (space, true);
     string href = space_href (name);
     string cssclass;
     if (space == space_setting) {
       cssclass = "active";
     }
+    name = locale_logic_space_get_name (space, false);
     view.add_iteration ("spaces", { make_pair ("space", href), make_pair ("class", cssclass), make_pair ("name", name) } );
   }
   

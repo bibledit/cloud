@@ -120,7 +120,11 @@ map <string, string> locale_logic_read_po (string file)
   string msgstr;
   int stage = 0;
   for (size_t i = 0; i < lines.size (); i++) {
+    // Clean the line up.
     string line = filter_string_trim (lines[i]);
+    // Skip a comment.
+    if (line.find ("#") == 0) continue;
+    // Deal with the messages.
     if (line.find ("msgid") == 0) {
       stage = 1;
       line.erase (0, 5);

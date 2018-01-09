@@ -674,7 +674,6 @@
 /statistics
 /styles
 /styles/indexm.html
-/styles/indext.html
 /styles/sheetm.html
 /styles/view.html
 /sword

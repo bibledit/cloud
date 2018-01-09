@@ -146,12 +146,12 @@ void demo_clean_data ()
   styles_sheets_create_all ();
   
   
-  // Set the export stylesheet to "Standard" for all Bibles and the admin.
+  // Set both stylesheets to "Standard" for all Bibles.
   vector <string> bibles = request.database_bibles()->getBibles ();
   for (auto & bible : bibles) {
     Database_Config_Bible::setExportStylesheet (bible, styles_logic_standard_sheet ());
+    Database_Config_Bible::setEditorStylesheet (bible, styles_logic_standard_sheet ());
   }
-  request.database_config_user()->setStylesheet (styles_logic_standard_sheet ());
   
   
   // Set the site language to "Default"

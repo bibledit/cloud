@@ -170,7 +170,7 @@ int main ()
     translatables.push_back (english);
   }
 
-  // Go over all Bible books to internationalize them. // Todo
+  // Go over all Bible books to internationalize them.
   unsigned int books_data_count = sizeof (books_table) / sizeof (*books_table);
   for (unsigned int i = 0; i < books_data_count; i++) {
     string english = books_table[i].english;

@@ -26,6 +26,7 @@
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <database/modifications.h>
+#include <database/config/bible.h>
 #include <database/logs.h>
 #include <database/git.h>
 #include <checksum/logic.h>
@@ -93,7 +94,7 @@ string edit_save (void * webserver_request)
     return translate("No write access");
   }
 
-  string stylesheet = request->database_config_user()->getStylesheet();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   Editor_Html2Usfm editor_export;
   editor_export.quill ();

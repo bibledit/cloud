@@ -223,6 +223,27 @@ string bible_settings (void * webserver_request)
   }
   view.set_variable ("rss", get_checkbox_status (Database_Config_Bible::getSendChangesToRSS (bible)));
 #endif
+
+  
+  // Stylesheet.
+  if (request->query.count ("stylesheet")) {
+    string stylesheet = request->query["stylesheet"];
+    if (stylesheet == "") {
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet?"), translate ("A stylesheet affects how the Bible text in the editor looks.") + " " + translate ("Please make your choice below."), "");
+      dialog_list.add_query ("bible", bible);
+      Database_Styles database_styles = Database_Styles();
+      vector <string> sheets = database_styles.getSheets();
+      for (auto & name : sheets) {
+        dialog_list.add_row (name, "stylesheet", name);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      if (write_access) Database_Config_Bible::setEditorStylesheet (bible, stylesheet);
+    }
+  }
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  view.set_variable ("stylesheet", stylesheet);
   
   
   view.set_variable ("systemindex", system_index_url());

@@ -25,6 +25,7 @@
 #include <ipc/focus.h>
 #include <editor/usfm2html.h>
 #include <access/bible.h>
+#include <database/config/bible.h>
 
 
 string edit_navigate_url ()
@@ -60,7 +61,7 @@ string edit_navigate (void * webserver_request)
   size_t offset = convert_to_int (request->query ["offset"]);
 
   
-  string stylesheet = request->database_config_user()->getStylesheet ();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   

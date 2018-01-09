@@ -93,7 +93,6 @@ libbibledit_a_SOURCES = \
 	journal/index.cpp \
 	journal/logic.cpp \
 	styles/logic.cpp \
-	styles/indext.cpp \
 	styles/indexm.cpp \
 	styles/sheetm.cpp \
 	styles/view.cpp \

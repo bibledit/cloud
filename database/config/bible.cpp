@@ -498,6 +498,16 @@ void Database_Config_Bible::setHyphenationSecondSet (string bible, string value)
 }
 
 
+string Database_Config_Bible::getEditorStylesheet (string bible)
+{
+  return getValue (bible, "editor-stylesheet", styles_logic_standard_sheet ().c_str());
+}
+void Database_Config_Bible::setEditorStylesheet (string bible, string value)
+{
+  setValue (bible, "editor-stylesheet", value);
+}
+
+
 string Database_Config_Bible::getExportStylesheet (string bible)
 {
   return getValue (bible, "export-stylesheet", styles_logic_standard_sheet ().c_str());

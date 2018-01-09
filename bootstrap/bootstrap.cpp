@@ -45,7 +45,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <system/index.h>
 #include <collaboration/index.h>
 #include <collaboration/settings.h>
-#include <styles/indext.h>
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
 #include <styles/view.h>
@@ -648,11 +647,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == email_index_url ()) && browser_request_security_okay (request) && email_index_acl (request)) {
     request->reply = email_index (request);
-    return;
-  }
-  
-  if ((url == styles_indext_url ()) && browser_request_security_okay (request) && styles_indext_acl (request)) {
-    request->reply = styles_indext (request);
     return;
   }
   

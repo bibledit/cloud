@@ -25,6 +25,7 @@
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <database/modifications.h>
+#include <database/config/bible.h>
 #include <database/logs.h>
 #include <database/git.h>
 #include <locale/translate.h>
@@ -102,7 +103,7 @@ string editone_save (void * webserver_request)
   }
 
   
-  string stylesheet = request->database_config_user()->getStylesheet();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
  
   
   string usfm = editone_logic_html_to_usfm (stylesheet, html);

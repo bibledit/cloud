@@ -899,11 +899,8 @@
 		CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = bibledit.xcodeproj; sourceTree = "<group>"; };
 		CAA4D4A11A45FC70003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = TODO; path = ../TODO; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D4A31A460861003ABA25 /* indexm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexm.html; sourceTree = "<group>"; };
-		CAA4D4A41A460861003ABA25 /* indext.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indext.html; sourceTree = "<group>"; };
 		CAA4D4A51A460861003ABA25 /* sheetm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sheetm.html; sourceTree = "<group>"; };
 		CAA4D4A61A460861003ABA25 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
-		CAA4D4A71A4608BC003ABA25 /* indext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indext.cpp; sourceTree = "<group>"; };
-		CAA4D4A81A4608BC003ABA25 /* indext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indext.h; sourceTree = "<group>"; };
 		CAA9C1C71C651A93006D8709 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CAA9C1C91C651A93006D8709 /* notifit.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = notifit.css; sourceTree = "<group>"; };
 		CAA9C1CA1C651A93006D8709 /* notifit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = notifit.js; sourceTree = "<group>"; };
@@ -2804,9 +2801,6 @@
 				CAB399B41A484893007C79E8 /* indexm.h */,
 				CAB399B31A484893007C79E8 /* indexm.cpp */,
 				CAA4D4A31A460861003ABA25 /* indexm.html */,
-				CAA4D4A71A4608BC003ABA25 /* indext.cpp */,
-				CAA4D4A81A4608BC003ABA25 /* indext.h */,
-				CAA4D4A41A460861003ABA25 /* indext.html */,
 				CAA4D3681A45A648003ABA25 /* logic.cpp */,
 				CAA4D3691A45A648003ABA25 /* logic.h */,
 				CAFE132D1A48ABEA00F0DB35 /* sheetm.h */,

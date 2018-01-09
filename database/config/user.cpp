@@ -272,24 +272,6 @@ void Database_Config_User::clear_cache ()
 // Named configuration functions.
 
 
-string Database_Config_User::getStylesheet ()
-{
-  string sheet = getValue ("stylesheet", styles_logic_standard_sheet ().c_str());
-  // If the stylesheet does not exist, take the first one available instead.
-  Database_Styles * database_styles = ((Webserver_Request *) webserver_request)->database_styles ();
-  vector <string> sheets = database_styles->getSheets();
-  if (find (sheets.begin (), sheets.end (), sheet) == sheets.end ()) {
-    sheet = sheets[0];
-    setStylesheet (sheet);
-  }
-  return sheet;
-}
-void Database_Config_User::setStylesheet (string sheet)
-{
-  setValue ("stylesheet", sheet);
-}
-
-
 string Database_Config_User::getBible ()
 {
   string bible = getValue ("bible", "");

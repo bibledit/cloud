@@ -32,8 +32,6 @@ public:
   void trim ();
   void remove (string username);
   void clear_cache ();
-  string getStylesheet ();
-  void setStylesheet (string sheet);
   string getBible ();
   void setBible (string bible);
   bool getSubscribeToConsultationNotesEditedByMe ();

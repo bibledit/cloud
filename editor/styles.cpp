@@ -23,13 +23,15 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
+#include <database/config/bible.h>
 
 
 string Editor_Styles::getRecentlyUsed (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
  
-  string stylesheet = request->database_config_user()->getStylesheet ();
+  string bible = request->database_config_user()->getBible ();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   // The recent styles.
   string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
@@ -58,7 +60,8 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
 string Editor_Styles::getAll (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string stylesheet = request->database_config_user()->getStylesheet ();
+  string bible = request->database_config_user()->getBible ();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   // The styles.
   map <string, string> data = request->database_styles()->getMarkersAndNames (stylesheet);
@@ -115,7 +118,8 @@ void Editor_Styles::recordUsage (void * webserver_request, string style)
 string Editor_Styles::getAction (void * webserver_request, string style)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  string stylesheet = request->database_config_user()->getStylesheet ();
+  string bible = request->database_config_user()->getBible ();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   Database_Styles_Item data = request->database_styles()->getMarkerData (stylesheet, style);
   int type = data.type;
   int subtype = data.subtype;

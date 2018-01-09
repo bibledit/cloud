@@ -25,6 +25,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/modifications.h>
+#include <database/config/bible.h>
 #include <database/logs.h>
 #include <database/git.h>
 #include <checksum/logic.h>
@@ -70,7 +71,7 @@ string editusfm_save (void * webserver_request)
       usfm = filter_string_trim (usfm);
       if (!usfm.empty ()) {
         if (unicode_string_is_valid (usfm)) {
-          string stylesheet = request->database_config_user()->getStylesheet();
+          string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
           vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
           for (BookChapterData & data : book_chapter_text) {
             int book_number = data.book;

@@ -160,17 +160,16 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
 	journal/logic.$(OBJEXT) styles/logic.$(OBJEXT) \
-	styles/indext.$(OBJEXT) styles/indexm.$(OBJEXT) \
-	styles/sheetm.$(OBJEXT) styles/view.$(OBJEXT) \
-	styles/css.$(OBJEXT) styles/sheets.$(OBJEXT) \
-	text/text.$(OBJEXT) esword/text.$(OBJEXT) olb/text.$(OBJEXT) \
-	html/text.$(OBJEXT) html/header.$(OBJEXT) odf/text.$(OBJEXT) \
-	timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
-	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) bb/logic.$(OBJEXT) \
-	bb/manage.$(OBJEXT) bb/settings.$(OBJEXT) bb/book.$(OBJEXT) \
-	bb/chapter.$(OBJEXT) bb/import_run.$(OBJEXT) \
-	bb/import.$(OBJEXT) bb/order.$(OBJEXT) bb/css.$(OBJEXT) \
-	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
+	styles/indexm.$(OBJEXT) styles/sheetm.$(OBJEXT) \
+	styles/view.$(OBJEXT) styles/css.$(OBJEXT) \
+	styles/sheets.$(OBJEXT) text/text.$(OBJEXT) \
+	esword/text.$(OBJEXT) olb/text.$(OBJEXT) html/text.$(OBJEXT) \
+	html/header.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
+	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
+	config/logic.$(OBJEXT) bb/logic.$(OBJEXT) bb/manage.$(OBJEXT) \
+	bb/settings.$(OBJEXT) bb/book.$(OBJEXT) bb/chapter.$(OBJEXT) \
+	bb/import_run.$(OBJEXT) bb/import.$(OBJEXT) bb/order.$(OBJEXT) \
+	bb/css.$(OBJEXT) notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
 	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
 	notes/assign-1.$(OBJEXT) notes/notes.$(OBJEXT) \
 	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
@@ -709,7 +708,6 @@ libbibledit_a_SOURCES = \
 	journal/index.cpp \
 	journal/logic.cpp \
 	styles/logic.cpp \
-	styles/indext.cpp \
 	styles/indexm.cpp \
 	styles/sheetm.cpp \
 	styles/view.cpp \
@@ -1491,8 +1489,6 @@ styles/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) styles/$(DEPDIR)
 	@: > styles/$(DEPDIR)/$(am__dirstamp)
 styles/logic.$(OBJEXT): styles/$(am__dirstamp) \
-	styles/$(DEPDIR)/$(am__dirstamp)
-styles/indext.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
 styles/indexm.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
@@ -3260,7 +3256,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@statistics/$(DEPDIR)/statistics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/css.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indexm.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indext.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@

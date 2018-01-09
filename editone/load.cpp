@@ -29,6 +29,7 @@
 #include <access/bible.h>
 #include <editone/logic.h>
 #include <editone/logic.h>
+#include <database/config/bible.h>
 
 
 using namespace pugi;
@@ -58,7 +59,7 @@ string editone_load (void * webserver_request)
   int chapter = convert_to_int (request->query ["chapter"]);
   int verse = convert_to_int (request->query ["verse"]);
   
-  string stylesheet = request->database_config_user()->getStylesheet ();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
 
   string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 

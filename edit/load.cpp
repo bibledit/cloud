@@ -29,6 +29,7 @@
 #include <locale/translate.h>
 #include <database/logs.h>
 #include <quill/logic.h>
+#include <database/config/bible.h>
 
 
 string edit_load_url ()
@@ -57,7 +58,7 @@ string edit_load (void * webserver_request)
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");
   
-  string stylesheet = request->database_config_user()->getStylesheet ();
+  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   

@@ -2120,306 +2120,6 @@ msgstr ""
 msgid "The following chapters have been created:"
 msgstr ""
 
-msgid "Front Matter"
-msgstr "Pendahuluan"
-
-msgid "Genesis"
-msgstr "Kejadian"
-
-msgid "Exodus"
-msgstr "Keluaran"
-
-msgid "Leviticus"
-msgstr "Imamat"
-
-msgid "Numbers"
-msgstr "Bilangan"
-
-msgid "Deuteronomy"
-msgstr "Ulangan"
-
-msgid "Joshua"
-msgstr "Yosua"
-
-msgid "Judges"
-msgstr "Hakim-hakim"
-
-msgid "Ruth"
-msgstr "Rut"
-
-msgid "1 Samuel"
-msgstr "1 Samuel"
-
-msgid "2 Samuel"
-msgstr "2 Samuel"
-
-msgid "1 Kings"
-msgstr "1 Raja"
-
-msgid "2 Kings"
-msgstr "2 Raja"
-
-msgid "1 Chronicles"
-msgstr "1 Tawarik"
-
-msgid "2 Chronicles"
-msgstr "2 Tawarik"
-
-msgid "Ezra"
-msgstr "Ezra"
-
-msgid "Nehemiah"
-msgstr "Nehemia"
-
-msgid "Esther"
-msgstr "Ester"
-
-msgid "Job"
-msgstr "Ayub"
-
-msgid "Psalms"
-msgstr "Mazmur"
-
-msgid "Proverbs"
-msgstr "Amsal"
-
-msgid "Ecclesiastes"
-msgstr "Pengkotbah"
-
-msgid "Song of Solomon"
-msgstr "Kidung Agung"
-
-msgid "Isaiah"
-msgstr "Yesaya"
-
-msgid "Jeremiah"
-msgstr "Yeremia"
-
-msgid "Lamentations"
-msgstr "Ratapan"
-
-msgid "Ezekiel"
-msgstr "Yeheskiel"
-
-msgid "Daniel"
-msgstr "Daniel"
-
-msgid "Hosea"
-msgstr "Hosea"
-
-msgid "Joel"
-msgstr "Yoel"
-
-msgid "Amos"
-msgstr "Amos"
-
-msgid "Obadiah"
-msgstr "Obaja"
-
-msgid "Jonah"
-msgstr "Yunus"
-
-msgid "Micah"
-msgstr "Mika"
-
-msgid "Nahum"
-msgstr "Nahum"
-
-msgid "Habakkuk"
-msgstr "Habakuk"
-
-msgid "Zephaniah"
-msgstr "Zefanya"
-
-msgid "Haggai"
-msgstr "Hagai"
-
-msgid "Zechariah"
-msgstr "Zekaria"
-
-msgid "Malachi"
-msgstr "Maleaki"
-
-msgid "Matthew"
-msgstr "Matius"
-
-msgid "Mark"
-msgstr "Markus"
-
-msgid "Luke"
-msgstr "Lukas"
-
-msgid "John"
-msgstr "Yohanes"
-
-msgid "Acts"
-msgstr "Kisah"
-
-msgid "Romans"
-msgstr "Roma"
-
-msgid "1 Corinthians"
-msgstr "1 Korintus"
-
-msgid "2 Corinthians"
-msgstr "2 Korintus"
-
-msgid "Galatians"
-msgstr "Galatia"
-
-msgid "Ephesians"
-msgstr "Efesus"
-
-msgid "Philippians"
-msgstr "Filipi"
-
-msgid "Colossians"
-msgstr "Kolose"
-
-msgid "1 Thessalonians"
-msgstr "1 Tesalonika"
-
-msgid "2 Thessalonians"
-msgstr "2 Tesalonika"
-
-msgid "1 Timothy"
-msgstr "1 Timotius"
-
-msgid "2 Timothy"
-msgstr "2 Timotius"
-
-msgid "Titus"
-msgstr "Titus"
-
-msgid "Philemon"
-msgstr "Filemon"
-
-msgid "Hebrews"
-msgstr "Ibrani"
-
-msgid "James"
-msgstr "Yakobus"
-
-msgid "1 Peter"
-msgstr "1 Petrus"
-
-msgid "2 Peter"
-msgstr "2 Petrus"
-
-msgid "1 John"
-msgstr "1 Yohanes"
-
-msgid "2 John"
-msgstr "2 Yohanes"
-
-msgid "3 John"
-msgstr "3 Yohanes"
-
-msgid "Jude"
-msgstr "Yudas"
-
-msgid "Revelation"
-msgstr "Wahyu"
-
-msgid "Back Matter"
-msgstr "Catatan Belakang"
-
-msgid "Other Material"
-msgstr "Bahan lain"
-
-msgid "Tobit"
-msgstr ""
-
-msgid "Judith"
-msgstr ""
-
-msgid "Esther (Greek)"
-msgstr ""
-
-msgid "Wisdom of Solomon"
-msgstr ""
-
-msgid "Sirach"
-msgstr ""
-
-msgid "Baruch"
-msgstr ""
-
-msgid "Letter of Jeremiah"
-msgstr ""
-
-msgid "Song of the Three Children"
-msgstr ""
-
-msgid "Susanna"
-msgstr ""
-
-msgid "Bel and the Dragon"
-msgstr ""
-
-msgid "1 Maccabees"
-msgstr ""
-
-msgid "2 Maccabees"
-msgstr ""
-
-msgid "1 Esdras"
-msgstr ""
-
-msgid "Prayer of Manasses"
-msgstr ""
-
-msgid "Psalm 151"
-msgstr ""
-
-msgid "3 Maccabees"
-msgstr ""
-
-msgid "2 Esdras"
-msgstr ""
-
-msgid "4 Maccabees"
-msgstr ""
-
-msgid "Daniel (Greek)"
-msgstr ""
-
-msgid "Introductions"
-msgstr ""
-
-msgid "Concordance"
-msgstr ""
-
-msgid "Glossary"
-msgstr ""
-
-msgid "Topical Index"
-msgstr ""
-
-msgid "Names Index"
-msgstr ""
-
-msgid "Extra A"
-msgstr ""
-
-msgid "Extra B"
-msgstr ""
-
-msgid "Extra C"
-msgstr ""
-
-msgid "Extra D"
-msgstr ""
-
-msgid "Extra E"
-msgstr ""
-
-msgid "Extra F"
-msgstr ""
-
-msgid "Extra G"
-msgstr ""
-
 msgid "Comparing Bibles"
 msgstr ""
 
@@ -10280,6 +9980,333 @@ msgstr ""
 msgid ""
 "Used for marking text which should be ignored when identifying or linking to "
 "cross reference target references."
+msgstr ""
+
+msgid "Genesis"
+msgstr "Kejadian"
+
+msgid "Exodus"
+msgstr "Keluaran"
+
+msgid "Leviticus"
+msgstr "Imamat"
+
+msgid "Numbers"
+msgstr "Bilangan"
+
+msgid "Deuteronomy"
+msgstr "Ulangan"
+
+msgid "Joshua"
+msgstr "Yosua"
+
+msgid "Judges"
+msgstr "Hakim-hakim"
+
+msgid "Ruth"
+msgstr "Rut"
+
+msgid "1 Samuel"
+msgstr "1 Samuel"
+
+msgid "2 Samuel"
+msgstr "2 Samuel"
+
+msgid "1 Kings"
+msgstr "1 Raja"
+
+msgid "2 Kings"
+msgstr "2 Raja"
+
+msgid "1 Chronicles"
+msgstr "1 Tawarik"
+
+msgid "2 Chronicles"
+msgstr "2 Tawarik"
+
+msgid "Ezra"
+msgstr "Ezra"
+
+msgid "Nehemiah"
+msgstr "Nehemia"
+
+msgid "Esther"
+msgstr "Ester"
+
+msgid "Job"
+msgstr "Ayub"
+
+msgid "Psalms"
+msgstr "Mazmur"
+
+msgid "Proverbs"
+msgstr "Amsal"
+
+msgid "Ecclesiastes"
+msgstr "Pengkotbah"
+
+msgid "Song of Solomon"
+msgstr "Kidung Agung"
+
+msgid "Isaiah"
+msgstr "Yesaya"
+
+msgid "Jeremiah"
+msgstr "Yeremia"
+
+msgid "Lamentations"
+msgstr "Ratapan"
+
+msgid "Ezekiel"
+msgstr "Yeheskiel"
+
+msgid "Daniel"
+msgstr "Daniel"
+
+msgid "Hosea"
+msgstr "Hosea"
+
+msgid "Joel"
+msgstr "Yoel"
+
+msgid "Amos"
+msgstr "Amos"
+
+msgid "Obadiah"
+msgstr "Obaja"
+
+msgid "Jonah"
+msgstr "Yunus"
+
+msgid "Micah"
+msgstr "Mika"
+
+msgid "Nahum"
+msgstr "Nahum"
+
+msgid "Habakkuk"
+msgstr "Habakuk"
+
+msgid "Zephaniah"
+msgstr "Zefanya"
+
+msgid "Haggai"
+msgstr "Hagai"
+
+msgid "Zechariah"
+msgstr "Zekaria"
+
+msgid "Malachi"
+msgstr "Maleaki"
+
+msgid "Matthew"
+msgstr "Matius"
+
+msgid "Mark"
+msgstr "Markus"
+
+msgid "Luke"
+msgstr "Lukas"
+
+msgid "John"
+msgstr "Yohanes"
+
+msgid "Acts"
+msgstr "Kisah"
+
+msgid "Romans"
+msgstr "Roma"
+
+msgid "1 Corinthians"
+msgstr "1 Korintus"
+
+msgid "2 Corinthians"
+msgstr "2 Korintus"
+
+msgid "Galatians"
+msgstr "Galatia"
+
+msgid "Ephesians"
+msgstr "Efesus"
+
+msgid "Philippians"
+msgstr "Filipi"
+
+msgid "Colossians"
+msgstr "Kolose"
+
+msgid "1 Thessalonians"
+msgstr "1 Tesalonika"
+
+msgid "2 Thessalonians"
+msgstr "2 Tesalonika"
+
+msgid "1 Timothy"
+msgstr "1 Timotius"
+
+msgid "2 Timothy"
+msgstr "2 Timotius"
+
+msgid "Titus"
+msgstr "Titus"
+
+msgid "Philemon"
+msgstr "Filemon"
+
+msgid "Hebrews"
+msgstr "Ibrani"
+
+msgid "James"
+msgstr "Yakobus"
+
+msgid "1 Peter"
+msgstr "1 Petrus"
+
+msgid "2 Peter"
+msgstr "2 Petrus"
+
+msgid "1 John"
+msgstr "1 Yohanes"
+
+msgid "2 John"
+msgstr "2 Yohanes"
+
+msgid "3 John"
+msgstr "3 Yohanes"
+
+msgid "Jude"
+msgstr "Yudas"
+
+msgid "Revelation"
+msgstr "Wahyu"
+
+msgid "Front Matter"
+msgstr "Pendahuluan"
+
+msgid "Back Matter"
+msgstr "Catatan Belakang"
+
+msgid "Other Material"
+msgstr "Bahan lain"
+
+msgid "Tobit"
+msgstr ""
+
+msgid "Judith"
+msgstr ""
+
+msgid "Esther (Greek)"
+msgstr ""
+
+msgid "Wisdom of Solomon"
+msgstr ""
+
+msgid "Sirach"
+msgstr ""
+
+msgid "Baruch"
+msgstr ""
+
+msgid "Letter of Jeremiah"
+msgstr ""
+
+msgid "Song of the Three Children"
+msgstr ""
+
+msgid "Susanna"
+msgstr ""
+
+msgid "Bel and the Dragon"
+msgstr ""
+
+msgid "1 Maccabees"
+msgstr ""
+
+msgid "2 Maccabees"
+msgstr ""
+
+msgid "1 Esdras (Greek)"
+msgstr ""
+
+msgid "Prayer of Manasses"
+msgstr ""
+
+msgid "Psalm 151"
+msgstr ""
+
+msgid "3 Maccabees"
+msgstr ""
+
+msgid "2 Esdras (Latin)"
+msgstr ""
+
+msgid "4 Maccabees"
+msgstr ""
+
+msgid "Daniel (Greek)"
+msgstr ""
+
+msgid "Odes"
+msgstr ""
+
+msgid "Psalms of Solomon"
+msgstr ""
+
+msgid "Ezra Apocalypse"
+msgstr ""
+
+msgid "5 Ezra"
+msgstr ""
+
+msgid "6 Ezra"
+msgstr ""
+
+msgid "Psalms 152-155"
+msgstr ""
+
+msgid "2 Baruch (Apocalypse)"
+msgstr ""
+
+msgid "Letter of Baruch"
+msgstr ""
+
+msgid "Jubilees"
+msgstr ""
+
+msgid "Enoch"
+msgstr ""
+
+msgid "1 Meqabyan/Mekabis"
+msgstr ""
+
+msgid "2 Meqabyan/Mekabis"
+msgstr ""
+
+msgid "3 Meqabyan/Mekabis"
+msgstr ""
+
+msgid "Reproof"
+msgstr ""
+
+msgid "4 Baruch"
+msgstr ""
+
+msgid "Letter to the Laodiceans"
+msgstr ""
+
+msgid "Introduction Matter"
+msgstr ""
+
+msgid "Concordance"
+msgstr ""
+
+msgid "Glossary / Wordlist"
+msgstr ""
+
+msgid "Topical Index"
+msgstr ""
+
+msgid "Names Index"
 msgstr ""
 
 msgid "No files in this folder"

@@ -100,6 +100,8 @@ public:
   static void setHyphenationFirstSet (string bible, string value);
   static string getHyphenationSecondSet (string bible);
   static void setHyphenationSecondSet (string bible, string value);
+  static string getEditorStylesheet (string bible);
+  static void setEditorStylesheet (string bible, string value);
   static string getExportStylesheet (string bible);
   static void setExportStylesheet (string bible, string value);
   static string getVersificationSystem (string bible);

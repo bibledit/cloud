@@ -27,8 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Class for creating OpenDocument text documents.
-// Initially the ODF Toolkit was used. But the Java code to generate this became too big for the compiler.
-// The other thing is that Java is slow as compared to this method employed here.
+// Initially the ODF Toolkit was used.
+// But the Java code to generate this became too big for the Java compiler.
+// The other thing is that Java is slow compared to the method below in C++.
 
 
 Odf_Text::Odf_Text (string bible_in)
@@ -948,7 +949,8 @@ void Odf_Text::addNote (string caller, string style, bool endnote)
   textNoteDomElement.append_attribute ("text:note-class") = noteclass.c_str();
 
   // The note citation, the 'caller' is normally in superscript in the OpenDocument.
-  // The default values of the application are used. The Bibledit stylesheet is not consulted.
+  // The default values of the application are used.
+  // The Bibledit stylesheet is not consulted.
   xml_node textNoteCitationDomElement = textNoteDomElement.append_child ("text:note-citation");
   textNoteCitationDomElement.append_attribute ("text:label") = filter_string_sanitize_html (caller).c_str();
   textNoteCitationDomElement.text().set( filter_string_sanitize_html (caller).c_str());

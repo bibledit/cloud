@@ -103,14 +103,48 @@ void test_french ()
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, hits.size ());
-    if (hits.size () == 2) {
-      string standard = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
+    unsigned int size = 4;
+    evaluate (__LINE__, __func__, size, hits.size ());
+    if (hits.size () == size) {
+      string standard1 = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
+      string standard2 = "The paragraph contains more right guillements than needed";
       evaluate (__LINE__, __func__, 6, hits [0].verse);
-      evaluate (__LINE__, __func__, standard, hits [0].data);
-      evaluate (__LINE__, __func__, 8, hits [1].verse);
-      evaluate (__LINE__, __func__, standard, hits [1].data);
+      evaluate (__LINE__, __func__, standard1, hits [0].data);
+      evaluate (__LINE__, __func__, 6, hits [1].verse);
+      evaluate (__LINE__, __func__, standard2, hits [1].data);
+      evaluate (__LINE__, __func__, 8, hits [2].verse);
+      evaluate (__LINE__, __func__, standard1, hits [2].data);
+      evaluate (__LINE__, __func__, 9, hits [3].verse);
+      evaluate (__LINE__, __func__, standard2, hits [3].data);
     }
   }
   
+  // Real-life data, fixed, regression test.
+  {
+    database_check.truncateOutput (bible);
+    // In the example following, there is the « in the beginning of the verse 13, it needs to begin a new paragraph, or be considered as an extra «, but the checks don't find it.
+    string usfm = R"(
+\p
+\v 9 Yezu taka kingana yai na bantu yankaka vandaka kudisikisa nde bo kele bantu ya masonga na meso ya Nzambi, kansi bo vandaka kuvweza bantu yankaka yonso :
+\v 10 « Bantu zole kwendaka na Tempelo na kusamba. Mosi vandaka mfarizi ; yina yankaka, kalaki ya kitari.
+\v 11 Mfarizi telamaka ; yandi sambaka mutindu yai : « E Nzambi, mono ke pesa nge matondo, sambu mono ke fwanana ve na bantu yankaka yonso : bo kele bamiyibi, bantu ya nku, bantu ya bizumba ; mono ke fwanana mpi ve na kalaki yai ya kitari.
+\v 12 Konso mposo, mono ke salaka kibansa ya kulala nzala mbala zole ; ibuna bima yonso ya mono ke zwaka, mono ke kabisaka yo na ndambu kumi, sambu na kupesa nge makabu ndambu mosi. »
+\v 13 « Kalaki ya kitari telamaka kwa yandi mwa-ntama. Nsoni simbaka yandi na kunangula meso na zulu, kansi yandi vandaka kudibula ntulu na kusonga ntantu. Yandi nde : « E Nzambi na mono, mono nsumuki, wila no mawa ! » Yezu yikaka nde :
+\v 14 « Mono ke tubila beno nde : ntangu kalaki ya kitari vutukaka na nzo na yandi, Nzambi talaka yandi na disu ya mbote, kansi yandi talaka ve mfarizi mutindu yina, sambu konso muntu ke kudinangula, Nzambi ta kulumusa yandi ; kansi yina ke kudikulumusa, Nzambi ta nangula yandi. »
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.initializeHeadingsAndTextPerVerse (false);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
+    Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    unsigned int size = 1;
+    evaluate (__LINE__, __func__, size, hits.size ());
+    if (hits.size () == size) {
+      string standard = "The paragraph contains more left guillements than needed";
+      evaluate (__LINE__, __func__, 14, hits [0].verse);
+      evaluate (__LINE__, __func__, standard, hits [0].data);
+    }
+  }
 }

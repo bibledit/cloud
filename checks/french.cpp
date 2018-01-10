@@ -116,24 +116,40 @@ void Checks_French::citationStyle (string bible, int book, int chapter,
         string text = verses_paragraph.begin()->second;
         if (!text.empty ()) {
           string character = unicode_string_substr (text, 0, 1);
-          if (character != "«") {
+          if (character != left_guillemet ()) {
             string message = translate ("The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French");
             database_check.recordOutput (bible, book, chapter, verse, message);
           }
         }
       }
     }
-    
-    // Determine whether the current paragraph opens a citation and does not close it.
+
+    // Count the number of left and right guillements in the paragraph.
+    int last_verse = 0;
     string paragraph;
     for (auto element : verses_paragraph) {
       paragraph.append (element.second);
+      last_verse = element.first;
     }
     int opener_count = 0;
-    filter_string_str_replace ("«", "", paragraph, &opener_count);
+    filter_string_str_replace (left_guillemet (), "", paragraph, &opener_count);
     int closer_count = 0;
     filter_string_str_replace (right_guillemet (), "", paragraph, &closer_count);
+
+    // Determine whether the current paragraph opens a citation and does not close it.
     previous_paragraph_open_citation = (opener_count > closer_count);
+    
+    // Whether there's too many left guillements.
+    if (opener_count > (closer_count + 1)) {
+      string message = translate ("The paragraph contains more left guillements than needed");
+      database_check.recordOutput (bible, book, chapter, last_verse, message);
+    }
+    
+    // Whether there's too many right guillements.
+    if (closer_count > opener_count) {
+      string message = translate ("The paragraph contains more right guillements than needed");
+      database_check.recordOutput (bible, book, chapter, last_verse, message);
+    }
   }
 }
 

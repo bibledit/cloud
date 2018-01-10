@@ -832,6 +832,12 @@ msgid ""
 "French"
 msgstr ""
 
+msgid "The paragraph contains more left guillements than needed"
+msgstr ""
+
+msgid "The paragraph contains more right guillements than needed"
+msgstr ""
+
 msgid "Patterns"
 msgstr ""
 

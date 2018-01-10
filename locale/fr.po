@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2018-01-07 14:16+0000\n"
+"PO-Revision-Date: 2018-01-08 10:23+0000\n"
 "Last-Translator: L'Africain <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -649,6 +649,15 @@ msgstr "La ressource va être importée dans la Bible."
 
 msgid "The journal shows the progress."
 msgstr "Le journal montre la progression."
+
+msgid "Would you like to change the stylesheet?"
+msgstr ""
+
+msgid "A stylesheet affects how the Bible text in the editor looks."
+msgstr ""
+
+msgid "Please make your choice below."
+msgstr ""
 
 msgid "More operations in the Cloud"
 msgstr "Plus d'opération sur le nuage"
@@ -1600,12 +1609,6 @@ msgstr "Après tout"
 msgid "Upon encountering a certain marker"
 msgstr "En rencontrant une certaine certaine"
 
-msgid "Styles"
-msgstr "Styles"
-
-msgid "Would you like to switch to another stylesheet?"
-msgstr "Voulez-vous passer à une autre feuille de style ?"
-
 msgid "Style"
 msgstr "Style"
 
@@ -1759,6 +1762,9 @@ msgstr ""
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
 "La balise doit être écrit sans l'anti-slash, par ex. \\\"zendnotes\\\"."
+
+msgid "Styles"
+msgstr "Styles"
 
 msgid "This stylesheet already exists"
 msgstr "Ce style de feuille existe déjà"
@@ -2146,9 +2152,6 @@ msgstr "SWORD"
 msgid "User-defined"
 msgstr "Défini par l'utilisateur"
 
-msgid "Select stylesheet"
-msgstr "Sélectionner une feuille de style"
-
 msgid "Help and About"
 msgstr "Aide et à proppos"
 
@@ -2172,6 +2175,9 @@ msgstr "Utilisateurs"
 
 msgid "Versifications"
 msgstr "Versifications"
+
+msgid "Select stylesheet"
+msgstr "Sélectionner une feuille de style"
 
 msgid "Edit stylesheet"
 msgstr "Éditer la feuille de style"
@@ -4064,18 +4070,6 @@ msgstr "Sélectionner cette feuille de style."
 
 msgid "Delete the entire stylesheet."
 msgstr "Supprimer toute la feuille de style."
-
-msgid ""
-"The various styles for the Bible editor are contained in a stylesheet."
-msgstr ""
-"Les divers styles de l'éditeur de Bible sont contenus dans une feuille de "
-"style."
-
-msgid "The stylesheet you are currently using is:"
-msgstr "La feuille de style que vous utilisez actuellement est :"
-
-msgid "switch"
-msgstr "Changer"
 
 msgid "Category"
 msgstr "Catégorie"
@@ -11937,7 +11931,7 @@ msgid "2 Maccabees"
 msgstr "1 Maccabées"
 
 msgid "1 Esdras (Greek)"
-msgstr ""
+msgstr "1 Esdras (Grec)"
 
 msgid "Prayer of Manasses"
 msgstr "Prière de Manassé"
@@ -11949,7 +11943,7 @@ msgid "3 Maccabees"
 msgstr "3 Maccabées"
 
 msgid "2 Esdras (Latin)"
-msgstr ""
+msgstr "2 Esdras (Latin)"
 
 msgid "4 Maccabees"
 msgstr "4 Maccabées"
@@ -11958,61 +11952,61 @@ msgid "Daniel (Greek)"
 msgstr "Daniel (grec)"
 
 msgid "Odes"
-msgstr ""
+msgstr "Odes"
 
 msgid "Psalms of Solomon"
-msgstr ""
+msgstr "Psaumes de Solomon"
 
 msgid "Ezra Apocalypse"
-msgstr ""
+msgstr "Apocalypse d'Esdras"
 
 msgid "5 Ezra"
-msgstr ""
+msgstr "5 Esdras"
 
 msgid "6 Ezra"
-msgstr ""
+msgstr "6 Esdras"
 
 msgid "Psalms 152-155"
-msgstr ""
+msgstr "Psaumes 152-155"
 
 msgid "2 Baruch (Apocalypse)"
-msgstr ""
+msgstr "Baruch 2 (Apocalypse)"
 
 msgid "Letter of Baruch"
-msgstr ""
+msgstr "Lettre de Baruch"
 
 msgid "Jubilees"
-msgstr ""
+msgstr "Livre des Jubilés"
 
 msgid "Enoch"
-msgstr ""
+msgstr "Enoch"
 
 msgid "1 Meqabyan/Mekabis"
-msgstr ""
+msgstr "1 Meqabyan/Mekabis"
 
 msgid "2 Meqabyan/Mekabis"
-msgstr ""
+msgstr "2 Meqabyan/Mekabis"
 
 msgid "3 Meqabyan/Mekabis"
-msgstr ""
+msgstr "3 Meqabyan/Mekabis"
 
 msgid "Reproof"
-msgstr ""
+msgstr "Tägsas (2ème partie Proverbes Ethiopien)"
 
 msgid "4 Baruch"
-msgstr ""
+msgstr "4 Baruch"
 
 msgid "Letter to the Laodiceans"
-msgstr ""
+msgstr "Lettre aux Laodicéens"
 
 msgid "Introduction Matter"
-msgstr ""
+msgstr "Introduction"
 
 msgid "Concordance"
 msgstr "Concordance"
 
 msgid "Glossary / Wordlist"
-msgstr ""
+msgstr "Glossaire / Liste de mot"
 
 msgid "Topical Index"
 msgstr "Index de lieu"
@@ -12710,3 +12704,18 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 "Le nom d'utilisateur, l'adresse courriel ou le mot de passe ne sont pas "
 "corrects"
+
+#~ msgid ""
+#~ "The various styles for the Bible editor are contained in a stylesheet."
+#~ msgstr ""
+#~ "Les divers styles de l'éditeur de Bible sont contenus dans une feuille de "
+#~ "style."
+
+#~ msgid "The stylesheet you are currently using is:"
+#~ msgstr "La feuille de style que vous utilisez actuellement est :"
+
+#~ msgid "Would you like to switch to another stylesheet?"
+#~ msgstr "Voulez-vous passer à une autre feuille de style ?"
+
+#~ msgid "switch"
+#~ msgstr "Changer"

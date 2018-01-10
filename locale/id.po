@@ -619,6 +619,15 @@ msgstr ""
 msgid "The journal shows the progress."
 msgstr ""
 
+msgid "Would you like to change the stylesheet?"
+msgstr ""
+
+msgid "A stylesheet affects how the Bible text in the editor looks."
+msgstr ""
+
+msgid "Please make your choice below."
+msgstr ""
+
 msgid "More operations in the Cloud"
 msgstr ""
 
@@ -1536,12 +1545,6 @@ msgstr ""
 msgid "Upon encountering a certain marker"
 msgstr ""
 
-msgid "Styles"
-msgstr ""
-
-msgid "Would you like to switch to another stylesheet?"
-msgstr ""
-
 msgid "Style"
 msgstr ""
 
@@ -1669,6 +1672,9 @@ msgid "Please enter a marker at which the endnotes should be dumped"
 msgstr ""
 
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgstr ""
+
+msgid "Styles"
 msgstr ""
 
 msgid "This stylesheet already exists"
@@ -2051,9 +2057,6 @@ msgstr ""
 msgid "User-defined"
 msgstr ""
 
-msgid "Select stylesheet"
-msgstr ""
-
 msgid "Help and About"
 msgstr ""
 
@@ -2076,6 +2079,9 @@ msgid "Users"
 msgstr "Pengguna"
 
 msgid "Versifications"
+msgstr ""
+
+msgid "Select stylesheet"
 msgstr ""
 
 msgid "Edit stylesheet"
@@ -3702,16 +3708,6 @@ msgid "Select this stylesheet."
 msgstr ""
 
 msgid "Delete the entire stylesheet."
-msgstr ""
-
-msgid ""
-"The various styles for the Bible editor are contained in a stylesheet."
-msgstr ""
-
-msgid "The stylesheet you are currently using is:"
-msgstr ""
-
-msgid "switch"
 msgstr ""
 
 msgid "Category"

@@ -630,6 +630,15 @@ msgstr "De bron zal in de Bijbel geïmporteerd worden."
 msgid "The journal shows the progress."
 msgstr "Het logboek laat de voortgang zien."
 
+msgid "Would you like to change the stylesheet?"
+msgstr ""
+
+msgid "A stylesheet affects how the Bible text in the editor looks."
+msgstr ""
+
+msgid "Please make your choice below."
+msgstr ""
+
 msgid "More operations in the Cloud"
 msgstr "Meer mogelijkheden in de Cloud"
 
@@ -1549,12 +1558,6 @@ msgstr "Na al het andere"
 msgid "Upon encountering a certain marker"
 msgstr "Na het tegenkomen van een bepaalde markeerder"
 
-msgid "Styles"
-msgstr "Stijlen"
-
-msgid "Would you like to switch to another stylesheet?"
-msgstr "Wilt u overschakelen naar een andere stylesheet?"
-
 msgid "Style"
 msgstr ""
 
@@ -1683,6 +1686,9 @@ msgstr ""
 
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
+
+msgid "Styles"
+msgstr "Stijlen"
 
 msgid "This stylesheet already exists"
 msgstr ""
@@ -2064,9 +2070,6 @@ msgstr ""
 msgid "User-defined"
 msgstr ""
 
-msgid "Select stylesheet"
-msgstr ""
-
 msgid "Help and About"
 msgstr ""
 
@@ -2089,6 +2092,9 @@ msgid "Users"
 msgstr "Gebruikers"
 
 msgid "Versifications"
+msgstr ""
+
+msgid "Select stylesheet"
 msgstr ""
 
 msgid "Edit stylesheet"
@@ -3717,16 +3723,6 @@ msgid "Select this stylesheet."
 msgstr ""
 
 msgid "Delete the entire stylesheet."
-msgstr ""
-
-msgid ""
-"The various styles for the Bible editor are contained in a stylesheet."
-msgstr ""
-
-msgid "The stylesheet you are currently using is:"
-msgstr ""
-
-msgid "switch"
 msgstr ""
 
 msgid "Category"
@@ -11007,3 +11003,6 @@ msgstr "Welkom! Uw account is nu geactiveerd."
 
 msgid "Username or email address or password are not correct"
 msgstr "Gebruikersnaam of email adres of wachtwoord is niet correct"
+
+#~ msgid "Would you like to switch to another stylesheet?"
+#~ msgstr "Wilt u overschakelen naar een andere stylesheet?"

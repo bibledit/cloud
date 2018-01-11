@@ -831,6 +831,12 @@ msgid ""
 "French"
 msgstr ""
 
+msgid "The paragraph contains more left guillements than needed"
+msgstr ""
+
+msgid "The paragraph contains more right guillements than needed"
+msgstr ""
+
 msgid "Patterns"
 msgstr ""
 
@@ -10965,6 +10971,3 @@ msgstr ""
 
 msgid "Username or email address or password are not correct"
 msgstr ""
-
-#~ msgid "switch"
-#~ msgstr "cambiar"

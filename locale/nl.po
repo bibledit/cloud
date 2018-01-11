@@ -842,6 +842,12 @@ msgid ""
 "French"
 msgstr ""
 
+msgid "The paragraph contains more left guillements than needed"
+msgstr ""
+
+msgid "The paragraph contains more right guillements than needed"
+msgstr ""
+
 msgid "Patterns"
 msgstr ""
 
@@ -11003,6 +11009,3 @@ msgstr "Welkom! Uw account is nu geactiveerd."
 
 msgid "Username or email address or password are not correct"
 msgstr "Gebruikersnaam of email adres of wachtwoord is niet correct"
-
-#~ msgid "Would you like to switch to another stylesheet?"
-#~ msgstr "Wilt u overschakelen naar een andere stylesheet?"

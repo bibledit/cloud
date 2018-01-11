@@ -879,6 +879,12 @@ msgstr ""
 "(«) pour continuer cette citation car le paragraphe précédent contient une "
 "citation non fermée avec un guillemet fermant (»)."
 
+msgid "The paragraph contains more left guillements than needed"
+msgstr ""
+
+msgid "The paragraph contains more right guillements than needed"
+msgstr ""
+
 msgid "Patterns"
 msgstr "Motifs"
 
@@ -12704,18 +12710,3 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 "Le nom d'utilisateur, l'adresse courriel ou le mot de passe ne sont pas "
 "corrects"
-
-#~ msgid ""
-#~ "The various styles for the Bible editor are contained in a stylesheet."
-#~ msgstr ""
-#~ "Les divers styles de l'éditeur de Bible sont contenus dans une feuille de "
-#~ "style."
-
-#~ msgid "The stylesheet you are currently using is:"
-#~ msgstr "La feuille de style que vous utilisez actuellement est :"
-
-#~ msgid "Would you like to switch to another stylesheet?"
-#~ msgstr "Voulez-vous passer à une autre feuille de style ?"
-
-#~ msgid "switch"
-#~ msgstr "Changer"

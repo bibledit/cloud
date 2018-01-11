@@ -1424,8 +1424,8 @@ void Filter_Text::produceFalloutDocument (string path)
 
 
 /**
-* This function produces ensures that a certain paragraph style is in the OpenDocument,
-* and then opens a paragraph with this style
+* This function ensures that a certain paragraph style is in the OpenDocument,
+* and then opens a paragraph with that style.
 * $style: The style to use.
 * $keepWithNext: Whether to keep this paragraph with the next one.
 */

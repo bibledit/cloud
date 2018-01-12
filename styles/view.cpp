@@ -456,6 +456,10 @@ string styles_view (void * webserver_request)
 
   
   // Columns spanning.
+  // This has been disabled in the GUI
+  // so as not to raise the false expectation
+  // that Bibledit supports columns in the exported output.
+  /*
   if (styles_logic_columns_are_relevant (type, subtype)) view.enable_zone ("columns_relevant");
   bool spancolumns = marker_data.spancolumns;
   if (request->query.count ("spancolumns")) {
@@ -464,6 +468,7 @@ string styles_view (void * webserver_request)
   }
   view.set_variable ("spancolumns", styles_logic_off_on_inherit_toggle_text (spancolumns));
   view.set_variable ("spancolumns_toggle", convert_to_string (!spancolumns));
+   */
 
   
   // Color.

@@ -56,6 +56,9 @@
 /compare
 /compare/index.html
 /compile
+/conf75419
+/conf75419.dir
+/conf75419.file
 /config
 /config/config.txt
 /config.guess
@@ -652,6 +655,7 @@
 /sources/morphhb/Ruth.xml
 /sources/morphhb/Song.xml
 /sources/morphhb.txt
+/sources/morphhb/VerseMap.xml
 /sources/morphhb/Zech.xml
 /sources/morphhb/Zeph.xml
 /sources/oshb.txt
@@ -670,7 +674,6 @@
 /sprint/index.js
 /sqlite
 /sqlite/readme.txt
-/stamp-h1
 /statistics
 /styles
 /styles/indexm.html

@@ -101,14 +101,20 @@ string notes_notes (void * webserver_request)
     quick_sort (passage_sort_keys, identifiers, 0, identifiers.size ());
   }
 
-  
+
+  bool show_bible_in_notes_list = request->database_config_user ()->getShowBibleInNotesList ();
+  bool show_note_status = request->database_config_user ()->getShowNoteStatus ();
   string notesblock;
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.get_summary_v12 (identifier);
     vector <Passage> passages = database_notes.get_passages_v12 (identifier);
     string verses = filter_passage_display_inline (passages);
-    if (request->database_config_user ()->getShowBibleInNotesList ()) {
+    if (show_note_status) {
+      string status = database_notes.get_status_v12 (identifier);
+      verses.insert (0, status + " ");
+    }
+    if (show_bible_in_notes_list) {
       string bible = database_notes.get_bible_v12 (identifier);
       verses.insert (0, bible + " ");
     }

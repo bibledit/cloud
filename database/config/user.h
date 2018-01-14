@@ -221,6 +221,8 @@ public:
   void setQuickNoteEditLink (bool value);
   bool getShowBibleInNotesList ();
   void setShowBibleInNotesList (bool value);
+  bool getShowNoteStatus ();
+  void setShowNoteStatus (bool value);
 private:
   void * webserver_request;
   string file (string user);

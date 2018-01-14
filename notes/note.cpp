@@ -96,7 +96,14 @@ string notes_note (void * webserver_request)
   string summary = database_notes.get_summary_v12 (id);
   view.set_variable ("summary", summary);
 
-
+  
+  bool show_note_status = request->database_config_user ()->getShowNoteStatus ();
+  if (show_note_status) {
+    string status = database_notes.get_status_v12 (id);
+    view.set_variable ("status", status);
+  }
+  
+  
   if (request->session_logic ()->currentLevel () >= Filter_Roles::manager ()) {
     view.enable_zone ("editlevel");
   }

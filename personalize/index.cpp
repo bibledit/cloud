@@ -415,6 +415,15 @@ string personalize_index (void * webserver_request)
   view.set_variable ("showbibleinnoteslist", on_off);
   
   
+  // Whether to display the note status in the notes list and the note display.
+  if (request->query.count ("shownotestatus")) {
+    bool state = request->database_config_user ()->getShowNoteStatus ();
+    request->database_config_user ()->setShowNoteStatus (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getShowNoteStatus ());
+  view.set_variable ("shownotestatus", on_off);
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

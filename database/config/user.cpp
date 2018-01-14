@@ -1295,3 +1295,18 @@ void Database_Config_User::setShowBibleInNotesList (bool value)
 {
   setBValue (show_bible_in_notes_list_key (), value);
 }
+
+
+const char * show_note_status_key ()
+{
+  return "show-note-status";
+}
+bool Database_Config_User::getShowNoteStatus ()
+{
+  return getBValue (show_note_status_key (), false);
+}
+void Database_Config_User::setShowNoteStatus (bool value)
+{
+  setBValue (show_note_status_key (), value);
+}
+

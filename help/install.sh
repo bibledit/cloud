@@ -199,7 +199,7 @@ chmod +x install2.sh
 # Conditionally run $ su.
 if [ $RUNSU -ne 0 ]; then
 echo Please provide the password for the root user and press Enter
-su -c ./install2.sh "${Bibledit}" "${bibledit}" "${Bible}" "${bible}"
+su -c ./install2.sh -- -- "${Bibledit}" "${bibledit}" "${Bible}" "${bible}"
 fi
 
 EXIT_CODE=$?

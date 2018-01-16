@@ -2515,8 +2515,10 @@ msgstr ""
 msgid "This is an extra control in addition to the normal one."
 msgstr ""
 
-msgid ""
-"The list of consultation notes shows the name of the Bible the note refers to"
+msgid "The list of consultation notes shows the Bible the note refers to"
+msgstr ""
+
+msgid "The consultation notes show the note status"
 msgstr ""
 
 msgid "Send / Receive"

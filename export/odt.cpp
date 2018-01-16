@@ -64,8 +64,8 @@ void export_odt_book (string bible, int book, bool log)
   
   
   if (book == 0) {
-    // Load entire Bible.
-    vector <int> books = database_bibles.getBooks (bible);
+    // Load entire Bible, ordered.
+    vector <int> books = filter_passage_get_ordered_books (bible);
     for (auto book : books) {
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto chapter : chapters) {

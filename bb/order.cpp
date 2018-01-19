@@ -61,10 +61,131 @@ string bible_order (void * webserver_request)
   string bible = access_bible_clamp (request, request->query ["bible"]);
   view.set_variable ("bible", filter_string_sanitize_html (bible));
 
-  if (request->query.count ("reset")) {
+  // The order the user wants for the Bibles.
+  string order = request->query ["order"];
+  
+  // Deuterocanonicals or Apocrypha interspersed among the books of the Hebrew Bible.
+  if (order == "interspersed") {
+    vector <int> interspersed = {
+      Database_Books::getIdFromEnglish ("Front Matter"),
+      Database_Books::getIdFromEnglish ("Genesis"),
+      Database_Books::getIdFromEnglish ("Exodus"),
+      Database_Books::getIdFromEnglish ("Leviticus"),
+      Database_Books::getIdFromEnglish ("Numbers"),
+      Database_Books::getIdFromEnglish ("Deuteronomy"),
+      Database_Books::getIdFromEnglish ("Joshua"),
+      Database_Books::getIdFromEnglish ("Judges"),
+      Database_Books::getIdFromEnglish ("Ruth"),
+      Database_Books::getIdFromEnglish ("1 Samuel"),
+      Database_Books::getIdFromEnglish ("2 Samuel"),
+      Database_Books::getIdFromEnglish ("1 Kings"),
+      Database_Books::getIdFromEnglish ("2 Kings"),
+      Database_Books::getIdFromEnglish ("1 Chronicles"),
+      Database_Books::getIdFromEnglish ("2 Chronicles"),
+      Database_Books::getIdFromEnglish ("Ezra"),
+      Database_Books::getIdFromEnglish ("Nehemiah"),
+      Database_Books::getIdFromEnglish ("Tobit"),
+      Database_Books::getIdFromEnglish ("Judith"),
+      Database_Books::getIdFromEnglish ("Esther"),
+      Database_Books::getIdFromEnglish ("1 Maccabees"),
+      Database_Books::getIdFromEnglish ("2 Maccabees"),
+      Database_Books::getIdFromEnglish ("Job"),
+      Database_Books::getIdFromEnglish ("Psalms"),
+      Database_Books::getIdFromEnglish ("Proverbs"),
+      Database_Books::getIdFromEnglish ("Ecclesiastes"),
+      Database_Books::getIdFromEnglish ("Song of Solomon"),
+      Database_Books::getIdFromEnglish ("Wisdom of Solomon"),
+      Database_Books::getIdFromEnglish ("Sirach"),
+      Database_Books::getIdFromEnglish ("Isaiah"),
+      Database_Books::getIdFromEnglish ("Jeremiah"),
+      Database_Books::getIdFromEnglish ("Lamentations"),
+      Database_Books::getIdFromEnglish ("Baruch"),
+      Database_Books::getIdFromEnglish ("Ezekiel"),
+      Database_Books::getIdFromEnglish ("Daniel"),
+      Database_Books::getIdFromEnglish ("Hosea"),
+      Database_Books::getIdFromEnglish ("Joel"),
+      Database_Books::getIdFromEnglish ("Amos"),
+      Database_Books::getIdFromEnglish ("Obadiah"),
+      Database_Books::getIdFromEnglish ("Jonah"),
+      Database_Books::getIdFromEnglish ("Micah"),
+      Database_Books::getIdFromEnglish ("Nahum"),
+      Database_Books::getIdFromEnglish ("Habakkuk"),
+      Database_Books::getIdFromEnglish ("Zephaniah"),
+      Database_Books::getIdFromEnglish ("Haggai"),
+      Database_Books::getIdFromEnglish ("Zechariah"),
+      Database_Books::getIdFromEnglish ("Malachi"),
+    };
+    vector <string> bookorder;
+    for (auto & book : interspersed) bookorder.push_back (convert_to_string (book));
+    string order = filter_string_implode (bookorder, " ");
+    Database_Config_Bible::setBookOrder (bible, order);
+  }
+
+  
+  // Deuterocanonicals or Apocrypha between the Hebrew Bible and the New Testament. Todo
+  if (order == "between") {
+    vector <int> interspersed = {
+      Database_Books::getIdFromEnglish ("Front Matter"),
+      Database_Books::getIdFromEnglish ("Genesis"),
+      Database_Books::getIdFromEnglish ("Exodus"),
+      Database_Books::getIdFromEnglish ("Leviticus"),
+      Database_Books::getIdFromEnglish ("Numbers"),
+      Database_Books::getIdFromEnglish ("Deuteronomy"),
+      Database_Books::getIdFromEnglish ("Joshua"),
+      Database_Books::getIdFromEnglish ("Judges"),
+      Database_Books::getIdFromEnglish ("Ruth"),
+      Database_Books::getIdFromEnglish ("1 Samuel"),
+      Database_Books::getIdFromEnglish ("2 Samuel"),
+      Database_Books::getIdFromEnglish ("1 Kings"),
+      Database_Books::getIdFromEnglish ("2 Kings"),
+      Database_Books::getIdFromEnglish ("1 Chronicles"),
+      Database_Books::getIdFromEnglish ("2 Chronicles"),
+      Database_Books::getIdFromEnglish ("Ezra"),
+      Database_Books::getIdFromEnglish ("Nehemiah"),
+      Database_Books::getIdFromEnglish ("Esther"),
+      Database_Books::getIdFromEnglish ("Job"),
+      Database_Books::getIdFromEnglish ("Psalms"),
+      Database_Books::getIdFromEnglish ("Proverbs"),
+      Database_Books::getIdFromEnglish ("Ecclesiastes"),
+      Database_Books::getIdFromEnglish ("Song of Solomon"),
+      Database_Books::getIdFromEnglish ("Isaiah"),
+      Database_Books::getIdFromEnglish ("Jeremiah"),
+      Database_Books::getIdFromEnglish ("Lamentations"),
+      Database_Books::getIdFromEnglish ("Ezekiel"),
+      Database_Books::getIdFromEnglish ("Daniel"),
+      Database_Books::getIdFromEnglish ("Hosea"),
+      Database_Books::getIdFromEnglish ("Joel"),
+      Database_Books::getIdFromEnglish ("Amos"),
+      Database_Books::getIdFromEnglish ("Obadiah"),
+      Database_Books::getIdFromEnglish ("Jonah"),
+      Database_Books::getIdFromEnglish ("Micah"),
+      Database_Books::getIdFromEnglish ("Nahum"),
+      Database_Books::getIdFromEnglish ("Habakkuk"),
+      Database_Books::getIdFromEnglish ("Zephaniah"),
+      Database_Books::getIdFromEnglish ("Haggai"),
+      Database_Books::getIdFromEnglish ("Zechariah"),
+      Database_Books::getIdFromEnglish ("Malachi"),
+      Database_Books::getIdFromEnglish ("Tobit"),
+      Database_Books::getIdFromEnglish ("Judith"),
+      Database_Books::getIdFromEnglish ("1 Maccabees"),
+      Database_Books::getIdFromEnglish ("2 Maccabees"),
+      Database_Books::getIdFromEnglish ("Wisdom of Solomon"),
+      Database_Books::getIdFromEnglish ("Sirach"),
+      Database_Books::getIdFromEnglish ("Baruch"),
+    };
+    vector <string> bookorder;
+    for (auto & book : interspersed) bookorder.push_back (convert_to_string (book));
+    string order = filter_string_implode (bookorder, " ");
+    Database_Config_Bible::setBookOrder (bible, order);
+  }
+
+  
+  // Deuterocanonicals or Apocrypha at the end of the entire Bible. Todo
+  if (order == "end") {
     Database_Config_Bible::setBookOrder (bible, "");
   }
 
+  // Handle updates to the custom book order.
   string moveup = request->query ["moveup"];
   string movedown = request->query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {

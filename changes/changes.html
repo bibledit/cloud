@@ -12,6 +12,13 @@
 <p>* <a href="?bible=&selectedbible=##selectedbible##">📖 translate("(all of them)"): ##teamcount##</a></p>
 <!-- #ENDZONE bible -->
 ##dismissblock##
+<p>
+translate("Select Bible:")
+<!-- #BEGINITERATION bibleselector -->
+|
+<a href="?selectbible=##selectbible##" class="##class##">##biblename##</a>
+<!-- #ENDITERATION bibleselector -->
+</p>
 <br>
 <!-- #ENDZONE controlsattop -->
 <div id="ids">
@@ -20,10 +27,12 @@
 <a id="help"></a>
 <p>
 translate("This page lists the notifications of the changes in the Bible text.")
+<!-- #BEGINZONE controlsatbottom -->
 <!-- #BEGINITERATION bibleselector -->
 |
 <a href="?selectbible=##selectbible##" class="##class##">##biblename##</a>
 <!-- #ENDITERATION bibleselector -->
+<!-- #ENDZONE controlsatbottom -->
 </p>
 <p>translate("Use the up and down arrow keys to navigate through the entries.")</p>
 <p>

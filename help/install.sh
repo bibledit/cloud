@@ -73,32 +73,36 @@ Bible=$3
 bible=$4
 
 echo Updating the software sources...
-which apt-get > /dev/null
+which apt > /dev/null
 if [ $? -eq 0 ]; then
-apt-get update
+apt update
 fi
+
+# One could think of running $ apt upgrade now.
+# But this could lead to more problems than it would resolve...
+# So, the script does not run that.
 
 echo Installing the software ${Bibledit} relies on...
 
-which apt-get > /dev/null
+which apt > /dev/null
 if [ $? -eq 0 ]
 then
-echo Installing dependencies through apt-get...
+echo Installing dependencies through apt...
 # On Debian and derivates it is sufficient to use the --yes switch only.
-# The package manager apt-get is also found on openSUSE, and there is also needs --assume-yes.
-apt-get --yes --assume-yes install build-essential
-apt-get --yes --assume-yes install autoconf
-apt-get --yes --assume-yes install automake
-apt-get --yes --assume-yes install autoconf-archive
-apt-get --yes --assume-yes install git
-apt-get --yes --assume-yes install zip
-apt-get --yes --assume-yes install pkgconf
-apt-get --yes --assume-yes install libcurl4-openssl-dev
-apt-get --yes --assume-yes install libssl-dev
-apt-get --yes --assume-yes install libatspi2.0-dev
-apt-get --yes --assume-yes install libgtk-3-dev
-apt-get --yes --assume-yes install libwebkit2gtk-3.0-dev
-apt-get --yes --assume-yes install libwebkit2gtk-4.0-dev
+# The package manager apt is also found on openSUSE, and there is also needs --assume-yes.
+apt --yes --assume-yes install build-essential
+apt --yes --assume-yes install autoconf
+apt --yes --assume-yes install automake
+apt --yes --assume-yes install autoconf-archive
+apt --yes --assume-yes install git
+apt --yes --assume-yes install zip
+apt --yes --assume-yes install pkgconf
+apt --yes --assume-yes install libcurl4-openssl-dev
+apt --yes --assume-yes install libssl-dev
+apt --yes --assume-yes install libatspi2.0-dev
+apt --yes --assume-yes install libgtk-3-dev
+apt --yes --assume-yes install libwebkit2gtk-3.0-dev
+apt --yes --assume-yes install libwebkit2gtk-4.0-dev
 fi
 
 # Fedora.

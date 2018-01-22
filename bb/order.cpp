@@ -68,6 +68,7 @@ string bible_order (void * webserver_request)
   if (order == "interspersed") {
     vector <int> interspersed = {
       Database_Books::getIdFromEnglish ("Front Matter"),
+      Database_Books::getIdFromEnglish ("Introduction Matter"),
       Database_Books::getIdFromEnglish ("Genesis"),
       Database_Books::getIdFromEnglish ("Exodus"),
       Database_Books::getIdFromEnglish ("Leviticus"),
@@ -126,6 +127,7 @@ string bible_order (void * webserver_request)
   if (order == "between") {
     vector <int> interspersed = {
       Database_Books::getIdFromEnglish ("Front Matter"),
+      Database_Books::getIdFromEnglish ("Introduction Matter"),
       Database_Books::getIdFromEnglish ("Genesis"),
       Database_Books::getIdFromEnglish ("Exodus"),
       Database_Books::getIdFromEnglish ("Leviticus"),

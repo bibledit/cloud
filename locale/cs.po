@@ -2616,12 +2616,19 @@ msgstr ""
 msgid "Book order"
 msgstr ""
 
-msgid ""
-"Click to move books to another location to update the order of the books in "
-"this Bible."
+msgid "Update the order and put the deuterocanonical or apocryphal books:"
 msgstr ""
 
-msgid "Reset order."
+msgid "Interspersed among the books of the Hebrew Bible."
+msgstr ""
+
+msgid "Between the Hebrew Bible and the New Testament."
+msgstr ""
+
+msgid "At the very end of the entire Bible."
+msgstr ""
+
+msgid "Click the arrows below to put the books in a custom order:"
 msgstr ""
 
 msgid "Font and text settings"

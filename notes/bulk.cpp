@@ -47,7 +47,7 @@ string notes_bulk_url ()
 
 bool notes_bulk_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
@@ -99,6 +99,7 @@ string notes_bulk (void * webserver_request)
   bool unsubscribe = request->query.count ("unsubscribe");
   bool assign = request->query.count ("assign");
   bool unassign = request->query.count ("unassign");
+  bool unassignme = request->query.count ("unassignme"); // Todo
   bool status = request->query.count ("status");
   bool severity = request->query.count ("severity");
   bool bible = request->query.count ("bible");
@@ -191,7 +192,19 @@ string notes_bulk (void * webserver_request)
     success = translate("The notes are no longer assigned to the user");
     Database_Logs::log ("Notes unassigned from user " + unassign + ": " + identifierlist);
   }
+
   
+  if (unassignme) { // Todo
+    string username = request->session_logic()->currentUser ();
+    for (auto identifier : identifiers) {
+      if (database_notes.is_assigned_v12 (identifier, username)) {
+        notes_logic.unassignUser (identifier, username);
+      }
+    }
+    success = translate("The notes are no longer assigned to you");
+    Database_Logs::log ("Notes unassigned from user " + username + ": " + identifierlist);
+  }
+
   
   if (status) {
     string status = request->query["status"];
@@ -247,7 +260,13 @@ string notes_bulk (void * webserver_request)
   
   
   view.set_variable ("notescount", convert_to_string (identifiers.size()));
+
   
+  bool manager = Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  if (manager) {
+    view.enable_zone ("manager"); // Todo
+  }
+
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);

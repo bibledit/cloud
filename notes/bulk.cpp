@@ -99,7 +99,7 @@ string notes_bulk (void * webserver_request)
   bool unsubscribe = request->query.count ("unsubscribe");
   bool assign = request->query.count ("assign");
   bool unassign = request->query.count ("unassign");
-  bool unassignme = request->query.count ("unassignme"); // Todo
+  bool unassignme = request->query.count ("unassignme");
   bool status = request->query.count ("status");
   bool severity = request->query.count ("severity");
   bool bible = request->query.count ("bible");
@@ -194,7 +194,7 @@ string notes_bulk (void * webserver_request)
   }
 
   
-  if (unassignme) { // Todo
+  if (unassignme) {
     string username = request->session_logic()->currentUser ();
     for (auto identifier : identifiers) {
       if (database_notes.is_assigned_v12 (identifier, username)) {
@@ -264,7 +264,7 @@ string notes_bulk (void * webserver_request)
   
   bool manager = Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
   if (manager) {
-    view.enable_zone ("manager"); // Todo
+    view.enable_zone ("manager");
   }
 
   

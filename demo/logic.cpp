@@ -240,12 +240,11 @@ void demo_create_sample_bible ()
     Database_Sample::get (rowid, file, data);
     // Remove the "./" from the start.
     file.erase (0, 2);
-#ifdef HAVE_WINDOWS
     // Since the filename contains the foward slash for on Linux,
     // and since Windows needs the backslash as directory separator,
     // replace these on Windows.
-    file = filter_string_str_replace ("/", DIRECTORY_SEPARATOR, file);
-#endif
+    file = filter_url_update_directory_separator_if_windows (file);
+    // Proceed with the path.
     file = filter_url_create_root_path (file);
     string path = filter_url_dirname (file);
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);

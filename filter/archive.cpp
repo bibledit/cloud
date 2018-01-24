@@ -229,7 +229,11 @@ string filter_archive_unzip_miniz_internal (string zipfile)
       return "";
     }
   
-    string filename = filter_url_create_path (folder, file_stat.m_filename);
+    string filename = filter_url_create_path (folder, file_stat.m_filename); // Todo
+    // The miniz library returns Unix directory separators above.
+    // So in case of Windows, convert them to Windows ones.
+    filter_url_update_directory_separator_if_windows (filename);
+
     if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
       // Create this directory.
       if (!file_or_dir_exists (filename)) filter_url_mkdir (filename);

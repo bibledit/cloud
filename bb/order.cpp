@@ -123,7 +123,7 @@ string bible_order (void * webserver_request)
   }
 
   
-  // Deuterocanonicals or Apocrypha between the Hebrew Bible and the New Testament. Todo
+  // Deuterocanonicals or Apocrypha between the Hebrew Bible and the New Testament.
   if (order == "between") {
     vector <int> interspersed = {
       Database_Books::getIdFromEnglish ("Front Matter"),
@@ -182,7 +182,7 @@ string bible_order (void * webserver_request)
   }
 
   
-  // Deuterocanonicals or Apocrypha at the end of the entire Bible. Todo
+  // Deuterocanonicals or Apocrypha at the end of the entire Bible.
   if (order == "end") {
     Database_Config_Bible::setBookOrder (bible, "");
   }

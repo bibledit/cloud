@@ -126,21 +126,21 @@ void test_archive ()
     // Create a zipfile with test data through the shell.
     string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Unzip it through miniz and then check it.
-    string folder = filter_archive_unzip_miniz_internal (zipfile);
+    string folder = filter_archive_unzip_miniz_internal (zipfile); // Todo
     evaluate (__LINE__, __func__, false, folder.empty ());
     string out_err;
     int result = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
     evaluate (__LINE__, __func__, "", out_err);
     evaluate (__LINE__, __func__, 0, result);
     // Test that unzipping a non-existing file returns nothing.
-    folder = filter_archive_unzip_miniz_internal ("xxxxx");
+    folder = filter_archive_unzip_miniz_internal ("xxxxx"); // Todo
     evaluate (__LINE__, __func__, "", folder);
   }
   
   // Test unzipping OpenDocument file through the miniz library.
   {
     string zipfile = filter_url_create_root_path ("odf", "template.odt");
-    string folder = filter_archive_unzip_miniz_internal (zipfile);
+    string folder = filter_archive_unzip_miniz_internal (zipfile); // Todo
     evaluate (__LINE__, __func__, false, folder.empty ());
   }
 
@@ -162,7 +162,9 @@ void test_archive ()
     string tarball = filter_archive_tar_gzip_folder (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 618) || (size > 632)) evaluate (__LINE__, __func__, "between 618 and 632", convert_to_string (size));
+    int min = 618;
+    int max = 634;
+    if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), convert_to_string (size));
     // Test that compressing a non-existing folder returns nothing.
     //tarball = filter_archive_tar_gzip_folder (directory + "/x");
     //evaluate (__LINE__, __func__, "", tarball);

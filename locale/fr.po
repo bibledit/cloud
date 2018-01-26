@@ -2034,6 +2034,9 @@ msgstr "Les notes ont été attribuées à l'utilisateur"
 msgid "The notes are no longer assigned to the user"
 msgstr "Les notes ne sont plus affectées à l'utilisateur"
 
+msgid "The notes are no longer assigned to you"
+msgstr ""
+
 msgid "The status of the notes was updated"
 msgstr "L'état des notes a été mis à jour"
 
@@ -4575,6 +4578,17 @@ msgstr "Un clic de souris peut mettre à jour plusieurs notes à la fois."
 msgid "Changes made here are not easily reverted."
 msgstr "Les modifications apportées ici ne sont pas facilement réversibles."
 
+msgid ""
+"Use this mass update function only after you have selected which notes you "
+"want the update to apply to."
+msgstr ""
+
+msgid ""
+"For example, if you are un-assigning notes for a certain user or deleting "
+"notes for a certain book, use the Select screen first to make sure that only "
+"the notes for that user or book are selected."
+msgstr ""
+
 msgid "Amount of notes to be updated in one go:"
 msgstr "Nombre de notes à mettre à jour en une fois :"
 
@@ -4587,8 +4601,11 @@ msgstr "Se désabonner des notes"
 msgid "Assign the notes to somebody"
 msgstr "Attribuer les notes à quelqu'un"
 
-msgid "Unassign the notes from somebody"
-msgstr "Désassigner les notes de quelqu'un"
+msgid "Unassign somebody from the notes"
+msgstr ""
+
+msgid "Unassign yourself from the notes"
+msgstr ""
 
 msgid "Change the status of the notes"
 msgstr "Modifier l'état des notes"
@@ -12727,6 +12744,3 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 "Le nom d'utilisateur, l'adresse courriel ou le mot de passe ne sont pas "
 "corrects"
-
-#~ msgid "Controls for dismissing change notifications at the top"
-#~ msgstr "Contrôles pour ignorer les notifications de modification en haut"

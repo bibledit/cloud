@@ -31,61 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #undef min
 
 
-// Compresses a file identified by $filename into zip format.
-// Returns the path to the zipfile it created.
-string filter_archive_zip_file (string filename)
-{
-#ifdef HAVE_CLOUD
-  return filter_archive_zip_file_shell_internal (filename);
-#endif
-#ifdef HAVE_CLIENT
-  return filter_archive_zip_file_miniz_internal (filename);
-#endif
-}
-
-
-// Compresses a file identified by $filename into zip format.
-// Returns the path to the zipfile it created.
-string filter_archive_zip_file_shell_internal (string filename)
-{
-  if (!file_or_dir_exists (filename)) return "";
-  string zippedfile = filter_url_tempfile () + ".zip";
-#ifdef HAVE_CLOUD
-  string logfile = filter_url_tempfile () + ".log";
-  string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
-  string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
-  string command = "cd " + dirname + " && zip " + zippedfile + " " + basename + " > " + logfile + " 2>&1";
-  int return_var;
-  // Run the command.
-  return_var = system (command.c_str());
-  if (return_var != 0) {
-    filter_url_unlink (zippedfile);
-    zippedfile.clear();
-    string errors = filter_url_file_get_contents (logfile);
-    Database_Logs::log (errors);
-  }
-#endif
-  return zippedfile;
-}
-
-
-// Compresses a file identified by $filename into zip format.
-// Returns the path to the zipfile it created.
-string filter_archive_zip_file_miniz_internal (string filename)
-{
-  if (!file_or_dir_exists (filename)) return "";
-  string zippedfile = filter_url_tempfile () + ".zip";
-  string basename = filter_url_basename (filename);
-  string contents = filter_url_file_get_contents (filename);
-  mz_bool status = mz_zip_add_mem_to_archive_file_in_place (zippedfile.c_str(), basename.c_str(), contents.c_str(), contents.size(), "", 0, MZ_DEFAULT_LEVEL);
-  if (!status) {
-    Database_Logs::log ("mz_zip_add_mem_to_archive_file_in_place failed for " + filename);
-    return "";
-  }
-  return zippedfile;
-}
-
-
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder (string folder)
@@ -125,7 +70,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder_miniz_internal (string folder)
+string filter_archive_zip_folder_miniz_internal (string folder) // Todo
 {
   if (!file_or_dir_exists (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -229,7 +174,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
       status = mz_zip_reader_file_stat (&zip_archive, i, &file_stat);
       if (status) {
 
-        string filename = filter_url_create_path (folder, file_stat.m_filename); // Todo
+        string filename = filter_url_create_path (folder, file_stat.m_filename);
         // The miniz library returns Unix directory separators above.
         // So in case of Windows, convert them to Windows ones.
         string fixed_filename = filter_url_update_directory_separator_if_windows (filename);
@@ -238,27 +183,21 @@ string filter_archive_unzip_miniz_internal (string zipfile)
           // Create this directory.
           if (!file_or_dir_exists (fixed_filename)) filter_url_mkdir (fixed_filename);
         } else {
-          /* Code that extracts via memory, if needed. Todo
+          /* Code that extracts file contents memory, if needed.
           size_t filesize = file_stat.m_uncomp_size;
           cout << filename << " " << filesize << endl;
           void * buff = operator new (filesize);
           if (buff) {
-            
             status = mz_zip_reader_extract_to_mem (&zip_archive, i, buff, filesize, 0);
             if (status) {
-              
               string contents (static_cast<const char*>(buff), filesize);
-              cout << "contents size " << contents.size () << endl;
-              
             } else {
-              cout << "mz_zip_reader_extract_to_mem failure for " << filename << " in " << zipfile << endl;
+              // "mz_zip_reader_extract_to_mem failure for " + filename + " in " + zipfile;
               error = true;
             }
-            
             operator delete (buff);
-            
           } else {
-            cout << "failure to allocate buffer for file extraction" << endl;
+            // "failure to allocate buffer for file extraction";
             error = true;
           }
            */
@@ -269,7 +208,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
           if (!status) {
-            Database_Logs::log ("mz_zip_reader_extract_to_file failure for file #" + convert_to_string (i) + " in " + zipfile);
+            Database_Logs::log ("mz_zip_reader_extract_to_file failure for file " + filename + " in " + zipfile);
             error = true;
           }
         }

@@ -24,9 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-string filter_archive_zip_file (string file);
-string filter_archive_zip_file_shell_internal (string file);
-string filter_archive_zip_file_miniz_internal (string file);
 string filter_archive_zip_folder (string folder);
 string filter_archive_zip_folder_shell_internal (string folder);
 string filter_archive_zip_folder_miniz_internal (string folder);

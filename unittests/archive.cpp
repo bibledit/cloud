@@ -60,27 +60,6 @@ void test_archive ()
     filter_url_file_put_contents (path, data);
   }
   
-  // Test zip compression of one file.
-  {
-    // Test existing folder through the shell.
-    string zipfile = filter_archive_zip_file_shell_internal (path1);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
-    evaluate (__LINE__, __func__, 223, filter_url_filesize (zipfile));
-
-    // Test existing folder through the library.
-    zipfile = filter_archive_zip_file_miniz_internal (path1);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
-    evaluate (__LINE__, __func__, 186, filter_url_filesize (zipfile));
-
-    // Test compressing a non-existing file through the shell.
-    zipfile = filter_archive_zip_file_shell_internal ("xxxxx");
-    evaluate (__LINE__, __func__, "", zipfile);
-
-    // Test compressing a non-existing file through the miniz library.
-    zipfile = filter_archive_zip_file_miniz_internal ("xxx");
-    evaluate (__LINE__, __func__, "", zipfile);
-  }
-
   // Test zip entire folder.
   {
     // Zip existing folder through the shell.
@@ -108,10 +87,10 @@ void test_archive ()
     evaluate (__LINE__, __func__, "", zipfile);
   }
   
-  // Test unzip through the shell.
+  // Test unzip through the shell. Todo
   {
-    // Create zip file through miniz.
-    string zipfile = filter_archive_zip_file_miniz_internal (path1);
+    // Create zip file through the shell.
+    string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Test unzip through shell.
     string folder = filter_archive_unzip_shell_internal (zipfile);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
@@ -126,21 +105,21 @@ void test_archive ()
     // Create a zipfile with test data through the shell.
     string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Unzip it through miniz and then check it.
-    string folder = filter_archive_unzip_miniz_internal (zipfile); // Todo
+    string folder = filter_archive_unzip_miniz_internal (zipfile);
     evaluate (__LINE__, __func__, false, folder.empty ());
     string out_err;
     int result = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
     evaluate (__LINE__, __func__, "", out_err);
     evaluate (__LINE__, __func__, 0, result);
     // Test that unzipping a non-existing file returns nothing.
-    folder = filter_archive_unzip_miniz_internal ("xxxxx"); // Todo
+    folder = filter_archive_unzip_miniz_internal ("xxxxx");
     evaluate (__LINE__, __func__, "", folder);
   }
   
   // Test unzipping OpenDocument file through the miniz library.
   {
     string zipfile = filter_url_create_root_path ("odf", "template.odt");
-    string folder = filter_archive_unzip_miniz_internal (zipfile); // Todo
+    string folder = filter_archive_unzip_miniz_internal (zipfile);
     evaluate (__LINE__, __func__, false, folder.empty ());
   }
 

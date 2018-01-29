@@ -206,55 +206,91 @@ string filter_archive_unzip_miniz_internal (string zipfile)
   // Directory where to unzip the archive.
   string folder = filter_url_tempfile ();
   filter_url_mkdir (folder);
-  
+
+  // Covers the entire process.
+  bool error = false;
+
   // Open the zip archive.
   mz_bool status;
   mz_zip_archive zip_archive;
   memset (&zip_archive, 0, sizeof (zip_archive));
   status = mz_zip_reader_init_file(&zip_archive, zipfile.c_str(), 0);
-  if (!status) {
-    Database_Logs::log ("mz_zip_reader_init_file failed for " + zipfile);
-    return "";
-  }
+  if (status) {
+    
+    // Iterate over the files in the archive.
+    int filecount = mz_zip_reader_get_num_files (&zip_archive);
+    for (int i = 0; i < filecount; i++) {
 
-  // Iterate over the files in the archive.
-  int filecount = mz_zip_reader_get_num_files (&zip_archive);
-  for (int i = 0; i < filecount; i++) {
-    // Get information about this file.
-    mz_zip_archive_file_stat file_stat;
-    status = mz_zip_reader_file_stat (&zip_archive, i, &file_stat);
-    if (!status) {
-      Database_Logs::log ("mz_zip_reader_file_stat failed for " + zipfile);
-      mz_zip_reader_end (&zip_archive);
-      return "";
-    }
-  
-    string filename = filter_url_create_path (folder, file_stat.m_filename); // Todo
-    // The miniz library returns Unix directory separators above.
-    // So in case of Windows, convert them to Windows ones.
-    filter_url_update_directory_separator_if_windows (filename);
+      // If there was an error, skip processing further files.
+      if (error) continue;
 
-    if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
-      // Create this directory.
-      if (!file_or_dir_exists (filename)) filter_url_mkdir (filename);
-    } else {
-      // Ensure this file's folder exists.
-      string dirname = filter_url_dirname (filename);
-      if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
-      // Extract this file.
-      status = mz_zip_reader_extract_to_file (&zip_archive, i, filename.c_str(), 0);
-      if (!status) {
-        Database_Logs::log ("mz_zip_reader_extract_to_file failure for file #" + convert_to_string (i) + " in " + zipfile);
-        mz_zip_reader_end (&zip_archive);
-        return "";
+      // Get information about this file.
+      mz_zip_archive_file_stat file_stat;
+      status = mz_zip_reader_file_stat (&zip_archive, i, &file_stat);
+      if (status) {
+
+        string filename = filter_url_create_path (folder, file_stat.m_filename); // Todo
+        // The miniz library returns Unix directory separators above.
+        // So in case of Windows, convert them to Windows ones.
+        string fixed_filename = filter_url_update_directory_separator_if_windows (filename);
+        
+        if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
+          // Create this directory.
+          if (!file_or_dir_exists (fixed_filename)) filter_url_mkdir (fixed_filename);
+        } else {
+          /* Code that extracts via memory, if needed. Todo
+          size_t filesize = file_stat.m_uncomp_size;
+          cout << filename << " " << filesize << endl;
+          void * buff = operator new (filesize);
+          if (buff) {
+            
+            status = mz_zip_reader_extract_to_mem (&zip_archive, i, buff, filesize, 0);
+            if (status) {
+              
+              string contents (static_cast<const char*>(buff), filesize);
+              cout << "contents size " << contents.size () << endl;
+              
+            } else {
+              cout << "mz_zip_reader_extract_to_mem failure for " << filename << " in " << zipfile << endl;
+              error = true;
+            }
+            
+            operator delete (buff);
+            
+          } else {
+            cout << "failure to allocate buffer for file extraction" << endl;
+            error = true;
+          }
+           */
+          
+          // Ensure this file's folder exists.
+          string dirname = filter_url_dirname (fixed_filename);
+          if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
+          // Extract this file.
+          status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
+          if (!status) {
+            Database_Logs::log ("mz_zip_reader_extract_to_file failure for file #" + convert_to_string (i) + " in " + zipfile);
+            error = true;
+          }
+        }
+        
+      } else {
+        Database_Logs::log ("mz_zip_reader_file_stat failed for " + zipfile);
+        error = true;
       }
     }
-
+    
+    // Close the archive, freeing any resources it was using.
+    mz_zip_reader_end (&zip_archive);
+    
+  } else {
+    Database_Logs::log ("mz_zip_reader_init_file failed for " + zipfile);
+    error = true;
   }
 
-  // Close the archive, freeing any resources it was using.
-  mz_zip_reader_end (&zip_archive);
-  
+  // If there was an error, return nothing, to indicate that uncompression has failed.
+  if (error) folder.clear ();
+
   // The folder where the files were unpacked.
   return folder;
 }

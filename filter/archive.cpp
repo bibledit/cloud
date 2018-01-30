@@ -70,7 +70,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder_miniz_internal (string folder) // Todo
+string filter_archive_zip_folder_miniz_internal (string folder)
 {
   if (!file_or_dir_exists (folder)) {
     return "";
@@ -82,7 +82,10 @@ string filter_archive_zip_folder_miniz_internal (string folder) // Todo
     bool is_dir = filter_url_is_dir (path);
     string file = path.substr (folder.size () + 1);
 #ifdef HAVE_WINDOWS
-    file = filter_string_str_replace (DIRECTORY_SEPARATOR, "/", file); // Todo test it, if it works, comment on it.
+    // The file names in Windows will be backslashes (\) at this point.
+    // But the mzip library, in its current configuration, works with forward slashes (/).
+    // So the code below, in case of Windows, updates the type of slashes.
+    file = filter_string_str_replace (DIRECTORY_SEPARATOR, "/", file);
 #endif
     mz_bool status;
     if (is_dir) {

@@ -87,7 +87,7 @@ void test_archive ()
     evaluate (__LINE__, __func__, "", zipfile);
   }
   
-  // Test unzip through the shell. Todo
+  // Test unzip through the shell.
   {
     // Create zip file through the shell.
     string zipfile = filter_archive_zip_folder_shell_internal (directory);

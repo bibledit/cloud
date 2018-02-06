@@ -559,7 +559,7 @@ void Odf_Text::addText (string text)
     }
     domElement = textSpanDomElement;
   }
-  domElement.text ().set (filter_string_sanitize_html (text).c_str());
+  domElement.text ().set (escape_special_xml_characters (text).c_str());
   
   // Update public paragraph text.
   currentParagraphContent += text;
@@ -839,7 +839,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
 
   xml_node textPDomElement = drawTextBoxDomElement.append_child ("text:p");
   textPDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
-  textPDomElement.text().set( filter_string_sanitize_html (text).c_str());
+  textPDomElement.text().set( escape_special_xml_characters (text).c_str());
 
   // File styles.xml contains the appropriate styles for this frame and text box and paragraph.
   // Create the styles once for the whole document.
@@ -952,8 +952,8 @@ void Odf_Text::addNote (string caller, string style, bool endnote)
   // The default values of the application are used.
   // The Bibledit stylesheet is not consulted.
   xml_node textNoteCitationDomElement = textNoteDomElement.append_child ("text:note-citation");
-  textNoteCitationDomElement.append_attribute ("text:label") = filter_string_sanitize_html (caller).c_str();
-  textNoteCitationDomElement.text().set( filter_string_sanitize_html (caller).c_str());
+  textNoteCitationDomElement.append_attribute ("text:label") = escape_special_xml_characters (caller).c_str();
+  textNoteCitationDomElement.text().set( escape_special_xml_characters (caller).c_str());
 
   xml_node textNoteBodyDomElement = textNoteDomElement.append_child ("text:note-body");
 
@@ -987,7 +987,7 @@ void Odf_Text::addNoteText (string text)
     }
     domElement = textSpanDomElement;
   }
-  domElement.text().set( filter_string_sanitize_html (text).c_str());
+  domElement.text().set( escape_special_xml_characters (text).c_str());
 }
 
 
@@ -1009,7 +1009,7 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
   xml_node textHDomElement = officeTextDomNode.append_child ("text:h");
   textHDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
   textHDomElement.append_attribute ("text:outline-level") = "1";
-  textHDomElement.text().set(filter_string_sanitize_html (text).c_str());
+  textHDomElement.text().set(escape_special_xml_characters (text).c_str());
 
   // Heading style looks like this in styles.xml:
   // <style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="1" style:class="text">

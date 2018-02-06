@@ -156,7 +156,7 @@ string changes_change (void * webserver_request)
   string notesblock;
   for (auto & note : notes) {
     string summary = database_notes.get_summary_v12 (note);
-    summary = filter_string_sanitize_html (summary);
+    summary = escape_special_xml_characters (summary);
     bool subscription = database_notes.is_subscribed_v12 (note, username);
     bool assignment = database_notes.is_assigned_v12 (note, username);
     notesblock.append ("<tr>\n");

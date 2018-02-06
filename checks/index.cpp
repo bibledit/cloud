@@ -93,12 +93,12 @@ string checks_index (void * webserver_request)
     string bible = hit.bible;
     if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {
       int id = hit.rowid;
-      bible = filter_string_sanitize_html (bible);
+      bible = escape_special_xml_characters (bible);
       int book = hit.book;
       int chapter = hit.chapter;
       int verse = hit.verse;
       string link = filter_passage_link_for_opening_editor_at (book, chapter, convert_to_string (verse));
-      string information = filter_string_sanitize_html (hit.data);
+      string information = escape_special_xml_characters (hit.data);
       resultblock.append ("<p>\n");
       resultblock.append ("<a href=\"index?approve=" + convert_to_string (id) + "\"> ✔ </a>\n");
       resultblock.append ("<a href=\"index?delete=" + convert_to_string (id) + "\">" + emoji_wastebasket () + "</a>\n");

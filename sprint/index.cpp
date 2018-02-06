@@ -223,7 +223,7 @@ string sprint_index (void * webserver_request)
   string tasks;
   vector <int> vtasks = database_sprint.getTasks (bible, year, month);
   for (auto & id : vtasks) {
-    string title = filter_string_sanitize_html (database_sprint.getTitle (id));
+    string title = escape_special_xml_characters (database_sprint.getTitle (id));
     int percentage = database_sprint.getComplete (id);
     tasks.append ("<tr id=\"a" + convert_to_string (id) + "\">\n");
     tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");

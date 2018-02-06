@@ -82,9 +82,9 @@ string checks_suppress (void * webserver_request)
     // Only display entries for Bibles the user has write access to.
     if (in_array (bible, bibles)) {
       int id = suppression.rowid;
-      bible = filter_string_sanitize_html (bible);
+      bible = escape_special_xml_characters (bible);
       string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, convert_to_string (suppression.verse))});
-      string result = filter_string_sanitize_html (suppression.data);
+      string result = escape_special_xml_characters (suppression.data);
       result.insert (0, bible + " " + passage + " ");
       block.append ("<p style=\"color:grey;\">\n");
       block.append ("<a href=\"suppress?release=" + convert_to_string (id) + "\">\n");

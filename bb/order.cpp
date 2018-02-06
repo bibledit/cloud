@@ -59,7 +59,7 @@ string bible_order (void * webserver_request)
   
   // The name of the Bible.
   string bible = access_bible_clamp (request, request->query ["bible"]);
-  view.set_variable ("bible", filter_string_sanitize_html (bible));
+  view.set_variable ("bible", escape_special_xml_characters (bible));
 
   // The order the user wants for the Bibles.
   string order = request->query ["order"];

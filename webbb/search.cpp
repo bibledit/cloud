@@ -99,7 +99,7 @@ string webbible_search (void * webserver_request)
     
     // The title.
     string title = bible + " | " + filter_passage_display (book, chapter, verse);
-    title = filter_string_sanitize_html (title);
+    title = escape_special_xml_characters (title);
     
     
     // The URL.

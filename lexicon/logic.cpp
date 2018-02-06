@@ -82,7 +82,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
         html.append ("<tr>");
         html.append ("<td>");
         string gloss = database_etcbc4.gloss (rowid);
-        gloss = filter_string_sanitize_html (gloss);
+        gloss = escape_special_xml_characters (gloss);
         html.append (gloss);
         html.append ("</td>");
         html.append ("</tr>");
@@ -838,7 +838,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   //renderings.push_back (";");
   //renderings.push_back ("gloss:");
   renderings.push_back ("-");
-  renderings.push_back (filter_string_sanitize_html (gloss));
+  renderings.push_back (escape_special_xml_characters (gloss));
   
   renderings.push_back ("<br>");
   

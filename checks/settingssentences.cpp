@@ -113,13 +113,13 @@ string checks_settingssentences (void * webserver_request)
 
   
   view.set_variable ("bible", bible);
-  view.set_variable ("capitals", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureCapitals (bible)));
-  view.set_variable ("smallletters", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureSmallLetters (bible)));
-  view.set_variable ("endpunctuationmarks", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureEndPunctuation (bible)));
-  view.set_variable ("middlepunctuationmarks", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible)));
-  view.set_variable ("disregards", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureDisregards (bible)));
-  view.set_variable ("names", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureNames (bible)));
-  view.set_variable ("within_sentence_paragraph_markers", filter_string_sanitize_html (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible)));
+  view.set_variable ("capitals", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureCapitals (bible)));
+  view.set_variable ("smallletters", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureSmallLetters (bible)));
+  view.set_variable ("endpunctuationmarks", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureEndPunctuation (bible)));
+  view.set_variable ("middlepunctuationmarks", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible)));
+  view.set_variable ("disregards", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureDisregards (bible)));
+  view.set_variable ("names", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureNames (bible)));
+  view.set_variable ("within_sentence_paragraph_markers", escape_special_xml_characters (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible)));
   
   
   page += view.render ("checks", "settingssentences");

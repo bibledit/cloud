@@ -211,7 +211,7 @@ void checks_run (string bible)
   for (auto hit : hits) {
     if (hit.bible == bible) {
       string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, convert_to_string (hit.verse))});
-      string data = filter_string_sanitize_html (hit.data);
+      string data = escape_special_xml_characters (hit.data);
       string result = "<p>" + passage + " " + data + "</p>";
       emailBody.push_back (result);
     }

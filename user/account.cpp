@@ -124,8 +124,8 @@ string user_account (void * webserver_request)
   
   }
 
-  view.set_variable ("username", filter_string_sanitize_html (username));
-  view.set_variable ("email", filter_string_sanitize_html (email));
+  view.set_variable ("username", escape_special_xml_characters (username));
+  view.set_variable ("email", escape_special_xml_characters (email));
   string success_message = filter_string_implode (success_messages, "\n");
   view.set_variable ("success_messages", success_message);
   if (!actions_taken) view.enable_zone ("no_actions_taken");

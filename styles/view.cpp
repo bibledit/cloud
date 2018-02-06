@@ -67,11 +67,11 @@ string styles_view (void * webserver_request)
 
 
   string sheet = request->query ["sheet"];
-  view.set_variable ("sheet", filter_string_sanitize_html (sheet));
+  view.set_variable ("sheet", escape_special_xml_characters (sheet));
   
   
   string style = request->query ["style"];
-  view.set_variable ("style", filter_string_sanitize_html (style));
+  view.set_variable ("style", escape_special_xml_characters (style));
 
   
   Database_Styles database_styles;
@@ -98,7 +98,7 @@ string styles_view (void * webserver_request)
     name = request->post["entry"];
     if (write) database_styles.updateName (sheet, style, name);
   }
-  view.set_variable ("name", filter_string_sanitize_html (translate (name)));
+  view.set_variable ("name", escape_special_xml_characters (translate (name)));
   
 
   // The style's info.
@@ -114,7 +114,7 @@ string styles_view (void * webserver_request)
     info = request->post["entry"];
     if (write) database_styles.updateInfo (sheet, style, info);
   }
-  view.set_variable ("info", filter_string_sanitize_html (translate (info)));
+  view.set_variable ("info", escape_special_xml_characters (translate (info)));
   
   
   // The style's category.
@@ -686,7 +686,7 @@ string styles_view (void * webserver_request)
     if (write) database_styles.updateUserstring1 (sheet, style, userstring1);
   }
   if (userstring1 == "") userstring1 = "--";
-  view.set_variable ("userstring1", filter_string_sanitize_html (userstring1));
+  view.set_variable ("userstring1", escape_special_xml_characters (userstring1));
   
 
   // Userstring2
@@ -716,7 +716,7 @@ string styles_view (void * webserver_request)
     if (write) database_styles.updateUserstring2 (sheet, style, userstring2);
   }
   if (userstring2 == "") userstring2 = "--";
-  view.set_variable ("userstring2", filter_string_sanitize_html (userstring2));
+  view.set_variable ("userstring2", escape_special_xml_characters (userstring2));
   
   // Recreate stylesheets after editing a style.
   if ((request->query.size () != 2) || (request->post.size () != 0)) {

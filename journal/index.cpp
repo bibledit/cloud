@@ -81,7 +81,7 @@ string render_journal_entry (string filename, int userlevel)
   if (!lines.empty ()) entry = lines [0];
   
   // Sanitize HTML.
-  entry = filter_string_sanitize_html (entry);
+  entry = escape_special_xml_characters (entry);
   
   bool limit = entry.size () > 150;
   if (limit) {
@@ -143,7 +143,7 @@ string journal_index (void * webserver_request)
     // The rest is sanitized.
     // To do this properly, the order is important:
     // 1. Clean it up.
-    expansion = filter_string_sanitize_html (expansion);
+    expansion = escape_special_xml_characters (expansion);
     // 2. Convert \n to <br>
     expansion = filter_string_str_replace ("\n", "<br>", expansion);
     // Done.

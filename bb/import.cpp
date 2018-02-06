@@ -67,7 +67,7 @@ string bible_import (void * webserver_request)
   
   // The name of the Bible.
   string bible = access_bible_clamp (request, request->query["bible"]);
-  view.set_variable ("bible", filter_string_sanitize_html (bible));
+  view.set_variable ("bible", escape_special_xml_characters (bible));
   
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);

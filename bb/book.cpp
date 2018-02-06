@@ -71,13 +71,13 @@ string bible_book (void * webserver_request)
   
   // The name of the Bible.
   string bible = access_bible_clamp (request, request->query["bible"]);
-  view.set_variable ("bible", filter_string_sanitize_html (bible));
+  view.set_variable ("bible", escape_special_xml_characters (bible));
   
   // The book.
   int book = convert_to_int (request->query ["book"]);
   view.set_variable ("book", convert_to_string (book));
   string book_name = Database_Books::getEnglishFromId (book);
-  view.set_variable ("book_name", filter_string_sanitize_html (book_name));
+  view.set_variable ("book_name", escape_special_xml_characters (book_name));
   
   // Whether the user has write access to this Bible book.
   bool write_access = access_bible_book_write (request, "", bible, book);

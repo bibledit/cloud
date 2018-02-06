@@ -107,7 +107,7 @@ string search_all (void * webserver_request)
     string summary = database_notes.get_summary_v12 (identifier);
     string verses = filter_passage_display_inline (database_notes.get_passages_v12 (identifier));
     string title = summary + " | " + verses;
-    title = filter_string_sanitize_html (title);
+    title = escape_special_xml_characters (title);
     
     // The url.
     string url = siteUrl + notes_note_url () + "?id=" + convert_to_string (identifier);

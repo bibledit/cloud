@@ -64,7 +64,7 @@ string styles_sheetm (void * webserver_request)
   Assets_View view;
   
   string name = request->query["name"];
-  view.set_variable ("name", filter_string_sanitize_html (name));
+  view.set_variable ("name", escape_special_xml_characters (name));
 
   Database_Styles database_styles;
   

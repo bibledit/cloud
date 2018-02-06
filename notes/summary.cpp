@@ -71,7 +71,7 @@ string notes_summary (void * webserver_request)
   
   
   string summary = database_notes.get_summary_v12 (id);
-  view.set_variable ("summary", filter_string_sanitize_html (summary));
+  view.set_variable ("summary", escape_special_xml_characters (summary));
 
   
   page += view.render ("notes", "summary");

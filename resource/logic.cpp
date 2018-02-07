@@ -845,7 +845,7 @@ struct bible_gateway_walker: xml_tree_walker
     // The verse number to know where the parser is.
     if (clas == "versenum") {
       skip_next_text = true;
-      string versenum = filter_string_trim (filter_string_desanitize_html (node.text ().get ()));
+      string versenum = filter_string_trim (any_space_to_standard_space (node.text ().get ()));
       vector <int> verses;
       if (usfm_handle_verse_range (versenum, verses)) {
         int iverse = convert_to_int (verse);

@@ -95,7 +95,10 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
 string editone_logic_html_to_usfm (string stylesheet, string html)
 {
   // Convert xml entities to normal characters.
-  html = filter_string_desanitize_html (html);
+  html = unescape_special_xml_characters (html);
+  
+  // Convert special spaces to normal ones.
+  html = any_space_to_standard_space (html);
   
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse_quill (stylesheet, html);

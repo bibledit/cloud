@@ -471,7 +471,7 @@ void test_string ()
   {
     // Check that the function to desanitize html no longer corrupts UTF-8.
     string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
-    string desanitized = filter_string_desanitize_html (html);
+    string desanitized = any_space_to_standard_space (unescape_special_xml_characters (html));
     evaluate (__LINE__, __func__, html, desanitized);
   }
   

@@ -312,7 +312,7 @@ bool filter_string_is_numeric (string s)
 // > : &gt;
 // " : &quot;
 // ' : &apos;
-string escape_special_xml_characters (string s)
+string escape_special_xml_characters (string s) // Todo
 {
   s = filter_string_str_replace ("&", "&amp;", s);
   s = filter_string_str_replace ("\"", "&quot;", s);
@@ -324,7 +324,7 @@ string escape_special_xml_characters (string s)
 
 
 // This unescapes the five special XML characters.
-string unescape_special_xml_characters (string s)
+string unescape_special_xml_characters (string s) // Todo
 {
   s = filter_string_str_replace ("&quot;", """", s);
   s = filter_string_str_replace ("&amp;", "&", s);
@@ -335,13 +335,12 @@ string unescape_special_xml_characters (string s)
 }
 
 
-// Does the opposite of sanitizing html.
-string filter_string_desanitize_html (string html)
+// Converts other types of spaces to standard spaces.
+string any_space_to_standard_space (string s) // Todo
 {
-  html = unescape_special_xml_characters (html);
-  html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
-  html = filter_string_str_replace (non_breaking_space_u00A0 (), " ", html);
-  return html;
+  s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
+  s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);
+  return s;
 }
 
 
@@ -711,7 +710,7 @@ string filter_string_html2text (string html)
   text.append (html);
 
   // Replace xml entities with their text.
-  text = filter_string_desanitize_html (text);
+  text = any_space_to_standard_space (text);
 
   while (text.find ("\n\n") != string::npos) {
     text = filter_string_str_replace ("\n\n", "\n", text);

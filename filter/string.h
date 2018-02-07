@@ -52,7 +52,7 @@ string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
 string escape_special_xml_characters (string s);
 string unescape_special_xml_characters (string s);
-string filter_string_desanitize_html (string html);
+string any_space_to_standard_space (string s);
 string non_breaking_space_u00A0 ();
 string soft_hyphen_u00AD ();
 string en_space_u2002 ();

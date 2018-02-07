@@ -54,6 +54,9 @@ string editusfm_load (void * webserver_request)
 
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
+  // Escape the XML special characters so they load properly in the editor.
+  usfm = escape_special_xml_characters (usfm);
+
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
 

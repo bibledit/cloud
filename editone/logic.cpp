@@ -94,8 +94,14 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
 
 string editone_logic_html_to_usfm (string stylesheet, string html)
 {
-  // Convert xml entities to normal characters.
-  html = unescape_special_xml_characters (html);
+  // It used to convert XML entities to normal characters.
+  // For example, it used to convert "&lt;" to "<".
+  // But doing this too early in the conversion chain led to the following problem:
+  // The XML parser was taking the "<" character as part of an XML element.
+  // It than didn't find the closing ">" marker, and then complained about parsing errors.
+  // And it dropped whatever followed the "<" marker.
+  // So it now no longer unescapes the XML special characters this early in the chain.
+  // It does it much later now, before saving the USFM that the converter produces.
   
   // Convert special spaces to normal ones.
   html = any_space_to_standard_space (html);

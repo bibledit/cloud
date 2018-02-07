@@ -312,7 +312,7 @@ bool filter_string_is_numeric (string s)
 // > : &gt;
 // " : &quot;
 // ' : &apos;
-string escape_special_xml_characters (string s) // Todo
+string escape_special_xml_characters (string s)
 {
   s = filter_string_str_replace ("&", "&amp;", s);
   s = filter_string_str_replace ("\"", "&quot;", s);
@@ -324,7 +324,7 @@ string escape_special_xml_characters (string s) // Todo
 
 
 // This unescapes the five special XML characters.
-string unescape_special_xml_characters (string s) // Todo
+string unescape_special_xml_characters (string s)
 {
   s = filter_string_str_replace ("&quot;", """", s);
   s = filter_string_str_replace ("&amp;", "&", s);
@@ -336,7 +336,7 @@ string unescape_special_xml_characters (string s) // Todo
 
 
 // Converts other types of spaces to standard spaces.
-string any_space_to_standard_space (string s) // Todo
+string any_space_to_standard_space (string s)
 {
   s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
   s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);

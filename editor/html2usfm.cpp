@@ -356,6 +356,9 @@ string Editor_Html2Usfm::cleanUSFM (string usfm)
     string opener = usfm_get_opening_usfm (noteOpener);
     usfm = filter_string_str_replace (opener + " ", opener, usfm);
   }
+  
+  // Unescape special XML characters.
+  usfm = unescape_special_xml_characters (usfm);
 
   // Done.
   return usfm;

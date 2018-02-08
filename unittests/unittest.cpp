@@ -133,9 +133,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_string ();
-  test_html2usfm ();
-  test_usfm2html ();
-  test_usfm2html2usfm ();
+  test_database_mail ();
+  test_filter_mail ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

@@ -710,7 +710,7 @@ string filter_string_html2text (string html)
   text.append (html);
 
   // Replace xml entities with their text.
-  text = any_space_to_standard_space (text);
+  text = unescape_special_xml_characters (text);
 
   while (text.find ("\n\n") != string::npos) {
     text = filter_string_str_replace ("\n\n", "\n", text);

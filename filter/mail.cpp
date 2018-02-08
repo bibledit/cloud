@@ -39,11 +39,29 @@
 using namespace mimetic;
 
 
+string filter_mail_remove_headers_internal (string contents)
+{
+  bool empty_line_encountered = false;
+  vector <string> cleaned;
+  vector <string> inputlines = filter_string_explode (contents, '\n');
+  for (auto line : inputlines) {
+    if (line.find ("Content-Type") != string::npos) continue;
+    if (line.find ("Content-Transfer-Encoding") != string::npos) continue;
+    if (empty_line_encountered) cleaned.push_back (line);
+    if (filter_string_trim (line).empty ()) empty_line_encountered = true;
+  }
+  contents = filter_string_implode (cleaned, "\n");
+  contents = filter_string_trim (contents);
+  return contents;
+}
+
+
 void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
 {
   // Get the header of this part.
   const Header& h = me.header();
   // Look for content type text/plain.
+  cout << h.contentType().type() << " " << h.contentType().subtype() << endl; // Todo
   if (h.contentType().type() == "text") {
     if (h.contentType().subtype() == "plain") {
       if (plaintext.empty ()) {
@@ -52,14 +70,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
         ss << me;
         plaintext = ss.str ();
         // Remove headers.
-        vector <string> cleaned;
-        vector <string> inputlines = filter_string_explode (plaintext, '\n');
-        for (auto line : inputlines) {
-          if (line.find ("Content-Type") != string::npos) continue;
-          if (line.find ("Content-Transfer-Encoding") != string::npos) continue;
-          cleaned.push_back (line);
-        }
-        plaintext = filter_string_implode (cleaned, "\n");
+        plaintext = filter_mail_remove_headers_internal (plaintext);
         // Decode quoted-printable text.
         if (h.contentTransferEncoding().str () == ContentTransferEncoding::quoted_printable) {
           istringstream is (plaintext);
@@ -80,6 +91,18 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
           code (ibeg, iend, b64, out);
           plaintext = os.str ();
         }
+      }
+    }
+    if (h.contentType().subtype() == "html") {
+      if (plaintext.empty ()) {
+        // Get the html text of the message.
+        stringstream ss;
+        ss << me;
+        string html = ss.str ();
+        // Remove headers.
+        html = filter_mail_remove_headers_internal (html);
+        // Convert the html to plain text.
+        plaintext = filter_string_html2text (html);
       }
     }
   }

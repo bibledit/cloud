@@ -133,7 +133,6 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_string ();
-  test_database_mail ();
   test_filter_mail ();
   exit (0);
   

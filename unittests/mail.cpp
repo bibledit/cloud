@@ -120,6 +120,7 @@ void test_filter_mail ()
   
   string datafolder = filter_url_create_root_path ("unittests", "tests", "emails");
   
+  /* Todo
   // Standard mimetic library's test message.
   {
     string msgpath = filter_url_create_path (datafolder, "email1.msg");
@@ -170,6 +171,23 @@ void test_filter_mail ()
     evaluate (__LINE__, __func__, "Sender <sender@domain.net>", from);
     evaluate (__LINE__, __func__, "Message encoded in base64", subject);
     evaluate (__LINE__, __func__, txt, plaintext);
+  }
+  */
+   
+  // Test the collection of sample mails.
+  {
+    vector <string> files = filter_url_scandir (datafolder);
+    for (auto messagefile : files) {
+      if (messagefile.find ("m") != 0) continue;
+      if (filter_url_get_extension (messagefile) != "msg") continue;
+      //if (messagefile != "m1006.msg") continue; // Todo
+      cout << messagefile << endl; // Todo
+      messagefile = filter_url_create_path (datafolder, messagefile);
+      string messagecontents = filter_url_file_get_contents (messagefile);
+      string from, subject, plaintext;
+      filter_mail_dissect (messagecontents, from, subject, plaintext);
+      // filter_url_file_put_contents ("/Users/teus/Desktop/" + filter_url_basename (messagefile) + ".txt", plaintext); // Todo
+    }
   }
 
 #endif

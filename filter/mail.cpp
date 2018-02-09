@@ -58,55 +58,68 @@ string filter_mail_remove_headers_internal (string contents)
 
 void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
 {
+  // If the plain text of this email has been found already,
+  // there's no need to search any further.
+  if (!plaintext.empty ()) return;
+  
   // Get the header of this part.
   const Header& h = me.header();
-  // Look for content type text/plain.
-  cout << h.contentType().type() << " " << h.contentType().subtype() << endl; // Todo
-  if (h.contentType().type() == "text") {
-    if (h.contentType().subtype() == "plain") {
-      if (plaintext.empty ()) {
-        // Get the plain text of the message.
-        stringstream ss;
-        ss << me;
-        plaintext = ss.str ();
-        // Remove headers.
-        plaintext = filter_mail_remove_headers_internal (plaintext);
-        // Decode quoted-printable text.
-        if (h.contentTransferEncoding().str () == ContentTransferEncoding::quoted_printable) {
-          istringstream is (plaintext);
-          ostringstream os;
-          istreambuf_iterator<char> ibeg (is), iend;
-          ostreambuf_iterator<char> out (os);
-          QP::Decoder qp;
-          decode (ibeg, iend, qp, out);
-          plaintext = os.str ();
-        }
-        // Decode base64 text.
-        if (h.contentTransferEncoding().str () == ContentTransferEncoding::base64) {
-          istringstream is (plaintext);
-          ostringstream os;
-          istreambuf_iterator<char> ibeg (is), iend;
-          ostreambuf_iterator<char> out (os);
-          Base64::Decoder b64;
-          code (ibeg, iend, b64, out);
-          plaintext = os.str ();
-        }
-      }
+  
+  // Look for content type and subtype.
+  // Fold their case as some messages use upper case.
+  string type = unicode_string_casefold (h.contentType().type());
+  string subtype = unicode_string_casefold (h.contentType().subtype());
+
+  if (type == "text") {
+  
+    if (subtype== "plain") {
+      // Get the plain text of the message.
+      stringstream ss;
+      ss << me;
+      plaintext = ss.str ();
+      // Remove headers.
+      plaintext = filter_mail_remove_headers_internal (plaintext);
     }
-    if (h.contentType().subtype() == "html") {
-      if (plaintext.empty ()) {
-        // Get the html text of the message.
-        stringstream ss;
-        ss << me;
-        string html = ss.str ();
-        // Remove headers.
-        html = filter_mail_remove_headers_internal (html);
-        // Convert the html to plain text.
-        plaintext = filter_string_html2text (html);
-      }
+    
+    if (subtype== "html") {
+      // Get the html text of the message.
+      stringstream ss;
+      ss << me;
+      string html = ss.str ();
+      // Remove headers.
+      html = filter_mail_remove_headers_internal (html);
+      // Convert the html to plain text.
+      plaintext = filter_string_html2text (html);
+    }
+    
+    // Get transfer encoding.
+    // Fold the case as some email messages use uppercase.
+    string transfer_encoding = unicode_string_casefold (h.contentTransferEncoding().str ());
+    
+    // Decode quoted-printable text.
+    if (transfer_encoding == ContentTransferEncoding::quoted_printable) {
+      istringstream is (plaintext);
+      ostringstream os;
+      istreambuf_iterator<char> ibeg (is), iend;
+      ostreambuf_iterator<char> out (os);
+      QP::Decoder qp;
+      decode (ibeg, iend, qp, out);
+      plaintext = os.str ();
+    }
+    
+    // Decode base64 text.
+    if (transfer_encoding == ContentTransferEncoding::base64) {
+      istringstream is (plaintext);
+      ostringstream os;
+      istreambuf_iterator<char> ibeg (is), iend;
+      ostreambuf_iterator<char> out (os);
+      Base64::Decoder b64;
+      code (ibeg, iend, b64, out);
+      plaintext = os.str ();
     }
   }
-  // Iterate over the other parts and process them.
+
+  // Iterate over the other parts it may contain and process them.
   MimeEntityList::const_iterator mime_body_iterator = me.body().parts().begin();
   MimeEntityList::const_iterator meit = me.body().parts().end();
   for (; mime_body_iterator != meit; ++mime_body_iterator) {

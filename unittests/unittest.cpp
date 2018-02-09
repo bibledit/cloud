@@ -132,7 +132,6 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_string ();
   test_filter_mail ();
   exit (0);
   

@@ -133,6 +133,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_filter_mail ();
+  test_string ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.

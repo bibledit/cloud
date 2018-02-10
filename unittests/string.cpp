@@ -255,7 +255,9 @@ void test_string ()
     "Here follows an image: .\n"
     "Header 1\n"
     "Normal text again below the header.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+    html = any_space_to_standard_space (html);
+    html = filter_string_html2text (html);
+    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (html));
   }
   {
     string html =

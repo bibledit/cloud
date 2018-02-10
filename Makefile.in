@@ -376,7 +376,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/lexicon.$(OBJEXT) unittests/cache.$(OBJEXT) \
 	unittests/login.$(OBJEXT) unittests/privileges.$(OBJEXT) \
 	unittests/statistics.$(OBJEXT) unittests/webview.$(OBJEXT) \
-	unittests/javascript.$(OBJEXT) unittests/french.$(OBJEXT)
+	unittests/javascript.$(OBJEXT) unittests/french.$(OBJEXT) \
+	unittests/merge.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -1124,7 +1125,8 @@ unittest_SOURCES = \
 	unittests/statistics.cpp \
 	unittests/webview.cpp \
 	unittests/javascript.cpp \
-	unittests/french.cpp
+	unittests/french.cpp \
+  unittests/merge.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -2769,6 +2771,8 @@ unittests/javascript.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/french.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/merge.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3316,6 +3320,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/mail.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/memory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/merge.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/modifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/morphgnt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/navigation.Po@am__quote@

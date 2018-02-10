@@ -107,6 +107,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/webview.h>
 #include <unittests/javascript.h>
 #include <unittests/french.h>
+#include <unittests/merge.h>
 
 
 int main (int argc, char **argv) 
@@ -132,8 +133,8 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_filter_mail ();
-  test_string ();
+  test_merge ();
+  test_diff ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -231,7 +232,8 @@ int main (int argc, char **argv)
   test_javascript ();
   test_filter_mail ();
   test_french ();
-  
+  test_merge ();
+
   // Output possible journal entries.
   refresh_sandbox (true);
 

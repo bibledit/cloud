@@ -5046,13 +5046,16 @@ msgstr ""
 msgid "Install Bibledit on Chrome OS"
 msgstr ""
 
-msgid "Install Bibledit from the Google Chrome Web Store."
+msgid "Enable Android apps on Chrome OS."
+msgstr ""
+
+msgid "Install Bibledit from Google Play on Chrome OS."
 msgstr ""
 
 msgid "Start the Bibledit app."
 msgstr ""
 
-msgid "Give it a while to initialize."
+msgid "Leave it shortly to initialize."
 msgstr ""
 
 msgid "Connect to Bibledit Cloud via menu Settings / Cloud."
@@ -8089,6 +8092,9 @@ msgid "Install Bibledit on Android"
 msgstr ""
 
 msgid "Install Bibledit from Google Play."
+msgstr ""
+
+msgid "Give it a while to initialize."
 msgstr ""
 
 msgid "Versions"

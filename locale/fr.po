@@ -5551,14 +5551,17 @@ msgstr "Vous pouvez créer un nouveau système de versification."
 msgid "Install Bibledit on Chrome OS"
 msgstr "Installer Bibledit sur Chrome OS"
 
-msgid "Install Bibledit from the Google Chrome Web Store."
-msgstr "Installez Bibledit depuis le Google Chrome Web Store."
+msgid "Enable Android apps on Chrome OS."
+msgstr ""
+
+msgid "Install Bibledit from Google Play on Chrome OS."
+msgstr ""
 
 msgid "Start the Bibledit app."
 msgstr "Démarrez l'application Bibledit."
 
-msgid "Give it a while to initialize."
-msgstr "Donnez-lui un certain temps pour s'initialiser."
+msgid "Leave it shortly to initialize."
+msgstr ""
 
 msgid "Connect to Bibledit Cloud via menu Settings / Cloud."
 msgstr "Connectez-vous à Bibledit Cloud via le menu Paramètres / Cloud."
@@ -9526,6 +9529,9 @@ msgstr "Installer Bibledit sur Android"
 msgid "Install Bibledit from Google Play."
 msgstr "Installez Bibledit depuis Google Play"
 
+msgid "Give it a while to initialize."
+msgstr "Donnez-lui un certain temps pour s'initialiser."
+
 msgid "Versions"
 msgstr "Versions"
 
@@ -12746,3 +12752,6 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 "Le nom d'utilisateur, l'adresse courriel ou le mot de passe ne sont pas "
 "corrects"
+
+#~ msgid "Install Bibledit from the Google Chrome Web Store."
+#~ msgstr "Installez Bibledit depuis le Google Chrome Web Store."

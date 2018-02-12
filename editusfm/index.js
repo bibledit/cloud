@@ -312,7 +312,7 @@ function usfmPositionCaretViaAjax ()
         var position = start + 4 + usfmNavigationVerse.toString().length;
         usfmPositionCaret (position);
       }
-      //restartCaretClarifier ();
+      restartCaretClarifier ();
     }
   });
 }
@@ -369,12 +369,10 @@ function usfmWindowFocused ()
 
 function restartCaretClarifier ()
 {
-  /*
   if (usfmClarifierTimeout) {
     clearTimeout (usfmClarifierTimeout);
   }
   usfmClarifierTimeout = setTimeout (clarifyCaret, 100);
-  */
 }
 
 
@@ -408,7 +406,6 @@ function getSelectionCoordinates() {
 
 function clarifyCaret ()
 {
-  /*
   var scrolltop = $ ("#workspacewrapper").scrollTop ();
   var coordinates = getSelectionCoordinates ();
   var caretTop = coordinates.y + scrolltop;
@@ -417,6 +414,7 @@ function clarifyCaret ()
   var viewportHeight = $(window).height ();
   $ ("#workspacewrapper").stop (true);
   $ ("#workspacewrapper").animate ({ scrollTop: caretTop - (viewportHeight * verticalCaretPosition / 100) }, 500);
+  /*
   var barOffset = $ ("#caretbar").offset ().top;
   $ ("#caretbar").empty ();
   $ ("#caretbar").prepend ("<span><mark>￫</mark></span>");

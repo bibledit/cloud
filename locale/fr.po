@@ -12752,6 +12752,3 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 "Le nom d'utilisateur, l'adresse courriel ou le mot de passe ne sont pas "
 "corrects"
-
-#~ msgid "Install Bibledit from the Google Chrome Web Store."
-#~ msgstr "Installez Bibledit depuis le Google Chrome Web Store."

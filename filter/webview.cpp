@@ -21,12 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 
 
-// Whether the information has been logged.
-bool filter_webview_logged = false;
-
-
 void filter_webview_log_user_agent (string user_agent)
 {
+  // Whether the information has been logged.
+  static bool filter_webview_logged = false;
+
   // Log the browser's user agent once.
   if (!filter_webview_logged) {
     Database_Logs::log (user_agent);

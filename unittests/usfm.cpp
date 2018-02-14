@@ -1140,5 +1140,14 @@ void test_usfm ()
     "\\v 2 ";
     evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
   }
+  
+  // Testing removing word level attributes. Todo
+  {
+    string usfm;
+
+    usfm = R"(\v 1 This is an example this is an example this is an example this is an example this is an example this is an example this is an example this is an example this is an example this is an example this is an example.)";
+   //evaluate (__LINE__, __func__, false, usfm_contains_empty_verses (usfm));
+
+  }
 
 }

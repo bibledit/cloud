@@ -2396,7 +2396,7 @@ msgid ""
 "The size of Greek text within resources, relative to the resources font size."
 msgstr ""
 
-msgid "Vertical position of the caret in the Bible editors"
+msgid "Initial vertical position of the editing cursor in the Bible editors"
 msgstr ""
 
 msgid "Show breadcrumbs"

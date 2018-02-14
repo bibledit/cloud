@@ -2525,8 +2525,8 @@ msgstr ""
 "La taille du texte grec dans les ressources, par rapport à la taille de la "
 "police des ressources."
 
-msgid "Vertical position of the caret in the Bible editors"
-msgstr "Position verticale du caret (^) dans les éditeurs de la Bible"
+msgid "Initial vertical position of the editing cursor in the Bible editors"
+msgstr ""
 
 msgid "Show breadcrumbs"
 msgstr "Montrer le fil d'ariane (chemin)"
@@ -12752,3 +12752,6 @@ msgid "Username or email address or password are not correct"
 msgstr ""
 "Le nom d'utilisateur, l'adresse courriel ou le mot de passe ne sont pas "
 "corrects"
+
+#~ msgid "Vertical position of the caret in the Bible editors"
+#~ msgstr "Position verticale du caret (^) dans les éditeurs de la Bible"

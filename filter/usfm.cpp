@@ -882,17 +882,38 @@ bool usfm_handle_verse_sequence (string verse, vector <int> & verses)
 
 const char * usfm_marker_v ()
 {
-  return "\\v";
+  return R"(\v)";
 }
 
 
 const char * usfm_marker_va ()
 {
-  return "\\va";
+  return R"(\va)";
 }
 
 
 const char * usfm_marker_vp ()
 {
-  return "\\vp";
+  return R"(\vp)";
+}
+
+
+// This removes the word level attributes from $usfm.
+// See https://ubsicap.github.io/usfm/attributes/index.html
+// Within a character marker span,
+// an attributes list is separated from the text content by a vertical bar |.
+// Attributes are listed as pairs of name and corresponding value using the syntax:
+//   attribute = "value".
+// Example:
+//   \w gracious|lemma="grace"\w*
+string usfm_remove_word_level_attributes (string usfm) // Todo
+{
+  // In USFM 3.0 there's two character markers that support word level attributes:
+  vector <string> supported_character_markers = { "w", "fig" };
+  
+  
+  
+  
+  //bool filter_string_replace_between (string& line, const string& start, const string& end, const string& replacement);
+
 }

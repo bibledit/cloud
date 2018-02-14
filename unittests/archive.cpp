@@ -129,7 +129,9 @@ void test_archive ()
     string tarball = filter_archive_tar_gzip_file (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
-    if ((size < 155) || (size > 180)) evaluate (__LINE__, __func__, "between 155 and 180", convert_to_string (size));
+    size_t min = 155;
+    size_t max = 181;
+    if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), convert_to_string (size));
     // Test that compressing a non-existing file returns NULL.
     tarball = filter_archive_tar_gzip_file ("xxxxx");
     evaluate (__LINE__, __func__, "", tarball);

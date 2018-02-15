@@ -30,6 +30,7 @@
 #include <filter/roles.h>
 #include <filter/text.h>
 #include <filter/css.h>
+#include <filter/usfm.h>
 #include <fonts/logic.h>
 #include <html/text.h>
 #include <html/header.h>
@@ -81,7 +82,11 @@ void export_html_book (string bible, int book, bool log)
   // Load one book.
   vector <int> chapters = database_bibles.getChapters (bible, book);
   for (auto chapter : chapters) {
+    // Get the USFM for this chapter.
     string usfm = database_bibles.getChapter (bible, book, chapter);
+    // Clean the word level attributes out.
+    usfm = usfm_remove_word_level_attributes (usfm);
+    // Trim it.
     usfm = filter_string_trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
     filter_text.addUsfmCode (usfm);

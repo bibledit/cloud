@@ -30,6 +30,7 @@
 #include <filter/roles.h>
 #include <filter/text.h>
 #include <filter/shell.h>
+#include <filter/usfm.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
 
@@ -100,6 +101,7 @@ void export_quickbible (string bible, bool log)
           Filter_Text filter_text = Filter_Text (bible);
           filter_text.initializeHeadingsAndTextPerVerse (true);
           string usfm = database_bibles.getChapter (bible, book, chapter);
+          usfm = usfm_remove_word_level_attributes (usfm);
           filter_text.addUsfmCode (usfm);
           filter_text.run (stylesheet);
           map <int, string> text = filter_text.getVersesText ();

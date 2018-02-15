@@ -31,6 +31,7 @@
 #include <filter/text.h>
 #include <filter/archive.h>
 #include <filter/shell.h>
+#include <filter/usfm.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
 
@@ -70,6 +71,8 @@ void export_odt_book (string bible, int book, bool log)
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto chapter : chapters) {
         string usfm = database_bibles.getChapter (bible, book, chapter);
+        // Filter it.
+        usfm = usfm_remove_word_level_attributes (usfm);
         usfm = filter_string_trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.addUsfmCode (usfm);
@@ -80,6 +83,8 @@ void export_odt_book (string bible, int book, bool log)
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (auto chapter : chapters) {
       string usfm = database_bibles.getChapter (bible, book, chapter);
+      // Filter it.
+      usfm = usfm_remove_word_level_attributes (usfm);
       usfm = filter_string_trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.addUsfmCode (usfm);

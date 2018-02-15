@@ -908,12 +908,51 @@ const char * usfm_marker_vp ()
 //   \w gracious|lemma="grace"\w*
 string usfm_remove_word_level_attributes (string usfm) // Todo
 {
-  // In USFM 3.0 there's two character markers that support word level attributes:
-  vector <string> supported_character_markers = { "w", "fig" };
-  
-  
-  
-  
-  //bool filter_string_replace_between (string& line, const string& start, const string& end, const string& replacement);
+  // Check there is a vertical bar at all in the input USFM.
+  // If it's not there, then the function is ready without much ado.
+  if (usfm.find ("|") != string::npos) {
 
+    // Flag whether a replacement was made.
+    bool keep_going = false;
+    
+    // In USFM 3.0 there's two character markers that support word level attributes:
+    vector <string> supported_character_markers = { "w", "fig" };
+    for (auto & marker : supported_character_markers) {
+
+      // Support multiple replacements.
+      size_t last_pos = 0;
+      do {
+      
+        // Set flag.
+        keep_going = false;
+
+        // The opener should be there.
+        size_t opener_pos = usfm.find (usfm_get_opening_usfm (marker), last_pos);
+        if (opener_pos == string::npos) continue;
+        last_pos = opener_pos + 1;
+
+        // The closer should be there too.
+        size_t closer_pos = usfm.find (usfm_get_closing_usfm (marker), last_pos);
+        if (closer_pos == string::npos) continue;
+
+        // The vertical bar should be between the opener and closer.
+        size_t bar_pos = usfm.find ("|", last_pos);
+        if (bar_pos == string::npos) continue;
+        if (bar_pos < opener_pos) continue;
+        
+        // There may be situations without the vertical bar.
+        if (bar_pos < closer_pos) {
+          // Remove the word level attribute.
+          usfm.erase (bar_pos, closer_pos - bar_pos);
+        }
+
+        // Set flag.
+        keep_going = true;
+
+      } while (keep_going);
+    }
+  }
+  
+  // Done.
+  return usfm;
 }

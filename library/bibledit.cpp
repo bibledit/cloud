@@ -62,11 +62,12 @@ const char * bibledit_get_network_port ()
 // To be called once during the lifetime of the app.
 // $package: The folder where the package data resides.
 // $webroot: The document root folder for the web server.
-void bibledit_initialize_library (const char * package, const char * webroot)
+void bibledit_initialize_library (const char * package, const char * webroot) // Todo
 {
   // Must initialize libcurl before any threads are started.
-#ifdef HAVE_CLIENT
-#else
+  // Only on the Cloud because it uses libcurl.
+  // The client does not use it.
+#ifdef HAVE_CLOUD
   curl_global_init (CURL_GLOBAL_ALL);
 #endif
   
@@ -98,7 +99,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
 #endif
 
 #ifdef HAVE_CLIENT
-  // Set local timezone offset in the library.
+  // Set local timezone offset in the library on Windows.
   int hours = 0;
 #ifdef HAVE_WINDOWS
   TIME_ZONE_INFORMATION tzi;
@@ -106,14 +107,11 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   (void)dwRet;
   hours = 0 - (tzi.Bias / 60);
 #else
+  // Set local timezone offset in the library on Linux.
   time_t t = time (NULL);
   struct tm lt = {};
   localtime_r (&t, &lt);
-#ifndef HAVE_CHROMEAPP
-  // Chrome NaCl API does not have field "tm_gmtoff".
-  // To be fixed in a future version.
   hours = round (lt.tm_gmtoff / 3600);
-#endif
 #endif
   config_globals_timezone_offset_utc = hours;
   Database_Logs::log ("Timezone offset in hours: " + convert_to_string (hours));

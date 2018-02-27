@@ -1,4 +1,4 @@
-For adding secure transport to Bibledit, a number of SSL/TLS were considered.
+For adding secure transport to Bibledit, a number of SSL/TLS libraries were considered.
 
 OpenSSL is widely used but for embedded applications it may be a bit bloated.
 
@@ -17,11 +17,11 @@ And this means that every CPU needs to be configured separately.
 
 PolarSSL, now mbed TLS
 https://tls.mbed.org/
-This looks good so far, it is low level, loosely coupled, easy to understand.
+This looks good, it is low level, loosely coupled, easy to understand.
 
 MatrixSSL
 http://www.matrixssl.org/
-The code looks okay so far, but the implementation in client is complicated, judging from the sample client application.
+The code looks okay, but the implementation in the client is complicated, judging from the sample client application.
 
 NanoSSL
 https://www.mocana.com/iot-security/nanossl
@@ -45,7 +45,7 @@ To disable assembler, undefine the following in config.h:
 MBEDTLS_HAVE_ASM
 MBEDTLS_AESNI_C
 MBEDTLS_PADLOCK_C
-The reason that assembler has been disabled is that on Android there were crashes after the mbed TLS library was introduced, and when the internet connection was off. After disabling assembler, the crashes were fewer, although still there. Since disabling assembler led to improved behaviour, it is wise to leave it disabled.
+The reason that assembler has been disabled is that on Android there were crashes after the mbed TLS library was introduced, and when the internet connection was off. After disabling assembler, the crashes were fewer, although still there. Since disabling assembler led to improved behaviour, it was left disabled.
 
 To have the Bibledit secure http server listen on IPv6 requires a small change, because with the default configuration it will listen on the first address presented by the operating system that succeeds. And that is IPv4 on Linux. According to the specifiations it should present an IPv6 address first. But Ubuntu server does not do that. The change in the source code makes it to look for IPv6 addresses only. Tests indicate that it is safe to do so, because listening on IPv6 will also accept IPv4 connections, even if the network interface has no IPv6 address assigned to it.
 In function mbedtls_net_bind in file net.c, change this line:

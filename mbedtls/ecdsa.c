@@ -2,19 +2,21 @@
  *  Elliptic curve DSA
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -65,6 +67,7 @@ cleanup:
     return( ret );
 }
 
+#if !defined(MBEDTLS_ECDSA_SIGN_ALT)
 /*
  * Compute ECDSA signature of a hashed message (SEC1 4.1.3)
  * Obviously, compared to SEC1 4.1.3, we skip step 4 (hash message)
@@ -80,6 +83,10 @@ int mbedtls_ecdsa_sign( mbedtls_ecp_group *grp, mbedtls_mpi *r, mbedtls_mpi *s,
     /* Fail cleanly on curves such as Curve25519 that can't be used for ECDSA */
     if( grp->N.p == NULL )
         return( MBEDTLS_ERR_ECP_BAD_INPUT_DATA );
+
+    /* Make sure d is in range 1..n-1 */
+    if( mbedtls_mpi_cmp_int( d, 1 ) < 0 || mbedtls_mpi_cmp_mpi( d, &grp->N ) >= 0 )
+        return( MBEDTLS_ERR_ECP_INVALID_KEY );
 
     mbedtls_ecp_point_init( &R );
     mbedtls_mpi_init( &k ); mbedtls_mpi_init( &e ); mbedtls_mpi_init( &t );
@@ -153,6 +160,7 @@ cleanup:
 
     return( ret );
 }
+#endif /* MBEDTLS_ECDSA_SIGN_ALT */
 
 #if defined(MBEDTLS_ECDSA_DETERMINISTIC)
 /*
@@ -192,6 +200,7 @@ cleanup:
 }
 #endif /* MBEDTLS_ECDSA_DETERMINISTIC */
 
+#if !defined(MBEDTLS_ECDSA_VERIFY_ALT)
 /*
  * Verify ECDSA signature of hashed message (SEC1 4.1.4)
  * Obviously, compared to SEC1 4.1.3, we skip step 2 (hash message)
@@ -277,6 +286,7 @@ cleanup:
 
     return( ret );
 }
+#endif /* MBEDTLS_ECDSA_VERIFY_ALT */
 
 /*
  * Convert a signature (given by context) to ASN.1
@@ -402,6 +412,7 @@ cleanup:
     return( ret );
 }
 
+#if !defined(MBEDTLS_ECDSA_GENKEY_ALT)
 /*
  * Generate key pair
  */
@@ -411,6 +422,7 @@ int mbedtls_ecdsa_genkey( mbedtls_ecdsa_context *ctx, mbedtls_ecp_group_id gid,
     return( mbedtls_ecp_group_load( &ctx->grp, gid ) ||
             mbedtls_ecp_gen_keypair( &ctx->grp, &ctx->d, &ctx->Q, f_rng, p_rng ) );
 }
+#endif /* MBEDTLS_ECDSA_GENKEY_ALT */
 
 /*
  * Set context from an mbedtls_ecp_keypair

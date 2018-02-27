@@ -384,7 +384,7 @@ libbibledit_a_SOURCES = \
 	mbedtls/md5.c \
 	mbedtls/md_wrap.c \
 	mbedtls/memory_buffer_alloc.c \
-	mbedtls/net.c \
+	mbedtls/net_sockets.c \
 	mbedtls/oid.c \
 	mbedtls/padlock.c \
 	mbedtls/pem.c \
@@ -398,6 +398,7 @@ libbibledit_a_SOURCES = \
 	mbedtls/platform.c \
 	mbedtls/ripemd160.c \
 	mbedtls/rsa.c \
+	mbedtls/rsa_internal.c \
 	mbedtls/sha1.c \
 	mbedtls/sha256.c \
 	mbedtls/sha512.c \

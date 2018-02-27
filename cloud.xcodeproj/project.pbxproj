@@ -126,6 +126,10 @@
 		CA06BDF01A572DE400A051FF /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA06BDF11A572DE400A051FF /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CA0922701BAC69E3004654D7 /* stylesheet.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = stylesheet.css; sourceTree = "<group>"; };
+		CA0AB472204599EE00C99DD8 /* net_sockets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net_sockets.c; sourceTree = "<group>"; };
+		CA0AB473204599F800C99DD8 /* net_sockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net_sockets.h; sourceTree = "<group>"; };
+		CA0AB47420459A0500C99DD8 /* rsa_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rsa_internal.h; sourceTree = "<group>"; };
+		CA0AB47520459A0500C99DD8 /* rsa_internal.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsa_internal.c; sourceTree = "<group>"; };
 		CA0D29551AAA4E6E009B9D40 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA0D29561AAA4E6E009B9D40 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA0D29571AAA4E6E009B9D40 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -798,7 +802,7 @@
 		CAA4D1C51A45A648003ABA25 /* translate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = translate.cpp; sourceTree = "<group>"; };
 		CAA4D1C61A45A648003ABA25 /* translate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = translate.h; sourceTree = "<group>"; };
 		CAA4D1CD1A45A648003ABA25 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CAA4D1CF1A45A648003ABA25 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = Makefile.am; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAA4D1CF1A45A648003ABA25 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = Makefile.am; sourceTree = "<group>"; usesTabs = 1; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D1DB1A45A648003ABA25 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D1DC1A45A648003ABA25 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAA4D1DD1A45A648003ABA25 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -996,7 +1000,6 @@
 		CAB4336F1CCFBED600D1B158 /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
 		CAB433701CCFBED600D1B158 /* memory_buffer_alloc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = memory_buffer_alloc.c; sourceTree = "<group>"; };
 		CAB433711CCFBED600D1B158 /* memory_buffer_alloc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memory_buffer_alloc.h; sourceTree = "<group>"; };
-		CAB433721CCFBED600D1B158 /* net.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net.c; sourceTree = "<group>"; };
 		CAB433731CCFBED600D1B158 /* net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
 		CAB433741CCFBED600D1B158 /* oid.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oid.c; sourceTree = "<group>"; };
 		CAB433751CCFBED600D1B158 /* oid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oid.h; sourceTree = "<group>"; };
@@ -3366,7 +3369,8 @@
 				CAB4336F1CCFBED600D1B158 /* md5.h */,
 				CAB433701CCFBED600D1B158 /* memory_buffer_alloc.c */,
 				CAB433711CCFBED600D1B158 /* memory_buffer_alloc.h */,
-				CAB433721CCFBED600D1B158 /* net.c */,
+				CA0AB472204599EE00C99DD8 /* net_sockets.c */,
+				CA0AB473204599F800C99DD8 /* net_sockets.h */,
 				CAB433731CCFBED600D1B158 /* net.h */,
 				CAB433741CCFBED600D1B158 /* oid.c */,
 				CAB433751CCFBED600D1B158 /* oid.h */,
@@ -3390,6 +3394,8 @@
 				CAB433871CCFBED600D1B158 /* platform.h */,
 				CAB433881CCFBEFF00D1B158 /* ripemd160.c */,
 				CAB433891CCFBEFF00D1B158 /* ripemd160.h */,
+				CA0AB47520459A0500C99DD8 /* rsa_internal.c */,
+				CA0AB47420459A0500C99DD8 /* rsa_internal.h */,
 				CAB4338A1CCFBEFF00D1B158 /* rsa.c */,
 				CAB4338B1CCFBEFF00D1B158 /* rsa.h */,
 				CAB4338C1CCFBEFF00D1B158 /* sha1.c */,

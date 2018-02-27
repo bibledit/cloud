@@ -303,14 +303,15 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
 	mbedtls/md2.$(OBJEXT) mbedtls/md4.$(OBJEXT) \
 	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
-	mbedtls/memory_buffer_alloc.$(OBJEXT) mbedtls/net.$(OBJEXT) \
-	mbedtls/oid.$(OBJEXT) mbedtls/padlock.$(OBJEXT) \
-	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
-	mbedtls/pk_wrap.$(OBJEXT) mbedtls/pkcs11.$(OBJEXT) \
-	mbedtls/pkcs12.$(OBJEXT) mbedtls/pkcs5.$(OBJEXT) \
-	mbedtls/pkparse.$(OBJEXT) mbedtls/pkwrite.$(OBJEXT) \
-	mbedtls/platform.$(OBJEXT) mbedtls/ripemd160.$(OBJEXT) \
-	mbedtls/rsa.$(OBJEXT) mbedtls/sha1.$(OBJEXT) \
+	mbedtls/memory_buffer_alloc.$(OBJEXT) \
+	mbedtls/net_sockets.$(OBJEXT) mbedtls/oid.$(OBJEXT) \
+	mbedtls/padlock.$(OBJEXT) mbedtls/pem.$(OBJEXT) \
+	mbedtls/pk.$(OBJEXT) mbedtls/pk_wrap.$(OBJEXT) \
+	mbedtls/pkcs11.$(OBJEXT) mbedtls/pkcs12.$(OBJEXT) \
+	mbedtls/pkcs5.$(OBJEXT) mbedtls/pkparse.$(OBJEXT) \
+	mbedtls/pkwrite.$(OBJEXT) mbedtls/platform.$(OBJEXT) \
+	mbedtls/ripemd160.$(OBJEXT) mbedtls/rsa.$(OBJEXT) \
+	mbedtls/rsa_internal.$(OBJEXT) mbedtls/sha1.$(OBJEXT) \
 	mbedtls/sha256.$(OBJEXT) mbedtls/sha512.$(OBJEXT) \
 	mbedtls/ssl_cache.$(OBJEXT) mbedtls/ssl_ciphersuites.$(OBJEXT) \
 	mbedtls/ssl_cli.$(OBJEXT) mbedtls/ssl_cookie.$(OBJEXT) \
@@ -1000,7 +1001,7 @@ libbibledit_a_SOURCES = \
 	mbedtls/md5.c \
 	mbedtls/md_wrap.c \
 	mbedtls/memory_buffer_alloc.c \
-	mbedtls/net.c \
+	mbedtls/net_sockets.c \
 	mbedtls/oid.c \
 	mbedtls/padlock.c \
 	mbedtls/pem.c \
@@ -1014,6 +1015,7 @@ libbibledit_a_SOURCES = \
 	mbedtls/platform.c \
 	mbedtls/ripemd160.c \
 	mbedtls/rsa.c \
+	mbedtls/rsa_internal.c \
 	mbedtls/sha1.c \
 	mbedtls/sha256.c \
 	mbedtls/sha512.c \
@@ -2414,7 +2416,7 @@ mbedtls/md_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/memory_buffer_alloc.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/net.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/net_sockets.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/oid.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -2441,6 +2443,8 @@ mbedtls/platform.$(OBJEXT): mbedtls/$(am__dirstamp) \
 mbedtls/ripemd160.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/rsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/rsa_internal.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/sha1.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -3099,7 +3103,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md_wrap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/memory_buffer_alloc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/net.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/net_sockets.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/oid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/padlock.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pem.Po@am__quote@
@@ -3113,6 +3117,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/platform.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ripemd160.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa_internal.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha256.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha512.Po@am__quote@

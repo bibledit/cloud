@@ -2,19 +2,21 @@
  *  RFC 1115/1319 compliant MD2 implementation
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -105,16 +107,18 @@ void mbedtls_md2_clone( mbedtls_md2_context *dst,
 /*
  * MD2 context setup
  */
-void mbedtls_md2_starts( mbedtls_md2_context *ctx )
+int mbedtls_md2_starts_ret( mbedtls_md2_context *ctx )
 {
     memset( ctx->cksum, 0, 16 );
     memset( ctx->state, 0, 46 );
     memset( ctx->buffer, 0, 16 );
     ctx->left = 0;
+
+    return( 0 );
 }
 
 #if !defined(MBEDTLS_MD2_PROCESS_ALT)
-void mbedtls_md2_process( mbedtls_md2_context *ctx )
+int mbedtls_internal_md2_process( mbedtls_md2_context *ctx )
 {
     int i, j;
     unsigned char t = 0;
@@ -146,19 +150,24 @@ void mbedtls_md2_process( mbedtls_md2_context *ctx )
            ( ctx->cksum[i] ^ PI_SUBST[ctx->buffer[i] ^ t] );
         t  = ctx->cksum[i];
     }
+
+    return( 0 );
 }
 #endif /* !MBEDTLS_MD2_PROCESS_ALT */
 
 /*
  * MD2 process buffer
  */
-void mbedtls_md2_update( mbedtls_md2_context *ctx, const unsigned char *input, size_t ilen )
+int mbedtls_md2_update_ret( mbedtls_md2_context *ctx,
+                            const unsigned char *input,
+                            size_t ilen )
 {
+    int ret;
     size_t fill;
 
     while( ilen > 0 )
     {
-        if( ctx->left + ilen > 16 )
+        if( ilen > 16 - ctx->left )
             fill = 16 - ctx->left;
         else
             fill = ilen;
@@ -172,16 +181,21 @@ void mbedtls_md2_update( mbedtls_md2_context *ctx, const unsigned char *input, s
         if( ctx->left == 16 )
         {
             ctx->left = 0;
-            mbedtls_md2_process( ctx );
+            if( ( ret = mbedtls_internal_md2_process( ctx ) ) != 0 )
+                return( ret );
         }
     }
+
+    return( 0 );
 }
 
 /*
  * MD2 final digest
  */
-void mbedtls_md2_finish( mbedtls_md2_context *ctx, unsigned char output[16] )
+int mbedtls_md2_finish_ret( mbedtls_md2_context *ctx,
+                            unsigned char output[16] )
 {
+    int ret;
     size_t i;
     unsigned char x;
 
@@ -190,12 +204,16 @@ void mbedtls_md2_finish( mbedtls_md2_context *ctx, unsigned char output[16] )
     for( i = ctx->left; i < 16; i++ )
         ctx->buffer[i] = x;
 
-    mbedtls_md2_process( ctx );
+    if( ( ret = mbedtls_internal_md2_process( ctx ) ) != 0 )
+        return( ret );
 
     memcpy( ctx->buffer, ctx->cksum, 16 );
-    mbedtls_md2_process( ctx );
+    if( ( ret = mbedtls_internal_md2_process( ctx ) ) != 0 )
+        return( ret );
 
     memcpy( output, ctx->state, 16 );
+
+    return( 0 );
 }
 
 #endif /* !MBEDTLS_MD2_ALT */
@@ -203,15 +221,28 @@ void mbedtls_md2_finish( mbedtls_md2_context *ctx, unsigned char output[16] )
 /*
  * output = MD2( input buffer )
  */
-void mbedtls_md2( const unsigned char *input, size_t ilen, unsigned char output[16] )
+int mbedtls_md2_ret( const unsigned char *input,
+                     size_t ilen,
+                     unsigned char output[16] )
 {
+    int ret;
     mbedtls_md2_context ctx;
 
     mbedtls_md2_init( &ctx );
-    mbedtls_md2_starts( &ctx );
-    mbedtls_md2_update( &ctx, input, ilen );
-    mbedtls_md2_finish( &ctx, output );
+
+    if( ( ret = mbedtls_md2_starts_ret( &ctx ) ) != 0 )
+        goto exit;
+
+    if( ( ret = mbedtls_md2_update_ret( &ctx, input, ilen ) ) != 0 )
+        goto exit;
+
+    if( ( ret = mbedtls_md2_finish_ret( &ctx, output ) ) != 0 )
+        goto exit;
+
+exit:
     mbedtls_md2_free( &ctx );
+
+    return( ret );
 }
 
 #if defined(MBEDTLS_SELF_TEST)
@@ -219,7 +250,7 @@ void mbedtls_md2( const unsigned char *input, size_t ilen, unsigned char output[
 /*
  * RFC 1319 test vectors
  */
-static const char md2_test_str[7][81] =
+static const unsigned char md2_test_str[7][81] =
 {
     { "" },
     { "a" },
@@ -227,8 +258,13 @@ static const char md2_test_str[7][81] =
     { "message digest" },
     { "abcdefghijklmnopqrstuvwxyz" },
     { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" },
-    { "12345678901234567890123456789012345678901234567890123456789012" \
+    { "12345678901234567890123456789012345678901234567890123456789012"
       "345678901234567890" }
+};
+
+static const size_t md2_test_strlen[7] =
+{
+    0, 1, 3, 14, 26, 62, 80
 };
 
 static const unsigned char md2_test_sum[7][16] =
@@ -254,7 +290,7 @@ static const unsigned char md2_test_sum[7][16] =
  */
 int mbedtls_md2_self_test( int verbose )
 {
-    int i;
+    int i, ret = 0;
     unsigned char md2sum[16];
 
     for( i = 0; i < 7; i++ )
@@ -262,15 +298,14 @@ int mbedtls_md2_self_test( int verbose )
         if( verbose != 0 )
             mbedtls_printf( "  MD2 test #%d: ", i + 1 );
 
-        mbedtls_md2( (unsigned char *) md2_test_str[i],
-             strlen( md2_test_str[i] ), md2sum );
+        ret = mbedtls_md2_ret( md2_test_str[i], md2_test_strlen[i], md2sum );
+        if( ret != 0 )
+            goto fail;
 
         if( memcmp( md2sum, md2_test_sum[i], 16 ) != 0 )
         {
-            if( verbose != 0 )
-                mbedtls_printf( "failed\n" );
-
-            return( 1 );
+            ret = 1;
+            goto fail;
         }
 
         if( verbose != 0 )
@@ -281,6 +316,12 @@ int mbedtls_md2_self_test( int verbose )
         mbedtls_printf( "\n" );
 
     return( 0 );
+
+fail:
+    if( verbose != 0 )
+        mbedtls_printf( "failed\n" );
+
+    return( ret );
 }
 
 #endif /* MBEDTLS_SELF_TEST */

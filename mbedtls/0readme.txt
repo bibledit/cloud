@@ -30,7 +30,7 @@ This is proprietary code and cannot be downloaded and used freely.
 After looking at all of them, the winner is: mbed TLS :)
 
 Integrate is with the Bibledit library as follows:
-* Copy the current working version of mbedtls to folder mbedtls.old for backup.
+* Copy the current working version of mbedtls to folder mbedtls.old for fallback.
 * Download the source tarball and unpack it.
 * Copy the unpackaged source library/*.c to folder mbedtls in Bibledit.
 * Copy the unpacked source include/mbedtls/*.h to folder mbedtls in Bibledit.

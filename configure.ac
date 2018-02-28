@@ -179,26 +179,6 @@ ENABLEIOS=yes
 ]
 )
 
-# Chrome OS.
-ENABLECHROMEOS=no
-AC_ARG_ENABLE(chromeos,
-[  --enable-chromeos Compile for Chrome OS],
-[
-AC_DEFINE([HAVE_CHROMEOS], [1], [Define whether to compile for Chrome OS])
-ENABLECHROMEOS=yes
-]
-)
-
-# Chrome App.
-ENABLECHROMEAPP=no
-AC_ARG_ENABLE(chromeapp,
-[  --enable-chromeapp Compile for Chrome App],
-[
-AC_DEFINE([HAVE_CHROMEAPP], [1], [Define whether to compile for Chrome App])
-ENABLECHROMEAPP=yes
-]
-)
-
 AC_OUTPUT(Makefile)
 
 echo "

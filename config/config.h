@@ -82,22 +82,4 @@
 #endif
 
 
-#ifdef HAVE_CHROMEOS
-#undef HAVE_CLOUD
-#define HAVE_CLIENT 1
-#undef MAX_PARALLEL_TASKS
-#define MAX_PARALLEL_TASKS 3
-#define HAVE_TINY_JOURNAL 1
-#endif
-
-
-#ifdef HAVE_CHROMEAPP
-#undef HAVE_CLOUD
-#define HAVE_CLIENT 1
-#undef MAX_PARALLEL_TASKS
-#define MAX_PARALLEL_TASKS 3
-#define HAVE_TINY_JOURNAL 1
-#endif
-
-
 #endif

@@ -748,8 +748,6 @@ enable_android
 enable_mac
 enable_linux
 enable_ios
-enable_chromeos
-enable_chromeapp
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1398,8 +1396,6 @@ Optional Features:
   --enable-mac Compile for Mac
   --enable-linux Compile for Linux
   --enable-ios Compile for iOS
-  --enable-chromeos Compile for Chrome OS
-  --enable-chromeapp Compile for Chrome App
 
 Some influential environment variables:
   CC          C compiler command
@@ -6786,34 +6782,6 @@ if test "${enable_ios+set}" = set; then :
 $as_echo "#define HAVE_IOS 1" >>confdefs.h
 
 ENABLEIOS=yes
-
-
-fi
-
-
-# Chrome OS.
-ENABLECHROMEOS=no
-# Check whether --enable-chromeos was given.
-if test "${enable_chromeos+set}" = set; then :
-  enableval=$enable_chromeos;
-
-$as_echo "#define HAVE_CHROMEOS 1" >>confdefs.h
-
-ENABLECHROMEOS=yes
-
-
-fi
-
-
-# Chrome App.
-ENABLECHROMEAPP=no
-# Check whether --enable-chromeapp was given.
-if test "${enable_chromeapp+set}" = set; then :
-  enableval=$enable_chromeapp;
-
-$as_echo "#define HAVE_CHROMEAPP 1" >>confdefs.h
-
-ENABLECHROMEAPP=yes
 
 
 fi

@@ -4,12 +4,6 @@
 /* Define whether to compile for Android */
 /* #undef HAVE_ANDROID */
 
-/* Define whether to compile for Chrome App */
-/* #undef HAVE_CHROMEAPP */
-
-/* Define whether to compile for Chrome OS */
-/* #undef HAVE_CHROMEOS */
-
 /* define if the compiler supports basic C++11 syntax */
 #define HAVE_CXX11 1
 

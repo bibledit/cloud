@@ -58,12 +58,12 @@ int get_line (int sock, char *buf, int size)
     n = recv (sock, &character, 1, 0);
     if (n > 0) {
       if (character == '\r') {
-#ifdef HAVE_CHROMEAPP
+        /*
         // Work around MSG_PEEK failure in nacl_io library.
         // On Chrome OS the order is \r\n.
         // So it's safe to throw the \r away, as we're sure the \n follows.
         continue;
-#endif
+        */
         n = recv (sock, &character, 1, MSG_PEEK);
         if ((n > 0) && (character == '\n')) {
           recv (sock, &character, 1, 0);

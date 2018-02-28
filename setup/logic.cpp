@@ -131,8 +131,9 @@ void setup_conditionally (const char * package)
 // On a Chrome App, this works a bit different.
 void setup_copy_library (const char * package)
 {
-#ifdef HAVE_CHROMEAPP
-  // The nacl_io library fails to read the contents of a directory in the httpfs, that is, in the packaged app.
+  /*
+  // The nacl_io library of Chrome OS fails to read the contents of a directory
+  // in the httpfs, that is, in the packaged app.
   // It also fails to distinguish between folders and regular files in the httpfs.
   // Therefore there is a list of directories and another one of files in the httpfs.
   size_t package_length = 1;
@@ -156,7 +157,7 @@ void setup_copy_library (const char * package)
     config_globals_setup_message = destination_path;
     filter_url_file_cp (package_path, destination_path);
   }
-#else
+   */
   size_t package_length = strlen (package);
   filter_url_mkdir (config_globals_document_root);
   config_globals_setup_message = "scanning";
@@ -171,7 +172,6 @@ void setup_copy_library (const char * package)
       filter_url_file_cp (package_path, dest_path);
     }
   }
-#endif
 }
 
 

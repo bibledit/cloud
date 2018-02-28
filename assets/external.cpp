@@ -65,9 +65,6 @@ string assets_external_logic_link_addon ()
 #ifdef HAVE_CLOUD
   newtab = true;
 #endif
-#ifdef HAVE_CHROMEOS
-  newtab = true;
-#endif
   string addon;
   if (newtab) addon = "target=\"_blank\"";
   else addon = "class=\"external\"";

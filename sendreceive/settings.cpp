@@ -155,28 +155,8 @@ void sendreceive_settings ()
   // Send the platform to the Cloud.
   {
     post ["a"] = convert_to_string (Sync_Logic::settings_send_platform);
+    // No longer in use.
     int platform_id = 0;
-#ifdef HAVE_WINDOWS
-    platform_id = PLATFORM_WINDOWS;
-#endif
-#ifdef HAVE_ANDROID
-    platform_id = PLATFORM_ANDROID;
-#endif
-#ifdef HAVE_MAC
-    platform_id = PLATFORM_MACOS;
-#endif
-#ifdef HAVE_LINUX
-    platform_id = PLATFORM_LINUX;
-#endif
-#ifdef HAVE_IOS
-    platform_id = PLATFORM_IOS;
-#endif
-#ifdef HAVE_CHROMEOS
-    platform_id = PLATFORM_CHROMEOS;
-#endif
-#ifdef HAVE_CHROMEAPP
-    platform_id = PLATFORM_CHROMEOS;
-#endif
     post ["v"] = convert_to_string (platform_id);
     string error;
     sync_logic.post (post, url, error);

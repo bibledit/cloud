@@ -24,15 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-#define PLATFORM_WINDOWS 1
-#define PLATFORM_ANDROID 2
-#define PLATFORM_MACOS 3
-#define PLATFORM_LINUX 4
-#define PLATFORM_IOS 5
-#define PLATFORM_CHROMEOS 6
-#define PLATFORM_CLOUD 7
-
-
 void user_logic_optional_ldap_authentication (void * webserver_request, string user, string pass);
 
 bool user_logic_login_failure_check_okay ();

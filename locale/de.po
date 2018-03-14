@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2017-01-10 17:13+0000\n"
-"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
+"PO-Revision-Date: 2018-03-07 10:58+0000\n"
+"Last-Translator: Johannes Venzke <johannes.venzke@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18561)\n"
+"X-Generator: Launchpad (build 18571)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -391,7 +391,7 @@ msgid "Bibledit resolved the conflicts"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 msgid "Failure sending and receiving Settings"
 msgstr ""
@@ -463,19 +463,19 @@ msgid "Month"
 msgstr ""
 
 msgid "Loaded"
-msgstr ""
+msgstr "Geladen"
 
 msgid "Will save..."
-msgstr ""
+msgstr "Speichern steht bevor..."
 
 msgid "Saving..."
-msgstr ""
+msgstr "Speichern..."
 
 msgid "Saved"
-msgstr ""
+msgstr "Gespeichert"
 
 msgid "Retrying..."
-msgstr ""
+msgstr "Erneuter Versuch läuft..."
 
 msgid "Reformat"
 msgstr ""
@@ -1021,10 +1021,10 @@ msgid "See the help below for information about what to enter"
 msgstr ""
 
 msgid "Workspace"
-msgstr ""
+msgstr "Arbeitsbereich"
 
 msgid "Bibledit"
-msgstr ""
+msgstr "Bibledit"
 
 msgid "Recent changes in the Bible texts"
 msgstr ""
@@ -1042,10 +1042,10 @@ msgid "Forward"
 msgstr ""
 
 msgid "Select book"
-msgstr ""
+msgstr "Buch auswählen"
 
 msgid "Select chapter"
-msgstr ""
+msgstr "Kapitel auswählen"
 
 msgid "Go to previous verse"
 msgstr ""
@@ -1057,7 +1057,7 @@ msgid "Go to next verse"
 msgstr ""
 
 msgid "cancel"
-msgstr ""
+msgstr "abbrechen"
 
 msgid "Copying Bible from Bibledit to a Paratext project."
 msgstr ""
@@ -1191,10 +1191,10 @@ msgid "remove"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Suchen"
 
 msgid "Replace"
-msgstr ""
+msgstr "Ersetzen"
 
 msgid ""
 "This text could not be automatically replaced. Click the passage to do it "
@@ -1250,10 +1250,10 @@ msgid "Merging chapter."
 msgstr ""
 
 msgid "Preview"
-msgstr ""
+msgstr "Vorschau"
 
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 msgid "Stylesheet"
 msgstr ""
@@ -1283,7 +1283,7 @@ msgid "Introduction other elements"
 msgstr ""
 
 msgid "Titles"
-msgstr "Titeln"
+msgstr "Titel"
 
 msgid "Headings"
 msgstr "Überschriften"
@@ -1307,16 +1307,16 @@ msgid "Footnotes"
 msgstr "Fußnoten"
 
 msgid "Crossreferences"
-msgstr ""
+msgstr "Querverweise"
 
 msgid "Special text"
-msgstr ""
+msgstr "Spezieller Text"
 
 msgid "Character styles"
-msgstr ""
+msgstr "Schriftauszeichnungen"
 
 msgid "Spacings and breaks"
-msgstr ""
+msgstr "Abstände und Umbrüche"
 
 msgid "Special features"
 msgstr ""
@@ -1738,7 +1738,7 @@ msgid "Generating a file with the resources."
 msgstr ""
 
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 msgid "The file with all of the installed resources is ready."
 msgstr ""
@@ -2007,10 +2007,10 @@ msgid "Exports"
 msgstr "Exporte"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "Erweitertes Suchen"
 
 msgid "Advanced replace"
-msgstr ""
+msgstr "Erweitertes Ersetzen"
 
 msgid "Search all Bibles and notes"
 msgstr ""
@@ -2070,16 +2070,16 @@ msgid "Help and About"
 msgstr ""
 
 msgid "Translate"
-msgstr ""
+msgstr "Übersetzen"
 
 msgid "Tools"
-msgstr ""
+msgstr "Werkzeuge"
 
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 msgid "Logout"
-msgstr ""
+msgstr "Abmelden"
 
 msgid "Image resources"
 msgstr ""
@@ -2115,13 +2115,13 @@ msgid "Show"
 msgstr ""
 
 msgid "Chapter editor"
-msgstr ""
+msgstr "Kapiteleditor"
 
 msgid "Verse editor"
-msgstr ""
+msgstr "Verseditor"
 
 msgid "USFM editor"
-msgstr ""
+msgstr "USFM-Editor"
 
 msgid "Bible bible does not exist: Cannot create book"
 msgstr ""
@@ -2711,7 +2711,7 @@ msgid "Create a new empty Bible"
 msgstr ""
 
 msgid "Chapters:"
-msgstr ""
+msgstr "Kapitel:"
 
 msgid "Create chapter"
 msgstr ""
@@ -2869,7 +2869,7 @@ msgid "Suppressed checking results."
 msgstr ""
 
 msgid "back"
-msgstr ""
+msgstr "zurück"
 
 msgid "The page lists the suppressed results of the checks."
 msgstr ""
@@ -3442,7 +3442,7 @@ msgid "The collaboration is being set up."
 msgstr ""
 
 msgid "editor"
-msgstr ""
+msgstr "Editor"
 
 msgid ""
 "Subscribe to a consultation note you created or edited online or by email."
@@ -3747,25 +3747,25 @@ msgid "points"
 msgstr ""
 
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
 msgid "Bold"
-msgstr ""
+msgstr "Fett"
 
 msgid "Underline"
-msgstr ""
+msgstr "Unterstrichen"
 
 msgid "Small caps"
-msgstr ""
+msgstr "Kapitälchen"
 
 msgid "Superscript"
-msgstr ""
+msgstr "Hochgestellt"
 
 msgid "Text alignment"
-msgstr ""
+msgstr "Textausrichtung"
 
 msgid "Space before"
-msgstr ""
+msgstr "Einzug vor Text"
 
 msgid "mm"
 msgstr ""
@@ -4242,7 +4242,7 @@ msgid "Select the user to assign the note to"
 msgstr ""
 
 msgid "preview"
-msgstr ""
+msgstr "Vorschau"
 
 msgid "Compare this Bible with any of the Bibles or USFM Resources below."
 msgstr ""
@@ -4866,7 +4866,7 @@ msgid "Enter task completion categories."
 msgstr ""
 
 msgid "chapters"
-msgstr ""
+msgstr "Kapitel"
 
 msgid "Bibledit Cloud connection"
 msgstr ""
@@ -8777,10 +8777,10 @@ msgid "For the quoted name of a book"
 msgstr ""
 
 msgid "Chapter number"
-msgstr ""
+msgstr "Kapitelnummer"
 
 msgid "Alternate chapter number"
-msgstr ""
+msgstr "Alternative Kapitelnummer"
 
 msgid ""
 "Second or alternate chapter number. For coding dual versification. Useful "
@@ -10020,202 +10020,202 @@ msgid ""
 msgstr ""
 
 msgid "Genesis"
-msgstr ""
+msgstr "Genesis"
 
 msgid "Exodus"
-msgstr ""
+msgstr "Exodus"
 
 msgid "Leviticus"
-msgstr ""
+msgstr "Levitikus"
 
 msgid "Numbers"
-msgstr ""
+msgstr "Numeri"
 
 msgid "Deuteronomy"
-msgstr ""
+msgstr "Deuteronomium"
 
 msgid "Joshua"
-msgstr ""
+msgstr "Josua"
 
 msgid "Judges"
-msgstr ""
+msgstr "Richter"
 
 msgid "Ruth"
-msgstr ""
+msgstr "Rut"
 
 msgid "1 Samuel"
-msgstr ""
+msgstr "1 Samuel"
 
 msgid "2 Samuel"
-msgstr ""
+msgstr "2 Samuel"
 
 msgid "1 Kings"
-msgstr ""
+msgstr "1 Könige"
 
 msgid "2 Kings"
-msgstr ""
+msgstr "2 Könige"
 
 msgid "1 Chronicles"
-msgstr ""
+msgstr "1 Chronik"
 
 msgid "2 Chronicles"
-msgstr ""
+msgstr "2 Chronik"
 
 msgid "Ezra"
-msgstr ""
+msgstr "Esra"
 
 msgid "Nehemiah"
-msgstr ""
+msgstr "Nehemia"
 
 msgid "Esther"
-msgstr ""
+msgstr "Ester"
 
 msgid "Job"
-msgstr ""
+msgstr "Ijob"
 
 msgid "Psalms"
-msgstr ""
+msgstr "Psalmen"
 
 msgid "Proverbs"
-msgstr ""
+msgstr "Sprichwörter"
 
 msgid "Ecclesiastes"
-msgstr ""
+msgstr "Kohelet"
 
 msgid "Song of Solomon"
-msgstr ""
+msgstr "Hoheslied"
 
 msgid "Isaiah"
-msgstr ""
+msgstr "Jesaja"
 
 msgid "Jeremiah"
-msgstr ""
+msgstr "Jeremia"
 
 msgid "Lamentations"
-msgstr ""
+msgstr "Klagelieder"
 
 msgid "Ezekiel"
-msgstr ""
+msgstr "Ezechiel"
 
 msgid "Daniel"
-msgstr ""
+msgstr "Daniel"
 
 msgid "Hosea"
-msgstr ""
+msgstr "Hosea"
 
 msgid "Joel"
-msgstr ""
+msgstr "Joël"
 
 msgid "Amos"
-msgstr ""
+msgstr "Amos"
 
 msgid "Obadiah"
-msgstr ""
+msgstr "Obadja"
 
 msgid "Jonah"
-msgstr ""
+msgstr "Jona"
 
 msgid "Micah"
-msgstr ""
+msgstr "Micha"
 
 msgid "Nahum"
-msgstr ""
+msgstr "Nahum"
 
 msgid "Habakkuk"
-msgstr ""
+msgstr "Habakuk"
 
 msgid "Zephaniah"
-msgstr ""
+msgstr "Zefanja"
 
 msgid "Haggai"
-msgstr ""
+msgstr "Haggai"
 
 msgid "Zechariah"
-msgstr ""
+msgstr "Sacharja"
 
 msgid "Malachi"
-msgstr ""
+msgstr "Maleachi"
 
 msgid "Matthew"
-msgstr ""
+msgstr "Matthäus"
 
 msgid "Mark"
-msgstr ""
+msgstr "Markus"
 
 msgid "Luke"
-msgstr ""
+msgstr "Lukas"
 
 msgid "John"
-msgstr ""
+msgstr "Johannes"
 
 msgid "Acts"
-msgstr ""
+msgstr "Apostelgeschichte"
 
 msgid "Romans"
-msgstr ""
+msgstr "Römer"
 
 msgid "1 Corinthians"
-msgstr ""
+msgstr "1 Korinther"
 
 msgid "2 Corinthians"
-msgstr ""
+msgstr "2 Korinther"
 
 msgid "Galatians"
-msgstr ""
+msgstr "Galater"
 
 msgid "Ephesians"
-msgstr ""
+msgstr "Epheser"
 
 msgid "Philippians"
-msgstr ""
+msgstr "Philipper"
 
 msgid "Colossians"
-msgstr ""
+msgstr "Kolosser"
 
 msgid "1 Thessalonians"
-msgstr ""
+msgstr "1 Thessalonicher"
 
 msgid "2 Thessalonians"
-msgstr ""
+msgstr "2 Thessalonicher"
 
 msgid "1 Timothy"
-msgstr ""
+msgstr "1 Timotheus"
 
 msgid "2 Timothy"
-msgstr ""
+msgstr "2 Timotheus"
 
 msgid "Titus"
-msgstr ""
+msgstr "Titus"
 
 msgid "Philemon"
-msgstr ""
+msgstr "Philemon"
 
 msgid "Hebrews"
-msgstr ""
+msgstr "Hebräer"
 
 msgid "James"
-msgstr ""
+msgstr "Jakobus"
 
 msgid "1 Peter"
-msgstr ""
+msgstr "1 Petrus"
 
 msgid "2 Peter"
-msgstr ""
+msgstr "2 Petrus"
 
 msgid "1 John"
-msgstr ""
+msgstr "1 Johannes"
 
 msgid "2 John"
-msgstr ""
+msgstr "2 Johannes"
 
 msgid "3 John"
-msgstr ""
+msgstr "3 Johannes"
 
 msgid "Jude"
-msgstr ""
+msgstr "Judas"
 
 msgid "Revelation"
-msgstr ""
+msgstr "Offenbarung"
 
 msgid "Front Matter"
 msgstr ""
@@ -10227,25 +10227,25 @@ msgid "Other Material"
 msgstr ""
 
 msgid "Tobit"
-msgstr ""
+msgstr "Tobit"
 
 msgid "Judith"
-msgstr ""
+msgstr "Judit"
 
 msgid "Esther (Greek)"
-msgstr ""
+msgstr "Ester (Griechisch)"
 
 msgid "Wisdom of Solomon"
-msgstr ""
+msgstr "Weisheit"
 
 msgid "Sirach"
-msgstr ""
+msgstr "Jesus Sirach"
 
 msgid "Baruch"
-msgstr ""
+msgstr "Baruch"
 
 msgid "Letter of Jeremiah"
-msgstr ""
+msgstr "Brief des Jeremia"
 
 msgid "Song of the Three Children"
 msgstr ""
@@ -10257,10 +10257,10 @@ msgid "Bel and the Dragon"
 msgstr ""
 
 msgid "1 Maccabees"
-msgstr ""
+msgstr "1 Makkabäer"
 
 msgid "2 Maccabees"
-msgstr ""
+msgstr "2 Makkabäer"
 
 msgid "1 Esdras (Greek)"
 msgstr ""
@@ -10389,7 +10389,7 @@ msgid "The user account was disabled"
 msgstr ""
 
 msgid "all"
-msgstr ""
+msgstr "alle"
 
 msgid "Disable"
 msgstr ""
@@ -10524,10 +10524,10 @@ msgid "Fallout"
 msgstr ""
 
 msgid "Text length differs too much"
-msgstr ""
+msgstr "Abweichung der Textlänge zu groß"
 
 msgid "Text content differs too much"
-msgstr ""
+msgstr "Abweichung des Textinhalts zu groß"
 
 msgid "Saving chapter"
 msgstr ""
@@ -10743,13 +10743,13 @@ msgid "to be updated"
 msgstr ""
 
 msgid "Select a book"
-msgstr ""
+msgstr "Wähle ein Buch aus"
 
 msgid "Select a chapter"
-msgstr ""
+msgstr "Wähle ein Kapitel aus"
 
 msgid "Select a verse"
-msgstr ""
+msgstr "Wähle einen Vers aus"
 
 msgid "The document is being created..."
 msgstr ""
@@ -10890,7 +10890,7 @@ msgid "Messages on server:"
 msgstr ""
 
 msgid "Select style"
-msgstr ""
+msgstr "Darstellung wählen"
 
 msgid "Please enter the name for the new versification system"
 msgstr ""

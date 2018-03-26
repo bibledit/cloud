@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.0.455],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.474],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -47,8 +47,8 @@ AC_PATH_PROG(DIATHEKE_PATH, diatheke, no)
 
 
 PKG_PROG_PKG_CONFIG
-AC_PATH_PROG(PKG_CONFIG_PATH, pkg-config, no)
-if test x$PKG_CONFIG_PATH = xno; then
+# https://lintian.debian.org/tags/autotools-pkg-config-macro-not-cross-compilation-safe.html
+if test x$PKG_CONFIG = x; then
   AC_MSG_ERROR(Program "pkg-config" is needed. Install this first.)
 fi
 

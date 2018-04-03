@@ -81,6 +81,7 @@ sed -i.bak '/configure/d' pkgdata/files.txt
 sed -i.bak '/configure.ac/d' pkgdata/files.txt
 sed -i.bak '/debcomp/d' pkgdata/files.txt
 sed -i.bak '/stamp-h1/d' pkgdata/files.txt
+sed -i.bak '/install-sh/d' pkgdata/files.txt
 
 # No Xcode project data.
 sed -i.bak '/xcodeproj/d' pkgdata/files.txt

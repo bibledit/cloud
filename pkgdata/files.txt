@@ -674,6 +674,7 @@
 /sprint/index.js
 /sqlite
 /sqlite/readme.txt
+/stamp-h1
 /statistics
 /styles
 /styles/indexm.html

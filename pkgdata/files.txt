@@ -1,5 +1,4 @@
 /access
-/aclocal.m4
 /assets
 /assets/checkbox.js
 /assets/error.html
@@ -15,7 +14,6 @@
 /assets/workspacewrapper_start.html
 /assets/xhtml_finish.html
 /assets/xhtml_start.html
-/AUTHORS
 /bb
 /bb/book.html
 /bb/chapter.html
@@ -30,7 +28,6 @@
 /book
 /book/books.js
 /bootstrap
-/ChangeLog
 /changes
 /changes/change.html
 /changes/changes.html
@@ -55,20 +52,12 @@
 /collaboration/settings.html
 /compare
 /compare/index.html
-/compile
 /config
 /config/config.txt
-/config.guess
-/config.h.in
 /config/ldap.txt
 /config/local.authorities.crt
 /config/local.server.crt
 /config/local.server.key
-/config.log
-/config.status
-/config.sub
-/configure
-/configure.ac
 /config/userfacingurl.txt
 /confirm
 /consistency
@@ -214,7 +203,6 @@
 /demo/readme.txt
 /depcomp
 /dev
-/DEVELOP
 /developer
 /developer/index.html
 /developer/index.js
@@ -266,7 +254,6 @@
 /fonts/Cardo-Regular.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
-/fonts/SIL-README.txt
 /generate
 /git
 /git/gitflag
@@ -309,7 +296,6 @@
 /index
 /index/index.html
 /index/listing.html
-/INSTALL
 /install-sh
 /ipc
 /jobs
@@ -322,16 +308,13 @@
 /jquery/jquery-3.1.0.min.js
 /jquery/jquery.LICENSE.js
 /jquery/jquery.stylesheet.js
-/jquery/jquery.stylesheet.README.md
 /jquery/jquery.touchSwipe.js
 /jquery/jquery.touchSwipe.LICENSE
 /jquery/jquery.touchSwipe.min.js
-/jquery/jquery.touchSwipe.README.md
 /jquery/readme.txt
 /jsonxx
 /jsonxx/jsonxx_test.cc
 /jsonxx/LICENSE
-/jsonxx/README.md
 /ldap
 /lexicon
 /library
@@ -356,16 +339,12 @@
 /locale/ny.po
 /locale/pt_BR.po
 /locale/pt.po
-/locale/README
 /locale/sv.po
 /locale/tr.po
 /locale/uk.po
 /locale/zh_TW.po
 /logbook
 /logbook/gitflag
-/Makefile
-/Makefile.am
-/Makefile.in
 /man
 /manage
 /manage/exports.html
@@ -390,7 +369,6 @@
 /mapping/Vulgate.txt
 /mbedtls
 /mbedtls/0readme.txt
-/mbedtls/Makefile
 /mbedtls.old
 /mbedtls.old/0readme.txt
 /menu
@@ -405,7 +383,6 @@
 /navigation/nav.js
 /navigation/passage.js
 /navigation/shortcuts.js
-/NEWS
 /nicedit
 /nicedit/nicedit.js
 /nicedit/nicedit.min.js
@@ -441,7 +418,6 @@
 /notifit/notifit.css
 /notifit/notifit.js
 /notifit/notifit.min.js
-/notifit/README.md
 /notifit/tests.html
 /obfuscate
 /obfuscate/check.sh
@@ -449,7 +425,6 @@
 /obfuscate/readme.txt
 /obfuscate/sample.txt
 /odf
-/odf/README
 /odf/template.odt
 /olb
 /paratext
@@ -509,9 +484,6 @@
 /rangy13/rangy-serializer.min.js
 /rangy13/rangy-textrange.js
 /rangy13/rangy-textrange.min.js
-/rangy13/README.md
-/README
-/reconfigure
 /related
 /related/ot-quotations-in-nt.xml
 /related/parallel-passages-nt.xml
@@ -583,7 +555,6 @@
 /sources/hebrewlexicon/HebrewStrong.xml
 /sources/hebrewlexicon/LexicalIndex.xml
 /sources/hebrewlexicon/PartsOfSpeech.xml
-/sources/hebrewlexicon/README.txt
 /sources/hebrewlexicon.txt
 /sources/kjv.txt
 /sources/kjv.xml
@@ -674,7 +645,6 @@
 /sprint/index.js
 /sqlite
 /sqlite/readme.txt
-/stamp-h1
 /statistics
 /styles
 /styles/indexm.html
@@ -1073,7 +1043,6 @@
 /utf8
 /utf8proc
 /utf8proc/LICENSE
-/utf8proc/README.md
 /utf8/ReleaseNotes
 /utf8/utf8cpp.html
 /valgrind

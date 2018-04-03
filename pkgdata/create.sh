@@ -58,6 +58,30 @@ sed -i.bak '/^\/bibledit$/d' pkgdata/files.txt
 # So even if present, it should not be installed.
 sed -i.bak '/COPYING/d' pkgdata/files.txt
 
+# No data related to autoconf.
+# See also the bug report https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=884024
+sed -i.bak '/\.pc/d' pkgdata/files.txt
+sed -i.bak '/AUTHORS/d' pkgdata/files.txt
+sed -i.bak '/ChangeLog/d' pkgdata/files.txt
+sed -i.bak '/DEVELOP/d' pkgdata/files.txt
+sed -i.bak '/INSTALL/d' pkgdata/files.txt
+sed -i.bak '/Makefile/d' pkgdata/files.txt
+sed -i.bak '/Makefile\.am/d' pkgdata/files.txt
+sed -i.bak '/Makefile\.in/d' pkgdata/files.txt
+sed -i.bak '/NEWS/d' pkgdata/files.txt
+sed -i.bak '/README/d' pkgdata/files.txt
+sed -i.bak '/aclocal\.m4/d' pkgdata/files.txt
+sed -i.bak '/compile/d' pkgdata/files.txt
+sed -i.bak '/config\.guess/d' pkgdata/files.txt
+sed -i.bak '/config\.h\.in/d' pkgdata/files.txt
+sed -i.bak '/config\.log/d' pkgdata/files.txt
+sed -i.bak '/config\.status/d' pkgdata/files.txt
+sed -i.bak '/config\.sub/d' pkgdata/files.txt
+sed -i.bak '/configure/d' pkgdata/files.txt
+sed -i.bak '/configure.ac/d' pkgdata/files.txt
+sed -i.bak '/debcomp/d' pkgdata/files.txt
+sed -i.bak '/stamp-h1/d' pkgdata/files.txt
+
 # No Xcode project data.
 sed -i.bak '/xcodeproj/d' pkgdata/files.txt
 

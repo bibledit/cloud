@@ -449,7 +449,7 @@ void test_git ()
     // Pull from remote repository.
     success = filter_git_pull (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, {"Already up-to-date."}, messages);
+    evaluate (__LINE__, __func__, {"Already up to date."}, messages);
     
     // Remove journal entries.
     refresh_sandbox (false);

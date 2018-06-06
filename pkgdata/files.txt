@@ -296,7 +296,6 @@
 /index
 /index/index.html
 /index/listing.html
-/install-sh
 /ipc
 /jobs
 /jobs/index.html
@@ -901,7 +900,7 @@
 /unittests/tests/emails/farmerandstork.txt
 /unittests/tests/emails/greenball.png
 /unittests/tests/emails/hareandtoroise.txt
-/unittests/tests/emails/HasenundFrîsche.txt
+/unittests/tests/emails/HasenundFrîsche.txt
 /unittests/tests/emails/m0001.msg
 /unittests/tests/emails/m0001.msg.txt
 /unittests/tests/emails/m0002.msg

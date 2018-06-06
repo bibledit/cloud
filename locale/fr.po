@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2018-04-02 10:15+0000\n"
+"PO-Revision-Date: 2018-04-27 16:00+0000\n"
 "Last-Translator: L'Africain <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18599)\n"
+"X-Generator: Launchpad (build 18640)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -1457,7 +1457,7 @@ msgid "is a main title"
 msgstr "est un titre principal"
 
 msgid "is a subtitle"
-msgstr "ets un sous-titre"
+msgstr "est un sous-titre"
 
 msgid "is a section heading"
 msgstr "est une en-tête de section"
@@ -10722,43 +10722,43 @@ msgid "Introduction major title ending level 2"
 msgstr "Titre principal d'introduction de niveau 2 fermant"
 
 msgid "Introduction outline entry"
-msgstr "Entrée d'esquisse d'introduction"
+msgstr "Entrée de plan d'introduction"
 
 msgid "Introduction outline text, level 1, if single level"
-msgstr "Texte d'esquisse d'introduction, niveau 1, si un niveau"
+msgstr "Texte de plan d'introduction, niveau 1, si un niveau"
 
 msgid "Introduction outline entry Level 1"
-msgstr "Entrée d'esquisse d'introduction de niveau 1"
+msgstr "Texte de plan d'introduction de niveau 1"
 
 msgid "Introduction outline text, level 1, if multiple levels"
-msgstr "Texte d'esquisse d'introduction, niveau 1, si plusieurs niveaux"
+msgstr "Texte de plan d'introduction, niveau 1, si plusieurs niveaux"
 
 msgid "Introduction outline entry Level 2"
-msgstr "Entrée d'esquisse d'introduction niveau 2"
+msgstr "Texte de plan d'introduction niveau 2"
 
 msgid "Introduction outline text, level 2"
-msgstr "Texte d'esquisse d'introduction, niveau 2"
+msgstr "Texte de plan d'introduction, niveau 2"
 
 msgid "Introduction outline entry level 3"
-msgstr "Entrée d'esquisse d'introduction niveau 3"
+msgstr "Texte de plan d'introduction niveau 3"
 
 msgid "Introduction outline text, level 3"
 msgstr "Introduction texte de plan, niveau  3"
 
 msgid "Introduction outline entry level 4"
-msgstr "Entrée d'esquisse d'introduction niveau 3"
+msgstr "Texte de plan d'introduction niveau 3"
 
 msgid "Introduction outline text, level 4"
 msgstr "Introduction texte de plan, niveau  4"
 
 msgid "Introduction outline reference range"
-msgstr "Plage de référence d'esquisse d'introduction"
+msgstr "Plage de référence du plan d'introduction"
 
 msgid ""
 "Introduction references range for outline entry; for marking references "
 "separately"
 msgstr ""
-"Entrée de plage de références d'esquisse d'introduction ; pour marquer les "
+"Entrée de plage de références du plan d'introduction ; pour marquer les "
 "références séparément"
 
 msgid "Introduction outline title"

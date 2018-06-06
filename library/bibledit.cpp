@@ -62,7 +62,7 @@ const char * bibledit_get_network_port ()
 // To be called once during the lifetime of the app.
 // $package: The folder where the package data resides.
 // $webroot: The document root folder for the web server.
-void bibledit_initialize_library (const char * package, const char * webroot) // Todo
+void bibledit_initialize_library (const char * package, const char * webroot)
 {
   // Must initialize libcurl before any threads are started.
   // Only on the Cloud because it uses libcurl.

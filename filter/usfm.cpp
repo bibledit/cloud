@@ -906,7 +906,7 @@ const char * usfm_marker_vp ()
 //   attribute = "value".
 // Example:
 //   \w gracious|lemma="grace"\w*
-string usfm_remove_word_level_attributes (string usfm) // Todo
+string usfm_remove_word_level_attributes (string usfm)
 {
   // Check there is a vertical bar at all in the input USFM.
   // If it's not there, then the function is ready without much ado.

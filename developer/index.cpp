@@ -94,8 +94,9 @@ string developer_index (void * webserver_request)
 
   // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "parsehebrewlexicon") {
-    // sources_hebrewlexicon_parse ();
+    //sources_hebrewlexicon_parse ();
     view.set_variable ("success", "Task disabled");
+    //view.set_variable ("success", "Task running");
   }
 
   if (debug == "crash") {

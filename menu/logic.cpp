@@ -161,13 +161,20 @@ string menu_logic_settings_resources_menu ()
 
 
 // Returns the html for the main menu categories.
+// Also fills the $tooltip with an appropriate value for this main menu.
+// This function is called for the main page, that is, the home page.
 string menu_logic_main_categories (void * webserver_request, string & tooltip)
 {
+  // Create the object from the void pointer.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  // The sets of html that is going to form the menu.
   vector <string> html;
+  
+  // The sets of tooltips for the main menu item.
   vector <string> tooltipbits;
 
+  // Deal with a situation the user has access to the workspaces.
   if (workspace_index_acl (webserver_request)) {
     string label = translate ("Workspace");
     string tooltip;
@@ -193,7 +200,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
     tooltipbits.push_back (menu_logic_tools_text ());
   }
 
-  if (!menu_logic_settings_category (webserver_request).empty ()) {
+  if (!menu_logic_settings_category (webserver_request, &menutooltip).empty ()) {
     html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false, menutooltip));
     tooltipbits.push_back (menu_logic_settings_text ());
   }
@@ -232,7 +239,10 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
     tooltipbits.push_back (label);
   }
 
+  // Create one string of tool tips for this menu item, separated by a vertical bar.
   tooltip = filter_string_implode (tooltipbits, " | ");
+  
+  // Create one string of html that is going to form the menu.
   return filter_string_implode (html, "\n");
 }
 
@@ -308,6 +318,8 @@ string menu_logic_basic_categories (void * webserver_request)
 }
 
 
+// Generates html for the workspace main menu.
+// Plus the tooltip for it.
 string menu_logic_workspace_category (void * webserver_request, string * tooltip)
 {
   vector <string> html;

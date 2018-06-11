@@ -47,7 +47,7 @@ const char * manage_exports_url ()
 
 bool manage_exports_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 

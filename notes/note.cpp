@@ -83,7 +83,7 @@ string notes_note (void * webserver_request)
     // Only set passage and track history if the focused passage
     // differs from all of the passages of the note.
     // If the focused passage is already at any of the passages belonging to the note,
-    // no further focus operations are needed. Todo
+    // no further focus operations are needed.
     bool passage_focused = false;
     for (auto passage : passages) {
       if (focused_passage.equal (passage)) passage_focused = true;

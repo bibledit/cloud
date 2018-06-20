@@ -544,6 +544,10 @@
 /setup/index.html
 /setup/splash.jpg
 /setup/stylesheet.css
+/slip
+/slip/example.html
+/slip/readme.txt
+/slip/slip.js
 /sources
 /sources/description.txt
 /sources/etcbc4.txt

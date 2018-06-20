@@ -918,6 +918,7 @@
 		CAAF85131E97A07100390E00 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAAF85141E97A07100390E00 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAB0634B1AD53D56006D9683 /* search.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = search.html; sourceTree = "<group>"; };
+		CAB1EA9A20DA798500D97A4A /* slip */ = {isa = PBXFileReference; lastKnownFileType = folder; path = slip; sourceTree = "<group>"; };
 		CAB274B21BB1834C00703ED5 /* cache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = cache.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAB274B31BB1834C00703ED5 /* cache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = cache.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CAB31B5C1DDF249B00F77630 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -3247,6 +3248,7 @@
 				CAA4D3201A45A648003ABA25 /* sendreceive */,
 				CAA4D32E1A45A648003ABA25 /* session */,
 				CAA4D3471A45A648003ABA25 /* setup */,
+				CAB1EA9A20DA798500D97A4A /* slip */,
 				CAECFB821B84E30100B3634F /* sources */,
 				CAA4D3521A45A648003ABA25 /* sprint */,
 				CA4E47F31AB875C30021C61E /* statistics */,

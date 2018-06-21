@@ -577,6 +577,7 @@
 		CA9C8D261CC805480092E213 /* git.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = git.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		CA9DB7991AA8E4B500D6B549 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA9DB79A1AA8E4B500D6B549 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CA9DE19A20DBBB7800F564BE /* organize.js */ = {isa = PBXFileReference; explicitFileType = sourcecode.javascript; path = organize.js; sourceTree = "<group>"; };
 		CA9DE5961E6329FD00EE3C41 /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		CA9DE5971E6329FD00EE3C41 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA9DE5981E632FC500EE3C41 /* log.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = log.cpp; sourceTree = "<group>"; };
@@ -2623,6 +2624,7 @@
 				CADE4D7D1A9DEF2000F16E49 /* organize.cpp */,
 				CADE4D7E1A9DEF2000F16E49 /* organize.h */,
 				CADE4D7F1A9DF02900F16E49 /* organize.html */,
+				CA9DE19A20DBBB7800F564BE /* organize.js */,
 				CA35A1401A9F518900221B89 /* print.cpp */,
 				CA35A1411A9F518900221B89 /* print.h */,
 				CA35A1421A9F518900221B89 /* print.html */,

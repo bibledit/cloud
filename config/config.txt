@@ -42,6 +42,8 @@ OpenLDAP server: See file ldap.txt for more information.
 
 
 Network port for http server: The default value is 8080. Put a different port number in file "network-port".
+The port number entered here is for the plain http. For secure http, https, Bibledit increases the port number by one.
+So the default port number for https is 8081.
 
 
 Administrator details: To preset the administrator's account, put the details in the files "admin-username" and "admin-password" and "admin-email", one detail per file.

@@ -53,5 +53,5 @@ Demo installation: If the file config/demo is present, it behaves as a demo inst
 Obfuscating the user interface: See folder obfuscate for more information.
 
 
-After making a change in the configuration, Bibledit Cloud needs to be restarted, for the new configuration to take effect.
+After making a change in the configuration, restart Bibledit Cloud, for the new configuration to take effect.
 

@@ -499,6 +499,7 @@
 /resource/index.js
 /resource/manage.html
 /resource/organize.html
+/resource/organize.js
 /resource/print.html
 /resource/select.html
 /resource/studylight.html

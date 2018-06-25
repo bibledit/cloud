@@ -1363,6 +1363,43 @@ void array_move_up_down (vector <string> & container, size_t item, bool up)
 }
 
 
+// Move the item in the $container from position $from to position $to.
+void array_move_from_to (vector <string> & container, size_t from, size_t to)
+{
+  // Check on validity of where moving from and where moving to.
+  if (from == to) return;
+  if (from >= container.size ()) return;
+  if (to >= container.size ()) return;
+  
+  // Put the data into a map where the keys are multiplied by two.
+  map <int, string> mapped_container;
+  for (unsigned int i = 0; i < container.size(); i++) {
+    mapped_container [i * 2] = container [i];
+  }
+
+  // Direction of moving.
+  bool move_up = to > from;
+  
+  // Updated keys.
+  from *= 2;
+  to *= 2;
+  
+  // Remove the item, and insert it by a key that puts it at the desired position.
+  string moving_item = mapped_container [from];
+  mapped_container.erase (from);
+  if (move_up) to++;
+  else to--;
+  mapped_container [to] = moving_item;
+  
+  // Since the map sorts by key,
+  // transfer its data back to the original container.
+  container.clear ();
+  for (auto & element : mapped_container) {
+    container.push_back (element.second);
+  }
+}
+
+
 const char * english ()
 {
   return "English";

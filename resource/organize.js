@@ -19,7 +19,8 @@
 
 $ (document).ready (function () {
    function setupSlip (list) {
-      list.addEventListener ('slip:beforereorder', function (e) {
+      list.addEventListener ('slip:beforereorder', function (e)
+      {
       }, false);
 
       list.addEventListener('slip:beforeswipe', function(e)
@@ -41,7 +42,11 @@ $ (document).ready (function () {
 
       list.addEventListener('slip:reorder', function(e)
       {
-         console.log(e);
+         $.ajax ({
+            url :"organize",
+            type :"POST",
+            data :{ movefrom :e.detail.originalIndex, moveto :e.detail.spliceIndex }
+         });
          e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
          return(false);
       }, false);

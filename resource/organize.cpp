@@ -79,24 +79,6 @@ string resource_organize (void * webserver_request)
   }
 
   
-  if (request->query.count ("moveup")) { // Todo both go out.
-    size_t moveup = convert_to_int (request->query["moveup"]);
-    vector <string> resources = request->database_config_user()->getActiveResources ();
-    array_move_up_down (resources, moveup, true);
-    request->database_config_user()->setActiveResources (resources);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-  }
-
-  
-  if (request->query.count ("movedown")) {
-    size_t movedown = convert_to_int (request->query["movedown"]);
-    vector <string> resources = request->database_config_user()->getActiveResources ();
-    array_move_up_down (resources, movedown, false);
-    request->database_config_user()->setActiveResources (resources);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-  }
-  
-
   string movefrom = request->post ["movefrom"];
   if (!movefrom.empty ()) {
     string moveto =  request->post ["moveto"];
@@ -104,14 +86,10 @@ string resource_organize (void * webserver_request)
       int from = convert_to_int (movefrom);
       int to = convert_to_int (moveto);
       vector <string> resources = request->database_config_user()->getActiveResources ();
-      for (auto s : resources) cout << s << " ";
-      cout << endl; // Todo
-      cout << from << " " << to << endl; // Todo
       array_move_from_to (resources, from, to);
       request->database_config_user()->setActiveResources (resources);
       request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
       for (auto s : resources) cout << s << " ";
-      cout << endl; // Todo
     }
     return "";
   }
@@ -130,13 +108,6 @@ string resource_organize (void * webserver_request)
     activesblock.append ("<p>");
     activesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "\">");
     activesblock.append (emoji_wastebasket ());
-    activesblock.append ("</a>");
-    activesblock.append (" ");
-    activesblock.append ("<a href=\"?moveup=" + convert_to_string (i) + "\">");
-    activesblock.append (unicode_black_up_pointing_triangle ());
-    activesblock.append ("</a>");
-    activesblock.append ("<a href=\"?movedown=" + convert_to_string (i) + "\">");
-    activesblock.append (unicode_black_down_pointing_triangle ());
     activesblock.append ("</a>");
     activesblock.append (" ");
     activesblock.append (active_resources [i]);

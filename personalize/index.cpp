@@ -424,6 +424,19 @@ string personalize_index (void * webserver_request)
   view.set_variable ("shownotestatus", on_off);
 
   
+  // Whether to show the text of the focuses Bible passage, while creating a new Consultation Note.
+  // This helps the translators and consultants if they are using notes in full screen mode,
+  // rather than from a workspace that may already show the focused Bible verse text.
+  // It shows the users if they have the focus on the verse they want to comment on.
+  // It makes it easy for them to grab a few words of the text to place within the note being created.
+  if (request->query.count ("showversetextcreatenote")) {
+    bool state = request->database_config_user ()->getShowVerseTextAtCreateNote ();
+    request->database_config_user ()->setShowVerseTextAtCreateNote (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getShowVerseTextAtCreateNote ());
+  view.set_variable ("showversetextcreatenote", on_off);
+  
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

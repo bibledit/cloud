@@ -24,6 +24,8 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/usfm.h>
+#include <filter/text.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
@@ -123,6 +125,18 @@ string notes_create (void * webserver_request)
   view.set_variable ("verse", convert_to_string (verse));
   string passage = filter_passage_display (book, chapter, convert_to_string (verse));
   view.set_variable ("passage", passage);
+  if (request->database_config_user ()->getShowVerseTextAtCreateNote ()) {
+    string versetext;
+    string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string stylesheet = styles_logic_standard_sheet ();
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.text_text = new Text_Text ();
+    filter_text.addUsfmCode (verse_usfm);
+    filter_text.run (stylesheet);
+    versetext = filter_text.text_text->get ();
+    view.set_variable ("versetext", versetext);
+  }
                                                                                                       
   
   page += view.render ("notes", "create");

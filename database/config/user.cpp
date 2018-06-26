@@ -1304,3 +1304,16 @@ void Database_Config_User::setShowNoteStatus (bool value)
   setBValue (show_note_status_key (), value);
 }
 
+
+const char * show_verse_text_at_create_note_key ()
+{
+  return "show-verse-text-at-create-note";
+}
+bool Database_Config_User::getShowVerseTextAtCreateNote ()
+{
+  return getBValue (show_verse_text_at_create_note_key (), false);
+}
+void Database_Config_User::setShowVerseTextAtCreateNote (bool value)
+{
+  setBValue (show_verse_text_at_create_note_key (), value);
+}

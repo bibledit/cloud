@@ -87,21 +87,43 @@ void export_bibledropbox (string user, string bible)
   string archive = filter_archive_zip_folder (directory);
   filter_url_rename (archive, zipfile);
   
+  // Here is the submission form as of July 2018:
   /*
-  <form action="SubmitAction.phtml" method="post" enctype="multipart/form-data">
-  <p>Your name: <input type="text" name="nameLine" size="40" /> </p>
-  <p>Your email address: <input type="text" name="emailLine" size="50" /></p>
-  <p>Language/Project name: <input type="text" name="projectLine" size="35" /></p>
-  <p>I have the authority to submit this data: <input type="checkbox" name="permission" value="Yes">
-  What is your main goal here (optional): <input type="text" name="goalLine" size="80" />
-  <input type="checkbox" name="photoBible" value="Yes">
-  OpenDocument <input type="checkbox" name="odfs" value="Yes">
-  PDF <input type="checkbox" name="pdfs" value="Yes">
-  Zip file containing your Bible file(s) <input type="file" name="uploadedZipFile" size="50" />
-  <input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
-  <input type="file" name="uploadedMetadataFile" size="50" />
-  <input type="submit" name="submit" value="Submit" />
-  </form>
+   <form action="SubmitAction.phtml" method="post" enctype="multipart/form-data">
+   <p>Your name: <input type="text" name="nameLine" size="40" /> </p>
+   <p>Your email address: <input type="text" name="emailLine" size="50" /></p>
+   <p>Language/Project name: <input type="text" name="projectLine" size="35" /></p>
+   <p>Main task (please check one or both):</p>
+   <p><input type="checkbox" name="doChecks" value="Yes"> (STILL COMING) Thoroughly CHECK the submitted Bible</p> <!-- Use checked="checked" to make it default -->
+   <p><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The following help the software to know your expectations (optional):
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New Testament is finished:
+   <input type="checkbox" name="NTfinished" value="Yes">
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Old Testament is finished:
+   <input type="checkbox" name="OTfinished" value="Yes">
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deuterocanon books are finished:
+   <input type="checkbox" name="DCfinished" value="Yes">
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All submitted books are finished:
+   <input type="checkbox" name="ALLfinished" value="Yes">
+   </small></p>
+   <p><input type="checkbox" name="doExports" value="Yes" checked="checked"> CONVERT/EXPORT the submitted Bible <!-- Used checked="checked" to make it default -->
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.g., to USFM, USX, OSIS, Sword module, HTML, etc., etc.</p>
+   <p><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The following exports use heavy processing so have to be explicitly requested:
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://lingtran.net/JPEG+Scripture+Publishing+for+Simple+Phones" target="_blank">PhotoBible</a>
+   export (for cheap, non-Java cellphones):
+   <input type="checkbox" name="photoBible" value="Yes">
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://en.wikipedia.org/wiki/OpenDocument" target="_blank">ODF</a>
+   exports (for LibreOffice, OpenOffice, etc.):
+   <input type="checkbox" name="odfs" value="Yes">
+   <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://en.wikipedia.org/wiki/Portable_Document_Format" target="_blank">PDF</a>
+   exports (via TeX or lout):
+   <input type="checkbox" name="pdfs" value="Yes">
+   </small></p>
+   <p>What is your main goal here (optional, but helps us):<center><input type="text" name="goalLine" size="80" /></center></p>
+   <p>Zip file containing your Bible file(s) (preferably in UTF-8 encoding):<center><!--<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />--><input type="file" name="uploadedZipFile" size="50" /></center></p>
+   <p>Text file containing your Bible <a href="Metadata.html">metadata</a> (recommended):<center><input type="file" name="uploadedMetadataFile" size="50" /></center></p>
+   <p>I have the authority to submit this data: <input type="checkbox" name="permission" value="Yes"></p>
+   <p><center><input type="submit" name="submit" value="Submit" /></center></p>
+   </form>
   */
   
   
@@ -116,6 +138,7 @@ void export_bibledropbox (string user, string bible)
   post ["projectLine"] = bible;
   post ["permission"] = "Yes";
   post ["goalLine"] = translate ("Bible translation through Bibledit");
+  post ["doExports"] = "Yes";
   // Just one request: Is it possible to make the Bibledit submission system default to turning off the three check-boxes for the tasks that take heavy processing on The Bible Drop Box: PhotoBible, ODFs using the Python interface to LibreOffice (which is slow compared to the Pathway method of creating the XML files directly), and PDF exports (via TeX). If the user is only after, say a Sword module, it's quite a heavy cost to wastefully produce these other exports.
   //post ["photoBible"] = "Yes";
   //post ["odfs"] = "Yes";

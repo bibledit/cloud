@@ -101,9 +101,11 @@ string collaboration_index (void * webserver_request)
   // But this function does not capture standard error.
   // And the standard error output is needed in case of failures.
   // So the following is used instead.
-  string statusoutput, statuserror;
-  filter_shell_run (repositoryfolder, "git", {"status"}, &statusoutput, &statuserror);
-  view.set_variable ("status", statusoutput + " " + statuserror);
+  if (!object.empty ()) {
+    string statusoutput, statuserror;
+    filter_shell_run (repositoryfolder, "git", {"status"}, &statusoutput, &statuserror);
+    view.set_variable ("status", statusoutput + " " + statuserror);
+  }
 
   
   page += view.render ("collaboration", "index");

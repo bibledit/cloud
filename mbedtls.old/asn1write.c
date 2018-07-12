@@ -2,19 +2,21 @@
  * ASN.1 buffer writing functionality
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -60,16 +62,43 @@ int mbedtls_asn1_write_len( unsigned char **p, unsigned char *start, size_t len 
         return( 2 );
     }
 
-    if( *p - start < 3 )
-        return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+    if( len <= 0xFFFF )
+    {
+        if( *p - start < 3 )
+            return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
 
-    // We assume we never have lengths larger than 65535 bytes
-    //
-    *--(*p) = len % 256;
-    *--(*p) = ( len / 256 ) % 256;
-    *--(*p) = 0x82;
+        *--(*p) = ( len       ) & 0xFF;
+        *--(*p) = ( len >>  8 ) & 0xFF;
+        *--(*p) = 0x82;
+        return( 3 );
+    }
 
-    return( 3 );
+    if( len <= 0xFFFFFF )
+    {
+        if( *p - start < 4 )
+            return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+
+        *--(*p) = ( len       ) & 0xFF;
+        *--(*p) = ( len >>  8 ) & 0xFF;
+        *--(*p) = ( len >> 16 ) & 0xFF;
+        *--(*p) = 0x83;
+        return( 4 );
+    }
+
+    if( len <= 0xFFFFFFFF )
+    {
+        if( *p - start < 5 )
+            return( MBEDTLS_ERR_ASN1_BUF_TOO_SMALL );
+
+        *--(*p) = ( len       ) & 0xFF;
+        *--(*p) = ( len >>  8 ) & 0xFF;
+        *--(*p) = ( len >> 16 ) & 0xFF;
+        *--(*p) = ( len >> 24 ) & 0xFF;
+        *--(*p) = 0x84;
+        return( 5 );
+    }
+
+    return( MBEDTLS_ERR_ASN1_INVALID_LENGTH );
 }
 
 int mbedtls_asn1_write_tag( unsigned char **p, unsigned char *start, unsigned char tag )
@@ -205,7 +234,7 @@ int mbedtls_asn1_write_int( unsigned char **p, unsigned char *start, int val )
     int ret;
     size_t len = 0;
 
-    // DOEN negative values and values larger than 128
+    // TODO negative values and values larger than 128
     // DER format assumes 2s complement for numbers, so the leftmost bit
     // should be 0 for positive numbers and 1 for negative numbers.
     //
@@ -312,7 +341,9 @@ mbedtls_asn1_named_data *mbedtls_asn1_store_named_data( mbedtls_asn1_named_data 
     {
         // Add new entry if not present yet based on OID
         //
-        if( ( cur = mbedtls_calloc( 1, sizeof(mbedtls_asn1_named_data) ) ) == NULL )
+        cur = (mbedtls_asn1_named_data*)mbedtls_calloc( 1,
+                                            sizeof(mbedtls_asn1_named_data) );
+        if( cur == NULL )
             return( NULL );
 
         cur->oid.len = oid_len;

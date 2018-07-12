@@ -2,21 +2,24 @@
  * \file entropy_poll.h
  *
  * \brief Platform-specific and custom entropy polling functions
+ */
+/*
+ *  Copyright (C) 2006-2016, ARM Limited, All Rights Reserved
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -41,7 +44,17 @@ extern "C" {
 #define MBEDTLS_ENTROPY_MIN_PLATFORM     32     /**< Minimum for platform source    */
 #define MBEDTLS_ENTROPY_MIN_HAVEGE       32     /**< Minimum for HAVEGE             */
 #define MBEDTLS_ENTROPY_MIN_HARDCLOCK     4     /**< Minimum for mbedtls_timing_hardclock()        */
+#if !defined(MBEDTLS_ENTROPY_MIN_HARDWARE)
 #define MBEDTLS_ENTROPY_MIN_HARDWARE     32     /**< Minimum for the hardware source */
+#endif
+
+/**
+ * \brief           Entropy poll callback that provides 0 entropy.
+ */
+#if defined(MBEDTLS_TEST_NULL_ENTROPY)
+    int mbedtls_null_entropy_poll( void *data,
+                                unsigned char *output, size_t len, size_t *olen );
+#endif
 
 #if !defined(MBEDTLS_NO_PLATFORM_ENTROPY)
 /**
@@ -80,6 +93,16 @@ int mbedtls_hardclock_poll( void *data,
  */
 int mbedtls_hardware_poll( void *data,
                            unsigned char *output, size_t len, size_t *olen );
+#endif
+
+#if defined(MBEDTLS_ENTROPY_NV_SEED)
+/**
+ * \brief           Entropy poll callback for a non-volatile seed file
+ *
+ * \note            This must accept NULL as its first argument.
+ */
+int mbedtls_nv_seed_poll( void *data,
+                          unsigned char *output, size_t len, size_t *olen );
 #endif
 
 #ifdef __cplusplus

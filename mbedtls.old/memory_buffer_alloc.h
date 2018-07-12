@@ -2,21 +2,24 @@
  * \file memory_buffer_alloc.h
  *
  * \brief Buffer-based memory allocator
- *
+ */
+/*
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -98,8 +101,10 @@ void mbedtls_memory_buffer_alloc_status( void );
 /**
  * \brief   Get the peak heap usage so far
  *
- * \param max_used      Peak number of bytes reauested by the application
- * \param max_blocks    Peak number of blocks reauested by the application
+ * \param max_used      Peak number of bytes in use or committed. This
+ *                      includes bytes in allocated blocks too small to split
+ *                      into smaller blocks but larger than the requested size.
+ * \param max_blocks    Peak number of blocks in use, including free and used
  */
 void mbedtls_memory_buffer_alloc_max_get( size_t *max_used, size_t *max_blocks );
 
@@ -111,8 +116,10 @@ void mbedtls_memory_buffer_alloc_max_reset( void );
 /**
  * \brief   Get the current heap usage
  *
- * \param cur_used      Number of bytes reauested by the application
- * \param cur_blocks    Number of blocks reauested by the application
+ * \param cur_used      Current number of bytes in use or committed. This
+ *                      includes bytes in allocated blocks too small to split
+ *                      into smaller blocks but larger than the requested size.
+ * \param cur_blocks    Current number of blocks in use, including free and used
  */
 void mbedtls_memory_buffer_alloc_cur_get( size_t *cur_used, size_t *cur_blocks );
 #endif /* MBEDTLS_MEMORY_DEBUG */

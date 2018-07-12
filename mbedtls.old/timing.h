@@ -1,22 +1,25 @@
 /**
  * \file timing.h
  *
- * \brief Portable interface to the CPU cycle counter
- *
+ * \brief Portable interface to timeouts and to the CPU cycle counter
+ */
+/*
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -65,6 +68,9 @@ extern volatile int mbedtls_timing_alarmed;
  * \warning        This is only a best effort! Do not rely on this!
  *                 In particular, it is known to be unreliable on virtual
  *                 machines.
+ *
+ * \note           This value starts at an unspecified origin and
+ *                 may wrap around.
  */
 unsigned long mbedtls_timing_hardclock( void );
 
@@ -72,7 +78,18 @@ unsigned long mbedtls_timing_hardclock( void );
  * \brief          Return the elapsed time in milliseconds
  *
  * \param val      points to a timer structure
- * \param reset    if set to 1, the timer is restarted
+ * \param reset    If 0, query the elapsed time. Otherwise (re)start the timer.
+ *
+ * \return         Elapsed time since the previous reset in ms. When
+ *                 restarting, this is always 0.
+ *
+ * \note           To initialize a timer, call this function with reset=1.
+ *
+ *                 Determining the elapsed time and resetting the timer is not
+ *                 atomic on all platforms, so after the sequence
+ *                 `{ get_timer(1); ...; time1 = get_timer(1); ...; time2 =
+ *                 get_timer(0) }` the value time1+time2 is only approximately
+ *                 the delay since the first reset.
  */
 unsigned long mbedtls_timing_get_timer( struct mbedtls_timing_hr_time *val, int reset );
 
@@ -80,6 +97,7 @@ unsigned long mbedtls_timing_get_timer( struct mbedtls_timing_hr_time *val, int 
  * \brief          Setup an alarm clock
  *
  * \param seconds  delay before the "mbedtls_timing_alarmed" flag is set
+ *                 (must be >=0)
  *
  * \warning        Only one alarm at a time  is supported. In a threaded
  *                 context, this means one for the whole process, not one per
@@ -91,11 +109,15 @@ void mbedtls_set_alarm( int seconds );
  * \brief          Set a pair of delays to watch
  *                 (See \c mbedtls_timing_get_delay().)
  *
- * \param data     Pointer to timing data
+ * \param data     Pointer to timing data.
  *                 Must point to a valid \c mbedtls_timing_delay_context struct.
  * \param int_ms   First (intermediate) delay in milliseconds.
+ *                 The effect if int_ms > fin_ms is unspecified.
  * \param fin_ms   Second (final) delay in milliseconds.
  *                 Pass 0 to cancel the current delay.
+ *
+ * \note           To set a single delay, either use \c mbedtls_timing_set_timer
+ *                 directly or use this function with int_ms == fin_ms.
  */
 void mbedtls_timing_set_delay( void *data, uint32_t int_ms, uint32_t fin_ms );
 
@@ -106,7 +128,7 @@ void mbedtls_timing_set_delay( void *data, uint32_t int_ms, uint32_t fin_ms );
  * \param data     Pointer to timing data
  *                 Must point to a valid \c mbedtls_timing_delay_context struct.
  *
- * \return         -1 if cancelled (fin_ms = 0)
+ * \return         -1 if cancelled (fin_ms = 0),
  *                  0 if none of the delays are passed,
  *                  1 if only the intermediate delay is passed,
  *                  2 if the final delay is passed.

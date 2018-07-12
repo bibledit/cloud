@@ -14,22 +14,19 @@ An example configuration file is included: userfacingurl.txt
 
 
 The secure http server needs a private key and a public certificate. 
-Bibledit Cloud comes with a key and a certificate that work for localhost.daplie.com, which resolves to localhost. 
-They are taken from https://github.com/Daplie/localhost.daplie.com-certificates.
-In case Bibledit Cloud runs on a public server and uses secure http, it will read the private key and the public certificate and the chain of trusted certificate authorities from the following three files:
+In case Bibledit Cloud uses secure http, it will read the private key and the public certificate and the chain of trusted certificate authorities from the following three files:
 * server.key: The private key for the server.
 * server.crt: The public certificate for the server.
 * authorities.crt: The chain of trusted certificate authorities that have issued the server certificate. At the top of the file will be the intermediate authority that issued the server certificate. Next can be more intermediate authorities. At the bottom of the file should be the trusted root certificate.
-Three example files are included. All of them have the "local." prefix. Bibledit will use them in case the proper files are not there.
 Secure certificates can be purchased from many authorities.
 Free certificates are available from https://letsencrypt.org/ and https://www.startssl.com/ and more.
 Here is an example of how to get and update certificates through Let's Encrypt:
-1. Obtain the certificate: $ letsencrypt-auto certonly --webroot -w /var/www/bibledit.org -d bibledit.org -d www.bibledit.org
-2. Regularly renew it: $ letsencrypt-auto renew
+1. Obtain the certificates through information available from https://letsencrypt.org.
+2. Regularly renew them.
 3. Copy the renewed certificates into place:
-   $ cp /etc/letsencrypt/live/bibledit.org/privkey.pem /home/foo/bibledit/config/server.key
-   $ cp /etc/letsencrypt/live/bibledit.org/cert.pem    /home/foo/bibledit/config/server.crt
-   $ cp /etc/letsencrypt/live/bibledit.org/chain.pem   /home/foo/bibledit/config/authorities.crt
+   $ cp /path/to/website.org/privkey.pem /home/foo/bibledit/config/server.key
+   $ cp /path/to/website.org/cert.pem    /home/foo/bibledit/config/server.crt
+   $ cp /path/to/website.org/chain.pem   /home/foo/bibledit/config/authorities.crt
 After the certificates have been updated, Bibledit Cloud needs to be restarted, and it will then load the new certificates.
 
 

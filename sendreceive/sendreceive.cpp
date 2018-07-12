@@ -28,6 +28,12 @@
 #include <locale/translate.h>
 
 
+string sendreceive_tag ()
+{
+  return "Git repository: ";
+}
+
+
 void sendreceive_sendreceive (string bible)
 {
 #ifdef HAVE_CLIENT
@@ -36,7 +42,7 @@ void sendreceive_sendreceive (string bible)
 #ifdef HAVE_CLOUD
   // Check on Bible.
   if (bible.empty ()) {
-    Database_Logs::log ("No Bible to send and receive", Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_tag () + "No Bible to send and receive", Filter_Roles::translator ());
     return;
   }
   
@@ -53,15 +59,15 @@ void sendreceive_sendreceive (string bible)
     string msg = "Cannot send ";
     if (read_from_git) msg.append ("and receive ");
     msg.append ("because the local git repository was not found.");
-    Database_Logs::log (msg);
+    Database_Logs::log (sendreceive_tag () + msg);
     return;
   }
   
   
   if (read_from_git) {
-    Database_Logs::log (sendreceive_sendreceive_sendreceive_text () + bible, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_tag () + sendreceive_sendreceive_sendreceive_text () + bible, Filter_Roles::translator ());
   } else {
-    Database_Logs::log (sendreceive_sendreceive_send_text () + bible, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_tag () + sendreceive_sendreceive_send_text () + bible, Filter_Roles::translator ());
   }
   Webserver_Request request;
   bool success = true;
@@ -88,7 +94,7 @@ void sendreceive_sendreceive (string bible)
     for (auto & line : lines) {
       Passage passage = filter_git_get_passage (line);
       if (passage.book) {
-        Database_Logs::log (line, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_tag () + line, Filter_Roles::translator ());
         localchanges = true;
       }
     }
@@ -99,7 +105,7 @@ void sendreceive_sendreceive (string bible)
   if (success && localchanges) {
     success = filter_git_add_remove_all (directory, error);
     if (!success) {
-      Database_Logs::log (error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_tag () + error, Filter_Roles::translator ());
     }
   }
   
@@ -109,7 +115,7 @@ void sendreceive_sendreceive (string bible)
     vector <string> messages;
     success = filter_git_commit (directory, "", translate ("Changes made in Bibledit"), messages, error);
     if (!success) {
-      Database_Logs::log (error, Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_tag () + error, Filter_Roles::translator ());
     }
   }
 
@@ -135,17 +141,17 @@ void sendreceive_sendreceive (string bible)
         if (log.find ("file changed") != string::npos) continue;
         if (log.find ("From ") == 0) continue;
         if (log.find ("origin/master") != string::npos) continue;
-        Database_Logs::log ("receive: " + log, Filter_Roles::translator ());
+        Database_Logs::log (sendreceive_tag () + "receive: " + log, Filter_Roles::translator ());
       }
     }
     if (conflict) {
-      Database_Logs::log (translate ("Bibledit will resolve the conflicts"), Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_tag () + translate ("Bibledit will resolve the conflicts"), Filter_Roles::translator ());
       filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
       if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
       vector <string> messages;
       string error;
       filter_git_commit (directory, "", translate ("Bibledit resolved the conflicts"), messages, error);
-      for (auto & msg : messages) Database_Logs::log ("conflict resolution: " + msg, Filter_Roles::translator ());
+      for (auto & msg : messages) Database_Logs::log (sendreceive_tag () + "conflict resolution: " + msg, Filter_Roles::translator ());
       // The above "git pull" operation failed due to the conflict(s).
       // Since the conflicts have now been resolved, set "success" to true again.
       // This enables the subsequent git operations to run successfully.
@@ -160,7 +166,7 @@ void sendreceive_sendreceive (string bible)
     vector <string> messages;
     success = filter_git_push (directory, messages);
     if (!success || messages.size() > 1) {
-      for (auto & msg : messages) Database_Logs::log ("send: " + msg, Filter_Roles::translator ());
+      for (auto & msg : messages) Database_Logs::log (sendreceive_tag () + "send: " + msg, Filter_Roles::translator ());
     }
   }
   
@@ -190,7 +196,7 @@ void sendreceive_sendreceive (string bible)
   if (!success) {
     string msg = "Failure during sending";
     if (read_from_git) msg.append ("and receiving");
-    Database_Logs::log (msg, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_tag () + msg, Filter_Roles::translator ());
   }
   {
     string msg;
@@ -199,7 +205,7 @@ void sendreceive_sendreceive (string bible)
     } else {
       msg = sendreceive_sendreceive_send_ready_text ();
     }
-    Database_Logs::log (msg + " " + bible, Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_tag () + msg + " " + bible, Filter_Roles::translator ());
   }
 #endif
 }

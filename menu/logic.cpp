@@ -394,16 +394,6 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     labels.push_back (menu_logic_changes_text ());
   }
 
-  // The exports are available to anyone on the Internet,
-  // but the menu item is only displayed when someone is logged in.
-  if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
-    if (index_listing_acl (webserver_request, "exports")) {
-      string label = translate ("Exports");
-      html.push_back (menu_logic_create_item (index_listing_url ("exports"), label, true));
-      labels.push_back (label);
-    }
-  }
-
   // When a user is logged in, but not a guest,
   // put the public feedback into this sub menu, rather than in the main menu.
 #ifndef HAVE_CLIENT

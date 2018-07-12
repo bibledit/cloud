@@ -7,8 +7,16 @@
 <br>
 <p>translate("Bible"): ##object##</p>
 <!-- #BEGINZONE urlactive -->
-<p>translate("Distributed collaboration for this is enabled.") <a href="?object=##object##&disable=">translate ("Disable it.")</a></p>
+<p>translate("Repository URL"): ##url## <a href="?object=##object##&disable=">[translate ("clear")]</a></p>
+<p>translate("Status"): ##status##</p>
 <!-- #ENDZONE urlactive -->
 <br>
-<p><a href="settings?object=##object##">translate("Set it up.")</a></p>
+<p><a href="settings?object=##object##">
+  <!-- #BEGINZONE urlactive -->
+  translate("Modify it.")
+  <!-- #ENDZONE urlactive -->
+  <!-- #BEGINZONE urlinactive -->
+  translate("Set it up.")
+  <!-- #ENDZONE urlinactive -->
+</a></p>
 <!-- #ENDZONE objectactive -->

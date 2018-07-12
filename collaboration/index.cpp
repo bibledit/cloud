@@ -25,6 +25,7 @@
 #include <filter/string.h>
 #include <filter/git.h>
 #include <filter/url.h>
+#include <filter/shell.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <access/bible.h>
@@ -75,18 +76,35 @@ string collaboration_index (void * webserver_request)
   view.set_variable ("object", object);
   if (!object.empty ()) view.enable_zone ("objectactive");
 
+
+  string repositoryfolder = filter_git_directory (object);
+
   
   if (request->query.count ("disable")) {
     Database_Config_Bible::setRemoteRepositoryUrl (object, "");
 #ifdef HAVE_CLOUD
-    string repository = filter_git_directory (object);
-    filter_url_rmdir (repository);
+    filter_url_rmdir (repositoryfolder);
 #endif
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
-  if (!url.empty ()) view.enable_zone ("urlactive");
+  if (url.empty ()) {
+    view.enable_zone ("urlinactive");
+  } else {
+    view.enable_zone ("urlactive");
+  }
   
+  
+  // Get the status of the git repository.
+  // This could have been done through the following:
+  // vector <string> statuslines = filter_git_status (repositoryfolder);
+  // But this function does not capture standard error.
+  // And the standard error output is needed in case of failures.
+  // So the following is used instead.
+  string statusoutput, statuserror;
+  filter_shell_run (repositoryfolder, "git", {"status"}, &statusoutput, &statuserror);
+  view.set_variable ("status", statusoutput + " " + statuserror);
+
   
   page += view.render ("collaboration", "index");
   page += Assets_Page::footer ();

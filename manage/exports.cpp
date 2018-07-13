@@ -311,6 +311,15 @@ string manage_exports (void * webserver_request)
   }
   
   
+  if (request->post.count ("fontsubmit")) {
+    string font = request->post["fontentry"];
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_Config_Bible::setExportFont (bible, font);
+    view.set_variable ("success", translate("The font for securing exports was saved."));
+  }
+  view.set_variable ("font", Database_Config_Bible::getExportFont (bible));
+
+  
   if (checkbox == "info") {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, checked);
     Database_State::setExport (bible, 0, Export_Logic::export_needed);

@@ -40,7 +40,7 @@ public:
   void newHeading1 (string text, bool hide = false);
   void createPageBreakStyle ();
   void newPageBreak ();
-  void createParagraphStyle (string name, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, int dropcaps);
+  void createParagraphStyle (string name, string fontname, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, int dropcaps);
   void updateCurrentParagraphStyle (string name);
   void openTextStyle (Database_Styles_Item style, bool note, bool embed);
   void closeTextStyle (bool note, bool embed);

@@ -658,6 +658,20 @@ void Database_Config_Bible::setSecureOdtExport (string bible, bool value)
 }
 
 
+const char * export_font_key ()
+{
+  return "export-font";
+}
+string Database_Config_Bible::getExportFont (string bible)
+{
+  return getValue (bible, export_font_key (), "");
+}
+void Database_Config_Bible::setExportFont (string bible, string value)
+{
+  setValue (bible, export_font_key (), value);
+}
+
+
 string Database_Config_Bible::getBookOrder (string bible)
 {
   return getValue (bible, "book-order", "");

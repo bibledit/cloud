@@ -1433,6 +1433,7 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
 {
   string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
+    string fontname = Database_Config_Bible::getExportFont (bible);
     float fontsize = style.fontsize;
     int italic = style.italic;
     int bold = style.bold;
@@ -1448,9 +1449,9 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
     // Copying and pasting sections with columns between documents in LibreOffice failed to work.
     // int spancolumns = style.spancolumns;
     int dropcaps = 0;
-    if (odf_text_standard) odf_text_standard->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_only) odf_text_text_only->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_standard) odf_text_standard->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_only) odf_text_text_only->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
     createdStyles.push_back (marker);
   }
   if (odf_text_standard) odf_text_standard->newParagraph (marker);
@@ -1476,6 +1477,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
     string combined_style = odf_text_standard->currentParagraphStyle + "_" + chapterMarker + convert_to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
       Database_Styles_Item style = styles[odf_text_standard->currentParagraphStyle];
+      string fontname = Database_Config_Bible::getExportFont (bible);
       float fontsize = style.fontsize;
       int italic = style.italic;
       int bold = style.bold;
@@ -1489,9 +1491,9 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
       float firstlineindent = 0; // First line that contains the chapter number in drop caps is not indented.
       //int spancolumns = style.spancolumns;
       bool keepWithNext = false;
-      if (odf_text_standard) odf_text_standard->createParagraphStyle (combined_style, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
-      if (odf_text_text_only) odf_text_text_only->createParagraphStyle (combined_style, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
-      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle (combined_style, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
+      if (odf_text_standard) odf_text_standard->createParagraphStyle (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
+      if (odf_text_text_only) odf_text_text_only->createParagraphStyle (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
+      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
       createdStyles.push_back (combined_style);
     }
     if (odf_text_standard) odf_text_standard->updateCurrentParagraphStyle (combined_style);
@@ -1613,6 +1615,7 @@ void Filter_Text::resetNoteCitations (string moment)
 void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
+    string fontname = Database_Config_Bible::getExportFont (bible);
     float fontsize = style.fontsize;
     int italic = style.italic;
     int bold = style.bold;
@@ -1627,10 +1630,10 @@ void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item 
     //bool spancolumns = false;
     bool keepWithNext = false;
     int dropcaps = 0;
-    if (odf_text_standard) odf_text_standard->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_only) odf_text_text_only->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_notes) odf_text_notes->createParagraphStyle (marker, fontsize, italic, bold, underline, smallcaps, alignment, 0, 0, 0, 0, 0, keepWithNext, dropcaps);
+    if (odf_text_standard) odf_text_standard->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_only) odf_text_text_only->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_notes) odf_text_notes->createParagraphStyle (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, 0, 0, 0, 0, 0, keepWithNext, dropcaps);
     createdStyles.push_back (marker);
   }
 }

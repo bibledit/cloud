@@ -132,6 +132,8 @@ public:
   static void setSecureUsfmExport (string bible, bool value);
   static bool getSecureOdtExport (string bible);
   static void setSecureOdtExport (string bible, bool value);
+  static string getExportFont (string bible);
+  static void setExportFont (string bible, string value);
   static string getBookOrder (string bible);
   static void setBookOrder (string bible, string value);
   static int getTextDirection (string bible);

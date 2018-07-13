@@ -107,15 +107,20 @@ void Odf_Text::initialize_content_xml ()
     xml_node childnode;
 
     childnode = office_font_face_decls.append_child ("style:font-face");
-    childnode.append_attribute ("style:name") = "Lohit Hindi1";
-    childnode.append_attribute ("svg:font-family") = "'Lohit Hindi'";
-  
-    childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = "Times New Roman";
     childnode.append_attribute ("svg:font-family") = "'Times New Roman'";
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
-  
+    
+    string fontname = Database_Config_Bible::getExportFont (bible);
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = fontname.c_str();
+    fontname.insert (0, "'");
+    fontname.append ("'");
+    childnode.append_attribute ("svg:font-family") = fontname.c_str();
+    childnode.append_attribute ("style:font-family-generic") = "roman";
+    childnode.append_attribute ("style:font-pitch") = "variable";
+    
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = "Arial";
     childnode.append_attribute ("svg:font-family") = "Arial";
@@ -240,15 +245,20 @@ void Odf_Text::initialize_styles_xml ()
     xml_node childnode;
 
     childnode = office_font_face_decls.append_child ("style:font-face");
-    childnode.append_attribute ("style:name") = "Lohit Hindi1";
-    childnode.append_attribute ("svg:font-family") = "'Lohit Hindi'";
-  
-    childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = "Times New Roman";
     childnode.append_attribute ("svg:font-family") = "'Times New Roman'";
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
   
+    string fontname = Database_Config_Bible::getExportFont (bible);
+    childnode = office_font_face_decls.append_child ("style:font-face");
+    childnode.append_attribute ("style:name") = fontname.c_str();
+    fontname.insert (0, "'");
+    fontname.append ("'");
+    childnode.append_attribute ("svg:font-family") = fontname.c_str();
+    childnode.append_attribute ("style:font-family-generic") = "roman";
+    childnode.append_attribute ("style:font-pitch") = "variable";
+
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = "Arial";
     childnode.append_attribute ("svg:font-family") = "Arial";
@@ -617,7 +627,7 @@ void Odf_Text::newPageBreak ()
 // $name: the name of the style, e.g. 'p'.
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
-void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, int dropcaps)
+void Odf_Text::createParagraphStyle (string name, string fontname, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, int dropcaps)
 {
   // It looks like this in styles.xml:
   // <style:style style:display-name="p_c1" style:family="paragraph" style:name="p_c1">
@@ -634,6 +644,11 @@ void Odf_Text::createParagraphStyle (string name, float fontsize, int italic, in
   xml_node styleParagraphPropertiesDomElement = styleDomElement.append_child ("style:paragraph-properties");
 
   xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
+
+  styleParagraphPropertiesDomElement.append_attribute ("style:font-name") = fontname.c_str();
+  fontname.insert (0, "'");
+  fontname.append ("'");
+  styleTextPropertiesDomElement.append_attribute ("fo:font-family") = fontname.c_str();
 
   string sfontsize = convert_to_string (fontsize) + "pt";
   styleTextPropertiesDomElement.append_attribute ("fo:font-size") = sfontsize.c_str();

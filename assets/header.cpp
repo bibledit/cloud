@@ -142,6 +142,10 @@ string Assets_Header::run ()
   // to refresh the browser's cache after a software upgrade.
   view->set_variable("VERSION", config_logic_version ());
 
+  if (request->database_config_user ()->getNightMode ()) {
+    view->enable_zone ("nightmode");
+  }
+
   if (includeJQueryTouch) {
     view->enable_zone ("include_jquery_touch");
   }

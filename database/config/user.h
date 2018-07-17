@@ -225,6 +225,8 @@ public:
   void setShowNoteStatus (bool value);
   bool getShowVerseTextAtCreateNote ();
   void setShowVerseTextAtCreateNote (bool value);
+  bool getNightMode ();
+  void setNightMode (bool value);
 private:
   void * webserver_request;
   string file (string user);

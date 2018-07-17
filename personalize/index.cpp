@@ -125,6 +125,13 @@ string personalize_index (void * webserver_request)
   }
 
   
+  // Setting for night mode: Update it before generating the header of this page.
+  if (request->query.count ("nightmode")) {
+    bool state = request->database_config_user ()->getNightMode ();
+    request->database_config_user ()->setNightMode (!state);
+  }
+
+  
   string page;
   string success;
   string error;
@@ -436,6 +443,11 @@ string personalize_index (void * webserver_request)
   on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getShowVerseTextAtCreateNote ());
   view.set_variable ("showversetextcreatenote", on_off);
   
+  
+  // Setting for night mode.
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getNightMode ());
+  view.set_variable ("nightmode", on_off);
+
   
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);

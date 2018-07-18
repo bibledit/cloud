@@ -128,7 +128,7 @@ void test_archive ()
     // Test gzipped tarball compression.
     string tarball = filter_archive_tar_gzip_file (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
-    int size = filter_url_filesize (tarball);
+    size_t size = filter_url_filesize (tarball);
     size_t min = 155;
     size_t max = 181;
     if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), convert_to_string (size));

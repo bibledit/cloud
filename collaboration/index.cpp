@@ -55,7 +55,10 @@ string collaboration_index (void * webserver_request)
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
+
   
+#ifdef HAVE_CLOUD
+
   
   string object = request->query ["object"];
   if (request->query.count ("select")) {
@@ -82,9 +85,7 @@ string collaboration_index (void * webserver_request)
   
   if (request->query.count ("disable")) {
     Database_Config_Bible::setRemoteRepositoryUrl (object, "");
-#ifdef HAVE_CLOUD
     filter_url_rmdir (repositoryfolder);
-#endif
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
@@ -106,6 +107,9 @@ string collaboration_index (void * webserver_request)
     filter_shell_run (repositoryfolder, "git", {"status"}, &statusoutput, &statuserror);
     view.set_variable ("status", statusoutput + " " + statuserror);
   }
+
+  
+#endif
 
   
   page += view.render ("collaboration", "index");

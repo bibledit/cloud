@@ -40,6 +40,7 @@ void bible_logic_merge_irregularity_mail (vector <string> users,
 void bible_logic_unsafe_save_mail (const string & message, const string & explanation, const string & user, const string & usfm);
 void bible_logic_client_receive_merge_mail (const string & bible, int book, int chapter, const string & user,
                                             const string & client_old, const string & client_new, const string & server);
+void bible_logic_client_mail_pending_bible_updates (string user);
 
 
 #endif

@@ -52,23 +52,27 @@ void bible_logic_store_chapter (const string& bible, int book, int chapter, cons
   Database_Bibles database_bibles;
 
   // Record data of the chapter to be stored prior to storing the new version.
-  if (client_logic_client_enabled ()) {
+  // Both client and cloud follow this order.
 
-    // Client stores Bible action.
-    string oldusfm = database_bibles.getChapter (bible, book, chapter);
-    Database_BibleActions database_bibleactions;
-    database_bibleactions.record (bible, book, chapter, oldusfm);
-    
-    // Kick the unsent-data timeout mechanism.
-    bible_logic_kick_unsent_data_timer ();
+#ifdef HAVE_CLIENT
 
-  } else {
+  // Client stores Bible action.
+  string oldusfm = database_bibles.getChapter (bible, book, chapter);
+  Database_BibleActions database_bibleactions;
+  database_bibleactions.record (bible, book, chapter, oldusfm);
+  
+  // Kick the unsent-data timeout mechanism.
+  bible_logic_kick_unsent_data_timer ();
 
-    // Server stores diff data.
+#endif
+
+#ifdef HAVE_CLOUD
+
+  // Server stores diff data.
     Database_Modifications database_modifications;
-    database_modifications.storeTeamDiff (bible, book, chapter);
-
-  }
+    database_modifications.storeTeamDiff (bible, book, chapter); // Todo test it.
+  
+#endif
 
   // Store the chapter in the database.
   database_bibles.storeChapter (bible, book, chapter, usfm);
@@ -79,24 +83,27 @@ void bible_logic_delete_chapter (const string& bible, int book, int chapter)
 {
   Database_Bibles database_bibles;
 
-  // Record data of the chapter to be deleted prior to deletion.
-  if (client_logic_client_enabled ()) {
+  // Cloud and client record data of the chapter to be deleted prior to deletion.
+  
+#ifdef HAVE_CLIENT
 
-    // Client stores Bible action.
-    string usfm = database_bibles.getChapter (bible, book, chapter);
-    Database_BibleActions database_bibleactions;
-    database_bibleactions.record (bible, book, chapter, usfm);
+  // Client stores Bible action.
+  string usfm = database_bibles.getChapter (bible, book, chapter);
+  Database_BibleActions database_bibleactions;
+  database_bibleactions.record (bible, book, chapter, usfm);
+  
+  // Kick the unsent-data timeout mechanism.
+  bible_logic_kick_unsent_data_timer ();
 
-    // Kick the unsent-data timeout mechanism.
-    bible_logic_kick_unsent_data_timer ();
+#endif
+  
+#ifdef HAVE_CLOUD
 
-  } else {
-
-    // Server stores diff data.
-    Database_Modifications database_modifications;
-    database_modifications.storeTeamDiff (bible, book, chapter);
-
-  }
+  // Server stores diff data.
+  Database_Modifications database_modifications;
+  database_modifications.storeTeamDiff (bible, book, chapter); // Todo test
+  
+#endif
 
   // Delete the chapter from the database.
   database_bibles.deleteChapter (bible, book, chapter);
@@ -107,28 +114,31 @@ void bible_logic_delete_book (const string& bible, int book)
 {
   Database_Bibles database_bibles;
 
-  // Record data of the book to be deleted prior to deletion.
-  if (client_logic_client_enabled ()) {
+  // Both client and cloud record data of the book to be deleted prior to deletion.
+  
+#ifdef HAVE_CLIENT
 
-    // Client stores Bible actions.
-    Database_BibleActions database_bibleactions;
-    vector <int> chapters = database_bibles.getChapters (bible, book);
-    for (auto & chapter : chapters) {
-      string usfm = database_bibles.getChapter (bible, book, chapter);
-      database_bibleactions.record (bible, book, chapter, usfm);
-    }
-
-    // Kick the unsent-data timeout mechanism.
-    bible_logic_kick_unsent_data_timer ();
-
-  } else {
-
-    // Server stores diff data.
-    Database_Modifications database_modifications;
-    database_modifications.storeTeamDiffBook (bible, book);
-
+  // Client stores Bible actions.
+  Database_BibleActions database_bibleactions;
+  vector <int> chapters = database_bibles.getChapters (bible, book);
+  for (auto & chapter : chapters) {
+    string usfm = database_bibles.getChapter (bible, book, chapter);
+    database_bibleactions.record (bible, book, chapter, usfm);
   }
+  
+  // Kick the unsent-data timeout mechanism.
+  bible_logic_kick_unsent_data_timer ();
+  
+#endif
+  
+#ifdef HAVE_CLOUD
 
+  // Server stores diff data.
+  Database_Modifications database_modifications;
+  database_modifications.storeTeamDiffBook (bible, book); // Todo test.
+  
+#endif
+  
   // Delete the book from the database.
   database_bibles.deleteBook (bible, book);
 }
@@ -138,39 +148,40 @@ void bible_logic_delete_bible (const string& bible)
 {
   Database_Bibles database_bibles;
 
-  // Record data of the Bible to be deleted prior to deletion.
-  if (client_logic_client_enabled ()) {
+  // The client and the cloud record data of the Bible to be deleted prior to deletion.
+  
+#ifdef HAVE_CLIENT
 
-    // Client stores Bible actions.
-    Database_BibleActions database_bibleactions;
-    vector <int> books = database_bibles.getBooks (bible);
-    for (auto book : books) {
-      vector <int> chapters = database_bibles.getChapters (bible, book);
-      for (auto chapter : chapters) {
-        string usfm = database_bibles.getChapter (bible, book, chapter);
-        database_bibleactions.record (bible, book, chapter, usfm);
-      }
+  // Client stores Bible actions.
+  Database_BibleActions database_bibleactions;
+  vector <int> books = database_bibles.getBooks (bible);
+  for (auto book : books) {
+    vector <int> chapters = database_bibles.getChapters (bible, book);
+    for (auto chapter : chapters) {
+      string usfm = database_bibles.getChapter (bible, book, chapter);
+      database_bibleactions.record (bible, book, chapter, usfm);
     }
-
-    // Kick the unsent-data timeout mechanism.
-    bible_logic_kick_unsent_data_timer ();
-
-  } else {
-
-    // Server stores diff data.
-    Database_Modifications database_modifications;
-    database_modifications.storeTeamDiffBible (bible);
-    
-#ifdef HAVE_CLOUD
-    // Possible git repository.
-    string gitdirectory = filter_git_directory (bible);
-    if (file_or_dir_exists (gitdirectory)) {
-      filter_url_rmdir (gitdirectory);
-    }
+  }
+  
+  // Kick the unsent-data timeout mechanism.
+  bible_logic_kick_unsent_data_timer ();
+  
 #endif
+  
+#ifdef HAVE_CLOUD
 
+  // Server stores diff data.
+  Database_Modifications database_modifications;
+  database_modifications.storeTeamDiffBible (bible); // Todo test
+
+  // Possible git repository.
+  string gitdirectory = filter_git_directory (bible);
+  if (file_or_dir_exists (gitdirectory)) {
+    filter_url_rmdir (gitdirectory);
   }
 
+#endif
+  
   // Delete the Bible from the database.
   database_bibles.deleteBible (bible);
   
@@ -580,4 +591,69 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
   
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
+}
+
+
+// This emails pending Bible updates to the user.
+void bible_logic_client_mail_pending_bible_updates (string user) // Todo
+{
+  // Iterate over all the actions stored for all Bible data ready for sending to the Cloud.
+  Database_BibleActions database_bibleactions;
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibleactions.getBibles ();
+  for (string bible : bibles) {
+    // Skip the Sample Bible, for less clutter.
+    if (bible == demo_sample_bible_name ()) continue;
+    vector <int> books = database_bibleactions.getBooks (bible);
+    for (int book : books) {
+      vector <int> chapters = database_bibleactions.getChapters (bible, book);
+      for (int chapter : chapters) {
+        
+        // Get old and new USFM for this chapter.
+        string oldusfm = database_bibleactions.getUsfm (bible, book, chapter);
+        string newusfm = database_bibles.getChapter (bible, book, chapter);
+        // If old USFM and new USFM are the same, or the new USFM is empty, skip it.
+        if (newusfm == oldusfm) continue;
+        if (newusfm.empty ()) continue;
+
+        string location = bible + " " + filter_passage_display (book, chapter, "");
+        string subject = "Discarded text update " + location;
+        
+        // Create the body of the email.
+        xml_document document;
+        xml_node node;
+        node = document.append_child ("h3");
+        node.text ().set (subject.c_str());
+        
+        // Add some information for the user.
+        node = document.append_child ("p");
+        string information;
+        information.append (translate ("You have now connected to Bibledit Cloud."));
+        information.append (" ");
+        information.append (translate ("While you were disconnected from Bibledit Cloud, you made some changes in the Bible text on your device."));
+        information.append (" ");
+        information.append (translate ("These changes will not be saved to Bibledit Cloud."));
+        information.append (" ");
+        information.append (translate ("The unsaved text is below."));
+        node.text ().set (information.c_str());
+        
+        // Add the passage.
+        node = document.append_child ("p");
+        node.text ().set (location.c_str ());
+        
+        // Add the text.
+        document.append_child ("br");
+        node = document.append_child ("pre");
+        node.text ().set (newusfm.c_str ());
+        
+        // Convert the document to a string.
+        stringstream output;
+        document.print (output, "", format_raw);
+        string html = output.str ();
+        
+        // Schedule the mail for sending to the user.
+        email_schedule (user, subject, html);
+      }
+    }
+  }
 }

@@ -34,6 +34,7 @@
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
 #include <assets/external.h>
+#include <bb/logic.h>
 
 
 string client_index_url ()
@@ -73,7 +74,10 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->session_logic ()->setUsername (username);
   request->session_logic ()->currentLevel (true);
   
-  // Clear all pending note actions and Bible actions and settings updates.
+  // If there's pending Bible updates, send them off to the user.
+  bible_logic_client_mail_pending_bible_updates (username); // Todo
+  
+  // Clear all pending note actions and Bible actions and settings updates. Todo
   Database_NoteActions database_noteactions;
   Database_BibleActions database_bibleactions;
   database_noteactions.clear ();
@@ -93,7 +97,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
     Database_Config_General::setRepeatSendReceive (2);
   }
   
-  // Schedule a sync operation straight-away.
+  // Schedule a sync operation straightaway.
   sendreceive_queue_sync (-1);
 }
 

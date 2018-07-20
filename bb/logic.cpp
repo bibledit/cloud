@@ -70,7 +70,7 @@ void bible_logic_store_chapter (const string& bible, int book, int chapter, cons
 
   // Server stores diff data.
     Database_Modifications database_modifications;
-    database_modifications.storeTeamDiff (bible, book, chapter); // Todo test it.
+    database_modifications.storeTeamDiff (bible, book, chapter);
   
 #endif
 
@@ -101,7 +101,7 @@ void bible_logic_delete_chapter (const string& bible, int book, int chapter)
 
   // Server stores diff data.
   Database_Modifications database_modifications;
-  database_modifications.storeTeamDiff (bible, book, chapter); // Todo test
+  database_modifications.storeTeamDiff (bible, book, chapter);
   
 #endif
 
@@ -135,7 +135,7 @@ void bible_logic_delete_book (const string& bible, int book)
 
   // Server stores diff data.
   Database_Modifications database_modifications;
-  database_modifications.storeTeamDiffBook (bible, book); // Todo test.
+  database_modifications.storeTeamDiffBook (bible, book);
   
 #endif
   
@@ -172,7 +172,7 @@ void bible_logic_delete_bible (const string& bible)
 
   // Server stores diff data.
   Database_Modifications database_modifications;
-  database_modifications.storeTeamDiffBible (bible); // Todo test
+  database_modifications.storeTeamDiffBible (bible);
 
   // Possible git repository.
   string gitdirectory = filter_git_directory (bible);
@@ -595,7 +595,7 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
 
 
 // This emails pending Bible updates to the user.
-void bible_logic_client_mail_pending_bible_updates (string user) // Todo
+void bible_logic_client_mail_pending_bible_updates (string user)
 {
   // Iterate over all the actions stored for all Bible data ready for sending to the Cloud.
   Database_BibleActions database_bibleactions;

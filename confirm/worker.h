@@ -31,10 +31,8 @@ class Confirm_Worker
 {
 public:
   Confirm_Worker (void * webserver_request_in);
-  ~Confirm_Worker ();
   void setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body);
   bool handleEmail (string from, string subject, string body);
-  void handleVisit ();
 private:
   void * webserver_request;
 };

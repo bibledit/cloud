@@ -36,11 +36,6 @@ Confirm_Worker::Confirm_Worker (void * webserver_request_in)
 }
 
 
-Confirm_Worker::~Confirm_Worker ()
-{
-}
-
-
 // Sets up a confirmation cycle in order to change something in the database.
 // If for example a user requests the email address to be changed, 
 // an initial email will be sent, which the user should confirm.
@@ -66,7 +61,6 @@ void Confirm_Worker::setup (string to, string initial_subject, string initial_bo
 // Returns true if the mail was handled, else false.
 bool Confirm_Worker::handleEmail (string from, string subject, string body)
 {
-  if (from.empty()) {};
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
   Database_Confirm database_confirm;
@@ -87,12 +81,6 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
   database_confirm.erase (id);
   // Job done.
   return true;
-}
-
-
-// Handles a confirmation through a page visit.
-void Confirm_Worker::handleVisit ()
-{
 }
 
 

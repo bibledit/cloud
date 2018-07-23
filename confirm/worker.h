@@ -35,6 +35,7 @@ public:
   bool handleEmail (string from, string subject, string body);
 private:
   void * webserver_request;
+  void informManagers (string email, string body);
 };
 
 

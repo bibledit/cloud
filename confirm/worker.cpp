@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <confirm/worker.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/roles.h>
 #include <database/confirm.h>
 #include <database/sqlite.h>
 #include <webserver/request.h>
@@ -61,6 +62,7 @@ void Confirm_Worker::setup (string to, string initial_subject, string initial_bo
 // Returns true if the mail was handled, else false.
 bool Confirm_Worker::handleEmail (string from, string subject, string body)
 {
+  (void) from;
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
   Database_Confirm database_confirm;
@@ -79,8 +81,35 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
   email_schedule (mailto, subject, body);
   // Delete the confirmation record.
   database_confirm.erase (id);
+  // Notify managers.
+  informManagers (mailto, body);
   // Job done.
   return true;
+}
+
+
+// Inform the managers about an account change.
+void Confirm_Worker::informManagers (string email, string body)
+{
+  Database_Users database_users;
+  vector <string> users = database_users.getUsers ();
+  for (auto & user : users) {
+    int level = database_users.get_level (user);
+    if (level >= Filter_Roles::manager ()) {
+      string mailto = database_users.get_email (user);
+      string subject = translate ("User account change");
+      string newbody = translate ("A user account was changed.");
+      newbody.append (" ");
+      newbody.append (translate ("Email address:"));
+      newbody.append (" ");
+      newbody.append (email);
+      newbody.append (". ");
+      newbody.append (translate ("The following email was sent to this user:"));
+      newbody.append (" ");
+      newbody.append (body);
+      email_schedule (mailto, subject, newbody);
+    }
+  }
 }
 
 

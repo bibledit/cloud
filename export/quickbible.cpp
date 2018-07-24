@@ -128,12 +128,9 @@ void export_quickbible (string bible, bool log)
   string yet2yes_jar = filter_url_create_root_path ("export", "YetToYes2.jar");
   string bible_yes = filter_url_create_path (directory, "bible.yes");
   
-  string shell_command = "java -jar YetToYes2.jar " + bible_yet + " bible.yes";
-
   string quickbible_html_source = filter_url_create_root_path ("export", "quickbb.html");
   string quickbible_html_destination = filter_url_create_path (directory, "readme.html");
   string contents = filter_url_file_get_contents (quickbible_html_source);
-  contents = filter_string_str_replace ("shell_command", shell_command, contents);
   filter_url_file_put_contents (quickbible_html_destination, contents);
   
   Database_State::clearExport (bible, 0, Export_Logic::export_quick_bible);

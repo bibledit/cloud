@@ -677,13 +677,20 @@ string Database_Notes::assemble_contents_v12 (int identifier, string contents)
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  
-  new_contents.append ("\n");
-  new_contents.append ("<p>");
+
+  // To make the notes more readable, add whitespace between the comments.
+  bool is_initial_comment = new_contents.empty ();
+  if (!is_initial_comment) {
+    new_contents.append ("\n");
+    new_contents.append ("<br>\n");
+  }
+  // Put the user and date in bold, for extra clarity.
+  new_contents.append ("<p><b>");
   new_contents.append (user);
   new_contents.append (" (");
   new_contents.append (datetime);
-  new_contents.append ("):</p>\n");
+  new_contents.append ("):</b></p>\n");
+  // Add the note body.
   if (contents == "<br>") contents.clear();
   vector <string> lines = filter_string_explode (contents, '\n');
   for (auto line : lines) {

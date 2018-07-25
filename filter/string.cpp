@@ -465,10 +465,22 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
 }
 
 
-// Converts string $s to lowercase.
+// Converts string to lowercase.
 string unicode_string_casefold (string s)
 {
   string casefolded;
+  // The conversion routine below is slow.
+  // There was a case that a user tried to put a whole Bible into one chapter.
+  // As a result, the Cloud choked on converting this chapter to lower case.
+  // So measurements were done as to the time the routine below takes to convert data.
+  // Processor 1,2 GHz Intel Core m3 took 1.5 minutes to convert 35 kbytes of data.
+  // So a limit had to be introduced below,
+  // that is the input text is larger than this limit,
+  // the routine won't fold it.
+  if (s.size () > 35000) {
+    return s;
+  }
+  // Do the case folding.
   try {
     // The UTF8 processor works with one Unicode point at a time.
     size_t string_length = unicode_string_length (s);
@@ -498,7 +510,7 @@ string unicode_string_casefold (string s)
 /*
  The code below shows how to do it through the ICU library.
  But the ICU library could not be compiled properly for Android.
- Therefore it is not used throughout all platforms.
+ Therefore it is not used on any platform.
 
   // UTF-8 string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));

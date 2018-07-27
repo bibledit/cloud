@@ -618,7 +618,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   const char * explanation1 = "The text was not saved for safety reasons.";
-  const char * explanation2 = "Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Personalize.";
+  const char * explanation2 = "Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Preferences.";
   
   // Allowed percentage difference.
   int allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();

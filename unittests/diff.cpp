@@ -80,11 +80,16 @@ void test_diff ()
   // Similarity with text that used to crash the routine but was fixed.
   {
     // Invalid UTF8 results in 0% similarity.
+    // An update was made on the routine that calculates the similarity between two strings.
+    // It used to split the strings up into whole unicode points.
+    // After the update it no longer does that.
+    // It now splits the strings up into just bytes.
+    // So the similarity is now more realistic.
     string path = filter_url_create_root_path ("unittests", "tests");
     string oldtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-old.txt"));
     string newtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-new.txt"));
     int similarity = filter_diff_character_similarity (oldtext, newtext);
-    evaluate (__LINE__, __func__, 0, similarity);
+    evaluate (__LINE__, __func__, 99, similarity);
   }
   
   // Similarity.

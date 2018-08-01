@@ -96,7 +96,7 @@ string filter_diff_diff (string oldstring, string newstring)
 // 100% means that the text is completely similar.
 // And 0% means that the text is completely different.
 // The output ranges from 0 to 100%.
-int filter_diff_character_similarity (string oldstring, string newstring)
+int filter_diff_character_similarity (string oldstring, string newstring) // Todo fixed here.
 {
   try {
 
@@ -107,15 +107,15 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     // Split the input up into unicode characers.
     sequence oldvector;
     sequence newvector;
-    size_t oldlength = unicode_string_length (oldstring);
+    size_t oldlength = oldstring.size();
     for (size_t i = 0; i < oldlength; i++) {
-      oldvector.push_back (unicode_string_substr (oldstring, i, 1));
+      oldvector.push_back (oldstring.substr (i, 1));
     }
-    size_t newlength = unicode_string_length (newstring);
+    size_t newlength = newstring.size();
     for (size_t i = 0; i < newlength; i++) {
-      newvector.push_back (unicode_string_substr (newstring, i, 1));
+      newvector.push_back (newstring.substr (i, 1));
     }
-    
+
     // Run the diff engine.
     Diff <elem> d (oldvector, newvector);
     d.compose();

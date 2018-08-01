@@ -750,7 +750,7 @@ string usfm_safely_store_verse (void * webserver_request,
   if (quill) existing_verse_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
   else existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
-  
+
   // Check that there is a match between the existing verse numbers and the verse numbers to save.
   vector <int> existing_verses = usfm_get_verse_numbers (existing_verse_usfm);
   save_verses = usfm_get_verse_numbers (usfm);
@@ -790,7 +790,7 @@ string usfm_safely_store_verse (void * webserver_request,
   }
   chapter_usfm.erase (pos, length);
   chapter_usfm.insert (pos, usfm);
-  
+
   // Record the change in the journal.
   string user = request->session_logic ()->currentUser ();
   bible_logic_log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);

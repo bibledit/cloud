@@ -105,7 +105,7 @@ string editone_logic_html_to_usfm (string stylesheet, string html)
   // It does it much later now, before saving the USFM that the converter produces.
   
   // Convert special spaces to normal ones.
-  html = any_space_to_standard_space (html);
+  html = any_space_to_standard_space (html); // Todo removing this on Windows fixes the issue.
 
   // Convert the html back to USFM in the special way for editing one verse.
   string usfm = editor_export_verse_quill (stylesheet, html);

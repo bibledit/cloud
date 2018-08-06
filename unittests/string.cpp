@@ -27,7 +27,7 @@ void test_string ()
 {
   trace_unit_tests (__func__);
   
-  // Test filter_string_str_replace.
+  // Test string replacement filter.
   {
     // Shows that std::string handles UTF-8 well for simple operations.
     evaluate (__LINE__, __func__, "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
@@ -35,6 +35,13 @@ void test_string ()
     int counter = 0;
     evaluate (__LINE__, __func__, "a", filter_string_str_replace ("bc", "", "abc", &counter));
     evaluate (__LINE__, __func__, 1, counter);
+    // Same test for the real Unicode replacer.
+    evaluate (__LINE__, __func__, "⇊⇦", unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇖⇦", unicode_string_str_replace ("", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇖⇦", unicode_string_str_replace ("⇊", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇖", unicode_string_str_replace ("⇦", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇖⇦", unicode_string_str_replace ("a", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "a", unicode_string_str_replace ("bc", "", "abc"));
   }
 
   // Test array_unique, a C++ equivalent for PHP's array_unique function.
@@ -474,6 +481,10 @@ void test_string ()
     // Check that the function to desanitize html no longer corrupts UTF-8.
     string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
     string desanitized = any_space_to_standard_space (unescape_special_xml_characters (html));
+    evaluate (__LINE__, __func__, html, desanitized);
+    // Regression test for fix for corrupting Greek.
+    html = "Ada juga seorang pengemis yang ita bernama Lazarus.<span class=i-notecall1>1</span> Setiap hari dia terbaring di pintu gerbang rumah orang kaya itu. Badan Lazarus penuh dengan luka bernanah dan busuk.<span class=i-notecall2>2</span></p><p class=b-notes><br></p><p class=b-f><span class=i-notebody1>1</span> <span class=i-fr>16:20 </span><span class=i-fk>Lazarus </span><span class=i-ft>Orang miskin Lazarus dalam perumpamaan ini berbeda dengan Lazarus— sahabat Isa yang dihidupkan oleh Isa dari kematian (Yoh. 11).</span></p><p class=b-x><span class=i-notebody2>2</span> <span class=i-xo>16:20 </span><span class=i-xt>Πτωχὸς δέ τις ἦν ὀνόματι Λάζαρος, ὃς ἐβέβλητο πρὸς τὸν πυλῶνα αὐτοῦ ἡλκωμένος</span></p>";
+    desanitized = any_space_to_standard_space (html);
     evaluate (__LINE__, __func__, html, desanitized);
   }
   

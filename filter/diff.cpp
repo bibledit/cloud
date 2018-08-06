@@ -96,7 +96,7 @@ string filter_diff_diff (string oldstring, string newstring)
 // 100% means that the text is completely similar.
 // And 0% means that the text is completely different.
 // The output ranges from 0 to 100%.
-int filter_diff_character_similarity (string oldstring, string newstring) // Todo fixed here.
+int filter_diff_character_similarity (string oldstring, string newstring)
 {
   try {
 

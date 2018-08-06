@@ -336,10 +336,10 @@ string unescape_special_xml_characters (string s)
 
 
 // Converts other types of spaces to standard spaces.
-string any_space_to_standard_space (string s)
+string any_space_to_standard_space (string s) // Todo
 {
-  s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
-  s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);
+  s = unicode_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
+  s = unicode_string_str_replace (non_breaking_space_u00A0 (), " ", s);
   return s;
 }
 
@@ -666,6 +666,29 @@ int unicode_string_convert_to_codepoint (string s)
     
   }
   return point;
+}
+
+
+string unicode_string_str_replace (string search, string replace, string subject) // Todo
+{
+  // The needle to look for should not be empty.
+  if (!search.empty ()) {
+    // Do the replacing.
+    size_t searchlength = unicode_string_length (search);
+    size_t offposition = unicode_string_strpos (subject, search);
+    while (offposition != string::npos) {
+      string subject_before;
+      // Due to the nature of the substr finder, it needs special handling for search position zero.
+      if (offposition != 0) subject_before = unicode_string_substr (subject, 0, offposition);
+      // Continue with the splitting and joining.
+      string subject_after = unicode_string_substr (subject, offposition + searchlength, subject.length());
+      subject = subject_before + replace + subject_after;
+      // Prepare for next iteration.
+      offposition = unicode_string_strpos (subject, search, offposition + unicode_string_length (replace));
+    }
+  }
+  // Ready.
+  return subject;
 }
 
 

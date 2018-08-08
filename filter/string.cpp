@@ -336,7 +336,7 @@ string unescape_special_xml_characters (string s)
 
 
 // Converts other types of spaces to standard spaces.
-string any_space_to_standard_space (string s) // Todo
+string any_space_to_standard_space (string s)
 {
   s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
   s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);
@@ -690,7 +690,7 @@ int unicode_string_convert_to_codepoint (string s)
 }
 
 
-string unicode_string_str_replace (string search, string replace, string subject) // Todo
+string unicode_string_str_replace (string search, string replace, string subject)
 {
   // The needle to look for should not be empty.
   if (!search.empty ()) {

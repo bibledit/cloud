@@ -287,6 +287,7 @@ string lexicon_logic_render_definition (string strong)
   if (definition.empty ()) {
     definition = database_hebrewlexicon.getstrong (lexicon_logic_strong_number_cleanup (strong));
   }
+  definition = filter_string_str_replace ("/>", "/>\n", definition);
   vector <string> lines = filter_string_explode (definition, '\n');
   for (auto & line : lines) {
     line = filter_string_trim (line);

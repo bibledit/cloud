@@ -125,9 +125,6 @@ void export_quickbible (string bible, bool log)
   string bible_yet = filter_url_create_path (directory, "bible.yet");
   filter_url_file_put_contents (bible_yet, yet_contents);
   
-  string yet2yes_jar = filter_url_create_root_path ("export", "YetToYes2.jar");
-  string bible_yes = filter_url_create_path (directory, "bible.yes");
-  
   string quickbible_html_source = filter_url_create_root_path ("export", "quickbb.html");
   string quickbible_html_destination = filter_url_create_path (directory, "readme.html");
   string contents = filter_url_file_get_contents (quickbible_html_source);

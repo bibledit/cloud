@@ -85,7 +85,7 @@ string bible_chapter (void * webserver_request)
   
   if (!client_logic_client_enabled ()) view.enable_zone ("server");
 
-  page += view.render ("bible", "chapter");
+  page += view.render ("bb", "chapter");
   
   page += Assets_Page::footer ();
   

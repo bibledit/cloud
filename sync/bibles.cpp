@@ -48,7 +48,7 @@ string sync_bibles_url ()
 }
 
 
-string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter) // Todo
+string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.

@@ -660,7 +660,7 @@ void bible_logic_client_mail_pending_bible_updates (string user)
 
 
 void bible_logic_client_no_write_access_mail (const string & bible, int book, int chapter, const string & user,
-                                              const string & oldusfm, const string & newusfm) // Todo
+                                              const string & oldusfm, const string & newusfm)
 {
   // No difference: Done.
   if (oldusfm == newusfm) return;

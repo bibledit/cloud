@@ -48,7 +48,7 @@ string sync_bibles_url ()
 }
 
 
-string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter)
+string sync_bibles_receive_chapter (Webserver_Request * request, string & bible, int book, int chapter) // Todo
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.
@@ -65,7 +65,11 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   if (!access_bible_book_write (request, username, bible, book)) {
     string message = "User " + username + " does not have write access to Bible " + bible;
     Database_Logs::log (message, Filter_Roles::manager ());
-    return message;
+    // The Cloud will email the user with details about the issue.
+    bible_logic_client_no_write_access_mail (bible, book, chapter, username, oldusfm, newusfm);
+    // The Cloud returns the checksum so the client things the chapter was send off correcly,
+    // and will not re-schedule this as a failure.
+    return checksum;
   }
   
   

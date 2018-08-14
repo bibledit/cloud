@@ -657,3 +657,71 @@ void bible_logic_client_mail_pending_bible_updates (string user)
     }
   }
 }
+
+
+void bible_logic_client_no_write_access_mail (const string & bible, int book, int chapter, const string & user,
+                                              const string & oldusfm, const string & newusfm) // Todo
+{
+  // No difference: Done.
+  if (oldusfm == newusfm) return;
+  
+  vector <string> client_new_diff, client_old_diff;
+  
+  // Go through all verses from the client,
+  // and make a record for each verse,
+  // where the USFM differs between client and server.
+  vector <int> verses = usfm_get_verse_numbers (oldusfm);
+  for (auto verse : verses) {
+    string client_old_verse = usfm_get_verse_text (oldusfm, verse);
+    string client_new_verse = usfm_get_verse_text (newusfm, verse);
+    // When there's no change in the verse as sent by the client, skip further checks.
+    if (client_old_verse == client_new_verse) continue;
+    // Record the difference.
+    client_new_diff.push_back (client_new_verse);
+    client_old_diff.push_back (client_old_verse);
+  }
+  
+  // No differences found: Done.
+  if (client_new_diff.empty ()) return;
+  
+  string subject = "No write access while sending Bible text";
+  
+  // Create the body of the email.
+  xml_document document;
+  xml_node node;
+  node = document.append_child ("h3");
+  node.text ().set (subject.c_str());
+  
+  // Add some information for the user.
+  node = document.append_child ("p");
+  string information;
+  information.append (translate ("While sending Bible text to Bibledit Cloud, you did not have write access to this chapter."));
+  information.append (" ");
+  information.append (translate ("You may want to check whether this is correct."));
+  node.text ().set (information.c_str());
+  node = document.append_child ("p");
+  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  node.text ().set (location.c_str ());
+  
+  for (unsigned int i = 0; i < client_new_diff.size(); i++) {
+    
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set ("You sent:");
+    node = document.append_child ("p");
+    node.text ().set (client_new_diff[i].c_str ());
+    node = document.append_child ("p");
+    node.text ().set ("The difference is:");
+    node = document.append_child ("p");
+    string difference = filter_diff_diff (client_old_diff[i], client_new_diff[i]);
+    node.append_buffer (difference.c_str (), difference.size ());
+  }
+  
+  // Convert the document to a string.
+  stringstream output;
+  document.print (output, "", format_raw);
+  string html = output.str ();
+  
+  // Schedule the mail for sending to the user.
+  email_schedule (user, subject, html);
+}

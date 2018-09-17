@@ -289,6 +289,7 @@
 /help/typesetting.html
 /help/typesettingindesign.html
 /help/typesettinglibreoffice.html
+/help/typesettingscribus.html
 /help/wikipedia.txt
 /html
 /i18n

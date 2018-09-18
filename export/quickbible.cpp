@@ -38,9 +38,6 @@
 // Info about Quick Bible export format:
 // http://www.bibleforandroid.com/developer
 // https://github.com/yukuku/androidbible
-// It fails to run the .jar file on java versions older than version 8.
-// To install java 8 on Ubuntu 14.04 LTS:
-// http://askubuntu.com/questions/464755/how-to-install-openjdk-8-on-14-04-lts
 
 
 string export_quickbible_tabify (const string & one, const string & two, const string & three, const string & four = "", const string & five = "")

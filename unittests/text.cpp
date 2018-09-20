@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_text ()
+void test_filter_text ()
 {
   trace_unit_tests (__func__);
   
@@ -960,7 +960,33 @@ Chapter Two
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  
+
+  // Test footnotes and cross references in plain text. Todo
+  {
+    string usfm = R"(
+\id GEN
+\c 1
+\p
+\v 1 This is verse one\x + Xref 1\x*.
+\v 2 This is verse two\f + Note 2\f*.
+\v 3 This is verse three\fe + Endnote 3\fe*.
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    int n = 3;
+    int size = filter_text.notes_plain_text.size();
+    evaluate (__LINE__, __func__, n, size);
+    if (size == n) {
+      evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[0].first);
+      evaluate (__LINE__, __func__, "2", filter_text.notes_plain_text[1].first);
+      evaluate (__LINE__, __func__, "3", filter_text.notes_plain_text[2].first);
+      evaluate (__LINE__, __func__, "Xref 1", filter_text.notes_plain_text[0].second);
+      evaluate (__LINE__, __func__, "Note 2", filter_text.notes_plain_text[1].second);
+      evaluate (__LINE__, __func__, "Endnote 3", filter_text.notes_plain_text[2].second);
+    }
+  }
+
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
   filter_url_unlink (TextTestTxt);

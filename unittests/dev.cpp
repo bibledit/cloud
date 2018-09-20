@@ -26,7 +26,10 @@
 #include <filter/text.h>
 
 
-void test_dev ()
+void test_dev () // Todo
 {
+  trace_unit_tests (__func__);
+  refresh_sandbox (true);
+  string bible = "phpunit";
 }
 

@@ -168,6 +168,12 @@ private:
 private:
   string space_type_after_verse; // The type of space to follow a verse number.
   map <int, bool> book_has_chapter_label; // Whether \cl was found in the book.
+  
+public:
+  vector <pair <string, string> > notes_plain_text;
+private:
+  bool note_open_now = false;
+  string notes_plain_text_buffer;
 };
 
 

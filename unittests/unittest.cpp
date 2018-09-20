@@ -133,7 +133,8 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_lexicons ();
+  test_filter_text ();
+  test_dev ();
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -218,7 +219,7 @@ int main (int argc, char **argv)
   test_html ();
   test_archive ();
   test_odf ();
-  test_text ();
+  test_filter_text ();
   test_url ();
   test_passage ();
   test_styles ();

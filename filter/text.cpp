@@ -93,10 +93,8 @@ Filter_Text::~Filter_Text ()
 
 
 
-/**
-* This function adds USFM code to the class.
-* $code: USFM code.
-*/
+// This function adds USFM code to the class.
+// $code: USFM code.
 void Filter_Text::addUsfmCode (string usfm)
 {
   // Clean the USFM.
@@ -110,10 +108,8 @@ void Filter_Text::addUsfmCode (string usfm)
 
 
 
-/**
-* This function runs the filter.
-* $stylesheet - The stylesheet to use.
-*/
+// This function runs the filter.
+// $stylesheet - The stylesheet to use.
 void Filter_Text::run (string stylesheet)
 {
   // Get the styles.
@@ -139,9 +135,7 @@ void Filter_Text::run (string stylesheet)
 
 
 
-/**
-* This function return true when there is still unprocessed USFM code available.
-*/
+// This function return true when there is still unprocessed USFM code available.
 bool Filter_Text::unprocessedUsfmCodeAvailable ()
 {
   return (usfmMarkersAndTextPointer < usfmMarkersAndText.size());
@@ -149,10 +143,8 @@ bool Filter_Text::unprocessedUsfmCodeAvailable ()
 
 
 
-/**
-* This function stores data in the class:
-* the next chapter from the unprocessed USFM code.
-*/
+// This function stores data in the class:
+// The next chapter from the unprocessed USFM code.
 void Filter_Text::getUsfmNextChapter ()
 {
   // Initialization.
@@ -188,10 +180,8 @@ void Filter_Text::getUsfmNextChapter ()
 
 
 
-/**
-* This function gets the styles from the database,
-* and stores them in the object for quicker access.
-*/
+// This function gets the styles from the database,
+// and stores them in the object for quicker access.
 void Filter_Text::getStyles (string stylesheet)
 {
   styles.clear();
@@ -220,10 +210,8 @@ void Filter_Text::getStyles (string stylesheet)
 
 
 
-/**
-* This function does the preprocessing of the USFM code
-* extracting a variety of information, creating note citations, etc.
-*/
+// This function does the preprocessing of the USFM code
+// extracting a variety of information, creating note citations, etc.
 void Filter_Text::preprocessingStage ()
 {
   usfmMarkersAndTextPointer = 0;
@@ -359,10 +347,8 @@ void Filter_Text::preprocessingStage ()
 
 
 
-/**
-* This function does the processing of the USFM code,
-* formatting the document and extracting other useful information.
-*/
+// This function does the processing of the USFM code,
+// formatting the document and extracting other useful information.
 void Filter_Text::processUsfm ()
 {
   // Go through the USFM code.
@@ -980,7 +966,7 @@ void Filter_Text::processUsfm ()
           addToFallout ("Unknown marker \\" + marker + ", formatting error:", true);
         }
       } else {
-        // Here is no marker. Treat it as text.
+        // Here is no marker. Treat it as text. Todo
         if (odf_text_standard) odf_text_standard->addText (currentItem);
         if (odf_text_text_only) odf_text_text_only->addText (currentItem);
         if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
@@ -1006,6 +992,9 @@ void Filter_Text::processUsfm ()
             actual_verses_paragraph [iverse] = filter_string_ltrim (item);
           }
         }
+        if (note_open_now) {
+          notes_plain_text_buffer.append (currentItem);
+        }
       }
     }
   }
@@ -1013,11 +1002,9 @@ void Filter_Text::processUsfm ()
 
 
 
-/**
-* This function does the processing of the USFM code for one note,
-* formatting the document and extracting information.
-*/
-void Filter_Text::processNote ()
+// This function does the processing of the USFM code for one note,
+// formatting the document and extracting information.
+void Filter_Text::processNote () // Todo
 {
   for ( ; chapterUsfmMarkersAndTextPointer < chapterUsfmMarkersAndText.size(); chapterUsfmMarkersAndTextPointer++)
   {
@@ -1071,6 +1058,8 @@ void Filter_Text::processNote ()
                   // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note ();
+                  // Set flag.
+                  note_open_now = true;
                 } else {
                   goto noteDone;
                 }
@@ -1095,6 +1084,8 @@ void Filter_Text::processNote ()
                   // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note ();
+                  // Set flag.
+                  note_open_now = true;
                 } else {
                   goto noteDone;
                 }
@@ -1177,6 +1168,8 @@ void Filter_Text::processNote ()
                   // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note ();
+                  // Set flag.
+                  note_open_now = true;
                 } else {
                   goto noteDone;
                 }
@@ -1233,6 +1226,9 @@ void Filter_Text::processNote ()
       if (html_text_standard) html_text_standard->addNoteText (currentItem);
       if (html_text_linked) html_text_linked->addNoteText (currentItem);
       if (text_text) text_text->addnotetext (currentItem);
+      if (note_open_now) {
+        notes_plain_text_buffer.append (currentItem);
+      }
     }
   }
   
@@ -1245,15 +1241,18 @@ void Filter_Text::processNote ()
   if (html_text_standard) html_text_standard->closeCurrentNote ();
   if (html_text_linked) html_text_linked->closeCurrentNote ();
   //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
+  if (!notes_plain_text_buffer.empty ()) {
+    notes_plain_text.push_back (make_pair (currentVerseNumber, notes_plain_text_buffer));
+  }
+  note_open_now = false;
+  notes_plain_text_buffer.clear ();
 }
 
 
 
-/**
-* This creates and saves the information document.
-* It contains formatting information, collected from the USFM code.
-* $path: Path to the document.
-*/
+// This creates and saves the information document.
+// It contains formatting information, collected from the USFM code.
+// $path: Path to the document.
 void Filter_Text::produceInfoDocument (string path)
 {
   Html_Text information (translate("Information"));
@@ -1344,10 +1343,8 @@ void Filter_Text::produceInfoDocument (string path)
 
 
 
-/**
-* This function produces the text of the current passage, e.g.: Genesis 1:1.
-* Returns: The passage text
-*/
+// This function produces the text of the current passage, e.g.: Genesis 1:1.
+// Returns: The passage text
 string Filter_Text::getCurrentPassageText ()
 {
   return filter_passage_display (currentBookIdentifier, currentChapterNumber, currentVerseNumber);
@@ -1355,12 +1352,10 @@ string Filter_Text::getCurrentPassageText ()
 
 
 
-/**
-* This function adds a string to the Info array, prefixed by the current passage.
-* $text: String to add to the Info array.
-* $next: If true, it also adds the text following the marker to the info,
-* and removes this text from the USFM input stream.
-*/
+// This function adds a string to the Info array, prefixed by the current passage.
+// $text: String to add to the Info array.
+// $next: If true, it also adds the text following the marker to the info,
+// and removes this text from the USFM input stream.
 void Filter_Text::addToInfo (string text, bool next)
 {
   text = getCurrentPassageText() + " " + text;
@@ -1372,12 +1367,10 @@ void Filter_Text::addToInfo (string text, bool next)
 
 
 
-/**
-* This function adds a string to the Fallout array, prefixed by the current passage.
-* $text: String to add to the Fallout array.
-* $next: If true, it also adds the text following the marker to the fallout,
-* and removes this text from the USFM input stream.
-*/
+// This function adds a string to the Fallout array, prefixed by the current passage.
+// $text: String to add to the Fallout array.
+// $next: If true, it also adds the text following the marker to the fallout,
+// and removes this text from the USFM input stream.
 void Filter_Text::addToFallout (string text, bool next)
 {
   text = getCurrentPassageText () + " " + text;
@@ -1389,12 +1382,10 @@ void Filter_Text::addToFallout (string text, bool next)
 
 
 
-/**
-* This function adds something to a word list array, prefixed by the current passage.
-* $list: which list to add the text to.
-* The word is extracted from the input USFM. The Usfm pointer points to the current marker,
-* and the text following that marker is added to the word list array.
-*/
+// This function adds something to a word list array, prefixed by the current passage.
+// $list: which list to add the text to.
+// The word is extracted from the input USFM. The Usfm pointer points to the current marker,
+// and the text following that marker is added to the word list array.
 void Filter_Text::addToWordList (vector <string>  & list)
 {
   string text = usfm_peek_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
@@ -1406,10 +1397,8 @@ void Filter_Text::addToWordList (vector <string>  & list)
 
 
 
-/**
-* This produces and saves the Fallout document.
-* $path: Path to the document.
-*/
+// This produces and saves the Fallout document.
+// $path: Path to the document.
 void Filter_Text::produceFalloutDocument (string path)
 {
   Html_Text html_text (translate("Fallout"));
@@ -1423,12 +1412,10 @@ void Filter_Text::produceFalloutDocument (string path)
 
 
 
-/**
-* This function ensures that a certain paragraph style is in the OpenDocument,
-* and then opens a paragraph with that style.
-* $style: The style to use.
-* $keepWithNext: Whether to keep this paragraph with the next one.
-*/
+// This function ensures that a certain paragraph style is in the OpenDocument,
+// and then opens a paragraph with that style.
+// $style: The style to use.
+// $keepWithNext: Whether to keep this paragraph with the next one.
 void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
 {
   string marker = style.marker;
@@ -1464,11 +1451,9 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
 
 
 
-/**
-* This applies the drop caps setting to the current paragraph style.
-* This is for the chapter number to appear in drop caps in the OpenDocument.
-* $dropCapsLength: Number of characters to put in drop caps.
-*/
+// This applies the drop caps setting to the current paragraph style.
+// This is for the chapter number to appear in drop caps in the OpenDocument.
+// $dropCapsLength: Number of characters to put in drop caps.
 void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 {
   // To name a style according to the number of characters to put in drop caps,
@@ -1504,11 +1489,9 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 
 
 
-/**
-* This puts the chapter number in a frame in the current paragraph.
-* This is to put the chapter number in a frame so it looks like drop caps in the OpenDocument.
-* $chapterText: The text of the chapter indicator to put.
-*/
+// This puts the chapter number in a frame in the current paragraph.
+// This is to put the chapter number in a frame so it looks like drop caps in the OpenDocument.
+// $chapterText: The text of the chapter indicator to put.
 void Filter_Text::putChapterNumberInFrame (string chapterText)
 {
   Database_Styles_Item style = styles[chapterMarker];
@@ -1519,10 +1502,8 @@ void Filter_Text::putChapterNumberInFrame (string chapterText)
 
 
 
-/**
-* This creates an entry in the $this->notecitations array.
-* $style: the style: an object with values.
-*/
+// This creates an entry in the $this->notecitations array.
+// $style: the style: an object with values.
 void Filter_Text::createNoteCitation (Database_Styles_Item style)
 {
   // Create an entry in the notecitations array in this object, if it does not yet exist.
@@ -1550,15 +1531,13 @@ void Filter_Text::createNoteCitation (Database_Styles_Item style)
 
 
 
-/**
-* This gets the note citation.
-* The first time that a xref is encountered, this function would return, e.g. 'a'.
-* The second time, it would return 'b'. Then 'c', 'd', 'e', and so on, up to 'z'.
-* Then it would restart with 'a'. And so on.
-* The note citation is the character that is put in superscript in the main body of Bible text.
-* $style: array with values for the note opening marker.
-* Returns: The character for the note citation.
-*/
+// This gets the note citation.
+// The first time that a xref is encountered, this function would return, e.g. 'a'.
+// The second time, it would return 'b'. Then 'c', 'd', 'e', and so on, up to 'z'.
+// Then it would restart with 'a'. And so on.
+// The note citation is the character that is put in superscript in the main body of Bible text.
+// $style: array with values for the note opening marker.
+// Returns: The character for the note citation.
 string Filter_Text::getNoteCitation (Database_Styles_Item style)
 {
   bool end_of_text_reached = (chapterUsfmMarkersAndTextPointer + 1) >= chapterUsfmMarkersAndText.size ();
@@ -1591,11 +1570,9 @@ string Filter_Text::getNoteCitation (Database_Styles_Item style)
 
 
 
-/**
-* This resets selected note citation data.
-* Resetting means that the note citations start to count afresh.
-* $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
-*/
+// This resets selected note citation data.
+// Resetting means that the note citations start to count afresh.
+// $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
 void Filter_Text::resetNoteCitations (string moment)
 {
   for (auto & notecitation : notecitations) {
@@ -1607,11 +1584,9 @@ void Filter_Text::resetNoteCitations (string moment)
 
 
 
-/**
-* This function ensures that a certain paragraph style for a note is present in the OpenDocument.
-* $marker: Which note, e.g. 'f' or 'x' or 'fe'.
-* $style: The style to use.
-*/
+// This function ensures that a certain paragraph style for a note is present in the OpenDocument.
+// $marker: Which note, e.g. 'f' or 'x' or 'fe'.
+// $style: The style to use.
 void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
@@ -1639,12 +1614,10 @@ void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item 
 }
 
 
-/**
-* This function initializes the array that holds verse numbers and the text of the headings,
-* and the array that holds verse numbers and the plain text of the Bible.
-* The object will only use the array when it has been initialized.
-* The resulting arrays use the verse numbers as keys. Therefore it only works reliably within one chapter.
-*/
+// This function initializes the array that holds verse numbers and the text of the headings,
+// and the array that holds verse numbers and the plain text of the Bible.
+// The object will only use the array when it has been initialized.
+// The resulting arrays use the verse numbers as keys. Therefore it only works reliably within one chapter.
 void Filter_Text::initializeHeadingsAndTextPerVerse (bool start_text_now)
 {
   headings_text_per_verse_active = true;

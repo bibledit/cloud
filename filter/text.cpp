@@ -63,15 +63,15 @@ Filter_Text::Filter_Text (string bible_in)
   currentChapterNumber = 0;
   heading_started = false;
   text_started = false;
-  odf_text_standard = NULL;
-  odf_text_text_only = NULL;
-  odf_text_text_and_note_citations = NULL;
-  odf_text_notes = NULL;
-  html_text_standard = NULL;
-  html_text_linked = NULL;
-  onlinebible_text = NULL;
-  esword_text = NULL;
-  text_text = NULL;
+  odf_text_standard = nullptr;
+  odf_text_text_only = nullptr;
+  odf_text_text_and_note_citations = nullptr;
+  odf_text_notes = nullptr;
+  html_text_standard = nullptr;
+  html_text_linked = nullptr;
+  onlinebible_text = nullptr;
+  esword_text = nullptr;
+  text_text = nullptr;
   headings_text_per_verse_active = false;
   space_type_after_verse = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
 }

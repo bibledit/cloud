@@ -40,7 +40,7 @@
 // https://github.com/yukuku/androidbible
 
 
-string export_quickbible_tabify (const string & one, const string & two, const string & three, const string & four = "", const string & five = "")
+string export_quickbible_tabify (const string & one, const string & two, const string & three, const string & four = "", const string & five = "", const string & six = "")
 {
   string result;
   result.append (one);
@@ -60,6 +60,10 @@ string export_quickbible_tabify (const string & one, const string & two, const s
     result.append ("\t");
     result.append (five);
   }
+  if (!six.empty ()) {
+    result.append ("\t");
+    result.append (six);
+  }
   result.append ("\n");
   return result;
 }
@@ -75,6 +79,10 @@ void export_quickbible (string bible, bool log)
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   string yet_contents;
+  
+  // Storage for the footnotes.
+  // Format: book, chapter, verse, note text.
+  vector <tuple <int, int, int, string> > footnotes;
   
   yet_contents.append (export_quickbible_tabify ("info", "shortName", bible));
   yet_contents.append (export_quickbible_tabify ("info", "longName", bible));
@@ -114,11 +122,39 @@ void export_quickbible (string bible, bool log)
               yet_contents.append (export_quickbible_tabify ("verse", bk, ch, vs, tx));
             }
           }
+          for (auto & element : filter_text.notes_plain_text) {
+            int verse = convert_to_int (element.first);
+            string note = element.second;
+            footnotes.push_back (make_tuple (book, chapter, verse, note));
+          }
         }
       }
     }
   }
-  
+
+  // Both footnotes and cross references are supported.
+  // There is no need for any flags to Yet2Yes2.jar to enable it.
+  // It has to be included below the "verse" lines, as "footnote" and "xref" lines in the YET file.
+  // Example:
+  // footnote  66  22  3  1  Greek "bondservants"; also verse 6.
+  int previousbook = 0, previouschapter = 0, previousverse = 0;
+  int offset = 1;
+  for (auto & note : footnotes) {
+    int book = get<0>(note);
+    int chapter = get<1>(note);
+    int verse = get<2>(note);
+    string notetext = get<3>(note);
+    if ((book != previousbook) || (chapter != previouschapter) || (verse != previousverse)) {
+      offset = 1;
+    } else {
+      offset++;
+    }
+    yet_contents.append (export_quickbible_tabify ("footnote", convert_to_string (book), convert_to_string (chapter), convert_to_string (verse), convert_to_string (offset), notetext));
+    previousbook = verse;
+    previouschapter = chapter;
+    previousverse = verse;
+  }
+
   string bible_yet = filter_url_create_path (directory, "bible.yet");
   filter_url_file_put_contents (bible_yet, yet_contents);
   

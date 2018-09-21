@@ -247,7 +247,6 @@
 /filter
 /filter/cas.crt
 /filter/passage.js
-/filter/text-cfa21a41.o.tmp
 /filter/url.js
 /filter/usfm.js
 /flate

@@ -178,8 +178,8 @@ string config_logic_server_key_path ()
   string path = filter_url_create_root_path ("config", "server.key");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path ("config", "local.server.key");
-  if (file_or_dir_exists (path)) return path;
+  // path = filter_url_create_root_path ("config", "local.server.key");
+  // if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
@@ -192,8 +192,8 @@ string config_logic_server_certificate_path ()
   string path = filter_url_create_root_path ("config", "server.crt");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path ("config", "local.server.crt");
-  if (file_or_dir_exists (path)) return path;
+  // path = filter_url_create_root_path ("config", "local.server.crt");
+  // if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
@@ -206,8 +206,8 @@ string config_logic_authorities_certificates_path ()
   string path = filter_url_create_root_path ("config", "authorities.crt");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path ("config", "local.authorities.crt");
-  if (file_or_dir_exists (path)) return path;
+  // path = filter_url_create_root_path ("config", "local.authorities.crt");
+  // if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }

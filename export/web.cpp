@@ -72,7 +72,7 @@ void export_web_book (string bible, int book, bool log)
   Html_Text html_text_rich_book_index (bibleBookText);
   Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
   htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
-  htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()) });
+  htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ()) });
   html_text_rich_book_index.newParagraph ("navigationbar");
   html_text_rich_book_index.addText ("|");
   
@@ -100,7 +100,7 @@ void export_web_book (string bible, int book, bool log)
     // Create breadcrumbs for the chapter.
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
     htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
-    htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (Database_Books::getEnglishFromId (book), filter_url_html_file_name_bible ()), make_pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book))});
+    htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ()), make_pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ()), make_pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book))});
      
     // Create interlinked html for the chapter.
     filter_text_chapter.run (stylesheet);
@@ -167,7 +167,7 @@ void export_web_index (string bible, bool log)
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
     // Add this book to the main web index.
-    html_text_rich_bible_index.addLink (html_text_rich_bible_index.currentPDomElement,  filter_url_html_file_name_bible ("", book), "", Database_Books::getEnglishFromId (book), "", " " + Database_Books::getEnglishFromId (book) + " ");
+    html_text_rich_bible_index.addLink (html_text_rich_bible_index.currentPDomElement,  filter_url_html_file_name_bible ("", book), "", translate (Database_Books::getEnglishFromId (book)), "", " " + translate (Database_Books::getEnglishFromId (book)) + " ");
     html_text_rich_bible_index.addText ("|");
   }
   

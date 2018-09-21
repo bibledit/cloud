@@ -966,7 +966,7 @@ void Filter_Text::processUsfm ()
           addToFallout ("Unknown marker \\" + marker + ", formatting error:", true);
         }
       } else {
-        // Here is no marker. Treat it as text. Todo
+        // Here is no marker. Treat it as text.
         if (odf_text_standard) odf_text_standard->addText (currentItem);
         if (odf_text_text_only) odf_text_text_only->addText (currentItem);
         if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
@@ -1004,7 +1004,7 @@ void Filter_Text::processUsfm ()
 
 // This function does the processing of the USFM code for one note,
 // formatting the document and extracting information.
-void Filter_Text::processNote () // Todo
+void Filter_Text::processNote ()
 {
   for ( ; chapterUsfmMarkersAndTextPointer < chapterUsfmMarkersAndText.size(); chapterUsfmMarkersAndTextPointer++)
   {

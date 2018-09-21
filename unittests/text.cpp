@@ -961,7 +961,7 @@ Chapter Two
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
-  // Test footnotes and cross references in plain text. Todo
+  // Test footnotes and cross references in plain text.
   {
     string usfm = R"(
 \id GEN

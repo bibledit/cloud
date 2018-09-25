@@ -394,7 +394,7 @@ if [ $? -ne 0 ]; then exit; fi
 if [ $? -ne 0 ]; then exit; fi
 make clean
 if [ $? -ne 0 ]; then exit; fi
-make --jobs=4
+make
 if [ $? -ne 0 ]; then exit; fi
 
 

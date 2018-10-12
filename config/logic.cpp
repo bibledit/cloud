@@ -172,42 +172,45 @@ string config_logic_manual_user_facing_url ()
 
 
 // Returns the path to the secure server's private key.
+// See also https://github.com/bibledit/cloud/issues/235
 string config_logic_server_key_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ("config", "server.key");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  // path = filter_url_create_root_path ("config", "local.server.key");
-  // if (file_or_dir_exists (path)) return path;
+  path = filter_url_create_root_path ("config", "local.server.key");
+  if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
 
 
 // Returns the path to the secure server's public certificate.
+// See also https://github.com/bibledit/cloud/issues/235
 string config_logic_server_certificate_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ("config", "server.crt");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  // path = filter_url_create_root_path ("config", "local.server.crt");
-  // if (file_or_dir_exists (path)) return path;
+  path = filter_url_create_root_path ("config", "local.server.crt");
+  if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }
 
 
 // Returns the path to the secure server's chain of certificates of the signing authorities.
+// See also https://github.com/bibledit/cloud/issues/235
 string config_logic_authorities_certificates_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ("config", "authorities.crt");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  // path = filter_url_create_root_path ("config", "local.authorities.crt");
-  // if (file_or_dir_exists (path)) return path;
+  path = filter_url_create_root_path ("config", "local.authorities.crt");
+  if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
 }

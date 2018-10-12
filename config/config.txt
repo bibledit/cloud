@@ -28,6 +28,10 @@ Here is an example of how to get and update certificates through Let's Encrypt:
    $ cp /path/to/website.org/cert.pem    /home/foo/bibledit/config/server.crt
    $ cp /path/to/website.org/chain.pem   /home/foo/bibledit/config/authorities.crt
 After the certificates have been updated, Bibledit Cloud needs to be restarted, and it will then load the new certificates.
+Note that if Bibledit-Cloud was installed from an Ubuntu package, the path where to copy the certificates to changes, as follows:
+$ sudo cp /path/to/website.org/privkey.pem /var/bibledit/bibledit-cloud/config/server.key
+$ sudo cp /path/to/website.org/cert.pem    /var/bibledit/bibledit-cloud/config/server.crt
+$ sudo cp /path/to/website.org/chain.pem   /var/bibledit/bibledit-cloud/config/authorities.crt
 
 
 To enforce secure http for browser communications, put a file named browser.https in the config folder.

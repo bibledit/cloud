@@ -2,19 +2,21 @@
  *  PKCS#12 Personal Information Exchange Syntax
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -36,6 +38,7 @@
 #include "mbedtls/pkcs12.h"
 #include "mbedtls/asn1.h"
 #include "mbedtls/cipher.h"
+#include "mbedtls/platform_util.h"
 
 #include <string.h>
 
@@ -46,11 +49,6 @@
 #if defined(MBEDTLS_DES_C)
 #include "mbedtls/des.h"
 #endif
-
-/* Implementation that should never be optimized out by the compiler */
-static void mbedtls_zeroize( void *v, size_t n ) {
-    volatile unsigned char *p = v; while( n-- ) *p++ = 0;
-}
 
 static int pkcs12_parse_pbe_params( mbedtls_asn1_buf *params,
                                     mbedtls_asn1_buf *salt, int *iterations )
@@ -166,7 +164,7 @@ int mbedtls_pkcs12_pbe_sha1_rc4_128( mbedtls_asn1_buf *pbe_params, int mode,
         goto exit;
 
 exit:
-    mbedtls_zeroize( key, sizeof( key ) );
+    mbedtls_platform_zeroize( key, sizeof( key ) );
     mbedtls_arc4_free( &ctx );
 
     return( ret );
@@ -223,8 +221,8 @@ int mbedtls_pkcs12_pbe( mbedtls_asn1_buf *pbe_params, int mode,
         ret = MBEDTLS_ERR_PKCS12_PASSWORD_MISMATCH;
 
 exit:
-    mbedtls_zeroize( key, sizeof( key ) );
-    mbedtls_zeroize( iv,  sizeof( iv  ) );
+    mbedtls_platform_zeroize( key, sizeof( key ) );
+    mbedtls_platform_zeroize( iv,  sizeof( iv  ) );
     mbedtls_cipher_free( &cipher_ctx );
 
     return( ret );
@@ -352,10 +350,10 @@ int mbedtls_pkcs12_derivation( unsigned char *data, size_t datalen,
     ret = 0;
 
 exit:
-    mbedtls_zeroize( salt_block, sizeof( salt_block ) );
-    mbedtls_zeroize( pwd_block, sizeof( pwd_block ) );
-    mbedtls_zeroize( hash_block, sizeof( hash_block ) );
-    mbedtls_zeroize( hash_output, sizeof( hash_output ) );
+    mbedtls_platform_zeroize( salt_block, sizeof( salt_block ) );
+    mbedtls_platform_zeroize( pwd_block, sizeof( pwd_block ) );
+    mbedtls_platform_zeroize( hash_block, sizeof( hash_block ) );
+    mbedtls_platform_zeroize( hash_output, sizeof( hash_output ) );
 
     mbedtls_md_free( &md_ctx );
 

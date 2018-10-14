@@ -2,21 +2,19 @@
  *  RFC 1321 compliant MD5 implementation
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -111,6 +109,13 @@ int mbedtls_md5_starts_ret( mbedtls_md5_context *ctx )
 
     return( 0 );
 }
+
+#if !defined(MBEDTLS_DEPRECATED_REMOVED)
+void mbedtls_md5_starts( mbedtls_md5_context *ctx )
+{
+    mbedtls_md5_starts_ret( ctx );
+}
+#endif
 
 #if !defined(MBEDTLS_MD5_PROCESS_ALT)
 int mbedtls_internal_md5_process( mbedtls_md5_context *ctx,
@@ -238,6 +243,14 @@ int mbedtls_internal_md5_process( mbedtls_md5_context *ctx,
 
     return( 0 );
 }
+
+#if !defined(MBEDTLS_DEPRECATED_REMOVED)
+void mbedtls_md5_process( mbedtls_md5_context *ctx,
+                          const unsigned char data[64] )
+{
+    mbedtls_internal_md5_process( ctx, data );
+}
+#endif
 #endif /* !MBEDTLS_MD5_PROCESS_ALT */
 
 /*
@@ -291,6 +304,15 @@ int mbedtls_md5_update_ret( mbedtls_md5_context *ctx,
     return( 0 );
 }
 
+#if !defined(MBEDTLS_DEPRECATED_REMOVED)
+void mbedtls_md5_update( mbedtls_md5_context *ctx,
+                         const unsigned char *input,
+                         size_t ilen )
+{
+    mbedtls_md5_update_ret( ctx, input, ilen );
+}
+#endif
+
 static const unsigned char md5_padding[64] =
 {
  0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -334,6 +356,14 @@ int mbedtls_md5_finish_ret( mbedtls_md5_context *ctx,
     return( 0 );
 }
 
+#if !defined(MBEDTLS_DEPRECATED_REMOVED)
+void mbedtls_md5_finish( mbedtls_md5_context *ctx,
+                         unsigned char output[16] )
+{
+    mbedtls_md5_finish_ret( ctx, output );
+}
+#endif
+
 #endif /* !MBEDTLS_MD5_ALT */
 
 /*
@@ -362,6 +392,15 @@ exit:
 
     return( ret );
 }
+
+#if !defined(MBEDTLS_DEPRECATED_REMOVED)
+void mbedtls_md5( const unsigned char *input,
+                  size_t ilen,
+                  unsigned char output[16] )
+{
+    mbedtls_md5_ret( input, ilen, output );
+}
+#endif
 
 #if defined(MBEDTLS_SELF_TEST)
 /*

@@ -2,19 +2,21 @@
  *  Platform abstraction layer
  *
  *  Copyright (C) 2006-2016, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -28,14 +30,7 @@
 #if defined(MBEDTLS_PLATFORM_C)
 
 #include "mbedtls/platform.h"
-
-#if defined(MBEDTLS_ENTROPY_NV_SEED) && \
-    !defined(MBEDTLS_PLATFORM_NO_STD_FUNCTIONS) && defined(MBEDTLS_FS_IO)
-/* Implementation that should never be optimized out by the compiler */
-static void mbedtls_zeroize( void *v, size_t n ) {
-    volatile unsigned char *p = (unsigned char*)v; while( n-- ) *p++ = 0;
-}
-#endif
+#include "mbedtls/platform_util.h"
 
 #if defined(MBEDTLS_PLATFORM_MEMORY)
 #if !defined(MBEDTLS_PLATFORM_STD_CALLOC)
@@ -58,14 +53,24 @@ static void platform_free_uninit( void *ptr )
 #define MBEDTLS_PLATFORM_STD_FREE     platform_free_uninit
 #endif /* !MBEDTLS_PLATFORM_STD_FREE */
 
-void * (*mbedtls_calloc)( size_t, size_t ) = MBEDTLS_PLATFORM_STD_CALLOC;
-void (*mbedtls_free)( void * )     = MBEDTLS_PLATFORM_STD_FREE;
+static void * (*mbedtls_calloc_func)( size_t, size_t ) = MBEDTLS_PLATFORM_STD_CALLOC;
+static void (*mbedtls_free_func)( void * ) = MBEDTLS_PLATFORM_STD_FREE;
+
+void * mbedtls_calloc( size_t nmemb, size_t size )
+{
+    return (*mbedtls_calloc_func)( nmemb, size );
+}
+
+void mbedtls_free( void * ptr )
+{
+    (*mbedtls_free_func)( ptr );
+}
 
 int mbedtls_platform_set_calloc_free( void * (*calloc_func)( size_t, size_t ),
                               void (*free_func)( void * ) )
 {
-    mbedtls_calloc = calloc_func;
-    mbedtls_free = free_func;
+    mbedtls_calloc_func = calloc_func;
+    mbedtls_free_func = free_func;
     return( 0 );
 }
 #endif /* MBEDTLS_PLATFORM_MEMORY */
@@ -241,7 +246,7 @@ int mbedtls_platform_std_nv_seed_read( unsigned char *buf, size_t buf_len )
     if( ( n = fread( buf, 1, buf_len, file ) ) != buf_len )
     {
         fclose( file );
-        mbedtls_zeroize( buf, buf_len );
+        mbedtls_platform_zeroize( buf, buf_len );
         return( -1 );
     }
 

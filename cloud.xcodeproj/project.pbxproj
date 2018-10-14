@@ -495,6 +495,14 @@
 		CA72B6A01DB7913A00135808 /* statistics.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = statistics.html; sourceTree = "<group>"; };
 		CA7387141AA49EEA00FE74D8 /* usfmresources.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = usfmresources.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA7387151AA49EEA00FE74D8 /* usfmresources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfmresources.h; sourceTree = "<group>"; };
+		CA73AFB9217382E20011658F /* platform_util.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = platform_util.c; sourceTree = "<group>"; };
+		CA73AFBA217382EE0011658F /* platform_util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform_util.h; sourceTree = "<group>"; };
+		CA73AFBB2173837A0011658F /* chachapoly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chachapoly.h; sourceTree = "<group>"; };
+		CA73AFBC2173837A0011658F /* chachapoly.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = chachapoly.c; sourceTree = "<group>"; };
+		CA73AFBD217383E30011658F /* poly1305.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poly1305.h; sourceTree = "<group>"; };
+		CA73AFBE217383E30011658F /* poly1305.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = poly1305.c; sourceTree = "<group>"; };
+		CA73AFBF2173842E0011658F /* chacha20.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chacha20.h; sourceTree = "<group>"; };
+		CA73AFC02173842E0011658F /* chacha20.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = chacha20.c; sourceTree = "<group>"; };
 		CA753A401E49CC5400C18ECF /* styles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = styles.cpp; sourceTree = "<group>"; };
 		CA753A411E49CC5400C18ECF /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
 		CA7594361E21174E00C76B31 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
@@ -3329,6 +3337,10 @@
 				CAB4333F1CCFBED600D1B158 /* ccm.h */,
 				CAB433401CCFBED600D1B158 /* certs.c */,
 				CAB433411CCFBED600D1B158 /* certs.h */,
+				CA73AFC02173842E0011658F /* chacha20.c */,
+				CA73AFBF2173842E0011658F /* chacha20.h */,
+				CA73AFBC2173837A0011658F /* chachapoly.c */,
+				CA73AFBB2173837A0011658F /* chachapoly.h */,
 				CAB433421CCFBED600D1B158 /* check_config.h */,
 				CAB433431CCFBED600D1B158 /* cipher_internal.h */,
 				CAB433441CCFBED600D1B158 /* cipher_wrap.c */,
@@ -3398,8 +3410,12 @@
 				CAB433831CCFBED600D1B158 /* pkcs12.h */,
 				CAB433841CCFBED600D1B158 /* pkparse.c */,
 				CAB433851CCFBED600D1B158 /* pkwrite.c */,
+				CA73AFB9217382E20011658F /* platform_util.c */,
+				CA73AFBA217382EE0011658F /* platform_util.h */,
 				CAB433861CCFBED600D1B158 /* platform.c */,
 				CAB433871CCFBED600D1B158 /* platform.h */,
+				CA73AFBE217383E30011658F /* poly1305.c */,
+				CA73AFBD217383E30011658F /* poly1305.h */,
 				CAB433881CCFBEFF00D1B158 /* ripemd160.c */,
 				CAB433891CCFBEFF00D1B158 /* ripemd160.h */,
 				CA0AB47520459A0500C99DD8 /* rsa_internal.c */,

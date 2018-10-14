@@ -294,6 +294,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
 	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
 	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
+	mbedtls/chacha20.$(OBJEXT) mbedtls/chachapoly.$(OBJEXT) \
 	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
 	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
 	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
@@ -311,7 +312,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mbedtls/pk.$(OBJEXT) mbedtls/pk_wrap.$(OBJEXT) \
 	mbedtls/pkcs11.$(OBJEXT) mbedtls/pkcs12.$(OBJEXT) \
 	mbedtls/pkcs5.$(OBJEXT) mbedtls/pkparse.$(OBJEXT) \
-	mbedtls/pkwrite.$(OBJEXT) mbedtls/platform.$(OBJEXT) \
+	mbedtls/pkwrite.$(OBJEXT) mbedtls/platform_util.$(OBJEXT) \
+	mbedtls/platform.$(OBJEXT) mbedtls/poly1305.$(OBJEXT) \
 	mbedtls/ripemd160.$(OBJEXT) mbedtls/rsa.$(OBJEXT) \
 	mbedtls/rsa_internal.$(OBJEXT) mbedtls/sha1.$(OBJEXT) \
 	mbedtls/sha256.$(OBJEXT) mbedtls/sha512.$(OBJEXT) \
@@ -511,7 +513,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
 	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
 	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/cipher.Po \
+	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
+	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
 	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
 	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
 	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
@@ -530,10 +533,11 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	mbedtls/$(DEPDIR)/pkcs11.Po mbedtls/$(DEPDIR)/pkcs12.Po \
 	mbedtls/$(DEPDIR)/pkcs5.Po mbedtls/$(DEPDIR)/pkparse.Po \
 	mbedtls/$(DEPDIR)/pkwrite.Po mbedtls/$(DEPDIR)/platform.Po \
-	mbedtls/$(DEPDIR)/ripemd160.Po mbedtls/$(DEPDIR)/rsa.Po \
-	mbedtls/$(DEPDIR)/rsa_internal.Po mbedtls/$(DEPDIR)/sha1.Po \
-	mbedtls/$(DEPDIR)/sha256.Po mbedtls/$(DEPDIR)/sha512.Po \
-	mbedtls/$(DEPDIR)/ssl_cache.Po \
+	mbedtls/$(DEPDIR)/platform_util.Po \
+	mbedtls/$(DEPDIR)/poly1305.Po mbedtls/$(DEPDIR)/ripemd160.Po \
+	mbedtls/$(DEPDIR)/rsa.Po mbedtls/$(DEPDIR)/rsa_internal.Po \
+	mbedtls/$(DEPDIR)/sha1.Po mbedtls/$(DEPDIR)/sha256.Po \
+	mbedtls/$(DEPDIR)/sha512.Po mbedtls/$(DEPDIR)/ssl_cache.Po \
 	mbedtls/$(DEPDIR)/ssl_ciphersuites.Po \
 	mbedtls/$(DEPDIR)/ssl_cli.Po mbedtls/$(DEPDIR)/ssl_cookie.Po \
 	mbedtls/$(DEPDIR)/ssl_srv.Po mbedtls/$(DEPDIR)/ssl_ticket.Po \
@@ -1262,6 +1266,8 @@ libbibledit_a_SOURCES = \
 	mbedtls/camellia.c \
 	mbedtls/ccm.c \
 	mbedtls/certs.c \
+	mbedtls/chacha20.c \
+	mbedtls/chachapoly.c \
 	mbedtls/cipher.c \
 	mbedtls/cipher_wrap.c \
 	mbedtls/ctr_drbg.c \
@@ -1296,7 +1302,9 @@ libbibledit_a_SOURCES = \
 	mbedtls/pkcs5.c \
 	mbedtls/pkparse.c \
 	mbedtls/pkwrite.c \
+	mbedtls/platform_util.c \
 	mbedtls/platform.c \
+	mbedtls/poly1305.c \
 	mbedtls/ripemd160.c \
 	mbedtls/rsa.c \
 	mbedtls/rsa_internal.c \
@@ -2696,6 +2704,10 @@ mbedtls/ccm.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/certs.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/chacha20.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/chachapoly.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/cipher.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/cipher_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
@@ -2764,7 +2776,11 @@ mbedtls/pkparse.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pkwrite.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/platform_util.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/platform.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/poly1305.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ripemd160.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -3364,6 +3380,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/camellia.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ccm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/certs.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/chacha20.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/chachapoly.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cipher.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cipher_wrap.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ctr_drbg.Po@am__quote@ # am--include-marker
@@ -3399,6 +3417,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkparse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkwrite.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/platform.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/platform_util.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/poly1305.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ripemd160.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa_internal.Po@am__quote@ # am--include-marker
@@ -4399,6 +4419,8 @@ distclean: distclean-am
 	-rm -f mbedtls/$(DEPDIR)/camellia.Po
 	-rm -f mbedtls/$(DEPDIR)/ccm.Po
 	-rm -f mbedtls/$(DEPDIR)/certs.Po
+	-rm -f mbedtls/$(DEPDIR)/chacha20.Po
+	-rm -f mbedtls/$(DEPDIR)/chachapoly.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher_wrap.Po
 	-rm -f mbedtls/$(DEPDIR)/ctr_drbg.Po
@@ -4434,6 +4456,8 @@ distclean: distclean-am
 	-rm -f mbedtls/$(DEPDIR)/pkparse.Po
 	-rm -f mbedtls/$(DEPDIR)/pkwrite.Po
 	-rm -f mbedtls/$(DEPDIR)/platform.Po
+	-rm -f mbedtls/$(DEPDIR)/platform_util.Po
+	-rm -f mbedtls/$(DEPDIR)/poly1305.Po
 	-rm -f mbedtls/$(DEPDIR)/ripemd160.Po
 	-rm -f mbedtls/$(DEPDIR)/rsa.Po
 	-rm -f mbedtls/$(DEPDIR)/rsa_internal.Po
@@ -4957,6 +4981,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f mbedtls/$(DEPDIR)/camellia.Po
 	-rm -f mbedtls/$(DEPDIR)/ccm.Po
 	-rm -f mbedtls/$(DEPDIR)/certs.Po
+	-rm -f mbedtls/$(DEPDIR)/chacha20.Po
+	-rm -f mbedtls/$(DEPDIR)/chachapoly.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher_wrap.Po
 	-rm -f mbedtls/$(DEPDIR)/ctr_drbg.Po
@@ -4992,6 +5018,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f mbedtls/$(DEPDIR)/pkparse.Po
 	-rm -f mbedtls/$(DEPDIR)/pkwrite.Po
 	-rm -f mbedtls/$(DEPDIR)/platform.Po
+	-rm -f mbedtls/$(DEPDIR)/platform_util.Po
+	-rm -f mbedtls/$(DEPDIR)/poly1305.Po
 	-rm -f mbedtls/$(DEPDIR)/ripemd160.Po
 	-rm -f mbedtls/$(DEPDIR)/rsa.Po
 	-rm -f mbedtls/$(DEPDIR)/rsa_internal.Po

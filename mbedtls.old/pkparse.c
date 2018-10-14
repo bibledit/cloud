@@ -2,21 +2,19 @@
  *  Public Key layer for parsing key files and structures
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -182,6 +180,10 @@ static int pk_get_ecparams( unsigned char **p, const unsigned char *end,
                             mbedtls_asn1_buf *params )
 {
     int ret;
+
+    if ( end - *p < 1 )
+        return( MBEDTLS_ERR_PK_KEY_INVALID_FORMAT +
+                MBEDTLS_ERR_ASN1_OUT_OF_DATA );
 
     /* Tag may be either OID or SEQUENCE */
     params->tag = **p;
@@ -859,7 +861,10 @@ static int pk_parse_key_sec1_der( mbedtls_ecp_keypair *eck,
             mbedtls_ecp_keypair_free( eck );
             return( MBEDTLS_ERR_PK_KEY_INVALID_FORMAT + ret );
         }
+    }
 
+    if( p != end )
+    {
         /*
          * Is 'publickey' present? If not, or if we can't read it (eg because it
          * is compressed), create it from the private key.
@@ -1278,6 +1283,9 @@ int mbedtls_pk_parse_key( mbedtls_pk_context *pk,
 #if defined(MBEDTLS_PKCS12_C) || defined(MBEDTLS_PKCS5_C)
     {
         unsigned char *key_copy;
+
+        if( keylen == 0 )
+            return( MBEDTLS_ERR_PK_KEY_INVALID_FORMAT );
 
         if( ( key_copy = mbedtls_calloc( 1, keylen ) ) == NULL )
             return( MBEDTLS_ERR_PK_ALLOC_FAILED );

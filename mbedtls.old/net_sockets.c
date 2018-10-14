@@ -2,21 +2,19 @@
  *  TCP/IP or UDP/IP networking functions
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -47,11 +45,12 @@
 #if (defined(_WIN32) || defined(_WIN32_WCE)) && !defined(EFIX64) && \
     !defined(EFI32)
 
-#ifdef _WIN32_WINNT
+#if !defined(_WIN32_WINNT) || (_WIN32_WINNT < 0x0501)
 #undef _WIN32_WINNT
-#endif
 /* Enables getaddrinfo() & Co */
 #define _WIN32_WINNT 0x0501
+#endif
+
 #include <ws2tcpip.h>
 
 #include <winsock2.h>
@@ -193,7 +192,7 @@ int mbedtls_net_bind( mbedtls_net_context *ctx, const char *bind_ip, const char 
 
     /* Bind to IPv6 and/or IPv4, but only in the desired protocol */
     memset( &hints, 0, sizeof( hints ) );
-    hints.ai_family = AF_INET6;
+    hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = proto == MBEDTLS_NET_PROTO_UDP ? SOCK_DGRAM : SOCK_STREAM;
     hints.ai_protocol = proto == MBEDTLS_NET_PROTO_UDP ? IPPROTO_UDP : IPPROTO_TCP;
     if( bind_ip == NULL )
@@ -273,7 +272,7 @@ static int net_would_block( const mbedtls_net_context *ctx )
 static int net_would_block( const mbedtls_net_context *ctx )
 {
     int err = errno;
-    
+
     /*
      * Never return 'WOULD BLOCK' on a non-blocking socket
      */

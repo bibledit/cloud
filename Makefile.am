@@ -361,6 +361,8 @@ libbibledit_a_SOURCES = \
 	mbedtls/camellia.c \
 	mbedtls/ccm.c \
 	mbedtls/certs.c \
+	mbedtls/chacha20.c \
+	mbedtls/chachapoly.c \
 	mbedtls/cipher.c \
 	mbedtls/cipher_wrap.c \
 	mbedtls/ctr_drbg.c \
@@ -395,7 +397,9 @@ libbibledit_a_SOURCES = \
 	mbedtls/pkcs5.c \
 	mbedtls/pkparse.c \
 	mbedtls/pkwrite.c \
+	mbedtls/platform_util.c \
 	mbedtls/platform.c \
+	mbedtls/poly1305.c \
 	mbedtls/ripemd160.c \
 	mbedtls/rsa.c \
 	mbedtls/rsa_internal.c \

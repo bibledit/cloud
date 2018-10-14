@@ -5,19 +5,21 @@
  */
 /*
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -177,7 +179,7 @@ extern "C" {
 /**
  * \brief          MPI structure
  */
-typedef struct
+typedef struct mbedtls_mpi
 {
     int s;              /*!<  integer sign      */
     size_t n;           /*!<  total # of limbs  */
@@ -204,6 +206,8 @@ void mbedtls_mpi_free( mbedtls_mpi *X );
 /**
  * \brief          Enlarge to the specified number of limbs
  *
+ *                 This function does nothing if the MPI is already large enough.
+ *
  * \param X        MPI to grow
  * \param nblimbs  The target number of limbs
  *
@@ -215,19 +219,23 @@ int mbedtls_mpi_grow( mbedtls_mpi *X, size_t nblimbs );
 /**
  * \brief          Resize down, keeping at least the specified number of limbs
  *
+ *                 If \c X is smaller than \c nblimbs, it is resized up
+ *                 instead.
+ *
  * \param X        MPI to shrink
  * \param nblimbs  The minimum number of limbs to keep
  *
  * \return         0 if successful,
  *                 MBEDTLS_ERR_MPI_ALLOC_FAILED if memory allocation failed
+ *                 (this can only happen when resizing up).
  */
 int mbedtls_mpi_shrink( mbedtls_mpi *X, size_t nblimbs );
 
 /**
  * \brief          Copy the contents of Y into X
  *
- * \param X        Destination MPI
- * \param Y        Source MPI
+ * \param X        Destination MPI. It is enlarged if necessary.
+ * \param Y        Source MPI.
  *
  * \return         0 if successful,
  *                 MBEDTLS_ERR_MPI_ALLOC_FAILED if memory allocation failed

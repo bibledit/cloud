@@ -9,21 +9,19 @@
  */
 /*
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -56,7 +54,7 @@
  *
  * Comment to disable the use of assembly code.
  */
-//#define MBEDTLS_HAVE_ASM
+#define MBEDTLS_HAVE_ASM
 
 /**
  * \def MBEDTLS_NO_UDBL_DIVISION
@@ -1051,7 +1049,8 @@
 /**
  * \def MBEDTLS_RSA_NO_CRT
  *
- * Do not use the Chinese Remainder Theorem for the RSA private operation.
+ * Do not use the Chinese Remainder Theorem
+ * for the RSA private operation.
  *
  * Uncomment this macro to disable the use of CRT in RSA.
  *
@@ -1412,6 +1411,30 @@
  * Comment this macro to disable support for truncated HMAC in SSL
  */
 #define MBEDTLS_SSL_TRUNCATED_HMAC
+
+/**
+ * \def MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT
+ *
+ * Fallback to old (pre-2.7), non-conforming implementation of the truncated
+ * HMAC extension which also truncates the HMAC key. Note that this option is
+ * only meant for a transitory upgrade period and is likely to be removed in
+ * a future version of the library.
+ *
+ * \warning The old implementation is non-compliant and has a security weakness
+ *          (2^80 brute force attack on the HMAC key used for a single,
+ *          uninterrupted connection). This should only be enabled temporarily
+ *          when (1) the use of truncated HMAC is essential in order to save
+ *          bandwidth, and (2) the peer is an Mbed TLS stack that doesn't use
+ *          the fixed implementation yet (pre-2.7).
+ *
+ * \deprecated This option is deprecated and will likely be removed in a
+ *             future version of Mbed TLS.
+ *
+ * Uncomment to fallback to old, non-compliant truncated HMAC implementation.
+ *
+ * Requires: MBEDTLS_SSL_TRUNCATED_HMAC
+ */
+//#define MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT
 
 /**
  * \def MBEDTLS_THREADING_ALT

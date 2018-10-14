@@ -4,21 +4,19 @@
  * \brief NIST SP800-38B compliant CMAC implementation for AES and 3DES
  *
  *  Copyright (C) 2006-2016, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -773,7 +771,7 @@ static int cmac_test_subkeys( int verbose,
                               int block_size,
                               int num_tests )
 {
-    int i, ret;
+    int i, ret = 0;
     mbedtls_cipher_context_t ctx;
     const mbedtls_cipher_info_t *cipher_info;
     unsigned char K1[MBEDTLS_CIPHER_BLKSIZE_MAX];
@@ -855,7 +853,7 @@ static int cmac_test_wth_cipher( int verbose,
                                  int num_tests )
 {
     const mbedtls_cipher_info_t *cipher_info;
-    int i, ret;
+    int i, ret = 0;
     unsigned char output[MBEDTLS_CIPHER_BLKSIZE_MAX];
 
     cipher_info = mbedtls_cipher_info_from_type( cipher_type );

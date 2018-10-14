@@ -2,19 +2,21 @@
  *  X.509 common functions for parsing and verification
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -28,6 +30,10 @@
  *  http://www.itu.int/ITU-T/studygroups/com17/languages/X.680-0207.pdf
  *  http://www.itu.int/ITU-T/studygroups/com17/languages/X.690-0207.pdf
  */
+
+/* Ensure gmtime_r is available even with -std=c99; must be included before
+ * config.h, which pulls in glibc's features.h. Harmless on other platforms. */
+#define _POSIX_C_SOURCE 200112L
 
 #if !defined(MBEDTLS_CONFIG_FILE)
 #include "mbedtls/config.h"
@@ -59,24 +65,11 @@
 #define mbedtls_snprintf  snprintf
 #endif
 
-
 #if defined(MBEDTLS_HAVE_TIME)
 #include "mbedtls/platform_time.h"
 #endif
-
-#if defined(_WIN32) && !defined(EFIX64) && !defined(EFI32)
-#include <windows.h>
-#else
+#if defined(MBEDTLS_HAVE_TIME_DATE)
 #include <time.h>
-#endif
-
-#if defined(MBEDTLS_FS_IO)
-#include <stdio.h>
-#if !defined(_WIN32)
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#endif
 #endif
 
 #define CHECK(code) if( ( ret = code ) != 0 ){ return( ret ); }
@@ -903,36 +896,18 @@ int mbedtls_x509_key_size_helper( char *buf, size_t buf_size, const char *name )
  * Set the time structure to the current time.
  * Return 0 on success, non-zero on failure.
  */
-#if defined(_WIN32) && !defined(EFIX64) && !defined(EFI32)
 static int x509_get_current_time( mbedtls_x509_time *now )
 {
-    SYSTEMTIME st;
-
-    GetSystemTime( &st );
-
-    now->year = st.wYear;
-    now->mon  = st.wMonth;
-    now->day  = st.wDay;
-    now->hour = st.wHour;
-    now->min  = st.wMinute;
-    now->sec  = st.wSecond;
-
-    return( 0 );
-}
-#else
-static int x509_get_current_time( mbedtls_x509_time *now )
-{
-    struct tm *lt;
+    struct tm *lt, tm_buf;
     mbedtls_time_t tt;
     int ret = 0;
 
-#if defined(MBEDTLS_THREADING_C)
-    if( mbedtls_mutex_lock( &mbedtls_threading_gmtime_mutex ) != 0 )
-        return( MBEDTLS_ERR_THREADING_MUTEX_ERROR );
-#endif
-
     tt = mbedtls_time( NULL );
-    lt = gmtime( &tt );
+#if defined(_WIN32) && !defined(EFIX64) && !defined(EFI32)
+    lt = gmtime_s( &tm_buf, &tt ) == 0 ? &tm_buf : NULL;
+#else
+    lt = gmtime_r( &tt, &tm_buf );
+#endif
 
     if( lt == NULL )
         ret = -1;
@@ -946,14 +921,8 @@ static int x509_get_current_time( mbedtls_x509_time *now )
         now->sec  = lt->tm_sec;
     }
 
-#if defined(MBEDTLS_THREADING_C)
-    if( mbedtls_mutex_unlock( &mbedtls_threading_gmtime_mutex ) != 0 )
-        return( MBEDTLS_ERR_THREADING_MUTEX_ERROR );
-#endif
-
     return( ret );
 }
-#endif /* _WIN32 && !EFIX64 && !EFI32 */
 
 /*
  * Return 0 if before <= after, 1 otherwise

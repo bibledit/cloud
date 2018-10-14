@@ -2,21 +2,19 @@
  *  Buffer-based memory allocator
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -184,9 +182,9 @@ static int verify_header( memory_header *hdr )
 
 static int verify_chain()
 {
-    memory_header *prv = heap.first, *cur = heap.first->next;
+    memory_header *prv = heap.first, *cur;
 
-    if( verify_header( heap.first ) != 0 )
+    if( prv == NULL || verify_header( prv ) != 0 )
     {
 #if defined(MBEDTLS_MEMORY_DEBUG)
         mbedtls_fprintf( stderr, "FATAL: verification of first header "
@@ -203,6 +201,8 @@ static int verify_chain()
 #endif
         return( 1 );
     }
+
+    cur = heap.first->next;
 
     while( cur != NULL )
     {
@@ -247,7 +247,9 @@ static void *buffer_alloc_calloc( size_t n, size_t size )
 
     original_len = len = n * size;
 
-    if( n != 0 && len / n != size )
+    if( n == 0 || size == 0 || len / n != size )
+        return( NULL );
+    else if( len > (size_t)-MBEDTLS_MEMORY_ALIGN_MULTIPLE )
         return( NULL );
 
     if( len % MBEDTLS_MEMORY_ALIGN_MULTIPLE )
@@ -388,7 +390,7 @@ static void buffer_alloc_free( void *ptr )
     if( ptr == NULL || heap.buf == NULL || heap.first == NULL )
         return;
 
-    if( p < heap.buf || p > heap.buf + heap.len )
+    if( p < heap.buf || p >= heap.buf + heap.len )
     {
 #if defined(MBEDTLS_MEMORY_DEBUG)
         mbedtls_fprintf( stderr, "FATAL: mbedtls_free() outside of managed "
@@ -520,7 +522,9 @@ void mbedtls_memory_buffer_alloc_status()
                       heap.alloc_count, heap.free_count );
 
     if( heap.first->next == NULL )
+    {
         mbedtls_fprintf( stderr, "All memory de-allocated in stack buffer\n" );
+    }
     else
     {
         mbedtls_fprintf( stderr, "Memory currently allocated:\n" );
@@ -572,8 +576,7 @@ static void buffer_alloc_free_mutexed( void *ptr )
 
 void mbedtls_memory_buffer_alloc_init( unsigned char *buf, size_t len )
 {
-    memset( &heap, 0, sizeof(buffer_alloc_ctx) );
-    memset( buf, 0, len );
+    memset( &heap, 0, sizeof( buffer_alloc_ctx ) );
 
 #if defined(MBEDTLS_THREADING_C)
     mbedtls_mutex_init( &heap.mutex );
@@ -583,20 +586,24 @@ void mbedtls_memory_buffer_alloc_init( unsigned char *buf, size_t len )
     mbedtls_platform_set_calloc_free( buffer_alloc_calloc, buffer_alloc_free );
 #endif
 
-    if( (size_t) buf % MBEDTLS_MEMORY_ALIGN_MULTIPLE )
+    if( len < sizeof( memory_header ) + MBEDTLS_MEMORY_ALIGN_MULTIPLE )
+        return;
+    else if( (size_t)buf % MBEDTLS_MEMORY_ALIGN_MULTIPLE )
     {
         /* Adjust len first since buf is used in the computation */
         len -= MBEDTLS_MEMORY_ALIGN_MULTIPLE
-             - (size_t) buf % MBEDTLS_MEMORY_ALIGN_MULTIPLE;
+             - (size_t)buf % MBEDTLS_MEMORY_ALIGN_MULTIPLE;
         buf += MBEDTLS_MEMORY_ALIGN_MULTIPLE
-             - (size_t) buf % MBEDTLS_MEMORY_ALIGN_MULTIPLE;
+             - (size_t)buf % MBEDTLS_MEMORY_ALIGN_MULTIPLE;
     }
+
+    memset( buf, 0, len );
 
     heap.buf = buf;
     heap.len = len;
 
-    heap.first = (memory_header *) buf;
-    heap.first->size = len - sizeof(memory_header);
+    heap.first = (memory_header *)buf;
+    heap.first->size = len - sizeof( memory_header );
     heap.first->magic1 = MAGIC1;
     heap.first->magic2 = MAGIC2;
     heap.first_free = heap.first;

@@ -1,26 +1,33 @@
 /**
  * \file ctr_drbg.h
  *
- * \brief    CTR_DRBG is based on AES-256, as defined in <em>NIST SP 800-90A:
- *           Recommendation for Random Number Generation Using Deterministic
- *           Random Bit Generators</em>.
+ * \brief    This file contains CTR_DRBG definitions and functions.
  *
+ * CTR_DRBG is a standardized way of building a PRNG from a block-cipher
+ * in counter mode operation, as defined in <em>NIST SP 800-90A:
+ * Recommendation for Random Number Generation Using Deterministic Random
+ * Bit Generators</em>.
+ *
+ * The Mbed TLS implementation of CTR_DRBG uses AES-256 as the underlying
+ * block cipher.
  */
 /*
  *  Copyright (C) 2006-2018, Arm Limited (or its affiliates), All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of Mbed TLS (https://tls.mbed.org)
  */
@@ -31,7 +38,7 @@
 #include "aes.h"
 
 #if defined(MBEDTLS_THREADING_C)
-#include "mbedtls/threading.h"
+#include "threading.h"
 #endif
 
 #define MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED        -0x0034  /**< The entropy source failed. */
@@ -103,7 +110,7 @@ extern "C" {
 /**
  * \brief          The CTR_DRBG context structure.
  */
-typedef struct
+typedef struct mbedtls_ctr_drbg_context
 {
     unsigned char counter[16];  /*!< The counter (V). */
     int reseed_counter;         /*!< The reseed counter. */
@@ -156,8 +163,8 @@ void mbedtls_ctr_drbg_init( mbedtls_ctr_drbg_context *ctx );
                         identifiers. Can be NULL.
  * \param len           The length of the personalization data.
  *
- * \return              \c 0 on success, or
- *                      #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED on failure.
+ * \return              \c 0 on success.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED on failure.
  */
 int mbedtls_ctr_drbg_seed( mbedtls_ctr_drbg_context *ctx,
                    int (*f_entropy)(void *, unsigned char *, size_t),
@@ -216,22 +223,24 @@ void mbedtls_ctr_drbg_set_reseed_interval( mbedtls_ctr_drbg_context *ctx,
  * \param additional    Additional data to add to the state. Can be NULL.
  * \param len           The length of the additional data.
  *
- * \return   \c 0 on success, or
- *           #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED on failure.
+ * \return              \c 0 on success.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED on failure.
  */
 int mbedtls_ctr_drbg_reseed( mbedtls_ctr_drbg_context *ctx,
                      const unsigned char *additional, size_t len );
 
 /**
- * \brief               This function updates the state of the CTR_DRBG context.
+ * \brief              This function updates the state of the CTR_DRBG context.
  *
- * \param ctx           The CTR_DRBG context.
- * \param additional    The data to update the state with.
- * \param add_len       Length of \p additional data.
+ * \note               If \p add_len is greater than
+ *                     #MBEDTLS_CTR_DRBG_MAX_SEED_INPUT, only the first
+ *                     #MBEDTLS_CTR_DRBG_MAX_SEED_INPUT Bytes are used.
+ *                     The remaining Bytes are silently discarded.
  *
- * \note     If \p add_len is greater than #MBEDTLS_CTR_DRBG_MAX_SEED_INPUT,
- *           only the first #MBEDTLS_CTR_DRBG_MAX_SEED_INPUT Bytes are used.
- *           The remaining Bytes are silently discarded.
+ * \param ctx          The CTR_DRBG context.
+ * \param additional   The data to update the state with.
+ * \param add_len      Length of \p additional data.
+ *
  */
 void mbedtls_ctr_drbg_update( mbedtls_ctr_drbg_context *ctx,
                       const unsigned char *additional, size_t add_len );
@@ -249,8 +258,8 @@ void mbedtls_ctr_drbg_update( mbedtls_ctr_drbg_context *ctx,
  * \param additional    Additional data to update. Can be NULL.
  * \param add_len       The length of the additional data.
  *
- * \return    \c 0 on success, or
- *            #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED or
+ * \return    \c 0 on success.
+ * \return    #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED or
  *            #MBEDTLS_ERR_CTR_DRBG_REQUEST_TOO_BIG on failure.
  */
 int mbedtls_ctr_drbg_random_with_add( void *p_rng,
@@ -267,8 +276,8 @@ int mbedtls_ctr_drbg_random_with_add( void *p_rng,
  * \param output        The buffer to fill.
  * \param output_len    The length of the buffer.
  *
- * \return              \c 0 on success, or
- *                      #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED or
+ * \return              \c 0 on success.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED or
  *                      #MBEDTLS_ERR_CTR_DRBG_REQUEST_TOO_BIG on failure.
  */
 int mbedtls_ctr_drbg_random( void *p_rng,
@@ -281,9 +290,9 @@ int mbedtls_ctr_drbg_random( void *p_rng,
  * \param ctx           The CTR_DRBG context.
  * \param path          The name of the file.
  *
- * \return              \c 0 on success,
- *                      #MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR on file error, or
- *                      #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED on
+ * \return              \c 0 on success.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR on file error.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED on
  *                      failure.
  */
 int mbedtls_ctr_drbg_write_seed_file( mbedtls_ctr_drbg_context *ctx, const char *path );
@@ -295,9 +304,9 @@ int mbedtls_ctr_drbg_write_seed_file( mbedtls_ctr_drbg_context *ctx, const char 
  * \param ctx           The CTR_DRBG context.
  * \param path          The name of the file.
  *
- * \return              \c 0 on success,
- *                      #MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR on file error,
- *                      #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED or
+ * \return              \c 0 on success.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_FILE_IO_ERROR on file error.
+ * \return              #MBEDTLS_ERR_CTR_DRBG_ENTROPY_SOURCE_FAILED or
  *                      #MBEDTLS_ERR_CTR_DRBG_INPUT_TOO_BIG on failure.
  */
 int mbedtls_ctr_drbg_update_seed_file( mbedtls_ctr_drbg_context *ctx, const char *path );
@@ -306,7 +315,8 @@ int mbedtls_ctr_drbg_update_seed_file( mbedtls_ctr_drbg_context *ctx, const char
 /**
  * \brief               The CTR_DRBG checkup routine.
  *
- * \return              \c 0 on success, or \c 1 on failure.
+ * \return              \c 0 on success.
+ * \return              \c 1 on failure.
  */
 int mbedtls_ctr_drbg_self_test( int verbose );
 

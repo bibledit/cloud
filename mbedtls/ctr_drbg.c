@@ -2,19 +2,21 @@
  *  CTR_DRBG implementation based on AES-256 (NIST SP 800-90)
  *
  *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: Apache-2.0
+ *  SPDX-License-Identifier: GPL-2.0
  *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  This file is part of mbed TLS (https://tls.mbed.org)
  */
@@ -33,6 +35,7 @@
 #if defined(MBEDTLS_CTR_DRBG_C)
 
 #include "mbedtls/ctr_drbg.h"
+#include "mbedtls/platform_util.h"
 
 #include <string.h>
 
@@ -48,11 +51,6 @@
 #define mbedtls_printf printf
 #endif /* MBEDTLS_PLATFORM_C */
 #endif /* MBEDTLS_SELF_TEST */
-
-/* Implementation that should never be optimized out by the compiler */
-static void mbedtls_zeroize( void *v, size_t n ) {
-    volatile unsigned char *p = v; while( n-- ) *p++ = 0;
-}
 
 /*
  * CTR_DRBG context initialization
@@ -125,7 +123,7 @@ void mbedtls_ctr_drbg_free( mbedtls_ctr_drbg_context *ctx )
     mbedtls_mutex_free( &ctx->mutex );
 #endif
     mbedtls_aes_free( &ctx->aes_ctx );
-    mbedtls_zeroize( ctx, sizeof( mbedtls_ctr_drbg_context ) );
+    mbedtls_platform_zeroize( ctx, sizeof( mbedtls_ctr_drbg_context ) );
 }
 
 void mbedtls_ctr_drbg_set_prediction_resistance( mbedtls_ctr_drbg_context *ctx, int resistance )
@@ -245,16 +243,16 @@ exit:
     /*
     * tidy up the stack
     */
-    mbedtls_zeroize( buf, sizeof( buf ) );
-    mbedtls_zeroize( tmp, sizeof( tmp ) );
-    mbedtls_zeroize( key, sizeof( key ) );
-    mbedtls_zeroize( chain, sizeof( chain ) );
+    mbedtls_platform_zeroize( buf, sizeof( buf ) );
+    mbedtls_platform_zeroize( tmp, sizeof( tmp ) );
+    mbedtls_platform_zeroize( key, sizeof( key ) );
+    mbedtls_platform_zeroize( chain, sizeof( chain ) );
     if( 0 != ret )
     {
         /*
         * wipe partial seed from memory
         */
-        mbedtls_zeroize( output, MBEDTLS_CTR_DRBG_SEEDLEN );
+        mbedtls_platform_zeroize( output, MBEDTLS_CTR_DRBG_SEEDLEN );
     }
 
     return( ret );
@@ -493,7 +491,7 @@ int mbedtls_ctr_drbg_write_seed_file( mbedtls_ctr_drbg_context *ctx, const char 
         ret = 0;
 
 exit:
-    mbedtls_zeroize( buf, sizeof( buf ) );
+    mbedtls_platform_zeroize( buf, sizeof( buf ) );
 
     fclose( f );
     return( ret );
@@ -526,7 +524,7 @@ int mbedtls_ctr_drbg_update_seed_file( mbedtls_ctr_drbg_context *ctx, const char
 
     fclose( f );
 
-    mbedtls_zeroize( buf, sizeof( buf ) );
+    mbedtls_platform_zeroize( buf, sizeof( buf ) );
 
     if( ret != 0 )
         return( ret );

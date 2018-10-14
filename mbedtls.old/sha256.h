@@ -5,21 +5,19 @@
  */
 /*
  *  Copyright (C) 2006-2018, Arm Limited (or its affiliates), All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  SPDX-License-Identifier: Apache-2.0
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  This file is part of Mbed TLS (https://tls.mbed.org)
  */
@@ -37,10 +35,6 @@
 
 #define MBEDTLS_ERR_SHA256_HW_ACCEL_FAILED                -0x0037  /**< SHA-256 hardware accelerator failed */
 
-#if ( defined(__ARMCC_VERSION) || defined(_MSC_VER) ) && \
-    !defined(inline) && !defined(__cplusplus)
-#define inline __inline
-#endif
 #if !defined(MBEDTLS_SHA256_ALT)
 // Regular implementation
 //
@@ -158,12 +152,8 @@ int mbedtls_internal_sha256_process( mbedtls_sha256_context *ctx,
  *                 <ul><li>0: Use SHA-256.</li>
  *                 <li>1: Use SHA-224.</li></ul>
  */
-MBEDTLS_DEPRECATED static inline void mbedtls_sha256_starts(
-                                                mbedtls_sha256_context *ctx,
-                                                int is224 )
-{
-    mbedtls_sha256_starts_ret( ctx, is224 );
-}
+MBEDTLS_DEPRECATED void mbedtls_sha256_starts( mbedtls_sha256_context *ctx,
+                                               int is224 );
 
 /**
  * \brief          This function feeds an input buffer into an ongoing
@@ -175,13 +165,9 @@ MBEDTLS_DEPRECATED static inline void mbedtls_sha256_starts(
  * \param input    The buffer holding the data.
  * \param ilen     The length of the input data.
  */
-MBEDTLS_DEPRECATED static inline void mbedtls_sha256_update(
-                                                mbedtls_sha256_context *ctx,
-                                                const unsigned char *input,
-                                                size_t ilen )
-{
-    mbedtls_sha256_update_ret( ctx, input, ilen );
-}
+MBEDTLS_DEPRECATED void mbedtls_sha256_update( mbedtls_sha256_context *ctx,
+                                               const unsigned char *input,
+                                               size_t ilen );
 
 /**
  * \brief          This function finishes the SHA-256 operation, and writes
@@ -192,12 +178,8 @@ MBEDTLS_DEPRECATED static inline void mbedtls_sha256_update(
  * \param ctx      The SHA-256 context.
  * \param output   The SHA-224or SHA-256 checksum result.
  */
-MBEDTLS_DEPRECATED static inline void mbedtls_sha256_finish(
-                                                mbedtls_sha256_context *ctx,
-                                                unsigned char output[32] )
-{
-    mbedtls_sha256_finish_ret( ctx, output );
-}
+MBEDTLS_DEPRECATED void mbedtls_sha256_finish( mbedtls_sha256_context *ctx,
+                                               unsigned char output[32] );
 
 /**
  * \brief          This function processes a single data block within
@@ -209,12 +191,8 @@ MBEDTLS_DEPRECATED static inline void mbedtls_sha256_finish(
  * \param ctx      The SHA-256 context.
  * \param data     The buffer holding one block of data.
  */
-MBEDTLS_DEPRECATED static inline void mbedtls_sha256_process(
-                                                mbedtls_sha256_context *ctx,
-                                                const unsigned char data[64] )
-{
-    mbedtls_internal_sha256_process( ctx, data );
-}
+MBEDTLS_DEPRECATED void mbedtls_sha256_process( mbedtls_sha256_context *ctx,
+                                                const unsigned char data[64] );
 
 #undef MBEDTLS_DEPRECATED
 #endif /* !MBEDTLS_DEPRECATED_REMOVED */
@@ -278,14 +256,10 @@ int mbedtls_sha256_ret( const unsigned char *input,
  *                 <ul><li>0: Use SHA-256.</li>
  *                 <li>1: Use SHA-224.</li></ul>
  */
-MBEDTLS_DEPRECATED static inline void mbedtls_sha256(
-                                                    const unsigned char *input,
-                                                    size_t ilen,
-                                                    unsigned char output[32],
-                                                    int is224 )
-{
-    mbedtls_sha256_ret( input, ilen, output, is224 );
-}
+MBEDTLS_DEPRECATED void mbedtls_sha256( const unsigned char *input,
+                                        size_t ilen,
+                                        unsigned char output[32],
+                                        int is224 );
 
 #undef MBEDTLS_DEPRECATED
 #endif /* !MBEDTLS_DEPRECATED_REMOVED */

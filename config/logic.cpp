@@ -202,7 +202,7 @@ string config_logic_server_certificate_path ()
 
 
 // Returns the path to the secure server's certificates of the signing authorities.
-// This certificate contains the chain of trusted certificate authorities that have issued the server certificate.
+// This file contains the chain of trusted certificate authorities that have issued the server certificate.
 // At the top of the file will be the intermediate authority that issued the server certificate.
 // Next can be more intermediate authorities.
 // At the bottom of the file should be the trusted root certificate.

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+const char * config_logic_config_folder ();
 const char * config_logic_version ();
 string config_logic_http_network_port ();
 int config_logic_https_network_port ();

@@ -6,10 +6,8 @@ All configuration files reside in the config folder.
 
 When Bibledit Cloud runs behind a proxy server, Bibledit is not able to find out its own URL that faces the user.
 The user-facing URL can be set through a configuration file.
-The name of the configuration file is:
-userfacingurl.conf
-It contains the URL, for example:
-https://bibledit.org:1500/
+The name of the configuration file is: userfacingurl.conf
+It contains the URL, for example: https://bibledit.org:1500/
 An example configuration file is included: userfacingurl.txt
 
 

@@ -11,7 +11,9 @@ It contains the URL, for example: https://bibledit.org:1500/
 An example configuration file is included: userfacingurl.txt
 
 
-The secure http server needs a private key and a public certificate. 
+The secure http server needs the following three files:
+* A private key.
+a private key and a public certificate.
 In case Bibledit Cloud uses secure http, it will read the private key and the public certificate and the chain of trusted certificate authorities from the following three files:
 * server.key: The private key for the server.
 * server.crt: The public certificate for the server.

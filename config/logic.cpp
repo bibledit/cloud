@@ -176,10 +176,10 @@ string config_logic_manual_user_facing_url ()
 string config_logic_server_key_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "server.key");
+  string path = filter_url_create_root_path (config_logic_config_folder (), "privkey.pem");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path (config_logic_config_folder (), "local.server.key");
+  path = filter_url_create_root_path (config_logic_config_folder (), "local.privkey.pem");
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
@@ -191,10 +191,10 @@ string config_logic_server_key_path ()
 string config_logic_server_certificate_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "server.crt");
+  string path = filter_url_create_root_path (config_logic_config_folder (), "cert.pem");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path (config_logic_config_folder (), "local.server.crt");
+  path = filter_url_create_root_path (config_logic_config_folder (), "local.cert.pem");
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
@@ -210,10 +210,10 @@ string config_logic_server_certificate_path ()
 string config_logic_authorities_certificates_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "authorities.crt");
+  string path = filter_url_create_root_path (config_logic_config_folder (), "chain.pem");
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path (config_logic_config_folder (), "local.authorities.crt");
+  path = filter_url_create_root_path (config_logic_config_folder (), "local.chain.pem");
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";

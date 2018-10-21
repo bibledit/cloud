@@ -55,9 +55,9 @@
 /config
 /config/config.txt
 /config/ldap.txt
-/config/local.authorities.crt
-/config/local.server.crt
-/config/local.server.key
+/config/local.cert.pem
+/config/local.chain.pem
+/config/local.privkey.pem
 /config/userfacingurl.txt
 /confirm
 /consistency

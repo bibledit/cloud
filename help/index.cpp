@@ -93,6 +93,8 @@ string help_index (void * webserver_request, const string& url)
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 
+  view.set_variable ("config", filter_url_create_root_path (config_logic_config_folder ()));
+  
   string filename (url);
   size_t pos = url.find ("/");
   if (pos != string::npos) filename.erase (0, ++pos);

@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18640)\n"
+"X-Generator: Launchpad (build 18783)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -540,6 +540,28 @@ msgstr ""
 msgid "You may want to check the result of the merge, whether it is correct."
 msgstr ""
 
+msgid "You have now connected to Bibledit Cloud."
+msgstr ""
+
+msgid ""
+"While you were disconnected from Bibledit Cloud, you made some changes in "
+"the Bible text on your device."
+msgstr ""
+
+msgid "These changes will not be saved to Bibledit Cloud."
+msgstr ""
+
+msgid "The unsaved text is below."
+msgstr ""
+
+msgid ""
+"While sending Bible text to Bibledit Cloud, you did not have write access to "
+"this chapter."
+msgstr ""
+
+msgid "You may want to check whether this is correct."
+msgstr ""
+
 msgid "Please enter a name for the new empty Bible"
 msgstr ""
 
@@ -1033,6 +1055,18 @@ msgid ""
 "Please confirm this request by replying to this email. There is a "
 "confirmation number in the subject line. Your reply should have this same "
 "confirmation number in the subject line."
+msgstr ""
+
+msgid "User account change"
+msgstr ""
+
+msgid "A user account was changed."
+msgstr ""
+
+msgid "Email address:"
+msgstr ""
+
+msgid "The following email was sent to this user:"
 msgstr ""
 
 msgid "Back"
@@ -2003,9 +2037,6 @@ msgstr ""
 msgid "User resources"
 msgstr ""
 
-msgid "Exports"
-msgstr "Exporte"
-
 msgid "Advanced search"
 msgstr "Erweitertes Suchen"
 
@@ -2262,10 +2293,13 @@ msgstr ""
 msgid "Select Bible."
 msgstr ""
 
-msgid "Distributed collaboration for this is enabled."
+msgid "clear"
 msgstr ""
 
-msgid "Disable it."
+msgid "Status"
+msgstr ""
+
+msgid "Modify it."
 msgstr ""
 
 msgid "Set it up."
@@ -2522,6 +2556,12 @@ msgid "The list of consultation notes shows the Bible the note refers to"
 msgstr ""
 
 msgid "The consultation notes show the note status"
+msgstr ""
+
+msgid "Show the current verse text while creating a new consultation note"
+msgstr ""
+
+msgid "Night mode"
 msgstr ""
 
 msgid "Send / Receive"
@@ -3162,9 +3202,6 @@ msgstr ""
 msgid ""
 "The users who have enabled change notification are listed below, with the "
 "number of changes waiting for their review."
-msgstr ""
-
-msgid "clear"
 msgstr ""
 
 msgid "Changes are recorded in the journal."
@@ -3940,9 +3977,6 @@ msgstr ""
 msgid "Name:"
 msgstr ""
 
-msgid "Email address:"
-msgstr ""
-
 msgid "Back to chapter"
 msgstr ""
 
@@ -4104,9 +4138,6 @@ msgid "This note has been assigned to you for you to take action on."
 msgstr ""
 
 msgid "I have done my part on it."
-msgstr ""
-
-msgid "Status"
 msgstr ""
 
 msgid "Verses"
@@ -4355,6 +4386,9 @@ msgid ""
 "the Journal."
 msgstr ""
 
+msgid "Exports"
+msgstr "Exporte"
+
 msgid "Select another Bible"
 msgstr ""
 
@@ -4424,6 +4458,9 @@ msgid "Display the current date in the running headers."
 msgstr ""
 
 msgid "The type of space to insert after a verse number"
+msgstr ""
+
+msgid "Font:"
 msgstr ""
 
 msgid "Info document"
@@ -6010,7 +6047,7 @@ msgstr ""
 
 msgid ""
 "The Bible will have running headers. The headers contain the page number "
-"near the inside margin. At the right margin it shows book and chapters "
+"near the inside margin. At the right margin it shows book and chapter "
 "numbers on that page."
 msgstr ""
 
@@ -6491,6 +6528,189 @@ msgstr ""
 msgid "Manage Bibles."
 msgstr ""
 
+msgid "Typesetting in Scribus 1.4 or higher"
+msgstr ""
+
+msgid ""
+"See the Scribus online help for more information and general principles."
+msgstr ""
+
+msgid "Typesetting in Scribus starts with creating a new document."
+msgstr ""
+
+msgid "Choose menu File / New."
+msgstr ""
+
+msgid "Document Layout: Double Sided."
+msgstr ""
+
+msgid "To make the grid visible, go to menu View / Show Baseline Grid."
+msgstr ""
+
+msgid "Pick a Bible book, the version with text and note citations."
+msgstr ""
+
+msgid "Create a text frame in Scribus."
+msgstr ""
+
+msgid "Add the text of the OpenDocument to this frame."
+msgstr ""
+
+msgid "I would like to place this extra text on a second page."
+msgstr ""
+
+msgid "Create a new text frame on a new page."
+msgstr ""
+
+msgid "Link the new text frame with the previous text frame."
+msgstr ""
+
+msgid ""
+"There is still more text than fits on the second page. I estimate that there "
+"is enough text to fill many pages."
+msgstr ""
+
+msgid "Place headlines"
+msgstr ""
+
+msgid "The headline I have in this example is:"
+msgstr ""
+
+msgid "'The first book of Moses called Genesis'."
+msgstr ""
+
+msgid ""
+"I'd like it to place it at the top of the page, and to span across any "
+"columns."
+msgstr ""
+
+msgid ""
+"Select the relevant text frames, and drag the top to make it shorter, so "
+"creating space above it."
+msgstr ""
+
+msgid "Create a new text frame at the top of the page."
+msgstr ""
+
+msgid "Estimate the size it needs to be."
+msgstr ""
+
+msgid "Paste the text into that text frame."
+msgstr ""
+
+msgid "Resize the text frame so it looks smart."
+msgstr ""
+
+msgid ""
+"Then resize the main text frame or frames so that everything looks good."
+msgstr ""
+
+msgid "Make the setting to align it to the baseline grid."
+msgstr ""
+
+msgid "The leading of the text should be equal to the baseline grid."
+msgstr ""
+
+msgid ""
+"If the leading of the text is bigger, then it is like as if you have double "
+"line spacing."
+msgstr ""
+
+msgid "In this example, we expect an entire Bible to have about 1600 pages."
+msgstr ""
+
+msgid "Create a new document in Scribus."
+msgstr ""
+
+msgid "Take the file with all notes in OpenDocument format."
+msgstr ""
+
+msgid "It is 00_Bible_notes.odt."
+msgstr ""
+
+msgid "Place the text as described above."
+msgstr ""
+
+msgid ""
+"Keep adding new text frames and linking them till all text has been placed."
+msgstr ""
+
+msgid "This allows us to see how many pages the notes will take up."
+msgstr ""
+
+msgid "Place this text in the same way as above."
+msgstr ""
+
+msgid "The font is of particular influence on the page count."
+msgstr ""
+
+msgid "This is not dealt with here."
+msgstr ""
+
+msgid ""
+"After exporting USFM text to OpenDocument, and properly placing this text "
+"into Scribus, the USFM styles appear in Scribus."
+msgstr ""
+
+msgid ""
+"If you like to update a paragraph style, you may update each section heading "
+"individually, but this is a lot of work."
+msgstr ""
+
+msgid ""
+"It is faster to update the style for 's', so that this updates all "
+"paragraphs that have this style."
+msgstr ""
+
+msgid ""
+"To update a paragraph style, place the cursor in it, and use the menu to "
+"view or edit the style."
+msgstr ""
+
+msgid "The Bible will have running headers."
+msgstr ""
+
+msgid "The headers contain the page number near the inside margin."
+msgstr ""
+
+msgid "At the right margin it shows book and chapter numbers on that page."
+msgstr ""
+
+msgid "To do that, apply no master page to that particular page."
+msgstr ""
+
+msgid "All that is needed is a fixed space after the chapter numbers."
+msgstr ""
+
+msgid "Pick any one from a hair space to an em space."
+msgstr ""
+
+msgid "The number of characters in drop caps is now increased by one."
+msgstr ""
+
+msgid "Set this value in the drop cap settings."
+msgstr ""
+
+msgid "All lines after the first will automatically line up."
+msgstr ""
+
+msgid ""
+"Adjusting the spacing between words to produce tighter or looser paragraphs."
+msgstr ""
+
+msgid ""
+"Adjusting the tracking of the text. This is the overall spacing of the "
+"letters in a paragraph or on a line. With a good font in justified "
+"paragraphs this can usually be adjusted by up to -25 or +15 without it "
+"looking too out of place."
+msgstr ""
+
+msgid "Adjusting the hyphenation of words within the paragraph."
+msgstr ""
+
+msgid "Forcing a word down onto the next line using a soft return."
+msgstr ""
+
 msgid "Tips and Tricks"
 msgstr ""
 
@@ -6646,7 +6866,7 @@ msgid ""
 "configure Bibledit Cloud, and log in."
 msgstr ""
 
-msgid "The Ubuntu packages support Ubuntu 15.05 and higher."
+msgid "The following command shows the status of Bibledit Cloud:"
 msgstr ""
 
 msgid "Bibledit Cloud can also be installed from source."
@@ -7236,6 +7456,21 @@ msgstr ""
 msgid "Typesetting Bibles"
 msgstr ""
 
+msgid "Bibledit can assist with typesetting."
+msgstr ""
+
+msgid "But Bibledit is not designed for typesetting."
+msgstr ""
+
+msgid "It is for Bible editing."
+msgstr ""
+
+msgid "No more than that."
+msgstr ""
+
+msgid "Having said this, and despite this, let's press on."
+msgstr ""
+
 msgid "The Bible has been translated. It is time to publish it."
 msgstr ""
 
@@ -7315,8 +7550,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"LibreOffice and Adobe InDesign have hyphenation algorithms for many "
-"languages. That would solve the problem."
+"LibreOffice and Adobe InDesign and Scribus have hyphenation algorithms for "
+"many languages. That would solve the problem."
 msgstr ""
 
 msgid ""
@@ -7853,18 +8088,18 @@ msgstr ""
 msgid "The typesetting"
 msgstr ""
 
-msgid "The typesetting can be done in LibreOffice. This is free software."
+msgid "The typesetting can be done in LibreOffice."
+msgstr ""
+
+msgid "Or in Scribus."
+msgstr ""
+
+msgid "This is free software."
 msgstr ""
 
 msgid ""
 "The organisation may want to use specialized typesetting software like Adobe "
 "InDesign."
-msgstr ""
-
-msgid "LibreOffice"
-msgstr ""
-
-msgid "Adobe InDesign"
 msgstr ""
 
 msgid "Scrum-based translation process."
@@ -8145,9 +8380,6 @@ msgid ""
 "Send/receive."
 msgstr ""
 
-msgid "Standard installation"
-msgstr ""
-
 msgid "Bibledit on Windows"
 msgstr ""
 
@@ -8297,13 +8529,13 @@ msgid ""
 "the Bible."
 msgstr ""
 
-msgid "Development version"
+msgid "Source code"
 msgstr ""
 
 msgid "The Bibledit source code is kept in git repositories."
 msgstr ""
 
-msgid "Hosting providers"
+msgid "Hosting"
 msgstr ""
 
 msgid ""
@@ -8311,6 +8543,17 @@ msgid ""
 msgstr ""
 
 msgid "Good providers are:"
+msgstr ""
+
+msgid ""
+"Several Bibledit users offer free assistance in setting up inexpensive "
+"server hosting for Bibledit."
+msgstr ""
+
+msgid "If you would like this assistance, post a message to:"
+msgstr ""
+
+msgid "Or use the contact form at the website:"
 msgstr ""
 
 msgid "OpenLDAP"
@@ -8321,8 +8564,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The following file in the Bibledit installation provides all information "
-"needed:"
+"The following file in the Bibledit installation provides more information:"
 msgstr ""
 
 msgid "Security"
@@ -8341,10 +8583,6 @@ msgid "Obfuscating Bibledit Cloud and Bibledit Linux clients."
 msgstr ""
 
 msgid "Accessing Bibledit Cloud through a Tor browser."
-msgstr ""
-
-msgid ""
-"The following file in the Bibledit installation provides more information:"
 msgstr ""
 
 msgid "Install Bibledit on macOS"
@@ -10449,6 +10687,9 @@ msgid "Please enter an top margin size in millimeters"
 msgstr ""
 
 msgid "Please enter an bottom margin size in millimeters"
+msgstr ""
+
+msgid "The font for securing exports was saved."
 msgstr ""
 
 msgid "The info documents are being generated."

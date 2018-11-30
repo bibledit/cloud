@@ -1,82 +1,80 @@
-# Dutch translation for bibledit
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# English (United Kingdom) translation for bibledit
+# Copyright (c) 2018 Rosetta Contributors and Canonical Ltd 2018
 # This file is distributed under the same license as the bibledit package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2018-01-01 13:40+0000\n"
-"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"PO-Revision-Date: 2018-10-05 13:01+0000\n"
+"Last-Translator: Stephan Woidowski <swoidowski@t-online.de>\n"
+"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18783)\n"
+"X-Generator: Launchpad (build 18785)\n"
 
 msgid "Has been sending and receiving during the past hour"
-msgstr "Bezig geweest met zenden en ontvangen gedurende het afgelopen uur"
+msgstr "Has been sending and receiving during the past hour"
 
 msgid "See the Journal for progress."
-msgstr "Zie het Journaal voor de voortgang."
+msgstr "See the Journal for progress."
 
 msgid "Journal"
-msgstr "Journaal"
+msgstr "Journal"
 
 msgid "You are connected to a public demo of Bibledit Cloud."
-msgstr "U bent verbonden met een publieke demo van Bibledit Cloud."
+msgstr "You are connected to a public demo of Bibledit Cloud."
 
 msgid "Everybody can modify the data on that server."
-msgstr "Iedereen kan de gegevens op die server wijzigen."
+msgstr "Everybody can modify the data on that server."
 
 msgid "After send and receive your data will reflect the data on the server."
 msgstr ""
-"Na verzenden en ontvangen zijn uw gegevens gelijk aan de gegevens op die "
-"server."
+"After send and receive your data will reflect the data on the server."
 
 msgid "Sending statistics"
-msgstr ""
+msgstr "Sending statistics"
 
 msgid "statistics"
-msgstr "statistieken"
+msgstr "statistics"
 
 msgid "Number of change notifications"
-msgstr "Aantal wijzigingsnotificaties"
+msgstr "Number of change notifications"
 
 msgid "Number of consultation notes assigned to you awaiting your response"
-msgstr ""
-"Aantal raadplegingsnotities aan u toegekend die wachten op uw reactie"
+msgstr "Number of consultation notes assigned to you awaiting your response"
 
 msgid "Number of consultation notes you are subscribed to"
-msgstr ""
+msgstr "Number of consultation notes you are subscribed to"
 
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 msgid "Inactive for a day"
-msgstr ""
+msgstr "Inactive for a day"
 
 msgid "Inactive for a week"
-msgstr ""
+msgstr "Inactive for a week"
 
 msgid "Verse mappings"
-msgstr ""
+msgstr "Verse mappings"
 
 msgid "The verse mapping was saved"
-msgstr ""
+msgstr "The verse mapping was saved"
 
 msgid "Verse Mappings"
-msgstr ""
+msgstr "Verse Mappings"
 
 msgid "Enter a name for the new verse mapping"
-msgstr ""
+msgstr "Enter a name for the new verse mapping"
 
 msgid "This verse mapping already exists"
-msgstr ""
+msgstr "This verse mapping already exists"
 
 msgid "Would you like to delete this verse mapping?"
-msgstr ""
+msgstr "Would you like to delete this verse mapping?"
 
 msgid "The verse mapping was deleted"
 msgstr ""
@@ -85,16 +83,16 @@ msgid "Unknown"
 msgstr ""
 
 msgid "New"
-msgstr "Nieuw"
+msgstr ""
 
 msgid "Pending"
-msgstr "In afwachting"
+msgstr ""
 
 msgid "In progress"
-msgstr "Bezig"
+msgstr ""
 
 msgid "Done"
-msgstr "Klaar"
+msgstr ""
 
 msgid "Reopened"
 msgstr ""
@@ -103,13 +101,13 @@ msgid "Wish"
 msgstr ""
 
 msgid "Minor"
-msgstr "Klein"
+msgstr ""
 
 msgid "Normal"
-msgstr "Standaard"
+msgstr ""
 
 msgid "Important"
-msgstr "Belangrijk"
+msgstr ""
 
 msgid "Major"
 msgstr ""
@@ -127,7 +125,7 @@ msgid "displaying no more of these"
 msgstr ""
 
 msgid "No Bible given"
-msgstr "Geen Bijbel gegeven"
+msgstr ""
 
 msgid "It is unclear which data to copy to where"
 msgstr ""
@@ -274,10 +272,10 @@ msgid "Enable the USFM Bible editor?"
 msgstr ""
 
 msgid "Select which Bible to make the active one for editing"
-msgstr "Kies een Bijbel om te activeren om te bewerken"
+msgstr ""
 
 msgid "Changes"
-msgstr "Wijzigingen"
+msgstr ""
 
 msgid "Send/receive"
 msgstr ""
@@ -319,7 +317,7 @@ msgid "Sending note to server"
 msgstr ""
 
 msgid "Bibles"
-msgstr "Bijbels"
+msgstr ""
 
 msgid "Sending to server"
 msgstr ""
@@ -409,7 +407,7 @@ msgid "Sending and receiving:"
 msgstr ""
 
 msgid "Send/Receive"
-msgstr "Versturen/ontvangen"
+msgstr ""
 
 msgid "Select a Bible"
 msgstr ""
@@ -505,7 +503,7 @@ msgid "unknown"
 msgstr ""
 
 msgid "Font and text direction"
-msgstr "Lettertype en tekstrichting"
+msgstr ""
 
 msgid "Waiting while Bibledit Cloud installs the requested SWORD module"
 msgstr ""
@@ -514,18 +512,14 @@ msgid ""
 "It has been some time ago that changes in the Bible text were received from "
 "the Cloud."
 msgstr ""
-"Het is al weer even geleden dat er wijzigingen in de Bijbeltekst zijn "
-"ontvangen van de Cloud."
 
 msgid "Please do a Send/receive action to receive them from the Cloud."
-msgstr "Doe Verzenden/ontvangen om ze te ontvangen van de Cloud."
+msgstr ""
 
 msgid ""
 "There are pending changes in the Bible text that have not yet been sent to "
 "the Cloud for some time."
 msgstr ""
-"Er zijn al enige tijd onverwerkte veranderingen in de Bijbeltekst die nog "
-"niet  verstuurd zijn naar de Cloud."
 
 msgid ""
 "Changes will continue to be saved, but it is recommended to do a "
@@ -570,72 +564,68 @@ msgid "You may want to check whether this is correct."
 msgstr ""
 
 msgid "Please enter a name for the new empty Bible"
-msgstr "Geef een naam op voor de nieuwe lege Bijbel"
+msgstr ""
 
 msgid "This Bible already exists"
-msgstr "Deze Bijbel bestaat al"
+msgstr ""
 
 msgid "The Bible was created"
-msgstr "De Bijbel is gemaakt"
+msgstr ""
 
 msgid "Please enter a name for where to copy the Bible to"
-msgstr "Geef een naam op voor de kopie van de Bijbel"
+msgstr ""
 
 msgid "Cannot copy the Bible because the destination Bible already exists."
-msgstr "Kan de Bijbel niet kopiëren want de kopie bestaat al."
+msgstr ""
 
 msgid "The Bible was copied."
-msgstr "De Bijbel is gekopieerd"
+msgstr ""
 
 msgid "Would you like to delete this Bible?"
-msgstr "Wilt u deze Bijbel verwijderen?"
+msgstr ""
 
 msgid "Chapter"
-msgstr "Hoofdstuk"
+msgstr ""
 
 msgid "Book"
-msgstr "Boek"
+msgstr ""
 
 msgid "Would you like to delete this chapter?"
-msgstr "Wilt u dit hoofdstuk verwijderen?"
+msgstr ""
 
 msgid "Please enter the number for the new chapter"
-msgstr "Voer het nummer in voor het nieuwe hoofdstui"
+msgstr ""
 
 msgid "This chapter already exists"
-msgstr "Dit hoofdstuk bestaat al"
+msgstr ""
 
 msgid "Order"
-msgstr "Volgorde"
+msgstr ""
 
 msgid "Bible"
-msgstr "Bijbel"
+msgstr ""
 
 msgid "Would you like to change the versification system?"
-msgstr "Wilt u het versificatiesysteem wijzigen?"
+msgstr ""
 
 msgid ""
 "A versification system determines how many chapters are in each book, and "
 "how many verses are in each chapter. Please make your choice below."
 msgstr ""
-"Een versificatiesysteem bepaalt hoeveel hoofdstukken elk boek bevat, en "
-"hoeveel verzen elk hoofdstuk bevat. Maak uw keuze hieronder."
 
 msgid "Would you like to change the verse mapping?"
-msgstr "Wilt u de versindeling wijzigen?"
+msgstr ""
 
 msgid ""
 "A verse mapping can be used to match verses for parallel Bible display. "
 "Please make your choice below."
 msgstr ""
-"Een versindeling wordt gebruikt om de juiste verzen bij elkaar te plaatsen "
-"voor een parallelbijbel. Maak uw keuze hieronder."
 
 msgid "Create book"
-msgstr "Maak boek"
+msgstr ""
 
 msgid "Would you like to delete this book?"
-msgstr "Wilt u dit boek verwijderen?"
+msgstr ""
 
 msgid "Select a resource to import into the Bible"
 msgstr ""
@@ -644,13 +634,13 @@ msgid "The resource will be imported."
 msgstr ""
 
 msgid "It will overwrite the content of the Bible."
-msgstr "Het zal de inhoud van de Bijbel overschrijven."
+msgstr ""
 
 msgid "The resource will be imported into the Bible."
-msgstr "De bron zal in de Bijbel geïmporteerd worden."
+msgstr ""
 
 msgid "The journal shows the progress."
-msgstr "Het logboek laat de voortgang zien."
+msgstr ""
 
 msgid "Would you like to change the stylesheet?"
 msgstr ""
@@ -662,22 +652,22 @@ msgid "Please make your choice below."
 msgstr ""
 
 msgid "More operations in the Cloud"
-msgstr "Meer mogelijkheden in de Cloud"
+msgstr ""
 
 msgid "Import"
-msgstr "Importeren"
+msgstr ""
 
 msgid "Import has started."
 msgstr ""
 
 msgid "Please supply valid Unicode UTF-8 text."
-msgstr "Er is geldige Unicode UTF-8 tekst nodig."
+msgstr ""
 
 msgid "Nothing was imported."
-msgstr "Er is niet geïmporteerd"
+msgstr ""
 
 msgid "Nothing was uploaded"
-msgstr "Er is niets geüpload"
+msgstr ""
 
 msgid "This book is absent from the Bible"
 msgstr ""
@@ -1192,39 +1182,39 @@ msgid "Account"
 msgstr ""
 
 msgid "Password should be at least four characters long"
-msgstr "Het wachtwoord moet tenminste vier tekens lang zijn"
+msgstr ""
 
 msgid "Passwords do not match"
-msgstr "Wachtwoorden komen niet overeen"
+msgstr ""
 
 msgid "Current password is not valid"
-msgstr "Huidig password is niet juist"
+msgstr ""
 
 msgid "The new password was saved"
-msgstr "Het nieuwe wachtwoord is opgeslagen"
+msgstr ""
 
 msgid "Email address is not valid"
-msgstr "Email adres is niet juist"
+msgstr ""
 
 msgid "Email address verification"
-msgstr "Verificatie email adres"
+msgstr ""
 
 msgid ""
 "Somebody requested to change the email address that belongs to your account."
-msgstr "Iemand verzocht om het email adres van uw account te veranderen."
+msgstr ""
 
 msgid "Email address change"
-msgstr "Email adres wijziging"
+msgstr ""
 
 msgid ""
 "The email address that belongs to your account has been changed successfully."
-msgstr "Het email adres dat bij uw account hoort is met succes gewijzigd."
+msgstr ""
 
 msgid "A verification email was sent to"
 msgstr ""
 
 msgid "No changes were made"
-msgstr "Er zijn geen wijzigingen aangebracht"
+msgstr ""
 
 msgid "Unknown passage"
 msgstr ""
@@ -1236,7 +1226,7 @@ msgid "remove"
 msgstr ""
 
 msgid "Search"
-msgstr "Zoek"
+msgstr ""
 
 msgid "Replace"
 msgstr ""
@@ -1262,7 +1252,7 @@ msgid "Here are the various options:"
 msgstr ""
 
 msgid "Please pick one."
-msgstr "Selecteer één"
+msgstr ""
 
 msgid "The passage has been opened in the existing Bible editor"
 msgstr ""
@@ -1277,7 +1267,7 @@ msgid "There was no text."
 msgstr ""
 
 msgid "Nothing was saved."
-msgstr "Er is niets opgeslagen."
+msgstr ""
 
 msgid "The original text of the chapter was reloaded."
 msgstr ""
@@ -1316,31 +1306,31 @@ msgid "delete"
 msgstr ""
 
 msgid "Identification information"
-msgstr "Identificatie informatie"
+msgstr ""
 
 msgid "Introduction titles and headings"
-msgstr "Inleiding titels en koppen"
+msgstr ""
 
 msgid "Introduction paragraphs and poetry"
-msgstr "Inleiding paragrafen en poëzie"
+msgstr ""
 
 msgid "Introduction other elements"
-msgstr "Inleiding andere elementen"
+msgstr ""
 
 msgid "Titles"
-msgstr "Titels"
+msgstr ""
 
 msgid "Headings"
-msgstr "Koppen"
+msgstr ""
 
 msgid "Chapters and verses"
-msgstr "Hoofdstukken en verzen"
+msgstr ""
 
 msgid "Paragraphs"
-msgstr "Paragrafen"
+msgstr ""
 
 msgid "Lists"
-msgstr "Lijsten"
+msgstr ""
 
 msgid "Poetry elements"
 msgstr ""
@@ -1349,22 +1339,22 @@ msgid "Table elements"
 msgstr ""
 
 msgid "Footnotes"
-msgstr "Voetnoten"
+msgstr ""
 
 msgid "Crossreferences"
-msgstr "Kruisverwijzingen"
+msgstr ""
 
 msgid "Special text"
-msgstr "Speciale tekst"
+msgstr ""
 
 msgid "Character styles"
-msgstr "Karakterstijlen"
+msgstr ""
 
 msgid "Spacings and breaks"
-msgstr "Spatiëring en regeleindes"
+msgstr ""
 
 msgid "Special features"
-msgstr "Speciale kenmerken"
+msgstr ""
 
 msgid "Peripheral materials"
 msgstr ""
@@ -1376,49 +1366,49 @@ msgid "is an identifier"
 msgstr ""
 
 msgid "starts a new paragraph"
-msgstr "Start een nieuwe paragraaf"
+msgstr ""
 
 msgid "is inline text with endmarker"
 msgstr ""
 
 msgid "is a chapter number"
-msgstr "Is een hoofdstuknummer"
+msgstr ""
 
 msgid "is a verse number"
-msgstr "Is een versnummer"
+msgstr ""
 
 msgid "is a footnote or endnote"
-msgstr "Is een voetnoot of eindnoot"
+msgstr ""
 
 msgid "is a crossreference"
-msgstr "Is een kruisverwijzing"
+msgstr ""
 
 msgid "is a peripheral element"
 msgstr ""
 
 msgid "is a picture"
-msgstr "Is een afbeelding"
+msgstr ""
 
 msgid "starts a new page"
-msgstr "Start een nieuwe pagina"
+msgstr ""
 
 msgid "is a table element"
-msgstr "Is een tabel element"
+msgstr ""
 
 msgid "is a word list element"
-msgstr "Is een woordenlijst element"
+msgstr ""
 
 msgid "identifies the book"
-msgstr "Identificeert het boek"
+msgstr ""
 
 msgid "identifies the encoding"
-msgstr "Identificeert de codering"
+msgstr ""
 
 msgid "is a comment"
-msgstr "Is een commentaar"
+msgstr ""
 
 msgid "is a running header"
-msgstr "Is een lopende kop"
+msgstr ""
 
 msgid "is long table of contents text"
 msgstr ""
@@ -1427,73 +1417,73 @@ msgid "is short table of contents text"
 msgstr ""
 
 msgid "is the book abbreviation"
-msgstr "Is de boekafkorting"
+msgstr ""
 
 msgid "is the chapter label"
-msgstr "Is het hoofdstuklabel"
+msgstr ""
 
 msgid "is the published chapter marker"
 msgstr ""
 
 msgid "is a comment with an endmarker"
-msgstr "Is een commentaar met een eindmarkeerder"
+msgstr ""
 
 msgid "is a main title"
-msgstr "Is een hoofdtitel"
+msgstr ""
 
 msgid "is a subtitle"
-msgstr "Is een ondertitel"
+msgstr ""
 
 msgid "is a section heading"
-msgstr "Is een sectiekop"
+msgstr ""
 
 msgid "is a normal paragraph"
-msgstr "Is een normale paragraaf"
+msgstr ""
 
 msgid "starts a footnote"
-msgstr "Start een voetnoot"
+msgstr ""
 
 msgid "starts an endnote"
-msgstr "Start een eindnoot"
+msgstr ""
 
 msgid "is standard content"
-msgstr "Is standaardinhoud"
+msgstr ""
 
 msgid "is content"
-msgstr "Is inhoud"
+msgstr ""
 
 msgid "is content with endmarker"
-msgstr "Is inhoud met eindmarkeerder"
+msgstr ""
 
 msgid "starts another paragraph"
-msgstr "Start een nieuwe paragraaf"
+msgstr ""
 
 msgid "starts a crossreference"
-msgstr "Start een kruisverwijzing"
+msgstr ""
 
 msgid "starts publication data"
-msgstr "Start publicatiegegevens"
+msgstr ""
 
 msgid "starts table of contents"
-msgstr "Start inhoudstabel"
+msgstr ""
 
 msgid "starts preface"
-msgstr "Start voorwoord"
+msgstr ""
 
 msgid "starts introduction"
-msgstr "Start inleiding"
+msgstr ""
 
 msgid "starts concordance"
-msgstr "Start register"
+msgstr ""
 
 msgid "starts glossary"
-msgstr "Start glossarium"
+msgstr ""
 
 msgid "starts index"
-msgstr "Start index"
+msgstr ""
 
 msgid "starts map index"
-msgstr "Start kaartenindex"
+msgstr ""
 
 msgid "starts cover"
 msgstr ""
@@ -1502,13 +1492,13 @@ msgid "starts spine"
 msgstr ""
 
 msgid "starts a new row"
-msgstr "Start een nieuwe rij"
+msgstr ""
 
 msgid "is a column heading"
-msgstr "Is een kolomkop"
+msgstr ""
 
 msgid "is cell data"
-msgstr "Is kolominhoud"
+msgstr ""
 
 msgid "is a wordlist / glossary / dictionary entry"
 msgstr ""
@@ -1523,101 +1513,99 @@ msgid "is a subject index entry"
 msgstr ""
 
 msgid "Off"
-msgstr "Uit"
+msgstr ""
 
 msgid "On"
-msgstr "Aan"
+msgstr ""
 
 msgid "Inherit"
-msgstr "Overnemen"
+msgstr ""
 
 msgid "Toggle"
-msgstr "Schakelaar"
+msgstr ""
 
 msgid "Left align"
 msgstr ""
 
 msgid "Center"
-msgstr "Centreren"
+msgstr ""
 
 msgid "Right align"
 msgstr ""
 
 msgid "Justify"
-msgstr "Uitvullen"
+msgstr ""
 
 msgid "Print chapter number at first verse"
-msgstr "Hoofdstuknummeer aan het eerst vers afdrukken"
+msgstr ""
 
 msgid "Start on a new page"
-msgstr "Begin op een nieuwe pagina"
+msgstr ""
 
 msgid "Refers to the Apocrypha"
-msgstr "Verwijst naar de Apocrypha"
+msgstr ""
 
 msgid "Restart paragraph"
-msgstr "Herbegin paragraaf"
+msgstr ""
 
 msgid ""
 "New page starts with an odd number (not implemented due to limitations in "
 "OpenDocument)"
 msgstr ""
-"Begin nieuwe pagina met een oneven nummer (Niet geïmplementeerd door "
-"beperkingen in OpenDocument)"
 
 msgid "Print chapter number in the running header of the left page"
-msgstr "Hoofdstuknummer in de lopende kop van de linkerpagina afdrukken"
+msgstr ""
 
 msgid "Print this in the running header of the left page"
-msgstr "Dit afdrukken in de lopende kop van de linkerpagina"
+msgstr ""
 
 msgid "Print chapter number in the running header of the right page"
-msgstr "Hoofdstuknummer in de lopende kop van de rechterpagina afdrukken"
+msgstr ""
 
 msgid "Print this in the running header of the right page"
-msgstr "Dit afdrukken in de lopende kop van de rechterpagina"
+msgstr ""
 
 msgid "User defined sequence"
 msgstr ""
 
 msgid "Never"
-msgstr "nooit"
+msgstr ""
 
 msgid "Every book"
-msgstr "Alle boeken"
+msgstr ""
 
 msgid "Every chapter"
-msgstr "Alle hoofdstukken"
+msgstr ""
 
 msgid "After each book"
-msgstr "Na elk boek"
+msgstr ""
 
 msgid "After everything else"
-msgstr "Na al het andere"
+msgstr ""
 
 msgid "Upon encountering a certain marker"
-msgstr "Na het tegenkomen van een bepaalde markeerder"
+msgstr ""
 
 msgid "Style"
 msgstr ""
 
 msgid "Please enter the name for the style"
-msgstr "Geef de naam voor de nieuwe stijl"
+msgstr ""
 
 msgid "Please enter the description for the style"
-msgstr "Geef de omschrijving van de stijl"
+msgstr ""
 
 msgid "Would you like to change the category of this style?"
-msgstr "Wilt u the categorie aanpassen van deze stijl?"
+msgstr ""
 
 msgid "Here are the various categories:"
-msgstr "Hier zijn de verschillende categorieën:"
+msgstr ""
 
 msgid "Would you like to change the type of this style?"
-msgstr "Wilt u het type aanpassen van deze stijl?"
+msgstr ""
 
 msgid "Here are the various types:"
-msgstr "Hier zijn de verschillende typen:"
+msgstr ""
 
 msgid "Would you like to change the sub type of this style?"
 msgstr ""
@@ -1728,7 +1716,7 @@ msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
 
 msgid "Styles"
-msgstr "Stijlen"
+msgstr ""
 
 msgid "This stylesheet already exists"
 msgstr ""
@@ -1737,13 +1725,13 @@ msgid "The stylesheet has been created"
 msgstr ""
 
 msgid "Please enter the name for the new stylesheet"
-msgstr "Geef de naam voor de nieuwe stylesheet"
+msgstr ""
 
 msgid "The stylesheet has been deleted"
 msgstr ""
 
 msgid "Would you like to delete this stylesheet?"
-msgstr "Wilt u deze stylesheet verwijderen?"
+msgstr ""
 
 msgid "edit"
 msgstr ""
@@ -1820,7 +1808,7 @@ msgid "Install some resources on the device, and try again."
 msgstr ""
 
 msgid "Set the language for Bibledit"
-msgstr "Stel de taal voor Bibledit in"
+msgstr ""
 
 msgid "System"
 msgstr ""
@@ -1865,7 +1853,7 @@ msgid "The name should be at least two characters long"
 msgstr ""
 
 msgid "The email address is not valid"
-msgstr "Het email adres is niet juist"
+msgstr ""
 
 msgid "This account needs a password."
 msgstr ""
@@ -2120,7 +2108,7 @@ msgid "Tools"
 msgstr ""
 
 msgid "Help"
-msgstr "Hulp"
+msgstr ""
 
 msgid "Logout"
 msgstr ""
@@ -2129,7 +2117,7 @@ msgid "Image resources"
 msgstr ""
 
 msgid "Users"
-msgstr "Gebruikers"
+msgstr ""
 
 msgid "Versifications"
 msgstr ""
@@ -2838,14 +2826,12 @@ msgid ""
 "If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
 "that chapter already was in the Bible."
 msgstr ""
-"Als je bijvoorbeeld Genesis hoofdstuk 1 importeert, dan zal het Genesis 1 "
-"overschrijven, als dat hoofdstuk als aanwezig was in de Bijbel."
 
 msgid "It will not overwrite anything else."
 msgstr ""
 
 msgid "If Genesis 1 was not yet there, it will be created."
-msgstr "Als Genesis 1 er nog niet was, dan zal het aangemaakt worden."
+msgstr ""
 
 msgid ""
 "You can import one chapter, or several chapters, or one book, or several "
@@ -2883,7 +2869,7 @@ msgid "Compare with ..."
 msgstr ""
 
 msgid "Editing settings"
-msgstr "Instellingen voor bewerken"
+msgstr ""
 
 msgid "The public can give feedback"
 msgstr ""
@@ -3428,7 +3414,7 @@ msgid "Bible in Bibledit"
 msgstr ""
 
 msgid "change"
-msgstr "wijzig"
+msgstr ""
 
 msgid "disable"
 msgstr ""
@@ -3874,36 +3860,32 @@ msgid "Create a new stylesheet."
 msgstr ""
 
 msgid "Language"
-msgstr "Taal"
+msgstr ""
 
 msgid "The language for Bibledit:"
-msgstr "De taal voor Bibledit"
+msgstr ""
 
 msgid "Your preferred language is not listed?"
-msgstr "Staat uw voorkeurstaal er niet bij?"
+msgstr ""
 
 msgid ""
 "Use your translation skills to assist with bringing another language to "
 "Bibledit."
 msgstr ""
-"Gebruik uw vertaalkennis om een nieuwe taal aan Bibledit toe te voegen"
 
 msgid "Start translating right away."
-msgstr "Begin nu gelijk met vertalen"
+msgstr ""
 
 msgid ""
 "It is possible to translate only the most important phrases to get your "
 "translation team going in their own language."
 msgstr ""
-"Het is mogelijk om alleen de meest belangrijke stukken te vertalen om uw "
-"vertaalteam op te starten in uw eigen taal."
 
 msgid "Your translation will be included with the next Bibledit release."
 msgstr ""
-"Uw vertaling zal toegevoegd worden aan de volgende versie van Bibledit."
 
 msgid "Timezone"
-msgstr "Tijdzone"
+msgstr ""
 
 msgid ""
 "The timezone for Bibledit as an offset from Coordinated Universal Time in "
@@ -4333,7 +4315,7 @@ msgid "You can upload a new font."
 msgstr ""
 
 msgid "Hyphenation"
-msgstr "Woordafbreking"
+msgstr ""
 
 msgid "Hyphenation can be used when preparing a Bible for printing."
 msgstr ""
@@ -4406,7 +4388,7 @@ msgid ""
 msgstr ""
 
 msgid "Exports"
-msgstr "Uitvoer"
+msgstr ""
 
 msgid "Select another Bible"
 msgstr ""
@@ -5265,7 +5247,7 @@ msgid ""
 msgstr ""
 
 msgid "Introduction"
-msgstr "Inleiding"
+msgstr ""
 
 msgid "Installation"
 msgstr ""
@@ -5295,7 +5277,7 @@ msgid "Tips and tricks"
 msgstr ""
 
 msgid "About"
-msgstr "Info over"
+msgstr ""
 
 msgid "The Free Bible"
 msgstr ""
@@ -6062,7 +6044,7 @@ msgid ""
 msgstr ""
 
 msgid "Running headers"
-msgstr "Doorlopende koppen"
+msgstr ""
 
 msgid ""
 "The Bible will have running headers. The headers contain the page number "
@@ -6756,7 +6738,7 @@ msgid "Then add the Resources to the workspace through URL resource/index."
 msgstr ""
 
 msgid "Backup"
-msgstr "Reservekopie"
+msgstr ""
 
 msgid "Bibledit does not do any backups of its own."
 msgstr ""
@@ -10277,211 +10259,211 @@ msgid ""
 msgstr ""
 
 msgid "Genesis"
-msgstr "Genesis"
+msgstr ""
 
 msgid "Exodus"
-msgstr "Exodus"
+msgstr ""
 
 msgid "Leviticus"
-msgstr "Leviticus"
+msgstr ""
 
 msgid "Numbers"
-msgstr "Numeri"
+msgstr ""
 
 msgid "Deuteronomy"
-msgstr "Deuteronomium"
+msgstr ""
 
 msgid "Joshua"
-msgstr "Jozua"
+msgstr ""
 
 msgid "Judges"
-msgstr "Rechters"
+msgstr ""
 
 msgid "Ruth"
-msgstr "Ruth"
+msgstr ""
 
 msgid "1 Samuel"
-msgstr "1 Samuël"
+msgstr ""
 
 msgid "2 Samuel"
-msgstr "2 Samuël"
+msgstr ""
 
 msgid "1 Kings"
-msgstr "1 Koningen"
+msgstr ""
 
 msgid "2 Kings"
-msgstr "2 Koningen"
+msgstr ""
 
 msgid "1 Chronicles"
-msgstr "1 Kronieken"
+msgstr ""
 
 msgid "2 Chronicles"
-msgstr "2 Kronieken"
+msgstr ""
 
 msgid "Ezra"
-msgstr "Ezra"
+msgstr ""
 
 msgid "Nehemiah"
-msgstr "Nehemia"
+msgstr ""
 
 msgid "Esther"
-msgstr "Esther"
+msgstr ""
 
 msgid "Job"
-msgstr "Job"
+msgstr ""
 
 msgid "Psalms"
-msgstr "Psalmen"
+msgstr ""
 
 msgid "Proverbs"
-msgstr "Spreuken"
+msgstr ""
 
 msgid "Ecclesiastes"
-msgstr "Prediker"
+msgstr ""
 
 msgid "Song of Solomon"
-msgstr "Hooglied"
+msgstr ""
 
 msgid "Isaiah"
-msgstr "Jesaja"
+msgstr ""
 
 msgid "Jeremiah"
-msgstr "Jeremia"
+msgstr ""
 
 msgid "Lamentations"
-msgstr "Klaagliederen"
+msgstr ""
 
 msgid "Ezekiel"
-msgstr "Ezechiël"
+msgstr ""
 
 msgid "Daniel"
-msgstr "Daniël"
+msgstr ""
 
 msgid "Hosea"
-msgstr "Hosea"
+msgstr ""
 
 msgid "Joel"
-msgstr "Joël"
+msgstr ""
 
 msgid "Amos"
-msgstr "Amos"
+msgstr ""
 
 msgid "Obadiah"
-msgstr "Obadja"
+msgstr ""
 
 msgid "Jonah"
-msgstr "Jona"
+msgstr ""
 
 msgid "Micah"
-msgstr "Micha"
+msgstr ""
 
 msgid "Nahum"
-msgstr "Nahum"
+msgstr ""
 
 msgid "Habakkuk"
-msgstr "Habakuk"
+msgstr ""
 
 msgid "Zephaniah"
-msgstr "Sefanja"
+msgstr ""
 
 msgid "Haggai"
-msgstr "Haggai"
+msgstr ""
 
 msgid "Zechariah"
-msgstr "Zacharia"
+msgstr ""
 
 msgid "Malachi"
-msgstr "Maleachi"
+msgstr ""
 
 msgid "Matthew"
-msgstr "Matteüs"
+msgstr ""
 
 msgid "Mark"
-msgstr "Marcus"
+msgstr ""
 
 msgid "Luke"
-msgstr "Lucas"
+msgstr ""
 
 msgid "John"
-msgstr "Johannes"
+msgstr ""
 
 msgid "Acts"
-msgstr "Handelingen"
+msgstr ""
 
 msgid "Romans"
-msgstr "Romeinen"
+msgstr ""
 
 msgid "1 Corinthians"
-msgstr "1 Korintiërs"
+msgstr ""
 
 msgid "2 Corinthians"
-msgstr "2 Korintiërs"
+msgstr ""
 
 msgid "Galatians"
-msgstr "Galaten"
+msgstr ""
 
 msgid "Ephesians"
-msgstr "Efeziërs"
+msgstr ""
 
 msgid "Philippians"
-msgstr "Filippenzen"
+msgstr ""
 
 msgid "Colossians"
-msgstr "Kolossenzen"
+msgstr ""
 
 msgid "1 Thessalonians"
-msgstr "1 Tessalonicenzen"
+msgstr ""
 
 msgid "2 Thessalonians"
-msgstr "2 Tessalonicenzen"
+msgstr ""
 
 msgid "1 Timothy"
-msgstr "1 Timoteüs"
+msgstr ""
 
 msgid "2 Timothy"
-msgstr "2 Timoteüs"
+msgstr ""
 
 msgid "Titus"
-msgstr "Titus"
+msgstr ""
 
 msgid "Philemon"
-msgstr "Filemon"
+msgstr ""
 
 msgid "Hebrews"
-msgstr "Hebreeën"
+msgstr ""
 
 msgid "James"
-msgstr "Jakobus"
+msgstr ""
 
 msgid "1 Peter"
-msgstr "1 Petrus"
+msgstr ""
 
 msgid "2 Peter"
-msgstr "2 Petrus"
+msgstr ""
 
 msgid "1 John"
-msgstr "1 Johannes"
+msgstr ""
 
 msgid "2 John"
-msgstr "2 Johannes"
+msgstr ""
 
 msgid "3 John"
-msgstr "3 Johannes"
+msgstr ""
 
 msgid "Jude"
-msgstr "Judas"
+msgstr ""
 
 msgid "Revelation"
-msgstr "Openbaring"
+msgstr ""
 
 msgid "Front Matter"
 msgstr ""
 
 msgid "Back Matter"
-msgstr "Achterkant"
+msgstr ""
 
 msgid "Other Material"
-msgstr "Ander materiaal"
+msgstr ""
 
 msgid "Tobit"
 msgstr ""
@@ -10607,13 +10589,13 @@ msgid "No files in this folder"
 msgstr ""
 
 msgid "Please enter a name for the new user"
-msgstr "Voert u een naam in voor de nieuwe gebruiker"
+msgstr ""
 
 msgid "User already exists"
-msgstr "Gebruiker bestaat al"
+msgstr ""
 
 msgid "User created"
-msgstr "Gebruiker aangemaakt"
+msgstr ""
 
 msgid "Cannot remove the last user"
 msgstr ""
@@ -10628,7 +10610,7 @@ msgid "Please enter an email address for"
 msgstr ""
 
 msgid "Email address was updated"
-msgstr "Email adres is bijgewerkt"
+msgstr ""
 
 msgid "Would you like to grant the user access to a Bible?"
 msgstr ""
@@ -10655,16 +10637,16 @@ msgid "Enable"
 msgstr ""
 
 msgid "The two sets of characters were saved"
-msgstr "De twee groepen lettertekens zijn opgeslagen"
+msgstr ""
 
 msgid "Which Bible would you like to take the data from?"
-msgstr "Van welke Bijbel wilt u de gegevens nemen?"
+msgstr ""
 
 msgid "No first set of characters given"
-msgstr "De eerste groep lettertekens is niet gegeven"
+msgstr ""
 
 msgid "No second set of characters given"
-msgstr "De tweede groep lettertekens is niet gegeven"
+msgstr ""
 
 msgid "The export has been removed."
 msgstr ""
@@ -10685,28 +10667,28 @@ msgid "The Bible is being exported to OpenDocument format."
 msgstr ""
 
 msgid "Please enter a page width in millimeters"
-msgstr "Voert u de breedte van de pagina in in millimeters"
+msgstr ""
 
 msgid "The width of A4 is 210 mm. The width of Letter is 216 mm."
-msgstr "De breedte van A4 is 210 mm. De breedte van Letter is 216 mm."
+msgstr ""
 
 msgid "Please enter a page height in millimeters"
-msgstr "Voert u de hoogte van de pagina in in millimeters."
+msgstr ""
 
 msgid "The height of A4 is 297 mm. The width of Letter is 279 mm."
-msgstr "De hoogte van A4 is 297 mm. De breedte van Letter is 279 mm."
+msgstr ""
 
 msgid "Please enter an inner margin size in millimeters"
-msgstr "Voert u een binnenste marge in in millimeters"
+msgstr ""
 
 msgid "Please enter an outer margin size in millimeters"
-msgstr "Voert u een buitenste marge in in millimeters"
+msgstr ""
 
 msgid "Please enter an top margin size in millimeters"
-msgstr "Voert u een bovenmarge in in millimeters"
+msgstr ""
 
 msgid "Please enter an bottom margin size in millimeters"
-msgstr "Voert u een ondermarge in in millimeters."
+msgstr ""
 
 msgid "The font for securing exports was saved."
 msgstr ""
@@ -10748,7 +10730,7 @@ msgid "Delete font"
 msgstr ""
 
 msgid "Number of chapters per book"
-msgstr "Aantal hoofdstukken per boek"
+msgstr ""
 
 msgid "Long table of contents entries"
 msgstr ""
@@ -10757,28 +10739,28 @@ msgid "Short table of contents entries"
 msgstr ""
 
 msgid "Book abbreviations"
-msgstr "boekafkortingen"
+msgstr ""
 
 msgid "Publishing chapter labels"
-msgstr "publiceren van hoofdstuklabels"
+msgstr ""
 
 msgid "Publishing alternate chapter numbers"
-msgstr "Publiceren van afwijkende hoofdstuknummers"
+msgstr ""
 
 msgid "Word list, glossary, dictionary entries"
-msgstr "Woordenlijst-, glossarium-, woordenboekvermeldingen"
+msgstr ""
 
 msgid "Hebrew word list entries"
-msgstr "Hebreeuwse woordenlijstvermeldingen"
+msgstr ""
 
 msgid "Greek word list entries"
-msgstr "Griekse woordenlijstvermeldingen"
+msgstr ""
 
 msgid "Subject index entries"
-msgstr "Onderwerp indexvermeldingen"
+msgstr ""
 
 msgid "Other information"
-msgstr "Overige informatie"
+msgstr ""
 
 msgid "Fallout"
 msgstr ""
@@ -10808,22 +10790,22 @@ msgid "Saving verse"
 msgstr ""
 
 msgid "Administrator"
-msgstr "Systeembeheerder"
+msgstr ""
 
 msgid "Manager"
-msgstr "Manager"
+msgstr ""
 
 msgid "Translator"
-msgstr "Vertaler"
+msgstr ""
 
 msgid "Consultant"
-msgstr "Consultant"
+msgstr ""
 
 msgid "Member"
-msgstr "Lid"
+msgstr ""
 
 msgid "Guest"
-msgstr "Gast"
+msgstr ""
 
 msgid "A translator added chapter"
 msgstr ""
@@ -11159,33 +11141,29 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Username or email address is too short"
-msgstr "Gebruikersnaam of email adres is te kort"
+msgstr ""
 
 msgid "Account changed"
-msgstr "Account aangepast"
+msgstr ""
 
 msgid "Somebody requested a new password for your account."
-msgstr "Iemand vroeg om een nieuw wachtwoord voor uw account"
+msgstr ""
 
 msgid "Here is the new password:"
-msgstr "Hier is het nieuwe wachtwoord:"
+msgstr ""
 
 msgid ""
 "It is recommended to log into your account with this new password, and then "
 "change it."
 msgstr ""
-"Het wordt aangevolen om in te loggen in uw account met dit nieuwe "
-"wachtwoord, en om het dan te veranderen."
 
 msgid ""
 "A message was sent to the email address belonging to this account to help "
 "you getting the password"
 msgstr ""
-"Een bericht is naar het email adres van dit acccount gestuurd om u te helpen "
-"om het wachtwoord te verkrijgen"
 
 msgid "Username or email address cannot be found"
-msgstr "Gebruikersnaam of email adres niet gevonden"
+msgstr ""
 
 msgid "Switch user"
 msgstr ""
@@ -11194,59 +11172,48 @@ msgid ""
 "To which city was Paul travelling when a light from heaven shone round about "
 "him?"
 msgstr ""
-"Naar welke stad was Paulus op reis toen een licht van de hemel hem rondom "
-"bescheen?"
 
 msgid "Damascus"
-msgstr "Damascus"
+msgstr ""
 
 msgid ""
 "And while he travelled, he came near Damascus; and suddenly a light from "
 "heaven shone round about him."
 msgstr ""
-"En terwijl hij reisde kwam hij in de buurt van Damascus; en plotseling "
-"bescheen een licht van de hemel hem rondom."
 
 msgid "What is the name of the brother of Aaron the high priest?"
-msgstr "Wat is de naam van de broer van Aaron de hogepriester?"
+msgstr ""
 
 msgid "Moses"
-msgstr "Mozes"
+msgstr ""
 
 msgid ""
 "And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
 "the Levite your brother?"
 msgstr ""
-"En de toorn van Jehova ontstak tegen Mozes, en hij zei: Is Aaron de Leviet "
-"niet uw broer?"
 
 msgid "What is the name of the city where Jesus was born?"
-msgstr "Wat is de naam van de stad waar Jezus geboren is?"
+msgstr ""
 
 msgid "Bethlehem"
-msgstr "Bethlehem"
+msgstr ""
 
 msgid ""
 "When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
 "behold, wise men from the east came to Jerusalem."
 msgstr ""
-"Toen Jezus geboren was in Bethlehem van Judea in de dagen van Herodes de "
-"koning, zie, er kwamen wijzen uit het oosten naar Jeruzalem"
 
 msgid "What is the name of the island where John was sent to?"
-msgstr "Hoe heet het eiland waar Johannes heen was gestuurd?"
+msgstr ""
 
 msgid "Patmos"
-msgstr "Patmos"
+msgstr ""
 
 msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
 msgstr ""
-"Ik, Johanes, je broer en metgezel in de verdrukking en in het koninkrijk en "
-"de volharding van Jezus Christus, was in het eiland genaamd Patmos, vanwege "
-"het woord van God, en vanwege het getuigenis van Jezus Christus."
 
 msgid "Username should be at least two characters long"
 msgstr ""
@@ -11255,33 +11222,29 @@ msgid "Password should be at least two characters long"
 msgstr ""
 
 msgid "The answer to the question is not correct"
-msgstr "Het antwoord op de vraag is niet juist"
+msgstr ""
 
 msgid ""
 "The username that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
-"De gebruikersnaam die u heeft gekozen is al in gebruik. U kunt een andere "
-"kiezen."
 
 msgid ""
 "The email address that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
-"Het email adres dat u gekozen heeft is al in gebruik. Kiest u een ander "
-"adres."
 
 msgid "Signup verification"
-msgstr "Verificatie inschrijving"
+msgstr ""
 
 msgid "There is a request to open an account with this email address."
 msgstr ""
 
 msgid "Account opened"
-msgstr "Account geopend"
+msgstr ""
 
 msgid "Welcome! Your account is now active."
-msgstr "Welkom! Uw account is nu geactiveerd."
+msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr "Gebruikersnaam of email adres of wachtwoord is niet correct"
+msgstr ""

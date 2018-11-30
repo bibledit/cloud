@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2018-04-27 16:00+0000\n"
+"PO-Revision-Date: 2018-09-23 07:48+0000\n"
 "Last-Translator: L'Africain <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18640)\n"
+"X-Generator: Launchpad (build 18783)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -564,6 +564,32 @@ msgid "You may want to check the result of the merge, whether it is correct."
 msgstr ""
 "Vous pouvez vérifier le résultat de la fusion, qu'elle soit correcte."
 
+msgid "You have now connected to Bibledit Cloud."
+msgstr "Vous êtes maintenant connecté à Bibledit Cloud."
+
+msgid ""
+"While you were disconnected from Bibledit Cloud, you made some changes in "
+"the Bible text on your device."
+msgstr ""
+"Pendant que vous étiez déconnecté de Bibledit Cloud, vous avez apporté des "
+"modifications au texte de la Bible sur votre appareil."
+
+msgid "These changes will not be saved to Bibledit Cloud."
+msgstr "Ces modifications ne seront pas enregistrées dans Bibledit Cloud."
+
+msgid "The unsaved text is below."
+msgstr "Le texte non enregistré est ci-dessous."
+
+msgid ""
+"While sending Bible text to Bibledit Cloud, you did not have write access to "
+"this chapter."
+msgstr ""
+"Lors de l'envoi de texte biblique à Bibledit Cloud, vous n'aviez pas accès "
+"en écriture à ce chapitre."
+
+msgid "You may want to check whether this is correct."
+msgstr "Vous voudrez peut-être vérifier si cela est correct."
+
 msgid "Please enter a name for the new empty Bible"
 msgstr "Veuillez entrer un nom pour la nouvelle Bible"
 
@@ -1090,6 +1116,18 @@ msgstr ""
 "Veuillez confirmer cette demande en répondant à ce courriel. Il y a un "
 "numéro de  confirmation dans  le champ sujet. Votre réponse doit avoir ce "
 "même numéro de  confirmation dans le champ sujet."
+
+msgid "User account change"
+msgstr "Changement de compte d'utilisateur"
+
+msgid "A user account was changed."
+msgstr "Un compte d'utilisateur a été modifié."
+
+msgid "Email address:"
+msgstr "Adresse électronique :"
+
+msgid "The following email was sent to this user:"
+msgstr "Le courriel suivant a été envoyé à cet utilisateur :"
 
 msgid "Back"
 msgstr "Précédent"
@@ -2100,9 +2138,6 @@ msgstr "Traduction"
 msgid "User resources"
 msgstr "Ressources de l'utilisateur"
 
-msgid "Exports"
-msgstr "Exportations"
-
 msgid "Advanced search"
 msgstr "Recherche avancée"
 
@@ -2373,11 +2408,14 @@ msgstr ""
 msgid "Select Bible."
 msgstr "Sélectionner une Bible."
 
-msgid "Distributed collaboration for this is enabled."
-msgstr "La collaboration partagée est activée."
+msgid "clear"
+msgstr "vider"
 
-msgid "Disable it."
-msgstr "La désactiver."
+msgid "Status"
+msgstr "Statut"
+
+msgid "Modify it."
+msgstr "Modifiez-le."
 
 msgid "Set it up."
 msgstr "Le met en place."
@@ -2677,6 +2715,14 @@ msgstr ""
 
 msgid "The consultation notes show the note status"
 msgstr "Les notes de consultation montrent l'état de la note"
+
+msgid "Show the current verse text while creating a new consultation note"
+msgstr ""
+"Affiche le texte du verset actuel tout en créant une nouvelle note de "
+"consultation"
+
+msgid "Night mode"
+msgstr "Mode nuit"
 
 msgid "Send / Receive"
 msgstr "Envoyer / Recevoir"
@@ -3412,9 +3458,6 @@ msgstr ""
 "Les utilisateurs qui ont activé la notification de modification sont "
 "énumérés ci-dessous, avec le nombre de changements en attente pour leur "
 "examen."
-
-msgid "clear"
-msgstr "vider"
 
 msgid "Changes are recorded in the journal."
 msgstr "Les modifications sont enregistrées dans le journal."
@@ -4325,9 +4368,6 @@ msgstr ""
 msgid "Name:"
 msgstr "Nom :"
 
-msgid "Email address:"
-msgstr "Adresse électronique :"
-
 msgid "Back to chapter"
 msgstr "Retour au chapitre"
 
@@ -4492,9 +4532,6 @@ msgstr "Cette note vous a été attribuée pour que vous puissiez y intervenir."
 
 msgid "I have done my part on it."
 msgstr "J'ai fait ma part."
-
-msgid "Status"
-msgstr "Statut"
 
 msgid "Verses"
 msgstr "Versets"
@@ -4783,6 +4820,9 @@ msgstr ""
 "Insérez les traits d'union conditionnels en fonction des paramètres et "
 "visualisez la progression dans le Journal."
 
+msgid "Exports"
+msgstr "Exportations"
+
 msgid "Select another Bible"
 msgstr "Sélectionner une autre Bible"
 
@@ -4855,6 +4895,9 @@ msgstr "Afficher la date dans l'en-tête."
 
 msgid "The type of space to insert after a verse number"
 msgstr "Type d'espace à insérer après un numéro de verset"
+
+msgid "Font:"
+msgstr "Police :"
 
 msgid "Info document"
 msgstr "Information sur le document"
@@ -6813,12 +6856,12 @@ msgstr "En-têtes en cours"
 
 msgid ""
 "The Bible will have running headers. The headers contain the page number "
-"near the inside margin. At the right margin it shows book and chapters "
+"near the inside margin. At the right margin it shows book and chapter "
 "numbers on that page."
 msgstr ""
-"La Bible aura des en-têtes en cours d'exécution. Les en-têtes contiennent le "
-"numéro de page près de la marge interne. Sur la marge droite, il indique le "
-"nombre de livres et de chapitres sur cette page."
+"La Bible aura des en-têtes courantes. Les en-têtes contiennent le numéro de "
+"page près de la marge intérieure. Sur la marge de droite, il affiche les "
+"numéros de livre et de chapitre."
 
 msgid "Enter the page numbers on the master pages."
 msgstr "Entrez les numéros de pages sur les pages principales."
@@ -7476,6 +7519,231 @@ msgstr "Les bibles peuvent être visualisées par tous les utilisateurs."
 msgid "Manage Bibles."
 msgstr "Gérer les Bibles."
 
+msgid "Typesetting in Scribus 1.4 or higher"
+msgstr "Composition dans Scribus 1.4 ou supérieur"
+
+msgid ""
+"See the Scribus online help for more information and general principles."
+msgstr ""
+"Consultez l'aide en ligne de Scribus pour plus d'informations et de "
+"principes généraux."
+
+msgid "Typesetting in Scribus starts with creating a new document."
+msgstr ""
+"La composition dans Scribus commence par la création d'un nouveau document."
+
+msgid "Choose menu File / New."
+msgstr "Choisissez le menu FIchier → Nouveau."
+
+msgid "Document Layout: Double Sided."
+msgstr "Mise en page du document : Page en vis-à-vis."
+
+msgid "To make the grid visible, go to menu View / Show Baseline Grid."
+msgstr ""
+"Pour rendre la grille visible, accédez au menu Affichage → Afficher la "
+"grille."
+
+msgid "Pick a Bible book, the version with text and note citations."
+msgstr ""
+"Sélectionnez un livre biblique, la version avec le texte et les notes."
+
+msgid "Create a text frame in Scribus."
+msgstr "Créez un cadre de texte dans Scribus."
+
+msgid "Add the text of the OpenDocument to this frame."
+msgstr "Ajoutez le texte en OpenDocument à ce cadre."
+
+msgid "I would like to place this extra text on a second page."
+msgstr "Je souhaite placer ce texte supplémentaire sur une deuxième page."
+
+msgid "Create a new text frame on a new page."
+msgstr "Créez un nouveau cadre de texte sur une nouvelle page."
+
+msgid "Link the new text frame with the previous text frame."
+msgstr "Liez le nouveau bloc de texte au cadre de texte précédent."
+
+msgid ""
+"There is still more text than fits on the second page. I estimate that there "
+"is enough text to fill many pages."
+msgstr ""
+"Il y a encore plus de texte que ne le permet la deuxième page. J'estime "
+"qu'il y a suffisamment de texte pour remplir de nombreuses pages."
+
+msgid "Place headlines"
+msgstr "Placez les titres"
+
+msgid "The headline I have in this example is:"
+msgstr "Le titre que j'ai dans cet exemple est :"
+
+msgid "'The first book of Moses called Genesis'."
+msgstr "« Le premier livre de Moïse appelé Genèse »."
+
+msgid ""
+"I'd like it to place it at the top of the page, and to span across any "
+"columns."
+msgstr ""
+"Je voudrais qu’il le place en haut de la page et qu’il couvre toutes les "
+"colonnes."
+
+msgid ""
+"Select the relevant text frames, and drag the top to make it shorter, so "
+"creating space above it."
+msgstr ""
+"Sélectionnez les blocs de texte appropriés et faites glisser le haut pour le "
+"raccourcir, créant ainsi un espace au-dessus."
+
+msgid "Create a new text frame at the top of the page."
+msgstr "Créez un nouveau bloc de texte en haut de la page."
+
+msgid "Estimate the size it needs to be."
+msgstr "Estimez la taille nécessaire."
+
+msgid "Paste the text into that text frame."
+msgstr "Collez le texte dans ce cadre de texte."
+
+msgid "Resize the text frame so it looks smart."
+msgstr "Redimensionnez le cadre de texte pour qu'il apparaisse élégant."
+
+msgid ""
+"Then resize the main text frame or frames so that everything looks good."
+msgstr ""
+"Redimensionnez ensuite le ou les cadres de texte principaux pour que tout "
+"soit correct."
+
+msgid "Make the setting to align it to the baseline grid."
+msgstr "Définissez les paramètres pour l'aligner sur la grille."
+
+msgid "The leading of the text should be equal to the baseline grid."
+msgstr "Le début du texte doit être égal à la grille."
+
+msgid ""
+"If the leading of the text is bigger, then it is like as if you have double "
+"line spacing."
+msgstr ""
+"Si le début du texte est plus grand, alors c'est comme si vous aviez un "
+"double interligne."
+
+msgid "In this example, we expect an entire Bible to have about 1600 pages."
+msgstr ""
+"Dans cet exemple, nous nous attendons à ce qu’une Bible entière ait environ "
+"1600 pages."
+
+msgid "Create a new document in Scribus."
+msgstr "Créez un nouveau document dans Scribus."
+
+msgid "Take the file with all notes in OpenDocument format."
+msgstr "Prenez le fichier au format OpenDocument avec les notes."
+
+msgid "It is 00_Bible_notes.odt."
+msgstr "C'est le fichier 00_Bible_notes.odt."
+
+msgid "Place the text as described above."
+msgstr "Placez ce texte comme décrit plus haut."
+
+msgid ""
+"Keep adding new text frames and linking them till all text has been placed."
+msgstr ""
+"Continuez à ajouter de nouveaux blocs de texte et à les lier jusqu'à ce que "
+"tout le texte ait été placé."
+
+msgid "This allows us to see how many pages the notes will take up."
+msgstr "Cela nous permet de voir combien de pages les notes vont prendre."
+
+msgid "Place this text in the same way as above."
+msgstr "Placez ce texte de la même manière que ci-dessus."
+
+msgid "The font is of particular influence on the page count."
+msgstr "La police a une influence particulière sur le nombre de pages."
+
+msgid "This is not dealt with here."
+msgstr "Ceci n'est pas traité ici."
+
+msgid ""
+"After exporting USFM text to OpenDocument, and properly placing this text "
+"into Scribus, the USFM styles appear in Scribus."
+msgstr ""
+"Après avoir exporté le texte USFM en OpenDocument et placé correctement ce "
+"texte dans Scribus, les styles USFM apparaissent dans Scribus."
+
+msgid ""
+"If you like to update a paragraph style, you may update each section heading "
+"individually, but this is a lot of work."
+msgstr ""
+"Si vous souhaitez mettre à jour un style de paragraphe, vous pouvez mettre à "
+"jour chaque en-tête de section individuellement, mais cela demande beaucoup "
+"de travail."
+
+msgid ""
+"It is faster to update the style for 's', so that this updates all "
+"paragraphs that have this style."
+msgstr ""
+"Il est plus rapide de mettre à jour le style pour 's', afin que tous les "
+"paragraphes ayant ce style soient mis à jour."
+
+msgid ""
+"To update a paragraph style, place the cursor in it, and use the menu to "
+"view or edit the style."
+msgstr ""
+"Pour mettre à jour un style de paragraphe, placez le curseur dessus et "
+"utilisez le menu pour afficher ou modifier le style."
+
+msgid "The Bible will have running headers."
+msgstr "La Bible aura des en-têtes courantes."
+
+msgid "The headers contain the page number near the inside margin."
+msgstr ""
+"Les en-têtes contiennent le numéro de page près de la marge intérieure."
+
+msgid "At the right margin it shows book and chapter numbers on that page."
+msgstr ""
+"Sur la marge de droite, il affiche les numéros de livre et de chapitre sur "
+"cette page."
+
+msgid "To do that, apply no master page to that particular page."
+msgstr ""
+"Pour ce faire, n'appliquez aucune page maître à cette page particulière."
+
+msgid "All that is needed is a fixed space after the chapter numbers."
+msgstr ""
+"Tout ce qui est nécessaire est une espace fixe après les numéros de chapitre."
+
+msgid "Pick any one from a hair space to an em space."
+msgstr ""
+"Choisissez n'importe quelle type d'espace de l'ultrafine à l'espace cadratin."
+
+msgid "The number of characters in drop caps is now increased by one."
+msgstr ""
+"Le nombre de caractères dans les lettrines est maintenant augmenté de un."
+
+msgid "Set this value in the drop cap settings."
+msgstr "Définissez cette valeur dans les paramètres de lettrine."
+
+msgid "All lines after the first will automatically line up."
+msgstr "Toutes les lignes après la première seront automatiquement alignées."
+
+msgid ""
+"Adjusting the spacing between words to produce tighter or looser paragraphs."
+msgstr ""
+"Ajustez l'espacement entre les mots pour produire des paragraphes plus "
+"serrés ou plus lâches."
+
+msgid ""
+"Adjusting the tracking of the text. This is the overall spacing of the "
+"letters in a paragraph or on a line. With a good font in justified "
+"paragraphs this can usually be adjusted by up to -25 or +15 without it "
+"looking too out of place."
+msgstr ""
+"Ajuster la trame du texte. Ceci est l'espacement global des lettres dans un "
+"paragraphe ou sur une ligne. Avec une bonne police dans les paragraphes "
+"justifiés, cela peut généralement être ajusté jusqu'à -25 ou +15 sans que "
+"cela semble trop déplacé."
+
+msgid "Adjusting the hyphenation of words within the paragraph."
+msgstr "Ajuster la césure des mots dans le paragraphe."
+
+msgid "Forcing a word down onto the next line using a soft return."
+msgstr "Forcer un mot sur la ligne suivante en utilisant un retour chariot."
+
 msgid "Tips and Tricks"
 msgstr "Trucs et astuces"
 
@@ -7664,8 +7932,8 @@ msgstr ""
 "Ouvrez l'adresse Web dans un navigateur, suivez les instructions à l'écran "
 "pour configurer Bibledit Cloud et connectez-vous."
 
-msgid "The Ubuntu packages support Ubuntu 15.05 and higher."
-msgstr "Les paquets Ubuntu supportent Ubuntu 15.05 et supérieur."
+msgid "The following command shows the status of Bibledit Cloud:"
+msgstr "La commande suivante affiche l'état de Bibledit Cloud :"
 
 msgid "Bibledit Cloud can also be installed from source."
 msgstr "Bibledit Cloud peut aussi être installé depuis les sources."
@@ -8418,6 +8686,21 @@ msgstr ""
 msgid "Typesetting Bibles"
 msgstr "Composition de Bibles"
 
+msgid "Bibledit can assist with typesetting."
+msgstr "Bibledit peut aider à la composition."
+
+msgid "But Bibledit is not designed for typesetting."
+msgstr "Mais Bibledit n'est pas conçu pour la composition."
+
+msgid "It is for Bible editing."
+msgstr "C'est pour l'édition de la Bible."
+
+msgid "No more than that."
+msgstr "Rien de plus que cela."
+
+msgid "Having said this, and despite this, let's press on."
+msgstr "Cela dit, et malgré cela, continuons."
+
 msgid "The Bible has been translated. It is time to publish it."
 msgstr "La Bible a été traduite. Il est temps de la publier."
 
@@ -8516,10 +8799,10 @@ msgstr ""
 "suivante."
 
 msgid ""
-"LibreOffice and Adobe InDesign have hyphenation algorithms for many "
-"languages. That would solve the problem."
+"LibreOffice and Adobe InDesign and Scribus have hyphenation algorithms for "
+"many languages. That would solve the problem."
 msgstr ""
-"LibreOffice et Adobe InDesign ont des algorithmes de césure pour de "
+"LibreOffice, Adobe InDesign et Scribus ont des algorithmes de césure pour de "
 "nombreuses langues. Cela résoudrait le problème."
 
 msgid ""
@@ -9226,9 +9509,14 @@ msgstr "Cela doit être manipulé avec bon sens."
 msgid "The typesetting"
 msgstr "La composition"
 
-msgid "The typesetting can be done in LibreOffice. This is free software."
-msgstr ""
-"La compositon peut être faite avec Libreoffice. C'est un logiciel libre."
+msgid "The typesetting can be done in LibreOffice."
+msgstr "La mise en page peut être éffectuée dans LibreOffice."
+
+msgid "Or in Scribus."
+msgstr "Ou dans Scribus."
+
+msgid "This is free software."
+msgstr "C'est un logiciel libre."
 
 msgid ""
 "The organisation may want to use specialized typesetting software like Adobe "
@@ -9236,12 +9524,6 @@ msgid ""
 msgstr ""
 "L'organisation peut vouloir utiliser des logiciels de composition "
 "spécialisés comme Adobe InDesign."
-
-msgid "LibreOffice"
-msgstr "LibreOffice"
-
-msgid "Adobe InDesign"
-msgstr "Adobe InDesign"
 
 msgid "Scrum-based translation process."
 msgstr "Processus de traduction basé sur Scrum."
@@ -9601,9 +9883,6 @@ msgstr ""
 "Les modifications apportées de cette manière peuvent être synchronisées avec "
 "Bibledit Cloud via le menu Envoyer/Recevoir."
 
-msgid "Standard installation"
-msgstr "Installation standard"
-
 msgid "Bibledit on Windows"
 msgstr "Bibledit sur Windows"
 
@@ -9785,14 +10064,14 @@ msgstr ""
 "Les utilisateurs disposant d'un accès en écriture constituent ensemble une "
 "équipe de traduction qui peut éditer la Bible."
 
-msgid "Development version"
-msgstr "Version de développement"
+msgid "Source code"
+msgstr "Code source"
 
 msgid "The Bibledit source code is kept in git repositories."
 msgstr "Le code source de Bibledit est conservé dans des dépôts git."
 
-msgid "Hosting providers"
-msgstr "Fournisseurs d'hébergement"
+msgid "Hosting"
+msgstr "Hébergement"
 
 msgid ""
 "To run Bibledit Cloud, a Linux VPS (virtual private server) is needed."
@@ -9802,6 +10081,19 @@ msgstr ""
 
 msgid "Good providers are:"
 msgstr "Les bons fournisseurs sont :"
+
+msgid ""
+"Several Bibledit users offer free assistance in setting up inexpensive "
+"server hosting for Bibledit."
+msgstr ""
+"Plusieurs utilisateurs de Bibledit proposent une assistance gratuite pour la "
+"mise en place d'un hébergement de serveur peu coûteux pour Bibledit."
+
+msgid "If you would like this assistance, post a message to:"
+msgstr "Si vous souhaitez cette assistance, postez un message à :"
+
+msgid "Or use the contact form at the website:"
+msgstr "Ou utilisez le formulaire de contact sur le site Web :"
 
 msgid "OpenLDAP"
 msgstr "OpenLDAP"
@@ -9813,11 +10105,10 @@ msgstr ""
 "l'authentification des utilisateurs."
 
 msgid ""
-"The following file in the Bibledit installation provides all information "
-"needed:"
+"The following file in the Bibledit installation provides more information:"
 msgstr ""
-"Le fichier suivant dans l'installation de Bibledit fournit toutes les "
-"informations nécessaires :"
+"Le fichier suivant dans l'installation de Bibledit fournit plus "
+"d'informations :"
 
 msgid "Security"
 msgstr "Sécurité"
@@ -9839,12 +10130,6 @@ msgstr "Camouflage de Bibledit Cloud et des clients Bibledit Linux."
 
 msgid "Accessing Bibledit Cloud through a Tor browser."
 msgstr "Accès à Bibledit Cloud via un navigateur Tor."
-
-msgid ""
-"The following file in the Bibledit installation provides more information:"
-msgstr ""
-"Le fichier suivant dans l'installation de Bibledit fournit plus "
-"d'informations :"
 
 msgid "Install Bibledit on macOS"
 msgstr "Installer Bibledit Cloud sur macOS"
@@ -12177,6 +12462,9 @@ msgstr "Veuillez définir la marge supérieure en millimètres"
 
 msgid "Please enter an bottom margin size in millimeters"
 msgstr "Veuillez définir la marge inférieure en millimètres"
+
+msgid "The font for securing exports was saved."
+msgstr "La police pour sécuriser les exportations a été enregistrée."
 
 msgid "The info documents are being generated."
 msgstr "Les informations du documents vont être générées."

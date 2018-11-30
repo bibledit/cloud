@@ -5786,7 +5786,7 @@ msgid ""
 "OpenOffice."
 msgstr ""
 
-msgid "Save it as a Microsoft Word 97 / 2000 / XP (.doc) document."
+msgid "Save it as a Microsoft Word 97-2003 (.doc) document."
 msgstr ""
 
 msgid "Create a new document in InDesign."
@@ -7495,8 +7495,8 @@ msgid "Each Bible book is stored as one USFM file."
 msgstr ""
 
 msgid ""
-"Create a new Bible in Bibledit through menu Bibles. Give the Bible a name. "
-"The example calls it 'Ndebele'."
+"Create a new Bible in Bibledit. Give the Bible a name. The example calls it "
+"'Ndebele'."
 msgstr ""
 
 msgid "Click the 'Ndebele' Bible."
@@ -7548,7 +7548,7 @@ msgstr ""
 msgid "Bibledit has a hyphenater that could assist."
 msgstr ""
 
-msgid "In Bibledit, go to menu Hyphenation."
+msgid "In Bibledit, go to this menu:"
 msgstr ""
 
 msgid "Enter the first set of characters, and the second set, and save it."
@@ -7584,7 +7584,7 @@ msgstr ""
 msgid "Use stylesheet 'Ndebele'."
 msgstr ""
 
-msgid "Output the chapter number in drop caps. Switch that setting on."
+msgid "Output the chapter number in drop caps. Do not use frames."
 msgstr ""
 
 msgid "Set the page size. I use this: width: 138 mm; height: 210 mm."
@@ -7597,6 +7597,9 @@ msgstr ""
 
 msgid ""
 "Do not display the date in the running headers. Switch that setting off."
+msgstr ""
+
+msgid "Insert the 'en space' after verse numbers."
 msgstr ""
 
 msgid "The Logbook shows the progress. Proceed when it is ready."
@@ -7865,7 +7868,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Keep the gap between the references in the footer and the main bock of text "
+"Keep the gap between the references in the footer and the main block of text "
 "as consistent as possible."
 msgstr ""
 
@@ -8564,6 +8567,12 @@ msgid "Obfuscating Bibledit Cloud and Bibledit Linux clients."
 msgstr ""
 
 msgid "Accessing Bibledit Cloud through a Tor browser."
+msgstr ""
+
+msgid "This file refers to a configuration path."
+msgstr ""
+
+msgid "This path is:"
 msgstr ""
 
 msgid "Install Bibledit on macOS"

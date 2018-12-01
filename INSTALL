@@ -12,7 +12,8 @@ without warranty of any kind.
 Basic Installation
 ==================
 
-   Briefly, the shell command `./configure && make',
+   Briefly, the shell command 
+`./reconfigure && ./configure && make'
 should configure, and build this package.  The following
 more-detailed instructions are generic; see the `README' file for
 instructions specific to this package.  Some packages provide this

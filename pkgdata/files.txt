@@ -243,6 +243,7 @@
 /export/quickbb.html
 /exports
 /exports/gitflag
+/export/usfm-82b05923.o.tmp
 /export/usfm.html
 /filter
 /filter/cas.crt
@@ -328,6 +329,7 @@
 /locale/bibledit.pot
 /locale/cs.po
 /locale/de.po
+/locale/en_GB.po
 /locale/es.po
 /locale/fr.po
 /locale/id.po

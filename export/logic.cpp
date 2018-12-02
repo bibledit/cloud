@@ -24,6 +24,7 @@
 #include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <locale/translate.h>
 
 
 // Schedule all Bibles for exports.
@@ -173,20 +174,19 @@ string Export_Logic::webBackLinkDirectory (string bible)
 // Provides the base book file name, e.g. 01_Genesis.
 // Or 00_Bible for an entire Bible when $book = 0;
 // Takes in account the order of the books, possibly modified by the user.
-string Export_Logic::baseBookFileName (string bible, int book)
+string Export_Logic::baseBookFileName (int book)
 {
-  // In case the Bible is used at a later stage, to order the books,
-  // it's important to know that the $bible can be empty also.
-  (void) bible;
-
   string filename;
   if (book) {
     // The file name has a number that indicates the default order of the book.
+    // Localize the English book name: https://github.com/bibledit/cloud/issues/241
     int order = Database_Books::getOrderFromId (book);
-    filename = filter_string_fill (convert_to_string (order), 2, '0') + "_" + Database_Books::getEnglishFromId (book);
+    filename = filter_string_fill (convert_to_string (order), 2, '0');
+    filename.append ("_");
+    filename.append (translate (Database_Books::getEnglishFromId (book)));
   } else {
     // Whole Bible.
-    filename = "00_Bible";
+    filename = "00_" + translate ("Bible");
   }
   
   // Done.

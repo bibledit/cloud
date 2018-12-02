@@ -43,7 +43,7 @@ public:
   static string USFMdirectory (string bible, int type);
   static string webDirectory (string bible);
   static string webBackLinkDirectory (string bible);
-  static string baseBookFileName (string bible, int book);
+  static string baseBookFileName (int book);
   static string osisDirectory (string bible);
   static string osisSwordVariantDirectory (string interpreter, int complexity);
   static const int export_needed = 0;

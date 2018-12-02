@@ -46,7 +46,7 @@ void export_html_book (string bible, int book, bool log)
   
   
   // Filename for the html file.
-  string basename = Export_Logic::baseBookFileName (bible, book);
+  string basename = Export_Logic::baseBookFileName (book);
   string filename = filter_url_create_path (directory, basename + ".html");
   string filecss = filter_url_create_path (directory, "stylesheet.css");
   

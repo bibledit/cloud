@@ -60,12 +60,7 @@ void export_usfm (string bible, bool log)
   
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    
-    
-    // The filename for the USFM for this book.
-    string filename = Export_Logic::baseBookFileName (bible, book);
-    string path = filter_url_create_path (usfmDirectoryFull, filename + ".usfm");
-    
+
     
     // If the USFM output is zipped, the zipping process removes the individual USFM files,
     // which means that they are no longer found, which triggers a new export.
@@ -87,7 +82,9 @@ void export_usfm (string bible, bool log)
     }
     
     
-    // Save.
+    // Save the USFM of this book to a file with a localized name.
+    string base_book_filename = Export_Logic::baseBookFileName (book);
+    string path = filter_url_create_path (usfmDirectoryFull, base_book_filename + ".usfm");
     filter_url_file_put_contents (path, bookUsfmDataFull);
 
     
@@ -100,7 +97,7 @@ void export_usfm (string bible, bool log)
 
   
   // Base name of the zip file.
-  string zipfile = Export_Logic::baseBookFileName ("", 0) + ".zip";
+  string zipfile = Export_Logic::baseBookFileName (0) + ".zip";
   string zippath = filter_url_create_path (usfmDirectoryFull, zipfile);
   
   

@@ -243,7 +243,6 @@
 /export/quickbb.html
 /exports
 /exports/gitflag
-/export/usfm-82b05923.o.tmp
 /export/usfm.html
 /filter
 /filter/cas.crt
@@ -409,6 +408,7 @@
 /notes/select.html
 /notes/severity-1.html
 /notes/severity-n.html
+/notes/status-1-36bb5308.o.tmp
 /notes/status-1.html
 /notes/status-n.html
 /notes/summary.html

@@ -408,7 +408,6 @@
 /notes/select.html
 /notes/severity-1.html
 /notes/severity-n.html
-/notes/status-1-36bb5308.o.tmp
 /notes/status-1.html
 /notes/status-n.html
 /notes/summary.html
@@ -761,6 +760,7 @@
 /trash
 /unittest
 /unittests
+/unittests/odf-94cddfa8.o.tmp
 /unittests/stress
 /unittests/tests
 /unittests/tests/01GEN-0.SFM

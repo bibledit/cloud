@@ -133,7 +133,7 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_filter_text ();
+  test_odf ();
   test_dev ();
   exit (0);
   

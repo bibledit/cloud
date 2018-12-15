@@ -279,5 +279,22 @@ void test_odf ()
   filter_url_unlink (OdfTextTestDotOdt);
   filter_url_unlink (Odt2TxtOutput);
   
+  // Test converting apostrophy.
+  {
+    Odf_Text odf_text (bible);
+    odf_text.newParagraph ();
+    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.currentParagraphStyle);
+    odf_text.addText ("One apostrophy ' and two more ''.");
+    odf_text.save (OdfTextTestDotOdt);
+    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    string standard = "One apostrophy ' and two more ''.";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+  filter_url_unlink (OdfTextTestDotOdt);
+  filter_url_unlink (Odt2TxtOutput);
+  
   refresh_sandbox (true);
 }

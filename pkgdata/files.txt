@@ -760,7 +760,6 @@
 /trash
 /unittest
 /unittests
-/unittests/odf-94cddfa8.o.tmp
 /unittests/stress
 /unittests/tests
 /unittests/tests/01GEN-0.SFM

@@ -327,8 +327,8 @@ void Checks_Usfm::addResult (string text, int modifier)
 
  The official usfm.sty from paratext.org shows where each marker occurs under.
  That could be used to do a mechanical check on the position of the various markers.
- But this is not implemented just now because it is not the purpose of Bibledit 
- to exactly check every aspect of USFM.
+ But this is not implemented just now
+ because it is not the purpose of Bibledit to exactly check every aspect of USFM.
  Rather Bibledit checks some important issues that may occur in daily USFM editing.
  Checking every aspect of USFM is a bit of an overkill.
 

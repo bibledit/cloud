@@ -350,6 +350,7 @@
 /manage
 /manage/exports.html
 /manage/hyphenation.html
+/manage/index-90b0ef9a.o.tmp
 /manage/index.html
 /manage/privileges.html
 /manage/privileges.js

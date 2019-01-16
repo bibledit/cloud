@@ -62,24 +62,6 @@ string manage_index (void * webserver_request)
   string error;
   
   
-  // Force re-index Bibles.
-  if (request->query ["reindex"] == "bibles") {
-    Database_Config_General::setIndexBibles (true);
-    tasks_logic_queue (REINDEXBIBLES, {"1"});
-    redirect_browser (request, journal_index_url ());
-    return "";
-  }
-  
-  
-  // Re-index consultation notes.
-  if (request->query ["reindex"] == "notes") {
-    Database_Config_General::setIndexNotes (true);
-    tasks_logic_queue (REINDEXNOTES);
-    redirect_browser (request, journal_index_url ());
-    return "";
-  }
-
-  
   // Delete a font.
   string deletefont = request->query ["deletefont"];
   if (!deletefont.empty ()) {

@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <jobs/index.h>
 #include <tasks/logic.h>
 #include <journal/logic.h>
+#include <journal/index.h>
 
 
 string system_index_url ()
@@ -268,6 +269,24 @@ string system_index (void * webserver_request)
     }
   }
 #endif
+
+  
+  // Force re-index Bibles.
+  if (request->query ["reindex"] == "bibles") {
+    Database_Config_General::setIndexBibles (true);
+    tasks_logic_queue (REINDEXBIBLES, {"1"});
+    redirect_browser (request, journal_index_url ());
+    return "";
+  }
+  
+  
+  // Re-index consultation notes.
+  if (request->query ["reindex"] == "notes") {
+    Database_Config_General::setIndexNotes (true);
+    tasks_logic_queue (REINDEXNOTES);
+    redirect_browser (request, journal_index_url ());
+    return "";
+  }
 
   
 #ifdef HAVE_CLOUD

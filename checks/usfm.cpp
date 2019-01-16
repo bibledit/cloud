@@ -39,7 +39,9 @@ Checks_Usfm::Checks_Usfm (string bible)
     int styleSubtype = style.subtype;
 
     // Find out which markers require an endmarker.
+    // And which ones are embeddable.
     bool requiredEndmarker = false;
+    bool embeddableMarker = false;
     if (styleType == StyleTypeFootEndNote) {
       if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
         requiredEndmarker = true;
@@ -50,10 +52,19 @@ Checks_Usfm::Checks_Usfm (string bible)
         requiredEndmarker = true;
       }
     }
-    if (styleType == StyleTypeInlineText) requiredEndmarker = true;
-    if (styleType == StyleTypeWordlistElement) requiredEndmarker = true;
+    if (styleType == StyleTypeInlineText) {
+      requiredEndmarker = true;
+      embeddableMarker = true;
+    }
+    if (styleType == StyleTypeWordlistElement) {
+      requiredEndmarker = true;
+      embeddableMarker = true;
+    }
     if (requiredEndmarker) {
       markersRequiringEndmarkers.push_back (marker);
+    }
+    if (embeddableMarker) {
+      embeddableMarkers.push_back (marker);
     }
     
     // Look for the \toc[1-3] markers.
@@ -228,7 +239,7 @@ void Checks_Usfm::widowBackSlash ()
 }
 
 
-void Checks_Usfm::matchingEndmarker ()
+void Checks_Usfm::matchingEndmarker () // Todo
 {
   string marker = usfmItem;
   // Remove the initial backslash, e.g. '\add' becomes 'add'.

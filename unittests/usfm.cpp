@@ -359,7 +359,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test check on matching markers.
+  // Test check on matching markers. Todo
   {
     string usfm =
     "\\id GEN\n"

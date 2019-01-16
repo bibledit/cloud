@@ -55,6 +55,10 @@ private:
   vector <string> markersRequiringEndmarkers;
   vector <string> openMatchingMarkers;
   
+  // Embedded markers.
+  vector <string> embeddableMarkers;
+  vector <string> openEmbeddableMarkers;
+
   // Table of contents markers and flags.
   string longToc1Marker;
   string shortToc2Marker;

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2017 Teus Benschop.
+Copyright (©) 2003-2018 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -330,6 +330,14 @@ string system_index (void * webserver_request)
     fontsblock.push_back ("</p>");
   }
   view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
+
+  
+  // Handle the command to clear the web and resources caches.
+  if (request->query.count ("clearcache")) {
+    tasks_logic_queue (CLEARCACHES);
+    redirect_browser (request, journal_index_url ());
+    return "";
+  }
 
   
 #ifdef HAVE_CLOUD

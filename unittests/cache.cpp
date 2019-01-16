@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2017 Teus Benschop.
+Copyright (©) 2003-2018 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ void test_database_cache ()
     database_filebased_cache_put (url, contents);
     evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
     evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
-    database_cache_trim ();
+    database_cache_trim (false);
   }
   
   // Excercise the ready-flag.

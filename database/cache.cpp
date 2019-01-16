@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2017 Teus Benschop.
+Copyright (©) 2003-2018 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -308,8 +308,10 @@ void database_filebased_cache_remove (string schema)
 
 
 // Deletes old cached items.
-void database_cache_trim ()
+void database_cache_trim (bool clear)
 {
+  if (clear) Database_Logs::log ("Claaring cache");
+
   string output, error;
 
   // The directory that contains the file-based cache files.
@@ -334,6 +336,9 @@ void database_cache_trim ()
   if (megabytes >= 1500) days = "+2";
   if (megabytes >= 2000) days = "+1";
   if (megabytes >= 2500) days = "0";
+  
+  // Handle clearing the cache immediately.
+  if (clear) days = "0";
   
   // Remove files that have not been modified for x days.
   // It uses a Linux shell command. This can be done because it runs on the server only.
@@ -374,10 +379,15 @@ void database_cache_trim ()
   if (megabytes >= 150) days = "+2";
   if (megabytes >= 200) days = "+1";
 
+  // Handle clearing the cache immediately.
+  if (clear) days = "0";
+
   // Remove database-based cached files that have not been modified for x days.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {path, "-name", Database_Cache::fragment () + "*", "-atime", "+5", "-delete"}, &output, &error);
+  filter_shell_run (path, "find", {path, "-name", Database_Cache::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
+  
+  if (clear) Database_Logs::log ("Reading claaring cache");
 }

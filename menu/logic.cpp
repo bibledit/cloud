@@ -46,7 +46,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
-#include <manage/index.h>
 #include <manage/users.h>
 #include <mapping/index.h>
 #include <notes/index.h>
@@ -620,7 +619,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string changes = menu_logic_changes_text ();
   string preferences = translate ("Preferences");
   string users = menu_logic_manage_users_text ();
-  string indexes_fonts = translate ("Indexes and Fonts");
   string mail = translate ("Mail");
   string styles = menu_logic_styles_text ();
   string versifications = menu_logic_versification_index_text ();
@@ -640,7 +638,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     changes,
     preferences,
     users,
-    indexes_fonts,
     mail,
     styles,
     versifications,
@@ -726,13 +723,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         tiplabels.push_back (menu_logic_manage_users_text ());
       }
 #endif
-    }
-    
-    if (label == indexes_fonts) {
-      if (manage_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (manage_index_url (), label, true));
-        tiplabels.push_back (label);
-      }
     }
     
     if (label == mail) {

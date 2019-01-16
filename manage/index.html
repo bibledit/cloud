@@ -1,21 +1,2 @@
 <p class="success">##success##</p>
 <p class="error">##error##</p>
-
-<h3>translate("Fonts")</h3>
-<p>translate("The following fonts are available in Bibledit:")</p>
-<br>
-##fontsblock##
-<br>
-<!-- #BEGINZONE client -->
-<p>
-  translate("You can add or remove fonts in Bibledit Cloud:")
-  ##cloudlink##
-</p>
-<!-- #ENDZONE client -->
-<!-- #BEGINZONE server -->
-<p>translate("You can upload a new font.")</p>
-<form enctype="multipart/form-data" action="index" method="POST">
-  <input name="fontdata" type="file" />
-  <input type="submit" name="uploadfont" value="translate("Upload")" />
-</form>
-<!-- #ENDZONE server -->

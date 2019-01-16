@@ -752,6 +752,7 @@
 /sword/mods.d/globals.conf
 /sync
 /system
+/system/index-86092928.o.tmp
 /system/index.html
 /tasks
 /text

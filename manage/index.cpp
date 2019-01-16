@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <locale/translate.h>
-#include <fonts/logic.h>
 #include <client/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
@@ -49,74 +48,12 @@ bool manage_index_acl (void * webserver_request)
 
 string manage_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-
   string page;
-
   Assets_Header header = Assets_Header (translate("Manage"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-
   Assets_View view;
-  string success;
-  string error;
-  
-  
-  // Delete a font.
-  string deletefont = request->query ["deletefont"];
-  if (!deletefont.empty ()) {
-    string font = filter_url_basename_web (deletefont);
-    bool font_in_use = false;
-    vector <string> bibles = request->database_bibles ()->getBibles ();
-    for (auto & bible : bibles) {
-      if (font == Fonts_Logic::getTextFont (bible)) font_in_use = true;
-    }
-    if (!font_in_use) {
-      // Only delete a font when it is not in use.
-      Fonts_Logic::erase (font);
-    } else {
-      error = translate("The font could not be deleted because it is in use");
-    }
-  }
-  
-  
-  // Upload a font.
-  if (request->post.count ("uploadfont")) {
-    string filename = request->post ["filename"];
-    string path = filter_url_create_root_path ("fonts", filename);
-    string fontdata = request->post ["fontdata"];
-    filter_url_file_put_contents (path, fontdata);
-    success = translate("The font has been uploaded.");
-  }
-  
-
-  // Assemble the font block html.
-  vector <string> fonts = Fonts_Logic::getFonts ();
-  vector <string> fontsblock;
-  for (auto & font : fonts) {
-    fontsblock.push_back ("<p>");
-#ifndef HAVE_CLIENT
-    fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\">" + emoji_wastebasket () + "</a>");
-#endif
-    fontsblock.push_back (font);
-    fontsblock.push_back ("</p>");
-  }
-  view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
-
-  
-#ifdef HAVE_CLIENT
-  view.enable_zone ("client");
-  view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
-#else
-  view.enable_zone ("server");
-#endif
-  
-  
-  view.set_variable ("success", success);
-  view.set_variable ("error", error);
   page += view.render ("manage", "index");
-
   page += Assets_Page::footer ();
-  
   return page;
 }

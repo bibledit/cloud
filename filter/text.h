@@ -154,26 +154,40 @@ public:
 public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
   map <int, string> getVersesText ();
-  map <int, string> verses_headings; // Vector with objects to hold verse numbers and the text of the headings.
-  vector <string> paragraph_starting_markers; // Markers that started the above paragraph start positions.
-  vector <map <int, string>> verses_paragraphs; // Complete paragraphs keyed to verse numbers.
+  // Vector with objects to hold verse numbers and the text of the headings.
+  map <int, string> verses_headings;
+  // Markers that started the above paragraph start positions.
+  vector <string> paragraph_starting_markers;
+  // Complete paragraphs keyed to verse numbers.
+  vector <map <int, string>> verses_paragraphs;
 private:
+  // Flags for headings per verse processor.
   bool headings_text_per_verse_active;
-  bool heading_started; // Flag for headings per verse processor.
-  map <int, string> verses_text; // Holds verse numbers and the plain text in that verse, without anything extra.
-  bool text_started; // Flag for text per verse processor.
+  bool heading_started;
+  // Holds verse numbers and the plain text in that verse, without anything extra.
+  map <int, string> verses_text;
+  // Flag for text per verse processor.
+  bool text_started;
   void storeVersesParagraphs ();
   map <int, string> actual_verses_paragraph;
+
   
 private:
   string space_type_after_verse; // The type of space to follow a verse number.
   map <int, bool> book_has_chapter_label; // Whether \cl was found in the book.
   
 public:
+  // The notes plain text.
   vector <pair <string, string> > notes_plain_text;
+  // Holds the positions of the notes in the plain text, keyed to the verse numbers.
+  map <int, vector <int>> verses_text_note_positions;
 private:
+  // Flag to keep track of open note.
   bool note_open_now = false;
+  // The joined fragments.
   string notes_plain_text_buffer;
+  // Handler.
+  void notes_plain_text_handler ();
 };
 
 

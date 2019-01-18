@@ -119,6 +119,19 @@ void export_quickbible (string bible, bool log)
               string vs = convert_to_string (element.first);
               string tx = element.second;
               if (tx.empty ()) tx = "empty";
+              // Sample: @@Count it all joy, my brothers@<f1@>@/, when you fall into various temptations.
+              // https://github.com/bibledit/cloud/issues/227
+              vector <int> positions = filter_text.verses_text_note_positions [element.first];
+              for (int i = positions.size () - 1; i >= 0; i--) {
+                int position = positions [i];
+                if (position < tx.size ()) {
+                  // @<f1@>@/
+                  string fragment = "@<f" + convert_to_string (i + 1) + "@>@/";
+                  tx.insert (position, fragment);
+                }
+              }
+              tx.insert (0, "@@");
+              // Add the verse to the output.
               yet_contents.append (export_quickbible_tabify ("verse", bk, ch, vs, tx));
             }
           }
@@ -150,7 +163,7 @@ void export_quickbible (string bible, bool log)
       offset++;
     }
     yet_contents.append (export_quickbible_tabify ("footnote", convert_to_string (book), convert_to_string (chapter), convert_to_string (verse), convert_to_string (offset), notetext));
-    previousbook = verse;
+    previousbook = book;
     previouschapter = chapter;
     previousverse = verse;
   }

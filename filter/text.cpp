@@ -1058,6 +1058,8 @@ void Filter_Text::processNote ()
                   // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note ();
+                  // Handle opening notes in plain text.
+                  notes_plain_text_handler ();
                   // Set flag.
                   note_open_now = true;
                 } else {
@@ -1084,6 +1086,8 @@ void Filter_Text::processNote ()
                   // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note ();
+                  // Handle opening notes in plain text.
+                  notes_plain_text_handler ();
                   // Set flag.
                   note_open_now = true;
                 } else {
@@ -1168,6 +1172,8 @@ void Filter_Text::processNote ()
                   // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note ();
+                  // Handle opening notes in plain text.
+                  notes_plain_text_handler ();
                   // Set flag.
                   note_open_now = true;
                 } else {
@@ -1644,4 +1650,15 @@ void Filter_Text::storeVersesParagraphs ()
     verses_paragraphs.push_back (actual_verses_paragraph);
     actual_verses_paragraph.clear ();
   }
+}
+
+
+void Filter_Text::notes_plain_text_handler ()
+{
+  int offset = 0;
+  int iverse = convert_to_int (currentVerseNumber);
+  if (verses_text.count (iverse)) {
+    offset = verses_text [iverse].size ();
+  }
+  verses_text_note_positions[iverse].push_back (offset);
 }

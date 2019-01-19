@@ -124,7 +124,7 @@ void export_quickbible (string bible, bool log)
               vector <int> positions = filter_text.verses_text_note_positions [element.first];
               for (int i = positions.size () - 1; i >= 0; i--) {
                 int position = positions [i];
-                if (position < tx.size ()) {
+                if (position <= tx.size ()) {
                   // @<f1@>@/
                   string fragment = "@<f" + convert_to_string (i + 1) + "@>@/";
                   tx.insert (position, fragment);

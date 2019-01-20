@@ -239,7 +239,6 @@
 /email/index.html
 /esword
 /executable
-/executable/bibledit-b2211211.o.tmp
 /export
 /export/quickbb.html
 /exports
@@ -319,7 +318,6 @@
 /ldap
 /lexicon
 /library
-/library/bibledit-7278d08d.o.tmp
 /livetest
 /livetest/initialize.sh
 /livetest/livetest.js
@@ -1073,9 +1071,6 @@
 /webbb/lens.png
 /webbb/search.html
 /webserver
-/webserver/http-1d5630ae.o.tmp
-/webserver/request-c9fd224c.o.tmp
-/webserver/webserver-95e99387.o.tmp
 /workspace
 /workspace/index.html
 /workspace/organize.html

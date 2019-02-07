@@ -126,6 +126,8 @@ void Checks_Usfm::check (string usfm)
       widowBackSlash ();
       
       matchingEndmarker ();
+      
+      embeddedMarker ();
     }
   }
 }
@@ -239,7 +241,7 @@ void Checks_Usfm::widowBackSlash ()
 }
 
 
-void Checks_Usfm::matchingEndmarker () // Todo
+void Checks_Usfm::matchingEndmarker ()
 {
   string marker = usfmItem;
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
@@ -261,6 +263,59 @@ void Checks_Usfm::matchingEndmarker () // Todo
       openMatchingMarkers = filter_string_array_diff (openMatchingMarkers, {marker});
     } else {
       addResult (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (openMatchingMarkers, " "), displayCurrent);
+    }
+  }
+}
+
+
+void Checks_Usfm::embeddedMarker ()
+{
+  // The marker, e.g. '\add'.
+  string marker = usfmItem;
+
+  // Remove the initial backslash, e.g. '\add' becomes 'add'.
+  marker = marker.substr (1);
+  marker = filter_string_trim (marker);
+
+  bool isOpener = usfm_is_opening_marker (marker);
+
+  // Clean a closing marker, e.g. '\add*' becomes '\add'.
+  if (!isOpener) {
+    if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
+  }
+  
+  // If the marker is not relevant for this check, bail out.
+  if (!in_array (marker, embeddableMarkers)) return;
+  
+  // Checking method is as follows:
+  // If there's no open embeddable markers, then the '+' sign is not needed.
+  // If there's open embeddable markers, and another marker is opened,
+  // then the '+' sign is needed.
+  // Example USFM:
+  // \v 1 This \add is an \+w embedded\+w* marker\add*.
+  // See the following URL for more information about embedding markers:
+  // https://ubsicap.github.io/usfm/characters/nesting.html
+  
+  bool checkEmbedding = false;
+  if (isOpener) {
+    if (!in_array (marker, openEmbeddableMarkers)) {
+      if (!openEmbeddableMarkers.empty ()) {
+        checkEmbedding = true;
+      }
+      openEmbeddableMarkers.push_back (marker);
+    }
+  } else {
+    if (in_array (marker, openEmbeddableMarkers)) {
+      openEmbeddableMarkers = filter_string_array_diff (openEmbeddableMarkers, {marker});
+      if (!openEmbeddableMarkers.empty ()) {
+        checkEmbedding = true;
+      }
+    }
+  }
+  
+  if (checkEmbedding) {
+    if (marker.substr (0, 1) != "+") {
+      addResult (translate ("Embedded marker requires a plus sign"), displayFull);
     }
   }
 }

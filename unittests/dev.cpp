@@ -26,33 +26,10 @@
 #include <checks/usfm.h>
 
 
-void test_dev () // Todo
+void test_dev ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
-  
-  string bible = "phpunit";
-  
-  
-  // Test check on matching markers.
-  {
-    string usfm = R"(
-\id GEN
-\v 1 Njalo kwakwenziwe \w \+add ng\+add*amakherubhi\w* lezihlahla zelala, kuze kuthi isihlahla selala sasiphakathi kwekherubhi lekherubhi; njalo \add yilelo lalelo\add* ikherubhi lalilobuso obubili.
-\v 2 Izembatho zakho zonke \add ziqholiwe\add* \w ngemure\w* lenhlaba \w \+add l\+add*ekhasiya\w*; ezigodlweni zempondo zendlovu abakwenze wathokoza ngazo.
-\v 3 Ngasengiyithenga insimu kuHanameli indodana kamalumami, eseAnathothi, ngamlinganisela imali \w \+add eng\+add*amashekeli\w** ayisikhombisa lenhlamvu ezilitshumi zesiliva.
-    )";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
-    check.initialize (0, 0);
-    check.check (usfm);
-    check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
-    vector <pair<int, string>> standard = {};
-    evaluate (__LINE__, __func__, standard, results);
-    for (size_t i = 0; i < results.size (); i++) {
-      cout << results[i].first << " " << results[i].second << endl;
-    }
-  }
   
 }
 

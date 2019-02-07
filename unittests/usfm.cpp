@@ -30,13 +30,15 @@ void test_usfm ()
 {
   trace_unit_tests (__func__);
   
+  string bible = "bible";
+  
   // Test check on malformed verse.
   {
     string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 2,He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -55,7 +57,7 @@ void test_usfm ()
     "\\v 1 He said.\n"
     "\\p He said.\n"
     "\\v 2 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -73,7 +75,7 @@ void test_usfm ()
     "\\\n"
     "\\p He said.\n"
     "\\v 2 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -93,7 +95,7 @@ void test_usfm ()
     "\\\n"
     "\\p He said.\n"
     "\\v 3 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -112,7 +114,7 @@ void test_usfm ()
     "\\v 1 He said \\add something\\add*.\n"
     "\\p,p He said.\n"
     "\\v 3 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -131,7 +133,7 @@ void test_usfm ()
     "\\v 1 He said \\add something\\add*.\n"
     "\\p He said.\n"
     "\\v 3 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -148,7 +150,7 @@ void test_usfm ()
     "\\id GENN\n"
     "\\p He said.\n"
     "\\v 1 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -165,7 +167,7 @@ void test_usfm ()
     "\\id\n"
     "\\p He said.\n"
     "\\v 1 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -182,7 +184,7 @@ void test_usfm ()
     "\\id Gen\n"
     "\\p He said.\n"
     "\\v 1 He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -199,7 +201,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\p He said.\n"
     "\\v 1 He said. He said something/add*.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -216,7 +218,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\p He said.\n"
     "\\v 1 /v He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -271,7 +273,7 @@ void test_usfm ()
     "\\v 27 UJakobe wasefika kuIsaka uyise eMamre\\x + 13.18; 23.2,19.\\x*, eKiriyathi-Arba\\x + Josh. 14.15; 15.13.\\x*, eyiHebroni, lapho uAbrahama ahlala khona njengowezizwe, loIsaka\\x + 28.10.\\x*.\n"
     "\\v 28 Lensuku zikaIsaka zaziyiminyaka elikhulu lamatshumi ayisificaminwembili.\n"
     "\\v 29 UIsaka wasehodoza, wafa, wabuthelwa ezizweni zakibo\\x + 15.15; 25.8.\\x*, emdala, enele ngensuku. Amadodana akhe uEsawu loJakobe asemngcwaba\\x + 25.9; 49.31.\\x*.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -286,7 +288,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\p\n"
     "\\v 1 \\ He said.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -302,7 +304,7 @@ void test_usfm ()
     string usfm =
     "\\id GEN\n"
     "\\v 1  He said \\add addition\\add*.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -316,7 +318,7 @@ void test_usfm ()
     string usfm =
     "\\id GEN\n"
     "\\v 1  He said addition\\add*.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -332,7 +334,7 @@ void test_usfm ()
     string usfm =
     "\\id GEN\n"
     "\\v 1  He said \\add addition\\add .\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -350,7 +352,7 @@ void test_usfm ()
     "\\id GEN\n"
     "\\v 8 Kodwa uNowa wazuza umusa emehlweni eN\\nd kosi\\x + 19.19.\\nd*\\x*.\n"
     "\\v 9 Kodwa uNowa wazuza umusa emehlweni eN\\nd kosi\\x + 19.19.\\x*\\nd*.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -359,18 +361,20 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Test check on matching markers. Todo
+  // Test check on matching markers.
   {
     string usfm =
     "\\id GEN\n"
     "\\v 8 Kodwa uNowa wazuza umusa \\add emehlweni eN\\nd kosi\\x + 19.19.\\nd*\\x*.\n";
-    Checks_Usfm check = Checks_Usfm ("phpunit");
+    Checks_Usfm check = Checks_Usfm (bible);
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.getResults ();
     vector <pair<int, string>> standard = {
-      make_pair (8, "Unclosed markers: add")
+      make_pair (8, "Embedded marker requires a plus sign: \\nd kosi"),
+      make_pair (8, "Embedded marker requires a plus sign: \\nd*\\x*"),
+      make_pair (8, "Unclosed markers: add"),
     };
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -1162,4 +1166,32 @@ void test_usfm ()
     standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.\fig*)";
     evaluate (__LINE__, __func__, standard, result);
   }
+  
+  // Test check on embedded markers.
+  {
+    string usfm = R"(
+\id GEN
+\v 1 This is a \w \+add sen\+add*rd3\w* tence.
+\v 2 This is a \w \add sen\add*rd3\w* tence.
+\v 3 This \add is\add* \w a\w* longer \w \+add sen\+add*tence\w* for sure.
+\v 4 This \add is\add* \w a\w* longer \w \add sen\add*tence\w* for sure.
+\v 5 Praise is \w \+add du\+add*e\w* to God.
+\v 6 Praise is \w \add du\add*e\w* to God.
+    )";
+    Checks_Usfm check = Checks_Usfm ("bible");
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {
+      make_pair (2, "Embedded marker requires a plus sign: \\add sen"),
+      make_pair (2, "Embedded marker requires a plus sign: \\add*rd3"),
+      make_pair (4, "Embedded marker requires a plus sign: \\add sen"),
+      make_pair (4, "Embedded marker requires a plus sign: \\add*tence"),
+      make_pair (6, "Embedded marker requires a plus sign: \\add du"),
+      make_pair (6, "Embedded marker requires a plus sign: \\add*e"),
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
 }

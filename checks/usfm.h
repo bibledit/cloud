@@ -72,6 +72,7 @@ private:
   void forwardSlash (string usfm);
   void widowBackSlash ();
   void matchingEndmarker ();
+  void embeddedMarker ();
   void toc (string usfm);
   void addResult (string text, int modifier);
 };

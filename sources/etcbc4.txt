@@ -22,4 +22,17 @@ Via de Debug page, parse the database.
 After parsing it:
 DROP TABLE rawdata;
 VACUUM;
-Then copy the database into folder "databases" in the source tree.
+
+Convert all Hebrew characters to the NFC format.
+The following link explains the reason for this:
+https://github.com/bibledit/cloud/issues/252
+$ echo .dump | sqlite3 etcb4.sqlite > one.sql
+$ ls -lh *.sql
+$ uconv -x any-nfc -o two.sql one.sql
+$ ls -l *.sql
+$ rm etcb4.sqlite
+$ cat two.sql | sqlite3 etcb4.sqlite
+$ rm one.sql two.sql
+
+Then copy the database "etcb4.sqlite" into folder "databases" in the source tree.
+

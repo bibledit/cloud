@@ -73,6 +73,7 @@
 /css/touch.css
 /database
 /database/config
+/database/config/general-b8d4ea87.o.tmp
 /databases
 /databases/cache
 /databases/cache/gitflag
@@ -335,12 +336,14 @@
 /locale/it.po
 /locale/kab.po
 /locale/ku.po
+/locale/logic-9ff6076b.o.tmp
 /locale/lt.po
 /locale/nl.po
 /locale/ny.po
 /locale/pt_BR.po
 /locale/pt.po
 /locale/sv.po
+/locale/translate-65ad2fd6.o.tmp
 /locale/tr.po
 /locale/uk.po
 /locale/zh_TW.po

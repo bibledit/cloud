@@ -27,24 +27,22 @@ void test_database_oshb ()
   trace_unit_tests (__func__);
   
   Database_OsHb database_oshb = Database_OsHb ();
+  int size = 0;
   
   // Job 3:2.
   vector <string> data = database_oshb.getVerse (18, 3, 2);
-  vector <string> standard = {
-    "וַיַּ֥עַן"
-    ,
-    " "
-    ,
-    "אִיּ֗וֹב"
-    ,
-    " "
-    ,
-    "וַיֹּאמַֽר"
-    ,
-    "׃"
-  };
-  evaluate (__LINE__, __func__, standard, data);
-  
+  size = 7;
+  evaluate (__LINE__, __func__, size, (int)data.size());
+  if (data.size () == size) {
+    evaluate (__LINE__, __func__, "וַיַּ֥עַן", data [0]);
+    evaluate (__LINE__, __func__, " ", data [1]);
+    evaluate (__LINE__, __func__, "אִיּ֗וֹב", data [2]);
+    evaluate (__LINE__, __func__, " ", data [3]);
+    evaluate (__LINE__, __func__, "וַיֹּאמַֽר", data [4]);
+    evaluate (__LINE__, __func__, " ", data [5]);
+    evaluate (__LINE__, __func__, "׃", data [6]);
+  }
+
   vector <Passage> passages = database_oshb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
   
@@ -58,8 +56,13 @@ void test_database_oshb ()
   
   // Job 3:2.
   vector <int> items = database_oshb.rowids (18, 3, 2);
-  evaluate (__LINE__, __func__, 6, (int)items.size());
+  evaluate (__LINE__, __func__, 7, (int)items.size());
   
   evaluate (__LINE__, __func__, "c/6030 b", database_oshb.lemma (items[0]));
+  evaluate (__LINE__, __func__, "", database_oshb.lemma (items[1]));
   evaluate (__LINE__, __func__, "347", database_oshb.lemma (items[2]));
+  evaluate (__LINE__, __func__, "", database_oshb.lemma (items[3]));
+  evaluate (__LINE__, __func__, "c/559", database_oshb.lemma (items[4]));
+  evaluate (__LINE__, __func__, "", database_oshb.lemma (items[5]));
+  evaluate (__LINE__, __func__, "", database_oshb.lemma (items[6]));
 }

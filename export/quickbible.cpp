@@ -38,6 +38,7 @@
 // Info about Quick Bible export format:
 // http://www.bibleforandroid.com/developer
 // https://github.com/yukuku/androidbible
+// http://alkitab.app/developer
 
 
 string export_quickbible_tabify (const string & one, const string & two, const string & three, const string & four = "", const string & five = "", const string & six = "")

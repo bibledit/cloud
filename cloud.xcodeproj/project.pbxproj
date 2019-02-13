@@ -202,7 +202,6 @@
 		CA2104631FE2B8F7002F8A21 /* userfacingurl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = userfacingurl.txt; sourceTree = "<group>"; };
 		CA2401981C4D0A1900F99F15 /* mouse.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = mouse.css; sourceTree = "<group>"; };
 		CA2401991C4D0AF400F99F15 /* touch.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = touch.css; sourceTree = "<group>"; };
-		CA2539CC1D2D135F00C7E888 /* quickbb.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = quickbb.html; sourceTree = "<group>"; };
 		CA2726361AE29FA700440227 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = logic.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA2726371AE29FA700440227 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA28411A1A614BAF0046C073 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -440,8 +439,6 @@
 		CA607B671D3FF41500FC5792 /* ot-quotations-in-nt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ot-quotations-in-nt.xml"; sourceTree = "<group>"; };
 		CA607B681D4000A700FC5792 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CA607B691D4000A700FC5792 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CA620A291D2ADC4500770F2E /* quickbible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quickbible.cpp; sourceTree = "<group>"; };
-		CA620A2A1D2ADC4500770F2E /* quickbible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quickbible.h; sourceTree = "<group>"; };
 		CA6339861A655A3A00514F1E /* maintenance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = maintenance.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA6339871A655A3A00514F1E /* maintenance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maintenance.h; sourceTree = "<group>"; };
 		CA6339881A65938900514F1E /* tmp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tmp.cpp; sourceTree = "<group>"; };
@@ -2174,9 +2171,6 @@
 				CAD443371AC95BC60005B8F6 /* odt.h */,
 				CAD443391AC95BC60005B8F6 /* onlinebible.cpp */,
 				CAD4433A1AC95BC60005B8F6 /* onlinebible.h */,
-				CA620A291D2ADC4500770F2E /* quickbible.cpp */,
-				CA620A2A1D2ADC4500770F2E /* quickbible.h */,
-				CA2539CC1D2D135F00C7E888 /* quickbb.html */,
 				CAD4433C1AC95BC60005B8F6 /* textusfm.cpp */,
 				CAD4433D1AC95BC60005B8F6 /* textusfm.h */,
 				CAD4433F1AC95BC60005B8F6 /* usfm.cpp */,

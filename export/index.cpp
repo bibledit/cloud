@@ -95,10 +95,6 @@ void export_index ()
         Export_Logic::scheduleOnlineBible (bible, false);
       }
       
-      if (Database_Config_Bible::getExportQuickBibleDuringNight (bible)) {
-        Export_Logic::scheduleQuickBible (bible, false);
-      }
-      
     }
   }
 }

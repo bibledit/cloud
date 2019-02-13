@@ -178,7 +178,7 @@ private:
   
 public:
   // The notes plain text.
-  vector <pair <string, string> > notes_plain_text;
+  vector <pair <string, string> > notes_plain_text; // Todo out.
   // Holds the positions of the notes in the plain text, keyed to the verse numbers.
   map <int, vector <int>> verses_text_note_positions;
 private:

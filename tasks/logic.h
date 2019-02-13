@@ -61,7 +61,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define EXPORTWEBINDEX "exportwebindex"
 #define EXPORTONLINEBIBLE "exportonlinebible"
 #define EXPORTESWORD "exportesword"
-#define EXPORTQUICKBIBLE "exportquickbible"
 #define HYPHENATE "hyphenate"
 #define SETUPPARATEXT "setupparatext"
 #define SYNCPARATEXT "syncparatext"

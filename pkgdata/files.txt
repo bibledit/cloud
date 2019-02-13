@@ -240,7 +240,6 @@
 /esword
 /executable
 /export
-/export/quickbb.html
 /exports
 /exports/gitflag
 /export/usfm.html

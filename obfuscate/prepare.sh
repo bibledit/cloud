@@ -111,11 +111,4 @@ rm *.bak
 # if [ $? -ne 0 ]; then exit; fi
 
 
-# Deal with "quickbible.html" and where it is called.
-# mmv ";*quickbible.html*" "#1#2quick${bible}.html#3"
-# if [ $? -ne 0 ]; then exit; fi
-# sed -i '' "s/\"quickbible\"/\"quick${bible}\"/g" export/quickbible.cpp
-# if [ $? -ne 0 ]; then exit; fi
-
-
 echo Ready preparing $Bibledit

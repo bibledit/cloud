@@ -39,7 +39,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/odt.h>
 #include <export/esword.h>
 #include <export/onlinebible.h>
-#include <export/quickbible.h>
 #include <sword/logic.h>
 
 
@@ -257,23 +256,6 @@ void test_memory ()
     cout << max_memory_usage - basic_usage << " export_onlinebible" << endl;
   }
 
-  // Exporting Bible to Quick Bible.
-  refresh_sandbox (false);
-  {
-    Database_State::create ();
-    demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
-    thread * recorder = nullptr;
-    uint64_t basic_usage = filter_memory_total_usage ();
-    test_memory_run = true;
-    recorder = new thread (test_memory_record);
-    export_quickbible (bible, false);
-    test_memory_run = false;
-    recorder->join ();
-    delete recorder;
-    cout << max_memory_usage - basic_usage << " export_quickbible" << endl;
-  }
-
   // Refreshing SWORD module list.
   refresh_sandbox (false);
   {
@@ -306,7 +288,6 @@ void test_memory ()
    929792 export_odt_book
    30154752 export_esword
    15814656 export_onlinebible
-   118784 export_quickbible
    20480 sword_logic_refresh_module_list
    This is on macOS, but valgrind on Linux gives different values, lower values.
   

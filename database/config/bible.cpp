@@ -618,16 +618,6 @@ void Database_Config_Bible::setExportOnlineBibleDuringNight (string bible, bool 
 }
 
 
-bool Database_Config_Bible::getExportQuickBibleDuringNight (string bible)
-{
-  return getBValue (bible, "export-quickbible-during-night", false);
-}
-void Database_Config_Bible::setExportQuickBibleDuringNight (string bible, bool value)
-{
-  setBValue (bible, "export-quickbible-during-night", value);
-}
-
-
 string Database_Config_Bible::getExportPassword (string bible)
 {
   return getValue (bible, "export-password", "");

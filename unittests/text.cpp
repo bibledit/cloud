@@ -987,7 +987,7 @@ Chapter Two
     }
   }
 
-  // Test plain text and notes for export to Quick Bible.
+  // Test plain text and notes for export to.
   {
     string usfm = R"(
 \id GEN

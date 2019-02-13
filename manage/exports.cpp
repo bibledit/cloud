@@ -359,19 +359,6 @@ string manage_exports (void * webserver_request)
   }
   
   
-  if (checkbox == "quickbible") {
-    Database_Config_Bible::setExportQuickBibleDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
-  }
-  view.set_variable ("quickbible", get_checkbox_status (Database_Config_Bible::getExportQuickBibleDuringNight (bible)));
-  
-  
-  if (request->query.count ("quickbiblenow")) {
-    Export_Logic::scheduleQuickBible (bible, true);
-    view.set_variable ("success", translate("The Bible is being exported to Quick Bible format."));
-  }
-  
-  
   if (request->query.count ("sheet")) {
     string sheet = request->query["sheet"];
     if (sheet == "") {

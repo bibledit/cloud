@@ -124,8 +124,6 @@ public:
   static void setExportESwordDuringNight (string bible, bool value);
   static bool getExportOnlineBibleDuringNight (string bible);
   static void setExportOnlineBibleDuringNight (string bible, bool value);
-  static bool getExportQuickBibleDuringNight (string bible);
-  static void setExportQuickBibleDuringNight (string bible, bool value);
   static string getExportPassword (string bible);
   static void setExportPassword (string bible, string value);
   static bool getSecureUsfmExport (string bible);

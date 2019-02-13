@@ -274,38 +274,38 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	export/odt.$(OBJEXT) export/onlinebible.$(OBJEXT) \
 	export/textusfm.$(OBJEXT) export/usfm.$(OBJEXT) \
 	export/web.$(OBJEXT) export/bibledropbox.$(OBJEXT) \
-	export/quickbible.$(OBJEXT) webbb/search.$(OBJEXT) \
-	developer/index.$(OBJEXT) developer/logic.$(OBJEXT) \
-	paratext/logic.$(OBJEXT) paratext/index.$(OBJEXT) \
-	personalize/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
-	lexicon/definition.$(OBJEXT) sources/etcbc4.$(OBJEXT) \
-	sources/kjv.$(OBJEXT) sources/morphhb.$(OBJEXT) \
-	sources/morphgnt.$(OBJEXT) sources/hebrewlexicon.$(OBJEXT) \
-	sources/oshb.$(OBJEXT) sword/logic.$(OBJEXT) \
-	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
-	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
-	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
-	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
-	public/create.$(OBJEXT) public/note.$(OBJEXT) \
-	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
-	search/logic.$(OBJEXT) mbedtls/aes.$(OBJEXT) \
-	mbedtls/aesni.$(OBJEXT) mbedtls/arc4.$(OBJEXT) \
-	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
-	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
-	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
-	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
-	mbedtls/chacha20.$(OBJEXT) mbedtls/chachapoly.$(OBJEXT) \
-	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
-	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
-	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
-	mbedtls/ecdh.$(OBJEXT) mbedtls/ecdsa.$(OBJEXT) \
-	mbedtls/ecjpake.$(OBJEXT) mbedtls/ecp.$(OBJEXT) \
-	mbedtls/ecp_curves.$(OBJEXT) mbedtls/entropy.$(OBJEXT) \
-	mbedtls/entropy_poll.$(OBJEXT) mbedtls/error.$(OBJEXT) \
-	mbedtls/gcm.$(OBJEXT) mbedtls/havege.$(OBJEXT) \
-	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
-	mbedtls/md2.$(OBJEXT) mbedtls/md4.$(OBJEXT) \
-	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
+	webbb/search.$(OBJEXT) developer/index.$(OBJEXT) \
+	developer/logic.$(OBJEXT) paratext/logic.$(OBJEXT) \
+	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
+	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
+	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
+	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
+	sources/hebrewlexicon.$(OBJEXT) sources/oshb.$(OBJEXT) \
+	sword/logic.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
+	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
+	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
+	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
+	public/new.$(OBJEXT) public/create.$(OBJEXT) \
+	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
+	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
+	mbedtls/aes.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
+	mbedtls/arc4.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
+	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
+	mbedtls/bignum.$(OBJEXT) mbedtls/blowfish.$(OBJEXT) \
+	mbedtls/camellia.$(OBJEXT) mbedtls/ccm.$(OBJEXT) \
+	mbedtls/certs.$(OBJEXT) mbedtls/chacha20.$(OBJEXT) \
+	mbedtls/chachapoly.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
+	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
+	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
+	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
+	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
+	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
+	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
+	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
+	mbedtls/havege.$(OBJEXT) mbedtls/hmac_drbg.$(OBJEXT) \
+	mbedtls/md.$(OBJEXT) mbedtls/md2.$(OBJEXT) \
+	mbedtls/md4.$(OBJEXT) mbedtls/md5.$(OBJEXT) \
+	mbedtls/md_wrap.$(OBJEXT) \
 	mbedtls/memory_buffer_alloc.$(OBJEXT) \
 	mbedtls/net_sockets.$(OBJEXT) mbedtls/oid.$(OBJEXT) \
 	mbedtls/padlock.$(OBJEXT) mbedtls/pem.$(OBJEXT) \
@@ -483,49 +483,48 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	export/$(DEPDIR)/html.Po export/$(DEPDIR)/index.Po \
 	export/$(DEPDIR)/info.Po export/$(DEPDIR)/logic.Po \
 	export/$(DEPDIR)/odt.Po export/$(DEPDIR)/onlinebible.Po \
-	export/$(DEPDIR)/quickbible.Po export/$(DEPDIR)/textusfm.Po \
-	export/$(DEPDIR)/usfm.Po export/$(DEPDIR)/web.Po \
-	filter/$(DEPDIR)/archive.Po filter/$(DEPDIR)/css.Po \
-	filter/$(DEPDIR)/date.Po filter/$(DEPDIR)/diff.Po \
-	filter/$(DEPDIR)/git.Po filter/$(DEPDIR)/mail.Po \
-	filter/$(DEPDIR)/md5.Po filter/$(DEPDIR)/memory.Po \
-	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/passage.Po \
-	filter/$(DEPDIR)/roles.Po filter/$(DEPDIR)/shell.Po \
-	filter/$(DEPDIR)/string.Po filter/$(DEPDIR)/text.Po \
-	filter/$(DEPDIR)/url.Po filter/$(DEPDIR)/usfm.Po \
-	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
-	fonts/$(DEPDIR)/logic.Po help/$(DEPDIR)/index.Po \
-	html/$(DEPDIR)/header.Po html/$(DEPDIR)/text.Po \
-	index/$(DEPDIR)/index.Po index/$(DEPDIR)/listing.Po \
-	ipc/$(DEPDIR)/focus.Po ipc/$(DEPDIR)/notes.Po \
-	jobs/$(DEPDIR)/index.Po journal/$(DEPDIR)/index.Po \
-	journal/$(DEPDIR)/logic.Po jsonxx/$(DEPDIR)/jsonxx.Po \
-	ldap/$(DEPDIR)/logic.Po lexicon/$(DEPDIR)/definition.Po \
-	lexicon/$(DEPDIR)/logic.Po library/$(DEPDIR)/bibledit.Po \
-	library/$(DEPDIR)/locks.Po locale/$(DEPDIR)/logic.Po \
-	locale/$(DEPDIR)/translate.Po manage/$(DEPDIR)/exports.Po \
-	manage/$(DEPDIR)/hyphenate.Po manage/$(DEPDIR)/hyphenation.Po \
-	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
-	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
-	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
-	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/aesni.Po \
-	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
-	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
-	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
-	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
-	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
-	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
-	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
-	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
-	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecjpake.Po \
-	mbedtls/$(DEPDIR)/ecp.Po mbedtls/$(DEPDIR)/ecp_curves.Po \
-	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
-	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
-	mbedtls/$(DEPDIR)/havege.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
-	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md2.Po \
-	mbedtls/$(DEPDIR)/md4.Po mbedtls/$(DEPDIR)/md5.Po \
-	mbedtls/$(DEPDIR)/md_wrap.Po \
+	export/$(DEPDIR)/textusfm.Po export/$(DEPDIR)/usfm.Po \
+	export/$(DEPDIR)/web.Po filter/$(DEPDIR)/archive.Po \
+	filter/$(DEPDIR)/css.Po filter/$(DEPDIR)/date.Po \
+	filter/$(DEPDIR)/diff.Po filter/$(DEPDIR)/git.Po \
+	filter/$(DEPDIR)/mail.Po filter/$(DEPDIR)/md5.Po \
+	filter/$(DEPDIR)/memory.Po filter/$(DEPDIR)/merge.Po \
+	filter/$(DEPDIR)/passage.Po filter/$(DEPDIR)/roles.Po \
+	filter/$(DEPDIR)/shell.Po filter/$(DEPDIR)/string.Po \
+	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
+	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
+	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
+	help/$(DEPDIR)/index.Po html/$(DEPDIR)/header.Po \
+	html/$(DEPDIR)/text.Po index/$(DEPDIR)/index.Po \
+	index/$(DEPDIR)/listing.Po ipc/$(DEPDIR)/focus.Po \
+	ipc/$(DEPDIR)/notes.Po jobs/$(DEPDIR)/index.Po \
+	journal/$(DEPDIR)/index.Po journal/$(DEPDIR)/logic.Po \
+	jsonxx/$(DEPDIR)/jsonxx.Po ldap/$(DEPDIR)/logic.Po \
+	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
+	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
+	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
+	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/hyphenate.Po \
+	manage/$(DEPDIR)/hyphenation.Po manage/$(DEPDIR)/index.Po \
+	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
+	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
+	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
+	mbedtls/$(DEPDIR)/aesni.Po mbedtls/$(DEPDIR)/arc4.Po \
+	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
+	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
+	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
+	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
+	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
+	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
+	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
+	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
+	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
+	mbedtls/$(DEPDIR)/ecjpake.Po mbedtls/$(DEPDIR)/ecp.Po \
+	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
+	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
+	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/havege.Po \
+	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
+	mbedtls/$(DEPDIR)/md2.Po mbedtls/$(DEPDIR)/md4.Po \
+	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
 	mbedtls/$(DEPDIR)/memory_buffer_alloc.Po \
 	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
 	mbedtls/$(DEPDIR)/padlock.Po mbedtls/$(DEPDIR)/pem.Po \
@@ -1226,7 +1225,6 @@ libbibledit_a_SOURCES = \
 	export/usfm.cpp \
 	export/web.cpp \
 	export/bibledropbox.cpp \
-	export/quickbible.cpp \
 	webbb/search.cpp \
 	developer/index.cpp \
 	developer/logic.cpp \
@@ -2558,8 +2556,6 @@ export/web.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
 export/bibledropbox.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
-export/quickbible.$(OBJEXT): export/$(am__dirstamp) \
-	export/$(DEPDIR)/$(am__dirstamp)
 webbb/$(am__dirstamp):
 	@$(MKDIR_P) webbb
 	@: > webbb/$(am__dirstamp)
@@ -3319,7 +3315,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/odt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/onlinebible.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/quickbible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/textusfm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/usfm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/web.Po@am__quote@ # am--include-marker
@@ -4358,7 +4353,6 @@ distclean: distclean-am
 	-rm -f export/$(DEPDIR)/logic.Po
 	-rm -f export/$(DEPDIR)/odt.Po
 	-rm -f export/$(DEPDIR)/onlinebible.Po
-	-rm -f export/$(DEPDIR)/quickbible.Po
 	-rm -f export/$(DEPDIR)/textusfm.Po
 	-rm -f export/$(DEPDIR)/usfm.Po
 	-rm -f export/$(DEPDIR)/web.Po
@@ -4920,7 +4914,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f export/$(DEPDIR)/logic.Po
 	-rm -f export/$(DEPDIR)/odt.Po
 	-rm -f export/$(DEPDIR)/onlinebible.Po
-	-rm -f export/$(DEPDIR)/quickbible.Po
 	-rm -f export/$(DEPDIR)/textusfm.Po
 	-rm -f export/$(DEPDIR)/usfm.Po
 	-rm -f export/$(DEPDIR)/web.Po

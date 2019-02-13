@@ -321,7 +321,6 @@ libbibledit_a_SOURCES = \
 	export/usfm.cpp \
 	export/web.cpp \
 	export/bibledropbox.cpp \
-	export/quickbible.cpp \
 	webbb/search.cpp \
 	developer/index.cpp \
 	developer/logic.cpp \

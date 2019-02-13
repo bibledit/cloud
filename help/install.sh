@@ -383,11 +383,6 @@ fi
 # if [ $? -ne 0 ]; then exit; fi
 
 
-# Deal with "quickbible.html" and where it is called.
-# mmv ";*quickbible.html*" "#1#2quick${bible}.html#3"
-# if [ $? -ne 0 ]; then exit; fi
-
-
 ./reconfigure
 if [ $? -ne 0 ]; then exit; fi
 ./configure

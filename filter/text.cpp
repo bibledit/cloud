@@ -1660,5 +1660,5 @@ void Filter_Text::notes_plain_text_handler ()
   if (verses_text.count (iverse)) {
     offset = verses_text [iverse].size ();
   }
-  verses_text_note_positions[iverse].push_back (offset);
+  verses_text_note_positions[iverse].push_back (offset); // Todo out.
 }

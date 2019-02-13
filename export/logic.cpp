@@ -122,12 +122,6 @@ void Export_Logic::scheduleESword (string bible, bool log)
 }
 
 
-void Export_Logic::scheduleQuickBible (string bible, bool log)
-{
-  tasks_logic_queue (EXPORTQUICKBIBLE, {bible, convert_to_string (log)});
-}
-
-
 // The main exports directory.
 string Export_Logic::mainDirectory ()
 {

@@ -46,7 +46,7 @@ bool http_parse_header (string header, void * webserver_request)
   
   // Clean the header line.
   header = filter_string_trim (header);
-  
+
   // Deal with a header like this: GET /css/stylesheet.css?1.0.1 HTTP/1.1
   // Or like this: POST /session/login?request= HTTP/1.1
   bool get = false;
@@ -100,8 +100,11 @@ bool http_parse_header (string header, void * webserver_request)
   // Host: 192.168.1.139:8080
   // Host: [::1]:8080
   // Host: localhost:8080
+  // Host: <empty>
   if (header.substr (0, 4) == "Host") {
-    request->host = http_parse_host (header.substr (6));
+    if (header.size () >= 6) {
+      request->host = http_parse_host (header.substr (6));
+    }
   }
   
   // Extract the Content-Type from a header like this:

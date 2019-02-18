@@ -121,7 +121,7 @@ void webserver_process_request (int connfd, string clientaddress)
         // Parse the browser's request's headers.
         header_parsed = http_parse_header (buffer, &request);
       } while (header_parsed);
-      
+
       if (connection_healthy) {
         
         // In the case of a POST request, more data follows: The POST request itself.

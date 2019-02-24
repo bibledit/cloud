@@ -179,7 +179,7 @@ void test_url ()
     string result, error;
     result = filter_url_http_request_mbed ("http://unknownhost", error, {}, "", false);
     evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "unknownhost: nodename nor servname provided, or not known", error);
+    evaluate (__LINE__, __func__, "Internet connection failure: unknownhost: nodename nor servname provided, or not known", error);
   }
   
   // Test low-level http(s) client error for closed port.

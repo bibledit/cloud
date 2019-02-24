@@ -60,19 +60,19 @@ void test_database_etcbc4 ()
   string result;
   
   result = database.word (2);
-  evaluate (__LINE__, __func__, "רֵאשִׁ֖ית", result);
+  evaluate (__LINE__, __func__, "רֵאשִׁ֖ית", result);
   
   result = database.word (1001);
   evaluate (__LINE__, __func__, "טֹ֛וב", result);
   
   result = database.vocalized_lexeme (2);
-  evaluate (__LINE__, __func__, "רֵאשִׁית", result);
+  evaluate (__LINE__, __func__, "רֵאשִׁית", result);
   
   result = database.vocalized_lexeme (1001);
   evaluate (__LINE__, __func__, "טֹוב", result);
   
   result = database.consonantal_lexeme (2);
-  evaluate (__LINE__, __func__, "ראשׁית", result);
+  evaluate (__LINE__, __func__, "ראשׁית", result);
   
   result = database.consonantal_lexeme (1001);
   evaluate (__LINE__, __func__, "טוב", result);

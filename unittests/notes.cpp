@@ -239,7 +239,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, summary, value);
     value = database_notes.get_contents_v1 (oldidentifier);
     vector <string> values = filter_string_explode (value, '\n');
-    if (values.size () > 2) value = values[2];
+    if (values.size () > 1) value = values[1];
     evaluate (__LINE__, __func__, "<p>Contents</p>", value);
     // New storage.
     int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, summary, contents, false);
@@ -247,7 +247,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, summary, value);
     value = database_notes.get_contents_v2 (newidentifier);
     values = filter_string_explode (value, '\n');
-    if (values.size () > 2) value = values[2];
+    if (values.size () > 1) value = values[1];
     evaluate (__LINE__, __func__, "<p>Contents</p>", value);
     
     // Test that if the summary is not given, it is going to be the first line of the contents.
@@ -258,7 +258,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "This is a note.", value);
     value = database_notes.get_contents_v1 (oldidentifier);
     values = filter_string_explode (value, '\n');
-    if (values.size () > 3) value = values[3];
+    if (values.size () > 2) value = values[2];
     evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
     // New JSON storage.
     newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", contents, false);
@@ -266,7 +266,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "This is a note.", value);
     value = database_notes.get_contents_v2 (newidentifier);
     values = filter_string_explode (value, '\n');
-    if (values.size () > 3) value = values[3];
+    if (values.size () > 2) value = values[2];
     evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
     
     // Test setting the summary.

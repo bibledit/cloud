@@ -54,7 +54,7 @@ string bible_settings_url ()
 
 bool bible_settings_acl (void * webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
@@ -194,13 +194,21 @@ string bible_settings (void * webserver_request)
   }
 
   
+  int level = request->session_logic ()->currentLevel (); // Todo
+  bool manager_level = (level >= Filter_Roles::manager ());
+  if (manager_level) view.enable_zone ("manager");
+
+  
   // Available books.
   string bookblock;
   vector <int> book_ids = filter_passage_get_ordered_books (bible);
   for (auto & book: book_ids) {
     string book_name = Database_Books::getEnglishFromId (book);
     book_name = translate(book_name);
-    bookblock.append ("<a href=\"book?bible=" + bible + "&book=" + convert_to_string (book) + "\">" + book_name + "</a>\n");
+    if (manager_level) bookblock.append ("<a href=\"book?bible=" + bible + "&book=" + convert_to_string (book) + "\">");
+    bookblock.append (book_name);
+    if (manager_level) bookblock.append ("</a>");
+    bookblock.append ("\n");
   }
   view.set_variable ("bookblock", bookblock);
   view.set_variable ("book_count", convert_to_string ((int)book_ids.size()));
@@ -257,6 +265,8 @@ string bible_settings (void * webserver_request)
   } else {
     view.enable_zone ("server");
   }
+  
+  
 
   
   page += view.render ("bb", "settings");

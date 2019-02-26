@@ -2,6 +2,8 @@
 <p class="success">##success_message##</p>
 <p class="error">##error_message##</p>
 <p>translate("Available books") (##book_count##): ##bookblock##</p>
+
+<!-- #BEGINZONE manager -->
 <p>
   translate("Versification system"):
   <!-- #BEGINZONE write_access -->
@@ -12,6 +14,9 @@
   </a>
   <!-- #ENDZONE write_access -->
 </p>
+<!-- #ENDZONE manager -->
+
+<!-- #BEGINZONE manager -->
 <p>
   translate("Verse mapping"):
   <!-- #BEGINZONE write_access -->
@@ -22,20 +27,35 @@
   </a>
   <!-- #ENDZONE write_access -->
 </p>
+<!-- #ENDZONE manager -->
+
+<!-- #BEGINZONE manager -->
 <!-- #BEGINZONE write_access -->
   <p><a href="settings?bible=##bible##&createbook=">translate("Create book")</a></p>
   <p><a href="import?bible=##bible##">translate("Import text")</a></p>
 <!-- #ENDZONE write_access -->
+<!-- #ENDZONE manager -->
+
+<!-- #BEGINZONE manager -->
 <!-- #BEGINZONE server -->
 <p><a href="manage?copy=##bible##">translate("Copy this Bible")</a></p>
 <!-- #ENDZONE server -->
+<!-- #ENDZONE manager -->
+
+<!-- #BEGINZONE manager -->
 <!-- #BEGINZONE write_access -->
-  <!-- #BEGINZONE server -->
+<!-- #BEGINZONE server -->
     <p><a href="manage?delete=##bible##">translate("Delete this Bible")</a></p>
     <p><a href="/resource/bb2resource?bible=##bible##">translate("Convert to USFM resource")</a></p>
-  <!-- #ENDZONE server -->
+<!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->
+<!-- #ENDZONE manager -->
+
+<!-- #BEGINZONE manager -->
 <p><a href="../compare/index?bible=##bible##">translate("Compare with ...")</a></p>
+<!-- #ENDZONE manager -->
+
+<!-- #BEGINZONE manager -->
 <!-- #BEGINZONE write_access -->
 <p><a href="order?bible=##bible##">translate("Book order")</a></p>
 <p><a href="css?bible=##bible##">translate("Font and text settings")</a></p>
@@ -44,6 +64,8 @@
 <!-- #BEGINZONE client -->
 <p>##cloudlink##</p>
 <!-- #ENDZONE client -->
+<!-- #ENDZONE manager -->
+
 <!-- #BEGINZONE write_access -->
 <!-- #BEGINZONE server -->
 <p>
@@ -57,6 +79,7 @@ translate("The public can give feedback")
 <p><a href="?bible=##bible##&resource=">translate("Import text from a resource")</a></p>
 <!-- #ENDZONE server -->
 <!-- #ENDZONE write_access -->
+
 <p>
 translate("Stylesheet"):
 <!-- #BEGINZONE write_access -->
@@ -67,4 +90,5 @@ translate("Stylesheet"):
 </a>
 <!-- #ENDZONE write_access -->
 </p>
+
 <script type="text/javascript" src="../assets/checkbox.js"></script>

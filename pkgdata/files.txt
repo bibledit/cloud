@@ -649,6 +649,8 @@
 /sprint/index.html
 /sprint/index.js
 /sqlite
+/sqlite-old
+/sqlite-old/readme.txt
 /sqlite/readme.txt
 /statistics
 /styles

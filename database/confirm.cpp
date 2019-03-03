@@ -56,7 +56,7 @@ void Database_Confirm::create ()
 void Database_Confirm::optimize ()
 {
   SqliteDatabase sql (filename ());
-  sql.add ("VACUUM confirm;");
+  sql.add ("VACUUM;");
   sql.execute ();
 }
 

@@ -67,7 +67,7 @@ void Database_Mail::create ()
 void Database_Mail::optimize ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM mail;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_disconnect (db);
 }
 

@@ -67,8 +67,8 @@ void Database_Versifications::create ()
 void Database_Versifications::optimize ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM names;");
-  database_sqlite_exec (db, "VACUUM data;");
+  database_sqlite_exec (db, "VACUUM;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_disconnect (db);
 }
 

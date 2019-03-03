@@ -99,7 +99,7 @@ void Database_Mappings::defaults ()
 void Database_Mappings::optimize ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM maps;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_disconnect (db);
 }
 

@@ -54,7 +54,7 @@ void Database_BibleActions::clear ()
 void Database_BibleActions::optimize ()
 {
   SqliteDatabase sql (filename ());
-  sql.add ("VACUUM bibleactions;");
+  sql.add ("VACUUM;");
   sql.execute ();
 }
 

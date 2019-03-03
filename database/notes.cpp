@@ -236,7 +236,7 @@ void Database_Notes::trim_server_v12 ()
 void Database_Notes::optimize_v12 ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM notes;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_disconnect (db);
 }
 

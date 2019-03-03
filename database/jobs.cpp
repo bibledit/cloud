@@ -57,7 +57,7 @@ void Database_Jobs::create ()
 void Database_Jobs::optimize ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM jobs;");
+  database_sqlite_exec (db, "VACUUM;");
   database_sqlite_disconnect (db);
 }
 

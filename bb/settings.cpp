@@ -194,7 +194,7 @@ string bible_settings (void * webserver_request)
   }
 
   
-  int level = request->session_logic ()->currentLevel (); // Todo
+  int level = request->session_logic ()->currentLevel ();
   bool manager_level = (level >= Filter_Roles::manager ());
   if (manager_level) view.enable_zone ("manager");
 

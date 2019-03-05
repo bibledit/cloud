@@ -64,9 +64,10 @@ string notes_edit (void * webserver_request)
   
   
   int identifier;
-  if (request->query.count ("identifier")) identifier = convert_to_int (request->query ["identifier"]);
-  else identifier = convert_to_int (request->post ["identifier"]);
-  if (identifier) view.set_variable ("identifier", convert_to_string (identifier));
+  const char * identifier_label = "identifier";
+  if (request->query.count (identifier_label)) identifier = convert_to_int (request->query [identifier_label]);
+  else identifier = convert_to_int (request->post [identifier_label]);
+  if (identifier) view.set_variable (identifier_label, convert_to_string (identifier));
   
   
   if (request->post.count ("data")) {
@@ -102,29 +103,34 @@ string notes_edit (void * webserver_request)
         // Retrieve possible username from the line.
         // This is the pattern of a line with a username.
         // <p>adminusername (8/9/2015):</p>
+        // Or:
+        // <p><b>adminusername (3/3/2019):</b></p>
         string username;
         {
           // Splitting on space should yield two bits.
           vector <string> bits = filter_string_explode (lines[i], ' ');
           if (bits.size () == 2) {
-            // First bit should contain the <p>.
+            // First bit should contain the <p> and optionally the <b>.
             if (bits[0].find ("<p>") == 0) {
               bits[0].erase (0, 3);
-              // Second bit should contain colon plus p closing element.
-              size_t pos = bits[1].find (":</p>");
-              if (pos != string::npos) {
-                bits[1].erase (pos);
-                // It should also contain ( and ).
-                pos = bits[1].find ("(");
+              if (bits[0].find ("<b>") == 0) {
+                bits[0].erase (0, 3);
+                // Second bit should contain colon plus b or p closing element.
+                size_t pos = bits[1].find (":</");
                 if (pos != string::npos) {
-                  bits[1].erase (pos, 1);
-                  pos = bits[1].find (")");
+                  bits[1].erase (pos);
+                  // It should also contain ( and ).
+                  pos = bits[1].find ("(");
                   if (pos != string::npos) {
                     bits[1].erase (pos, 1);
-                    // Now deal with the data consisting of two slashes and three numbers.
-                    vector <string> date = filter_string_explode (bits[1], '/');
-                    if (date.size () == 3) {
-                      username = bits[0];
+                    pos = bits[1].find (")");
+                    if (pos != string::npos) {
+                      bits[1].erase (pos, 1);
+                      // Now deal with the data consisting of two slashes and three numbers.
+                      vector <string> date = filter_string_explode (bits[1], '/');
+                      if (date.size () == 3) {
+                        username = bits[0];
+                      }
                     }
                   }
                 }

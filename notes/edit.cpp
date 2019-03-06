@@ -115,22 +115,22 @@ string notes_edit (void * webserver_request)
               bits[0].erase (0, 3);
               if (bits[0].find ("<b>") == 0) {
                 bits[0].erase (0, 3);
-                // Second bit should contain colon plus b or p closing element.
-                size_t pos = bits[1].find (":</");
+              }
+              // Second bit should contain colon plus b or p closing element.
+              size_t pos = bits[1].find (":</");
+              if (pos != string::npos) {
+                bits[1].erase (pos);
+                // It should also contain ( and ).
+                pos = bits[1].find ("(");
                 if (pos != string::npos) {
-                  bits[1].erase (pos);
-                  // It should also contain ( and ).
-                  pos = bits[1].find ("(");
+                  bits[1].erase (pos, 1);
+                  pos = bits[1].find (")");
                   if (pos != string::npos) {
                     bits[1].erase (pos, 1);
-                    pos = bits[1].find (")");
-                    if (pos != string::npos) {
-                      bits[1].erase (pos, 1);
-                      // Now deal with the data consisting of two slashes and three numbers.
-                      vector <string> date = filter_string_explode (bits[1], '/');
-                      if (date.size () == 3) {
-                        username = bits[0];
-                      }
+                    // Now deal with the data consisting of two slashes and three numbers.
+                    vector <string> date = filter_string_explode (bits[1], '/');
+                    if (date.size () == 3) {
+                      username = bits[0];
                     }
                   }
                 }

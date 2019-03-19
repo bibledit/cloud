@@ -134,12 +134,14 @@ yum --assumeyes install autoconf-archive
 yum --assumeyes install gcc-c++
 yum --assumeyes install git
 yum --assumeyes install zip
+yum --assumeyes install unzip
 yum --assumeyes install pkgconfig
 yum --assumeyes install libcurl-devel
 yum --assumeyes install openssl-devel
 yum --assumeyes install gtk3-devel
 yum --assumeyes install webkitgtk3-devel
 yum --assumeyes install libwebkit2gtk-devel
+yum --assumeyes install webkitgtk4-devel
 fi
 
 # openSUSE

@@ -228,6 +228,6 @@ void evaluate (int line, string func, vector <pair<int, string>> desired, vector
 void trace_unit_tests (string func)
 {
   if (error_count) {
-    //cout << func << endl;
+    cout << func << endl;
   }
 }

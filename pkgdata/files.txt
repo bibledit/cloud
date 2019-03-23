@@ -1040,6 +1040,7 @@
 /unittests/tests/verses_new.usfm
 /unittests/tests/verses_old.txt
 /unittests/tests/verses_old.usfm
+/unittests/utilities-ae7a69b9.o.tmp
 /user
 /user/account.html
 /user/notifications.html

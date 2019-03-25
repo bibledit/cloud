@@ -127,7 +127,7 @@ void test_database_noteactions ()
 void test_database_notes ()
 {
   trace_unit_tests (__func__);
-  
+
   // Database path.
   {
     refresh_sandbox (true);
@@ -148,7 +148,7 @@ void test_database_notes ()
     string file = database_notes.note_file_v2 (123456789);
     evaluate (__LINE__, __func__, filter_url_create_root_path ("consultations", "123", "456789.json"), file);
   }
-  
+
   // Trim and optimize.
   {
     refresh_sandbox (true);
@@ -186,7 +186,7 @@ void test_database_notes ()
     // The logbook will have an entry about "Deleting empty notes folder".
     refresh_sandbox (true, {"Deleting empty notes folder"});
   }
-  
+
   // Identifier.
   {
     refresh_sandbox (true);
@@ -218,7 +218,7 @@ void test_database_notes ()
     database_notes.erase_v12 (identifier);
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists_v12 (identifier));
   }
-  
+
   // Summary and contents.
   {
     refresh_sandbox (true);
@@ -314,7 +314,6 @@ void test_database_notes ()
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     pos = value.find ("comment5");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
-    
   }
 
   // Test subscriptions for the old notes storage.
@@ -423,7 +422,7 @@ void test_database_notes ()
     subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {"aa", "bb"}, subscribers);
   }
-  
+
   // Test assignments.
   {
     refresh_sandbox (true);
@@ -529,7 +528,7 @@ void test_database_notes ()
     bible = database_notes.get_bible_v2 (newidentifier);
     evaluate (__LINE__, __func__, "", bible);
   }
-  
+
   // Test getting and setting the passage(s).
   {
     refresh_sandbox (true);
@@ -569,7 +568,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
-  
+
   // Test getting and setting the note status.
   {
     refresh_sandbox (true);
@@ -658,7 +657,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {"0", "1", "2", "3", "4", "5"}, rawseverities);
     evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
   }
-  
+
   // Test setting and getting the "modified" property of notes.
   {
     refresh_sandbox (true);
@@ -692,7 +691,7 @@ void test_database_notes ()
     value = database_notes.get_modified_v2 (newidentifier);
     evaluate (__LINE__, __func__, time, value);;
   }
-  
+
   // GetIdentifiers
   {
     refresh_sandbox (true);
@@ -773,7 +772,7 @@ void test_database_notes ()
     checksum = database_notes.get_checksum_v12 (new_id_v2);
     evaluate (__LINE__, __func__, original_checksum_v2, checksum);
   }
-  
+
   // Testing note due for deletion.
   {
     // It tests whether a note marked for deletion,
@@ -1155,7 +1154,7 @@ void test_database_notes ()
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
   }
-  
+
   // Test sync logic checksums.
   {
     refresh_sandbox (true);
@@ -1192,7 +1191,7 @@ void test_database_notes ()
     string newchecksum2 = database_notes.get_multiple_checksum_v12 (newidentifiers);
     evaluate (__LINE__, __func__, newchecksum1, newchecksum2);
   }
-  
+
   // Test updating checksums.
   {
     refresh_sandbox (true);
@@ -1230,7 +1229,7 @@ void test_database_notes ()
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, newchecksum, checksum);
   }
-  
+
   // GetNotesInRangeForBibles ()
   {
     refresh_sandbox (true);
@@ -1269,6 +1268,7 @@ void test_database_notes ()
     identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {}, true);
     evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
   }
+
   // CreateRange
   {
     Webserver_Request request;
@@ -1320,6 +1320,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 100000090, ranges[9].low);
     evaluate (__LINE__, __func__, 100000100, ranges[9].high);
   }
+
   // SelectBible
   {
     refresh_sandbox (true);
@@ -1358,6 +1359,7 @@ void test_database_notes ()
     identifiers = database_notes.select_notes_v12 ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
   }
+
   // ResilienceNotes.
   {
     refresh_sandbox (true);
@@ -1381,7 +1383,11 @@ void test_database_notes ()
     database_notes.checkup_v12 ();
     healthy = database_notes.healthy_v12 ();
     evaluate (__LINE__, __func__, true, healthy);
+
+    // Clean the generated logbook entries away invisibly.
+    refresh_sandbox (false);
   }
+
   // ResilienceChecksumsNotes.
   {
     refresh_sandbox (true);
@@ -1391,22 +1397,25 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create_v12 ();
-    
+
     bool healthy = database_notes.checksums_healthy_v12 ();
     evaluate (__LINE__, __func__, true, healthy);
     
     string corrupted_database = filter_url_create_root_path ("unittests", "tests", "notes.sqlite.damaged");
     string path = database_notes.checksums_database_path_v12 ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
-    
+
     healthy = database_notes.checksums_healthy_v12 ();
     evaluate (__LINE__, __func__, false, healthy);
-    
+
     database_notes.checkup_checksums_v12 ();
     healthy = database_notes.checksums_healthy_v12 ();
     evaluate (__LINE__, __func__, true, healthy);
+
+    // Clear the generated and expected logbook entries away invisibly.
+    refresh_sandbox (false);
   }
-  
+
   // Availability.
   {
     refresh_sandbox (true);
@@ -1422,7 +1431,7 @@ void test_database_notes ()
     database_notes.set_availability_v12 (true);
     evaluate (__LINE__, __func__, true, database_notes.available_v12 ());
   }
-  
+
   // Testing public notes.
   {
     refresh_sandbox (true);
@@ -1472,7 +1481,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier1));
     evaluate (__LINE__, __func__, true, database_notes.get_public_v2 (newidentifier2));
   }
-  
+
   // Bulk notes transfer elaborate tests for version 1.
   {
     refresh_sandbox (true);
@@ -1613,7 +1622,7 @@ void test_database_notes ()
     restored_search = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, search_results, restored_search);
   }
-  
+
   // Bulk notes transfer elaborate tests for version 2 stored in JSON format.
   {
     refresh_sandbox (true);
@@ -1762,7 +1771,7 @@ void test_database_notes ()
     restored_search = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, search_results, restored_search);
   }
-  
+
   // Test updating the search database for the notes for version 1 storage.
   {
     refresh_sandbox (true);
@@ -1897,7 +1906,7 @@ void test_database_notes ()
                                                    0); // Don't limit the search results.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
   }
-  
+
   // Test updating the search database for the notes for version 2 storage.
   {
     refresh_sandbox (true);
@@ -2087,7 +2096,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, subscriptions, database_notes.get_raw_subscriptions_v2 (identifier));
     evaluate (__LINE__, __func__, summary, database_notes.get_summary_v2 (identifier));
   }
-  
+
   // Test universal methods for getting and setting note properties.
   {
     refresh_sandbox (true);
@@ -2222,7 +2231,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (identifier_v1));
     evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (identifier_v2));
   }
-  
+
   // Test automatic and gradual upgrading notes from v1 to v2.
   {
     refresh_sandbox (true);

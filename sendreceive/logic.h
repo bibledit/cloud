@@ -27,7 +27,7 @@
 
 void sendreceive_queue_bible (string bible);
 
-void sendreceive_queue_sync (int minute);
+void sendreceive_queue_sync (int minute, int second);
 void sendreceive_queue_paratext ();
 bool sendreceive_sync_queued ();
 bool sendreceive_paratext_queued ();

@@ -76,6 +76,10 @@ void timer_index ()
       // Every second: Deal with queued and/or active tasks.
       tasks_run_check ();
       
+      // Every second:
+      // Check whether client sends/receives Bibles and Consultation Notes and other stuff.
+      sendreceive_queue_sync (minute, second);
+
       // Run the part below every so many seconds.
       int fraction = second / 5;
       if (fraction != previous_fraction) {
@@ -102,9 +106,6 @@ void timer_index ()
       // In case send/receive happens every five minutes, it is expected that under normal circumstances
       // the whole process of sending/receivning will be over, so summarization can then be done.
       if (minute == 9) tasks_logic_queue (ROTATEJOURNAL);
-      
-      // Client sends/receives Bibles and Consultation.
-      sendreceive_queue_sync (minute);
       
       // Sending and receiving Bibles to and from the git repository.
       // On a production website running on an inexpensive virtual private server

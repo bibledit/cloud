@@ -98,7 +98,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   }
   
   // Schedule a sync operation straightaway.
-  sendreceive_queue_sync (-1);
+  sendreceive_queue_sync (-1, 0);
 }
 
 

@@ -147,7 +147,7 @@ string sendreceive_index (void * webserver_request)
     if (sendreceive_sync_queued ()) {
       view.set_variable ("error", translate("Still sending and receiving from the last time."));
     }
-    sendreceive_queue_sync (-1);
+    sendreceive_queue_sync (-1, 0);
     view.set_variable ("success", starting_to_sync);
   }
   
@@ -175,7 +175,7 @@ string sendreceive_index (void * webserver_request)
   if (request->query.count ("repeatsync")) {
     int repeatsync = convert_to_int (request->query["repeatsync"]);
     if (repeatsync < 0) repeatsync = 0;
-    if (repeatsync > 2) repeatsync = 2;
+    if (repeatsync > 3) repeatsync = 3;
     Database_Config_General::setRepeatSendReceive (repeatsync);
   }
   int repeatsync = Database_Config_General::getRepeatSendReceive ();

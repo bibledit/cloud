@@ -20,6 +20,7 @@
 #include <sendreceive/logic.h>
 #include <filter/url.h>
 #include <filter/date.h>
+#include <filter/string.h>
 #include <tasks/logic.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
@@ -35,37 +36,66 @@ void sendreceive_queue_bible (string bible)
 }
 
 
-// If $minute is negative, it syncs.
-// If $minute >=0, it determines from the settings whether to sync.
-void sendreceive_queue_sync (int minute)
+// If the $minute is negative, it syncs right now.
+// If the $minute is zero or higher, it determines from the settings whether and what to sync.
+void sendreceive_queue_sync (int minute, int second)
 {
+  // The flags for which data to synchronize now.
+  bool sync_bibles = false;
+  bool sync_rest = false;
+  
   // Deal with a numerical minute to find out whether it's time to automatically sync.
   if (minute >= 0) {
+
     int repeat = Database_Config_General::getRepeatSendReceive ();
-    // Sync every hour.
-    if (repeat == 1) {
+
+    // Sync everything every hour.
+    if ((repeat == 1) && (second == 0)) {
       minute = minute % 60;
-      if (minute == 0) minute = -1;
+      if (minute == 0) {
+        sync_bibles = true;
+        sync_rest = true;
+      }
     }
-    // Sync every five minutes.
-    if (repeat == 2) {
-      minute = minute % 5;
-      if (minute == 0) minute = -1;
+
+    // Sync everything every five minutes.
+    if ((repeat == 2) || (repeat == 3)) {
+      if (second == 0) {
+        minute = minute % 5;
+        if (minute == 0) {
+          sync_bibles = true;
+          sync_rest = true;
+        }
+      }
     }
+    
+    // Sync Bibles every 20 seconds.
+    if ((repeat == 3) && ((second % 20) == 0)) {
+      sync_bibles = true;
+    }
+    
+  }
+
+  
+  // Send and receive manually.
+  if (minute < 0) {
+    sync_bibles = true;
+    sync_rest = true;
   }
   
-  // Send and receive: It is time now, or it is manual.
-  // Only queue a sync task if it is not running at the moment.
-  if (minute < 0) {
-    
-    // Send / receive only works in Client mode.
-    if (client_logic_client_enabled ()) {
-      
+  
+  // Send / receive only works in Client mode.
+  if (client_logic_client_enabled ()) {
+
+    // Only queue a sync task if it is not running at the moment.
+    if (sync_bibles) {
       if (tasks_logic_queued (SYNCBIBLES)) {
         Database_Logs::log ("About to start synchronizing Bibles");
       } else {
         tasks_logic_queue (SYNCBIBLES);
       }
+    }
+    if (sync_rest) {
       if (tasks_logic_queued (SYNCNOTES)) {
         Database_Logs::log ("About to start synchronizing Notes");
       } else {
@@ -89,9 +119,11 @@ void sendreceive_queue_sync (int minute)
       // Sync resources always, because it checks on its own whether to do something.
       tasks_logic_queue (SYNCRESOURCES);
     }
-    
-    // Store the most recent time that the sync action ran.
-    Database_Config_General::setLastSendReceive (filter_date_seconds_since_epoch ());
+
+    if (sync_bibles || sync_rest) {
+      // Store the most recent time that the sync action ran.
+      Database_Config_General::setLastSendReceive (filter_date_seconds_since_epoch ());
+    }
   }
 }
 
@@ -167,7 +199,7 @@ void sendreceive_queue_startup ()
   
   // When the current time is past the next time it is supposed to sync, start the sync.
   if (filter_date_seconds_since_epoch () >= next_second) {
-    sendreceive_queue_sync (-1);
+    sendreceive_queue_sync (-1, 0);
   }
 }
 

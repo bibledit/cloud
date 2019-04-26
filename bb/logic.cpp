@@ -390,7 +390,9 @@ string bible_logic_unsent_unreceived_data_warning ()
       warning.clear ();
       warning.append (translate ("It has been some time ago that changes in the Bible text were received from the Cloud."));
       warning.append (" ");
-      warning.append (translate ("Please do a Send/receive action to receive them from the Cloud."));
+      warning.append (translate ("This will right itself in a little time if you are connected to the Internet."));
+      warning.append (" ");
+      warning.append (translate ("If not please do a Send/receive action."));
     }
   }
   
@@ -405,7 +407,9 @@ string bible_logic_unsent_unreceived_data_warning ()
       warning.clear ();
       warning.append (translate ("There are pending changes in the Bible text that have not yet been sent to the Cloud for some time."));
       warning.append (" ");
-      warning.append (translate ("Changes will continue to be saved, but it is recommended to do a Send/receive action as soon as you can."));
+      warning.append (translate ("This will right itself in a little time if you are connected to the Internet."));
+      warning.append (" ");
+      warning.append (translate ("If not please do a Send/receive action."));
     }
   }
 

@@ -3,6 +3,7 @@
 *.a
 *.cache
 *.Po
+*.o.tmp
 Makefile
 config.log
 config.status

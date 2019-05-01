@@ -264,8 +264,8 @@ string email_send (string to_mail, string to_name, string subject, string body, 
    * part of the Transport Layer Security protection by setting the
    * CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST options to 0 (false).
    */
-  // curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); // Todo
-  // curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); // Todo
+  // curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+  // curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
   /*
    * That is, in general, a bad idea. It is still better than sending your
    * authentication details in plain text though.

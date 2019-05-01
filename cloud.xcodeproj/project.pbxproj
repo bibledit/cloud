@@ -541,7 +541,6 @@
 		CA8689861ABB3DF500427560 /* listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = listing.h; sourceTree = "<group>"; };
 		CA8689871ABB3DF500427560 /* listing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listing.html; sourceTree = "<group>"; };
 		CA87FC031EE0185700D000E6 /* installcloudsourcedebian.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudsourcedebian.html; sourceTree = "<group>"; };
-		CA88043B20FE32A3006FAAA8 /* nightmode.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = nightmode.css; sourceTree = "<group>"; };
 		CA8A09F41FEA6A6300A4FF4A /* obfuscate */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obfuscate; sourceTree = "<group>"; };
 		CA8AABB51B2C157E00FCAC51 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = index.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA8AABB61B2C157E00FCAC51 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -1761,7 +1760,6 @@
 			children = (
 				CAA4CFDC1A45A647003ABA25 /* editor.css */,
 				CA2401981C4D0A1900F99F15 /* mouse.css */,
-				CA88043B20FE32A3006FAAA8 /* nightmode.css */,
 				CAA4CFDE1A45A647003ABA25 /* stylesheet.css */,
 				CA2401991C4D0AF400F99F15 /* touch.css */,
 			);

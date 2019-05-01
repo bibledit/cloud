@@ -1318,16 +1318,3 @@ void Database_Config_User::setShowVerseTextAtCreateNote (bool value)
   setBValue (show_verse_text_at_create_note_key (), value);
 }
 
-
-const char * night_mode_key ()
-{
-  return "night-mode";
-}
-bool Database_Config_User::getNightMode ()
-{
-  return getBValue (night_mode_key (), false);
-}
-void Database_Config_User::setNightMode (bool value)
-{
-  setBValue (night_mode_key (), value);
-}

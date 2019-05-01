@@ -68,7 +68,6 @@
 /css
 /css/editor.css
 /css/mouse.css
-/css/nightmode.css
 /css/stylesheet.css
 /css/touch.css
 /database

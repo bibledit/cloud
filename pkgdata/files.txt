@@ -238,7 +238,6 @@
 /email/index.html
 /esword
 /executable
-/executable/bibledit-17eb60a7.o.tmp
 /export
 /exports
 /exports/gitflag
@@ -317,8 +316,6 @@
 /ldap
 /lexicon
 /library
-/library/bibledit-bf985648.o.tmp
-/library/locks-2298e43c.o.tmp
 /livetest
 /livetest/initialize.sh
 /livetest/livetest.js
@@ -1070,9 +1067,6 @@
 /webbb/lens.png
 /webbb/search.html
 /webserver
-/webserver/http-18d68811.o.tmp
-/webserver/request-6fa6962b.o.tmp
-/webserver/webserver-4e6607cb.o.tmp
 /workspace
 /workspace/index.html
 /workspace/organize.html

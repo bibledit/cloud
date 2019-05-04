@@ -53,35 +53,53 @@ const char * changes_bible_category ()
 }
 
 
-string changes_interlinks (void * webserver_request, string my_url)
+string changes_interlinks (void * webserver_request, string my_url) // Todo
 {
-  // The available links.
+  // Storage the available links.
   vector <string> urls;
   vector <string> labels;
-  if (changes_changes_acl (webserver_request)) {
-    urls.push_back (changes_changes_url ());
-    labels.push_back (translate ("View"));
+  
+  if (changes_changes_url () == my_url) {
+    
   }
+
+  if (changes_changes_url () != my_url) {
+    if (changes_changes_acl (webserver_request)) {
+      urls.push_back (changes_changes_url ());
+      labels.push_back (translate ("View"));
+    }
+  }
+  
 #ifndef HAVE_CLIENT
-  if (changes_statistics_acl (webserver_request)) {
-    urls.push_back (changes_statistics_url ());
-    labels.push_back (translate ("Statistics"));
+
+  if (changes_statistics_url () != my_url) {
+    if (changes_statistics_acl (webserver_request)) {
+      urls.push_back (changes_statistics_url ());
+      labels.push_back (translate ("Statistics"));
+    }
   }
-  if (index_listing_acl (webserver_request, "revisions")) {
-    urls.push_back (index_listing_url ("revisions"));
-    labels.push_back (translate ("Download"));
+
+  string revisions = "revisions";
+  if (index_listing_url (revisions) != my_url) {
+    if (index_listing_acl (webserver_request, revisions)) {
+      urls.push_back (index_listing_url (revisions));
+      labels.push_back (translate ("Download"));
+    }
   }
-  if (changes_manage_acl (webserver_request)) {
-    urls.push_back (changes_manage_url ());
-    labels.push_back (translate ("Manage"));
+
+  if (changes_manage_url () != my_url) {
+    if (changes_manage_acl (webserver_request)) {
+      urls.push_back (changes_manage_url ());
+      labels.push_back (translate ("Manage"));
+    }
   }
+  
 #endif
 
   // Generate the links in XML.
   xml_document document;
   bool first = true;
   for (unsigned int i = 0; i < urls.size (); i++) {
-    if (urls[i] == my_url) continue;
     if (!first) {
       xml_node node = document.append_child ("span");
       node.text ().set (" | ");

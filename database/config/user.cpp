@@ -1318,3 +1318,17 @@ void Database_Config_User::setShowVerseTextAtCreateNote (bool value)
   setBValue (show_verse_text_at_create_note_key (), value);
 }
 
+
+const char * order_changes_by_author_key ()
+{
+  return "order-changes-by-author";
+}
+bool Database_Config_User::getOrderChangesByAuthor ()
+{
+  return getBValue (order_changes_by_author_key (), false);
+}
+void Database_Config_User::setOrderChangesByAuthor (bool value)
+{
+  setBValue (order_changes_by_author_key (), value);
+}
+

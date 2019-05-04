@@ -106,6 +106,15 @@ string changes_changes (void * webserver_request) // Todo
   }
   
   
+  // Handle query to update the sorting order.
+  string sort = request->query ["sort"];
+  if (sort == "verse") {
+    request->database_config_user ()->setOrderChangesByAuthor (false);
+  }
+  if (sort == "author") {
+    request->database_config_user ()->setOrderChangesByAuthor (true);
+  }
+
   
   string username = request->session_logic()->currentUser ();
   bool touch = request->session_logic ()->touchEnabled ();

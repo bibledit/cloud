@@ -59,15 +59,29 @@ string changes_interlinks (void * webserver_request, string my_url) // Todo
   vector <string> urls;
   vector <string> labels;
   
-  if (changes_changes_url () == my_url) {
+  // Handle situation that the user has permission to view the changes.
+  if (changes_changes_acl (webserver_request)) {
     
-  }
-
-  if (changes_changes_url () != my_url) {
-    if (changes_changes_acl (webserver_request)) {
+    // Handle situation that the user is not currently displaying the changes.
+    if (changes_changes_url () != my_url) {
       urls.push_back (changes_changes_url ());
       labels.push_back (translate ("View"));
     }
+
+    // Handle the situation that the user is viewing the change notifications.
+    // In that situation it needs a link for how to sort the change notifications.
+    if (changes_changes_url () == my_url) {
+      //Webserver_Request * request = (Webserver_Request *) webserver_request;
+      Webserver_Request * request = static_cast <Webserver_Request *> (webserver_request);
+      if (request->database_config_user ()->getOrderChangesByAuthor ()) {
+        urls.push_back (changes_changes_url () + "?sort=verse");
+        labels.push_back (translate ("Sort on verse"));
+      } else {
+        urls.push_back (changes_changes_url () + "?sort=author");
+        labels.push_back (translate ("Sort on author"));
+      }
+    }
+
   }
   
 #ifndef HAVE_CLIENT

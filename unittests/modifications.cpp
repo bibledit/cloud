@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/logic.h>
 
 
-void test_database_modifications_user () // Todo
+void test_database_modifications_user ()
 {
   trace_unit_tests (__func__);
   
@@ -39,6 +39,7 @@ void test_database_modifications_user () // Todo
     database_modifications.create ();
     database_modifications.clearUserUser ("phpunit");
   }
+
   // Usernames
   {
     refresh_sandbox (true);
@@ -56,6 +57,7 @@ void test_database_modifications_user () // Todo
     users = database_modifications.getUserUsernames ();
     evaluate (__LINE__, __func__, {"phpunit1", "phpunit2", "phpunit3"}, users);
   }
+
   // Bibles
   {
     refresh_sandbox (true);
@@ -69,6 +71,7 @@ void test_database_modifications_user () // Todo
     bibles = database_modifications.getUserBibles ("phpunit1");
     evaluate (__LINE__, __func__, {"bible1"}, bibles);
   }
+
   // Books
   {
     refresh_sandbox (true);
@@ -82,6 +85,7 @@ void test_database_modifications_user () // Todo
     books = database_modifications.getUserBooks ("phpunit1", "bible1");
     evaluate (__LINE__, __func__, {1, 2, 3}, books);
   }
+
   // Chapters
   {
     refresh_sandbox (true);
@@ -94,6 +98,7 @@ void test_database_modifications_user () // Todo
     chapters = database_modifications.getUserChapters ("phpunit1", "bible1", 1);
     evaluate (__LINE__, __func__, {2, 3, 4}, chapters);
   }
+
   // Identifiers.
   {
     refresh_sandbox (true);
@@ -110,6 +115,7 @@ void test_database_modifications_user () // Todo
     evaluate (__LINE__, __func__, 5, identifiers[2].oldid);
     evaluate (__LINE__, __func__, 6, identifiers[2].newid);
   }
+
   // Chapter
   {
     refresh_sandbox (true);
@@ -124,6 +130,7 @@ void test_database_modifications_user () // Todo
     evaluate (__LINE__, __func__, "old2", chapter.oldtext);
     evaluate (__LINE__, __func__, "new2", chapter.newtext);
   }
+
   // Timestamp
   {
     refresh_sandbox (true);
@@ -150,7 +157,8 @@ void test_database_modifications_team ()
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
   }
-  // Team Existence
+
+  // Team existence
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -178,7 +186,8 @@ void test_database_modifications_team ()
     exists = database_modifications.teamDiffExists ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, false, exists);
   }
-  // Team Book
+
+  // Team book
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -208,6 +217,7 @@ void test_database_modifications_team ()
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 2, 2));
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 2, 3));
   }
+
   // Team Bible
   {
     refresh_sandbox (true);
@@ -239,7 +249,8 @@ void test_database_modifications_team ()
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 4, 1));
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 5, 1));
   }
-  // Team Get Diff
+
+  // Team get diff
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -267,7 +278,8 @@ void test_database_modifications_team ()
     diff = database_modifications.getTeamDiff ("phpunit", 5, 5);
     evaluate (__LINE__, __func__, "chapter text", diff);
   }
-  // Team Get Diff Chapters
+
+  // Team get diff chapters
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -290,7 +302,8 @@ void test_database_modifications_team ()
     chapters = database_modifications.getTeamDiffChapters ("phpunit2", 3);
     evaluate (__LINE__, __func__, {}, chapters);
   }
-  // Team Diff Bible
+
+  // Team diff Bible
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -317,7 +330,8 @@ void test_database_modifications_team ()
     bibles = database_modifications.getTeamDiffBibles ();
     evaluate (__LINE__, __func__, {}, bibles);
   }
-  // Team Diff Chapter.
+
+  // Team diff chapter.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -339,7 +353,8 @@ void test_database_modifications_team ()
     chapters = database_modifications.getTeamDiffChapters ("phpunit", 3);
     evaluate (__LINE__, __func__, {3, 5}, chapters);
   }
-  // Team Diff Book
+
+  // Team diff book
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -359,7 +374,8 @@ void test_database_modifications_team ()
     books = database_modifications.getTeamDiffBooks ("phpunit2");
     evaluate (__LINE__, __func__, {}, books);
   }
-  // Get Team Diff Count
+
+  // Get team diff count
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -385,7 +401,7 @@ void test_database_modifications_team ()
 }
 
 
-void test_database_modifications_notifications () // Todo
+void test_database_modifications_notifications ()
 {
   trace_unit_tests (__func__);
   
@@ -402,6 +418,7 @@ void test_database_modifications_notifications () // Todo
       database_modifications.deleteNotification (id);
     }
   }
+
   // Trim.
   {
     refresh_sandbox (true);
@@ -426,6 +443,7 @@ void test_database_modifications_notifications () // Todo
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {2}, ids);
   }
+
   // Next identifier.
   {
     refresh_sandbox (true);
@@ -440,6 +458,7 @@ void test_database_modifications_notifications () // Todo
     identifier = database_modifications.getNextAvailableNotificationIdentifier ();
     evaluate (__LINE__, __func__, 1, identifier);
   }
+
   // Record details retrieval.
   {
     refresh_sandbox (true);
@@ -451,20 +470,24 @@ void test_database_modifications_notifications () // Todo
     evaluate (__LINE__, __func__, {}, ids);
     
     // Record three notifications and reindex.
-    database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "bible1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit2", "phpunit3"}, "A", "bible2", 4, 5, 6, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit4", "phpunit3"}, "A", "bible1", 1, 2, 3, "old1", "mod1", "new1");
+    database_modifications.recordNotification ({"phpunit3", "phpunit2"}, "A", "bible2", 4, 5, 6, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     
     // There should be six notifications now: Two users per recordNotification call.
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {1, 2, 3, 4, 5, 6}, ids);
-    
+
+    // Test sorting the notifications on username.
+    ids = database_modifications.getNotificationIdentifiers (any_user, any_bible, true);
+    evaluate (__LINE__, __func__, {6, 4, 5, 2, 3, 1}, ids);
+
     // Test notifications per user.
     ids = database_modifications.getNotificationIdentifiers ("phpunit1", "");
-    evaluate (__LINE__, __func__, {1}, ids);
+    evaluate (__LINE__, __func__, {6}, ids);
     ids = database_modifications.getNotificationIdentifiers ("phpunit3", "");
-    evaluate (__LINE__, __func__, {4, 5}, ids);
+    evaluate (__LINE__, __func__, {2, 3}, ids);
     
     // Test notifications per Bible.
     ids = database_modifications.getNotificationIdentifiers ("", "bible1");
@@ -480,6 +503,7 @@ void test_database_modifications_notifications () // Todo
     bibles = database_modifications.getNotificationDistinctBibles ("phpunit1");
     evaluate (__LINE__, __func__, {"bible1"}, bibles);
   }
+
   // Timestamps
   {
     refresh_sandbox (true);
@@ -496,7 +520,8 @@ void test_database_modifications_notifications () // Todo
     timestamp = database_modifications.getNotificationTimeStamp (1);
     if ((timestamp < time) || (timestamp > time + 1)) evaluate (__LINE__, __func__, time, timestamp);
   }
-  // Category
+
+  // Category.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -508,6 +533,7 @@ void test_database_modifications_notifications () // Todo
     category = database_modifications.getNotificationCategory (2);
     evaluate (__LINE__, __func__, "", category);
   }
+
   // Bible.
   {
     refresh_sandbox (true);
@@ -520,7 +546,8 @@ void test_database_modifications_notifications () // Todo
     bible = database_modifications.getNotificationBible (3);
     evaluate (__LINE__, __func__, "", bible);
   }
-  // Passage
+
+  // Passage.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -536,7 +563,8 @@ void test_database_modifications_notifications () // Todo
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
   }
-  // OldText
+  
+  // Old text.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -548,6 +576,7 @@ void test_database_modifications_notifications () // Todo
     old = database_modifications.getNotificationOldText (3);
     evaluate (__LINE__, __func__, "", old);
   }
+
   // Modification.
   {
     refresh_sandbox (true);
@@ -560,7 +589,8 @@ void test_database_modifications_notifications () // Todo
     modification = database_modifications.getNotificationOldText (3);
     evaluate (__LINE__, __func__, "", modification);
   }
-  // New Text
+
+  // New text.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -572,7 +602,8 @@ void test_database_modifications_notifications () // Todo
     newtext = database_modifications.getNotificationNewText (3);
     evaluate (__LINE__, __func__, "", newtext);
   }
-  // Clear User
+
+  // Clear user.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -590,7 +621,8 @@ void test_database_modifications_notifications () // Todo
     ids = database_modifications.getNotificationIdentifiers ("phpunit2", "");
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
-  // Clear Matches One
+
+  // Clear matches one.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -605,7 +637,8 @@ void test_database_modifications_notifications () // Todo
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
-  // Notification team identifiers
+
+  // Notification team identifiers.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
@@ -623,6 +656,7 @@ void test_database_modifications_notifications () // Todo
     ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category (), "2");
     evaluate (__LINE__, __func__, {}, ids);
   }
+
   // Record on client.
   {
     refresh_sandbox (true);

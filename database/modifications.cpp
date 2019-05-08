@@ -686,7 +686,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible) // Todo
+vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible, bool sort_on_user)
 {
   vector <int> ids;
 
@@ -700,8 +700,12 @@ vector <int> Database_Modifications::getNotificationIdentifiers (string username
     sql.add ("AND bible =");
     sql.add (bible);
   }
-  // Sort on reference, so that related change notifications are near each other.
-  sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
+  // Sort on reference, so that related change notifications are in context.
+  // Or sort on user, so it's easy to view a user's changes together.
+  // https://github.com/bibledit/cloud/issues/267
+  sql.add ("ORDER BY");
+  if (sort_on_user) sql.add ("username ASC,");
+  sql.add ("book ASC, chapter ASC, verse ASC, identifier ASC;");
 
   sqlite3 * db = connect ();
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];

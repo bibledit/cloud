@@ -58,7 +58,8 @@ void statistics_statistics ()
     
     
     if (request.database_config_user()->getUserPendingChangesNotification (user)) {
-      vector <int> ids = database_modifications.getNotificationIdentifiers (user);
+      string any_bible = "";
+      vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       body.push_back ("<p><a href=\"" + siteUrl + changes_changes_url () + "\">" + translate("Number of change notifications") + "</a>: " + convert_to_string (ids.size()) + "</p>\n");
     }
     

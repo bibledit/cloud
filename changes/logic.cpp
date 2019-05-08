@@ -53,7 +53,7 @@ const char * changes_bible_category ()
 }
 
 
-string changes_interlinks (void * webserver_request, string my_url) // Todo
+string changes_interlinks (void * webserver_request, string my_url)
 {
   // Storage the available links.
   vector <string> urls;
@@ -140,7 +140,8 @@ void changes_clear_notifications_user (string jobid, string username)
   Database_Jobs database_jobs;
 
   // Get the total amount of change notifications to clear for the user.
-  vector <int> identifiers = database_modifications.getNotificationIdentifiers (username);
+  string any_bible = "";
+  vector <int> identifiers = database_modifications.getNotificationIdentifiers (username, any_bible);
   
   // Total notes cleared.
   int total_cleared = 0;

@@ -195,7 +195,7 @@ string changes_changes (void * webserver_request) // Todo
   }
   
   
-  // Read the identifiers.
+  // Read the identifiers. Todo sort them.
   vector <int> notification_ids = database_modifications.getNotificationIdentifiers (username, selectedbible);
   // Send the identifiers to the browser for download there.
   string pendingidentifiers;

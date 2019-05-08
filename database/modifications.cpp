@@ -686,7 +686,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible)
+vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible) // Todo
 {
   vector <int> ids;
 
@@ -892,7 +892,8 @@ string Database_Modifications::getNotificationNewText (int id)
 int Database_Modifications::clearNotificationsUser (const string& username)
 {
   int cleared_counter = 0;
-  vector <int> identifiers = getNotificationIdentifiers (username);
+  string any_bible = "";
+  vector <int> identifiers = getNotificationIdentifiers (username, any_bible);
   sqlite3 * db = connect ();
   // A transaction speeds up the operation.
   database_sqlite_exec (db, "BEGIN;");

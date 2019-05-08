@@ -182,7 +182,8 @@ void sendreceive_changes ()
   
   // Get all identifiers for the notifications on the server for the user.
   // Get the identifiers on the client.
-  vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user);
+  string any_bible = "";
+  vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user, any_bible);
   vector <int> server_identifiers;
   post ["a"] = convert_to_string (Sync_Logic::changes_get_identifiers);
   response = sync_logic.post (post, url, error);

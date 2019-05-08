@@ -236,7 +236,8 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
 string Sync_Logic::changes_checksum (const string & username)
 {
   Database_Modifications database_modifications;
-  vector <int> ids = database_modifications.getNotificationIdentifiers (username);
+  string any_bible = "";
+  vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
   string checksum;
   for (auto & id : ids) {
     checksum.append (convert_to_string (id));

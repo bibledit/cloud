@@ -91,7 +91,8 @@ string sync_changes (void * webserver_request)
     case Sync_Logic::changes_get_identifiers:
     {
       // The server responds with the identifiers of all the user's change notifications.
-      vector <int> ids = database_modifications.getNotificationIdentifiers (user);
+      string any_bible = "";
+      vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       string response;
       for (auto & id : ids) {
         if (!response.empty ()) response.append ("\n");

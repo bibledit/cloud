@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/logic.h>
 
 
-void test_database_modifications_user ()
+void test_database_modifications_user () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -385,16 +385,19 @@ void test_database_modifications_team ()
 }
 
 
-void test_database_modifications_notifications ()
+void test_database_modifications_notifications () // Todo
 {
   trace_unit_tests (__func__);
+  
+  string any_user = "";
+  string any_bible = "";
   
   // Basics.
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
     database_modifications.create ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     for (auto id : ids) {
       database_modifications.deleteNotification (id);
     }
@@ -408,19 +411,19 @@ void test_database_modifications_notifications ()
     // Record two entries.
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {1, 2}, ids);
     
     // After trimming the two entries should still be there.
     database_modifications.indexTrimAllNotifications ();
-    ids = database_modifications.getNotificationIdentifiers ();
+    ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {1, 2}, ids);
     
     // Set the time back, re-index, filter_string_trim, and check one entry's gone.
     database_modifications.indexTrimAllNotifications ();
     database_modifications.notificationUpdateTime (1, filter_date_seconds_since_epoch () - 7776001);
     database_modifications.indexTrimAllNotifications ();
-    ids = database_modifications.getNotificationIdentifiers ();
+    ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {2}, ids);
   }
   // Next identifier.
@@ -444,7 +447,7 @@ void test_database_modifications_notifications ()
     database_modifications.create ();
     
     // Start with no identifiers.
-    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {}, ids);
     
     // Record three notifications and reindex.
@@ -454,13 +457,13 @@ void test_database_modifications_notifications ()
     database_modifications.indexTrimAllNotifications ();
     
     // There should be six notifications now: Two users per recordNotification call.
-    ids = database_modifications.getNotificationIdentifiers ();
+    ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {1, 2, 3, 4, 5, 6}, ids);
     
     // Test notifications per user.
-    ids = database_modifications.getNotificationIdentifiers ("phpunit1");
+    ids = database_modifications.getNotificationIdentifiers ("phpunit1", "");
     evaluate (__LINE__, __func__, {1}, ids);
-    ids = database_modifications.getNotificationIdentifiers ("phpunit3");
+    ids = database_modifications.getNotificationIdentifiers ("phpunit3", "");
     evaluate (__LINE__, __func__, {4, 5}, ids);
     
     // Test notifications per Bible.
@@ -576,15 +579,15 @@ void test_database_modifications_notifications ()
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, 3, (int)ids.size ());
     
     database_modifications.clearNotificationsUser ("phpunit2");
     
-    ids = database_modifications.getNotificationIdentifiers ();
+    ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, 2, (int)ids.size ());
     
-    ids = database_modifications.getNotificationIdentifiers ("phpunit2");
+    ids = database_modifications.getNotificationIdentifiers ("phpunit2", "");
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
   // Clear Matches One
@@ -595,11 +598,11 @@ void test_database_modifications_notifications ()
     database_modifications.recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, 2, (int)ids.size ());
     database_modifications.clearNotificationMatches ("phpunit", changes_personal_category (), "T");
     database_modifications.indexTrimAllNotifications ();
-    ids = database_modifications.getNotificationIdentifiers ();
+    ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, 0, (int)ids.size ());
   }
   // Notification team identifiers
@@ -627,7 +630,7 @@ void test_database_modifications_notifications ()
     database_modifications.create ();
     database_modifications.storeClientNotification (3, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.storeClientNotification (5, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
-    vector <int> ids = database_modifications.getNotificationIdentifiers ();
+    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {3, 5}, ids);
   }
 }

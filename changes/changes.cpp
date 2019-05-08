@@ -50,7 +50,7 @@ bool changes_changes_acl (void * webserver_request)
 }
 
 
-string changes_changes (void * webserver_request) // Todo
+string changes_changes (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Modifications database_modifications;
@@ -195,8 +195,9 @@ string changes_changes (void * webserver_request) // Todo
   }
   
   
-  // Read the identifiers. Todo sort them.
-  vector <int> notification_ids = database_modifications.getNotificationIdentifiers (username, selectedbible);
+  // Read the identifiers, optionally sorted on author (that is, category).
+  bool sort_on_author = request->database_config_user ()->getOrderChangesByAuthor ();
+  vector <int> notification_ids = database_modifications.getNotificationIdentifiers (username, selectedbible, sort_on_author);
   // Send the identifiers to the browser for download there.
   string pendingidentifiers;
   for (auto id : notification_ids) {

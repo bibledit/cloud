@@ -686,7 +686,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible, bool sort_on_user)
+vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible, bool sort_on_category)
 {
   vector <int> ids;
 
@@ -704,7 +704,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (string username
   // Or sort on user, so it's easy to view a user's changes together.
   // https://github.com/bibledit/cloud/issues/267
   sql.add ("ORDER BY");
-  if (sort_on_user) sql.add ("username ASC,");
+  if (sort_on_category) sql.add ("category ASC,");
   sql.add ("book ASC, chapter ASC, verse ASC, identifier ASC;");
 
   sqlite3 * db = connect ();

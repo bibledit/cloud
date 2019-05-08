@@ -470,24 +470,24 @@ void test_database_modifications_notifications ()
     evaluate (__LINE__, __func__, {}, ids);
     
     // Record three notifications and reindex.
-    database_modifications.recordNotification ({"phpunit4", "phpunit3"}, "A", "bible1", 1, 2, 3, "old1", "mod1", "new1");
-    database_modifications.recordNotification ({"phpunit3", "phpunit2"}, "A", "bible2", 4, 5, 6, "old2", "mod2", "new2");
-    database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
+    database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "C", "bible1", 1, 2, 3, "old1", "mod1", "new1");
+    database_modifications.recordNotification ({"phpunit2", "phpunit3"}, "B", "bible2", 4, 5, 6, "old2", "mod2", "new2");
+    database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "bible1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
     
     // There should be six notifications now: Two users per recordNotification call.
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {1, 2, 3, 4, 5, 6}, ids);
 
-    // Test sorting the notifications on username.
+    // Test sorting the notifications on category.
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible, true);
-    evaluate (__LINE__, __func__, {6, 4, 5, 2, 3, 1}, ids);
+    evaluate (__LINE__, __func__, {3, 4, 5, 6, 1, 2}, ids);
 
     // Test notifications per user.
     ids = database_modifications.getNotificationIdentifiers ("phpunit1", "");
-    evaluate (__LINE__, __func__, {6}, ids);
+    evaluate (__LINE__, __func__, {1}, ids);
     ids = database_modifications.getNotificationIdentifiers ("phpunit3", "");
-    evaluate (__LINE__, __func__, {2, 3}, ids);
+    evaluate (__LINE__, __func__, {4, 5}, ids);
     
     // Test notifications per Bible.
     ids = database_modifications.getNotificationIdentifiers ("", "bible1");

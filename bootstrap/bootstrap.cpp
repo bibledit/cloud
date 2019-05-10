@@ -189,6 +189,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <rss/feed.h>
 #include <assets/external.h>
 #include <system/logic.h>
+#include <filter/date.h>
+#include <filter/string.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -213,6 +215,27 @@ bool browser_request_security_okay (Webserver_Request * request)
 void bootstrap_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
+  
+  if (!request->post.empty () && config_logic_demo_enabled ()) {  // Todo
+    string contents;
+    int seconds = filter_date_seconds_since_epoch ();
+    string rfc822time = filter_date_rfc822 (seconds);
+    contents.append (rfc822time + "\n");
+    contents.append (request->get + "\n");
+    string query;
+    for (auto element : request->query) {
+      query.append (element.first + "=" + element.second + " and ");
+    }
+    string post;
+    for (auto element : request->post) {
+      post.append (element.first + "=" + element.second + " and ");
+    }
+    contents.append ("query: " + query + "\n");
+    contents.append ("post: " + post + "\n");
+    string filename;
+    filename = filter_url_create_root_path (filter_url_temp_dir (), "http-post-trace.txt");
+    filter_url_file_put_contents_append (filename, contents);
+  }
   
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);

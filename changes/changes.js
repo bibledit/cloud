@@ -47,7 +47,6 @@ var firstNotificationSelected = false;
 function fetchChangeNotifications ()
 {
   if (pendingidentifiers.length == 0) {
-    passageConnectToAll ();
     return;
   }
   ajaxRequest = $.ajax ({
@@ -56,6 +55,9 @@ function fetchChangeNotifications ()
     data: { load: pendingidentifiers[0] },
     success: function (response) {
       $ ("#ids").append (response);
+      // Activate the passage link straightaway.
+      // https://github.com/bibledit/cloud/issues/273
+      passageConnectToLast ();
       if (!firstNotificationSelected) {
         setTimeout (initiallySelectFirstNotification, 100);
         firstNotificationSelected = true;

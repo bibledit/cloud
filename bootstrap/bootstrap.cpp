@@ -216,7 +216,10 @@ void bootstrap_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  if (!request->post.empty () && config_logic_demo_enabled ()) {  // Todo
+  // Record the POST request made to the web server.
+  // This can be used for debugging.
+  /*
+  if (!request->post.empty () && config_logic_demo_enabled ()) {
     string contents;
     int seconds = filter_date_seconds_since_epoch ();
     string rfc822time = filter_date_rfc822 (seconds);
@@ -236,6 +239,7 @@ void bootstrap_index (void * webserver_request)
     filename = filter_url_create_root_path (filter_url_temp_dir (), "http-post-trace.txt");
     filter_url_file_put_contents_append (filename, contents);
   }
+  */
   
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);

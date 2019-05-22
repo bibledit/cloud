@@ -36,8 +36,9 @@ documentation and/or software.
  
 /* system implementation headers */
 #include <cstdio>
- 
- 
+
+#include <mbedtls/md5.h>
+
 // Constants for MD5Transform routine.
 #define S11 7
 #define S12 12
@@ -363,3 +364,20 @@ std::string md5(const std::string str)
     return md5.hexdigest();
 }
 
+
+std::string md5v2 (const std::string str) // Todo
+{
+  unsigned char md5sum[16];
+  const unsigned char *input = (const unsigned char *)str.c_str ();
+  int ret = mbedtls_md5_ret (input, str.size (), md5sum);
+  (void) ret;
+
+  // Space for 32 bytes of hexits and one terminating null byte.
+  char hexits [32+1];
+
+  memset (hexits, 0, sizeof (hexits));
+  for (int i = 0; i < 16; i++) sprintf (&hexits[i*2], "%02x", (unsigned int)md5sum[i]);
+  
+  // Resulting hexits.
+  return std::string (hexits);
+}

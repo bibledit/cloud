@@ -357,7 +357,7 @@ std::ostream& operator<<(std::ostream& out, MD5 md5)
  
 //////////////////////////////
  
-std::string md5(const std::string str)
+std::string md5_old (const std::string str) // Todo
 {
     MD5 md5 = MD5(str);
  
@@ -365,7 +365,7 @@ std::string md5(const std::string str)
 }
 
 
-std::string md5v2 (const std::string str) // Todo
+std::string md5 (const std::string str) // Todo
 {
   unsigned char md5sum[16];
   const unsigned char *input = (const unsigned char *)str.c_str ();

@@ -31,11 +31,11 @@ void test_md5 () // Todo
   string hexits = "1f3870be274f6c49b3e31a0c6728957f";
   
   // C++ md5 function as compared to PHP's version.
-  evaluate (__LINE__, __func__, hexits, md5 (apple));
+  evaluate (__LINE__, __func__, hexits, md5_old (apple));
   
   // The md5 from mbedtls library. Todo
-  evaluate (__LINE__, __func__, hexits, md5v2 (apple));
+  evaluate (__LINE__, __func__, hexits, md5 (apple));
 
-  // The md5 digest hash of empty string.
-  evaluate (__LINE__, __func__, "d41d8cd98f00b204e9800998ecf8427e", md5v2 (""));
+  // The md5 digest hash of an empty string.
+  evaluate (__LINE__, __func__, "d41d8cd98f00b204e9800998ecf8427e", md5 (""));
 }

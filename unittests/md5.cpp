@@ -23,17 +23,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/md5.h>
 
 
-void test_md5 () // Todo
+void test_md5 ()
 {
   trace_unit_tests (__func__);
 
   string apple = "apple";
   string hexits = "1f3870be274f6c49b3e31a0c6728957f";
   
-  // C++ md5 function as compared to PHP's version.
-  evaluate (__LINE__, __func__, hexits, md5_old (apple));
-  
-  // The md5 from mbedtls library. Todo
+  // The md5 from mbedtls library.
   evaluate (__LINE__, __func__, hexits, md5 (apple));
 
   // The md5 digest hash of an empty string.

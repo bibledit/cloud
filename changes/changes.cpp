@@ -298,6 +298,19 @@ string changes_changes (void * webserver_request)
   view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_changes_url ()));
   
   
+  // Create data for the link for how to sort the change notifications.
+  string sortquery, sorttext;
+  if (request->database_config_user ()->getOrderChangesByAuthor ()) {
+    sortquery = "verse";
+    sorttext = translate ("Sort on verse" );
+  } else {
+    sortquery = "author";
+    sorttext = translate ("Sort on author");
+  }
+  view.set_variable ("sortquery", sortquery);
+  view.set_variable ("sorttext", sorttext);
+
+  
   // Whether to show the controls for dismissing the changes.
   if (!notification_ids.empty ()) {
     // Whether to put those controls at the bottom of the page, as the default location,

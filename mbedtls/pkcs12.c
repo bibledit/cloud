@@ -50,6 +50,8 @@
 #include "mbedtls/des.h"
 #endif
 
+#if defined(MBEDTLS_ASN1_PARSE_C)
+
 static int pkcs12_parse_pbe_params( mbedtls_asn1_buf *params,
                                     mbedtls_asn1_buf *salt, int *iterations )
 {
@@ -227,6 +229,8 @@ exit:
 
     return( ret );
 }
+
+#endif /* MBEDTLS_ASN1_PARSE_C */
 
 static void pkcs12_fill_buffer( unsigned char *data, size_t data_len,
                                 const unsigned char *filler, size_t fill_len )

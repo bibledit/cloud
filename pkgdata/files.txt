@@ -368,6 +368,8 @@
 /mapping/Vulgate.txt
 /mbedtls
 /mbedtls/0readme.txt
+/mbedtls.old
+/mbedtls.old/0readme.txt
 /menu
 /microtar
 /microtar/LICENSE

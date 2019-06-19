@@ -313,7 +313,7 @@ cleanup:
     }
     mbedtls_platform_zeroize( inbuff, KW_SEMIBLOCK_LENGTH * 2 );
     mbedtls_platform_zeroize( outbuff, KW_SEMIBLOCK_LENGTH * 2 );
-    mbedtls_cipher_finish( &ctx->cipher_ctx, NULL, &olen );
+
     return( ret );
 }
 
@@ -530,7 +530,7 @@ cleanup:
     mbedtls_platform_zeroize( &bad_padding, sizeof( bad_padding) );
     mbedtls_platform_zeroize( &diff, sizeof( diff ) );
     mbedtls_platform_zeroize( A, sizeof( A ) );
-    mbedtls_cipher_finish( &ctx->cipher_ctx, NULL, &olen );
+
     return( ret );
 }
 

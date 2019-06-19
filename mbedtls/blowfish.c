@@ -42,6 +42,12 @@
 
 #if !defined(MBEDTLS_BLOWFISH_ALT)
 
+/* Parameter validation macros */
+#define BLOWFISH_VALIDATE_RET( cond )                                       \
+    MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_BLOWFISH_BAD_INPUT_DATA )
+#define BLOWFISH_VALIDATE( cond )                                           \
+    MBEDTLS_INTERNAL_VALIDATE( cond )
+
 /*
  * 32-bit integer manipulation macros (big endian)
  */
@@ -155,6 +161,7 @@ static void blowfish_dec( mbedtls_blowfish_context *ctx, uint32_t *xl, uint32_t 
 
 void mbedtls_blowfish_init( mbedtls_blowfish_context *ctx )
 {
+    BLOWFISH_VALIDATE( ctx != NULL );
     memset( ctx, 0, sizeof( mbedtls_blowfish_context ) );
 }
 
@@ -169,16 +176,20 @@ void mbedtls_blowfish_free( mbedtls_blowfish_context *ctx )
 /*
  * Blowfish key schedule
  */
-int mbedtls_blowfish_setkey( mbedtls_blowfish_context *ctx, const unsigned char *key,
-                     unsigned int keybits )
+int mbedtls_blowfish_setkey( mbedtls_blowfish_context *ctx,
+                             const unsigned char *key,
+                             unsigned int keybits )
 {
     unsigned int i, j, k;
     uint32_t data, datal, datar;
+    BLOWFISH_VALIDATE_RET( ctx != NULL );
+    BLOWFISH_VALIDATE_RET( key != NULL );
 
-    if( keybits < MBEDTLS_BLOWFISH_MIN_KEY_BITS || keybits > MBEDTLS_BLOWFISH_MAX_KEY_BITS ||
-        ( keybits % 8 ) )
+    if( keybits < MBEDTLS_BLOWFISH_MIN_KEY_BITS    ||
+        keybits > MBEDTLS_BLOWFISH_MAX_KEY_BITS    ||
+        keybits % 8 != 0 )
     {
-        return( MBEDTLS_ERR_BLOWFISH_INVALID_KEY_LENGTH );
+        return( MBEDTLS_ERR_BLOWFISH_BAD_INPUT_DATA );
     }
 
     keybits >>= 3;
@@ -233,6 +244,11 @@ int mbedtls_blowfish_crypt_ecb( mbedtls_blowfish_context *ctx,
                     unsigned char output[MBEDTLS_BLOWFISH_BLOCKSIZE] )
 {
     uint32_t X0, X1;
+    BLOWFISH_VALIDATE_RET( ctx != NULL );
+    BLOWFISH_VALIDATE_RET( mode == MBEDTLS_BLOWFISH_ENCRYPT ||
+                           mode == MBEDTLS_BLOWFISH_DECRYPT );
+    BLOWFISH_VALIDATE_RET( input  != NULL );
+    BLOWFISH_VALIDATE_RET( output != NULL );
 
     GET_UINT32_BE( X0, input,  0 );
     GET_UINT32_BE( X1, input,  4 );
@@ -265,6 +281,12 @@ int mbedtls_blowfish_crypt_cbc( mbedtls_blowfish_context *ctx,
 {
     int i;
     unsigned char temp[MBEDTLS_BLOWFISH_BLOCKSIZE];
+    BLOWFISH_VALIDATE_RET( ctx != NULL );
+    BLOWFISH_VALIDATE_RET( mode == MBEDTLS_BLOWFISH_ENCRYPT ||
+                           mode == MBEDTLS_BLOWFISH_DECRYPT );
+    BLOWFISH_VALIDATE_RET( iv != NULL );
+    BLOWFISH_VALIDATE_RET( length == 0 || input  != NULL );
+    BLOWFISH_VALIDATE_RET( length == 0 || output != NULL );
 
     if( length % MBEDTLS_BLOWFISH_BLOCKSIZE )
         return( MBEDTLS_ERR_BLOWFISH_INVALID_INPUT_LENGTH );
@@ -319,7 +341,19 @@ int mbedtls_blowfish_crypt_cfb64( mbedtls_blowfish_context *ctx,
                        unsigned char *output )
 {
     int c;
-    size_t n = *iv_off;
+    size_t n;
+
+    BLOWFISH_VALIDATE_RET( ctx != NULL );
+    BLOWFISH_VALIDATE_RET( mode == MBEDTLS_BLOWFISH_ENCRYPT ||
+                           mode == MBEDTLS_BLOWFISH_DECRYPT );
+    BLOWFISH_VALIDATE_RET( iv     != NULL );
+    BLOWFISH_VALIDATE_RET( iv_off != NULL );
+    BLOWFISH_VALIDATE_RET( length == 0 || input  != NULL );
+    BLOWFISH_VALIDATE_RET( length == 0 || output != NULL );
+
+    n = *iv_off;
+    if( n >= 8 )
+        return( MBEDTLS_ERR_BLOWFISH_BAD_INPUT_DATA );
 
     if( mode == MBEDTLS_BLOWFISH_DECRYPT )
     {
@@ -367,7 +401,17 @@ int mbedtls_blowfish_crypt_ctr( mbedtls_blowfish_context *ctx,
                        unsigned char *output )
 {
     int c, i;
-    size_t n = *nc_off;
+    size_t n;
+    BLOWFISH_VALIDATE_RET( ctx != NULL );
+    BLOWFISH_VALIDATE_RET( nonce_counter != NULL );
+    BLOWFISH_VALIDATE_RET( stream_block  != NULL );
+    BLOWFISH_VALIDATE_RET( nc_off != NULL );
+    BLOWFISH_VALIDATE_RET( length == 0 || input  != NULL );
+    BLOWFISH_VALIDATE_RET( length == 0 || output != NULL );
+
+    n = *nc_off;
+    if( n >= 8 )
+        return( MBEDTLS_ERR_BLOWFISH_BAD_INPUT_DATA );
 
     while( length-- )
     {

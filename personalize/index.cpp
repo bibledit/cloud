@@ -437,6 +437,17 @@ string personalize_index (void * webserver_request)
   view.set_variable ("showversetextcreatenote", on_off);
   
   
+  // Whether to disable the "Copy / Paste / SelectAll / ..." popup on Chrome OS.
+  // This pop-up appears on some Chrome OS devices when selecting text in an editable area.
+  // See https://github.com/bibledit/cloud/issues/282 for more information.
+  if (request->query.count ("disableselectionpopupchromeos")) {
+    bool state = Database_Config_General::getDisableSelectionPopupChromeOS ();
+    Database_Config_General::setDisableSelectionPopupChromeOS (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (Database_Config_General::getDisableSelectionPopupChromeOS ());
+  view.set_variable ("disableselectionpopupchromeos", on_off);
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

@@ -348,3 +348,14 @@ void bibledit_log (const char * message)
 {
   Database_Logs::log (message);
 }
+
+
+// Whether to disable the text selection pop-up that may occur on Chrome OS.
+// See https://github.com/bibledit/cloud/issues/282
+const char * bibledit_disable_selection_popup_chrome_os ()
+{
+  if (Database_Config_General::getDisableSelectionPopupChromeOS ()) {
+    return "true";
+  }
+  return "false";
+}

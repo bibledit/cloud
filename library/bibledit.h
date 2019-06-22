@@ -34,6 +34,7 @@ extern "C" {
   void bibledit_stop_library ();
   void bibledit_shutdown_library ();
   void bibledit_log (const char * message);
+  const char * bibledit_disable_selection_popup_chrome_os ();
 
 #ifdef __cplusplus
 }

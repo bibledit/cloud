@@ -424,7 +424,7 @@ string personalize_index (void * webserver_request)
   view.set_variable ("shownotestatus", on_off);
 
   
-  // Whether to show the text of the focuses Bible passage, while creating a new Consultation Note.
+  // Whether to show the text of the focused Bible passage, while creating a new Consultation Note.
   // This helps the translators and consultants if they are using notes in full screen mode,
   // rather than from a workspace that may already show the focused Bible verse text.
   // It shows the users if they have the focus on the verse they want to comment on.

@@ -490,3 +490,17 @@ void Database_Config_General::setMenuInTabbedViewJSON (string value)
 {
   setValue (menu_in_tabbed_view_json_key (), value);
 }
+
+
+const char * disable_selection_popup_chrome_os_key ()
+{
+  return "disable-selection-popup-chrome-os";
+}
+bool Database_Config_General::getDisableSelectionPopupChromeOS ()
+{
+  return getBValue (disable_selection_popup_chrome_os_key (), true);
+}
+void Database_Config_General::setDisableSelectionPopupChromeOS (bool value)
+{
+  setBValue (disable_selection_popup_chrome_os_key (), value);
+}

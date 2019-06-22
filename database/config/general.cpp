@@ -498,7 +498,7 @@ const char * disable_selection_popup_chrome_os_key ()
 }
 bool Database_Config_General::getDisableSelectionPopupChromeOS ()
 {
-  return getBValue (disable_selection_popup_chrome_os_key (), true);
+  return getBValue (disable_selection_popup_chrome_os_key (), false);
 }
 void Database_Config_General::setDisableSelectionPopupChromeOS (bool value)
 {

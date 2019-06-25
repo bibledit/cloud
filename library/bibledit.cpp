@@ -350,6 +350,15 @@ void bibledit_log (const char * message)
 }
 
 
+// The Bibledit outer shell calls this function when it runs on Chrome OS,
+// rather than on Android.
+// See https://github.com/bibledit/cloud/issues/282
+void bibledit_run_on_chrome_os () // Todo
+{
+  
+}
+
+
 // Whether to disable the text selection pop-up that may occur on Chrome OS.
 // See https://github.com/bibledit/cloud/issues/282
 const char * bibledit_disable_selection_popup_chrome_os ()

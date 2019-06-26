@@ -110,6 +110,9 @@ string styles_sheetm (void * webserver_request)
   }
   view.set_variable ("markerblock", filter_string_implode (markerblock, "\n"));
   
+  string folder = filter_url_create_root_path ("databases", "styles", name);
+  view.set_variable ("folder", folder);
+
   page += view.render ("styles", "sheetm");
   
   page += Assets_Page::footer ();

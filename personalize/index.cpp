@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
+#include <config/globals.h>
 
 
 string personalize_index_url ()
@@ -446,9 +447,9 @@ string personalize_index (void * webserver_request)
   }
   on_off = styles_logic_off_on_inherit_toggle_text (Database_Config_General::getDisableSelectionPopupChromeOS ());
   view.set_variable ("disableselectionpopupchromeos", on_off);
-#ifdef HAVE_ANDROID
-  view.enable_zone ("android");
-#endif
+  if (config_globals_running_on_chrome_os) {
+    view.enable_zone ("chromeos");
+  }
 
   
   // Enable the sections with settings relevant to the user and device.

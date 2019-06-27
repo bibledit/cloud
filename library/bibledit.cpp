@@ -353,9 +353,10 @@ void bibledit_log (const char * message)
 // The Bibledit outer shell calls this function when it runs on Chrome OS,
 // rather than on Android.
 // See https://github.com/bibledit/cloud/issues/282
-void bibledit_run_on_chrome_os ()
+void bibledit_run_on_chrome_os () // Todo
 {
   config_globals_running_on_chrome_os = true;
+  Database_Logs::log (__FUNCTION__);
 }
 
 

@@ -39,6 +39,7 @@
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
+#define HAVE_BARE_BROWSER 1
 #define HAVE_PARATEXT 1
 #undef MAX_PARALLEL_TASKS
 #define MAX_PARALLEL_TASKS 5
@@ -69,6 +70,7 @@
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_PARATEXT 1
+#define HAVE_BARE_BROWSER 1
 #endif
 
 

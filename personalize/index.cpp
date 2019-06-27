@@ -448,12 +448,9 @@ string personalize_index (void * webserver_request)
   }
   on_off = styles_logic_off_on_inherit_toggle_text (Database_Config_General::getDisableSelectionPopupChromeOS ());
   view.set_variable ("disableselectionpopupchromeos", on_off);
-  Database_Logs::log ("personalize index before check"); // Todo
   if (config_globals_running_on_chrome_os) {
-    view.enable_zone ("chromeos"); // Todo
-    Database_Logs::log ("personalize index enable chromeos zone"); // Todo
+    view.enable_zone ("chromeos");
   }
-  Database_Logs::log ("personalize index after check"); // Todo
 
   
   // Enable the sections with settings relevant to the user and device.

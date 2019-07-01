@@ -53,6 +53,7 @@ libbibledit_a_SOURCES = \
 	database/ipc.cpp \
 	database/jobs.cpp \
 	database/kjv.cpp \
+	database/logic.cpp \
 	database/oshb.cpp \
 	database/sblgnt.cpp \
 	database/sprint.cpp \

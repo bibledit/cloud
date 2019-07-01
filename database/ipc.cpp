@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/sqlite.h>
 #include <webserver/request.h>
+#include <database/logic.h>
 
 
 // Database resilience: Stored in plain file system.
@@ -225,7 +226,7 @@ bool Database_Ipc::getNotesAlive ()
 
 string Database_Ipc::folder ()
 {
-  return filter_url_create_root_path ("databases", "ipc");
+  return filter_url_create_root_path (database_logic_databases (), "ipc");
 }
 
 

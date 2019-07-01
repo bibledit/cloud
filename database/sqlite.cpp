@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/logs.h>
+#include <database/logic.h>
 
 
 /*
@@ -112,7 +113,7 @@ sqlite3 * database_sqlite_connect_file (string filename)
 string database_sqlite_file (string database)
 {
   if (filter_url_dirname (database) == ".") {
-    return filter_url_create_root_path ("databases", database + database_sqlite_suffix ());
+    return filter_url_create_root_path (database_logic_databases (), database + database_sqlite_suffix ());
   }
   return database;
 }

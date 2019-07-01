@@ -46,6 +46,7 @@
 #include <demo/logic.h>
 #include <locale/logic.h>
 #include <tasks/logic.h>
+#include <database/logic.h>
 
 
 void setup_conditionally (const char * package)
@@ -177,7 +178,7 @@ void setup_copy_library (const char * package)
 
 void setup_write_access ()
 {
-  vector <string> folders = {"exports", "git", "revisions", "dyncss", "databases", "bibles", "fonts", "logbook", filter_url_temp_dir ()};
+  vector <string> folders = {"exports", "git", "revisions", "dyncss", database_logic_databases (), "bibles", "fonts", "logbook", filter_url_temp_dir ()};
   for (auto folder : folders) {
     string path = filter_url_create_root_path (folder);
     if (!filter_url_get_write_permission (path)) {
@@ -193,7 +194,7 @@ void setup_wait_till_main_folders_present ()
   bool present;
   do {
     present = true;
-    vector <string> folders = {"dyncss", "databases", "databases/config/general", "logbook", "bibles", "processes"};
+    vector <string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
       string path = filter_url_create_root_path (folder);
       if (!file_or_dir_exists (path)) {

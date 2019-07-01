@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/usfmresources.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/logic.h>
 
 
 // Database resilience: 
@@ -29,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_UsfmResources::mainFolder ()
 {
-  return filter_url_create_root_path ("databases", "usfmresources");
+  return filter_url_create_root_path (database_logic_databases (), "usfmresources");
 }
 
 

@@ -40,6 +40,7 @@
 #include <swmodule.h>
 #endif
 #include <developer/logic.h>
+#include <database/logic.h>
 
 
 mutex sword_logic_installer_mutex;
@@ -171,7 +172,7 @@ void sword_logic_refresh_module_list ()
 
 string sword_logic_module_list_path ()
 {
-  return filter_url_create_root_path ("databases", "client", "sword_modules.txt");
+  return filter_url_create_root_path (database_logic_databases (), "client", "sword_modules.txt");
 }
 
 

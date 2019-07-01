@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/logic.h>
 
 
 // This database is resilient.
@@ -426,7 +427,7 @@ const char * Database_Privileges::off ()
 
 string database_privileges_directory (const string & user)
 {
-  return filter_url_create_path ("databases", "clients", user);
+  return filter_url_create_path (database_logic_databases (), "clients", user);
 }
 
 

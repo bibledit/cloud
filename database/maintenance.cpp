@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <sword/logic.h>
 #include <access/logic.h>
+#include <database/logic.h>
 
 
 void database_maintenance ()
@@ -117,7 +118,7 @@ void database_maintenance ()
 #endif
   
   
-  filter_url_unlink (filter_url_create_root_path ("databases", "navigation.sqlite"));
+  filter_url_unlink (filter_url_create_root_path (database_logic_databases (), "navigation.sqlite"));
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
   

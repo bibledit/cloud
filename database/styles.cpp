@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
+#include <database/logic.h>
 
 
 // This is the database for the styles.
@@ -456,7 +457,7 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
 
 string Database_Styles::databasefolder ()
 {
-  return filter_url_create_root_path ("databases", "styles");
+  return filter_url_create_root_path (database_logic_databases (), "styles");
 }
 
 

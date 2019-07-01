@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <system/index.h>
+#include <database/logic.h>
 
 
 // Cache values in memory for better speed.
@@ -35,7 +36,7 @@ map <string, string> database_config_general_cache;
 
 string Database_Config_General::file (const char * key)
 {
-  return filter_url_create_root_path ("databases", "config", "general", key);
+  return filter_url_create_root_path (database_logic_databases (), "config", "general", key);
 }
 
 

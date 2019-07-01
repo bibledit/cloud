@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <styles/logic.h>
+#include <database/logic.h>
 
 
 // Cache values in memory for better speed.
@@ -35,7 +36,7 @@ map <string, string> database_config_bible_cache;
 // The path to the folder for storing the settings for the $bible.
 string Database_Config_Bible::file (string bible)
 {
-  return filter_url_create_root_path ("databases", "config", "bible", bible);
+  return filter_url_create_root_path (database_logic_databases (), "config", "bible", bible);
 }
 
 

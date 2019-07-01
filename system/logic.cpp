@@ -33,6 +33,7 @@
 #include <html/text.h>
 #include <styles/logic.h>
 #include <tasks/logic.h>
+#include <database/logic.h>
 
 
 string system_logic_bibles_file_name ()
@@ -298,7 +299,7 @@ void system_logic_produce_resources_file (int jobid)
   
   
   // The database directory where the cached resources reside.
-  string directory = filter_url_create_root_path ("databases");
+  string directory = filter_url_create_root_path (database_logic_databases ());
   
   
   // The filenames of the cached resources.
@@ -428,7 +429,7 @@ void system_logic_import_resources_file (string tarball)
     string data = filter_url_file_get_contents (path);
 
     // Store the resource into place.
-    path = filter_url_create_root_path ("databases", file);
+    path = filter_url_create_root_path (database_logic_databases (), file);
     filter_url_file_put_contents (path, data);
   }
 

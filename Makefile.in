@@ -140,11 +140,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/bibleactions.$(OBJEXT) database/check.$(OBJEXT) \
 	database/localization.$(OBJEXT) database/confirm.$(OBJEXT) \
 	database/ipc.$(OBJEXT) database/jobs.$(OBJEXT) \
-	database/kjv.$(OBJEXT) database/oshb.$(OBJEXT) \
-	database/sblgnt.$(OBJEXT) database/sprint.$(OBJEXT) \
-	database/mail.$(OBJEXT) database/navigation.$(OBJEXT) \
-	database/usfmresources.$(OBJEXT) database/mappings.$(OBJEXT) \
-	database/noteactions.$(OBJEXT) \
+	database/kjv.$(OBJEXT) database/logic.$(OBJEXT) \
+	database/oshb.$(OBJEXT) database/sblgnt.$(OBJEXT) \
+	database/sprint.$(OBJEXT) database/mail.$(OBJEXT) \
+	database/navigation.$(OBJEXT) database/usfmresources.$(OBJEXT) \
+	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
 	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
@@ -436,9 +436,9 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	database/$(DEPDIR)/git.Po database/$(DEPDIR)/hebrewlexicon.Po \
 	database/$(DEPDIR)/imageresources.Po database/$(DEPDIR)/ipc.Po \
 	database/$(DEPDIR)/jobs.Po database/$(DEPDIR)/kjv.Po \
-	database/$(DEPDIR)/localization.Po database/$(DEPDIR)/login.Po \
-	database/$(DEPDIR)/logs.Po database/$(DEPDIR)/mail.Po \
-	database/$(DEPDIR)/maintenance.Po \
+	database/$(DEPDIR)/localization.Po database/$(DEPDIR)/logic.Po \
+	database/$(DEPDIR)/login.Po database/$(DEPDIR)/logs.Po \
+	database/$(DEPDIR)/mail.Po database/$(DEPDIR)/maintenance.Po \
 	database/$(DEPDIR)/mappings.Po \
 	database/$(DEPDIR)/modifications.Po \
 	database/$(DEPDIR)/morphgnt.Po \
@@ -957,6 +957,7 @@ libbibledit_a_SOURCES = \
 	database/ipc.cpp \
 	database/jobs.cpp \
 	database/kjv.cpp \
+	database/logic.cpp \
 	database/oshb.cpp \
 	database/sblgnt.cpp \
 	database/sprint.cpp \
@@ -1714,6 +1715,8 @@ database/ipc.$(OBJEXT): database/$(am__dirstamp) \
 database/jobs.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/kjv.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+database/logic.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/oshb.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -3238,6 +3241,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/jobs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/kjv.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/localization.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/login.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/logs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/mail.Po@am__quote@ # am--include-marker
@@ -4276,6 +4280,7 @@ distclean: distclean-am
 	-rm -f database/$(DEPDIR)/jobs.Po
 	-rm -f database/$(DEPDIR)/kjv.Po
 	-rm -f database/$(DEPDIR)/localization.Po
+	-rm -f database/$(DEPDIR)/logic.Po
 	-rm -f database/$(DEPDIR)/login.Po
 	-rm -f database/$(DEPDIR)/logs.Po
 	-rm -f database/$(DEPDIR)/mail.Po
@@ -4837,6 +4842,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f database/$(DEPDIR)/jobs.Po
 	-rm -f database/$(DEPDIR)/kjv.Po
 	-rm -f database/$(DEPDIR)/localization.Po
+	-rm -f database/$(DEPDIR)/logic.Po
 	-rm -f database/$(DEPDIR)/login.Po
 	-rm -f database/$(DEPDIR)/logs.Po
 	-rm -f database/$(DEPDIR)/mail.Po

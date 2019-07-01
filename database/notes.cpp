@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <trash/handler.h>
 #include <webserver/request.h>
 #include <jsonxx/jsonxx.h>
+#include <database/logic.h>
 
 
 using namespace jsonxx;
@@ -135,13 +136,13 @@ void Database_Notes::create_v12 ()
 
 string Database_Notes::database_path_v12 ()
 {
-  return filter_url_create_root_path ("databases", "notes.sqlite");
+  return filter_url_create_root_path (database_logic_databases (), "notes.sqlite");
 }
 
 
 string Database_Notes::checksums_database_path_v12 ()
 {
-  return filter_url_create_root_path ("databases", "notes_checksums.sqlite");
+  return filter_url_create_root_path (database_logic_databases (), "notes_checksums.sqlite");
 }
 
 
@@ -3007,7 +3008,7 @@ vector <int> Database_Notes::get_notes_in_range_for_bibles_v12 (int lowId, int h
 
 string Database_Notes::availability_flag ()
 {
-  return filter_url_create_root_path ("databases", "notes.busy");
+  return filter_url_create_root_path (database_logic_databases (), "notes.busy");
 }
 
 

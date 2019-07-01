@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 #include <database/sqlite.h>
 #include <database/logs.h>
+#include <database/logic.h>
 
 
 // Databases resilience:
@@ -40,7 +41,7 @@ string Database_Cache::fragment ()
 
 string Database_Cache::path (string resource, int book)
 {
-  return filter_url_create_path ("databases", filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ());
+  return filter_url_create_path (database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ());
 }
 
 
@@ -252,7 +253,7 @@ int Database_Cache::size (string resource, int book)
 
 string database_cache_full_path (string file)
 {
-  return filter_url_create_root_path ("databases", "cache", file);
+  return filter_url_create_root_path (database_logic_databases (), "cache", file);
 }
 
 
@@ -356,7 +357,7 @@ void database_cache_trim (bool clear)
   if (!error.empty ()) Database_Logs::log (error);
   
   // The directory that contains the database-based cache files.
-  path = filter_url_create_root_path ("databases");
+  path = filter_url_create_root_path (database_logic_databases ());
 
   // The space these database-based cache uses.
   output.clear ();

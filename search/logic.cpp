@@ -25,11 +25,12 @@
 #include <config/globals.h>
 #include <database/bibles.h>
 #include <database/config/bible.h>
+#include <database/logic.h>
 
 
 string search_logic_index_folder ()
 {
-  return filter_url_create_root_path ("databases", "search");
+  return filter_url_create_root_path (database_logic_databases (), "search");
 }
 
 

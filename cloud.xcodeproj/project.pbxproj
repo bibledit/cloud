@@ -395,6 +395,8 @@
 		CA4A9A1A1CEA1D750039133C /* user1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = user1edit.cpp; sourceTree = "<group>"; };
 		CA4A9A1B1CEA1D750039133C /* user1edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = user1edit.h; sourceTree = "<group>"; };
 		CA4A9A1C1CEA1D750039133C /* user1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = user1edit.html; sourceTree = "<group>"; };
+		CA4D1F6922CA68A000C584A8 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CA4D1F6A22CA68A000C584A8 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA4E47F41AB875C30021C61E /* statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statistics.cpp; sourceTree = "<group>"; };
 		CA4E47F51AB875C30021C61E /* statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statistics.h; sourceTree = "<group>"; };
 		CA4E47F61AB875C30021C61E /* statistics.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = statistics.o; sourceTree = "<group>"; };
@@ -1799,6 +1801,8 @@
 				CAA4D0201A45A647003ABA25 /* kjv.h */,
 				CAA4D0081A45A647003ABA25 /* localization.cpp */,
 				CAA4D0091A45A647003ABA25 /* localization.h */,
+				CA4D1F6922CA68A000C584A8 /* logic.cpp */,
+				CA4D1F6A22CA68A000C584A8 /* logic.h */,
 				CA7A748A1C7F655C00FDBF2C /* login.cpp */,
 				CA7A748B1C7F655C00FDBF2C /* login.h */,
 				CAA4D0211A45A647003ABA25 /* logs.cpp */,

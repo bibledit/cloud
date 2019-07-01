@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <demo/logic.h>
 #include <styles/logic.h>
 #include <filter/date.h>
+#include <database/logic.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)
@@ -47,7 +48,7 @@ map <string, string> database_config_user_cache;
 
 string Database_Config_User::file (string user)
 {
-  return filter_url_create_root_path ("databases", "config", "user", user);
+  return filter_url_create_root_path (database_logic_databases (), "config", "user", user);
 }
 
 

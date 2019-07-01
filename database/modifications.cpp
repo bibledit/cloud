@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/date.h>
 #include <database/sqlite.h>
+#include <database/logic.h>
 
 
 // Database resilience:
@@ -90,7 +91,7 @@ void Database_Modifications::vacuum ()
 
 string Database_Modifications::teamFolder ()
 {
-  return filter_url_create_root_path ("databases", "modifications", "team");
+  return filter_url_create_root_path (database_logic_databases (), "modifications", "team");
 }
 
 
@@ -274,7 +275,7 @@ void Database_Modifications::truncateTeams ()
 
 string Database_Modifications::userMainFolder ()
 {
-  return filter_url_create_root_path ("databases", "modifications", "users");
+  return filter_url_create_root_path (database_logic_databases (), "modifications", "users");
 }
 
 
@@ -453,7 +454,7 @@ int Database_Modifications::getUserTimestamp (const string& username, const stri
 
 string Database_Modifications::notificationsMainFolder ()
 {
-  return filter_url_create_root_path ("databases", "modifications", "notifications");
+  return filter_url_create_root_path (database_logic_databases (), "modifications", "notifications");
 }
 
 

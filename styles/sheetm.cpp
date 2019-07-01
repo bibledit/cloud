@@ -36,6 +36,7 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <styles/indexm.h>
+#include <database/logic.h>
 
 
 string styles_sheetm_url ()
@@ -110,7 +111,7 @@ string styles_sheetm (void * webserver_request)
   }
   view.set_variable ("markerblock", filter_string_implode (markerblock, "\n"));
   
-  string folder = filter_url_create_root_path ("databases", "styles", name);
+  string folder = filter_url_create_root_path (database_logic_databases (), "styles", name);
   view.set_variable ("folder", folder);
 
   page += view.render ("styles", "sheetm");

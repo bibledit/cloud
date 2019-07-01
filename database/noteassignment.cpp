@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
+#include <database/logic.h>
 
 
 // Database resilience:
@@ -29,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_NoteAssignment::path (string user)
 {
-  return filter_url_create_root_path ("databases", "client", "noteassignment_" + user + ".txt");
+  return filter_url_create_root_path (database_logic_databases (), "client", "noteassignment_" + user + ".txt");
 }
 
 

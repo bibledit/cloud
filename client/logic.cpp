@@ -30,6 +30,7 @@
 #include <client/index.h>
 #include <locale/translate.h>
 #include <assets/external.h>
+#include <database/logic.h>
 
 
 // Returns whether Client mode is enabled.
@@ -187,7 +188,7 @@ string client_logic_link_to_cloud (string path, string linktext)
 // Path to the file in the client files area that contains a list of USFM resources on the server.
 string client_logic_usfm_resources_path ()
 {
-  return filter_url_create_root_path ("databases", "client", "usfm_resources.txt");
+  return filter_url_create_root_path (database_logic_databases (), "client", "usfm_resources.txt");
 }
 
 

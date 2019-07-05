@@ -132,7 +132,7 @@ string manage_exports (void * webserver_request)
         view.set_variable ("error", translate("The email address is not valid."));
       }
     }
-    if (save) Database_Config_Bible::setExportFeedbackEmail (bible, email); // Todo
+    if (save) Database_Config_Bible::setExportFeedbackEmail (bible, email);
   }
   view.set_variable ("email", Database_Config_Bible::getExportFeedbackEmail (bible));
 

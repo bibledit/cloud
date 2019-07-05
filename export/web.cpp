@@ -50,6 +50,9 @@ void export_web_book (string bible, int book, bool log)
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   
+  string feedback_email = Database_Config_Bible::getExportFeedbackEmail (bible);
+  
+  
   // Copy font to the output directory.
   string font = Fonts_Logic::getTextFont (bible);
   if (!font.empty ()) {
@@ -115,6 +118,14 @@ void export_web_book (string bible, int book, bool log)
     breadcrumbs_navigator.push_back (make_pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
     if (!is_last_chapter) {
       breadcrumbs_navigator.push_back (make_pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
+    }
+    // Optionally add a link for giving feedback by email.
+    if (!feedback_email.empty ()) {
+      breadcrumbs_navigator.push_back (make_pair ("|", ""));
+      string subject = translate ("Comment on") + " " + bible + " " + Database_Books::getEnglishFromId (book) + " " + convert_to_string (chapter);
+      subject = filter_string_str_replace (" ", "%20", subject);
+      string link = "mailto:" + feedback_email + "?Subject=" + subject;
+      breadcrumbs_navigator.push_back (make_pair (translate ("Feedback"), link));
     }
     htmlHeader.create (breadcrumbs_navigator);
     

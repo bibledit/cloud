@@ -118,6 +118,14 @@ string manage_exports (void * webserver_request)
   }
   
   
+  if (request->post.count ("emailsubmit")) {
+    string email = request->post["emailentry"];
+    Database_Config_Bible::setExportFeedbackEmail (bible, email); // Todo
+    view.set_variable ("success", translate("The email address for the feedback link was saved."));
+  }
+  view.set_variable ("email", Database_Config_Bible::getExportFeedbackEmail (bible));
+
+  
   if (checkbox == "html") {
     Database_Config_Bible::setExportHtmlDuringNight (bible, checked);
     Database_State::setExport (bible, 0, Export_Logic::export_needed);

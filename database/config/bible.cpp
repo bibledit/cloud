@@ -663,6 +663,20 @@ void Database_Config_Bible::setExportFont (string bible, string value)
 }
 
 
+const char * export_feedback_email_key ()
+{
+  return "export-feedback-email";
+}
+string Database_Config_Bible::getExportFeedbackEmail (string bible)
+{
+  return getValue (bible, export_feedback_email_key (), "");
+}
+void Database_Config_Bible::setExportFeedbackEmail (string bible, string value)
+{
+  setValue (bible, export_feedback_email_key (), value);
+}
+
+
 string Database_Config_Bible::getBookOrder (string bible)
 {
   return getValue (bible, "book-order", "");

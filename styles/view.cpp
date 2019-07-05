@@ -720,7 +720,7 @@ string styles_view (void * webserver_request)
   
   // Recreate stylesheets after editing a style.
   if ((request->query.size () != 2) || (request->post.size () != 0)) {
-    styles_sheets_create_all ();
+    styles_sheets_create_all (__FUNCTION__);
   }
 
   

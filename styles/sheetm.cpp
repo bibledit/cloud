@@ -81,7 +81,7 @@ string styles_sheetm (void * webserver_request)
       page += Assets_Page::error (translate("This style already exists"));
     } else {
       database_styles.addMarker (name, newstyle);
-      styles_sheets_create_all ();
+      styles_sheets_create_all (__FUNCTION__);
       page += Assets_Page::success (translate("The style has been created"));
     }
   }

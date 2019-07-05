@@ -80,7 +80,7 @@ string styles_indexm (void * webserver_request)
     } else {
       database_styles.createSheet (name);
       database_styles.grantWriteAccess (username, name);
-      styles_sheets_create_all ();
+      styles_sheets_create_all (__FUNCTION__);
       page += Assets_Page::success (translate("The stylesheet has been created"));
     }
   }

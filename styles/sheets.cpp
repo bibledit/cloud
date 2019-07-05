@@ -29,7 +29,7 @@
 
 // Recreates all stylesheet.css files through a background process.
 // The advantage of this is that the user interface will be more responsive.
-void styles_sheets_create_all ()
+void styles_sheets_create_all (const char * caller)
 {
   tasks_logic_queue (CREATECSS);
 }

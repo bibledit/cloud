@@ -188,7 +188,7 @@ string personalize_index (void * webserver_request)
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 50) && (value <= 300)) {
       request->database_config_user ()->setBibleEditorsFontSize (value);
-      styles_sheets_create_all (__FUNCTION__);
+      styles_sheets_create_all ();
     } else {
       error = translate ("Incorrect font size in percents");
     }

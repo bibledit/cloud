@@ -143,7 +143,7 @@ void demo_clean_data ()
   // Delete empty stylesheet that may have been there.
   request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
   request.database_styles()->deleteSheet ("");
-  styles_sheets_create_all (__FUNCTION__);
+  styles_sheets_create_all ();
   
   
   // Set both stylesheets to "Standard" for all Bibles.

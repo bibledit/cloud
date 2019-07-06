@@ -52,7 +52,7 @@ bool styles_view_acl (void * webserver_request)
 }
 
 
-string styles_view (void * webserver_request) // Todo
+string styles_view (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -84,9 +84,12 @@ string styles_view (void * webserver_request) // Todo
   bool write = database_styles.hasWriteAccess (username, sheet);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
+  
+  // Whether a style was edited.
+  bool style_is_edited = false;
 
+  
   // The style's name.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string name = marker_data.name;
   if (request->query.count ("name")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), name, "name", "");
@@ -97,13 +100,15 @@ string styles_view (void * webserver_request) // Todo
   }
   if (request->post.count ("name")) {
     name = request->post["entry"];
-    if (write) database_styles.updateName (sheet, style, name);
+    if (write) {
+      database_styles.updateName (sheet, style, name);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("name", escape_special_xml_characters (translate (name)));
   
 
   // The style's info.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string info = marker_data.info;
   if (request->query.count ("info")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), info, "info", "");
@@ -114,13 +119,15 @@ string styles_view (void * webserver_request) // Todo
   }
   if (request->post.count("info")) {
     info = request->post["entry"];
-    if (write) database_styles.updateInfo (sheet, style, info);
+    if (write) {
+      database_styles.updateInfo (sheet, style, info);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("info", escape_special_xml_characters (translate (info)));
   
   
   // The style's category.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string category = marker_data.category;
   if (request->query.count("category")) {
     category = request->query["category"];
@@ -150,14 +157,16 @@ string styles_view (void * webserver_request) // Todo
       page += dialog_list.run ();
       return page;
     } else {
-      if (write) database_styles.updateCategory (sheet, style, category);
+      if (write) {
+        database_styles.updateCategory (sheet, style, category);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("category", styles_logic_category_text(category));
 
   
   // The style's type.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int type = marker_data.type;
   if (request->query.count ("type")) {
     string s = request->query["type"];
@@ -175,7 +184,10 @@ string styles_view (void * webserver_request) // Todo
       page += dialog_list.run ();
       return page;
     } else {
-      if (write) database_styles.updateType (sheet, style, type);
+      if (write) {
+        database_styles.updateType (sheet, style, type);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("type", convert_to_string (type));
@@ -183,7 +195,6 @@ string styles_view (void * webserver_request) // Todo
   
 
   // The style's subtype.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int subtype = marker_data.subtype;
   if (request->query.count ("subtype")) {
     string s = request->query["subtype"];
@@ -203,7 +214,10 @@ string styles_view (void * webserver_request) // Todo
       page += dialog_list.run ();
       return page;
     } else {
-      if (write) database_styles.updateSubType (sheet, style, subtype);
+      if (write) {
+        database_styles.updateSubType (sheet, style, subtype);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("subtype",convert_to_string (subtype));
@@ -213,7 +227,6 @@ string styles_view (void * webserver_request) // Todo
   
   
   // The fontsize.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {
@@ -227,19 +240,22 @@ string styles_view (void * webserver_request) // Todo
     float fs = convert_to_float (request->post["entry"]);
     if ((fs >= 5) && (fs <= 60)) {
       fontsize = fs;
-      if (write) database_styles.updateFontsize (sheet, style, fontsize);
+      if (write) {
+        database_styles.updateFontsize (sheet, style, fontsize);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("fontsize", convert_to_string (fontsize));
 
 
   // Italics, bold, underline, small caps relevance.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
-  if (styles_logic_italic_bold_underline_smallcaps_are_relevant (type, subtype)) view.enable_zone ("ibus_relevant");
+  if (styles_logic_italic_bold_underline_smallcaps_are_relevant (type, subtype)) {
+    view.enable_zone ("ibus_relevant");
+  }
 
   
   // Italic.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int italic = marker_data.italic;
   if (request->query.count ("italic")) {
     string s = request->query["italic"];
@@ -258,14 +274,16 @@ string styles_view (void * webserver_request) // Todo
       return page;
     } else {
       italic = convert_to_int (s);
-      if (write) database_styles.updateItalic (sheet, style, italic);
+      if (write) {
+        database_styles.updateItalic (sheet, style, italic);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("italic", styles_logic_off_on_inherit_toggle_text (italic));
   
 
   // Bold.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int bold = marker_data.bold;
   if (request->query.count ("bold")) {
     string s = request->query["bold"];
@@ -284,14 +302,16 @@ string styles_view (void * webserver_request) // Todo
       return page;
     } else {
       bold = convert_to_int (s);
-      if (write) database_styles.updateBold (sheet, style, bold);
+      if (write) {
+        database_styles.updateBold (sheet, style, bold);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("bold", styles_logic_off_on_inherit_toggle_text (bold));
   
 
   // Underline.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int underline = marker_data.underline;
   if (request->query.count ("underline")) {
     string s = request->query["underline"];
@@ -310,14 +330,16 @@ string styles_view (void * webserver_request) // Todo
       return page;
     } else {
       underline = convert_to_int (s);
-      if (write) database_styles.updateUnderline (sheet, style, underline);
+      if (write) {
+        database_styles.updateUnderline (sheet, style, underline);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("underline", styles_logic_off_on_inherit_toggle_text (underline));
 
   
   // Small caps.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int smallcaps = marker_data.smallcaps;
   if (request->query.count ("smallcaps")) {
     string s = request->query["smallcaps"];
@@ -336,31 +358,34 @@ string styles_view (void * webserver_request) // Todo
       return page;
     } else {
       smallcaps = convert_to_int (s);
-      if (write) database_styles.updateSmallcaps (sheet, style, smallcaps);
+      if (write) {
+        database_styles.updateSmallcaps (sheet, style, smallcaps);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("smallcaps", styles_logic_off_on_inherit_toggle_text (smallcaps));
   
   
   // Superscript.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_superscript_is_relevant (type, subtype)) view.enable_zone ("superscript_relevant");
   int superscript = marker_data.superscript;
   if (request->query.count ("superscript")) {
     superscript = convert_to_int (request->query["superscript"]);
-    if (write) database_styles.updateSuperscript (sheet, style, superscript);
+    if (write) {
+      database_styles.updateSuperscript (sheet, style, superscript);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("superscript_value", styles_logic_off_on_inherit_toggle_text (superscript));
   view.set_variable ("superscript_toggle", convert_to_string (!(bool) superscript));
   
 
   // Whether a list of the following paragraph treats are relevant.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_paragraph_treats_are_relevant (type, subtype)) view.enable_zone ("paragraph_treats_relevant");
 
   
   // Text alignment.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int justification = marker_data.justification;
   if (request->query.count ("alignment")) {
     Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), "", "");
@@ -374,13 +399,15 @@ string styles_view (void * webserver_request) // Todo
   }
   if (request->query.count ("justification")) {
     justification = convert_to_int (request->query["justification"]);
-    if (write) database_styles.updateJustification (sheet, style, justification);
+    if (write) {
+      database_styles.updateJustification (sheet, style, justification);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("justification", styles_logic_alignment_text (justification));
   
 
   // Space before paragraph.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float spacebefore = marker_data.spacebefore;
   if (request->query.count ("spacebefore")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm before the paragraph"), convert_to_string (spacebefore), "spacebefore", translate ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
@@ -393,13 +420,15 @@ string styles_view (void * webserver_request) // Todo
     spacebefore = convert_to_float (request->post["entry"]);
     if (spacebefore < 0) spacebefore = 0;
     if (spacebefore > 100) spacebefore = 100;
-    if (write) database_styles.updateSpaceBefore (sheet, style, spacebefore);
+    if (write) {
+      database_styles.updateSpaceBefore (sheet, style, spacebefore);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("spacebefore", convert_to_string (spacebefore));
   
 
   // Space after paragraph.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float spaceafter = marker_data.spaceafter;
   if (request->query.count ("spaceafter")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm after the paragraph"), convert_to_string (spaceafter), "spaceafter", translate ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
@@ -412,13 +441,15 @@ string styles_view (void * webserver_request) // Todo
     spaceafter = convert_to_float (request->post["entry"]);
     if (spaceafter < 0) spaceafter = 0;
     if (spaceafter > 100) spaceafter = 100;
-    if (write) database_styles.updateSpaceAfter (sheet, style, spaceafter);
+    if (write) {
+      database_styles.updateSpaceAfter (sheet, style, spaceafter);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("spaceafter", convert_to_string (spaceafter));
   
 
   // Left margin.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float leftmargin = marker_data.leftmargin;
   if (request->query.count ("leftmargin")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a left margin of between -100 and 100 mm"), convert_to_string (leftmargin), "leftmargin", translate ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
@@ -431,13 +462,15 @@ string styles_view (void * webserver_request) // Todo
     leftmargin = convert_to_float (request->post ["entry"]);
     if (leftmargin < 0) leftmargin = 0;
     if (leftmargin > 100) leftmargin = 100;
-    if (write) database_styles.updateLeftMargin (sheet, style, leftmargin);
+    if (write) {
+      database_styles.updateLeftMargin (sheet, style, leftmargin);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("leftmargin", convert_to_string (leftmargin));
 
   
   // Right margin.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float rightmargin = marker_data.rightmargin;
   if (request->query.count ("rightmargin")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a right margin of between -100 and 100 mm"), convert_to_string (rightmargin), "rightmargin", translate ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
@@ -450,13 +483,15 @@ string styles_view (void * webserver_request) // Todo
     rightmargin = convert_to_float (request->post["entry"]);
     if (rightmargin < -100) rightmargin = -100;
     if (rightmargin > 100) rightmargin = 100;
-    if (write) database_styles.updateRightMargin (sheet, style, rightmargin);
+    if (write) {
+      database_styles.updateRightMargin (sheet, style, rightmargin);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("rightmargin", convert_to_string (rightmargin));
   
   
   // First line indent.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float firstlineindent = marker_data.firstlineindent;
   if (request->query.count ("firstlineindent")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a first line indent of between -100 and 100 mm"), convert_to_string (firstlineindent), "firstlineindent", translate ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
@@ -469,7 +504,10 @@ string styles_view (void * webserver_request) // Todo
     firstlineindent = convert_to_float (request->post["entry"]);
     if (firstlineindent < -100) firstlineindent = -100;
     if (firstlineindent > 100) firstlineindent = 100;
-    if (write) database_styles.updateFirstLineIndent (sheet, style, firstlineindent);
+    if (write) {
+      database_styles.updateFirstLineIndent (sheet, style, firstlineindent);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("firstlineindent", convert_to_string (firstlineindent));
 
@@ -491,7 +529,6 @@ string styles_view (void * webserver_request) // Todo
 
   
   // Color.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   
   string color = marker_data.color;
@@ -507,7 +544,10 @@ string styles_view (void * webserver_request) // Todo
     } else {
       if (color.find ("#") == string::npos) color.insert (0, "#");
       if (color.length () != 7) color = "#000000";
-      if (write) database_styles.updateColor (sheet, style, color);
+      if (write) {
+        database_styles.updateColor (sheet, style, color);
+        style_is_edited = true;
+      }
     }
   }
   view.set_variable ("color", color);
@@ -527,6 +567,7 @@ string styles_view (void * webserver_request) // Todo
       if (backgroundcolor.length () != 7) backgroundcolor = "#FFFFFF";
       if (write) {
         database_styles.updateBackgroundColor (sheet, style, backgroundcolor);
+        style_is_edited = true;
       }
     }
   }
@@ -534,61 +575,68 @@ string styles_view (void * webserver_request) // Todo
 
 
   // Whether to print this style.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");
   bool print = marker_data.print;
   if (request->query.count ("print")) {
     print = convert_to_bool (request->query["print"]);
-    if (write) database_styles.updatePrint (sheet, style, print);
+    if (write) {
+      database_styles.updatePrint (sheet, style, print);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("print", styles_logic_off_on_inherit_toggle_text (print));
   view.set_variable ("print_toggle", convert_to_string (!print));
   
 
   // Userbool1
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
   if (userbool1_function.length () > 2) view.enable_zone ("userbool1_relevant");
   view.set_variable ("userbool1_function", userbool1_function);
   bool userbool1 = marker_data.userbool1;
   if (request->query.count ("userbool1")) {
     userbool1 = convert_to_bool (request->query["userbool1"]);
-    if (write) database_styles.updateUserbool1 (sheet, style, userbool1);
+    if (write) {
+      database_styles.updateUserbool1 (sheet, style, userbool1);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("userbool1_value", styles_logic_off_on_inherit_toggle_text (userbool1));
   view.set_variable ("userbool1_toggle", convert_to_string (!userbool1));
 
   
   // Userbool2
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userbool2_function = styles_logic_get_userbool2_text (styles_logic_get_userbool2_function (type, subtype));
   if (userbool2_function.length () > 2) view.enable_zone ("userbool2_relevant");
   view.set_variable ("userbool2_function", userbool2_function);
   bool userbool2 = marker_data.userbool2;
   if (request->query.count ("userbool2")) {
     userbool2 = convert_to_bool (request->query["userbool2"]);
-    if (write) database_styles.updateUserbool2 (sheet, style, userbool2);
+    if (write) {
+      database_styles.updateUserbool2 (sheet, style, userbool2);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("userbool2_value", styles_logic_off_on_inherit_toggle_text (userbool2));
   view.set_variable ("userbool2_toggle", convert_to_string (!userbool2));
 
   
   // Userbool3
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userbool3_function = styles_logic_get_userbool3_text (styles_logic_get_userbool3_function (type, subtype));
   if (userbool3_function.length () > 2) view.enable_zone ("userbool3_relevant");
   view.set_variable ("userbool3_function", userbool3_function);
   bool userbool3 = marker_data.userbool3;
   if (request->query.count ("userbool3")) {
     userbool3 = convert_to_bool (request->query["userbool3"]);
-    if (write) database_styles.updateUserbool3 (sheet, style, userbool3);
+    if (write) {
+      database_styles.updateUserbool3 (sheet, style, userbool3);
+      style_is_edited = true;
+    }
   }
   view.set_variable ("userbool3_value", styles_logic_off_on_inherit_toggle_text (userbool3));
   view.set_variable ("userbool3_toggle", convert_to_string (!userbool3));
 
   
   // Userint1.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int userint1 = marker_data.userint1;
   switch (styles_logic_get_userint1_function (type, subtype)) {
     case UserInt1None :
@@ -607,7 +655,10 @@ string styles_view (void * webserver_request) // Todo
       }
       if (request->query.count ("userint1")) {
         userint1 = convert_to_int (request->query["userint1"]);
-        if (write) database_styles.updateUserint1 (sheet, style, userint1);
+        if (write) {
+          database_styles.updateUserint1 (sheet, style, userint1);
+          style_is_edited = true;
+        }
       }
       view.set_variable ("userint1", styles_logic_note_numbering_text (userint1));
       break;
@@ -624,7 +675,10 @@ string styles_view (void * webserver_request) // Todo
         int value = convert_to_int (request->post["entry"]);
         if ((value >= 1) && (value <= 4)) {
           userint1 = value;
-          if (write) database_styles.updateUserint1 (sheet, style, userint1);
+          if (write) {
+            database_styles.updateUserint1 (sheet, style, userint1);
+            style_is_edited = true;
+          }
         }
       }
       view.set_variable ("userint1", convert_to_string (userint1));
@@ -633,7 +687,6 @@ string styles_view (void * webserver_request) // Todo
   
   
   // Userint2.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int userint2 = marker_data.userint2;
   switch (styles_logic_get_userint2_function (type, subtype)) {
     case UserInt2None :
@@ -652,7 +705,10 @@ string styles_view (void * webserver_request) // Todo
       }
       if (request->query.count ("userint2")) {
         userint2 = convert_to_int (request->query["userint2"]);
-        if (write) database_styles.updateUserint2 (sheet, style, userint2);
+        if (write) {
+          database_styles.updateUserint2 (sheet, style, userint2);
+          style_is_edited = true;
+        }
       }
       view.set_variable ("userint2", styles_logic_note_restart_numbering_text (userint2));
       break;
@@ -670,7 +726,10 @@ string styles_view (void * webserver_request) // Todo
       }
       if (request->query.count ("userint2")) {
         userint2 = convert_to_int (request->query["userint2"]);
-        if (write) database_styles.updateUserint2 (sheet, style, userint2);
+        if (write) {
+          database_styles.updateUserint2 (sheet, style, userint2);
+          style_is_edited = true;
+        }
       }
       view.set_variable ("userint2", styles_logic_end_note_position_text (userint2));
       break;
@@ -681,7 +740,6 @@ string styles_view (void * webserver_request) // Todo
   
 
   // Userstring1.
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userstring1 = marker_data.userstring1;
   string userstring1_question;
   string userstring1_help;
@@ -710,14 +768,16 @@ string styles_view (void * webserver_request) // Todo
   }
   if (request->post.count ("userstring1")) {
     userstring1 = request->post["entry"];
-    if (write) database_styles.updateUserstring1 (sheet, style, userstring1);
+    if (write) {
+      database_styles.updateUserstring1 (sheet, style, userstring1);
+      style_is_edited = true;
+    }
   }
   if (userstring1 == "") userstring1 = "--";
   view.set_variable ("userstring1", escape_special_xml_characters (userstring1));
   
 
   // Userstring2
-  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userstring2 = marker_data.userstring2;
   string userstring2_question;
   string userstring2_info;
@@ -741,14 +801,17 @@ string styles_view (void * webserver_request) // Todo
   }
   if (request->post.count("userstring2")) {
     userstring2 = request->post["entry"];
-    if (write) database_styles.updateUserstring2 (sheet, style, userstring2);
+    if (write) {
+      database_styles.updateUserstring2 (sheet, style, userstring2);
+      style_is_edited = true;
+    }
   }
   if (userstring2 == "") userstring2 = "--";
   view.set_variable ("userstring2", escape_special_xml_characters (userstring2));
   
   // Recreate stylesheets after editing a style.
-  if ((request->query.size () != 2) || (request->post.size () != 0)) {
-    styles_sheets_create_all (__FUNCTION__);
+  if (style_is_edited) {
+    styles_sheets_create_all ();
   }
 
   

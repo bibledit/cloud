@@ -52,7 +52,7 @@ bool styles_view_acl (void * webserver_request)
 }
 
 
-string styles_view (void * webserver_request)
+string styles_view (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -86,6 +86,7 @@ string styles_view (void * webserver_request)
   
 
   // The style's name.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string name = marker_data.name;
   if (request->query.count ("name")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), name, "name", "");
@@ -102,6 +103,7 @@ string styles_view (void * webserver_request)
   
 
   // The style's info.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string info = marker_data.info;
   if (request->query.count ("info")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), info, "info", "");
@@ -118,6 +120,7 @@ string styles_view (void * webserver_request)
   
   
   // The style's category.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string category = marker_data.category;
   if (request->query.count("category")) {
     category = request->query["category"];
@@ -154,6 +157,7 @@ string styles_view (void * webserver_request)
 
   
   // The style's type.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int type = marker_data.type;
   if (request->query.count ("type")) {
     string s = request->query["type"];
@@ -179,6 +183,7 @@ string styles_view (void * webserver_request)
   
 
   // The style's subtype.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int subtype = marker_data.subtype;
   if (request->query.count ("subtype")) {
     string s = request->query["subtype"];
@@ -208,6 +213,7 @@ string styles_view (void * webserver_request)
   
   
   // The fontsize.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {
@@ -228,10 +234,12 @@ string styles_view (void * webserver_request)
 
 
   // Italics, bold, underline, small caps relevance.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_italic_bold_underline_smallcaps_are_relevant (type, subtype)) view.enable_zone ("ibus_relevant");
 
   
   // Italic.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int italic = marker_data.italic;
   if (request->query.count ("italic")) {
     string s = request->query["italic"];
@@ -257,6 +265,7 @@ string styles_view (void * webserver_request)
   
 
   // Bold.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int bold = marker_data.bold;
   if (request->query.count ("bold")) {
     string s = request->query["bold"];
@@ -282,6 +291,7 @@ string styles_view (void * webserver_request)
   
 
   // Underline.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int underline = marker_data.underline;
   if (request->query.count ("underline")) {
     string s = request->query["underline"];
@@ -307,6 +317,7 @@ string styles_view (void * webserver_request)
 
   
   // Small caps.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int smallcaps = marker_data.smallcaps;
   if (request->query.count ("smallcaps")) {
     string s = request->query["smallcaps"];
@@ -332,6 +343,7 @@ string styles_view (void * webserver_request)
   
   
   // Superscript.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_superscript_is_relevant (type, subtype)) view.enable_zone ("superscript_relevant");
   int superscript = marker_data.superscript;
   if (request->query.count ("superscript")) {
@@ -343,10 +355,12 @@ string styles_view (void * webserver_request)
   
 
   // Whether a list of the following paragraph treats are relevant.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_paragraph_treats_are_relevant (type, subtype)) view.enable_zone ("paragraph_treats_relevant");
 
   
   // Text alignment.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int justification = marker_data.justification;
   if (request->query.count ("alignment")) {
     Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), "", "");
@@ -366,6 +380,7 @@ string styles_view (void * webserver_request)
   
 
   // Space before paragraph.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float spacebefore = marker_data.spacebefore;
   if (request->query.count ("spacebefore")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm before the paragraph"), convert_to_string (spacebefore), "spacebefore", translate ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
@@ -384,6 +399,7 @@ string styles_view (void * webserver_request)
   
 
   // Space after paragraph.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float spaceafter = marker_data.spaceafter;
   if (request->query.count ("spaceafter")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm after the paragraph"), convert_to_string (spaceafter), "spaceafter", translate ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
@@ -402,6 +418,7 @@ string styles_view (void * webserver_request)
   
 
   // Left margin.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float leftmargin = marker_data.leftmargin;
   if (request->query.count ("leftmargin")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a left margin of between -100 and 100 mm"), convert_to_string (leftmargin), "leftmargin", translate ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
@@ -420,6 +437,7 @@ string styles_view (void * webserver_request)
 
   
   // Right margin.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float rightmargin = marker_data.rightmargin;
   if (request->query.count ("rightmargin")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a right margin of between -100 and 100 mm"), convert_to_string (rightmargin), "rightmargin", translate ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
@@ -438,6 +456,7 @@ string styles_view (void * webserver_request)
   
   
   // First line indent.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   float firstlineindent = marker_data.firstlineindent;
   if (request->query.count ("firstlineindent")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a first line indent of between -100 and 100 mm"), convert_to_string (firstlineindent), "firstlineindent", translate ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
@@ -472,6 +491,7 @@ string styles_view (void * webserver_request)
 
   
   // Color.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   
   string color = marker_data.color;
@@ -514,6 +534,7 @@ string styles_view (void * webserver_request)
 
 
   // Whether to print this style.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");
   bool print = marker_data.print;
   if (request->query.count ("print")) {
@@ -525,6 +546,7 @@ string styles_view (void * webserver_request)
   
 
   // Userbool1
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
   if (userbool1_function.length () > 2) view.enable_zone ("userbool1_relevant");
   view.set_variable ("userbool1_function", userbool1_function);
@@ -538,6 +560,7 @@ string styles_view (void * webserver_request)
 
   
   // Userbool2
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userbool2_function = styles_logic_get_userbool2_text (styles_logic_get_userbool2_function (type, subtype));
   if (userbool2_function.length () > 2) view.enable_zone ("userbool2_relevant");
   view.set_variable ("userbool2_function", userbool2_function);
@@ -551,6 +574,7 @@ string styles_view (void * webserver_request)
 
   
   // Userbool3
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userbool3_function = styles_logic_get_userbool3_text (styles_logic_get_userbool3_function (type, subtype));
   if (userbool3_function.length () > 2) view.enable_zone ("userbool3_relevant");
   view.set_variable ("userbool3_function", userbool3_function);
@@ -564,6 +588,7 @@ string styles_view (void * webserver_request)
 
   
   // Userint1.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int userint1 = marker_data.userint1;
   switch (styles_logic_get_userint1_function (type, subtype)) {
     case UserInt1None :
@@ -608,6 +633,7 @@ string styles_view (void * webserver_request)
   
   
   // Userint2.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   int userint2 = marker_data.userint2;
   switch (styles_logic_get_userint2_function (type, subtype)) {
     case UserInt2None :
@@ -655,6 +681,7 @@ string styles_view (void * webserver_request)
   
 
   // Userstring1.
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userstring1 = marker_data.userstring1;
   string userstring1_question;
   string userstring1_help;
@@ -690,6 +717,7 @@ string styles_view (void * webserver_request)
   
 
   // Userstring2
+  Database_Logs::log (convert_to_string (__LINE__)); // Todo
   string userstring2 = marker_data.userstring2;
   string userstring2_question;
   string userstring2_info;

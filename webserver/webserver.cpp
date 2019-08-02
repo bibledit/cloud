@@ -721,7 +721,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 }
 
 
-void https_server () // Todo
+void https_server ()
 {
 #ifdef RUN_SECURE_SERVER
   // On clients, don't run the secure web server.

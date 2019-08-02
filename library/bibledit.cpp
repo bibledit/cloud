@@ -298,7 +298,7 @@ void bibledit_stop_library ()
   filter_url_http_get (url, error, false);
 
 #ifdef RUN_SECURE_SERVER
-  // Connect to the secure server to initiate its shutdown mechanism. Todo
+  // Connect to the secure server to initiate its shutdown mechanism.
   url = "https://localhost:";
   url.append (convert_to_string (config_logic_https_network_port ()));
   filter_url_http_get (url, error, false);

@@ -123,7 +123,7 @@ string public_index (void * webserver_request)
                                                        lineheight,
                                                        letterspacing));
   
-  Styles_Css styles_css = Styles_Css (&request, stylesheet);
+  Styles_Css styles_css = Styles_Css (request, stylesheet);
   styles_css.exports ();
   styles_css.generate ();
   string css = styles_css.css ();

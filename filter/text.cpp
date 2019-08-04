@@ -52,6 +52,7 @@ Filter_Text_Note_Citation::Filter_Text_Note_Citation (vector <string> sequence_i
 }
 
 
+
 // This class filters USFM text, converting it into other formats.
 
 
@@ -809,7 +810,8 @@ void Filter_Text::processUsfm ()
                 chapterUsfmMarkersAndText [chapterUsfmMarkersAndTextPointer] = textFollowingMarker;
                 chapterUsfmMarkersAndTextPointer--;
               }
-              // Unset the chapter variable, whether it was used or not. This makes it ready for subsequent use.
+              // Unset the chapter variable, whether it was used or not.
+              // This makes it ready for subsequent use.
               outputChapterTextAtFirstVerse.clear();
               // Other export formats.
               if (onlinebible_text) onlinebible_text->newVerse (currentBookIdentifier, currentChapterNumber, convert_to_int (currentVerseNumber));
@@ -956,13 +958,15 @@ void Filter_Text::processUsfm ()
             }
             default:
             {
-              // This marker is not yet implemented. Add to fallout, plus any text that follows.
+              // This marker is not yet implemented.
+              // Add it to the fallout, plus any text that follows the marker.
               addToFallout ("Marker not yet implemented \\" + marker + ", possible formatting error:", true);
               break;
             }
           }
         } else {
-          // Here is an unknown marker. Add to fallout, plus any text that follows.
+          // Here is an unknown marker.
+          // Add it to the fallout, plus any text that follows the marker.
           addToFallout ("Unknown marker \\" + marker + ", formatting error:", true);
         }
       } else {

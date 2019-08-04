@@ -282,6 +282,15 @@ void Filter_Text::preprocessingStage ()
                     publishedChapterMarkers.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
                     break;
                   }
+                  case IdentifierSubtypePublishedVerseMarker:
+                  {
+                    // It gets the published verse markup.
+                    // The marker looks like: ... \vp ၁။\vp* ...
+                    // It stores this markup in the object for later reference.
+                    string publishedVerseMarker = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    publishedVerseMarkers.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
+                    break;
+                  }
                 }
                 break;
               case StyleTypeChapterNumber:
@@ -470,9 +479,10 @@ void Filter_Text::processUsfm ()
                   usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                   break;
                 }
-                case IdentifierSubtypePublishedChapterMarker:
+                case IdentifierSubtypePublishedChapterMarker: // Todo
                 {
-                  // This information is already in the object. Remove it from the USFM stream.
+                  // This information is already in the object.
+                  // Remove it from the USFM stream.
                   usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                   break;
                 }
@@ -480,6 +490,15 @@ void Filter_Text::processUsfm ()
                 {
                   if (isOpeningMarker) {
                     addToInfo ("Comment: \\" + marker, true);
+                  }
+                  break;
+                }
+                case IdentifierSubtypePublishedVerseMarker: // Todo
+                {
+                  // This information is already in the object.
+                  // Remove it from the USFM stream at the opening marker.
+                  if (isOpeningMarker) {
+                    usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                   }
                   break;
                 }
@@ -709,7 +728,6 @@ void Filter_Text::processUsfm ()
                 if (text_text) {
                   text_text->paragraph ();
                 }
-
               }
               // Deal with the case of a pending chapter number.
               if (outputChapterTextAtFirstVerse != "") {
@@ -734,8 +752,19 @@ void Filter_Text::processUsfm ()
               // Temporarily retrieve the text that follows the \v verse marker.
               string textFollowingMarker = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
               // Extract the verse number, and store it in the object.
-              string number = usfm_peek_verse_number (textFollowingMarker);
-              currentVerseNumber = number;
+              string v_number = usfm_peek_verse_number (textFollowingMarker);
+              currentVerseNumber = v_number;
+              // In case there was a published verse marker, use that markup for publishing.
+              string v_vp_number = v_number;
+              for (auto publishedVerseMarker : publishedVerseMarkers) {
+                if (publishedVerseMarker.book == currentBookIdentifier) {
+                  if (publishedVerseMarker.chapter == currentChapterNumber) {
+                    if (publishedVerseMarker.verse == currentVerseNumber) {
+                      v_vp_number = publishedVerseMarker.value;
+                    }
+                  }
+                }
+              }
               // Output the verse number. But only if no chapter number was put here.
               if (outputChapterTextAtFirstVerse.empty ()) {
                 // If the current paragraph has text already, then insert a space.
@@ -769,11 +798,11 @@ void Filter_Text::processUsfm ()
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, false);
                 if (html_text_standard) html_text_standard->openTextStyle (style, false, false);
                 if (html_text_linked) html_text_linked->openTextStyle (style, false, false);
-                if (odf_text_standard) odf_text_standard->addText (number);
-                if (odf_text_text_only) odf_text_text_only->addText (number);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (number);
-                if (html_text_standard) html_text_standard->addText (number);
-                if (html_text_linked) html_text_linked->addText (number);
+                if (odf_text_standard) odf_text_standard->addText (v_vp_number); // Todo
+                if (odf_text_text_only) odf_text_text_only->addText (v_vp_number); // Todo
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (v_vp_number); // Todo
+                if (html_text_standard) html_text_standard->addText (v_vp_number); // Todo
+                if (html_text_linked) html_text_linked->addText (v_vp_number); // Todo
                 if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
                 if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
@@ -785,7 +814,7 @@ void Filter_Text::processUsfm ()
                 if (text_text->line () != "") {
                   text_text->addtext (" ");
                 }
-                text_text->addtext (number);
+                text_text->addtext (v_vp_number); // Todo
                 // Clear text output always has a space following the verse.
                 // Important for outputting the first verse.
                 text_text->addtext (" ");
@@ -793,9 +822,9 @@ void Filter_Text::processUsfm ()
               // If there was any text following the \v marker, remove the verse number,
               // put the remainder back into the object, and update the pointer.
               if (textFollowingMarker != "") {
-                size_t pos = textFollowingMarker.find (number);
+                size_t pos = textFollowingMarker.find (v_number); // Todo
                 if (pos != string::npos) {
-                  textFollowingMarker = textFollowingMarker.substr (pos + number.length ());
+                  textFollowingMarker = textFollowingMarker.substr (pos + v_number.length ()); // Todo
                 }
                 // If a chapter number was put, remove any whitespace from the start of the following text.
                 // Remove whitespace from the start of the following text,

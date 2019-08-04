@@ -108,10 +108,15 @@ public:
   vector <Filter_Text_Passage_Marker_Value> bookAbbreviations; // Vector with objects (book, chapter, verse, marker, abbreviation value).
 
 public:
-  vector <Filter_Text_Passage_Marker_Value> chapterLabels; // Vector with objects (book, chapter, verse, marker, label value).
-  vector <Filter_Text_Passage_Marker_Value> publishedChapterMarkers; // Vector with object (book, chapter, verse, marker, marker value).
+  // Vector with objects (book, chapter, verse, marker, label value).
+  vector <Filter_Text_Passage_Marker_Value> chapterLabels;
+  // Vector with object (book, chapter, verse, marker, marker value).
+  vector <Filter_Text_Passage_Marker_Value> publishedChapterMarkers;
+  // Vector with object (book, chapter, verse, marker, marker value).
+  vector <Filter_Text_Passage_Marker_Value> publishedVerseMarkers;
 private:
-  string outputChapterTextAtFirstVerse; // String holding the chapter number or text to output at the first verse.
+  // String holding the chapter number or text to output at the first verse.
+  string outputChapterTextAtFirstVerse;
 
 public:
   Odf_Text * odf_text_standard; // Object for creating OpenDocument with text in standard form.

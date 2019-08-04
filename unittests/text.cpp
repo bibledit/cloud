@@ -1084,7 +1084,47 @@ Chapter Two
     evaluate (__LINE__, __func__, {19}, filter_text.verses_text_note_positions [3]);
     evaluate (__LINE__, __func__, {}, filter_text.verses_text_note_positions [4]);
   }
-  
+
+  // Test incorrect \vp markup.
+  {
+    string usfm = R"(
+\c 1
+\p
+\v 1 \vp A Jesus is King.
+\v 2 \vp B Jesus is the son of God.
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (filter_string_trim(usfm));
+    filter_text.run (styles_logic_standard_sheet ());
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    cout << odt << endl;
+    string standard = R"(
+    Genesis
+    =======
+    
+    Genesis 1
+    =========
+    
+    Chapter One
+    
+    1 I will sing to the LORD.
+    
+    Genesis 2
+    =========
+    
+    Chapter Two
+    
+    2 Jesus came to save the people.
+    )";
+    //evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+
+  }
+
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
   filter_url_unlink (TextTestTxt);

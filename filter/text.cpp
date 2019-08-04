@@ -479,7 +479,7 @@ void Filter_Text::processUsfm ()
                   usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                   break;
                 }
-                case IdentifierSubtypePublishedChapterMarker: // Todo
+                case IdentifierSubtypePublishedChapterMarker:
                 {
                   // This information is already in the object.
                   // Remove it from the USFM stream.
@@ -493,7 +493,7 @@ void Filter_Text::processUsfm ()
                   }
                   break;
                 }
-                case IdentifierSubtypePublishedVerseMarker: // Todo
+                case IdentifierSubtypePublishedVerseMarker:
                 {
                   // This information is already in the object.
                   // Remove it from the USFM stream at the opening marker.
@@ -798,11 +798,11 @@ void Filter_Text::processUsfm ()
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, false);
                 if (html_text_standard) html_text_standard->openTextStyle (style, false, false);
                 if (html_text_linked) html_text_linked->openTextStyle (style, false, false);
-                if (odf_text_standard) odf_text_standard->addText (v_vp_number); // Todo
-                if (odf_text_text_only) odf_text_text_only->addText (v_vp_number); // Todo
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (v_vp_number); // Todo
-                if (html_text_standard) html_text_standard->addText (v_vp_number); // Todo
-                if (html_text_linked) html_text_linked->addText (v_vp_number); // Todo
+                if (odf_text_standard) odf_text_standard->addText (v_vp_number);
+                if (odf_text_text_only) odf_text_text_only->addText (v_vp_number);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (v_vp_number);
+                if (html_text_standard) html_text_standard->addText (v_vp_number);
+                if (html_text_linked) html_text_linked->addText (v_vp_number);
                 if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
                 if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
@@ -814,7 +814,7 @@ void Filter_Text::processUsfm ()
                 if (text_text->line () != "") {
                   text_text->addtext (" ");
                 }
-                text_text->addtext (v_vp_number); // Todo
+                text_text->addtext (v_vp_number);
                 // Clear text output always has a space following the verse.
                 // Important for outputting the first verse.
                 text_text->addtext (" ");
@@ -822,9 +822,9 @@ void Filter_Text::processUsfm ()
               // If there was any text following the \v marker, remove the verse number,
               // put the remainder back into the object, and update the pointer.
               if (textFollowingMarker != "") {
-                size_t pos = textFollowingMarker.find (v_number); // Todo
+                size_t pos = textFollowingMarker.find (v_number);
                 if (pos != string::npos) {
-                  textFollowingMarker = textFollowingMarker.substr (pos + v_number.length ()); // Todo
+                  textFollowingMarker = textFollowingMarker.substr (pos + v_number.length ());
                 }
                 // If a chapter number was put, remove any whitespace from the start of the following text.
                 // Remove whitespace from the start of the following text,

@@ -374,7 +374,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
-  // Test transformation of published verse numbers. Todo
+  // Test transformation of published verse numbers.
   {
     string usfm = R"(
 \id GEN

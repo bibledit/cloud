@@ -609,8 +609,8 @@ void Odf_Text::createPageBreakStyle ()
 
   xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
   styleTextPropertiesDomElement.append_attribute ("fo:font-size") = "2pt";
-  styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = "2pt";
-  styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = "2pt";
+  styleTextPropertiesDomElement.append_attribute ("style:font-size-asian") = "2pt";
+  styleTextPropertiesDomElement.append_attribute ("style:font-size-complex") = "2pt";
 }
 
 
@@ -656,19 +656,19 @@ void Odf_Text::createParagraphStyle (string name, string fontname, float fontsiz
 
   string sfontsize = convert_to_string (fontsize) + "pt";
   styleTextPropertiesDomElement.append_attribute ("fo:font-size") = sfontsize.c_str();
-  styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = sfontsize.c_str();
-  styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = sfontsize.c_str();
+  styleTextPropertiesDomElement.append_attribute ("style:font-size-asian") = sfontsize.c_str();
+  styleTextPropertiesDomElement.append_attribute ("style:font-size-complex") = sfontsize.c_str();
 
   // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
   if (italic != ooitOff) {
     styleTextPropertiesDomElement.append_attribute ("fo:font-style") = "italic";
-    styleTextPropertiesDomElement.append_attribute ("fo:font-style-asian") = "italic";
-    styleTextPropertiesDomElement.append_attribute ("fo:font-style-complex") = "italic";
+    styleTextPropertiesDomElement.append_attribute ("style:font-style-asian") = "italic";
+    styleTextPropertiesDomElement.append_attribute ("style:font-style-complex") = "italic";
   }
   if (bold != ooitOff) {
     styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
-    styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
-    styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
+    styleTextPropertiesDomElement.append_attribute ("style:font-weight-asian") = "bold";
+    styleTextPropertiesDomElement.append_attribute ("style:font-weight-complex") = "bold";
   }
   if (underline != ooitOff) {
     styleTextPropertiesDomElement.append_attribute ("style:text-underline-style") = "solid";
@@ -761,13 +761,13 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
     // Not all features are implemented.
     if ((italic == ooitOn) || (italic == ooitToggle)) {
       styleTextPropertiesDomElement.append_attribute ("fo:font-style") = "italic";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-style-asian") = "italic";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-style-complex") = "italic";
+      styleTextPropertiesDomElement.append_attribute ("style:font-style-asian") = "italic";
+      styleTextPropertiesDomElement.append_attribute ("style:font-style-complex") = "italic";
     }
     if ((bold == ooitOn) || (bold == ooitToggle)) {
       styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("style:font-weight-asian") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("style:font-weight-complex") = "bold";
     }
     if ((underline == ooitOn) || (underline == ooitToggle)) {
       styleTextPropertiesDomElement.append_attribute ("style:text-underline-style") = "solid";
@@ -784,8 +784,8 @@ void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
       styleTextPropertiesDomElement.append_attribute ("style:text-position") = "super";
       // The mere setting of the superscript value makes the font smaller. No need to set it manually.
       //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%";
-      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%";
-      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%";
+      //$styleTextPropertiesDomElement->setAttribute ("style:font-size-asian", "87%";
+      //$styleTextPropertiesDomElement->setAttribute ("style:font-size-complex", "87%";
     }
 
     if (color != "#000000") {
@@ -882,17 +882,17 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
       xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
       string sfontsize = convert_to_string (fontsize) + "pt";
       styleTextPropertiesDomElement.append_attribute ("fo:font-size") = sfontsize.c_str();
-      styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = sfontsize.c_str();
-      styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = sfontsize.c_str();
+      styleTextPropertiesDomElement.append_attribute ("style:font-size-asian") = sfontsize.c_str();
+      styleTextPropertiesDomElement.append_attribute ("style:font-size-complex") = sfontsize.c_str();
       if (italic != ooitOff) {
         styleTextPropertiesDomElement.append_attribute ("fo:font-style") = "italic";
-        styleTextPropertiesDomElement.append_attribute ("fo:font-style-asian") = "italic";
-        styleTextPropertiesDomElement.append_attribute ("fo:font-style-complex") = "italic";
+        styleTextPropertiesDomElement.append_attribute ("style:font-style-asian") = "italic";
+        styleTextPropertiesDomElement.append_attribute ("style:font-style-complex") = "italic";
       }
       if (bold != ooitOff) {
         styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
-        styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
-        styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
+        styleTextPropertiesDomElement.append_attribute ("style:font-weight-asian") = "bold";
+        styleTextPropertiesDomElement.append_attribute ("style:font-weight-complex") = "bold";
       }
     }
     {
@@ -944,8 +944,8 @@ void Odf_Text::createSuperscriptStyle ()
   styleTextPropertiesDomElement.append_attribute ("style:text-position") = "super";
   // Setting the superscript attribute automatically makes the font smaller. No need to set it manually.
   //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%";
-  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-asian", "87%";
-  //$styleTextPropertiesDomElement->setAttribute ("fo:font-size-complex", "87%";
+  //$styleTextPropertiesDomElement->setAttribute ("style:font-size-asian", "87%";
+  //$styleTextPropertiesDomElement->setAttribute ("style:font-size-complex", "87%";
 }
 
 
@@ -1048,10 +1048,10 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
       xml_node styleTextPropertiesDomElement = styleDomElement.append_child ("style:text-properties");
       styleTextPropertiesDomElement.append_attribute ("fo:font-size") = "115%";
       styleTextPropertiesDomElement.append_attribute ("fo:font-weight") = "bold";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-size-asian") = "115%";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-asian") = "bold";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-size-complex") = "115%";
-      styleTextPropertiesDomElement.append_attribute ("fo:font-weight-complex") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("style:font-size-asian") = "115%";
+      styleTextPropertiesDomElement.append_attribute ("style:font-weight-asian") = "bold";
+      styleTextPropertiesDomElement.append_attribute ("style:font-size-complex") = "115%";
+      styleTextPropertiesDomElement.append_attribute ("style:font-weight-complex") = "bold";
       if (hide) {
         styleTextPropertiesDomElement.append_attribute ("text:display") = "none";
       }

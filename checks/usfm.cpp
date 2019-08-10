@@ -39,9 +39,14 @@ Checks_Usfm::Checks_Usfm (string bible)
     int styleSubtype = style.subtype;
 
     // Find out which markers require an endmarker.
-    // And which ones are embeddable.
+    // And which markers are embeddable.
     bool requiredEndmarker = false;
     bool embeddableMarker = false;
+    if (styleType == StyleTypeIdentifier) {
+      if (styleSubtype == IdentifierSubtypePublishedVerseMarker) {
+        requiredEndmarker = true;
+      }
+    }
     if (styleType == StyleTypeFootEndNote) {
       if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
         requiredEndmarker = true;

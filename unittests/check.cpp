@@ -29,13 +29,14 @@ void test_database_check ()
   trace_unit_tests (__func__);
   
   {
-    // Test Optimize
+    // Test optimize.
     refresh_sandbox (true);
     Database_Check database_check = Database_Check ();
     database_check.optimize ();
   }
+
   {
-    // Test Record Get Truncate.
+    // Test record get truncate.
     refresh_sandbox (true);
     Database_State::create ();
     Database_Bibles database_bibles;
@@ -54,6 +55,7 @@ void test_database_check ()
     hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, (int)hits.size());
   }
+
   {
     // Test getting details.
     refresh_sandbox (true);
@@ -70,6 +72,7 @@ void test_database_check ()
     evaluate (__LINE__, __func__, 2, hits [0].chapter);
     evaluate (__LINE__, __func__, "test", hits [0].data);
   }
+
   {
     // Test approvals.
     refresh_sandbox (true);
@@ -99,6 +102,7 @@ void test_database_check ()
     hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 2, (int)hits.size());
   }
+
   {
     // Test delete.
     refresh_sandbox (true);
@@ -116,6 +120,7 @@ void test_database_check ()
     hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, (int)hits.size());
   }
+
   {
     // Test passage.
     refresh_sandbox (true);
@@ -131,6 +136,7 @@ void test_database_check ()
     evaluate (__LINE__, __func__, 7, passage.chapter);
     evaluate (__LINE__, __func__, "8", passage.verse);
   }
+
   {
     // Test same checks overflow.
     refresh_sandbox (true);

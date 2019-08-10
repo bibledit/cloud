@@ -1194,4 +1194,24 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
+  // Test on correct or incorrect \vp ...\vp* markup.
+  {
+    string usfm = R"(
+\id GEN
+\c 1
+\v 1 \vp A\vp* Praise God.
+\v 2 \vp B Praise Jesus.
+\v 3 Praise them, all of you.
+    )";
+    Checks_Usfm check = Checks_Usfm ("");
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> standard = {
+      make_pair (3, "Unclosed markers: vp"),
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
 }

@@ -180,7 +180,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       chapter_number = convert_to_int (marker_or_text);
     }
     string marker = usfm_get_marker (marker_or_text);
-    if (marker != "") {
+    if (!marker.empty()) {
       // USFM marker found.
       bool opener = usfm_is_opening_marker (marker_or_text);
       bool store_chapter_data = false;
@@ -206,7 +206,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       // Only opening markers can start on a new line. Closing markers never do.
       if (opener) {
         if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
-          chapter_data += "\n";
+          chapter_data.append ("\n");
         }
       }
     }

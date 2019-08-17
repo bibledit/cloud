@@ -133,7 +133,9 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
+  test_dev ();
   test_usfm ();
+  test_usfm2html2usfm ();
   refresh_sandbox (true);
   exit (0);
   

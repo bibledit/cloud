@@ -30,6 +30,7 @@ void test_usfm2html2usfm ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
+
   // One unknown opening marker.
   {
     string standard_usfm = "\\abc";
@@ -72,6 +73,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, filter_string_trim (usfm));
     }
   }
+
   // Two unknown opening markers.
   {
     string standard_usfm =
@@ -118,6 +120,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // One unknown closing marker.
   {
     string standard_usfm = "\\abc text\\abc*.";
@@ -158,6 +161,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Two unknown closing markers.
   {
     string standard_usfm =
@@ -204,6 +208,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Identifiers.
   {
     string standard_usfm =
@@ -262,6 +267,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // One paragraph.
   {
     string standard_usfm = "\\p Paragraph text.";
@@ -302,6 +308,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Two paragraphs.
   {
     string standard_usfm =
@@ -348,6 +355,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Inline text
   {
     string standard_usfm = "\\p Paragraph text plus \\add added\\add* text.";
@@ -388,7 +396,8 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
-  // Inline texts
+
+  // Inline texts.
   {
     string standard_usfm = "\\p Paragraph text plus \\add added\\add* text plus \\add added\\add* text.";
     {
@@ -428,6 +437,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Chapter.
   {
     string standard_usfm =
@@ -474,6 +484,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Verses.
   {
     string standard_usfm =
@@ -519,6 +530,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
+  // Published verse markers. Todo put code here when it's ready.
+  {
+  }
+  
   // Peripherals.
   {
     string standard_usfm =
@@ -565,6 +581,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Picture.
   {
     string standard_usfm =
@@ -614,6 +631,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Table.
   {
     string standard_usfm =
@@ -671,6 +689,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm2, usfm);
     }
   }
+
   // Word list entry.
   {
     string standard_usfm = "\\p A \\ndx index\\ndx* b \\wh Hebrew\\wh* c.";
@@ -713,6 +732,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Crossreference.
   {
     string standard_usfm = "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.";
@@ -763,6 +783,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Crossreferences.
   {
     string standard_usfm =
@@ -817,6 +838,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Footnote.
   {
     string standard_usfm =
@@ -869,6 +891,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Cycling the note caller.
   {
     string standard_usfm =
@@ -975,6 +998,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Endnote.
   {
     string standard_usfm =
@@ -1025,8 +1049,8 @@ void test_usfm2html2usfm ()
       string usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
-
   }
+
   // Round trip from real life.
   {
     string standard_usfm =
@@ -1081,6 +1105,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Round trip from real life.
   {
     string standard_usfm =
@@ -1158,6 +1183,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
+
   // Nested text markup.
   {
     string input_usfm =
@@ -1205,6 +1231,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
+
   // Nested text markup.
   {
     string input_usfm =
@@ -1252,6 +1279,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
+
   // Nested text markup.
   {
     string input_usfm  = "\\p The \\add \\+nd Lord God\\+nd* is\\add* calling you";
@@ -1295,6 +1323,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
+
   // Nested note markup.
   {
     string input_usfm =
@@ -1350,6 +1379,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
+
   // Nested note markup.
   {
     string input_usfm =
@@ -1405,6 +1435,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
   }
+
   // Fix for change \ft to \fk
   {
     // A bug was discovered in the Bible editor where "... \fk ... \ft ..." was changed to "... \fk ... \fk ...".
@@ -1460,6 +1491,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
   }
+
   // \b Blank line
   {
     string standard_usfm =
@@ -1593,6 +1625,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standardusfm, usfm);
     }
   }
+
   // Unmatched note opener and xref opener.
   {
     string standard_usfm =
@@ -1639,6 +1672,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
     }
   }
+
   // Inline opener without matching inline closer.
   {
     string standard_usfm =
@@ -1682,6 +1716,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
     }
   }
+
   // Inline opener without matching inline closer but with other inline markup.
   {
     string standard_usfm =
@@ -1726,6 +1761,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
     }
   }
+
   // Inline opener without matching inline closer and with a paragraph after that.
   {
     string standard_usfm =
@@ -1772,6 +1808,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
     }
   }
+
   // Testing editing one verse, which does not have a starting paragraph.
   {
     string usfm = "\\v 1 God created";
@@ -1801,6 +1838,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
   }
+
   // Testing editing one verse: The chapter number, or verse 0.
   {
     string usfm = "\\c 1\n"
@@ -1835,6 +1873,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
   }
+
   // One-verse editor, testing chapter 0 verse 0.
   {
     string usfm =
@@ -1872,6 +1911,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
   }
+
   // Testing one verse: a paragraph with content.
   {
     string usfm = "\\p And God called the firmament Heaven";
@@ -1905,6 +1945,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
   }
+
   // Testing \add ..\add* markup in a footnote.
   {
     string standard_usfm = "\\p Praise Yahweh\\f \\add I\\add* am\\f*, all you nations!";
@@ -1945,6 +1986,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
   }
+
   // Testing \xt in a footnote.
   {
     string standard_usfm = "\\p Praise Yahweh\\f I am, see \\xt Exod.6.3.\\f*, all you nations!";
@@ -1985,6 +2027,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
   }
+
   // Testing \xt and \add markup in a footnote, in Romans 2.15, received from a user.
   {
     string standard_usfm = "\\p \\f + \\fr 2:15 \\ft „tokie“ – t. „kurie“\\f*tokie parodo savo širdyse įrašytą įstatymo \\f + \\fr 2:15 \\ft „darbą“ – arba „poveikį“\\f*darbą, jų sąžinei kartu \\add tiems dalykams\\add* paliudijant, ir \\add jų\\add* mintims \\f + \\fr 2:15 \\ft „tuo tarpu \\add juos\\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \\add juos\\add* kaltindamos arba net gindamos“; žr. - \\xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\\f*tuo tarpu \\add juos\\add* kaltinant arba net ginant) –";
@@ -2025,5 +2068,6 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
   }
+
   refresh_sandbox (false);
 }

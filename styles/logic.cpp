@@ -598,7 +598,11 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
   switch (type) {
     case StyleTypeIdentifier :
     {
-      return true;
+      if (subtype == IdentifierSubtypePublishedVerseMarker) {
+        return false;
+      } else {
+        return true;
+      }
       break;
     }
     case StyleTypeNotUsedComment :

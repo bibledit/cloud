@@ -30,6 +30,7 @@ void test_usfm2html ()
 {
   trace_unit_tests (__func__);
   Database_State::create ();
+
   // Test text length for one verse.
   {
     string usfm =
@@ -58,6 +59,7 @@ void test_usfm2html ()
       evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
     }
   }
+
   // Test text length for several verses.
   {
     string usfm =
@@ -110,6 +112,7 @@ void test_usfm2html ()
       evaluate (__LINE__, __func__, 550, editor_usfm2html.currentParagraphContent.size ());
     }
   }
+
   // Space after starting marker
   {
     string usfm =
@@ -127,6 +130,7 @@ void test_usfm2html ()
     "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>Text </span><span class=\"add\">of the </span><span>1st</span><span class=\"add\"> second verse</span><span>.</span></p>";
     evaluate (__LINE__, __func__, standard, html);
   }
+
   // Apostrophy etc.
   {
     string usfm =
@@ -143,6 +147,7 @@ void test_usfm2html ()
     "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
     evaluate (__LINE__, __func__, standard, html);
   }
+
   // Most recent paragraph style.
   {
     string usfm =
@@ -160,6 +165,7 @@ void test_usfm2html ()
     evaluate (__LINE__, __func__, "q2", editor_usfm2html.currentParagraphStyle);
     evaluate (__LINE__, __func__, "2 Two 3 Three", editor_usfm2html.currentParagraphContent);
   }
+
   // Most recent paragraph style and length 0.
   {
     string usfm =
@@ -178,6 +184,7 @@ void test_usfm2html ()
     evaluate (__LINE__, __func__, "q3", editor_usfm2html.currentParagraphStyle);
     evaluate (__LINE__, __func__, "", editor_usfm2html.currentParagraphContent);
   }
+
   // Convert styles for Quill-based editor.
   {
     string usfm =
@@ -196,6 +203,5 @@ void test_usfm2html ()
     "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>Text </span><span class=\"i-add\">of the </span><span>1st </span><span class=\"i-add\">second verse</span><span>.</span></p>";
     evaluate (__LINE__, __func__, standard, html);
   }
+
 }
-
-

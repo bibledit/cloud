@@ -1024,24 +1024,57 @@ void test_usfm ()
     evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
   }
 
-  // Test importing USFM.
+  // Test importing common USFM.
   {
     evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
-    vector <BookChapterData> import2 = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, (int)import2.size());
-    if (import2.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import2 [0].book);
-      evaluate (__LINE__, __func__, 0, import2 [0].chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import2 [0].data);
-      evaluate (__LINE__, __func__, 33, import2 [1].book);
-      evaluate (__LINE__, __func__, 1, import2 [1].chapter);
-      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import2 [1].data);
+    
+    vector <BookChapterData> import = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 2, (int)import.size());
+    if (import.size () == 2) {
+      evaluate (__LINE__, __func__, 33, import [0].book);
+      evaluate (__LINE__, __func__, 0, import [0].chapter);
+      evaluate (__LINE__, __func__, "\\id MIC", import [0].data);
+      evaluate (__LINE__, __func__, 33, import [1].book);
+      evaluate (__LINE__, __func__, 1, import [1].chapter);
+      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].data);
     } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
     
     evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
+
+  // Test importing USFM with \vp markup. Todo
+  {
+    string usfm = R"(
+\id MIC
+\c 1
+\s Heading
+\p
+\v 1 \vp A\vp* Verse one.
+\v 2 \vp B\vp* Verse two.
+)";
+    string standard_chapter = R"(
+\c 1
+\s Heading
+\p
+\v 1 \vp A\vp* Verse one.
+\v 2 \vp B\vp* Verse two.
+    )";
+    standard_chapter = filter_string_trim (standard_chapter);
+    vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
+    evaluate (__LINE__, __func__, 2, (int)import.size());
+    if (import.size () == 2) {
+      evaluate (__LINE__, __func__, 33, import [0].book);
+      evaluate (__LINE__, __func__, 0, import [0].chapter);
+      evaluate (__LINE__, __func__, "\\id MIC", import [0].data);
+      evaluate (__LINE__, __func__, 33, import [1].book);
+      evaluate (__LINE__, __func__, 1, import [1].chapter);
+      evaluate (__LINE__, __func__, standard_chapter, filter_string_trim (import [1].data));
+    } else {
+      evaluate (__LINE__, __func__, "executing tests", "skipping tests");
+    }
+  }
   
-  // Test importing USFM.
+  // Test importing USFM demo chapter.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "92-1JNeng-web.usfm"));
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());

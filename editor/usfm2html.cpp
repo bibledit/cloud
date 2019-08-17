@@ -166,7 +166,7 @@ void Editor_Usfm2Html::preprocess ()
 }
 
  
-void Editor_Usfm2Html::process ()
+void Editor_Usfm2Html::process () // Todo
 {
   markersAndTextPointer = 0;
   unsigned int markersAndTextCount = markersAndText.size();
@@ -184,7 +184,22 @@ void Editor_Usfm2Html::process ()
         Database_Styles_Item style = styles [marker];
         switch (style.type)
         {
-          case StyleTypeIdentifier:
+          case StyleTypeIdentifier: // Todo
+          {
+            if (style.subtype == IdentifierSubtypePublishedVerseMarker) {
+              // Treat the \vp ...\vp* marker as inline text.
+              if (isOpeningMarker) {
+                openTextStyle (style, isEmbeddedMarker);
+              } else {
+                closeTextStyle (isEmbeddedMarker);
+              }
+            } else {
+              // Any other identifier: Plain text.
+              closeTextStyle (false);
+              outputAsIs (marker, isOpeningMarker);
+            }
+            break;
+          }
           case StyleTypeNotUsedComment:
           case StyleTypeNotUsedRunningHeader:
           {
@@ -747,7 +762,7 @@ bool Editor_Usfm2Html::roadIsClear ()
       }
     }
     
-    // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ".
+    // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ". // Todo
     if (input_type == StyleTypeInlineText) {
       // If the input is embedded, declare the road ahead to be clear.
       if (input_embedded) return true;

@@ -203,7 +203,8 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       Database_Styles_Item marker_data = database_styles.getMarkerData (stylesheet, marker);
       int type = marker_data.type;
       int subtype = marker_data.subtype;
-      // Only opening markers can start on a new line. Closing markers never do.
+      // Only opening markers can start on a new line.
+      // Closing markers never do.
       if (opener) {
         if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
           chapter_data.append ("\n");

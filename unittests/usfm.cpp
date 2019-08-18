@@ -1073,7 +1073,7 @@ void test_usfm ()
       evaluate (__LINE__, __func__, "executing tests", "skipping tests");
     }
   }
-  
+
   // Test importing USFM demo chapter.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "92-1JNeng-web.usfm"));

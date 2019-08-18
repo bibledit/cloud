@@ -51,8 +51,6 @@ void test_dev ()
       editor_usfm2html.run ();
       string html = editor_usfm2html.get ();
       evaluate (__LINE__, __func__, filter_string_trim (standard_html), html);
-      
-      return; // Todo
 
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);
@@ -64,7 +62,7 @@ void test_dev ()
     {
       // Quill-based editor.
       string standard_html = R"(
-<p class="b-p"><span class="i-v">1</span><span> </span><span>One.</span><span> </span><span class="i-v">2</span><span> </span><span>Two.</span></p>
+<p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">A</span><span> One.</span><span> </span><span class="i-v">2</span><span> </span><span class="i-vp">B</span><span> Two.</span></p>
 )";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (standard_usfm);
@@ -73,16 +71,15 @@ void test_dev ()
       editor_usfm2html.run ();
       string html = editor_usfm2html.get ();
       evaluate (__LINE__, __func__, filter_string_trim (standard_html), html);
-      
+
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
       editor_html2usfm.quill ();
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
-      // Todo evaluate (__LINE__, __func__, standard_usfm, usfm);
+      evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
   }
   
 }
-

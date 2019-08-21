@@ -1042,7 +1042,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
 
-  // Test importing USFM with \vp markup. Todo
+  // Test importing USFM with \vp markup.
   {
     string usfm = R"(
 \id MIC

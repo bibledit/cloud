@@ -531,7 +531,7 @@ void test_usfm2html2usfm ()
     }
   }
 
-  // Published verse markers. Todo
+  // Published verse markers.
   {
     string standard_usfm = R"(
 \p

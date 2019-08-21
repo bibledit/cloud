@@ -281,7 +281,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize ()
+void Paratext_Logic::synchronize () // Todo
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
@@ -340,10 +340,10 @@ void Paratext_Logic::synchronize ()
       // Ancestor USFM per chapter.
       map <int, string> ancestor_usfm;
       {
-        string usfm = ancestor (bible, book);
-        vector <int> chapters = usfm_get_chapter_numbers (usfm);
+        string book_usfm = ancestor (bible, book);
+        vector <int> chapters = usfm_get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
-          string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
+          string chapter_usfm = usfm_get_chapter_text (book_usfm, chapter);
           ancestor_usfm [chapter] = chapter_usfm;
         }
       }
@@ -354,14 +354,14 @@ void Paratext_Logic::synchronize ()
       map <int, string> paratext_usfm;
       {
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
-        string usfm = crlf2lf (filter_url_file_get_contents (path));
+        string book_usfm = crlf2lf (filter_url_file_get_contents (path));
         // Paratext on Linux has been seen adding empty lines right after \c (chapter).
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
         // This looks like a bug in Paratext. Remove those empty lines.
-        usfm = filter_string_str_replace ("\n\n", "\n", usfm);
-        vector <int> chapters = usfm_get_chapter_numbers (usfm);
+        book_usfm = filter_string_str_replace ("\n\n", "\n", book_usfm);
+        vector <int> chapters = usfm_get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
-          string chapter_usfm = usfm_get_chapter_text (usfm, chapter);
+          string chapter_usfm = usfm_get_chapter_text (book_usfm, chapter);
           paratext_usfm [chapter] = chapter_usfm;
         }
       }

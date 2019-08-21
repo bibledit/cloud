@@ -108,6 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/javascript.h>
 #include <unittests/french.h>
 #include <unittests/merge.h>
+#include <unittests/paratext.h>
 
 
 int main (int argc, char **argv) 
@@ -134,8 +135,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_usfm ();
-  test_usfm2html2usfm ();
+  test_paratext ();
   refresh_sandbox (true);
   exit (0);
   

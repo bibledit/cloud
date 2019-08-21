@@ -184,6 +184,8 @@
 		CA180F251AC71539006CA48B /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA180F261AC71542006CA48B /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = poll.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CA180F271AC71542006CA48B /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
+		CA188548230DB4F6004A0C5F /* paratext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
+		CA188549230DB4F7004A0C5F /* paratext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
 		CA1A4EA51B076BF200731796 /* installcloudubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; lineEnding = 0; path = installcloudubuntu.html; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.html; };
 		CA1B82161BFDD68E006DFA7D /* licenses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = licenses.html; sourceTree = "<group>"; };
 		CA1CE6431BE79710008E0F06 /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
@@ -2998,6 +3000,8 @@
 				CA495D821E6429D700BDFDE8 /* oshb.h */,
 				CA05DD4A1E33B64C00EA2EDF /* pairs.cpp */,
 				CA05DD4B1E33B64C00EA2EDF /* pairs.h */,
+				CA188549230DB4F7004A0C5F /* paratext.cpp */,
+				CA188548230DB4F6004A0C5F /* paratext.h */,
 				CA98A2EC1E40553100654CFC /* passage.cpp */,
 				CA98A2ED1E40553100654CFC /* passage.h */,
 				CA495DA11E64513B00BDFDE8 /* privileges.cpp */,

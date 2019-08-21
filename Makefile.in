@@ -350,37 +350,37 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/sentences.$(OBJEXT) \
 	unittests/versification.$(OBJEXT) unittests/usfm.$(OBJEXT) \
 	unittests/verses.$(OBJEXT) unittests/pairs.$(OBJEXT) \
-	unittests/hyphenate.$(OBJEXT) unittests/search.$(OBJEXT) \
-	unittests/json.$(OBJEXT) unittests/related.$(OBJEXT) \
-	unittests/editone.$(OBJEXT) unittests/http.$(OBJEXT) \
-	unittests/memory.$(OBJEXT) unittests/tasks.$(OBJEXT) \
-	unittests/biblegateway.$(OBJEXT) unittests/rss.$(OBJEXT) \
-	unittests/space.$(OBJEXT) unittests/roles.$(OBJEXT) \
-	unittests/md5.$(OBJEXT) unittests/string.$(OBJEXT) \
-	unittests/users.$(OBJEXT) unittests/date.$(OBJEXT) \
-	unittests/export.$(OBJEXT) unittests/html.$(OBJEXT) \
-	unittests/archive.$(OBJEXT) unittests/odf.$(OBJEXT) \
-	unittests/text.$(OBJEXT) unittests/url.$(OBJEXT) \
-	unittests/passage.$(OBJEXT) unittests/styles.$(OBJEXT) \
-	unittests/diff.$(OBJEXT) unittests/git.$(OBJEXT) \
-	unittests/ipc.$(OBJEXT) unittests/shell.$(OBJEXT) \
-	unittests/ldap.$(OBJEXT) unittests/dev.$(OBJEXT) \
-	unittests/sample.$(OBJEXT) unittests/config.$(OBJEXT) \
-	unittests/log.$(OBJEXT) unittests/books.$(OBJEXT) \
-	unittests/check.$(OBJEXT) unittests/localization.$(OBJEXT) \
-	unittests/confirm.$(OBJEXT) unittests/jobs.$(OBJEXT) \
-	unittests/kjv.$(OBJEXT) unittests/oshb.$(OBJEXT) \
-	unittests/sblgnt.$(OBJEXT) unittests/sprint.$(OBJEXT) \
-	unittests/mail.$(OBJEXT) unittests/navigation.$(OBJEXT) \
-	unittests/resources.$(OBJEXT) unittests/notes.$(OBJEXT) \
-	unittests/modifications.$(OBJEXT) unittests/volatile.$(OBJEXT) \
-	unittests/state.$(OBJEXT) unittests/strong.$(OBJEXT) \
-	unittests/morphgnt.$(OBJEXT) unittests/etcbc4.$(OBJEXT) \
-	unittests/lexicon.$(OBJEXT) unittests/cache.$(OBJEXT) \
-	unittests/login.$(OBJEXT) unittests/privileges.$(OBJEXT) \
-	unittests/statistics.$(OBJEXT) unittests/webview.$(OBJEXT) \
-	unittests/javascript.$(OBJEXT) unittests/french.$(OBJEXT) \
-	unittests/merge.$(OBJEXT)
+	unittests/paratext.$(OBJEXT) unittests/hyphenate.$(OBJEXT) \
+	unittests/search.$(OBJEXT) unittests/json.$(OBJEXT) \
+	unittests/related.$(OBJEXT) unittests/editone.$(OBJEXT) \
+	unittests/http.$(OBJEXT) unittests/memory.$(OBJEXT) \
+	unittests/tasks.$(OBJEXT) unittests/biblegateway.$(OBJEXT) \
+	unittests/rss.$(OBJEXT) unittests/space.$(OBJEXT) \
+	unittests/roles.$(OBJEXT) unittests/md5.$(OBJEXT) \
+	unittests/string.$(OBJEXT) unittests/users.$(OBJEXT) \
+	unittests/date.$(OBJEXT) unittests/export.$(OBJEXT) \
+	unittests/html.$(OBJEXT) unittests/archive.$(OBJEXT) \
+	unittests/odf.$(OBJEXT) unittests/text.$(OBJEXT) \
+	unittests/url.$(OBJEXT) unittests/passage.$(OBJEXT) \
+	unittests/styles.$(OBJEXT) unittests/diff.$(OBJEXT) \
+	unittests/git.$(OBJEXT) unittests/ipc.$(OBJEXT) \
+	unittests/shell.$(OBJEXT) unittests/ldap.$(OBJEXT) \
+	unittests/dev.$(OBJEXT) unittests/sample.$(OBJEXT) \
+	unittests/config.$(OBJEXT) unittests/log.$(OBJEXT) \
+	unittests/books.$(OBJEXT) unittests/check.$(OBJEXT) \
+	unittests/localization.$(OBJEXT) unittests/confirm.$(OBJEXT) \
+	unittests/jobs.$(OBJEXT) unittests/kjv.$(OBJEXT) \
+	unittests/oshb.$(OBJEXT) unittests/sblgnt.$(OBJEXT) \
+	unittests/sprint.$(OBJEXT) unittests/mail.$(OBJEXT) \
+	unittests/navigation.$(OBJEXT) unittests/resources.$(OBJEXT) \
+	unittests/notes.$(OBJEXT) unittests/modifications.$(OBJEXT) \
+	unittests/volatile.$(OBJEXT) unittests/state.$(OBJEXT) \
+	unittests/strong.$(OBJEXT) unittests/morphgnt.$(OBJEXT) \
+	unittests/etcbc4.$(OBJEXT) unittests/lexicon.$(OBJEXT) \
+	unittests/cache.$(OBJEXT) unittests/login.$(OBJEXT) \
+	unittests/privileges.$(OBJEXT) unittests/statistics.$(OBJEXT) \
+	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
+	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -652,7 +652,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/morphgnt.Po \
 	unittests/$(DEPDIR)/navigation.Po unittests/$(DEPDIR)/notes.Po \
 	unittests/$(DEPDIR)/odf.Po unittests/$(DEPDIR)/oshb.Po \
-	unittests/$(DEPDIR)/pairs.Po unittests/$(DEPDIR)/passage.Po \
+	unittests/$(DEPDIR)/pairs.Po unittests/$(DEPDIR)/paratext.Po \
+	unittests/$(DEPDIR)/passage.Po \
 	unittests/$(DEPDIR)/privileges.Po \
 	unittests/$(DEPDIR)/related.Po \
 	unittests/$(DEPDIR)/resources.Po unittests/$(DEPDIR)/roles.Po \
@@ -1359,6 +1360,7 @@ unittest_SOURCES = \
 	unittests/usfm.cpp \
 	unittests/verses.cpp \
 	unittests/pairs.cpp \
+	unittests/paratext.cpp \
 	unittests/hyphenate.cpp \
 	unittests/search.cpp \
 	unittests/json.cpp \
@@ -2954,6 +2956,8 @@ unittests/verses.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/pairs.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/paratext.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/hyphenate.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/search.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -3636,6 +3640,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/odf.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/oshb.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/pairs.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/paratext.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/privileges.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/related.Po@am__quote@ # am--include-marker
@@ -4675,6 +4680,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/odf.Po
 	-rm -f unittests/$(DEPDIR)/oshb.Po
 	-rm -f unittests/$(DEPDIR)/pairs.Po
+	-rm -f unittests/$(DEPDIR)/paratext.Po
 	-rm -f unittests/$(DEPDIR)/passage.Po
 	-rm -f unittests/$(DEPDIR)/privileges.Po
 	-rm -f unittests/$(DEPDIR)/related.Po
@@ -5237,6 +5243,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/odf.Po
 	-rm -f unittests/$(DEPDIR)/oshb.Po
 	-rm -f unittests/$(DEPDIR)/pairs.Po
+	-rm -f unittests/$(DEPDIR)/paratext.Po
 	-rm -f unittests/$(DEPDIR)/passage.Po
 	-rm -f unittests/$(DEPDIR)/privileges.Po
 	-rm -f unittests/$(DEPDIR)/related.Po

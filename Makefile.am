@@ -459,6 +459,7 @@ unittest_SOURCES = \
 	unittests/usfm.cpp \
 	unittests/verses.cpp \
 	unittests/pairs.cpp \
+	unittests/paratext.cpp \
 	unittests/hyphenate.cpp \
 	unittests/search.cpp \
 	unittests/json.cpp \

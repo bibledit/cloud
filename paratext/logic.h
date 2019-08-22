@@ -37,6 +37,8 @@ public:
   static string ancestorPath (string bible, int book);
   static vector <string> enabledBibles ();
   static void synchronize ();
+  static string synchronize (string ancestor, string bibledit, string paratext,
+                             vector <string> & messages);
   static string synchronizeStartText ();
   static string synchronizeReadyText ();
 private:

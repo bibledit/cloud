@@ -381,7 +381,7 @@ void Paratext_Logic::synchronize () // Todo
       bool book_is_updated = false;
       
       
-      for (int chapter : chapters) {
+      for (int chapter : chapters) { // Todo
         
         
         string usfm;
@@ -415,7 +415,7 @@ void Paratext_Logic::synchronize () // Todo
           // and perhaps Translators run Bibledit.
           // But this assumption may be wrong.
           // Nevertheless preference must be given to some data anyway.
-          vector <tuple <string, string, string, string, string>> conflicts;
+          vector <Merge_Conflict> conflicts;
           usfm = filter_merge_run (ancestor, bibledit, paratext, true, conflicts);
           Database_Logs::log (journalTag (bible, book, chapter) + "Chapter merged", Filter_Roles::translator ());
           ancestor_usfm [chapter] = usfm;
@@ -462,15 +462,55 @@ void Paratext_Logic::synchronize () // Todo
         string path = filter_url_create_path (projectFolder (bible), paratext_book);
         filter_url_file_put_contents (path, lf2crlf (usfm));
       }
-      
-
     }
-    
-    
   }
   
-  
   Database_Logs::log (synchronizeReadyText (), Filter_Roles::translator ());
+}
+
+
+string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext, // Todo
+                                    vector <string> & messages)
+{
+  string resulting_usfm;
+
+  messages.clear ();
+  
+  // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
+  if (!bibledit.empty () && paratext.empty ()) {
+    resulting_usfm = bibledit;
+    messages.push_back (translate ("Copy Bibledit to Paratext"));
+  }
+
+  // If Paratext has the chapter, and Bibledit does not, take the Paratext chapter.
+  else if (bibledit.empty () && !paratext.empty ()) {
+    resulting_usfm = paratext;
+    messages.push_back (translate ("Copy Paratext to Bibledit"));
+  }
+
+  // Bibledit and Paratext are the same: Do nothing.
+  else if (filter_string_trim (bibledit) == filter_string_trim (paratext)) {
+  }
+
+  // If ancestor data exists, and Bibledit and Paratext differ,
+  // merge both chapters, giving preference to Paratext,
+  // as Paratext is more likely to contain the preferred version,
+  // since it is assumed that perhaps a Manager runs Paratext,
+  // and perhaps Translators run Bibledit.
+  // But this assumption may be wrong.
+  // Nevertheless preference must be given to some data anyway.
+  else if (!ancestor.empty ()) {
+    vector <Merge_Conflict> conflicts;
+    resulting_usfm = filter_merge_run (ancestor, bibledit, paratext, true, conflicts);
+    messages.push_back (translate ("Chapter merged"));
+  }
+  
+  // Cannot merge the two.
+  else {
+    messages.push_back (translate("Cannot merge chapter due to missing parent data"));
+  }
+
+  return resulting_usfm;
 }
 
 

@@ -85,7 +85,7 @@ string editusfm_save (void * webserver_request)
               string oldText = ancestor_usfm;
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
-              vector <tuple <string, string, string, string, string>> conflicts;
+              vector <Merge_Conflict> conflicts;
               string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {

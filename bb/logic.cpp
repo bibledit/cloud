@@ -419,18 +419,17 @@ string bible_logic_unsent_unreceived_data_warning ()
 }
 
 
-void bible_logic_merge_irregularity_mail (vector <string> users,
-                                          vector <tuple <string, string, string, string, string>> conflicts)
+void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_Conflict> conflicts)
 {
   if (conflicts.empty ()) return;
   
   for (auto & conflict : conflicts) {
     
-    string base = get<0>(conflict);
-    string change = get<1>(conflict);
-    string prioritized_change = get<2>(conflict);
-    string result = get<3>(conflict);;
-    string subject = get<4>(conflict);
+    string base = conflict.base; // Todo nicer.
+    string change = conflict.change;
+    string prioritized_change = conflict.prioritized_change;
+    string result = conflict.result;
+    string subject = conflict.subject;
     
     // Create the body of the email.
     xml_document document;

@@ -276,7 +276,7 @@ void test_diff ()
 
   // Test line merge for simple modifications.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -300,7 +300,7 @@ void test_diff ()
   
   // Test line merge for equal modifications
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -324,7 +324,7 @@ void test_diff ()
   
   // Test line merge for multiple modifications
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -364,7 +364,7 @@ void test_diff ()
   
   // Test word merge for simple modifications
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -384,7 +384,7 @@ void test_diff ()
   
   // Test word merge for conflicting modifications.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -404,7 +404,7 @@ void test_diff ()
   
   // Test word merge for multiple modifications
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -444,7 +444,7 @@ void test_diff ()
   
   // Test grapheme merge for simple modifications
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -464,7 +464,7 @@ void test_diff ()
   
   // Test that in case of a conflict, it takes the server's version.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -484,7 +484,7 @@ void test_diff ()
   
   // Realistic merge example.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
@@ -524,7 +524,7 @@ void test_diff ()
   
   // Merge situation taken from real life.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string path;
     path = filter_url_create_root_path ("unittests", "tests", "paula_1_base.usfm");
     string mergeBaseData = filter_url_file_get_contents (path);
@@ -547,7 +547,7 @@ void test_diff ()
   
   // Testing the clever merge routine on chapter 0.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\id GEN\n"
     "\\p Some text one.\n";
@@ -572,7 +572,7 @@ void test_diff ()
   
   // Testing switching from separate verses into a combined verse.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
@@ -615,7 +615,7 @@ void test_diff ()
   
   // Testing switching from a combined verse to separate verses.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
@@ -658,7 +658,7 @@ void test_diff ()
   
   // Merge situation taken from real life.
   {
-    vector <tuple <string, string, string, string, string>> conflicts;
+    vector <Merge_Conflict> conflicts;
     string path;
     path = filter_url_create_root_path ("unittests", "tests", "paula_2_base.usfm");
     string mergeBaseData = filter_url_file_get_contents (path);

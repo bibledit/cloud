@@ -17,18 +17,22 @@
  */
 
 
-#ifndef INCLUDED_FILTER_MERGE_H
-#define INCLUDED_FILTER_MERGE_H
+#ifndef INCLUDED_CLASSES_MERGE_H
+#define INCLUDED_CLASSES_MERGE_H
 
 
 #include <config/libraries.h>
-#include <classes/merge.h>
 
 
-string filter_merge_run (string base, string change, string prioritized_change,
-                         bool clever, vector <Merge_Conflict> & conflicts);
-string filter_merge_run_clever (string base, string change, string prioritized_change,
-                                vector <Merge_Conflict> & conflicts);
+class Merge_Conflict
+{
+public:
+  string base;
+  string change;
+  string prioritized_change;
+  string result;
+  string subject;
+};
 
 
 #endif

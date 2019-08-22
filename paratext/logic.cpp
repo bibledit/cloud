@@ -470,11 +470,12 @@ void Paratext_Logic::synchronize () // Todo
 
 
 string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext, // Todo
-                                    vector <string> & messages)
+                                    vector <string> & messages, vector <Merge_Conflict> & conflicts)
 {
   string resulting_usfm;
 
   messages.clear ();
+  conflicts.clear ();
   
   // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
   if (!bibledit.empty () && paratext.empty ()) {
@@ -492,6 +493,15 @@ string Paratext_Logic::synchronize (string ancestor, string bibledit, string par
   else if (filter_string_trim (bibledit) == filter_string_trim (paratext)) {
   }
 
+  // If the chapter in Bibledit is much larger than the chapter in Paratext,
+  // it probably means that the chapter in Paratext was created,
+  // and that the Paratext chapter has the outline only, without any text.
+  // So in this case take the chapter from Bibledit.
+  else if (bibledit.size () > (paratext.size() * 3)) {
+    resulting_usfm = bibledit;
+    messages.push_back (translate ("Copy larger Bibledit chapter to smaller Paratext chapter"));
+  }
+
   // If ancestor data exists, and Bibledit and Paratext differ,
   // merge both chapters, giving preference to Paratext,
   // as Paratext is more likely to contain the preferred version,
@@ -500,7 +510,6 @@ string Paratext_Logic::synchronize (string ancestor, string bibledit, string par
   // But this assumption may be wrong.
   // Nevertheless preference must be given to some data anyway.
   else if (!ancestor.empty ()) {
-    vector <Merge_Conflict> conflicts;
     resulting_usfm = filter_merge_run (ancestor, bibledit, paratext, true, conflicts);
     messages.push_back (translate ("Chapter merged"));
   }

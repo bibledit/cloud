@@ -281,7 +281,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize () // Todo
+void Paratext_Logic::synchronize ()
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
@@ -389,7 +389,7 @@ void Paratext_Logic::synchronize () // Todo
       bool book_is_updated = false;
       
       
-      for (int chapter : chapters) { // Todo
+      for (int chapter : chapters) {
         
         string usfm;
         string ancestor = ancestor_usfm [chapter];
@@ -401,7 +401,7 @@ void Paratext_Logic::synchronize () // Todo
         vector <Merge_Conflict> conflicts;
 
         // Run the synchronizer.
-        usfm = synchronize (ancestor, bibledit, paratext, messages, merged, conflicts); // Todo
+        usfm = synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
         
         // If there was a result of syncing, set the ancestor and paratext data.
         if (!usfm.empty ()) {
@@ -465,7 +465,7 @@ void Paratext_Logic::synchronize () // Todo
 }
 
 
-string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext, // Todo
+string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext,
                                     vector <string> & messages,
                                     bool & merged, vector <Merge_Conflict> & conflicts)
 {

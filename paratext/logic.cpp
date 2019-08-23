@@ -470,11 +470,13 @@ void Paratext_Logic::synchronize () // Todo
 
 
 string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext, // Todo
-                                    vector <string> & messages, vector <Merge_Conflict> & conflicts)
+                                    vector <string> & messages,
+                                    bool & merged, vector <Merge_Conflict> & conflicts)
 {
   string resulting_usfm;
 
   messages.clear ();
+  merged = false;
   conflicts.clear ();
   
   // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
@@ -512,6 +514,7 @@ string Paratext_Logic::synchronize (string ancestor, string bibledit, string par
   else if (!ancestor.empty ()) {
     resulting_usfm = filter_merge_run (ancestor, bibledit, paratext, true, conflicts);
     messages.push_back (translate ("Chapter merged"));
+    merged = true;
   }
   
   // Cannot merge the two.

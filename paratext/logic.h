@@ -39,7 +39,8 @@ public:
   static vector <string> enabledBibles ();
   static void synchronize ();
   static string synchronize (string ancestor, string bibledit, string paratext,
-                             vector <string> & messages, vector <Merge_Conflict> & conflicts);
+                             vector <string> & messages,
+                             bool & merged, vector <Merge_Conflict> & conflicts);
   static string synchronizeStartText ();
   static string synchronizeReadyText ();
 private:

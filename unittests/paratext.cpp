@@ -41,10 +41,12 @@ void test_paratext () // Todo
     )";
     string paratext;
     vector <string> messages;
+    bool merged;
     vector <Merge_Conflict> conflicts;
-    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
     evaluate (__LINE__, __func__, bibledit, result);
     evaluate (__LINE__, __func__, 1, messages.size ());
+    evaluate (__LINE__, __func__, false, merged);
     evaluate (__LINE__, __func__, 0, conflicts.size ());
   }
   
@@ -61,9 +63,11 @@ void test_paratext () // Todo
     )";
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
-    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+    bool merged;
+    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
     evaluate (__LINE__, __func__, paratext, result);
     evaluate (__LINE__, __func__, 1, messages.size ());
+    evaluate (__LINE__, __func__, false, merged);
     evaluate (__LINE__, __func__, 0, conflicts.size ());
   }
   
@@ -80,9 +84,11 @@ void test_paratext () // Todo
     string paratext (bibledit);
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
-    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+    bool merged;
+    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
     evaluate (__LINE__, __func__, "", result);
     evaluate (__LINE__, __func__, 0, messages.size ());
+    evaluate (__LINE__, __func__, false, merged);
     evaluate (__LINE__, __func__, 0, conflicts.size ());
   }
   
@@ -109,12 +115,14 @@ void test_paratext () // Todo
       string ancestor (bibledit);
       vector <string> messages;
       vector <Merge_Conflict> conflicts;
-      string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+      bool merged;
+      string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
       evaluate (__LINE__, __func__, paratext, result);
       evaluate (__LINE__, __func__, 1, messages.size ());
       if (messages.size() == 1) {
         evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
       }
+      evaluate (__LINE__, __func__, true, merged);
       evaluate (__LINE__, __func__, 0, conflicts.size ());
     }
     {
@@ -122,12 +130,14 @@ void test_paratext () // Todo
       string ancestor (paratext);
       vector <string> messages;
       vector <Merge_Conflict> conflicts;
-      string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+      bool merged;
+      string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
       evaluate (__LINE__, __func__, bibledit, result);
       evaluate (__LINE__, __func__, 1, messages.size ());
       if (messages.size() == 1) {
         evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
       }
+      evaluate (__LINE__, __func__, true, merged);
       evaluate (__LINE__, __func__, 0, conflicts.size ());
     }
   }
@@ -151,12 +161,14 @@ void test_paratext () // Todo
     )";
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
-    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+    bool merged;
+    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
     evaluate (__LINE__, __func__, "", result);
     evaluate (__LINE__, __func__, 1, messages.size ());
     if (messages.size() == 1) {
       evaluate (__LINE__, __func__, "Cannot merge chapter due to missing parent data", messages[0]);
     }
+    evaluate (__LINE__, __func__, false, merged);
     evaluate (__LINE__, __func__, 0, conflicts.size ());
   }
 
@@ -185,12 +197,14 @@ void test_paratext () // Todo
     )";
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
-    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+    bool merged;
+    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
     evaluate (__LINE__, __func__, filter_string_trim (paratext), result);
     evaluate (__LINE__, __func__, 1, messages.size ());
     if (messages.size() == 1) {
       evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
     }
+    evaluate (__LINE__, __func__, true, merged);
     evaluate (__LINE__, __func__, 3, conflicts.size ());
     if (conflicts.size() == 3) {
       evaluate (__LINE__, __func__, R"(\v 1 paratext.)", conflicts[0].result);
@@ -242,12 +256,14 @@ void test_paratext () // Todo
     )";
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
-    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
+    bool merged;
+    string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
     evaluate (__LINE__, __func__, filter_string_trim (bibledit), filter_string_trim (result));
     evaluate (__LINE__, __func__, 1, messages.size ());
     if (messages.size() == 1) {
       evaluate (__LINE__, __func__, "Copy larger Bibledit chapter to smaller Paratext chapter", messages[0]);
     }
+    evaluate (__LINE__, __func__, false, merged);
     evaluate (__LINE__, __func__, 0, conflicts.size ());
   }
 

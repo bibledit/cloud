@@ -419,7 +419,7 @@ string bible_logic_unsent_unreceived_data_warning ()
 }
 
 
-void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_Conflict> conflicts)
+void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_Conflict> conflicts) // Todo
 {
   if (conflicts.empty ()) return;
   
@@ -433,7 +433,7 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
     
     // Add some information for the user.
     node = document.append_child ("p");
-    node.text ().set ("While saving the text, something unusual was detected.");
+    node.text ().set ("While merging the text, something unusual was detected.");
     
     // Add the base text.
     document.append_child ("br");

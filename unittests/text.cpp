@@ -395,7 +395,6 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
     string standard = R"(
 Genesis
 =======
@@ -403,28 +402,46 @@ Genesis
 Genesis 1
 =========
 
-၁။ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို
+၁။ ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို
 အတူတကွခေါ်ပြီးလျှင်
 နတ်ဆိုးအပေါင်းတို့ကို
 နှင်ထုတ်နိုင်ရန်နှင့်
-အနာရောဂါများကို
-ပျောက်ကင်းစေနိုင်ရန်
-တန်ခိုးအာဏာတို့ကို သူတို့အား ပေးတော်မူ၏။- ၂။ထို့နောက်
-ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို
-ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ
-ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ကိုယ်တော်က
+အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန်
+တန်ခိုးအာဏာတို့ကို သူတို့အား
+ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏
+နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို
+ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က
 သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ
 ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊
-လွယ်အိတ်၊စားစရာနှင့် ငွေကြေးတို့ကို
-သယ်ဆောင်မသွားကြနှင့်။
+လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။
 ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။
-မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင်
-ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင်
-ပြန်လည်ထွက်ခွာကြလော့။-
+မည်သည့်အိမ်ကိုမဆို
+သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍
+ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
+  // Test that the \vp... markup does not introduce an extra space after the \v marker.
+  {
+    string usfm = R"(
+\id MAT
+\c 1
+\p
+\v 1 \vp A\vp* Verse text.
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.text_text = new Text_Text ();
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    string output = filter_text.text_text->get ();
+    string standard = R"(
+1
+A Verse text.
+    )";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), output);
+  }
+  
   // Test clear text export.
   {
     string usfm =
@@ -1102,7 +1119,6 @@ Chapter Two
     int ret = system (command.c_str());
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
-    cout << odt << endl;
     string standard = R"(
     Genesis
     =======

@@ -495,10 +495,21 @@ void Filter_Text::processUsfm ()
                 }
                 case IdentifierSubtypePublishedVerseMarker:
                 {
-                  // This information is already in the object.
-                  // Remove it from the USFM stream at the opening marker.
                   if (isOpeningMarker) {
+                    // This information is already in the object.
+                    // Remove it from the USFM stream at the opening marker.
                     usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                  } else {
+                    // USFM allows the closing marker \vp* to be followed by a space.
+                    // But this space should not be converted to text output.
+                    // https://github.com/bibledit/cloud/issues/311
+                    // It is going to be removed here.
+                    int pointer = chapterUsfmMarkersAndTextPointer + 1;
+                    if (pointer < chapterUsfmMarkersAndText.size()) {
+                      string text = chapterUsfmMarkersAndText[pointer];
+                      text = filter_string_ltrim (text);
+                      chapterUsfmMarkersAndText[pointer] = text;
+                    }
                   }
                   break;
                 }

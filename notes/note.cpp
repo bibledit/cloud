@@ -24,6 +24,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/html.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
@@ -121,6 +122,13 @@ string notes_note (void * webserver_request)
   view.set_variable ("content", content);
 
   
+  // Extra space at the bottom of the page.
+  // See issues:
+  // https://github.com/bibledit/cloud/issues/321
+  // https://github.com/bibledit/cloud/issues/310
+  view.set_variable ("brs", filter_html_android_brs ());
+  
+
   if (request->database_config_user ()->getQuickNoteEditLink ()) {
     view.enable_zone ("editcontent");
   }

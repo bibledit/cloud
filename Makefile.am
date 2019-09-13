@@ -18,6 +18,7 @@ libbibledit_a_SOURCES = \
 	filter/passage.cpp \
 	filter/css.cpp \
 	filter/git.cpp \
+	filter/html.cpp \
 	filter/diff.cpp \
 	filter/shell.cpp \
 	filter/merge.cpp \

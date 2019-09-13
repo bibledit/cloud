@@ -126,6 +126,8 @@
 		CA06BDF01A572DE400A051FF /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
 		CA06BDF11A572DE400A051FF /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CA0922701BAC69E3004654D7 /* stylesheet.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = stylesheet.css; sourceTree = "<group>"; };
+		CA09BA1B232BC10200539C12 /* html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = html.cpp; sourceTree = "<group>"; };
+		CA09BA1C232BC10200539C12 /* html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = html.h; sourceTree = "<group>"; };
 		CA0AB472204599EE00C99DD8 /* net_sockets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net_sockets.c; sourceTree = "<group>"; };
 		CA0AB473204599F800C99DD8 /* net_sockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net_sockets.h; sourceTree = "<group>"; };
 		CA0AB47420459A0500C99DD8 /* rsa_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rsa_internal.h; sourceTree = "<group>"; };
@@ -2216,6 +2218,8 @@
 				CA1240301A55D8A1002C4752 /* diff.h */,
 				CA442D021A553DA6006374D3 /* git.cpp */,
 				CA442D031A553DA6006374D3 /* git.h */,
+				CA09BA1B232BC10200539C12 /* html.cpp */,
+				CA09BA1C232BC10200539C12 /* html.h */,
 				CA3188D21E7BF3470008C7D9 /* mail.cpp */,
 				CA3188D31E7BF3470008C7D9 /* mail.h */,
 				CAA4D0F71A45A647003ABA25 /* md5.cpp */,

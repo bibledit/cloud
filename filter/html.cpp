@@ -23,7 +23,7 @@
 // There's weird behaviour on Android that prevents clicking links at a certain location.
 // See https://github.com/bibledit/cloud/issues/321
 // This function delivers a set of <br> to mitigate the problem.
-string filter_html_android_brs () // Todo
+string filter_html_android_brs ()
 {
   string brs;
 #ifdef HAVE_ANDROID

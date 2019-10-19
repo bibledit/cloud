@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/certs.h>
 #include <mbedtls/x509.h>
+#include <mbedtls/x509_crt.h>
 #include <mbedtls/ssl.h>
 #include <mbedtls/net.h>
 #include <mbedtls/error.h>

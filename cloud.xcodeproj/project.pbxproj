@@ -334,6 +334,11 @@
 		CA3F4C391E4B521F001BDF13 /* dev.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dev.cpp; sourceTree = "<group>"; };
 		CA3F4C3A1E4B521F001BDF13 /* dev.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dev.h; sourceTree = "<group>"; };
 		CA4077471BB0321F000D2712 /* dev.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = dev.txt; sourceTree = "<group>"; };
+		CA40FDBB23642E13006A6EDC /* client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = client; sourceTree = "<group>"; };
+		CA40FDBC23642E36006A6EDC /* clients */ = {isa = PBXFileReference; lastKnownFileType = folder; path = clients; sourceTree = "<group>"; };
+		CA40FDBD23642E49006A6EDC /* imageresources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imageresources; sourceTree = "<group>"; };
+		CA40FDBE23642E53006A6EDC /* search */ = {isa = PBXFileReference; lastKnownFileType = folder; path = search; sourceTree = "<group>"; };
+		CA40FDBF23642EA5006A6EDC /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CA4150281AB7651100C30DA5 /* notes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = notes.cpp; sourceTree = "<group>"; };
 		CA4150291AB7651100C30DA5 /* notes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = notes.h; sourceTree = "<group>"; };
 		CA42C3761B84E8E10050E0DA /* description.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = description.txt; sourceTree = "<group>"; };
@@ -1889,12 +1894,16 @@
 		CAA4D0491A45A647003ABA25 /* databases */ = {
 			isa = PBXGroup;
 			children = (
+				CA40FDBB23642E13006A6EDC /* client */,
+				CA40FDBC23642E36006A6EDC /* clients */,
 				CAA4D04A1A45A647003ABA25 /* config */,
+				CA40FDBD23642E49006A6EDC /* imageresources */,
 				CAA4D0511A45A647003ABA25 /* ipc */,
 				CAA4D0531A45A647003ABA25 /* kjv.sqlite */,
 				CAA4D0541A45A647003ABA25 /* modifications */,
 				CAA4D05C1A45A647003ABA25 /* offlineresources */,
 				CAA4D05E1A45A647003ABA25 /* sblgnt.sqlite */,
+				CA40FDBE23642E53006A6EDC /* search */,
 				CAA4D05F1A45A647003ABA25 /* styles */,
 				CAA4D0611A45A647003ABA25 /* users */,
 				CAA4D0631A45A647003ABA25 /* usfmresources */,
@@ -2682,6 +2691,7 @@
 		CAA4D2ED1A45A648003ABA25 /* revisions */ = {
 			isa = PBXGroup;
 			children = (
+				CA40FDBF23642EA5006A6EDC /* gitflag */,
 			);
 			path = revisions;
 			sourceTree = "<group>";

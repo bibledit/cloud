@@ -66,7 +66,6 @@ private:
 
 
 void notes_logic_maintain_note_assignees (bool force);
-void notes_logic_gradual_upgrader ();
 
 
 #endif

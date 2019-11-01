@@ -134,8 +134,9 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (true);
-  test_dev ();
-  test_filter_text ();
+  test_database_notes ();
+  test_database_noteassignment ();
+  test_database_noteactions();
   refresh_sandbox (true);
   exit (0);
   

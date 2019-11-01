@@ -238,9 +238,6 @@ void timer_index ()
       }
 #endif
 
-      // Once an hour, convert any old consultation notes to the new format.
-      if (minute == 11) tasks_logic_queue (CONVERTCONSULTATIONNOTES);
-
       // Suppress compiler warning on client.
       (void) weekday;
       

@@ -296,9 +296,6 @@ void tasks_run_one (string filename)
     system_logic_import_resources_file (parameter1);
   }
 #endif
-  else if (command == CONVERTCONSULTATIONNOTES) {
-    notes_logic_gradual_upgrader ();
-  }
   else if (command == DELETECHANGES) {
     changes_clear_notifications_user (parameter1, parameter2);
   }

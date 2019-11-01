@@ -80,7 +80,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define IMPORTNOTESTRANSFERFILE "importnotestransferfile"
 #define PRODUCERESOURCESTRANSFERFILE "produceresourcestransferfile"
 #define IMPORTRESOURCESTRANSFERFILE "importresourcestransferfile"
-#define CONVERTCONSULTATIONNOTES "convertconsultationnotes"
 #define DELETECHANGES "deletechanges"
 #define CLEARCACHES "clearcaches"
 

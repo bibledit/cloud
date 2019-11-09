@@ -162,7 +162,7 @@ string notes_actions (void * webserver_request)
   view.set_variable ("severity",  severity);
 
   
-  string bible = database_notes.get_bible_v12 (id);
+  string bible = database_notes.get_bible (id);
   view.set_variable ("bible", bible);
   if (bible.empty ()) view.enable_zone ("nobible");
 

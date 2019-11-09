@@ -242,7 +242,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
 void Notes_Logic::setBible (int identifier, const string& bible)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_bible_v12 (identifier, bible);
+  database_notes.set_bible (identifier, bible);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -363,7 +363,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.get_bible_v12 (identifier);
+  string bible = database_notes.get_bible (identifier);
 
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.

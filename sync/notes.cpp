@@ -173,7 +173,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_bible:
     {
-      return database_notes.get_bible_v12 (identifier);
+      return database_notes.get_bible (identifier);
     }
     case Sync_Logic::notes_get_modified:
     {

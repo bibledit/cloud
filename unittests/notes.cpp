@@ -513,22 +513,22 @@ void test_database_notes ()
     
     request.session_logic()->setUsername ("unittest");
     int oldidentifier = database_notes.store_new_note_v1 ("unittest", 0, 0, 0, "Summary", "Contents", false);
-    string bible = database_notes.get_bible_v12 (oldidentifier);
+    string bible = database_notes.get_bible (oldidentifier);
     evaluate (__LINE__, __func__, "unittest", bible);
     int newidentifier = database_notes.store_new_note ("unittest2", 0, 0, 0, "Summary", "Contents", false);
-    bible = database_notes.get_bible_v2 (newidentifier);
+    bible = database_notes.get_bible (newidentifier);
     evaluate (__LINE__, __func__, "unittest2", bible);
-    database_notes.set_bible_v12 (oldidentifier, "PHPUnit2");
-    bible = database_notes.get_bible_v12 (oldidentifier);
+    database_notes.set_bible (oldidentifier, "PHPUnit2");
+    bible = database_notes.get_bible (oldidentifier);
     evaluate (__LINE__, __func__, "PHPUnit2", bible);
-    database_notes.set_bible_v12 (newidentifier, "PHPUnit3");
-    bible = database_notes.get_bible_v2 (newidentifier);
+    database_notes.set_bible (newidentifier, "PHPUnit3");
+    bible = database_notes.get_bible (newidentifier);
     evaluate (__LINE__, __func__, "PHPUnit3", bible);
-    database_notes.set_bible_v12 (oldidentifier, "");
-    bible = database_notes.get_bible_v12 (oldidentifier);
+    database_notes.set_bible (oldidentifier, "");
+    bible = database_notes.get_bible (oldidentifier);
     evaluate (__LINE__, __func__, "", bible);
-    database_notes.set_bible_v12 (newidentifier, "");
-    bible = database_notes.get_bible_v2 (newidentifier);
+    database_notes.set_bible (newidentifier, "");
+    bible = database_notes.get_bible (newidentifier);
     evaluate (__LINE__, __func__, "", bible);
   }
 
@@ -1071,14 +1071,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_bible_v12 (oldidentifier, "unittest");
+    database_notes.set_bible (oldidentifier, "unittest");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_bible_v12 (newidentifier, "unittest");
+    database_notes.set_bible (newidentifier, "unittest");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
 
@@ -1522,7 +1522,7 @@ void test_database_notes ()
       database_notes.set_contents (identifier, contents);
       // Additional fields for the note.
       string assigned = "assigned" + offset;
-      database_notes.set_raw_assigned_v2 (identifier, assigned);
+      database_notes.set_raw_assigned (identifier, assigned);
       string passage = "passage" + offset;
       database_notes.set_raw_passage_v12 (identifier, passage);
       int severity = 4 * i;
@@ -1568,7 +1568,7 @@ void test_database_notes ()
       int identifier = v_identifier [i];
       evaluate (__LINE__, __func__, false, database_notes.get_summary (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_contents (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_bible_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_bible (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_passage_v2 (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_status_v2 (identifier).empty ());
       evaluate (__LINE__, __func__, true, database_notes.get_raw_severity_v2 (identifier) != 2);
@@ -1576,7 +1576,7 @@ void test_database_notes ()
       database_notes.erase (identifier);
       evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_bible_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_bible (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v2 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v2 (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity_v2 (identifier));
@@ -1601,9 +1601,9 @@ void test_database_notes ()
     // Check that the notes are back.
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      string assigned = database_notes.get_raw_assigned_v2 (identifier);
+      string assigned = database_notes.get_raw_assigned (identifier);
       evaluate (__LINE__, __func__, v_assigned [i], assigned);
-      string bible = database_notes.get_bible_v2 (identifier);
+      string bible = database_notes.get_bible (identifier);
       evaluate (__LINE__, __func__, v_bible [i], bible);
       string contents = database_notes.get_contents (identifier);
       evaluate (__LINE__, __func__, v_contents [i], contents);
@@ -1985,8 +1985,8 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier_v2, assignee_v1));
     
     // Test the general methods for the Bible.
-    evaluate (__LINE__, __func__, bible_v1, database_notes.get_bible_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, bible_v2, database_notes.get_bible_v12 (identifier_v2));
+    evaluate (__LINE__, __func__, bible_v1, database_notes.get_bible (identifier_v1));
+    evaluate (__LINE__, __func__, bible_v2, database_notes.get_bible (identifier_v2));
     
     // Test the general methods for the passage.
     vector <Passage> passages;

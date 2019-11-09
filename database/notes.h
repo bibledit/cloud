@@ -122,18 +122,15 @@ public:
 private:
   string assigned_key ();
   vector <string> get_assignees_internal (string assignees);
-  void set_assignees_v2 (int identifier, vector <string> assignees);
-  void set_raw_assigned_v2 (int identifier, const string& assigned);
-  string get_raw_assigned_v2 (int identifier);
+  void set_raw_assigned (int identifier, const string& assigned);
+  string get_raw_assigned (int identifier);
   
 public:
-  string get_bible_v12 (int identifier);
-  void set_bible_v12 (int identifier, const string& bible);
-  vector <string> get_all_bibles_v12 ();
+  string get_bible (int identifier);
+  void set_bible (int identifier, const string& bible);
+  vector <string> get_all_bibles ();
 private:
-  string bible_key_v2 ();
-  string get_bible_v2 (int identifier);
-  void set_bible_v2 (int identifier, const string& bible);
+  string bible_key ();
 
 public:
   string encode_passage_v12 (int book, int chapter, int verse);

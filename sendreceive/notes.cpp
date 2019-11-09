@@ -212,7 +212,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_bible:
         {
-          content = database_notes.get_bible_v12 (identifier);
+          content = database_notes.get_bible (identifier);
           break;
         }
         case Sync_Logic::notes_put_mark_delete: break;

@@ -115,7 +115,7 @@ string notes_notes (void * webserver_request)
       verses.insert (0, status + " ");
     }
     if (show_bible_in_notes_list) {
-      string bible = database_notes.get_bible_v12 (identifier);
+      string bible = database_notes.get_bible (identifier);
       verses.insert (0, bible + " ");
     }
     // A simple way to make it easier to see the individual notes in the list,

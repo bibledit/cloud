@@ -322,7 +322,7 @@ void Database_Notes::update_database_v2 (int identifier)
   int modified = get_modified_v2 (identifier);
   string assigned = get_field_v2 (identifier, assigned_key ());
   string subscriptions = get_field_v2 (identifier, subscriptions_key ());
-  string bible = get_bible_v2 (identifier);
+  string bible = get_bible (identifier);
   string passage = get_raw_passage_v2 (identifier);
   string status = get_raw_status_v2 (identifier);
   int severity = get_raw_severity_v2 (identifier);
@@ -571,7 +571,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   string folder = filter_url_dirname (path);
   filter_url_mkdir (folder);
   Object note;
-  note << bible_key_v2 () << bible;
+  note << bible_key () << bible;
   note << passage_key_v2 () << passage;
   note << status_key_v2 () << status;
   note << severity_key_v2 () << convert_to_string (severity);
@@ -1002,14 +1002,14 @@ void Database_Notes::unsubscribe_user (int identifier, const string& user)
 }
 
 
-string Database_Notes::get_raw_assigned_v2 (int identifier)
+string Database_Notes::get_raw_assigned (int identifier)
 {
   // Get the asssignees from the filesystem.
   return get_field_v2 (identifier, assigned_key ());
 }
 
 
-void Database_Notes::set_raw_assigned_v2 (int identifier, const string& assigned)
+void Database_Notes::set_raw_assigned (int identifier, const string& assigned)
 {
   // Store the assignees in the filesystem.
   set_field_v2 (identifier, assigned_key (), assigned);
@@ -1065,7 +1065,7 @@ vector <string> Database_Notes::get_all_assignees (const vector <string>& bibles
 vector <string> Database_Notes::get_assignees (int identifier)
 {
   // Get the asssignees from the filesystem.
-  string assignees = get_raw_assigned_v2 (identifier);
+  string assignees = get_raw_assigned (identifier);
   return get_assignees_internal (assignees);
 }
 
@@ -1087,22 +1087,13 @@ vector <string> Database_Notes::get_assignees_internal (string assignees)
 // assignees : array of user names.
 void Database_Notes::set_assignees (int identifier, vector <string> assignees)
 {
-  set_assignees_v2 (identifier, assignees);
-}
-
-
-// Sets the note's assignees.
-// identifier : note identifier.
-// assignees : array of user names.
-void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees)
-{
   // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
   for (auto & assignee : assignees) {
     assignee.insert (0, " ");
     assignee.append (" ");
   }
   string assignees_string = filter_string_implode (assignees, "\n");
-  set_raw_assigned_v2 (identifier, assignees_string);
+  set_raw_assigned (identifier, assignees_string);
   note_modified_actions_v12 (identifier);
 }
 
@@ -1116,7 +1107,7 @@ void Database_Notes::assign_user (int identifier, const string& user)
   // Assign the note to the user.
   assignees.push_back (user);
   // Store the whole lot.
-  set_assignees_v2 (identifier, assignees);
+  set_assignees (identifier, assignees);
 }
 
 
@@ -1136,32 +1127,20 @@ void Database_Notes::unassign_user (int identifier, const string& user)
   if (find (assignees.begin(), assignees.end(), user) == assignees.end()) return;
   // Remove assigned user.
   assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
-  set_assignees_v2 (identifier, assignees);
+  set_assignees (identifier, assignees);
 }
 
 
-string Database_Notes::get_bible_v12 (int identifier)
+string Database_Notes::get_bible (int identifier)
 {
-  return get_bible_v2 (identifier);
+  return get_field_v2 (identifier, bible_key ());
 }
 
 
-string Database_Notes::get_bible_v2 (int identifier)
-{
-  return get_field_v2 (identifier, bible_key_v2 ());
-}
-
-
-void Database_Notes::set_bible_v12 (int identifier, const string& bible)
-{
-  set_bible_v2 (identifier, bible);
-}
-
-
-void Database_Notes::set_bible_v2 (int identifier, const string& bible)
+void Database_Notes::set_bible (int identifier, const string& bible)
 {
   // Write the bible to the filesystem.
-  set_field_v2 (identifier, bible_key_v2 (), bible);
+  set_field_v2 (identifier, bible_key (), bible);
   
   // Update the database also.
   SqliteSQL sql;
@@ -1178,7 +1157,7 @@ void Database_Notes::set_bible_v2 (int identifier, const string& bible)
 }
 
 
-vector <string> Database_Notes::get_all_bibles_v12 ()
+vector <string> Database_Notes::get_all_bibles ()
 {
   vector <string> bibles;
   sqlite3 * db = connect ();
@@ -1842,7 +1821,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("subscribers");
   checksum.append (get_field_v2 (identifier, subscriptions_key ()));
   checksum.append ("bible");
-  checksum.append (get_field_v2 (identifier, bible_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, bible_key ()));
   checksum.append ("passages");
   checksum.append (get_field_v2 (identifier, passage_key_v2 ()));
   checksum.append ("status");
@@ -1994,7 +1973,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     // Add all the fields of the note.
     string assigned = get_field_v2 (identifier, assigned_key ());
     note << "a" << assigned;
-    string bible = get_bible_v2 (identifier);;
+    string bible = get_bible (identifier);;
     note << "b" << bible;
     string contents = get_contents (identifier);
     note << "c" << contents;
@@ -2056,7 +2035,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     filter_url_mkdir (folder);
     Object note2;
     note2 << assigned_key () << assigned;
-    note2 << bible_key_v2 () << bible;
+    note2 << bible_key () << bible;
     note2 << contents_key () << contents;
     note2 << modified_key_v2 () << convert_to_string (modified);
     note2 << passage_key_v2 () << passage;
@@ -2104,7 +2083,7 @@ void Database_Notes::set_field_v2 (int identifier, string key, string value)
 }
 
 
-string Database_Notes::bible_key_v2 ()
+string Database_Notes::bible_key ()
 {
   return "bible";
 }

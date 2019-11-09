@@ -334,7 +334,7 @@ void demo_create_sample_notes (void * webserver_request)
   vector <int> identifiers = database_notes.get_identifiers ();
   if (identifiers.size () < 10) {
     for (size_t i = 1; i <= 10; i++) {
-      database_notes.store_new_note_v2 (demo_sample_bible_name (), i, i, i, "Sample Note " + convert_to_string (i), "Sample Contents for note " + convert_to_string (i), false);
+      database_notes.store_new_note (demo_sample_bible_name (), i, i, i, "Sample Note " + convert_to_string (i), "Sample Contents for note " + convert_to_string (i), false);
     }
   }
 }

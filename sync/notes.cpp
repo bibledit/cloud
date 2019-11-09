@@ -141,12 +141,12 @@ string sync_notes (void * webserver_request)
       database_notes.update_search_fields_v12 (identifier);
       database_notes.update_checksum_v12 (identifier);
       // Return summary.
-      string summary = database_notes.get_summary_v12 (identifier);
+      string summary = database_notes.get_summary (identifier);
       return summary;
     }
     case Sync_Logic::notes_get_contents:
     {
-      return database_notes.get_contents_v12 (identifier);
+      return database_notes.get_contents (identifier);
     }
     case Sync_Logic::notes_get_subscribers:
     {
@@ -182,7 +182,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_create_initiate:
     {
       // Create the note on the server.
-      int server_id = database_notes.store_new_note_v2 ("", 1, 1, 1, "<empty>", "<empty>", false);
+      int server_id = database_notes.store_new_note ("", 1, 1, 1, "<empty>", "<empty>", false);
       // Update the note identifier on the server to be same as on the client.
       database_notes.set_identifier (server_id, identifier);
       // Update search field.
@@ -200,7 +200,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_summary:
     {
       // Set the summary of the note on the server.
-      notes_logic.set_summary_v12 (identifier, content);
+      notes_logic.set_summary (identifier, content);
       // Update search field.
       database_notes.update_search_fields_v12 (identifier);
       // Info.
@@ -211,7 +211,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_contents:
     {
       // Set the note's contents on the server.
-      database_notes.set_contents_v12 (identifier, content);
+      database_notes.set_contents (identifier, content);
       // Update search field.
       database_notes.update_search_fields_v12 (identifier);
       // Done.
@@ -224,7 +224,7 @@ string sync_notes (void * webserver_request)
       // Update search field.
       database_notes.update_search_fields_v12 (identifier);
       // Info.
-      Database_Logs::log ("Client added comment to note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client added comment to note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Notifications.
       notes_logic.handlerAddComment (identifier);
       // Done.
@@ -235,7 +235,7 @@ string sync_notes (void * webserver_request)
       // Subscribe to the note on the server.
       database_notes.subscribe_user_v12 (identifier, user);
       // Info.
-      Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
       return "";
     }
@@ -244,7 +244,7 @@ string sync_notes (void * webserver_request)
       // Unsubscribe from the note on the server.
       database_notes.unsubscribe_user_v12 (identifier, user);
       // Info.
-      Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
       return "";
     }
@@ -253,7 +253,7 @@ string sync_notes (void * webserver_request)
       // Assign user to the note on the server.
       notes_logic.assignUser (identifier, content);
       // Info
-      Database_Logs::log ("Client assigned the note to a user on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client assigned the note to a user on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Notifications.
       notes_logic.handlerAssignNote (identifier, content);
       // Done.
@@ -264,7 +264,7 @@ string sync_notes (void * webserver_request)
       // Unassign the user from the note on the server.
       notes_logic.unassignUser (identifier, content);
       // Info.
-      Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
       return "";
     }
@@ -273,7 +273,7 @@ string sync_notes (void * webserver_request)
       // Set the status for a note on the server.
       notes_logic.setStatus (identifier, content);
       // Info.
-      Database_Logs::log ("Client set the note status on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client set the note status on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
       return "";
     }
@@ -290,7 +290,7 @@ string sync_notes (void * webserver_request)
       // Set the severity for a note on the server.
       notes_logic.setRawSeverity (identifier, convert_to_int (content));
       // Info
-      Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
       return "";
     }
@@ -306,7 +306,7 @@ string sync_notes (void * webserver_request)
       // Mark note on server for deletion.
       notes_logic.markForDeletion (identifier);
       // Info.
-      Database_Logs::log ("Client marked a note on server for deletion: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client marked a note on server for deletion: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Notifications.
       notes_logic.handlerMarkNoteForDeletion (identifier);
       // Done.
@@ -317,14 +317,14 @@ string sync_notes (void * webserver_request)
       // Unmark note on server for deletion.
       notes_logic.unmarkForDeletion (identifier);
       // Info.
-      Database_Logs::log ("Client unmarked a note on server for deletion: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client unmarked a note on server for deletion: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
       return "";
     }
     case Sync_Logic::notes_put_delete:
     {
       // Info to be given before the note is deleted, else the info is lost.
-      Database_Logs::log ("Client deleted a note on server: " + database_notes.get_summary_v12 (identifier), Filter_Roles::manager ());
+      Database_Logs::log ("Client deleted a note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Notifications.
       notes_logic.handlerDeleteNote (identifier);
       // Delete note on server.

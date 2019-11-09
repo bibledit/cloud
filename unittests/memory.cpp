@@ -86,7 +86,7 @@ void test_memory ()
     Database_Notes database_notes (NULL);
     database_notes.create ();
     for (int i = 0; i < 100; i++) {
-      database_notes.store_new_note_v2 ("bible", i, i, i, "summary", "contents", true);
+      database_notes.store_new_note ("bible", i, i, i, "summary", "contents", true);
     }
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();

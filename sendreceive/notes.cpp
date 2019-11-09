@@ -155,7 +155,7 @@ bool sendreceive_notes_upload ()
   for (auto identifier : notes) {
     
 
-    string summary = database_notes.get_summary_v12 (identifier);
+    string summary = database_notes.get_summary (identifier);
     if (summary.empty ()) summary = "<deleted>";
     Database_Logs::log (sendreceive_notes_text () + translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
     
@@ -186,7 +186,7 @@ bool sendreceive_notes_upload ()
         case Sync_Logic::notes_put_create_complete: break;
         case Sync_Logic::notes_put_summary:
         {
-          content = database_notes.get_summary_v12 (identifier);
+          content = database_notes.get_summary (identifier);
           break;
         }
         case Sync_Logic::notes_put_contents: break;
@@ -289,8 +289,8 @@ bool sendreceive_notes_upload ()
       response = sync_logic.post (post, url, error);
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
-          if (response != database_notes.get_contents_v12 (identifier)) {
-            database_notes.set_contents_v12 (identifier, response);
+          if (response != database_notes.get_contents (identifier)) {
+            database_notes.set_contents (identifier, response);
           }
         }
         if (action == Sync_Logic::notes_get_subscribers) {
@@ -466,7 +466,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Therefore limit the number of notes a client can delete in one go.
     delete_counter++;
     if (delete_counter > 15) continue;
-    string summary = database_notes.get_summary_v12 (identifier);
+    string summary = database_notes.get_summary (identifier);
     database_notes.erase_v12 (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());
   }

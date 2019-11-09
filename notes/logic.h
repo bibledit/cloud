@@ -38,7 +38,7 @@ public:
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void setContent (int identifier, const string& content);
   void addComment (int identifier, const string& comment);
-  void set_summary_v12 (int identifier, const string& summary);
+  void set_summary (int identifier, const string& summary);
   void subscribe (int identifier);
   void unsubscribe (int identifier);
   void assignUser (int identifier, const string& user);

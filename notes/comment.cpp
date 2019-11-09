@@ -83,11 +83,11 @@ string notes_comment (void * webserver_request)
   view.set_variable ("id", convert_to_string (id));
   
   
-  string summary = database_notes.get_summary_v12 (id);
+  string summary = database_notes.get_summary (id);
   view.set_variable ("summary", summary);
   
   
-  string content = database_notes.get_contents_v12 (id);
+  string content = database_notes.get_contents (id);
   view.set_variable ("content", content);
   
   

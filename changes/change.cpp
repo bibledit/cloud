@@ -113,7 +113,7 @@ string changes_change (void * webserver_request)
   
   
   // Get notes for the passage.
-  vector <int> notes = database_notes.select_notes_v12 (bibles, // Bibles.
+  vector <int> notes = database_notes.select_notes (bibles, // Bibles.
                                                    passage.book, passage.chapter, convert_to_int (passage.verse),
                                                    0,  // Passage selector.
                                                    0,  // Edit selector.
@@ -155,7 +155,7 @@ string changes_change (void * webserver_request)
   // Details for the notes.
   string notesblock;
   for (auto & note : notes) {
-    string summary = database_notes.get_summary_v12 (note);
+    string summary = database_notes.get_summary (note);
     summary = escape_special_xml_characters (summary);
     bool subscription = database_notes.is_subscribed_v12 (note, username);
     bool assignment = database_notes.is_assigned_v12 (note, username);

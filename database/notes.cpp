@@ -326,8 +326,8 @@ void Database_Notes::update_database_v2 (int identifier)
   string passage = get_raw_passage_v2 (identifier);
   string status = get_raw_status_v2 (identifier);
   int severity = get_raw_severity_v2 (identifier);
-  string summary = get_summary_v2 (identifier);
-  string contents = get_contents_v2 (identifier);
+  string summary = get_summary (identifier);
+  string contents = get_contents (identifier);
   
   // Sync the values to the database.
   update_database_internal (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents);
@@ -481,7 +481,7 @@ void Database_Notes::set_identifier (int identifier, int new_identifier)
 
 // Gets new unique note identifier.
 // Works for the old and new storage system.
-int Database_Notes::get_new_unique_identifier_v12 ()
+int Database_Notes::get_new_unique_identifier ()
 {
   int identifier = 0;
   do {
@@ -504,9 +504,9 @@ vector <int> Database_Notes::get_identifiers ()
 }
 
 
-string Database_Notes::assemble_contents_v12 (int identifier, string contents)
+string Database_Notes::assemble_contents (int identifier, string contents)
 {
-  string new_contents = get_contents_v2 (identifier);
+  string new_contents = get_contents (identifier);
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -543,10 +543,10 @@ string Database_Notes::assemble_contents_v12 (int identifier, string contents)
 // contents: The note's contents.
 // raw: Import contents as it is.
 // It returns the identifier of this new note.
-int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+int Database_Notes::store_new_note (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
   // Create a new identifier.
-  int identifier = get_new_unique_identifier_v12 ();
+  int identifier = get_new_unique_identifier ();
   
   // Passage.
   string passage = encode_passage_v12 (book, chapter, verse);
@@ -563,7 +563,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   }
   
   // Assemble contents.
-  if (!raw) contents = assemble_contents_v12 (identifier, contents);
+  if (!raw) contents = assemble_contents (identifier, contents);
   if ((contents.empty()) && (summary.empty())) return 0;
   
   // Store the JSON representation of the note in the file system.
@@ -575,8 +575,8 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
   note << passage_key_v2 () << passage;
   note << status_key_v2 () << status;
   note << severity_key_v2 () << convert_to_string (severity);
-  note << summary_key_v2 () << summary;
-  note << contents_key_v2 () << contents;
+  note << summary_key () << summary;
+  note << contents_key () << contents;
   string json = note.json ();
   filter_url_file_put_contents (path, json);
   
@@ -623,7 +623,7 @@ int Database_Notes::store_new_note_v2 (const string& bible, int book, int chapte
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-vector <int> Database_Notes::select_notes_v12 (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
+vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
 {
   string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
   vector <int> identifiers;
@@ -797,28 +797,16 @@ vector <int> Database_Notes::select_notes_v12 (vector <string> bibles, int book,
 }
 
 
-string Database_Notes::get_summary_v12 (int identifier)
+string Database_Notes::get_summary (int identifier)
 {
-  return get_summary_v2 (identifier);
+  return get_field_v2 (identifier, summary_key ());
 }
 
 
-string Database_Notes::get_summary_v2 (int identifier)
-{
-  return get_field_v2 (identifier, summary_key_v2 ());
-}
-
-
-void Database_Notes::set_summary_v12 (int identifier, const string& summary)
-{
-  set_summary_v2 (identifier, summary);
-}
-
-
-void Database_Notes::set_summary_v2 (int identifier, string summary)
+void Database_Notes::set_summary (int identifier, const string& summary)
 {
   // Store authoritative copy in the filesystem.
-  set_field_v2 (identifier, summary_key_v2 (), summary);
+  set_field_v2 (identifier, summary_key (), summary);
   // Update the shadow database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET summary =");
@@ -836,34 +824,22 @@ void Database_Notes::set_summary_v2 (int identifier, string summary)
 }
 
 
-string Database_Notes::get_contents_v12 (int identifier)
+string Database_Notes::get_contents (int identifier)
 {
-  return get_contents_v2 (identifier);
+  return get_field_v2 (identifier, contents_key ());
 }
 
 
-string Database_Notes::get_contents_v2 (int identifier)
+void Database_Notes::set_raw_contents (int identifier, const string& contents)
 {
-  return get_field_v2 (identifier, contents_key_v2 ());
+  set_field_v2 (identifier, contents_key (), contents);
 }
 
 
-void Database_Notes::set_raw_contents_v2 (int identifier, const string& contents)
-{
-  set_field_v2 (identifier, contents_key_v2 (), contents);
-}
-
-
-void Database_Notes::set_contents_v12 (int identifier, const string& contents)
-{
-  set_contents_v2 (identifier, contents);
-}
-
-
-void Database_Notes::set_contents_v2 (int identifier, const string& contents)
+void Database_Notes::set_contents (int identifier, const string& contents)
 {
   // Store in file system.
-  set_raw_contents_v2 (identifier, contents);
+  set_raw_contents (identifier, contents);
   // Update database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET contents =");
@@ -911,8 +887,8 @@ void Database_Notes::add_comment_v2 (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
-  string contents = assemble_contents_v12 (identifier, comment);
-  set_contents_v2 (identifier, contents);
+  string contents = assemble_contents (identifier, comment);
+  set_contents (identifier, contents);
   
   // Some triggers.
   note_modified_actions_v12 (identifier);
@@ -1721,8 +1697,8 @@ void Database_Notes::update_search_fields_v2 (int identifier)
 {
   // The search field is a combination of the summary and content converted to clean text.
   // It enables us to search with wildcards before and after the search query.
-  string noteSummary = get_summary_v2 (identifier);
-  string noteContents = get_contents_v2 (identifier);
+  string noteSummary = get_summary (identifier);
+  string noteContents = get_contents (identifier);
   string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
   if (cleanText == get_search_field_v12 (identifier)) return;
@@ -1957,9 +1933,9 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("severity");
   checksum.append (get_field_v2 (identifier, severity_key_v2 ()));
   checksum.append ("summary");
-  checksum.append (get_field_v2 (identifier, summary_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, summary_key ()));
   checksum.append ("contents");
-  checksum.append (get_field_v2 (identifier, contents_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, contents_key ()));
   checksum = md5 (checksum);
   set_checksum_v12 (identifier, checksum);
 }
@@ -2103,7 +2079,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     note << "a" << assigned;
     string bible = get_bible_v2 (identifier);;
     note << "b" << bible;
-    string contents = get_contents_v2 (identifier);
+    string contents = get_contents (identifier);
     note << "c" << contents;
     note << "i" << identifier;
     int modified = get_modified_v2 (identifier);
@@ -2113,7 +2089,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     string subscriptions = get_field_v2 (identifier, subscriptions_key_v2 ());
     note << "sb" << subscriptions;
     string summary;
-    summary = get_summary_v2 (identifier);
+    summary = get_summary (identifier);
     note << "sm" << summary;
     string status;
     status = get_raw_status_v2 (identifier);
@@ -2164,11 +2140,11 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     Object note2;
     note2 << assigned_key_v2 () << assigned;
     note2 << bible_key_v2 () << bible;
-    note2 << contents_key_v2 () << contents;
+    note2 << contents_key () << contents;
     note2 << modified_key_v2 () << convert_to_string (modified);
     note2 << passage_key_v2 () << passage;
     note2 << subscriptions_key_v2 () << subscriptions;
-    note2 << summary_key_v2 () << summary;
+    note2 << summary_key () << summary;
     note2 << status_key_v2 () << status;
     note2 << severity_key_v2 () << convert_to_string (severity);
     string json = note2.json ();
@@ -2241,13 +2217,13 @@ string Database_Notes::modified_key_v2 ()
 }
 
 
-string Database_Notes::summary_key_v2 ()
+string Database_Notes::summary_key ()
 {
   return "summary";
 }
 
 
-string Database_Notes::contents_key_v2 ()
+string Database_Notes::contents_key ()
 {
   return "contents";
 }

@@ -182,7 +182,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     database_notes.optimize ();
-    int identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", "", false);
+    int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
     database_notes.erase_v12 (identifier);
     database_notes.trim ();
     database_notes.trim_server ();
@@ -207,7 +207,7 @@ void test_database_notes ()
     identifier = Notes_Logic::highNoteIdentifier;
     evaluate (__LINE__, __func__, 999999999, identifier);
     
-    identifier = database_notes.get_new_unique_identifier_v12 ();
+    identifier = database_notes.get_new_unique_identifier ();
     if ((identifier < 100000000) || (identifier > 999999999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
     
@@ -216,7 +216,7 @@ void test_database_notes ()
     database_notes.erase_v12 (identifier);
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
 
-    identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", "", false);
+    identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
     evaluate (__LINE__, __func__, true, database_notes.identifier_exists (identifier));
     database_notes.erase_v12 (identifier);
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
@@ -240,15 +240,15 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, summary, contents, false);
     string value = database_notes.get_summary_v1 (oldidentifier);
     evaluate (__LINE__, __func__, summary, value);
-    value = database_notes.get_contents_v12 (oldidentifier);
+    value = database_notes.get_contents (oldidentifier);
     vector <string> values = filter_string_explode (value, '\n');
     if (values.size () > 1) value = values[1];
     evaluate (__LINE__, __func__, "<p>Contents</p>", value);
     // New storage.
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, summary, contents, false);
-    value = database_notes.get_summary_v2 (newidentifier);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, summary, contents, false);
+    value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, summary, value);
-    value = database_notes.get_contents_v2 (newidentifier);
+    value = database_notes.get_contents (newidentifier);
     values = filter_string_explode (value, '\n');
     if (values.size () > 1) value = values[1];
     evaluate (__LINE__, __func__, "<p>Contents</p>", value);
@@ -259,61 +259,61 @@ void test_database_notes ()
     oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", contents, false);
     value = database_notes.get_summary_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "This is a note.", value);
-    value = database_notes.get_contents_v12 (oldidentifier);
+    value = database_notes.get_contents (oldidentifier);
     values = filter_string_explode (value, '\n');
     if (values.size () > 2) value = values[2];
     evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
     // New JSON storage.
-    newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", contents, false);
-    value = database_notes.get_summary_v2 (newidentifier);
+    newidentifier = database_notes.store_new_note ("", 0, 0, 0, "", contents, false);
+    value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, "This is a note.", value);
-    value = database_notes.get_contents_v2 (newidentifier);
+    value = database_notes.get_contents (newidentifier);
     values = filter_string_explode (value, '\n');
     if (values.size () > 2) value = values[2];
     evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
     
     // Test setting the summary.
-    database_notes.set_summary_v12 (oldidentifier, "summary1");
+    database_notes.set_summary (oldidentifier, "summary1");
     value = database_notes.get_summary_v1 (oldidentifier);
     evaluate (__LINE__, __func__, "summary1", value);
-    database_notes.set_summary_v2 (newidentifier, "summary2");
-    value = database_notes.get_summary_v2 (newidentifier);
+    database_notes.set_summary (newidentifier, "summary2");
+    value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, "summary2", value);
     
     // Test setting the note contents.
-    database_notes.set_contents_v12 (oldidentifier, "contents1");
-    value = database_notes.get_contents_v12 (oldidentifier);
+    database_notes.set_contents (oldidentifier, "contents1");
+    value = database_notes.get_contents (oldidentifier);
     evaluate (__LINE__, __func__, "contents1", value);
-    database_notes.set_contents_v2 (newidentifier, "contents2");
-    value = database_notes.get_contents_v2 (newidentifier);
+    database_notes.set_contents (newidentifier, "contents2");
+    value = database_notes.get_contents (newidentifier);
     evaluate (__LINE__, __func__, "contents2", value);
     
     // Test adding comment.
     // Old storage.
-    value = database_notes.get_contents_v12 (oldidentifier);
+    value = database_notes.get_contents (oldidentifier);
     int length = value.length ();
     database_notes.add_comment_v12 (oldidentifier, "comment1");
-    value = database_notes.get_contents_v12 (oldidentifier);
+    value = database_notes.get_contents (oldidentifier);
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     size_t pos = value.find ("comment1");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment1'", value);
     // New storage.
-    value = database_notes.get_contents_v2 (newidentifier);
+    value = database_notes.get_contents (newidentifier);
     length = value.length ();
     database_notes.add_comment_v2 (newidentifier, "comment2");
-    value = database_notes.get_contents_v2 (newidentifier);
+    value = database_notes.get_contents (newidentifier);
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     pos = value.find ("comment2");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
     // Universal method to add comment to old storage.
     database_notes.add_comment_v12 (oldidentifier, "comment4");
-    value = database_notes.get_contents_v12 (oldidentifier);
+    value = database_notes.get_contents (oldidentifier);
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     pos = value.find ("comment4");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment4'", value);
     // Universal method to add comment to new storage.
     database_notes.add_comment_v12 (newidentifier, "comment5");
-    value = database_notes.get_contents_v12 (newidentifier);
+    value = database_notes.get_contents (newidentifier);
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     pos = value.find ("comment5");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
@@ -377,7 +377,7 @@ void test_database_notes ()
     // Normally creating a new note would subscribe the current user to the note.
     // But since this unit test runs without sessions, it would have subscribed an empty user.
     request.session_logic()->setUsername ("");
-    int identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
+    int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {}, subscribers);
     
@@ -385,7 +385,7 @@ void test_database_notes ()
     database_users.add_user ("unittest", "", 5, "");
     request.session_logic()->setUsername ("unittest");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
-    identifier = database_notes.store_new_note_v2 ("", 1, 1, 1, "Summary", "Contents", false);
+    identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers_v2 (identifier);
     evaluate (__LINE__, __func__, {"unittest"}, subscribers);
@@ -402,7 +402,7 @@ void test_database_notes ()
     
     // With the username still set, test the plan subscribe and unsubscribe mechanisms.
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
-    identifier = database_notes.store_new_note_v2 ("", 1, 1, 1, "Summary", "Contents", false);
+    identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     evaluate (__LINE__, __func__, false, database_notes.is_subscribed_v2 (identifier, "unittest"));
     database_notes.subscribe_v2 (identifier);
     evaluate (__LINE__, __func__, true, database_notes.is_subscribed_v2 (identifier, "unittest"));
@@ -445,7 +445,7 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> assignees = database_notes.get_assignees_v12 (oldidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary2", "Contents2", false);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
     assignees = database_notes.get_assignees_v2 (newidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
 
@@ -515,7 +515,7 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("unittest", 0, 0, 0, "Summary", "Contents", false);
     string bible = database_notes.get_bible_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "unittest", bible);
-    int newidentifier = database_notes.store_new_note_v2 ("unittest2", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note ("unittest2", 0, 0, 0, "Summary", "Contents", false);
     bible = database_notes.get_bible_v2 (newidentifier);
     evaluate (__LINE__, __func__, "unittest2", bible);
     database_notes.set_bible_v12 (oldidentifier, "PHPUnit2");
@@ -547,7 +547,7 @@ void test_database_notes ()
     
     // Create notes for certain passages.
     int oldidentifier = database_notes.store_new_note_v1 ("", 10, 9, 8, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("", 5, 4, 3, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note ("", 5, 4, 3, "Summary", "Contents", false);
     
     // Test getting passage.
     vector <Passage> passages = database_notes.get_passages_v12 (oldidentifier);
@@ -587,7 +587,7 @@ void test_database_notes ()
     
     // Create notes.
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default status = New.
     string status = database_notes.get_status_v12 (oldidentifier);
@@ -627,7 +627,7 @@ void test_database_notes ()
     
     // Create note.
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default severity = Normal.
     string severity = database_notes.get_severity_v12 (oldidentifier);
@@ -677,7 +677,7 @@ void test_database_notes ()
     
     // Create note.
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "Summary", "Contents", false);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test getter.
     int value = database_notes.get_modified_v12 (oldidentifier);
@@ -736,12 +736,12 @@ void test_database_notes ()
     // Create note.
     request.session_logic()->setUsername ("unittest");
     int identifier_v1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int identifier_v2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int identifier_v2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
     // Contents of the note.
-    string original_contents_v1 = database_notes.get_contents_v12 (identifier_v1);
+    string original_contents_v1 = database_notes.get_contents (identifier_v1);
     if (original_contents_v1.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v1.length ()));
-    string original_contents_v2 = database_notes.get_contents_v2 (identifier_v2);
+    string original_contents_v2 = database_notes.get_contents (identifier_v2);
     if (original_contents_v2.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v2.length ()));
     
     // Checksum of the note, v1 and v2.
@@ -751,19 +751,19 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 32, (int) original_checksum_v2.length());
     
     // Change the identifier.
-    int new_id_v1 = database_notes.get_new_unique_identifier_v12 ();
+    int new_id_v1 = database_notes.get_new_unique_identifier ();
     database_notes.set_identifier_v1 (identifier_v1, new_id_v1);
-    int new_id_v2 = database_notes.get_new_unique_identifier_v12 ();
+    int new_id_v2 = database_notes.get_new_unique_identifier ();
     database_notes.set_identifier_v2 (identifier_v2, new_id_v2);
     
     // Check old and new identifier for v2 and v2.
-    string contents = database_notes.get_contents_v12 (identifier_v1);
+    string contents = database_notes.get_contents (identifier_v1);
     evaluate (__LINE__, __func__, "", contents);
-    contents = database_notes.get_contents_v12 (new_id_v1);
+    contents = database_notes.get_contents (new_id_v1);
     evaluate (__LINE__, __func__, original_contents_v1, contents);
-    contents = database_notes.get_contents_v2 (identifier_v2);
+    contents = database_notes.get_contents (identifier_v2);
     evaluate (__LINE__, __func__, "", contents);
-    contents = database_notes.get_contents_v2 (new_id_v2);
+    contents = database_notes.get_contents (new_id_v2);
     evaluate (__LINE__, __func__, original_contents_v2, contents);
     
     string checksum = database_notes.get_checksum_v12 (identifier_v1);
@@ -791,7 +791,7 @@ void test_database_notes ()
     database_notes.create ();
     
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
     database_notes.mark_for_deletion_v12 (oldidentifier);
     database_notes.mark_for_deletion_v12 (newidentifier);
@@ -840,7 +840,7 @@ void test_database_notes ()
     database_notes.create ();
     
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
     database_notes.mark_for_deletion_v12 (oldidentifier);
     database_notes.mark_for_deletion_v12 (newidentifier);
@@ -881,9 +881,9 @@ void test_database_notes ()
     int oldidentifier1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int oldidentifier2 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int oldidentifier3 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier1 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier3 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
     database_notes.mark_for_deletion_v12 (oldidentifier1);
     database_notes.mark_for_deletion_v12 (newidentifier1);
@@ -940,9 +940,9 @@ void test_database_notes ()
     int oldidentifier1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int oldidentifier2 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int oldidentifier3 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier1 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier2 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
-    int newidentifier3 = database_notes.store_new_note_v2 ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
     database_notes.mark_for_deletion_v12 (oldidentifier1);
     evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
@@ -1002,7 +1002,7 @@ void test_database_notes ()
     
     // Create note to work with.
     int oldidentifier = database_notes.store_new_note_v1 ("bible", 1, 2, 3, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("bible", 1, 2, 3, "summary", "contents", false);
+    int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
     
     // Checksum of new note should be calculated.
     string good_checksum_old = database_notes.get_checksum_v12 (oldidentifier);
@@ -1131,14 +1131,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_summary_v12 (oldidentifier, "new");
+    database_notes.set_summary (oldidentifier, "new");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_summary_v2 (newidentifier, "new");
+    database_notes.set_summary (newidentifier, "new");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1146,14 +1146,14 @@ void test_database_notes ()
     database_notes.delete_checksum_v12 (oldidentifier);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_contents_v12 (oldidentifier, "new");
+    database_notes.set_contents (oldidentifier, "new");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.delete_checksum_v12 (newidentifier);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_contents_v2 (newidentifier, "new");
+    database_notes.set_contents (newidentifier, "new");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
   }
@@ -1177,9 +1177,9 @@ void test_database_notes ()
     oldidentifiers.push_back (database_notes.store_new_note_v1 ("bible3", 3, 4, 5, "summary3", "contents3", false));
     // New
     vector <int> newidentifiers;
-    newidentifiers.push_back (database_notes.store_new_note_v2 ("bible4", 4, 5, 6, "summary4", "contents4", false));
-    newidentifiers.push_back (database_notes.store_new_note_v2 ("bible5", 5, 6, 7, "summary5", "contents5", false));
-    newidentifiers.push_back (database_notes.store_new_note_v2 ("bible6", 6, 7, 8, "summary6", "contents6", false));
+    newidentifiers.push_back (database_notes.store_new_note ("bible4", 4, 5, 6, "summary4", "contents4", false));
+    newidentifiers.push_back (database_notes.store_new_note ("bible5", 5, 6, 7, "summary5", "contents5", false));
+    newidentifiers.push_back (database_notes.store_new_note ("bible6", 6, 7, 8, "summary6", "contents6", false));
     
     // Checksum calculation: slow and fast methods should be the same.
     Sync_Logic sync_logic = Sync_Logic (&request);
@@ -1208,7 +1208,7 @@ void test_database_notes ()
     
     // Create old and new notes to work with.
     int oldidentifier = database_notes.store_new_note_v1 ("bible", 1, 2, 3, "summary", "contents", false);
-    int newidentifier = database_notes.store_new_note_v2 ("bible", 1, 2, 3, "summary", "contents", false);
+    int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
 
     // Check checksum.
     string oldchecksum = database_notes.get_checksum_v12 (oldidentifier);
@@ -1341,25 +1341,25 @@ void test_database_notes ()
     int identifier3 = database_notes.store_new_note_v1 ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // Select notes while varying Bible selection.
-    vector <int> identifiers = database_notes.select_notes_v12 ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier1}, identifiers);
     
-    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier2}, identifiers);
     
-    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier1, identifier2}, identifiers);
     
-    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    identifiers = database_notes.select_notes_v12 ({}, 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    identifiers = database_notes.select_notes_v12 ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
     
-    identifiers = database_notes.select_notes_v12 ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
   }
 
@@ -1450,9 +1450,9 @@ void test_database_notes ()
     int oldidentifier1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
     int oldidentifier2 = database_notes.store_new_note_v1 ("bible2", 1, 2, 3, "summary2", "contents2", false);
     int oldidentifier3 = database_notes.store_new_note_v1 ("bible3", 1, 2, 3, "summary3", "contents3", false);
-    int newidentifier1 = database_notes.store_new_note_v2 ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int newidentifier2 = database_notes.store_new_note_v2 ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    int newidentifier3 = database_notes.store_new_note_v2 ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    int newidentifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int newidentifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
+    int newidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // None of them, or others, are public notes.
     evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier1));
@@ -1518,8 +1518,8 @@ void test_database_notes ()
       int verse = i + 2;
       string summary = "summary" + offset;
       string contents = "contents" + offset;
-      int identifier = database_notes.store_new_note_v2 (bible, book, chapter, verse, summary, contents, false);
-      database_notes.set_contents_v2 (identifier, contents);
+      int identifier = database_notes.store_new_note (bible, book, chapter, verse, summary, contents, false);
+      database_notes.set_contents (identifier, contents);
       // Additional fields for the note.
       string assigned = "assigned" + offset;
       database_notes.set_raw_assigned_v2 (identifier, assigned);
@@ -1558,7 +1558,7 @@ void test_database_notes ()
     
     // Get some search results for later reference.
     vector <int> search_results;
-    search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
     string json = database_notes.get_bulk_v12 (v_identifier);
@@ -1566,16 +1566,16 @@ void test_database_notes ()
     // Delete all notes again.
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      evaluate (__LINE__, __func__, false, database_notes.get_summary_v2 (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_contents_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_summary (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_contents (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_bible_v2 (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_passage_v2 (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_status_v2 (identifier).empty ());
       evaluate (__LINE__, __func__, true, database_notes.get_raw_severity_v2 (identifier) != 2);
       evaluate (__LINE__, __func__, true, database_notes.get_modified_v2 (identifier) < 1000);
       database_notes.erase_v12 (identifier);
-      evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_contents_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_bible_v2 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v2 (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v2 (identifier));
@@ -1592,7 +1592,7 @@ void test_database_notes ()
     
     // There should be no search results anymore.
     vector <int> no_search_results;
-    no_search_results = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
@@ -1605,7 +1605,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_assigned [i], assigned);
       string bible = database_notes.get_bible_v2 (identifier);
       evaluate (__LINE__, __func__, v_bible [i], bible);
-      string contents = database_notes.get_contents_v2 (identifier);
+      string contents = database_notes.get_contents (identifier);
       evaluate (__LINE__, __func__, v_contents [i], contents);
       int modified = database_notes.get_modified_v2 (identifier);
       evaluate (__LINE__, __func__, v_modified [i], modified);
@@ -1617,7 +1617,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_status [i], status);
       string subscriptions = database_notes.get_raw_subscriptions_v2 (identifier);
       evaluate (__LINE__, __func__, v_subscriptions [i], subscriptions);
-      string summary = database_notes.get_summary_v2 (identifier);
+      string summary = database_notes.get_summary (identifier);
       evaluate (__LINE__, __func__, v_summary [i], summary);
     }
     
@@ -1630,7 +1630,7 @@ void test_database_notes ()
     
     // The search results should be back too.
     vector <int> restored_search;
-    restored_search = database_notes.select_notes_v12 ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, search_results, restored_search);
   }
 
@@ -1655,7 +1655,7 @@ void test_database_notes ()
     vector <int> identifiers;
     
     // Search on the content of the current note.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
                                                    0, // No verse given.
@@ -1673,9 +1673,9 @@ void test_database_notes ()
     // Search result should be there.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     // Do a raw update of the note. The search database is not updated.
-    database_notes.set_raw_contents_v2 (identifier, contents);
+    database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
                                                    0, // No verse given.
@@ -1695,7 +1695,7 @@ void test_database_notes ()
     // Search results should be back to normal.
     database_notes.update_database_v12 (identifier);
     database_notes.update_search_fields_v12 (identifier);
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
                                                    0, // No verse given.
@@ -1713,7 +1713,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     
     // Search on the note's passage.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // Book given.
                                                    0, // Chapter given.
                                                    0, // Verse given.
@@ -1733,7 +1733,7 @@ void test_database_notes ()
     // Update the passage of the note without updating the search index.
     database_notes.set_raw_passage_v12 (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
                                                    3, // Verse given.
@@ -1751,7 +1751,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index. There should be search results now.
     database_notes.update_database_v12 (identifier);
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
                                                    3, // Verse given.
@@ -1784,13 +1784,13 @@ void test_database_notes ()
     string contents ("contents");
     
     // Create note.
-    int identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", "", false);
+    int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
     // Creating the note updates the search database.
     // Basic search should work now.
     vector <int> identifiers;
     
     // Search on the content of the current note.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
                                                    0, // No verse given.
@@ -1808,9 +1808,9 @@ void test_database_notes ()
     // Search result should be there.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     // Do a raw update of the note. The search database is not updated.
-    database_notes.set_raw_contents_v2 (identifier, contents);
+    database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
                                                    0, // No verse given.
@@ -1830,7 +1830,7 @@ void test_database_notes ()
     // Search results should be back to normal.
     database_notes.update_database_v12 (identifier);
     database_notes.update_search_fields_v12 (identifier);
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
                                                    0, // No verse given.
@@ -1848,7 +1848,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     
     // Search on the note's passage.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // Book given.
                                                    0, // Chapter given.
                                                    0, // Verse given.
@@ -1868,7 +1868,7 @@ void test_database_notes ()
     // Update the passage of the note without updating the search index.
     database_notes.set_raw_passage_v12 (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
                                                    3, // Verse given.
@@ -1886,7 +1886,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index. There should be search results now.
     database_notes.update_database_v12 (identifier);
-    identifiers = database_notes.select_notes_v12 ({}, // No Bibles given.
+    identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
                                                    3, // Verse given.
@@ -1923,7 +1923,7 @@ void test_database_notes ()
     // Create note in the old format, and one in the new format.
     int oldidentifier_v1 = database_notes.store_new_note_v1 (bible_v1, passage_v1.book, passage_v1.chapter, convert_to_int (passage_v1.verse), "v1", "v1", false);
     int identifier_v1 = oldidentifier_v1 + 2;
-    int oldidentifier_v2 = database_notes.store_new_note_v2 (bible_v2, passage_v2.book, passage_v2.chapter, convert_to_int (passage_v2.verse), "v2", "v2", false);
+    int oldidentifier_v2 = database_notes.store_new_note (bible_v2, passage_v2.book, passage_v2.chapter, convert_to_int (passage_v2.verse), "v2", "v2", false);
     int identifier_v2 = oldidentifier_v2 + 4;
     
     // Call the universal method to set a new identifier.
@@ -1933,28 +1933,28 @@ void test_database_notes ()
     // Test the specific methods and the single universal method to get or to set the summaries.
     string summary_v1 = "summary1";
     string summary_v2 = "summary2";
-    database_notes.set_summary_v12 (identifier_v1, summary_v1);
-    database_notes.set_summary_v12 (identifier_v2, summary_v2);
+    database_notes.set_summary (identifier_v1, summary_v1);
+    database_notes.set_summary (identifier_v2, summary_v2);
     evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary_v1 (identifier_v1));
-    evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary_v2 (identifier_v2));
-    evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary_v12 (identifier_v2));
+    evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary (identifier_v1));
+    evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary (identifier_v2));
+    evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary (identifier_v2));
     evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_summary_v2 (identifier_v1));
+    evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier_v1));
     
     // Test the specific methods and the single universal method to get and to set the contents.
     string contents_v1 = "contents1";
     string contents_v2 = "contents2";
-    database_notes.set_contents_v12 (identifier_v1, contents_v1);
-    database_notes.set_contents_v12 (identifier_v2, contents_v2);
-    string contents = database_notes.get_contents_v12 (identifier_v1);
+    database_notes.set_contents (identifier_v1, contents_v1);
+    database_notes.set_contents (identifier_v2, contents_v2);
+    string contents = database_notes.get_contents (identifier_v1);
     evaluate (__LINE__, __func__, true, contents.find (contents_v1) != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (identifier_v1));
-    contents = database_notes.get_contents_v2 (identifier_v2);
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier_v1));
+    contents = database_notes.get_contents (identifier_v2);
     evaluate (__LINE__, __func__, true, contents.find (contents_v2) != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents_v12 (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_contents_v12 (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_contents_v2 (identifier_v1));
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier_v2));
+    evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier_v1));
     
     // Test the general method to get the subscribers.
     string subscriber_v1 = "subscriber1";

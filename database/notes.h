@@ -66,12 +66,12 @@ public:
 
 public:
   vector <int> get_identifiers ();
-  int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
+  int store_new_note (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
 private:
-  int get_new_unique_identifier_v12 ();
+  int get_new_unique_identifier ();
   
 public:
-  vector <int> select_notes_v12 (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
+  vector <int> select_notes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit);
 private:
   string notes_select_identifier ();
   string notes_optional_fulltext_search_relevance_statement (string search);
@@ -80,22 +80,18 @@ private:
   string notes_order_by_relevance_statement ();
 
 public:
-  string get_summary_v12 (int identifier);
-  void set_summary_v12 (int identifier, const string& summary);
+  string get_summary (int identifier);
+  void set_summary (int identifier, const string& summary);
 private:
-  string summary_key_v2 ();
-  string get_summary_v2 (int identifier);
-  void set_summary_v2 (int identifier, string summary);
+  string summary_key ();
 
 public:
-  string get_contents_v12 (int identifier);
-  void set_contents_v12 (int identifier, const string& contents);
+  string get_contents (int identifier);
+  void set_contents (int identifier, const string& contents);
 private:
-  string contents_key_v2 ();
-  string assemble_contents_v12 (int identifier, string contents);
-  string get_contents_v2 (int identifier);
-  void set_raw_contents_v2 (int identifier, const string& contents);
-  void set_contents_v2 (int identifier, const string& contents);
+  string contents_key ();
+  string assemble_contents (int identifier, string contents);
+  void set_raw_contents (int identifier, const string& contents);
   
 public:
   void erase_v12 (int identifier);

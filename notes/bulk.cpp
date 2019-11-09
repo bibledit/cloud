@@ -112,7 +112,7 @@ string notes_bulk (void * webserver_request)
   // This is done to remember them as long as this page is active.
   // Thus erroneous bulk operations on notes can be rectified somewhat easier.
   if (!subscribe && !unsubscribe && !assign && !unassign && !status && !severity && !bible && !erase) {
-    vector <int> identifiers = database_notes.select_notes_v12 (bibles,
+    vector <int> identifiers = database_notes.select_notes (bibles,
                                               book,
                                               chapter,
                                               verse,

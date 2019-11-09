@@ -53,7 +53,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
 {
   summary = filter_string_str_replace ("\n", "", summary);
   Database_Notes database_notes (webserver_request);
-  int note_id = database_notes.store_new_note_v2 (bible, book, chapter, verse, summary, contents, raw);
+  int note_id = database_notes.store_new_note (bible, book, chapter, verse, summary, contents, raw);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
@@ -61,7 +61,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_initiate, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_summary, "");
     // The contents to submit to the server, take it from the database, as it was updated in the logic above.
-    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, database_notes.get_contents_v12 (note_id));
+    database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_contents, database_notes.get_contents (note_id));
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_bible, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_passages, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_complete, "");
@@ -80,7 +80,7 @@ void Notes_Logic::setContent (int identifier, const string& content)
   if (content.empty ()) return;
   
   Database_Notes database_notes (webserver_request);
-  database_notes.set_contents_v12 (identifier, content);
+  database_notes.set_contents (identifier, content);
 
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
@@ -114,10 +114,10 @@ void Notes_Logic::addComment (int identifier, const string& comment)
 }
 
 
-void Notes_Logic::set_summary_v12 (int identifier, const string& summary)
+void Notes_Logic::set_summary (int identifier, const string& summary)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_summary_v12 (identifier, summary);
+  database_notes.set_summary (identifier, summary);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -465,9 +465,9 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   Database_Notes database_notes (webserver_request);
 
   // Send mail to all users.
-  string summary = database_notes.get_summary_v12 (identifier);
+  string summary = database_notes.get_summary (identifier);
   string passages = filter_passage_display_inline (database_notes.get_passages_v12 (identifier));
-  string contents = database_notes.get_contents_v12 (identifier);
+  string contents = database_notes.get_contents (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.
   contents.append ("<br>\n");
@@ -655,7 +655,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   request->session_logic()->setUsername (username);
   Database_Notes database_notes = Database_Notes(webserver_request);
   string bible = request->database_config_user()->getBible ();
-  int identifier = database_notes.store_new_note_v2 (bible, book, chapter, verse, summary, body, false);
+  int identifier = database_notes.store_new_note (bible, book, chapter, verse, summary, body, false);
   handlerNewNote (identifier);
   request->session_logic()->setUsername (sessionuser);
   // Mail confirmation to the username.

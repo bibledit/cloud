@@ -79,7 +79,7 @@ string notes_notes (void * webserver_request)
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
   
   
-  vector <int> identifiers = database_notes.select_notes_v12 (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);
+  vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);
   
   
   // In case there aren't too many notes, there's enough time to sort them in passage order.
@@ -107,7 +107,7 @@ string notes_notes (void * webserver_request)
   string notesblock;
   for (auto & identifier : identifiers) {
 
-    string summary = database_notes.get_summary_v12 (identifier);
+    string summary = database_notes.get_summary (identifier);
     vector <Passage> passages = database_notes.get_passages_v12 (identifier);
     string verses = filter_passage_display_inline (passages);
     if (show_note_status) {
@@ -135,7 +135,7 @@ string notes_notes (void * webserver_request)
     
     string content;
     if (text_inclusion_selector) {
-      content = database_notes.get_contents_v12 (identifier);
+      content = database_notes.get_contents (identifier);
     }
     
     notesblock.append ("<a name=\"note" + convert_to_string (identifier) + "\"></a>\n");

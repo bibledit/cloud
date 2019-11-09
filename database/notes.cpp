@@ -429,7 +429,7 @@ string Database_Notes::note_file (int identifier)
 // This checks whether the note identifier exists.
 // It works for the old way of storing notes in many files,
 // and for the new way of storing notes in JSON.
-bool Database_Notes::identifier_exists_v12 (int identifier)
+bool Database_Notes::identifier_exists (int identifier)
 {
   if (file_or_dir_exists (note_file (identifier))) return true;
   return false;
@@ -437,16 +437,8 @@ bool Database_Notes::identifier_exists_v12 (int identifier)
 
 
 // Update a note's identifier.
-// new_identifier is the value given to the note identifier by identifier.
-void Database_Notes::set_identifier_v12 (int identifier, int new_identifier)
-{
-  set_identifier_v2 (identifier, new_identifier);
-}
-
-
-// Update a note's identifier.
-// $new_identifier is the value given to the note $identifier.
-void Database_Notes::set_identifier_v2 (int identifier, int new_identifier)
+// new_identifier is the value given to the note identified by $identifier.
+void Database_Notes::set_identifier (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
   erase_v12 (new_identifier);
@@ -494,12 +486,12 @@ int Database_Notes::get_new_unique_identifier_v12 ()
   int identifier = 0;
   do {
     identifier = filter_string_rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
-  } while (identifier_exists_v12 (identifier));
+  } while (identifier_exists (identifier));
   return identifier;
 }
 
 
-vector <int> Database_Notes::get_identifiers_v12 ()
+vector <int> Database_Notes::get_identifiers ()
 {
   sqlite3 * db = connect ();
   vector <int> identifiers;
@@ -1857,7 +1849,7 @@ bool Database_Notes::is_marked_for_deletion_v2 (int identifier)
 
 void Database_Notes::touch_marked_for_deletion_v12 ()
 {
-  vector <int> identifiers = get_identifiers_v12 ();
+  vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion_v2 (identifier)) {
       string expiry = get_field_v2 (identifier, expiry_key_v2 ());
@@ -1872,7 +1864,7 @@ void Database_Notes::touch_marked_for_deletion_v12 ()
 vector <int> Database_Notes::get_due_for_deletion_v2 ()
 {
   vector <int> deletes;
-  vector <int> identifiers = get_identifiers_v12 ();
+  vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion_v2 (identifier)) {
       string sdays = get_field_v2 (identifier, expiry_key_v2 ());

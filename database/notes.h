@@ -61,13 +61,11 @@ public:
   void sync ();
 
 public:
-  bool identifier_exists_v12 (int identifier);
-  void set_identifier_v12 (int identifier, int new_identifier);
-private:
-  void set_identifier_v2 (int identifier, int new_identifier);
+  bool identifier_exists (int identifier);
+  void set_identifier (int identifier, int new_identifier);
 
 public:
-  vector <int> get_identifiers_v12 ();
+  vector <int> get_identifiers ();
   int store_new_note_v2 (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw);
 private:
   int get_new_unique_identifier_v12 ();

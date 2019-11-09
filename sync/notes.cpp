@@ -184,7 +184,7 @@ string sync_notes (void * webserver_request)
       // Create the note on the server.
       int server_id = database_notes.store_new_note_v2 ("", 1, 1, 1, "<empty>", "<empty>", false);
       // Update the note identifier on the server to be same as on the client.
-      database_notes.set_identifier_v12 (server_id, identifier);
+      database_notes.set_identifier (server_id, identifier);
       // Update search field.
       database_notes.update_search_fields_v12 (identifier);
       // Done.

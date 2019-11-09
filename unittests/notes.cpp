@@ -209,17 +209,17 @@ void test_database_notes ()
     
     identifier = database_notes.get_new_unique_identifier_v12 ();
     if ((identifier < 100000000) || (identifier > 999999999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
-    evaluate (__LINE__, __func__, false, database_notes.identifier_exists_v12 (identifier));
+    evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
     
     identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", "", false);
-    evaluate (__LINE__, __func__, true, database_notes.identifier_exists_v12 (identifier));
+    evaluate (__LINE__, __func__, true, database_notes.identifier_exists (identifier));
     database_notes.erase_v12 (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.identifier_exists_v12 (identifier));
+    evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
 
     identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", "", false);
-    evaluate (__LINE__, __func__, true, database_notes.identifier_exists_v12 (identifier));
+    evaluate (__LINE__, __func__, true, database_notes.identifier_exists (identifier));
     database_notes.erase_v12 (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.identifier_exists_v12 (identifier));
+    evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
   }
 
   // Summary and contents.
@@ -716,7 +716,7 @@ void test_database_notes ()
     }
     
     // Get the identifiers.
-    vector <int> identifiers = database_notes.get_identifiers_v12 ();
+    vector <int> identifiers = database_notes.get_identifiers ();
     sort (standardids.begin(), standardids.end());
     sort (identifiers.begin(), identifiers.end());
     evaluate (__LINE__, __func__, standardids, identifiers);
@@ -1927,8 +1927,8 @@ void test_database_notes ()
     int identifier_v2 = oldidentifier_v2 + 4;
     
     // Call the universal method to set a new identifier.
-    database_notes.set_identifier_v12 (oldidentifier_v1, identifier_v1);
-    database_notes.set_identifier_v12 (oldidentifier_v2, identifier_v2);
+    database_notes.set_identifier (oldidentifier_v1, identifier_v1);
+    database_notes.set_identifier (oldidentifier_v2, identifier_v2);
     
     // Test the specific methods and the single universal method to get or to set the summaries.
     string summary_v1 = "summary1";

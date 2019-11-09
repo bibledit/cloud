@@ -544,7 +544,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   // Check that the identifier is an existing Consultation Note.
   int identifier = convert_to_int (subject);
   Database_Notes database_notes (webserver_request);
-  if (!database_notes.identifier_exists_v12 (identifier)) return false;
+  if (!database_notes.identifier_exists (identifier)) return false;
   // Check that the from address of the email belongs to an existing user.
   // Or else use the obfuscated email address as the user name.
   string username;

@@ -256,7 +256,7 @@ void setup_initialize_data ()
   database_modifications.create ();
   config_globals_setup_message = "notes";
   Database_Notes database_notes (&request);
-  database_notes.create_v12 ();
+  database_notes.create ();
   config_globals_setup_message = "state";
   Database_State::create ();
   config_globals_setup_message = "login";

@@ -84,7 +84,7 @@ void test_memory ()
   {
     Database_State::create ();
     Database_Notes database_notes (NULL);
-    database_notes.create_v12 ();
+    database_notes.create ();
     for (int i = 0; i < 100; i++) {
       database_notes.store_new_note_v2 ("bible", i, i, i, "summary", "contents", true);
     }

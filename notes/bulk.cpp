@@ -172,7 +172,7 @@ string notes_bulk (void * webserver_request)
     vector <string> assignees = database_noteassignment.assignees (user);
     if (in_array (assign, assignees)) {
       for (auto identifier : identifiers) {
-        if (!database_notes.is_assigned_v12 (identifier, assign)) {
+        if (!database_notes.is_assigned (identifier, assign)) {
           notes_logic.assignUser (identifier, assign);
         }
       }
@@ -185,7 +185,7 @@ string notes_bulk (void * webserver_request)
   if (unassign) {
     string unassign = request->query["unassign"];
     for (auto identifier : identifiers) {
-      if (database_notes.is_assigned_v12 (identifier, unassign)) {
+      if (database_notes.is_assigned (identifier, unassign)) {
         notes_logic.unassignUser (identifier, unassign);
       }
     }
@@ -197,7 +197,7 @@ string notes_bulk (void * webserver_request)
   if (unassignme) {
     string username = request->session_logic()->currentUser ();
     for (auto identifier : identifiers) {
-      if (database_notes.is_assigned_v12 (identifier, username)) {
+      if (database_notes.is_assigned (identifier, username)) {
         notes_logic.unassignUser (identifier, username);
       }
     }

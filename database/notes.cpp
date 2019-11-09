@@ -320,7 +320,7 @@ void Database_Notes::update_database_v2 (int identifier)
 {
   // Read the relevant values from the filesystem.
   int modified = get_modified_v2 (identifier);
-  string assigned = get_field_v2 (identifier, assigned_key_v2 ());
+  string assigned = get_field_v2 (identifier, assigned_key ());
   string subscriptions = get_field_v2 (identifier, subscriptions_key ());
   string bible = get_bible_v2 (identifier);
   string passage = get_raw_passage_v2 (identifier);
@@ -1005,14 +1005,14 @@ void Database_Notes::unsubscribe_user (int identifier, const string& user)
 string Database_Notes::get_raw_assigned_v2 (int identifier)
 {
   // Get the asssignees from the filesystem.
-  return get_field_v2 (identifier, assigned_key_v2 ());
+  return get_field_v2 (identifier, assigned_key ());
 }
 
 
 void Database_Notes::set_raw_assigned_v2 (int identifier, const string& assigned)
 {
   // Store the assignees in the filesystem.
-  set_field_v2 (identifier, assigned_key_v2 (), assigned);
+  set_field_v2 (identifier, assigned_key (), assigned);
   
   // Store the assignees in the database also.
   SqliteSQL sql;
@@ -1034,7 +1034,7 @@ void Database_Notes::set_raw_assigned_v2 (int identifier, const string& assigned
 // But as retrieving the assignees from the file system would be slow, 
 // this function retrieves them from the database.
 // Normally the database is in sync with the filesystem.
-vector <string> Database_Notes::get_all_assignees_v12 (const vector <string>& bibles)
+vector <string> Database_Notes::get_all_assignees (const vector <string>& bibles)
 {
   set <string> unique_assignees;
   SqliteSQL sql;
@@ -1062,22 +1062,15 @@ vector <string> Database_Notes::get_all_assignees_v12 (const vector <string>& bi
 
 
 // Returns an array with the assignees to the note identified by identifier.
-vector <string> Database_Notes::get_assignees_v12 (int identifier)
-{
-  return get_assignees_v2 (identifier);
-}
-
-
-// Returns an array with the assignees to the note identified by identifier.
-vector <string> Database_Notes::get_assignees_v2 (int identifier)
+vector <string> Database_Notes::get_assignees (int identifier)
 {
   // Get the asssignees from the filesystem.
   string assignees = get_raw_assigned_v2 (identifier);
-  return get_assignees_internal_v12 (assignees);
+  return get_assignees_internal (assignees);
 }
 
 
-vector <string> Database_Notes::get_assignees_internal_v12 (string assignees)
+vector <string> Database_Notes::get_assignees_internal (string assignees)
 {
   if (assignees.empty ()) return {};
   vector <string> assignees_vector = filter_string_explode (assignees, '\n');
@@ -1092,7 +1085,7 @@ vector <string> Database_Notes::get_assignees_internal_v12 (string assignees)
 // Sets the note's assignees.
 // identifier : note identifier.
 // assignees : array of user names.
-void Database_Notes::set_assignees_v12 (int identifier, vector <string> assignees)
+void Database_Notes::set_assignees (int identifier, vector <string> assignees)
 {
   set_assignees_v2 (identifier, assignees);
 }
@@ -1115,17 +1108,10 @@ void Database_Notes::set_assignees_v2 (int identifier, vector <string> assignees
 
 
 // Assign the note identified by identifier to user.
-void Database_Notes::assign_user_v12 (int identifier, const string& user)
-{
-  assign_user_v2 (identifier, user);
-}
-
-
-// Assign the note identified by identifier to user.
-void Database_Notes::assign_user_v2 (int identifier, const string& user)
+void Database_Notes::assign_user (int identifier, const string& user)
 {
   // If the note already is assigned to the user, bail out.
-  vector <string> assignees = get_assignees_v2 (identifier);
+  vector <string> assignees = get_assignees (identifier);
   if (find (assignees.begin (), assignees.end(), user) != assignees.end()) return;
   // Assign the note to the user.
   assignees.push_back (user);
@@ -1135,32 +1121,18 @@ void Database_Notes::assign_user_v2 (int identifier, const string& user)
 
 
 // Returns true if the note identified by identifier has been assigned to user.
-bool Database_Notes::is_assigned_v12 (int identifier, const string& user)
+bool Database_Notes::is_assigned (int identifier, const string& user)
 {
-  return is_assigned_v2 (identifier, user);
-}
-
-
-// Returns true if the note identified by identifier has been assigned to user.
-bool Database_Notes::is_assigned_v2 (int identifier, const string& user)
-{
-  vector <string> assignees = get_assignees_v2 (identifier);
+  vector <string> assignees = get_assignees (identifier);
   return find (assignees.begin(), assignees.end(), user) != assignees.end();
 }
 
 
 // Unassigns user from the note identified by identifier.
-void Database_Notes::unassign_user_v12 (int identifier, const string& user)
-{
-  unassign_user_v2 (identifier, user);
-}
-
-
-// Unassigns user from the note identified by identifier.
-void Database_Notes::unassign_user_v2 (int identifier, const string& user)
+void Database_Notes::unassign_user (int identifier, const string& user)
 {
   // If the note is not assigned to the user, bail out.
-  vector <string> assignees = get_assignees_v2 (identifier);
+  vector <string> assignees = get_assignees (identifier);
   if (find (assignees.begin(), assignees.end(), user) == assignees.end()) return;
   // Remove assigned user.
   assignees.erase (remove (assignees.begin(), assignees.end(), user), assignees.end());
@@ -1866,7 +1838,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("modified");
   checksum.append (get_field_v2 (identifier, modified_key_v2 ()));
   checksum.append ("assignees");
-  checksum.append (get_field_v2 (identifier, assigned_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, assigned_key ()));
   checksum.append ("subscribers");
   checksum.append (get_field_v2 (identifier, subscriptions_key ()));
   checksum.append ("bible");
@@ -2020,7 +1992,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     // JSON object for the note.
     Object note;
     // Add all the fields of the note.
-    string assigned = get_field_v2 (identifier, assigned_key_v2 ());
+    string assigned = get_field_v2 (identifier, assigned_key ());
     note << "a" << assigned;
     string bible = get_bible_v2 (identifier);;
     note << "b" << bible;
@@ -2083,7 +2055,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     string folder = filter_url_dirname (path);
     filter_url_mkdir (folder);
     Object note2;
-    note2 << assigned_key_v2 () << assigned;
+    note2 << assigned_key () << assigned;
     note2 << bible_key_v2 () << bible;
     note2 << contents_key () << contents;
     note2 << modified_key_v2 () << convert_to_string (modified);
@@ -2180,7 +2152,7 @@ string Database_Notes::subscriptions_key ()
 }
 
 
-string Database_Notes::assigned_key_v2 ()
+string Database_Notes::assigned_key ()
 {
   return "assigned";
 }

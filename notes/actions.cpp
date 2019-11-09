@@ -131,7 +131,7 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("subscribe");
   
 
-  vector <string> assignees = database_notes.get_assignees_v12 (id);
+  vector <string> assignees = database_notes.get_assignees (id);
   string assigneeblock;
   for (auto & assignee : assignees) {
     assigneeblock.append (assignee);
@@ -144,7 +144,7 @@ string notes_actions (void * webserver_request)
   if (level >= Filter_Roles::manager ()) view.enable_zone ("assign");
 
   
-  bool assigned = database_notes.is_assigned_v12 (id, user);
+  bool assigned = database_notes.is_assigned (id, user);
   if (assigned) view.enable_zone ("assigned");
   
   

@@ -443,60 +443,60 @@ void test_database_notes ()
     
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> assignees = database_notes.get_assignees_v12 (oldidentifier);
+    vector <string> assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
-    assignees = database_notes.get_assignees_v2 (newidentifier);
+    assignees = database_notes.get_assignees (newidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
 
     // Assign the note to a user, and check that this reflects in the list of assignees.
-    database_notes.assign_user_v12 (oldidentifier, "unittest");
-    assignees = database_notes.get_assignees_v12 (oldidentifier);
+    database_notes.assign_user (oldidentifier, "unittest");
+    assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
-    database_notes.assign_user_v12 (newidentifier, "unittest");
-    assignees = database_notes.get_assignees_v2 (newidentifier);
+    database_notes.assign_user (newidentifier, "unittest");
+    assignees = database_notes.get_assignees (newidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
     // Test the set_assignees function.
-    database_notes.set_assignees_v12 (oldidentifier, {"unittest"});
-    assignees = database_notes.get_assignees_v12 (oldidentifier);
+    database_notes.set_assignees (oldidentifier, {"unittest"});
+    assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
-    database_notes.set_assignees_v12 (newidentifier, {"unittest"});
-    assignees = database_notes.get_assignees_v2 (newidentifier);
+    database_notes.set_assignees (newidentifier, {"unittest"});
+    assignees = database_notes.get_assignees (newidentifier);
     evaluate (__LINE__, __func__, {"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
-    database_notes.assign_user_v12 (oldidentifier, "unittest2");
-    assignees = database_notes.get_assignees_v12 (oldidentifier);
+    database_notes.assign_user (oldidentifier, "unittest2");
+    assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
-    database_notes.assign_user_v12 (newidentifier, "unittest3");
-    assignees = database_notes.get_assignees_v2 (newidentifier);
+    database_notes.assign_user (newidentifier, "unittest3");
+    assignees = database_notes.get_assignees (newidentifier);
     evaluate (__LINE__, __func__, {"unittest", "unittest3"}, assignees);
     
     // Based on the above, check the is_assigned function.
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (oldidentifier, "unittest"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (oldidentifier, "unittest2"));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v12 (oldidentifier, "PHPUnit3"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v2 (newidentifier, "unittest"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v2 (newidentifier, "unittest3"));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v2 (newidentifier, "PHPUnit3"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (oldidentifier, "unittest"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (oldidentifier, "unittest2"));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned (oldidentifier, "PHPUnit3"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (newidentifier, "unittest"));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (newidentifier, "unittest3"));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned (newidentifier, "PHPUnit3"));
     
     // Based on the above, test get_all_assignees.
-    assignees = database_notes.get_all_assignees_v12 ({""});
+    assignees = database_notes.get_all_assignees ({""});
     evaluate (__LINE__, __func__, {"unittest", "unittest2", "unittest3"}, assignees);
     
     // Based on the above, test the unassign_user function.
-    database_notes.unassign_user_v12 (oldidentifier, "unittest");
-    assignees = database_notes.get_assignees_v12 (oldidentifier);
+    database_notes.unassign_user (oldidentifier, "unittest");
+    assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {"unittest2"}, assignees);
-    database_notes.unassign_user_v12 (oldidentifier, "unittest2");
-    assignees = database_notes.get_assignees_v12 (oldidentifier);
+    database_notes.unassign_user (oldidentifier, "unittest2");
+    assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
-    database_notes.unassign_user_v12 (newidentifier, "unittest");
-    assignees = database_notes.get_assignees_v2 (newidentifier);
+    database_notes.unassign_user (newidentifier, "unittest");
+    assignees = database_notes.get_assignees (newidentifier);
     evaluate (__LINE__, __func__, {"unittest3"}, assignees);
-    database_notes.unassign_user_v12 (newidentifier, "unittest3");
-    assignees = database_notes.get_assignees_v2 (newidentifier);
+    database_notes.unassign_user (newidentifier, "unittest3");
+    assignees = database_notes.get_assignees (newidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
   }
 
@@ -1975,14 +1975,14 @@ void test_database_notes ()
     // Test the general methods for the assignees.
     string assignee_v1 = "assignee1";
     string assignee_v2 = "assignee2";
-    database_notes.set_assignees_v12 (identifier_v1, { assignee_v1 });
-    database_notes.set_assignees_v12 (identifier_v2, { assignee_v2 });
-    evaluate (__LINE__, __func__, { assignee_v1 }, database_notes.get_assignees_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, { assignee_v2 }, database_notes.get_assignees_v12 (identifier_v2));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (identifier_v1, assignee_v1));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned_v12 (identifier_v2, assignee_v2));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v12 (identifier_v1, assignee_v2));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned_v12 (identifier_v2, assignee_v1));
+    database_notes.set_assignees (identifier_v1, { assignee_v1 });
+    database_notes.set_assignees (identifier_v2, { assignee_v2 });
+    evaluate (__LINE__, __func__, { assignee_v1 }, database_notes.get_assignees (identifier_v1));
+    evaluate (__LINE__, __func__, { assignee_v2 }, database_notes.get_assignees (identifier_v2));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier_v1, assignee_v1));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier_v2, assignee_v2));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier_v1, assignee_v2));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier_v2, assignee_v1));
     
     // Test the general methods for the Bible.
     evaluate (__LINE__, __func__, bible_v1, database_notes.get_bible_v12 (identifier_v1));

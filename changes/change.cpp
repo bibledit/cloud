@@ -158,7 +158,7 @@ string changes_change (void * webserver_request)
     string summary = database_notes.get_summary (note);
     summary = escape_special_xml_characters (summary);
     bool subscription = database_notes.is_subscribed (note, username);
-    bool assignment = database_notes.is_assigned_v12 (note, username);
+    bool assignment = database_notes.is_assigned (note, username);
     notesblock.append ("<tr>\n");
     notesblock.append ("<td>\n");
     if (live_notes_editor) {

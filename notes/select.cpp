@@ -196,7 +196,7 @@ string notes_select (void * webserver_request)
   string assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
   if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
   string assigneeblock;
-  vector <string> assignees = database_notes.get_all_assignees_v12 (bibles);
+  vector <string> assignees = database_notes.get_all_assignees (bibles);
   for (auto assignee : assignees) {
     assigneeblock.append (" | ");
     assigneeblock.append ("<a ");

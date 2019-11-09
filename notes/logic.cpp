@@ -172,14 +172,14 @@ void Notes_Logic::assignUser (int identifier, const string& user)
     // Assign logic comes before the database action in this particular case.
     handlerAssignNote (identifier, user);
   }
-  database_notes.assign_user_v12 (identifier, user);
+  database_notes.assign_user (identifier, user);
 }
 
 
 void Notes_Logic::unassignUser (int identifier, const string& user)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.unassign_user_v12 (identifier, user);
+  database_notes.unassign_user (identifier, user);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string myuser = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -330,7 +330,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (webserver_request);
-    vector <string> assignees = database_notes.get_assignees_v12 (identifier);
+    vector <string> assignees = database_notes.get_assignees (identifier);
     if (find (assignees.begin(), assignees.end(), user) == assignees.end()) {
       emailUsers (identifier, translate("Assigned"), "", {user}, false);
     }
@@ -382,7 +382,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
           database_notes.subscribe_user (identifier, user);
         }
         if (request->database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
-          database_notes.assign_user_v12 (identifier, user);
+          database_notes.assign_user (identifier, user);
         }
       }
     }
@@ -400,7 +400,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   }
 
   // Assignees who receive email.
-  vector <string> assignees = database_notes.get_assignees_v12 (identifier);
+  vector <string> assignees = database_notes.get_assignees (identifier);
   for (const string & assignee : assignees) {
     if (request->database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);

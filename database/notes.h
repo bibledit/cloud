@@ -113,19 +113,15 @@ private:
   void set_raw_subscriptions (int identifier, const string& subscriptions);
 
 public:
-  void assign_user_v12 (int identifier, const string& user);
-  bool is_assigned_v12 (int identifier, const string& user);
-  void unassign_user_v12 (int identifier, const string& user);
-  vector <string> get_all_assignees_v12 (const vector <string>& bibles);
-  vector <string> get_assignees_v12 (int identifier);
-  void set_assignees_v12 (int identifier, vector <string> assignees);
+  void assign_user (int identifier, const string& user);
+  bool is_assigned (int identifier, const string& user);
+  void unassign_user (int identifier, const string& user);
+  vector <string> get_all_assignees (const vector <string>& bibles);
+  vector <string> get_assignees (int identifier);
+  void set_assignees (int identifier, vector <string> assignees);
 private:
-  string assigned_key_v2 ();
-  void assign_user_v2 (int identifier, const string& user);
-  bool is_assigned_v2 (int identifier, const string& user);
-  void unassign_user_v2 (int identifier, const string& user);
-  vector <string> get_assignees_internal_v12 (string assignees);
-  vector <string> get_assignees_v2 (int identifier);
+  string assigned_key ();
+  vector <string> get_assignees_internal (string assignees);
   void set_assignees_v2 (int identifier, vector <string> assignees);
   void set_raw_assigned_v2 (int identifier, const string& assigned);
   string get_raw_assigned_v2 (int identifier);

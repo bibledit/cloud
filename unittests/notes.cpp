@@ -162,11 +162,11 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create ();
-    database_notes.optimize_v12 ();
+    database_notes.optimize ();
     int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", "", false);
     database_notes.erase_v12 (identifier);
-    database_notes.trim_v12 ();
-    database_notes.trim_server_v12 ();
+    database_notes.trim ();
+    database_notes.trim_server ();
     // The logbook will have an entry about "Deleting empty notes folder".
     refresh_sandbox (true, {"Deleting empty notes folder"});
   }
@@ -181,11 +181,11 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create ();
-    database_notes.optimize_v12 ();
+    database_notes.optimize ();
     int identifier = database_notes.store_new_note_v2 ("", 0, 0, 0, "", "", false);
     database_notes.erase_v12 (identifier);
-    database_notes.trim_v12 ();
-    database_notes.trim_server_v12 ();
+    database_notes.trim ();
+    database_notes.trim_server ();
     // The logbook will have an entry about "Deleting empty notes folder".
     refresh_sandbox (true, {"Deleting empty notes folder"});
   }
@@ -1023,7 +1023,7 @@ void test_database_notes ()
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, outdated_checksum, checksum);
     // Old and new.
-    database_notes.sync_v12 ();
+    database_notes.sync ();
     // Sometimes something strange happens:
     // At times the checksum gets erased as the sync routine cannot find the original note.
     // The sync (2) call did not make any difference.
@@ -1373,18 +1373,18 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    bool healthy = database_notes.healthy_v12 ();
+    bool healthy = database_notes.healthy ();
     evaluate (__LINE__, __func__, true, healthy);
     
     string corrupted_database = filter_url_create_root_path ("unittests", "tests", "notes.sqlite.damaged");
     string path = database_notes.database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
     
-    healthy = database_notes.healthy_v12 ();
+    healthy = database_notes.healthy ();
     evaluate (__LINE__, __func__, false, healthy);
     
-    database_notes.checkup_v12 ();
-    healthy = database_notes.healthy_v12 ();
+    database_notes.checkup ();
+    healthy = database_notes.healthy ();
     evaluate (__LINE__, __func__, true, healthy);
 
     // Clean the generated logbook entries away invisibly.
@@ -1411,7 +1411,7 @@ void test_database_notes ()
     healthy = database_notes.checksums_healthy ();
     evaluate (__LINE__, __func__, false, healthy);
 
-    database_notes.checkup_checksums_v12 ();
+    database_notes.checkup_checksums ();
     healthy = database_notes.checksums_healthy ();
     evaluate (__LINE__, __func__, true, healthy);
 

@@ -63,11 +63,11 @@ void search_reindex_notes ()
 
 
   // Check on health of the databases, and optionally recreate them.
-  bool recreate = database_notes.checkup_v12 ();
+  bool recreate = database_notes.checkup ();
   if (recreate) {
     Database_Logs::log ("The Consultation Notes main index was damaged and is being recreated", Filter_Roles::manager ());
   }
-  recreate = database_notes.checkup_checksums_v12 ();
+  recreate = database_notes.checkup_checksums ();
   if (recreate) {
     Database_Logs::log ("The Consultation Notes checksums database was damaged and is being recreated", Filter_Roles::manager ());
   }
@@ -79,7 +79,7 @@ void search_reindex_notes ()
   // Then the notes index would not match the notes data.
   // Syncing ensures the index matches the notes data in the filesystem.
   Database_Logs::log ("Updating Consultation Notes databases", Filter_Roles::manager ());
-  database_notes.sync_v12 ();
+  database_notes.sync ();
   
   
   // Set the availability flag so that clients and other parties access the notes databases again.

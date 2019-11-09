@@ -347,7 +347,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   // Check for the health of the notes databases and take action if needed.
   bool healthy = true;
-  if (!database_notes.healthy_v12 ()) healthy = false;
+  if (!database_notes.healthy ()) healthy = false;
   if (!database_notes.checksums_healthy ()) healthy = false;
   if (!healthy) {
     Database_Logs::log (sendreceive_notes_text () + "Abort receive just now because of database problems", Filter_Roles::translator ());

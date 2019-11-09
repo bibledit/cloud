@@ -147,7 +147,7 @@ string Database_Notes::checksums_database_path ()
 
 
 // Returns whether the notes database is healthy, as a boolean.
-bool Database_Notes::healthy_v12 ()
+bool Database_Notes::healthy ()
 {
   return database_sqlite_healthy (database_path ());
 }
@@ -163,9 +163,9 @@ bool Database_Notes::checksums_healthy ()
 // Does a checkup on the health of the main database.
 // Optionally recreates it.
 // Returns true if to be synced, else false.
-bool Database_Notes::checkup_v12 ()
+bool Database_Notes::checkup ()
 {
-  if (healthy_v12 ()) return false;
+  if (healthy ()) return false;
   filter_url_unlink (database_path ());
   create ();
   return true;
@@ -175,7 +175,7 @@ bool Database_Notes::checkup_v12 ()
 // Does a checkup on the health of the checksums database.
 // Optionally recreates it.
 // Returns true if to synced, else false.
-bool Database_Notes::checkup_checksums_v12 ()
+bool Database_Notes::checkup_checksums ()
 {
   if (checksums_healthy ()) return false;
   filter_url_unlink (checksums_database_path ());
@@ -184,7 +184,7 @@ bool Database_Notes::checkup_checksums_v12 ()
 }
 
 
-void Database_Notes::trim_v12 ()
+void Database_Notes::trim ()
 {
   // Clean empty directories.
   string message = "Deleting empty notes folder ";
@@ -213,7 +213,7 @@ void Database_Notes::trim_v12 ()
 }
 
 
-void Database_Notes::trim_server_v12 ()
+void Database_Notes::trim_server ()
 {
   // Notes expiry.
   touch_marked_for_deletion_v12 ();
@@ -228,7 +228,7 @@ void Database_Notes::trim_server_v12 ()
 }
 
 
-void Database_Notes::optimize_v12 ()
+void Database_Notes::optimize ()
 {
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "VACUUM;");
@@ -236,7 +236,7 @@ void Database_Notes::optimize_v12 ()
 }
 
 
-void Database_Notes::sync_v12 ()
+void Database_Notes::sync ()
 {
   string main_folder = main_folder_path ();
 

@@ -63,7 +63,7 @@ string sync_notes (void * webserver_request)
   
   // Bail out if the notes databases are not available or in good shape.
   bool available = true;
-  if (!database_notes.healthy_v12 ()) available = false;
+  if (!database_notes.healthy ()) available = false;
   if (!database_notes.checksums_healthy ()) available = false;
   if (!database_notes.available_v12 ()) available = false;
   if (!available) {

@@ -51,14 +51,14 @@ private:
   string note_file (int identifier);
 
 public:
-  bool healthy_v12 ();
+  bool healthy ();
   bool checksums_healthy ();
-  bool checkup_v12 ();
-  bool checkup_checksums_v12 ();
-  void trim_v12 ();
-  void trim_server_v12 ();
-  void optimize_v12 ();
-  void sync_v12 ();
+  bool checkup ();
+  bool checkup_checksums ();
+  void trim ();
+  void trim_server ();
+  void optimize ();
+  void sync ();
 
 public:
   bool identifier_exists_v12 (int identifier);

@@ -126,7 +126,7 @@ string notes_actions (void * webserver_request)
   view.set_variable ("summary", summary);
                                           
                                           
-  bool subscribed = database_notes.is_subscribed_v12 (id, user);
+  bool subscribed = database_notes.is_subscribed (id, user);
   if (subscribed) view.enable_zone ("subscribed");
   else view.enable_zone ("subscribe");
   

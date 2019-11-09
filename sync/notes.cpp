@@ -150,7 +150,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_subscribers:
     {
-      vector <string> subscribers = database_notes.get_subscribers_v12 (identifier);
+      vector <string> subscribers = database_notes.get_subscribers (identifier);
       return filter_string_implode (subscribers, "\n");
     }
     case Sync_Logic::notes_get_assignees:
@@ -233,7 +233,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_subscribe:
     {
       // Subscribe to the note on the server.
-      database_notes.subscribe_user_v12 (identifier, user);
+      database_notes.subscribe_user (identifier, user);
       // Info.
       Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
@@ -242,7 +242,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_unsubscribe:
     {
       // Unsubscribe from the note on the server.
-      database_notes.unsubscribe_user_v12 (identifier, user);
+      database_notes.unsubscribe_user (identifier, user);
       // Info.
       Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.

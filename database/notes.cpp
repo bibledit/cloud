@@ -223,7 +223,7 @@ void Database_Notes::trim_server ()
   identifiers = get_due_for_deletion_v2 ();
   for (auto & identifier : identifiers) {
     trash_consultation_note (webserver_request, identifier);
-    erase_v12 (identifier);
+    erase (identifier);
   }
 }
 
@@ -287,7 +287,7 @@ void Database_Notes::sync ()
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
       trash_consultation_note (webserver_request, id);
-      erase_v12 (id);
+      erase (id);
     }
   }
   
@@ -321,7 +321,7 @@ void Database_Notes::update_database_v2 (int identifier)
   // Read the relevant values from the filesystem.
   int modified = get_modified_v2 (identifier);
   string assigned = get_field_v2 (identifier, assigned_key_v2 ());
-  string subscriptions = get_field_v2 (identifier, subscriptions_key_v2 ());
+  string subscriptions = get_field_v2 (identifier, subscriptions_key ());
   string bible = get_bible_v2 (identifier);
   string passage = get_raw_passage_v2 (identifier);
   string status = get_raw_status_v2 (identifier);
@@ -441,7 +441,7 @@ bool Database_Notes::identifier_exists (int identifier)
 void Database_Notes::set_identifier (int identifier, int new_identifier)
 {
   // Move data on the filesystem.
-  erase_v12 (new_identifier);
+  erase (new_identifier);
   string path = note_file (identifier);
   string json = filter_url_file_get_contents (path);
   path = note_file (new_identifier);
@@ -475,7 +475,7 @@ void Database_Notes::set_identifier (int identifier, int new_identifier)
   Database_State::eraseNoteChecksum (identifier);
   
   // Remove old identifier that was copied to the new.
-  erase_v12 (identifier);
+  erase (identifier);
 }
 
 
@@ -858,7 +858,7 @@ void Database_Notes::set_contents (int identifier, const string& contents)
 
 
 // Erases a note stored in the old and in the new format.
-void Database_Notes::erase_v12 (int identifier)
+void Database_Notes::erase (int identifier)
 {
   // Delete new storage from filesystem.
   string path = note_file (identifier);
@@ -875,15 +875,8 @@ void Database_Notes::erase_v12 (int identifier)
 }
 
 
-// Add a comment to an exiting note identified by identifier.
-void Database_Notes::add_comment_v12 (int identifier, const string& comment)
-{
-  add_comment_v2 (identifier, comment);
-}
-
-
-// Add a comment to an exiting note identified by identifier.
-void Database_Notes::add_comment_v2 (int identifier, const string& comment)
+// Add a comment to an exiting note identified by $identifier.
+void Database_Notes::add_comment (int identifier, const string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
@@ -908,50 +901,29 @@ void Database_Notes::add_comment_v2 (int identifier, const string& comment)
 
 
 // Subscribe the current user to the note identified by identifier.
-void Database_Notes::subscribe_v12 (int identifier)
-{
-  subscribe_v2 (identifier);
-}
-
-
-// Subscribe the current user to the note identified by identifier.
-void Database_Notes::subscribe_v2 (int identifier)
+void Database_Notes::subscribe (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  subscribe_user_v2 (identifier, user);
+  subscribe_user (identifier, user);
 }
 
 
 // Subscribe the user to the note identified by identifier.
-void Database_Notes::subscribe_user_v12 (int identifier, const string& user)
-{
-  subscribe_user_v2 (identifier, user);
-}
-
-
-// Subscribe the user to the note identified by identifier.
-void Database_Notes::subscribe_user_v2 (int identifier, const string& user)
+void Database_Notes::subscribe_user (int identifier, const string& user)
 {
   // If the user already is subscribed to the note, bail out.
-  vector <string> subscribers = get_subscribers_v2 (identifier);
+  vector <string> subscribers = get_subscribers (identifier);
   if (find (subscribers.begin(), subscribers.end(), user) != subscribers.end()) return;
   // Subscribe user.
   subscribers.push_back (user);
-  set_subscribers_v2 (identifier, subscribers);
+  set_subscribers (identifier, subscribers);
 }
 
 
 // Returns an array with the subscribers to the note identified by identifier.
-vector <string> Database_Notes::get_subscribers_v12 (int identifier)
+vector <string> Database_Notes::get_subscribers (int identifier)
 {
-  return get_subscribers_v2 (identifier);
-}
-
-
-// Returns an array with the subscribers to the note identified by identifier.
-vector <string> Database_Notes::get_subscribers_v2 (int identifier)
-{
-  string contents = get_raw_subscriptions_v2 (identifier);
+  string contents = get_raw_subscriptions (identifier);
   if (contents.empty()) return {};
   vector <string> subscribers = filter_string_explode (contents, '\n');
   for (auto & subscriber : subscribers) {
@@ -961,16 +933,16 @@ vector <string> Database_Notes::get_subscribers_v2 (int identifier)
 }
 
 
-string Database_Notes::get_raw_subscriptions_v2 (int identifier)
+string Database_Notes::get_raw_subscriptions (int identifier)
 {
-  return get_field_v2 (identifier, subscriptions_key_v2 ());
+  return get_field_v2 (identifier, subscriptions_key ());
 }
 
 
-void Database_Notes::set_raw_subscriptions_v2 (int identifier, const string& subscriptions)
+void Database_Notes::set_raw_subscriptions (int identifier, const string& subscriptions)
 {
   // Store them in the filesystem.
-  set_field_v2 (identifier, subscriptions_key_v2 (), subscriptions);
+  set_field_v2 (identifier, subscriptions_key (), subscriptions);
   
   // Store them in the database as well.
   SqliteSQL sql;
@@ -985,13 +957,7 @@ void Database_Notes::set_raw_subscriptions_v2 (int identifier, const string& sub
 }
 
 
-void Database_Notes::set_subscribers_v12 (int identifier, vector <string> subscribers)
-{
-  set_subscribers_v2 (identifier, subscribers);
-}
-
-
-void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscribers)
+void Database_Notes::set_subscribers (int identifier, vector <string> subscribers)
 {
   // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
   for (auto & subscriber : subscribers) {
@@ -1001,7 +967,7 @@ void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscri
   string subscriberstring = filter_string_implode (subscribers, "\n");
   
   // Store them to file and in the database.
-  set_raw_subscriptions_v2 (identifier, subscriberstring);
+  set_raw_subscriptions (identifier, subscriberstring);
   
   // Checksum.
   update_checksum_v2 (identifier);
@@ -1009,51 +975,30 @@ void Database_Notes::set_subscribers_v2 (int identifier, vector <string> subscri
 
 
 // Returns true if user is subscribed to the note identified by identifier.
-bool Database_Notes::is_subscribed_v12 (int identifier, const string& user)
+bool Database_Notes::is_subscribed (int identifier, const string& user)
 {
-  return is_subscribed_v2 (identifier, user);
-}
-
-
-// Returns true if user is subscribed to the note identified by identifier.
-bool Database_Notes::is_subscribed_v2 (int identifier, const string& user)
-{
-  vector <string> subscribers = get_subscribers_v2 (identifier);
+  vector <string> subscribers = get_subscribers (identifier);
   return find (subscribers.begin(), subscribers.end(), user) != subscribers.end();
 }
 
 
 // Unsubscribes the currently logged in user from the note identified by identifier.
-void Database_Notes::unsubscribe_v12 (int identifier)
-{
-  unsubscribe_v2 (identifier);
-}
-
-
-// Unsubscribes the currently logged in user from the note identified by identifier.
-void Database_Notes::unsubscribe_v2 (int identifier)
+void Database_Notes::unsubscribe (int identifier)
 {
   string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
-  unsubscribe_user_v2 (identifier, user);
+  unsubscribe_user (identifier, user);
 }
 
 
 // Unsubscribes user from the note identified by identifier.
-void Database_Notes::unsubscribe_user_v12 (int identifier, const string& user)
-{
-  unsubscribe_user_v2 (identifier, user);
-}
-
-
-// Unsubscribes user from the note identified by identifier.
-void Database_Notes::unsubscribe_user_v2 (int identifier, const string& user)
+void Database_Notes::unsubscribe_user (int identifier, const string& user)
 {
   // If the user is not subscribed to the note, bail out.
-  vector <string> subscribers = get_subscribers_v2 (identifier);
+  vector <string> subscribers = get_subscribers (identifier);
   if (find (subscribers.begin(), subscribers.end(), user) == subscribers.end()) return;
   // Unsubscribe user.
   subscribers.erase (remove (subscribers.begin(), subscribers.end(), user), subscribers.end());
-  set_subscribers_v2 (identifier, subscribers);
+  set_subscribers (identifier, subscribers);
 }
 
 
@@ -1923,7 +1868,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("assignees");
   checksum.append (get_field_v2 (identifier, assigned_key_v2 ()));
   checksum.append ("subscribers");
-  checksum.append (get_field_v2 (identifier, subscriptions_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, subscriptions_key ()));
   checksum.append ("bible");
   checksum.append (get_field_v2 (identifier, bible_key_v2 ()));
   checksum.append ("passages");
@@ -2086,7 +2031,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     note << "m" << modified;
     string passage = get_raw_passage_v2 (identifier);
     note << "p" << passage;
-    string subscriptions = get_field_v2 (identifier, subscriptions_key_v2 ());
+    string subscriptions = get_field_v2 (identifier, subscriptions_key ());
     note << "sb" << subscriptions;
     string summary;
     summary = get_summary (identifier);
@@ -2143,7 +2088,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     note2 << contents_key () << contents;
     note2 << modified_key_v2 () << convert_to_string (modified);
     note2 << passage_key_v2 () << passage;
-    note2 << subscriptions_key_v2 () << subscriptions;
+    note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
     note2 << status_key_v2 () << status;
     note2 << severity_key_v2 () << convert_to_string (severity);
@@ -2229,7 +2174,7 @@ string Database_Notes::contents_key ()
 }
 
 
-string Database_Notes::subscriptions_key_v2 ()
+string Database_Notes::subscriptions_key ()
 {
   return "subscriptions";
 }

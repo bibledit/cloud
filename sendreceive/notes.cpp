@@ -295,7 +295,7 @@ bool sendreceive_notes_upload ()
         }
         if (action == Sync_Logic::notes_get_subscribers) {
           vector <string> subscribers = filter_string_explode (response, '\n');
-          database_notes.set_subscribers_v12 (identifier, subscribers);
+          database_notes.set_subscribers (identifier, subscribers);
         }
         if (action == Sync_Logic::notes_get_assignees) {
           vector <string> assignees = filter_string_explode (response, '\n');
@@ -467,7 +467,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     delete_counter++;
     if (delete_counter > 15) continue;
     string summary = database_notes.get_summary (identifier);
-    database_notes.erase_v12 (identifier);
+    database_notes.erase (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());
   }
   

@@ -101,7 +101,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
   if (comment == "") return;
 
   Database_Notes database_notes (webserver_request);
-  database_notes.add_comment_v12 (identifier, comment);
+  database_notes.add_comment (identifier, comment);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -132,7 +132,7 @@ void Notes_Logic::set_summary (int identifier, const string& summary)
 void Notes_Logic::subscribe (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.subscribe_v12 (identifier);
+  database_notes.subscribe (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -147,7 +147,7 @@ void Notes_Logic::subscribe (int identifier)
 void Notes_Logic::unsubscribe (int identifier)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.unsubscribe_v12 (identifier);
+  database_notes.unsubscribe (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -299,7 +299,7 @@ void Notes_Logic::erase (int identifier)
     handlerDeleteNote (identifier);
   }
   trash_consultation_note (webserver_request, identifier);
-  database_notes.erase_v12 (identifier);
+  database_notes.erase (identifier);
 }
 
 
@@ -371,7 +371,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 
     // Whether current user gets subscribed to the note.
     if (request->database_config_user ()->getSubscribeToConsultationNotesEditedByMe ()) {
-      database_notes.subscribe_v12 (identifier);
+      database_notes.subscribe (identifier);
     }
 
     // Users to get subscribed to the note, or to whom the note is to be assigned.
@@ -379,7 +379,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     for (const string & user : users) {
       if (access_bible_read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
-          database_notes.subscribe_user_v12 (identifier, user);
+          database_notes.subscribe_user (identifier, user);
         }
         if (request->database_config_user ()->getUserAssignedToConsultationNotesChanges (user)) {
           database_notes.assign_user_v12 (identifier, user);
@@ -392,7 +392,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   vector <string> recipients;
 
   // Subscribers who receive email.
-  vector <string> subscribers = database_notes.get_subscribers_v12 (identifier);
+  vector <string> subscribers = database_notes.get_subscribers (identifier);
   for (const string & subscriber : subscribers) {
     if (request->database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
       recipients.push_back (subscriber);

@@ -94,32 +94,23 @@ private:
   void set_raw_contents (int identifier, const string& contents);
   
 public:
-  void erase_v12 (int identifier);
+  void erase (int identifier);
   
 public:
-  void add_comment_v12 (int identifier, const string& comment);
-private:
-  void add_comment_v2 (int identifier, const string& comment);
+  void add_comment (int identifier, const string& comment);
   
 public:
-  void subscribe_v12 (int identifier);
-  void unsubscribe_v12 (int identifier);
-  void subscribe_user_v12 (int identifier, const string& user);
-  void unsubscribe_user_v12 (int identifier, const string& user);
-  bool is_subscribed_v12 (int identifier, const string& user);
-  vector <string> get_subscribers_v12 (int identifier);
-  void set_subscribers_v12 (int identifier, vector <string> subscribers);
+  void subscribe (int identifier);
+  void unsubscribe (int identifier);
+  void subscribe_user (int identifier, const string& user);
+  void unsubscribe_user (int identifier, const string& user);
+  bool is_subscribed (int identifier, const string& user);
+  vector <string> get_subscribers (int identifier);
+  void set_subscribers (int identifier, vector <string> subscribers);
 private:
-  string subscriptions_key_v2 ();
-  vector <string> get_subscribers_v2 (int identifier);
-  string get_raw_subscriptions_v2 (int identifier);
-  void subscribe_v2 (int identifier);
-  void subscribe_user_v2 (int identifier, const string& user);
-  void unsubscribe_v2 (int identifier);
-  void set_raw_subscriptions_v2 (int identifier, const string& subscriptions);
-  bool is_subscribed_v2 (int identifier, const string& user);
-  void set_subscribers_v2 (int identifier, vector <string> subscribers);
-  void unsubscribe_user_v2 (int identifier, const string& user);
+  string subscriptions_key ();
+  string get_raw_subscriptions (int identifier);
+  void set_raw_subscriptions (int identifier, const string& subscriptions);
 
 public:
   void assign_user_v12 (int identifier, const string& user);

@@ -745,9 +745,9 @@ void test_database_notes ()
     if (original_contents_v2.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v2.length ()));
     
     // Checksum of the note, v1 and v2.
-    string original_checksum_v1 = database_notes.get_checksum_v12 (identifier_v1);
+    string original_checksum_v1 = database_notes.get_checksum (identifier_v1);
     evaluate (__LINE__, __func__, 32, (int) original_checksum_v1.length());
-    string original_checksum_v2 = database_notes.get_checksum_v12 (identifier_v2);
+    string original_checksum_v2 = database_notes.get_checksum (identifier_v2);
     evaluate (__LINE__, __func__, 32, (int) original_checksum_v2.length());
     
     // Change the identifier.
@@ -766,13 +766,13 @@ void test_database_notes ()
     contents = database_notes.get_contents (new_id_v2);
     evaluate (__LINE__, __func__, original_contents_v2, contents);
     
-    string checksum = database_notes.get_checksum_v12 (identifier_v1);
+    string checksum = database_notes.get_checksum (identifier_v1);
     evaluate (__LINE__, __func__, "", checksum);
-    checksum = database_notes.get_checksum_v12 (new_id_v1);
+    checksum = database_notes.get_checksum (new_id_v1);
     evaluate (__LINE__, __func__, original_checksum_v1, checksum);
-    checksum = database_notes.get_checksum_v12 (identifier_v2);
+    checksum = database_notes.get_checksum (identifier_v2);
     evaluate (__LINE__, __func__, "", checksum);
-    checksum = database_notes.get_checksum_v12 (new_id_v2);
+    checksum = database_notes.get_checksum (new_id_v2);
     evaluate (__LINE__, __func__, original_checksum_v2, checksum);
   }
 
@@ -1005,9 +1005,9 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
     
     // Checksum of new note should be calculated.
-    string good_checksum_old = database_notes.get_checksum_v12 (oldidentifier);
+    string good_checksum_old = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, good_checksum_old.empty());
-    string good_checksum_new = database_notes.get_checksum_v12 (newidentifier);
+    string good_checksum_new = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, good_checksum_new.empty());
     // Old and new editions should match.
     evaluate (__LINE__, __func__, good_checksum_old, good_checksum_new);
@@ -1015,12 +1015,12 @@ void test_database_notes ()
     // Clear checksum, and recalculate it.
     string outdated_checksum = "outdated checksum";
     // Old.
-    database_notes.set_checksum_v12 (oldidentifier, outdated_checksum);
-    string checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.set_checksum (oldidentifier, outdated_checksum);
+    string checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, outdated_checksum, checksum);
     // New
-    database_notes.set_checksum_v12 (newidentifier, outdated_checksum);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.set_checksum (newidentifier, outdated_checksum);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, outdated_checksum, checksum);
     // Old and new.
     database_notes.sync ();
@@ -1028,133 +1028,133 @@ void test_database_notes ()
     // At times the checksum gets erased as the sync routine cannot find the original note.
     // The sync (2) call did not make any difference.
     // Old.
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     if (!checksum.empty()) evaluate (__LINE__, __func__, good_checksum_old, checksum);
-    database_notes.set_checksum_v12 (oldidentifier, outdated_checksum);
+    database_notes.set_checksum (oldidentifier, outdated_checksum);
     // New.
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     if (!checksum.empty()) evaluate (__LINE__, __func__, good_checksum_new, checksum);
-    database_notes.set_checksum_v12 (newidentifier, outdated_checksum);
+    database_notes.set_checksum (newidentifier, outdated_checksum);
     
     // Test that saving a note updates the checksum in most cases.
     // Old.
-    database_notes.set_checksum_v12 (oldidentifier, "");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.set_checksum (oldidentifier, "");
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_modified (oldidentifier, 1234567);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.set_checksum_v12 (newidentifier, "");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.set_checksum (newidentifier, "");
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_modified (newidentifier, 1234567);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
 
     // Old.
-    database_notes.delete_checksum_v12 (oldidentifier);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.delete_checksum (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_subscribers (oldidentifier, {"subscribers"});
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.delete_checksum_v12 (newidentifier);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.delete_checksum (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_subscribers (newidentifier, {"subscribers"});
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
     // Old.
-    database_notes.set_checksum_v12 (oldidentifier, "");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.set_checksum (oldidentifier, "");
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_bible (oldidentifier, "unittest");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.set_checksum_v12 (newidentifier, "");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.set_checksum (newidentifier, "");
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_bible (newidentifier, "unittest");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
 
     // Old.
-    database_notes.delete_checksum_v12 (oldidentifier);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.delete_checksum (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_passages (oldidentifier, {});
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.delete_checksum_v12 (newidentifier);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.delete_checksum (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_passages (newidentifier, {});
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
     // Old.
-    database_notes.set_checksum_v12 (oldidentifier, "");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.set_checksum (oldidentifier, "");
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_status (oldidentifier, "Status");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.set_checksum_v12 (newidentifier, "");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.set_checksum (newidentifier, "");
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_status (newidentifier, "Status");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
     // Old.
-    database_notes.delete_checksum_v12 (oldidentifier);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.delete_checksum (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_raw_severity (oldidentifier, 123);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.delete_checksum_v12 (newidentifier);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.delete_checksum (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_raw_severity (newidentifier, 123);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
     // Old.
-    database_notes.set_checksum_v12 (oldidentifier, "");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.set_checksum (oldidentifier, "");
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_summary (oldidentifier, "new");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New
-    database_notes.set_checksum_v12 (newidentifier, "");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.set_checksum (newidentifier, "");
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_summary (newidentifier, "new");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
     // Old.
-    database_notes.delete_checksum_v12 (oldidentifier);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.delete_checksum (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_contents (oldidentifier, "new");
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
-    database_notes.delete_checksum_v12 (newidentifier);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.delete_checksum (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.set_contents (newidentifier, "new");
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
   }
 
@@ -1186,12 +1186,12 @@ void test_database_notes ()
     // Old.
     string oldchecksum1 = sync_logic.checksum (oldidentifiers);
     evaluate (__LINE__, __func__, 32, (int)oldchecksum1.length());
-    string oldchecksum2 = database_notes.get_multiple_checksum_v12 (oldidentifiers);
+    string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
     evaluate (__LINE__, __func__, oldchecksum1, oldchecksum2);
     // New.
     string newchecksum1 = sync_logic.checksum (newidentifiers);
     evaluate (__LINE__, __func__, 32, (int)newchecksum1.length());
-    string newchecksum2 = database_notes.get_multiple_checksum_v12 (newidentifiers);
+    string newchecksum2 = database_notes.get_multiple_checksum (newidentifiers);
     evaluate (__LINE__, __func__, newchecksum1, newchecksum2);
   }
 
@@ -1211,25 +1211,25 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
 
     // Check checksum.
-    string oldchecksum = database_notes.get_checksum_v12 (oldidentifier);
+    string oldchecksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, 32, oldchecksum.length ());
-    string newchecksum = database_notes.get_checksum_v12 (newidentifier);
+    string newchecksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, oldchecksum, newchecksum);
     
     // Clear it and set the checksum again.
     // Old.
-    database_notes.delete_checksum_v12 (oldidentifier);
-    string checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.delete_checksum (oldidentifier);
+    string checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.update_checksum_v12 (oldidentifier);
-    checksum = database_notes.get_checksum_v12 (oldidentifier);
+    database_notes.update_checksum (oldidentifier);
+    checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, oldchecksum, checksum);
     // New.
-    database_notes.delete_checksum_v12 (newidentifier);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.delete_checksum (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.update_checksum_v12 (newidentifier);
-    checksum = database_notes.get_checksum_v12 (newidentifier);
+    database_notes.update_checksum (newidentifier);
+    checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, newchecksum, checksum);
   }
 
@@ -1258,17 +1258,17 @@ void test_database_notes ()
     database_notes.set_identifier_v1 (identifier, identifier3);
     
     // Test selection mechanism for certain Bibles.
-    vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {"bible1", "bible2"}, false);
+    vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {"bible1", "bible2"}, false);
     evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
     
-    identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {"bible1", "bible3"}, false);
+    identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {"bible1", "bible3"}, false);
     evaluate (__LINE__, __func__, {100000000, 999999999}, identifiers);
     
-    identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {}, false);
+    identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {}, false);
     evaluate (__LINE__, __func__, {999999999}, identifiers);
     
     // Test selection mechanism for any Bible.
-    identifiers = database_notes.get_notes_in_range_for_bibles_v12 (100000000, 999999999, {}, true);
+    identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {}, true);
     evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
   }
 
@@ -1551,8 +1551,8 @@ void test_database_notes ()
     vector <string> checksums;
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      database_notes.update_checksum_v12 (identifier);
-      string checksum = database_notes.get_checksum_v12 (identifier);
+      database_notes.update_checksum (identifier);
+      string checksum = database_notes.get_checksum (identifier);
       checksums.push_back (checksum);
     }
     
@@ -1586,7 +1586,7 @@ void test_database_notes ()
     // The checksums should now be gone.
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      string checksum = database_notes.get_checksum_v12 (identifier);
+      string checksum = database_notes.get_checksum (identifier);
       evaluate (__LINE__, __func__, "", checksum);
     }
     
@@ -1624,7 +1624,7 @@ void test_database_notes ()
     // The checksums should be back also.
     for (int i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      string checksum = database_notes.get_checksum_v12 (identifier);
+      string checksum = database_notes.get_checksum (identifier);
       evaluate (__LINE__, __func__, checksums [i], checksum);
     }
     

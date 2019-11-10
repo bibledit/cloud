@@ -268,7 +268,7 @@ void Database_Notes::sync ()
           identifiers.push_back (identifier);
           update_database_v2 (identifier);
           update_search_fields (identifier);
-          update_checksum_v2 (identifier);
+          update_checksum (identifier);
         }
       }
     }
@@ -303,7 +303,7 @@ void Database_Notes::sync ()
   // Any note identifiers in the checksums database, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      delete_checksum_v12 (id);
+      delete_checksum (id);
     }
   }
   
@@ -820,7 +820,7 @@ void Database_Notes::set_summary (int identifier, const string& summary)
   // Update the search data in the database.
   update_search_fields (identifier);
   // Update checksum.
-  update_checksum_v2 (identifier);
+  update_checksum (identifier);
 }
 
 
@@ -853,7 +853,7 @@ void Database_Notes::set_contents (int identifier, const string& contents)
   // Update search system.
   update_search_fields (identifier);
   // Update checksum.
-  update_checksum_v2 (identifier);
+  update_checksum (identifier);
 }
 
 
@@ -864,7 +864,7 @@ void Database_Notes::erase (int identifier)
   string path = note_file (identifier);
   filter_url_unlink (path);
   // Update databases as well.
-  delete_checksum_v12 (identifier);
+  delete_checksum (identifier);
   SqliteSQL sql;
   sql.add ("DELETE FROM notes WHERE identifier =");
   sql.add (identifier);
@@ -970,7 +970,7 @@ void Database_Notes::set_subscribers (int identifier, vector <string> subscriber
   set_raw_subscriptions (identifier, subscriberstring);
   
   // Checksum.
-  update_checksum_v2 (identifier);
+  update_checksum (identifier);
 }
 
 
@@ -1455,7 +1455,7 @@ void Database_Notes::set_modified (int identifier, int time)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update checksum.
-  update_checksum_v2 (identifier);
+  update_checksum (identifier);
 }
 
 
@@ -1624,12 +1624,12 @@ vector <int> Database_Notes::get_due_for_deletion ()
 
 
 // Writes the checksum for note identifier in the database.
-void Database_Notes::set_checksum_v12 (int identifier, const string & checksum)
+void Database_Notes::set_checksum (int identifier, const string & checksum)
 {
   // Do not write the checksum if it is already up to date.
-  if (checksum == get_checksum_v12 (identifier)) return;
+  if (checksum == get_checksum (identifier)) return;
   // Write the checksum to the database.
-  delete_checksum_v12 (identifier);
+  delete_checksum (identifier);
   SqliteSQL sql;
   sql.add ("INSERT INTO checksums VALUES (");
   sql.add (identifier);
@@ -1643,7 +1643,7 @@ void Database_Notes::set_checksum_v12 (int identifier, const string & checksum)
 
 
 // Reads the checksum for note identifier from the database.
-string Database_Notes::get_checksum_v12 (int identifier)
+string Database_Notes::get_checksum (int identifier)
 {
   SqliteSQL sql;
   sql.add ("SELECT checksum FROM checksums WHERE identifier =");
@@ -1661,7 +1661,7 @@ string Database_Notes::get_checksum_v12 (int identifier)
 
 
 // Deletes the checksum for note identifier from the database.
-void Database_Notes::delete_checksum_v12 (int identifier)
+void Database_Notes::delete_checksum (int identifier)
 {
   SqliteSQL sql;
   sql.add ("DELETE FROM checksums WHERE identifier =");
@@ -1675,15 +1675,9 @@ void Database_Notes::delete_checksum_v12 (int identifier)
 }
 
 
-void Database_Notes::update_checksum_v12 (int identifier)
-{
-  update_checksum_v2 (identifier);
-}
-
-
 // The function calculates the checksum of the note signature,
 // and writes it to the filesystem.
-void Database_Notes::update_checksum_v2 (int identifier)
+void Database_Notes::update_checksum (int identifier)
 {
   // Read the raw data from disk to speed up checksumming.
   string checksum;
@@ -1706,12 +1700,12 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("contents");
   checksum.append (get_field_v2 (identifier, contents_key ()));
   checksum = md5 (checksum);
-  set_checksum_v12 (identifier, checksum);
+  set_checksum (identifier, checksum);
 }
 
 
 // Queries the database for the checksum for the notes given in the list of $identifiers.
-string Database_Notes::get_multiple_checksum_v12 (const vector <int> & identifiers)
+string Database_Notes::get_multiple_checksum (const vector <int> & identifiers)
 {
   sqlite3 * db = connect_checksums ();
   string checksum;
@@ -1737,7 +1731,7 @@ string Database_Notes::get_multiple_checksum_v12 (const vector <int> & identifie
 // within the note identifier range of lowId to highId
 // which refer to any Bible in the array of bibles
 // or refer to no Bible.
-vector <int> Database_Notes::get_notes_in_range_for_bibles_v12 (int lowId, int highId, vector <string> bibles, bool anybible)
+vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highId, vector <string> bibles, bool anybible)
 {
   vector <int> identifiers;
   
@@ -1922,7 +1916,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     // Update the indexes.
     update_database_v2 (identifier);
     update_search_fields (identifier);
-    update_checksum_v2 (identifier);
+    update_checksum (identifier);
   }
   
   // Container with all the summaries of the notes that were stored.

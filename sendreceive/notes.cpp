@@ -389,12 +389,12 @@ bool sendreceive_notes_download (int lowId, int highId)
   if (vresponse.size () >= 1) server_total = convert_to_int (vresponse [0]);
   string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
-  vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, {}, true);
+  vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
   int client_total = identifiers.size ();
   // Checksum cache to speed things up in case of thousands of notes.
   string client_checksum = Database_State::getNotesChecksum (lowId, highId);
   if (client_checksum.empty ()) {
-    client_checksum = database_notes.get_multiple_checksum_v12 (identifiers);
+    client_checksum = database_notes.get_multiple_checksum (identifiers);
     Database_State::putNotesChecksum (lowId, highId, client_checksum);
   }
   if (server_total == client_total) {
@@ -450,7 +450,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
 
   // Get note identifiers as locally on the client.
-  vector <int> client_identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, {}, true);
+  vector <int> client_identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
   
   
   // The client deletes notes no longer on the server.
@@ -485,7 +485,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     if (database_noteactions.exists (identifier)) continue;
     
     string server_checksum = server_checksums [i];
-    string client_checksum = database_notes.get_checksum_v12 (identifier);
+    string client_checksum = database_notes.get_checksum (identifier);
     if (client_checksum == server_checksum) continue;
     
     // Store the identifier to be downloaded as part of a bulk download.

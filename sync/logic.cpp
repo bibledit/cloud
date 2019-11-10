@@ -106,7 +106,7 @@ string Sync_Logic::checksum (const vector <int> & identifiers)
   Database_Notes database_notes (webserver_request);
   vector <string> checksums;
   for (const auto & identifier : identifiers) {
-    checksums.push_back (database_notes.get_checksum_v12 (identifier));
+    checksums.push_back (database_notes.get_checksum (identifier));
   }
   string checksum = filter_string_implode (checksums, "");
   checksum = md5 (checksum);

@@ -109,12 +109,12 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_total:
     {
       vector <string> bibles = access_bible_bibles (webserver_request, user);
-      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, bibles, false);
+      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
       string checksum = Database_State::getNotesChecksum (lowId, highId);
       if (checksum.empty ()) {
-        checksum = database_notes.get_multiple_checksum_v12 (identifiers);
+        checksum = database_notes.get_multiple_checksum (identifiers);
         Database_State::putNotesChecksum (lowId, highId, checksum);
       }
       string response = convert_to_string (identifiers.size ()) + "\n" + checksum;
@@ -123,13 +123,13 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_identifiers:
     {
       vector <string> bibles = access_bible_bibles (webserver_request, user);
-      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles_v12 (lowId, highId, bibles, false);
+      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       string response;
       for (auto identifier : identifiers) {
         if (!response.empty ()) response.append ("\n");
         response.append (convert_to_string (identifier));
         response.append ("\n");
-        response.append (database_notes.get_checksum_v12 (identifier));
+        response.append (database_notes.get_checksum (identifier));
       }
       return response;
     }
@@ -139,7 +139,7 @@ string sync_notes (void * webserver_request)
       // because this is the first thing a client does when it requests a full note.
       // The client requests the notes in bits and pieces.
       database_notes.update_search_fields (identifier);
-      database_notes.update_checksum_v12 (identifier);
+      database_notes.update_checksum (identifier);
       // Return summary.
       string summary = database_notes.get_summary (identifier);
       return summary;

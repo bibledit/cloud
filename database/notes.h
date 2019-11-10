@@ -189,14 +189,12 @@ private:
   vector <int> get_due_for_deletion ();
 
 public:
-  void set_checksum_v12 (int identifier, const string & checksum);
-  string get_checksum_v12 (int identifier);
-  void delete_checksum_v12 (int identifier);
-  void update_checksum_v12 (int identifier);
-  string get_multiple_checksum_v12 (const vector <int> & identifiers);
-  vector <int> get_notes_in_range_for_bibles_v12 (int lowId, int highId, vector <string> bibles, bool anybible);
-private:
-  void update_checksum_v2 (int identifier);
+  void set_checksum (int identifier, const string & checksum);
+  string get_checksum (int identifier);
+  void delete_checksum (int identifier);
+  void update_checksum (int identifier);
+  string get_multiple_checksum (const vector <int> & identifiers);
+  vector <int> get_notes_in_range_for_bibles (int lowId, int highId, vector <string> bibles, bool anybible);
   
 public:
   void set_availability_v12 (bool available);

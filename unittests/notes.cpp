@@ -590,21 +590,21 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default status = New.
-    string status = database_notes.get_status_v12 (oldidentifier);
+    string status = database_notes.get_status (oldidentifier);
     evaluate (__LINE__, __func__, "New", status);
-    status = database_notes.get_status_v2 (newidentifier);
+    status = database_notes.get_status (newidentifier);
     evaluate (__LINE__, __func__, "New", status);
     
     // Test setting the status.
-    database_notes.set_status_v12 (oldidentifier, "xxxxx");
-    status = database_notes.get_status_v12 (oldidentifier);
+    database_notes.set_status (oldidentifier, "xxxxx");
+    status = database_notes.get_status (oldidentifier);
     evaluate (__LINE__, __func__, "xxxxx", status);
-    database_notes.set_status_v12 (newidentifier, "yyyyy");
-    status = database_notes.get_status_v2 (newidentifier);
+    database_notes.set_status (newidentifier, "yyyyy");
+    status = database_notes.get_status (newidentifier);
     evaluate (__LINE__, __func__, "yyyyy", status);
     
     // Test getting all possible statuses.
-    vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses_v12 ();
+    vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
     vector <string> rawstatuses;
     for (auto & status : statuses) {
       rawstatuses.push_back (status.raw);
@@ -1101,14 +1101,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_status_v12 (oldidentifier, "Status");
+    database_notes.set_status (oldidentifier, "Status");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_status_v12 (newidentifier, "Status");
+    database_notes.set_status (newidentifier, "Status");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1528,7 +1528,7 @@ void test_database_notes ()
       int severity = 4 * i;
       database_notes.set_raw_severity_v12 (identifier, severity);
       string status = "status" + offset;
-      database_notes.set_status_v12 (identifier, status);
+      database_notes.set_status (identifier, status);
       string subscriptions = "subscriptions" + offset;
       database_notes.set_raw_subscriptions (identifier, subscriptions);
       // Store modification time last because the previous functions update it.
@@ -1570,7 +1570,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, false, database_notes.get_contents (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_bible (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_passage (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_raw_status_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_raw_status (identifier).empty ());
       evaluate (__LINE__, __func__, true, database_notes.get_raw_severity_v2 (identifier) != 2);
       evaluate (__LINE__, __func__, true, database_notes.get_modified_v2 (identifier) < 1000);
       database_notes.erase (identifier);
@@ -1578,7 +1578,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_bible (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_raw_status (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity_v2 (identifier));
       evaluate (__LINE__, __func__, 0, database_notes.get_modified_v2 (identifier));
     }
@@ -1613,7 +1613,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_passage [i], passage);
       int severity = database_notes.get_raw_severity_v2 (identifier);
       evaluate (__LINE__, __func__, v_severity [i], severity);
-      string status = database_notes.get_raw_status_v2 (identifier);
+      string status = database_notes.get_raw_status (identifier);
       evaluate (__LINE__, __func__, v_status [i], status);
       string subscriptions = database_notes.get_raw_subscriptions (identifier);
       evaluate (__LINE__, __func__, v_subscriptions [i], subscriptions);
@@ -2002,12 +2002,12 @@ void test_database_notes ()
     // Test the general methods for the status.
     string status_v1 = "status1";
     string status_v2 = "status2";
-    database_notes.set_status_v12 (identifier_v1, status_v1);
-    database_notes.set_status_v12 (identifier_v2, status_v2);
-    evaluate (__LINE__, __func__, status_v1, database_notes.get_raw_status_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, status_v1, database_notes.get_status_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, status_v2, database_notes.get_raw_status_v12 (identifier_v2));
-    evaluate (__LINE__, __func__, status_v2, database_notes.get_status_v12 (identifier_v2));
+    database_notes.set_status (identifier_v1, status_v1);
+    database_notes.set_status (identifier_v2, status_v2);
+    evaluate (__LINE__, __func__, status_v1, database_notes.get_raw_status (identifier_v1));
+    evaluate (__LINE__, __func__, status_v1, database_notes.get_status (identifier_v1));
+    evaluate (__LINE__, __func__, status_v2, database_notes.get_raw_status (identifier_v2));
+    evaluate (__LINE__, __func__, status_v2, database_notes.get_status (identifier_v2));
     
     // Test the general methods for the severity.
     int severity_v1 = 4;

@@ -75,7 +75,7 @@ string notes_status_1 (void * webserver_request)
   
   
   string statusblock;
-  vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses_v12 ();
+  vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (auto & status : statuses) {
     statusblock.append ("<li><a href=\"status-1?id=" + convert_to_string (id) + "&status=" + status.raw + "\">" + status.localized + "</a></li>\n");
   }

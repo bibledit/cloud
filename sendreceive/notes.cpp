@@ -197,7 +197,7 @@ bool sendreceive_notes_upload ()
         case Sync_Logic::notes_put_unassign: break;
         case Sync_Logic::notes_put_status:
         {
-          content = database_notes.get_raw_status_v12 (identifier);
+          content = database_notes.get_raw_status (identifier);
           break;
         }
         case Sync_Logic::notes_put_passages:

@@ -324,7 +324,7 @@ void Database_Notes::update_database_v2 (int identifier)
   string subscriptions = get_field_v2 (identifier, subscriptions_key ());
   string bible = get_bible (identifier);
   string passage = get_raw_passage (identifier);
-  string status = get_raw_status_v2 (identifier);
+  string status = get_raw_status (identifier);
   int severity = get_raw_severity_v2 (identifier);
   string summary = get_summary (identifier);
   string contents = get_contents (identifier);
@@ -573,7 +573,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   Object note;
   note << bible_key () << bible;
   note << passage_key () << passage;
-  note << status_key_v2 () << status;
+  note << status_key () << status;
   note << severity_key_v2 () << convert_to_string (severity);
   note << summary_key () << summary;
   note << contents_key () << contents;
@@ -1296,33 +1296,17 @@ void Database_Notes::index_raw_passage (int identifier, const string& passage)
 
 // Gets the raw status of a note.
 // Returns it as a string.
-string Database_Notes::get_raw_status_v12 (int identifier)
+string Database_Notes::get_raw_status (int identifier)
 {
-  return get_raw_status_v2 (identifier);
-}
-
-
-// Gets the raw status of a note.
-// Returns it as a string.
-string Database_Notes::get_raw_status_v2 (int identifier)
-{
-  return get_field_v2 (identifier, status_key_v2 ());
+  return get_field_v2 (identifier, status_key ());
 }
 
 
 // Gets the localized status of a note.
 // Returns it as a string.
-string Database_Notes::get_status_v12 (int identifier)
+string Database_Notes::get_status (int identifier)
 {
-  return get_status_v2 (identifier);
-}
-
-
-// Gets the localized status of a note.
-// Returns it as a string.
-string Database_Notes::get_status_v2 (int identifier)
-{
-  string status = get_raw_status_v2 (identifier);
+  string status = get_raw_status (identifier);
   // Localize status if possible.
   status = translate (status.c_str());
   // Return status.
@@ -1333,19 +1317,10 @@ string Database_Notes::get_status_v2 (int identifier)
 // Sets the status of the note identified by identifier.
 // status is a string.
 // import: Just write the status, and skip any logic.
-void Database_Notes::set_status_v12 (int identifier, const string& status, bool import)
-{
-  set_status_v2 (identifier, status, import);
-}
-
-
-// Sets the status of the note identified by identifier.
-// status is a string.
-// import: Just write the status, and skip any logic.
-void Database_Notes::set_status_v2 (int identifier, const string& status, bool import)
+void Database_Notes::set_status (int identifier, const string& status, bool import)
 {
   // Store the authoritative copy in the filesystem.
-  set_field_v2 (identifier, status_key_v2 (), status);
+  set_field_v2 (identifier, status_key (), status);
   
   if (!import) note_modified_actions_v12 (identifier);
   
@@ -1364,7 +1339,7 @@ void Database_Notes::set_status_v2 (int identifier, const string& status, bool i
 
 // Gets an array of array with the possible statuses of consultation notes,
 // both raw and localized versions.
-vector <Database_Notes_Text> Database_Notes::get_possible_statuses_v12 ()
+vector <Database_Notes_Text> Database_Notes::get_possible_statuses ()
 {
   // Get an array with the statuses used in the database, ordered by occurrence, most often used ones first.
   string query = "SELECT status, COUNT(status) AS occurrences FROM notes GROUP BY status ORDER BY occurrences DESC;";
@@ -1793,7 +1768,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("passages");
   checksum.append (get_field_v2 (identifier, passage_key ()));
   checksum.append ("status");
-  checksum.append (get_field_v2 (identifier, status_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, status_key ()));
   checksum.append ("severity");
   checksum.append (get_field_v2 (identifier, severity_key_v2 ()));
   checksum.append ("summary");
@@ -1956,7 +1931,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     summary = get_summary (identifier);
     note << "sm" << summary;
     string status;
-    status = get_raw_status_v2 (identifier);
+    status = get_raw_status (identifier);
     note << "st" << status;
     int severity = get_raw_severity_v2 (identifier);
     note << "sv" << severity;
@@ -2009,7 +1984,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     note2 << passage_key () << passage;
     note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
-    note2 << status_key_v2 () << status;
+    note2 << status_key () << status;
     note2 << severity_key_v2 () << convert_to_string (severity);
     string json = note2.json ();
     filter_url_file_put_contents (path, json);
@@ -2063,7 +2038,7 @@ string Database_Notes::passage_key ()
 }
 
 
-string Database_Notes::status_key_v2 ()
+string Database_Notes::status_key ()
 {
   return "status";
 }

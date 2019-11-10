@@ -145,15 +145,12 @@ private:
   string get_raw_passage (int identifier);
   
 public:
-  string get_raw_status_v12 (int identifier);
-  string get_status_v12 (int identifier);
-  void set_status_v12 (int identifier, const string& status, bool import = false);
-  vector <Database_Notes_Text> get_possible_statuses_v12 ();
+  string get_raw_status (int identifier);
+  string get_status (int identifier);
+  void set_status (int identifier, const string& status, bool import = false);
+  vector <Database_Notes_Text> get_possible_statuses ();
 private:
-  string status_key_v2 ();
-  string get_raw_status_v2 (int identifier);
-  string get_status_v2 (int identifier);
-  void set_status_v2 (int identifier, const string& status, bool import = false);
+  string status_key ();
 
 public:
   string get_severity_v12 (int identifier);

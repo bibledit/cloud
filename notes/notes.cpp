@@ -111,7 +111,7 @@ string notes_notes (void * webserver_request)
     vector <Passage> passages = database_notes.get_passages (identifier);
     string verses = filter_passage_display_inline (passages);
     if (show_note_status) {
-      string status = database_notes.get_status_v12 (identifier);
+      string status = database_notes.get_status (identifier);
       verses.insert (0, status + " ");
     }
     if (show_bible_in_notes_list) {

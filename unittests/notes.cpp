@@ -1694,7 +1694,7 @@ void test_database_notes ()
     // Update the search index.
     // Search results should be back to normal.
     database_notes.update_database_v12 (identifier);
-    database_notes.update_search_fields_v12 (identifier);
+    database_notes.update_search_fields (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.
@@ -1829,7 +1829,7 @@ void test_database_notes ()
     // Update the search index.
     // Search results should be back to normal.
     database_notes.update_database_v12 (identifier);
-    database_notes.update_search_fields_v12 (identifier);
+    database_notes.update_search_fields (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
                                                    0, // No chapter given.

@@ -175,11 +175,9 @@ private:
   string public_key ();
   
 public:
-  string get_search_field_v12 (int identifier);
-  void update_search_fields_v12 (int identifier);
-  vector <int> search_notes_v12 (string search, const vector <string> & bibles);
-private:
-  void update_search_fields_v2 (int identifier);
+  string get_search_field (int identifier);
+  void update_search_fields (int identifier);
+  vector <int> search_notes (string search, const vector <string> & bibles);
 
 public:
   void mark_for_deletion_v12 (int identifier);

@@ -258,7 +258,7 @@ void Database_Notes::sync ()
             if (bit3.length () == 3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
-              update_search_fields_v12 (identifier);
+              update_search_fields (identifier);
             }
           }
         }
@@ -267,7 +267,7 @@ void Database_Notes::sync ()
           int identifier = convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
           update_database_v2 (identifier);
-          update_search_fields_v12 (identifier);
+          update_search_fields (identifier);
           update_checksum_v2 (identifier);
         }
       }
@@ -602,7 +602,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   database_sqlite_disconnect (db);
   
   // Updates.
-  update_search_fields_v12 (identifier);
+  update_search_fields (identifier);
   note_modified_actions (identifier);
   
   // Return this new note´s identifier.
@@ -818,7 +818,7 @@ void Database_Notes::set_summary (int identifier, const string& summary)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update the search data in the database.
-  update_search_fields_v12 (identifier);
+  update_search_fields (identifier);
   // Update checksum.
   update_checksum_v2 (identifier);
 }
@@ -851,7 +851,7 @@ void Database_Notes::set_contents (int identifier, const string& contents)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   // Update search system.
-  update_search_fields_v12 (identifier);
+  update_search_fields (identifier);
   // Update checksum.
   update_checksum_v2 (identifier);
 }
@@ -1480,13 +1480,7 @@ void Database_Notes::note_modified_actions (int identifier)
 }
 
 
-void Database_Notes::update_search_fields_v12 (int identifier)
-{
-  update_search_fields_v2 (identifier);
-}
-
-
-void Database_Notes::update_search_fields_v2 (int identifier)
+void Database_Notes::update_search_fields (int identifier)
 {
   // The search field is a combination of the summary and content converted to clean text.
   // It enables us to search with wildcards before and after the search query.
@@ -1494,7 +1488,7 @@ void Database_Notes::update_search_fields_v2 (int identifier)
   string noteContents = get_contents (identifier);
   string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
   // Bail out if the search field is already up to date.
-  if (cleanText == get_search_field_v12 (identifier)) return;
+  if (cleanText == get_search_field (identifier)) return;
   // Update the field.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET cleantext =");
@@ -1508,7 +1502,7 @@ void Database_Notes::update_search_fields_v2 (int identifier)
 }
 
 
-string Database_Notes::get_search_field_v12 (int identifier)
+string Database_Notes::get_search_field (int identifier)
 {
   SqliteSQL sql;
   sql.add ("SELECT cleantext FROM notes WHERE identifier =");
@@ -1529,7 +1523,7 @@ string Database_Notes::get_search_field_v12 (int identifier)
 // Returns an array of note identifiers.
 // search: Contains the text to search for.
 // bibles: Array of Bibles the notes should refer to.
-vector <int> Database_Notes::search_notes_v12 (string search, const vector <string> & bibles)
+vector <int> Database_Notes::search_notes (string search, const vector <string> & bibles)
 {
   vector <int> identifiers;
 
@@ -1945,7 +1939,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     
     // Update the indexes.
     update_database_v2 (identifier);
-    update_search_fields_v12 (identifier);
+    update_search_fields (identifier);
     update_checksum_v2 (identifier);
   }
   

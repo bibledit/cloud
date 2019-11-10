@@ -138,7 +138,7 @@ string sync_notes (void * webserver_request)
       // Update search and checksum when the client requests the summary of a note,
       // because this is the first thing a client does when it requests a full note.
       // The client requests the notes in bits and pieces.
-      database_notes.update_search_fields_v12 (identifier);
+      database_notes.update_search_fields (identifier);
       database_notes.update_checksum_v12 (identifier);
       // Return summary.
       string summary = database_notes.get_summary (identifier);
@@ -186,7 +186,7 @@ string sync_notes (void * webserver_request)
       // Update the note identifier on the server to be same as on the client.
       database_notes.set_identifier (server_id, identifier);
       // Update search field.
-      database_notes.update_search_fields_v12 (identifier);
+      database_notes.update_search_fields (identifier);
       // Done.
       return "";
     }
@@ -202,7 +202,7 @@ string sync_notes (void * webserver_request)
       // Set the summary of the note on the server.
       notes_logic.set_summary (identifier, content);
       // Update search field.
-      database_notes.update_search_fields_v12 (identifier);
+      database_notes.update_search_fields (identifier);
       // Info.
       Database_Logs::log ("Client created or updated a note on the server: " + content, Filter_Roles::manager ());
       // Done.
@@ -213,7 +213,7 @@ string sync_notes (void * webserver_request)
       // Set the note's contents on the server.
       database_notes.set_contents (identifier, content);
       // Update search field.
-      database_notes.update_search_fields_v12 (identifier);
+      database_notes.update_search_fields (identifier);
       // Done.
       return "";
     }
@@ -222,7 +222,7 @@ string sync_notes (void * webserver_request)
       // Add the comment to the note on the server.
       notes_logic.addComment (identifier, content);
       // Update search field.
-      database_notes.update_search_fields_v12 (identifier);
+      database_notes.update_search_fields (identifier);
       // Info.
       Database_Logs::log ("Client added comment to note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Notifications.

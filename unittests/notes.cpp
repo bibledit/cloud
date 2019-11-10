@@ -680,18 +680,18 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test getter.
-    int value = database_notes.get_modified_v12 (oldidentifier);
+    int value = database_notes.get_modified (oldidentifier);
     if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
-    value = database_notes.get_modified_v2 (newidentifier);
+    value = database_notes.get_modified (newidentifier);
     if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
     
     // Test setter.
     time = 123456789;
-    database_notes.set_modified_v12 (oldidentifier, time);
-    value = database_notes.get_modified_v12 (oldidentifier);
+    database_notes.set_modified (oldidentifier, time);
+    value = database_notes.get_modified (oldidentifier);
     evaluate (__LINE__, __func__, time, value);;
-    database_notes.set_modified_v12 (newidentifier, time);
-    value = database_notes.get_modified_v2 (newidentifier);
+    database_notes.set_modified (newidentifier, time);
+    value = database_notes.get_modified (newidentifier);
     evaluate (__LINE__, __func__, time, value);;
   }
 
@@ -1041,14 +1041,14 @@ void test_database_notes ()
     database_notes.set_checksum_v12 (oldidentifier, "");
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_modified_v12 (oldidentifier, 1234567);
+    database_notes.set_modified (oldidentifier, 1234567);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.set_checksum_v12 (newidentifier, "");
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_modified_v12 (newidentifier, 1234567);
+    database_notes.set_modified (newidentifier, 1234567);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
 
@@ -1533,7 +1533,7 @@ void test_database_notes ()
       database_notes.set_raw_subscriptions (identifier, subscriptions);
       // Store modification time last because the previous functions update it.
       int modified = 2 * i;
-      database_notes.set_modified_v12 (identifier, modified);
+      database_notes.set_modified (identifier, modified);
       // Store all fields for the round-trip check.
       v_assigned.push_back (assigned);
       v_bible.push_back (bible);
@@ -1572,7 +1572,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, false, database_notes.get_raw_passage (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_status (identifier).empty ());
       evaluate (__LINE__, __func__, true, database_notes.get_raw_severity (identifier) != 2);
-      evaluate (__LINE__, __func__, true, database_notes.get_modified_v2 (identifier) < 1000);
+      evaluate (__LINE__, __func__, true, database_notes.get_modified (identifier) < 1000);
       database_notes.erase (identifier);
       evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier));
@@ -1580,7 +1580,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, "", database_notes.get_raw_passage (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_status (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity (identifier));
-      evaluate (__LINE__, __func__, 0, database_notes.get_modified_v2 (identifier));
+      evaluate (__LINE__, __func__, 0, database_notes.get_modified (identifier));
     }
     
     // The checksums should now be gone.
@@ -1607,7 +1607,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_bible [i], bible);
       string contents = database_notes.get_contents (identifier);
       evaluate (__LINE__, __func__, v_contents [i], contents);
-      int modified = database_notes.get_modified_v2 (identifier);
+      int modified = database_notes.get_modified (identifier);
       evaluate (__LINE__, __func__, v_modified [i], modified);
       string passage = database_notes.get_raw_passage (identifier);
       evaluate (__LINE__, __func__, v_passage [i], passage);
@@ -2023,10 +2023,10 @@ void test_database_notes ()
     // Test the general methods for the modification time.
     int modified_v1 = 1000;
     int modified_v2 = 2000;
-    database_notes.set_modified_v12 (identifier_v1, modified_v1);
-    database_notes.set_modified_v12 (identifier_v2, modified_v2);
-    evaluate (__LINE__, __func__, modified_v1, database_notes.get_modified_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, modified_v2, database_notes.get_modified_v12 (identifier_v2));
+    database_notes.set_modified (identifier_v1, modified_v1);
+    database_notes.set_modified (identifier_v2, modified_v2);
+    evaluate (__LINE__, __func__, modified_v1, database_notes.get_modified (identifier_v1));
+    evaluate (__LINE__, __func__, modified_v2, database_notes.get_modified (identifier_v2));
     
     // Test the general methods for a note being public.
     database_notes.set_public_v12 (identifier_v1, true);

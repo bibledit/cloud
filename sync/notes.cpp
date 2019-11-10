@@ -177,7 +177,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_modified:
     {
-      return convert_to_string (database_notes.get_modified_v12 (identifier));
+      return convert_to_string (database_notes.get_modified (identifier));
     }
     case Sync_Logic::notes_put_create_initiate:
     {

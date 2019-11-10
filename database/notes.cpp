@@ -319,7 +319,7 @@ void Database_Notes::update_database_v12 (int identifier)
 void Database_Notes::update_database_v2 (int identifier)
 {
   // Read the relevant values from the filesystem.
-  int modified = get_modified_v2 (identifier);
+  int modified = get_modified (identifier);
   string assigned = get_field_v2 (identifier, assigned_key ());
   string subscriptions = get_field_v2 (identifier, subscriptions_key ());
   string bible = get_bible (identifier);
@@ -603,7 +603,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   
   // Updates.
   update_search_fields_v12 (identifier);
-  note_modified_actions_v12 (identifier);
+  note_modified_actions (identifier);
   
   // Return this new note´s identifier.
   return identifier;
@@ -884,7 +884,7 @@ void Database_Notes::add_comment (int identifier, const string& comment)
   set_contents (identifier, contents);
   
   // Some triggers.
-  note_modified_actions_v12 (identifier);
+  note_modified_actions (identifier);
   unmark_for_deletion_v2 (identifier);
   
   // Update shadow database.
@@ -1094,7 +1094,7 @@ void Database_Notes::set_assignees (int identifier, vector <string> assignees)
   }
   string assignees_string = filter_string_implode (assignees, "\n");
   set_raw_assigned (identifier, assignees_string);
-  note_modified_actions_v12 (identifier);
+  note_modified_actions (identifier);
 }
 
 
@@ -1153,7 +1153,7 @@ void Database_Notes::set_bible (int identifier, const string& bible)
   database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
   
-  note_modified_actions_v12 (identifier);
+  note_modified_actions (identifier);
 }
 
 
@@ -1258,7 +1258,7 @@ void Database_Notes::set_passages (int identifier, const vector <Passage>& passa
   // Update index.
   index_raw_passage (identifier, line);
 
-  if (!import) note_modified_actions_v12 (identifier);
+  if (!import) note_modified_actions (identifier);
 }
 
 
@@ -1322,7 +1322,7 @@ void Database_Notes::set_status (int identifier, const string& status, bool impo
   // Store the authoritative copy in the filesystem.
   set_field_v2 (identifier, status_key (), status);
   
-  if (!import) note_modified_actions_v12 (identifier);
+  if (!import) note_modified_actions (identifier);
   
   // Store a copy in the database also.
   SqliteSQL sql;
@@ -1402,7 +1402,7 @@ void Database_Notes::set_raw_severity (int identifier, int severity)
   // Update the file system.
   set_field_v2 (identifier, severity_key (), convert_to_string (severity));
   
-  note_modified_actions_v12 (identifier);
+  note_modified_actions (identifier);
   
   // Update the database also.
   SqliteSQL sql;
@@ -1432,30 +1432,18 @@ vector <Database_Notes_Text> Database_Notes::get_possible_severities ()
 }
 
 
-int Database_Notes::get_modified_v12 (int identifier)
+int Database_Notes::get_modified (int identifier)
 {
-  return get_modified_v2 (identifier);
-}
-
-
-int Database_Notes::get_modified_v2 (int identifier)
-{
-  string modified = get_field_v2 (identifier, modified_key_v2 ());
+  string modified = get_field_v2 (identifier, modified_key ());
   if (modified.empty ()) return 0;
   return convert_to_int (modified);
 }
 
 
-void Database_Notes::set_modified_v12 (int identifier, int time)
-{
-  set_modified_v2 (identifier, time);
-}
-
-
-void Database_Notes::set_modified_v2 (int identifier, int time)
+void Database_Notes::set_modified (int identifier, int time)
 {
   // Update the filesystem.
-  set_field_v2 (identifier, modified_key_v2 (), convert_to_string (time));
+  set_field_v2 (identifier, modified_key (), convert_to_string (time));
   // Update the database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET modified =");
@@ -1497,10 +1485,10 @@ void Database_Notes::set_public_v2 (int identifier, bool value)
 
 
 // Takes actions when a note has been edited.
-void Database_Notes::note_modified_actions_v12 (int identifier)
+void Database_Notes::note_modified_actions (int identifier)
 {
   // Update 'modified' field.
-  set_modified_v2 (identifier, filter_date_seconds_since_epoch());
+  set_modified (identifier, filter_date_seconds_since_epoch());
 }
 
 
@@ -1736,7 +1724,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   // Read the raw data from disk to speed up checksumming.
   string checksum;
   checksum.append ("modified");
-  checksum.append (get_field_v2 (identifier, modified_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, modified_key ()));
   checksum.append ("assignees");
   checksum.append (get_field_v2 (identifier, assigned_key ()));
   checksum.append ("subscribers");
@@ -1899,7 +1887,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     string contents = get_contents (identifier);
     note << "c" << contents;
     note << "i" << identifier;
-    int modified = get_modified_v2 (identifier);
+    int modified = get_modified (identifier);
     note << "m" << modified;
     string passage = get_raw_passage (identifier);
     note << "p" << passage;
@@ -1958,7 +1946,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     note2 << assigned_key () << assigned;
     note2 << bible_key () << bible;
     note2 << contents_key () << contents;
-    note2 << modified_key_v2 () << convert_to_string (modified);
+    note2 << modified_key () << convert_to_string (modified);
     note2 << passage_key () << passage;
     note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
@@ -2028,7 +2016,7 @@ string Database_Notes::severity_key ()
 }
 
 
-string Database_Notes::modified_key_v2 ()
+string Database_Notes::modified_key ()
 {
   return "modified";
 }

@@ -162,13 +162,11 @@ private:
   vector <string> standard_severities ();
 
 public:
-  int get_modified_v12 (int identifier);
-  void set_modified_v12 (int identifier, int time);
+  int get_modified (int identifier);
+  void set_modified (int identifier, int time);
 private:
-  string modified_key_v2 ();
-  int get_modified_v2 (int identifier);
-  void set_modified_v2 (int identifier, int time);
-  void note_modified_actions_v12 (int identifier);
+  string modified_key ();
+  void note_modified_actions (int identifier);
 
 public:
   bool get_public_v12 (int identifier);

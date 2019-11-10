@@ -139,7 +139,7 @@ string changes_change (void * webserver_request)
   // Sort them, most recent notes first.
   vector <int> timestamps;
   for (auto note : notes) {
-    int timestap = database_notes.get_modified_v12 (note);
+    int timestap = database_notes.get_modified (note);
     timestamps.push_back (timestap);
   }
   quick_sort (timestamps, notes, 0, notes.size ());

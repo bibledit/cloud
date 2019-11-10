@@ -169,12 +169,10 @@ private:
   void note_modified_actions (int identifier);
 
 public:
-  bool get_public_v12 (int identifier);
-  void set_public_v12 (int identifier, bool value);
+  bool get_public (int identifier);
+  void set_public (int identifier, bool value);
 private:
-  string public_key_v2 ();
-  bool get_public_v2 (int identifier);
-  void set_public_v2 (int identifier, bool value);
+  string public_key ();
   
 public:
   string get_search_field_v12 (int identifier);

@@ -1459,28 +1459,16 @@ void Database_Notes::set_modified (int identifier, int time)
 }
 
 
-bool Database_Notes::get_public_v12 (int identifier)
+bool Database_Notes::get_public (int identifier)
 {
-  return get_public_v2 (identifier);
-}
-
-
-bool Database_Notes::get_public_v2 (int identifier)
-{
-  string value = get_field_v2 (identifier, public_key_v2 ());
+  string value = get_field_v2 (identifier, public_key ());
   return convert_to_bool (value);
 }
 
 
-void Database_Notes::set_public_v12 (int identifier, bool value)
+void Database_Notes::set_public (int identifier, bool value)
 {
-  set_public_v2 (identifier, value);
-}
-
-
-void Database_Notes::set_public_v2 (int identifier, bool value)
-{
-  set_field_v2 (identifier, public_key_v2 (), convert_to_string (value));
+  set_field_v2 (identifier, public_key (), convert_to_string (value));
 }
 
 
@@ -2052,7 +2040,7 @@ string Database_Notes::expiry_key_v2 ()
 }
 
 
-string Database_Notes::public_key_v2 ()
+string Database_Notes::public_key ()
 {
   return "public";
 }

@@ -1455,34 +1455,34 @@ void test_database_notes ()
     int newidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // None of them, or others, are public notes.
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier1 + 1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier1 + 1));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier3));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier1 + 1));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier3));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier1 + 1));
     
     // Set some public.
-    database_notes.set_public_v12 (oldidentifier1, true);
-    database_notes.set_public_v12 (oldidentifier2, true);
-    database_notes.set_public_v12 (newidentifier1, true);
-    database_notes.set_public_v12 (newidentifier2, true);
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier3));
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v2 (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v2 (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier3));
+    database_notes.set_public (oldidentifier1, true);
+    database_notes.set_public (oldidentifier2, true);
+    database_notes.set_public (newidentifier1, true);
+    database_notes.set_public (newidentifier2, true);
+    evaluate (__LINE__, __func__, true, database_notes.get_public (oldidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier3));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier3));
     
     // Unset some of them.
-    database_notes.set_public_v12 (oldidentifier1, false);
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (oldidentifier2));
-    database_notes.set_public_v12 (newidentifier1, false);
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v2 (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v2 (newidentifier2));
+    database_notes.set_public (oldidentifier1, false);
+    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (oldidentifier2));
+    database_notes.set_public (newidentifier1, false);
+    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier2));
   }
 
   // Bulk notes transfer elaborate tests for version 2 stored in JSON format.
@@ -2029,14 +2029,14 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, modified_v2, database_notes.get_modified (identifier_v2));
     
     // Test the general methods for a note being public.
-    database_notes.set_public_v12 (identifier_v1, true);
-    database_notes.set_public_v12 (identifier_v2, false);
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (identifier_v2));
-    database_notes.set_public_v12 (identifier_v1, false);
-    database_notes.set_public_v12 (identifier_v2, true);
-    evaluate (__LINE__, __func__, false, database_notes.get_public_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public_v12 (identifier_v2));
+    database_notes.set_public (identifier_v1, true);
+    database_notes.set_public (identifier_v2, false);
+    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier_v1));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier_v2));
+    database_notes.set_public (identifier_v1, false);
+    database_notes.set_public (identifier_v2, true);
+    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier_v1));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier_v2));
   }
 */
 }

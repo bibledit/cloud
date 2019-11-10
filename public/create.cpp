@@ -84,7 +84,7 @@ string public_create (void * webserver_request)
     string contents = "<p>" + versetext + "</p>" + filter_string_trim (request->post["contents"]);
     int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
     // A note created by a public user is made public to all.
-    database_notes.set_public_v12 (identifier, true);
+    database_notes.set_public (identifier, true);
     // Subscribe the user to the note.
     // Then the user receives email about any updates made on this note.
     database_notes.subscribe (identifier);

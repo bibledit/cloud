@@ -68,7 +68,7 @@ string public_note (void * webserver_request)
   view.set_variable ("id", convert_to_string (id));
   
   
-  if (database_notes.get_public_v12 (id)) {
+  if (database_notes.get_public (id)) {
     string summary = database_notes.get_summary (id);
     view.set_variable ("summary", summary);
 

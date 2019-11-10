@@ -56,7 +56,7 @@ string public_notes (void * webserver_request)
   string notesblock;
   for (auto & identifier : identifiers) {
     // Display only public notes.
-    if (database_notes.get_public_v12 (identifier)) {
+    if (database_notes.get_public (identifier)) {
       notesblock.append ("<p class=\"nowrap\">");
       notesblock.append ("<a href=\"note?id=" + convert_to_string (identifier) + "\">");
       vector <Passage> passages = database_notes.get_passages (identifier);

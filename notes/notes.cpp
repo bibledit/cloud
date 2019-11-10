@@ -88,7 +88,7 @@ string notes_notes (void * webserver_request)
     for (auto & identifier : identifiers) {
       int passage_sort_key = 0;
       vector <float> numeric_passages;
-      vector <Passage> passages = database_notes.get_passages_v12 (identifier);
+      vector <Passage> passages = database_notes.get_passages (identifier);
       for (auto & passage : passages) {
         numeric_passages.push_back (filter_passage_to_integer (passage));
       }
@@ -108,7 +108,7 @@ string notes_notes (void * webserver_request)
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.get_summary (identifier);
-    vector <Passage> passages = database_notes.get_passages_v12 (identifier);
+    vector <Passage> passages = database_notes.get_passages (identifier);
     string verses = filter_passage_display_inline (passages);
     if (show_note_status) {
       string status = database_notes.get_status_v12 (identifier);
@@ -124,7 +124,7 @@ string notes_notes (void * webserver_request)
 
     string verse_text;
     if (passage_inclusion_selector) {
-      vector <Passage> passages = database_notes.get_passages_v12 (identifier);
+      vector <Passage> passages = database_notes.get_passages (identifier);
       for (auto & passage : passages) {
         string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
         string text = usfm_get_verse_text (usfm, convert_to_int (passage.verse));

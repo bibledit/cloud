@@ -323,7 +323,7 @@ void Database_Notes::update_database_v2 (int identifier)
   string assigned = get_field_v2 (identifier, assigned_key ());
   string subscriptions = get_field_v2 (identifier, subscriptions_key ());
   string bible = get_bible (identifier);
-  string passage = get_raw_passage_v2 (identifier);
+  string passage = get_raw_passage (identifier);
   string status = get_raw_status_v2 (identifier);
   int severity = get_raw_severity_v2 (identifier);
   string summary = get_summary (identifier);
@@ -549,7 +549,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   int identifier = get_new_unique_identifier ();
   
   // Passage.
-  string passage = encode_passage_v12 (book, chapter, verse);
+  string passage = encode_passage (book, chapter, verse);
   
   string status = "New";
   int severity = 2;
@@ -572,7 +572,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   filter_url_mkdir (folder);
   Object note;
   note << bible_key () << bible;
-  note << passage_key_v2 () << passage;
+  note << passage_key () << passage;
   note << status_key_v2 () << status;
   note << severity_key_v2 () << convert_to_string (severity);
   note << summary_key () << summary;
@@ -641,19 +641,19 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
     case 0:
       // Select notes that refer to the current verse.
       // It means that the book, the chapter, and the verse, should match.
-      passage = encode_passage_v12 (book, chapter, verse);
+      passage = encode_passage (book, chapter, verse);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 1:
       // Select notes that refer to the current chapter.
       // It means that the book and the chapter should match.
-      passage = encode_passage_v12 (book, chapter, -1);
+      passage = encode_passage (book, chapter, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 2:
       // Select notes that refer to the current book.
       // It means that the book should match.
-      passage = encode_passage_v12 (book, -1, -1);
+      passage = encode_passage (book, -1, -1);
       query.append (" AND passage LIKE '%" + passage + "%' ");
       break;
     case 3:
@@ -1175,7 +1175,7 @@ vector <string> Database_Notes::get_all_bibles ()
 // Encodes the book, chapter and verse, like to, e.g.: "40.5.13",
 // and returns this as a string.
 // The chapter and the verse can be negative, in which case they won't be included.
-string Database_Notes::encode_passage_v12 (int book, int chapter, int verse)
+string Database_Notes::encode_passage (int book, int chapter, int verse)
 {
   // Space before and after the passage enables notes selection on passage.
   // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
@@ -1198,7 +1198,7 @@ string Database_Notes::encode_passage_v12 (int book, int chapter, int verse)
 
 
 // Takes the passage as a string, and returns an object with book, chapter, and verse.
-Passage Database_Notes::decode_passage_v12 (string passage)
+Passage Database_Notes::decode_passage (string passage)
 {
   passage = filter_string_trim (passage);
   Passage decodedpassage = Passage ();
@@ -1211,38 +1211,30 @@ Passage Database_Notes::decode_passage_v12 (string passage)
 
 
 // Returns the raw passage text of the note identified by identifier.
-string Database_Notes::get_raw_passage_v12 (int identifier)
+string Database_Notes::decode_passage (int identifier)
 {
-  return get_raw_passage_v2 (identifier);
+  return get_raw_passage (identifier);
 }
 
 
 // Returns the raw passage text of the note identified by identifier.
-string Database_Notes::get_raw_passage_v2 (int identifier)
+string Database_Notes::get_raw_passage (int identifier)
 {
-  return get_field_v2 (identifier, passage_key_v2 ());
+  return get_field_v2 (identifier, passage_key ());
 }
 
 
 // Returns an array with the passages that the note identified by identifier refers to.
 // Each passages is an array (book, chapter, verse).
-vector <Passage> Database_Notes::get_passages_v12 (int identifier)
+vector <Passage> Database_Notes::get_passages (int identifier)
 {
-  return get_passages_v2 (identifier);
-}
-
-
-// Returns an array with the passages that the note identified by identifier refers to.
-// Each passages is an array (book, chapter, verse).
-vector <Passage> Database_Notes::get_passages_v2 (int identifier)
-{
-  string contents = get_raw_passage_v2 (identifier);
+  string contents = get_raw_passage (identifier);
   if (contents.empty()) return {};
   vector <string> lines = filter_string_explode (contents, '\n');
   vector <Passage> passages;
   for (auto & line : lines) {
     if (line.empty()) continue;
-    Passage passage = decode_passage_v12 (line);
+    Passage passage = decode_passage (line);
     passages.push_back (passage);
   }
   return passages;
@@ -1252,28 +1244,19 @@ vector <Passage> Database_Notes::get_passages_v2 (int identifier)
 // Set the passages for note identifier.
 // passages is an array of an array (book, chapter, verse) passages.
 // import: If true, just write passages, no further actions.
-void Database_Notes::set_passages_v12 (int identifier, const vector <Passage>& passages, bool import)
-{
-  set_passages_v2 (identifier, passages, import);
-}
-
-
-// Set the passages for note identifier.
-// passages is an array of an array (book, chapter, verse) passages.
-// import: If true, just write passages, no further actions.
-void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& passages, bool import)
+void Database_Notes::set_passages (int identifier, const vector <Passage>& passages, bool import)
 {
   // Format the passages.
   string line;
   for (auto & passage : passages) {
     if (!line.empty ()) line.append ("\n");
-    line.append (encode_passage_v12 (passage.book, passage.chapter, convert_to_int (passage.verse)));
+    line.append (encode_passage (passage.book, passage.chapter, convert_to_int (passage.verse)));
   }
   // Store it.
-  set_raw_passage_v2 (identifier, line);
+  set_raw_passage (identifier, line);
   
   // Update index.
-  index_raw_passage_v12 (identifier, line);
+  index_raw_passage (identifier, line);
 
   if (!import) note_modified_actions_v12 (identifier);
 }
@@ -1288,29 +1271,14 @@ void Database_Notes::set_passages_v2 (int identifier, const vector <Passage>& pa
 // it should download the exact passage file contents as it is on the server,
 // so as to prevent keeping to download the same notes over and over,
 // due to the above mentioned difference in adding a new line or not.
-void Database_Notes::set_raw_passage_v12 (int identifier, const string& passage)
-{
-  set_raw_passage_v2 (identifier, passage);
-}
-
-
-// Sets the raw $passage(s) for a note $identifier.
-// The reason for having this function is this:
-// There is a slight difference in adding a new line or not to the passage
-// between Bibledit as it was written in PHP,
-// and Bibledit as it is now written in C++.
-// Due to this difference, when a client downloads a note from the server,
-// it should download the exact passage file contents as it is on the server,
-// so as to prevent keeping to download the same notes over and over,
-// due to the above mentioned difference in adding a new line or not.
-void Database_Notes::set_raw_passage_v2 (int identifier, const string& passage)
+void Database_Notes::set_raw_passage (int identifier, const string& passage)
 {
   // Store the authoritative copy in the filesystem.
-  set_field_v2 (identifier, passage_key_v2 (), passage);
+  set_field_v2 (identifier, passage_key (), passage);
 }
 
 
-void Database_Notes::index_raw_passage_v12 (int identifier, const string& passage)
+void Database_Notes::index_raw_passage (int identifier, const string& passage)
 {
   // Update the search index database.
   SqliteSQL sql;
@@ -1823,7 +1791,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("bible");
   checksum.append (get_field_v2 (identifier, bible_key ()));
   checksum.append ("passages");
-  checksum.append (get_field_v2 (identifier, passage_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, passage_key ()));
   checksum.append ("status");
   checksum.append (get_field_v2 (identifier, status_key_v2 ()));
   checksum.append ("severity");
@@ -1980,7 +1948,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     note << "i" << identifier;
     int modified = get_modified_v2 (identifier);
     note << "m" << modified;
-    string passage = get_raw_passage_v2 (identifier);
+    string passage = get_raw_passage (identifier);
     note << "p" << passage;
     string subscriptions = get_field_v2 (identifier, subscriptions_key ());
     note << "sb" << subscriptions;
@@ -2038,7 +2006,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     note2 << bible_key () << bible;
     note2 << contents_key () << contents;
     note2 << modified_key_v2 () << convert_to_string (modified);
-    note2 << passage_key_v2 () << passage;
+    note2 << passage_key () << passage;
     note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
     note2 << status_key_v2 () << status;
@@ -2089,7 +2057,7 @@ string Database_Notes::bible_key ()
 }
 
 
-string Database_Notes::passage_key_v2 ()
+string Database_Notes::passage_key ()
 {
   return "passage";
 }

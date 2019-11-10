@@ -210,7 +210,7 @@ void Notes_Logic::setStatus (int identifier, const string& status)
 void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_passages_v12 (identifier, passages);
+  database_notes.set_passages (identifier, passages);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
@@ -466,7 +466,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
 
   // Send mail to all users.
   string summary = database_notes.get_summary (identifier);
-  string passages = filter_passage_display_inline (database_notes.get_passages_v12 (identifier));
+  string passages = filter_passage_display_inline (database_notes.get_passages (identifier));
   string contents = database_notes.get_contents (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.

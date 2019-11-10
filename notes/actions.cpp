@@ -154,7 +154,7 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("viewstatus");
 
   
-  string verses = filter_passage_display_inline (database_notes.get_passages_v12 (id));
+  string verses = filter_passage_display_inline (database_notes.get_passages (id));
   view.set_variable ("verses", verses);
                                           
                                           

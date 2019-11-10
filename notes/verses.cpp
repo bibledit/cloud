@@ -88,7 +88,7 @@ string notes_verses (void * webserver_request)
   }
   
   
-  string verses = filter_passage_display_multiline (database_notes.get_passages_v12 (id));
+  string verses = filter_passage_display_multiline (database_notes.get_passages (id));
   view.set_variable ("verses", verses);
   
   

@@ -202,7 +202,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_passages:
         {
-          content = database_notes.get_raw_passage_v12 (identifier);
+          content = database_notes.decode_passage (identifier);
           break;
         }
         case Sync_Logic::notes_put_severity:

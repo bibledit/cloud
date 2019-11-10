@@ -133,19 +133,16 @@ private:
   string bible_key ();
 
 public:
-  string encode_passage_v12 (int book, int chapter, int verse);
-  Passage decode_passage_v12 (string passage);
-  string get_raw_passage_v12 (int identifier);
-  vector <Passage> get_passages_v12 (int identifier);
-  void set_passages_v12 (int identifier, const vector <Passage>& passages, bool import = false);
-  void set_raw_passage_v12 (int identifier, const string& passage);
-  void index_raw_passage_v12 (int identifier, const string& passage);
+  string encode_passage (int book, int chapter, int verse);
+  Passage decode_passage (string passage);
+  string decode_passage (int identifier);
+  vector <Passage> get_passages (int identifier);
+  void set_passages (int identifier, const vector <Passage>& passages, bool import = false);
+  void set_raw_passage (int identifier, const string& passage);
+  void index_raw_passage (int identifier, const string& passage);
 private:
-  void set_passages_v2 (int identifier, const vector <Passage>& passages, bool import = false);
-  string passage_key_v2 ();
-  string get_raw_passage_v2 (int identifier);
-  vector <Passage> get_passages_v2 (int identifier);
-  void set_raw_passage_v2 (int identifier, const string& passage);
+  string passage_key ();
+  string get_raw_passage (int identifier);
   
 public:
   string get_raw_status_v12 (int identifier);

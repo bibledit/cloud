@@ -550,24 +550,24 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("", 5, 4, 3, "Summary", "Contents", false);
     
     // Test getting passage.
-    vector <Passage> passages = database_notes.get_passages_v12 (oldidentifier);
+    vector <Passage> passages = database_notes.get_passages (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
-    passages = database_notes.get_passages_v2 (newidentifier);
+    passages = database_notes.get_passages (newidentifier);
     standard = Passage ("", 5, 4, "3");
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     
     // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
-    database_notes.set_passages_v12 (oldidentifier, {standard});
-    passages = database_notes.get_passages_v12 (oldidentifier);
+    database_notes.set_passages (oldidentifier, {standard});
+    passages = database_notes.get_passages (oldidentifier);
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     standard = Passage ("", 12, 13, "14");
-    database_notes.set_passages_v12 (newidentifier, {standard});
-    passages = database_notes.get_passages_v2 (newidentifier);
+    database_notes.set_passages (newidentifier, {standard});
+    passages = database_notes.get_passages (newidentifier);
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
@@ -1086,14 +1086,14 @@ void test_database_notes ()
     database_notes.delete_checksum_v12 (oldidentifier);
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_passages_v12 (oldidentifier, {});
+    database_notes.set_passages (oldidentifier, {});
     checksum = database_notes.get_checksum_v12 (oldidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     // New.
     database_notes.delete_checksum_v12 (newidentifier);
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
-    database_notes.set_passages_v12 (newidentifier, {});
+    database_notes.set_passages (newidentifier, {});
     checksum = database_notes.get_checksum_v12 (newidentifier);
     evaluate (__LINE__, __func__, false, checksum.empty());
     
@@ -1524,7 +1524,7 @@ void test_database_notes ()
       string assigned = "assigned" + offset;
       database_notes.set_raw_assigned (identifier, assigned);
       string passage = "passage" + offset;
-      database_notes.set_raw_passage_v12 (identifier, passage);
+      database_notes.set_raw_passage (identifier, passage);
       int severity = 4 * i;
       database_notes.set_raw_severity_v12 (identifier, severity);
       string status = "status" + offset;
@@ -1569,7 +1569,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, false, database_notes.get_summary (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_contents (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_bible (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_raw_passage_v2 (identifier).empty ());
+      evaluate (__LINE__, __func__, false, database_notes.get_raw_passage (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_raw_status_v2 (identifier).empty ());
       evaluate (__LINE__, __func__, true, database_notes.get_raw_severity_v2 (identifier) != 2);
       evaluate (__LINE__, __func__, true, database_notes.get_modified_v2 (identifier) < 1000);
@@ -1577,7 +1577,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_bible (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_raw_passage_v2 (identifier));
+      evaluate (__LINE__, __func__, "", database_notes.get_raw_passage (identifier));
       evaluate (__LINE__, __func__, "", database_notes.get_raw_status_v2 (identifier));
       evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity_v2 (identifier));
       evaluate (__LINE__, __func__, 0, database_notes.get_modified_v2 (identifier));
@@ -1609,7 +1609,7 @@ void test_database_notes ()
       evaluate (__LINE__, __func__, v_contents [i], contents);
       int modified = database_notes.get_modified_v2 (identifier);
       evaluate (__LINE__, __func__, v_modified [i], modified);
-      string passage = database_notes.get_raw_passage_v2 (identifier);
+      string passage = database_notes.get_raw_passage (identifier);
       evaluate (__LINE__, __func__, v_passage [i], passage);
       int severity = database_notes.get_raw_severity_v2 (identifier);
       evaluate (__LINE__, __func__, v_severity [i], severity);
@@ -1731,7 +1731,7 @@ void test_database_notes ()
     // Search result should be there.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     // Update the passage of the note without updating the search index.
-    database_notes.set_raw_passage_v12 (identifier, " 1.2.3 ");
+    database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
@@ -1866,7 +1866,7 @@ void test_database_notes ()
     // Search result should be there.
     evaluate (__LINE__, __func__, { identifier }, identifiers);
     // Update the passage of the note without updating the search index.
-    database_notes.set_raw_passage_v12 (identifier, " 1.2.3 ");
+    database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
@@ -1990,14 +1990,14 @@ void test_database_notes ()
     
     // Test the general methods for the passage.
     vector <Passage> passages;
-    passages = database_notes.get_passages_v12 (identifier_v1);
+    passages = database_notes.get_passages (identifier_v1);
     evaluate (__LINE__, __func__, 1, passages.size());
     for (auto passage : passages) evaluate (__LINE__, __func__, true, passage_v1.equal (passage));
-    passages = database_notes.get_passages_v12 (identifier_v2);
+    passages = database_notes.get_passages (identifier_v2);
     evaluate (__LINE__, __func__, 1, passages.size());
     for (auto passage : passages) evaluate (__LINE__, __func__, true, passage_v2.equal (passage));
-    evaluate (__LINE__, __func__, " 1.2.3 ", database_notes.get_raw_passage_v12 (identifier_v1));
-    evaluate (__LINE__, __func__, " 4.5.6 ", database_notes.get_raw_passage_v12 (identifier_v2));
+    evaluate (__LINE__, __func__, " 1.2.3 ", database_notes.decode_passage (identifier_v1));
+    evaluate (__LINE__, __func__, " 4.5.6 ", database_notes.decode_passage (identifier_v2));
     
     // Test the general methods for the status.
     string status_v1 = "status1";

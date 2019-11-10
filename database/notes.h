@@ -153,16 +153,13 @@ private:
   string status_key ();
 
 public:
-  string get_severity_v12 (int identifier);
-  int get_raw_severity_v12 (int identifier);
-  void set_raw_severity_v12 (int identifier, int severity);
-  vector <Database_Notes_Text> get_possible_severities_v12 ();
+  string get_severity (int identifier);
+  int get_raw_severity (int identifier);
+  void set_raw_severity (int identifier, int severity);
+  vector <Database_Notes_Text> get_possible_severities ();
 private:
-  string severity_key_v2 ();
-  vector <string> standard_severities_v12 ();
-  int get_raw_severity_v2 (int identifier);
-  string get_severity_v2 (int identifier);
-  void set_raw_severity_v2 (int identifier, int severity);
+  string severity_key ();
+  vector <string> standard_severities ();
 
 public:
   int get_modified_v12 (int identifier);

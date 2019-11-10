@@ -226,7 +226,7 @@ void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages
 void Notes_Logic::setRawSeverity (int identifier, int severity)
 {
   Database_Notes database_notes (webserver_request);
-  database_notes.set_raw_severity_v12 (identifier, severity);
+  database_notes.set_raw_severity (identifier, severity);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();

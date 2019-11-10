@@ -219,7 +219,7 @@ string notes_select (void * webserver_request)
   int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector ();
   if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
   string severityblock;
-  vector <Database_Notes_Text> severities = database_notes.get_possible_severities_v12();
+  vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
   for (int i = 0; i < (int)severities.size (); i++) {
     severityblock.append (" | ");
     severityblock.append ("<a ");

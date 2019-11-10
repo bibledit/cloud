@@ -325,7 +325,7 @@ void Database_Notes::update_database_v2 (int identifier)
   string bible = get_bible (identifier);
   string passage = get_raw_passage (identifier);
   string status = get_raw_status (identifier);
-  int severity = get_raw_severity_v2 (identifier);
+  int severity = get_raw_severity (identifier);
   string summary = get_summary (identifier);
   string contents = get_contents (identifier);
   
@@ -574,7 +574,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   note << bible_key () << bible;
   note << passage_key () << passage;
   note << status_key () << status;
-  note << severity_key_v2 () << convert_to_string (severity);
+  note << severity_key () << convert_to_string (severity);
   note << summary_key () << summary;
   note << contents_key () << contents;
   string json = note.json ();
@@ -1367,40 +1367,26 @@ vector <Database_Notes_Text> Database_Notes::get_possible_statuses ()
 }
 
 
-vector <string> Database_Notes::standard_severities_v12 ()
+vector <string> Database_Notes::standard_severities ()
 {
   return {"Wish", "Minor", "Normal", "Important", "Major", "Critical"};
 }
 
 
 // Returns the severity of a note as a number.
-int Database_Notes::get_raw_severity_v12 (int identifier)
+int Database_Notes::get_raw_severity (int identifier)
 {
-  return get_raw_severity_v2 (identifier);
-}
-
-
-// Returns the severity of a note as a number.
-int Database_Notes::get_raw_severity_v2 (int identifier)
-{
-  string severity = get_field_v2 (identifier, severity_key_v2 ());
+  string severity = get_field_v2 (identifier, severity_key ());
   if (severity.empty ()) return 2;
   return convert_to_int (severity);
 }
 
 
 // Returns the severity of a note as a localized string.
-string Database_Notes::get_severity_v12 (int identifier)
+string Database_Notes::get_severity (int identifier)
 {
-  return get_severity_v2 (identifier);
-}
-
-
-// Returns the severity of a note as a localized string.
-string Database_Notes::get_severity_v2 (int identifier)
-{
-  int severity = get_raw_severity_v2 (identifier);
-  vector <string> standard = standard_severities_v12 ();
+  int severity = get_raw_severity (identifier);
+  vector <string> standard = standard_severities ();
   string severitystring;
   if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [severity];
   if (severitystring.empty()) severitystring = "Normal";
@@ -1411,18 +1397,10 @@ string Database_Notes::get_severity_v2 (int identifier)
 
 // Sets the severity of the note identified by identifier.
 // severity is a number.
-void Database_Notes::set_raw_severity_v12 (int identifier, int severity)
-{
-  set_raw_severity_v2 (identifier, severity);
-}
-
-
-// Sets the severity of the note identified by identifier.
-// severity is a number.
-void Database_Notes::set_raw_severity_v2 (int identifier, int severity)
+void Database_Notes::set_raw_severity (int identifier, int severity)
 {
   // Update the file system.
-  set_field_v2 (identifier, severity_key_v2 (), convert_to_string (severity));
+  set_field_v2 (identifier, severity_key (), convert_to_string (severity));
   
   note_modified_actions_v12 (identifier);
   
@@ -1440,9 +1418,9 @@ void Database_Notes::set_raw_severity_v2 (int identifier, int severity)
 
 
 // Gets an array with the possible severities.
-vector <Database_Notes_Text> Database_Notes::get_possible_severities_v12 ()
+vector <Database_Notes_Text> Database_Notes::get_possible_severities ()
 {
-  vector <string> standard = standard_severities_v12 ();
+  vector <string> standard = standard_severities ();
   vector <Database_Notes_Text> severities;
   for (size_t i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
@@ -1770,7 +1748,7 @@ void Database_Notes::update_checksum_v2 (int identifier)
   checksum.append ("status");
   checksum.append (get_field_v2 (identifier, status_key ()));
   checksum.append ("severity");
-  checksum.append (get_field_v2 (identifier, severity_key_v2 ()));
+  checksum.append (get_field_v2 (identifier, severity_key ()));
   checksum.append ("summary");
   checksum.append (get_field_v2 (identifier, summary_key ()));
   checksum.append ("contents");
@@ -1933,7 +1911,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
     string status;
     status = get_raw_status (identifier);
     note << "st" << status;
-    int severity = get_raw_severity_v2 (identifier);
+    int severity = get_raw_severity (identifier);
     note << "sv" << severity;
     // Add the note to the bulk container.
     bulk << note;
@@ -1985,7 +1963,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
     note2 << status_key () << status;
-    note2 << severity_key_v2 () << convert_to_string (severity);
+    note2 << severity_key () << convert_to_string (severity);
     string json = note2.json ();
     filter_url_file_put_contents (path, json);
     
@@ -2044,7 +2022,7 @@ string Database_Notes::status_key ()
 }
 
 
-string Database_Notes::severity_key_v2 ()
+string Database_Notes::severity_key ()
 {
   return "severity";
 }

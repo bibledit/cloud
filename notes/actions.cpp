@@ -171,7 +171,7 @@ string notes_actions (void * webserver_request)
   
 
   if (access_logic_privilege_delete_consultation_notes (webserver_request)) view.enable_zone ("deletenote");
-  bool marked = database_notes.is_marked_for_deletion_v12 (id);
+  bool marked = database_notes.is_marked_for_deletion (id);
   if (marked) view.enable_zone ("marked");
   else view.enable_zone ("mark");
   

@@ -180,16 +180,13 @@ public:
   vector <int> search_notes (string search, const vector <string> & bibles);
 
 public:
-  void mark_for_deletion_v12 (int identifier);
-  void unmark_for_deletion_v12 (int identifier);
-  bool is_marked_for_deletion_v12 (int identifier);
+  void mark_for_deletion (int identifier);
+  void unmark_for_deletion (int identifier);
+  bool is_marked_for_deletion (int identifier);
 private:
-  string expiry_key_v2 ();
-  void mark_for_deletion_v2 (int identifier);
-  bool is_marked_for_deletion_v2 (int identifier);
-  void unmark_for_deletion_v2 (int identifier);
-  void touch_marked_for_deletion_v12 ();
-  vector <int> get_due_for_deletion_v2 ();
+  string expiry_key ();
+  void touch_marked_for_deletion ();
+  vector <int> get_due_for_deletion ();
 
 public:
   void set_checksum_v12 (int identifier, const string & checksum);

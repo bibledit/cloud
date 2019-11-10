@@ -130,7 +130,7 @@ string changes_change (void * webserver_request)
   // Remove the ones marked for deletion.
   vector <int> notes2;
   for (auto note : notes) {
-    if (!database_notes.is_marked_for_deletion_v12 (note)) {
+    if (!database_notes.is_marked_for_deletion (note)) {
       notes2.push_back (note);
     }
   }

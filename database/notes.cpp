@@ -216,11 +216,11 @@ void Database_Notes::trim ()
 void Database_Notes::trim_server ()
 {
   // Notes expiry.
-  touch_marked_for_deletion_v12 ();
+  touch_marked_for_deletion ();
   /// Storage for notes to be deleted.
   vector <int> identifiers;
   // Deal with new notes storage in JSON.
-  identifiers = get_due_for_deletion_v2 ();
+  identifiers = get_due_for_deletion ();
   for (auto & identifier : identifiers) {
     trash_consultation_note (webserver_request, identifier);
     erase (identifier);
@@ -885,7 +885,7 @@ void Database_Notes::add_comment (int identifier, const string& comment)
   
   // Some triggers.
   note_modified_actions (identifier);
-  unmark_for_deletion_v2 (identifier);
+  unmark_for_deletion (identifier);
   
   // Update shadow database.
   SqliteSQL sql;
@@ -1572,65 +1572,47 @@ vector <int> Database_Notes::search_notes (string search, const vector <string> 
 }
 
 
-void Database_Notes::mark_for_deletion_v12 (int identifier)
-{
-  mark_for_deletion_v2 (identifier);
-}
-
-
-void Database_Notes::mark_for_deletion_v2 (int identifier)
+void Database_Notes::mark_for_deletion (int identifier)
 {
   // Delete after 7 days.
-  set_field_v2 (identifier, expiry_key_v2 (), "7");
+  set_field_v2 (identifier, expiry_key (), "7");
 }
 
 
-void Database_Notes::unmark_for_deletion_v12 (int identifier)
+void Database_Notes::unmark_for_deletion (int identifier)
 {
-  unmark_for_deletion_v2 (identifier);
+  set_field_v2 (identifier, expiry_key (), "");
 }
 
 
-void Database_Notes::unmark_for_deletion_v2 (int identifier)
+bool Database_Notes::is_marked_for_deletion (int identifier)
 {
-  set_field_v2 (identifier, expiry_key_v2 (), "");
-}
-
-
-bool Database_Notes::is_marked_for_deletion_v12 (int identifier)
-{
-  return is_marked_for_deletion_v2 (identifier);
-}
-
-
-bool Database_Notes::is_marked_for_deletion_v2 (int identifier)
-{
-  string expiry = get_field_v2 (identifier, expiry_key_v2 ());
+  string expiry = get_field_v2 (identifier, expiry_key ());
   return !expiry.empty ();
 }
 
 
-void Database_Notes::touch_marked_for_deletion_v12 ()
+void Database_Notes::touch_marked_for_deletion ()
 {
   vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
-    if (is_marked_for_deletion_v2 (identifier)) {
-      string expiry = get_field_v2 (identifier, expiry_key_v2 ());
+    if (is_marked_for_deletion (identifier)) {
+      string expiry = get_field_v2 (identifier, expiry_key ());
       int days = convert_to_int (expiry);
       days--;
-      set_field_v2 (identifier, expiry_key_v2 (), convert_to_string (days));
+      set_field_v2 (identifier, expiry_key (), convert_to_string (days));
     }
   }
 }
 
 
-vector <int> Database_Notes::get_due_for_deletion_v2 ()
+vector <int> Database_Notes::get_due_for_deletion ()
 {
   vector <int> deletes;
   vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
-    if (is_marked_for_deletion_v2 (identifier)) {
-      string sdays = get_field_v2 (identifier, expiry_key_v2 ());
+    if (is_marked_for_deletion (identifier)) {
+      string sdays = get_field_v2 (identifier, expiry_key ());
       int idays = convert_to_int (sdays);
       if ((sdays == "0") || (idays < 0)) {
         deletes.push_back (identifier);
@@ -2028,7 +2010,7 @@ string Database_Notes::assigned_key ()
 }
 
 
-string Database_Notes::expiry_key_v2 ()
+string Database_Notes::expiry_key ()
 {
   return "expiry";
 }

@@ -793,35 +793,35 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
-    database_notes.mark_for_deletion_v12 (oldidentifier);
-    database_notes.mark_for_deletion_v12 (newidentifier);
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
+    database_notes.mark_for_deletion (oldidentifier);
+    database_notes.mark_for_deletion (newidentifier);
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
     
-    vector <int> identifiers = database_notes.get_due_for_deletion_v2 ();
+    vector <int> identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
-    evaluate (__LINE__, __func__, {}, identifiers);
-    
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
-    evaluate (__LINE__, __func__, {}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    identifiers = database_notes.get_due_for_deletion ();
+    evaluate (__LINE__, __func__, {}, identifiers);
+    
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {oldidentifier}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {newidentifier}, identifiers);
     
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {oldidentifier}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {newidentifier}, identifiers);
   }
 
@@ -842,26 +842,26 @@ void test_database_notes ()
     int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
-    database_notes.mark_for_deletion_v12 (oldidentifier);
-    database_notes.mark_for_deletion_v12 (newidentifier);
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.unmark_for_deletion_v12 (oldidentifier);
-    database_notes.unmark_for_deletion_v12 (newidentifier);
+    database_notes.mark_for_deletion (oldidentifier);
+    database_notes.mark_for_deletion (newidentifier);
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.unmark_for_deletion (oldidentifier);
+    database_notes.unmark_for_deletion (newidentifier);
 
-    vector <int> identifiers = database_notes.get_due_for_deletion_v2 ();
+    vector <int> identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
   }
 
@@ -885,44 +885,44 @@ void test_database_notes ()
     int newidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
-    database_notes.mark_for_deletion_v12 (oldidentifier1);
-    database_notes.mark_for_deletion_v12 (newidentifier1);
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.mark_for_deletion_v12 (oldidentifier2);
-    database_notes.mark_for_deletion_v12 (newidentifier2);
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.mark_for_deletion_v12 (oldidentifier3);
-    database_notes.mark_for_deletion_v12 (newidentifier3);
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
-    database_notes.touch_marked_for_deletion_v12 ();
+    database_notes.mark_for_deletion (oldidentifier1);
+    database_notes.mark_for_deletion (newidentifier1);
+    database_notes.touch_marked_for_deletion ();
+    database_notes.mark_for_deletion (oldidentifier2);
+    database_notes.mark_for_deletion (newidentifier2);
+    database_notes.touch_marked_for_deletion ();
+    database_notes.mark_for_deletion (oldidentifier3);
+    database_notes.mark_for_deletion (newidentifier3);
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
+    database_notes.touch_marked_for_deletion ();
 
-    vector <int> identifiers = database_notes.get_due_for_deletion_v2 ();
+    vector <int> identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {oldidentifier1}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {newidentifier1}, identifiers);
 
-    database_notes.unmark_for_deletion_v12 (oldidentifier1);
-    database_notes.unmark_for_deletion_v12 (newidentifier1);
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    database_notes.unmark_for_deletion (oldidentifier1);
+    database_notes.unmark_for_deletion (newidentifier1);
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {oldidentifier2}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {newidentifier2}, identifiers);
     
-    database_notes.unmark_for_deletion_v12 (oldidentifier2);
-    database_notes.unmark_for_deletion_v12 (newidentifier2);
-    database_notes.touch_marked_for_deletion_v12 ();
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    database_notes.unmark_for_deletion (oldidentifier2);
+    database_notes.unmark_for_deletion (newidentifier2);
+    database_notes.touch_marked_for_deletion ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {oldidentifier3}, identifiers);
-    identifiers = database_notes.get_due_for_deletion_v2 ();
+    identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {newidentifier3}, identifiers);
   }
 
@@ -944,49 +944,49 @@ void test_database_notes ()
     int newidentifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
-    database_notes.mark_for_deletion_v12 (oldidentifier1);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    database_notes.mark_for_deletion_v12 (newidentifier1);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier2));
+    database_notes.mark_for_deletion (oldidentifier1);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    database_notes.mark_for_deletion (newidentifier1);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
     
-    database_notes.unmark_for_deletion_v12 (oldidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    database_notes.unmark_for_deletion_v12 (newidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier2));
+    database_notes.unmark_for_deletion (oldidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    database_notes.unmark_for_deletion (newidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
 
-    database_notes.unmark_for_deletion_v12 (oldidentifier1);
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    database_notes.unmark_for_deletion_v12 (newidentifier1);
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier2));
+    database_notes.unmark_for_deletion (oldidentifier1);
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    database_notes.unmark_for_deletion (newidentifier1);
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier1));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
 
-    database_notes.mark_for_deletion_v12 (oldidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (oldidentifier3));
-    database_notes.mark_for_deletion_v12 (newidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v2 (newidentifier2));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion_v12 (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v2 (newidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion_v12 (newidentifier3));
+    database_notes.mark_for_deletion (oldidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier2));
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier3));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier3));
+    database_notes.mark_for_deletion (newidentifier2);
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier2));
+    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier2));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier3));
+    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier3));
   }
 
   // Test operations on the checksum.

@@ -1773,7 +1773,7 @@ string Database_Notes::availability_flag ()
 
 
 // Sets whether the notes databases are available, as a boolean.
-void Database_Notes::set_availability_v12 (bool available)
+void Database_Notes::set_availability (bool available)
 {
   if (available) {
     filter_url_unlink (availability_flag ());
@@ -1784,7 +1784,7 @@ void Database_Notes::set_availability_v12 (bool available)
 
 
 // Returns whether the notes databases are available, as a boolean.
-bool Database_Notes::available_v12 ()
+bool Database_Notes::available ()
 {
   return !file_or_dir_exists (availability_flag ());
 }

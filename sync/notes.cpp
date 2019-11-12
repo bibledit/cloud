@@ -65,7 +65,7 @@ string sync_notes (void * webserver_request)
   bool available = true;
   if (!database_notes.healthy ()) available = false;
   if (!database_notes.checksums_healthy ()) available = false;
-  if (!database_notes.available_v12 ()) available = false;
+  if (!database_notes.available ()) available = false;
   if (!available) {
     request->response_code = 503;
     return "";

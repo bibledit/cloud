@@ -197,8 +197,8 @@ public:
   vector <int> get_notes_in_range_for_bibles (int lowId, int highId, vector <string> bibles, bool anybible);
   
 public:
-  void set_availability_v12 (bool available);
-  bool available_v12 ();
+  void set_availability (bool available);
+  bool available ();
 private:
   string availability_flag ();
 

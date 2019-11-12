@@ -1428,11 +1428,11 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create ();
-    evaluate (__LINE__, __func__, true, database_notes.available_v12 ());
-    database_notes.set_availability_v12 (false);
-    evaluate (__LINE__, __func__, false, database_notes.available_v12 ());
-    database_notes.set_availability_v12 (true);
-    evaluate (__LINE__, __func__, true, database_notes.available_v12 ());
+    evaluate (__LINE__, __func__, true, database_notes.available ());
+    database_notes.set_availability (false);
+    evaluate (__LINE__, __func__, false, database_notes.available ());
+    database_notes.set_availability (true);
+    evaluate (__LINE__, __func__, true, database_notes.available ());
   }
 
   // Testing public notes.

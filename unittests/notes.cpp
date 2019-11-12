@@ -153,28 +153,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, filter_url_create_root_path ("consultations", "123", "456789.json"), file);
   }
 
-  /* Todo
-
-  // Trim and optimize.
-  {
-    refresh_sandbox (true);
-    Database_State::create ();
-    Database_Login::create ();
-    Database_Users database_users;
-    database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
-    database_notes.create ();
-    database_notes.optimize ();
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", "", false);
-    database_notes.erase (identifier);
-    database_notes.trim ();
-    database_notes.trim_server ();
-    // The logbook will have an entry about "Deleting empty notes folder".
-    refresh_sandbox (true, {"Deleting empty notes folder"});
-  }
-
-  // Trim and optimize note V2.
+  // Trim and optimize note.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -214,7 +193,7 @@ void test_database_notes ()
     if ((identifier < 100000000) || (identifier > 999999999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
     
-    identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", "", false);
+    identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
     evaluate (__LINE__, __func__, true, database_notes.identifier_exists (identifier));
     database_notes.erase (identifier);
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
@@ -235,19 +214,15 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create ();
-    
+
+    string value;
+    vector <string> values;
+    int length = 0;
+    size_t pos = 0;
+
     // Test inserting data for both summary and contents.
     string summary = "Summary";
     string contents = "Contents";
-    // Old storage.
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, summary, contents, false);
-    string value = database_notes.get_summary_v1 (oldidentifier);
-    evaluate (__LINE__, __func__, summary, value);
-    value = database_notes.get_contents (oldidentifier);
-    vector <string> values = filter_string_explode (value, '\n');
-    if (values.size () > 1) value = values[1];
-    evaluate (__LINE__, __func__, "<p>Contents</p>", value);
-    // New storage.
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, summary, contents, false);
     value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, summary, value);
@@ -258,15 +233,6 @@ void test_database_notes ()
     
     // Test that if the summary is not given, it is going to be the first line of the contents.
     contents = "This is a note.\nLine two.";
-    // Old storage.
-    oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", contents, false);
-    value = database_notes.get_summary_v1 (oldidentifier);
-    evaluate (__LINE__, __func__, "This is a note.", value);
-    value = database_notes.get_contents (oldidentifier);
-    values = filter_string_explode (value, '\n');
-    if (values.size () > 2) value = values[2];
-    evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
-    // New JSON storage.
     newidentifier = database_notes.store_new_note ("", 0, 0, 0, "", contents, false);
     value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, "This is a note.", value);
@@ -276,31 +242,16 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
     
     // Test setting the summary.
-    database_notes.set_summary (oldidentifier, "summary1");
-    value = database_notes.get_summary_v1 (oldidentifier);
-    evaluate (__LINE__, __func__, "summary1", value);
     database_notes.set_summary (newidentifier, "summary2");
     value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, "summary2", value);
     
     // Test setting the note contents.
-    database_notes.set_contents (oldidentifier, "contents1");
-    value = database_notes.get_contents (oldidentifier);
-    evaluate (__LINE__, __func__, "contents1", value);
     database_notes.set_contents (newidentifier, "contents2");
     value = database_notes.get_contents (newidentifier);
     evaluate (__LINE__, __func__, "contents2", value);
     
     // Test adding comment.
-    // Old storage.
-    value = database_notes.get_contents (oldidentifier);
-    int length = value.length ();
-    database_notes.add_comment (oldidentifier, "comment1");
-    value = database_notes.get_contents (oldidentifier);
-    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
-    size_t pos = value.find ("comment1");
-    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment1'", value);
-    // New storage.
     value = database_notes.get_contents (newidentifier);
     length = value.length ();
     database_notes.add_comment (newidentifier, "comment2");
@@ -308,13 +259,7 @@ void test_database_notes ()
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
     pos = value.find ("comment2");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
-    // Universal method to add comment to old storage.
-    database_notes.add_comment (oldidentifier, "comment4");
-    value = database_notes.get_contents (oldidentifier);
-    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
-    pos = value.find ("comment4");
-    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment4'", value);
-    // Universal method to add comment to new storage.
+    // Universal method to add comment.
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
@@ -322,48 +267,7 @@ void test_database_notes ()
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
   }
 
-  // Test subscriptions for the old notes storage.
-  {
-    refresh_sandbox (true);
-    Database_State::create ();
-    Database_Login::create ();
-    Database_Users database_users;
-    database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
-    database_notes.create ();
-    Notes_Logic notes_logic = Notes_Logic(&request);
-    Database_Mail database_mail = Database_Mail (&request);
-    database_mail.create ();
-    
-    // Normally creating a new note would subscribe the current user to the note.
-    // But since this unit test runs without sessions, it would have subscribed an empty user.
-    request.session_logic()->setUsername ("");
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {}, subscribers);
-    
-    // Create a note again, but this time set the session variable to a certain user.
-    database_users.add_user ("unittest", "", 5, "");
-    request.session_logic()->setUsername ("unittest");
-    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
-    identifier = database_notes.store_new_note_v1 ("", 1, 1, 1, "Summary", "Contents", false);
-    notes_logic.handlerNewNote (identifier);
-    subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {"unittest"}, subscribers);
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier, "unittest"));
-    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
-    // Test various other subscription related functions.
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "phpunit_phpunit"));
-    database_notes.unsubscribe (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest"));
-    database_notes.subscribe_user (identifier, "phpunit_phpunit_phpunit");
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier, "phpunit_phpunit_phpunit"));
-    database_notes.unsubscribe_user (identifier, "phpunit_phpunit_phpunit");
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "phpunit_phpunit_phpunit"));
-  }
-
-  // Test subscriptions for the new JSON notes storage.
+  // Test subscriptions.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -445,7 +349,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest2");
     
     // Create a note and check that it was not assigned to anybody.
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> assignees = database_notes.get_assignees (oldidentifier);
     evaluate (__LINE__, __func__, {}, assignees);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
@@ -515,7 +419,7 @@ void test_database_notes ()
     database_notes.create ();
     
     request.session_logic()->setUsername ("unittest");
-    int oldidentifier = database_notes.store_new_note_v1 ("unittest", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note ("unittest", 0, 0, 0, "Summary", "Contents", false);
     string bible = database_notes.get_bible (oldidentifier);
     evaluate (__LINE__, __func__, "unittest", bible);
     int newidentifier = database_notes.store_new_note ("unittest2", 0, 0, 0, "Summary", "Contents", false);
@@ -549,7 +453,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     
     // Create notes for certain passages.
-    int oldidentifier = database_notes.store_new_note_v1 ("", 10, 9, 8, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 10, 9, 8, "Summary", "Contents", false);
     int newidentifier = database_notes.store_new_note ("", 5, 4, 3, "Summary", "Contents", false);
     
     // Test getting passage.
@@ -589,7 +493,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     
     // Create notes.
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default status = New.
@@ -629,7 +533,7 @@ void test_database_notes ()
     request.session_logic()->setUsername ("unittest");
     
     // Create note.
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default severity = Normal.
@@ -679,7 +583,7 @@ void test_database_notes ()
     int time = filter_date_seconds_since_epoch ();
     
     // Create note.
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "Summary", "Contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test getter.
@@ -698,7 +602,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, time, value);;
   }
 
-  // GetIdentifiers
+  // Get identifiers.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -714,7 +618,7 @@ void test_database_notes ()
     // Create a few notes.
     vector <int> standardids;
     for (unsigned int i = 0; i < 3; i++) {
-      int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+      int identifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
       standardids.push_back (identifier);
     }
     
@@ -738,45 +642,45 @@ void test_database_notes ()
     
     // Create note.
     request.session_logic()->setUsername ("unittest");
-    int identifier_v1 = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
-    int identifier_v2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    int identifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
+    int identifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
     // Contents of the note.
-    string original_contents_v1 = database_notes.get_contents (identifier_v1);
-    if (original_contents_v1.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v1.length ()));
-    string original_contents_v2 = database_notes.get_contents (identifier_v2);
-    if (original_contents_v2.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents_v2.length ()));
+    string original_contents1 = database_notes.get_contents (identifier1);
+    if (original_contents1.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents1.length ()));
+    string original_contents2 = database_notes.get_contents (identifier2);
+    if (original_contents2.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents2.length ()));
     
-    // Checksum of the note, v1 and v2.
-    string original_checksum_v1 = database_notes.get_checksum (identifier_v1);
-    evaluate (__LINE__, __func__, 32, (int) original_checksum_v1.length());
-    string original_checksum_v2 = database_notes.get_checksum (identifier_v2);
-    evaluate (__LINE__, __func__, 32, (int) original_checksum_v2.length());
+    // Checksum of the notes.
+    string original_checksum1 = database_notes.get_checksum (identifier1);
+    evaluate (__LINE__, __func__, 32, (int) original_checksum1.length());
+    string original_checksum2 = database_notes.get_checksum (identifier2);
+    evaluate (__LINE__, __func__, 32, (int) original_checksum2.length());
     
     // Change the identifier.
-    int new_id_v1 = database_notes.get_new_unique_identifier ();
-    database_notes.set_identifier_v1 (identifier_v1, new_id_v1);
-    int new_id_v2 = database_notes.get_new_unique_identifier ();
-    database_notes.set_identifier_v2 (identifier_v2, new_id_v2);
+    int new_id1 = database_notes.get_new_unique_identifier ();
+    database_notes.set_identifier (identifier1, new_id1);
+    int new_id2 = database_notes.get_new_unique_identifier ();
+    database_notes.set_identifier (identifier2, new_id2);
     
     // Check old and new identifier for v2 and v2.
-    string contents = database_notes.get_contents (identifier_v1);
+    string contents = database_notes.get_contents (identifier1);
     evaluate (__LINE__, __func__, "", contents);
-    contents = database_notes.get_contents (new_id_v1);
-    evaluate (__LINE__, __func__, original_contents_v1, contents);
-    contents = database_notes.get_contents (identifier_v2);
+    contents = database_notes.get_contents (new_id1);
+    evaluate (__LINE__, __func__, original_contents1, contents);
+    contents = database_notes.get_contents (identifier2);
     evaluate (__LINE__, __func__, "", contents);
-    contents = database_notes.get_contents (new_id_v2);
-    evaluate (__LINE__, __func__, original_contents_v2, contents);
+    contents = database_notes.get_contents (new_id2);
+    evaluate (__LINE__, __func__, original_contents2, contents);
     
-    string checksum = database_notes.get_checksum (identifier_v1);
+    string checksum = database_notes.get_checksum (identifier1);
     evaluate (__LINE__, __func__, "", checksum);
-    checksum = database_notes.get_checksum (new_id_v1);
-    evaluate (__LINE__, __func__, original_checksum_v1, checksum);
-    checksum = database_notes.get_checksum (identifier_v2);
+    checksum = database_notes.get_checksum (new_id1);
+    evaluate (__LINE__, __func__, original_checksum1, checksum);
+    checksum = database_notes.get_checksum (identifier2);
     evaluate (__LINE__, __func__, "", checksum);
-    checksum = database_notes.get_checksum (new_id_v2);
-    evaluate (__LINE__, __func__, original_checksum_v2, checksum);
+    checksum = database_notes.get_checksum (new_id2);
+    evaluate (__LINE__, __func__, original_checksum2, checksum);
   }
 
   // Testing note due for deletion.
@@ -793,7 +697,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
     database_notes.mark_for_deletion (oldidentifier);
@@ -817,16 +721,20 @@ void test_database_notes ()
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier}, identifiers);
+    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {newidentifier}, identifiers);
+    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier}, identifiers);
+    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {newidentifier}, identifiers);
+    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
   }
+
+
+
+  /* Todo
 
   // Test unmarking a note for deletion.
   {

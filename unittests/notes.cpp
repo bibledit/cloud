@@ -732,10 +732,6 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
   }
 
-
-
-  /* Todo
-
   // Test unmarking a note for deletion.
   {
     // It tests whethe a note marked for deletion,
@@ -750,7 +746,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    int oldidentifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "summary", "contents", false);
+    int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
     database_notes.mark_for_deletion (oldidentifier);
@@ -775,6 +771,10 @@ void test_database_notes ()
     identifiers = database_notes.get_due_for_deletion ();
     evaluate (__LINE__, __func__, {}, identifiers);
   }
+
+
+
+  /* Todo
 
   // Test touching several notes marked for deletion.
   {

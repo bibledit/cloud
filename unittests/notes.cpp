@@ -1561,7 +1561,7 @@ void test_database_notes ()
     search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
-    string json = database_notes.get_bulk_v12 (v_identifier);
+    string json = database_notes.get_bulk (v_identifier);
     
     // Delete all notes again.
     for (int i = 0; i < 5; i++) {
@@ -1596,7 +1596,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
-    database_notes.set_bulk_v2 (json);
+    database_notes.set_bulk (json);
     
     // Check that the notes are back.
     for (int i = 0; i < 5; i++) {
@@ -1693,7 +1693,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index.
     // Search results should be back to normal.
-    database_notes.update_database_v12 (identifier);
+    database_notes.update_database (identifier);
     database_notes.update_search_fields (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
@@ -1750,7 +1750,7 @@ void test_database_notes ()
                                                    0); // Don't limit the search results.
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index. There should be search results now.
-    database_notes.update_database_v12 (identifier);
+    database_notes.update_database (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.
@@ -1828,7 +1828,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index.
     // Search results should be back to normal.
-    database_notes.update_database_v12 (identifier);
+    database_notes.update_database (identifier);
     database_notes.update_search_fields (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    0, // No book given.
@@ -1885,7 +1885,7 @@ void test_database_notes ()
                                                    0); // Don't limit the search results.
     evaluate (__LINE__, __func__, { }, identifiers);
     // Update the search index. There should be search results now.
-    database_notes.update_database_v12 (identifier);
+    database_notes.update_database (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
                                                    1, // Book given.
                                                    2, // Chapter given.

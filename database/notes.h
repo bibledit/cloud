@@ -203,12 +203,11 @@ private:
   string availability_flag ();
 
 public:
-  string get_bulk_v12 (vector <int> identifiers);
-  vector <string> set_bulk_v2 (string json);
+  string get_bulk (vector <int> identifiers);
+  vector <string> set_bulk (string json);
   
 private:
-  void update_database_v12 (int identifier);
-  void update_database_v2 (int identifier);
+  void update_database (int identifier);
   void update_database_internal (int identifier, int modified, string assigned, string subscriptions, string bible, string passage, string status, int severity, string summary, string contents);
   
 private:

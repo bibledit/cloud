@@ -509,7 +509,7 @@ bool sendreceive_notes_download (int lowId, int highId)
       return false;
     }
     // Store the notes in the file system.
-    vector <string> summaries = database_notes.set_bulk_v2 (json);
+    vector <string> summaries = database_notes.set_bulk (json);
     // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
     if (identifiers_bulk_download.size () < 3) {
       for (auto & summary : summaries) {

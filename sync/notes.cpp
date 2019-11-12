@@ -341,7 +341,7 @@ string sync_notes (void * webserver_request)
       vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (convert_to_int (note));
       // Return the JSON that contains all the requested notes.
-      string json = database_notes.get_bulk_v12 (identifiers);
+      string json = database_notes.get_bulk (identifiers);
       return json;
     }
   }

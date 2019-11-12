@@ -266,7 +266,7 @@ void Database_Notes::sync ()
         if ((bit2.length () == 11) && bit2.find (".json") != string::npos) {
           int identifier = convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
-          update_database_v2 (identifier);
+          update_database (identifier);
           update_search_fields (identifier);
           update_checksum (identifier);
         }
@@ -310,13 +310,7 @@ void Database_Notes::sync ()
 }
 
 
-void Database_Notes::update_database_v12 (int identifier)
-{
-  update_database_v2 (identifier);
-}
-
-
-void Database_Notes::update_database_v2 (int identifier)
+void Database_Notes::update_database (int identifier)
 {
   // Read the relevant values from the filesystem.
   int modified = get_modified (identifier);
@@ -1829,7 +1823,7 @@ string Database_Notes::notes_order_by_relevance_statement ()
 
 
 // This returns JSON that contains the notes indicated by $identifiers.
-string Database_Notes::get_bulk_v12 (vector <int> identifiers)
+string Database_Notes::get_bulk (vector <int> identifiers)
 {
   // JSON container for the bulk notes.
   Array bulk;
@@ -1868,7 +1862,7 @@ string Database_Notes::get_bulk_v12 (vector <int> identifiers)
 
 
 // This takes $json and stores all the notes it contains in the filesystem.
-vector <string> Database_Notes::set_bulk_v2 (string json)
+vector <string> Database_Notes::set_bulk (string json)
 {
   // Container for the summaries that were stored.
   vector <string> summaries;
@@ -1914,7 +1908,7 @@ vector <string> Database_Notes::set_bulk_v2 (string json)
     filter_url_file_put_contents (path, json);
     
     // Update the indexes.
-    update_database_v2 (identifier);
+    update_database (identifier);
     update_search_fields (identifier);
     update_checksum (identifier);
   }

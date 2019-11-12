@@ -134,7 +134,6 @@ void test_database_notes ()
 {
   trace_unit_tests (__func__);
 
-  /* Todo
   // Database path.
   {
     refresh_sandbox (true);
@@ -146,15 +145,15 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, filter_url_create_root_path ("databases", "notes_checksums.sqlite"), path);
   }
   
-  // Test the old note folder and the new note file routines.
+  // Test the note file routine.
   {
     Webserver_Request request;
     Database_Notes database_notes (&request);
-    string folder = database_notes.note_folder_v1 (123456789);
-    evaluate (__LINE__, __func__, filter_url_create_root_path ("consultations", "123", "456", "789"), folder);
     string file = database_notes.note_file (123456789);
     evaluate (__LINE__, __func__, filter_url_create_root_path ("consultations", "123", "456789.json"), file);
   }
+
+  /* Todo
 
   // Trim and optimize.
   {
@@ -2048,7 +2047,6 @@ void test_database_notes ()
 
 void test_database_noteassignment ()
 {
-  /* Todo
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
@@ -2078,5 +2076,4 @@ void test_database_noteassignment ()
   evaluate (__LINE__, __func__, true, exists);
   exists = database.exists ("unittest", "none-existing");
   evaluate (__LINE__, __func__, false, exists);
-  */
 }

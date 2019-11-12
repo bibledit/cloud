@@ -37,7 +37,6 @@ void test_database_noteactions ()
 {
   trace_unit_tests (__func__);
 
-  /* Todo
   // Basic tests: create / clear / optimize.
   {
     refresh_sandbox (true);
@@ -46,6 +45,7 @@ void test_database_noteactions ()
     database.clear ();
     database.optimize ();
   }
+
   // Record
   {
     refresh_sandbox (true);
@@ -55,7 +55,8 @@ void test_database_noteactions ()
     vector <int> notes = database.getNotes ();
     evaluate (__LINE__, __func__, {2}, notes);
   }
-  // Get Notes
+
+  // Get notes
   {
     refresh_sandbox (true);
     Database_NoteActions database = Database_NoteActions ();
@@ -66,7 +67,8 @@ void test_database_noteactions ()
     vector <int> notes = database.getNotes ();
     evaluate (__LINE__, __func__, {2, 3}, notes);
   }
-  // Get Note Data
+
+  // Get note data
   {
     refresh_sandbox (true);
     Database_NoteActions database = Database_NoteActions ();
@@ -88,7 +90,8 @@ void test_database_noteactions ()
     evaluate (__LINE__, __func__, 4, data[1].action);
     evaluate (__LINE__, __func__, "content4", data[1].content);
   }
-  // Update Notes.
+
+  // Update notes.
   {
     refresh_sandbox (true);
     Database_NoteActions database = Database_NoteActions ();
@@ -100,6 +103,7 @@ void test_database_noteactions ()
     vector <int> notes = database.getNotes ();
     evaluate (__LINE__, __func__, {12345, 3}, notes);
   }
+
   // Delete.
   {
     refresh_sandbox (true);
@@ -111,6 +115,7 @@ void test_database_noteactions ()
     vector <int> notes = database.getNotes ();
     evaluate (__LINE__, __func__, {4}, notes);
   }
+
   // Exists
   {
     refresh_sandbox (true);
@@ -122,7 +127,6 @@ void test_database_noteactions ()
     evaluate (__LINE__, __func__, true, database.exists (2));
     evaluate (__LINE__, __func__, false, database.exists (3));
   }
-   */
 }
 
 

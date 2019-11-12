@@ -218,8 +218,8 @@ private:
   sqlite3 * connect_checksums ();
   
 private:
-  string get_field_v2 (int identifier, string key);
-  void set_field_v2 (int identifier, string key, string value);
+  string get_field (int identifier, string key);
+  void set_field (int identifier, string key, string value);
 
 };
 

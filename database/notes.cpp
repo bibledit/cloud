@@ -314,8 +314,8 @@ void Database_Notes::update_database (int identifier)
 {
   // Read the relevant values from the filesystem.
   int modified = get_modified (identifier);
-  string assigned = get_field_v2 (identifier, assigned_key ());
-  string subscriptions = get_field_v2 (identifier, subscriptions_key ());
+  string assigned = get_field (identifier, assigned_key ());
+  string subscriptions = get_field (identifier, subscriptions_key ());
   string bible = get_bible (identifier);
   string passage = get_raw_passage (identifier);
   string status = get_raw_status (identifier);
@@ -793,14 +793,14 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
 
 string Database_Notes::get_summary (int identifier)
 {
-  return get_field_v2 (identifier, summary_key ());
+  return get_field (identifier, summary_key ());
 }
 
 
 void Database_Notes::set_summary (int identifier, const string& summary)
 {
   // Store authoritative copy in the filesystem.
-  set_field_v2 (identifier, summary_key (), summary);
+  set_field (identifier, summary_key (), summary);
   // Update the shadow database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET summary =");
@@ -820,13 +820,13 @@ void Database_Notes::set_summary (int identifier, const string& summary)
 
 string Database_Notes::get_contents (int identifier)
 {
-  return get_field_v2 (identifier, contents_key ());
+  return get_field (identifier, contents_key ());
 }
 
 
 void Database_Notes::set_raw_contents (int identifier, const string& contents)
 {
-  set_field_v2 (identifier, contents_key (), contents);
+  set_field (identifier, contents_key (), contents);
 }
 
 
@@ -929,14 +929,14 @@ vector <string> Database_Notes::get_subscribers (int identifier)
 
 string Database_Notes::get_raw_subscriptions (int identifier)
 {
-  return get_field_v2 (identifier, subscriptions_key ());
+  return get_field (identifier, subscriptions_key ());
 }
 
 
 void Database_Notes::set_raw_subscriptions (int identifier, const string& subscriptions)
 {
   // Store them in the filesystem.
-  set_field_v2 (identifier, subscriptions_key (), subscriptions);
+  set_field (identifier, subscriptions_key (), subscriptions);
   
   // Store them in the database as well.
   SqliteSQL sql;
@@ -999,14 +999,14 @@ void Database_Notes::unsubscribe_user (int identifier, const string& user)
 string Database_Notes::get_raw_assigned (int identifier)
 {
   // Get the asssignees from the filesystem.
-  return get_field_v2 (identifier, assigned_key ());
+  return get_field (identifier, assigned_key ());
 }
 
 
 void Database_Notes::set_raw_assigned (int identifier, const string& assigned)
 {
   // Store the assignees in the filesystem.
-  set_field_v2 (identifier, assigned_key (), assigned);
+  set_field (identifier, assigned_key (), assigned);
   
   // Store the assignees in the database also.
   SqliteSQL sql;
@@ -1127,14 +1127,14 @@ void Database_Notes::unassign_user (int identifier, const string& user)
 
 string Database_Notes::get_bible (int identifier)
 {
-  return get_field_v2 (identifier, bible_key ());
+  return get_field (identifier, bible_key ());
 }
 
 
 void Database_Notes::set_bible (int identifier, const string& bible)
 {
   // Write the bible to the filesystem.
-  set_field_v2 (identifier, bible_key (), bible);
+  set_field (identifier, bible_key (), bible);
   
   // Update the database also.
   SqliteSQL sql;
@@ -1214,7 +1214,7 @@ string Database_Notes::decode_passage (int identifier)
 // Returns the raw passage text of the note identified by identifier.
 string Database_Notes::get_raw_passage (int identifier)
 {
-  return get_field_v2 (identifier, passage_key ());
+  return get_field (identifier, passage_key ());
 }
 
 
@@ -1268,7 +1268,7 @@ void Database_Notes::set_passages (int identifier, const vector <Passage>& passa
 void Database_Notes::set_raw_passage (int identifier, const string& passage)
 {
   // Store the authoritative copy in the filesystem.
-  set_field_v2 (identifier, passage_key (), passage);
+  set_field (identifier, passage_key (), passage);
 }
 
 
@@ -1292,7 +1292,7 @@ void Database_Notes::index_raw_passage (int identifier, const string& passage)
 // Returns it as a string.
 string Database_Notes::get_raw_status (int identifier)
 {
-  return get_field_v2 (identifier, status_key ());
+  return get_field (identifier, status_key ());
 }
 
 
@@ -1314,7 +1314,7 @@ string Database_Notes::get_status (int identifier)
 void Database_Notes::set_status (int identifier, const string& status, bool import)
 {
   // Store the authoritative copy in the filesystem.
-  set_field_v2 (identifier, status_key (), status);
+  set_field (identifier, status_key (), status);
   
   if (!import) note_modified_actions (identifier);
   
@@ -1370,7 +1370,7 @@ vector <string> Database_Notes::standard_severities ()
 // Returns the severity of a note as a number.
 int Database_Notes::get_raw_severity (int identifier)
 {
-  string severity = get_field_v2 (identifier, severity_key ());
+  string severity = get_field (identifier, severity_key ());
   if (severity.empty ()) return 2;
   return convert_to_int (severity);
 }
@@ -1394,7 +1394,7 @@ string Database_Notes::get_severity (int identifier)
 void Database_Notes::set_raw_severity (int identifier, int severity)
 {
   // Update the file system.
-  set_field_v2 (identifier, severity_key (), convert_to_string (severity));
+  set_field (identifier, severity_key (), convert_to_string (severity));
   
   note_modified_actions (identifier);
   
@@ -1428,7 +1428,7 @@ vector <Database_Notes_Text> Database_Notes::get_possible_severities ()
 
 int Database_Notes::get_modified (int identifier)
 {
-  string modified = get_field_v2 (identifier, modified_key ());
+  string modified = get_field (identifier, modified_key ());
   if (modified.empty ()) return 0;
   return convert_to_int (modified);
 }
@@ -1437,7 +1437,7 @@ int Database_Notes::get_modified (int identifier)
 void Database_Notes::set_modified (int identifier, int time)
 {
   // Update the filesystem.
-  set_field_v2 (identifier, modified_key (), convert_to_string (time));
+  set_field (identifier, modified_key (), convert_to_string (time));
   // Update the database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET modified =");
@@ -1455,14 +1455,14 @@ void Database_Notes::set_modified (int identifier, int time)
 
 bool Database_Notes::get_public (int identifier)
 {
-  string value = get_field_v2 (identifier, public_key ());
+  string value = get_field (identifier, public_key ());
   return convert_to_bool (value);
 }
 
 
 void Database_Notes::set_public (int identifier, bool value)
 {
-  set_field_v2 (identifier, public_key (), convert_to_string (value));
+  set_field (identifier, public_key (), convert_to_string (value));
 }
 
 
@@ -1569,19 +1569,19 @@ vector <int> Database_Notes::search_notes (string search, const vector <string> 
 void Database_Notes::mark_for_deletion (int identifier)
 {
   // Delete after 7 days.
-  set_field_v2 (identifier, expiry_key (), "7");
+  set_field (identifier, expiry_key (), "7");
 }
 
 
 void Database_Notes::unmark_for_deletion (int identifier)
 {
-  set_field_v2 (identifier, expiry_key (), "");
+  set_field (identifier, expiry_key (), "");
 }
 
 
 bool Database_Notes::is_marked_for_deletion (int identifier)
 {
-  string expiry = get_field_v2 (identifier, expiry_key ());
+  string expiry = get_field (identifier, expiry_key ());
   return !expiry.empty ();
 }
 
@@ -1591,10 +1591,10 @@ void Database_Notes::touch_marked_for_deletion ()
   vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion (identifier)) {
-      string expiry = get_field_v2 (identifier, expiry_key ());
+      string expiry = get_field (identifier, expiry_key ());
       int days = convert_to_int (expiry);
       days--;
-      set_field_v2 (identifier, expiry_key (), convert_to_string (days));
+      set_field (identifier, expiry_key (), convert_to_string (days));
     }
   }
 }
@@ -1606,7 +1606,7 @@ vector <int> Database_Notes::get_due_for_deletion ()
   vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion (identifier)) {
-      string sdays = get_field_v2 (identifier, expiry_key ());
+      string sdays = get_field (identifier, expiry_key ());
       int idays = convert_to_int (sdays);
       if ((sdays == "0") || (idays < 0)) {
         deletes.push_back (identifier);
@@ -1676,23 +1676,23 @@ void Database_Notes::update_checksum (int identifier)
   // Read the raw data from disk to speed up checksumming.
   string checksum;
   checksum.append ("modified");
-  checksum.append (get_field_v2 (identifier, modified_key ()));
+  checksum.append (get_field (identifier, modified_key ()));
   checksum.append ("assignees");
-  checksum.append (get_field_v2 (identifier, assigned_key ()));
+  checksum.append (get_field (identifier, assigned_key ()));
   checksum.append ("subscribers");
-  checksum.append (get_field_v2 (identifier, subscriptions_key ()));
+  checksum.append (get_field (identifier, subscriptions_key ()));
   checksum.append ("bible");
-  checksum.append (get_field_v2 (identifier, bible_key ()));
+  checksum.append (get_field (identifier, bible_key ()));
   checksum.append ("passages");
-  checksum.append (get_field_v2 (identifier, passage_key ()));
+  checksum.append (get_field (identifier, passage_key ()));
   checksum.append ("status");
-  checksum.append (get_field_v2 (identifier, status_key ()));
+  checksum.append (get_field (identifier, status_key ()));
   checksum.append ("severity");
-  checksum.append (get_field_v2 (identifier, severity_key ()));
+  checksum.append (get_field (identifier, severity_key ()));
   checksum.append ("summary");
-  checksum.append (get_field_v2 (identifier, summary_key ()));
+  checksum.append (get_field (identifier, summary_key ()));
   checksum.append ("contents");
-  checksum.append (get_field_v2 (identifier, contents_key ()));
+  checksum.append (get_field (identifier, contents_key ()));
   checksum = md5 (checksum);
   set_checksum (identifier, checksum);
 }
@@ -1832,7 +1832,7 @@ string Database_Notes::get_bulk (vector <int> identifiers)
     // JSON object for the note.
     Object note;
     // Add all the fields of the note.
-    string assigned = get_field_v2 (identifier, assigned_key ());
+    string assigned = get_field (identifier, assigned_key ());
     note << "a" << assigned;
     string bible = get_bible (identifier);;
     note << "b" << bible;
@@ -1843,7 +1843,7 @@ string Database_Notes::get_bulk (vector <int> identifiers)
     note << "m" << modified;
     string passage = get_raw_passage (identifier);
     note << "p" << passage;
-    string subscriptions = get_field_v2 (identifier, subscriptions_key ());
+    string subscriptions = get_field (identifier, subscriptions_key ());
     note << "sb" << subscriptions;
     string summary;
     summary = get_summary (identifier);
@@ -1919,7 +1919,7 @@ vector <string> Database_Notes::set_bulk (string json)
 
 
 // Gets a field from a note in JSON format.
-string Database_Notes::get_field_v2 (int identifier, string key)
+string Database_Notes::get_field (int identifier, string key)
 {
   string file = note_file (identifier);
   string json = filter_url_file_get_contents (file);
@@ -1932,7 +1932,7 @@ string Database_Notes::get_field_v2 (int identifier, string key)
 
 
 // Sets a field in a note in JSON format.
-void Database_Notes::set_field_v2 (int identifier, string key, string value)
+void Database_Notes::set_field (int identifier, string key, string value)
 {
   string file = note_file (identifier);
   string json = filter_url_file_get_contents (file);

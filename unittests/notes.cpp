@@ -1077,8 +1077,6 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, newchecksum1, newchecksum2);
   }
 
-  /* Todo
-
   // Test updating checksums.
   {
     refresh_sandbox (true);
@@ -1090,8 +1088,8 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    // Create old and new notes to work with.
-    int oldidentifier = database_notes.store_new_note_v1 ("bible", 1, 2, 3, "summary", "contents", false);
+    // Create notes to work with.
+    int oldidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
     int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
 
     // Check checksum.
@@ -1101,14 +1099,12 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, oldchecksum, newchecksum);
     
     // Clear it and set the checksum again.
-    // Old.
     database_notes.delete_checksum (oldidentifier);
     string checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, "", checksum);
     database_notes.update_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
     evaluate (__LINE__, __func__, oldchecksum, checksum);
-    // New.
     database_notes.delete_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
     evaluate (__LINE__, __func__, "", checksum);
@@ -1117,7 +1113,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, newchecksum, checksum);
   }
 
-  // GetNotesInRangeForBibles ()
+  // Test getting notes within a notes range for given Bibles.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1129,17 +1125,17 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create a couple of notes to work with.
-    int identifier = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary", "contents", false);
+    int identifier = database_notes.store_new_note ("bible1", 1, 2, 3, "summary", "contents", false);
     int identifier1 = 100000000;
-    database_notes.set_identifier_v1 (identifier, identifier1);
+    database_notes.set_identifier (identifier, identifier1);
     
-    identifier = database_notes.store_new_note_v1 ("bible2", 1, 2, 3, "summary", "contents", false);
+    identifier = database_notes.store_new_note ("bible2", 1, 2, 3, "summary", "contents", false);
     int identifier2 = 500000000;
-    database_notes.set_identifier_v1 (identifier, identifier2);
+    database_notes.set_identifier (identifier, identifier2);
     
-    identifier = database_notes.store_new_note_v1 ("", 1, 2, 3, "summary", "contents", false);
+    identifier = database_notes.store_new_note ("", 1, 2, 3, "summary", "contents", false);
     int identifier3 = 999999999;
-    database_notes.set_identifier_v1 (identifier, identifier3);
+    database_notes.set_identifier (identifier, identifier3);
     
     // Test selection mechanism for certain Bibles.
     vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {"bible1", "bible2"}, false);
@@ -1156,7 +1152,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
   }
 
-  // CreateRange
+  // Test creating a range of identifiers.
   {
     Webserver_Request request;
     Sync_Logic sync_logic = Sync_Logic (&request);
@@ -1208,7 +1204,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 100000100, ranges[9].high);
   }
 
-  // SelectBible
+  // Test selecting based on a given Bible.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1220,9 +1216,9 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create a couple of notes to work with.
-    int identifier1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int identifier2 = database_notes.store_new_note_v1 ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    int identifier3 = database_notes.store_new_note_v1 ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    int identifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int identifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
+    int identifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // Select notes while varying Bible selection.
     vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
@@ -1247,7 +1243,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, {identifier3}, identifiers);
   }
 
-  // ResilienceNotes.
+  // Test the resilience of the notes.
   {
     refresh_sandbox (true);
     Database_Login::create ();
@@ -1274,6 +1270,8 @@ void test_database_notes ()
     // Clean the generated logbook entries away invisibly.
     refresh_sandbox (false);
   }
+
+  /* Todo
 
   // ResilienceChecksumsNotes.
   {

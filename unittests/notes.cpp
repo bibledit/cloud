@@ -1271,9 +1271,7 @@ void test_database_notes ()
     refresh_sandbox (false);
   }
 
-  /* Todo
-
-  // ResilienceChecksumsNotes.
+  // Test the resilience of the checksums of notes.
   {
     refresh_sandbox (true);
     Database_Login::create ();
@@ -1329,9 +1327,9 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create a couple of notes to work with.
-    int oldidentifier1 = database_notes.store_new_note_v1 ("bible1", 1, 2, 3, "summary1", "contents1", false);
-    int oldidentifier2 = database_notes.store_new_note_v1 ("bible2", 1, 2, 3, "summary2", "contents2", false);
-    int oldidentifier3 = database_notes.store_new_note_v1 ("bible3", 1, 2, 3, "summary3", "contents3", false);
+    int oldidentifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
+    int oldidentifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
+    int oldidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     int newidentifier1 = database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false);
     int newidentifier2 = database_notes.store_new_note ("bible2", 1, 2, 3, "summary2", "contents2", false);
     int newidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
@@ -1367,7 +1365,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier2));
   }
 
-  // Bulk notes transfer elaborate tests for version 2 stored in JSON format.
+  // Bulk notes transfer elaborate tests for notes stored in JSON format.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1516,142 +1514,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, search_results, restored_search);
   }
 
-  // Test updating the search database for the notes for version 1 storage.
-  {
-    refresh_sandbox (true);
-    Database_State::create ();
-    Database_Login::create ();
-    Database_Users database_users;
-    database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
-    database_notes.create ();
-    
-    // Test values for the note.
-    string contents ("contents");
-    
-    // Create note.
-    int identifier = database_notes.store_new_note_v1 ("", 0, 0, 0, "", "", false);
-    // Creating the note updates the search database.
-    // Basic search should work now.
-    vector <int> identifiers;
-    
-    // Search on the content of the current note.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // No book given.
-                                                   0, // No chapter given.
-                                                   0, // No verse given.
-                                                   3, // Select any passage.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   1, // Do search on the text following.
-                                                   "", // Search on any contents.
-                                                   0); // Don't limit the search results.
-    // Search result should be there.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
-    // Do a raw update of the note. The search database is not updated.
-    database_notes.set_raw_contents (identifier, contents);
-    // Doing a search now does not give results.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // No book given.
-                                                   0, // No chapter given.
-                                                   0, // No verse given.
-                                                   3, // Select any passage.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   1, // Do search on the text following.
-                                                   contents, // Search on certain content.
-                                                   0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { }, identifiers);
-    // Update the search index.
-    // Search results should be back to normal.
-    database_notes.update_database (identifier);
-    database_notes.update_search_fields (identifier);
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // No book given.
-                                                   0, // No chapter given.
-                                                   0, // No verse given.
-                                                   3, // Select any passage.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   1, // Do search on the text following.
-                                                   contents, // Search on any contents.
-                                                   0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
-    
-    // Search on the note's passage.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   0, // Book given.
-                                                   0, // Chapter given.
-                                                   0, // Verse given.
-                                                   0, // Select current verse.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   0, // Do not search on any text.
-                                                   "", // No text given as being irrelevant.
-                                                   0); // Don't limit the search results.
-    // Search result should be there.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
-    // Update the passage of the note without updating the search index.
-    database_notes.set_raw_passage (identifier, " 1.2.3 ");
-    // There should be no search results yet when searching on the new passage.
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   1, // Book given.
-                                                   2, // Chapter given.
-                                                   3, // Verse given.
-                                                   0, // Select current verse.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   0, // Do not search on any text.
-                                                   "", // No text given as being irrelevant.
-                                                   0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { }, identifiers);
-    // Update the search index. There should be search results now.
-    database_notes.update_database (identifier);
-    identifiers = database_notes.select_notes ({}, // No Bibles given.
-                                                   1, // Book given.
-                                                   2, // Chapter given.
-                                                   3, // Verse given.
-                                                   0, // Select current verse.
-                                                   0, // Select any time edited.
-                                                   0, // Select any time not edited.
-                                                   "", // Don't consider the status.
-                                                   "", // Don't consider a Bible.
-                                                   "", // Don't consider assignment.
-                                                   false, // Don't consider subscriptions.
-                                                   -1, // Don't consider the severity.
-                                                   0, // Do not search on any text.
-                                                   "", // No text given as being irrelevant.
-                                                   0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
-  }
-
-  // Test updating the search database for the notes for version 2 storage.
+  // Test updating the search database for the notes with JSON storage.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1786,7 +1649,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, { identifier }, identifiers);
   }
 
-  // Test universal methods for getting and setting note properties.
+  // Test methods for getting and setting note properties.
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -1797,130 +1660,122 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    string bible_v1 = "bible1";
-    string bible_v2 = "bible2";
-    Passage passage_v1 = Passage ("", 1, 2, "3");
-    Passage passage_v2 = Passage ("", 4, 5, "6");
+    string bible1 = "bible1";
+    string bible2 = "bible2";
+    Passage passage1 = Passage ("", 1, 2, "3");
+    Passage passage2 = Passage ("", 4, 5, "6");
     
-    // Create note in the old format, and one in the new format.
-    int oldidentifier_v1 = database_notes.store_new_note_v1 (bible_v1, passage_v1.book, passage_v1.chapter, convert_to_int (passage_v1.verse), "v1", "v1", false);
-    int identifier_v1 = oldidentifier_v1 + 2;
-    int oldidentifier_v2 = database_notes.store_new_note (bible_v2, passage_v2.book, passage_v2.chapter, convert_to_int (passage_v2.verse), "v2", "v2", false);
-    int identifier_v2 = oldidentifier_v2 + 4;
+    // Create notes.
+    int oldidentifier1 = database_notes.store_new_note (bible1, passage1.book, passage1.chapter, convert_to_int (passage1.verse), "v1", "v1", false);
+    int identifier1 = oldidentifier1 + 2;
+    int oldidentifier2 = database_notes.store_new_note (bible2, passage2.book, passage2.chapter, convert_to_int (passage2.verse), "v2", "v2", false);
+    int identifier2 = oldidentifier2 + 4;
     
-    // Call the universal method to set a new identifier.
-    database_notes.set_identifier (oldidentifier_v1, identifier_v1);
-    database_notes.set_identifier (oldidentifier_v2, identifier_v2);
+    // Call the method to set a new identifier.
+    database_notes.set_identifier (oldidentifier1, identifier1);
+    database_notes.set_identifier (oldidentifier2, identifier2);
     
-    // Test the specific methods and the single universal method to get or to set the summaries.
-    string summary_v1 = "summary1";
-    string summary_v2 = "summary2";
-    database_notes.set_summary (identifier_v1, summary_v1);
-    database_notes.set_summary (identifier_v2, summary_v2);
-    evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary_v1 (identifier_v1));
-    evaluate (__LINE__, __func__, summary_v1, database_notes.get_summary (identifier_v1));
-    evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary (identifier_v2));
-    evaluate (__LINE__, __func__, summary_v2, database_notes.get_summary (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_summary_v1 (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier_v1));
+    // Test the methods to get or to set the summaries.
+    string summary1 = "summary1";
+    string summary2 = "summary2";
+    database_notes.set_summary (identifier1, summary1);
+    database_notes.set_summary (identifier2, summary2);
+    evaluate (__LINE__, __func__, summary1, database_notes.get_summary (identifier1));
+    evaluate (__LINE__, __func__, summary2, database_notes.get_summary (identifier2));
     
-    // Test the specific methods and the single universal method to get and to set the contents.
-    string contents_v1 = "contents1";
-    string contents_v2 = "contents2";
-    database_notes.set_contents (identifier_v1, contents_v1);
-    database_notes.set_contents (identifier_v2, contents_v2);
-    string contents = database_notes.get_contents (identifier_v1);
-    evaluate (__LINE__, __func__, true, contents.find (contents_v1) != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier_v1));
-    contents = database_notes.get_contents (identifier_v2);
-    evaluate (__LINE__, __func__, true, contents.find (contents_v2) != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier_v2));
-    evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier_v1));
+    // Test the methods to get and to set the contents.
+    string contents1 = "contents1";
+    string contents2 = "contents2";
+    database_notes.set_contents (identifier1, contents1);
+    database_notes.set_contents (identifier2, contents2);
+    string contents = database_notes.get_contents (identifier1);
+    evaluate (__LINE__, __func__, true, contents.find (contents1) != string::npos);
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier1));
+    contents = database_notes.get_contents (identifier2);
+    evaluate (__LINE__, __func__, true, contents.find (contents2) != string::npos);
+    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier2));
     
-    // Test the general method to get the subscribers.
-    string subscriber_v1 = "subscriber1";
-    string subscriber_v2 = "subscriber2";
-    database_notes.set_subscribers (identifier_v1, { subscriber_v1 });
-    database_notes.set_subscribers (identifier_v2, { subscriber_v2 });
-    evaluate (__LINE__, __func__, { subscriber_v1 }, database_notes.get_subscribers (identifier_v1));
-    evaluate (__LINE__, __func__, { subscriber_v2 }, database_notes.get_subscribers (identifier_v2));
-    evaluate (__LINE__, __func__, { subscriber_v1 }, database_notes.get_subscribers (identifier_v1));
-    evaluate (__LINE__, __func__, { subscriber_v2 }, database_notes.get_subscribers (identifier_v2));
+    // Test the method to get the subscribers.
+    string subscriber1 = "subscriber1";
+    string subscriber2 = "subscriber2";
+    database_notes.set_subscribers (identifier1, { subscriber1 });
+    database_notes.set_subscribers (identifier2, { subscriber2 });
+    evaluate (__LINE__, __func__, { subscriber1 }, database_notes.get_subscribers (identifier1));
+    evaluate (__LINE__, __func__, { subscriber2 }, database_notes.get_subscribers (identifier2));
     
-    // Test the general method to test a subscriber to a note.
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier_v1, subscriber_v1));
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier_v2, subscriber_v2));
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier_v1, subscriber_v1));
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier_v2, subscriber_v2));
+    // Test the method to test a subscriber to a note.
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier1, subscriber1));
+    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier2, subscriber2));
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier1, subscriber2));
+    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier2, subscriber1));
     
-    // Test the general methods for the assignees.
-    string assignee_v1 = "assignee1";
-    string assignee_v2 = "assignee2";
-    database_notes.set_assignees (identifier_v1, { assignee_v1 });
-    database_notes.set_assignees (identifier_v2, { assignee_v2 });
-    evaluate (__LINE__, __func__, { assignee_v1 }, database_notes.get_assignees (identifier_v1));
-    evaluate (__LINE__, __func__, { assignee_v2 }, database_notes.get_assignees (identifier_v2));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier_v1, assignee_v1));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier_v2, assignee_v2));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier_v1, assignee_v2));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier_v2, assignee_v1));
+    // Test the methods for the assignees.
+    string assignee1 = "assignee1";
+    string assignee2 = "assignee2";
+    database_notes.set_assignees (identifier1, { assignee1 });
+    database_notes.set_assignees (identifier2, { assignee2 });
+    evaluate (__LINE__, __func__, { assignee1 }, database_notes.get_assignees (identifier1));
+    evaluate (__LINE__, __func__, { assignee2 }, database_notes.get_assignees (identifier2));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier1, assignee1));
+    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier2, assignee2));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier1, assignee2));
+    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier2, assignee1));
     
-    // Test the general methods for the Bible.
-    evaluate (__LINE__, __func__, bible_v1, database_notes.get_bible (identifier_v1));
-    evaluate (__LINE__, __func__, bible_v2, database_notes.get_bible (identifier_v2));
+    // Test the methods for the Bible.
+    evaluate (__LINE__, __func__, bible1, database_notes.get_bible (identifier1));
+    evaluate (__LINE__, __func__, bible2, database_notes.get_bible (identifier2));
     
-    // Test the general methods for the passage.
+    // Test the methods for the passage.
     vector <Passage> passages;
-    passages = database_notes.get_passages (identifier_v1);
+    passages = database_notes.get_passages (identifier1);
     evaluate (__LINE__, __func__, 1, passages.size());
-    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage_v1.equal (passage));
-    passages = database_notes.get_passages (identifier_v2);
+    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage1.equal (passage));
+    passages = database_notes.get_passages (identifier2);
     evaluate (__LINE__, __func__, 1, passages.size());
-    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage_v2.equal (passage));
-    evaluate (__LINE__, __func__, " 1.2.3 ", database_notes.decode_passage (identifier_v1));
-    evaluate (__LINE__, __func__, " 4.5.6 ", database_notes.decode_passage (identifier_v2));
+    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage2.equal (passage));
+    evaluate (__LINE__, __func__, " 1.2.3 ", database_notes.decode_passage (identifier1));
+    evaluate (__LINE__, __func__, " 4.5.6 ", database_notes.decode_passage (identifier2));
     
-    // Test the general methods for the status.
-    string status_v1 = "status1";
-    string status_v2 = "status2";
-    database_notes.set_status (identifier_v1, status_v1);
-    database_notes.set_status (identifier_v2, status_v2);
-    evaluate (__LINE__, __func__, status_v1, database_notes.get_raw_status (identifier_v1));
-    evaluate (__LINE__, __func__, status_v1, database_notes.get_status (identifier_v1));
-    evaluate (__LINE__, __func__, status_v2, database_notes.get_raw_status (identifier_v2));
-    evaluate (__LINE__, __func__, status_v2, database_notes.get_status (identifier_v2));
+    // Test the methods for the status.
+    string status1 = "status1";
+    string status2 = "status2";
+    database_notes.set_status (identifier1, status1);
+    database_notes.set_status (identifier2, status2);
+    evaluate (__LINE__, __func__, status1, database_notes.get_raw_status (identifier1));
+    evaluate (__LINE__, __func__, status1, database_notes.get_status (identifier1));
+    evaluate (__LINE__, __func__, status2, database_notes.get_raw_status (identifier2));
+    evaluate (__LINE__, __func__, status2, database_notes.get_status (identifier2));
     
-    // Test the general methods for the severity.
-    int severity_v1 = 4;
-    int severity_v2 = 5;
+    // Test the methods for the severity.
+    int severity1 = 4;
+    int severity2 = 5;
     vector <string> standard_severities = database_notes.standard_severities ();
-    database_notes.set_raw_severity (identifier_v1, severity_v1);
-    database_notes.set_raw_severity (identifier_v2, severity_v2);
-    evaluate (__LINE__, __func__, severity_v1, database_notes.get_raw_severity (identifier_v1));
-    evaluate (__LINE__, __func__, severity_v2, database_notes.get_raw_severity (identifier_v2));
-    evaluate (__LINE__, __func__, standard_severities [severity_v1], database_notes.get_severity (identifier_v1));
-    evaluate (__LINE__, __func__, standard_severities [severity_v2], database_notes.get_severity (identifier_v2));
+    database_notes.set_raw_severity (identifier1, severity1);
+    database_notes.set_raw_severity (identifier2, severity2);
+    evaluate (__LINE__, __func__, severity1, database_notes.get_raw_severity (identifier1));
+    evaluate (__LINE__, __func__, severity2, database_notes.get_raw_severity (identifier2));
+    evaluate (__LINE__, __func__, standard_severities [severity1], database_notes.get_severity (identifier1));
+    evaluate (__LINE__, __func__, standard_severities [severity2], database_notes.get_severity (identifier2));
     
-    // Test the general methods for the modification time.
-    int modified_v1 = 1000;
-    int modified_v2 = 2000;
-    database_notes.set_modified (identifier_v1, modified_v1);
-    database_notes.set_modified (identifier_v2, modified_v2);
-    evaluate (__LINE__, __func__, modified_v1, database_notes.get_modified (identifier_v1));
-    evaluate (__LINE__, __func__, modified_v2, database_notes.get_modified (identifier_v2));
+    // Test the methods for the modification time.
+    int modified1 = 1000;
+    int modified2 = 2000;
+    database_notes.set_modified (identifier1, modified1);
+    database_notes.set_modified (identifier2, modified2);
+    evaluate (__LINE__, __func__, modified1, database_notes.get_modified (identifier1));
+    evaluate (__LINE__, __func__, modified2, database_notes.get_modified (identifier2));
     
-    // Test the general methods for a note being public.
-    database_notes.set_public (identifier_v1, true);
-    database_notes.set_public (identifier_v2, false);
-    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier_v1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier_v2));
-    database_notes.set_public (identifier_v1, false);
-    database_notes.set_public (identifier_v2, true);
-    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier_v1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier_v2));
+    // Test the methods for a note being public.
+    database_notes.set_public (identifier1, true);
+    database_notes.set_public (identifier2, false);
+    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier1));
+    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier2));
+    database_notes.set_public (identifier1, false);
+    database_notes.set_public (identifier2, true);
+    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier1));
+    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier2));
   }
-*/
+
 }
 
 

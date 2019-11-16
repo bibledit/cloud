@@ -174,11 +174,14 @@ string sendreceive_index (void * webserver_request)
   
   if (request->query.count ("repeatsync")) {
     int repeatsync = convert_to_int (request->query["repeatsync"]);
+    // Clamp the values.
     if (repeatsync < 0) repeatsync = 0;
-    if (repeatsync > 3) repeatsync = 3;
+    if (repeatsync > 2) repeatsync = 2;
     Database_Config_General::setRepeatSendReceive (repeatsync);
   }
   int repeatsync = Database_Config_General::getRepeatSendReceive ();
+  // After removing value 3, if the setting had "3", make it "2".
+  if (repeatsync > 2) repeatsync = 2;
   string repeatsynczone = "repeatsync" + convert_to_string (repeatsync);
   view.enable_zone (repeatsynczone);
   

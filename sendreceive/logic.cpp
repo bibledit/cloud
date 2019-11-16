@@ -68,12 +68,7 @@ void sendreceive_queue_sync (int minute, int second)
         }
       }
     }
-    
-    // Sync Bibles every 20 seconds.
-    if ((repeat == 3) && ((second % 20) == 0)) {
-      sync_bibles = true;
-    }
-    
+
   }
 
   

@@ -3,7 +3,7 @@
 <!-- #BEGINZONE clienton -->
 <p>
   translate("Connected to Bibledit Cloud.")
-  <a href="?disable=">translate("Disconnect and log out.")</a>
+  <a href="?info=">translate("Connection information.")</a>
 </p>
 <p>translate("Internet address"): ##url##</p>
 <p>translate("Your role:") ##role##</p>
@@ -49,6 +49,16 @@
 <p>translate ("To get access to Bibledit Cloud, install a server instance.")</p>
 
 <!-- #ENDZONE clientoff -->
+
+<!-- #BEGINZONE info -->
+<br>
+<p>
+  translate("Bibledit is not like some programs that can work faster if you log out and log back in.")
+  translate("If you log out, then any verses you drafted or changed will not be sent to the Cloud.")
+  translate("Bibledit has been designed so that the user never has to log out under normal circumstances.")
+  <a href="?disable=">translate("I understand it and want to disconnect from the Cloud.")</a>
+</p>
+<!-- #ENDZONE info -->
 
 <br>
 <p class="error">##error##</p>

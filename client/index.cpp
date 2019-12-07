@@ -176,6 +176,10 @@ string client_index (void * webserver_request)
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 
+  if (request->query.count ("info")) {
+    view.enable_zone ("info");
+  }
+  
   string page;
 
   // Since the role of the user may change after a successful connection to the server,

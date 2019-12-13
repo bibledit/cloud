@@ -23,6 +23,8 @@
 #include <database/check.h>
 #include <filter/string.h>
 #include <filter/text.h>
+#include <filter/url.h>
+#include <filter/usfm.h>
 #include <checks/usfm.h>
 #include <editor/html2usfm.h>
 #include <editor/usfm2html.h>
@@ -31,5 +33,6 @@
 void test_dev ()
 {
   trace_unit_tests (__func__);
+  
   refresh_sandbox (true);
 }

@@ -765,6 +765,7 @@
 /unittests/tests/01GEN-50.SFM
 /unittests/tests/01GEN.SFM
 /unittests/tests/08-Ruth.usfm
+/unittests/tests/16NEHTSIC.SFM
 /unittests/tests/60-1Peter.usfm
 /unittests/tests/basic.css
 /unittests/tests/biblehub-john-1-1.html

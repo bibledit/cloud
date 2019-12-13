@@ -988,6 +988,14 @@ void test_usfm ()
     evaluate (__LINE__, __func__, all_chapters, chapters);
   }
   
+  // Regression text on instance of Nehemia 12 in combination with the Paratext bridge.
+  {
+    string directory = filter_url_create_root_path ("unittests", "tests");
+    string book_usfm = filter_url_file_get_contents (filter_url_create_path (directory, "16NEHTSIC.SFM"));
+    string chapter_usfm = usfm_get_chapter_text (book_usfm, 12);
+    evaluate (__LINE__, __func__, 7355, chapter_usfm.size());
+  }
+  
   // Test making one string out of the USFM.
   {
     evaluate (__LINE__, __func__, "", usfm_one_string (""));

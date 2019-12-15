@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_paratext ()
+void test_paratext () // Todo
 {
   trace_unit_tests (__func__);
 
@@ -111,7 +111,7 @@ void test_paratext ()
     bibledit = filter_string_trim (bibledit);
     paratext = filter_string_trim (paratext);
     {
-      // Test it takes the changes from Paratext.
+      // Test that it takes the changes from Paratext.
       string ancestor (bibledit);
       vector <string> messages;
       vector <Merge_Conflict> conflicts;

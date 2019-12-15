@@ -135,7 +135,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_usfm ();
+  test_paratext ();
   refresh_sandbox (true);
   exit (0);
   
@@ -235,6 +235,7 @@ int main (int argc, char **argv)
   test_filter_mail ();
   test_french ();
   test_merge ();
+  test_paratext ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

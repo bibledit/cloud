@@ -281,7 +281,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize () // Todo
+void Paratext_Logic::synchronize ()
 {
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
@@ -472,7 +472,7 @@ void Paratext_Logic::synchronize () // Todo
 
 string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext,
                                     vector <string> & messages,
-                                    bool & merged, vector <Merge_Conflict> & conflicts) // Todo
+                                    bool & merged, vector <Merge_Conflict> & conflicts)
 {
   string resulting_usfm;
 

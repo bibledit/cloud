@@ -532,7 +532,6 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
-/server
 /session
 /session/login.html
 /session/login.js

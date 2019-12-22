@@ -759,6 +759,11 @@
 /trash
 /unittest
 /unittests
+/unittests/scripts
+/unittests/scripts/0readme.txt
+/unittests/scripts/editor1.py
+/unittests/scripts/editor1.sh
+/unittests/scripts/geckodriver.log
 /unittests/stress
 /unittests/tests
 /unittests/tests/01GEN-0.SFM

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <search/logic.h>
 #include <export/logic.h>
 
@@ -198,6 +199,22 @@ int Database_Bibles::getChapterId (string bible, int book, int chapter)
     return convert_to_int (file);
   }
   return 100000000;
+}
+
+
+// Gets the chapter's time stamp in seconds since the Epoch.
+int Database_Bibles::getChapterAge (string bible, int book, int chapter) // Todo
+{
+  string folder = chapterFolder (bible, book, chapter);
+  vector <string> files = filter_url_scandir (folder);
+  if (!files.empty ()) {
+    string file = files [files.size() - 1];
+    string path = filter_url_create_path (folder, file);
+    int time = filter_url_file_modification_time (path);
+    int now = filter_date_seconds_since_epoch ();
+    return now - time;
+  }
+  return numeric_limits<int>::max();
 }
 
 

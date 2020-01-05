@@ -38,6 +38,7 @@ public:
   void deleteChapter (string bible, int book, int chapter);
   string getChapter (string bible, int book, int chapter);
   int getChapterId (string bible, int book, int chapter);
+  int getChapterAge (string bible, int book, int chapter);
   void optimize ();
 private:
   string mainFolder ();

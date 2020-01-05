@@ -767,7 +767,8 @@ string usfm_safely_store_verse (void * webserver_request,
   bool verses_match = true;
   if (save_verses.size () == existing_verses.size ()) {
     for (unsigned int i = 0; i < save_verses.size (); i++) {
-      if (save_verses [i] != existing_verses [i]) verses_match = false;
+      if (save_verses [i] != existing_verses [i])
+        verses_match = false;
     }
   } else {
     verses_match = false;

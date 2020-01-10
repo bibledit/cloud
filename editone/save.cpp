@@ -127,7 +127,8 @@ string editone_save (void * webserver_request)
   // https://github.com/bibledit/cloud/issues/340
   int age = request->database_bibles()->getChapterAge (bible, book, chapter); // Todo
   if (age < 2) {
-    bible_logic_recent_save_email (bible, book, chapter, username, "", usfm);
+    string old_verse_usfm = usfm_get_verse_text (oldText, verse);
+    bible_logic_recent_save_email (bible, book, chapter, username, old_verse_usfm, usfm);
   }
 
   

@@ -728,7 +728,8 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
 void bible_logic_recent_save_email (const string & bible, int book, int chapter, const string & user,
                                     const string & old_usfm, const string & new_usfm) // Todo
 {
-  vector <string> differences;
+  vector <string> old_verses;
+  vector <string> new_verses;
 
   // Go through all verses available in the USFM,
   // and make a record for each verse,
@@ -740,11 +741,12 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
     // When there's no change in the verse, skip further checks.
     if (old_verse == new_verse) continue;
     // Record the difference.
-    differences.push_back (new_verse);
+    old_verses.push_back (old_verse);
+    new_verses.push_back (new_verse);
   }
 
   // No differences found: Done.
-  if (differences.empty ()) return;
+  if (new_verses.empty ()) return;
 
   string subject = translate ("Check whether Bible text was saved");
   
@@ -769,10 +771,12 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
 
-  for (unsigned int i = 0; i < differences.size(); i++) {
+  for (unsigned int i = 0; i < new_verses.size(); i++) {
     document.append_child ("br");
     node = document.append_child ("p");
-    node.text ().set (differences[i].c_str ());
+    node.text ().set (string ("Old: " + old_verses[i]).c_str ());
+    node = document.append_child ("p");
+    node.text ().set (string ("New: " + new_verses[i]).c_str ());
   }
   
   // Convert the document to a string.

@@ -726,7 +726,7 @@ void test_database_bibles ()
     evaluate (__LINE__, __func__, 100000004, id);
   }
   
-  // Test the age of the newest chapter. Todo
+  // Test the age of the newest chapter.
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles;

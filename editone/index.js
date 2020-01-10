@@ -111,13 +111,13 @@ var oneverseEditorChangedTimeout;
 var oneverseLoadedText;
 var oneverseIdChapter = 0;
 var oneverseIdTimeout;
-var oneverseReloadFlag = false;
-var oneverseReloadPosition = undefined;
-var oneverseEditorTextChanged = false;
-var oneverseSaveAsync;
+var oneverseReloadFlag = false; // Todo
+var oneverseReloadPosition = undefined; // Todo
+var oneverseEditorTextChanged = false; // Todo
+var oneverseSaveAsync; // Todo
 var oneverseLoadAjaxRequest;
-var oneverseSaving = false;
-var oneverseEditorWriteAccess = true;
+var oneverseSaving = false; // Todo
+var oneverseEditorWriteAccess = true; // Todo
 
 
 //
@@ -192,7 +192,7 @@ function oneverseEditorLoadVerse ()
           $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
         }
         if (response !== false) {
-          // Destroy existing editor.
+          // Destroy existing editor. Todo any edits get lost here.
           if (quill) delete quill;
           // Load the html in the DOM.
           $ ("#oneeditor").empty ();
@@ -380,7 +380,7 @@ function oneverseEditorPollId ()
       if (!oneverseSaving) {
         if (oneverseIdChapter != 0) {
           if (response != oneverseIdChapter) {
-            oneverseReloadFlag = true;
+            oneverseReloadFlag = true; // Todo
             oneverseEditorLoadVerse ();
             oneverseIdChapter = 0;
           }

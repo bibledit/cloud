@@ -45,6 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <email/send.h>
 #include <developer/logic.h>
+#include <locale/translate.h>
 
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
@@ -712,6 +713,66 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
     node = document.append_child ("p");
     string difference = filter_diff_diff (client_old_diff[i], client_new_diff[i]);
     node.append_buffer (difference.c_str (), difference.size ());
+  }
+  
+  // Convert the document to a string.
+  stringstream output;
+  document.print (output, "", format_raw);
+  string html = output.str ();
+  
+  // Schedule the mail for sending to the user.
+  email_schedule (user, subject, html);
+}
+
+
+void bible_logic_recent_save_email (const string & bible, int book, int chapter, const string & user,
+                                    const string & old_usfm, const string & new_usfm) // Todo
+{
+  vector <string> differences;
+
+  // Go through all verses available in the USFM,
+  // and make a record for each verse,
+  // where the USFM differs between the old and the new USFM.
+  vector <int> verses = usfm_get_verse_numbers (new_usfm);
+  for (auto verse : verses) {
+    string old_verse = usfm_get_verse_text (old_usfm, verse);
+    string new_verse = usfm_get_verse_text (new_usfm, verse);
+    // When there's no change in the verse, skip further checks.
+    if (old_verse == new_verse) continue;
+    // Record the difference.
+    differences.push_back (new_verse);
+  }
+
+  // No differences found: Done.
+  if (differences.empty ()) return;
+
+  string subject = translate ("Check whether Bible text was saved");
+  
+  // Create the body of the email.
+  xml_document document;
+  xml_node node;
+  node = document.append_child ("h3");
+  node.text ().set (subject.c_str());
+  
+  // Add some information for the user.
+  node = document.append_child ("p");
+  string information;
+  information.append (translate ("You have saved the Bible text below."));
+  information.append (" ");
+  information.append (translate ("But less than two seconds ago Bible text was saved to the same chapter."));
+  information.append (" ");
+  information.append (translate ("This may have been done by you or by someone else."));
+  information.append (" ");
+  information.append (translate ("You may want to check whether your Bible text was saved correctly."));
+  node.text ().set (information.c_str());
+  node = document.append_child ("p");
+  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  node.text ().set (location.c_str ());
+
+  for (unsigned int i = 0; i < differences.size(); i++) {
+    document.append_child ("br");
+    node = document.append_child ("p");
+    node.text ().set (differences[i].c_str ());
   }
   
   // Convert the document to a string.

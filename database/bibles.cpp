@@ -203,7 +203,7 @@ int Database_Bibles::getChapterId (string bible, int book, int chapter)
 
 
 // Gets the chapter's time stamp in seconds since the Epoch.
-int Database_Bibles::getChapterAge (string bible, int book, int chapter) // Todo
+int Database_Bibles::getChapterAge (string bible, int book, int chapter)
 {
   string folder = chapterFolder (bible, book, chapter);
   vector <string> files = filter_url_scandir (folder);

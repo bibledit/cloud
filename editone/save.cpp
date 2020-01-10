@@ -108,12 +108,26 @@ string editone_save (void * webserver_request)
   
   string usfm = editone_logic_html_to_usfm (stylesheet, html);
 
+  
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
 #endif
   string oldText = request->database_bibles()->getChapter (bible, book, chapter);
+
+  
+  // If the most recent save operation on this chapter was done a few seconds ago,
+  // email the user,
+  // suggesting to check if the user's edit came through.
+  // The rationale is that if Bible text was saved through Send/receive,
+  // or if another user saved Bible text,
+  // it's worth to check on this.
+  // Because the user's editor may not yet have loaded this updated Bible text.
+  int age = request->database_bibles()->getChapterAge (bible, book, chapter); // Todo
+  if (age < 2) {
+    bible_logic_recent_save_email (bible, book, chapter, username, "", usfm);
+  }
 
   
   // Safely store the verse.

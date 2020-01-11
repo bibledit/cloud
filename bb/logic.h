@@ -44,7 +44,8 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
 void bible_logic_client_mail_pending_bible_updates (string user);
 void bible_logic_client_no_write_access_mail (const string & bible, int book, int chapter, const string & user,
                                               const string & oldusfm, const string & newusfm);
-void bible_logic_recent_save_email (const string & bible, int book, int chapter, const string & user,
+void bible_logic_recent_save_email (const string & bible, int book, int chapter, int verse,
+                                    const string & user,
                                     const string & old_usfm, const string & new_usfm);
 
 

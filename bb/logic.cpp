@@ -725,7 +725,8 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
 }
 
 
-void bible_logic_recent_save_email (const string & bible, int book, int chapter, const string & user,
+void bible_logic_recent_save_email (const string & bible, int book, int chapter, int verse,
+                                    const string & user,
                                     const string & old_usfm, const string & new_usfm) // Todo
 {
   vector <string> old_verses;
@@ -772,11 +773,24 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   node.text ().set (location.c_str ());
 
   for (unsigned int i = 0; i < new_verses.size(); i++) {
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set (string ("Old: " + old_verses[i]).c_str ());
-    node = document.append_child ("p");
-    node.text ().set (string ("New: " + new_verses[i]).c_str ());
+    Filter_Text filter_text_old = Filter_Text (bible);
+    Filter_Text filter_text_new = Filter_Text (bible);
+    filter_text_old.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_old.text_text = new Text_Text ();
+    filter_text_new.text_text = new Text_Text ();
+    filter_text_old.addUsfmCode (old_verses[i]);
+    filter_text_new.addUsfmCode (new_verses[i]);
+    filter_text_old.run (styles_logic_standard_sheet());
+    filter_text_new.run (styles_logic_standard_sheet());
+    string old_text = filter_text_old.text_text->get ();
+    string new_text = filter_text_new.text_text->get ();
+    if (old_text != new_text) {
+      node = document.append_child ("p");
+      string modification = filter_diff_diff (old_text, new_text);
+      string fragment = /* convert_to_string (verse) + " " + */ modification;
+      node.append_buffer (fragment.c_str (), fragment.size ());
+    }
   }
   
   // Convert the document to a string.

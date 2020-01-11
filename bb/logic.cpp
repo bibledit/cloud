@@ -727,7 +727,7 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
 
 void bible_logic_recent_save_email (const string & bible, int book, int chapter, int verse,
                                     const string & user,
-                                    const string & old_usfm, const string & new_usfm) // Todo
+                                    const string & old_usfm, const string & new_usfm)
 {
   (void) verse;
   

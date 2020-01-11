@@ -125,7 +125,7 @@ string editone_save (void * webserver_request)
   // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  int age = request->database_bibles()->getChapterAge (bible, book, chapter); // Todo
+  int age = request->database_bibles()->getChapterAge (bible, book, chapter);
   if (age < 2) {
     string old_verse_usfm = usfm_get_verse_text (oldText, verse);
     bible_logic_recent_save_email (bible, book, chapter, verse, username, old_verse_usfm, usfm);

@@ -729,6 +729,8 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
                                     const string & user,
                                     const string & old_usfm, const string & new_usfm) // Todo
 {
+  (void) verse;
+  
   vector <string> old_verses;
   vector <string> new_verses;
 

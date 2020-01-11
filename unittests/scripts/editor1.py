@@ -4,7 +4,6 @@ from selenium import webdriver
 import time
 import os
 
-
 input("Start a client at localhost:8080 and press Enter to continue")
 
 driver1 = webdriver.Firefox()

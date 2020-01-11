@@ -86,16 +86,30 @@ string editusfm_save (void * webserver_request) // Todo
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
               vector <Merge_Conflict> conflicts;
-              string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
+              string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter); // Todo
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
-                  chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save, true, conflicts);
+                  chapter_data_to_save = filter_merge_run (ancestor_usfm, server_usfm, chapter_data_to_save, true, conflicts); // Todo
                   Database_Logs::log (translate ("Merging and saving chapter."));
                 }
               }
               // Check on the merge.
               bible_logic_merge_irregularity_mail ({username}, conflicts);
+              
+              // If the most recent save operation on this chapter was done a few seconds ago,
+              // email the user,
+              // suggesting to check if the user's edit came through.
+              // The rationale is that if Bible text was saved through Send/receive,
+              // or if another user saved Bible text,
+              // it's worth to check on this.
+              // Because the user's editor may not yet have loaded this updated Bible text.
+              // https://github.com/bibledit/cloud/issues/340
+              int age = request->database_bibles()->getChapterAge (bible, book, chapter);
+              if (age < 2) {
+                bible_logic_recent_save_email (bible, book, chapter, 0, username, server_usfm, chapter_data_to_save);
+              }
+             
               // Check on write access.
               if (access_bible_book_write (request, "", bible, book)) {
                 // Safely store the chapter.

@@ -118,8 +118,8 @@ var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
 var oneverseEditorWriteAccess = true;
-var oneverseEditorLoadDate = new Date(0); // Todo
-var oneverseEditorSaveDate = new Date(0); // Todo
+var oneverseEditorLoadDate = new Date(0);
+var oneverseEditorSaveDate = new Date(0);
 
 
 //
@@ -220,7 +220,7 @@ function oneverseEditorLoadVerse ()
         if (response !== false) {
           oneverseScrollVerseIntoView ();
           oneversePositionCaret ();
-          oneverseEditorLoadDate = new Date(); // Todo
+          oneverseEditorLoadDate = new Date();
           var seconds = (oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime()) / 1000;
           if (seconds < 2) {
             alert (oneverseEditorVerseUpdatedLoaded);
@@ -281,7 +281,7 @@ function oneverseEditorSaveVerse (sync)
     complete: function (xhr, status) {
       oneverseSaveAsync = true;
       oneverseSaving = false;
-      oneverseEditorSaveDate = new Date(); // Todo
+      oneverseEditorSaveDate = new Date();
       var seconds = (oneverseEditorSaveDate.getTime() - oneverseEditorLoadDate.getTime()) / 1000;
       if (seconds < 2) {
         alert (oneverseEditorVerseUpdatedLoaded);

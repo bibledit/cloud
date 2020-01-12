@@ -70,6 +70,8 @@ var usfmPreviousHeight;
 var usfmEditorTextChanged = false;
 var usfmSaveAsync;
 var usfmSaving = false;
+var usfmLoadDate = new Date(0);
+var usfmSaveDate = new Date(0);
 
 
 function navigationNewPassage ()
@@ -122,6 +124,12 @@ function usfmEditorLoadChapter ()
             usfmPositionCaretViaAjax ();
           }
           usfmReload = false;
+          usfmLoadDate = new Date();
+          var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
+          console.log (seconds);
+          if (seconds < 2) {
+            alert (usfmEditorVerseUpdatedLoaded);
+          }
         } else {
           // Checksum error: Reload.
           usfmReload = true;
@@ -177,6 +185,11 @@ function usfmEditorSaveChapter (sync)
     complete: function (xhr, status) {
       usfmSaveAsync = true;
       usfmSaving = false;
+      usfmSaveDate = new Date();
+      var seconds = (usfmSaveDate.getTime() - usfmLoadDate.getTime()) / 1000;
+      if (seconds < 2) {
+        alert (usfmEditorVerseUpdatedLoaded);
+      }
     }
   });
 }

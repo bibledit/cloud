@@ -159,6 +159,8 @@ var editorCaretPosition = 0;
 var editorSaveAsync;
 var editorSaving = false;
 var editorWriteAccess = false;
+var editorLoadDate = new Date(0);
+var editorSaveDate = new Date(0);
 
 
 function editorLoadChapter (reload)
@@ -201,6 +203,11 @@ function editorLoadChapter (reload)
           positionCaret (editorCaretPosition);
         }
         editorScheduleCaretPositioning ();
+        editorLoadDate = new Date();
+        var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
+        if (seconds < 2) {
+          alert (editorChapterVerseUpdatedLoaded);
+        }
       } else {
         // Checksum error: Reload.
         editorLoadChapter (false);
@@ -253,6 +260,11 @@ function editorSaveChapter (sync)
       editorIdPollerTimeoutStart ();
       editorSaveAsync = true;
       editorSaving = false;
+      editorSaveDate = new Date();
+      var seconds = (editorSaveDate.getTime() - editorLoadDate.getTime()) / 1000;
+      if (seconds < 2) {
+        alert (editorChapterVerseUpdatedLoaded);
+      }
     },
   });
 }

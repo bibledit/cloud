@@ -116,6 +116,7 @@ string editusfm_index (void * webserver_request)
   "var usfmEditorChapterSaving = \"" + locale_logic_text_saving () + "\";\n"
   "var usfmEditorChapterSaved = \"" + locale_logic_text_saved () + "\";\n"
   "var usfmEditorChapterRetrying = \"" + locale_logic_text_retrying () + "\";\n"
+  "var usfmEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var usfmEditorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);

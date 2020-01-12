@@ -761,6 +761,7 @@
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py
+/unittests/scripts/geckodriver.log
 /unittests/stress
 /unittests/tests
 /unittests/tests/01GEN-0.SFM

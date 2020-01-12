@@ -209,10 +209,10 @@ string locale_logic_text_no_privileges_modify_book ()
 string locale_logic_text_reload ()
 {
   string message;
-  message.append (translate("Updated Bible text will be loaded."));
-  message.append ("\n");
-  message.append (translate("Press OK to continue."));
-  message.append ("\n");
+  message.append (translate("Updated Bible text was loaded."));
+  message.append (" ");
+  message.append (translate("Press Enter to continue."));
+  message.append (" ");
   message.append (translate("Please check the updated text."));
   return message;
 }

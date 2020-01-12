@@ -118,6 +118,8 @@ var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
 var oneverseEditorWriteAccess = true;
+var oneverseEditorLoadDate = new Date(0); // Todo
+var oneverseEditorSaveDate = new Date(0); // Todo
 
 
 //
@@ -218,6 +220,11 @@ function oneverseEditorLoadVerse ()
         if (response !== false) {
           oneverseScrollVerseIntoView ();
           oneversePositionCaret ();
+          oneverseEditorLoadDate = new Date(); // Todo
+          var seconds = (oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime()) / 1000;
+          if (seconds < 2) {
+            alert (oneverseEditorVerseUpdatedLoaded);
+          }
         }
         if (response === false) {
           // Checksum or other error: Reload.
@@ -274,6 +281,11 @@ function oneverseEditorSaveVerse (sync)
     complete: function (xhr, status) {
       oneverseSaveAsync = true;
       oneverseSaving = false;
+      oneverseEditorSaveDate = new Date(); // Todo
+      var seconds = (oneverseEditorSaveDate.getTime() - oneverseEditorLoadDate.getTime()) / 1000;
+      if (seconds < 2) {
+        alert (oneverseEditorVerseUpdatedLoaded);
+      }
     }
   });
 }

@@ -762,7 +762,7 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   // Add some information for the user.
   node = document.append_child ("p");
   string information;
-  information.append (translate ("You have saved the Bible text below."));
+  information.append (translate ("Bibledit saved the Bible text below."));
   information.append (" ");
   information.append (translate ("But less than two seconds ago Bible text was saved to the same chapter."));
   information.append (" ");

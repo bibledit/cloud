@@ -103,7 +103,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
 
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editql");
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editql"); // Todo
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -123,7 +123,7 @@ string edit_save (void * webserver_request)
   // and for a possible merge of the user's data with the server's data.
   string username = request->session_logic()->currentUser ();
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
-  string server_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string server_usfm = request->database_bibles()->getChapter (bible, book, chapter); // Todo
   string newText = user_usfm;
   string oldText = ancestor_usfm;
   
@@ -142,6 +142,18 @@ string edit_save (void * webserver_request)
   
   // Check on the merge.
   bible_logic_merge_irregularity_mail ({username}, conflicts);
+  
+  // Check whether the USFM on disk has changed compared to the USFM that was loaded in the editor.
+  // If there's a difference, email the user.
+  // Although a merge was done, still, it's good to alert the user on this. Todo
+  // The rationale is that if Bible text was saved through Send/receive,
+  // or if another user saved Bible text,
+  // it's worth to check on this.
+  // Because the user's editor may not yet have loaded this updated Bible text.
+  // https://github.com/bibledit/cloud/issues/340
+  if (ancestor_usfm != server_usfm) {
+    bible_logic_recent_save_email (bible, book, chapter, 0, username, ancestor_usfm, server_usfm);
+  }
   
   // Safely store the chapter.
   string explanation;
@@ -162,19 +174,6 @@ string edit_save (void * webserver_request)
 #else
   (void) oldID;
 #endif
-
-  // If the most recent save operation on this chapter was done a few seconds ago,
-  // email the user,
-  // suggesting to check if the user's edit came through.
-  // The rationale is that if Bible text was saved through Send/receive,
-  // or if another user saved Bible text,
-  // it's worth to check on this.
-  // Because the user's editor may not yet have loaded this updated Bible text.
-  // https://github.com/bibledit/cloud/issues/340
-  int age = request->database_bibles()->getChapterAge (bible, book, chapter);
-  if (age < 2) {
-    bible_logic_recent_save_email (bible, book, chapter, 0, username, server_usfm, user_usfm); // Todo
-  }
 
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");

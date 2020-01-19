@@ -82,7 +82,7 @@ string editone_load (void * webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "editone", "load editone");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, "editone");
   
   string prefix_html;
   string not_used;

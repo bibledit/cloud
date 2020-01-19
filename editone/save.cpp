@@ -150,7 +150,7 @@ string editone_save (void * webserver_request) // Todo
 #endif
 
     // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference. Todo
-    storeLoadedUsfm (webserver_request, bible, book, chapter, "editone", "save editone");
+    storeLoadedUsfm (webserver_request, bible, book, chapter, "editone");
 
     return locale_logic_text_saved ();
   }

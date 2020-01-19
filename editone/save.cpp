@@ -34,6 +34,7 @@
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <editone/logic.h>
+#include <edit/logic.h>
 #include <developer/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
@@ -148,6 +149,9 @@ string editone_save (void * webserver_request)
     }
     rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
 #endif
+
+    // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference. Todo
+    storeLoadedUsfm (webserver_request, bible, book, chapter, "editone", "save editone");
 
     return locale_logic_text_saved ();
   }

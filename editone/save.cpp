@@ -107,7 +107,7 @@ string editone_save (void * webserver_request) // Todo
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
  
   
-  string usfm = editone_logic_html_to_usfm (stylesheet, html);
+  string verse_usfm = editone_logic_html_to_usfm (stylesheet, html); // Todo
 
   
   // Collect some data about the changes for this user.
@@ -115,7 +115,7 @@ string editone_save (void * webserver_request) // Todo
 #ifdef HAVE_CLOUD
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
 #endif
-  string oldText = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
   
   // If the most recent save operation on this chapter
@@ -127,26 +127,26 @@ string editone_save (void * webserver_request) // Todo
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
   string old_usfm_snapshot = getLoadedUsfm (webserver_request, bible, book, chapter, "editone");
-  if (old_usfm_snapshot != oldText) {
-    bible_logic_recent_save_email (bible, book, chapter, verse, username, old_usfm_snapshot, oldText); // Todo
+  if (old_usfm_snapshot != old_usfm) {
+    bible_logic_recent_save_email (bible, book, chapter, verse, username, old_usfm_snapshot, old_usfm); // Todo
   }
 
   
   // Safely store the verse.
   string explanation;
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, usfm, explanation, true);
-  bible_logic_unsafe_save_mail (message, explanation, username, usfm);
+  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, verse_usfm, explanation, true);
+  bible_logic_unsafe_save_mail (message, explanation, username, verse_usfm);
   if (message.empty ()) {
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes.
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-    string newText = request->database_bibles()->getChapter (bible, book, chapter);
+    string new_usfm = request->database_bibles()->getChapter (bible, book, chapter);
     Database_Modifications database_modifications;
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, new_usfm);
     if (sendreceive_git_repository_linked (bible)) {
-      Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+      Database_Git::store_chapter (username, bible, book, chapter, old_usfm, new_usfm);
     }
-    rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
+    rss_logic_schedule_update (username, bible, book, chapter, old_usfm, new_usfm);
 #endif
 
     // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference. Todo

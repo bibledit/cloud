@@ -103,7 +103,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
 
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editql"); // Todo
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editql");
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -123,7 +123,7 @@ string edit_save (void * webserver_request)
   // and for a possible merge of the user's data with the server's data.
   string username = request->session_logic()->currentUser ();
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
-  string server_usfm = request->database_bibles()->getChapter (bible, book, chapter); // Todo
+  string server_usfm = request->database_bibles()->getChapter (bible, book, chapter);
   string newText = user_usfm;
   string oldText = ancestor_usfm;
   
@@ -145,7 +145,7 @@ string edit_save (void * webserver_request)
   
   // Check whether the USFM on disk has changed compared to the USFM that was loaded in the editor.
   // If there's a difference, email the user.
-  // Although a merge was done, still, it's good to alert the user on this. Todo
+  // Although a merge was done, still, it's good to alert the user on this.
   // The rationale is that if Bible text was saved through Send/receive,
   // or if another user saved Bible text,
   // it's worth to check on this.

@@ -78,7 +78,7 @@ string editusfm_save (void * webserver_request)
             int chapter_number = data.chapter;
             string chapter_data_to_save = data.data;
             if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
-              string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editusfm"); // Todo loaded usfm, what was sent to the editor.
+              string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editusfm"); loaded usfm, what was sent to the editor.
               // Collect some data about the changes for this user.
               string username = request->session_logic()->currentUser ();
               int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
@@ -86,7 +86,7 @@ string editusfm_save (void * webserver_request)
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
               vector <Merge_Conflict> conflicts;
-              string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter); // Todo what's now on disk.
+              string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
@@ -106,7 +106,7 @@ string editusfm_save (void * webserver_request)
               // Because the user's editor may not yet have loaded this updated Bible text.
               // https://github.com/bibledit/cloud/issues/340
               if (ancestor_usfm != server_usfm) {
-                bible_logic_recent_save_email (bible, book, chapter, 0, username, ancestor_usfm, server_usfm); // Todo
+                bible_logic_recent_save_email (bible, book, chapter, 0, username, ancestor_usfm, server_usfm);
               }
               
              

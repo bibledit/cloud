@@ -75,6 +75,13 @@ string editone_load (void * webserver_request)
   string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
 
   // Store a copy of the USFM loaded in the editor for later reference. Todo
+  // Note that this verse editor has been tested that it uses the correct sequence
+  // while storing this snapshot.
+  // When the user goes to another verse in the editor, the system follows this sequence:
+  // 1. It saves the edited text in the current verse.
+  // 2. It updates the chapter snapshot.
+  // 3. It loads the other verse.
+  // 4. It updates the chapter snapshot.
   storeLoadedUsfm (webserver_request, bible, book, chapter, "editone", "load editone");
   
   string prefix_html;

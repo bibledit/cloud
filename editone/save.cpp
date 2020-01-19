@@ -115,7 +115,7 @@ string editone_save (void * webserver_request) // Todo
 #ifdef HAVE_CLOUD
   int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
 #endif
-  string old_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
   
   // If the most recent save operation on this chapter
@@ -126,9 +126,9 @@ string editone_save (void * webserver_request) // Todo
   // it's worth to check on this. Todo can go out, do it differently.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  string old_usfm_snapshot = getLoadedUsfm (webserver_request, bible, book, chapter, "editone");
-  if (old_usfm_snapshot != old_usfm) {
-    bible_logic_recent_save_email (bible, book, chapter, verse, username, old_usfm_snapshot, old_usfm); // Todo
+  string loaded_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editone");
+  if (loaded_usfm != old_chapter_usfm) {
+    bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_usfm, old_chapter_usfm); // Todo
   }
 
   
@@ -142,11 +142,11 @@ string editone_save (void * webserver_request) // Todo
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
     string new_usfm = request->database_bibles()->getChapter (bible, book, chapter);
     Database_Modifications database_modifications;
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, new_usfm);
+    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_usfm);
     if (sendreceive_git_repository_linked (bible)) {
-      Database_Git::store_chapter (username, bible, book, chapter, old_usfm, new_usfm);
+      Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_usfm);
     }
-    rss_logic_schedule_update (username, bible, book, chapter, old_usfm, new_usfm);
+    rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_usfm);
 #endif
 
     // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference. Todo

@@ -764,11 +764,11 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   string information;
   information.append (translate ("Bibledit saved the Bible text below."));
   information.append (" ");
-  information.append (translate ("But less than two seconds ago Bible text was saved to the same chapter."));
+  information.append (translate ("But it found that other Bible text was saved to the same chapter."));
   information.append (" ");
   information.append (translate ("This may have been done by you or by someone else."));
   information.append (" ");
-  information.append (translate ("You may want to check whether your Bible text was saved correctly."));
+  information.append (translate ("You may want to check whether the Bible text was saved correctly."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";

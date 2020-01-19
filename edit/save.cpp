@@ -173,7 +173,7 @@ string edit_save (void * webserver_request)
   // https://github.com/bibledit/cloud/issues/340
   int age = request->database_bibles()->getChapterAge (bible, book, chapter);
   if (age < 2) {
-    bible_logic_recent_save_email (bible, book, chapter, 0, username, server_usfm, user_usfm);
+    bible_logic_recent_save_email (bible, book, chapter, 0, username, server_usfm, user_usfm); // Todo
   }
 
   // Store a copy of the USFM loaded in the editor for later reference.

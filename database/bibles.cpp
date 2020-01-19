@@ -202,7 +202,7 @@ int Database_Bibles::getChapterId (string bible, int book, int chapter)
 }
 
 
-// Gets the chapter's time stamp in seconds since the Epoch.
+// Gets the chapter's time stamp in seconds since the Epoch. Todo can go out eventually.
 int Database_Bibles::getChapterAge (string bible, int book, int chapter)
 {
   string folder = chapterFolder (bible, book, chapter);

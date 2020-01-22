@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/url.h>
+#include <filter/merge.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <database/modifications.h>
@@ -55,7 +56,7 @@ bool editone_save_acl (void * webserver_request)
 }
 
 
-string editone_save (void * webserver_request) // Todo
+string editone_save (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -107,7 +108,7 @@ string editone_save (void * webserver_request) // Todo
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
  
   
-  string verse_usfm = editone_logic_html_to_usfm (stylesheet, html); // Todo
+  string verse_usfm = editone_logic_html_to_usfm (stylesheet, html);
 
   
   // Collect some data about the changes for this user.
@@ -123,12 +124,12 @@ string editone_save (void * webserver_request) // Todo
   // suggesting to check if the user's edit came through.
   // The rationale is that if Bible text was saved through Send/receive,
   // or if another user saved Bible text,
-  // it's worth to check on this. Todo can go out, do it differently.
+  // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
   string loaded_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editone");
   if (loaded_usfm != old_chapter_usfm) {
-    bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_usfm, old_chapter_usfm); // Todo
+    bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_usfm, old_chapter_usfm);
   }
 
   
@@ -136,25 +137,39 @@ string editone_save (void * webserver_request) // Todo
   string explanation;
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, verse_usfm, explanation, true);
   bible_logic_unsafe_save_mail (message, explanation, username, verse_usfm);
+  // If storing the verse worked out well, there's no message to display.
   if (message.empty ()) {
+    // Get the chapter text now, that is, after the save operation completed.
+    string new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    // Check whether the text on disk was changed while the user worked with the older copy.
+    if (!loaded_usfm.empty () && (loaded_usfm != old_chapter_usfm)) {
+      // Do a merge for better editing reliability.
+      vector <Merge_Conflict> conflicts;
+      // Prioritize the USFM already in the chapter.
+      new_chapter_usfm = filter_merge_run (loaded_usfm, new_chapter_usfm, old_chapter_usfm, true, conflicts);
+      request->database_bibles()->storeChapter (bible, book, chapter, new_chapter_usfm);
+      Database_Logs::log (translate ("Merging chapter."));
+    }
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes.
     int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-    string new_usfm = request->database_bibles()->getChapter (bible, book, chapter);
     Database_Modifications database_modifications;
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_usfm);
+    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
     if (sendreceive_git_repository_linked (bible)) {
-      Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_usfm);
+      Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
     }
-    rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_usfm);
+    rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
 #endif
-
-    // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference. Todo
+    
+    
+    // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference.
     storeLoadedUsfm (webserver_request, bible, book, chapter, "editone");
 
     return locale_logic_text_saved ();
   }
 
-  
+
+  // The message contains information about save failure.
+  // Send it to the browser for display to the user.
   return message;
 }

@@ -168,6 +168,8 @@ function oneverseEditorLoadVerse ()
       oneverseReloadPosition = oneverseCaretPosition ();
     } else {
       oneverseReloadPosition = undefined;
+      // Fix for saving and immediately going to another verse.
+      oneverseEditorSaveDate = new Date(0);
     }
     if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
       oneverseLoadAjaxRequest.abort();

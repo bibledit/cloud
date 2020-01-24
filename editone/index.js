@@ -28,7 +28,7 @@ $ (document).ready (function ()
   $ ("#workspacemenu").append (bar);
 
   visualVerseEditorInitializeOnce ();
-  visualVerseEditorInitialize ();
+  visualVerseEditorInitializeLoad ();
 
   navigationNewPassage ();
   
@@ -71,7 +71,7 @@ function visualVerseEditorInitializeOnce ()
 }
 
 
-function visualVerseEditorInitialize ()
+function visualVerseEditorInitializeLoad ()
 {
   // Work around https://github.com/quilljs/quill/issues/1116
   // It sets the margins to 0 by adding an overriding class.
@@ -168,7 +168,7 @@ function oneverseEditorLoadVerse ()
       oneverseReloadPosition = oneverseCaretPosition ();
     } else {
       oneverseReloadPosition = undefined;
-      // Fix for saving and immediately going to another verse.
+      // When saving and immediately going to another verse, do not give an alert.
       oneverseEditorSaveDate = new Date(0);
     }
     if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
@@ -204,7 +204,7 @@ function oneverseEditorLoadVerse ()
           oneverseVerseLoaded = oneverseVerseLoading;
           oneverseEditorStatus (oneverseEditorVerseLoaded);
           // Create the editor based on the DOM's content.
-          visualVerseEditorInitialize ();
+          visualVerseEditorInitializeLoad ();
           quill.enable (oneverseEditorWriteAccess);
           // The browser may reformat the loaded html, so take the possible reformatted data for reference.
           oneverseLoadedText = $ (".ql-editor").html ();
@@ -300,9 +300,6 @@ function oneverseEditorSaveVerse (sync)
 //
 
 
-var visualVerseEditorBlockingChange = false;
-
-
 // Arguments: delta: Delta, oldContents: Delta, source: String
 function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 {
@@ -394,6 +391,9 @@ function oneverseEditorPollId ()
       if (!oneverseSaving) {
         if (oneverseIdChapter != 0) {
           if (response != oneverseIdChapter) {
+            if (oneverseEditorTextChanged) {
+              oneverseEditorSaveVerse (true);
+            }
             oneverseReloadFlag = true;
             oneverseEditorLoadVerse ();
             oneverseIdChapter = 0;

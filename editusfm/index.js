@@ -124,6 +124,7 @@ function usfmEditorLoadChapter ()
             usfmPositionCaretViaAjax ();
           }
           // Alert on reload soon after save, or on any reload.
+          // https://github.com/bibledit/cloud/issues/346
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
           if ((seconds < 2) | usfmReload) {

@@ -221,6 +221,7 @@ function oneverseEditorLoadVerse ()
         if (response !== false) {
           oneverseScrollVerseIntoView ();
           oneversePositionCaret ();
+          // https://github.com/bibledit/cloud/issues/346
           oneverseEditorLoadDate = new Date();
           var seconds = (oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime()) / 1000;
           if ((seconds < 2) | oneverseReloadFlag)  {

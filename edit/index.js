@@ -204,6 +204,7 @@ function editorLoadChapter (reload)
         }
         editorScheduleCaretPositioning ();
         // Alert on reloading soon after save, or after text reload.
+        // https://github.com/bibledit/cloud/issues/346
         editorLoadDate = new Date();
         var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
         if ((seconds < 2) || reload) {

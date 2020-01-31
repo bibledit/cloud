@@ -225,7 +225,7 @@ function oneverseEditorLoadVerse ()
           oneverseEditorLoadDate = new Date();
           var seconds = (oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime()) / 1000;
           if ((seconds < 2) | oneverseReloadFlag)  {
-            alert (oneverseEditorVerseUpdatedLoaded);
+            if (oneverseEditorWriteAccess) alert (oneverseEditorVerseUpdatedLoaded);
           }
           oneverseReloadFlag = false;
         }
@@ -287,7 +287,7 @@ function oneverseEditorSaveVerse (sync)
       oneverseEditorSaveDate = new Date();
       var seconds = (oneverseEditorSaveDate.getTime() - oneverseEditorLoadDate.getTime()) / 1000;
       if (seconds < 2) {
-        alert (oneverseEditorVerseUpdatedLoaded);
+        if (oneverseEditorWriteAccess) alert (oneverseEditorVerseUpdatedLoaded);
       }
     }
   });

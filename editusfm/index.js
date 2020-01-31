@@ -123,12 +123,13 @@ function usfmEditorLoadChapter ()
           } else {
             usfmPositionCaretViaAjax ();
           }
-          usfmReload = false;
+          // Alert on reload soon after save, or on any reload.
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
-          if (seconds < 2) {
-            alert (usfmEditorVerseUpdatedLoaded); // Todo
+          if ((seconds < 2) | usfmReload) {
+            alert (usfmEditorVerseUpdatedLoaded);
           }
+          usfmReload = false;
         } else {
           // Checksum error: Reload.
           usfmReload = true;

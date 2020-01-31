@@ -203,9 +203,10 @@ function editorLoadChapter (reload)
           positionCaret (editorCaretPosition);
         }
         editorScheduleCaretPositioning ();
+        // Alert on reloading soon after save, or after text reload.
         editorLoadDate = new Date();
         var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
-        if (seconds < 2) {
+        if ((seconds < 2) || reload) {
           alert (editorChapterVerseUpdatedLoaded);
         }
       } else {

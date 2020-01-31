@@ -126,9 +126,8 @@ function usfmEditorLoadChapter ()
           usfmReload = false;
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
-          console.log (seconds);
           if (seconds < 2) {
-            alert (usfmEditorVerseUpdatedLoaded);
+            alert (usfmEditorVerseUpdatedLoaded); // Todo
           }
         } else {
           // Checksum error: Reload.

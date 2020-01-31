@@ -88,7 +88,13 @@ void email_send ()
     string result = email_send (email, username, subject, body);
     if (result.empty ()) {
       database_mail.erase (id);
-      result = "Email to " + email + " with subject " + subject + " was sent successfully";
+      result = "Email to " + email + " with subject \"" + subject + "\" was "; // Todo
+#ifdef HAVE_CLOUD
+      result.append ("sent successfully");
+#endif
+#ifdef HAVE_CLIENT
+      result.append ("queued for sending through the Cloud")
+#endif
     } else {
       database_mail.postpone (id);
       result.insert (0, "Email to " + email + " could not be sent - reason: ");

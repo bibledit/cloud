@@ -297,6 +297,7 @@
 /index/index.html
 /index/listing.html
 /ipc
+/ipc/holder
 /jobs
 /jobs/index.html
 /journal
@@ -753,10 +754,13 @@
 /system
 /system/index.html
 /tasks
+/tasks/holder
 /text
 /timer
 /tmp
+/tmp/holder
 /trash
+/trash/holder
 /unittest
 /unittests
 /unittests/scripts

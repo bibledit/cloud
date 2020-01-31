@@ -208,7 +208,6 @@ function oneverseEditorLoadVerse ()
           quill.enable (oneverseEditorWriteAccess);
           // The browser may reformat the loaded html, so take the possible reformatted data for reference.
           oneverseLoadedText = $ (".ql-editor").html ();
-          oneverseReloadFlag = false;
           oneverseCaretMovedTimeoutStart ();
           // Create CSS for embedded styles.
           css4embeddedstyles ();
@@ -224,9 +223,10 @@ function oneverseEditorLoadVerse ()
           oneversePositionCaret ();
           oneverseEditorLoadDate = new Date();
           var seconds = (oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime()) / 1000;
-          if (seconds < 2) {
+          if ((seconds < 2) | oneverseReloadFlag)  {
             alert (oneverseEditorVerseUpdatedLoaded);
           }
+          oneverseReloadFlag = false;
         }
         if (response === false) {
           // Checksum or other error: Reload.

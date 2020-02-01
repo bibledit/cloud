@@ -130,7 +130,6 @@ string edit_index (void * webserver_request)
   "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"
   "var editorChapterReformat = '" + locale_logic_text_reformat () + "';\n"
   "var editorChapterVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var editorWriteAccess = true;\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);

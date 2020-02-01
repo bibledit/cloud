@@ -214,7 +214,7 @@ int Database_Bibles::getChapterAge (string bible, int book, int chapter)
     int now = filter_date_seconds_since_epoch ();
     return now - time;
   }
-  return numeric_limits<int>::max();
+  return 100000000;
 }
 
 

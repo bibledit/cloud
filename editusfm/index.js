@@ -128,7 +128,7 @@ function usfmEditorLoadChapter ()
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
           if ((seconds < 2) | usfmReload) {
-            if (usfmEditorWriteAccess) alert (usfmEditorVerseUpdatedLoaded); // Todo
+            if (usfmEditorWriteAccess) alert (usfmEditorVerseUpdatedLoaded);
           }
           usfmReload = false;
         } else {
@@ -189,7 +189,7 @@ function usfmEditorSaveChapter (sync)
       usfmSaveDate = new Date();
       var seconds = (usfmSaveDate.getTime() - usfmLoadDate.getTime()) / 1000;
       if (seconds < 2) {
-        if (usfmEditorWriteAccess) alert (usfmEditorVerseUpdatedLoaded); // Todo
+        if (usfmEditorWriteAccess) alert (usfmEditorVerseUpdatedLoaded);
       }
     }
   });

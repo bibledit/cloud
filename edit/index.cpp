@@ -37,6 +37,7 @@
 #include <menu/logic.h>
 #include <bb/logic.h>
 #include <config/globals.h>
+#include <workspace/logic.h>
 
 
 string edit_index_url ()
@@ -54,7 +55,7 @@ bool edit_index_acl (void * webserver_request)
 }
 
 
-string edit_index (void * webserver_request)
+string edit_index (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -130,7 +131,8 @@ string edit_index (void * webserver_request)
   "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"
   "var editorChapterReformat = '" + locale_logic_text_reformat () + "';\n"
   "var editorChapterVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
+  "var editorForceReadOnly = " + convert_to_true_false (request->query.count (workspace_query_key_readonly ())) + ";\n"; // Todo
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

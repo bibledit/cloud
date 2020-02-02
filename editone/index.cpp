@@ -37,6 +37,7 @@
 #include <menu/logic.h>
 #include <bb/logic.h>
 #include <config/globals.h>
+#include <workspace/logic.h>
 
 
 string editone_index_url ()
@@ -45,7 +46,7 @@ string editone_index_url ()
 }
 
 
-bool editone_index_acl (void * webserver_request)
+bool editone_index_acl (void * webserver_request) // Todo
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -111,7 +112,8 @@ string editone_index (void * webserver_request)
   "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"
   "var oneverseEditorVerseRetrying = '" + locale_logic_text_retrying () + "';\n"
   "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
+  "var oneverseForceReadOnly = " + convert_to_true_false (request->query.count (workspace_query_key_readonly ())) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

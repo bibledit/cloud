@@ -47,6 +47,8 @@ $(document).ready (function () {
       }
     });
   }
+
+  console.log (usfmForceReadOnly); // Todo
 });
 
 

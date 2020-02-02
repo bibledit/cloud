@@ -555,3 +555,9 @@ void workspace_send (void * webserver_request, string workspace, string user)
   // Restore workspace for the destination user.
   request->database_config_user()->setActiveWorkspace (active_workspace);
 }
+
+
+string workspace_query_key_readonly () // Todo
+{
+  return "readonly";
+}

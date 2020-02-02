@@ -35,6 +35,7 @@
 #include <ipc/focus.h>
 #include <menu/logic.h>
 #include <bb/logic.h>
+#include <workspace/logic.h>
 
 
 string editusfm_index_url ()
@@ -52,7 +53,7 @@ bool editusfm_index_acl (void * webserver_request)
 }
 
 
-string editusfm_index (void * webserver_request)
+string editusfm_index (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -118,7 +119,8 @@ string editusfm_index (void * webserver_request)
   "var usfmEditorChapterRetrying = \"" + locale_logic_text_retrying () + "\";\n"
   "var usfmEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var usfmEditorWriteAccess = true;\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
+  "var usfmForceReadOnly = " + convert_to_true_false (request->query.count (workspace_query_key_readonly ())) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

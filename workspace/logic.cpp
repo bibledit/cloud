@@ -24,12 +24,14 @@
 #include <edit/index.h>
 #include <editone/index.h>
 #include <editverse/index.h>
+#include <editusfm/index.h>
 #include <search/index.h>
 #include <resource/index.h>
 #include <notes/index.h>
 #include <consistency/index.h>
 #include <sync/logic.h>
 #include <locale/translate.h>
+#include <database/logs.h>
 
 
 vector <string> workspace_get_default_names ()
@@ -560,4 +562,31 @@ void workspace_send (void * webserver_request, string workspace, string user)
 string workspace_query_key_readonly () // Todo
 {
   return "readonly";
+}
+
+
+// https://github.com/bibledit/cloud/issues/342
+// One workspace can only have one editable Bible editor.
+// The first Bible editor remains editable.
+// Any subsequent Bible editors will be set read-only.
+// This is related to focused caret jumping that leads to confusion.
+void workspace_add_bible_readonly (map <int, string> & urls) // Todo
+{
+  int bible_editor_count = 0;
+  for (auto & element : urls) {
+    bool is_bible_editor = false;
+    string url = element.second;
+    if (url.empty()) continue;
+    if (url.find (edit_index_url ()) != string::npos) is_bible_editor = true;
+    if (url.find (editone_index_url ()) != string::npos) is_bible_editor = true;
+    if (url.find (editusfm_index_url ()) != string::npos) is_bible_editor = true;
+    if (is_bible_editor) {
+      bible_editor_count++;
+      if (bible_editor_count > 1) {
+        Database_Logs::log ("Setting Bible editor " + url + " read-only");
+        url = filter_url_build_http_query (url, workspace_query_key_readonly (), "");
+        element.second = url;
+      }
+    }
+  }
 }

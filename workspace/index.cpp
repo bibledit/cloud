@@ -104,6 +104,7 @@ string workspace_index (void * webserver_request)
 
   
   map <int, string> urls = workspace_get_urls (request, true);
+  workspace_add_bible_readonly (urls);
   map <int, string> widths = workspace_get_widths (request);
   for (unsigned int key = 0; key < 15; key++) {
     string url = urls [key];

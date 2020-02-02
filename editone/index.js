@@ -54,8 +54,6 @@ $ (document).ready (function ()
   }
   
   $ ("#oneeditor").on ("click", oneEditorNoteCitationClicked);
-                    
-  console.log (oneverseForceReadOnly); // Todo
 });
 
 

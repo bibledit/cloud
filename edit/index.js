@@ -54,8 +54,6 @@ $ (document).ready (function ()
   }
 
   $ ("#editor").on ("click", editorNoteCitationClicked);
-  
-  console.log (editorForceReadOnly); // Todo
 });
 
 

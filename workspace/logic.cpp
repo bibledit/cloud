@@ -559,7 +559,7 @@ void workspace_send (void * webserver_request, string workspace, string user)
 }
 
 
-string workspace_query_key_readonly () // Todo
+string workspace_query_key_readonly ()
 {
   return "readonly";
 }
@@ -570,7 +570,7 @@ string workspace_query_key_readonly () // Todo
 // The first Bible editor remains editable.
 // Any subsequent Bible editors will be set read-only.
 // This is related to focused caret jumping that leads to confusion.
-void workspace_add_bible_readonly (map <int, string> & urls) // Todo
+void workspace_add_bible_readonly (map <int, string> & urls)
 {
   int bible_editor_count = 0;
   for (auto & element : urls) {

@@ -202,7 +202,7 @@ bool convert_to_bool (string s)
 }
 
 
-string convert_to_true_false (bool b) // Todo
+string convert_to_true_false (bool b)
 {
   if (b) return "true";
   return "false";

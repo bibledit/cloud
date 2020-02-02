@@ -135,9 +135,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_bibles ();
-  test_database_bibleactions ();
-  test_database_bibles ();
+  test_string ();
   refresh_sandbox (true);
   exit (0);
   

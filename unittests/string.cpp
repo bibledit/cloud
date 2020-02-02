@@ -502,5 +502,11 @@ void test_string ()
     evaluate (__LINE__, __func__, standard_en_space_u2002, en_space_u2002 ());
     evaluate (__LINE__, __func__, "\u2002", en_space_u2002 ());
   }
+  
+  // Test conversionof boolean to true / false string.
+  {
+    evaluate (__LINE__, __func__, "true", convert_to_true_false (true));
+    evaluate (__LINE__, __func__, "false", convert_to_true_false (false));
+  }
 
 }

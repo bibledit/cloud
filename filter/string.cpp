@@ -202,6 +202,13 @@ bool convert_to_bool (string s)
 }
 
 
+string convert_to_true_false (bool b) // Todo
+{
+  if (b) return "true";
+  return "false";
+}
+
+
 // A C++ equivalent for PHP's array_unique function.
 vector <string> array_unique (vector <string> values)
 {

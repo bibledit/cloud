@@ -42,6 +42,7 @@ int convert_to_int (float f);
 long long convert_to_long_long (string s);
 float convert_to_float (string s);
 bool convert_to_bool (string s);
+string convert_to_true_false (bool b);
 vector <string> array_unique (vector <string> values);
 vector <int> array_unique (vector <int> values);
 vector <string> filter_string_array_diff (vector <string> from, vector <string> against);

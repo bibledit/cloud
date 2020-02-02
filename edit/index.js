@@ -180,6 +180,7 @@ function editorLoadChapter (reload)
     success: function (response) {
       // Set the editor read-write or read-only.
       editorWriteAccess = checksum_readwrite (response);
+      if (editorForceReadOnly) editorWriteAccess = false;
       // Checksumming.
       response = checksum_receive (response);
       if (response !== false) {

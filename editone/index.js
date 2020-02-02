@@ -183,6 +183,7 @@ function oneverseEditorLoadVerse ()
       success: function (response) {
         // Flag for editor read-write or read-only.
         oneverseEditorWriteAccess = checksum_readwrite (response);
+        if (oneverseForceReadOnly) oneverseEditorWriteAccess = false;
         // Checksumming.
         response = checksum_receive (response);
         // Splitting.

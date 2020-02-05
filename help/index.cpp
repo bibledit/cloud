@@ -79,18 +79,6 @@ string help_index (void * webserver_request, const string& url)
   }
   view.set_variable ("linuxversion", linux_version);
 
-  string cloud_version = "5.0.xxx";
-  string cloud_path = "/var/www/bibledit.org/cloud";
-  if (file_or_dir_exists (cloud_path)) {
-    vector <string> files = filter_url_scandir (cloud_path);
-    if (!files.empty ()) {
-      cloud_version = files.back ();
-      cloud_version = filter_string_str_replace ("bibledit-", "", cloud_version);
-      cloud_version = filter_string_str_replace (".tar.gz", "", cloud_version);
-    }
-  }
-  view.set_variable ("cloudversion", cloud_version);
-
   view.set_variable ("external", assets_external_logic_link_addon ());
 
   view.set_variable ("config", filter_url_create_root_path (config_logic_config_folder ()));

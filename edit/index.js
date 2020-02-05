@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 var quill = undefined;
 var Delta = Quill.import ("delta");
+var chapterEditorUniqueID = Math.floor (Math.random() * 100000000);
 
 
 $ (document).ready (function ()
@@ -174,7 +175,7 @@ function editorLoadChapter (reload)
   $.ajax ({
     url: "load",
     type: "GET",
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
+    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, id: chapterEditorUniqueID },
     success: function (response) {
       // Set the editor read-write or read-only.
       editorWriteAccess = checksum_readwrite (response);
@@ -246,7 +247,7 @@ function editorSaveChapter (sync)
     url: "save",
     type: "POST",
     async: editorSaveAsync,
-    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: encodedHtml, checksum: checksum },
+    data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, html: encodedHtml, checksum: checksum, id: chapterEditorUniqueID },
     success: function (response) {
       editorStatus (response);
       if (response == editorChapterReformat) {

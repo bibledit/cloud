@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 var quill = undefined;
 var Delta = Quill.import ("delta");
+var verseEditorUniqueID = Math.floor (Math.random() * 100000000);
 
 
 $ (document).ready (function ()
@@ -177,7 +178,7 @@ function oneverseEditorLoadVerse ()
     oneverseLoadAjaxRequest = $.ajax ({
       url: "load",
       type: "GET",
-      data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading },
+      data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading, id: verseEditorUniqueID },
       success: function (response) {
         // Flag for editor read-write or read-only.
         oneverseEditorWriteAccess = checksum_readwrite (response);
@@ -272,7 +273,7 @@ function oneverseEditorSaveVerse (sync)
     url: "save",
     type: "POST",
     async: oneverseSaveAsync,
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum },
+    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum, id: verseEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorVerseRetrying);
       oneverseLoadedText = "";

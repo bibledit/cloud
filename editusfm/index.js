@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+var usfmEditorUniqueID = Math.floor (Math.random() * 100000000);
+
+
 $(document).ready (function () {
 
   // Make the editor's menu to never scroll out of view.
@@ -106,7 +109,7 @@ function usfmEditorLoadChapter ()
     $.ajax ({
       url: "load",
       type: "GET",
-      data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter },
+      data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, id: usfmEditorUniqueID },
       success: function (response) {
         usfmEditorWriteAccess = checksum_readwrite (response);
         if (usfmForceReadOnly) usfmEditorWriteAccess = false;
@@ -174,7 +177,7 @@ function usfmEditorSaveChapter (sync)
     url: "save",
     type: "POST",
     async: usfmSaveAsync,
-    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: encodedUsfm, checksum: checksum },
+    data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, usfm: encodedUsfm, checksum: checksum, id: usfmEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       usfmEditorStatus (usfmEditorChapterRetrying);
       usfmLoadedText = "";

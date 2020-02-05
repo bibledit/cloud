@@ -38,7 +38,7 @@ $(document).ready (function () {
   usfmIdPoller ();
   $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged);
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
-  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus (); // Todo
+  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
   $ (window).on ("focus", usfmWindowFocused);
   if (swipe_operations) {
     $ ("body").swipe ( {
@@ -104,7 +104,7 @@ function usfmEditorLoadChapter ()
     usfmBook = usfmNavigationBook;
     usfmChapter = usfmNavigationChapter;
     usfmIdChapter = 0;
-    if (usfmEditorWriteAccess) $ ("#usfmeditor").focus; // Todo
+    if (usfmEditorWriteAccess) $ ("#usfmeditor").focus;
     usfmCaretPosition = usfmGetCaretPosition ();
     $.ajax ({
       url: "load",
@@ -315,7 +315,7 @@ function usfmPositionCaretViaAjax ()
   // Due to, most likely, network latency,
   // setting the caret at times causes the caret to jump to undesired places.
   // Therefore the caret is to be set only on chapter load.
-  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus (); // Todo
+  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
   $.ajax ({
     url: "focus",
     type: "GET",
@@ -370,7 +370,7 @@ function usfmGetCaretCharacterOffsetWithin (element)
 
 function usfmPositionCaret (position)
 {
-  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus (); // Todo
+  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
   var currentPosition = usfmGetCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;

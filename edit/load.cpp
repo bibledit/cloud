@@ -54,9 +54,10 @@ string edit_load (void * webserver_request)
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
-  
+  string unique_id = request->query ["id"];
+
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   

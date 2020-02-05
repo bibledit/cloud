@@ -63,7 +63,8 @@ string editusfm_save (void * webserver_request)
   int chapter = convert_to_int (request->post["chapter"]);
   string usfm = request->post["usfm"];
   string checksum = request->post["checksum"];
-  
+  string unique_id = request->post ["id"];
+
   
   if (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("usfm")) {
     if (Checksum_Logic::get (usfm) == checksum) {
@@ -79,7 +80,7 @@ string editusfm_save (void * webserver_request)
             string chapter_data_to_save = data.data;
             if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
               // The USFM loaded into the editor.
-              string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
+              string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
               string username = request->session_logic()->currentUser ();
               int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
@@ -132,7 +133,7 @@ string editusfm_save (void * webserver_request)
                   (void) oldID;
 #endif
                   // Store a copy of the USFM loaded in the editor for later reference.
-                  storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
+                  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
                   return locale_logic_text_saved ();
                 }
                 return message;

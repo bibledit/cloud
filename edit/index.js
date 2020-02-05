@@ -91,7 +91,7 @@ function editorInitialize ()
     return new Delta().insert (plaintext);
   });
 
-  if (editorWriteAccess) if (!quill.hasFocus ()) quill.focus (); // Todo
+  if (editorWriteAccess) if (!quill.hasFocus ()) quill.focus ();
   
   // Event handlers.
   quill.on ("text-change", editorTextChangeHandler);

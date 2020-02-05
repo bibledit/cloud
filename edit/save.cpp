@@ -71,7 +71,8 @@ string edit_save (void * webserver_request)
   int chapter = convert_to_int (request->post["chapter"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
-  
+  string unique_id = request->post ["id"];
+
   if (Checksum_Logic::get (html) != checksum) {
     request->response_code = 409;
     return translate("Checksum error");
@@ -103,7 +104,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
 
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editql");
+  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -176,7 +177,7 @@ string edit_save (void * webserver_request)
 #endif
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "editql");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
   
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.

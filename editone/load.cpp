@@ -58,7 +58,8 @@ string editone_load (void * webserver_request)
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
   int verse = convert_to_int (request->query ["verse"]);
-  
+  string unique_id = request->query ["id"];
+
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
 
   string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
@@ -82,7 +83,7 @@ string editone_load (void * webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "editone");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
   
   string prefix_html;
   string not_used;

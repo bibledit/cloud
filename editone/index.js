@@ -91,7 +91,7 @@ function visualVerseEditorInitializeLoad ()
     return new Delta().insert (plaintext);
   });
 
-  if (oneverseEditorWriteAccess) if (!quill.hasFocus ()) quill.focus (); // Todo
+  if (oneverseEditorWriteAccess) if (!quill.hasFocus ()) quill.focus ();
   
   // Event handlers.
   quill.on ("text-change", visualVerseEditorTextChangeHandler);

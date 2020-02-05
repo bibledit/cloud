@@ -74,6 +74,7 @@ string editone_save (void * webserver_request)
   int verse = convert_to_int (request->post["verse"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
+  string unique_id = request->post ["id"];
 
   
   // Checksum.
@@ -127,7 +128,7 @@ string editone_save (void * webserver_request)
   // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  string loaded_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, "editone");
+  string loaded_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
   if (loaded_usfm != old_chapter_usfm) {
     bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_usfm, old_chapter_usfm);
   }
@@ -163,7 +164,7 @@ string editone_save (void * webserver_request)
     
     
     // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference.
-    storeLoadedUsfm (webserver_request, bible, book, chapter, "editone");
+    storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
 
     return locale_logic_text_saved ();
   }

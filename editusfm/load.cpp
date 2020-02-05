@@ -48,9 +48,10 @@ string editusfm_load (void * webserver_request)
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
-  
+  string unique_id = request->query ["id"];
+
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, "editusfm");
+  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
 
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
 

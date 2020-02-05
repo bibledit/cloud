@@ -116,7 +116,7 @@ string editone_index (void * webserver_request)
   "var oneverseForceReadOnly = " + convert_to_true_false (request->query.count (workspace_query_key_readonly ())) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
-  
+
   string cls = Filter_Css::getClass (bible);
   string font = Fonts_Logic::getTextFont (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);

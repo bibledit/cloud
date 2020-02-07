@@ -49,7 +49,7 @@ SCRIPTPATH=`readlink -f "$0"`
 echo Running script $SCRIPTPATH
 
 
-# Some distro's cannot run $ su.
+# Some distros cannot run $ su.
 UNAME=`uname -a`
 echo -n "Installing ${Bibledit} on "
 echo $UNAME
@@ -237,17 +237,7 @@ rm -f .local/share/applications/${bibledit}.desktop
 
 
 cd
-rm -f index.html
-wget http://bibledit.org/linux -q -O index.html
-if [ $? -ne 0 ]
-then
-echo Failed to list tarballs
-exit
-fi
-cat index.html | grep "bibledit-" | grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' | tail -n 1 > tarball.txt
-rm index.html
-TARBALL=`cat tarball.txt`
-rm tarball.txt
+TARBALL=`curl -s https://api.github.com/repos/bibledit/linux/releases/latest | grep "browser_download_url.*gz" | cut -d : -f 2,3 | tr -d \"`
 rm -f $TARBALL.*
 wget --continue --tries=100 http://bibledit.org/linux/$TARBALL
 if [ $? -ne 0 ]

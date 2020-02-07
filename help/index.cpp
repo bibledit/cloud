@@ -63,21 +63,6 @@ string help_index (void * webserver_request, const string& url)
   Assets_View view;
 
   view.set_variable ("version", config_logic_version ());
-  
-  string linux_version = "5.0.xxx";
-  string linux_path = "/var/www/bibledit.org/linux";
-  if (file_or_dir_exists (linux_path)) {
-    vector <string> files = filter_url_scandir (linux_path);
-    // Remove the debian folder.
-    files = filter_string_array_diff (files, {"debian"});
-    // Take first entry, which should be the highest version number.
-    if (!files.empty ()) {
-      linux_version = files.back ();
-      linux_version = filter_string_str_replace ("bibledit-", "", linux_version);
-      linux_version = filter_string_str_replace (".tar.gz", "", linux_version);
-    }
-  }
-  view.set_variable ("linuxversion", linux_version);
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 

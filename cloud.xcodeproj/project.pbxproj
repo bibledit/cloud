@@ -921,7 +921,6 @@
 		CAA4D4771A45A649003ABA25 /* webserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = webserver.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D4781A45A649003ABA25 /* webserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = webserver.h; sourceTree = "<group>"; };
 		CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = bibledit.xcodeproj; sourceTree = "<group>"; };
-		CAA4D4A11A45FC70003ABA25 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; name = TODO; path = ../TODO; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		CAA4D4A31A460861003ABA25 /* indexm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexm.html; sourceTree = "<group>"; };
 		CAA4D4A51A460861003ABA25 /* sheetm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sheetm.html; sourceTree = "<group>"; };
 		CAA4D4A61A460861003ABA25 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
@@ -3302,7 +3301,6 @@
 				CAA4D3901A45A648003ABA25 /* text */,
 				CAA4D3A01A45A648003ABA25 /* timer */,
 				CAA4D3AB1A45A648003ABA25 /* tmp */,
-				CAA4D4A11A45FC70003ABA25 /* TODO */,
 				CAA4D3AD1A45A648003ABA25 /* trash */,
 				CAA4D3B41A45A648003ABA25 /* unittests */,
 				CAA4D43A1A45A648003ABA25 /* user */,

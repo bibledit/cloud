@@ -133,7 +133,7 @@ void export_bibledropbox (string user, string bible)
   
   // Form values to POST.
   map <string, string> post;
-  post ["nameLine"] = user;
+  post ["nameLine"] = user + " through " PACKAGE_STRING;
   post ["emailLine"] = database_users.get_email (user);
   post ["projectLine"] = bible;
   post ["permission"] = "Yes";

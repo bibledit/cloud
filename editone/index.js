@@ -837,6 +837,9 @@ function oneVerseHtmlClicked (event)
     }
     iterations++;
   }
+                                          
+  // Too many iterations: Undefined location.
+  if (iterations >= 10) return
   
   if (target.length == 0) verse = "0";
   

@@ -47,6 +47,7 @@ private:
   set <string> noteOpeners;
   vector <string> characterStyles; // Active character styles.
   bool processingNote = false; // Note processing flag.
+  string lastNoteStyle; // The most recent style opened inside a note.
   void preprocess ();
   void flushLine ();
   void postprocess ();

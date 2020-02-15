@@ -1372,12 +1372,9 @@ void test_usfm2html2usfm ()
 
   // Nested note markup.
   {
-    string input_usfm =
+    string standard_usfm =
     "\\p\n"
     "\\v 2 text\\f + \\fk fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
-    string output_usfm =
-    "\\p\n"
-    "\\v 2 text\\f + \\fk fk \\fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
     {
       // DOM-based editor.
       string html =
@@ -1387,7 +1384,7 @@ void test_usfm2html2usfm ()
       "<p class=\"f\"><a href=\"#citation1\" id=\"note1\" style=\"text-decoration:none; color: inherit;\">1</a><span> </span><span>+ </span><span class=\"fk\">fk </span><span class=\"fk fdc\">key-fdc</span><span> normal</span></p>"
       "</div>";
       Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (input_usfm);
+      editor_usfm2html.load (standard_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
       editor_usfm2html.run ();
       string output = editor_usfm2html.get ();
@@ -1398,7 +1395,7 @@ void test_usfm2html2usfm ()
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
       editor_html2usfm.run ();
       output = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, output_usfm, output);
+      evaluate (__LINE__, __func__, standard_usfm, output);
     }
     {
       // Quill-based editor.
@@ -1409,7 +1406,7 @@ void test_usfm2html2usfm ()
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (input_usfm);
+      editor_usfm2html.load (standard_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
       editor_usfm2html.quill ();
       editor_usfm2html.run ();
@@ -1422,7 +1419,7 @@ void test_usfm2html2usfm ()
       editor_html2usfm.quill ();
       editor_html2usfm.run ();
       output = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, output_usfm, output);
+      evaluate (__LINE__, __func__, standard_usfm, output);
     }
   }
 
@@ -1433,7 +1430,7 @@ void test_usfm2html2usfm ()
     "\\v 2 text\\f + \\fk fk \\+fdc key-fdc\\fk* normal\\f*.";
     string output_usfm =
     "\\p\n"
-    "\\v 2 text\\f + \\fk fk \\fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
+    "\\v 2 text\\f + \\fk fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
     {
       // DOM-based editor.
       string html =
@@ -1991,7 +1988,7 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
   }
-
+  
   // Testing \add ..\add* markup in a footnote.
   {
     string standard_usfm = "\\p Praise Yahweh\\f \\add I\\add* am\\f*, all you nations!";
@@ -2113,6 +2110,21 @@ void test_usfm2html2usfm ()
       string output_usfm = editor_html2usfm.get ();
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
+  }
+
+  // Regression testing for a situation that a user pastes some text into a note.
+  // https://github.com/bibledit/cloud/issues/353
+  {
+    string standard_usfm_long = R"(\p Verse text one\f + \fr 1:4 \ft Note text \ft one.\f* two.)";
+    string standard_usfm_short = R"(\p Verse text one\f + \fr 1:4 \ft Note text one.\f* two.)";
+    string standard_html = R"(<p class="b-p">Verse text one<span class="i-notecall1">1</span> two.</p><p class="b-notes"><br></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1:4 </span><span class="i-ft">Note </span>text&nbsp;<span class="i-ft">one.</span></p>)";
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (standard_html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.quill ();
+    editor_html2usfm.run ();
+    string output_usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard_usfm_short, output_usfm);
   }
 
   refresh_sandbox (false);

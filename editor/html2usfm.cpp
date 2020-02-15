@@ -249,6 +249,7 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
       bool embedded = (classes.size () > 1) && (offset == 0);
       if (!characterStyles.empty ()) embedded = true;
       currentLine += usfm_get_closing_usfm (classes [offset], embedded);
+      lastNoteStyle.clear();
     }
   }
   
@@ -271,7 +272,19 @@ void Editor_Html2Usfm::openInline (string className)
   vector <string> classes = filter_string_explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     bool embedded = (characterStyles.size () + offset) > 0;
-    currentLine += usfm_get_opening_usfm (classes[offset], embedded);
+    string marker = classes[offset];
+    bool add_opener = true;
+    if (processingNote) {
+      // If the style within the note has already been opened before,
+      // do not open the same style again.
+      // https://github.com/bibledit/cloud/issues/353
+      if (marker == lastNoteStyle) add_opener = false;
+      lastNoteStyle = marker;
+    } else {
+      lastNoteStyle.clear ();
+    }
+    if (add_opener)
+      currentLine += usfm_get_opening_usfm (marker, embedded);
   }
   // Store active character styles in some cases.
   bool store = true;

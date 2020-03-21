@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/logic.h>
 #include <developer/logic.h>
 #include <setup/logic.h>
+#include <journal/logic.h>
 
 
 // CPU-intensive actions run at night.
@@ -79,6 +80,8 @@ void timer_index ()
       // Every second:
       // Check whether client sends/receives Bibles and Consultation Notes and other stuff.
       sendreceive_queue_sync (minute, second);
+      // Log any connections that have come in.
+      journal_logic_log_incoming_connections ();
 
       // Run the part below every so many seconds.
       int fraction = second / 5;

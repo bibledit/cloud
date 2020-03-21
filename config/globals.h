@@ -52,4 +52,5 @@ extern map <string, int> config_globals_resource_window_positions;
 extern string config_globals_pages_to_open;
 extern bool config_globals_hide_bible_resources;
 extern bool config_globals_running_on_chrome_os;
+extern bool config_globals_log_incoming_connections;
 

@@ -58,5 +58,7 @@ Demo installation: If the file config/demo is present, it behaves as a demo inst
 Obfuscating the user interface: See folder obfuscate for more information.
 
 
+Logging all incoming IP connections. To enable this, put a file "log-net" in the config folder. The file can be left empty. If this file is there, Bibledit will log all incoming IP connections to the Journal.
+
 After making a change in the configuration, restart Bibledit Cloud, for the new configuration to take effect.
 

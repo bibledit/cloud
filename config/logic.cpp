@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/user.h>
 #include <cstdlib>
 #include <webserver/request.h>
+#include <config/globals.h>
 
 
 const char * config_logic_config_folder ()
@@ -37,6 +38,16 @@ const char * config_logic_config_folder ()
 const char * config_logic_version ()
 {
   return VERSION;
+}
+
+
+// Loads the values from the config folder into memory for faster access.
+void config_logic_load_settings ()
+{
+  string path;
+  // Read the setting whether to log network connections.
+  path = filter_url_create_root_path (config_logic_config_folder (), "log-net");
+  config_globals_log_incoming_connections = file_or_dir_exists (path);
 }
 
 
@@ -249,4 +260,11 @@ void config_logic_swipe_enabled (void * webserver_request, string & script)
   script.append ("var swipe_operations = ");
   script.append (true_false);
   script.append (";");
+}
+
+
+// Whether to log incoming IP connections to the journal.
+bool config_logic_log_incoming_connections ()
+{
+  return config_globals_log_incoming_connections;
 }

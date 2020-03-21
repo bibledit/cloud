@@ -28,6 +28,9 @@
 #include <sendreceive/sendreceive.h>
 #include <journal/index.h>
 #include <pugixml/pugixml.hpp>
+#include <webserver/request.h>
+#include <filter/string.h>
+#include <database/logs.h>
 
 
 using namespace pugi;
@@ -73,4 +76,30 @@ string journal_logic_see_journal_for_progress ()
   stringstream output;
   document.print (output, "", format_default);
   return output.str ();
+}
+
+
+mutex incoming_connections_mutex;
+vector <string> incoming_connections;
+
+
+void journal_logic_log_incoming_connection (void * webserver_request) // Todo
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string entry = request->remote_address + " " + request->get;
+  incoming_connections_mutex.lock ();
+  incoming_connections.push_back (entry);
+  incoming_connections_mutex.unlock ();
+}
+
+
+void journal_logic_log_incoming_connections () // Todo
+{
+  if (!incoming_connections.empty ()) {
+    incoming_connections_mutex.lock ();
+    string entry = filter_string_implode (incoming_connections, "\n");
+    incoming_connections.clear ();
+    incoming_connections_mutex.unlock ();
+    Database_Logs::log ("Incoming connections\n" + entry);
+  }
 }

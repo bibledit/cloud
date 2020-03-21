@@ -120,6 +120,9 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Initialize obfuscation data.
   locale_logic_obfuscate_initialize ();
   
+  // Read some configuration settings into memory for faster access.
+  config_logic_load_settings ();
+  
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
   setup_thread.detach ();

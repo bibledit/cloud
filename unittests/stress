@@ -16,26 +16,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+COUNTER=0
 while :
 do
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  wget http://bibledit.org:8080 -O /dev/null
-  sleep 0.1
+((COUNTER++))
+echo Connection counter $COUNTER
+wget http://bibledit.org:8080 -O /dev/null
+#wget http://192.168.2.6 -O /dev/null
 done

@@ -83,7 +83,7 @@ mutex incoming_connections_mutex;
 vector <string> incoming_connections;
 
 
-void journal_logic_log_incoming_connection (void * webserver_request) // Todo
+void journal_logic_log_incoming_connection (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string entry = request->remote_address + " " + request->get;
@@ -93,7 +93,7 @@ void journal_logic_log_incoming_connection (void * webserver_request) // Todo
 }
 
 
-void journal_logic_log_incoming_connections () // Todo
+void journal_logic_log_incoming_connections ()
 {
   if (!incoming_connections.empty ()) {
     incoming_connections_mutex.lock ();

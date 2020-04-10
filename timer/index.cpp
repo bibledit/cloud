@@ -166,7 +166,7 @@ void timer_index ()
       }
 #endif
       
-      // Delete temporal files older than a few days.
+      // Delete expired temporal files.
       if ((hour == 2) && (minute == 0)) {
         tasks_logic_queue (CLEANTMPFILES);
       }

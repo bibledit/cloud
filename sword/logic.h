@@ -43,7 +43,7 @@ void sword_logic_update_installed_modules ();
 void sword_logic_trim_modules ();
 string sword_logic_installing_module_text ();
 string sword_logic_fetch_failure_text ();
-string sword_logic_virtual_url (const string & module, int book, int chapter, int verse);
+string sword_logic_access_tracker (const string & module);
 void sword_logic_run_scheduled_module_install (string source, string module);
 void sword_logic_installmgr_initialize ();
 bool sword_logic_installmgr_synchronize_configuration_with_master ();

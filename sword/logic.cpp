@@ -320,10 +320,12 @@ void sword_logic_install_module (string source_name, string module_name)
   
 #endif
 
-  // After the installation is complete, cache some data.
-  // This cached data indicates the last access time for this SWORD module.
-  string url = sword_logic_virtual_url (module_name, 0, 0, 0);
-  database_filebased_cache_put (url, "SWORD");
+  // After the installation is complete, write some temporal some data.
+  // This temporal data indicates the last access time for this SWORD module.
+  {
+    string path = sword_logic_access_tracker (module_name);
+    filter_url_file_put_contents (path, "SWORD");
+  }
 }
 
 
@@ -434,9 +436,13 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   sword_logic_diatheke_run_mutex.unlock ();
   if (result != 0) return sword_logic_fetch_failure_text ();
   
-  // Touch the cache so the server knows that the module has been accessed just now and won't uninstall it too soon.
-  string url = sword_logic_virtual_url (module, 0, 0, 0);
-  database_filebased_cache_get (url);
+  // Touch the temporal file
+  // so the server knows that the module has been accessed just now
+  // and won't uninstall it too soon.
+  {
+    string path = sword_logic_access_tracker (module);
+    filter_url_file_put_contents (path, "access");
+  }
 
   // If the module has not been installed, the output of "diatheke" will be empty.
   // If the module was installed, but the requested passage is out of range,
@@ -476,8 +482,10 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses)
 {
   // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
-  string url = sword_logic_virtual_url (module, 0, 0, 0);
-  database_filebased_cache_get (url);
+  {
+    string path = sword_logic_access_tracker (module);
+    filter_url_file_put_contents (path, "bulk");
+  }
 
   // The name of the book to pass to diatheke.
   string osis = Database_Books::getOsisFromId (book);
@@ -555,19 +563,6 @@ void sword_logic_update_installed_modules ()
           string source = sword_logic_get_source (available_module);
           // Uninstall module.
           sword_logic_uninstall_module (module);
-          // Clear the cache.
-          Database_Versifications database_versifications;
-          vector <int> books = database_versifications.getMaximumBooks ();
-          for (auto & book : books) {
-            vector <int> chapters = database_versifications.getMaximumChapters (book);
-            for (auto & chapter : chapters) {
-              vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
-              for (auto & verse : verses) {
-                string schema = sword_logic_virtual_url (module, book, chapter, verse);
-                database_filebased_cache_remove (schema);
-              }
-            }
-          }
           // Schedule module installation.
           sword_logic_install_module_schedule (source, module);
         }
@@ -588,8 +583,8 @@ void sword_logic_trim_modules ()
   vector <string> modules = sword_logic_get_installed ();
   for (auto module : modules) {
     module = sword_logic_get_installed_module (module);
-    string url = sword_logic_virtual_url (module, 0, 0, 0);
-    if (!database_filebased_cache_exists (url)) {
+    string path = sword_logic_access_tracker (module);
+    if (!file_or_dir_exists (path)) {
       sword_logic_uninstall_module (module);
     }
   }
@@ -614,11 +609,11 @@ string sword_logic_fetch_failure_text ()
 }
 
 
-// The virtual URL for caching purposes.
-string sword_logic_virtual_url (const string & module, int book, int chapter, int verse)
+// Tracker for accessing the SWORD module.
+string sword_logic_access_tracker (const string & module)
 {
-  string url = "sword_" + module + "_" + convert_to_string (book) + "_chapter_" + convert_to_string (chapter) + "_verse_" + convert_to_string (verse);
-  return url;
+  string path = filter_url_create_root_path (filter_url_temp_dir (), "sword_access_tracker_" + module);
+  return path;
 }
 
 

@@ -302,6 +302,9 @@ void tasks_run_one (string filename)
   else if (command == CLEARCACHES) {
     database_cache_trim (true);
   }
+  else if (command == TRIMCACHES) {
+    database_cache_trim (false);
+  }
   else {
     Database_Logs::log ("Unknown task: " + command);
   }

@@ -104,7 +104,7 @@ void timer_index ()
       }
 #endif
 
-      // At the nineth minute after every full hour rotate the journal.
+      // At the ninth minute after every full hour rotate the journal.
       // The nine is chosen, because the journal rotation will summarize the send/receive messages.
       // In case send/receive happens every five minutes, it is expected that under normal circumstances
       // the whole process of sending/receivning will be over, so summarization can then be done.
@@ -143,7 +143,20 @@ void timer_index ()
       if ((hour == 0) && (minute == 50)) {
         tasks_logic_queue (MAINTAINDATABASE);
       }
-      
+
+#ifdef HAVE_CLOUD
+      // File cache trimming.
+      // https://github.com/bibledit/cloud/issues/364
+      // This used to be done once a day, and the trimming left files for multiple days.
+      // This way of doing things led to a full disk when disk space was tight.
+      // The new way of trimming on the Cloud is to do the trimming every hour.
+      // And to leave files in the files cache for only a couple of hours.
+      if (minute == 10) {
+        tasks_logic_queue (TRIMCACHES);
+      }
+
+#endif
+
 #ifdef HAVE_CLOUD
       // Export the Bibles to the various output formats.
       // This may take an hour on a production machine.

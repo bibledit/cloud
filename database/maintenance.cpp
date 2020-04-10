@@ -157,7 +157,6 @@ void database_maintenance ()
   
   
 #ifdef HAVE_CLOUD
-  database_cache_trim (false);
   sword_logic_trim_modules ();
 #endif
 }

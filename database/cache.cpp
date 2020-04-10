@@ -308,7 +308,7 @@ void database_filebased_cache_remove (string schema)
 }
 
 
-// Deletes old cached items.
+// Deletes expired cached items.
 void database_cache_trim (bool clear)
 {
   if (clear) Database_Logs::log ("Clearing cache");
@@ -318,34 +318,22 @@ void database_cache_trim (bool clear)
   // The directory that contains the file-based cache files.
   string path = database_cache_full_path ("");
 
-  // The space this cache uses.
-  int megabytes = 0;
-  filter_shell_run ("", "du", {"-csm", path}, &output, &error);
-  vector <string> lines = filter_string_explode (output, '\n');
-  for (auto line : lines) {
-    megabytes = convert_to_int (line);
-  }
-  
-  // The number of days to keep cached data depends on the size the cache takes.
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
-  // This can be even more.
-  // This may lead to errors when the disk runs out of space.
-  // Therefore it's good to limit large caches more speedy.
-  string days = "+5";
-  if (megabytes >=  500) days = "+4";
-  if (megabytes >= 1000) days = "+3";
-  if (megabytes >= 1500) days = "+2";
-  if (megabytes >= 2000) days = "+1";
-  if (megabytes >= 2500) days = "0";
-  
+  // If the cache is left untrimmed.
+  // This size can be even more.
+  // This leads to errors when the disk runs out of space.
+  // Therefore it's good to remove cached files older than a couple of hours.
+  string minutes = "+120";
+
   // Handle clearing the cache immediately.
-  if (clear) days = "0";
-  
-  // Remove files that have not been modified for x days.
-  // It uses a Linux shell command. This can be done because it runs on the server only.
+  if (clear) minutes = "+0";
+
+  // Remove files that have not been modified for x minutes.
+  // It uses a Linux shell command.
+  // This can be done because it runs on the server only.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {path, "-atime", days, "-delete"}, &output, &error);
+  filter_shell_run (path, "find", {path, "-amin", minutes, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
@@ -362,9 +350,9 @@ void database_cache_trim (bool clear)
   // The space these database-based cache uses.
   output.clear ();
   error.clear ();
-  megabytes = 0;
+  int megabytes = 0;
   filter_shell_run ("cd " + path + "; du -csm " + Database_Cache::fragment () + "*", output);
-  lines = filter_string_explode (output, '\n');
+  vector <string> lines = filter_string_explode (output, '\n');
   for (auto line : lines) {
     megabytes = convert_to_int (line);
   }
@@ -374,7 +362,7 @@ void database_cache_trim (bool clear)
   // This can be even more.
   // This may lead to errors when the disk runs out of space.
   // Therefore it's good to limit large caches more speedy.
-  days = "+5";
+  string days = "+5";
   if (megabytes >=  50) days = "+4";
   if (megabytes >= 100) days = "+3";
   if (megabytes >= 150) days = "+2";

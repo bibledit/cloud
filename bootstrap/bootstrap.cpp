@@ -192,6 +192,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <filter/string.h>
 #include <journal/logic.h>
+#include <nmt/index.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1117,7 +1118,12 @@ void bootstrap_index (void * webserver_request)
     request->reply = rss_feed (request);
     return;
   }
-  
+
+  if ((url == nmt_index_url ()) && browser_request_security_okay (request) && nmt_index_acl (request)) {
+    request->reply = nmt_index (request);
+    return;
+  }
+
   // Forward the browser to the default home page.
   redirect_browser (request, index_index_url ());
 }

@@ -389,6 +389,8 @@
 /nicedit/nicedit.min.js
 /nicedit/nicEditorIcons.gif
 /nicedit/readme.txt
+/nmt
+/nmt/index.html
 /notes
 /notes/actions.html
 /notes/assign-1.html

@@ -1339,6 +1339,9 @@
 		CAEF4D0B1D6EF82600FBB688 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAEF4D0C1D6EF82600FBB688 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAEFFBF31C747AEE0035B1BE /* wikipedia.txt */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = wikipedia.txt; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		CAF03FA92441EBFD00CDE1B0 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CAF03FAA2441EBFD00CDE1B0 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		CAF03FAB2441EBFD00CDE1B0 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAF0A8EF1BAD76E40066723D /* sword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = sword.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF0A8F01BAD76E40066723D /* sword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sword.h; sourceTree = "<group>"; };
 		CAF0A8F11BAD76E40066723D /* sword.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sword.html; sourceTree = "<group>"; };
@@ -3266,6 +3269,7 @@
 				CAE2DF0B1E968F7D00BFEAA2 /* microtar */,
 				CA8016DC1EF9308B0044DFB3 /* miniz */,
 				CAA4D22D1A45A648003ABA25 /* navigation */,
+				CAF03FA82441EBFD00CDE1B0 /* nmt */,
 				CAA4D23A1A45A648003ABA25 /* notes */,
 				CAA9C1C51C651A93006D8709 /* notifit */,
 				CA8A09F41FEA6A6300A4FF4A /* obfuscate */,
@@ -3652,6 +3656,16 @@
 				CAEF4D0C1D6EF82600FBB688 /* logic.h */,
 			);
 			path = developer;
+			sourceTree = "<group>";
+		};
+		CAF03FA82441EBFD00CDE1B0 /* nmt */ = {
+			isa = PBXGroup;
+			children = (
+				CAF03FA92441EBFD00CDE1B0 /* index.h */,
+				CAF03FAA2441EBFD00CDE1B0 /* index.html */,
+				CAF03FAB2441EBFD00CDE1B0 /* index.cpp */,
+			);
+			path = nmt;
 			sourceTree = "<group>";
 		};
 		CAF6DBE91A72583700E5389F /* collaboration */ = {

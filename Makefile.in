@@ -331,7 +331,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	related/logic.$(OBJEXT) sqlite/sqlite3.$(OBJEXT) \
 	ldap/logic.$(OBJEXT) quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) \
 	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
-	miniz/miniz.$(OBJEXT)
+	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -553,20 +553,21 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	menu/$(DEPDIR)/index.Po menu/$(DEPDIR)/logic.Po \
 	microtar/$(DEPDIR)/microtar.Po miniz/$(DEPDIR)/miniz.Po \
 	navigation/$(DEPDIR)/passage.Po navigation/$(DEPDIR)/poll.Po \
-	navigation/$(DEPDIR)/update.Po notes/$(DEPDIR)/actions.Po \
-	notes/$(DEPDIR)/assign-1.Po notes/$(DEPDIR)/assign-n.Po \
-	notes/$(DEPDIR)/bb-1.Po notes/$(DEPDIR)/bb-n.Po \
-	notes/$(DEPDIR)/bulk.Po notes/$(DEPDIR)/click.Po \
-	notes/$(DEPDIR)/comment.Po notes/$(DEPDIR)/create.Po \
-	notes/$(DEPDIR)/edit.Po notes/$(DEPDIR)/index.Po \
-	notes/$(DEPDIR)/logic.Po notes/$(DEPDIR)/note.Po \
-	notes/$(DEPDIR)/notes.Po notes/$(DEPDIR)/poll.Po \
-	notes/$(DEPDIR)/select.Po notes/$(DEPDIR)/severity-1.Po \
-	notes/$(DEPDIR)/severity-n.Po notes/$(DEPDIR)/status-1.Po \
-	notes/$(DEPDIR)/status-n.Po notes/$(DEPDIR)/summary.Po \
-	notes/$(DEPDIR)/unassign-n.Po notes/$(DEPDIR)/verses.Po \
-	odf/$(DEPDIR)/text.Po olb/$(DEPDIR)/text.Po \
-	paratext/$(DEPDIR)/index.Po paratext/$(DEPDIR)/logic.Po \
+	navigation/$(DEPDIR)/update.Po nmt/$(DEPDIR)/index.Po \
+	notes/$(DEPDIR)/actions.Po notes/$(DEPDIR)/assign-1.Po \
+	notes/$(DEPDIR)/assign-n.Po notes/$(DEPDIR)/bb-1.Po \
+	notes/$(DEPDIR)/bb-n.Po notes/$(DEPDIR)/bulk.Po \
+	notes/$(DEPDIR)/click.Po notes/$(DEPDIR)/comment.Po \
+	notes/$(DEPDIR)/create.Po notes/$(DEPDIR)/edit.Po \
+	notes/$(DEPDIR)/index.Po notes/$(DEPDIR)/logic.Po \
+	notes/$(DEPDIR)/note.Po notes/$(DEPDIR)/notes.Po \
+	notes/$(DEPDIR)/poll.Po notes/$(DEPDIR)/select.Po \
+	notes/$(DEPDIR)/severity-1.Po notes/$(DEPDIR)/severity-n.Po \
+	notes/$(DEPDIR)/status-1.Po notes/$(DEPDIR)/status-n.Po \
+	notes/$(DEPDIR)/summary.Po notes/$(DEPDIR)/unassign-n.Po \
+	notes/$(DEPDIR)/verses.Po odf/$(DEPDIR)/text.Po \
+	olb/$(DEPDIR)/text.Po paratext/$(DEPDIR)/index.Po \
+	paratext/$(DEPDIR)/logic.Po \
 	parsewebdata/$(DEPDIR)/ParseMultipartFormData.Po \
 	parsewebdata/$(DEPDIR)/ParseWebData.Po \
 	personalize/$(DEPDIR)/index.Po public/$(DEPDIR)/chapter.Po \
@@ -1340,7 +1341,8 @@ libbibledit_a_SOURCES = \
 	rss/logic.cpp \
 	rss/feed.cpp \
 	microtar/microtar.c \
-	miniz/miniz.c
+	miniz/miniz.c \
+	nmt/index.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2894,6 +2896,13 @@ miniz/$(DEPDIR)/$(am__dirstamp):
 	@: > miniz/$(DEPDIR)/$(am__dirstamp)
 miniz/miniz.$(OBJEXT): miniz/$(am__dirstamp) \
 	miniz/$(DEPDIR)/$(am__dirstamp)
+nmt/$(am__dirstamp):
+	@$(MKDIR_P) nmt
+	@: > nmt/$(am__dirstamp)
+nmt/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) nmt/$(DEPDIR)
+	@: > nmt/$(DEPDIR)/$(am__dirstamp)
+nmt/index.$(OBJEXT): nmt/$(am__dirstamp) nmt/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3141,6 +3150,7 @@ mostlyclean-compile:
 	-rm -f microtar/*.$(OBJEXT)
 	-rm -f miniz/*.$(OBJEXT)
 	-rm -f navigation/*.$(OBJEXT)
+	-rm -f nmt/*.$(OBJEXT)
 	-rm -f notes/*.$(OBJEXT)
 	-rm -f odf/*.$(OBJEXT)
 	-rm -f olb/*.$(OBJEXT)
@@ -3460,6 +3470,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@nmt/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/actions.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-1.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-n.Po@am__quote@ # am--include-marker
@@ -4139,6 +4150,8 @@ distclean-generic:
 	-rm -f miniz/$(am__dirstamp)
 	-rm -f navigation/$(DEPDIR)/$(am__dirstamp)
 	-rm -f navigation/$(am__dirstamp)
+	-rm -f nmt/$(DEPDIR)/$(am__dirstamp)
+	-rm -f nmt/$(am__dirstamp)
 	-rm -f notes/$(DEPDIR)/$(am__dirstamp)
 	-rm -f notes/$(am__dirstamp)
 	-rm -f odf/$(DEPDIR)/$(am__dirstamp)
@@ -4501,6 +4514,7 @@ distclean: distclean-am
 	-rm -f navigation/$(DEPDIR)/passage.Po
 	-rm -f navigation/$(DEPDIR)/poll.Po
 	-rm -f navigation/$(DEPDIR)/update.Po
+	-rm -f nmt/$(DEPDIR)/index.Po
 	-rm -f notes/$(DEPDIR)/actions.Po
 	-rm -f notes/$(DEPDIR)/assign-1.Po
 	-rm -f notes/$(DEPDIR)/assign-n.Po
@@ -5065,6 +5079,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f navigation/$(DEPDIR)/passage.Po
 	-rm -f navigation/$(DEPDIR)/poll.Po
 	-rm -f navigation/$(DEPDIR)/update.Po
+	-rm -f nmt/$(DEPDIR)/index.Po
 	-rm -f notes/$(DEPDIR)/actions.Po
 	-rm -f notes/$(DEPDIR)/assign-1.Po
 	-rm -f notes/$(DEPDIR)/assign-n.Po

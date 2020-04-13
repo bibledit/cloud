@@ -71,6 +71,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <changes/logic.h>
 #include <database/cache.h>
+#include <nmt/logic.h>
 
 
 atomic <int> running_tasks (0);
@@ -304,6 +305,9 @@ void tasks_run_one (string filename)
   }
   else if (command == TRIMCACHES) {
     database_cache_trim (false);
+  }
+  else if (command == EXPORT2NMT) {
+    nmt_logic_export (parameter1, parameter2);
   }
   else {
     Database_Logs::log ("Unknown task: " + command);

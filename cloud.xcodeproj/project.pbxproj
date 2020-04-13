@@ -1342,6 +1342,8 @@
 		CAF03FA92441EBFD00CDE1B0 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CAF03FAA2441EBFD00CDE1B0 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CAF03FAB2441EBFD00CDE1B0 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CAF03FAC244373A000CDE1B0 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CAF03FAD244373A100CDE1B0 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAF0A8EF1BAD76E40066723D /* sword.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = sword.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAF0A8F01BAD76E40066723D /* sword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sword.h; sourceTree = "<group>"; };
 		CAF0A8F11BAD76E40066723D /* sword.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sword.html; sourceTree = "<group>"; };
@@ -3664,6 +3666,8 @@
 				CAF03FA92441EBFD00CDE1B0 /* index.h */,
 				CAF03FAA2441EBFD00CDE1B0 /* index.html */,
 				CAF03FAB2441EBFD00CDE1B0 /* index.cpp */,
+				CAF03FAC244373A000CDE1B0 /* logic.cpp */,
+				CAF03FAD244373A100CDE1B0 /* logic.h */,
 			);
 			path = nmt;
 			sourceTree = "<group>";

@@ -83,6 +83,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define DELETECHANGES "deletechanges"
 #define CLEARCACHES "clearcaches"
 #define TRIMCACHES "trimcaches"
+#define EXPORT2NMT "export2nmt"
 
 
 string tasks_logic_folder ();

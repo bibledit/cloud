@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <database/volatile.h>
 #include <dialog/list.h>
+#include <journal/index.h>
+#include <tasks/logic.h>
 
 
 const char * nmt_index_url ()
@@ -93,6 +95,13 @@ string nmt_index (void * webserver_request)
   }
   if (translatingbible.empty()) translatingbible = "[" + translate ("select") + "]";
   view.set_variable ("translating", translatingbible);
+
+  
+  if (request->query.count ("export")) { // Todo
+    tasks_logic_queue (EXPORT2NMT, {referencebible, translatingbible});
+    redirect_browser (request, journal_index_url ());
+    return "";
+  }
 
   
   page += view.render ("nmt", "index");

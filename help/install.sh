@@ -103,6 +103,7 @@ apt --yes --assume-yes install libatspi2.0-dev
 apt --yes --assume-yes install libgtk-3-dev
 apt --yes --assume-yes install libwebkit2gtk-3.0-dev
 apt --yes --assume-yes install libwebkit2gtk-4.0-dev
+apt --yes --assume-yes install curl
 fi
 
 # Fedora.
@@ -121,6 +122,7 @@ dnf --assumeyes install libcurl-devel
 dnf --assumeyes install openssl-devel
 dnf --assumeyes install gtk3-devel
 dnf --assumeyes install webkitgtk4-devel
+dnf --assumeyes install curl
 fi
 
 # CentOS
@@ -142,6 +144,7 @@ yum --assumeyes install gtk3-devel
 yum --assumeyes install webkitgtk3-devel
 yum --assumeyes install libwebkit2gtk-devel
 yum --assumeyes install webkitgtk4-devel
+yum --assumeyes install curl
 fi
 
 # openSUSE
@@ -161,6 +164,7 @@ zypper -n --non-interactive --no-gpg-checks install libopenssl-devel
 zypper -n --non-interactive --no-gpg-checks install cairo-devel
 zypper -n --non-interactive --no-gpg-checks install gtk3-devel
 zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
+zypper -n --non-interactive --no-gpg-checks install curl
 fi
 
 
@@ -237,9 +241,10 @@ rm -f .local/share/applications/${bibledit}.desktop
 
 
 cd
-TARBALL=`curl -s https://api.github.com/repos/bibledit/linux/releases/latest | grep "browser_download_url.*gz" | cut -d : -f 2,3 | tr -d \"`
-rm -f $TARBALL.*
-wget --continue --tries=100 http://bibledit.org/linux/$TARBALL
+URL=`curl -s https://api.github.com/repos/bibledit/linux/releases/latest | grep "browser_download_url.*gz" | cut -d : -f 2,3 | tr -d \"`
+TARBALL=`basename $URL`
+rm -f $TARBALL*
+wget --continue --tries=100 $URL
 if [ $? -ne 0 ]
 then
 echo Failed to download Bibledit

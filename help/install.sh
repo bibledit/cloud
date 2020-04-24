@@ -104,6 +104,7 @@ apt --yes --assume-yes install libgtk-3-dev
 apt --yes --assume-yes install libwebkit2gtk-3.0-dev
 apt --yes --assume-yes install libwebkit2gtk-4.0-dev
 apt --yes --assume-yes install curl
+apt --yes --assume-yes install make
 fi
 
 # Fedora.
@@ -123,6 +124,7 @@ dnf --assumeyes install openssl-devel
 dnf --assumeyes install gtk3-devel
 dnf --assumeyes install webkitgtk4-devel
 dnf --assumeyes install curl
+dnf --assumeyes install make
 fi
 
 # CentOS
@@ -145,6 +147,7 @@ yum --assumeyes install webkitgtk3-devel
 yum --assumeyes install libwebkit2gtk-devel
 yum --assumeyes install webkitgtk4-devel
 yum --assumeyes install curl
+yum --assumeyes install make
 fi
 
 # openSUSE
@@ -165,6 +168,7 @@ zypper -n --non-interactive --no-gpg-checks install cairo-devel
 zypper -n --non-interactive --no-gpg-checks install gtk3-devel
 zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 zypper -n --non-interactive --no-gpg-checks install curl
+zypper -n --non-interactive --no-gpg-checks install make
 fi
 
 

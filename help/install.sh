@@ -115,6 +115,7 @@ echo Installing dependencies through dnf...
 dnf --assumeyes install autoconf
 dnf --assumeyes install automake
 dnf --assumeyes install autoconf-archive
+dnf --enablerepo=PowerTools --assumeyes install autoconf-archive
 dnf --assumeyes install gcc-c++
 dnf --assumeyes install git
 dnf --assumeyes install zip

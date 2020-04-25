@@ -319,8 +319,7 @@ void database_cache_trim (bool clear)
   string path = database_cache_full_path ("");
 
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
-  // If the cache is left untrimmed.
-  // This size can be even more.
+  // If the cache is left untrimmed, the size can be even larger.
   // This leads to errors when the disk runs out of space.
   // Therefore it's good to remove cached files older than a couple of hours.
   string minutes = "+120";
@@ -331,23 +330,29 @@ void database_cache_trim (bool clear)
   // Remove files that have not been modified for x minutes.
   // It uses a Linux shell command.
   // This can be done because it runs on the server only.
+  // It used to do "cd /path/to/cache; find /path/to/cache ...".
+  // This could remove the folder "cache" too.
+  // After this folder was removed, no caching could take place anymore.
+  // https://github.com/bibledit/cloud/issues/366
+  // This was not visible on macOS, but it was visible on Linux.
+  // The fix is to do "cd /path/to/cache; find . ...".
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {path, "-amin", minutes, "-delete"}, &output, &error);
+  filter_shell_run (path, "find", {".", "-amin", minutes, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
   // Remove empty directories.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {path, "-type", "d", "-empty", "-delete"}, &output, &error);
+  filter_shell_run (path, "find", {".", "-type", "d", "-empty", "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
   // The directory that contains the database-based cache files.
   path = filter_url_create_root_path (database_logic_databases ());
 
-  // The space these database-based cache uses.
+  // The space these database-based cache files use.
   output.clear ();
   error.clear ();
   int megabytes = 0;

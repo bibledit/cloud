@@ -97,7 +97,7 @@ string nmt_index (void * webserver_request)
   view.set_variable ("translating", translatingbible);
 
   
-  if (request->query.count ("export")) { // Todo
+  if (request->query.count ("export")) {
     tasks_logic_queue (EXPORT2NMT, {referencebible, translatingbible});
     redirect_browser (request, journal_index_url ());
     return "";

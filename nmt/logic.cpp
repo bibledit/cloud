@@ -30,7 +30,7 @@
 #include <database/mappings.h>
 
 
-void nmt_logic_export (string referencebible, string translatingbible) // Todo∫
+void nmt_logic_export (string referencebible, string translatingbible)
 {
   Database_Logs::log ("Exporting reference Bible \"" + referencebible + "\" plus translated Bible \"" + translatingbible + "\" for a neural machine translation training job");
   

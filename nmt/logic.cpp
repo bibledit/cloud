@@ -61,7 +61,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
       // Skip chapter 0.
       // It won't contain Bible text.
       if (reference_chapter == 0) continue;
-      
+
       vector <int> verses = database_versifications.getMaximumVerses (book, reference_chapter);
       for (auto & reference_verse : verses) {
        
@@ -77,7 +77,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         }
 
         // If the conversion from one versification system to another
-        // leads to one versee for the reference Bible,
+        // leads to one verse for the reference Bible,
         // and two verses for the Bible in translation,
         // then this would indicate a mismatch in verse contents between the two Bibles.
         // This mismatch would disturb the neural machine translation training process.
@@ -96,54 +96,36 @@ void nmt_logic_export (string referencebible, string translatingbible)
         string reference_text;
         {
           string chapter_usfm = database_bibles.getChapter (referencebible, book, reference_chapter);
-          string verse_usfm = usfm_get_verse_text (chapter_usfm, reference_verse);
           string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
-          filter_text.text_text = new Text_Text ();
-          filter_text.addUsfmCode (verse_usfm);
+          filter_text.initializeHeadingsAndTextPerVerse (false);
+          filter_text.addUsfmCode (chapter_usfm);
           filter_text.run (stylesheet);
-          reference_text = filter_text.text_text->get ();
-
+          map <int, string> output = filter_text.getVersesText ();
+          reference_text = output [reference_verse];
+          
           // The text may contain new lines, so remove these,
           // because the NMT training files should not contain new lines mid-text,
           // as that would cause misalignments in the two text files used for training.
           reference_text = filter_string_str_replace ("\n", " ", reference_text);
-
-          // The text contains verse numbers.
-          // Remove these.
-          if (!reference_text.empty ()) {
-            size_t pos = reference_text.find(" ");
-            if (pos != string::npos) {
-              reference_text.erase (0, ++pos);
-            }
-          }
         }
 
         // Convert the verse USFM of the Bible being translated to plain verse text.
         string translation_text;
         {
           string chapter_usfm = database_bibles.getChapter (translatingbible, book, translation_chapter);
-          string verse_usfm = usfm_get_verse_text (chapter_usfm, translation_verse);
           string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
-          filter_text.text_text = new Text_Text ();
-          filter_text.addUsfmCode (verse_usfm);
+          filter_text.initializeHeadingsAndTextPerVerse (false);
+          filter_text.addUsfmCode (chapter_usfm);
           filter_text.run (stylesheet);
-          translation_text = filter_text.text_text->get ();
+          map <int, string> output = filter_text.getVersesText ();
+          translation_text = output [translation_verse];
 
           // The text may contain new lines, so remove these,
           // because the NMT training files should not contain new lines mid-text,
           // as that would cause misalignments in the two text files used for training.
           translation_text = filter_string_str_replace ("\n", " ", translation_text);
-
-          // The text contains verse numbers.
-          // Remove these.
-          if (!translation_text.empty ()) {
-            size_t pos = translation_text.find(" ");
-            if (pos != string::npos) {
-              translation_text.erase (0, ++pos);
-            }
-          }
         }
         
         if (reference_text.empty ()) continue;

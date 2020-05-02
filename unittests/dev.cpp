@@ -33,6 +33,12 @@
 void test_dev ()
 {
   trace_unit_tests (__func__);
+  
+  string TextTestOdt  = "/tmp/TextTest.odt";
+  string TextTestHtml = "/tmp/TextTest.html";
+  string TextTestTxt  = "/tmp/TextTest.txt";
+  
+  string bible = "phpunit";
 
   refresh_sandbox (true);
 }

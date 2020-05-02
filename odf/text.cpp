@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Class for creating OpenDocument text documents.
 // Initially the ODF Toolkit was used.
 // But the Java code to generate this became too big for the Java compiler.
-// The other thing is that Java is slow compared to the method below in C++.
+// The other thing is that Java is slow compared to the methods below written in C++.
 
 
 Odf_Text::Odf_Text (string bible_in)

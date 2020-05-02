@@ -6730,7 +6730,7 @@ style_record styles_table [] =
     /* info */ "Used for marking text which should be ignored when identifying or linking to cross reference target references.",
     /* category */ "x",
     /* type */ 8,
-    /* subtype */ 1,
+    /* subtype */ 3,
     /* fontsize */ 12,
     /* italic */ 0,
     /* bold */ 0,

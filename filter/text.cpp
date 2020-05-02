@@ -504,7 +504,7 @@ void Filter_Text::processUsfm ()
                     // But this space should not be converted to text output.
                     // https://github.com/bibledit/cloud/issues/311
                     // It is going to be removed here.
-                    int pointer = chapterUsfmMarkersAndTextPointer + 1;
+                    size_t pointer = chapterUsfmMarkersAndTextPointer + 1;
                     if (pointer < chapterUsfmMarkersAndText.size()) {
                       string text = chapterUsfmMarkersAndText[pointer];
                       text = filter_string_ltrim (text);

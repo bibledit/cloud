@@ -24,7 +24,6 @@
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <editor/usfm2html.h>
-#include <pugixml/pugixml.hpp>
 #include <config/globals.h>
 #include <access/bible.h>
 #include <editone/logic.h>

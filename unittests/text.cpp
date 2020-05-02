@@ -481,7 +481,6 @@ Note 6.
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  exit (0); // Todo
 
   // Test transformation of published verse numbers.
   {

@@ -138,6 +138,7 @@ int main (int argc, char **argv)
   test_filter_text ();
   test_export ();
   test_odf ();
+  test_usfm2html2usfm ();
   refresh_sandbox (true);
   exit (0);
   

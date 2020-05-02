@@ -374,6 +374,115 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
+  // Test footnotes and cross references and their behaviour in new chapters. Todo move into place.
+  {
+    string usfm = R"(
+\id GEN
+\c 1
+\p
+\v 1 Xref 1\x + \xt Xref 1.\x*.
+\v 2 Xref 2\x + \xt Xref 2.\x*.
+\v 3 Xref 3\x + \xt Xref 3.\x*
+\v 4 Note 1\f + \ft Note 1.\f*.
+\v 5 Note 2\f + \ft Note 2.\f*.
+\v 6 Note 3\f + \ft Note 3.\f*.
+\c 2
+\p
+\v 1 Xref 4\x + \xt Xref 4.\x*.
+\v 2 Xref 5\x + \xt Xref 5.\x*.
+\v 3 Xref 6\x + \xt Xref 6.\x*
+\v 4 Note 4\f + \ft Note 4.\f*.
+\v 5 Note 5\f + \ft Note 5.\f*.
+\v 6 Note 6\f + \ft Note 6.\f*.
+    )";
+    usfm = filter_string_trim (usfm);
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    filter_text.odf_text_standard->save (TextTestOdt);
+    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
+    int ret = system (command.c_str());
+    string odt;
+    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    odt = filter_string_str_replace ("  ", "", odt);
+    string standard = R"(
+
+Genesis
+=======
+
+Genesis 1
+=========
+
+[-- Image: frame1 --]
+
+1
+
+Xref 1a
+
+Xref 1.
+
+. 2 Xref 2b
+
+Xref 2.
+
+. 3 Xref 3c
+
+Xref 3.
+
+4 Note 11
+
+Note 1.
+
+. 5 Note 22
+
+Note 2.
+
+. 6 Note 33
+
+Note 3.
+
+.
+
+Genesis 2
+=========
+
+[-- Image: frame2 --]
+
+2
+
+Xref 4a
+
+Xref 4.
+
+. 2 Xref 5b
+
+Xref 5.
+
+. 3 Xref 6c
+
+Xref 6.
+
+4 Note 41
+
+Note 4.
+
+. 5 Note 52
+
+Note 5.
+
+. 6 Note 63
+
+Note 6.
+
+.
+
+
+    )";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+  }
+  exit (0); // Todo
+
   // Test transformation of published verse numbers.
   {
     string usfm = R"(

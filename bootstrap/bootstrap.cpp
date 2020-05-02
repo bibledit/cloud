@@ -200,11 +200,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 bool browser_request_security_okay (Webserver_Request * request)
 {
   // If the request is made via https, the security is OK.
-  if (request->secure) return true;
+  if (request->secure) {
+    return true;
+  }
 
   // At this stage the request is made via plain http.
   // If https is not enforced for the browser, the security is OK.
-  if (!config_globals_enforce_https_browser) return true;
+  if (!config_globals_enforce_https_browser) {
+    return true;
+  }
   
   // Not secure enough:
   return false;

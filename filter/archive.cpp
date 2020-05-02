@@ -148,6 +148,7 @@ string filter_archive_unzip_shell_internal (string file)
     (void) result;
   }
 #endif
+  (void) file;
   return folder;
 }
 

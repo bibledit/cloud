@@ -3841,12 +3841,14 @@ mz_bool mz_zip_reader_init_file_v2(mz_zip_archive *pZip, const char *pFilename, 
 	mz_uint64 file_size;
 	MZ_FILE *pFile;
 
-    if ((!pZip) || (!pFilename) || ((archive_size) && (archive_size < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)))
+    if ((!pZip) || (!pFilename) || ((archive_size) && (archive_size < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE))) {
         return mz_zip_set_error(pZip, MZ_ZIP_INVALID_PARAMETER);
+    }
 
-	pFile = MZ_FOPEN(pFilename, "rb");
-    if (!pFile)
+    pFile = MZ_FOPEN(pFilename, "rb");
+    if (!pFile) {
         return mz_zip_set_error(pZip, MZ_ZIP_FILE_OPEN_FAILED);
+    }
 
     file_size = archive_size;
     if (!file_size)

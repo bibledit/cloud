@@ -57,6 +57,7 @@ public:
   Database_Mail_Item get (int id);
   vector <int> getMailsToSend ();
   void postpone (int id);
+  vector <int> getAllMails ();
 private:
   sqlite3 * connect ();
   void * webserver_request;

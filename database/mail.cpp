@@ -226,3 +226,21 @@ void Database_Mail::postpone (int id)
   database_sqlite_disconnect (db);
 
 }
+
+
+// Get the row IDs of all mails in the database.
+vector <int> Database_Mail::getAllMails ()
+{
+  vector <int> rowids;
+  SqliteSQL sql = SqliteSQL ();
+  sql.add ("SELECT rowid FROM mail;");
+  sqlite3 * db = connect ();
+  vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
+  database_sqlite_disconnect (db);
+  for (auto rowid : result) {
+    int id = convert_to_int (rowid);
+    rowids.push_back (id);
+  }
+  return rowids;
+}
+

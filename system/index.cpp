@@ -347,12 +347,13 @@ string system_index (void * webserver_request)
 #ifdef HAVE_CLOUD
   Database_Mail database_mail (webserver_request);
   if (request->query.count ("clearemails")) {
-    vector<Database_Mail_User> mails = database_mail.getMails();
-    for (auto mail : mails) {
-      database_mail.erase (mail.rowid);
+    vector <int> mails = database_mail.getAllMails ();
+    for (auto rowid : mails) {
+      database_mail.erase (rowid);
     }
   }
-  string mailcount = convert_to_string (database_mail.getMailCount());
+  vector <int> mails = database_mail.getAllMails ();
+  string mailcount = convert_to_string (mails.size());
   view.set_variable ("emailscount", mailcount);
 #endif
 

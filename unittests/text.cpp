@@ -374,7 +374,7 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
-  // Test footnotes and cross references and their behaviour in new chapters. Todo move into place.
+  // Test footnotes and cross references and their behaviour in new chapters.
   {
     string usfm = R"(
 \id GEN

@@ -516,7 +516,7 @@ void test_database_notes ()
     for (auto & status : statuses) {
       rawstatuses.push_back (status.raw);
     }
-    evaluate (__LINE__, __func__, {"xxxxx", "yyyyy", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
+    evaluate (__LINE__, __func__, {"yyyyy", "xxxxx", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
   }
 
   // Getting and setting the severity.

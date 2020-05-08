@@ -200,7 +200,7 @@ void test_url ()
     evaluate (__LINE__, __func__, true, result.find ("Downloads") != string::npos);
     evaluate (__LINE__, __func__, "", error);
   }
-  
+
   // Test removing credentials from a URL.
   {
     string url = "https://username:password@github.com/username/repository.git";

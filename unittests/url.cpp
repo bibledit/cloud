@@ -193,11 +193,11 @@ void test_url ()
   // Test low-level http(s) client result.
   {
     string result, error;
-    result = filter_url_http_request_mbed ("http://bibledit.org", error, {}, "", false);
-    evaluate (__LINE__, __func__, true, result.find ("Bibledit") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Cloud") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Install") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Demo") != string::npos);
+    result = filter_url_http_request_mbed ("http://185.87.186.229", error, {}, "", false);
+    evaluate (__LINE__, __func__, true, result.find ("Home") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Ndebele Bible") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Shona Bible") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Downloads") != string::npos);
     evaluate (__LINE__, __func__, "", error);
   }
   

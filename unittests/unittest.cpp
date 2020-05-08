@@ -135,7 +135,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_folders ();
+  test_database_bibles ();
   refresh_sandbox (true);
   // Todo
   exit (0);

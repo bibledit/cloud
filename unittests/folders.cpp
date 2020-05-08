@@ -28,8 +28,9 @@ void test_folders ()
   
   // There should be no empty folders in the library, because git won't include them.
   // If there were such empty folders, they would not be included in the git.
-  // Apart from any empty folders in the ./git folder itself.
-  int result = system ("find . -type d -empty -not -path './.git/*' > /tmp/bibledittest.txt");
+  // Apart from any empty folders in the ./git folder itself,
+  // and apart from the Xcode project.
+  int result = system ("find . -type d -empty -not -path './.git/*' -not -path './cloud.xcodeproj/*' > /tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, 0, result);
   string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, "", contents);

@@ -899,25 +899,33 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
       // Fetch the html.
       string error;
       string html = resource_logic_web_or_cache_get (url, error);
-      // Extract the html that contains the verses content.
+      // Remove the html that precedes the relevant verses content.
       pos = html.find ("<div class=\"passage-text\">");
       if (pos != string::npos) {
         html.erase (0, pos);
-        pos = html.find (".passage-text");
-        if (pos != string::npos) {
-          html.erase (pos);
-          // Parse the html fragment into a DOM.
-          string verse_s = convert_to_string (verse);
+        // Load the remaining html into the XML parser.
+        // The parser will given an error about Start-end tags mismatch.
+        // The parser will also give the location where this mismatch occurs first.
+        // The location where the mismatch occurs indicates the end of the relevant verses content.
+        {
           xml_document document;
-          document.load_string (html.c_str());
-          xml_node passage_text_node = document.first_child ();
-          xml_node passage_wrap_node = passage_text_node.first_child ();
-          xml_node passage_content_node = passage_wrap_node.first_child ();
-          bible_gateway_walker walker;
-          walker.verse = convert_to_string (verse);
-          passage_content_node.traverse (walker);
-          result.append (walker.text);
+          xml_parse_result result = document.load_string (html.c_str(), parse_default | parse_fragment);
+          if (result.offset > 10) {
+            size_t pos = result.offset - 2;
+            html.erase (pos);
+          }
         }
+        // Parse the html fragment into a DOM.
+        string verse_s = convert_to_string (verse);
+        xml_document document;
+        document.load_string (html.c_str());
+        xml_node passage_text_node = document.first_child ();
+        xml_node passage_wrap_node = passage_text_node.first_child ();
+        xml_node passage_content_node = passage_wrap_node.first_child ();
+        bible_gateway_walker walker;
+        walker.verse = convert_to_string (verse);
+        passage_content_node.traverse (walker);
+        result.append (walker.text);
       }
     }
   }

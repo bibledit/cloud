@@ -44,6 +44,7 @@ void test_styles ()
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.generate ();
     string css = styles_css.css ();
+    filter_url_file_put_contents ("/tmp/css.txt", css); // Todo
     string standard = filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css"));
     evaluate (__LINE__, __func__, standard, css);
   }

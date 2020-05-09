@@ -27,14 +27,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/css.h>
+#include <editor/styles.h>
 
 
 void test_styles ()
 {
   trace_unit_tests (__func__);
   Webserver_Request request;
-  Database_State database_state;
-  database_state.create ();
 
   // Create basic stylesheet.
   {
@@ -44,7 +43,6 @@ void test_styles ()
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.generate ();
     string css = styles_css.css ();
-    filter_url_file_put_contents ("/tmp/css.txt", css); // Todo
     string standard = filter_url_file_get_contents (filter_url_create_path ("unittests", "tests", "basic.css"));
     evaluate (__LINE__, __func__, standard, css);
   }
@@ -341,6 +339,22 @@ void test_styles ()
     vector <string> markers = database_styles.getMarkers ("");
     string marker = "zhq";
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+  }
+  
+  // Testing the styles application in the editors.
+  {
+    refresh_sandbox (true);
+    Database_Styles database_styles;
+    database_styles.create ();
+    Database_State database_state;
+    database_state.create ();
+    string action = Editor_Styles::getAction (&request, "add");
+    evaluate (__LINE__, __func__, "c", action);
+    action = Editor_Styles::getAction (&request, "vp");
+    evaluate (__LINE__, __func__, "c", action);
+    action = Editor_Styles::getAction (&request, "id");
+    evaluate (__LINE__, __func__, "m", action);
+    refresh_sandbox (true, {"5 Creating sample Bible", "5 Sample Bible was created"});
   }
   
   // Done.

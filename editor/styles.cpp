@@ -127,7 +127,16 @@ string Editor_Styles::getAction (void * webserver_request, string style)
   switch (type)
   {
     case StyleTypeIdentifier:
+      switch (subtype)
+      {
+        case IdentifierSubtypePublishedVerseMarker:
+          return character ();
+        default:
+          return mono ();
+      }
+      break;
     case StyleTypeNotUsedComment:
+      return mono ();
     case StyleTypeNotUsedRunningHeader:
       return mono ();
     case StyleTypeStartsParagraph:

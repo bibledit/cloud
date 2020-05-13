@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
+#include <library/locks.h>
 #include <database/config/user.h>
 #include <database/styles.h>
 #include <database/books.h>
@@ -124,6 +125,9 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   config_globals_document_root = testing_directory;
 
+  // Initialize SSL/TLS (after webroot has been set).
+  filter_url_ssl_tls_initialize ();
+
   // Number of failed unit tests.
   error_count = 0;
 
@@ -135,6 +139,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
+  test_url ();
   refresh_sandbox (true);
   exit (0);
   

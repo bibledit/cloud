@@ -200,6 +200,15 @@ void test_url ()
     evaluate (__LINE__, __func__, true, result.find ("Downloads") != string::npos);
     evaluate (__LINE__, __func__, "", error);
   }
+  {
+    string result, error;
+    result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
+    evaluate (__LINE__, __func__, true, result.find ("Bibledit") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Linux") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Cloud") != string::npos);
+    evaluate (__LINE__, __func__, true, result.find ("Android") != string::npos);
+    evaluate (__LINE__, __func__, "", error);
+  }
 
   // Test removing credentials from a URL.
   {

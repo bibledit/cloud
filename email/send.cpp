@@ -96,10 +96,24 @@ void email_send ()
       result.append ("queued for sending through the Cloud");
 #endif
     } else {
-      database_mail.postpone (id);
+      // Special handling of cases that the smart host denied login.
+      bool login_denied = result == "Login denied";
+      // Write result to logbook.
       result.insert (0, "Email to " + email + " could not be sent - reason: ");
+      Database_Logs::log (result, Filter_Roles::manager ());
+      // If the login was denied, then postpone all emails queued for sending,
+      // rather than trying to send them all, and have them all cause a 'login denied' error.
+      if (login_denied) {
+        vector <int> ids = database_mail.getAllMails ();
+        for (auto id : ids) {
+          database_mail.postpone (id);
+        }
+        Database_Logs::log ("Postponing sending " + convert_to_string (ids.size()) + " emails", Filter_Roles::manager ());
+        break;
+      } else {
+        database_mail.postpone (id);
+      }
     }
-    Database_Logs::log (result, Filter_Roles::manager ());
   }
   
   config_globals_mail_send_running = false;

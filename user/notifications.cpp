@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <database/config/user.h>
 #include <database/config/general.h>
+#include <database/noteassignment.h>
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <assets/header.h>
@@ -60,7 +61,8 @@ string user_notifications (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Config_User database_config_user = Database_Config_User (webserver_request);
-  
+  Database_NoteAssignment database_noteassignment;
+
   string page;
   
   Assets_Header header = Assets_Header (translate("Notifications"), webserver_request);
@@ -138,6 +140,26 @@ string user_notifications (void * webserver_request)
   }
   view.set_variable ("postponenewnotesmails", get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
 
+  string user = request->session_logic ()->currentUser ();
+  vector <string> all_assignees = database_noteassignment.assignees (user);
+  vector <string> current_assignees = database_config_user.getAutomaticNoteAssignment();
+  for (auto assignee : all_assignees) {
+    if (checkbox == "autoassign" + assignee) {
+      if (checked) {
+        current_assignees.push_back (assignee);
+      } else {
+        current_assignees = filter_string_array_diff (current_assignees, {assignee});
+      }
+      database_config_user.setAutomaticNoteAssignment (current_assignees);
+    }
+  }
+  for (auto assignee : all_assignees) {
+    map <string, string> values;
+    values ["user"] = assignee;
+    values ["assign"] = get_checkbox_status (in_array (assignee, current_assignees));
+    view.add_iteration ("autoassign", values);
+  }
+  
   if (checkbox == "anyonechangesemailnotification") {
     database_config_user.setBibleChangesNotification (checked);
     return "";

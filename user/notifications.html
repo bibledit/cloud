@@ -68,6 +68,13 @@ translate("I don't want these interruptions, but the team members need to get my
 translate("Tick this setting, and I am done.")
 </p>
 
+<p>
+translate("Assign notes I create to these users:")
+<!-- #BEGINITERATION autoassign -->
+| <input type="checkbox" name="autoassign##user##" onchange="checkbox(this)" ##assign## /> ##user##
+<!-- #ENDITERATION autoassign -->
+</p>
+
 <h3>translate("Change Notifications")</h3>
 
 <!-- #BEGINZONE writebible -->

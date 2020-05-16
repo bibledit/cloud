@@ -227,6 +227,8 @@ public:
   void setShowVerseTextAtCreateNote (bool value);
   bool getOrderChangesByAuthor ();
   void setOrderChangesByAuthor (bool value);
+  vector <string> getAutomaticNoteAssignment ();
+  void setAutomaticNoteAssignment (vector <string> values);
 private:
   void * webserver_request;
   string file (string user);

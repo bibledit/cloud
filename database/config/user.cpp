@@ -1333,3 +1333,16 @@ void Database_Config_User::setOrderChangesByAuthor (bool value)
   setBValue (order_changes_by_author_key (), value);
 }
 
+
+const char * automatic_note_assignment_key ()
+{
+  return "automatic-note-assignment";
+}
+vector <string> Database_Config_User::getAutomaticNoteAssignment ()
+{
+  return getList (automatic_note_assignment_key ());
+}
+void Database_Config_User::setAutomaticNoteAssignment (vector <string> values)
+{
+  setList (automatic_note_assignment_key (), values);
+}

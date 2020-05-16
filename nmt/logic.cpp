@@ -127,9 +127,14 @@ void nmt_logic_export (string referencebible, string translatingbible)
           // as that would cause misalignments in the two text files used for training.
           translation_text = filter_string_str_replace ("\n", " ", translation_text);
         }
-        
+
+        // If any of the two texts contains nothing, skip everything.
         if (reference_text.empty ()) continue;
         if (translation_text.empty ()) continue;
+
+        // Split the texts set on matching punctuation markers. Todo
+        
+        // Store the texts set.
         reference_lines.push_back (reference_text);
         translation_lines.push_back (translation_text);
       }

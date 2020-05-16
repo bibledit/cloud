@@ -132,7 +132,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         if (reference_text.empty ()) continue;
         if (translation_text.empty ()) continue;
 
-        // Split the texts set on matching punctuation markers. Todo
+        // Split the texts set on matching punctuation markers.
         
         // Store the texts set.
         reference_lines.push_back (reference_text);

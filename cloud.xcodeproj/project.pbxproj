@@ -1289,6 +1289,8 @@
 		CAE2DF081E96434200BFEAA2 /* unload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unload.h; sourceTree = "<group>"; };
 		CAE2DF111E968F7E00BFEAA2 /* microtar.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = microtar.c; sourceTree = "<group>"; };
 		CAE2DF121E968F7E00BFEAA2 /* microtar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtar.h; sourceTree = "<group>"; };
+		CAE3257C24717F2F00AD78B3 /* nmt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = nmt.cpp; sourceTree = "<group>"; };
+		CAE3257D24717F2F00AD78B3 /* nmt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nmt.h; sourceTree = "<group>"; };
 		CAE4420C1E5316DE00F802FC /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CAE4420D1E5328E400F802FC /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		CAE4420E1E532A8500F802FC /* copyright.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copyright.sh; sourceTree = "<group>"; };
@@ -3021,6 +3023,8 @@
 				CA495D981E64469D00BDFDE8 /* morphgnt.h */,
 				CA495D891E642EDA00BDFDE8 /* navigation.cpp */,
 				CA495D8A1E642EDA00BDFDE8 /* navigation.h */,
+				CAE3257C24717F2F00AD78B3 /* nmt.cpp */,
+				CAE3257D24717F2F00AD78B3 /* nmt.h */,
 				CA495D8D1E64342600BDFDE8 /* notes.cpp */,
 				CA495D8E1E64342600BDFDE8 /* notes.h */,
 				CAEB131A1E3FC48800AFC75E /* odf.cpp */,

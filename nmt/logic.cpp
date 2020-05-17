@@ -151,3 +151,21 @@ void nmt_logic_export (string referencebible, string translatingbible)
   Database_Logs::log ("The text of the Bible being translated was exported to ", translation_path);
   Database_Logs::log ("Ready exporting for neural machine translation training");
 }
+
+
+void nmt_logic_split (vector <string> input1, vector <string> input2,
+                      vector <string> & output1, vector <string> & output2,
+                      vector <string> splitters) // Todo
+{
+  
+}
+
+
+void nmt_logic_split (string reference_text, string translating_text,
+                      vector <string> & reference_bits, vector <string> & translating_bits) // Todo
+{
+  reference_bits.clear ();
+  translating_bits.clear ();
+  
+  
+}

@@ -110,6 +110,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/french.h>
 #include <unittests/merge.h>
 #include <unittests/paratext.h>
+#include <unittests/nmt.h>
 
 
 int main (int argc, char **argv) 
@@ -139,7 +140,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_url ();
+  test_nmt ();
+  test_string ();
   refresh_sandbox (true);
   exit (0);
   

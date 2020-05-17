@@ -386,6 +386,10 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
         }
       }
     }
+    vector <string> auto_assignees = request->database_config_user ()->getAutomaticNoteAssignment ();
+    for (auto assignee : auto_assignees) {
+      database_notes.assign_user (identifier, assignee);
+    }
   }
 
   // The recipients who receive a notification by email.

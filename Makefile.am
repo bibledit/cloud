@@ -523,7 +523,8 @@ unittest_SOURCES = \
 	unittests/webview.cpp \
 	unittests/javascript.cpp \
 	unittests/french.cpp \
-  unittests/merge.cpp
+  unittests/merge.cpp \
+  unittests/nmt.cpp
 
 unittest_LDADD = libbibledit.a
 

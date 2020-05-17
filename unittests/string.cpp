@@ -503,10 +503,35 @@ void test_string ()
     evaluate (__LINE__, __func__, "\u2002", en_space_u2002 ());
   }
   
-  // Test conversionof boolean to true / false string.
+  // Test conversion of boolean to true / false string.
   {
     evaluate (__LINE__, __func__, "true", convert_to_true_false (true));
     evaluate (__LINE__, __func__, "false", convert_to_true_false (false));
+  }
+  
+  // Test two explode functions.
+  {
+    vector <string> result;
+
+    // Explode on single delimiter.
+    result = filter_string_explode ("a b c", ' ');
+    evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
+
+    // Explode on a single space.
+    result = filter_string_explode ("a b c", " ");
+    evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
+
+    // Explode on a set consisting of two spaces.
+    result = filter_string_explode ("a b c", "  ");
+    evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
+
+    // Explode on a semicolon, on a comma, and on a full stop.
+    result = filter_string_explode ("aa.bb,cc;", ";,.");
+    evaluate (__LINE__, __func__, {"aa", "bb", "cc"}, result);
+
+    // Explode on two punctuation marks, leaving one in the output.
+    result = filter_string_explode ("aa.bb,cc;", ";,");
+    evaluate (__LINE__, __func__, {"aa.bb", "cc"}, result);
   }
 
 }

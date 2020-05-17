@@ -381,7 +381,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/cache.$(OBJEXT) unittests/login.$(OBJEXT) \
 	unittests/privileges.$(OBJEXT) unittests/statistics.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
-	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT)
+	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
+	unittests/nmt.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -653,10 +654,10 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/merge.Po \
 	unittests/$(DEPDIR)/modifications.Po \
 	unittests/$(DEPDIR)/morphgnt.Po \
-	unittests/$(DEPDIR)/navigation.Po unittests/$(DEPDIR)/notes.Po \
-	unittests/$(DEPDIR)/odf.Po unittests/$(DEPDIR)/oshb.Po \
-	unittests/$(DEPDIR)/pairs.Po unittests/$(DEPDIR)/paratext.Po \
-	unittests/$(DEPDIR)/passage.Po \
+	unittests/$(DEPDIR)/navigation.Po unittests/$(DEPDIR)/nmt.Po \
+	unittests/$(DEPDIR)/notes.Po unittests/$(DEPDIR)/odf.Po \
+	unittests/$(DEPDIR)/oshb.Po unittests/$(DEPDIR)/pairs.Po \
+	unittests/$(DEPDIR)/paratext.Po unittests/$(DEPDIR)/passage.Po \
 	unittests/$(DEPDIR)/privileges.Po \
 	unittests/$(DEPDIR)/related.Po \
 	unittests/$(DEPDIR)/resources.Po unittests/$(DEPDIR)/roles.Po \
@@ -1427,7 +1428,8 @@ unittest_SOURCES = \
 	unittests/webview.cpp \
 	unittests/javascript.cpp \
 	unittests/french.cpp \
-  unittests/merge.cpp
+  unittests/merge.cpp \
+  unittests/nmt.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3096,6 +3098,8 @@ unittests/french.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/merge.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/nmt.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3656,6 +3660,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/modifications.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/morphgnt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/navigation.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/nmt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/notes.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/odf.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/oshb.Po@am__quote@ # am--include-marker
@@ -4701,6 +4706,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/modifications.Po
 	-rm -f unittests/$(DEPDIR)/morphgnt.Po
 	-rm -f unittests/$(DEPDIR)/navigation.Po
+	-rm -f unittests/$(DEPDIR)/nmt.Po
 	-rm -f unittests/$(DEPDIR)/notes.Po
 	-rm -f unittests/$(DEPDIR)/odf.Po
 	-rm -f unittests/$(DEPDIR)/oshb.Po
@@ -5267,6 +5273,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/modifications.Po
 	-rm -f unittests/$(DEPDIR)/morphgnt.Po
 	-rm -f unittests/$(DEPDIR)/navigation.Po
+	-rm -f unittests/$(DEPDIR)/nmt.Po
 	-rm -f unittests/$(DEPDIR)/notes.Po
 	-rm -f unittests/$(DEPDIR)/odf.Po
 	-rm -f unittests/$(DEPDIR)/oshb.Po

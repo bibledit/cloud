@@ -46,6 +46,26 @@ vector <string> filter_string_explode (string value, char delimiter)
 }
 
 
+// Explodes an input string on multiple delimiters.
+vector <string> filter_string_explode (string value, string delimiters) // Todo
+{
+  vector <string> result;
+  while (!value.empty ()) {
+    size_t pos = value.find_first_of (delimiters);
+    if (pos == string::npos) {
+      result.push_back (value);
+      value.clear ();
+    } else {
+      string s = value.substr (0, pos);
+      if (!s.empty()) result.push_back (s);
+      pos++;
+      value.erase (0, pos);
+    }
+  }
+  return result;
+}
+
+
 // A C++ equivalent for PHP's implode function.
 // Join a vector of string, with delimiters, into a string.
 // Return this string.

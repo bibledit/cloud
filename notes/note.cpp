@@ -113,7 +113,7 @@ string notes_note (void * webserver_request)
   }
   
   
-  if (request->session_logic ()->currentLevel () >= Filter_Roles::manager ()) {
+  if (request->session_logic ()->currentLevel () >= Filter_Roles::translator ()) {
     view.enable_zone ("editlevel");
   }
   

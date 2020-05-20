@@ -32,16 +32,32 @@ void test_nmt ()
   vector <string> reference_bits, standard_reference_bits;
   vector <string> translating_bits, standard_translating_bits;
 
-  reference_text = "Verse text English. Remainder.";
-  standard_reference_bits = { "Verse text English", " Remainder" };
-  translating_text = "Verse text Shona. Remainder.";
-  standard_translating_bits = { "Verse text Shona", " Remainder" };
+  reference_text = "Reference text one. Ref two.";
+  standard_reference_bits = { "Reference text one", "Ref two" };
+  translating_text = "Translating text one. Translate two.";
+  standard_translating_bits = { "Translating text one", "Translate two" };
   nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
   evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
   evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
-  
-  for (auto s : reference_bits) cout << s << endl; // Todo
-  for (auto s : translating_bits) cout << s << endl; // Todo
+
+  reference_text = "Reference text one! Ref two.";
+  standard_reference_bits = { "Reference text one", "Ref two" };
+  translating_text = "Translating text one? Translate two.";
+  standard_translating_bits = { "Translating text one", "Translate two" };
+  nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
+  evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
+  evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
+
+  reference_text = "ref text, one; ref two";
+  standard_reference_bits = { "ref text, one", "ref two" };
+  translating_text = "translating text, one? translate two";
+  standard_translating_bits = { "translating text, one", "translate two" };
+  nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
+  evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
+  evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
+
+  //for (auto s : reference_bits) cout << s << endl; // Todo
+  //for (auto s : translating_bits) cout << s << endl; // Todo
 
   refresh_sandbox (true);
 }

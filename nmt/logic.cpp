@@ -132,11 +132,13 @@ void nmt_logic_export (string referencebible, string translatingbible)
         if (reference_text.empty ()) continue;
         if (translation_text.empty ()) continue;
 
-        // Split the texts set on matching punctuation markers.
-        
+        // Split the texts set on matching punctuation markers. Todo
+        vector <string> reference_bits, translating_bits;
+        nmt_logic_split (reference_text, translation_text, reference_bits, translating_bits); // Todo
+
         // Store the texts set.
-        reference_lines.push_back (reference_text);
-        translation_lines.push_back (translation_text);
+        for (auto s : reference_bits) reference_lines.push_back (s);
+        for (auto s : translating_bits) translation_lines.push_back (s);
       }
     }
   }
@@ -166,6 +168,12 @@ void nmt_logic_split (string reference_text, string translating_text,
     translating_bits = filter_string_explode (translating_text, punctuation);
     if (reference_bits.size() > 1) {
       if (reference_bits.size() == translating_bits.size()) {
+        for (auto & s : reference_bits) {
+          s = filter_string_trim (s);
+        }
+        for (auto & s : translating_bits) {
+          s = filter_string_trim (s);
+        }
         return;
       }
     }

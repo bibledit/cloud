@@ -47,7 +47,7 @@ vector <string> filter_string_explode (string value, char delimiter)
 
 
 // Explodes an input string on multiple delimiters.
-vector <string> filter_string_explode (string value, string delimiters) // Todo
+vector <string> filter_string_explode (string value, string delimiters)
 {
   vector <string> result;
   while (!value.empty ()) {

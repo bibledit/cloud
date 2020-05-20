@@ -29,18 +29,16 @@ void test_nmt ()
 
   string reference_text;
   string translating_text;
-  vector <string> reference_bits;
-  vector <string> translating_bits;
-  vector <string> standard_reference_bits;
-  vector <string> standard_translating_bits;
+  vector <string> reference_bits, standard_reference_bits;
+  vector <string> translating_bits, standard_translating_bits;
 
   reference_text = "Verse text English. Remainder.";
-  standard_reference_bits = { "Verse text English", "Remainder" };
+  standard_reference_bits = { "Verse text English", " Remainder" };
   translating_text = "Verse text Shona. Remainder.";
-  standard_translating_bits = { "Verse text Shona", "Remainder" };
+  standard_translating_bits = { "Verse text Shona", " Remainder" };
   nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
-  //evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
-  //evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
+  evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
+  evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
   
   for (auto s : reference_bits) cout << s << endl; // Todo
   for (auto s : translating_bits) cout << s << endl; // Todo

@@ -153,19 +153,28 @@ void nmt_logic_export (string referencebible, string translatingbible)
 }
 
 
-void nmt_logic_split (vector <string> input1, vector <string> input2,
-                      vector <string> & output1, vector <string> & output2,
-                      vector <string> splitters) // Todo
-{
-  
-}
-
-
 void nmt_logic_split (string reference_text, string translating_text,
                       vector <string> & reference_bits, vector <string> & translating_bits) // Todo
 {
+  // Define the punctuation marks to split the texts on.
+  // The largest sets of punctuation will be tried first,
+  // and then the smaller sets.
+  // The first set of punctuation that leads to equally split texts is taken.
+  vector <string> punctuations = { ".!?:;", ".!?:", ".!?", ".!?:;,", ".!?:,", ".!?," };
+  for (auto punctuation : punctuations) {
+    reference_bits = filter_string_explode (reference_text, punctuation);
+    translating_bits = filter_string_explode (translating_text, punctuation);
+    if (reference_bits.size() > 1) {
+      if (reference_bits.size() == translating_bits.size()) {
+        return;
+      }
+    }
+  }
+
+  // If the text sets could not be split equally,
+  // take the original text sets unsplit.
   reference_bits.clear ();
   translating_bits.clear ();
-  
-  
+  reference_bits.push_back (reference_text);
+  translating_bits.push_back (translating_text);
 }

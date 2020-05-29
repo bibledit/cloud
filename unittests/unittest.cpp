@@ -140,7 +140,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_nmt ();
+  test_string ();
   refresh_sandbox (true);
   exit (0);
   
@@ -241,6 +241,7 @@ int main (int argc, char **argv)
   test_french ();
   test_merge ();
   test_paratext ();
+  test_nmt ();
 
   // Output possible journal entries.
   refresh_sandbox (true);

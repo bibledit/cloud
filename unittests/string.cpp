@@ -533,5 +533,14 @@ void test_string ()
     result = filter_string_explode ("aa.bb,cc;", ";,");
     evaluate (__LINE__, __func__, {"aa.bb", "cc"}, result);
   }
+  
+  // Test the array mover function.
+  {
+    vector <string> container;
+    
+    container = { };
+    array_move_up_down (container, 0, false);
+    evaluate (__LINE__, __func__, { }, container);
+  }
 
 }

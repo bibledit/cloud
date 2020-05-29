@@ -1428,6 +1428,7 @@ string emoji_heavy_plus_sign ()
 // Move the $item $up (towards the beginning), or else down (towards the end).
 void array_move_up_down (vector <string> & container, size_t item, bool up)
 {
+  if (container.empty ()) return;
   if (up) {
     if (item > 0) {
       if (item < container.size ()) {

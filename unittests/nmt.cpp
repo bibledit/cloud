@@ -56,8 +56,5 @@ void test_nmt ()
   evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
   evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
 
-  //for (auto s : reference_bits) cout << s << endl; // Todo
-  //for (auto s : translating_bits) cout << s << endl; // Todo
-
   refresh_sandbox (true);
 }

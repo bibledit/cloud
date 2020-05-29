@@ -132,9 +132,9 @@ void nmt_logic_export (string referencebible, string translatingbible)
         if (reference_text.empty ()) continue;
         if (translation_text.empty ()) continue;
 
-        // Split the texts set on matching punctuation markers. Todo
+        // Split the texts set on matching punctuation markers.
         vector <string> reference_bits, translating_bits;
-        nmt_logic_split (reference_text, translation_text, reference_bits, translating_bits); // Todo
+        nmt_logic_split (reference_text, translation_text, reference_bits, translating_bits);
 
         // Store the texts set.
         for (auto s : reference_bits) reference_lines.push_back (s);
@@ -156,7 +156,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
 
 
 void nmt_logic_split (string reference_text, string translating_text,
-                      vector <string> & reference_bits, vector <string> & translating_bits) // Todo
+                      vector <string> & reference_bits, vector <string> & translating_bits)
 {
   // Define the punctuation marks to split the texts on.
   // The largest sets of punctuation will be tried first,

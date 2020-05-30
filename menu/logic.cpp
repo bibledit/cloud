@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/index.h>
 #include <editone/index.h>
 #include <editusfm/index.h>
-#include <editverse/index.h>
 #include <email/index.h>
 #include <filter/string.h>
 #include <filter/roles.h>

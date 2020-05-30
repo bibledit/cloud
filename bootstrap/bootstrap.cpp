@@ -59,7 +59,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/css.h>
 #include <compare/index.h>
 #include <jobs/index.h>
-#include <editverse/index.h>
 #include <navigation/update.h>
 #include <navigation/poll.h>
 #include <editusfm/index.h>
@@ -368,11 +367,6 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == bible_css_url ()) && browser_request_security_okay (request) && bible_css_acl (request)) {
     request->reply = bible_css (request);
-    return;
-  }
-  
-  if ((url == editverse_index_url ()) && browser_request_security_okay (request) && editverse_index_acl (request)) {
-    request->reply = editverse_index (request);
     return;
   }
   

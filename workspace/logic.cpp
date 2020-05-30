@@ -23,7 +23,6 @@
 #include <webserver/request.h>
 #include <edit/index.h>
 #include <editone/index.h>
-#include <editverse/index.h>
 #include <editusfm/index.h>
 #include <search/index.h>
 #include <resource/index.h>
@@ -73,7 +72,7 @@ map <int, string> workspace_get_default_urls (int id)
     case 5:
       urls [0] = resource_index_url ();
       urls [1] = editone_index_url ();
-      urls [5] = editverse_index_url ();
+      urls [5] = editusfm_index_url ();
       break;
     default:
       urls [0] = editone_index_url ();

@@ -48,8 +48,7 @@ void workspace_copy (void * webserver_request, string source, string destination
 void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights);
 string workspace_get_default_name ();
 void workspace_send (void * webserver_request, string workspace, string user);
-string workspace_query_key_readonly ();
-void workspace_add_bible_readonly (map <int, string> & urls);
+map <int, int> workspace_add_bible_editor_number (map <int, string> & urls);
 
 
 #endif

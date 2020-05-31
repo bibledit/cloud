@@ -104,11 +104,13 @@ string workspace_index (void * webserver_request)
 
   
   map <int, string> urls = workspace_get_urls (request, true);
-  workspace_add_bible_readonly (urls);
   map <int, string> widths = workspace_get_widths (request);
+  // The Bible editor number, starting from 1, going up.
+  map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
   for (unsigned int key = 0; key < 15; key++) {
     string url = urls [key];
     string width = widths [key];
+    int editor_number = editor_numbers [key];
     int row = round (key / 5) + 1;
     int column = key % 5 + 1;
     string variable = "url" + convert_to_string (row) + convert_to_string (column);
@@ -116,6 +118,8 @@ string workspace_index (void * webserver_request)
     variable = "width" + convert_to_string (row) + convert_to_string (column);
     view.set_variable (variable, width);
     if (convert_to_int (width) > 0) view.enable_zone (variable);
+    variable = "editorno" + convert_to_string (row) + convert_to_string (column);
+    view.set_variable (variable, convert_to_string (editor_number));
   }
   
   

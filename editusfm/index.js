@@ -112,7 +112,16 @@ function usfmEditorLoadChapter ()
       data: { bible: usfmBible, book: usfmBook, chapter: usfmChapter, id: usfmEditorUniqueID },
       success: function (response) {
         usfmEditorWriteAccess = checksum_readwrite (response);
-        if (usfmForceReadOnly) usfmEditorWriteAccess = false;
+        // If this is the second or third or higher editor in the workspace,
+        // make the editor read-only.
+        if (window.frameElement) {
+          iframe = $(window.frameElement);
+          var data_editor_number = iframe.attr("data-editor-no");
+          console.log (data_editor_number);
+          if (data_editor_number > 1) {
+            usfmEditorWriteAccess = false;
+          }
+        }
         var contenteditable = ($ ("#usfmeditor").attr('contenteditable') === 'true');
         if (usfmEditorWriteAccess != contenteditable) $ ("#usfmeditor").attr('contenteditable', usfmEditorWriteAccess);
         // Checksumming.

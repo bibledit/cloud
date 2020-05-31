@@ -179,7 +179,16 @@ function editorLoadChapter (reload)
     success: function (response) {
       // Set the editor read-write or read-only.
       editorWriteAccess = checksum_readwrite (response);
-      if (editorForceReadOnly) editorWriteAccess = false;
+      // If this is the second or third or higher editor in the workspace,
+      // make the editor read-only.
+      if (window.frameElement) {
+        iframe = $(window.frameElement);
+        var data_editor_number = iframe.attr("data-editor-no");
+        console.log (data_editor_number);
+        if (data_editor_number > 1) {
+          editorWriteAccess = false;
+        }
+      }
       // Checksumming.
       response = checksum_receive (response);
       if (response !== false) {

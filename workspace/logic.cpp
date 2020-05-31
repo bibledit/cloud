@@ -558,19 +558,19 @@ void workspace_send (void * webserver_request, string workspace, string user)
 }
 
 
-string workspace_query_key_readonly ()
-{
-  return "readonly";
-}
-
-
 // https://github.com/bibledit/cloud/issues/342
 // One workspace can only have one editable Bible editor.
 // The first Bible editor remains editable.
 // Any subsequent Bible editors will be set read-only.
 // This is related to focused caret jumping that leads to confusion.
-void workspace_add_bible_readonly (map <int, string> & urls)
+// See also issue https://github.com/bibledit/cloud/issues/391 for
+// why the editor numbers are passed to the iframes.
+// The reason is that each editor's Javascript can determine
+// which Bible editor number it is.
+// It can then decide to make the editor read-only.
+map <int, int> workspace_add_bible_editor_number (map <int, string> & urls)
 {
+  map <int, int> editor_numbers;
   int bible_editor_count = 0;
   for (auto & element : urls) {
     bool is_bible_editor = false;
@@ -582,10 +582,11 @@ void workspace_add_bible_readonly (map <int, string> & urls)
     if (is_bible_editor) {
       bible_editor_count++;
       if (bible_editor_count > 1) {
-        Database_Logs::log ("Setting Bible editor " + url + " read-only");
-        url = filter_url_build_http_query (url, workspace_query_key_readonly (), "");
-        element.second = url;
+        Database_Logs::log ("Setting Bible editor " + url + " as editor number " + convert_to_string (bible_editor_count));
       }
+      editor_numbers [element.first] = bible_editor_count;
     }
   }
+  return editor_numbers;
 }
+

@@ -55,6 +55,7 @@ $ (document).ready (function ()
   }
   
   $ ("#oneeditor").on ("click", oneEditorNoteCitationClicked);
+
 });
 
 
@@ -182,7 +183,15 @@ function oneverseEditorLoadVerse ()
       success: function (response) {
         // Flag for editor read-write or read-only.
         oneverseEditorWriteAccess = checksum_readwrite (response);
-        if (oneverseForceReadOnly) oneverseEditorWriteAccess = false;
+        // If this is the second or third or higher editor in the workspace,
+        // make the editor read-only.
+        if (window.frameElement) {
+          iframe = $(window.frameElement);
+          var data_editor_number = iframe.attr("data-editor-no");
+          if (data_editor_number > 1) {
+            oneverseEditorWriteAccess = false;
+          }
+        }
         // Checksumming.
         response = checksum_receive (response);
         // Splitting.

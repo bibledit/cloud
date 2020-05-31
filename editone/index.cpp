@@ -112,8 +112,7 @@ string editone_index (void * webserver_request)
   "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"
   "var oneverseEditorVerseRetrying = '" + locale_logic_text_retrying () + "';\n"
   "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
-  "var oneverseForceReadOnly = " + convert_to_true_false (request->query.count (workspace_query_key_readonly ())) + ";\n";
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 

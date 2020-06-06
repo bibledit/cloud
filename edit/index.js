@@ -303,7 +303,7 @@ function editorGetHtml ()
 
 /*
 
-Portion dealing with triggers for editor's content change.
+Portion dealing with triggers for when the editor's content changes.
 
 */
 

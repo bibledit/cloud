@@ -184,7 +184,6 @@ function editorLoadChapter (reload)
       if (window.frameElement) {
         iframe = $(window.frameElement);
         var data_editor_number = iframe.attr("data-editor-no");
-        console.log (data_editor_number);
         if (data_editor_number > 1) {
           editorWriteAccess = false;
         }

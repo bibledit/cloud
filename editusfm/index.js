@@ -359,20 +359,30 @@ function usfmGetCaretPosition ()
 
 function usfmGetCaretCharacterOffsetWithin (element)
 {
-  var caretOffset = 0;
+  var elementText = "";
   if (typeof window.getSelection != "undefined") {
     var range = window.getSelection().getRangeAt(0);
     var preCaretRange = range.cloneRange();
     preCaretRange.selectNodeContents(element);
     preCaretRange.setEnd(range.endContainer, range.endOffset);
-    caretOffset = preCaretRange.toString().length;
+    elementText = preCaretRange.toString();
   } else if (typeof document.selection != "undefined" && document.selection.type != "Control") {
     var textRange = document.selection.createRange();
     var preCaretTextRange = document.body.createTextRange();
     preCaretTextRange.moveToElementText(element);
     preCaretTextRange.setEndPoint("EndToEnd", textRange);
-    caretOffset = preCaretTextRange.text.length;
+    elementText = preCaretTextRange.text;
   }
+  // Trim one space off at the right side.
+  // See https://github.com/bibledit/cloud/issues/393.
+  var caretOffset = elementText.length;
+  var pos = elementText.length - 1;
+  if (elementText != "") {
+    if (elementText.charCodeAt(pos) == 32) {
+      elementText = elementText.substr (0, pos);
+    }
+  }
+  var caretOffset = elementText.length;
   return caretOffset;
 }
 

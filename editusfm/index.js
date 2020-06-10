@@ -335,8 +335,9 @@ function usfmPositionCaretViaAjax ()
       var end = parseInt (response [1], 10);
       var offset = usfmGetCaretPosition ();
       if ((offset < start) || (offset > end)) {
-        // Position caret right at the start of the text after the verse number.
-        var position = start + 4 + usfmNavigationVerse.toString().length;
+        // Position caret right after the verse number.
+        // That cares for empty verse text too.
+        var position = start + 3 + usfmNavigationVerse.toString().length;
         usfmPositionCaret (position);
       }
       restartCaretClarifier ();
@@ -345,7 +346,7 @@ function usfmPositionCaretViaAjax ()
 }
 
 
-function usfmGetCaretPosition ()
+function usfmGetCaretPosition () // Todo
 {
   var position = undefined;
   var editor = $ ("#usfmeditor");
@@ -353,11 +354,12 @@ function usfmGetCaretPosition ()
     var element = editor.get (0);
     position = usfmGetCaretCharacterOffsetWithin (element);
   }
+  console.log ("id", usfmEditorUniqueID, "position", position); // Todo
   return position;
 }
 
 
-function usfmGetCaretCharacterOffsetWithin (element)
+function usfmGetCaretCharacterOffsetWithin (element) // Todo
 {
   var elementText = "";
   if (typeof window.getSelection != "undefined") {
@@ -387,7 +389,7 @@ function usfmGetCaretCharacterOffsetWithin (element)
 }
 
 
-function usfmPositionCaret (position)
+function usfmPositionCaret (position) // Todo
 {
   if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
   var currentPosition = usfmGetCaretPosition ();

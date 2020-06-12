@@ -93,6 +93,7 @@ function navigationNewPassage ()
   usfmEditorSaveChapter ();
   usfmReload = false;
   usfmEditorLoadChapter ();
+  console.log (usfmNavigationVerse); // Todo
   // usfmPositionCaretViaAjax ();
 }
 
@@ -455,17 +456,6 @@ function clarifyCaret () // Todo
   var viewportHeight = $(window).height ();
   $ ("#workspacewrapper").stop (true);
   $ ("#workspacewrapper").animate ({ scrollTop: caretTop - (viewportHeight * verticalCaretPosition / 100) }, 500);
-  /*
-  var barOffset = $ ("#caretbar").offset ().top;
-  $ ("#caretbar").empty ();
-  $ ("#caretbar").prepend ("<span><mark>￫</mark></span>");
-  var barTop = barOffset + $ ("#caretbar").height ();
-  while (barTop <= caretTop) {
-    $ ("#caretbar").prepend ("\n");
-    barTop = barOffset + $ ("#caretbar").height ();
-  }
-  $ ("#caretbar").prepend ("\n");
-  */
 }
 
 

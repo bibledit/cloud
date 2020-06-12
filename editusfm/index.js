@@ -117,7 +117,6 @@ function usfmEditorLoadChapter ()
         if (window.frameElement) {
           iframe = $(window.frameElement);
           var data_editor_number = iframe.attr("data-editor-no");
-          console.log (data_editor_number);
           if (data_editor_number > 1) {
             usfmEditorWriteAccess = false;
           }
@@ -391,7 +390,8 @@ function usfmGetCaretCharacterOffsetWithin (element) // Todo
 
 function usfmPositionCaret (position) // Todo
 {
-  if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
+  if (!usfmEditorWriteAccess) return;
+  $ ("#usfmeditor").focus ();
   var currentPosition = usfmGetCaretPosition ();
   if (currentPosition == undefined) return;
   if (position == undefined) return;
@@ -415,7 +415,8 @@ function restartCaretClarifier ()
 }
 
 
-function getSelectionCoordinates() {
+function getSelectionCoordinates() // Todo
+{
   var x = 0, y = 0;
   var sel = document.selection, range;
   if (sel) {
@@ -443,10 +444,11 @@ function getSelectionCoordinates() {
 }
 
 
-function clarifyCaret ()
+function clarifyCaret () // Todo
 {
   var scrolltop = $ ("#workspacewrapper").scrollTop ();
-  var coordinates = getSelectionCoordinates ();
+  var coordinates = getSelectionCoordinates (); // Todo
+  console.log ("coordinates", coordinates); // Todo
   var caretTop = coordinates.y + scrolltop;
   if (caretTop == usfmPreviousCaretTop) return;
   usfmPreviousCaretTop = caretTop;

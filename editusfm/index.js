@@ -93,7 +93,9 @@ function navigationNewPassage ()
   usfmEditorSaveChapter ();
   usfmReload = false;
   usfmEditorLoadChapter ();
-  if (!usfmEditorWriteAccess) {
+  if (usfmEditorWriteAccess) {
+    usfmPositionCaretViaAjax ();
+  } else {
     usfmPositionFocusedVerseViaAjax ();
   }
 }

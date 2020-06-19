@@ -28,7 +28,6 @@ function sendreceive_index () {
     data: { status: "" },
     cache: false,
     success: function (response) {
-      console.log (response);
       $ ("#status").text (response);
     },
     complete: function (xhr, status) {

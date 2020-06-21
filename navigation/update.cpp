@@ -59,7 +59,20 @@ string navigation_update (void * webserver_request)
   int verse = convert_to_int (request->query ["verse"]);
   
   
-  if (request->query.count ("goback")) {
+  
+  // Build the keyboard navigation fragment.
+  if (request->query.count ("keyboard")) {
+    return Navigation_Passage::getKeyboardNavigator (request, bible);
+  }
+
+  
+  else if (request->query.count ("passage")) {
+    string passage = request->query["passage"];
+    Navigation_Passage::interpretKeyboardNavigator (request, bible, passage);
+  }
+
+
+  else if (request->query.count ("goback")) {
     Navigation_Passage::goBack (request);
   }
   
@@ -152,6 +165,6 @@ string navigation_update (void * webserver_request)
   
   
   // Build the navigation fragment.
-  return Navigation_Passage::getNavigator (request, bible);
+  return Navigation_Passage::getMouseNavigator (request, bible);
 }
 

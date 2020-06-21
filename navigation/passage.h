@@ -28,7 +28,7 @@
 class Navigation_Passage
 {
 public:
-  static string getNavigator (void * webserver_request, string bible);
+  static string getMouseNavigator (void * webserver_request, string bible);
   static string getBooksFragment (void * webserver_request, string bible);
   static string getChaptersFragment (void * webserver_request, string bible, int book, int chapter);
   static string getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse);
@@ -44,6 +44,8 @@ public:
   static void recordHistory (void * webserver_request, int book, int chapter, int verse);
   static void goBack (void * webserver_request);
   static void goForward (void * webserver_request);
+  static string getKeyboardNavigator (void * webserver_request, string bible);
+  static void interpretKeyboardNavigator (void * webserver_request, string bible, string passage);
 private:
   static void addSelectorLink (string& html, string id, string href, string text, bool selected);
   static Passage getNextChapter (void * webserver_request, string bible, int book, int chapter);

@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <filter/date.h>
+#include <filter/passage.h>
 #include <database/versifications.h>
 #include <database/navigation.h>
 #include <database/books.h>
@@ -41,7 +42,7 @@
 */
 
 
-string Navigation_Passage::getNavigator (void * webserver_request, string bible)
+string Navigation_Passage::getMouseNavigator (void * webserver_request, string bible)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -288,7 +289,6 @@ void Navigation_Passage::setPassage (void * webserver_request, string bible, str
 }
 
 
-
 Passage Navigation_Passage::getNextChapter (void * webserver_request, string bible, int book, int chapter)
 {
   chapter++;
@@ -445,3 +445,130 @@ void Navigation_Passage::addSelectorLink (string& html, string id, string href, 
   html.append (text);
   html.append ("</a></span>");
 }
+
+
+string Navigation_Passage::getKeyboardNavigator (void * webserver_request, string bible)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  string user = request->session_logic()->currentUser ();
+  
+  bool passage_clipped = false;
+  
+  string fragment;
+  
+  int book = Ipc_Focus::getBook (request);
+  
+  // The book should exist in the Bible.
+  if (bible != "") {
+    vector <int> books = request->database_bibles()->getBooks (bible);
+    if (find (books.begin(), books.end(), book) == books.end()) {
+      if (!books.empty ()) book = books [0];
+      else book = 0;
+      passage_clipped = true;
+    }
+  }
+  
+  int chapter = Ipc_Focus::getChapter (request);
+  
+  // The chapter should exist in the book.
+  if (bible != "") {
+    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
+      if (!chapters.empty()) chapter = chapters [0];
+      else chapter = 1;
+      passage_clipped = true;
+    }
+  }
+
+  int verse = Ipc_Focus::getVerse (request);
+  
+  // The verse should exist in the chapter.
+  if (bible != "") {
+    string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    if (!in_array (verse, verses)) {
+      if (!verses.empty()) verse = verses [0];
+      else verse = 1;
+      passage_clipped = true;
+    }
+  }
+  
+  string current_passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  fragment.append ("<span>");
+  fragment.append (current_passage);
+  fragment.append ("</span>");
+
+  // Spacer.
+  fragment.append ("<span> </span>");
+  
+  // Add some helpful information for the user what to do.
+  fragment.append ("<span>" + translate ("Enter passage to go to") + ":</span>");
+
+  // Add the input to the html fragment.
+  fragment.append ("<span><input type='text' id='keyboard' href='keyboard' title='" + translate ("Enter passage to go to") + "'></span>");
+
+  // Store book / chapter / verse if they were clipped.
+  if (passage_clipped) {
+    Ipc_Focus::set (request, book, chapter, verse);
+  }
+  
+  // The result.
+  return fragment;
+}
+
+
+void Navigation_Passage::interpretKeyboardNavigator (void * webserver_request, string bible, string passage)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
+  string user = request->session_logic()->currentUser ();
+  
+  bool passage_clipped = false;
+
+  int book = Ipc_Focus::getBook (request);
+  
+  // The book should exist in the Bible.
+  if (bible != "") {
+    vector <int> books = request->database_bibles()->getBooks (bible);
+    if (find (books.begin(), books.end(), book) == books.end()) {
+      if (!books.empty ()) book = books [0];
+      else book = 0;
+      passage_clipped = true;
+    }
+  }
+  
+  int chapter = Ipc_Focus::getChapter (request);
+  
+  // The chapter should exist in the book.
+  if (bible != "") {
+    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
+      if (!chapters.empty()) chapter = chapters [0];
+      else chapter = 1;
+      passage_clipped = true;
+    }
+  }
+
+  int verse = Ipc_Focus::getVerse (request);
+  
+  // The verse should exist in the chapter.
+  if (bible != "") {
+    string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    vector <int> verses = usfm_get_verse_numbers (usfm);
+    if (!in_array (verse, verses)) {
+      if (!verses.empty()) verse = verses [0];
+      else verse = 1;
+      passage_clipped = true;
+    }
+  }
+
+  // Determine the new passage based on the current one.
+  Passage current_passage (bible, book, chapter, convert_to_string (verse));
+  Passage new_passage = filter_passage_interpret_passage (current_passage, passage);
+  
+  // Store book / chapter / verse.
+  Ipc_Focus::set (request, new_passage.book, new_passage.chapter, convert_to_int (new_passage.verse));
+}
+
+

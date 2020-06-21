@@ -29,12 +29,48 @@ var navigatorTimeout;
 
 $(document).ready (function () {
   navigatorContainer = $ ("#versepickerwrapper");
-  buildNavigator ();
+  buildMouseNavigator ();
   navigationPollPassage ();
+  $ ("body").on('keydown', "#keyboard", keyboardNavigatorEnter);
 });
 
 
-function buildNavigator () {
+function buildKeyboardNavigator () {
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, keyboard: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      $ ("#keyboard").focus ();
+    },
+  });
+}
+
+
+function keyboardNavigatorEnter (event) {
+  if (event.keyCode == 13) {
+    passage = $ ("#keyboard").val();
+    $.ajax ({
+      url: "/navigation/update",
+      type: "GET",
+      data: { bible: navigationBible, passage: passage },
+      cache: false,
+      success: function (response) {
+        navigatorContainer.empty ();
+        navigatorContainer.append (response);
+        bindClickHandlers ();
+        navigationPollPassage ();
+      },
+    });
+    return false;
+  }
+}
+
+
+function buildMouseNavigator () {
   $.ajax ({
     url: "/navigation/update",
     type: "GET",
@@ -309,7 +345,7 @@ function navigationPollPassage ()
         navigationChapter = chapter;
         navigationVerse = verse;
         navigationCallNewPassage ();
-        buildNavigator ();
+        buildMouseNavigator ();
       }
     },
     complete: function (xhr, status) {
@@ -324,12 +360,12 @@ function navigationHandleKeyDown (event)
   // Ctrl-G
   if ((event.ctrlKey == true) && (event.keyCode == 71)) {
     event.preventDefault ();
-    $("#selectbook").focus();
+    buildKeyboardNavigator ();
   }
   // Escape
   if (event.keyCode == 27) {
     event.preventDefault ();
-    buildNavigator ();
+    buildMouseNavigator ();
   }
   // Alt-Left Arrow
   if ((event.altKey == true) && (event.keyCode == 37)) {

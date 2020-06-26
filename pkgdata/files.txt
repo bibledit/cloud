@@ -14,6 +14,7 @@
 /assets/workspacewrapper_start.html
 /assets/xhtml_finish.html
 /assets/xhtml_start.html
+/assets/xhtml_start_v2.html
 /bb
 /bb/book.html
 /bb/chapter.html
@@ -306,6 +307,8 @@
 /jquery
 /jquery/jquery-3.1.0.js
 /jquery/jquery-3.1.0.min.js
+/jquery/jquery-3.5.1.js
+/jquery/jquery-3.5.1.min.js
 /jquery/jquery.LICENSE.js
 /jquery/jquery.stylesheet.js
 /jquery/jquery.touchSwipe.js

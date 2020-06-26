@@ -99,7 +99,7 @@ string search_index (void * webserver_request)
   
   string page;
 
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), request); // Todo
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   

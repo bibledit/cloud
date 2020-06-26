@@ -90,7 +90,7 @@ string system_index (void * webserver_request)
       for (auto element : localizations) {
         dialog_list.add_row (element.second, "language", element.first);
       }
-      page = Assets_Page::header ("", webserver_request);
+      page = Assets_Page::header ("", webserver_request); // Todo
       page += dialog_list.run ();
       return page;
     } else {
@@ -100,7 +100,7 @@ string system_index (void * webserver_request)
 
   
   // The header: The language has been set already.
-  Assets_Header header = Assets_Header (translate("System"), webserver_request);
+  Assets_Header header = Assets_Header (translate("System"), webserver_request); // Todo
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 

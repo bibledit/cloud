@@ -55,7 +55,7 @@ string notes_note (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note"), request);
+  Assets_Header header = Assets_Header (translate("Note"), request); // Todo
   header.setNavigator ();
 
   

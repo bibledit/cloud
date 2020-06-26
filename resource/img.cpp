@@ -55,7 +55,7 @@ string resource_img (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Image resources"), request);
+  Assets_Header header = Assets_Header (translate("Image resources"), request); // Todo
   page = header.run ();
   Assets_View view;
   string error, success;

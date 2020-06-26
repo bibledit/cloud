@@ -55,7 +55,7 @@ string resource_bible2resource (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Convert"), request);
+  Assets_Header header = Assets_Header (translate("Convert"), request); // Todo
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();

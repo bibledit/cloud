@@ -27,7 +27,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Assets_Page::header (string title, void * webserver_request)
 {
-  Assets_Header header = Assets_Header (title, webserver_request);
+  Assets_Header header = Assets_Header (title, webserver_request); // Todo
+  string page = header.run ();
+  return page;
+}
+
+
+string Assets_Page::header_v2 (string title, void * webserver_request)
+{
+  Assets_Header_V2 header = Assets_Header_V2 (title, webserver_request); // Todo
   string page = header.run ();
   return page;
 }

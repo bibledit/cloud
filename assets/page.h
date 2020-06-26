@@ -28,6 +28,7 @@ class Assets_Page
 {
 public:
   static string header (string title, void * webserver_request);
+  static string header_v2 (string title, void * webserver_request);
   static string success (string message);
   static string error (string message);
   static string message (string message);

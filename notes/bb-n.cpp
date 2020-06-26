@@ -54,7 +54,7 @@ string notes_bible_n (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Bibles"), request);
+  Assets_Header header = Assets_Header (translate("Bibles"), request); // Todo
   page += header.run ();
   Assets_View view;
   

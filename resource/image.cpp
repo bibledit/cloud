@@ -58,7 +58,7 @@ string resource_image (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Image resources"), request);
+  Assets_Header header = Assets_Header (translate("Image resources"), request); // Todo
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (resource_images_url (), menu_logic_resource_images_text ());
   page = header.run ();

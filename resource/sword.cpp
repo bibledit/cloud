@@ -74,7 +74,7 @@ string resource_sword (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), request); // Todo
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

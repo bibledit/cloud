@@ -48,7 +48,7 @@ string notes_index (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Consultation Notes"), request);
+  Assets_Header header = Assets_Header (translate("Consultation Notes"), request); // Todo
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run();

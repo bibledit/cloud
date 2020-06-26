@@ -63,7 +63,7 @@ string edit_preview (void * webserver_request)
 
   string page;
   
-  Assets_Header header = Assets_Header (translate("Preview"), request);
+  Assets_Header header = Assets_Header (translate("Preview"), request); // Todo
   header.setNavigator ();
   header.setEditorStylesheet ();
   if (touch) header.jQueryTouchOn ();

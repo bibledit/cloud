@@ -55,7 +55,7 @@ string resource_index (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), request); // Todo
   header.setNavigator ();
   header.setStylesheet ();
   if (touch) header.jQueryTouchOn ();

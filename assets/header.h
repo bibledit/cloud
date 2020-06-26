@@ -57,4 +57,36 @@ private:
 };
 
 
+class Assets_Header_V2
+{
+public:
+  Assets_Header_V2 (string title, void * webserver_request_in);
+  ~Assets_Header_V2 ();
+  void jQueryTouchOn ();
+  void touchCSSOn ();
+  void notifItOn ();
+  void setNavigator ();
+  void setStylesheet ();
+  void setEditorStylesheet ();
+  bool displayTopbar ();
+  void refresh (int seconds, string url = "");
+  void setFadingMenu (string html);
+  void addBreadCrumb (string item, string text);
+  string run ();
+private:
+  Assets_View * view;
+  bool includeJQueryTouch;
+  bool includeTouchCSS;
+  bool includeNotifIt;
+  vector <string> headLines;
+  bool displayNavigator;
+  string includedStylesheet;
+  string includedEditorStylesheet;
+  void * webserver_request;
+  string loginrequest;
+  string fadingmenu;
+  vector <pair <string, string> > breadcrumbs;
+};
+
+
 #endif

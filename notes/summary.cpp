@@ -53,7 +53,7 @@ string notes_summary (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note summary"), request);
+  Assets_Header header = Assets_Header (translate("Note summary"), request); // Todo
   page += header.run ();
   Assets_View view;
 

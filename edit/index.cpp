@@ -76,7 +76,7 @@ string edit_index (void * webserver_request)
   string page;
   
   
-  Assets_Header header = Assets_Header (translate("Edit"), request);
+  Assets_Header header = Assets_Header (translate("Edit"), request); // Todo
   header.setNavigator ();
   header.setEditorStylesheet ();
   if (touch) header.jQueryTouchOn ();

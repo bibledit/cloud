@@ -53,7 +53,7 @@ string resource_user1view (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), request); // Todo
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();

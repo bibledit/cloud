@@ -96,7 +96,7 @@ string workspace_index (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Workspace"), request);
+  Assets_Header header = Assets_Header (translate("Workspace"), request); // Todo
   header.setNavigator ();
   header.setFadingMenu (menu_logic_workspace_category (webserver_request));
   page = header.run ();

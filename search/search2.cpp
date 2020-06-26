@@ -187,7 +187,7 @@ string search_search2 (void * webserver_request)
   
   // Build the advanced search page.
   string page;
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), request); // Todo
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();

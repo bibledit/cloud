@@ -58,7 +58,7 @@ string developer_index (void * webserver_request)
   
   string page;
 
-  Assets_Header header = Assets_Header ("Development", webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 ("Development", webserver_request);
   header.notifItOn ();
   page = header.run ();
 

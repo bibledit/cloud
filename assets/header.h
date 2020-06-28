@@ -57,11 +57,11 @@ private:
 };
 
 
-class Assets_Header_V2
+class Assets_Header_v2
 {
 public:
-  Assets_Header_V2 (string title, void * webserver_request_in);
-  ~Assets_Header_V2 ();
+  Assets_Header_v2 (string title, void * webserver_request_in);
+  ~Assets_Header_v2 ();
   void jQueryTouchOn ();
   void touchCSSOn ();
   void notifItOn ();

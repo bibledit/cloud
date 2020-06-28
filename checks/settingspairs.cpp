@@ -60,7 +60,7 @@ string checks_settingspairs (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate ("Matching pairs"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate ("Matching pairs"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();

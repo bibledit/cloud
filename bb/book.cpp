@@ -59,7 +59,7 @@ string bible_book (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Book"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Book"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();

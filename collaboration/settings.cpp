@@ -53,7 +53,7 @@ string collaboration_settings (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
   string page;
-  Assets_Header header = Assets_Header (translate("Collaboration"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Collaboration"), request);
   page = header.run ();
   Assets_View view;
   

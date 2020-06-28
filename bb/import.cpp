@@ -54,7 +54,7 @@ string bible_import (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Import"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Import"), webserver_request);
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (bible_manage_url (), menu_logic_bible_manage_text ());

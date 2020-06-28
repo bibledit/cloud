@@ -57,7 +57,7 @@ string help_index (void * webserver_request, const string& url)
 {
   string page;
 
-  Assets_Header header = Assets_Header (translate("Help"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Help"), webserver_request);
   page = header.run ();
 
   Assets_View view;

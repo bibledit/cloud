@@ -55,7 +55,7 @@ string notes_edit (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Edit Note Source"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Edit Note Source"), request);
   page += header.run ();
   Assets_View view;
   

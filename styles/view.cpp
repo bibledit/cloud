@@ -58,7 +58,7 @@ string styles_view (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Style"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Style"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();

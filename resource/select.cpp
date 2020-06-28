@@ -59,7 +59,7 @@ string resource_select (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Resources"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Resources"), request);
   page = header.run ();
   Assets_View view;
 

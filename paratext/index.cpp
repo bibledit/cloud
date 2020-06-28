@@ -52,7 +52,7 @@ string paratext_index (void * webserver_request)
 
 
   string page;
-  page = Assets_Page::header (translate ("Paratext"), webserver_request); // Todo
+  page = Assets_Page::header (translate ("Paratext"), webserver_request);
   Assets_View view;
   string success;
   string error;

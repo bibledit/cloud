@@ -66,7 +66,7 @@ string public_new (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate ("New feedback"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate ("New feedback"), request);
   header.setNavigator ();
   header.setStylesheet ();
   page = header.run ();

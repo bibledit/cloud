@@ -53,7 +53,7 @@ string notes_unassign_n (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Unassign notes"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Unassign notes"), request);
   page += header.run ();
   Assets_View view;
 

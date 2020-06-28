@@ -64,7 +64,7 @@ string manage_users (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Users"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Users"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 

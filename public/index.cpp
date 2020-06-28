@@ -80,7 +80,7 @@ string public_index (void * webserver_request)
       for (auto & bible : public_bibles) {
         dialog_list.add_row (bible, "bible", bible);
       }
-      Assets_Header header = Assets_Header ("", request); // Todo
+      Assets_Header_v2 header = Assets_Header_v2 ("", request);
       string page = header.run ();
       page += dialog_list.run ();
       return page;
@@ -91,7 +91,7 @@ string public_index (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate ("Public feedback"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate ("Public feedback"), request);
   header.setNavigator ();
   header.setStylesheet ();
   page = header.run ();

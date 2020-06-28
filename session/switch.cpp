@@ -46,7 +46,7 @@ string session_switch (void * webserver_request)
 
   string page;
   
-  Assets_Header header = Assets_Header (translate ("Switch user"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate ("Switch user"), webserver_request);
   page += header.run ();
   
   Assets_View view;

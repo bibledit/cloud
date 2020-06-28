@@ -88,7 +88,7 @@ string workspace_settings (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Edit workspace"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Edit workspace"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (workspace_organize_url (), menu_logic_workspace_organize_text ());
   page = header.run ();

@@ -56,7 +56,7 @@ string resource_user1edit (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("User-defined resources"), request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("User-defined resources"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

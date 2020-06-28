@@ -152,7 +152,7 @@ string personalize_index (void * webserver_request)
   }
   
   
-  Assets_Header header = Assets_Header (translate("Preferences"), webserver_request); // Todo
+  Assets_Header_v2 header = Assets_Header_v2 (translate("Preferences"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 

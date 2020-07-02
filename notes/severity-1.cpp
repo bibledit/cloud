@@ -54,7 +54,7 @@ string notes_severity_1 (void * webserver_request)
   
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Severity"), request);
+  Assets_Header header = Assets_Header (translate("Severity"), request);
   page += header.run ();
   Assets_View view;
   string success, error;

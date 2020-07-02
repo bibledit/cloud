@@ -66,7 +66,7 @@ string changes_statistics (void * webserver_request)
   
 
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Change statistics"), request);
+  Assets_Header header = Assets_Header (translate("Change statistics"), request);
   page += header.run ();
   Assets_View view;
   

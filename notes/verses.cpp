@@ -54,7 +54,7 @@ string notes_verses (void * webserver_request)
 
 
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Passages"), request);
+  Assets_Header header = Assets_Header (translate("Passages"), request);
   page += header.run ();
   Assets_View view;
   string success, error;

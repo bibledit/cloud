@@ -53,7 +53,7 @@ string resource_manage (void * webserver_request)
 
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("USFM Resources"), request);
+  Assets_Header header = Assets_Header (translate("USFM Resources"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

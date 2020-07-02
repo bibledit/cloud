@@ -150,7 +150,7 @@ string session_login_display_header (void * webserver_request)
   2. The script may forward the user to another page.
      Therefore no output should be sent so the forward headers work.
   */
-  Assets_Header_v2 header = Assets_Header_v2 (translate ("Login"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Login"), webserver_request);
   header.touchCSSOn ();
   return header.run ();
 }

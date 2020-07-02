@@ -55,7 +55,7 @@ string notes_comment (void * webserver_request)
 
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Comment"), request);
+  Assets_Header header = Assets_Header (translate("Comment"), request);
   page += header.run ();
   Assets_View view;
   string success;

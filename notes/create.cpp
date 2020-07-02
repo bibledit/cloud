@@ -58,7 +58,7 @@ string notes_create (void * webserver_request)
   
   string page;
   
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Create note"), request);
+  Assets_Header header = Assets_Header (translate("Create note"), request);
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();

@@ -49,7 +49,7 @@ string jobs_index (void * webserver_request)
   
   string page;
   
-  Assets_Header_v2 header = Assets_Header_v2 (translate ("Job"), request);
+  Assets_Header header = Assets_Header (translate ("Job"), request);
   
   Assets_View view;
 

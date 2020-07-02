@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 
 
-Assets_Header_v2::Assets_Header_v2 (string title, void * webserver_request_in)
+Assets_Header::Assets_Header (string title, void * webserver_request_in)
 {
   includeJQueryTouch = false;
   includeTouchCSS = false;
@@ -43,39 +43,39 @@ Assets_Header_v2::Assets_Header_v2 (string title, void * webserver_request_in)
 }
 
 
-Assets_Header_v2::~Assets_Header_v2 ()
+Assets_Header::~Assets_Header ()
 {
   delete view;
 }
 
 
-void Assets_Header_v2::jQueryTouchOn ()
+void Assets_Header::jQueryTouchOn ()
 {
   includeJQueryTouch = true;
 }
 
 
-void Assets_Header_v2::touchCSSOn ()
+void Assets_Header::touchCSSOn ()
 {
   includeTouchCSS = true;
 }
 
 
-void Assets_Header_v2::notifItOn ()
+void Assets_Header::notifItOn ()
 {
   includeNotifIt = true;
 }
 
 
 // Display the passage navigator.
-void Assets_Header_v2::setNavigator ()
+void Assets_Header::setNavigator ()
 {
   displayNavigator = true;
 }
 
 
 // Display the user's basic stylesheet.css.
-void Assets_Header_v2::setStylesheet ()
+void Assets_Header::setStylesheet ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string bible = request->database_config_user()->getBible ();
@@ -85,7 +85,7 @@ void Assets_Header_v2::setStylesheet ()
 
 
 // Display the user's editor stylesheet.css.
-void Assets_Header_v2::setEditorStylesheet ()
+void Assets_Header::setEditorStylesheet ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string bible = request->database_config_user()->getBible ();
@@ -95,7 +95,7 @@ void Assets_Header_v2::setEditorStylesheet ()
 
 
 // Whether to display the topbar.
-bool Assets_Header_v2::displayTopbar ()
+bool Assets_Header::displayTopbar ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   // If the topbar is in the query: Don't display the top bar.
@@ -108,7 +108,7 @@ bool Assets_Header_v2::displayTopbar ()
 
 
 // Sets the page to refresh after "seconds".
-void Assets_Header_v2::refresh (int seconds, string url)
+void Assets_Header::refresh (int seconds, string url)
 {
   string content = convert_to_string (seconds);
   if (!url.empty ()) content.append (";URL=" + url);
@@ -118,21 +118,21 @@ void Assets_Header_v2::refresh (int seconds, string url)
 
 
 // Adds a menu item to the fading menu.
-void Assets_Header_v2::setFadingMenu (string html)
+void Assets_Header::setFadingMenu (string html)
 {
   fadingmenu = html;
 }
 
 
 // Add one breadcrumb $item with $text.
-void Assets_Header_v2::addBreadCrumb (string item, string text)
+void Assets_Header::addBreadCrumb (string item, string text)
 {
   breadcrumbs.push_back (make_pair (item, text));
 }
 
 
 // Runs the header.
-string Assets_Header_v2::run ()
+string Assets_Header::run ()
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

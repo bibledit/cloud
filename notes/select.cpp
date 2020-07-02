@@ -54,7 +54,7 @@ string notes_select (void * webserver_request)
   
   string page;
   
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Select notes"), request);
+  Assets_Header header = Assets_Header (translate("Select notes"), request);
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.addBreadCrumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();

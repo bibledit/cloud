@@ -25,11 +25,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 
 
-class Assets_Header_v2
+class Assets_Header
 {
 public:
-  Assets_Header_v2 (string title, void * webserver_request_in);
-  ~Assets_Header_v2 ();
+  Assets_Header (string title, void * webserver_request_in);
+  ~Assets_Header ();
   void jQueryTouchOn ();
   void touchCSSOn ();
   void notifItOn ();

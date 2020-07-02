@@ -55,7 +55,7 @@ string checks_index (void * webserver_request)
 
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Checks"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
   header.addBreadCrumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;

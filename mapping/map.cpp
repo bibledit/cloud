@@ -50,7 +50,7 @@ string mapping_map (void * webserver_request)
   
   string page;
   
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Verse mappings"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Verse mappings"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (mapping_index_url (), menu_logic_mapping_index_text ());
 

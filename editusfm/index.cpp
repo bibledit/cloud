@@ -73,7 +73,7 @@ string editusfm_index (void * webserver_request)
   
   string page;
   
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Edit USFM"), request);
+  Assets_Header header = Assets_Header (translate("Edit USFM"), request);
   header.setNavigator ();
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   if (touch) header.jQueryTouchOn ();

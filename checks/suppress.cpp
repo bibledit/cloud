@@ -52,7 +52,7 @@ string checks_suppress (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header_v2 (translate ("Suppressed checking results"), webserver_request);
+  page = Assets_Page::header (translate ("Suppressed checking results"), webserver_request);
   Assets_View view;
   
   

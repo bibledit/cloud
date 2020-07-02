@@ -56,7 +56,7 @@ string resource_download (void * webserver_request)
   
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Download resource"), request);
+  Assets_Header header = Assets_Header (translate("Download resource"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.addBreadCrumb (resource_cache_url (), menu_logic_resources_text ());
   page = header.run ();

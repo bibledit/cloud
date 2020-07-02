@@ -25,9 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-string Assets_Page::header_v2 (string title, void * webserver_request)
+string Assets_Page::header (string title, void * webserver_request)
 {
-  Assets_Header_v2 header = Assets_Header_v2 (title, webserver_request);
+  Assets_Header header = Assets_Header (title, webserver_request);
   string page = header.run ();
   return page;
 }

@@ -56,7 +56,7 @@ string public_create (void * webserver_request)
   
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Create note"), request);
+  Assets_Header header = Assets_Header (translate("Create note"), request);
   page += header.run ();
   Assets_View view;
 

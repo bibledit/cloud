@@ -50,7 +50,7 @@ string resource_user9view (void * webserver_request)
 
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("User resources"), request);
+  Assets_Header header = Assets_Header (translate("User resources"), request);
   header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;

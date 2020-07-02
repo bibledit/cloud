@@ -52,7 +52,7 @@ string editor_select (void * webserver_request)
   Webserver_Request * request = static_cast <Webserver_Request *> (webserver_request);
   
   string page;
-  Assets_Header_v2 header = Assets_Header_v2 (translate("Select editor"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
   page = header.run();
   Assets_View view;
   

@@ -90,7 +90,7 @@ string system_index (void * webserver_request)
       for (auto element : localizations) {
         dialog_list.add_row (element.second, "language", element.first);
       }
-      page = Assets_Page::header ("", webserver_request);
+      page = Assets_Page::header_v2 ("", webserver_request);
       page += dialog_list.run ();
       return page;
     } else {

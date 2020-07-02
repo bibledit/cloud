@@ -25,38 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 
 
-class Assets_Header
-{
-public:
-  Assets_Header (string title, void * webserver_request_in);
-  ~Assets_Header ();
-  void jQueryTouchOn ();
-  void touchCSSOn ();
-  void notifItOn ();
-  void setNavigator ();
-  void setStylesheet ();
-  void setEditorStylesheet ();
-  bool displayTopbar ();
-  void refresh (int seconds, string url = "");
-  void setFadingMenu (string html);
-  void addBreadCrumb (string item, string text);
-  string run ();
-private:
-  Assets_View * view;
-  bool includeJQueryTouch;
-  bool includeTouchCSS;
-  bool includeNotifIt;
-  vector <string> headLines;
-  bool displayNavigator;
-  string includedStylesheet;
-  string includedEditorStylesheet;
-  void * webserver_request;
-  string loginrequest;
-  string fadingmenu;
-  vector <pair <string, string> > breadcrumbs;
-};
-
-
 class Assets_Header_v2
 {
 public:

@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Assets_Page
 {
 public:
-  static string header (string title, void * webserver_request);
   static string header_v2 (string title, void * webserver_request);
   static string success (string message);
   static string error (string message);

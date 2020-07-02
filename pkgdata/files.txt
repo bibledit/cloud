@@ -14,7 +14,6 @@
 /assets/workspacewrapper_start.html
 /assets/xhtml_finish.html
 /assets/xhtml_start.html
-/assets/xhtml_start_v2.html
 /bb
 /bb/book.html
 /bb/chapter.html

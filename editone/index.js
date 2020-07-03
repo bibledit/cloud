@@ -120,8 +120,8 @@ var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
 var oneverseEditorWriteAccess = true;
-var oneverseEditorLoadDate = new Date(0);
-var oneverseEditorSaveDate = new Date(0);
+var oneverseEditorLoadDate = {};
+var oneverseEditorSaveDate = {};
 
 
 //
@@ -171,7 +171,7 @@ function oneverseEditorLoadVerse ()
     } else {
       oneverseReloadPosition = undefined;
       // When saving and immediately going to another verse, do not give an alert.
-      oneverseEditorSaveDate = new Date(0);
+      oneverseEditorSaveDate[oneverseVerseLoading] = new Date(0);
     }
     if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
       oneverseLoadAjaxRequest.abort();
@@ -233,10 +233,12 @@ function oneverseEditorLoadVerse ()
           oneverseScrollVerseIntoView ();
           oneversePositionCaret ();
           // https://github.com/bibledit/cloud/issues/346
-          oneverseEditorLoadDate = new Date();
-          var seconds = (oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime()) / 1000;
-          if ((seconds < 2) | oneverseReloadFlag)  {
-            if (oneverseEditorWriteAccess) alert (oneverseEditorVerseUpdatedLoaded);
+          oneverseEditorLoadDate[oneverseVerseLoading] = new Date();
+          if (oneverseVerseLoading in oneverseEditorSaveDate) {
+            var seconds = (oneverseEditorLoadDate[oneverseVerseLoading].getTime() - oneverseEditorSaveDate[oneverseVerseLoading].getTime()) / 1000;
+            if ((seconds < 2) | oneverseReloadFlag)  {
+              if (oneverseEditorWriteAccess) alert (oneverseEditorVerseUpdatedLoaded);
+            }
           }
           oneverseReloadFlag = false;
         }
@@ -295,11 +297,7 @@ function oneverseEditorSaveVerse (sync)
     complete: function (xhr, status) {
       oneverseSaveAsync = true;
       oneverseSaving = false;
-      oneverseEditorSaveDate = new Date();
-      var seconds = (oneverseEditorSaveDate.getTime() - oneverseEditorLoadDate.getTime()) / 1000;
-      if (seconds < 2) {
-        if (oneverseEditorWriteAccess) alert (oneverseEditorVerseUpdatedLoaded);
-      }
+      oneverseEditorSaveDate [oneverseVerseLoaded] = new Date();
     }
   });
 }

@@ -323,12 +323,12 @@ namespace dtl {
          * print differences given an SES
          */
         template < typename stream >
-        static void printSES (const Ses< elem >& s, stream& out) {
+        void printSES (const Ses< elem >& s, stream& out) {
             sesElemVec ses_v = s.getSequence();
             for_each(ses_v.begin(), ses_v.end(), ChangePrinter< sesElem, stream >(out));
         }
         
-        static void printSES (const Ses< elem >& s, ostream& out = cout) {
+        void printSES (const Ses< elem >& s, ostream& out = cout) {
             printSES< ostream >(s, out);
         }
 
@@ -357,11 +357,11 @@ namespace dtl {
          * print unified format difference with given unified format hunks
          */
         template < typename stream >
-        static void printUnifiedFormat (const uniHunkVec& hunks, stream& out) {
+        void printUnifiedFormat (const uniHunkVec& hunks, stream& out) {
             for_each(hunks.begin(), hunks.end(), UniHunkPrinter< sesElem >(out));
         }
 
-        static void printUnifiedFormat (const uniHunkVec& hunks, ostream& out = cout) {
+        void printUnifiedFormat (const uniHunkVec& hunks, ostream& out = cout) {
             printUnifiedFormat< ostream >(hunks, out);
         }
 
@@ -504,7 +504,7 @@ namespace dtl {
          * compose ses from stream
          */
         template <typename stream>
-        static Ses< elem > composeSesFromStream (stream& st)
+        Ses< elem > composeSesFromStream (stream& st)
         {
             elem        line;
             Ses< elem > ret;

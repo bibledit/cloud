@@ -140,7 +140,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_string ();
+  test_merge ();
+  test_diff ();
   refresh_sandbox (true);
   exit (0);
   

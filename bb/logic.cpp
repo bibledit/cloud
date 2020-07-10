@@ -512,7 +512,9 @@ void bible_logic_unsafe_save_mail (const string & message, const string & explan
 // if the USFM received from the client
 // does not match the USFM that gets stored on the server.
 void bible_logic_client_receive_merge_mail (const string & bible, int book, int chapter, const string & user,
-                                            const string & client_old, const string & client_new, const string & server)
+                                            const string & client_old,
+                                            const string & client_new,
+                                            const string & server)
 {
   // No difference: Done.
   if (client_old == server) return;

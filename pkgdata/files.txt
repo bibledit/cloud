@@ -234,7 +234,6 @@
 /editusfm
 /editusfm/index.html
 /editusfm/index.js
-/editverse
 /email
 /email/index.html
 /esword

@@ -104,9 +104,6 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
   change = filter_string_trim (change);
   prioritized_change = filter_string_trim (prioritized_change);
   result = filter_string_trim (result);
-  
-//  result = prioritized_change; // Todo out.
-//  cout << result << endl; // Todo
 
   bool irregularity = false;
   string subject;
@@ -141,8 +138,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
   
   if (!irregularity) {
     if ((change != base) && (prioritized_change != change) && (prioritized_change == result)) {
-      subject = "Failed to merge: The existing text was kept"; // Todo
-//      cout << subject << endl; // Todo
+      subject = "Failed to merge: The existing text was kept";
       irregularity = true;
     }
   }

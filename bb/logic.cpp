@@ -431,37 +431,78 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
     xml_node node;
     node = document.append_child ("h3");
     node.text ().set (conflict.subject.c_str());
-    
+
+    // Storage of the changes the user sent, and the result that was saved, in raw USFM, per verse.
+    vector <string> change_usfm;
+    vector <string> result_usfm;
+
+    // Go through all verses available in the USFM,
+    // and make a record for each verse,
+    // where the USFM differs between the change that the user made and the result that was saved.
+    vector <int> verses = usfm_get_verse_numbers (conflict.result);
+    for (auto verse : verses) {
+      string change = usfm_get_verse_text (conflict.change, verse);
+      string result = usfm_get_verse_text (conflict.result, verse);
+      // When there's no change in the verse, skip it.
+      if (change == result) continue;
+      // Record the difference.
+      change_usfm.push_back (change);
+      result_usfm.push_back (result);
+    }
+
     // Add some information for the user.
     node = document.append_child ("p");
-    node.text ().set ("While merging the text, something unusual was detected.");
+    node.text ().set ("You sent changes to the Cloud. The Cloud crossed the parts below out, and replaced it with the bold text below.");
+
+    // Go over each verse where the change differs from the resulting text that was saved.
+    // For each verse, outline the difference between the change and the result.
+    // Clearly maark it up for the user.
+    // The purpose is that the user immediately can see what happened,
+    // and whether and how to correct it.
+    for (size_t i = 0; i < change_usfm.size(); i++) {
+      node = document.append_child ("p");
+      string modification = filter_diff_diff (change_usfm[i], result_usfm[i]);
+      // Add raw html to the email's text buffer.
+      node.append_buffer (modification.c_str (), modification.size ());
+    }
+    
+    // Add some information for the user.
+    document.append_child ("hr");
+    document.append_child ("br");
+    document.append_child ("br");
+    xml_node div_node;
+    div_node = document.append_child ("div");
+    div_node.append_attribute ("style") = "font-size: xx-small";
+
+    node = div_node.append_child ("p");
+    node.text ().set ("Here are some details.");
     
     // Add the base text.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("Base text");
-    node = document.append_child ("pre");
+    div_node.append_child ("br");
+    node = div_node.append_child ("p");
+    node.text ().set ("Base text loaded in your editor");
+    node = div_node.append_child ("pre");
     node.text ().set (conflict.base.c_str ());
     
     // Add the changed text.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("Changed text");
-    node = document.append_child ("pre");
+    div_node.append_child ("br");
+    node = div_node.append_child ("p");
+    node.text ().set ("Changed text by you");
+    node = div_node.append_child ("pre");
     node.text ().set (conflict.change.c_str ());
     
     // Add the existing text.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("Existing text");
-    node = document.append_child ("pre");
+    div_node.append_child ("br");
+    node = div_node.append_child ("p");
+    node.text ().set ("Existing text in the Cloud");
+    node = div_node.append_child ("pre");
     node.text ().set (conflict.prioritized_change.c_str ());
     
     // Add the merge result.
-    document.append_child ("br");
-    node = document.append_child ("p");
-    node.text ().set ("The text that was actually saved to the chapter");
-    node = document.append_child ("pre");
+    div_node.append_child ("br");
+    node = div_node.append_child ("p");
+    node.text ().set ("The text that was actually saved to the chapter in the Cloud");
+    node = div_node.append_child ("pre");
     node.text ().set (conflict.result.c_str ());
     
     // Convert the document to a string.

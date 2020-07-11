@@ -97,6 +97,7 @@ string editusfm_save (void * webserver_request)
                   Database_Logs::log (translate ("Merging and saving chapter."));
                 }
               }
+              
               // Check on the merge.
               bible_logic_merge_irregularity_mail ({username}, conflicts);
               

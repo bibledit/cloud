@@ -427,7 +427,8 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
   for (auto & conflict : conflicts) {
     
     // Add the passage to the subject.
-    string newsubject = conflict.subject + " | " + filter_passage_display (conflict.book, conflict.chapter, "");
+    string newsubject = conflict.subject;
+    if (conflict.book) newsubject.append (" | " + filter_passage_display (conflict.book, conflict.chapter, ""));
     
     // Create the body of the email.
     xml_document document;
@@ -455,7 +456,7 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
 
     // Add some information for the user.
     node = document.append_child ("p");
-    node.text ().set ("You sent changes to the Cloud. The changes were merged with other changes already in the Cloud. During the merge, the Cloud failed to merge the crossed out parts below. They were replaced with the bold text below. You may want to check the changes or resend them.");
+    node.text ().set ("You sent changes to the Cloud. The changes were merged with other changes already in the Cloud. The crossed out parts below could not be merged. They were replaced with the bold text below. You may want to check the changes or resend them.");
 
     // Go over each verse where the change differs from the resulting text that was saved.
     // For each verse, outline the difference between the change and the result.

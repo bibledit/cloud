@@ -32,6 +32,8 @@ public:
   string prioritized_change;
   string result;
   string subject;
+  // The following show the passage where the conflict occurred.
+  // But this is not yet implemented throughout, only where it matters.
   int book = 0;
   int chapter = 0;
 };

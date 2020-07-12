@@ -97,7 +97,7 @@ string filter_merge_graphemes2lines (string data)
 
 
 void filter_merge_detect_conflict (string base, string change, string prioritized_change, string result,
-                                   vector <Merge_Conflict> & conflicts) // Todo add passage here.
+                                   vector <Merge_Conflict> & conflicts)
 {
   // Clean input.
   base = filter_string_trim (base);
@@ -144,7 +144,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
   }
   
   if (irregularity) {
-    Merge_Conflict conflict; // Todo
+    Merge_Conflict conflict;
     conflict.base = base;
     conflict.change = change;
     conflict.prioritized_change = prioritized_change;
@@ -167,7 +167,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
 // If $clever, it calls a more clever routine when it fails to merge.
 string filter_merge_run (string base, string change, string prioritized_change,
                          bool clever,
-                         vector <Merge_Conflict> & conflicts) // Todo add passage here.
+                         vector <Merge_Conflict> & conflicts)
 {
   // Trim the input.
   base = filter_string_trim (base);
@@ -238,7 +238,7 @@ string filter_merge_run (string base, string change, string prioritized_change,
 // $prioritized_change: Data as modified by a user but prioritized.
 // The filter uses a three-way merge algorithm.
 string filter_merge_run_clever (string base, string change, string prioritized_change,
-                                vector <Merge_Conflict> & conflicts) // Todo add passage here.
+                                vector <Merge_Conflict> & conflicts)
 {
   // Get the verse numbers in the changed text.
   vector <int> verses = usfm_get_verse_numbers (change);

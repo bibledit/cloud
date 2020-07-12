@@ -420,7 +420,7 @@ string bible_logic_unsent_unreceived_data_warning ()
 }
 
 
-void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_Conflict> conflicts) // Todo
+void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_Conflict> conflicts)
 {
   if (conflicts.empty ()) return;
   

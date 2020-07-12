@@ -32,6 +32,9 @@ public:
   string prioritized_change;
   string result;
   string subject;
+  string bible;
+  int book = 0;
+  int chapter = 0;
 };
 
 

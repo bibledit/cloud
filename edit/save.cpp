@@ -149,7 +149,6 @@ string edit_save (void * webserver_request)
     conflict.prioritized_change = server_usfm;
     conflict.result = user_usfm;
     conflict.subject = "This is to test what's going on";
-    conflict.bible = "Shona";
     conflict.book = 2;
     conflict.chapter = 119;
     conflicts.push_back (conflict); // Todo

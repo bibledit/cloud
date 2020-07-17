@@ -28,3 +28,17 @@ function debugLog (message)
   });
 }
 
+
+function showAlertWithTimeout ()
+{
+  notifyItSuccess ("The keyboard is blocked for a short while")
+  $("#textinput").prop ("readonly", true);
+  setTimeout (enableTextInput, 1000);
+}
+
+
+function enableTextInput ()
+{
+  $("#textinput").prop ("readonly", false);
+}
+

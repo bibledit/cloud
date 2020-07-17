@@ -237,7 +237,7 @@ function oneverseEditorLoadVerse ()
           if (oneverseVerseLoading in oneverseEditorSaveDate) {
             var seconds = (oneverseEditorLoadDate[oneverseVerseLoading].getTime() - oneverseEditorSaveDate[oneverseVerseLoading].getTime()) / 1000;
             if ((seconds < 2) | oneverseReloadFlag)  {
-              if (oneverseEditorWriteAccess) alert (oneverseEditorVerseUpdatedLoaded);
+              if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded); // Todo
             }
           }
           oneverseReloadFlag = false;
@@ -899,4 +899,31 @@ function oneverseSwipeRight (event)
   } else if (parent.window.navigatePreviousVerse != 'undefined') {
     parent.window.navigatePreviousVerse (event);
   }
+}
+
+
+/*
+
+Section for reload notifications.
+
+*/
+
+
+function oneverseReloadAlert (message) // Todo
+{
+  notifyItSuccess (message)
+  if (quill.hasFocus ()) {
+    // $("#editor").prop ("readonly", true);
+    quill.enable (false);
+    // Only if focused.
+    setTimeout (oneverseReloadAlertTimeout, 3000);
+  }
+}
+
+
+function oneverseReloadAlertTimeout ()
+{
+  //$("#editor").prop ("readonly", false);
+  quill.enable (oneverseEditorWriteAccess);
+  quill.focus ();
 }

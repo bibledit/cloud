@@ -108,7 +108,7 @@ function usfmEditorLoadChapter ()
     usfmBook = usfmNavigationBook;
     usfmChapter = usfmNavigationChapter;
     usfmIdChapter = 0;
-    if (usfmEditorWriteAccess) $ ("#usfmeditor").focus;
+    if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
     usfmCaretPosition = usfmGetCaretPosition ();
     $.ajax ({
       url: "load",
@@ -146,7 +146,7 @@ function usfmEditorLoadChapter ()
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
           if ((seconds < 2) | usfmReload) {
-            if (usfmEditorWriteAccess) alert (usfmEditorVerseUpdatedLoaded);
+            if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded); // Todo
           }
           usfmReload = false;
         } else {
@@ -208,7 +208,7 @@ function usfmEditorSaveChapter (sync)
       usfmSaveDate = new Date();
       var seconds = (usfmSaveDate.getTime() - usfmLoadDate.getTime()) / 1000;
       if (seconds < 2) {
-        if (usfmEditorWriteAccess) alert (usfmEditorVerseUpdatedLoaded);
+        if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded); // Todo
       }
     }
   });
@@ -525,6 +525,38 @@ function usfmPositionFocusedVerseViaAjax ()
   });
 }
 
+                             
+/*
+
+Section for reload notifications.
+
+*/
+
+
+function usfmEditorReloadAlert (message) // Todo
+{
+  notifyItSuccess (message)
+  var editor = $ ("#usfmeditor");
+  if (editor.is (":focus")) {
+    // $("#editor").prop ("readonly", true);
+    //quill.enable (false);
+    editor.attr('contenteditable', false);
+    // Only if focused.
+    setTimeout (usfmEditorReloadAlertTimeout, 3000);
+  }
+}
+
+
+function usfmEditorReloadAlertTimeout ()
+{
+  var editor = $ ("#usfmeditor");
+  //$("#editor").prop ("readonly", false);
+  editor.attr('contenteditable', usfmEditorWriteAccess);
+  //quill.enable (editorWriteAccess);
+  editor.focus ();
+}
+
+                             
 // Note that some focus operations were removed for a situation where the workspace has two editors, and the user edits in the visual editor, and then the USFM editor grabs focus, and then the user keeps typing, so he or she was expecting to type in the visual editor but is now typing in the USFM editor.
 // Due to removing the focus operations, the caret positioner no longer works when the USFM editor is not focused.
 // A new USFM chapter editor could be having multiple editors: One for each line, or rather one for each verse. These editors could be loaded from the server separately, each time it loads a verse line. This system makes placing the caret and scrolling the caret into view easier. Because the javascript just places the caret in a known <div> and scrolls that <div> into view.

@@ -218,7 +218,7 @@ function editorLoadChapter (reload)
         editorLoadDate = new Date();
         var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
         if ((seconds < 2) || reload) {
-          if (editorWriteAccess) alert (editorChapterVerseUpdatedLoaded);
+          if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded); // Todo
         }
       } else {
         // Checksum error: Reload.
@@ -275,7 +275,7 @@ function editorSaveChapter (sync)
       editorSaveDate = new Date();
       var seconds = (editorSaveDate.getTime() - editorLoadDate.getTime()) / 1000;
       if (seconds < 2) {
-        if (editorWriteAccess) alert (editorChapterVerseUpdatedLoaded);
+        if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded); // Todo
       }
     },
   });
@@ -1066,4 +1066,30 @@ function editorSwipeRight (event)
   }
 }
 
+
+/*
+
+Section for reload notifications.
+
+*/
+
+
+function editorReloadAlert (message) // Todo
+{
+  notifyItSuccess (message)
+  if (quill.hasFocus ()) {
+    // $("#editor").prop ("readonly", true);
+    quill.enable (false);
+    // Only if focused.
+    setTimeout (editorReloadAlertTimeout, 3000);
+  }
+}
+
+
+function editorReloadAlertTimeout ()
+{
+  //$("#editor").prop ("readonly", false);
+  quill.enable (editorWriteAccess);
+  quill.focus ();
+}
 

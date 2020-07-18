@@ -911,11 +911,10 @@ Section for reload notifications.
 
 function oneverseReloadAlert (message) // Todo
 {
-  notifyItSuccess (message)
+  // Take action only if the editor has focus and the user can type in it.
   if (quill.hasFocus ()) {
-    // $("#editor").prop ("readonly", true);
+    notifyItSuccess (message)
     quill.enable (false);
-    // Only if focused.
     setTimeout (oneverseReloadAlertTimeout, 3000);
   }
 }
@@ -923,7 +922,6 @@ function oneverseReloadAlert (message) // Todo
 
 function oneverseReloadAlertTimeout ()
 {
-  //$("#editor").prop ("readonly", false);
   quill.enable (oneverseEditorWriteAccess);
   quill.focus ();
 }

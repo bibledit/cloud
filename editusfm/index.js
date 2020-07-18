@@ -535,13 +535,11 @@ Section for reload notifications.
 
 function usfmEditorReloadAlert (message) // Todo
 {
-  notifyItSuccess (message)
+  // Take action only if the editor has focus and the user can type in it.
   var editor = $ ("#usfmeditor");
   if (editor.is (":focus")) {
-    // $("#editor").prop ("readonly", true);
-    //quill.enable (false);
+    notifyItSuccess (message)
     editor.attr('contenteditable', false);
-    // Only if focused.
     setTimeout (usfmEditorReloadAlertTimeout, 3000);
   }
 }
@@ -550,9 +548,7 @@ function usfmEditorReloadAlert (message) // Todo
 function usfmEditorReloadAlertTimeout ()
 {
   var editor = $ ("#usfmeditor");
-  //$("#editor").prop ("readonly", false);
   editor.attr('contenteditable', usfmEditorWriteAccess);
-  //quill.enable (editorWriteAccess);
   editor.focus ();
 }
 

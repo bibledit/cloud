@@ -237,7 +237,7 @@ function oneverseEditorLoadVerse ()
           if (oneverseVerseLoading in oneverseEditorSaveDate) {
             var seconds = (oneverseEditorLoadDate[oneverseVerseLoading].getTime() - oneverseEditorSaveDate[oneverseVerseLoading].getTime()) / 1000;
             if ((seconds < 2) | oneverseReloadFlag)  {
-              if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded); // Todo
+              if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
             }
           }
           oneverseReloadFlag = false;
@@ -737,7 +737,7 @@ function oneverseCaretMovedTimeoutStart ()
 var oneverseInsertedNotesCount = 0;
 
 
-function oneverseApplyNotesStyle (style) // Todo
+function oneverseApplyNotesStyle (style)
 {
   if (!oneverseEditorWriteAccess) return;
 
@@ -762,7 +762,7 @@ function oneverseApplyNotesStyle (style) // Todo
   quill.setSelection (caret, 0);
   quill.insertText (caret, caller, "character", "notecall" + noteId, "user");
 
-  // Append note text to notes section. Todo
+  // Append note text to notes section.
   assetsEditorAddNote (quill, style, caller, noteId, oneverseNavigationChapter, oneverseNavigationVerse);
 
   oneverseInsertedNotesCount++;
@@ -892,7 +892,7 @@ Section for reload notifications.
 */
 
 
-function oneverseReloadAlert (message) // Todo
+function oneverseReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
   if (quill.hasFocus ()) {

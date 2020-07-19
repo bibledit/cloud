@@ -1,6 +1,7 @@
 /access
 /assets
 /assets/checkbox.js
+/assets/editor.js
 /assets/error.html
 /assets/external.js
 /assets/footer.html

@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-function assetsEditorAddNote (quill, style, caller, noteId, chapter, verse) // Todo
+function assetsEditorAddNote (quill, style, caller, noteId, chapter, verse)
 {
   // <p class="b-f"><span class="i-notebody1">1</span> + .</p>
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1.1 </span><span class="i-fk">keyword </span><span class="i-ft">Footnote text.</span></p>

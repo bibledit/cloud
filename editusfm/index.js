@@ -146,7 +146,7 @@ function usfmEditorLoadChapter ()
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
           if ((seconds < 2) | usfmReload) {
-            if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded); // Todo
+            if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
           }
           usfmReload = false;
         } else {
@@ -208,7 +208,7 @@ function usfmEditorSaveChapter (sync)
       usfmSaveDate = new Date();
       var seconds = (usfmSaveDate.getTime() - usfmLoadDate.getTime()) / 1000;
       if (seconds < 2) {
-        if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded); // Todo
+        if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
       }
     }
   });
@@ -533,7 +533,7 @@ Section for reload notifications.
 */
 
 
-function usfmEditorReloadAlert (message) // Todo
+function usfmEditorReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
   var editor = $ ("#usfmeditor");

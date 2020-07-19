@@ -218,7 +218,7 @@ function editorLoadChapter (reload)
         editorLoadDate = new Date();
         var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
         if ((seconds < 2) || reload) {
-          if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded); // Todo
+          if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
         }
       } else {
         // Checksum error: Reload.
@@ -275,7 +275,7 @@ function editorSaveChapter (sync)
       editorSaveDate = new Date();
       var seconds = (editorSaveDate.getTime() - editorLoadDate.getTime()) / 1000;
       if (seconds < 2) {
-        if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded); // Todo
+        if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
       }
     },
   });
@@ -888,7 +888,7 @@ Section for the notes.
 var editorInsertedNotesCount = 0;
 
 
-function applyNotesStyle (style) // Todo
+function applyNotesStyle (style)
 {
   if (!editorWriteAccess) return;
 
@@ -912,7 +912,7 @@ function applyNotesStyle (style) // Todo
   quill.setSelection (caret, 0);
   quill.insertText (caret, caller, "character", "notecall" + noteId, "user");
 
-  // Append note text to notes section. Todo
+  // Append note text to notes section.
   assetsEditorAddNote (quill, style, caller, noteId, editorNavigationChapter, editorNavigationVerse);
 
   editorInsertedNotesCount++;
@@ -1057,7 +1057,7 @@ Section for reload notifications.
 */
 
 
-function editorReloadAlert (message) // Todo
+function editorReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
   if (quill.hasFocus ()) {

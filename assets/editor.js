@@ -21,21 +21,29 @@ function assetsEditorAddNote (quill, style, caller, noteId, chapter, verse) // T
 {
   // <p class="b-f"><span class="i-notebody1">1</span> + .</p>
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1.1 </span><span class="i-fk">keyword </span><span class="i-ft">Footnote text.</span></p>
+  // Footnote uses \fr \fk \ft.
+  // Cross reference uses \xo \xk \xt.
   var length = quill.getLength ();
   quill.insertText (length, "\n", "paragraph", style, "user");
   quill.insertText (length, caller, "character", "notebody" + noteId, "user");
   length++;
   quill.insertText (length, " + ", "character", "", "user");
   length += 3;
-  var reference = chapter + "." + verse;
-  quill.insertText (length, reference, "character", "fr", "user");
-  length += reference.length;
-  quill.insertText (length, " ", "character", "fk", "user");
+  var referenceText = chapter + "." + verse;
+  var referenceStyle = "fr";
+  if (style == "x") referenceStyle = "xo";
+  quill.insertText (length, referenceText, "character", referenceStyle, "user");
+  length += referenceText.length;
+  var keywordStyle = "fk";
+  if (style == "x") keywordStyle = "xk";
+  quill.insertText (length, " ", "character", keywordStyle, "user");
   length++;
-  quill.insertText (length, "keyword", "character", "fk", "user");
+  quill.insertText (length, "keyword", "character", keywordStyle, "user");
   length += 7;
-  quill.insertText (length, " ", "character", "ft", "user");
+  var textStyle = "ft";
+  if (style == "x") textStyle = "xt";
+  quill.insertText (length, " ", "character", textStyle, "user");
   length++;
-  quill.insertText (length, "Text.", "character", "ft", "user");
+  quill.insertText (length, "Text.", "character", textStyle, "user");
 }
 

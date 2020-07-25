@@ -709,10 +709,10 @@ function visualVerseEditorSelectionChangeHandler (range, oldRange, source)
 {
   // Bail out if editor not focused.
   if (!range) return;
-  
+
   // Bail out if text was selected.
   if (range.length != 0) return;
-  
+
   oneverseCaretMovedTimeoutStart ();
 }
 

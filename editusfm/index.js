@@ -90,6 +90,11 @@ function navigationNewPassage ()
   } else {
     return;
   }
+  if ((usfmNavigationBook != usfmBook) || (usfmNavigationChapter != usfmChapter)) {
+    // Fixed: Reload text message when switching to another chapter.
+    // https://github.com/bibledit/cloud/issues/408
+    usfmSaveDate = new Date(0);
+  }
   usfmEditorSaveChapter ();
   usfmReload = false;
   usfmEditorLoadChapter ();

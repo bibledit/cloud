@@ -144,6 +144,13 @@ function navigationNewPassage ()
   } else {
     return;
   }
+
+  if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter)) {
+    // Fixed: Reload text message when switching to another chapter.
+    // https://github.com/bibledit/cloud/issues/408
+    oneverseEditorSaveDate = {};
+  }
+  
   oneverseEditorSaveVerse (true);
   oneverseReloadFlag = false;
   oneverseEditorLoadVerse ();

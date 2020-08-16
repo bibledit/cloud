@@ -35,7 +35,7 @@ $ (document).ready (function ()
   
   $ (window).on ("unload", oneverseEditorUnload);
   
-  oneverseIdPoller ();
+  oneverseIdPollerOn ();
 
   oneverseBindUnselectable ();
   
@@ -112,7 +112,6 @@ var oneverseVerseLoaded;
 var oneverseEditorChangedTimeout;
 var oneverseLoadedText;
 var oneverseIdChapter = 0;
-var oneverseIdTimeout;
 var oneverseReloadFlag = false;
 var oneverseReloadPosition = undefined;
 var oneverseEditorTextChanged = false;
@@ -120,8 +119,8 @@ var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
 var oneverseEditorWriteAccess = true;
-var oneverseEditorLoadDate = {};
-var oneverseEditorSaveDate = {};
+var oneverseEditorLoadDate = new Date(0);
+var oneverseEditorSaveDate = new Date(0);
 
 
 //
@@ -145,15 +144,19 @@ function navigationNewPassage ()
     return;
   }
 
-  if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter)) {
-    // Fixed: Reload text message when switching to another chapter.
-    // https://github.com/bibledit/cloud/issues/408
-    oneverseEditorSaveDate = {};
-  }
-  
+  //if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter)) {
+  //}
+  // Fixed: Reload text message when switching to another chapter.
+  // https://github.com/bibledit/cloud/issues/408
+  // Going to another verse, it also resets the editor save timer,
+  // and the chapter identifier poller.
+  oneverseIdPollerOff ();
+  oneverseEditorSaveDate = new Date(0);
   oneverseEditorSaveVerse (true);
+  oneverseEditorSaveDate = new Date(0);
   oneverseReloadFlag = false;
   oneverseEditorLoadVerse ();
+  oneverseIdPollerOn ();
 }
 
 
@@ -178,7 +181,7 @@ function oneverseEditorLoadVerse ()
     } else {
       oneverseReloadPosition = undefined;
       // When saving and immediately going to another verse, do not give an alert.
-      oneverseEditorSaveDate[oneverseVerseLoading] = new Date(0);
+      oneverseEditorSaveDate = new Date(0);
     }
     if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
       oneverseLoadAjaxRequest.abort();
@@ -240,12 +243,10 @@ function oneverseEditorLoadVerse ()
           oneverseScrollVerseIntoView ();
           oneversePositionCaret ();
           // https://github.com/bibledit/cloud/issues/346
-          oneverseEditorLoadDate[oneverseVerseLoading] = new Date();
-          if (oneverseVerseLoading in oneverseEditorSaveDate) {
-            var seconds = (oneverseEditorLoadDate[oneverseVerseLoading].getTime() - oneverseEditorSaveDate[oneverseVerseLoading].getTime()) / 1000;
-            if ((seconds < 2) | oneverseReloadFlag)  {
-              if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
-            }
+          oneverseEditorLoadDate = new Date();
+          var seconds = oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime() / 1000;
+          if ((seconds < 2) | oneverseReloadFlag)  {
+            if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
           }
           oneverseReloadFlag = false;
         }
@@ -304,7 +305,7 @@ function oneverseEditorSaveVerse (sync)
     complete: function (xhr, status) {
       oneverseSaveAsync = true;
       oneverseSaving = false;
-      oneverseEditorSaveDate [oneverseVerseLoaded] = new Date();
+      oneverseEditorSaveDate = new Date();
     }
   });
 }
@@ -388,39 +389,58 @@ function oneverseEditorSelectiveNotification (message)
 //
 
 
-function oneverseIdPoller ()
+var oneverseIdTimeout;
+var oneverseIdAjaxRequest;
+
+
+function oneverseIdPollerOff ()
 {
   if (oneverseIdTimeout) {
     clearTimeout (oneverseIdTimeout);
   }
+  if (oneverseIdAjaxRequest && oneverseIdAjaxRequest.readystate != 4) {
+    oneverseIdAjaxRequest.abort();
+  }
+}
+
+
+function oneverseIdPollerOn ()
+{
+  oneverseIdPollerOff ();
   oneverseIdTimeout = setTimeout (oneverseEditorPollId, 1000);
 }
 
 
 function oneverseEditorPollId ()
 {
-  $.ajax ({
+  if (oneverseSaving) {
+    oneverseIdPollerOn ();
+    return;
+  }
+  oneverseIdAjaxRequest = $.ajax ({
     url: "../edit/id",
     type: "GET",
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
     cache: false,
     success: function (response) {
-      if (!oneverseSaving) {
-        if (oneverseIdChapter != 0) {
-          if (response != oneverseIdChapter) {
-            if (oneverseEditorTextChanged) {
-              oneverseEditorSaveVerse (true);
-            }
-            oneverseReloadFlag = true;
-            oneverseEditorLoadVerse ();
-            oneverseIdChapter = 0;
+      if (oneverseIdChapter != 0) {
+        if (response != oneverseIdChapter) {
+          if (oneverseEditorTextChanged) {
+            oneverseEditorSaveVerse (true);
           }
+          oneverseReloadFlag = true;
+          oneverseEditorLoadVerse ();
+          oneverseIdChapter = 0;
         }
-        oneverseIdChapter = response;
       }
+      oneverseIdChapter = response;
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
     },
     complete: function (xhr, status) {
-      oneverseIdPoller ();
+      if (status != "abort") {
+        oneverseIdPollerOn ();
+      }
     }
   });
 }

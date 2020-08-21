@@ -505,3 +505,17 @@ void Database_Config_General::setDisableSelectionPopupChromeOS (bool value)
 {
   setBValue (disable_selection_popup_chrome_os_key (), value);
 }
+
+
+const char * notes_verse_separator_key ()
+{
+  return "notes-verse-separator";
+}
+string Database_Config_General::getNotesVerseSeparator ()
+{
+  return getValue (notes_verse_separator_key (), ".");
+}
+void Database_Config_General::setNotesVerseSeparator (string value)
+{
+  setValue (notes_verse_separator_key (), value);
+}

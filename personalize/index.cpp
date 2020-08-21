@@ -453,6 +453,24 @@ string personalize_index (void * webserver_request)
   }
 
   
+  // Setting for the verse separator during notes entry.
+  const char * verseseparator = "verseseparator";
+  if (request->query.count (verseseparator)) {
+    string verse_separator = request->query[verseseparator];
+    if (verse_separator.empty ()) {
+      Dialog_List dialog_list = Dialog_List ("index", translate("Which verse separator to use for notes entry?"), "", "");
+      dialog_list.add_row (menu_logic_verse_separator ("."), verseseparator, ".");
+      dialog_list.add_row (menu_logic_verse_separator (":"), verseseparator, ":");
+      page += dialog_list.run ();
+      return page;
+    } else {
+      Database_Config_General::setNotesVerseSeparator (verse_separator);
+    }
+  }
+  view.set_variable (verseseparator,
+                     menu_logic_verse_separator (Database_Config_General::getNotesVerseSeparator ()));
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

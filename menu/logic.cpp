@@ -1220,3 +1220,15 @@ void menu_logic_tabbed_mode_save_json (void * webserver_request)
 
   Database_Config_General::setMenuInTabbedViewJSON (json);
 }
+
+
+string menu_logic_verse_separator (string separator)
+{
+  if (separator == ".") {
+    return translate ("dot") + " ( . )";
+  }
+  if (separator == ":") {
+    return translate ("colon") + " ( : )";
+  }
+  return " ( " + separator + " ) ";
+}

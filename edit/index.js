@@ -917,7 +917,7 @@ function applyNotesStyle (style)
   quill.insertText (caret, caller, "character", "notecall" + noteId, "user");
 
   // Append note text to notes section.
-  assetsEditorAddNote (quill, style, caller, noteId, editorNavigationChapter, editorNavigationVerse);
+  assetsEditorAddNote (quill, style, caller, noteId, editorNavigationChapter, verseSeparator, editorNavigationVerse);
 
   editorInsertedNotesCount++;
   

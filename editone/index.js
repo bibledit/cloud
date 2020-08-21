@@ -790,7 +790,7 @@ function oneverseApplyNotesStyle (style)
   quill.insertText (caret, caller, "character", "notecall" + noteId, "user");
 
   // Append note text to notes section.
-  assetsEditorAddNote (quill, style, caller, noteId, oneverseNavigationChapter, oneverseNavigationVerse);
+  assetsEditorAddNote (quill, style, caller, noteId, oneverseNavigationChapter, verseSeparator, oneverseNavigationVerse);
 
   oneverseInsertedNotesCount++;
   

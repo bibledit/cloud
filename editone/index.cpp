@@ -30,6 +30,7 @@
 #include <locale/logic.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
+#include <database/config/general.h>
 #include <fonts/logic.h>
 #include <navigation/passage.h>
 #include <dialog/list.h>
@@ -112,7 +113,8 @@ string editone_index (void * webserver_request)
   "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"
   "var oneverseEditorVerseRetrying = '" + locale_logic_text_retrying () + "';\n"
   "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
+  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
+  "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 

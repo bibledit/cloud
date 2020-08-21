@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-function assetsEditorAddNote (quill, style, caller, noteId, chapter, verse)
+function assetsEditorAddNote (quill, style, caller, noteId, chapter, separator, verse)
 {
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1.1 </span><span class="i-fk"> keyword </span><span class="i-ft"> Footnote text.</span></p>
   // Footnote uses \fr \fk \ft.
@@ -28,7 +28,7 @@ function assetsEditorAddNote (quill, style, caller, noteId, chapter, verse)
   length++;
   quill.insertText (length, " + ", "character", "", "user");
   length += 3;
-  var referenceText = chapter + "." + verse + " ";
+  var referenceText = chapter + separator + verse + " ";
   var referenceStyle = "fr";
   if (style == "x") referenceStyle = "xo";
   quill.insertText (length, referenceText, "character", referenceStyle, "user");

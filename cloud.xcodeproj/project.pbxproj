@@ -921,7 +921,6 @@
 		CAA4D4761A45A649003ABA25 /* request.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = request.h; sourceTree = "<group>"; };
 		CAA4D4771A45A649003ABA25 /* webserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = webserver.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		CAA4D4781A45A649003ABA25 /* webserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = webserver.h; sourceTree = "<group>"; };
-		CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = bibledit.xcodeproj; sourceTree = "<group>"; };
 		CAA4D4A31A460861003ABA25 /* indexm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indexm.html; sourceTree = "<group>"; };
 		CAA4D4A51A460861003ABA25 /* sheetm.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = sheetm.html; sourceTree = "<group>"; };
 		CAA4D4A61A460861003ABA25 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
@@ -3181,19 +3180,6 @@
 			path = webserver;
 			sourceTree = "<group>";
 		};
-		CAA4D4831A45A649003ABA25 /* xcode */ = {
-			isa = PBXGroup;
-			children = (
-				CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */,
-			);
-			name = xcode;
-			sourceTree = "<group>";
-		};
-		CAA4D4851A45A649003ABA25 /* Products */ = {
-			isa = PBXGroup;
-			name = Products;
-			sourceTree = "<group>";
-		};
 		CAA9C1C51C651A93006D8709 /* notifit */ = {
 			isa = PBXGroup;
 			children = (
@@ -3323,7 +3309,6 @@
 				CAA4D4641A45A649003ABA25 /* webbb */,
 				CAA4D4691A45A649003ABA25 /* webserver */,
 				CA1013FD1DB26A22009FE31F /* workspace */,
-				CAA4D4831A45A649003ABA25 /* xcode */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -3744,12 +3729,6 @@
 			);
 			mainGroup = CAB29AC01A4480CC00139BD7;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = CAA4D4851A45A649003ABA25 /* Products */;
-					ProjectRef = CAA4D4841A45A649003ABA25 /* bibledit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				CAB29AC51A4480CC00139BD7 /* bibledit */,

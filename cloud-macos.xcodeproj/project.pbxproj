@@ -529,15 +529,17 @@
 		CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475624F1786C003165BB /* libxml2.tbd */; };
 		CADE475A24F17CF0003165BB /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475924F17CF0003165BB /* libmimetic.0.dylib */; };
 		CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475B24F17D04003165BB /* libcurl.dylib */; };
+		CADE475E24F1996D003165BB /* cloud-macos in CopyFiles */ = {isa = PBXBuildFile; fileRef = CA18ADBF24F169DA00FF603C /* cloud-macos */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		CA18ADBD24F169DA00FF603C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = "";
+			dstPath = "/tmp/bibledit-dev";
 			dstSubfolderSpec = 0;
 			files = (
+				CADE475E24F1996D003165BB /* cloud-macos in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1420,7 +1422,6 @@
 		CADE3AA324F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3AA424F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3AA624F17424003165BB /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
-		CADE3AA724F17424003165BB /* generate */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = generate; sourceTree = "<group>"; };
 		CADE3AA924F17424003165BB /* i18n.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = i18n.sh; sourceTree = "<group>"; };
 		CADE3AAA24F17424003165BB /* i18n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = i18n.cpp; sourceTree = "<group>"; };
 		CADE3AAC24F17424003165BB /* flate.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = flate.o; sourceTree = "<group>"; };
@@ -3798,7 +3799,6 @@
 				CADE393F24F17422003165BB /* filter */,
 				CADE3AAB24F17424003165BB /* flate */,
 				CADE3A8D24F17424003165BB /* fonts */,
-				CADE3AA724F17424003165BB /* generate */,
 				CADE3B4E24F17425003165BB /* git */,
 				CADE399124F17422003165BB /* help */,
 				CADE3A9924F17424003165BB /* html */,

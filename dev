@@ -1,6 +1,15 @@
 #!/bin/bash
 
-# Run this script to sync all files to a temporary location.
-# Then run bibledit in that location.
-# This ensures that no databases are being created in the source tree.
-watch -n 1 "rsync -a --exclude=libbibledit.a . /tmp/bibledit-dev"
+echo Run this script to sync all files to a temporary location.
+echo Then run bibledit in that location.
+echo This ensures that no databases are being created in the source tree.
+echo Keep repeating it: $ watch -n 1 ./dev
+rsync -av --exclude=libbibledit.a . /tmp/bibledit-dev
+
+
+FILE=/tmp/bibledit-dev/cloud-macos
+if test -f "$FILE"; then
+    mv $FILE /tmp/bibledit-dev/server
+    echo Moved $FILE to server
+fi
+

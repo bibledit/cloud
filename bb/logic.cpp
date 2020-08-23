@@ -820,6 +820,7 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
 
+  bool differences_found = false;
   for (unsigned int i = 0; i < new_verses.size(); i++) {
     Filter_Text filter_text_old = Filter_Text (bible);
     Filter_Text filter_text_new = Filter_Text (bible);
@@ -838,14 +839,20 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
       string modification = filter_diff_diff (old_text, new_text);
       string fragment = /* convert_to_string (verse) + " " + */ modification;
       node.append_buffer (fragment.c_str (), fragment.size ());
+      differences_found = true;
     }
   }
+  // If no differences were found, bail out.
+  // This also handles differences in spacing.
+  // If the differences consist of whitespace only, bail out here.
+  // See issue https://github.com/bibledit/cloud/issues/413
+  if (!differences_found) return;
   
   // Convert the document to a string.
   stringstream output;
   document.print (output, "", format_raw);
   string html = output.str ();
-  
+
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
 }

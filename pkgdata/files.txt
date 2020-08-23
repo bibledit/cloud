@@ -48,6 +48,7 @@
 /classes
 /client
 /client/index.html
+/cloud-macos.entitlements
 /collaboration
 /collaboration/index.html
 /collaboration/link.html
@@ -253,7 +254,6 @@
 /fonts/Cardo-Regular.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
-/generate
 /git
 /git/gitflag
 /help
@@ -535,7 +535,6 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
-/server
 /session
 /session/login.html
 /session/login.js
@@ -761,7 +760,6 @@
 /tmp/holder
 /trash
 /trash/holder
-/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py

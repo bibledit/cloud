@@ -155,7 +155,7 @@ string edit_save (void * webserver_request)
   if (ancestor_usfm != server_usfm) {
     bible_logic_recent_save_email (bible, book, chapter, 0, username, ancestor_usfm, server_usfm);
   }
-  
+
   // Safely store the chapter.
   string explanation;
   string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);

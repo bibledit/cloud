@@ -85,10 +85,3 @@ void thread_cleanup ()
 #endif
 }
 
-
-void thread_suppress_unused_function_warnings ()
-{
-  unsigned long no_unused_function_warning = id_function();
-  (void) no_unused_function_warning;
-  locking_function(0, 0, "", 0);
-}

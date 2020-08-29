@@ -20,7 +20,6 @@
 #ifndef INCLUDED_WEBSERVER_IO_H
 #define INCLUDED_WEBSERVER_IO_H
 
-
 #include <config.h>
 #ifdef HAVE_WINDOWS
 #include <ws2tcpip.h>

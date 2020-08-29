@@ -254,6 +254,7 @@
 /fonts/Cardo-Regular.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
+/generate
 /git
 /git/gitflag
 /help
@@ -535,6 +536,7 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
+/server
 /session
 /session/login.html
 /session/login.js
@@ -760,6 +762,7 @@
 /tmp/holder
 /trash
 /trash/holder
+/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py
@@ -982,6 +985,10 @@
 /unittests/tests/merge_3_modification.usfm
 /unittests/tests/merge_3_result.usfm
 /unittests/tests/merge_3_server.usfm
+/unittests/tests/merge_4_base.usfm
+/unittests/tests/merge_4_modification.usfm
+/unittests/tests/merge_4_result.usfm
+/unittests/tests/merge_4_server.usfm
 /unittests/tests/nl.po
 /unittests/tests/notes.sqlite.damaged
 /unittests/tests/onlinebible1.exp

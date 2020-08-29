@@ -208,11 +208,11 @@ void test_paratext ()
     evaluate (__LINE__, __func__, 3, conflicts.size ());
     if (conflicts.size() == 3) {
       evaluate (__LINE__, __func__, R"(\v 1 paratext.)", conflicts[0].result);
-      evaluate (__LINE__, __func__, "Failed to merge: The existing text was kept", conflicts[0].subject);
+      evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[0].subject);
       evaluate (__LINE__, __func__, R"(\v 2 paratext.)", conflicts[1].result);
-      evaluate (__LINE__, __func__, "Failed to merge: The existing text was kept", conflicts[1].subject);
+      evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[1].subject);
       evaluate (__LINE__, __func__, filter_string_trim (paratext), conflicts[2].result);
-      evaluate (__LINE__, __func__, "Failed to merge: The existing text was kept", conflicts[1].subject);
+      evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[1].subject);
     }
   }
   

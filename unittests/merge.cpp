@@ -465,5 +465,28 @@ void test_merge ()
     evaluate (__LINE__, __func__, 0, conflicts.size ());
   }
 
+  // Merge situation taken from issue https://github.com/bibledit/cloud/issues/418
+  {
+    vector <Merge_Conflict> conflicts;
+    string path;
+    path = filter_url_create_root_path ("unittests", "tests", "merge_4_base.usfm");
+    string mergeBaseData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "merge_4_modification.usfm");
+    string userModificationData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "merge_4_server.usfm");
+    string serverModificationData = filter_url_file_get_contents (path);
+    path = filter_url_create_root_path ("unittests", "tests", "merge_4_result.usfm");
+    string standard = filter_url_file_get_contents (path);
+    
+    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
+    evaluate (__LINE__, __func__, standard, output);
+    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    
+    conflicts.clear ();
+    output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true, conflicts);
+    evaluate (__LINE__, __func__, standard, output);
+    evaluate (__LINE__, __func__, 0, conflicts.size ());
+  }
+
   refresh_sandbox (true);
 }

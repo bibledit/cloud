@@ -40,8 +40,15 @@ using namespace pugi;
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server)
+vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server) // Todo
 {
+  // See issue https://github.com/bibledit/cloud/issues/418
+  // It is unclear at this time whether the code below
+  // to find the differences between texts, is thread-safe.
+  // So just to be sure, a mutex is placed around it.
+  static mutex mutex1;
+  lock_guard<mutex> lock(mutex1);
+  
   typedef string elem;
   typedef vector <string> sequence;
 

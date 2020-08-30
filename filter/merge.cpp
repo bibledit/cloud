@@ -40,7 +40,7 @@ using namespace pugi;
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server) // Todo
+vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server)
 {
   // See issue https://github.com/bibledit/cloud/issues/418
   // It is unclear at this time whether the code below
@@ -49,11 +49,11 @@ vector <string> filter_merge_merge (const vector <string>& base, const vector <s
   static mutex mutex1;
   lock_guard<mutex> lock(mutex1);
 
-  vector <string> sequenceA (user);
-  vector <string> sequenceB (base);
-  vector <string> sequenceC (server);
+  vector <string> user_sequence (user);
+  vector <string> base_sequence (base);
+  vector <string> server_sequence (server);
 
-  Diff3 <string, vector <string>> diff3 (sequenceA, sequenceB, sequenceC);
+  Diff3 <string, vector <string>> diff3 (user_sequence, base_sequence, server_sequence);
   diff3.compose ();
   if (!diff3.merge ()) {
     return {};

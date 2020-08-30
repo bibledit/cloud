@@ -559,7 +559,7 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
                                             const string & user,
                                             const string & client_old,
                                             const string & client_new,
-                                            const string & server) // Todo
+                                            const string & server)
 {
   // No difference: Done.
   if (client_old == server) return;

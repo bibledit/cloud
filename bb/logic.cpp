@@ -773,7 +773,7 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
 
 void bible_logic_recent_save_email (const string & bible, int book, int chapter, int verse,
                                     const string & user,
-                                    const string & old_usfm, const string & new_usfm)
+                                    const string & old_usfm, const string & new_usfm) // Todo
 {
   (void) verse;
   
@@ -810,9 +810,7 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   string information;
   information.append (translate ("Bibledit saved the Bible text below."));
   information.append (" ");
-  information.append (translate ("But it found that other Bible text was saved to the same chapter."));
-  information.append (" ");
-  information.append (translate ("This may have been done by you or by someone else."));
+  information.append (translate ("But Bibledit is not entirely sure that all went well."));
   information.append (" ");
   information.append (translate ("You may want to check whether the Bible text was saved correctly."));
   node.text ().set (information.c_str());

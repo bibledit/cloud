@@ -60,12 +60,12 @@ string filter_diff_diff (string oldstring, string newstring)
   lock_guard<mutex> lock(mutex1);
 
   // Run the diff engine.
-  Diff <string> d (old_sequence, new_sequence);
-  d.compose();
+  Diff <string> diff (old_sequence, new_sequence);
+  diff.compose();
   
   // Get the shortest edit distance.
   stringstream result;
-  d.printSES (result);
+  diff.printSES (result);
 
   mutex1.unlock();
   
@@ -125,12 +125,12 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     lock_guard<mutex> lock(mutex1);
 
     // Run the diff engine.
-    Diff <string> d (old_sequence, new_sequence);
-    d.compose();
+    Diff <string> diff (old_sequence, new_sequence);
+    diff.compose();
     
     // Get the shortest edit distance.
     stringstream result;
-    d.printSES (result);
+    diff.printSES (result);
 
     mutex1.unlock();
     
@@ -182,12 +182,12 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   lock_guard<mutex> lock(mutex1);
 
   // Run the diff engine.
-  Diff <string> d (old_sequence, new_sequence);
-  d.compose();
+  Diff <string> diff (old_sequence, new_sequence);
+  diff.compose();
   
   // Get the shortest edit distance.
   stringstream result;
-  d.printSES (result);
+  diff.printSES (result);
 
   mutex1.unlock();
   

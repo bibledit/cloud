@@ -1038,7 +1038,7 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
   if (find (createdStyles.begin(), createdStyles.end (), style) == createdStyles.end()) {
     xml_node styleDomElement = officeStylesDomNode.append_child ("style:style");
     styleDomElement.append_attribute ("style:name") = convertStyleName (style).c_str();
-    styleDomElement.append_attribute ("style:display-name"), style.c_str();
+    styleDomElement.append_attribute ("style:display-name") = style.c_str();
     styleDomElement.append_attribute ("style:family") = "paragraph";
     styleDomElement.append_attribute ("style:parent-style-name") = "Heading";
     styleDomElement.append_attribute ("style:next-style-name") = "Text_20_body";

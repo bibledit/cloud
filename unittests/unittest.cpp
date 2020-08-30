@@ -142,6 +142,7 @@ int main (int argc, char **argv)
   test_dev ();
   test_merge ();
   test_diff ();
+  test_odf ();
   refresh_sandbox (true);
   exit (0);
   

@@ -56,7 +56,7 @@ string filter_diff_diff (string oldstring, string newstring)
   sequence oldvector = filter_string_explode (oldstring, ' ');
   sequence newvector = filter_string_explode (newstring, ' ');
   
-  // Run the diff engine.
+  // Run the diff engine. Todo
   Diff <elem> d (oldvector, newvector);
   d.compose();
   
@@ -116,7 +116,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
       newvector.push_back (newstring.substr (i, 1));
     }
 
-    // Run the diff engine.
+    // Run the diff engine. Todo mutex?
     Diff <elem> d (oldvector, newvector);
     d.compose();
     
@@ -168,7 +168,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   oldvector = filter_string_explode (oldstring, ' ');
   newvector = filter_string_explode (newstring, ' ');
   
-  // Run the diff engine.
+  // Run the diff engine. Todo mutex?
   Diff <elem> d (oldvector, newvector);
   d.compose();
   

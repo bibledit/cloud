@@ -42,10 +42,6 @@ using dtl::Diff;
 // The function returns the differences marked.
 string filter_diff_diff (string oldstring, string newstring)
 {
-  // Type definitions for the diff template engine.
-  typedef string elem;
-  typedef vector <string> sequence;
-
   // Save the new lines.
   string newline = " newline_newline_newline ";
   oldstring = filter_string_str_replace ("\n", newline, oldstring);
@@ -53,11 +49,11 @@ string filter_diff_diff (string oldstring, string newstring)
   
   // Split the input up into words.
   // It compares with word granularity.
-  sequence oldvector = filter_string_explode (oldstring, ' ');
-  sequence newvector = filter_string_explode (newstring, ' ');
+  vector <string> old_sequence = filter_string_explode (oldstring, ' ');
+  vector <string> new_sequence = filter_string_explode (newstring, ' ');
   
   // Run the diff engine. Todo
-  Diff <elem> d (oldvector, newvector);
+  Diff <string> d (old_sequence, new_sequence);
   d.compose();
   
   // Get the shortest edit distance.
@@ -99,25 +95,21 @@ string filter_diff_diff (string oldstring, string newstring)
 int filter_diff_character_similarity (string oldstring, string newstring)
 {
   try {
-
-    // Type definitions for the diff template engine.
-    typedef string elem;
-    typedef vector <string> sequence;
-    
+   
     // Split the input up into unicode characers.
-    sequence oldvector;
-    sequence newvector;
+    vector <string> old_sequence;
+    vector <string> new_sequence;
     size_t oldlength = oldstring.size();
     for (size_t i = 0; i < oldlength; i++) {
-      oldvector.push_back (oldstring.substr (i, 1));
+      old_sequence.push_back (oldstring.substr (i, 1));
     }
     size_t newlength = newstring.size();
     for (size_t i = 0; i < newlength; i++) {
-      newvector.push_back (newstring.substr (i, 1));
+      new_sequence.push_back (newstring.substr (i, 1));
     }
 
     // Run the diff engine. Todo mutex?
-    Diff <elem> d (oldvector, newvector);
+    Diff <string> d (old_sequence, new_sequence);
     d.compose();
     
     // Get the shortest edit distance.
@@ -156,20 +148,16 @@ int filter_diff_character_similarity (string oldstring, string newstring)
 // The output ranges from 0 to 100%.
 int filter_diff_word_similarity (string oldstring, string newstring)
 {
-  // Type definitions for the diff template engine.
-  typedef string elem;
-  typedef vector <string> sequence;
-  
   // Split the input up into words separated by spaces.
-  sequence oldvector;
-  sequence newvector;
+  vector <string> old_sequence;
+  vector <string> new_sequence;
   oldstring = filter_string_str_replace ("\n", " ", oldstring);
   newstring = filter_string_str_replace ("\n", " ", newstring);
-  oldvector = filter_string_explode (oldstring, ' ');
-  newvector = filter_string_explode (newstring, ' ');
+  old_sequence = filter_string_explode (oldstring, ' ');
+  new_sequence = filter_string_explode (newstring, ' ');
   
   // Run the diff engine. Todo mutex?
-  Diff <elem> d (oldvector, newvector);
+  Diff <string> d (old_sequence, new_sequence);
   d.compose();
   
   // Get the shortest edit distance.

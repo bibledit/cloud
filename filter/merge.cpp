@@ -48,15 +48,12 @@ vector <string> filter_merge_merge (const vector <string>& base, const vector <s
   // So just to be sure, a mutex is placed around it.
   static mutex mutex1;
   lock_guard<mutex> lock(mutex1);
-  
-  typedef string elem;
-  typedef vector <string> sequence;
 
-  sequence A (user);
-  sequence B (base);
-  sequence C (server);
+  vector <string> sequenceA (user);
+  vector <string> sequenceB (base);
+  vector <string> sequenceC (server);
 
-  Diff3 <elem, sequence> diff3 (A, B, C);
+  Diff3 <string, vector <string>> diff3 (sequenceA, sequenceB, sequenceC);
   diff3.compose ();
   if (!diff3.merge ()) {
     return {};

@@ -250,6 +250,7 @@ function oneverseEditorLoadVerse ()
           if (!oneverseReloadCozError) {
             var seconds = oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime() / 1000;
             if ((seconds < 2) | oneverseReloadCozChanged)  {
+              console.log ("seconds", seconds, "flag", oneverseReloadCozChanged);
               if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
             }
           }
@@ -273,7 +274,7 @@ function oneverseEditorUnload ()
 }
 
 
-function oneverseEditorSaveVerse (sync) // Todo try save network errors.
+function oneverseEditorSaveVerse (sync)
 {
   if (oneverseSaving) {
     oneverseEditorChanged ();
@@ -287,6 +288,10 @@ function oneverseEditorSaveVerse (sync) // Todo try save network errors.
   var html = $ (".ql-editor").html ();
   if (html == oneverseLoadedText) return;
   oneverseEditorStatus (oneverseEditorVerseSaving);
+  
+  // Chapter identifier poller off as network latency may lead to problems if left on.
+  oneverseIdPollerOff ();
+  
   oneverseLoadedText = html;
   oneverseIdChapter = 0;
   oneverseSaveAsync = true;
@@ -312,6 +317,7 @@ function oneverseEditorSaveVerse (sync) // Todo try save network errors.
       oneverseSaveAsync = true;
       oneverseSaving = false;
       oneverseEditorSaveDate = new Date();
+      oneverseIdPollerOn ();
     }
   });
 }
@@ -419,6 +425,13 @@ function oneverseIdPollerOn ()
 
 function oneverseEditorPollId ()
 {
+  // Due to network latency, there may be multiple ongoing polls.
+  // Multiple polls may return multiple chapter identifiers.
+  // This could lead to false "text reloaded" notifications.
+  // https://github.com/bibledit/cloud/issues/424
+  // To handle this, switch the poller off.
+  oneverseIdPollerOff ();
+  
   if (oneverseSaving) {
     oneverseIdPollerOn ();
     return;

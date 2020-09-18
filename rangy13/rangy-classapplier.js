@@ -536,11 +536,10 @@ SOFTWARE.
                 return "[Merge(" + textParts.join(",") + ")]";
             }
         };
-
         var optionProperties = ["elementTagName", "ignoreWhiteSpace", "applyToEditableOnly", "useExistingElements",
             "removeEmptyElements", "onElementCreate"];
 
-        // TODO: Populate this with every attribute name that corresponds to a property with a different name. Really??
+        // : Populate this with every attribute name that corresponds to a property with a different name. Really??
         var attrNamesForProperties = {};
 
         function ClassApplier(className, options, tagNames) {

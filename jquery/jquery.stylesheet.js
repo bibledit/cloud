@@ -76,7 +76,7 @@ version 0.3.7
 	 */
 	function parseSelector(selector) {
 		var styleSheet = (/.*?{/.exec(selector) || ['{'])[0],
-			selectorText = /{.*}/g.exec(selector); //TODO: replace selector with dict object
+			selectorText = /{.*}/g.exec(selector); //: replace selector with dict object
 		if(selectorText === null) {
 			var parts = selector.split('{');
 			selectorText = '{'+parts[parts.length==1 ? 0 : 1].split('}')[0]+'}';
@@ -163,7 +163,7 @@ version 0.3.7
 	function normalizeRule(rule, styleSheet) {
 		//NOTE: this is experimental, however, it does have it's benefits
 		//      for use with $.animate(), be sure to include jquery.stylesheet-animate.js as well
-		//TODO: move some of the defaults used here to user options
+		//: move some of the defaults used here to user options
 		rule.ownerDocument = rule.ownerDocument || document; //XXX: Hack for jQuery.isHidden()
 		rule.nodeType = rule.nodeType || 1; //XXX: Hack for jQuery's defaultPrefilter()
 		rule.nodeName = rule.nodeName || 'DIV'; //XXX: Hack for jQuery's acceptData()

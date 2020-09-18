@@ -248,7 +248,6 @@ function oneverseEditorLoadVerse ()
           oneverseEditorLoadDate = new Date();
           // In case of network error, don't keep showing the notification.
           if (!oneverseReloadCozError) {
-            // Todo
             var seconds = oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime() / 1000;
             if ((seconds < 2) | oneverseReloadCozChanged)  {
               if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
@@ -259,7 +258,7 @@ function oneverseEditorLoadVerse ()
         }
         if (response === false) {
           // Checksum or other error: Reload.
-          oneverseReloadCozError = true; // Todo
+          oneverseReloadCozError = true;
           oneverseEditorLoadVerse ();
         }
       },
@@ -435,7 +434,7 @@ function oneverseEditorPollId ()
           if (oneverseEditorTextChanged) {
             oneverseEditorSaveVerse (true);
           }
-          oneverseReloadCozChanged = true; // Todo not to set this during timeout?
+          oneverseReloadCozChanged = true;
           oneverseEditorLoadVerse ();
           oneverseIdChapter = 0;
         }
@@ -926,7 +925,7 @@ Section for reload notifications.
 */
 
 
-function oneverseReloadAlert (message) // Todo do reload prevention here perhaps?
+function oneverseReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
   if (!quill.hasFocus ()) return;

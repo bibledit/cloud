@@ -3862,7 +3862,7 @@ mz_bool mz_zip_reader_init_file_v2(mz_zip_archive *pZip, const char *pFilename, 
         file_size = MZ_FTELL64(pFile);
     }
 
-    /* TODO: Better sanity check archive_size and the # of actual remaining bytes */
+    /* Better sanity check archive_size and the # of actual remaining bytes */
 
     if (file_size < MZ_ZIP_END_OF_CENTRAL_DIR_HEADER_SIZE)
         return mz_zip_set_error(pZip, MZ_ZIP_NOT_AN_ARCHIVE);
@@ -4921,7 +4921,7 @@ mz_bool mz_zip_validate_file(mz_zip_archive *pZip, mz_uint file_index, mz_uint f
         } while (extra_size_remaining);
     }
 
-    /* TODO: parse local header extra data when local_header_comp_size is 0xFFFFFFFF! (big_descriptor.zip) */
+    /* parse local header extra data when local_header_comp_size is 0xFFFFFFFF! (big_descriptor.zip) */
     /* I've seen zips in the wild with the data descriptor bit set, but proper local header values and bogus data descriptors */
     if ((has_data_descriptor) && (!local_header_comp_size) && (!local_header_crc32))
     {
@@ -5489,13 +5489,13 @@ mz_bool mz_zip_writer_init_from_reader_v2(mz_zip_archive *pZip, const char *pFil
         return mz_zip_set_error(pZip, MZ_ZIP_INVALID_PARAMETER);
 
     /* Start writing new files at the archive's current central directory location. */
-    /* TODO: We could add a flag that lets the user start writing immediately AFTER the existing central dir - this would be safer. */
+    /* We could add a flag that lets the user start writing immediately AFTER the existing central dir - this would be safer. */
     pZip->m_archive_size = pZip->m_central_directory_file_ofs;
     pZip->m_central_directory_file_ofs = 0;
 
     /* Clear the sorted central dir offsets, they aren't useful or maintained now. */
     /* Even though we're now in write mode, files can still be extracted and verified, but file locates will be slow. */
-    /* TODO: We could easily maintain the sorted central directory offsets. */
+    /* We could easily maintain the sorted central directory offsets. */
     mz_zip_array_clear(pZip, &pZip->m_pState->m_sorted_central_dir_offsets);
 
     pZip->m_zip_mode = MZ_ZIP_MODE_WRITING;
@@ -5508,7 +5508,7 @@ mz_bool mz_zip_writer_init_from_reader(mz_zip_archive *pZip, const char *pFilena
     return mz_zip_writer_init_from_reader_v2(pZip, pFilename, 0);
 }
 
-/* TODO: pArchive_name is a terrible name here! */
+/* pArchive_name is a terrible name here! */
 mz_bool mz_zip_writer_add_mem(mz_zip_archive *pZip, const char *pArchive_name, const void *pBuf, size_t buf_size, mz_uint level_and_flags)
 {
     return mz_zip_writer_add_mem_ex(pZip, pArchive_name, pBuf, buf_size, NULL, 0, level_and_flags, 0, 0);
@@ -6392,7 +6392,7 @@ static mz_bool mz_zip_writer_update_zip64_extension_block(mz_zip_array *pNew_ext
     return MZ_TRUE;
 }
 
-/* TODO: This func is now pretty freakin complex due to zip64, split it up? */
+/*  This func is now pretty freakin complex due to zip64, split it up? */
 mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *pSource_zip, mz_uint src_file_index)
 {
     mz_uint n, bit_flags, num_alignment_padding_bytes, src_central_dir_following_data_size;
@@ -6433,7 +6433,7 @@ mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *
     src_ext_len = MZ_READ_LE16(pSrc_central_header + MZ_ZIP_CDH_EXTRA_LEN_OFS);
     src_central_dir_following_data_size = src_filename_len + src_ext_len + src_comment_len;
 
-    /* TODO: We don't support central dir's >= MZ_UINT32_MAX bytes right now (+32 fudge factor in case we need to add more extra data) */
+    /*  We don't support central dir's >= MZ_UINT32_MAX bytes right now (+32 fudge factor in case we need to add more extra data) */
     if ((pState->m_central_dir.m_size + MZ_ZIP_CENTRAL_DIR_HEADER_SIZE + src_central_dir_following_data_size + 32) >= MZ_UINT32_MAX)
         return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_CDIR_SIZE);
 
@@ -6446,7 +6446,7 @@ mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *
     }
     else
     {
-        /* TODO: Our zip64 support still has some 32-bit limits that may not be worth fixing. */
+        /* Our zip64 support still has some 32-bit limits that may not be worth fixing. */
         if (pZip->m_total_files == MZ_UINT32_MAX)
             return mz_zip_set_error(pZip, MZ_ZIP_TOO_MANY_FILES);
     }
@@ -6737,7 +6737,7 @@ mz_bool mz_zip_writer_add_from_zip_reader(mz_zip_archive *pZip, mz_zip_archive *
     /* This shouldn't trigger unless we screwed up during the initial sanity checks */
     if (pState->m_central_dir.m_size >= MZ_UINT32_MAX)
     {
-        /* TODO: Support central dirs >= 32-bits in size */
+        /* Support central dirs >= 32-bits in size */
         mz_zip_array_resize(pZip, &pState->m_central_dir, orig_central_dir_size, MZ_FALSE);
         return mz_zip_set_error(pZip, MZ_ZIP_UNSUPPORTED_CDIR_SIZE);
     }
@@ -6799,7 +6799,7 @@ mz_bool mz_zip_writer_finalize_archive(mz_zip_archive *pZip)
         MZ_CLEAR_OBJ(hdr);
         MZ_WRITE_LE32(hdr + MZ_ZIP64_ECDH_SIG_OFS, MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIG);
         MZ_WRITE_LE64(hdr + MZ_ZIP64_ECDH_SIZE_OF_RECORD_OFS, MZ_ZIP64_END_OF_CENTRAL_DIR_HEADER_SIZE - sizeof(mz_uint32) - sizeof(mz_uint64));
-        MZ_WRITE_LE16(hdr + MZ_ZIP64_ECDH_VERSION_MADE_BY_OFS, 0x031E); /* TODO: always Unix */
+        MZ_WRITE_LE16(hdr + MZ_ZIP64_ECDH_VERSION_MADE_BY_OFS, 0x031E); /* : always Unix */
         MZ_WRITE_LE16(hdr + MZ_ZIP64_ECDH_VERSION_NEEDED_OFS, 0x002D);
         MZ_WRITE_LE64(hdr + MZ_ZIP64_ECDH_CDIR_NUM_ENTRIES_ON_DISK_OFS, pZip->m_total_files);
         MZ_WRITE_LE64(hdr + MZ_ZIP64_ECDH_CDIR_TOTAL_ENTRIES_OFS, pZip->m_total_files);

@@ -172,7 +172,7 @@
 /*#define MINIZ_NO_MALLOC */
 
 #if defined(__TINYC__) && (defined(__linux) || defined(__linux__))
-/* TODO: Work around "error: include file 'sys\utime.h' when compiling with tcc on Linux */
+/* : Work around "error: include file 'sys\utime.h' when compiling with tcc on Linux */
 #define MINIZ_NO_TIME
 #endif
 
@@ -1207,7 +1207,7 @@ mz_bool mz_zip_reader_extract_file_to_cfile(mz_zip_archive *pZip, const char *pA
 #endif
 
 #if 0
-/* TODO */
+/*  */
 	typedef void *mz_zip_streaming_extract_state_ptr;
 	mz_zip_streaming_extract_state_ptr mz_zip_streaming_extract_begin(mz_zip_archive *pZip, mz_uint file_index, mz_uint flags);
 	uint64_t mz_zip_streaming_extract_get_size(mz_zip_archive *pZip, mz_zip_streaming_extract_state_ptr pState);
@@ -1303,7 +1303,7 @@ mz_bool mz_zip_writer_end(mz_zip_archive *pZip);
 /* mz_zip_add_mem_to_archive_file_in_place() efficiently (but not atomically) appends a memory blob to a ZIP archive. */
 /* Note this is NOT a fully safe operation. If it crashes or dies in some way your archive can be left in a screwed up state (without a central directory). */
 /* level_and_flags - compression level (0-10, see MZ_BEST_SPEED, MZ_BEST_COMPRESSION, etc.) logically OR'd with zero or more mz_zip_flags, or just set to MZ_DEFAULT_COMPRESSION. */
-/* TODO: Perhaps add an option to leave the existing central dir in place in case the add dies? We could then truncate the file (so the old central dir would be at the end) if something goes wrong. */
+/*  Perhaps add an option to leave the existing central dir in place in case the add dies? We could then truncate the file (so the old central dir would be at the end) if something goes wrong. */
 mz_bool mz_zip_add_mem_to_archive_file_in_place(const char *pZip_filename, const char *pArchive_name, const void *pBuf, size_t buf_size, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags);
 mz_bool mz_zip_add_mem_to_archive_file_in_place_v2(const char *pZip_filename, const char *pArchive_name, const void *pBuf, size_t buf_size, const void *pComment, mz_uint16 comment_size, mz_uint level_and_flags, mz_zip_error *pErr);
 

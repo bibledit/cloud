@@ -35,7 +35,7 @@ $(document).ready (function () {
     e.preventDefault();
     document.execCommand ("insertHTML", false, data);
   });
-  usfmIdPoller ();
+  usfmIdPollerOn ();
   $ ("#usfmeditor").on ("paste cut click", usfmCaretChanged);
   $ ("#usfmeditor").on ("keydown", usfmHandleKeyDown);
   if (usfmEditorWriteAccess) $ ("#usfmeditor").focus ();
@@ -62,7 +62,6 @@ var usfmNavigationVerse;
 var usfmEditorChangedTimeout;
 var usfmLoadedText;
 var usfmIdChapter = 0;
-var usfmIdTimeout;
 var usfmCaretTimeout;
 var usfmReload = false;
 var usfmCaretPosition = 0;
@@ -251,17 +250,31 @@ function usfmEditorSelectiveNotification (message)
 }
 
 
-function usfmIdPoller ()
+var usfmIdTimeout;
+var usfmIdAjaxRequest;
+
+
+function usfmIdPollerOff ()
 {
   if (usfmIdTimeout) {
     clearTimeout (usfmIdTimeout);
   }
+  if (usfmIdAjaxRequest && usfmIdAjaxRequest.readystate != 4) {
+    usfmIdAjaxRequest.abort();
+  }
+}
+
+
+function usfmIdPollerOn ()
+{
+  usfmIdPollerOff ();
   usfmIdTimeout = setTimeout (usfmEditorPollId, 1000);
 }
 
 
 function usfmEditorPollId ()
 {
+  usfmIdPollerOff ();
   $.ajax ({
     url: "../edit/id",
     type: "GET",
@@ -280,7 +293,9 @@ function usfmEditorPollId ()
       }
     },
     complete: function (xhr, status) {
-      usfmIdPoller ();
+      if (status != "abort") {
+        usfmIdPollerOn ();
+      }
     }
   });
 }

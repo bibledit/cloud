@@ -353,6 +353,18 @@ Section for polling the server for updates on the loaded chapter.
 
 var editorChapterIdOnServer = 0;
 var editorChapterIdPollerTimeoutId;
+var editorChapterIdAjaxRequest;
+
+
+function editorIdPollerTimeoutStop ()
+{
+  if (editorChapterIdPollerTimeoutId) {
+    clearTimeout (editorChapterIdPollerTimeoutId);
+  }
+  if (editorChapterIdAjaxRequest && editorChapterIdAjaxRequest.readystate != 4) {
+    editorChapterIdAjaxRequest.abort();
+  }
+}
 
 
 function editorIdPollerTimeoutStart ()
@@ -362,15 +374,16 @@ function editorIdPollerTimeoutStart ()
 }
 
 
-function editorIdPollerTimeoutStop ()
-{
-  if (editorChapterIdPollerTimeoutId) clearTimeout (editorChapterIdPollerTimeoutId);
-}
-
-
 function editorEditorPollId ()
 {
-  $.ajax ({
+  // Due to network latency, there may be multiple ongoing polls.
+  // Multiple polls may return multiple chapter identifiers.
+  // This could lead to false "text reloaded" notifications.
+  // https://github.com/bibledit/cloud/issues/424
+  // To handle this, switch the poller off.
+  editorIdPollerTimeoutStop ();
+
+  editorChapterIdAjaxRequest = $.ajax ({
     url: "id",
     type: "GET",
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
@@ -386,7 +399,9 @@ function editorEditorPollId ()
       }
     },
     complete: function (xhr, status) {
-      editorIdPollerTimeoutStart ();
+      if (status != "abort") {
+        editorIdPollerTimeoutStart ();
+      }
     }
   });
 }

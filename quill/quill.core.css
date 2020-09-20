@@ -1,36 +1,8 @@
 /*!
- * Quill Editor v1.1.5
+ * Quill Editor v1.3.6
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-1. Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-
-3. Neither the name of the copyright holder nor the names of its
-contributors may be used to endorse or promote products derived from
-this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
  */
 .ql-container {
   box-sizing: border-box;
@@ -42,6 +14,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 .ql-container.ql-disabled .ql-tooltip {
   visibility: hidden;
+}
+.ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {
+  pointer-events: none;
 }
 .ql-clipboard {
   left: -100000px;
@@ -56,7 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 .ql-editor {
   box-sizing: border-box;
-  cursor: text;
   line-height: 1.42;
   height: 100%;
   outline: none;
@@ -67,6 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+.ql-editor > * {
+  cursor: text;
 }
 .ql-editor p,
 .ql-editor ol,
@@ -92,28 +69,56 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   list-style-type: none;
 }
 .ql-editor ul > li::before {
-  content: '\25CF';
+  content: '\2022';
+}
+.ql-editor ul[data-checked=true],
+.ql-editor ul[data-checked=false] {
+  pointer-events: none;
+}
+.ql-editor ul[data-checked=true] > li *,
+.ql-editor ul[data-checked=false] > li * {
+  pointer-events: all;
+}
+.ql-editor ul[data-checked=true] > li::before,
+.ql-editor ul[data-checked=false] > li::before {
+  color: #777;
+  cursor: pointer;
+  pointer-events: all;
+}
+.ql-editor ul[data-checked=true] > li::before {
+  content: '\2611';
+}
+.ql-editor ul[data-checked=false] > li::before {
+  content: '\2610';
 }
 .ql-editor li::before {
   display: inline-block;
-  margin-right: 0.3em;
-  text-align: right;
   white-space: nowrap;
   width: 1.2em;
 }
 .ql-editor li:not(.ql-direction-rtl)::before {
   margin-left: -1.5em;
+  margin-right: 0.3em;
+  text-align: right;
 }
-.ql-editor ol li,
-.ql-editor ul li {
+.ql-editor li.ql-direction-rtl::before {
+  margin-left: 0.3em;
+  margin-right: -1.5em;
+}
+.ql-editor ol li:not(.ql-direction-rtl),
+.ql-editor ul li:not(.ql-direction-rtl) {
   padding-left: 1.5em;
+}
+.ql-editor ol li.ql-direction-rtl,
+.ql-editor ul li.ql-direction-rtl {
+  padding-right: 1.5em;
 }
 .ql-editor ol li {
   counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
-  counter-increment: list-num;
+  counter-increment: list-0;
 }
 .ql-editor ol li:before {
-  content: counter(list-num, decimal) '. ';
+  content: counter(list-0, decimal) '. ';
 }
 .ql-editor ol li.ql-indent-1 {
   counter-increment: list-1;
@@ -385,6 +390,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   color: rgba(0,0,0,0.6);
   content: attr(data-placeholder);
   font-style: italic;
+  left: 15px;
   pointer-events: none;
   position: absolute;
+  right: 15px;
 }

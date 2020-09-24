@@ -221,6 +221,7 @@ function editorLoadChapter (reload)
         // https://github.com/bibledit/cloud/issues/346
         editorLoadDate = new Date();
         var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
+        seconds = 2; // Todo
         if ((seconds < 2) || reload) {
           if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
         }
@@ -278,6 +279,7 @@ function editorSaveChapter (sync)
       editorSaving = false;
       editorSaveDate = new Date();
       var seconds = (editorSaveDate.getTime() - editorLoadDate.getTime()) / 1000;
+      seconds = 2; // Todo
       if (seconds < 2) {
         if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
       }

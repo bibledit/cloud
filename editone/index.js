@@ -249,8 +249,8 @@ function oneverseEditorLoadVerse ()
           // In case of network error, don't keep showing the notification.
           if (!oneverseReloadCozError) {
             var seconds = oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime() / 1000;
+            seconds = 2; // Todo
             if ((seconds < 2) | oneverseReloadCozChanged)  {
-              console.log ("seconds", seconds, "flag", oneverseReloadCozChanged);
               if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
             }
           }

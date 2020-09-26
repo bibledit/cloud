@@ -32,6 +32,7 @@ Assets_View::Assets_View ()
 #ifdef HAVE_BARE_BROWSER
   enable_zone ("bare_browser");
 #endif
+  set_variable("VERSION", config_logic_version ());
 }
 
 

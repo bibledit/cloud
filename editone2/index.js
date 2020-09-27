@@ -230,6 +230,11 @@ function oneverseEditorLoadVerse ()
           css4embeddedstyles ();
         }
         if (response !== false) {
+          editorChangeOffsets = []
+          editorChangeInserts = []
+          editorChangeDeletes = []
+        }
+        if (response !== false) {
           $ ("#onesuffix").empty ();
           $ ("#onesuffix").append (bits [2]);
           $ ("#onesuffix").off ("click");
@@ -319,9 +324,29 @@ function oneverseEditorSaveVerse (sync)
 //
 
 
+var editorChangeOffsets = [] // Todo
+var editorChangeInserts = []
+var editorChangeDeletes = []
+
+
 // Arguments: delta: Delta, oldContents: Delta, source: String
-function visualVerseEditorTextChangeHandler (delta, oldContents, source) // Todo
+function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 {
+  // Record the change.
+  var retain = 0;
+  var insert = 0;
+  var del = 0;
+  for (let i = 0; i < delta.ops.length; i++) {
+    let obj = delta.ops[i];
+    if (obj.retain) retain = obj.retain;
+    // For Unicode handling, see:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length
+    if (obj.insert) insert = obj.insert.length;
+    if (obj.delete) del = obj.delete;
+  }
+  editorChangeOffsets.push(retain);
+  editorChangeInserts.push(insert);
+  editorChangeDeletes.push(del);
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {
     quill.history.undo ();

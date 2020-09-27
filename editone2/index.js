@@ -120,8 +120,6 @@ var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
 var oneverseEditorWriteAccess = true;
-var oneverseEditorLoadDate = new Date(0);
-var oneverseEditorSaveDate = new Date(0);
 
 
 //
@@ -152,9 +150,7 @@ function navigationNewPassage ()
   // Going to another verse, it also resets the editor save timer,
   // and the chapter identifier poller.
   oneverseIdPollerOff ();
-  oneverseEditorSaveDate = new Date(0);
   oneverseEditorSaveVerse (true);
-  oneverseEditorSaveDate = new Date(0);
   oneverseReloadCozChanged = false;
   oneverseReloadCozError = false;
   oneverseEditorLoadVerse ();
@@ -182,8 +178,6 @@ function oneverseEditorLoadVerse ()
       oneverseReloadPosition = oneverseCaretPosition ();
     } else {
       oneverseReloadPosition = undefined;
-      // When saving and immediately going to another verse, do not give an alert.
-      oneverseEditorSaveDate = new Date(0);
     }
     if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
       oneverseLoadAjaxRequest.abort();
@@ -244,13 +238,9 @@ function oneverseEditorLoadVerse ()
         if (response !== false) {
           oneverseScrollVerseIntoView ();
           oneversePositionCaret ();
-          // https://github.com/bibledit/cloud/issues/346
-          oneverseEditorLoadDate = new Date();
           // In case of network error, don't keep showing the notification.
           if (!oneverseReloadCozError) {
-            var seconds = oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime() / 1000;
-            seconds = 2; // Todo
-            if ((seconds < 2) | oneverseReloadCozChanged)  {
+            if (oneverseReloadCozChanged)  {
               if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
             }
           }
@@ -316,7 +306,6 @@ function oneverseEditorSaveVerse (sync)
     complete: function (xhr, status) {
       oneverseSaveAsync = true;
       oneverseSaving = false;
-      oneverseEditorSaveDate = new Date();
       oneverseIdPollerOn ();
     }
   });
@@ -331,7 +320,7 @@ function oneverseEditorSaveVerse (sync)
 
 
 // Arguments: delta: Delta, oldContents: Delta, source: String
-function visualVerseEditorTextChangeHandler (delta, oldContents, source)
+function visualVerseEditorTextChangeHandler (delta, oldContents, source) // Todo
 {
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {

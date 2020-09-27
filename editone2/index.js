@@ -417,65 +417,54 @@ function oneverseEditorSelectiveNotification (message)
 //
 
 
-var oneverseIdTimeout;
 var oneverseIdAjaxRequest;
+var oneverseIdActive = false;
 
 
 function oneverseIdPollerOff ()
 {
-  if (oneverseIdTimeout) {
-    clearTimeout (oneverseIdTimeout);
-  }
-  if (oneverseIdAjaxRequest && oneverseIdAjaxRequest.readystate != 4) {
-    oneverseIdAjaxRequest.abort();
-  }
+//  if (oneverseIdTimeout) {
+//    clearTimeout (oneverseIdTimeout);
+//  }
+//  if (oneverseIdAjaxRequest && oneverseIdAjaxRequest.readystate != 4) {
+//    oneverseIdAjaxRequest.abort();
+//  }
 }
 
 
 function oneverseIdPollerOn ()
 {
-  oneverseIdPollerOff ();
-  oneverseIdTimeout = setTimeout (oneverseEditorPollId, 1000);
+//  oneverseIdPollerOff ();
+//  oneverseIdTimeout = setTimeout (oneverseEditorPollId, 1000);
 }
 
 
-function oneverseEditorPollId ()
+function oneverseEditorPollId () // Todo
 {
-  // Due to network latency, there may be multiple ongoing polls.
-  // Multiple polls may return multiple chapter identifiers.
-  // This could lead to false "text reloaded" notifications.
-  // https://github.com/bibledit/cloud/issues/424
-  // To handle this, switch the poller off.
-  oneverseIdPollerOff ();
-  
-  if (oneverseSaving) {
-    oneverseIdPollerOn ();
-    return;
-  }
+  oneverseIdActive = true;
   oneverseIdAjaxRequest = $.ajax ({
     url: "../edit2/id",
     type: "GET",
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
     cache: false,
     success: function (response) {
-      if (oneverseIdChapter != 0) {
-        if (response != oneverseIdChapter) {
-          if (oneverseEditorTextChanged) {
-            oneverseEditorSaveVerse (true);
-          }
-          oneverseReloadCozChanged = true;
-          oneverseEditorLoadVerse ();
-          oneverseIdChapter = 0;
-        }
-      }
-      oneverseIdChapter = response;
+      console.log (response);
+//      if (oneverseIdChapter != 0) {
+//        if (response != oneverseIdChapter) {
+//          if (oneverseEditorTextChanged) {
+//            oneverseEditorSaveVerse (true);
+//          }
+//          oneverseReloadCozChanged = true;
+//          oneverseEditorLoadVerse ();
+//          oneverseIdChapter = 0;
+//        }
+//      }
+//      oneverseIdChapter = response;
     },
     error: function (jqXHR, textStatus, errorThrown) {
     },
     complete: function (xhr, status) {
-      if (status != "abort") {
-        oneverseIdPollerOn ();
-      }
+      oneverseIdActive = false;
     }
   });
 }
@@ -979,12 +968,24 @@ This deals with the various events.
 It monitors the ongoing AJAX actions for editing and saving and loading,
 It decides which action to take.
 It ensures that no two actions overlap or interfere with one another.
+It also handles network latency,
+by ensuring that the next call to the server
+only occurs after the first call has been completed.
+https://github.com/bibledit/cloud/issues/424
 
 */
 
 
+
 function oneverseCoordinatingTimeout ()
 {
-  console.log ("timer");
+  if (false) {
+    
+  }
+  else if (!oneverseIdActive) {
+    oneverseEditorPollId ()
+  }
+  else if (true) {
+  }
   setTimeout (oneverseCoordinatingTimeout, 500);
 }

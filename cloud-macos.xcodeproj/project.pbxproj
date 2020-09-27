@@ -3738,6 +3738,7 @@
 		CADE475824F17BF4003165BB /* cloud-macos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "cloud-macos.entitlements"; sourceTree = "<group>"; };
 		CADE475924F17CF0003165BB /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../opt/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
 		CADE475B24F17D04003165BB /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = ../../../../opt/local/lib/libcurl.dylib; sourceTree = "<group>"; };
+		CAE9FCF5251FAA7A00A0CC94 /* edit2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = edit2; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3788,6 +3789,7 @@
 				CADE3ABB24F17425003165BB /* dtl */,
 				CADE3A1924F17423003165BB /* dyncss */,
 				CADE39BB24F17423003165BB /* edit */,
+				CAE9FCF5251FAA7A00A0CC94 /* edit2 */,
 				CADE3A7324F17424003165BB /* editone */,
 				CADE3A0224F17423003165BB /* editor */,
 				CADE392524F17422003165BB /* editusfm */,

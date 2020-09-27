@@ -55,6 +55,8 @@ $ (document).ready (function ()
   }
   
   $ ("#oneeditor").on ("click", oneEditorNoteCitationClicked);
+  
+  setTimeout (oneverseCoordinatingTimeout, 500);
 
 });
 
@@ -970,3 +972,19 @@ function oneverseReloadAlertTimeout ()
 }
 
 
+/*
+
+Section for the coordinating timer. // Todo
+This deals with the various events.
+It monitors the ongoing AJAX actions for editing and saving and loading,
+It decides which action to take.
+It ensures that no two actions overlap or interfere with one another.
+
+*/
+
+
+function oneverseCoordinatingTimeout ()
+{
+  console.log ("timer");
+  setTimeout (oneverseCoordinatingTimeout, 500);
+}

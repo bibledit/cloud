@@ -201,6 +201,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit2/preview.h>
 #include <edit2/position.h>
 #include <edit2/navigate.h>
+#include <editone2/index.h>
+#include <editone2/load.h>
+#include <editone2/save.h>
+#include <editone2/verse.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1175,7 +1179,32 @@ void bootstrap_index (void * webserver_request)
     request->reply = edit2_styles (request);
     return;
   }
+
+  if ((url == editone2_index_url ()) && browser_request_security_okay (request) && editone2_index_acl (request)) {
+    request->reply = editone2_index (request);
+    return;
+  }
   
+  if ((url == editone2_load_url ()) && browser_request_security_okay (request) && editone2_load_acl (request)) {
+    request->reply = editone2_load (request);
+    return;
+  }
+  
+  if ((url == editone2_save_url ()) && browser_request_security_okay (request) && editone2_save_acl (request)) {
+    request->reply = editone2_save (request);
+    return;
+  }
+  
+  if ((url == editone2_verse_url ()) && browser_request_security_okay (request) && editone2_verse_acl (request)) {
+    request->reply = editone2_verse (request);
+    return;
+  }
+  
+  if ((url == editone2_verse_url ()) && browser_request_security_okay (request) && editone2_verse_acl (request)) {
+    request->reply = editone2_verse (request);
+    return;
+  }
+
   // Forward the browser to the default home page.
   redirect_browser (request, index_index_url ());
 }

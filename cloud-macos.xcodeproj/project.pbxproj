@@ -547,6 +547,7 @@
 
 /* Begin PBXFileReference section */
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
+		CAD259A325209B0400AFDE0B /* editone2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = editone2; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
 		CADE36FE24F1737A003165BB /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bible.cpp; sourceTree = "<group>"; };
 		CADE36FF24F1737A003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -3791,6 +3792,7 @@
 				CADE39BB24F17423003165BB /* edit */,
 				CAE9FCF5251FAA7A00A0CC94 /* edit2 */,
 				CADE3A7324F17424003165BB /* editone */,
+				CAD259A325209B0400AFDE0B /* editone2 */,
 				CADE3A0224F17423003165BB /* editor */,
 				CADE392524F17422003165BB /* editusfm */,
 				CADE3A4C24F17424003165BB /* email */,

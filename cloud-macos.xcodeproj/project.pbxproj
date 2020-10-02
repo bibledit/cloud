@@ -5052,16 +5052,16 @@
 		CADE3A3E24F17423003165BB /* developer */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3A3F24F17423003165BB /* index.h */,
-				CADE3A4024F17423003165BB /* index.o */,
-				CADE3A4124F17423003165BB /* index.html */,
-				CADE3A4224F17423003165BB /* logic.cpp */,
-				CADE3A4324F17423003165BB /* index.js */,
-				CADE3A4424F17423003165BB /* logic.h */,
-				CADE3A4524F17423003165BB /* logic.o */,
 				CADE3A4624F17423003165BB /* .deps */,
 				CADE3A4A24F17423003165BB /* .dirstamp */,
 				CADE3A4B24F17423003165BB /* index.cpp */,
+				CADE3A3F24F17423003165BB /* index.h */,
+				CADE3A4124F17423003165BB /* index.html */,
+				CADE3A4324F17423003165BB /* index.js */,
+				CADE3A4024F17423003165BB /* index.o */,
+				CADE3A4224F17423003165BB /* logic.cpp */,
+				CADE3A4424F17423003165BB /* logic.h */,
+				CADE3A4524F17423003165BB /* logic.o */,
 			);
 			path = developer;
 			sourceTree = "<group>";

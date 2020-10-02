@@ -108,6 +108,7 @@ string editone2_index (void * webserver_request)
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
   string script =
   "var oneverseEditorVerseLoaded = '" + locale_logic_text_loaded () + "';\n"
+  "var oneverseEditorVerseUpdating = '" + locale_logic_text_updating () + "';\n"
   "var oneverseEditorWillSave = '" + locale_logic_text_will_save () + "';\n"
   "var oneverseEditorVerseSaving = '" + locale_logic_text_saving () + "';\n"
   "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"

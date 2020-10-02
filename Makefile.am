@@ -192,6 +192,7 @@ libbibledit_a_SOURCES = \
   editone2/save.cpp \
   editone2/verse.cpp \
   editone2/logic.cpp \
+  editone2/update.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \

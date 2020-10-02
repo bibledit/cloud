@@ -169,7 +169,7 @@ void Editor_Usfm2Html::preprocess ()
 void Editor_Usfm2Html::process ()
 {
   markersAndTextPointer = 0;
-  unsigned int markersAndTextCount = markersAndText.size();
+  size_t markersAndTextCount = markersAndText.size();
   for (markersAndTextPointer = 0; markersAndTextPointer < markersAndTextCount; markersAndTextPointer++) {
     string currentItem = markersAndText[markersAndTextPointer];
     if (usfm_is_usfm_marker (currentItem))

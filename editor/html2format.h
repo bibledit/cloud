@@ -37,28 +37,14 @@ public:
   vector <string> texts;
   vector <string> formats;
 private:
-  string get ();
   xml_document document; // DOMDocument holding the html.
-  map <string, Database_Styles_Item> styles; // Style information.
-  vector <string> output; // Output USFM.
-  string currentLine; // Growing current USFM line.
-  bool mono; // Monospace font.
-  set <string> suppressEndMarkers; // Markers which should not have endmarkers, e.g. \v does not have \v*
-  set <string> noteOpeners;
-  vector <string> characterStyles; // Active character styles.
-  bool processingNote = false; // Note processing flag.
-  string lastNoteStyle; // The most recent style opened inside a note.
   void preprocess ();
-  void flushLine ();
   void postprocess ();
   void process ();
   void processNode (xml_node node);
   void openElementNode (xml_node node);
   void closeElementNode (xml_node node);
   void openInline (string className);
-  void processNoteCitation (xml_node node);
-  string cleanUSFM (string usfm);
-  xml_node get_note_pointer (xml_node node, string id);
   string update_quill_class (string classname);
   string current_character_format;
 };

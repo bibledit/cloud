@@ -111,6 +111,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/merge.h>
 #include <unittests/paratext.h>
 #include <unittests/nmt.h>
+#include <unittests/html2format.h>
 
 
 int main (int argc, char **argv) 
@@ -142,7 +143,7 @@ int main (int argc, char **argv)
   test_dev ();
   test_merge ();
   test_diff ();
-  test_odf ();
+  test_html2format ();
   refresh_sandbox (true);
   exit (0);
   

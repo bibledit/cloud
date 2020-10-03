@@ -208,6 +208,7 @@ libbibledit_a_SOURCES = \
 	editor/html2usfm.cpp \
 	editor/usfm2html.cpp \
 	editor/select.cpp \
+  editor/html2format.cpp \
 	edit/edit.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
@@ -539,7 +540,8 @@ unittest_SOURCES = \
 	unittests/javascript.cpp \
 	unittests/french.cpp \
   unittests/merge.cpp \
-  unittests/nmt.cpp
+  unittests/nmt.cpp \
+  unittests/html2format.cpp
 
 unittest_LDADD = libbibledit.a
 

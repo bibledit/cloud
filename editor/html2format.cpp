@@ -28,7 +28,7 @@
 #include <quill/logic.h>
 
 
-void Editor_Html2Format::load (string html) // Todo clean the class up removing all clutter.
+void Editor_Html2Format::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);

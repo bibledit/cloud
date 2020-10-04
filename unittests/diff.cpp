@@ -29,26 +29,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 
 
-void test_diff ()
+void test_diff () // Todo expand
 {
   trace_unit_tests (__func__);
   
   // Difference.
   {
-    string output = filter_diff_diff ("Old text", "New text");
+    vector <string> removals, additions;
+    string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
     string standard = "<span style=\"text-decoration: line-through;\"> Old </span> <span style=\"font-weight: bold;\"> New </span> text";
     evaluate (__LINE__, __func__, standard, output);
+    evaluate (__LINE__, __func__, {"Old"}, removals);
+    evaluate (__LINE__, __func__, {"New"}, additions);
   }
 
   // Difference.
   {
-    string output = filter_diff_diff ("this is really old text", "and this is new text");
+    vector <string> removals, additions;
+    string output = filter_diff_diff ("this is really old text", "and this is new text",
+                                      &removals, &additions);
     string standard = "<span style=\"font-weight: bold;\"> and </span> this is <span style=\"text-decoration: line-through;\"> really </span> <span style=\"text-decoration: line-through;\"> old </span> <span style=\"font-weight: bold;\"> new </span> text";
     evaluate (__LINE__, __func__, standard, output);
+    evaluate (__LINE__, __func__, {"really", "old"}, removals);
+    evaluate (__LINE__, __func__, {"and", "new"}, additions);
   }
   
   // Diff with new lines in the text.
   {
+    vector <string> removals, additions;
     string oldtext =
     "Genesis 1.1 1 In the beginning God created the heavens and the earth.\n"
     "Genesis 1.2 2 And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
@@ -59,10 +67,15 @@ void test_diff ()
     "Genesis 1.2 2 And the earth was without form and void and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
     "Genesis 1.3 3 And God said: \"Let there be light\". And there was light.\n";
     
-    string output = filter_diff_diff (oldtext, newtext);
+    string output = filter_diff_diff (oldtext, newtext, &removals, &additions);
     
     string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "diff.txt"));
     evaluate (__LINE__, __func__, standard, output);
+    
+    evaluate (__LINE__, __func__, {"heavens", "form,", "void;", "said,", "Let", "light:", "and"},
+              removals);
+    evaluate (__LINE__, __func__, {"heaven", "form", "void", "said:", "\"Let", "light\".", "And"},
+              additions);
   }
   
   // Character similarity.

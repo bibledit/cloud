@@ -1,8 +1,15 @@
 #!/bin/bash
 
-echo Run this script to sync all files to a temporary location.
-echo Then run bibledit in that location.
-echo This ensures that no databases are being created in the source tree.
-watch -n 1 "rsync -av --exclude=libbibledit.a . /tmp/bibledit-dev"
+echo Build everything
+make --jobs=10
+if [ $? -ne 0 ]; then exit; fi
 
+echo Copy everything to working location
+rsync -av --exclude=libbibledit.a . ~/work/bibledit/dev
+if [ $? -ne 0 ]; then exit; fi
+
+echo Start bibledit
+cd ~/work/bibledit/dev
+if [ $? -ne 0 ]; then exit; fi
+./server
 

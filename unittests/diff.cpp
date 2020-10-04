@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 
 
-void test_diff () // Todo expand
+void test_diff ()
 {
   trace_unit_tests (__func__);
   

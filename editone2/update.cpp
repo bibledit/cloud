@@ -57,7 +57,7 @@ bool editone2_update_acl (void * webserver_request)
 }
 
 
-string editone2_update (void * webserver_request) // Todo
+string editone2_update (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -162,26 +162,10 @@ string editone2_update (void * webserver_request) // Todo
   string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
-
-  // Handle the following situation:
-  // 1. The text in the editor was not changed.
-  // 2. The text on the server was changed.
-  // The action to take is this:
-  // To do a smart update of the text in the editor.
-  // The result should be: The text in the editor matches the text on the server.
-  //if (loaded_verse_usfm == edited_verse_usfm) {
-    // There are two relevant html text fragments:
-    // 1. What the server has now.
-    // 2. What the editor has now.
-    // Server converts both the html slices to character/format pairs.
-    // The server calculates the differences.
-    // The AJAX call returns the differences.
-    // See the text load for how to send multiple fragments to the editor.
-  //}
-
   
   // Do a three-way merge if needed.
-  // There's a need for this if the USFM on the server differs from the USFM loaded in the editor.
+  // There's a need for this if there were user-edits,
+  // and if the USFM on the server differs from the USFM loaded in the editor.
   // The three-way merge reconciles those differences.
   if (good2go) {
     if (loaded_verse_usfm != edited_verse_usfm) {
@@ -189,8 +173,8 @@ string editone2_update (void * webserver_request) // Todo
         vector <Merge_Conflict> conflicts;
         // Do a merge while giving priority to the USFM already in the chapter.
         string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
-        // Optionally mail the user about possible merge anomalies.
-        bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm); // Todo
+        // Mail the user if there is a merge anomaly.
+        bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm);
         // Let the merged data now become the edited data (so it gets saved properly).
         edited_verse_usfm = merged_verse_usfm;
       }
@@ -198,65 +182,30 @@ string editone2_update (void * webserver_request) // Todo
   }
   
   
-  // If the most recent save operation on this chapter
-  // caused the chapter to be different, email the user,
-  // suggesting to check if the user's edit came through.
-  // The rationale is that if Bible text was saved through Send/receive,
-  // or if another user saved Bible text,
-  // it's worth to check on this.
-  // Because the user's editor may not yet have this updated Bible text.
-  // https://github.com/bibledit/cloud/issues/340
-  // Todo this email may be replaced by a smarter one, that fires less frequently than this one.
-  if (good2go) {
-    if (loaded_verse_usfm != edited_verse_usfm) {
-      if (loaded_verse_usfm != existing_verse_usfm) {
-        //bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_verse_usfm, edited_verse_usfm);
-      }
-    }
-  }
-
-  
-  // Do a three-way merge if needed to reconcile changes in the editor with changes already on the server.
-  if (good2go) {
-    
-  }
-  
-  /*
   // Safely store the verse.
   string explanation;
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
   bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
+
+  
   // If storing the verse worked out well, there's no message to display.
   if (message.empty ()) {
-    // Get the chapter text now, that is, after the save operation completed.
-    string new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-    // Check whether the text on disk was changed while the user worked with the older copy.
-    if (!loaded_usfm.empty () && (loaded_usfm != old_chapter_usfm)) {
-      // Do a merge for better editing reliability.
-      vector <Merge_Conflict> conflicts;
-      // Prioritize the USFM already in the chapter.
-      new_chapter_usfm = filter_merge_run (loaded_usfm, new_chapter_usfm, old_chapter_usfm, true, conflicts);
-      request->database_bibles()->storeChapter (bible, book, chapter, new_chapter_usfm);
-      Database_Logs::log (translate ("Merging chapter."));
-    }
 #ifdef HAVE_CLOUD
-    // The Cloud stores details of the user's changes.
-    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+    // The Cloud stores details of the user's changes. // Todo
+    //int newID = request->database_bibles()->getChapterId (bible, book, chapter);
     Database_Modifications database_modifications;
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
+    //database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
     if (sendreceive_git_repository_linked (bible)) {
-      Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
+      //Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
     }
-    rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
+    //rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
 #endif
-    
-    
-    // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference.
-    storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
-
-    return locale_logic_text_saved ();
+    // Feedback to user.
+    messages.push_back (locale_logic_text_saved ());
+  } else {
+    // Feedback about anomaly to user.
+    messages.push_back (message);
   }
-   */
 
   
   // This is the format to send the changes in:

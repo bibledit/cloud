@@ -815,6 +815,8 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   information.append (translate ("But Bibledit is not entirely sure that all went well."));
   information.append (" ");
   information.append (translate ("You may want to check whether the Bible text was saved correctly."));
+  information.append (" ");
+  information.append (translate ("The changes in bold are yours."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";

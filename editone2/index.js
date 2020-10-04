@@ -998,6 +998,7 @@ function oneverseCoordinatingTimeout ()
   }
   else if (oneverseUpdateTrigger) {
     oneverseUpdateTrigger = false;
+    console.log ("execute save");
     oneverseUpdateExecute (false);
   }
   // Handle situation that no process is ongoing.
@@ -1058,9 +1059,9 @@ function oneverseUpdateExecute (sync) // Todo
   var encodedEditedHtml = filter_url_plus_to_tag (html);
   
   oneverseEditorStatus (oneverseEditorVerseSaving);
-  oneverseEditorStatus (oneverseEditorVerseUpdating);
+  //oneverseEditorStatus (oneverseEditorVerseUpdating);
 
-  //oneverseLoadedText = html;
+  //oneverseLoadedText = html; Todo to receive this back from AJAX call.
 
   // Normally the AJAX call is asynchronous.
   oneverseSaveAsync = true;
@@ -1082,46 +1083,43 @@ function oneverseUpdateExecute (sync) // Todo
     },
     success: function (response) {
       console.log (response);
-      //oneverseEditorStatus (response);
+      // Split the response into the separate bits.
+      var bits = [];
+      bits = response.split ("#_be_#");
+      // The first bit is the feedback message to the user.
+      oneverseEditorStatus (bits.shift());
+      // The next bit is the new chapter identifier.
+      oneverseChapterId = bits.shift();
 
       // Flag for editor read-write or read-only.
       // Since read-write is already set upon text load,
       // the flag is unused here.
-      var writeAccess = checksum_readwrite (response);
+      //var writeAccess = checksum_readwrite (response);
       
       // If the checksum is not valid, the response will become false.
-      response = checksum_receive (response);
+      //response = checksum_receive (response);
 
-      // Split the response into the relevant bits.
-      var bits = [];
-      if (response !== false) {
-        bits = response.split ("#_be_#");
-        while (bits.length > 0) {
-          var operator = bits.shift();
-          var position = parseInt (bits.shift ());
-          if (operator == "insert") {
-            var text = bits.shift ();
-            var style = bits.shift ();
-            //quill.insertText (position, text, {"character": style});
-          }
-          if (operator == "delete") {
-            var length = parseInt (bits.shift ());
-            //quill.deleteText (position, length);
-          }
-        }
-      }
+//      if (response !== false) {
+//        while (bits.length > 0) {
+//          var operator = bits.shift();
+//          var position = parseInt (bits.shift ());
+//          if (operator == "insert") {
+//            var text = bits.shift ();
+//            var style = bits.shift ();
+//            //quill.insertText (position, text, {"character": style});
+//          }
+//          if (operator == "delete") {
+//            var length = parseInt (bits.shift ());
+//            //quill.deleteText (position, length);
+//          }
+//        }
+//      }
 
       // The browser may reformat the loaded html, so take the possible reformatted data for reference.
       //oneverseLoadedText = $ (".ql-editor").html ();
-      // Create CSS for embedded styles.
-      //css4embeddedstyles ();
-
-      if (response === false) {
-        oneverseEditorChanged ();
-      } else {
-        oneverseEditorStatus (oneverseEditorVerseSaved);
-      }
       
+      // Create CSS for embedded styles.
+      css4embeddedstyles ();
     },
     complete: function (xhr, status) {
       oneverseSaveAsync = true;

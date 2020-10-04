@@ -188,11 +188,14 @@ string editone2_update (void * webserver_request)
   bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
 
   
+  // The new chapter identifier.
+  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+
+  
   // If storing the verse worked out well, there's no message to display.
   if (message.empty ()) {
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes. // Todo
-    //int newID = request->database_bibles()->getChapterId (bible, book, chapter);
     Database_Modifications database_modifications;
     //database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
     if (sendreceive_git_repository_linked (bible)) {
@@ -207,13 +210,25 @@ string editone2_update (void * webserver_request)
     messages.push_back (message);
   }
 
+
+  // The response to send to back to the editor.
+  string response;
+  string separator = "#_be_#";
+  // The response starts with the save message(s) if any.
+  // The message(s) contain information about save success or failure.
+  // Send it to the browser for display to the user.
+  response.append (filter_string_implode (messages, " | "));
+
+  // Add separator and the new chapter identifier to the response.
+  response.append (separator);
+  response.append (convert_to_string (newID));
+
   
   // This is the format to send the changes in:
   // insert - position - text - format
   // delete - position - length
   
   /*
-  string response;
   response.append ("insert");
   response.append ("#_be_#");
   response.append ("9");
@@ -233,10 +248,8 @@ string editone2_update (void * webserver_request)
   bool write = access_bible_book_write (webserver_request, user, bible, book);
   response = Checksum_Logic::send (response, write);
   
-  return response;
    */
   
-  // The message contains information about save failure.
-  // Send it to the browser for display to the user.
-  return filter_string_implode (messages, " | ");
+  // Ready.
+  return response;
 }

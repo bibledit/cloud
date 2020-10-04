@@ -1030,16 +1030,9 @@ Section for the smart editor updating logic.
 */
 
 
-//var oneverseEditorLoadedSnapshot = null;
-//var oneverseEditorEditedSnapshot = null;
-//var oneverseEditorChangeOffsetsSnapshot = []
-//var oneverseEditorChangeInsertsSnapshot = []
-//var oneverseEditorChangeDeletesSnapshot = []
-
-
 function oneverseUpdateExecute (sync) // Todo
 {
-  // Determine whether the conditions for an editor update are good.
+  // Determine whether the conditions for an editor update are all met.
   var goodToGo = true;
   // if (!oneverseEditorWriteAccess) goodToGo = false;
   if (!oneverseBible) goodToGo = false;
@@ -1088,6 +1081,7 @@ function oneverseUpdateExecute (sync) // Todo
       if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
     },
     success: function (response) {
+      console.log (response);
       //oneverseEditorStatus (response);
 
       // Flag for editor read-write or read-only.

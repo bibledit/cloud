@@ -49,6 +49,11 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
 void bible_logic_recent_save_email (const string & bible, int book, int chapter, int verse,
                                     const string & user,
                                     const string & old_usfm, const string & new_usfm);
+void bible_logic_optional_merge_irregularity_email (const string & bible, int book, int chapter,
+                                                    const string & user,
+                                                    const string & ancestor_usfm,
+                                                    const string & edited_usfm,
+                                                    const string & merged_usfm);
 
 
 #endif

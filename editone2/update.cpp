@@ -23,6 +23,7 @@
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/merge.h>
+#include <filter/diff.h>
 #include <webserver/request.h>
 #include <checksum/logic.h>
 #include <database/modifications.h>
@@ -60,64 +61,95 @@ string editone2_update (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+
+  // Whether the update is good to go.
+  bool good2go = true;
   
-  // Check on information about where to update the verse text.
-  bool parameters_ok = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("verse") && request->post.count ("edited"));
-  if (!parameters_ok) {
-    return translate("Don't know what to update");
+  
+  // The messages to return.
+  vector <string> messages;
+
+  
+  // Check the relevant bits of information.
+  if (good2go) {
+    bool parameters_ok = true;
+    if (!request->post.count ("bible")) parameters_ok = false;
+    if (!request->post.count ("book")) parameters_ok = false;
+    if (!request->post.count ("chapter")) parameters_ok = false;
+    if (!request->post.count ("verse")) parameters_ok = false;
+    if (!request->post.count ("loaded")) parameters_ok = false;
+    if (!request->post.count ("edited")) parameters_ok = false;
+    if (!parameters_ok) {
+      messages.push_back (translate("Don't know what to update"));
+      good2go = false;
+    }
   }
+
   
-  
-  string bible = request->post["bible"];
-  int book = convert_to_int (request->post["book"]);
-  int chapter = convert_to_int (request->post["chapter"]);
-  int verse = convert_to_int (request->post["verse"]);
-  string loaded = request->post["loaded"];
-  string edited = request->post["edited"];
-  string checksum = request->post["checksum"];
-  string unique_id = request->post ["id"];
+  // Get the relevant bits of information.
+  string bible;
+  int book = 0;
+  int chapter = 0;
+  int verse = 0;
+  string loaded_html;
+  string edited_html;
+  string checksum;
+  string unique_id;
+  if (good2go) {
+    bible = request->post["bible"];
+    book = convert_to_int (request->post["book"]);
+    chapter = convert_to_int (request->post["chapter"]);
+    verse = convert_to_int (request->post["verse"]);
+    loaded_html = request->post["loaded"];
+    edited_html = request->post["edited"];
+    checksum = request->post["checksum"];
+    unique_id = request->post ["id"];
+  }
 
   
   // Checksum of the edited html.
-  if (Checksum_Logic::get (edited) != checksum) {
-    request->response_code = 409;
-    return translate ("Checksum error");
+  if (good2go) {
+    if (Checksum_Logic::get (edited_html) != checksum) {
+      request->response_code = 409;
+      messages.push_back (translate ("Checksum error"));
+    }
   }
 
   
-  // Decode html encoded in javascript.
-  loaded = filter_url_tag_to_plus (loaded);
-  edited = filter_url_tag_to_plus (edited);
-
-  
-  // Check there's anything to update at all.
-  loaded = filter_string_trim (loaded);
-  edited = filter_string_trim (edited);
-  if (loaded.empty () || edited.empty ()) {
-    return translate ("Nothing to update");
-  }
+  // Decode html encoded in javascript, and clean it.
+  loaded_html = filter_url_tag_to_plus (loaded_html);
+  edited_html = filter_url_tag_to_plus (edited_html);
+  loaded_html = filter_string_trim (loaded_html);
+  edited_html = filter_string_trim (edited_html);
 
   
   // Check on valid UTF-8.
-  if (!unicode_string_is_valid (loaded) || !unicode_string_is_valid (edited)) {
-    return translate ("Cannot update: Needs Unicode");
+  if (good2go) {
+    if (!unicode_string_is_valid (loaded_html) || !unicode_string_is_valid (edited_html)) {
+      messages.push_back (translate ("Cannot update: Needs Unicode"));
+    }
   }
 
   
-  if (!access_bible_book_write (request, "", bible, book)) {
-    return translate ("No write access");
+  if (good2go) {
+    if (!access_bible_book_write (request, "", bible, book)) {
+      // Todo handle in a different way: Do not save, but do update. return translate ("No write access");
+    }
   }
 
 
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  string stylesheet;
+  if (good2go) stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
 
   
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
-  int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+  int oldID = 0;
+  if (good2go) oldID = request->database_bibles()->getChapterId (bible, book, chapter);
 #endif
-  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_chapter_usfm;
+  if (good2go) old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
   
   // Determine what (composed) version of USFM to save to the chapter.
@@ -125,8 +157,8 @@ string editone2_update (void * webserver_request) // Todo
   // This needs the loaded USFM as the ancestor,
   // the edited USFM as a change-set,
   // and the existing USFM as a prioritized change-set.
-  string loaded_verse_usfm = editone2_logic_html_to_usfm (stylesheet, loaded);
-  string edited_verse_usfm = editone2_logic_html_to_usfm (stylesheet, edited);
+  string loaded_verse_usfm = editone2_logic_html_to_usfm (stylesheet, loaded_html);
+  string edited_verse_usfm = editone2_logic_html_to_usfm (stylesheet, edited_html);
   string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
@@ -137,23 +169,32 @@ string editone2_update (void * webserver_request) // Todo
   // The action to take is this:
   // To do a smart update of the text in the editor.
   // The result should be: The text in the editor matches the text on the server.
-  if (loaded_verse_usfm == edited_verse_usfm) {
-    
-    
+  //if (loaded_verse_usfm == edited_verse_usfm) {
     // There are two relevant html text fragments:
     // 1. What the server has now.
     // 2. What the editor has now.
-   
     // Server converts both the html slices to character/format pairs.
-    
     // The server calculates the differences.
-    
     // The AJAX call returns the differences.
     // See the text load for how to send multiple fragments to the editor.
+  //}
 
-
-    
-    
+  
+  // Do a three-way merge if needed.
+  // There's a need for this if the USFM on the server differs from the USFM loaded in the editor.
+  // The three-way merge reconciles those differences.
+  if (good2go) {
+    if (loaded_verse_usfm != edited_verse_usfm) {
+      if (loaded_verse_usfm != existing_verse_usfm) {
+        vector <Merge_Conflict> conflicts;
+        // Do a merge while giving priority to the USFM already in the chapter.
+        string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
+        // Optionally mail the user about possible merge anomalies.
+        bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm); // Todo
+        // Let the merged data now become the edited data (so it gets saved properly).
+        edited_verse_usfm = merged_verse_usfm;
+      }
+    }
   }
   
   
@@ -163,14 +204,24 @@ string editone2_update (void * webserver_request) // Todo
   // The rationale is that if Bible text was saved through Send/receive,
   // or if another user saved Bible text,
   // it's worth to check on this.
-  // Because the user's editor may not yet have loaded this updated Bible text.
+  // Because the user's editor may not yet have this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  // Todo fix changed behaviour: No loading at all, but updating existing text.
-  string loaded_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
-  if (loaded_usfm != old_chapter_usfm) {
-    bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_usfm, old_chapter_usfm);
+  // Todo this email may be replaced by a smarter one, that fires less frequently than this one.
+  if (good2go) {
+    if (loaded_verse_usfm != edited_verse_usfm) {
+      if (loaded_verse_usfm != existing_verse_usfm) {
+        //bible_logic_recent_save_email (bible, book, chapter, verse, username, loaded_verse_usfm, edited_verse_usfm);
+      }
+    }
   }
 
+  
+  // Do a three-way merge if needed to reconcile changes in the editor with changes already on the server.
+  if (good2go) {
+    
+  }
+  
+  /*
   // Safely store the verse.
   string explanation;
   string message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
@@ -205,6 +256,7 @@ string editone2_update (void * webserver_request) // Todo
 
     return locale_logic_text_saved ();
   }
+   */
 
   
   // This is the format to send the changes in:
@@ -237,5 +289,5 @@ string editone2_update (void * webserver_request) // Todo
   
   // The message contains information about save failure.
   // Send it to the browser for display to the user.
-  return message;
+  return filter_string_implode (messages, " | ");
 }

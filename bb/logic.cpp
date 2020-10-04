@@ -858,3 +858,109 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
 }
+
+
+void bible_logic_optional_merge_irregularity_email (const string & bible, int book, int chapter,
+                                                    const string & user,
+                                                    const string & ancestor_usfm,
+                                                    const string & edited_usfm,
+                                                    const string & merged_usfm)
+{
+  // If the merged edited USFM is the same as the edited USFM,
+  // that means that the user's changes will get saved to the chapter.
+  if (edited_usfm == merged_usfm) return;
+  // But if the merged edited USFM differs from the original edited USFM,
+  // more checks need to be done to be sure that the user's edits made it.
+
+  string subject = translate ("Check whether Bible text was saved");
+
+  // Create the body of the email.
+  xml_document document;
+  xml_node node;
+  node = document.append_child ("h3");
+  node.text ().set (subject.c_str());
+  
+  // Add some information for the user.
+  node = document.append_child ("p");
+  string information;
+  information.append (translate ("Bibledit saved the Bible text below."));
+  information.append (" ");
+  information.append (translate ("But Bibledit is not entirely sure that all went well."));
+  information.append (" ");
+  information.append (translate ("You may want to check whether the Bible text was saved correctly."));
+  information.append (" ");
+  information.append (translate ("The changes in bold are yours."));
+  node.text ().set (information.c_str());
+  node = document.append_child ("p");
+  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  node.text ().set (location.c_str ());
+
+  bool anomalies_found = false;
+
+  // Go through all verses available in the USFM,
+  // and check the differences for each verse.
+  vector <int> verses = usfm_get_verse_numbers (merged_usfm);
+  for (auto verse : verses) {
+    string ancestor_verse_usfm = usfm_get_verse_text (ancestor_usfm, verse);
+    string edited_verse_usfm = usfm_get_verse_text (edited_usfm, verse);
+    string merged_verse_usfm = usfm_get_verse_text (merged_usfm, verse);
+    // There's going to be a check to find out that all the changes the user made,
+    // are available among the changes resulting from the merge.
+    // If all the changes are there, all is good.
+    // If not, then email the user about this.
+    bool anomaly_found = false;
+    vector <string> user_removals, user_additions, merged_removals, merged_additions;
+    filter_diff_diff (ancestor_verse_usfm, edited_verse_usfm, &user_removals, &user_additions);
+    filter_diff_diff (ancestor_verse_usfm, merged_verse_usfm, &merged_removals, &merged_additions);
+    //vector <string> missed_removals, missed_additions;
+    for (auto user_removal : user_removals) {
+      //if (!in_array (user_removal, merged_removals)) missed_removals.push_back (user_removal);
+      if (!in_array (user_removal, merged_removals)) anomaly_found = true;
+    }
+    for (auto user_addition : user_additions) {
+      //if (!in_array (user_addition, merged_additions)) missed_additions.push_back (user_addition);
+      if (!in_array (user_addition, merged_additions)) anomaly_found = true;
+    }
+    if (!anomaly_found) continue;
+    anomalies_found = true;
+    Filter_Text filter_text_ancestor = Filter_Text (bible);
+    Filter_Text filter_text_edited = Filter_Text (bible);
+    Filter_Text filter_text_merged = Filter_Text (bible);
+    filter_text_ancestor.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_edited.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_merged.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_ancestor.text_text = new Text_Text ();
+    filter_text_edited.text_text = new Text_Text ();
+    filter_text_merged.text_text = new Text_Text ();
+    filter_text_ancestor.addUsfmCode (ancestor_verse_usfm);
+    filter_text_edited.addUsfmCode (edited_verse_usfm);
+    filter_text_merged.addUsfmCode (merged_verse_usfm);
+    filter_text_ancestor.run (styles_logic_standard_sheet());
+    filter_text_edited.run (styles_logic_standard_sheet());
+    filter_text_merged.run (styles_logic_standard_sheet());
+    string ancestor_text = filter_text_ancestor.text_text->get ();
+    string edited_text = filter_text_edited.text_text->get ();
+    string merged_text = filter_text_merged.text_text->get ();
+    string modification;
+    node = document.append_child ("p");
+    modification = translate ("You edited:") + " " + filter_diff_diff (ancestor_text, edited_text);
+    node.append_buffer (modification.c_str (), modification.size ());
+    node = document.append_child ("p");
+    modification = translate ("Bibledit saved:") + " " + filter_diff_diff (ancestor_text, merged_text);
+    node.append_buffer (modification.c_str (), modification.size ());
+  }
+
+  // If no differences were found, bail out.
+  // This also handles differences in spacing.
+  // If the differences consist of whitespace only, bail out here.
+  // See issue https://github.com/bibledit/cloud/issues/413
+  if (!anomalies_found) return;
+  
+  // Convert the document to a string.
+  stringstream output;
+  document.print (output, "", format_raw);
+  string html = output.str ();
+
+  // Schedule the mail for sending to the user.
+  email_schedule (user, subject, html);
+}

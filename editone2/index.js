@@ -1083,11 +1083,14 @@ function oneverseUpdateExecute (sync) // Todo
     },
     success: function (response) {
       console.log (response);
+
       // Split the response into the separate bits.
       var bits = [];
       bits = response.split ("#_be_#");
+
       // The first bit is the feedback message to the user.
       oneverseEditorStatus (bits.shift());
+
       // The next bit is the new chapter identifier.
       oneverseChapterId = bits.shift();
 

@@ -157,11 +157,6 @@ string editone2_update (void * webserver_request) // Todo
   }
   
   
-  /*
-  Todo
-
-
-  
   // If the most recent save operation on this chapter
   // caused the chapter to be different, email the user,
   // suggesting to check if the user's edit came through.
@@ -210,13 +205,13 @@ string editone2_update (void * webserver_request) // Todo
 
     return locale_logic_text_saved ();
   }
-  */
 
   
   // This is the format to send the changes in:
   // insert - position - text - format
   // delete - position - length
   
+  /*
   string response;
   response.append ("insert");
   response.append ("#_be_#");
@@ -238,4 +233,9 @@ string editone2_update (void * webserver_request) // Todo
   response = Checksum_Logic::send (response, write);
   
   return response;
+   */
+  
+  // The message contains information about save failure.
+  // Send it to the browser for display to the user.
+  return message;
 }

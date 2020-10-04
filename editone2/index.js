@@ -117,7 +117,6 @@ var oneverseChapterId = 0;
 var oneverseReloadCozChanged = false;
 var oneverseReloadCozError = false;
 var oneverseReloadPosition = undefined;
-var oneverseEditorTextChanged = false;
 var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
 var oneverseSaving = false;
@@ -278,15 +277,12 @@ function oneverseEditorSaveVerse (sync)
     return;
   }
   if (!oneverseEditorWriteAccess) return;
-  oneverseEditorTextChanged = false;
   if (!oneverseBible) return;
   if (!oneverseBook) return;
   if (!oneverseVerseLoaded) return;
   var html = $ (".ql-editor").html ();
   if (html == oneverseLoadedText) return;
   oneverseEditorStatus (oneverseEditorVerseSaving);
-
-  return; // Todo disabled for just now.
 
   // Chapter identifier poller off as network latency may lead to problems if left on.
   oneverseIdPollerOff ();
@@ -328,7 +324,7 @@ function oneverseEditorSaveVerse (sync)
 //
 
 
-var oneverseEditorChangeOffsets = [] // Todo
+var oneverseEditorChangeOffsets = []
 var oneverseEditorChangeInserts = []
 var oneverseEditorChangeDeletes = []
 
@@ -363,12 +359,25 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 function oneverseEditorChanged ()
 {
   if (!oneverseEditorWriteAccess) return;
-  oneverseEditorTextChanged = true;
   oneverseEditorStatus (oneverseEditorWillSave);
   if (oneverseEditorChangedTimeout) {
     clearTimeout (oneverseEditorChangedTimeout);
   }
-  oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 1000);
+  //oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 1000);
+  oneverseEditorChangedTimeout = setTimeout (oneverseEditorTriggerSave, 1000);
+}
+
+
+function oneverseEditorTriggerSave ()
+{
+  if (!oneverseUpdateTrigger) {
+    oneverseUpdateTrigger = true;
+  } else {
+    if (oneverseEditorChangedTimeout) {
+      clearTimeout (oneverseEditorChangedTimeout);
+    }
+    oneverseEditorChangedTimeout = setTimeout (oneverseEditorTriggerSave, 400);
+  }
 }
 
 
@@ -441,7 +450,7 @@ function oneverseIdPollerOn ()
 }
 
 
-function oneverseEditorPollId () // Todo
+function oneverseEditorPollId ()
 {
   oneverseAjaxActive = true;
   oneverseIdAjaxRequest = $.ajax ({
@@ -453,18 +462,12 @@ function oneverseEditorPollId () // Todo
       if (oneverseChapterId != 0) {
         if (response != oneverseChapterId) {
           // The chapter identifier changed.
-          // So likely there's a updated text on the server.
+          // That means that ikely there's updated text on the server.
           // Start the routine to load any possible updates into the editor.
-          oneverseUpdateStatus = 1;
-//          if (oneverseEditorTextChanged) {
-//            oneverseEditorSaveVerse (true);
-//          }
-//          oneverseReloadCozChanged = true;
-//          oneverseEditorLoadVerse ();
-//          oneverseChapterId = 0;
+          oneverseUpdateTrigger = true;
         }
       }
-      oneverseChapterId = response; // Todo save this on successful updat only, not here yet.
+      oneverseChapterId = response;
     },
     error: function (jqXHR, textStatus, errorThrown) {
     },
@@ -968,7 +971,7 @@ function oneverseReloadAlertTimeout ()
 
 /*
 
-Section for the coordinating timer. // Todo
+Section for the coordinating timer.
 This deals with the various events.
 It monitors the ongoing AJAX actions for editing and saving and loading,
 It decides which action to take.
@@ -984,7 +987,7 @@ https://github.com/bibledit/cloud/issues/424
 var oneverseAjaxActive = false;
 var oneversePollSelector = 0;
 var oneversePollDate = new Date();
-var oneverseUpdateStatus = 0;
+var oneverseUpdateTrigger = false;
 
 
 function oneverseCoordinatingTimeout ()
@@ -993,17 +996,9 @@ function oneverseCoordinatingTimeout ()
   if (oneverseAjaxActive) {
     
   }
-  else if (oneverseUpdateStatus > 0) {
-    if (oneverseUpdateStatus == 1) {
-      oneverseEditorUpdateStep1 ();
-    }
-    else if (oneverseUpdateStatus == 2) {
-      oneverseEditorUpdateStep2 ();
-    }
-    else if (oneverseUpdateStatus == 3) {
-      oneverseEditorUpdateStep3 ();
-    }
-    else oneverseUpdateStatus = 0;
+  else if (oneverseUpdateTrigger) {
+    oneverseUpdateTrigger = false;
+    oneverseUpdateExecute (false);
   }
   // Handle situation that no process is ongoing.
   // Now the regular pollers can run again.
@@ -1030,74 +1025,67 @@ function oneverseCoordinatingTimeout ()
 
 /*
 
-Section for the smart editor updating logic. // Todo
+Section for the smart editor updating logic.
 
 */
 
 
-var oneverseEditorLoadedSnapshot = null;
-var oneverseEditorEditedSnapshot = null;
-var oneverseEditorChangeOffsetsSnapshot = [] // Todo
-var oneverseEditorChangeInsertsSnapshot = []
-var oneverseEditorChangeDeletesSnapshot = []
+//var oneverseEditorLoadedSnapshot = null;
+//var oneverseEditorEditedSnapshot = null;
+//var oneverseEditorChangeOffsetsSnapshot = []
+//var oneverseEditorChangeInsertsSnapshot = []
+//var oneverseEditorChangeDeletesSnapshot = []
 
 
-function oneverseEditorUpdateStep1 ()
+function oneverseUpdateExecute (sync) // Todo
 {
-  // Take a snapshot of the text that was initially loaded in the editor.
-  oneverseEditorLoadedSnapshot = oneverseLoadedText;
-  
-  // Take a snapshot of the current editor text at this point of time.
-  oneverseEditorEditedSnapshot = $ (".ql-editor").html ();
-  
-  // Take a snapshot of editor's edits.
-  oneverseEditorChangeOffsetsSnapshot = [...oneverseEditorChangeOffsets];
-  oneverseEditorChangeInsertsSnapshot = [...oneverseEditorChangeInserts];
-  oneverseEditorChangeDeletesSnapshot = [...oneverseEditorChangeDeletes];
-  
-  // Reset the editor's edits.
+  // Determine whether the conditions for an editor update are good.
+  var goodToGo = true;
+  // if (!oneverseEditorWriteAccess) goodToGo = false;
+  if (!oneverseBible) goodToGo = false;
+  if (!oneverseBook) goodToGo = false;
+  if (!oneverseVerseLoaded) goodToGo = false;
+  if (!goodToGo) {
+    return;
+  }
+
+  // Clear the editor's edits.
   // The user can continue making changes in the editor.
   // These changes get recorded.
   oneverseEditorChangeOffsets = [];
   oneverseEditorChangeInserts = [];
   oneverseEditorChangeDeletes = [];
 
-  // Go to the next step.
-  oneverseUpdateStatus = 2;
-}
+  // A snapshot of the text originally loaded in the editor via AJAX.
+  var encodedLoadedHtml = filter_url_plus_to_tag (oneverseLoadedText);
 
-
-function oneverseEditorUpdateStep2 ()
-{
-  var goodToGo = true;
-  if (!oneverseBible) goodToGo = false;
-  if (!oneverseBook) goodToGo = false;
-  if (!oneverseVerseLoaded) goodToGo = false;
-  if (!goodToGo) {
-    oneverseUpdateStatus = 0;
-    return;
-  }
-
+  // A a snapshot of the current editor text at this point of time.
+  var html = $ (".ql-editor").html ();
+  //if (html == oneverseLoadedText) return;
+  var encodedEditedHtml = filter_url_plus_to_tag (html);
+  
+  oneverseEditorStatus (oneverseEditorVerseSaving);
   oneverseEditorStatus (oneverseEditorVerseUpdating);
 
-  // Send the snapshot of the text originally loaded in the editor via AJAX.
-  var encodedLoadedHtml = filter_url_plus_to_tag (oneverseEditorLoadedSnapshot);
+  //oneverseLoadedText = html;
 
-  // Send the snapshot of the current editor text via AJAX.
-  var encodedEditedHtml = filter_url_plus_to_tag (oneverseEditorEditedSnapshot);
+  // Normally the AJAX call is asynchronous.
+  oneverseSaveAsync = true;
+  if (sync) oneverseSaveAsync = false;
+
   var checksum = checksum_get (encodedEditedHtml);
-  
+
   oneverseAjaxActive = true;
+
   oneverseIdAjaxRequest = $.ajax ({
     url: "update",
     type: "POST",
-    async: true,
+    async: oneverseSaveAsync,
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum: checksum, id: verseEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
-      //oneverseEditorStatus (oneverseEditorVerseRetrying);
-      //oneverseLoadedText = "";
-      //oneverseEditorChanged ();
-      //if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
+      oneverseEditorStatus (oneverseEditorVerseRetrying);
+      oneverseEditorChanged ();
+      if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
     },
     success: function (response) {
       //oneverseEditorStatus (response);
@@ -1120,11 +1108,11 @@ function oneverseEditorUpdateStep2 ()
           if (operator == "insert") {
             var text = bits.shift ();
             var style = bits.shift ();
-            quill.insertText (position, text, {"character": style});
+            //quill.insertText (position, text, {"character": style});
           }
           if (operator == "delete") {
             var length = parseInt (bits.shift ());
-            quill.deleteText (position, length);
+            //quill.deleteText (position, length);
           }
         }
       }
@@ -1133,35 +1121,19 @@ function oneverseEditorUpdateStep2 ()
       //oneverseLoadedText = $ (".ql-editor").html ();
       // Create CSS for embedded styles.
       //css4embeddedstyles ();
-      oneverseUpdateStatus = 3; // Do this after AJAX is successful.
 
       if (response === false) {
-        
+        oneverseEditorChanged ();
+      } else {
+        oneverseEditorStatus (oneverseEditorVerseSaved);
       }
       
     },
     complete: function (xhr, status) {
-      //oneverseSaveAsync = true;
-      //oneverseSaving = false;
-      //oneverseIdPollerOn ();
+      oneverseSaveAsync = true;
       oneverseAjaxActive = false;
     }
   });
 
 }
 
-
-function oneverseEditorUpdateStep3 ()
-{
-
-  // The differences received in the AJAX call contain
-  // what needs to be edited in the editor
-  // so the text in the editor matches with the text on the server.
-  // The editor applies the differences.
-  // Editor updates the "loaded" text.
-  // This allows for continued user-typing while the editor is being updated.
-
-  oneverseEditorStatus (oneverseEditorVerseSaved);
-  
-  oneverseUpdateStatus = 4;
-}

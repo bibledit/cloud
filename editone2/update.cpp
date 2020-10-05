@@ -191,36 +191,37 @@ string editone2_update (void * webserver_request)
 
   
   // The new chapter identifier and new chapter USFM.
-  int newID = 0;
+  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
   string new_chapter_usfm;
   if (good2go) {
-    newID = request->database_bibles()->getChapterId (bible, book, chapter);
     new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
   }
 
   
   if (good2go && bible_write_access) {
-      // If storing the verse worked out well, there's no message to display.
-      if (message.empty ()) {
+    // If storing the verse worked out well, there's no message to display.
+    if (message.empty ()) {
 #ifdef HAVE_CLOUD
-        // The Cloud stores details of the user's changes.
-        Database_Modifications database_modifications;
-        database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
-        if (sendreceive_git_repository_linked (bible)) { // Todo fix this, write access / good2go.
-          //Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
-        }
-        //rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm); // Todo fix.
-#endif
-        // Feedback to user.
-        messages.push_back (locale_logic_text_saved ());
-      } else {
-        // Feedback about anomaly to user.
-        messages.push_back (message);
+      // The Cloud stores details of the user's changes.
+      Database_Modifications database_modifications;
+      database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
+      if (sendreceive_git_repository_linked (bible)) {
+        Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
       }
+      rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
+#endif
+      // Feedback to user.
+      messages.push_back (locale_logic_text_saved ());
+    } else {
+      // Feedback about anomaly to user.
+      messages.push_back (message);
+    }
   }
 
-  //Todo if no message, think of one, e.g. "Updated".
-  //this_thread::sleep_for(chrono::seconds(1));
+  
+  // If there's no message at all, return at least something to the editor.
+  if (messages.empty ()) messages.push_back (translate ("Updated"));
+
 
   // The response to send to back to the editor.
   string response;
@@ -262,5 +263,6 @@ string editone2_update (void * webserver_request)
    */
   
   // Ready.
+  //this_thread::sleep_for(chrono::seconds(1));
   return response;
 }

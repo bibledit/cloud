@@ -1058,10 +1058,12 @@ function oneverseUpdateExecute (sync) // Todo
   //if (html == oneverseLoadedText) return;
   var encodedEditedHtml = filter_url_plus_to_tag (html);
   
-  oneverseEditorStatus (oneverseEditorVerseSaving);
-  //oneverseEditorStatus (oneverseEditorVerseUpdating);
-
-  //oneverseLoadedText = html; Todo to receive this back from AJAX call.
+  // The editor "saves..." if there's changes, and "updates..." if there's no changes.
+  if (html == oneverseLoadedText) {
+    oneverseEditorStatus (oneverseEditorVerseUpdating);
+  } else {
+    oneverseEditorStatus (oneverseEditorVerseSaving);
+  }
 
   // Normally the AJAX call is asynchronous.
   oneverseSaveAsync = true;

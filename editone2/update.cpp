@@ -210,6 +210,7 @@ string editone2_update (void * webserver_request)
     messages.push_back (message);
   }
 
+  //this_thread::sleep_for(chrono::seconds(1));
 
   // The response to send to back to the editor.
   string response;

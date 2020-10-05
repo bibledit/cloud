@@ -130,11 +130,10 @@ string editone2_update (void * webserver_request)
     }
   }
 
-  
+
+  bool bible_write_access = false;
   if (good2go) {
-    if (!access_bible_book_write (request, "", bible, book)) {
-      // Todo handle in a different way: Do not save, but do update. return translate ("No write access");
-    }
+    bible_write_access = access_bible_book_write (request, "", bible, book);
   }
 
 
@@ -167,7 +166,7 @@ string editone2_update (void * webserver_request)
   // There's a need for this if there were user-edits,
   // and if the USFM on the server differs from the USFM loaded in the editor.
   // The three-way merge reconciles those differences.
-  if (good2go) {
+  if (good2go && bible_write_access) {
     if (loaded_verse_usfm != edited_verse_usfm) {
       if (loaded_verse_usfm != existing_verse_usfm) {
         vector <Merge_Conflict> conflicts;
@@ -184,32 +183,43 @@ string editone2_update (void * webserver_request)
   
   // Safely store the verse.
   string explanation;
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
-  bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
-
-  
-  // The new chapter identifier.
-  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
-
-  
-  // If storing the verse worked out well, there's no message to display.
-  if (message.empty ()) {
-#ifdef HAVE_CLOUD
-    // The Cloud stores details of the user's changes. // Todo
-    Database_Modifications database_modifications;
-    //database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
-    if (sendreceive_git_repository_linked (bible)) {
-      //Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
-    }
-    //rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
-#endif
-    // Feedback to user.
-    messages.push_back (locale_logic_text_saved ());
-  } else {
-    // Feedback about anomaly to user.
-    messages.push_back (message);
+  string message;
+  if (good2go && bible_write_access) {
+    message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
+    bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
   }
 
+  
+  // The new chapter identifier and new chapter USFM.
+  int newID = 0;
+  string new_chapter_usfm;
+  if (good2go) {
+    newID = request->database_bibles()->getChapterId (bible, book, chapter);
+    new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  }
+
+  
+  if (good2go && bible_write_access) {
+      // If storing the verse worked out well, there's no message to display.
+      if (message.empty ()) {
+#ifdef HAVE_CLOUD
+        // The Cloud stores details of the user's changes.
+        Database_Modifications database_modifications;
+        database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
+        if (sendreceive_git_repository_linked (bible)) { // Todo fix this, write access / good2go.
+          //Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
+        }
+        //rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm); // Todo fix.
+#endif
+        // Feedback to user.
+        messages.push_back (locale_logic_text_saved ());
+      } else {
+        // Feedback about anomaly to user.
+        messages.push_back (message);
+      }
+  }
+
+  //Todo if no message, think of one, e.g. "Updated".
   //this_thread::sleep_for(chrono::seconds(1));
 
   // The response to send to back to the editor.

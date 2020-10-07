@@ -112,7 +112,7 @@ void Editor_Html2Format::openElementNode (xml_node node)
     // In the editor, it may occur that the p element does not have a class.
     // Use the 'p' class in such a case.
     if (className.empty ()) className = "p";
-    texts.push_back("##new##line##");
+    texts.push_back("\n");
     formats.push_back(className);
     // A new line starts: Clear the character formatting.
     current_character_format.clear();

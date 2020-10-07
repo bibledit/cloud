@@ -33,6 +33,7 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <editor/html2usfm.h>
+#include <editor/html2format.h>
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <editone2/logic.h>
@@ -162,22 +163,19 @@ string editone2_update (void * webserver_request)
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
 
-  // Set a flag if there is a reason to save the editor text.
+  // Set a flag if there is a reason to save the editor text, since it was edited.
   // This is important because the same routine is used for saving editor text
   // as well as updating the editor text.
   // So if the text in the editor was not changed, it should not save it,
   // as saving the editor text would overwrite saves made by other(s).
-  bool save_editor = false;
-  if (good2go && bible_write_access) {
-    save_editor = (loaded_verse_usfm != edited_verse_usfm);
-  }
+  bool text_was_edited = (loaded_verse_usfm != edited_verse_usfm);
   
   
   // Do a three-way merge if needed.
   // There's a need for this if there were user-edits,
   // and if the USFM on the server differs from the USFM loaded in the editor.
   // The three-way merge reconciles those differences.
-  if (save_editor) {
+  if (good2go && bible_write_access && text_was_edited) {
     if (loaded_verse_usfm != existing_verse_usfm) {
       vector <Merge_Conflict> conflicts;
       // Do a merge while giving priority to the USFM already in the chapter.
@@ -193,7 +191,7 @@ string editone2_update (void * webserver_request)
   // Safely store the verse.
   string explanation;
   string message;
-  if (save_editor) {
+  if (good2go && bible_write_access && text_was_edited) {
     message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
     bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
   }
@@ -207,7 +205,7 @@ string editone2_update (void * webserver_request)
   }
 
   
-  if (save_editor) {
+  if (good2go && bible_write_access && text_was_edited) {
     // If storing the verse worked out well, there's no message to display.
     if (message.empty ()) {
 #ifdef HAVE_CLOUD
@@ -246,21 +244,57 @@ string editone2_update (void * webserver_request)
   response.append (convert_to_string (newID));
 
   
-  // Send the differences between what the editor has now and what the server has now.
+  // The main purpose of the following block of code is this:
+  // To send the differences between what the editor has now and what the server has now.
   // The purpose of sending the differences to the editor is this:
   // The editor can update its contents, so the editor will have what the server has.
   // This is the format to send the changes in:
   // insert - position - text - format
   // delete - position - length
   if (good2go) {
+    // Determine the server's current verse content, and the editor's current verse content.
     string editor_html (edited_html);
     string server_html;
     {
       string verse_usfm = usfm_get_verse_text_quill (new_chapter_usfm, verse);
       editone2_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
-    cout << editor_html << endl;
-    cout << server_html << endl;
+    // Convert the html to text-fragment and format pairs.
+    Editor_Html2Format editor_format;
+    Editor_Html2Format server_format;
+    editor_format.load (editor_html);
+    server_format.load (server_html);
+    editor_format.run ();
+    server_format.run ();
+    // Convert the formatted text fragments to formatted UTF-8 characters.
+    vector <string> editor_character_content;
+    vector <string> server_character_content;
+    for (size_t i = 0; i < editor_format.texts.size(); i++) {
+      string text = editor_format.texts[i];
+      string format = editor_format.formats[i];
+      size_t length = unicode_string_length (text);
+      for (size_t pos = 0; pos < length; pos++) {
+        string utf8_character = unicode_string_substr (text, pos, 1);
+        editor_character_content.push_back (utf8_character + format);
+      }
+    }
+    for (size_t i = 0; i < server_format.texts.size(); i++) {
+      string text = server_format.texts[i];
+      string format = server_format.formats[i];
+      size_t length = unicode_string_length (text);
+      for (size_t pos = 0; pos < length; pos++) {
+        string utf8_character = unicode_string_substr (text, pos, 1);
+        server_character_content.push_back (utf8_character + format);
+      }
+    }
+    //for (size_t i = 0; i < editor_character_content.size(); i++) cout << editor_character_content[i] << endl;
+    //for (size_t i = 0; i < server_character_content.size(); i++) cout << server_character_content[i] << endl;
+
+    
+    
+    
+
+
     
   }
   

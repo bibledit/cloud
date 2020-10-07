@@ -1035,7 +1035,6 @@ function oneverseUpdateExecute (sync) // Todo
 {
   // Determine whether the conditions for an editor update are all met.
   var goodToGo = true;
-  // if (!oneverseEditorWriteAccess) goodToGo = false;
   if (!oneverseBible) goodToGo = false;
   if (!oneverseBook) goodToGo = false;
   if (!oneverseVerseLoaded) goodToGo = false;

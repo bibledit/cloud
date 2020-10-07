@@ -36,7 +36,7 @@
 using dtl::Diff;
 
 
-// This filter returns the diff of two input strngs.
+// This filter returns the diff of two input strings.
 // $oldstring: The old string for input.
 // $newstring: The new string for input.
 // The function returns the differences marked.
@@ -98,6 +98,77 @@ string filter_diff_diff (string oldstring, string newstring,
   html = filter_string_str_replace (filter_string_trim (newline), "\n", html);
   
   return html;
+}
+
+
+// This filter returns the diff of two input vector<string>'s.
+// $old: The old vector<string> for input.
+// $new: The new vector<string> for input.
+// The function produces information,
+// that if applied to the old input, will produce the new input.
+// This information consists of positions
+// for addition or deletion operators,
+// and if an addition, which content to add.
+void filter_diff_diff (const vector<string> & oldinput, const vector<string> & newinput,
+                       vector <int> & positions,
+                       vector <bool> & additions,
+                       vector <string> & content) // Todo
+{
+  // The sequences to compare.
+  vector <string> old_sequence = oldinput;
+  vector <string> new_sequence = newinput;
+
+  // Save the new lines.
+  string newline = "_newline_";
+  for (auto & s : old_sequence) {
+    s = filter_string_str_replace ("\n", newline, s);
+  }
+  for (auto & s : new_sequence) {
+    s = filter_string_str_replace ("\n", newline, s);
+  }
+
+  // Run the diff engine.
+  Diff <string> diff (old_sequence, new_sequence);
+  diff.compose();
+  
+  // Get the shortest edit distance.
+  stringstream result;
+  diff.printSES (result);
+
+  // Convert the new line place holder back to the original new line.
+  vector <string> differences = filter_string_explode (result.str (), '\n');
+  for (auto & s : differences) {
+    s = filter_string_str_replace (newline, "\n", s);
+  }
+
+  // Convert the additions and deletions to a change set.
+  size_t position = 0;
+  for (auto & line : differences) {
+    if (line.empty ()) continue;
+    char indicator = line.front ();
+    line.erase (0, 1);
+    if (indicator == '+') {
+      // Something to be inserted into the old sequence to get at the new sequence.
+      positions.push_back(position);
+      additions.push_back(true);
+      content.push_back(line);
+      // Something was inserted.
+      // So increase the position to point to the next offset in the sequence from where to proceed.
+      position++;
+    }
+    else if (indicator == '-') {
+      // Something to be deleted at the given position.
+      positions.push_back(position);
+      additions.push_back(false);
+      content.push_back("");
+      // Something was deleted.
+      // So the position will remain to point to the same offset in the sequence from where to proceed.
+    }
+    else {
+      // No difference.
+      position++;
+    }
+  }
 }
 
 

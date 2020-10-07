@@ -140,6 +140,18 @@ void evaluate (int line, string func, vector <int> desired, vector <int> actual)
 }
 
 
+void evaluate (int line, string func, vector <bool> desired, vector <bool> actual)
+{
+  if (desired.size() != actual.size ()) {
+    error_message (line, func, convert_to_string ((int)desired.size ()), convert_to_string ((int)actual.size()) + " size mismatch");
+    return;
+  }
+  for (size_t i = 0; i < desired.size (); i++) {
+    if (desired[i] != actual[i]) error_message (line, func, convert_to_string (desired[i]), convert_to_string (actual[i]) + " mismatch at offset " + convert_to_string (i));
+  }
+}
+
+
 void evaluate (int line, string func, map <int, string> desired, map <int, string> actual)
 {
   if (desired.size() != actual.size ()) {

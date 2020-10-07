@@ -35,7 +35,7 @@ void test_html2format ()
   // Basic test.
   {
     string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
-    vector<string> texts = {"##new##line##", "The earth brought forth."};
+    vector<string> texts = {"\n", "The earth brought forth."};
     vector<string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
@@ -59,7 +59,7 @@ void test_html2format ()
   // Non-breaking spaces.
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    vector<string> texts = {"##new##line##", "The earth brought forth."};
+    vector<string> texts = {"\n", "The earth brought forth."};
     vector<string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
@@ -83,7 +83,7 @@ void test_html2format ()
   // Test embedded <span> elements.
   {
     string html = "<p class=\"p\"><span>The </span><span class=\"add0nd\">Lord God</span> is calling you<span>.</span></p>";
-    vector<string> texts = {"##new##line##", "The ", "Lord God", " is calling you", "."};
+    vector<string> texts = {"\n", "The ", "Lord God", " is calling you", "."};
     vector<string> formats = {"p", "", "add0nd", "", ""};
     {
       Editor_Html2Format editor_html2format;
@@ -111,13 +111,13 @@ void test_html2format ()
     "</p>"
     "<p class=\"b-x\"><span class=\"i-notebody1\">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
     vector<string> texts = {
-      "##new##line##",
+      "\n",
       "The earth brought forth",
       "x",
       ".",
-      "##new##line##",
+      "\n",
       "##br##",
-      "##new##line##",
+      "\n",
       "x",
       " ",
       "+ 2 Joh. 1.1"
@@ -152,13 +152,13 @@ void test_html2format ()
     "<p class=\"b-f\"></p>"
     "</p>";
     vector<string> texts = {
-      "##new##line##",
+      "\n",
       "The earth brought forth",
       "f",
       ".",
-      "##new##line##",
+      "\n",
       "##br##",
-      "##new##line##"
+      "\n"
     };
     vector<string> formats = {
       "p",
@@ -188,12 +188,12 @@ void test_html2format ()
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">f</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
       vector<string> texts = {
-        "##new##line##",
+        "\n",
         "The earth brought forth",
         ".",
-        "##new##line##",
+        "\n",
         "##br##",
-        "##new##line##",
+        "\n",
         "f",
         " ",
         "+ ",
@@ -230,7 +230,7 @@ void test_html2format ()
     {
       string html = "<p class=\"p\"><span>Praise </span><span class=\"add\">Yahweh</span><span> <span class=\"add\">all</span> you nations!</span></p>";
       vector<string> texts = {
-        "##new##line##",
+        "\n",
         "Praise ",
         "Yahweh",
         " ",
@@ -254,7 +254,7 @@ void test_html2format ()
     {
       string html = "<p class=\"b-p\"><span>Praise </span><span class=\"i-add\">Yahweh</span><span> <span class=\"i-add\">all</span> you nations!</span></p>";
       vector<string> texts = {
-        "##new##line##",
+        "\n",
         "Praise ",
         "Yahweh",
         " ",

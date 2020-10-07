@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include <filter/merge.h>
 #include <filter/url.h>
+#include <filter/string.h>
 #include <webserver/request.h>
 #include <database/modifications.h>
 #include <database/state.h>
@@ -77,6 +78,64 @@ void test_diff ()
     evaluate (__LINE__, __func__, {"heaven", "form", "void", "said:", "\"Let", "light\".", "And"},
               additions);
   }
+
+  
+  // Update differing content.
+  {
+    vector <string> oldinput = {"a", "badd", "c",      "e", "f", "g", "\np"};
+    vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
+    vector <int> positions;
+    vector <bool> additions;
+    vector <string> content;
+    filter_diff_diff (oldinput, newinput, positions, additions, content);
+    evaluate (__LINE__, __func__, {3, 6, 7}, positions);
+    evaluate (__LINE__, __func__, {true, false, true}, additions);
+    evaluate (__LINE__, __func__, {"d", "", "h"}, content);
+    vector <string> assembly (oldinput);
+    // Routine to update the old input so it's like the new.
+    for (size_t i = 0; i < positions.size(); i++) {
+      int position = positions[i];
+      bool addition = additions[i];
+      string s = content[i];
+      vector<string>::iterator iterator = assembly.begin();
+      if (position > 0) iterator += position;
+      if (addition) {
+        if (iterator == assembly.end()) assembly.push_back((s));
+        else assembly.insert(iterator, s);
+      } else {
+        assembly.erase(iterator);
+      }
+    }
+    evaluate (__LINE__, __func__, newinput, assembly);
+  }
+  {
+    vector <string> oldinput = {"a",         "c",      "e", "f", "g", "\np",     "i"};
+    vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
+    vector <int> positions;
+    vector <bool> additions;
+    vector <string> content;
+    filter_diff_diff (oldinput, newinput, positions, additions, content);
+    evaluate (__LINE__, __func__, {1, 3, 6, 7, 8}, positions);
+    evaluate (__LINE__, __func__, {true, true, false, true, false}, additions);
+    evaluate (__LINE__, __func__, {"badd", "d", "", "h", ""}, content);
+    vector <string> assembly (oldinput);
+    // Routine to update the old input so it's like the new.
+    for (size_t i = 0; i < positions.size(); i++) {
+      int position = positions[i];
+      bool addition = additions[i];
+      string s = content[i];
+      vector<string>::iterator iterator = assembly.begin();
+      if (position > 0) iterator += position;
+      if (addition) {
+        if (iterator == assembly.end()) assembly.push_back((s));
+        else assembly.insert(iterator, s);
+      } else {
+        assembly.erase(iterator);
+      }
+    }
+    evaluate (__LINE__, __func__, newinput, assembly);
+  }
+
   
   // Character similarity.
   {

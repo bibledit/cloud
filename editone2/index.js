@@ -1054,7 +1054,6 @@ function oneverseUpdateExecute (sync) // Todo
 
   // A a snapshot of the current editor text at this point of time.
   var html = $ (".ql-editor").html ();
-  //if (html == oneverseLoadedText) return;
   var encodedEditedHtml = filter_url_plus_to_tag (html);
   
   // The editor "saves..." if there's changes, and "updates..." if there's no changes.

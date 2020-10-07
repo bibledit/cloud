@@ -250,7 +250,7 @@ string editone2_update (void * webserver_request)
   // The editor can update its contents, so the editor will have what the server has.
   // This is the format to send the changes in:
   // insert - position - text - format
-  // delete - position - length
+  // delete - position
   if (good2go) {
     // Determine the server's current verse content, and the editor's current verse content.
     string editor_html (edited_html);
@@ -289,33 +289,33 @@ string editone2_update (void * webserver_request)
     }
     //for (size_t i = 0; i < editor_character_content.size(); i++) cout << editor_character_content[i] << endl;
     //for (size_t i = 0; i < server_character_content.size(); i++) cout << server_character_content[i] << endl;
-
-    
-    
-    
-
-
-    
+    // Find the differences between the two sets of content.
+    vector <int> positions;
+    vector <bool> additions;
+    vector <string> content;
+    filter_diff_diff (editor_character_content, server_character_content, positions, additions, content);
+    // Encode the differences for the response to the Javascript editor.
+    for (size_t i = 0; i < positions.size(); i++) {
+      response.append ("#_be_#");
+      bool addition = additions[i];
+      if (addition) response.append ("insert");
+      else response.append ("delete");
+      response.append ("#_be_#");
+      int position = positions[i];
+      response.append (convert_to_string (position));
+      if (addition) {
+        string text = content[i];
+        string character = unicode_string_substr (text, 0, 1);
+        size_t length = unicode_string_length (text);
+        string format = unicode_string_substr (text, 1, length - 1);
+        response.append ("#_be_#");
+        response.append (text);
+        response.append ("#_be_#");
+        response.append (format);
+      }
+    }
   }
   
-  /*
-  response.append ("insert");
-  response.append ("#_be_#");
-  response.append ("9");
-  response.append ("#_be_#");
-  response.append ("Lord");
-  response.append ("#_be_#");
-  response.append ("add");
-
-  response.append ("#_be_#");
-  response.append ("delete");
-  response.append ("#_be_#");
-  response.append ("13");
-  response.append ("#_be_#");
-  response.append ("6");
-  
-  
-   */
 
   bool write = access_bible_book_write (webserver_request, username, bible, book);
   response = Checksum_Logic::send (response, write);

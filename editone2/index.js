@@ -1102,7 +1102,19 @@ function oneverseUpdateExecute (sync) // Todo
         oneverseChapterId = bits.shift();
 
         console.log (bits);
-
+        // Apply the remaining data, the differences, to the editor.
+        while (bits.length > 0) {
+          var operator = bits.shift();
+          var position = parseInt (bits.shift ());
+          if (operator == "insert") {
+            var text = bits.shift ();
+            var style = bits.shift ();
+            quill.insertText (position, text, {"character": style}, "silent");
+          }
+          if (operator == "delete") {
+            quill.deleteText (position, 1, "silent");
+          }
+        }
         
       } else {
         // If the checksum is not valid, the response will become false.
@@ -1110,28 +1122,8 @@ function oneverseUpdateExecute (sync) // Todo
         oneverseEditorStatus (oneverseEditorVerseRetrying);
       }
 
-
-
-
-      
-
-//        while (bits.length > 0) {
-//          var operator = bits.shift();
-//          var position = parseInt (bits.shift ());
-//          if (operator == "insert") {
-//            var text = bits.shift ();
-//            var style = bits.shift ();
-//            //quill.insertText (position, text, {"character": style});
-//          }
-//          if (operator == "delete") {
-//            var length = parseInt (bits.shift ());
-//            //quill.deleteText (position, length);
-//          }
-//        }
-//      }
-
       // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-      //oneverseLoadedText = $ (".ql-editor").html ();
+      oneverseLoadedText = $ (".ql-editor").html ();
       
       // Create CSS for embedded styles.
       css4embeddedstyles ();

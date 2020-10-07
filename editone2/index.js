@@ -998,7 +998,6 @@ function oneverseCoordinatingTimeout ()
   }
   else if (oneverseUpdateTrigger) {
     oneverseUpdateTrigger = false;
-    console.log ("execute save");
     oneverseUpdateExecute (false);
   }
   // Handle situation that no process is ongoing.
@@ -1084,27 +1083,38 @@ function oneverseUpdateExecute (sync) // Todo
       if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
     },
     success: function (response) {
-      console.log (response);
-
-      // Split the response into the separate bits.
-      var bits = [];
-      bits = response.split ("#_be_#");
-
-      // The first bit is the feedback message to the user.
-      oneverseEditorStatus (bits.shift());
-
-      // The next bit is the new chapter identifier.
-      oneverseChapterId = bits.shift();
 
       // Flag for editor read-write or read-only.
-      // Since read-write is already set upon text load,
-      // the flag is unused here.
-      //var writeAccess = checksum_readwrite (response);
-      
-      // If the checksum is not valid, the response will become false.
-      //response = checksum_receive (response);
+      oneverseEditorWriteAccess = checksum_readwrite (response);
 
-//      if (response !== false) {
+      // Checksumming.
+      response = checksum_receive (response);
+      if (response !== false) {
+        
+        // Split the response into the separate bits.
+        var bits = [];
+        bits = response.split ("#_be_#");
+
+        // The first bit is the feedback message to the user.
+        oneverseEditorStatus (bits.shift());
+
+        // The next bit is the new chapter identifier.
+        oneverseChapterId = bits.shift();
+
+        console.log (bits);
+
+        
+      } else {
+        // If the checksum is not valid, the response will become false.
+        // Checksum error.
+        oneverseEditorStatus (oneverseEditorVerseRetrying);
+      }
+
+
+
+
+      
+
 //        while (bits.length > 0) {
 //          var operator = bits.shift();
 //          var position = parseInt (bits.shift ());

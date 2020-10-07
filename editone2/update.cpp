@@ -161,22 +161,31 @@ string editone2_update (void * webserver_request)
   string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
+
+  // Set a flag if there is a reason to save the editor text.
+  // This is important because the same routine is used for saving editor text
+  // as well as updating the editor text.
+  // So if the text in the editor was not changed, it should not save it,
+  // as saving the editor text would overwrite saves made by other(s).
+  bool save_editor = false;
+  if (good2go && bible_write_access) {
+    save_editor = (loaded_verse_usfm != edited_verse_usfm);
+  }
+  
   
   // Do a three-way merge if needed.
   // There's a need for this if there were user-edits,
   // and if the USFM on the server differs from the USFM loaded in the editor.
   // The three-way merge reconciles those differences.
-  if (good2go && bible_write_access) {
-    if (loaded_verse_usfm != edited_verse_usfm) {
-      if (loaded_verse_usfm != existing_verse_usfm) {
-        vector <Merge_Conflict> conflicts;
-        // Do a merge while giving priority to the USFM already in the chapter.
-        string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
-        // Mail the user if there is a merge anomaly.
-        bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm);
-        // Let the merged data now become the edited data (so it gets saved properly).
-        edited_verse_usfm = merged_verse_usfm;
-      }
+  if (save_editor) {
+    if (loaded_verse_usfm != existing_verse_usfm) {
+      vector <Merge_Conflict> conflicts;
+      // Do a merge while giving priority to the USFM already in the chapter.
+      string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
+      // Mail the user if there is a merge anomaly.
+      bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm);
+      // Let the merged data now become the edited data (so it gets saved properly).
+      edited_verse_usfm = merged_verse_usfm;
     }
   }
   
@@ -184,7 +193,7 @@ string editone2_update (void * webserver_request)
   // Safely store the verse.
   string explanation;
   string message;
-  if (good2go && bible_write_access) {
+  if (save_editor) {
     message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
     bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
   }
@@ -198,7 +207,7 @@ string editone2_update (void * webserver_request)
   }
 
   
-  if (good2go && bible_write_access) {
+  if (save_editor) {
     // If storing the verse worked out well, there's no message to display.
     if (message.empty ()) {
 #ifdef HAVE_CLOUD
@@ -231,14 +240,29 @@ string editone2_update (void * webserver_request)
   // Send it to the browser for display to the user.
   response.append (filter_string_implode (messages, " | "));
 
+  
   // Add separator and the new chapter identifier to the response.
   response.append (separator);
   response.append (convert_to_string (newID));
 
   
+  // Send the differences between what the editor has now and what the server has now.
+  // The purpose of sending the differences to the editor is this:
+  // The editor can update its contents, so the editor will have what the server has.
   // This is the format to send the changes in:
   // insert - position - text - format
   // delete - position - length
+  if (good2go) {
+    string editor_html (edited_html);
+    string server_html;
+    {
+      string verse_usfm = usfm_get_verse_text_quill (new_chapter_usfm, verse);
+      editone2_logic_editable_html (verse_usfm, stylesheet, server_html);
+    }
+    cout << editor_html << endl;
+    cout << server_html << endl;
+    
+  }
   
   /*
   response.append ("insert");
@@ -256,12 +280,12 @@ string editone2_update (void * webserver_request)
   response.append ("#_be_#");
   response.append ("6");
   
-  string user = request->session_logic ()->currentUser ();
-  bool write = access_bible_book_write (webserver_request, user, bible, book);
-  response = Checksum_Logic::send (response, write);
   
    */
-  
+
+  bool write = access_bible_book_write (webserver_request, username, bible, book);
+  response = Checksum_Logic::send (response, write);
+
   // Ready.
   //this_thread::sleep_for(chrono::seconds(1));
   return response;

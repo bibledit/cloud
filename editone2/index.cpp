@@ -109,6 +109,7 @@ string editone2_index (void * webserver_request)
   string script =
   "var oneverseEditorVerseLoaded = '" + locale_logic_text_loaded () + "';\n"
   "var oneverseEditorVerseUpdating = '" + locale_logic_text_updating () + "';\n"
+  "var oneverseEditorVerseUpdated = '" + locale_logic_text_updated () + "';\n"
   "var oneverseEditorWillSave = '" + locale_logic_text_will_save () + "';\n"
   "var oneverseEditorVerseSaving = '" + locale_logic_text_saving () + "';\n"
   "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"

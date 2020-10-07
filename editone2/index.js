@@ -418,6 +418,7 @@ function oneverseEditorSelectiveNotification (message)
   if (message == oneverseEditorVerseSaving) return;
   if (message == oneverseEditorVerseSaved) return;
   if (message == oneverseEditorVerseUpdating) return;
+  if (message == oneverseEditorVerseUpdated) return;
   notifyItError (message);
 }
 
@@ -1106,6 +1107,9 @@ function oneverseUpdateExecute (sync) // Todo
         while (bits.length > 0) {
           var operator = bits.shift();
           var position = parseInt (bits.shift ());
+          // At position 0 is a new line in the changes,
+          // but this new line is not counted in Quill.
+          if (position > 0) position--
           if (operator == "insert") {
             var text = bits.shift ();
             var style = bits.shift ();

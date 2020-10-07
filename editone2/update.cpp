@@ -309,7 +309,7 @@ string editone2_update (void * webserver_request)
         size_t length = unicode_string_length (text);
         string format = unicode_string_substr (text, 1, length - 1);
         response.append ("#_be_#");
-        response.append (text);
+        response.append (character);
         response.append ("#_be_#");
         response.append (format);
       }

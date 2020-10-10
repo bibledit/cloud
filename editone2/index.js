@@ -1105,16 +1105,25 @@ function oneverseUpdateExecute (sync) // Todo
         while (bits.length > 0) {
           var operator = bits.shift();
           var position = parseInt (bits.shift ());
-          // At position 0 is a new line in the changes,
-          // but this new line is not counted in Quill.
-          if (position > 0) position--
-          if (operator == "insert") {
-            var text = bits.shift ();
-            var style = bits.shift ();
-            quill.insertText (position, text, {"character": style}, "silent");
-          }
-          if (operator == "delete") {
-            quill.deleteText (position, 1, "silent");
+          // Position 0 in the incoming changes always refers to the initial new line in the editor.
+          // Do not insert or delete that new line, but just apply any formatting there.
+          if (position == 0) {
+            if (operator == "insert") {
+              var text = bits.shift ();
+              var style = bits.shift ();
+              quill.formatLine (0, 1, {"paragraph": style}, "silent");
+            }
+          } else {
+            // The initial new line is not counted in Quill.
+            position--;
+            if (operator == "insert") {
+              var text = bits.shift ();
+              var style = bits.shift ();
+              quill.insertText (position, text, {"character": style}, "silent");
+            }
+            if (operator == "delete") {
+              quill.deleteText (position, 1, "silent");
+            }
           }
         }
         

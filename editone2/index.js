@@ -1100,7 +1100,7 @@ function oneverseUpdateExecute (sync) // Todo
         // The next bit is the new chapter identifier.
         oneverseChapterId = bits.shift();
 
-        console.log (bits);
+        //console.log (bits);
         // Apply the remaining data, the differences, to the editor.
         while (bits.length > 0) {
           var operator = bits.shift();
@@ -1119,10 +1119,22 @@ function oneverseUpdateExecute (sync) // Todo
             if (operator == "insert") {
               var text = bits.shift ();
               var style = bits.shift ();
-              quill.insertText (position, text, {"character": style}, "silent");
+              if (text == "\n") {
+                // New line.
+                console.log ("insert new line @ position", position);
+                quill.insertText (position, text, {}, "silent");
+                //var line = getQuillLineNumber (position + 1);
+                console.log ("format line @ position", position + 1);
+                quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
+              } else {
+                // Ordinary character: Insert formatted text.
+                console.log ("insert", text, "@ position", position);
+                quill.insertText (position, text, {"character": style}, "silent");
+              }
             }
             if (operator == "delete") {
               quill.deleteText (position, 1, "silent");
+              console.log ("delete @ position", position);
             }
           }
         }

@@ -966,6 +966,23 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
 }
 
 
+const char * bible_logic_insert_operator ()
+{
+  return "i";
+}
+const char * bible_logic_delete_operator ()
+{
+  return "d";
+}
+const char * bible_logic_format_paragraph_operator ()
+{
+  return "p";
+}
+const char * bible_logic_format_character_operator ()
+{
+  return "c";
+}
+
 // There are three containers with updating information.
 // The function condenses this updating information.
 // This condensed information works better for the Quill editor.
@@ -979,11 +996,6 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
   positions_out.clear();
   operators_out.clear();
   content_out.clear();
-  
-  const char * insert_operator = "i";
-  const char * delete_operator = "d";
-  const char * format_paragraph_operator = "p";
-  //const char * format_character_operator = "c";
   
   int previous_position = numeric_limits<int>::min();
   bool previous_addition = false;
@@ -1009,12 +1021,12 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
       content_out.pop_back();
       // Add the paragraph format operation data.
       positions_out.push_back(position);
-      operators_out.push_back(format_paragraph_operator);
+      operators_out.push_back(bible_logic_format_paragraph_operator());
       content_out.push_back(format);
     } else {
       positions_out.push_back(position);
-      if (addition) operators_out.push_back(insert_operator);
-      else operators_out.push_back(delete_operator);
+      if (addition) operators_out.push_back(bible_logic_insert_operator());
+      else operators_out.push_back(bible_logic_delete_operator());
       content_out.push_back(character + format);
     }
 

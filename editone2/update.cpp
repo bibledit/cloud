@@ -287,31 +287,46 @@ string editone2_update (void * webserver_request)
         server_character_content.push_back (utf8_character + format);
       }
     }
-    //for (size_t i = 0; i < editor_character_content.size(); i++) cout << editor_character_content[i] << endl;
-    //for (size_t i = 0; i < server_character_content.size(); i++) cout << server_character_content[i] << endl;
     // Find the differences between the two sets of content.
-    vector <int> positions;
-    vector <bool> additions;
-    vector <string> content;
-    filter_diff_diff (editor_character_content, server_character_content, positions, additions, content);
-    // Encode the differences for the response to the Javascript editor.
-    for (size_t i = 0; i < positions.size(); i++) {
+    vector <int> positions_diff;
+    vector <bool> additions_diff;
+    vector <string> content_diff;
+    filter_diff_diff (editor_character_content, server_character_content,
+                      positions_diff, additions_diff, content_diff);
+    // Condense the differences a bit and render them to another format.
+    vector <int> positions_condensed;
+    vector <string> operators_condensed;
+    vector <string> content_condensed;
+    bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
+                                         positions_condensed, operators_condensed, content_condensed);
+    for (size_t i = 0; i < positions_diff.size(); i++) {
+      //cout << "position " << positions_diff[i] << " addition " << additions_diff[i] << " content " << content_diff[i] << endl; // Todo
+    }
+    // Encode the condensed differences for the response to the Javascript editor.
+    for (size_t i = 0; i < positions_condensed.size(); i++) {
+      cout << "position " << positions_condensed[i] << " operator " << operators_condensed[i] << " content " << content_condensed[i] << endl; // Todo
       response.append ("#_be_#");
-      bool addition = additions[i];
-      if (addition) response.append ("insert");
-      else response.append ("delete");
+      response.append (convert_to_string (positions_condensed[i]));
       response.append ("#_be_#");
-      int position = positions[i];
-      response.append (convert_to_string (position));
-      if (addition) {
-        string text = content[i];
+      string operation = operators_condensed[i];
+      response.append (operation);
+      response.append ("#_be_#");
+      if (operation == bible_logic_insert_operator ()) {
+        string text = content_condensed[i];
         string character = unicode_string_substr (text, 0, 1);
-        size_t length = unicode_string_length (text);
-        string format = unicode_string_substr (text, 1, length - 1);
-        response.append ("#_be_#");
         response.append (character);
         response.append ("#_be_#");
+        size_t length = unicode_string_length (text);
+        string format = unicode_string_substr (text, 1, length - 1);
         response.append (format);
+      }
+      else if (operation == bible_logic_delete_operator ()) {
+      }
+      else if (operation == bible_logic_format_paragraph_operator ()) {
+        response.append (content_condensed[i]);
+      }
+      else if (operation == bible_logic_format_character_operator ()) {
+        response.append (content_condensed[i]);
       }
     }
   }

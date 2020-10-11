@@ -1100,30 +1100,29 @@ function oneverseUpdateExecute (sync) // Todo
         // The next bit is the new chapter identifier.
         oneverseChapterId = bits.shift();
 
-        //console.log (bits);
+        console.log (bits);
         // Apply the remaining data, the differences, to the editor.
         while (bits.length > 0) {
-          var operator = bits.shift();
           var position = parseInt (bits.shift ());
+          var operator = bits.shift();
           // Position 0 in the incoming changes always refers to the initial new line in the editor.
           // Do not insert or delete that new line, but just apply any formatting there.
           if (position == 0) {
-            if (operator == "insert") {
-              var text = bits.shift ();
+            if (operator == "p") {
               var style = bits.shift ();
-              quill.formatLine (0, 1, {"paragraph": style}, "silent");
+              quill.formatLine (0, 0, {"paragraph": style}, "silent");
             }
           } else {
             // The initial new line is not counted in Quill.
             position--;
-            if (operator == "insert") {
+            // Handle insert operator.
+            if (operator == "i") {
               var text = bits.shift ();
               var style = bits.shift ();
               if (text == "\n") {
                 // New line.
                 console.log ("insert new line @ position", position);
                 quill.insertText (position, text, {}, "silent");
-                //var line = getQuillLineNumber (position + 1);
                 console.log ("format line @ position", position + 1);
                 quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
               } else {
@@ -1132,9 +1131,20 @@ function oneverseUpdateExecute (sync) // Todo
                 quill.insertText (position, text, {"character": style}, "silent");
               }
             }
-            if (operator == "delete") {
+            // Handle delete operator.
+            else if (operator == "d") {
               quill.deleteText (position, 1, "silent");
               console.log ("delete @ position", position);
+            }
+            // Handle format paragraph operator.
+            else if (operator == "p") {
+              var style = bits.shift ();
+              console.log ("format line @ position", position + 1);
+              quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
+            }
+            // Handle format character operator.
+            else if (operator == "c") {
+              var style = bits.shift ();
             }
           }
         }

@@ -54,6 +54,10 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
                                                     const string & ancestor_usfm,
                                                     const string & edited_usfm,
                                                     const string & merged_usfm);
+const char * bible_logic_insert_operator ();
+const char * bible_logic_delete_operator ();
+const char * bible_logic_format_paragraph_operator ();
+const char * bible_logic_format_character_operator ();
 void bible_logic_condense_editor_updates (const vector <int> & positions_in,
                                           const vector <bool> & additions_in,
                                           const vector <string> & content_in,

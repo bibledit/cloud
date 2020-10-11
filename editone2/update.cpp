@@ -299,12 +299,8 @@ string editone2_update (void * webserver_request)
     vector <string> content_condensed;
     bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
                                          positions_condensed, operators_condensed, content_condensed);
-    for (size_t i = 0; i < positions_diff.size(); i++) {
-      //cout << "position " << positions_diff[i] << " addition " << additions_diff[i] << " content " << content_diff[i] << endl; // Todo
-    }
     // Encode the condensed differences for the response to the Javascript editor.
     for (size_t i = 0; i < positions_condensed.size(); i++) {
-      cout << "position " << positions_condensed[i] << " operator " << operators_condensed[i] << " content " << content_condensed[i] << endl; // Todo
       response.append ("#_be_#");
       response.append (convert_to_string (positions_condensed[i]));
       response.append ("#_be_#");
@@ -330,6 +326,11 @@ string editone2_update (void * webserver_request)
       }
     }
   }
+  // Things to test in the above update routine.
+  // * Changing the format of the first paragraph.
+  // * Changing the format of the second paragraph.
+  // * Changing the formst of the last paragraph.
+
   
 
   bool write = access_bible_book_write (webserver_request, username, bible, book);

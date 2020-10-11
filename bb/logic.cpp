@@ -816,7 +816,9 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
   information.append (" ");
   information.append (translate ("You may want to check whether the Bible text was saved correctly."));
   information.append (" ");
-  information.append (translate ("The changes in bold are yours."));
+  information.append (translate ("The text in bold was added."));
+  information.append (" ");
+  information.append (translate ("The text in strikethrough was removed."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
@@ -889,7 +891,9 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
   information.append (" ");
   information.append (translate ("You may want to check whether the Bible text was saved correctly."));
   information.append (" ");
-  information.append (translate ("The changes in bold are yours."));
+  information.append (translate ("The text in bold was added."));
+  information.append (" ");
+  information.append (translate ("The text in strikethrough was removed."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
@@ -1013,6 +1017,12 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
     // 2. Insert a new line at the same position, with a given format.
     // Condense this as follows:
     // 1. Apply the given paragraph format to the given position.
+    // Without condensing this, the following would happen:
+    // 1. Delete the new line before the second line.
+    // Result: The first line gets the format of the second line.
+    // 2. Insert the new line before the second line again.
+    // 3. Appy formatting to the second line.
+    // The net result is that the first line remains with the paragraph format of the second line.
     bool newlineflag = addition && !previous_addition && (character == "\n") && (character == previous_character) && (position == previous_position);
     if (newlineflag) {
       // Remove the previous "delete new line".

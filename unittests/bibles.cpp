@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibleactions.h>
 #include <filter/usfm.h>
 #include <filter/string.h>
+#include <bb/logic.h>
 
 
 void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
@@ -495,6 +496,61 @@ void test_bibles ()
       refresh_sandbox (false);
     }
   }
+  
+  // Condense a simple editor update to format a paragraph. Todo
+  {
+    vector <int> positions_in =  { 6,     6 };
+    vector <bool> additions_in = { false, true };
+    vector <string> content_in = { "\np", "\ns" };
+    vector <int> positions_out;
+    vector <string> operators_out;
+    vector <string> content_out;
+    bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
+                                         positions_out, operators_out, content_out);
+    for (size_t i = 0; i < positions_out.size(); i++) {
+      //cout << "position " << positions_out[i] << " operator " << operators_out[i] << " content " << content_out[i] << endl; // Todo
+    }
+    evaluate (__LINE__, __func__, {6}, positions_out);
+    evaluate (__LINE__, __func__, {"p"}, operators_out);
+    evaluate (__LINE__, __func__, {"s"}, content_out);
+  }
+
+  // No condensing of any editor updates. Todo
+  {
+    vector <int> positions_in =  { 6,     6 };
+    vector <bool> additions_in = { false, true };
+    vector <string> content_in = { "ladd", "kadd" };
+    vector <int> positions_out;
+    vector <string> operators_out;
+    vector <string> content_out;
+    bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
+                                         positions_out, operators_out, content_out);
+    for (size_t i = 0; i < positions_out.size(); i++) {
+      //cout << "position " << positions_out[i] << " operator " << operators_out[i] << " content " << content_out[i] << endl; // Todo
+    }
+    evaluate (__LINE__, __func__, {6,      6}, positions_out);
+    evaluate (__LINE__, __func__, {"d",    "i"}, operators_out);
+    evaluate (__LINE__, __func__, {"ladd", "kadd"}, content_out);
+  }
+  
+  // Condense new line and leave other edits as they are.
+  {
+    vector <int> positions_in =  { 6,     6,     7,      8 };
+    vector <bool> additions_in = { false, true,  false,  true };
+    vector <string> content_in = { "\np", "\ns", "ladd", "kadd" };
+    vector <int> positions_out;
+    vector <string> operators_out;
+    vector <string> content_out;
+    bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
+                                         positions_out, operators_out, content_out);
+    for (size_t i = 0; i < positions_out.size(); i++) {
+      //cout << "position " << positions_out[i] << " operator " << operators_out[i] << " content " << content_out[i] << endl; // Todo
+    }
+    evaluate (__LINE__, __func__, {6,   7,      8 }, positions_out);
+    evaluate (__LINE__, __func__, {"p", "d",    "i"}, operators_out);
+    evaluate (__LINE__, __func__, {"s", "ladd", "kadd"}, content_out);
+  }
+
 }
 
 

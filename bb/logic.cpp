@@ -964,3 +964,64 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
 }
+
+
+// There are three containers with updating information.
+// The function condenses this updating information.
+// This condensed information works better for the Quill editor.
+void bible_logic_condense_editor_updates (const vector <int> & positions_in,
+                                          const vector <bool> & additions_in,
+                                          const vector <string> & content_in,
+                                          vector <int> & positions_out,
+                                          vector <string> & operators_out,
+                                          vector <string> & content_out)
+{
+  positions_out.clear();
+  operators_out.clear();
+  content_out.clear();
+  
+  const char * insert_operator = "i";
+  const char * delete_operator = "d";
+  const char * format_paragraph_operator = "p";
+  //const char * format_character_operator = "c";
+  
+  int previous_position = numeric_limits<int>::min();
+  bool previous_addition = false;
+  string previous_character = string();
+  for (size_t i = 0; i < positions_in.size(); i++) {
+    int position = positions_in[i];
+    bool addition = additions_in[i];
+    string character = content_in[i].substr (0, 1);
+    string format = content_in[i].substr (1);
+
+    // The following situation occurs when changing the style of a paragraph,
+    // like for example changing a paragraph style from "p" to "s".
+    // The current sequence for this change is:
+    // 1. Delete a new line at a known position.
+    // 2. Insert a new line at the same position, with a given format.
+    // Condense this as follows:
+    // 1. Apply the given paragraph format to the given position.
+    bool newlineflag = addition && !previous_addition && (character == "\n") && (character == previous_character) && (position == previous_position);
+    if (newlineflag) {
+      // Remove the previous "delete new line".
+      positions_out.pop_back();
+      operators_out.pop_back();
+      content_out.pop_back();
+      // Add the paragraph format operation data.
+      positions_out.push_back(position);
+      operators_out.push_back(format_paragraph_operator);
+      content_out.push_back(format);
+    } else {
+      positions_out.push_back(position);
+      if (addition) operators_out.push_back(insert_operator);
+      else operators_out.push_back(delete_operator);
+      content_out.push_back(character + format);
+    }
+
+    // Store data for the next iteration.
+    previous_position = position;
+    previous_addition = addition;
+    previous_character = character;
+  }
+  
+}

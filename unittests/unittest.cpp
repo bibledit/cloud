@@ -144,6 +144,7 @@ int main (int argc, char **argv)
   test_merge ();
   test_diff ();
   test_html2format ();
+  test_bibles ();
   refresh_sandbox (true);
   exit (0);
   

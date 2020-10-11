@@ -88,9 +88,9 @@ void test_diff ()
     vector <bool> additions;
     vector <string> content;
     filter_diff_diff (oldinput, newinput, positions, additions, content);
-    evaluate (__LINE__, __func__, {3, 6, 7}, positions);
+    evaluate (__LINE__, __func__, {3,    6,     7}, positions);
     evaluate (__LINE__, __func__, {true, false, true}, additions);
-    evaluate (__LINE__, __func__, {"d", "", "h"}, content);
+    evaluate (__LINE__, __func__, {"d",  "g",    "h"}, content);
     vector <string> assembly (oldinput);
     // Routine to update the old input so it's like the new.
     for (size_t i = 0; i < positions.size(); i++) {
@@ -115,9 +115,9 @@ void test_diff ()
     vector <bool> additions;
     vector <string> content;
     filter_diff_diff (oldinput, newinput, positions, additions, content);
-    evaluate (__LINE__, __func__, {1, 3, 6, 7, 8}, positions);
-    evaluate (__LINE__, __func__, {true, true, false, true, false}, additions);
-    evaluate (__LINE__, __func__, {"badd", "d", "", "h", ""}, content);
+    evaluate (__LINE__, __func__, {1,      3,    6,     7,    8}, positions);
+    evaluate (__LINE__, __func__, {true,   true, false, true, false}, additions);
+    evaluate (__LINE__, __func__, {"badd", "d",  "g",   "h", "i"}, content);
     vector <string> assembly (oldinput);
     // Routine to update the old input so it's like the new.
     for (size_t i = 0; i < positions.size(); i++) {

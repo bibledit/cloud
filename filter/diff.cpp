@@ -160,7 +160,7 @@ void filter_diff_diff (const vector<string> & oldinput, const vector<string> & n
       // Something to be deleted at the given position.
       positions.push_back(position);
       additions.push_back(false);
-      content.push_back("");
+      content.push_back(line);
       // Something was deleted.
       // So the position will remain to point to the same offset in the sequence from where to proceed.
     }

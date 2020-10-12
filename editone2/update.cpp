@@ -306,31 +306,39 @@ string editone2_update (void * webserver_request)
       response.append ("#_be_#");
       string operation = operators_condensed[i];
       response.append (operation);
-      response.append ("#_be_#");
       if (operation == bible_logic_insert_operator ()) {
         string text = content_condensed[i];
         string character = unicode_string_substr (text, 0, 1);
-        response.append (character);
         response.append ("#_be_#");
+        response.append (character);
         size_t length = unicode_string_length (text);
         string format = unicode_string_substr (text, 1, length - 1);
+        response.append ("#_be_#");
         response.append (format);
       }
       else if (operation == bible_logic_delete_operator ()) {
       }
       else if (operation == bible_logic_format_paragraph_operator ()) {
+        response.append ("#_be_#");
         response.append (content_condensed[i]);
       }
       else if (operation == bible_logic_format_character_operator ()) {
+        response.append ("#_be_#");
         response.append (content_condensed[i]);
       }
     }
   }
-  // Things to test in the above update routine.
-  // * Changing the format of the first paragraph.
-  // * Changing the format of the second paragraph.
-  // * Changing the formst of the last paragraph.
+  // Things to try out in the C++ and Javacript update routines.
 
+  // Test changing the format of the first paragraph.
+
+  // Test changing the format of the second paragraph.
+  
+  // Test changing the formst of the last paragraph.
+  
+  // Test deleting an entire paragraph.
+  
+  // Test adding a character to a formatted word, to see if the character format gets transferred properly.
   
 
   bool write = access_bible_book_write (webserver_request, username, bible, book);

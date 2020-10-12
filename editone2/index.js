@@ -1103,8 +1103,10 @@ function oneverseUpdateExecute (sync) // Todo
         console.log (bits);
         // Apply the remaining data, the differences, to the editor.
         while (bits.length > 0) {
+          console.log (bits);
           var position = parseInt (bits.shift ());
           var operator = bits.shift();
+          console.log ("pos", position, "op", operator);
           // Position 0 in the incoming changes always refers to the initial new line in the editor.
           // Do not insert or delete that new line, but just apply any formatting there.
           if (position == 0) {

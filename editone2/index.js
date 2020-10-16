@@ -295,7 +295,16 @@ function oneverseEditorForceSaveVerse ()
 //
 
 
-var oneverseEditorChangeOffsets = []
+// Three combined lists store information about edits made in the editor,
+// during the time span between
+// 1. the moment the changes are sent to the server/device,
+// when there is a delay in the network, and
+// 2. the moment the updates for the editor come back from the server/device.
+// Storage as follows:
+// 1. Offsets at which...
+// 2. The given number of characters were inserted, and...
+// 3. The given number of characters were deleted.
+var oneverseEditorChangeOffsets = [] // Todo
 var oneverseEditorChangeInserts = []
 var oneverseEditorChangeDeletes = []
 

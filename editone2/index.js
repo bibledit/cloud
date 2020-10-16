@@ -33,7 +33,7 @@ $ (document).ready (function ()
 
   navigationNewPassage ();
   
-  $ (window).on ("unload", oneverseEditorUnload);
+  $ (window).on ("unload", oneverseEditorForceSaveVerse);
   
   oneverseBindUnselectable ();
   
@@ -249,12 +249,6 @@ function oneverseEditorLoadVerse ()
       },
     });
   }
-}
-
-
-function oneverseEditorUnload ()
-{
-  oneverseEditorForceSaveVerse ();
 }
 
 

@@ -1084,7 +1084,11 @@ function oneverseUpdateExecute (sync) // Todo
     success: function (response) {
 
       // Flag for editor read-write or read-only.
-      oneverseEditorWriteAccess = checksum_readwrite (response);
+      // Do not set the read-only status of the editor here.
+      // This is already set at text-load.
+      // It is also dependent on the frame number the editor is in.
+      // To not make it more complex than needed, leave read-only out.
+      var readwrite = checksum_readwrite (response);
 
       // Checksumming.
       response = checksum_receive (response);

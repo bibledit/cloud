@@ -339,7 +339,9 @@ string editone2_update (void * webserver_request)
   // Test deleting an entire paragraph.
   
   // Test adding a character to a formatted word, to see if the character format gets transferred properly.
-  
+
+  // Test that if this editor is the second or higher one in a workspace,
+  // it is read-only. And updating the editor's contents does not grab focus.
 
   bool write = access_bible_book_write (webserver_request, username, bible, book);
   response = Checksum_Logic::send (response, write);

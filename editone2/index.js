@@ -989,7 +989,7 @@ Section for the smart editor updating logic.
 */
 
 
-function oneverseUpdateExecute () // Todo
+function oneverseUpdateExecute ()
 {
   // Determine whether the conditions for an editor update are all met.
   var goodToGo = true;
@@ -999,8 +999,6 @@ function oneverseUpdateExecute () // Todo
   if (!goodToGo) {
     return;
   }
-  
-  console.log ("update"); // Todo
 
   // Clear the editor's edits.
   // The user can continue making changes in the editor.

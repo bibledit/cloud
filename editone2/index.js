@@ -35,8 +35,6 @@ $ (document).ready (function ()
   
   $ (window).on ("unload", oneverseEditorUnload);
   
-  oneverseIdPollerOn ();
-
   oneverseBindUnselectable ();
   
   $ ("#stylebutton").on ("click", oneverseStylesButtonHandler);
@@ -117,9 +115,7 @@ var oneverseChapterId = 0;
 var oneverseReloadCozChanged = false;
 var oneverseReloadCozError = false;
 var oneverseReloadPosition = undefined;
-var oneverseSaveAsync;
 var oneverseLoadAjaxRequest;
-var oneverseSaving = false;
 var oneverseEditorWriteAccess = true;
 
 
@@ -144,18 +140,10 @@ function navigationNewPassage ()
     return;
   }
 
-  //if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter)) {
-  //}
-  // Fixed: Reload text message when switching to another chapter.
-  // https://github.com/bibledit/cloud/issues/408
-  // Going to another verse, it also resets the editor save timer,
-  // and the chapter identifier poller.
-  oneverseIdPollerOff ();
-  oneverseEditorSaveVerse (true);
+  oneverseEditorForceSaveVerse ();
   oneverseReloadCozChanged = false;
   oneverseReloadCozError = false;
   oneverseEditorLoadVerse ();
-  oneverseIdPollerOn ();
 }
 
 
@@ -266,52 +254,41 @@ function oneverseEditorLoadVerse ()
 
 function oneverseEditorUnload ()
 {
-  oneverseEditorSaveVerse (true);
+  oneverseEditorForceSaveVerse ();
 }
 
 
-function oneverseEditorSaveVerse (sync)
+function oneverseEditorForceSaveVerse ()
 {
-  if (oneverseSaving) {
-    oneverseEditorChanged ();
-    return;
-  }
+  // If some conditions are not met, do not save.
   if (!oneverseEditorWriteAccess) return;
   if (!oneverseBible) return;
   if (!oneverseBook) return;
   if (!oneverseVerseLoaded) return;
   var html = $ (".ql-editor").html ();
   if (html == oneverseLoadedText) return;
+  // Set the status as feedback to the user.
   oneverseEditorStatus (oneverseEditorVerseSaving);
+  // This force-save cancels a normal save/update that might have been triggered.
+  clearTimeout (oneverseEditorChangedTimeout);
 
-  // Chapter identifier poller off as network latency may lead to problems if left on.
-  oneverseIdPollerOff ();
-  
   oneverseLoadedText = html;
-  // oneverseChapterId = 0;
-  oneverseSaveAsync = true;
-  if (sync) oneverseSaveAsync = false;
   var encodedHtml = filter_url_plus_to_tag (html);
   var checksum = checksum_get (encodedHtml);
-  oneverseSaving = true;
   $.ajax ({
     url: "save",
     type: "POST",
-    async: oneverseSaveAsync,
+    async: false,
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum, id: verseEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorVerseRetrying);
       oneverseLoadedText = "";
-      oneverseEditorChanged ();
-      if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
+      oneverseEditorForceSaveVerse ();
     },
     success: function (response) {
       oneverseEditorStatus (response);
     },
     complete: function (xhr, status) {
-      oneverseSaveAsync = true;
-      oneverseSaving = false;
-      oneverseIdPollerOn ();
     }
   });
 }
@@ -363,7 +340,6 @@ function oneverseEditorChanged ()
   if (oneverseEditorChangedTimeout) {
     clearTimeout (oneverseEditorChangedTimeout);
   }
-  //oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 1000);
   oneverseEditorChangedTimeout = setTimeout (oneverseEditorTriggerSave, 1000);
 }
 
@@ -431,24 +407,6 @@ function oneverseEditorSelectiveNotification (message)
 
 
 var oneverseIdAjaxRequest;
-
-
-function oneverseIdPollerOff ()
-{
-//  if (oneverseIdTimeout) {
-//    clearTimeout (oneverseIdTimeout);
-//  }
-//  if (oneverseIdAjaxRequest && oneverseIdAjaxRequest.readystate != 4) {
-//    oneverseIdAjaxRequest.abort();
-//  }
-}
-
-
-function oneverseIdPollerOn ()
-{
-//  oneverseIdPollerOff ();
-//  oneverseIdTimeout = setTimeout (oneverseEditorPollId, 1000);
-}
 
 
 function oneverseEditorPollId ()
@@ -999,7 +957,7 @@ function oneverseCoordinatingTimeout ()
   }
   else if (oneverseUpdateTrigger) {
     oneverseUpdateTrigger = false;
-    oneverseUpdateExecute (false);
+    oneverseUpdateExecute ();
   }
   // Handle situation that no process is ongoing.
   // Now the regular pollers can run again.
@@ -1031,7 +989,7 @@ Section for the smart editor updating logic.
 */
 
 
-function oneverseUpdateExecute (sync) // Todo
+function oneverseUpdateExecute () // Todo
 {
   // Determine whether the conditions for an editor update are all met.
   var goodToGo = true;
@@ -1041,6 +999,8 @@ function oneverseUpdateExecute (sync) // Todo
   if (!goodToGo) {
     return;
   }
+  
+  console.log ("update"); // Todo
 
   // Clear the editor's edits.
   // The user can continue making changes in the editor.
@@ -1063,10 +1023,6 @@ function oneverseUpdateExecute (sync) // Todo
     oneverseEditorStatus (oneverseEditorVerseSaving);
   }
 
-  // Normally the AJAX call is asynchronous.
-  oneverseSaveAsync = true;
-  if (sync) oneverseSaveAsync = false;
-
   var checksum = checksum_get (encodedEditedHtml);
 
   oneverseAjaxActive = true;
@@ -1074,12 +1030,11 @@ function oneverseUpdateExecute (sync) // Todo
   oneverseIdAjaxRequest = $.ajax ({
     url: "update",
     type: "POST",
-    async: oneverseSaveAsync,
+    async: true,
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum: checksum, id: verseEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorVerseRetrying);
       oneverseEditorChanged ();
-      if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
     },
     success: function (response) {
 
@@ -1168,7 +1123,6 @@ function oneverseUpdateExecute (sync) // Todo
       css4embeddedstyles ();
     },
     complete: function (xhr, status) {
-      oneverseSaveAsync = true;
       oneverseAjaxActive = false;
     }
   });

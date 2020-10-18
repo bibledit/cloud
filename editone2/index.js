@@ -213,7 +213,7 @@ function oneverseEditorLoadVerse ()
           visualVerseEditorInitializeLoad ();
           quill.enable (oneverseEditorWriteAccess);
           // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-          oneverseLoadedText = $ (".ql-editor").html ();
+          oneverseLoadedText = $ ("#oneeditor > .ql-editor").html ();
           oneverseCaretMovedTimeoutStart ();
           // Create CSS for embedded styles.
           css4embeddedstyles ();
@@ -259,7 +259,7 @@ function oneverseEditorForceSaveVerse ()
   if (!oneverseBible) return;
   if (!oneverseBook) return;
   if (!oneverseVerseLoaded) return;
-  var html = $ (".ql-editor").html ();
+  var html = $ ("#oneeditor > .ql-editor").html ();
   if (html == oneverseLoadedText) return;
   // Set the status as feedback to the user.
   oneverseEditorStatus (oneverseEditorVerseSaving);
@@ -304,9 +304,9 @@ function oneverseEditorForceSaveVerse ()
 // 1. Offsets at which...
 // 2. The given number of characters were inserted, and...
 // 3. The given number of characters were deleted.
-var oneverseEditorChangeOffsets = [] // Todo
-var oneverseEditorChangeInserts = []
-var oneverseEditorChangeDeletes = []
+var oneverseEditorChangeOffsets = [];
+var oneverseEditorChangeInserts = [];
+var oneverseEditorChangeDeletes = [];
 
 
 // Arguments: delta: Delta, oldContents: Delta, source: String
@@ -992,6 +992,10 @@ Section for the smart editor updating logic.
 */
 
 
+var editorHtmlAtStartUpdate = null;
+var useShadowQuill = false;
+
+
 function oneverseUpdateExecute ()
 {
   // Determine whether the conditions for an editor update are all met.
@@ -1014,11 +1018,11 @@ function oneverseUpdateExecute ()
   var encodedLoadedHtml = filter_url_plus_to_tag (oneverseLoadedText);
 
   // A a snapshot of the current editor text at this point of time.
-  var html = $ (".ql-editor").html ();
-  var encodedEditedHtml = filter_url_plus_to_tag (html);
+  editorHtmlAtStartUpdate = $ ("#oneeditor > .ql-editor").html ();
+  var encodedEditedHtml = filter_url_plus_to_tag (editorHtmlAtStartUpdate);
   
   // The editor "saves..." if there's changes, and "updates..." if there's no changes.
-  if (html == oneverseLoadedText) {
+  if (editorHtmlAtStartUpdate == oneverseLoadedText) {
     oneverseEditorStatus (oneverseEditorVerseUpdating);
   } else {
     oneverseEditorStatus (oneverseEditorVerseSaving);
@@ -1027,7 +1031,7 @@ function oneverseUpdateExecute ()
   var checksum = checksum_get (encodedEditedHtml);
 
   oneverseAjaxActive = true;
-
+  
   oneverseIdAjaxRequest = $.ajax ({
     url: "update",
     type: "POST",
@@ -1050,6 +1054,14 @@ function oneverseUpdateExecute ()
       response = checksum_receive (response);
       if (response !== false) {
         
+        // Use a shadow copy of the Quill editor in case the user made edits
+        // between the moment the update routine was initiated,
+        // and the moment the updates from the server/device are being applied.
+        // This shadow copy will be updated with the uncorrected changes from the server/device.
+        // The html from this editor will then server as the "loaded text".
+        useShadowQuill = (oneverseEditorChangeOffsets.length > 0);
+        if (useShadowQuill) startShadowQuill (editorHtmlAtStartUpdate);
+
         // Split the response into the separate bits.
         var bits = [];
         bits = response.split ("#_be_#");
@@ -1060,42 +1072,73 @@ function oneverseUpdateExecute ()
         // The next bit is the new chapter identifier.
         oneverseChapterId = bits.shift();
 
-        console.log (bits);
         // Apply the remaining data, the differences, to the editor.
+        console.log ("offsets", oneverseEditorChangeOffsets);
+        console.log ("inserts", oneverseEditorChangeInserts);
+        console.log ("deletes", oneverseEditorChangeDeletes);
+
         while (bits.length > 0) {
-          console.log (bits);
           var position = parseInt (bits.shift ());
           var operator = bits.shift();
-          console.log ("pos", position, "op", operator);
           // Position 0 in the incoming changes always refers to the initial new line in the editor.
           // Do not insert or delete that new line, but just apply any formatting there.
           if (position == 0) {
             if (operator == "p") {
               var style = bits.shift ();
               quill.formatLine (0, 0, {"paragraph": style}, "silent");
+              if (useShadowQuill) quill2.formatLine (0, 0, {"paragraph": style}, "silent");
             }
           } else {
             // The initial new line is not counted in Quill.
             position--;
+            // The position for the shadow copy of Quill, if it's there.
+            var position2 = position;
+            // Whether to insert, whether to delete.
+            var ins_operator = (operator == "i");
+            var del_operator = (operator == "d");
+            // The offsets of the changes from the server/device are going to be corrected
+            // with the offsets of the edits made in the editor.
+            // This is to handle continued user-typing while the editor is being updated,
+            // Update, and get updated by, the edits made since the update operation began.
+            var i;
+            for (i = 0; i < oneverseEditorChangeOffsets.length; i++) {
+              // Any delete or insert at a lower offset or the same offset
+              // modify the position where to apply the incoming edit from the server/device.
+              if (oneverseEditorChangeOffsets[i] <= position) {
+                position += oneverseEditorChangeInserts[i];
+                position -= oneverseEditorChangeDeletes[i]
+              }
+              // Any offset higher than the current position gets modified accordingly.
+              // If inserting at the current position, increase that offset.
+              // If deleting at the current position, decrease that offset.
+              if (oneverseEditorChangeOffsets[i] > position) {
+                if (ins_operator) oneverseEditorChangeOffsets[i]++;
+                if (del_operator) oneverseEditorChangeOffsets[i]--;
+              }
+            }
             // Handle insert operator.
-            if (operator == "i") {
+            if (ins_operator) {
               var text = bits.shift ();
               var style = bits.shift ();
               if (text == "\n") {
                 // New line.
                 console.log ("insert new line @ position", position);
                 quill.insertText (position, text, {}, "silent");
+                if (useShadowQuill) quill2.insertText (position2, text, {}, "silent");
                 console.log ("format line @ position", position + 1);
                 quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
+                if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
               } else {
                 // Ordinary character: Insert formatted text.
                 console.log ("insert", text, "@ position", position);
                 quill.insertText (position, text, {"character": style}, "silent");
+                if (useShadowQuill) quill2.insertText (position2, text, {"character": style}, "silent");
               }
             }
             // Handle delete operator.
-            else if (operator == "d") {
+            else if (del_operator) {
               quill.deleteText (position, 1, "silent");
+              if (useShadowQuill) quill2.deleteText (position2, 1, "silent");
               console.log ("delete @ position", position);
             }
             // Handle format paragraph operator.
@@ -1103,6 +1146,7 @@ function oneverseUpdateExecute ()
               var style = bits.shift ();
               console.log ("format line @ position", position + 1);
               quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
+              if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
             }
             // Handle format character operator.
             else if (operator == "c") {
@@ -1118,7 +1162,9 @@ function oneverseUpdateExecute ()
       }
 
       // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-      oneverseLoadedText = $ (".ql-editor").html ();
+      oneverseLoadedText = $ ("#oneeditor > .ql-editor").html ();
+      if (useShadowQuill) oneverseLoadedText = $ ("#onetemp > .ql-editor").html ();
+      $ ("#onetemp").empty ();
       
       // Create CSS for embedded styles.
       css4embeddedstyles ();
@@ -1127,6 +1173,20 @@ function oneverseUpdateExecute ()
       oneverseAjaxActive = false;
     }
   });
+
+}
+
+
+                                          
+var quill2 = undefined;
+
+
+function startShadowQuill (html)
+{
+  if (quill2) delete quill2;
+  $ ("#onetemp").empty ();
+  $ ("#onetemp").append (html);
+  quill2 = new Quill ('#onetemp', { });
 
 }
 

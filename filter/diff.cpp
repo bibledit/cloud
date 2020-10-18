@@ -112,7 +112,7 @@ string filter_diff_diff (string oldstring, string newstring,
 void filter_diff_diff (const vector<string> & oldinput, const vector<string> & newinput,
                        vector <int> & positions,
                        vector <bool> & additions,
-                       vector <string> & content) // Todo
+                       vector <string> & content)
 {
   // The sequences to compare.
   vector <string> old_sequence = oldinput;

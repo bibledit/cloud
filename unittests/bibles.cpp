@@ -497,7 +497,7 @@ void test_bibles ()
     }
   }
   
-  // Condense a simple editor update to format a paragraph. Todo
+  // Condense a simple editor update to format a paragraph.
   {
     vector <int> positions_in =  { 6,     6 };
     vector <bool> additions_in = { false, true };
@@ -507,15 +507,12 @@ void test_bibles ()
     vector <string> content_out;
     bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
                                          positions_out, operators_out, content_out);
-    for (size_t i = 0; i < positions_out.size(); i++) {
-      //cout << "position " << positions_out[i] << " operator " << operators_out[i] << " content " << content_out[i] << endl; // Todo
-    }
     evaluate (__LINE__, __func__, {6}, positions_out);
     evaluate (__LINE__, __func__, {"p"}, operators_out);
     evaluate (__LINE__, __func__, {"s"}, content_out);
   }
 
-  // No condensing of any editor updates. Todo
+  // No condensing of any editor updates.
   {
     vector <int> positions_in =  { 6,     6 };
     vector <bool> additions_in = { false, true };
@@ -525,9 +522,6 @@ void test_bibles ()
     vector <string> content_out;
     bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
                                          positions_out, operators_out, content_out);
-    for (size_t i = 0; i < positions_out.size(); i++) {
-      //cout << "position " << positions_out[i] << " operator " << operators_out[i] << " content " << content_out[i] << endl; // Todo
-    }
     evaluate (__LINE__, __func__, {6,      6}, positions_out);
     evaluate (__LINE__, __func__, {"d",    "i"}, operators_out);
     evaluate (__LINE__, __func__, {"ladd", "kadd"}, content_out);
@@ -543,9 +537,6 @@ void test_bibles ()
     vector <string> content_out;
     bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
                                          positions_out, operators_out, content_out);
-    for (size_t i = 0; i < positions_out.size(); i++) {
-      //cout << "position " << positions_out[i] << " operator " << operators_out[i] << " content " << content_out[i] << endl; // Todo
-    }
     evaluate (__LINE__, __func__, {6,   7,      8 }, positions_out);
     evaluate (__LINE__, __func__, {"p", "d",    "i"}, operators_out);
     evaluate (__LINE__, __func__, {"s", "ladd", "kadd"}, content_out);

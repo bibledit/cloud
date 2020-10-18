@@ -1177,6 +1177,5 @@ function startShadowQuill (html)
   $ ("#onetemp").empty ();
   $ ("#onetemp").append (html);
   quill2 = new Quill ('#onetemp', { });
-
 }
 

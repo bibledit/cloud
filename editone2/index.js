@@ -1073,10 +1073,6 @@ function oneverseUpdateExecute ()
         oneverseChapterId = bits.shift();
 
         // Apply the remaining data, the differences, to the editor.
-        console.log ("offsets", oneverseEditorChangeOffsets);
-        console.log ("inserts", oneverseEditorChangeInserts);
-        console.log ("deletes", oneverseEditorChangeDeletes);
-
         while (bits.length > 0) {
           var position = parseInt (bits.shift ());
           var operator = bits.shift();
@@ -1122,15 +1118,12 @@ function oneverseUpdateExecute ()
               var style = bits.shift ();
               if (text == "\n") {
                 // New line.
-                console.log ("insert new line @ position", position);
                 quill.insertText (position, text, {}, "silent");
                 if (useShadowQuill) quill2.insertText (position2, text, {}, "silent");
-                console.log ("format line @ position", position + 1);
                 quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
                 if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
               } else {
                 // Ordinary character: Insert formatted text.
-                console.log ("insert", text, "@ position", position);
                 quill.insertText (position, text, {"character": style}, "silent");
                 if (useShadowQuill) quill2.insertText (position2, text, {"character": style}, "silent");
               }
@@ -1139,12 +1132,10 @@ function oneverseUpdateExecute ()
             else if (del_operator) {
               quill.deleteText (position, 1, "silent");
               if (useShadowQuill) quill2.deleteText (position2, 1, "silent");
-              console.log ("delete @ position", position);
             }
             // Handle format paragraph operator.
             else if (operator == "p") {
               var style = bits.shift ();
-              console.log ("format line @ position", position + 1);
               quill.formatLine (position + 1, 1, {"paragraph": style}, "silent");
               if (useShadowQuill) quill2.formatLine (position2 + 1, 1, {"paragraph": style}, "silent");
             }

@@ -805,11 +805,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string standard_html =
       "<p class=\"b-p\"><span>The elder</span><span class=\"i-notecall1\">1</span><span> to the beloved Gaius.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
       Editor_Usfm2Html editor_usfm2html;
@@ -859,11 +859,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string standard_html =
       "<p class=\"b-p\"><span>The elder</span><span class=\"i-notecall1\">1</span><span> to the beloved Gaius.</span><span> </span><span class=\"i-v\">1</span><span> </span><span>The elders</span><span class=\"i-notecall2\">2</span><span> to the beloved.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>"
       "<p class=\"b-x\"><span class=\"i-notebody2\">2</span><span> </span><span>+ 2 Joh. 2.2</span></p>";
@@ -913,11 +913,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string standard_html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
@@ -1072,11 +1072,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string standard_html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-fe\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
@@ -1398,11 +1398,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string html =
       "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>text</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
@@ -1454,11 +1454,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, output_usfm, output);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string html =
       "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>text</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
       Editor_Usfm2Html editor_usfm2html;
@@ -1510,11 +1510,11 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, usfm, output);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string html =
       "<p class=\"b-c\"><span>1</span><span> </span><span class=\"i-v\">1</span><span> </span><span>Canonical text</span><span class=\"i-notecall1\">1</span><span> canonical text.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fr\">1:1 </span><span class=\"i-fk\">Footnote fk style </span><span class=\"i-ft\">Footnote ft style</span></p>";
       Editor_Usfm2Html editor_usfm2html;
@@ -1648,9 +1648,9 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standardusfm, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string standardhtml =
-      "<p class=\"b-p\"><span class=\"i-v\">1</span><span> </span><span>The text</span><span class=\"i-notecall1\">1</span><span>.</span></p><p class=\"b-notes\"><br /></p><p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-xo\">1 </span><span class=\"i-xt\">Passage</span></p>";
+      "<p class=\"b-p\"><span class=\"i-v\">1</span><span> </span><span>The text</span><span class=\"i-notecall1\">1</span><span>.</span></p><p class=\"b-notes\"> </p><p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-xo\">1 </span><span class=\"i-xt\">Passage</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (standardusfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2010,8 +2010,8 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
     {
-      // Quill-based editor.
-      string standard_html = "<p class=\"b-p\"><span>Praise Yahweh</span><span class=\"i-notecall1\">1</span><span>, all you nations!</span></p><p class=\"b-notes\"><br /></p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span class=\"i-add\">I</span><span> am</span></p>";
+      // Quill-based editor. Todo
+      string standard_html = "<p class=\"b-p\"><span>Praise Yahweh</span><span class=\"i-notecall1\">1</span><span>, all you nations!</span></p><p class=\"b-notes\"> </p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span class=\"i-add\">I</span><span> am</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (standard_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2051,8 +2051,8 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
     {
-      // Quill-based editor.
-      string standard_html = "<p class=\"b-p\"><span>Praise Yahweh</span><span class=\"i-notecall1\">1</span><span>, all you nations!</span></p><p class=\"b-notes\"><br /></p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>I am, see </span><span class=\"i-xt\">Exod.6.3.</span></p>";
+      // Quill-based editor. Todo
+      string standard_html = "<p class=\"b-p\"><span>Praise Yahweh</span><span class=\"i-notecall1\">1</span><span>, all you nations!</span></p><p class=\"b-notes\"> </p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>I am, see </span><span class=\"i-xt\">Exod.6.3.</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (standard_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2092,8 +2092,8 @@ void test_usfm2html2usfm ()
       evaluate (__LINE__, __func__, standard_usfm, output_usfm);
     }
     {
-      // Quill-based editor.
-      string standard_html = "<p class=\"b-p\"><span class=\"i-notecall1\">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class=\"i-notecall2\">2</span><span>darbą, jų sąžinei kartu </span><span class=\"i-add\">tiems dalykams</span><span> paliudijant, ir </span><span class=\"i-add\">jų</span><span> mintims </span><span class=\"i-notecall3\">3</span><span>tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant) –</span></p><p class=\"b-notes\"><br /></p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tokie“ – t. „kurie“</span></p><p class=\"b-f\"><span class=\"i-notebody2\">2</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„darbą“ – arba „poveikį“</span></p><p class=\"b-f\"><span class=\"i-notebody3\">3</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class=\"i-add\">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class=\"i-xt\">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>";
+      // Quill-based editor. Todo
+      string standard_html = "<p class=\"b-p\"><span class=\"i-notecall1\">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class=\"i-notecall2\">2</span><span>darbą, jų sąžinei kartu </span><span class=\"i-add\">tiems dalykams</span><span> paliudijant, ir </span><span class=\"i-add\">jų</span><span> mintims </span><span class=\"i-notecall3\">3</span><span>tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant) –</span></p><p class=\"b-notes\"> </p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tokie“ – t. „kurie“</span></p><p class=\"b-f\"><span class=\"i-notebody2\">2</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„darbą“ – arba „poveikį“</span></p><p class=\"b-f\"><span class=\"i-notebody3\">3</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class=\"i-add\">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class=\"i-xt\">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>";
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (standard_usfm);
       editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -2112,12 +2112,12 @@ void test_usfm2html2usfm ()
     }
   }
 
-  // Regression testing for a situation that a user pastes some text into a note.
+  // Regression testing for a situation that a user pastes some text into a note. Todo
   // https://github.com/bibledit/cloud/issues/353
   {
     string standard_usfm_long = R"(\p Verse text one\f + \fr 1:4 \ft Note text \ft one.\f* two.)";
     string standard_usfm_short = R"(\p Verse text one\f + \fr 1:4 \ft Note text one.\f* two.)";
-    string standard_html = R"(<p class="b-p">Verse text one<span class="i-notecall1">1</span> two.</p><p class="b-notes"><br></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1:4 </span><span class="i-ft">Note </span>text&nbsp;<span class="i-ft">one.</span></p>)";
+    string standard_html = R"(<p class="b-p">Verse text one<span class="i-notecall1">1</span> two.</p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1:4 </span><span class="i-ft">Note </span>text&nbsp;<span class="i-ft">one.</span></p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (standard_html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());

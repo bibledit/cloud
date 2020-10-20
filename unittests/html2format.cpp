@@ -102,7 +102,7 @@ void test_html2format ()
     }
   }
   
-  // Basic note
+  // Basic note. Todo
   {
     string html =
     "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
@@ -143,7 +143,7 @@ void test_html2format ()
     }
   }
   
-  // Footnote with its body deleted.
+  // Footnote with its body deleted. Todo
   {
     string html =
     "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"

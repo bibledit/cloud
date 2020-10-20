@@ -138,7 +138,7 @@ void test_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
       "<p class=\"b-notes\">"
@@ -174,7 +174,7 @@ void test_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"
       "<p class=\"b-notes\">"
@@ -212,7 +212,7 @@ void test_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     {
-      // Quill-based editor.
+      // Quill-based editor. Todo
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span>.</span></p>"
       "<p class=\"b-notes\">"

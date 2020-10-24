@@ -112,8 +112,12 @@ string filter_diff_diff (string oldstring, string newstring,
 void filter_diff_diff (const vector<string> & oldinput, const vector<string> & newinput,
                        vector <int> & positions,
                        vector <bool> & additions,
-                       vector <string> & content)
+                       vector <string> & content,
+                       int & new_line_diff_count)
 {
+  // Start with zero changes in a new line.
+  new_line_diff_count = 0;
+  
   // The sequences to compare.
   vector <string> old_sequence = oldinput;
   vector <string> new_sequence = newinput;
@@ -142,7 +146,7 @@ void filter_diff_diff (const vector<string> & oldinput, const vector<string> & n
   }
 
   // Convert the additions and deletions to a change set.
-  size_t position = 0;
+  int position = 0;
   for (auto & line : differences) {
     if (line.empty ()) continue;
     char indicator = line.front ();
@@ -155,6 +159,8 @@ void filter_diff_diff (const vector<string> & oldinput, const vector<string> & n
       // Something was inserted.
       // So increase the position to point to the next offset in the sequence from where to proceed.
       position++;
+      // Check on number of changes in paragraphs.
+      if (line.substr(0, 1) == "\n") new_line_diff_count++;
     }
     else if (indicator == '-') {
       // Something to be deleted at the given position.
@@ -163,6 +169,8 @@ void filter_diff_diff (const vector<string> & oldinput, const vector<string> & n
       content.push_back(line);
       // Something was deleted.
       // So the position will remain to point to the same offset in the sequence from where to proceed.
+      // Check on number of changes in paragraphs.
+      if (line.substr(0, 1) == "\n") new_line_diff_count++;
     }
     else {
       // No difference.

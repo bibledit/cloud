@@ -30,7 +30,8 @@ string filter_diff_diff (string oldstring, string newstring,
 void filter_diff_diff (const vector<string> & oldinput, const vector<string> & newinput,
                        vector <int> & positions,
                        vector <bool> & additions,
-                       vector <string> & content);
+                       vector <string> & content,
+                       int & new_line_diff_count);
 int filter_diff_character_similarity (string oldstring, string newstring);
 int filter_diff_word_similarity (string oldstring, string newstring);
 void filter_diff_produce_verse_level (string bible, string directory);

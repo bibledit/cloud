@@ -138,7 +138,7 @@ void test_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     {
-      // Quill-based editor. Todo
+      // Quill-based editor.
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
       "<p class=\"b-notes\">"
@@ -162,7 +162,7 @@ void test_html2usfm ()
       string html =
       "<p class=\"p\"><span>The earth brought forth</span><a href=\"#note1\" id=\"citation1\" class=\"superscript\">f</a><span>.</span></p>"
       "<div id=\"notes\">"
-      "<hr/>"
+      " "
       "<p class=\"f\"></p>"
       "<br/>"
       "</div>";
@@ -174,13 +174,13 @@ void test_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     {
-      // Quill-based editor. Todo
+      // Quill-based editor.
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br/>"
+      " "
       "<p class=\"b-f\"></p>"
-      "<br/>"
+      " "
       "</p>";
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);
@@ -201,7 +201,7 @@ void test_html2usfm ()
       string html =
       "<p class=\"p\"><span>The earth brought forth</span><span>.</span></p>"
       "<div id=\"notes\">"
-      "<hr />"
+      " "
       "<p class=\"f\"><a href=\"#citation1\" id=\"note1\">f</a><span> </span><span>+ </span><span class=\"fk\">brought: </span><span class=\"fl\">Heb. </span><span class=\"fq\">explanation.</span></p>"
       "</div>";
       Editor_Html2Usfm editor_html2usfm;
@@ -212,11 +212,11 @@ void test_html2usfm ()
       evaluate (__LINE__, __func__, standard, usfm);
     }
     {
-      // Quill-based editor. Todo
+      // Quill-based editor.
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">f</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
       Editor_Html2Usfm editor_html2usfm;

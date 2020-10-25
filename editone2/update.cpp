@@ -291,7 +291,7 @@ string editone2_update (void * webserver_request)
     vector <int> positions_diff;
     vector <bool> additions_diff;
     vector <string> content_diff;
-    int new_line_diff_count;
+    int new_line_diff_count; // Todo
     filter_diff_diff (editor_character_content, server_character_content,
                       positions_diff, additions_diff, content_diff, new_line_diff_count);
     // Condense the differences a bit and render them to another format.

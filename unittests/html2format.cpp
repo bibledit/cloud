@@ -102,12 +102,12 @@ void test_html2format ()
     }
   }
   
-  // Basic note. Todo
+  // Basic note.
   {
     string html =
     "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
     "<p class=\"b-notes\">"
-    "<br/>"
+    " "
     "</p>"
     "<p class=\"b-x\"><span class=\"i-notebody1\">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
     vector<string> texts = {
@@ -116,7 +116,7 @@ void test_html2format ()
       "x",
       ".",
       "\n",
-      "##br##",
+      " ",
       "\n",
       "x",
       " ",
@@ -143,12 +143,12 @@ void test_html2format ()
     }
   }
   
-  // Footnote with its body deleted. Todo
+  // Footnote with its body deleted.
   {
     string html =
     "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"
     "<p class=\"b-notes\">"
-    "<br/>"
+    " "
     "<p class=\"b-f\"></p>"
     "</p>";
     vector<string> texts = {
@@ -157,7 +157,7 @@ void test_html2format ()
       "f",
       ".",
       "\n",
-      "##br##",
+      " ",
       "\n"
     };
     vector<string> formats = {

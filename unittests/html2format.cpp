@@ -184,7 +184,7 @@ void test_html2format ()
       string html =
       "<p class=\"b-p\"><span>The earth brought forth</span><span>.</span></p>"
       "<p class=\"b-notes\">"
-      "<br />"
+      " "
       "</p>"
       "<p class=\"b-f\"><span class=\"i-notebody1\">f</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
       vector<string> texts = {
@@ -192,7 +192,7 @@ void test_html2format ()
         "The earth brought forth",
         ".",
         "\n",
-        "##br##",
+        " ",
         "\n",
         "f",
         " ",

@@ -123,10 +123,10 @@ void Editor_Html2Format::openElementNode (xml_node node)
     openInline (className);
   }
   
-  if (tagName == "br")
+  if (tagName == "br") // Todo
   {
-    texts.push_back("##br##");
-    formats.push_back("");
+    //texts.push_back("##br##");
+    //formats.push_back("");
   }
 }
 

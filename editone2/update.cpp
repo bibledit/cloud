@@ -266,9 +266,14 @@ string editone2_update (void * webserver_request)
     server_format.load (server_html);
     editor_format.run ();
     server_format.run ();
+    cout << "editor html" << endl; // Todo
+    cout << editor_html << endl;
+    cout << "server html" << endl; // Todo
+    cout << server_html << endl;
+
     // Convert the formatted text fragments to formatted UTF-8 characters.
     vector <string> editor_character_content;
-    vector <string> server_character_content;
+    vector <string> server_character_content; // Todo this one has the desired new lines.
     for (size_t i = 0; i < editor_format.texts.size(); i++) {
       string text = editor_format.texts[i];
       string format = editor_format.formats[i];
@@ -278,7 +283,7 @@ string editone2_update (void * webserver_request)
         editor_character_content.push_back (utf8_character + format);
       }
     }
-    for (size_t i = 0; i < server_format.texts.size(); i++) {
+    for (size_t i = 0; i < server_format.texts.size(); i++) { // Todo check what's there, if a single \n.
       string text = server_format.texts[i];
       string format = server_format.formats[i];
       size_t length = unicode_string_length (text);
@@ -329,6 +334,7 @@ string editone2_update (void * webserver_request)
       }
     }
   }
+  
   // Things to try out in the C++ and Javacript update routines.
 
   // Test changing the format of the first paragraph.

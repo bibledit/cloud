@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/send.h>
 #include <developer/logic.h>
 #include <locale/translate.h>
+#include <editor/html2format.h>
 
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
@@ -1046,4 +1047,59 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
     previous_character = character;
   }
   
+}
+
+
+void bible_logic_html_to_editor_updates (const string & editor_html,
+                                         const string & server_html,
+                                         vector <int> & positions_condensed,
+                                         vector <string> & operators_condensed,
+                                         vector <string> & content_condensed) // Todo
+{
+  // Clear outputs.
+  positions_condensed.clear();
+  operators_condensed.clear();
+  content_condensed.clear();
+  
+  // Convert the html to formatted text.
+  Editor_Html2Format editor_format;
+  Editor_Html2Format server_format;
+  editor_format.load (editor_html);
+  server_format.load (server_html);
+  editor_format.run ();
+  server_format.run ();
+
+  // Convert the formatted text fragments to formatted UTF-8 characters.
+  vector <string> editor_character_content;
+  vector <string> server_character_content; // Todo this one has the desired new lines.
+  for (size_t i = 0; i < editor_format.texts.size(); i++) {
+    string text = editor_format.texts[i];
+    string format = editor_format.formats[i];
+    size_t length = unicode_string_length (text);
+    for (size_t pos = 0; pos < length; pos++) {
+      string utf8_character = unicode_string_substr (text, pos, 1);
+      editor_character_content.push_back (utf8_character + format);
+    }
+  }
+  for (size_t i = 0; i < server_format.texts.size(); i++) { // Todo check what's there, if a single \n.
+    string text = server_format.texts[i];
+    string format = server_format.formats[i];
+    size_t length = unicode_string_length (text);
+    for (size_t pos = 0; pos < length; pos++) {
+      string utf8_character = unicode_string_substr (text, pos, 1);
+      server_character_content.push_back (utf8_character + format);
+    }
+  }
+
+  // Find the differences between the two sets of content.
+  vector <int> positions_diff;
+  vector <bool> additions_diff;
+  vector <string> content_diff;
+  int new_line_diff_count; // Todo
+  filter_diff_diff (editor_character_content, server_character_content,
+                    positions_diff, additions_diff, content_diff, new_line_diff_count);
+
+  // Condense the differences a bit and render them to another format.
+  bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
+                                       positions_condensed, operators_condensed, content_condensed);
 }

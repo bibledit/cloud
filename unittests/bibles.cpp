@@ -541,8 +541,64 @@ void test_bibles ()
     evaluate (__LINE__, __func__, {"p", "d",    "i"}, operators_out);
     evaluate (__LINE__, __func__, {"s", "ladd", "kadd"}, content_out);
   }
+  
+  // Test entire pipeline for generating editor updates.
+  {
+    // The server text has inserted an exclamation mark after "nations!".
+    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    vector <int> positions;
+    vector <string> operators;
+    vector <string> content;
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    evaluate (__LINE__, __func__, { 34  }, positions);
+    evaluate (__LINE__, __func__, { "i" }, operators);
+    evaluate (__LINE__, __func__, { "!" }, content);
+  }
 
-}
+  // Test entire pipeline for generating editor updates.
+  {
+    // The server text has removed two exclamation marks from "nations!!" and inserted a full stop.
+    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations.</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    vector <int> positions;
+    vector <string> operators;
+    vector <string> content;
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    evaluate (__LINE__, __func__, { 33,  33,  33 }, positions);
+    evaluate (__LINE__, __func__, { "d", "d", "i" }, operators);
+    evaluate (__LINE__, __func__, { "!", "!", "." }, content);
+  }
+
+  // Test entire pipeline for generating editor updates.
+  {
+    // The server text has joined the second paragraph to the first.
+    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span> <span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    vector <int> positions;
+    vector <string> operators;
+    vector <string> content;
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    evaluate (__LINE__, __func__, { 34,   34  }, positions);
+    evaluate (__LINE__, __func__, { "d",  "i" }, operators);
+    evaluate (__LINE__, __func__, { "\np", " " }, content); // Todo needs formatting for all p's.
+  }
+
+  // Test entire pipeline for generating editor updates.
+  {
+    // The server text has added an extra paragraph with a certain paragraph style.
+    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P.</p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    vector <int> positions;
+    vector <string> operators;
+    vector <string> content;
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    evaluate (__LINE__, __func__, { 62,     63,  64  }, positions);
+    evaluate (__LINE__, __func__, { "i",    "i", "i" }, operators);
+    evaluate (__LINE__, __func__, { "\nq3", "P", "." }, content); // Todo needs formatting for all p's.
+  }
+
+} // Todo
 
 
 void test_database_bibleactions ()

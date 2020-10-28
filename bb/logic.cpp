@@ -1052,14 +1052,14 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
 
 void bible_logic_html_to_editor_updates (const string & editor_html,
                                          const string & server_html,
-                                         vector <int> & positions_condensed,
-                                         vector <string> & operators_condensed,
-                                         vector <string> & content_condensed) // Todo
+                                         vector <int> & positions,
+                                         vector <string> & operators,
+                                         vector <string> & content) // Todo
 {
   // Clear outputs.
-  positions_condensed.clear();
-  operators_condensed.clear();
-  content_condensed.clear();
+  positions.clear();
+  operators.clear();
+  content.clear();
   
   // Convert the html to formatted text.
   Editor_Html2Format editor_format;
@@ -1101,5 +1101,5 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
 
   // Condense the differences a bit and render them to another format.
   bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
-                                       positions_condensed, operators_condensed, content_condensed);
+                                       positions, operators, content);
 }

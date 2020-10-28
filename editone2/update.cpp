@@ -259,61 +259,19 @@ string editone2_update (void * webserver_request)
       string verse_usfm = usfm_get_verse_text_quill (new_chapter_usfm, verse);
       editone2_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
-    // Convert the html to text-fragment and format pairs.
-    Editor_Html2Format editor_format;
-    Editor_Html2Format server_format;
-    editor_format.load (editor_html);
-    server_format.load (server_html);
-    editor_format.run ();
-    server_format.run ();
-    cout << "editor html" << endl; // Todo
-    cout << editor_html << endl;
-    cout << "server html" << endl; // Todo
-    cout << server_html << endl;
-
-    // Convert the formatted text fragments to formatted UTF-8 characters.
-    vector <string> editor_character_content;
-    vector <string> server_character_content; // Todo this one has the desired new lines.
-    for (size_t i = 0; i < editor_format.texts.size(); i++) {
-      string text = editor_format.texts[i];
-      string format = editor_format.formats[i];
-      size_t length = unicode_string_length (text);
-      for (size_t pos = 0; pos < length; pos++) {
-        string utf8_character = unicode_string_substr (text, pos, 1);
-        editor_character_content.push_back (utf8_character + format);
-      }
-    }
-    for (size_t i = 0; i < server_format.texts.size(); i++) { // Todo check what's there, if a single \n.
-      string text = server_format.texts[i];
-      string format = server_format.formats[i];
-      size_t length = unicode_string_length (text);
-      for (size_t pos = 0; pos < length; pos++) {
-        string utf8_character = unicode_string_substr (text, pos, 1);
-        server_character_content.push_back (utf8_character + format);
-      }
-    }
-    // Find the differences between the two sets of content.
-    vector <int> positions_diff;
-    vector <bool> additions_diff;
-    vector <string> content_diff;
-    int new_line_diff_count; // Todo
-    filter_diff_diff (editor_character_content, server_character_content,
-                      positions_diff, additions_diff, content_diff, new_line_diff_count);
-    // Condense the differences a bit and render them to another format.
-    vector <int> positions_condensed;
-    vector <string> operators_condensed;
-    vector <string> content_condensed;
-    bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
-                                         positions_condensed, operators_condensed, content_condensed);
+    vector <int> positions;
+    vector <string> operators;
+    vector <string> content;
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content); // Todo
     // Encode the condensed differences for the response to the Javascript editor.
-    for (size_t i = 0; i < positions_condensed.size(); i++) {
+    for (size_t i = 0; i < positions.size(); i++) {
       response.append ("#_be_#");
-      response.append (convert_to_string (positions_condensed[i]));
+      response.append (convert_to_string (positions[i]));
       response.append ("#_be_#");
-      string operation = operators_condensed[i];
+      string operation = operators[i];
       response.append (operation);
       if (operation == bible_logic_insert_operator ()) {
-        string text = content_condensed[i];
+        string text = content[i];
         string character = unicode_string_substr (text, 0, 1);
         response.append ("#_be_#");
         response.append (character);
@@ -326,11 +284,11 @@ string editone2_update (void * webserver_request)
       }
       else if (operation == bible_logic_format_paragraph_operator ()) {
         response.append ("#_be_#");
-        response.append (content_condensed[i]);
+        response.append (content[i]);
       }
       else if (operation == bible_logic_format_character_operator ()) {
         response.append ("#_be_#");
-        response.append (content_condensed[i]);
+        response.append (content[i]);
       }
     }
   }

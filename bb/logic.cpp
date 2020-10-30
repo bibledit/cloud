@@ -1071,7 +1071,6 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
 
   // Convert the formatted text fragments to formatted UTF-8 characters.
   vector <string> editor_character_content;
-  vector <string> server_character_content; // Todo this one has the desired new lines.
   for (size_t i = 0; i < editor_format.texts.size(); i++) {
     string text = editor_format.texts[i];
     string format = editor_format.formats[i];
@@ -1081,6 +1080,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
       editor_character_content.push_back (utf8_character + format);
     }
   }
+  vector <string> server_character_content; // Todo this one has the desired new lines.
   for (size_t i = 0; i < server_format.texts.size(); i++) { // Todo check what's there, if a single \n.
     string text = server_format.texts[i];
     string format = server_format.formats[i];
@@ -1102,4 +1102,16 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   // Condense the differences a bit and render them to another format.
   bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
                                        positions, operators, content);
+
+  // If there's new line(s) added or removed, apply all paragraph styles again.
+  if (new_line_diff_count) {
+    for (int position = 0; position < server_character_content.size(); position++) {
+      if (server_character_content[position].substr (0, 1) == "\n") {
+        positions.push_back(position);
+        operators.push_back(bible_logic_format_paragraph_operator());
+        content.push_back(server_character_content[position].substr (1));
+      }
+    }
+  }
+  
 }

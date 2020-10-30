@@ -579,9 +579,9 @@ void test_bibles ()
     vector <string> operators;
     vector <string> content;
     bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
-    evaluate (__LINE__, __func__, { 34,   34  }, positions);
-    evaluate (__LINE__, __func__, { "d",  "i" }, operators);
-    evaluate (__LINE__, __func__, { "\np", " " }, content); // Todo needs formatting for all p's.
+    evaluate (__LINE__, __func__, { 34,    34,  0,    62   }, positions);
+    evaluate (__LINE__, __func__, { "d",   "i", "p",  "p"  }, operators);
+    evaluate (__LINE__, __func__, { "\np", " ", "q1", "q2" }, content);
   }
 
   // Test entire pipeline for generating editor updates.
@@ -593,9 +593,9 @@ void test_bibles ()
     vector <string> operators;
     vector <string> content;
     bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
-    evaluate (__LINE__, __func__, { 62,     63,  64  }, positions);
-    evaluate (__LINE__, __func__, { "i",    "i", "i" }, operators);
-    evaluate (__LINE__, __func__, { "\nq3", "P", "." }, content); // Todo needs formatting for all p's.
+    evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
+    evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);
+    evaluate (__LINE__, __func__, { "\nq3", "P", ".", "q1", "p", "q3", "q2" }, content);
   }
 
 } // Todo

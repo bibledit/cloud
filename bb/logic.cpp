@@ -1103,6 +1103,10 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
                                        positions, operators, content);
 
+  // User action: Remove the new line at the end of the current paragraph.
+  // Result: The current paragraph takes the style of the next paragraph.
+  // User actions: While removing notes, this goes wrong.
+  // Solution:
   // If there's new line(s) added or removed, apply all paragraph styles again.
   if (new_line_diff_count) {
     for (int position = 0; position < server_character_content.size(); position++) {

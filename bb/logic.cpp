@@ -1011,8 +1011,8 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
     string character = content_in[i].substr (0, 1);
     string format = content_in[i].substr (1);
 
-    // The following situation occurs when changing the style of a paragraph,
-    // like for example changing a paragraph style from "p" to "s".
+    // The following situation occurs when changing the style of a paragraph.
+    // Like for example changing a paragraph style from "p" to "s".
     // The current sequence for this change is:
     // 1. Delete a new line at a known position.
     // 2. Insert a new line at the same position, with a given format.

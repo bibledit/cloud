@@ -841,10 +841,6 @@
 		CADE380424F173EB003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE380524F173EB003165BB /* ldap.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ldap.txt; sourceTree = "<group>"; };
 		CADE380624F173EB003165BB /* local.cert.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.cert.pem; sourceTree = "<group>"; };
-		CADE380824F173EB003165BB /* globals.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = globals.Po; sourceTree = "<group>"; };
-		CADE380924F173EB003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE380A24F173EB003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CADE380B24F173EB003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE380D24F173EB003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE380E24F173EB003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CADE380F24F173EB003165BB /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
@@ -4188,32 +4184,20 @@
 			children = (
 				CADE37F924F173EB003165BB /* config.h */,
 				CADE37FA24F173EB003165BB /* config.txt */,
-				CADE37FB24F173EB003165BB /* local.chain.pem */,
-				CADE37FC24F173EB003165BB /* logic.cpp */,
-				CADE37FD24F173EB003165BB /* libraries.h */,
-				CADE37FE24F173EB003165BB /* local.privkey.pem */,
+				CADE380124F173EB003165BB /* globals.cpp */,
 				CADE37FF24F173EB003165BB /* globals.h */,
 				CADE380024F173EB003165BB /* globals.o */,
-				CADE380124F173EB003165BB /* globals.cpp */,
-				CADE380224F173EB003165BB /* userfacingurl.txt */,
+				CADE380524F173EB003165BB /* ldap.txt */,
+				CADE37FD24F173EB003165BB /* libraries.h */,
+				CADE380624F173EB003165BB /* local.cert.pem */,
+				CADE37FB24F173EB003165BB /* local.chain.pem */,
+				CADE37FE24F173EB003165BB /* local.privkey.pem */,
+				CADE37FC24F173EB003165BB /* logic.cpp */,
 				CADE380324F173EB003165BB /* logic.h */,
 				CADE380424F173EB003165BB /* logic.o */,
-				CADE380524F173EB003165BB /* ldap.txt */,
-				CADE380624F173EB003165BB /* local.cert.pem */,
-				CADE380724F173EB003165BB /* .deps */,
-				CADE380B24F173EB003165BB /* .dirstamp */,
+				CADE380224F173EB003165BB /* userfacingurl.txt */,
 			);
 			path = config;
-			sourceTree = "<group>";
-		};
-		CADE380724F173EB003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE380824F173EB003165BB /* globals.Po */,
-				CADE380924F173EB003165BB /* .dirstamp */,
-				CADE380A24F173EB003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE380C24F173EB003165BB /* collaboration */ = {

@@ -88,7 +88,7 @@ void test_diff ()
     vector <bool> additions;
     vector <string> content;
     int new_line_diff_count;
-    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count);
+    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count); // Todo
     evaluate (__LINE__, __func__, {3,    6,     7}, positions);
     evaluate (__LINE__, __func__, {true, false, true}, additions);
     evaluate (__LINE__, __func__, {"d",  "g",    "h"}, content);
@@ -117,7 +117,7 @@ void test_diff ()
     vector <bool> additions;
     vector <string> content;
     int new_line_diff_count;
-    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count);
+    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count); // Todo
     evaluate (__LINE__, __func__, {1,      3,    6,     7,    8}, positions);
     evaluate (__LINE__, __func__, {true,   true, false, true, false}, additions);
     evaluate (__LINE__, __func__, {"badd", "d",  "g",   "h", "i"}, content);
@@ -146,10 +146,40 @@ void test_diff ()
     vector <bool> additions;
     vector <string> content;
     int new_line_diff_count;
-    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count);
+    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count); // Todo
     evaluate (__LINE__, __func__, {1, 2, 3, 3, 5}, positions);
     evaluate (__LINE__, __func__, {false, false, false, true, true}, additions);
     evaluate (__LINE__, __func__, {"\n", "b", "\n", "b", "\n"}, content);
+    evaluate (__LINE__, __func__, 3, new_line_diff_count);
+    vector <string> assembly (oldinput);
+    // Routine to update the old input so it's like the new.
+    for (size_t i = 0; i < positions.size(); i++) {
+      int position = positions[i];
+      bool addition = additions[i];
+      string s = content[i];
+      vector<string>::iterator iterator = assembly.begin();
+      if (position > 0) iterator += position;
+      if (addition) {
+        if (iterator == assembly.end()) assembly.push_back((s));
+        else assembly.insert(iterator, s);
+      } else {
+        assembly.erase(iterator);
+      }
+    }
+    evaluate (__LINE__, __func__, newinput, assembly);
+  }
+  {
+    // Positions                0     1     2    3     4    5     6     7    8
+    vector <string> oldinput = {"\n", "\n", "a", "😀", "b", "\n", "\n", "c"      }; // Todo
+    vector <string> newinput = {"\n",       "a",            "\n", "😃", "c", "\n"};
+    vector <int> positions;
+    vector <bool> additions;
+    vector <string> content;
+    int new_line_diff_count;
+    filter_diff_diff (oldinput, newinput, positions, additions, content, new_line_diff_count); // Todo
+    evaluate (__LINE__, __func__, {1,     2,     2,     3,     3,    5    }, positions);
+    evaluate (__LINE__, __func__, {false, false, false, false, true, true }, additions);
+    evaluate (__LINE__, __func__, {"\n", "😀",   "b",   "\n",  "😃", "\n" }, content);
     evaluate (__LINE__, __func__, 3, new_line_diff_count);
     vector <string> assembly (oldinput);
     // Routine to update the old input so it's like the new.

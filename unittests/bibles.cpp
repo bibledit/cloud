@@ -526,8 +526,24 @@ void test_bibles ()
     evaluate (__LINE__, __func__, {"d",    "i"}, operators_out);
     evaluate (__LINE__, __func__, {"ladd", "kadd"}, content_out);
   }
-  
-  // Condense new line and leave other edits as they are.
+
+  // No condensing of any editor updates.
+  // Handle smileys as examples of characters that are 4 bytes long in UTF-16.
+  {
+    vector <int> positions_in =  { 6,     6 };
+    vector <bool> additions_in = { false, true };
+    vector <string> content_in = { "😀add", "😁add" };
+    vector <int> positions_out;
+    vector <string> operators_out;
+    vector <string> content_out;
+    bible_logic_condense_editor_updates (positions_in, additions_in, content_in,
+                                         positions_out, operators_out, content_out);
+    evaluate (__LINE__, __func__, {6,      6}, positions_out);
+    evaluate (__LINE__, __func__, {"d",    "i"}, operators_out);
+    evaluate (__LINE__, __func__, {"😀add", "😁add"}, content_out);
+  }
+
+  // Condense new line and leave other edits as they are. Todo
   {
     vector <int> positions_in =  { 6,     6,     7,      8 };
     vector <bool> additions_in = { false, true,  false,  true };

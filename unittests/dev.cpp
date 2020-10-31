@@ -17,18 +17,9 @@
  */
 
 
-#include <unittests/french.h>
+#include <codecvt>
 #include <unittests/utilities.h>
-#include <checks/french.h>
-#include <database/check.h>
 #include <filter/string.h>
-#include <filter/text.h>
-#include <filter/url.h>
-#include <filter/usfm.h>
-#include <checks/usfm.h>
-#include <editor/html2usfm.h>
-#include <editor/usfm2html.h>
-#include <resource/logic.h>
 
 
 void test_dev ()

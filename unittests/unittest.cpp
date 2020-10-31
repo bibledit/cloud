@@ -149,6 +149,7 @@ int main (int argc, char **argv)
   test_diff ();
   test_html2format ();
   test_bibles ();
+  test_string ();
   refresh_sandbox (true);
   exit (0);
   

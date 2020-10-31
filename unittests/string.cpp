@@ -542,5 +542,16 @@ void test_string ()
     array_move_up_down (container, 0, false);
     evaluate (__LINE__, __func__, { }, container);
   }
+  
+  // Test UTF-16 number of bytes whether 1 or 2.
+  {
+    u16string u16;
+    u16 = convert_to_u16string ("a");
+    evaluate (__LINE__, __func__, 1, (int)u16.length());
+    u16 = convert_to_u16string ("ℵ");
+    evaluate (__LINE__, __func__, 1, (int)u16.length());
+    u16 = convert_to_u16string ("😀");
+    evaluate (__LINE__, __func__, 2, (int)u16.length());
+  }
 
 }

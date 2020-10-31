@@ -229,6 +229,15 @@ string convert_to_true_false (bool b)
 }
 
 
+u16string convert_to_u16string (string s) // Todo
+{
+  wstring_convert <codecvt_utf8_utf16 <char16_t>, char16_t> utf16conv;
+  u16string utf16 = utf16conv.from_bytes (s);
+  // utf16.length()
+  return utf16;
+}
+
+
 // A C++ equivalent for PHP's array_unique function.
 vector <string> array_unique (vector <string> values)
 {

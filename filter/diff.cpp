@@ -115,10 +115,17 @@ string filter_diff_diff (string oldstring, string newstring,
 // Each differing character is given a size of 1 or 2 accordingly.
 void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<string> & newinput,
                              vector <int> & positions,
+                             vector <int> & sizes,
                              vector <bool> & additions,
                              vector <string> & content,
-                             int & new_line_diff_count)
+                             int & new_line_diff_count) // Todo
 {
+  // Clear anything from the output containers just to be sure.
+  positions.clear();
+  sizes.clear();
+  additions.clear();
+  content.clear();
+  
   // Start with zero changes in a new line.
   new_line_diff_count = 0;
   
@@ -155,20 +162,27 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     if (line.empty ()) continue;
     char indicator = line.front ();
     line.erase (0, 1);
+    // Get the size of the character in UTF-16, whether 1 or 2.
+    string utf8 = unicode_string_substr (line, 0, 1);
+    u16string utf16 = convert_to_u16string (utf8);
+    size_t size = utf16.length();
+    //cout << "utf8 " << utf8 << " utf-16 size " << size << endl; // Todo
     if (indicator == '+') {
       // Something to be inserted into the old sequence to get at the new sequence.
       positions.push_back(position);
+      sizes.push_back((int)size);
       additions.push_back(true);
       content.push_back(line);
       // Something was inserted.
       // So increase the position to point to the next offset in the sequence from where to proceed.
-      position++;
+      position += size;
       // Check on number of changes in paragraphs.
       if (line.substr(0, 1) == "\n") new_line_diff_count++;
     }
     else if (indicator == '-') {
       // Something to be deleted at the given position.
       positions.push_back(position);
+      sizes.push_back((int)size);
       additions.push_back(false);
       content.push_back(line);
       // Something was deleted.
@@ -178,7 +192,9 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     }
     else {
       // No difference.
-      position++;
+      // Increase the position of the subsequent edit
+      // with the amount of 16-bits code points of the current text bit in UTF-16.
+      position += size;
     }
   }
 }

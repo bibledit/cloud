@@ -29,6 +29,7 @@ string filter_diff_diff (string oldstring, string newstring,
                          vector <string> * additions = nullptr);
 void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<string> & newinput,
                              vector <int> & positions,
+                             vector <int> & sizes,
                              vector <bool> & additions,
                              vector <string> & content,
                              int & new_line_diff_count);

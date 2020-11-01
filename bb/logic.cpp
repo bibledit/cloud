@@ -1162,11 +1162,12 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
 
   // Find the differences between the two sets of content.
   vector <int> positions_diff;
+  vector <int> sizes_diff;
   vector <bool> additions_diff;
   vector <string> content_diff;
   int new_line_diff_count;
   filter_diff_diff_utf16 (editor_character_content, server_character_content,
-                          positions_diff, additions_diff, content_diff, new_line_diff_count); // Todo test this.
+                          positions_diff, sizes_diff, additions_diff, content_diff, new_line_diff_count); // Todo test this.
 
   // Condense the differences a bit and render them to another format.
   bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,

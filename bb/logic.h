@@ -64,6 +64,10 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
                                           vector <int> & positions_out,
                                           vector <string> & operators_out,
                                           vector <string> & content_out);
+void bible_logic_editor_updates_to_utf16 (vector <int> & positions,
+                                          vector <int> & sizes,
+                                          vector <string> & operators,
+                                          vector <string> & content);
 void bible_logic_html_to_editor_updates (const string & editor_html,
                                          const string & server_html,
                                          vector <int> & positions_condensed,

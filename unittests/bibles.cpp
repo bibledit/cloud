@@ -558,6 +558,52 @@ void test_bibles ()
     evaluate (__LINE__, __func__, {"s", "ladd", "kadd"}, content_out);
   }
   
+  // Test the UTF-16 position and size updater. // Todo
+  {
+    vector <int> positions    = { 5,      6,       7,     8,   8   };
+    vector <int> sizes        = {                                  };
+    vector <string> operators = {"i",     "d",     "i",   "i", "d" };
+    vector <string> content   = {"😀add", "😁add", "aa", "bb", "bb"};
+    bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content);
+    evaluate (__LINE__, __func__, {
+      5, // Inserting "😀" here leaves the insertion position unchanged.
+      7, // Due the the insert of "😀" before, the position is increased.
+      7, // Due to insertion and deletion of "😀", this position remains the same.
+      8, // Same as above.
+      8, // Same as above.
+    }, positions);
+    evaluate (__LINE__, __func__, {
+      2, // Smiley 😀 so size 2.
+      2, // Same as above.
+      1, // Normal UTF-8 character, so size 1.
+      1, // Same as above.
+      1, // Same as above.
+    }, sizes);
+  }
+
+  // Test the UTF-16 position and size updater. // Todo
+  {
+    vector <int> positions    = { 5,      6,       7,     8,   8   };
+    vector <int> sizes        = {                                  };
+    vector <string> operators = {"i",     "i",     "i",   "i", "d" };
+    vector <string> content   = {"😀add", "😁add", "aa", "bb", "bb"};
+    bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content);
+    evaluate (__LINE__, __func__, {
+      5, // Inserting "😀" here leaves the insertion position unchanged.
+      7, // Due the the insert of "😀" before, the position is increased.
+      9, // Due to double insertion of "😀", this position got 2 added.
+      10, // Same as above.
+      10, // Same as above.
+    }, positions);
+    evaluate (__LINE__, __func__, {
+      2, // Smiley 😀 so size 2.
+      2, // Same as above.
+      1, // Normal UTF-8 character, so size 1.
+      1, // Same as above.
+      1, // Same as above.
+    }, sizes);
+  }
+
   // Test entire pipeline for generating editor updates.
   {
     // The server text has inserted an exclamation mark after "nations!".
@@ -600,7 +646,7 @@ void test_bibles ()
     evaluate (__LINE__, __func__, { "\np", " ", "q1", "q2" }, content);
   }
 
-  // Test entire pipeline for generating editor updates.
+  // Test entire pipeline for generating editor updates. Todo test more.
   {
     // The server text has added an extra paragraph with a certain paragraph style.
     string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";

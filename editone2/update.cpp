@@ -263,6 +263,9 @@ string editone2_update (void * webserver_request)
     vector <string> operators;
     vector <string> content;
     bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content); // Todo
+    for (size_t i = 0; i < positions.size(); i++) {
+      cout << "pos " << positions[i] << " op " << operators[i] << " cont " << content[i] << endl; // Todo
+    }
     // Encode the condensed differences for the response to the Javascript editor.
     for (size_t i = 0; i < positions.size(); i++) {
       response.append ("#_be_#");

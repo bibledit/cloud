@@ -149,7 +149,7 @@ function usfmEditorLoadChapter ()
           // https://github.com/bibledit/cloud/issues/346
           usfmLoadDate = new Date();
           var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
-          seconds = 2; // Todo
+          seconds = 2; // Disable timer.
           if ((seconds < 2) | usfmReload) {
             if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
           }
@@ -212,7 +212,7 @@ function usfmEditorSaveChapter (sync)
       usfmSaving = false;
       usfmSaveDate = new Date();
       var seconds = (usfmSaveDate.getTime() - usfmLoadDate.getTime()) / 1000;
-      seconds = 2; // Todo
+      seconds = 2; // Disable timer.
       if (seconds < 2) {
         if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
       }

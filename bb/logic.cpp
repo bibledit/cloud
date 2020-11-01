@@ -1054,7 +1054,7 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
 void bible_logic_editor_updates_to_utf16 (vector <int> & positions,
                                           vector <int> & sizes,
                                           vector <string> & operators,
-                                          vector <string> & content) // Todo implement and test it.
+                                          vector <string> & content) // Todo move comments out and remove this code here.
 {
   // Most UTF-8 characters in common use fit within two bytes when encoded in UTF-16.
   // Javascript works with UTF-16.
@@ -1123,7 +1123,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
                                          const string & server_html,
                                          vector <int> & positions,
                                          vector <string> & operators,
-                                         vector <string> & content) // Todo
+                                         vector <string> & content) // Todo update with sizes.
 {
   // Clear outputs.
   positions.clear();

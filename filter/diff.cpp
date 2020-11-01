@@ -118,7 +118,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
                              vector <int> & sizes,
                              vector <bool> & additions,
                              vector <string> & content,
-                             int & new_line_diff_count) // Todo
+                             int & new_line_diff_count)
 {
   // Clear anything from the output containers just to be sure.
   positions.clear();

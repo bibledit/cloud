@@ -229,7 +229,7 @@ string convert_to_true_false (bool b)
 }
 
 
-u16string convert_to_u16string (string s) // Todo
+u16string convert_to_u16string (string s)
 {
   wstring_convert <codecvt_utf8_utf16 <char16_t>, char16_t> utf16conv;
   u16string utf16 = utf16conv.from_bytes (s);

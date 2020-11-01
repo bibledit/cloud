@@ -59,9 +59,11 @@ const char * bible_logic_delete_operator ();
 const char * bible_logic_format_paragraph_operator ();
 const char * bible_logic_format_character_operator ();
 void bible_logic_condense_editor_updates (const vector <int> & positions_in,
+                                          const vector <int> & sizes_in,
                                           const vector <bool> & additions_in,
                                           const vector <string> & content_in,
                                           vector <int> & positions_out,
+                                          vector <int> & sizes_out,
                                           vector <string> & operators_out,
                                           vector <string> & content_out);
 void bible_logic_editor_updates_to_utf16 (vector <int> & positions,

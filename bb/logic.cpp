@@ -992,13 +992,16 @@ const char * bible_logic_format_character_operator ()
 // The function condenses this updating information.
 // This condensed information works better for the Quill editor.
 void bible_logic_condense_editor_updates (const vector <int> & positions_in,
+                                          const vector <int> & sizes_in,
                                           const vector <bool> & additions_in,
                                           const vector <string> & content_in,
                                           vector <int> & positions_out,
+                                          vector <int> & sizes_out,
                                           vector <string> & operators_out,
                                           vector <string> & content_out)
 {
   positions_out.clear();
+  sizes_out.clear();
   operators_out.clear();
   content_out.clear();
   
@@ -1006,8 +1009,9 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
   bool previous_addition = false;
   string previous_character = string();
   for (size_t i = 0; i < positions_in.size(); i++) {
-    int position = positions_in[i];
-    bool addition = additions_in[i];
+    int position     = positions_in[i];
+    int size         = sizes_in[i];
+    bool addition    = additions_in[i];
     string character = content_in[i].substr (0, 1);
     string format = content_in[i].substr (1);
 
@@ -1028,14 +1032,17 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
     if (newlineflag) {
       // Remove the previous "delete new line".
       positions_out.pop_back();
+      sizes_out.pop_back();
       operators_out.pop_back();
       content_out.pop_back();
       // Add the paragraph format operation data.
       positions_out.push_back(position);
+      sizes_out.push_back(size);
       operators_out.push_back(bible_logic_format_paragraph_operator());
       content_out.push_back(format);
     } else {
       positions_out.push_back(position);
+      sizes_out.push_back(size);
       if (addition) operators_out.push_back(bible_logic_insert_operator());
       else operators_out.push_back(bible_logic_delete_operator());
       content_out.push_back(character + format);
@@ -1125,8 +1132,11 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
                                          vector <string> & operators,
                                          vector <string> & content) // Todo update with sizes.
 {
+  vector <int> sizes; // Todo move
+
   // Clear outputs.
   positions.clear();
+  sizes.clear();
   operators.clear();
   content.clear();
   
@@ -1170,8 +1180,8 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
                           positions_diff, sizes_diff, additions_diff, content_diff, new_line_diff_count); // Todo test this.
 
   // Condense the differences a bit and render them to another format.
-  bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
-                                       positions, operators, content);
+  bible_logic_condense_editor_updates (positions_diff, sizes_diff, additions_diff, content_diff,
+                                       positions, sizes, operators, content);
 
   // User action: Remove the new line at the end of the current paragraph.
   // Result: The current paragraph takes the style of the next paragraph.

@@ -260,10 +260,10 @@ string editone2_update (void * webserver_request)
       editone2_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
     vector <int> positions;
+    vector <int> sizes;
     vector <string> operators;
     vector <string> content;
     bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content); // Todo
-    vector <int> sizes;
     bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content);
     for (size_t i = 0; i < positions.size(); i++) {
       cout << "pos " << positions[i] << " size " << sizes[i] << " op " << operators[i] << " cont " << content[i] << endl; // Todo

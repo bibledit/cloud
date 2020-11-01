@@ -166,7 +166,6 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     string utf8 = unicode_string_substr (line, 0, 1);
     u16string utf16 = convert_to_u16string (utf8);
     size_t size = utf16.length();
-    //cout << "utf8 " << utf8 << " utf-16 size " << size << endl; // Todo
     if (indicator == '+') {
       // Something to be inserted into the old sequence to get at the new sequence.
       positions.push_back(position);

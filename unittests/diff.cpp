@@ -82,7 +82,7 @@ void test_diff ()
   
   // Update differing content for use in Quilljs editor.
   {
-    vector <string> oldinput = {"a", "badd", "c",      "e", "f", "g", "\np"};
+    vector <string> oldinput = {"a", "badd", "c",      "e", "f", "g", "\np"     };
     vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
     vector <int> positions;
     vector <int> sizes;
@@ -98,7 +98,7 @@ void test_diff ()
   }
   {
     vector <string> oldinput = {"a",         "c",      "e", "f", "g", "\np",     "i"};
-    vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
+    vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"    };
     vector <int> positions;
     vector <int> sizes;
     vector <bool> additions;

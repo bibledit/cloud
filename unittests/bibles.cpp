@@ -589,9 +589,9 @@ void test_bibles ()
     vector <string> content   = {"😀add", "😁add", "aa", "bb", "bb"};
     bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content);
     evaluate (__LINE__, __func__, {
-      5, // Inserting "😀" here leaves the insertion position unchanged.
-      7, // Due the the insert of "😀" before, the position is increased.
-      9, // Due to double insertion of "😀", this position got 2 added.
+      5,  // Inserting "😀" here leaves the insertion position unchanged.
+      7,  // Due the the insert of "😀" before, the position is increased.
+      9,  // Due to double insertion of "😀", this position got 2 added.
       10, // Same as above.
       10, // Same as above.
     }, positions);

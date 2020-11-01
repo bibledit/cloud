@@ -263,8 +263,10 @@ string editone2_update (void * webserver_request)
     vector <string> operators;
     vector <string> content;
     bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content); // Todo
+    vector <int> sizes;
+    bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content);
     for (size_t i = 0; i < positions.size(); i++) {
-      cout << "pos " << positions[i] << " op " << operators[i] << " cont " << content[i] << endl; // Todo
+      cout << "pos " << positions[i] << " size " << sizes[i] << " op " << operators[i] << " cont " << content[i] << endl; // Todo
     }
     // Encode the condensed differences for the response to the Javascript editor.
     for (size_t i = 0; i < positions.size(); i++) {
@@ -284,6 +286,12 @@ string editone2_update (void * webserver_request)
         response.append (format);
       }
       else if (operation == bible_logic_delete_operator ()) {
+        // When deleting a UTF-16 character encoded in 4 bytes,
+        // then the size in Quilljs is 2 instead of 1.
+        // So always give the size when deleting a character.
+        response.append ("#_be_#");
+        response.append (convert_to_string (sizes[i])); // Todo
+
       }
       else if (operation == bible_logic_format_paragraph_operator ()) {
         response.append ("#_be_#");

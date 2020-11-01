@@ -1101,7 +1101,7 @@ function oneverseUpdateExecute ()
             var i;
             for (i = 0; i < oneverseEditorChangeOffsets.length; i++) {
               // Any delete or insert at a lower offset or the same offset
-              // modify the position where to apply the incoming edit from the server/device.
+              // modifies the position where to apply the incoming edit from the server/device.
               if (oneverseEditorChangeOffsets[i] <= position) {
                 position += oneverseEditorChangeInserts[i];
                 position -= oneverseEditorChangeDeletes[i]
@@ -1110,7 +1110,7 @@ function oneverseUpdateExecute ()
               // If inserting at the current position, increase that offset.
               // If deleting at the current position, decrease that offset.
               if (oneverseEditorChangeOffsets[i] > position) {
-                if (ins_operator) oneverseEditorChangeOffsets[i]++;
+                if (ins_operator) oneverseEditorChangeOffsets[i]++; // Todo fix this for UTF-16.
                 if (del_operator) oneverseEditorChangeOffsets[i]--;
               }
             }
@@ -1132,8 +1132,10 @@ function oneverseUpdateExecute ()
             }
             // Handle delete operator.
             else if (del_operator) {
-              quill.deleteText (position, 1, "silent");
-              if (useShadowQuill) quill2.deleteText (position2, 1, "silent");
+              var size = parseInt (bits.shift());
+              console.log ("size", size); // Todo
+              quill.deleteText (position, size, "silent");
+              if (useShadowQuill) quill2.deleteText (position2, size, "silent");
             }
             // Handle format paragraph operator.
             else if (operator == "p") {

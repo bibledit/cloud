@@ -1165,8 +1165,8 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   vector <bool> additions_diff;
   vector <string> content_diff;
   int new_line_diff_count;
-  filter_diff_diff (editor_character_content, server_character_content,
-                    positions_diff, additions_diff, content_diff, new_line_diff_count);
+  filter_diff_diff_utf16 (editor_character_content, server_character_content,
+                          positions_diff, additions_diff, content_diff, new_line_diff_count); // Todo test this.
 
   // Condense the differences a bit and render them to another format.
   bible_logic_condense_editor_updates (positions_diff, additions_diff, content_diff,
@@ -1178,9 +1178,9 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   // Solution:
   // If there's new line(s) added or removed, apply all paragraph styles again.
   if (new_line_diff_count) {
-    for (int position = 0; position < server_character_content.size(); position++) {
+    for (size_t position = 0; position < server_character_content.size(); position++) {
       if (server_character_content[position].substr (0, 1) == "\n") {
-        positions.push_back(position);
+        positions.push_back((int)position);
         operators.push_back(bible_logic_format_paragraph_operator());
         content.push_back(server_character_content[position].substr (1));
       }

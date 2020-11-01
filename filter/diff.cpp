@@ -109,11 +109,15 @@ string filter_diff_diff (string oldstring, string newstring,
 // This information consists of positions
 // for addition or deletion operators,
 // and if an addition, which content to add.
-void filter_diff_diff (const vector<string> & oldinput, const vector<string> & newinput,
-                       vector <int> & positions,
-                       vector <bool> & additions,
-                       vector <string> & content,
-                       int & new_line_diff_count)
+// It gives the positions as related to UTF-16 as used in the Quilljs editor.
+// That means that characters that fit in 2-byte UTF-16 give their positions as 1.
+// Those that fit in 4-byte UTF-16 give their positions as 2.
+// Each differing character is given a size of 1 or 2 accordingly.
+void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<string> & newinput,
+                             vector <int> & positions,
+                             vector <bool> & additions,
+                             vector <string> & content,
+                             int & new_line_diff_count)
 {
   // Start with zero changes in a new line.
   new_line_diff_count = 0;

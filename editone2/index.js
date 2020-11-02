@@ -1133,7 +1133,7 @@ function oneverseUpdateExecute ()
             // Handle delete operator.
             else if (del_operator) {
               var size = parseInt (bits.shift());
-              console.log ("size", size); // Todo
+              console.log ("delete at position", position, "size", size); // Todo
               quill.deleteText (position, size, "silent");
               if (useShadowQuill) quill2.deleteText (position2, size, "silent");
             }

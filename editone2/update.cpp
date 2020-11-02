@@ -263,8 +263,8 @@ string editone2_update (void * webserver_request)
     vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content); // Todo
-    bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content);
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content); // Todo
+    // bible_logic_editor_updates_to_utf16 (positions, sizes, operators, content); Todo out.
     for (size_t i = 0; i < positions.size(); i++) {
       cout << "pos " << positions[i] << " size " << sizes[i] << " op " << operators[i] << " cont " << content[i] << endl; // Todo
     }

@@ -622,10 +622,12 @@ void test_bibles ()
     string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
     string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
     vector <int> positions;
+    vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 34  }, positions);
+    evaluate (__LINE__, __func__, { 1   }, sizes);
     evaluate (__LINE__, __func__, { "i" }, operators);
     evaluate (__LINE__, __func__, { "!" }, content);
   }
@@ -636,10 +638,12 @@ void test_bibles ()
     string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
     string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations.</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
     vector <int> positions;
+    vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
-    evaluate (__LINE__, __func__, { 33,  33,  33 }, positions);
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    evaluate (__LINE__, __func__, { 33,  33,  33  }, positions);
+    evaluate (__LINE__, __func__, { 1,   1,   1   }, sizes);
     evaluate (__LINE__, __func__, { "d", "d", "i" }, operators);
     evaluate (__LINE__, __func__, { "!", "!", "." }, content);
   }
@@ -650,10 +654,12 @@ void test_bibles ()
     string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
     string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span> <span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
     vector <int> positions;
+    vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 34,    34,  0,    62   }, positions);
+    evaluate (__LINE__, __func__, { 1,     1,   1,    1    }, sizes);
     evaluate (__LINE__, __func__, { "d",   "i", "p",  "p"  }, operators);
     evaluate (__LINE__, __func__, { "\np", " ", "q1", "q2" }, content);
   }
@@ -664,15 +670,17 @@ void test_bibles ()
     string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
     string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P.</p><p class="b-q2"><span>And so on the third line.</span></p>)";
     vector <int> positions;
+    vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, operators, content);
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
+    evaluate (__LINE__, __func__, { 1,      1,   1,   1,    1,   1,    1    }, sizes);
     evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);
     evaluate (__LINE__, __func__, { "\nq3", "P", ".", "q1", "p", "q3", "q2" }, content);
   }
 
-} // Todo
+} // Todo test utf-16 4-byte stuff too.
 
 
 void test_database_bibleactions ()

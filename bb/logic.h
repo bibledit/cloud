@@ -72,9 +72,10 @@ void bible_logic_editor_updates_to_utf16 (vector <int> & positions,
                                           vector <string> & content);
 void bible_logic_html_to_editor_updates (const string & editor_html,
                                          const string & server_html,
-                                         vector <int> & positions_condensed,
-                                         vector <string> & operators_condensed,
-                                         vector <string> & content_condensed);
+                                         vector <int> & positions,
+                                         vector <int> & sizes,
+                                         vector <string> & operators,
+                                         vector <string> & content);
 
 
 #endif

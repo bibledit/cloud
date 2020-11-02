@@ -1129,11 +1129,10 @@ void bible_logic_editor_updates_to_utf16 (vector <int> & positions,
 void bible_logic_html_to_editor_updates (const string & editor_html,
                                          const string & server_html,
                                          vector <int> & positions,
+                                         vector <int> & sizes,
                                          vector <string> & operators,
                                          vector <string> & content) // Todo update with sizes.
 {
-  vector <int> sizes; // Todo move
-
   // Clear outputs.
   positions.clear();
   sizes.clear();
@@ -1178,6 +1177,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   int new_line_diff_count;
   filter_diff_diff_utf16 (editor_character_content, server_character_content,
                           positions_diff, sizes_diff, additions_diff, content_diff, new_line_diff_count); // Todo test this.
+  //cout << positions_diff.size () << " " << sizes_diff.size() << endl; // Todo
 
   // Condense the differences a bit and render them to another format.
   bible_logic_condense_editor_updates (positions_diff, sizes_diff, additions_diff, content_diff,
@@ -1191,7 +1191,8 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   if (new_line_diff_count) {
     for (size_t position = 0; position < server_character_content.size(); position++) {
       if (server_character_content[position].substr (0, 1) == "\n") {
-        positions.push_back((int)position);
+        positions.push_back((int)position); // Todo this goes wrong with smileys and so on. Fix that. Coz positions are now dependent upon 4-byte UTF-16 characters, if they've been seen.
+        sizes.push_back(1);
         operators.push_back(bible_logic_format_paragraph_operator());
         content.push_back(server_character_content[position].substr (1));
       }

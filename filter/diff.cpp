@@ -104,12 +104,25 @@ string filter_diff_diff (string oldstring, string newstring,
 // This filter returns the diff of two input vector<string>'s.
 // $old: The old vector<string> for input.
 // $new: The new vector<string> for input.
+//
 // The function produces information,
 // that if applied to the old input, will produce the new input.
 // This information consists of positions
 // for addition or deletion operators,
 // and if an addition, which content to add.
-// It gives the positions as related to UTF-16 as used in the Quilljs editor.
+//
+// Most UTF-8 characters in common use fit within two bytes when encoded in UTF-16.
+// Javascript works with UTF-16.
+// Also the Quilljs editor works with UTF-16.
+// The positions in the Quill editor are influenced by
+// whether the character is represented by 2 bytes in UTF-16, or by 4 bytes.
+// A 2-byte UTF-16 character when inserted increases the position by 1.
+// A 4-byte UTF-16 character when inserted increases the position by 2.
+// When deleting a 4-byte UTF-16 character, the Quill API deletes 2 positions.
+//
+// The C++ server works with UTF-8.
+// So there is a need for some translation in positios between UTF-8 in C++ and UTF-16 in Javascript.
+// This function gives the positions as related to UTF-16.
 // That means that characters that fit in 2-byte UTF-16 give their positions as 1.
 // Those that fit in 4-byte UTF-16 give their positions as 2.
 // Each differing character is given a size of 1 or 2 accordingly.

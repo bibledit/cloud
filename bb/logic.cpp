@@ -1057,81 +1057,12 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
 }
 
 
-// Since Javascript works with UTF-16, this logic updates the positions for the updates to the editor.
-void bible_logic_editor_updates_to_utf16 (vector <int> & positions,
-                                          vector <int> & sizes,
-                                          vector <string> & operators,
-                                          vector <string> & content) // Todo move comments out and remove this code here.
-{
-  // Most UTF-8 characters in common use fit within two bytes when encoded in UTF-16.
-  // Javascript works with UTF-16.
-  // Also the Quilljs editor works with UTF-16.
-  // The positions in the Quill editor are influenced by
-  // whether the character is represented by 2 bytes in UTF-16, or by 4 bytes.
-  // A 2-byte UTF-16 character when inserted increases the position by 1.
-  // A 4-byte UTF-16 character when inserted increases the position by 2.
-  // When deleting a 4-byte UTF-16 character, the Quill API deletes 2 positions.
-  // The C++ server works with UTF-8.
-  // So there is a need for some translation in positios between UTF-8 in C++ and UTF-16 in Javascript.
-  
-  // Clear the sizes. The code below fill it.
-  sizes.clear();
-  
-  // Iterate over all data.
-  for (size_t i = 0; i < positions.size(); i++) {
-    
-    // The size of this character in most cases is simply 1.
-    int size = 1;
-    
-    // UTF-16 is relevant when inserting or deleting content.
-    bool inserting = operators[i] == bible_logic_insert_operator ();
-    bool deleting = operators[i] == bible_logic_delete_operator ();
-    if (inserting || deleting) {
-
-      // Get the character to be inserted or to be deleted.
-      // Get the size of this character if converted to UTF-16,
-      string utf8_character = unicode_string_substr (content[i], 0, 1);
-      u16string utf16_character = convert_to_u16string (utf8_character);
-      size = (int)utf16_character.length();
-      
-    }
-
-    // When inserting, the editor inserts that 4-byte UTF-16 character.
-    // That is equal to 2 positions in Javascript.
-    // So higher positions should be increased by one.
-    if (inserting && (size > 1)) {
-      int current_position = positions[i];
-      for (size_t i2 = 0; i2 < positions.size(); i2++) {
-        if (positions[i2] > current_position) {
-          positions[i2]++;
-        }
-      }
-    }
-    
-    // When deleting, the editor deletes that 4-byte UTF-16 character.
-    // That is equal to 2 positions in Javascript.
-    // So higher positions should be decreased by one.
-    if (deleting && (size > 1)) {
-      int current_position = positions[i];
-      for (size_t i2 = 0; i2 < positions.size(); i2++) {
-        if (positions[i2] > current_position) {
-          positions[i2]--;
-        }
-      }
-    }
-    
-    // Store this size.
-    sizes.push_back(size);
-  }
-}
-
-
 void bible_logic_html_to_editor_updates (const string & editor_html,
                                          const string & server_html,
                                          vector <int> & positions,
                                          vector <int> & sizes,
                                          vector <string> & operators,
-                                         vector <string> & content) // Todo update with sizes.
+                                         vector <string> & content)
 {
   // Clear outputs.
   positions.clear();
@@ -1176,8 +1107,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   vector <string> content_diff;
   int new_line_diff_count;
   filter_diff_diff_utf16 (editor_character_content, server_character_content,
-                          positions_diff, sizes_diff, additions_diff, content_diff, new_line_diff_count); // Todo test this.
-  //cout << positions_diff.size () << " " << sizes_diff.size() << endl; // Todo
+                          positions_diff, sizes_diff, additions_diff, content_diff, new_line_diff_count);
 
   // Condense the differences a bit and render them to another format.
   bible_logic_condense_editor_updates (positions_diff, sizes_diff, additions_diff, content_diff,

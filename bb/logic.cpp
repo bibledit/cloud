@@ -1127,7 +1127,6 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
       int size = (int)convert_to_u16string (server_utf8_characters[i]).length();
       if (server_utf8_characters[i] == "\n") {
         positions.push_back(position);
-        // Todo this goes wrong with smileys and so on. Fix that. Coz positions are now dependent upon 4-byte UTF-16 characters, if they've been seen.
         sizes.push_back(size);
         operators.push_back(bible_logic_format_paragraph_operator());
         content.push_back(server_formatted_character_content[i].substr (1));

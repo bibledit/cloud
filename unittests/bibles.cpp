@@ -634,7 +634,23 @@ void test_bibles ()
     evaluate (__LINE__, __func__, { "\nq3", "P", ".", "q1", "p", "q3", "q2" }, content);
   }
 
-} // Todo test utf-16 4-byte stuff too.
+  // Test entire pipeline for generating editor updates using 4-bytes UTF-16 characters. Todo
+  {
+    // The server text has added an extra paragraph with a certain paragraph style.
+    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples😀!</p><p class="b-q2">And so on the third line.</p>)";
+    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations😀!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P😀.</p><p class="b-q2"><span>And so on the third line😀.</span></p>)";
+    vector <int> positions;
+    vector <int> sizes;
+    vector <string> operators;
+    vector <string> content;
+    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    //evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
+    //evaluate (__LINE__, __func__, { 1,      1,   1,   1,    1,   1,    1    }, sizes);
+    //evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);
+    evaluate (__LINE__, __func__, { "😀", "!", "\nq3", "P", ".", "!", "😀", "q1", "p", "q3", "q2" }, content);
+  }
+
+}
 
 
 void test_database_bibleactions ()

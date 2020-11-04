@@ -304,6 +304,8 @@ function oneverseEditorForceSaveVerse ()
 // 1. Offsets at which...
 // 2. The given number of characters were inserted, and...
 // 3. The given number of characters were deleted.
+// With 2-byte UTF-16 characters, one character is given as a "1" in the lists.
+// With 4-byte UTF-16 characters, one characters is represented by a "2" in the lists.
 var oneverseEditorChangeOffsets = [];
 var oneverseEditorChangeInserts = [];
 var oneverseEditorChangeDeletes = [];
@@ -313,6 +315,7 @@ var oneverseEditorChangeDeletes = [];
 function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 {
   // Record the change.
+  // It gives 4-byte UTF-16 characters as value "2".
   var retain = 0;
   var insert = 0;
   var del = 0;
@@ -327,6 +330,7 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
   oneverseEditorChangeOffsets.push(retain);
   oneverseEditorChangeInserts.push(insert);
   oneverseEditorChangeDeletes.push(del);
+  console.log ("retain", retain, "insert", insert, "del", del); // Todo
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {
     quill.history.undo ();
@@ -1092,6 +1096,7 @@ function oneverseUpdateExecute ()
             // Whether to insert, whether to delete.
             var ins_operator = (operator == "i");
             var del_operator = (operator == "d");
+            //position = oneverseUpdateIntermediateEdits (position, ins_operator, del_operator); // Todo
             // The offsets of the changes from the server/device are going to be corrected
             // with the offsets of the edits made in the editor.
             // This is to handle continued user-typing while the editor is being updated,
@@ -1178,5 +1183,32 @@ function startShadowQuill (html)
   $ ("#onetemp").empty ();
   $ ("#onetemp").append (html);
   quill2 = new Quill ('#onetemp', { });
+}
+
+
+function oneverseUpdateIntermediateEdits (position, ins_op, del_op) // Todo
+{
+  // The offsets of the changes from the server/device are going to be corrected
+  // with the offsets of the edits made in the editor.
+  // This is to handle continued user-typing while the editor is being updated,
+  // Update, and get updated by, the edits made since the update operation began.
+  var i;
+  for (i = 0; i < oneverseEditorChangeOffsets.length; i++) {
+    // Any delete or insert at a lower offset or the same offset
+    // modifies the position where to apply the incoming edit from the server/device.
+    if (oneverseEditorChangeOffsets[i] <= position) {
+      position += oneverseEditorChangeInserts[i];
+      position -= oneverseEditorChangeDeletes[i]
+    }
+    // Any offset higher than the current position gets modified accordingly.
+    // If inserting at the current position, increase that offset.
+    // If deleting at the current position, decrease that offset.
+    if (oneverseEditorChangeOffsets[i] > position) {
+      if (ins_op) oneverseEditorChangeOffsets[i]++; // Todo fix this for UTF-16.
+      if (del_op) oneverseEditorChangeOffsets[i]--;
+    }
+  }
+
+  return position
 }
 

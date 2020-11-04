@@ -1093,34 +1093,16 @@ function oneverseUpdateExecute ()
             position--;
             // The position for the shadow copy of Quill, if it's there.
             var position2 = position;
-            // Whether to insert, whether to delete.
-            var ins_operator = (operator == "i");
-            var del_operator = (operator == "d");
-            //position = oneverseUpdateIntermediateEdits (position, ins_operator, del_operator); // Todo
-            // The offsets of the changes from the server/device are going to be corrected
-            // with the offsets of the edits made in the editor.
-            // This is to handle continued user-typing while the editor is being updated,
-            // Update, and get updated by, the edits made since the update operation began.
-            var i;
-            for (i = 0; i < oneverseEditorChangeOffsets.length; i++) {
-              // Any delete or insert at a lower offset or the same offset
-              // modifies the position where to apply the incoming edit from the server/device.
-              if (oneverseEditorChangeOffsets[i] <= position) {
-                position += oneverseEditorChangeInserts[i];
-                position -= oneverseEditorChangeDeletes[i]
-              }
-              // Any offset higher than the current position gets modified accordingly.
-              // If inserting at the current position, increase that offset.
-              // If deleting at the current position, decrease that offset.
-              if (oneverseEditorChangeOffsets[i] > position) {
-                if (ins_operator) oneverseEditorChangeOffsets[i]++; // Todo fix this for UTF-16.
-                if (del_operator) oneverseEditorChangeOffsets[i]--;
-              }
-            }
-            // Handle insert operator.
-            if (ins_operator) {
+            // Handle the insert operation.
+            if (operator == "i") {
+              // Get the information.
               var text = bits.shift ();
               var style = bits.shift ();
+              var size = parseInt (bits.shift());
+              // Correct the position
+              // and the positions stored during the update procedure's network latency.
+              position = oneverseUpdateIntermediateEdits (position, size, true, false); // Todo
+              // Handle the insert operation.
               if (text == "\n") {
                 // New line.
                 quill.insertText (position, text, {}, "silent");
@@ -1134,8 +1116,13 @@ function oneverseUpdateExecute ()
               }
             }
             // Handle delete operator.
-            else if (del_operator) {
+            else if (operator == "d") {
+              // Get the bits of information.
               var size = parseInt (bits.shift());
+              // Correct the position and the positions
+              // stored during the update procedure's network latency.
+              position = oneverseUpdateIntermediateEdits (position, size, false, true); // Todo
+              // Do the delete operation.
               quill.deleteText (position, size, "silent");
               if (useShadowQuill) quill2.deleteText (position2, size, "silent");
             }
@@ -1186,12 +1173,14 @@ function startShadowQuill (html)
 }
 
 
-function oneverseUpdateIntermediateEdits (position, ins_op, del_op) // Todo
+function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op) // Todo
 {
   // The offsets of the changes from the server/device are going to be corrected
   // with the offsets of the edits made in the editor.
   // This is to handle continued user-typing while the editor is being updated,
   // Update, and get updated by, the edits made since the update operation began.
+  // UTF-16 characters 4 bytes long have a size of 2 in Javascript.
+  // So the routine takes care of that too.
   var i;
   for (i = 0; i < oneverseEditorChangeOffsets.length; i++) {
     // Any delete or insert at a lower offset or the same offset
@@ -1204,8 +1193,8 @@ function oneverseUpdateIntermediateEdits (position, ins_op, del_op) // Todo
     // If inserting at the current position, increase that offset.
     // If deleting at the current position, decrease that offset.
     if (oneverseEditorChangeOffsets[i] > position) {
-      if (ins_op) oneverseEditorChangeOffsets[i]++; // Todo fix this for UTF-16.
-      if (del_op) oneverseEditorChangeOffsets[i]--;
+      if (ins_op) oneverseEditorChangeOffsets[i] += size; // Todo fix this for UTF-16.
+      if (del_op) oneverseEditorChangeOffsets[i] -= size;
     }
   }
 

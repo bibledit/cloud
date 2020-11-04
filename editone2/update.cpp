@@ -280,6 +280,9 @@ string editone2_update (void * webserver_request)
         string format = unicode_string_substr (text, 1, length - 1);
         response.append ("#_be_#");
         response.append (format);
+        // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.
+        response.append ("#_be_#");
+        response.append (convert_to_string (sizes[i]));
       }
       else if (operation == bible_logic_delete_operator ()) {
         // When deleting a UTF-16 character encoded in 4 bytes,
@@ -318,6 +321,6 @@ string editone2_update (void * webserver_request)
   response = Checksum_Logic::send (response, write);
 
   // Ready.
-  //this_thread::sleep_for(chrono::seconds(5)); // Todo
+  this_thread::sleep_for(chrono::seconds(5)); // Todo
   return response;
 }

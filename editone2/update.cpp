@@ -94,7 +94,8 @@ string editone2_update (void * webserver_request)
   int verse = 0;
   string loaded_html;
   string edited_html;
-  string checksum;
+  string checksum1;
+  string checksum2;
   string unique_id;
   if (good2go) {
     bible = request->post["bible"];
@@ -103,16 +104,25 @@ string editone2_update (void * webserver_request)
     verse = convert_to_int (request->post["verse"]);
     loaded_html = request->post["loaded"];
     edited_html = request->post["edited"];
-    checksum = request->post["checksum"];
+    checksum1 = request->post["checksum1"];
+    checksum2 = request->post["checksum2"];
     unique_id = request->post ["id"];
   }
 
   
-  // Checksum of the edited html.
+  // Checksums of the loaded and edited html.
   if (good2go) {
-    if (Checksum_Logic::get (edited_html) != checksum) {
+    if (Checksum_Logic::get (loaded_html) != checksum1) {
       request->response_code = 409;
       messages.push_back (translate ("Checksum error"));
+      good2go = false;
+    }
+  }
+  if (good2go) {
+    if (Checksum_Logic::get (edited_html) != checksum2) {
+      request->response_code = 409;
+      messages.push_back (translate ("Checksum error"));
+      good2go = false;
     }
   }
 
@@ -128,6 +138,7 @@ string editone2_update (void * webserver_request)
   if (good2go) {
     if (!unicode_string_is_valid (loaded_html) || !unicode_string_is_valid (edited_html)) {
       messages.push_back (translate ("Cannot update: Needs Unicode"));
+      good2go = false;
     }
   }
 

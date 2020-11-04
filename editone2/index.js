@@ -1032,7 +1032,8 @@ function oneverseUpdateExecute ()
     oneverseEditorStatus (oneverseEditorVerseSaving);
   }
 
-  var checksum = checksum_get (encodedEditedHtml);
+  var checksum1 = checksum_get (encodedLoadedHtml); // Todo
+  var checksum2 = checksum_get (encodedEditedHtml); // Todo
 
   oneverseAjaxActive = true;
   
@@ -1040,7 +1041,7 @@ function oneverseUpdateExecute ()
     url: "update",
     type: "POST",
     async: true,
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum: checksum, id: verseEditorUniqueID },
+  data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum1: checksum1, checksum2: checksum2, id: verseEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorVerseRetrying);
       oneverseEditorChanged ();

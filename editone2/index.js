@@ -1032,8 +1032,8 @@ function oneverseUpdateExecute ()
     oneverseEditorStatus (oneverseEditorVerseSaving);
   }
 
-  var checksum1 = checksum_get (encodedLoadedHtml); // Todo
-  var checksum2 = checksum_get (encodedEditedHtml); // Todo
+  var checksum1 = checksum_get (encodedLoadedHtml);
+  var checksum2 = checksum_get (encodedEditedHtml);
 
   oneverseAjaxActive = true;
   

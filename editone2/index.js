@@ -327,7 +327,6 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
   oneverseEditorChangeOffsets.push(retain);
   oneverseEditorChangeInserts.push(insert);
   oneverseEditorChangeDeletes.push(del);
-  console.log ("retain", retain, "insert", insert, "del", del); // Todo
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {
     quill.history.undo ();
@@ -1088,7 +1087,6 @@ function oneverseUpdateExecute ()
           } else {
             // The initial new line is not counted in Quill.
             position--;
-            console.log (position); // Todo
             // The position for the shadow copy of Quill, if it's there.
             var position2 = position;
             // Whether to insert, whether to delete.
@@ -1133,7 +1131,6 @@ function oneverseUpdateExecute ()
             // Handle delete operator.
             else if (del_operator) {
               var size = parseInt (bits.shift());
-              console.log ("delete at position", position, "size", size); // Todo
               quill.deleteText (position, size, "silent");
               if (useShadowQuill) quill2.deleteText (position2, size, "silent");
             }

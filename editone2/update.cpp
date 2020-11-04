@@ -308,7 +308,7 @@ string editone2_update (void * webserver_request)
 
   // Test changing the format of the second paragraph.
   
-  // Test changing the formst of the last paragraph.
+  // Test changing the format of the last paragraph.
   
   // Test deleting an entire paragraph.
   
@@ -316,6 +316,10 @@ string editone2_update (void * webserver_request)
 
   // Test that if this editor is the second or higher one in a workspace,
   // it is read-only. And updating the editor's contents does not grab focus.
+  
+  // Test inserting and updating 4-byte UTF-16 characters like the 😀.
+  
+  // Test continued typing during serious network latency.
 
   bool write = access_bible_book_write (webserver_request, username, bible, book);
   response = Checksum_Logic::send (response, write);

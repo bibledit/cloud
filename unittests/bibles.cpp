@@ -634,7 +634,7 @@ void test_bibles ()
     evaluate (__LINE__, __func__, { "\nq3", "P", ".", "q1", "p", "q3", "q2" }, content);
   }
 
-  // Test entire pipeline for generating editor updates using 4-bytes UTF-16 characters. Todo
+  // Test entire pipeline for generating editor updates using 4-bytes UTF-16 characters.
   {
     // The server text has added an extra paragraph with a certain paragraph style.
     string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples😀!</p><p class="b-q2">And so on the third line.</p>)";

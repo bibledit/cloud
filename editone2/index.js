@@ -330,7 +330,7 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
   oneverseEditorChangeOffsets.push(retain);
   oneverseEditorChangeInserts.push(insert);
   oneverseEditorChangeDeletes.push(del);
-  console.log ("retain", retain, "insert", insert, "del", del); // Todo
+  //console.log ("retain", retain, "insert", insert, "del", del);
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {
     quill.history.undo ();
@@ -1101,7 +1101,7 @@ function oneverseUpdateExecute ()
               var size = parseInt (bits.shift());
               // Correct the position
               // and the positions stored during the update procedure's network latency.
-              position = oneverseUpdateIntermediateEdits (position, size, true, false); // Todo
+              position = oneverseUpdateIntermediateEdits (position, size, true, false);
               // Handle the insert operation.
               if (text == "\n") {
                 // New line.
@@ -1121,7 +1121,7 @@ function oneverseUpdateExecute ()
               var size = parseInt (bits.shift());
               // Correct the position and the positions
               // stored during the update procedure's network latency.
-              position = oneverseUpdateIntermediateEdits (position, size, false, true); // Todo
+              position = oneverseUpdateIntermediateEdits (position, size, false, true);
               // Do the delete operation.
               quill.deleteText (position, size, "silent");
               if (useShadowQuill) quill2.deleteText (position2, size, "silent");
@@ -1173,7 +1173,7 @@ function startShadowQuill (html)
 }
 
 
-function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op) // Todo
+function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op)
 {
   // The offsets of the changes from the server/device are going to be corrected
   // with the offsets of the edits made in the editor.
@@ -1193,7 +1193,7 @@ function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op) // Tod
     // If inserting at the current position, increase that offset.
     // If deleting at the current position, decrease that offset.
     if (oneverseEditorChangeOffsets[i] > position) {
-      if (ins_op) oneverseEditorChangeOffsets[i] += size; // Todo fix this for UTF-16.
+      if (ins_op) oneverseEditorChangeOffsets[i] += size;
       if (del_op) oneverseEditorChangeOffsets[i] -= size;
     }
   }

@@ -332,6 +332,8 @@ string editone2_update (void * webserver_request)
   
   // Test continued typing during serious network latency.
 
+  // Test using the Cloud together with client devices with send and receive.
+  
   bool write = access_bible_book_write (webserver_request, username, bible, book);
   response = Checksum_Logic::send (response, write);
 

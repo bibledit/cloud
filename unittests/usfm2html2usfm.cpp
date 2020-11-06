@@ -1535,48 +1535,28 @@ void test_usfm2html2usfm ()
     }
   }
 
-  // \b Blank line
+  // \b Blank line.
   {
     string standard_usfm =
     "\\p paragraph\n"
     "\\b\n"
     "\\p paragraph";
-    {
-      // DOM-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (standard_usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.run ();
-      string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"p\"><span>paragraph</span></p><p class=\"b\"><br></p><p class=\"p\"><span>paragraph</span></p>";
-      evaluate (__LINE__, __func__, standard_html, html);
-      
-      Editor_Html2Usfm editor_html2usfm;
-      editor_html2usfm.load (html);
-      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-      editor_html2usfm.run ();
-      string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard_usfm, usfm);
-    }
-    {
-      // Quill-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (standard_usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.quill ();
-      editor_usfm2html.run ();
-      string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-b\"><br></p><p class=\"b-p\"><span>paragraph</span></p>";
-      evaluate (__LINE__, __func__, standard_html, html);
-      
-      Editor_Html2Usfm editor_html2usfm;
-      editor_html2usfm.quill ();
-      editor_html2usfm.load (html);
-      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-      editor_html2usfm.run ();
-      string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard_usfm, usfm);
-    }
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
+    string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br /></p><p class="b-p"><span>paragraph</span></p>)";
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.quill ();
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
   
   // Test the \sd and \sd2 semantic divisions.
@@ -1587,42 +1567,22 @@ void test_usfm2html2usfm ()
     "\\p paragraph\n"
     "\\sd2"
     ;
-    {
-      // DOM-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (standard_usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.run ();
-      string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"p\"><span>paragraph</span></p><p class=\"sd\"><br></p><p class=\"p\"><span>paragraph</span></p><p class=\"sd2\"><br></p>";
-      evaluate (__LINE__, __func__, standard_html, html);
-      
-      Editor_Html2Usfm editor_html2usfm;
-      editor_html2usfm.load (html);
-      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-      editor_html2usfm.run ();
-      string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard_usfm, usfm);
-    }
-    {
-      // Quill-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (standard_usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.quill ();
-      editor_usfm2html.run ();
-      string html = editor_usfm2html.get ();
-      string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd\"><br></p><p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd2\"><br></p>";
-      evaluate (__LINE__, __func__, standard_html, html);
-      
-      Editor_Html2Usfm editor_html2usfm;
-      editor_html2usfm.quill ();
-      editor_html2usfm.load (html);
-      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
-      editor_html2usfm.run ();
-      string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard_usfm, usfm);
-    }
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    string html = editor_usfm2html.get ();
+    string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd\"><br /></p><p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd2\"><br /></p>";
+    evaluate (__LINE__, __func__, standard_html, html);
+    
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.quill ();
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
   
   // Text \xo and \xt.
@@ -1886,35 +1846,18 @@ void test_usfm2html2usfm ()
   {
     string usfm = "\\c 1\n"
     "\\p";
-    {
-      // DOM-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.run ();
-      string output = editor_usfm2html.get ();
-      
-      string html = "<p class=\"c\"><span>1</span></p><p class=\"p\" />";
-      evaluate (__LINE__, __func__, html, output);
-      
-      output = editor_export_verse (styles_logic_standard_sheet (), html);
-      evaluate (__LINE__, __func__, usfm, output);
-    }
-    {
-      // Quill-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.quill ();
-      editor_usfm2html.run ();
-      string output = editor_usfm2html.get ();
-      
-      string html = "<p class=\"b-c\"><span>1</span></p><p class=\"b-p\" />";
-      evaluate (__LINE__, __func__, html, output);
-      
-      output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
-      evaluate (__LINE__, __func__, usfm, output);
-    }
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    string output = editor_usfm2html.get ();
+    
+    string html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><br /></p>)";
+    evaluate (__LINE__, __func__, html, output);
+    
+    output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+    evaluate (__LINE__, __func__, usfm, output);
   }
 
   // One-verse editor, testing chapter 0 verse 0.

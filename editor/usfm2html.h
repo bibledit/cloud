@@ -56,7 +56,7 @@ private:
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
   
-  xml_node currentPnode; // The current p node.
+  xml_node current_p_node; // The current p node.
   bool current_p_open = false;
   vector <string> currentTextStyles;
   
@@ -77,6 +77,7 @@ private:
   void postprocess ();
   void outputAsIs (string marker, bool isOpeningMarker);
   void newParagraph (string style = "");
+  void closeParagraph ();
   void openTextStyle (Database_Styles_Item & style, bool embed);
   void closeTextStyle (bool embed);
   void addText (string text);

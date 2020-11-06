@@ -79,6 +79,8 @@ void Editor_Usfm2Html::run ()
 
 string Editor_Usfm2Html::get ()
 {
+  closeParagraph ();
+
   // If there are notes, move the notes <div> or <p> after everything else.
   // (It has the <hr> or <br> as a child).
   size_t count = distance (notes_node.begin (), notes_node.end ());
@@ -87,7 +89,7 @@ string Editor_Usfm2Html::get ()
   }
 
   // A Quill-based editor does not work with embedded <p> elements.
-  // Move the notes out of their parent and append them to the end main body.
+  // Move the notes out of their parent and append them to the end of the main body.
   if (quill_enabled) {
     while (xml_node note = notes_node.first_child ().next_sibling ()) {
       body_node.append_move (note);
@@ -107,20 +109,6 @@ string Editor_Usfm2Html::get ()
     if (pos != string::npos) {
       html.erase  (pos);
     }
-  }
-
-  // Deal with a blank line.
-  // The \b in USFM, a blank line, gets converted to:
-  // <p class="b" />
-  // But this does not display a blank in the web browser.
-  // Therefore convert it to the following:
-  // <p class="b"><br></p>
-  // This is how the webkit browser naturally represents a new empty line.
-  // Also do the other markers similar to the blank line.
-  vector <string> blank_lines = { "b", "sd", "sd1", "sd2", "sd3", "sd4" };
-  for (auto clas : blank_lines) {
-    if (quill_enabled) clas.insert (0, quill_logic_class_prefix_block ());
-    html = filter_string_str_replace ("<p class=\"" + clas + "\" />", "<p class=\"" + clas + "\"><br></p>", html);
   }
   
   // Currently the XML library produces hexadecimal character entities.
@@ -210,6 +198,7 @@ void Editor_Usfm2Html::process ()
           case StyleTypeStartsParagraph:
           {
             closeTextStyle (false);
+            closeParagraph ();
             newParagraph (marker);
             break;
           }
@@ -230,6 +219,7 @@ void Editor_Usfm2Html::process ()
           case StyleTypeChapterNumber:
           {
             closeTextStyle (false);
+            closeParagraph ();
             newParagraph (marker);
             break;
           }
@@ -418,6 +408,7 @@ void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
   // Output the marker in monospace font.
   if (isOpeningMarker) {
     // Add opening marker as it is.
+    closeParagraph ();
     newParagraph ("mono");
     addText (usfm_get_opening_usfm (marker));
   } else {
@@ -429,12 +420,13 @@ void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
 
 void Editor_Usfm2Html::newParagraph (string style)
 {
-  currentPnode = body_node.append_child ("p");
+  // Handle new paragraph.
+  current_p_node = body_node.append_child ("p");
   current_p_open = true;
   if (!style.empty()) {
     string style2 (style);
     if (quill_enabled) style2.insert (0, quill_logic_class_prefix_block ());
-    currentPnode.append_attribute ("class") = style2.c_str();
+    current_p_node.append_attribute ("class") = style2.c_str();
   }
   currentParagraphStyle = style;
   currentParagraphContent.clear();
@@ -444,6 +436,21 @@ void Editor_Usfm2Html::newParagraph (string style)
     if (first_line_done) textLength++;
   }
   first_line_done = true;
+}
+
+
+void Editor_Usfm2Html::closeParagraph ()
+{
+  // Deal with a blank line.
+  // If the paragraph is empty, add a <br> to it.
+  // This is how the Quill editor naturally represents a new empty line.
+  // This causes that empty paragraph to be displayed properly in the Quill editor.
+  // This <br> is also needed for live editor updates.
+  if (current_p_open) {
+    if (currentParagraphContent.empty()) {
+      current_p_node.append_child("br");
+    }
+  }
 }
 
 
@@ -485,7 +492,7 @@ void Editor_Usfm2Html::addText (string text)
     if (!current_p_open) {
       newParagraph ();
     }
-    xml_node spanDomElement = currentPnode.append_child ("span");
+    xml_node spanDomElement = current_p_node.append_child ("span");
     spanDomElement.text ().set (text.c_str());
     if (!currentTextStyles.empty ()) {
       // Take character style(s) as specified in this object.
@@ -537,11 +544,11 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   
   // Add the link with all relevant data for the note citation.
   if (quill_enabled) {
-    addNoteQuillLink (currentPnode, noteCount, "call", citation);
+    addNoteQuillLink (current_p_node, noteCount, "call", citation);
   } else {
     string reference = "#note" + convert_to_string (noteCount);
     string identifier = "citation" + convert_to_string (noteCount);
-    addNoteDomLink (currentPnode, reference, identifier, "superscript", citation);
+    addNoteDomLink (current_p_node, reference, identifier, "superscript", citation);
   }
   
   // Open a paragraph element for the note body.

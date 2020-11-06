@@ -1186,7 +1186,6 @@
 		CADE398F24F17422003165BB /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
 		CADE399024F17422003165BB /* string.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = string.o; sourceTree = "<group>"; };
 		CADE399224F17422003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CADE399324F17422003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CADE399424F17422003165BB /* wikipedia.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = wikipedia.txt; sourceTree = "<group>"; };
 		CADE399524F17422003165BB /* installchromeos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installchromeos.html; sourceTree = "<group>"; };
 		CADE399624F17422003165BB /* discussions.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = discussions.html; sourceTree = "<group>"; };
@@ -1214,13 +1213,10 @@
 		CADE39AC24F17423003165BB /* typesettinglibreoffice.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = typesettinglibreoffice.html; sourceTree = "<group>"; };
 		CADE39AD24F17423003165BB /* installandroid.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installandroid.html; sourceTree = "<group>"; };
 		CADE39AE24F17423003165BB /* installation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installation.html; sourceTree = "<group>"; };
-		CADE39B024F17423003165BB /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CADE39B124F17423003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE39B224F17423003165BB /* installosx.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installosx.html; sourceTree = "<group>"; };
 		CADE39B324F17423003165BB /* swiping.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = swiping.html; sourceTree = "<group>"; };
 		CADE39B424F17423003165BB /* installlinux.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installlinux.html; sourceTree = "<group>"; };
 		CADE39B524F17423003165BB /* introduction.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = introduction.html; sourceTree = "<group>"; };
-		CADE39B624F17423003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE39B724F17423003165BB /* installcloudsourcedebian.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudsourcedebian.html; sourceTree = "<group>"; };
 		CADE39B824F17423003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE39B924F17423003165BB /* consistency.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = consistency.html; sourceTree = "<group>"; };
@@ -4659,8 +4655,6 @@
 		CADE399124F17422003165BB /* help */ = {
 			isa = PBXGroup;
 			children = (
-				CADE39AF24F17423003165BB /* .deps */,
-				CADE39B624F17423003165BB /* .dirstamp */,
 				CADE399A24F17422003165BB /* about.html */,
 				CADE399824F17422003165BB /* changelog.html */,
 				CADE39A224F17423003165BB /* checks.html */,
@@ -4671,7 +4665,6 @@
 				CADE39B824F17423003165BB /* index.cpp */,
 				CADE399224F17422003165BB /* index.h */,
 				CADE399724F17422003165BB /* index.html */,
-				CADE399324F17422003165BB /* index.o */,
 				CADE399E24F17422003165BB /* install.sh */,
 				CADE39AD24F17423003165BB /* installandroid.html */,
 				CADE39AE24F17423003165BB /* installation.html */,
@@ -4700,15 +4693,6 @@
 				CADE399424F17422003165BB /* wikipedia.txt */,
 			);
 			path = help;
-			sourceTree = "<group>";
-		};
-		CADE39AF24F17423003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE39B024F17423003165BB /* index.Po */,
-				CADE39B124F17423003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE39BB24F17423003165BB /* edit */ = {

@@ -1005,7 +1005,7 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
   operators_out.clear();
   content_out.clear();
   
-  int previous_position = numeric_limits<int>::min();
+  int previous_position = (numeric_limits<int>::min)();
   bool previous_addition = false;
   string previous_character = string();
   for (size_t i = 0; i < positions_in.size(); i++) {

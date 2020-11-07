@@ -1005,6 +1005,7 @@ void bible_logic_condense_editor_updates (const vector <int> & positions_in,
   operators_out.clear();
   content_out.clear();
   
+  // https://stackoverflow.com/questions/40492414/why-does-stdnumeric-limitslong-longmax-fail
   int previous_position = (numeric_limits<int>::min)();
   bool previous_addition = false;
   string previous_character = string();

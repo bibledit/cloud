@@ -31,9 +31,9 @@ void test_related ()
   {
     // Test situation of one input passage that has several output passages.
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "6") });
-    unsigned int size = 6;
+    int size = 6;
     evaluate (__LINE__, __func__, size, output.size ());
-    if (output.size () == size) {
+    if ((int)output.size () == size) {
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "6").equal (output[0]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "7").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "8").equal (output[2]));
@@ -52,9 +52,9 @@ void test_related ()
   {
     // Test input passages that match two entries in the XML files.
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "29"), Passage ("", 1, 11, "12") });
-    unsigned int size = 12;
+    int size = 12;
     evaluate (__LINE__, __func__, size, output.size ());
-    if (output.size () == size) {
+    if ((int)output.size () == size) {
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "26").equal (output[0]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "27").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "28").equal (output[2]));
@@ -74,9 +74,9 @@ void test_related ()
     // Test third passage of synoptic parallels whether it also gets the first two passages, and the fourth.
     // At the same time it takes data from the quotations XML.
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 42, 3, "4") });
-    unsigned int size = 10;
+    int size = 10;
     evaluate (__LINE__, __func__, size, output.size ());
-    if (output.size () == size) {
+    if ((int)output.size () == size) {
       evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "3").equal (output[0]));
       evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "4").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "5").equal (output[2]));

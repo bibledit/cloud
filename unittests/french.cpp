@@ -49,9 +49,9 @@ void test_french ()
     texts [7] = "This is «" + nnbsp + "French" + nnbsp + "» with narrow non-breaking spaces.";
     Checks_French::spaceBeforeAfterPunctuation (bible, 2, 3, texts);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    unsigned int hitcount = 6;
+    int hitcount = 6;
     evaluate (__LINE__, __func__, hitcount, hits.size ());
-    if (hits.size () == hitcount) {
+    if ((int)hits.size () == hitcount) {
       string standard;
       standard = "« - Should be followed by a no-break space in French";
       evaluate (__LINE__, __func__, standard, hits [0].data);
@@ -103,9 +103,9 @@ void test_french ()
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    unsigned int size = 4;
+    int size = 4;
     evaluate (__LINE__, __func__, size, hits.size ());
-    if (hits.size () == size) {
+    if ((int)hits.size () == size) {
       string standard1 = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
       string standard2 = "The paragraph contains more right guillements than needed";
       evaluate (__LINE__, __func__, 6, hits [0].verse);
@@ -139,9 +139,9 @@ void test_french ()
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    unsigned int size = 1;
+    int size = 1;
     evaluate (__LINE__, __func__, size, hits.size ());
-    if (hits.size () == size) {
+    if ((int)hits.size () == size) {
       string standard = "The paragraph contains more left guillements than needed";
       evaluate (__LINE__, __func__, 14, hits [0].verse);
       evaluate (__LINE__, __func__, standard, hits [0].data);

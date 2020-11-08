@@ -104,6 +104,12 @@ void evaluate (int line, string func, int desired, int actual)
 }
 
 
+void evaluate (int line, string func, int desired, size_t actual)
+{
+  if (desired != (int)actual) error_message (line, func, convert_to_string (desired), convert_to_string (actual));
+}
+
+
 void evaluate (int line, string func, unsigned int desired, unsigned int actual)
 {
   if (desired != actual) error_message (line, func, convert_to_string ((size_t)desired), convert_to_string ((size_t)actual));

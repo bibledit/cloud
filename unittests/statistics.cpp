@@ -61,11 +61,11 @@ void test_database_statistics ()
     
     // A known amount of change statistics records for a known user for no more than a year ago.
     changes = Database_Statistics::get_changes ("two");
-    unsigned int size = 2;
+    int size = 2;
     evaluate (__LINE__, __func__, size, changes.size ());
     
     // Sort the change statistics most recent first.
-    if (changes.size () == size) {
+    if ((int)changes.size () == size) {
       evaluate (__LINE__, __func__, now - one_thousand, changes[0].first);
       evaluate (__LINE__, __func__, 31, changes[0].second);
       evaluate (__LINE__, __func__, now - two_thousand, changes[1].first);

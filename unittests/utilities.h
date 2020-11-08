@@ -30,6 +30,7 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed = {});
 void error_message (int line, string funct, string desired, string actual);
 bool evaluate (int line, string func, string desired, string actual);
 void evaluate (int line, string func, int desired, int actual);
+void evaluate (int line, string func, int desired, size_t actual);
 void evaluate (int line, string func, unsigned int desired, unsigned int actual);
 void evaluate (int line, string func, bool desired, bool actual);
 void evaluate (int line, string func, vector <string> desired, vector <string> actual);

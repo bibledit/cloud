@@ -49,8 +49,6 @@ void Editor_Html2Usfm::load (string html)
   xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata);
   // Log parsing errors.
   pugixml_utils_error_logger (&result, xml);
-  
-  quill_enabled = true;
 }
 
 
@@ -104,10 +102,8 @@ void Editor_Html2Usfm::process ()
     // Do not process the notes <div> or <p> and beyond
     // because it is at the end of the text body,
     // and data has already been gleaned from it.
-    string id_or_class;
-    if (quill_enabled) id_or_class = update_quill_class (node.attribute ("class").value ());
-    else id_or_class = node.attribute ("id").value ();
-    if (id_or_class == "notes") break;
+    string classs = update_quill_class (node.attribute ("class").value ());
+    if (classs == "notes") break;
     // Process the node.
     processNode (node);
   }
@@ -234,9 +230,7 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
     // Do nothing if no endmarkers are supposed to be produced.
     if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
-    char separator;
-    if (quill_enabled) separator = '0';
-    else separator = ' ';
+    char separator = '0';
     vector <string> classes = filter_string_explode (className, separator);
     characterStyles = filter_string_array_diff (characterStyles, classes);
     reverse (classes.begin(), classes.end());
@@ -261,9 +255,7 @@ void Editor_Html2Usfm::openInline (string className)
   // The <span class="add">
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
-  char separator;
-  if (quill_enabled) separator = '0';
-  else separator = ' ';
+  char separator = '0';
   vector <string> classes = filter_string_explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     bool embedded = (characterStyles.size () + offset) > 0;
@@ -306,16 +298,9 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
   node.remove_child (child);
 
   // Get more information about the footnote to retrieve.
-  string id;
-  if (quill_enabled) {
-    // <span class="i-notecall1" />
-    id = node.attribute ("class").value ();
-    id = filter_string_str_replace ("call", "body", id);
-  } else {
-    // <a href="#note1" id="citation1" class="superscript" />
-    string href = node.attribute ("href").value ();
-    id = href.substr (1);
-  }
+  // <span class="i-notecall1" />
+  string id = node.attribute ("class").value ();
+  id = filter_string_str_replace ("call", "body", id);
 
   // Sample footnote body.
   // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
@@ -406,16 +391,9 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node node, string id)
 
     string name = node.name ();
     string note_id;
-    if (quill_enabled) {
-      // <span class="i-notebody1" />
-      if (name == "span") {
-        note_id = node.attribute ("class").value ();
-      }
-    } else {
-      // <a href="#citation1" id="note1" />
-      if (name == "a") {
-        note_id = node.attribute ("id").value ();
-      }
+    // <span class="i-notebody1" />
+    if (name == "span") {
+      note_id = node.attribute ("class").value ();
     }
     if (id == note_id) return node;
     
@@ -433,10 +411,8 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node node, string id)
 
 string Editor_Html2Usfm::update_quill_class (string classname)
 {
-  if (quill_enabled) {
-    classname = filter_string_str_replace (quill_logic_class_prefix_block (), "", classname);
-    classname = filter_string_str_replace (quill_logic_class_prefix_inline (), "", classname);
-  }
+  classname = filter_string_str_replace (quill_logic_class_prefix_block (), "", classname);
+  classname = filter_string_str_replace (quill_logic_class_prefix_inline (), "", classname);
   return classname;
 }
 

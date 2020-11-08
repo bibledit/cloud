@@ -58,7 +58,6 @@ private:
   void processNoteCitation (xml_node node);
   string cleanUSFM (string usfm);
   xml_node get_note_pointer (xml_node node, string id);
-  bool quill_enabled = false;
   string update_quill_class (string classname);
 };
 

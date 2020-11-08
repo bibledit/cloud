@@ -29,7 +29,7 @@ using dtl::Diff3;
 using namespace pugi;
 
 
-static mutex filter_merge_mutex; // Todo
+static mutex filter_merge_mutex;
 
 
 // This uses the dtl:: library for merge in C++.
@@ -43,7 +43,7 @@ static mutex filter_merge_mutex; // Todo
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server) // Todo fix mutexes.
+vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server)
 {
   // See issue https://github.com/bibledit/cloud/issues/418
   // It is unclear at this time whether the code below

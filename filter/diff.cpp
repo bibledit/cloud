@@ -36,7 +36,7 @@
 using dtl::Diff;
 
 
-static mutex filter_diff_mutex; // Todo
+static mutex filter_diff_mutex;
 
 
 // This filter returns the diff of two input strings.

@@ -286,11 +286,7 @@ void Editor_Html2Usfm::openInline (string className)
 void Editor_Html2Usfm::processNoteCitation (xml_node node)
 {
   // Remove the note citation from the text.
-  // It means that this:
-  //   <a href="#note1" id="citation1" class="superscript">1</a>
-  // becomes this:
-  //   <a href="#note1" id="citation1" class="superscript" />
-  // Or in case of a Quill-enabled editor, it means that this:
+  // In case of a Quill-enabled editor, it means that this:
   //   <span class="i-notecall1">1</span>
   // becomes this:
   //   <span class="i-notecall1" />

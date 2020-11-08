@@ -98,7 +98,6 @@ string edit_save (void * webserver_request)
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   Editor_Html2Usfm editor_export;
-  editor_export.quill ();
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();

@@ -49,6 +49,8 @@ void Editor_Html2Usfm::load (string html)
   xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata);
   // Log parsing errors.
   pugixml_utils_error_logger (&result, xml);
+  
+  quill_enabled = true;
 }
 
 
@@ -83,13 +85,6 @@ void Editor_Html2Usfm::stylesheet (string stylesheet)
     if (type == StyleTypeTableElement) suppress = true;
     if (suppress) suppressEndMarkers.insert (marker);
   }
-}
-
-
-// Enable styles suitable for Quill-based editor.
-void Editor_Html2Usfm::quill ()
-{
-  quill_enabled = true;
 }
 
 
@@ -491,7 +486,6 @@ string editor_export_verse_quill (string stylesheet, string html)
   Editor_Html2Usfm editor_export;
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
-  editor_export.quill ();
   editor_export.run ();
   string usfm = editor_export.get ();
   

@@ -34,7 +34,6 @@ class Editor_Html2Usfm
 public:
   void load (string html);
   void stylesheet (string stylesheet);
-  void quill ();
   void run ();
   string get ();
 private:

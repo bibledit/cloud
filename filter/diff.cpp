@@ -63,7 +63,7 @@ string filter_diff_diff (string oldstring, string newstring,
   // It is unclear at this time whether the code below
   // to find the differences between texts, is thread-safe.
   // So just to be sure, a mutex is placed around it.
-  lock_guard<mutex> lock(filter_diff_mutex);
+  filter_diff_mutex.lock();
 
   // Run the diff engine.
   Diff <string> diff (old_sequence, new_sequence);
@@ -240,7 +240,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     // It is unclear at this time whether the code below
     // to find the differences between texts, is thread-safe.
     // So just to be sure, a mutex is placed around it.
-    lock_guard<mutex> lock(filter_diff_mutex);
+    filter_diff_mutex.lock();
 
     // Run the diff engine.
     Diff <string> diff (old_sequence, new_sequence);
@@ -296,7 +296,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   // It is unclear at this time whether the code below
   // to find the differences between texts, is thread-safe.
   // So just to be sure, a mutex is placed around it.
-  lock_guard<mutex> lock(filter_diff_mutex);
+  filter_diff_mutex.lock();
 
   // Run the diff engine.
   Diff <string> diff (old_sequence, new_sequence);

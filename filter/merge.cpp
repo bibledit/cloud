@@ -43,13 +43,13 @@ static mutex filter_merge_mutex; // Todo
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server)
+vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server) // Todo fix mutexes.
 {
   // See issue https://github.com/bibledit/cloud/issues/418
   // It is unclear at this time whether the code below
   // to find the differences between texts, is thread-safe.
   // So just to be sure, a mutex is placed around it.
-  lock_guard<mutex> lock(filter_merge_mutex);
+  filter_merge_mutex.lock();
 
   vector <string> user_sequence (user);
   vector <string> base_sequence (base);
@@ -57,7 +57,9 @@ vector <string> filter_merge_merge (const vector <string>& base, const vector <s
 
   Diff3 <string, vector <string>> diff3 (user_sequence, base_sequence, server_sequence);
   diff3.compose ();
-  if (!diff3.merge ()) {
+  bool merged = diff3.merge ();
+  filter_merge_mutex.unlock();
+  if (!merged) {
     return {};
   }
   return diff3.getMergedSequence ();

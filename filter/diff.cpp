@@ -36,6 +36,9 @@
 using dtl::Diff;
 
 
+static mutex filter_diff_mutex; // Todo
+
+
 // This filter returns the diff of two input strings.
 // $oldstring: The old string for input.
 // $newstring: The new string for input.
@@ -60,8 +63,7 @@ string filter_diff_diff (string oldstring, string newstring,
   // It is unclear at this time whether the code below
   // to find the differences between texts, is thread-safe.
   // So just to be sure, a mutex is placed around it.
-  static mutex mutex1;
-  lock_guard<mutex> lock(mutex1);
+  lock_guard<mutex> lock(filter_diff_mutex);
 
   // Run the diff engine.
   Diff <string> diff (old_sequence, new_sequence);
@@ -71,7 +73,7 @@ string filter_diff_diff (string oldstring, string newstring,
   stringstream result;
   diff.printSES (result);
 
-  mutex1.unlock();
+  filter_diff_mutex.unlock();
   
   // Add html markup for bold and strikethrough.
   vector <string> output = filter_string_explode (result.str (), '\n');
@@ -238,8 +240,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     // It is unclear at this time whether the code below
     // to find the differences between texts, is thread-safe.
     // So just to be sure, a mutex is placed around it.
-    static mutex mutex1;
-    lock_guard<mutex> lock(mutex1);
+    lock_guard<mutex> lock(filter_diff_mutex);
 
     // Run the diff engine.
     Diff <string> diff (old_sequence, new_sequence);
@@ -249,7 +250,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     stringstream result;
     diff.printSES (result);
 
-    mutex1.unlock();
+    filter_diff_mutex.unlock();
     
     // Calculate the total elements compared, and the total differences found.
     int element_count = 0;
@@ -295,8 +296,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   // It is unclear at this time whether the code below
   // to find the differences between texts, is thread-safe.
   // So just to be sure, a mutex is placed around it.
-  static mutex mutex1;
-  lock_guard<mutex> lock(mutex1);
+  lock_guard<mutex> lock(filter_diff_mutex);
 
   // Run the diff engine.
   Diff <string> diff (old_sequence, new_sequence);
@@ -306,7 +306,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   stringstream result;
   diff.printSES (result);
 
-  mutex1.unlock();
+  filter_diff_mutex.unlock();
   
   // Calculate the total elements compared, and the total differences found.
   int element_count = 0;

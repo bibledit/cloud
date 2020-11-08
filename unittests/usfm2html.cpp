@@ -90,7 +90,7 @@ void test_usfm2html ()
         make_pair (6, 673),
         make_pair (7, 755) },
                 editor_usfm2html.verseStartOffsets);
-      evaluate (__LINE__, __func__, 550, editor_usfm2html.currentParagraphContent.size ());
+      evaluate (__LINE__, __func__, 550, (int)editor_usfm2html.currentParagraphContent.size ());
     }
     {
       // Quill-based editor.
@@ -109,7 +109,7 @@ void test_usfm2html ()
         make_pair (6, 676),
         make_pair (7, 758) },
                 editor_usfm2html.verseStartOffsets);
-      evaluate (__LINE__, __func__, 550, editor_usfm2html.currentParagraphContent.size ());
+      evaluate (__LINE__, __func__, 550, (int)editor_usfm2html.currentParagraphContent.size ());
     }
   }
 

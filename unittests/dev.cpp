@@ -20,11 +20,24 @@
 #include <codecvt>
 #include <unittests/utilities.h>
 #include <filter/string.h>
+#include <editor/html2usfm.h>
+#include <styles/logic.h>
 
 
 void test_dev ()
 {
   trace_unit_tests (__func__);
+
+  { // Todo move into place.
+    string standard_html = R"(<p class="b-p"><span class="i-v">1</span> One<span class="i-notecall1">1</span> two.</p><p class="b-notes">&nbsp;</p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">117.3 </span><span class="i-fk">| key </span></p><p class="b-f"><span class="i-fk">word</span></p>)";
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (standard_html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string output_usfm = editor_html2usfm.get ();
+    cout << output_usfm << endl; // Todo
+
+  }
 
   refresh_sandbox (true);
 }

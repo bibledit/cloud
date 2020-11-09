@@ -65,12 +65,12 @@ void Editor_Usfm2Html::stylesheet (string stylesheet)
 // Enable styles suitable for Quill-based editor.
 void Editor_Usfm2Html::quill ()
 {
-  quill_enabled = true;
 }
 
 
 void Editor_Usfm2Html::run ()
 {
+  quill_enabled = true;
   preprocess ();
   process ();
   postprocess ();

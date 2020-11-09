@@ -37,27 +37,14 @@ void test_usfm2html ()
     "\\c 2\n"
     "\\p\n"
     "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
-    {
-      // DOM-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.run ();
-      evaluate (__LINE__, __func__, 60, (int)editor_usfm2html.textLength);
-      evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 1) }, editor_usfm2html.verseStartOffsets);
-      evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
-    }
-    {
-      // Quill-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.quill ();
-      editor_usfm2html.run ();
-      evaluate (__LINE__, __func__, 61, (int)editor_usfm2html.textLength);
-      evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_usfm2html.verseStartOffsets);
-      evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
-    }
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    evaluate (__LINE__, __func__, 61, (int)editor_usfm2html.textLength);
+    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_usfm2html.verseStartOffsets);
+    evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
   }
 
   // Test text length for several verses.
@@ -74,43 +61,22 @@ void test_usfm2html ()
     "\\v 5 laso sonke isihlahlakazana sensimu, singakabi khona emhlabeni, layo yonke imibhida yeganga\\x + 1.12.\\x*, ingakamili; ngoba iN\\nd kosi\\nd* uNkulunkulu yayinganisanga izulu emhlabeni, njalo kwakungelamuntu wokulima umhlabathi.\n"
     "\\v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.\n"
     "\\v 7 IN\\nd kosi\\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\\x*.\n";
-    {
-      // DOM-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.run ();
-      evaluate (__LINE__, __func__, 910, (int)editor_usfm2html.textLength);
-      evaluate (__LINE__, __func__, { make_pair (0, 0),
-        make_pair (1, 1),
-        make_pair (2, 61),
-        make_pair (3, 201),
-        make_pair (4, 356),
-        make_pair (5, 466),
-        make_pair (6, 673),
-        make_pair (7, 755) },
-                editor_usfm2html.verseStartOffsets);
-      evaluate (__LINE__, __func__, 550, (int)editor_usfm2html.currentParagraphContent.size ());
-    }
-    {
-      // Quill-based editor.
-      Editor_Usfm2Html editor_usfm2html;
-      editor_usfm2html.load (usfm);
-      editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-      editor_usfm2html.quill ();
-      editor_usfm2html.run ();
-      evaluate (__LINE__, __func__, 913, (int)editor_usfm2html.textLength);
-      evaluate (__LINE__, __func__, { make_pair (0, 0),
-        make_pair (1, 2),
-        make_pair (2, 62),
-        make_pair (3, 202),
-        make_pair (4, 359),
-        make_pair (5, 469),
-        make_pair (6, 676),
-        make_pair (7, 758) },
-                editor_usfm2html.verseStartOffsets);
-      evaluate (__LINE__, __func__, 550, (int)editor_usfm2html.currentParagraphContent.size ());
-    }
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (usfm);
+    editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+    editor_usfm2html.quill ();
+    editor_usfm2html.run ();
+    evaluate (__LINE__, __func__, 913, (int)editor_usfm2html.textLength);
+    evaluate (__LINE__, __func__, { make_pair (0, 0),
+      make_pair (1, 2),
+      make_pair (2, 62),
+      make_pair (3, 202),
+      make_pair (4, 359),
+      make_pair (5, 469),
+      make_pair (6, 676),
+      make_pair (7, 758) },
+              editor_usfm2html.verseStartOffsets);
+    evaluate (__LINE__, __func__, 550, (int)editor_usfm2html.currentParagraphContent.size ());
   }
 
   // Space after starting marker
@@ -126,8 +92,7 @@ void test_usfm2html ()
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard =
-    "<p class=\"c\"><span>1</span></p>"
-    "<p class=\"p\"><span class=\"v\">2</span><span> </span><span>Text </span><span class=\"add\">of the </span><span>1st</span><span class=\"add\"> second verse</span><span>.</span></p>";
+    R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st</span><span class="i-add"> second verse</span><span>.</span></p>)";
     evaluate (__LINE__, __func__, standard, html);
   }
 
@@ -144,7 +109,7 @@ void test_usfm2html ()
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard =
-    "<p class=\"c\"><span>1</span></p><p class=\"p\"><span class=\"v\">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>";
+    R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>)";
     evaluate (__LINE__, __func__, standard, html);
   }
 

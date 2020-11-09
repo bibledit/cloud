@@ -82,7 +82,7 @@ private:
   void addNote (string citation, string style, bool endnote = false);
   void addNoteText (string text);
   void closeCurrentNote ();
-  void addNoteQuillLink (xml_node domNode, int identifier, string style, string text);
+  void addNotelLink (xml_node domNode, int identifier, string style, string text);
   
   bool roadIsClear ();
 };

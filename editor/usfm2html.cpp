@@ -525,7 +525,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   noteOpened = true;
   
   // Add the link with all relevant data for the note citation.
-  addNoteQuillLink (current_p_node, noteCount, "call", citation);
+  addNotelLink (current_p_node, noteCount, "call", citation);
   
   // Open a paragraph element for the note body.
   notePnode = notes_node.append_child ("p");
@@ -537,7 +537,7 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   closeTextStyle (false);
   
   // Add the link with all relevant data for the note body.
-  addNoteQuillLink (notePnode, noteCount, "body", citation);
+  addNotelLink (notePnode, noteCount, "body", citation);
   
   // Add a space.
   addNoteText (" ");
@@ -583,7 +583,7 @@ void Editor_Usfm2Html::closeCurrentNote ()
 // $style: A style for the note citation, and one for the note body.
 // $text: The link's text.
 // It also deals with a Quill-based editor, in a slightly different way.
-void Editor_Usfm2Html::addNoteQuillLink (xml_node domNode, int identifier, string style, string text)
+void Editor_Usfm2Html::addNotelLink (xml_node domNode, int identifier, string style, string text)
 {
   xml_node aDomElement = domNode.append_child ("span");
   string cls = "i-note" + style + convert_to_string (identifier);

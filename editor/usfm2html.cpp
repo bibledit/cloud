@@ -579,31 +579,6 @@ void Editor_Usfm2Html::closeCurrentNote ()
 
 // This adds a link as a mechanism to connect body text with a note body.
 // $domNode: The DOM node where to add the link to.
-// $reference: The link's href, e.g. where it links to.
-// $identifier: The link's identifier. Others can link to it.
-// $style: The link text's style.
-// $text: The link's text.
-// It also deals with a Quill-based editor, in a slightly different way.
-void Editor_Usfm2Html::addNoteDomLink (xml_node domNode, string reference, string identifier, string style, string text) // Todo out.
-{
-  xml_node aDomElement = domNode.append_child ("a");
-  aDomElement.append_attribute ("href") = reference.c_str();
-  aDomElement.append_attribute ("id") = identifier.c_str();
-  // The link itself, for the notes, is not editable, so it can be clicked.
-  // It was disabled again due to Chrome removing content on backspace.
-  // $aDomElement->setAttribute ("contenteditable", "false");
-  // Remove the blue color from the link, and the underline.
-  // The reason for this is that, if the blue and underline are there, people expect one can click on it.
-  // Clicking it does nothing. Therefore it's better to remove the typical link style.
-  aDomElement.append_attribute ("style") = "text-decoration:none; color: inherit;";
-  // Style = class.
-  if (style != "") aDomElement.append_attribute ("class") = style.c_str();
-  aDomElement.text ().set (text.c_str());
-}
-
-
-// This adds a link as a mechanism to connect body text with a note body.
-// $domNode: The DOM node where to add the link to.
 // $identifier: The link's identifier.
 // $style: A style for the note citation, and one for the note body.
 // $text: The link's text.

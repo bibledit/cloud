@@ -68,7 +68,6 @@ string edit2_navigate (void * webserver_request)
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
-  editor_usfm2html.quill ();
   editor_usfm2html.run ();
 
   

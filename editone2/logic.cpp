@@ -50,7 +50,6 @@ void editone2_logic_editable_html (string usfm, string stylesheet, string & html
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (stylesheet);
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
   }

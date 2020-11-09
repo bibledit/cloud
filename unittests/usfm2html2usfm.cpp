@@ -39,7 +39,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, filter_string_trim (html));
@@ -63,7 +62,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -83,7 +81,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -108,7 +105,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -141,7 +137,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -162,7 +157,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -187,7 +181,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -208,7 +201,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -229,7 +221,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -255,7 +246,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -280,7 +270,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -308,7 +297,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, filter_string_trim (standard_html), html);
@@ -333,7 +321,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -360,7 +347,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -391,7 +377,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -414,7 +399,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -440,7 +424,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -469,7 +452,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -496,7 +478,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -538,7 +519,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -565,7 +545,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -603,7 +582,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     
@@ -663,7 +641,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     
@@ -689,7 +666,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -716,7 +692,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -739,7 +714,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -767,7 +741,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -798,7 +771,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -829,7 +801,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -851,7 +822,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br /></p><p class="b-p"><span>paragraph</span></p>)";
@@ -876,7 +846,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd\"><br /></p><p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd2\"><br /></p>";
@@ -900,7 +869,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standardusfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standardhtml, html);
@@ -926,7 +894,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -949,7 +916,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -973,7 +939,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -997,7 +962,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, html);
@@ -1017,7 +981,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -1032,7 +995,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     
@@ -1054,7 +1016,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     
@@ -1073,7 +1034,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, html, output);
@@ -1090,7 +1050,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, output_html);
@@ -1111,7 +1070,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, output_html);
@@ -1131,7 +1089,6 @@ void test_usfm2html2usfm ()
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
-    editor_usfm2html.quill ();
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
     evaluate (__LINE__, __func__, standard_html, output_html);

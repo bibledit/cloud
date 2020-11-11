@@ -283,38 +283,38 @@ void Editor_Html2Usfm::openInline (string className)
 }
 
 
-void Editor_Html2Usfm::processNoteCitation (xml_node node)
+void Editor_Html2Usfm::processNoteCitation (xml_node node) // Todo
 {
-  // Remove the note citation from the text.
-  // In case of a Quill-enabled editor, it means that this:
+  // Remove the note citation from the main text body.
+  // It means that this:
   //   <span class="i-notecall1">1</span>
   // becomes this:
   //   <span class="i-notecall1" />
   xml_node child = node.first_child ();
   node.remove_child (child);
 
-  // Get more information about the footnote to retrieve.
+  // Get more information about the note to retrieve.
   // <span class="i-notecall1" />
   string id = node.attribute ("class").value ();
   id = filter_string_str_replace ("call", "body", id);
 
   // Sample footnote body.
-  // <p class="x"><a href="#citation1" id="note1">x</a><span> </span><span>+ 2 Joh. 1.1</span></p>
+  // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">notetext</span></p>
   // Retrieve the <a> element from it.
-  // At first this was done through an XPath expression:
+  // This was initially done through an XPath expression:
   // http://www.grinninglizard.com/tinyxml2docs/index.html
-  // But XPath crashes on Android with libxml2.
-  // Therefore now it iterates over all the nodes to find the required <a> element.
+  // But XPath crashed on Android with libxml2.
+  // Therefore now it iterates over all the nodes to find the required element.
   // After moving to pugixml, the XPath expression could have been used again, but this was not done.
-  xml_node a_span_element = get_note_pointer (document.first_child (), id);
-  if (a_span_element) {
+  xml_node note_span_element = get_note_pointer (document.first_child (), id);
+  if (note_span_element) {
 
-    // It now has the <a> or <span>.
-    // Get its <p> parent, and then remove that <a> or <span> element.
+    // It now has the <span>.
+    // Get its <p> parent, and then remove that <span> element.
     // So we remain with:
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-    xml_node pElement = a_span_element.parent ();
-    pElement.remove_child (a_span_element);
+    xml_node pElement = note_span_element.parent ();
+    pElement.remove_child (note_span_element);
     
     // Preserve active character styles in the main text, and reset them for the note.
     vector <string> preservedCharacterStyles = characterStyles;

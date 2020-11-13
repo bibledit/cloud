@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_html2format ()
+void test_html2format () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -275,6 +275,34 @@ void test_html2format ()
       evaluate (__LINE__, __func__, texts, editor_html2format.texts);
       evaluate (__LINE__, __func__, formats, editor_html2format.formats);
     }
+  }
+  
+  // Test that the converter to formatting removes the Quill caret class. Todo
+  {
+    string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you na</span><span class="ql-cursor">﻿</span><span>tions!</span></p>)";
+    vector<string> texts = {
+      "\n",
+      "Praise ",
+      "Yahweh",
+      " ",
+      "all",
+      " you na",
+      "tions!"
+    };
+    vector<string> formats = {
+      "p",
+      "",
+      "add",
+      "",
+      "add",
+      "",
+      ""
+    };
+    Editor_Html2Format editor_html2format;
+    editor_html2format.load (html);
+    editor_html2format.run ();
+    evaluate (__LINE__, __func__, texts, editor_html2format.texts);
+    evaluate (__LINE__, __func__, formats, editor_html2format.formats);
   }
 
   refresh_sandbox (true);

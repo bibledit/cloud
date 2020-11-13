@@ -142,12 +142,12 @@ int main (int argc, char **argv)
   refresh_sandbox (true);
   test_dev ();
   test_html2usfm ();
+  test_html2format ();
   test_usfm2html ();
   test_usfm2html2usfm ();
   test_editone_logic ();
   test_merge ();
   test_diff ();
-  test_html2format ();
   test_bibles ();
   test_string ();
   refresh_sandbox (true);

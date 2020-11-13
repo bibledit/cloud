@@ -21,12 +21,15 @@
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <editor/html2usfm.h>
+#include <editor/html2format.h>
 #include <styles/logic.h>
 
 
 void test_dev ()
 {
   trace_unit_tests (__func__);
+  
 
   refresh_sandbox (true);
+  //exit(0);
 }

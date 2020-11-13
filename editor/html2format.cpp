@@ -28,7 +28,7 @@
 #include <quill/logic.h>
 
 
-void Editor_Html2Format::load (string html)
+void Editor_Html2Format::load (string html) // Todo ql-cursor
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
@@ -76,6 +76,12 @@ void Editor_Html2Format::processNode (xml_node node)
   switch (node.type ()) {
     case node_element:
     {
+      
+      // Skip a note with class "ql-cursor" because that is an internal Quill node. Todo
+      // The user didn't insert it.
+      string classs = node.attribute("class").value();
+      if (classs == "ql-cursor") break;
+      // Process node normally.
       openElementNode (node);
       for (xml_node child : node.children()) {
         processNode (child);

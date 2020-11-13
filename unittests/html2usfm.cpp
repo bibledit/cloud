@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_html2usfm () // Todo
+void test_html2usfm ()
 {
   trace_unit_tests (__func__);
   

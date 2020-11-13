@@ -1063,7 +1063,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
                                          vector <int> & positions,
                                          vector <int> & sizes,
                                          vector <string> & operators,
-                                         vector <string> & content) // Todo
+                                         vector <string> & content)
 {
   // Clear outputs.
   positions.clear();

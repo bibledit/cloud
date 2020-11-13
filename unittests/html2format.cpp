@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_html2format () // Todo
+void test_html2format ()
 {
   trace_unit_tests (__func__);
   
@@ -277,7 +277,7 @@ void test_html2format () // Todo
     }
   }
   
-  // Test that the converter to formatting removes the Quill caret class. Todo
+  // Test that the converter to formatting removes the Quill caret class.
   {
     string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you na</span><span class="ql-cursor">﻿</span><span>tions!</span></p>)";
     vector<string> texts = {

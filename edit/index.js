@@ -288,7 +288,7 @@ function editorSaveChapter (sync)
 }
 
 
-function editorGetHtml () // Todo
+function editorGetHtml ()
 {
   var html = $ (".ql-editor").html ();
   // Remove verse focus class name, if it is:

@@ -28,7 +28,7 @@
 #include <quill/logic.h>
 
 
-void Editor_Html2Usfm::load (string html) // Todo ql-cursor
+void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
@@ -385,7 +385,7 @@ void Editor_Html2Usfm::postprocess ()
 
 
 // Retrieves a pointer to a relevant footnote element in the XML.
-xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id) // Todo
+xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id)
 {
   // The note wrapper node to look for.
   xml_node p_note_wrapper;
@@ -414,11 +414,6 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id) // Todo
   // The solution is to include the next p node too if it belongs to the correct note wrapper p node.
   bool within_matching_p_node = false;
   for (xml_node p_body_child : body.children ()) {
-
-//    cout << "p body child" << endl;
-//    p_body_child.print(cout, "", pugi::format_raw);
-//    cout << endl; // Todo
-    
     xml_node span_notebody = p_body_child.first_child();
     string name = span_notebody.name ();
     if (name == "span") {
@@ -430,7 +425,6 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id) // Todo
           within_matching_p_node = false;
         }
       }
-//      cout << "class " << classs << endl; // Todo
     }
     if (within_matching_p_node) {
       if (!p_note_wrapper) {
@@ -441,11 +435,6 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id) // Todo
         }
       }
     }
-
-//    cout << "p note wrapper" << endl;
-//    p_note_wrapper.print(cout, "", pugi::format_raw);
-//    cout << endl; // Todo
-
   }
 
   // If a note wrapper was found, return that.

@@ -1610,6 +1610,8 @@ AC_DEFUN([_AM_OUTPUT_DEPENDENCY_COMMANDS],
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
+  # TODO: see whether this extra hack can be removed once we start
+  # requiring Autoconf 2.70 or later.
   AS_CASE([$CONFIG_FILES],
           [*\'*], [eval set x "$CONFIG_FILES"],
           [*], [set x $CONFIG_FILES])

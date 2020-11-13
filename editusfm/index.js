@@ -174,6 +174,9 @@ function usfmEditorUnload ()
 
 function usfmEditorSaveChapter (sync)
 {
+  // Fix for https://github.com/bibledit/cloud/issues/427
+  usfmEditorStatus ("");
+
   if (usfmSaving) {
     usfmEditorChanged ();
     return;
@@ -248,6 +251,7 @@ function usfmEditorSelectiveNotification (message)
   if (message == usfmEditorWillSave) return;
   if (message == usfmEditorChapterSaving) return;
   if (message == usfmEditorChapterSaved) return;
+  if (message == "") return;
   notifyItError (message);
 }
 

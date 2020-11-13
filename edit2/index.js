@@ -237,6 +237,7 @@ function editorLoadChapter (reload)
 
 function editorSaveChapter (sync)
 {
+  editorStatus ("");
   if (editorSaving) {
     editorContentChangedTimeoutStart ();
     return;
@@ -573,6 +574,7 @@ function editorSelectiveNotification (message)
   if (message == editorChapterSaving) return;
   if (message == editorChapterSaved) return;
   if (message == editorChapterReformat) return;
+  if (message == "") return;
   notifyItError (message);
 }
 

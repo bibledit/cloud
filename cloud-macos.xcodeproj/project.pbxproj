@@ -1252,20 +1252,8 @@
 		CADE39D824F17423003165BB /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
 		CADE39D924F17423003165BB /* preview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = preview.h; sourceTree = "<group>"; };
 		CADE39DA24F17423003165BB /* preview.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = preview.o; sourceTree = "<group>"; };
-		CADE39DC24F17423003165BB /* position.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = position.Po; sourceTree = "<group>"; };
-		CADE39DD24F17423003165BB /* styles.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = styles.Po; sourceTree = "<group>"; };
-		CADE39DE24F17423003165BB /* load.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = load.Po; sourceTree = "<group>"; };
-		CADE39DF24F17423003165BB /* save.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = save.Po; sourceTree = "<group>"; };
-		CADE39E024F17423003165BB /* preview.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = preview.Po; sourceTree = "<group>"; };
-		CADE39E124F17423003165BB /* id.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = id.Po; sourceTree = "<group>"; };
-		CADE39E224F17423003165BB /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CADE39E324F17423003165BB /* navigate.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = navigate.Po; sourceTree = "<group>"; };
-		CADE39E424F17423003165BB /* edit.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = edit.Po; sourceTree = "<group>"; };
-		CADE39E524F17423003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE39E624F17423003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
 		CADE39E724F17423003165BB /* position.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = position.o; sourceTree = "<group>"; };
 		CADE39E824F17423003165BB /* position.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = position.h; sourceTree = "<group>"; };
-		CADE39E924F17423003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE39EA24F17423003165BB /* navigate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = navigate.cpp; sourceTree = "<group>"; };
 		CADE39EB24F17423003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE39EC24F17423003165BB /* position.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = position.cpp; sourceTree = "<group>"; };
@@ -4698,8 +4686,6 @@
 		CADE39BB24F17423003165BB /* edit */ = {
 			isa = PBXGroup;
 			children = (
-				CADE39DB24F17423003165BB /* .deps */,
-				CADE39E924F17423003165BB /* .dirstamp */,
 				CADE39BF24F17423003165BB /* edit.cpp */,
 				CADE39C324F17423003165BB /* edit.h */,
 				CADE39C224F17423003165BB /* edit.o */,
@@ -4738,24 +4724,6 @@
 				CADE39D324F17423003165BB /* styles.o */,
 			);
 			path = edit;
-			sourceTree = "<group>";
-		};
-		CADE39DB24F17423003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE39DC24F17423003165BB /* position.Po */,
-				CADE39DD24F17423003165BB /* styles.Po */,
-				CADE39DE24F17423003165BB /* load.Po */,
-				CADE39DF24F17423003165BB /* save.Po */,
-				CADE39E024F17423003165BB /* preview.Po */,
-				CADE39E124F17423003165BB /* id.Po */,
-				CADE39E224F17423003165BB /* index.Po */,
-				CADE39E324F17423003165BB /* navigate.Po */,
-				CADE39E424F17423003165BB /* edit.Po */,
-				CADE39E524F17423003165BB /* .dirstamp */,
-				CADE39E624F17423003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE39ED24F17423003165BB /* css */ = {

@@ -196,6 +196,10 @@ function editorLoadChapter (reload)
       response = checksum_receive (response);
       if (response !== false) {
         // Only load new text when it is different.
+        console.log ("response");
+        console.log (response);
+        console.log ("editor");
+        console.log (editorGetHtml()); // Todo
         if (response != editorGetHtml ()) {
           // Destroy existing editor.
           if (quill) delete quill;
@@ -1080,6 +1084,7 @@ Section for reload notifications.
 
 function editorReloadAlert (message)
 {
+  return;
   // Take action only if the editor has focus and the user can type in it.
   if (quill.hasFocus ()) {
     notifyItSuccess (message)

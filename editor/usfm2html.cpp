@@ -135,7 +135,7 @@ void Editor_Usfm2Html::preprocess ()
   notes_node = document.append_child ("p");
   notes_value.insert (0, quill_logic_class_prefix_block ());
   notes_node.append_attribute ("class") = notes_value.c_str ();
-  notes_node.text().set(non_breaking_space_u00A0().c_str());
+  notes_node.text().set(non_breaking_space_u00A0().c_str()); //Todo
 }
 
 

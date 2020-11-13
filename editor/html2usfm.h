@@ -57,7 +57,7 @@ private:
   void openInline (string className);
   void processNoteCitation (xml_node node);
   string cleanUSFM (string usfm);
-  xml_node get_note_pointer (xml_node node, string id);
+  xml_node get_note_pointer (xml_node body, string id);
   string update_quill_class (string classname);
 };
 

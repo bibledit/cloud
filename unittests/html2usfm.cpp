@@ -153,5 +153,31 @@ void test_html2usfm ()
     string usfm = editor_html2usfm.get ();
     evaluate (__LINE__, __func__, standard, usfm);
   }
+
+  // Regression test for issue https://github.com/bibledit/cloud/issues/444.
+  // If a new line is given within the footnote,
+  // the footnote should still remain okay,
+  // when converted back to USFM.
+  { // Todo
+    string standard_usfm = R"(\p text\f + \ft footnote\f*)";
+    string standard_html = R"(<p class="b-p">text<span class="i-notecall1">1</span></p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">foot</span></p><p class="b-f"><span class="i-ft">note</span></p>)";
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (standard_html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string output_usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+  }
+  {
+    string standard_usfm = R"(\p text1\f + \ft note1\f* text2\f + \fk keyword2\ft text2\f* text3\f + note3\f*)";
+    string standard_html = R"(<p class="b-p">text1<span class="i-notecall1">1</span> text2<span class="i-notecall2">2</span> text3<span class="i-notecall3">3</span></p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">note1</span></p><p class="b-f"><span class="i-notebody2">2</span> + <span class="i-fk">key</span></p><p class="b-f"><span class="i-fk">word2</span><span class="i-ft">text2</span></p><p class="b-f"><span class="i-notebody3">3</span> + <span class="i-ft">note3</span></p>)";
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (standard_html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string output_usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+  }
+  
   refresh_sandbox (true);
 }

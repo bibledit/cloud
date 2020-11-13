@@ -283,7 +283,7 @@ void Editor_Html2Usfm::openInline (string className)
 }
 
 
-void Editor_Html2Usfm::processNoteCitation (xml_node node) // Todo
+void Editor_Html2Usfm::processNoteCitation (xml_node node)
 {
   // Remove the note citation from the main text body.
   // It means that this:
@@ -306,31 +306,30 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node) // Todo
   // But XPath crashed on Android with libxml2.
   // Therefore now it iterates over all the nodes to find the required element.
   // After moving to pugixml, the XPath expression could have been used again, but this was not done.
-  xml_node note_span_element = get_note_pointer (document.first_child (), id);
-  if (note_span_element) {
+  xml_node note_p_element = get_note_pointer (document.first_child (), id);
+  if (note_p_element) {
 
-    // It now has the <span>.
-    // Get its <p> parent, and then remove that <span> element.
+    // It now has the <p>.
+    // Remove the first <span> element.
     // So we remain with:
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-    xml_node pElement = note_span_element.parent ();
-    pElement.remove_child (note_span_element);
-    
+    note_p_element.remove_child (note_p_element.first_child());
+
     // Preserve active character styles in the main text, and reset them for the note.
     vector <string> preservedCharacterStyles = characterStyles;
     characterStyles.clear();
     
     // Process this 'p' element.
     processingNote = true;
-    processNode (pElement);
+    processNode (note_p_element);
     processingNote = false;
     
     // Restore the active character styles for the main text.
     characterStyles = preservedCharacterStyles;
     
     // Remove this element so it can't be processed again.
-    xml_node parent = pElement.parent ();
-    parent.remove_child (pElement);
+    xml_node parent = note_p_element.parent ();
+    parent.remove_child (note_p_element);
     
   } else {
     Database_Logs::log ("Discarding note with id " + id);
@@ -381,27 +380,72 @@ void Editor_Html2Usfm::postprocess ()
 
 
 // Retrieves a pointer to a relevant footnote element in the XML.
-xml_node Editor_Html2Usfm::get_note_pointer (xml_node node, string id)
+xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id) // Todo
 {
-  if (node) {
+  // The note wrapper node to look for.
+  xml_node p_note_wrapper;
 
-    string name = node.name ();
-    string note_id;
-    // <span class="i-notebody1" />
-    if (name == "span") {
-      note_id = node.attribute ("class").value ();
-    }
-    if (id == note_id) return node;
+  // Check that there's a node to start with.
+  if (!body) return p_note_wrapper;
+
+  // Assert that the <body> node is given.
+  if (string(body.name ()) != "body") return p_note_wrapper;
+
+  // Some of the children of the <body> node will be the note wrappers.
+  // Consider this XML:
+  // <body>
+  //   <p class="b-p">text<span class="i-notecall1" /></p>
+  //   <p class="b-notes" />
+  //   <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">foot</span></p>
+  //   <p class="b-f"><span class="i-ft">note</span></p>
+  // </body>
+  // There is node <p class="b-notes" />.
+  // Any children of <body> following the above node are all note wrappers.
+  // Here the code is going to get the correct note wrapper node.
+  // In addition to finding the correct p node, it also looks for subsequent p nodes
+  // that belong to the main p node.
+  // See issue https://github.com/bibledit/cloud/issues/444.
+  // It handles a situation that the user presses <Enter> while in a note.
+  // The solution is to include the next p node too if it belongs to the correct note wrapper p node.
+  bool within_matching_p_node = false;
+  for (xml_node p_body_child : body.children ()) {
+
+//    cout << "p body child" << endl;
+//    p_body_child.print(cout, "", pugi::format_raw);
+//    cout << endl; // Todo
     
-    for (xml_node child : node.children ()) {
-      xml_node note = get_note_pointer (child, id);
-      if (note) return note;
+    xml_node span_notebody = p_body_child.first_child();
+    string name = span_notebody.name ();
+    if (name == "span") {
+      string classs = span_notebody.attribute ("class").value ();
+      if (classs.substr (0, 10) == id.substr(0, 10)) {
+        if (classs == id) {
+          within_matching_p_node = true;
+        } else {
+          within_matching_p_node = false;
+        }
+      }
+//      cout << "class " << classs << endl; // Todo
     }
+    if (within_matching_p_node) {
+      if (!p_note_wrapper) {
+        p_note_wrapper = p_body_child;
+      } else {
+        for (xml_node child = p_body_child.first_child(); child; child = child.next_sibling()) {
+          p_note_wrapper.append_copy(child);
+        }
+      }
+    }
+
+//    cout << "p note wrapper" << endl;
+//    p_note_wrapper.print(cout, "", pugi::format_raw);
+//    cout << endl; // Todo
 
   }
-  
-  xml_node null_node;
-  return null_node;
+
+  // If a note wrapper was found, return that.
+  // If nothing was found, the note wrapper is null.
+  return p_note_wrapper;
 }
 
 

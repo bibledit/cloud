@@ -196,10 +196,6 @@ function editorLoadChapter (reload)
       response = checksum_receive (response);
       if (response !== false) {
         // Only load new text when it is different.
-        console.log ("response");
-        console.log (response);
-        console.log ("editor");
-        console.log (editorGetHtml()); // Todo
         if (response != editorGetHtml ()) {
           // Destroy existing editor.
           if (quill) delete quill;

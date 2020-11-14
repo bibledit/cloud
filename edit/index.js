@@ -196,7 +196,11 @@ function editorLoadChapter (reload)
       response = checksum_receive (response);
       if (response !== false) {
         // Only load new text when it is different.
-        if (response != editorGetHtml ()) {
+        // Extract the plain text from the html and compare that.
+        // https://github.com/bibledit/cloud/issues/449
+        var responseText = $(response).text();
+        var editorText = $(editorGetHtml ()).text();
+        if (responseText != editorText) {
           // Destroy existing editor.
           if (quill) delete quill;
           // Load the html in the DOM.

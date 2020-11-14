@@ -213,21 +213,21 @@ function editorLoadChapter (reload)
           css4embeddedstyles ();
           // Feedback.
           editorStatus (editorChapterLoaded);
-        }
-        // Reference for comparison at save time.
-        editorReferenceText = editorGetHtml ();
-        // Position caret straightaway.
-        if (reload) {
-          positionCaret (editorCaretPosition);
-        }
-        editorScheduleCaretPositioning ();
-        // Alert on reloading soon after save, or after text reload.
-        // https://github.com/bibledit/cloud/issues/346
-        editorLoadDate = new Date();
-        var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
-        seconds = 2; // Disable timer.
-        if ((seconds < 2) || reload) {
-          if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
+          // Reference for comparison at save time.
+          editorReferenceText = editorGetHtml ();
+          // Position caret straightaway.
+          if (reload) {
+            positionCaret (editorCaretPosition);
+          }
+          editorScheduleCaretPositioning ();
+          // Alert on reloading soon after save, or after text reload.
+          // https://github.com/bibledit/cloud/issues/346
+          editorLoadDate = new Date();
+          var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
+          seconds = 2; // Disable timer.
+          if ((seconds < 2) || reload) {
+            if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
+          }
         }
       } else {
         // Checksum error: Reload.
@@ -534,6 +534,7 @@ function editorWindowKeyHandler (event)
   if (event.keyCode == 27) {
     editorClearStyles ();
   }
+  console.log (event.keyCode); // Todo
 }
 
 

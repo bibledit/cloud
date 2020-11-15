@@ -107,7 +107,7 @@ function editorInitialize ()
 // If the text is long, then the focused verse is thrown off the screen.
 // Here it fixes that.
 // https://github.com/bibledit/cloud/issues/428
-function editorClipboardPasteHandler (event) // Todo
+function editorClipboardPasteHandler (event)
 {
   var currentScrollTop = $("#workspacewrapper").scrollTop();
   $("#workspacewrapper").animate({ scrollTop: currentScrollTop }, 100);

@@ -87,18 +87,18 @@ string notes_notes (void * webserver_request)
     vector <int> passage_sort_keys;
     for (auto & identifier : identifiers) {
       int passage_sort_key = 0;
-      vector <float> numeric_passages;
+      vector <double> numeric_passages;
       vector <Passage> passages = database_notes.get_passages (identifier);
       for (auto & passage : passages) {
         numeric_passages.push_back (filter_passage_to_integer (passage));
       }
       if (!numeric_passages.empty ()) {
-        float average = accumulate (numeric_passages.begin (), numeric_passages.end (), 0) / numeric_passages.size ();
-        passage_sort_key = round (average);
+        double average = accumulate (numeric_passages.begin (), numeric_passages.end (), 0) / numeric_passages.size ();
+        passage_sort_key = round(average);
       }
       passage_sort_keys.push_back (passage_sort_key);
     }
-    quick_sort (passage_sort_keys, identifiers, 0, identifiers.size ());
+    quick_sort (passage_sort_keys, identifiers, 0, (int)identifiers.size ());
   }
 
 

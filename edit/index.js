@@ -99,9 +99,6 @@ function editorInitialize ()
   // Event handlers.
   quill.on ("text-change", editorTextChangeHandler);
   quill.on ("selection-change", editorSelectionChangeHandler);
-  
-  $ ("#editor").bind ("paste", editorClipboardPasteHandler);
-
 }
 
 
@@ -113,7 +110,7 @@ function editorInitialize ()
 function editorClipboardPasteHandler (event) // Todo
 {
   var currentScrollTop = $("#workspacewrapper").scrollTop();
-  $("#workspacewrapper").animate({ scrollTop: currentScrollTop }, 5);
+  $("#workspacewrapper").animate({ scrollTop: currentScrollTop }, 100);
 }
 
 

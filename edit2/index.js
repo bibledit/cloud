@@ -55,6 +55,9 @@ $ (document).ready (function ()
   }
 
   $ ("#editor").on ("click", editorNoteCitationClicked);
+  
+  $ ("#editor").bind ("paste", editorClipboardPasteHandler);
+
 });
 
 
@@ -96,6 +99,20 @@ function editorInitialize ()
   // Event handlers.
   quill.on ("text-change", editorTextChangeHandler);
   quill.on ("selection-change", editorSelectionChangeHandler);
+}
+
+
+// This fixes an issue where upon pasting text in the editor,
+// the editor scrolls to the very top of the text.
+// If the text is long, then the focused verse is thrown off the screen.
+// Here it fixes that.
+// https://github.com/bibledit/cloud/issues/428
+function editorClipboardPasteHandler (event) // Todo
+{
+  console.log (event); // Todo
+  var currentScrollTop = $("#workspacewrapper").scrollTop();
+  console.log (currentScrollTop); // Todo
+  $("#workspacewrapper").animate({ scrollTop: currentScrollTop }, 100);
 }
 
 

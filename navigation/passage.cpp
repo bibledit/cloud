@@ -132,7 +132,7 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
     // A previous verse (0) is assumed to be available.
     fragment.append (R"( id="previousverse" href="previousverse" title=")" + translate ("Go to previous verse") + R"(")");
   }
-  fragment.append ("> « </a></span>"); // Todo
+  fragment.append ("> ᐊ </a></span>");
   
   fragment.append ("<span><a");
   if (!basic_mode) fragment.append (R"( class="selectverse")");
@@ -142,7 +142,7 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
     fragment.append ("<span><a");
     if (!basic_mode) fragment.append (R"( class="nextverse")");
     fragment.append (R"( id="nextverse" href="nextverse" title=")" + translate ("Go to next verse") + R"(")");
-    fragment.append ("> » </a></span>"); // Todo
+    fragment.append ("> ᐅ </a></span>");
   }
 
   // Store book / chapter / verse if they were clipped.

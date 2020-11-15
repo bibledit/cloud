@@ -405,7 +405,7 @@ string soft_hyphen_u00AD ()
 
 
 // Returns an "en space", this is a nut, half an em space.
-string en_space_u2002 ()
+string en_space_u2002 () // Todo
 {
 #ifdef HAVE_WINDOWS
   // On Visual Studio 2015 the C-style code below does not work.

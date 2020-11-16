@@ -338,6 +338,6 @@ string editone2_update (void * webserver_request)
   response = Checksum_Logic::send (response, write);
 
   // Ready.
-  //this_thread::sleep_for(chrono::seconds(5));
+  //this_thread::sleep_for(chrono::seconds(60));
   return response;
 }

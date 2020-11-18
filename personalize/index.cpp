@@ -471,6 +471,15 @@ string personalize_index (void * webserver_request)
                      menu_logic_verse_separator (Database_Config_General::getNotesVerseSeparator ()));
 
   
+  // Setting for whether to receive the focused reference from Paratext on Windows.
+  if (request->query.count ("referencefromparatext")) {
+    bool state = request->database_config_user ()->getReceiveFocusedReferenceFromParatext ();
+    request->database_config_user ()->setReceiveFocusedReferenceFromParatext (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getReceiveFocusedReferenceFromParatext ());
+  view.set_variable ("referencefromparatext", on_off);
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
@@ -504,6 +513,11 @@ string personalize_index (void * webserver_request)
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud_mode");
 #endif
+
+  
+#ifdef HAVE_WINDOWS
+#endif
+  view.enable_zone ("windows"); // Todo move to within def.
 
   
   view.set_variable ("success", success);

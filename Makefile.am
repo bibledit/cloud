@@ -196,6 +196,7 @@ libbibledit_a_SOURCES = \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
+  navigation/paratext.cpp \
 	ipc/focus.cpp \
 	ipc/notes.cpp \
 	checksum/logic.cpp \

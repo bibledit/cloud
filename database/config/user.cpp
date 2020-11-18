@@ -1346,3 +1346,17 @@ void Database_Config_User::setAutomaticNoteAssignment (vector <string> values)
 {
   setList (automatic_note_assignment_key (), values);
 }
+
+
+const char * receive_focused_reference_from_paratext_key ()
+{
+  return "receive-focused-reference-from-paratext";
+}
+bool Database_Config_User::getReceiveFocusedReferenceFromParatext ()
+{
+  return getBValue (receive_focused_reference_from_paratext_key (), true);
+}
+void Database_Config_User::setReceiveFocusedReferenceFromParatext (bool value)
+{
+  setBValue (receive_focused_reference_from_paratext_key (), value);
+}

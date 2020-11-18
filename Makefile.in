@@ -210,33 +210,34 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editone2/save.$(OBJEXT) editone2/verse.$(OBJEXT) \
 	editone2/logic.$(OBJEXT) editone2/update.$(OBJEXT) \
 	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
-	navigation/poll.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
-	editor/select.$(OBJEXT) editor/html2format.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
-	edit/logic.$(OBJEXT) edit/preview.$(OBJEXT) \
-	edit/position.$(OBJEXT) edit/navigate.$(OBJEXT) \
-	edit2/edit.$(OBJEXT) edit2/id.$(OBJEXT) edit2/index.$(OBJEXT) \
-	edit2/load.$(OBJEXT) edit2/save.$(OBJEXT) \
-	edit2/styles.$(OBJEXT) edit2/logic.$(OBJEXT) \
-	edit2/preview.$(OBJEXT) edit2/position.$(OBJEXT) \
-	edit2/navigate.$(OBJEXT) search/all.$(OBJEXT) \
-	search/index.$(OBJEXT) search/replace.$(OBJEXT) \
-	search/getids.$(OBJEXT) search/replacepre.$(OBJEXT) \
-	search/replacego.$(OBJEXT) search/search2.$(OBJEXT) \
-	search/replace2.$(OBJEXT) search/replacepre2.$(OBJEXT) \
-	search/getids2.$(OBJEXT) search/replacego2.$(OBJEXT) \
-	search/similar.$(OBJEXT) search/strongs.$(OBJEXT) \
-	search/strong.$(OBJEXT) search/originals.$(OBJEXT) \
-	tmp/tmp.$(OBJEXT) workspace/index.$(OBJEXT) \
-	workspace/logic.$(OBJEXT) workspace/settings.$(OBJEXT) \
-	workspace/organize.$(OBJEXT) sendreceive/logic.$(OBJEXT) \
-	sendreceive/index.$(OBJEXT) sendreceive/sendreceive.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) navigation/paratext.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
+	editor/html2format.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/id.$(OBJEXT) edit/index.$(OBJEXT) edit/load.$(OBJEXT) \
+	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
+	edit/navigate.$(OBJEXT) edit2/edit.$(OBJEXT) \
+	edit2/id.$(OBJEXT) edit2/index.$(OBJEXT) edit2/load.$(OBJEXT) \
+	edit2/save.$(OBJEXT) edit2/styles.$(OBJEXT) \
+	edit2/logic.$(OBJEXT) edit2/preview.$(OBJEXT) \
+	edit2/position.$(OBJEXT) edit2/navigate.$(OBJEXT) \
+	search/all.$(OBJEXT) search/index.$(OBJEXT) \
+	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
+	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
+	search/search2.$(OBJEXT) search/replace2.$(OBJEXT) \
+	search/replacepre2.$(OBJEXT) search/getids2.$(OBJEXT) \
+	search/replacego2.$(OBJEXT) search/similar.$(OBJEXT) \
+	search/strongs.$(OBJEXT) search/strong.$(OBJEXT) \
+	search/originals.$(OBJEXT) tmp/tmp.$(OBJEXT) \
+	workspace/index.$(OBJEXT) workspace/logic.$(OBJEXT) \
+	workspace/settings.$(OBJEXT) workspace/organize.$(OBJEXT) \
+	sendreceive/logic.$(OBJEXT) sendreceive/index.$(OBJEXT) \
+	sendreceive/sendreceive.$(OBJEXT) \
 	sendreceive/settings.$(OBJEXT) sendreceive/bibles.$(OBJEXT) \
 	sendreceive/notes.$(OBJEXT) sendreceive/changes.$(OBJEXT) \
 	sendreceive/files.$(OBJEXT) sendreceive/resources.$(OBJEXT) \
@@ -568,6 +569,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	mbedtls/$(DEPDIR)/x509write_csr.Po mbedtls/$(DEPDIR)/xtea.Po \
 	menu/$(DEPDIR)/index.Po menu/$(DEPDIR)/logic.Po \
 	microtar/$(DEPDIR)/microtar.Po miniz/$(DEPDIR)/miniz.Po \
+	navigation/$(DEPDIR)/paratext.Po \
 	navigation/$(DEPDIR)/passage.Po navigation/$(DEPDIR)/poll.Po \
 	navigation/$(DEPDIR)/update.Po nmt/$(DEPDIR)/index.Po \
 	nmt/$(DEPDIR)/logic.Po notes/$(DEPDIR)/actions.Po \
@@ -1120,6 +1122,7 @@ libbibledit_a_SOURCES = \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
+  navigation/paratext.cpp \
 	ipc/focus.cpp \
 	ipc/notes.cpp \
 	checksum/logic.cpp \
@@ -2232,6 +2235,8 @@ navigation/passage.$(OBJEXT): navigation/$(am__dirstamp) \
 navigation/update.$(OBJEXT): navigation/$(am__dirstamp) \
 	navigation/$(DEPDIR)/$(am__dirstamp)
 navigation/poll.$(OBJEXT): navigation/$(am__dirstamp) \
+	navigation/$(DEPDIR)/$(am__dirstamp)
+navigation/paratext.$(OBJEXT): navigation/$(am__dirstamp) \
 	navigation/$(DEPDIR)/$(am__dirstamp)
 ipc/$(am__dirstamp):
 	@$(MKDIR_P) ipc
@@ -3562,6 +3567,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@microtar/$(DEPDIR)/microtar.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@miniz/$(DEPDIR)/miniz.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/paratext.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@ # am--include-marker
@@ -4633,6 +4639,7 @@ distclean: distclean-am
 	-rm -f menu/$(DEPDIR)/logic.Po
 	-rm -f microtar/$(DEPDIR)/microtar.Po
 	-rm -f miniz/$(DEPDIR)/miniz.Po
+	-rm -f navigation/$(DEPDIR)/paratext.Po
 	-rm -f navigation/$(DEPDIR)/passage.Po
 	-rm -f navigation/$(DEPDIR)/poll.Po
 	-rm -f navigation/$(DEPDIR)/update.Po
@@ -5217,6 +5224,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f menu/$(DEPDIR)/logic.Po
 	-rm -f microtar/$(DEPDIR)/microtar.Po
 	-rm -f miniz/$(DEPDIR)/miniz.Po
+	-rm -f navigation/$(DEPDIR)/paratext.Po
 	-rm -f navigation/$(DEPDIR)/passage.Po
 	-rm -f navigation/$(DEPDIR)/poll.Po
 	-rm -f navigation/$(DEPDIR)/update.Po

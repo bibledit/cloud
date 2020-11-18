@@ -229,6 +229,8 @@ public:
   void setOrderChangesByAuthor (bool value);
   vector <string> getAutomaticNoteAssignment ();
   void setAutomaticNoteAssignment (vector <string> values);
+  bool getReceiveFocusedReferenceFromParatext ();
+  void setReceiveFocusedReferenceFromParatext (bool value);
 private:
   void * webserver_request;
   string file (string user);

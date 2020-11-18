@@ -61,6 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <jobs/index.h>
 #include <navigation/update.h>
 #include <navigation/poll.h>
+#include <navigation/paratext.h>
 #include <editusfm/index.h>
 #include <editusfm/focus.h>
 #include <editusfm/load.h>
@@ -974,6 +975,11 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == navigation_poll_url ()) && browser_request_security_okay (request) && navigation_poll_acl (request)) {
     request->reply = navigation_poll (request);
+    return;
+  }
+
+  if (url == navigation_paratext_url ()) { // Todo put in WINDOWS defs for security.
+    request->reply = navigation_paratext (request); // Todo
     return;
   }
   

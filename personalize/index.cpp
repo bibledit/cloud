@@ -516,8 +516,8 @@ string personalize_index (void * webserver_request)
 
   
 #ifdef HAVE_WINDOWS
+  view.enable_zone ("windows");
 #endif
-  view.enable_zone ("windows"); // Todo move to within def.
 
   
   view.set_variable ("success", success);

@@ -978,11 +978,13 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  if (url == navigation_paratext_url ()) { // Todo put in WINDOWS defs for security.
-    request->reply = navigation_paratext (request); // Todo
+#ifdef HAVE_WINDOWS
+  if (url == navigation_paratext_url ()) {
+    request->reply = navigation_paratext (request);
     return;
   }
-  
+#endif
+
   if ((url == editone_load_url ()) && browser_request_security_okay (request) && editone_load_acl (request)) {
     request->reply = editone_load (request);
     return;

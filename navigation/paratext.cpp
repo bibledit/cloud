@@ -53,14 +53,15 @@ string navigation_paratext (void * webserver_request)
           int chapter = convert_to_int(chapter_verse[0]);
           int verse = convert_to_int(chapter_verse[1]);
           // Set the user name to the first one in the database.
+          // Or if the database has no users, make the user admin.
+          // That happens when disconnected from the Cloud.
+          string user = "admin";
           Database_Users database_users;
           vector <string> users = database_users.getUsers ();
-          if (!users.empty()) {
-            string user = users [0];
-            request->session_logic()->setUsername(user);
-            // Set the focused passage for Bibledit.
-            Ipc_Focus::set (request, book, chapter, verse);
-          }
+          if (!users.empty()) user = users [0];
+          request->session_logic()->setUsername(user);
+          // Set the focused passage for Bibledit.
+          Ipc_Focus::set (request, book, chapter, verse);
         }
       }
     }

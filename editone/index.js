@@ -153,11 +153,9 @@ function navigationNewPassage ()
   // and the chapter identifier poller.
   oneverseIdPollerOff ();
   oneverseEditorSaveDate = new Date(0);
-  oneverseEditorSaveVerse (true);
   oneverseEditorSaveDate = new Date(0);
   oneverseReloadCozChanged = false;
   oneverseReloadCozError = false;
-  oneverseEditorLoadVerse ();
   oneverseIdPollerOn ();
 }
 
@@ -169,157 +167,8 @@ function navigationNewPassage ()
 //
 
 
-function oneverseEditorLoadVerse ()
-{
-  if ((oneverseNavigationBook != oneverseBook) || (oneverseNavigationChapter != oneverseChapter) || (oneverseNavigationVerse != oneverseVerse) || oneverseReloadCozChanged || oneverseReloadCozError ) {
-    oneverseBible = navigationBible;
-    oneverseBook = oneverseNavigationBook;
-    oneverseChapter = oneverseNavigationChapter;
-    oneverseVerse = oneverseNavigationVerse;
-    oneverseVerseLoading = oneverseNavigationVerse;
-    oneverseIdChapter = 0;
-    if (oneverseReloadCozChanged) {
-      oneverseReloadPosition = oneverseCaretPosition ();
-    } else {
-      oneverseReloadPosition = undefined;
-      // When saving and immediately going to another verse, do not give an alert.
-      oneverseEditorSaveDate = new Date(0);
-    }
-    if (oneverseLoadAjaxRequest && oneverseLoadAjaxRequest.readystate != 4) {
-      oneverseLoadAjaxRequest.abort();
-    }
-    oneverseLoadAjaxRequest = $.ajax ({
-      url: "load",
-      type: "GET",
-      data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading, id: verseEditorUniqueID },
-      success: function (response) {
-        // Flag for editor read-write or read-only.
-        oneverseEditorWriteAccess = checksum_readwrite (response);
-        // If this is the second or third or higher editor in the workspace,
-        // make the editor read-only.
-        if (window.frameElement) {
-          iframe = $(window.frameElement);
-          var data_editor_number = iframe.attr("data-editor-no");
-          if (data_editor_number > 1) {
-            oneverseEditorWriteAccess = false;
-          }
-        }
-        // Checksumming.
-        response = checksum_receive (response);
-        // Splitting.
-        var bits;
-        if (response !== false) {
-          bits = response.split ("#_be_#");
-          if (bits.length != 3) response == false;
-        }
-        if (response !== false) {
-          $ ("#oneprefix").empty ();
-          $ ("#oneprefix").append (bits [0]);
-          $ ("#oneprefix").off ("click");
-          $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
-        }
-        if (response !== false) {
-          // Destroy existing editor.
-          if (quill) delete quill;
-          // Load the html in the DOM.
-          $ ("#oneeditor").empty ();
-          $ ("#oneeditor").append (bits [1]);
-          oneverseVerseLoaded = oneverseVerseLoading;
-          oneverseEditorStatus (oneverseEditorVerseLoaded);
-          // Create the editor based on the DOM's content.
-          visualVerseEditorInitializeLoad ();
-          quill.enable (oneverseEditorWriteAccess);
-          // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-          oneverseLoadedText = $ (".ql-editor").html ();
-          oneverseCaretMovedTimeoutStart ();
-          // Create CSS for embedded styles.
-          css4embeddedstyles ();
-        }
-        if (response !== false) {
-          $ ("#onesuffix").empty ();
-          $ ("#onesuffix").append (bits [2]);
-          $ ("#onesuffix").off ("click");
-          $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
-        }
-        if (response !== false) {
-          oneverseScrollVerseIntoView ();
-          oneversePositionCaret ();
-          // https://github.com/bibledit/cloud/issues/346
-          oneverseEditorLoadDate = new Date();
-          // In case of network error, don't keep showing the notification.
-          if (!oneverseReloadCozError) {
-            var seconds = oneverseEditorLoadDate.getTime() - oneverseEditorSaveDate.getTime() / 1000;
-            seconds = 2; // Disable timer.
-            if ((seconds < 2) | oneverseReloadCozChanged)  {
-              if (oneverseEditorWriteAccess) oneverseReloadAlert (oneverseEditorVerseUpdatedLoaded);
-            }
-          }
-          oneverseReloadCozChanged = false;
-          oneverseReloadCozError = false;
-        }
-        if (response === false) {
-          // Checksum or other error: Reload.
-          oneverseReloadCozError = true;
-          oneverseEditorLoadVerse ();
-        }
-      },
-    });
-  }
-}
-
-
 function oneverseEditorUnload ()
 {
-  oneverseEditorSaveVerse (true);
-}
-
-
-function oneverseEditorSaveVerse (sync)
-{
-  if (oneverseSaving) {
-    oneverseEditorChanged ();
-    return;
-  }
-  if (!oneverseEditorWriteAccess) return;
-  oneverseEditorTextChanged = false;
-  if (!oneverseBible) return;
-  if (!oneverseBook) return;
-  if (!oneverseVerseLoaded) return;
-  var html = $ (".ql-editor").html ();
-  if (html == oneverseLoadedText) return;
-  oneverseEditorStatus (oneverseEditorVerseSaving);
-  
-  // Chapter identifier poller off as network latency may lead to problems if left on.
-  oneverseIdPollerOff ();
-  
-  oneverseLoadedText = html;
-  oneverseIdChapter = 0;
-  oneverseSaveAsync = true;
-  if (sync) oneverseSaveAsync = false;
-  var encodedHtml = filter_url_plus_to_tag (html);
-  var checksum = checksum_get (encodedHtml);
-  oneverseSaving = true;
-  $.ajax ({
-    url: "save",
-    type: "POST",
-    async: oneverseSaveAsync,
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, html: encodedHtml, checksum: checksum, id: verseEditorUniqueID },
-    error: function (jqXHR, textStatus, errorThrown) {
-      oneverseEditorStatus (oneverseEditorVerseRetrying);
-      oneverseLoadedText = "";
-      oneverseEditorChanged ();
-      if (!oneverseSaveAsync) oneverseEditorSaveVerse (true);
-    },
-    success: function (response) {
-      oneverseEditorStatus (response);
-    },
-    complete: function (xhr, status) {
-      oneverseSaveAsync = true;
-      oneverseSaving = false;
-      oneverseEditorSaveDate = new Date();
-      oneverseIdPollerOn ();
-    }
-  });
 }
 
 
@@ -350,7 +199,6 @@ function oneverseEditorChanged ()
   if (oneverseEditorChangedTimeout) {
     clearTimeout (oneverseEditorChangedTimeout);
   }
-  oneverseEditorChangedTimeout = setTimeout (oneverseEditorSaveVerse, 1000);
 }
 
 
@@ -419,49 +267,6 @@ function oneverseIdPollerOff ()
 function oneverseIdPollerOn ()
 {
   oneverseIdPollerOff ();
-  oneverseIdTimeout = setTimeout (oneverseEditorPollId, 1000);
-}
-
-
-function oneverseEditorPollId ()
-{
-  // Due to network latency, there may be multiple ongoing polls.
-  // Multiple polls may return multiple chapter identifiers.
-  // This could lead to false "text reloaded" notifications.
-  // https://github.com/bibledit/cloud/issues/424
-  // To handle this, switch the poller off.
-  oneverseIdPollerOff ();
-  
-  if (oneverseSaving) {
-    oneverseIdPollerOn ();
-    return;
-  }
-  oneverseIdAjaxRequest = $.ajax ({
-    url: "../edit/id",
-    type: "GET",
-    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
-    cache: false,
-    success: function (response) {
-      if (oneverseIdChapter != 0) {
-        if (response != oneverseIdChapter) {
-          if (oneverseEditorTextChanged) {
-            oneverseEditorSaveVerse (true);
-          }
-          oneverseReloadCozChanged = true;
-          oneverseEditorLoadVerse ();
-          oneverseIdChapter = 0;
-        }
-      }
-      oneverseIdChapter = response;
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-    },
-    complete: function (xhr, status) {
-      if (status != "abort") {
-        oneverseIdPollerOn ();
-      }
-    }
-  });
 }
 
 
@@ -531,18 +336,6 @@ function oneverseScrollVerseIntoView ()
 
 function oneverseStylesButtonHandler ()
 {
-  if (!oneverseEditorWriteAccess) return;
-  $.ajax ({
-    url: "../edit/styles",
-    type: "GET",
-    cache: false,
-    success: function (response) {
-      oneverseShowResponse (response);
-      oneverseBindUnselectable ();
-      oneverseDynamicClickHandlers ();
-    },
-  });
-  return false;
 }
 
 
@@ -604,42 +397,11 @@ function oneverseDynamicClickHandlers ()
 
 function oneverseRequestStyle (style)
 {
-  $.ajax ({
-    url: "../edit/styles",
-    type: "GET",
-    data: { style: style },
-    cache: false,
-    success: function (response) {
-      response = response.split ("\n");
-      var style = response [0];
-      var action = response [1];
-      if (action == "p") {
-        oneverseApplyParagraphStyle (style);
-      } else if (action == 'c') {
-        oneverseApplyCharacterStyle (style);
-      } else if (action == 'n') {
-        oneverseApplyNotesStyle (style);
-      } else if (action == "m") {
-        oneverseApplyMonoStyle (style);
-      }
-    },
-  });
 }
 
 
 function oneverseDisplayAllStyles ()
 {
-  $.ajax ({
-    url: "../edit/styles",
-    type: "GET",
-    data: { all: "" },
-    cache: false,
-    success: function (response) {
-      oneverseShowResponse (response);
-      oneverseBindUnselectable ();
-      oneverseDynamicClickHandlers ();
-    },
-  });
 }
 
 
@@ -860,47 +622,6 @@ function oneEditorNoteCitationClicked (event)
 
 function oneVerseHtmlClicked (event)
 {
-  // If the user selects text, do nothing.
-  var text = "";
-  if (window.getSelection) {
-    text = window.getSelection().toString();
-  } else if (document.selection && document.selection.type != "Control") {
-    text = document.selection.createRange().text;
-  }
-  if (text.length) return;
-  
-  var verse = "";
-  
-  var iterations = 0;
-  var target = $(event.target);
-  var tagName = target.prop("tagName");
-  if (tagName == "P") target = $ (target.children ().last ());
-  while ((iterations < 10) && (!target.hasClass ("i-v"))) {
-    var previous = $(target.prev ());
-    if (previous.length == 0) {
-      target = $ (target.parent ().prev ());
-      target = $ (target.children ().last ());
-    } else {
-      target = previous;
-    }
-    iterations++;
-  }
-                                          
-  // Too many iterations: Undefined location.
-  if (iterations >= 10) return
-  
-  if (target.length == 0) verse = "0";
-  
-  if (target.hasClass ("i-v")) {
-    verse = target[0].innerText;
-  }
-
-  $.ajax ({
-    url: "verse",
-    type: "GET",
-    data: { verse: verse },
-    cache: false
-  });
 }
 
 

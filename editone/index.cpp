@@ -39,6 +39,7 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
+#include <editone2/index.h>
 
 
 string editone_index_url ()
@@ -56,95 +57,99 @@ bool editone_index_acl (void * webserver_request)
 }
 
 
-string editone_index (void * webserver_request)
+string editone_index (void * webserver_request) // Todo redirect.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
-  bool touch = request->session_logic ()->touchEnabled ();
-  
-  if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
-    int switchbook = convert_to_int (request->query ["switchbook"]);
-    int switchchapter = convert_to_int (request->query ["switchchapter"]);
-    Ipc_Focus::set (request, switchbook, switchchapter, 1);
-    Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
-  }
-  
-  string page;
-  
-  Assets_Header header = Assets_Header (translate("Edit verse"), request);
-  header.setNavigator ();
-  header.setEditorStylesheet ();
-  if (touch) header.jQueryTouchOn ();
-  header.notifItOn ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  page = header.run ();
-  
-  Assets_View view;
-  
-  if (request->query.count ("changebible")) {
-    string changebible = request->query ["changebible"];
-    if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
-      vector <string> bibles = access_bible_bibles (request);
-      for (auto bible : bibles) {
-        dialog_list.add_row (bible, "changebible", bible);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      request->database_config_user()->setBible (changebible);
-    }
-  }
-  
-  // Get active Bible, and check read access to it.
-  // If needed, change Bible to one it has read access to.
-  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
-  view.set_variable ("bible", bible);
-  
-  // Store the active Bible in the page's javascript.
-  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
-  
-  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
-  string script =
-  "var oneverseEditorVerseLoaded = '" + locale_logic_text_loaded () + "';\n"
-  "var oneverseEditorWillSave = '" + locale_logic_text_will_save () + "';\n"
-  "var oneverseEditorVerseSaving = '" + locale_logic_text_saving () + "';\n"
-  "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"
-  "var oneverseEditorVerseRetrying = '" + locale_logic_text_retrying () + "';\n"
-  "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
-  "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
-  config_logic_swipe_enabled (webserver_request, script);
-  view.set_variable ("script", script);
+  redirect_browser (request, editone2_index_url ());
 
-  string cls = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::getTextFont (bible);
-  int direction = Database_Config_Bible::getTextDirection (bible);
-  int lineheight = Database_Config_Bible::getLineHeight (bible);
-  int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
-  view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_Css::getCss (cls,
-                                                       Fonts_Logic::getFontPath (font),
-                                                       direction,
-                                                       lineheight,
-                                                       letterspacing));
-  
-  // Whether to enable fast Bible editor switching.
-  if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
-    view.enable_zone ("fastswitcheditor");
-  }
-  
-  // Whether to enable the styles button.
-  if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
-    view.enable_zone ("stylesbutton");
-  }
-  
-  page += view.render ("editone", "index");
-  
-  page += Assets_Page::footer ();
-  
-  return page;
+  return "";
+
+//  bool touch = request->session_logic ()->touchEnabled ();
+//
+//  if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
+//    int switchbook = convert_to_int (request->query ["switchbook"]);
+//    int switchchapter = convert_to_int (request->query ["switchchapter"]);
+//    Ipc_Focus::set (request, switchbook, switchchapter, 1);
+//    Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
+//  }
+//
+//  string page;
+//
+//  Assets_Header header = Assets_Header (translate("Edit verse"), request);
+//  header.setNavigator ();
+//  header.setEditorStylesheet ();
+//  if (touch) header.jQueryTouchOn ();
+//  header.notifItOn ();
+//  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+//  page = header.run ();
+//
+//  Assets_View view;
+//
+//  if (request->query.count ("changebible")) {
+//    string changebible = request->query ["changebible"];
+//    if (changebible == "") {
+//      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
+//      vector <string> bibles = access_bible_bibles (request);
+//      for (auto bible : bibles) {
+//        dialog_list.add_row (bible, "changebible", bible);
+//      }
+//      page += dialog_list.run ();
+//      return page;
+//    } else {
+//      request->database_config_user()->setBible (changebible);
+//    }
+//  }
+//
+//  // Get active Bible, and check read access to it.
+//  // If needed, change Bible to one it has read access to.
+//  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+//  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
+//  view.set_variable ("bible", bible);
+//
+//  // Store the active Bible in the page's javascript.
+//  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+//
+//  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
+//  string script =
+//  "var oneverseEditorVerseLoaded = '" + locale_logic_text_loaded () + "';\n"
+//  "var oneverseEditorWillSave = '" + locale_logic_text_will_save () + "';\n"
+//  "var oneverseEditorVerseSaving = '" + locale_logic_text_saving () + "';\n"
+//  "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"
+//  "var oneverseEditorVerseRetrying = '" + locale_logic_text_retrying () + "';\n"
+//  "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
+//  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
+//  "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
+//  config_logic_swipe_enabled (webserver_request, script);
+//  view.set_variable ("script", script);
+//
+//  string cls = Filter_Css::getClass (bible);
+//  string font = Fonts_Logic::getTextFont (bible);
+//  int direction = Database_Config_Bible::getTextDirection (bible);
+//  int lineheight = Database_Config_Bible::getLineHeight (bible);
+//  int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+//  view.set_variable ("custom_class", cls);
+//  view.set_variable ("custom_css", Filter_Css::getCss (cls,
+//                                                       Fonts_Logic::getFontPath (font),
+//                                                       direction,
+//                                                       lineheight,
+//                                                       letterspacing));
+//
+//  // Whether to enable fast Bible editor switching.
+//  if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
+//    view.enable_zone ("fastswitcheditor");
+//  }
+//
+//  // Whether to enable the styles button.
+//  if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+//    view.enable_zone ("stylesbutton");
+//  }
+//
+//  page += view.render ("editone", "index");
+//
+//  page += Assets_Page::footer ();
+//
+//  return page;
 }
 
 // Tests for the editor:

@@ -210,6 +210,7 @@ libbibledit_a_SOURCES = \
 	editor/usfm2html.cpp \
 	editor/select.cpp \
   editor/html2format.cpp \
+  editor/id.cpp \
 	edit/edit.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
@@ -221,7 +222,6 @@ libbibledit_a_SOURCES = \
 	edit/position.cpp \
 	edit/navigate.cpp \
   edit2/edit.cpp \
-  edit2/id.cpp \
   edit2/index.cpp \
   edit2/load.cpp \
   edit2/save.cpp \

@@ -195,7 +195,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <nmt/index.h>
 #include <edit2/index.h>
 #include <edit2/edit.h>
-#include <edit2/id.h>
+#include <editor/id.h>
 #include <edit2/load.h>
 #include <edit2/save.h>
 #include <edit2/styles.h>
@@ -1164,8 +1164,8 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == edit2_id_url ()) && browser_request_security_okay (request) && edit2_id_acl (request)) {
-    request->reply = edit2_id (request);
+  if ((url == editor_id_url ()) && browser_request_security_okay (request) && editor_id_acl (request)) {
+    request->reply = editor_id (request);
     return;
   }
   

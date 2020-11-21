@@ -555,37 +555,25 @@
 		CA10382B2527A4010021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = html2format.h; sourceTree = "<group>"; };
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA60BEF725337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CA60BEF825337938004D6E06 /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CA60BEF925337938004D6E06 /* preview.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = preview.html; sourceTree = "<group>"; };
 		CA60BEFA25337938004D6E06 /* edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = edit.cpp; sourceTree = "<group>"; };
 		CA60BEFB25337938004D6E06 /* navigate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = navigate.h; sourceTree = "<group>"; };
-		CA60BEFC25337938004D6E06 /* navigate.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = navigate.o; sourceTree = "<group>"; };
-		CA60BEFD25337938004D6E06 /* edit.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = edit.o; sourceTree = "<group>"; };
 		CA60BEFE25337938004D6E06 /* edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = edit.h; sourceTree = "<group>"; };
 		CA60BEFF25337938004D6E06 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA60BF0025337938004D6E06 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
 		CA60BF0125337938004D6E06 /* keys.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = keys.js; sourceTree = "<group>"; };
 		CA60BF0225337938004D6E06 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
-		CA60BF0325337938004D6E06 /* load.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = load.o; sourceTree = "<group>"; };
 		CA60BF0425337938004D6E06 /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
 		CA60BF0525337938004D6E06 /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
-		CA60BF0625337938004D6E06 /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
-		CA60BF0725337938004D6E06 /* save.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = save.o; sourceTree = "<group>"; };
 		CA60BF0825337938004D6E06 /* preview.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = preview.js; sourceTree = "<group>"; };
-		CA60BF0925337938004D6E06 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
-		CA60BF0A25337938004D6E06 /* id.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = id.o; sourceTree = "<group>"; };
 		CA60BF0B25337938004D6E06 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CA60BF0C25337938004D6E06 /* embed.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = embed.js; sourceTree = "<group>"; };
 		CA60BF0D25337938004D6E06 /* styles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = styles.h; sourceTree = "<group>"; };
-		CA60BF0E25337938004D6E06 /* styles.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = styles.o; sourceTree = "<group>"; };
 		CA60BF0F25337938004D6E06 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CA60BF1025337938004D6E06 /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CA60BF1125337938004D6E06 /* styles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = styles.cpp; sourceTree = "<group>"; };
 		CA60BF1225337938004D6E06 /* preview.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = preview.cpp; sourceTree = "<group>"; };
 		CA60BF1325337938004D6E06 /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
 		CA60BF1425337938004D6E06 /* preview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = preview.h; sourceTree = "<group>"; };
-		CA60BF1525337938004D6E06 /* preview.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = preview.o; sourceTree = "<group>"; };
-		CA60BF2225337938004D6E06 /* position.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = position.o; sourceTree = "<group>"; };
 		CA60BF2325337938004D6E06 /* position.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = position.h; sourceTree = "<group>"; };
 		CA60BF2525337938004D6E06 /* navigate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = navigate.cpp; sourceTree = "<group>"; };
 		CA60BF2625337938004D6E06 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -604,6 +592,8 @@
 		CA60BF4225337938004D6E06 /* verse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verse.cpp; sourceTree = "<group>"; };
 		CA60BF4325337938004D6E06 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA60BF4425337938004D6E06 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
+		CAA001932569986E00BCA329 /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
+		CAA001942569986E00BCA329 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
 		CAAA5DB8256555E4003249CA /* paratext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -3466,40 +3456,28 @@
 			children = (
 				CA60BEFA25337938004D6E06 /* edit.cpp */,
 				CA60BEFE25337938004D6E06 /* edit.h */,
-				CA60BEFD25337938004D6E06 /* edit.o */,
 				CA60BF0C25337938004D6E06 /* embed.js */,
-				CA60BF0625337938004D6E06 /* id.cpp */,
-				CA60BF0925337938004D6E06 /* id.h */,
-				CA60BF0A25337938004D6E06 /* id.o */,
 				CA60BF2625337938004D6E06 /* index.cpp */,
 				CA60BEF725337938004D6E06 /* index.h */,
 				CA60BEFF25337938004D6E06 /* index.html */,
 				CA60BF0B25337938004D6E06 /* index.js */,
-				CA60BEF825337938004D6E06 /* index.o */,
 				CA60BF0125337938004D6E06 /* keys.js */,
 				CA60BF1325337938004D6E06 /* load.cpp */,
 				CA60BF0425337938004D6E06 /* load.h */,
-				CA60BF0325337938004D6E06 /* load.o */,
 				CA60BF0225337938004D6E06 /* logic.cpp */,
 				CA60BF0F25337938004D6E06 /* logic.h */,
-				CA60BF1025337938004D6E06 /* logic.o */,
 				CA60BF2525337938004D6E06 /* navigate.cpp */,
 				CA60BEFB25337938004D6E06 /* navigate.h */,
-				CA60BEFC25337938004D6E06 /* navigate.o */,
 				CA60BF2725337938004D6E06 /* position.cpp */,
 				CA60BF2325337938004D6E06 /* position.h */,
-				CA60BF2225337938004D6E06 /* position.o */,
 				CA60BF1225337938004D6E06 /* preview.cpp */,
 				CA60BF1425337938004D6E06 /* preview.h */,
 				CA60BEF925337938004D6E06 /* preview.html */,
 				CA60BF0825337938004D6E06 /* preview.js */,
-				CA60BF1525337938004D6E06 /* preview.o */,
 				CA60BF0025337938004D6E06 /* save.cpp */,
 				CA60BF0525337938004D6E06 /* save.h */,
-				CA60BF0725337938004D6E06 /* save.o */,
 				CA60BF1125337938004D6E06 /* styles.cpp */,
 				CA60BF0D25337938004D6E06 /* styles.h */,
-				CA60BF0E25337938004D6E06 /* styles.o */,
 			);
 			path = edit2;
 			sourceTree = "<group>";
@@ -4251,6 +4229,8 @@
 				CA10382825279F940021AF25 /* html2format.h */,
 				CADE3A0724F17423003165BB /* html2usfm.cpp */,
 				CADE3A0C24F17423003165BB /* html2usfm.h */,
+				CAA001932569986E00BCA329 /* id.cpp */,
+				CAA001942569986E00BCA329 /* id.h */,
 				CADE3A0424F17423003165BB /* select.cpp */,
 				CADE3A1724F17423003165BB /* select.h */,
 				CADE3A0324F17423003165BB /* select.html */,

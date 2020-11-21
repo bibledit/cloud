@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDIT2_ID_H
-#define INCLUDED_EDIT2_ID_H
+#ifndef INCLUDED_EDITOR_ID_H
+#define INCLUDED_EDITOR_ID_H
 
 
 #include <config/libraries.h>
 
 
-string edit2_id_url ();
-bool edit2_id_acl (void * webserver_request);
-string edit2_id (void * webserver_request);
+string editor_id_url ();
+bool editor_id_acl (void * webserver_request);
+string editor_id (void * webserver_request);
 
 
 #endif

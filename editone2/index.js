@@ -420,7 +420,7 @@ function oneverseEditorPollId ()
 {
   oneverseAjaxActive = true;
   oneverseIdAjaxRequest = $.ajax ({
-    url: "../edit2/id",
+    url: "../editor/id",
     type: "GET",
     data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter },
     cache: false,

@@ -85,7 +85,7 @@ function previewIdPollerTimeoutStart ()
 function editorEditorPollId ()
 {
   $.ajax ({
-    url: "../edit2/id",
+    url: "../editor/id",
     type: "GET",
     data: { bible: previewLoadedBible, book: previewLoadedBook, chapter: previewLoadedChapter },
     success: function (response) {

@@ -17,7 +17,7 @@
  */
 
 
-#include <edit2/styles.h>
+#include <editor/style.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -26,13 +26,13 @@
 #include <access/bible.h>
 
 
-string edit2_styles_url ()
+string editor_style_url ()
 {
-  return "edit2/styles";
+  return "editor/style";
 }
 
 
-bool edit2_styles_acl (void * webserver_request)
+bool editor_style_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -41,7 +41,7 @@ bool edit2_styles_acl (void * webserver_request)
 }
 
 
-string edit2_styles (void * webserver_request)
+string editor_style (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

@@ -512,7 +512,7 @@ function oneverseStylesButtonHandler ()
 {
   if (!oneverseEditorWriteAccess) return;
   $.ajax ({
-    url: "../edit2/styles",
+    url: "../editor/style",
     type: "GET",
     cache: false,
     success: function (response) {
@@ -584,7 +584,7 @@ function oneverseDynamicClickHandlers ()
 function oneverseRequestStyle (style)
 {
   $.ajax ({
-    url: "../edit2/styles",
+    url: "../editor/style",
     type: "GET",
     data: { style: style },
     cache: false,
@@ -609,7 +609,7 @@ function oneverseRequestStyle (style)
 function oneverseDisplayAllStyles ()
 {
   $.ajax ({
-    url: "../edit2/styles",
+    url: "../editor/style",
     type: "GET",
     data: { all: "" },
     cache: false,

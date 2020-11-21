@@ -211,6 +211,7 @@ libbibledit_a_SOURCES = \
 	editor/select.cpp \
   editor/html2format.cpp \
   editor/id.cpp \
+  editor/style.cpp \
 	edit/edit.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
@@ -225,7 +226,6 @@ libbibledit_a_SOURCES = \
   edit2/index.cpp \
   edit2/load.cpp \
   edit2/save.cpp \
-  edit2/styles.cpp \
   edit2/logic.cpp \
   edit2/preview.cpp \
   edit2/position.cpp \

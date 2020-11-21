@@ -218,13 +218,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
 	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
 	editor/html2format.$(OBJEXT) editor/id.$(OBJEXT) \
-	edit/edit.$(OBJEXT) edit/id.$(OBJEXT) edit/index.$(OBJEXT) \
-	edit/load.$(OBJEXT) edit/save.$(OBJEXT) edit/styles.$(OBJEXT) \
-	edit/logic.$(OBJEXT) edit/preview.$(OBJEXT) \
-	edit/position.$(OBJEXT) edit/navigate.$(OBJEXT) \
-	edit2/edit.$(OBJEXT) edit2/index.$(OBJEXT) \
-	edit2/load.$(OBJEXT) edit2/save.$(OBJEXT) \
-	edit2/styles.$(OBJEXT) edit2/logic.$(OBJEXT) \
+	editor/style.$(OBJEXT) edit/edit.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
+	edit/navigate.$(OBJEXT) edit2/edit.$(OBJEXT) \
+	edit2/index.$(OBJEXT) edit2/load.$(OBJEXT) \
+	edit2/save.$(OBJEXT) edit2/logic.$(OBJEXT) \
 	edit2/preview.$(OBJEXT) edit2/position.$(OBJEXT) \
 	edit2/navigate.$(OBJEXT) search/all.$(OBJEXT) \
 	search/index.$(OBJEXT) search/replace.$(OBJEXT) \
@@ -482,14 +482,14 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	edit2/$(DEPDIR)/load.Po edit2/$(DEPDIR)/logic.Po \
 	edit2/$(DEPDIR)/navigate.Po edit2/$(DEPDIR)/position.Po \
 	edit2/$(DEPDIR)/preview.Po edit2/$(DEPDIR)/save.Po \
-	edit2/$(DEPDIR)/styles.Po editone/$(DEPDIR)/index.Po \
-	editone/$(DEPDIR)/load.Po editone/$(DEPDIR)/logic.Po \
-	editone/$(DEPDIR)/save.Po editone/$(DEPDIR)/verse.Po \
-	editone2/$(DEPDIR)/index.Po editone2/$(DEPDIR)/load.Po \
-	editone2/$(DEPDIR)/logic.Po editone2/$(DEPDIR)/save.Po \
-	editone2/$(DEPDIR)/update.Po editone2/$(DEPDIR)/verse.Po \
-	editor/$(DEPDIR)/html2format.Po editor/$(DEPDIR)/html2usfm.Po \
-	editor/$(DEPDIR)/id.Po editor/$(DEPDIR)/select.Po \
+	editone/$(DEPDIR)/index.Po editone/$(DEPDIR)/load.Po \
+	editone/$(DEPDIR)/logic.Po editone/$(DEPDIR)/save.Po \
+	editone/$(DEPDIR)/verse.Po editone2/$(DEPDIR)/index.Po \
+	editone2/$(DEPDIR)/load.Po editone2/$(DEPDIR)/logic.Po \
+	editone2/$(DEPDIR)/save.Po editone2/$(DEPDIR)/update.Po \
+	editone2/$(DEPDIR)/verse.Po editor/$(DEPDIR)/html2format.Po \
+	editor/$(DEPDIR)/html2usfm.Po editor/$(DEPDIR)/id.Po \
+	editor/$(DEPDIR)/select.Po editor/$(DEPDIR)/style.Po \
 	editor/$(DEPDIR)/styles.Po editor/$(DEPDIR)/usfm2html.Po \
 	editusfm/$(DEPDIR)/focus.Po editusfm/$(DEPDIR)/index.Po \
 	editusfm/$(DEPDIR)/load.Po editusfm/$(DEPDIR)/offset.Po \
@@ -1139,6 +1139,7 @@ libbibledit_a_SOURCES = \
 	editor/select.cpp \
   editor/html2format.cpp \
   editor/id.cpp \
+  editor/style.cpp \
 	edit/edit.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
@@ -1153,7 +1154,6 @@ libbibledit_a_SOURCES = \
   edit2/index.cpp \
   edit2/load.cpp \
   edit2/save.cpp \
-  edit2/styles.cpp \
   edit2/logic.cpp \
   edit2/preview.cpp \
   edit2/position.cpp \
@@ -2290,6 +2290,8 @@ editor/html2format.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
 editor/id.$(OBJEXT): editor/$(am__dirstamp) \
 	editor/$(DEPDIR)/$(am__dirstamp)
+editor/style.$(OBJEXT): editor/$(am__dirstamp) \
+	editor/$(DEPDIR)/$(am__dirstamp)
 edit/$(am__dirstamp):
 	@$(MKDIR_P) edit
 	@: > edit/$(am__dirstamp)
@@ -2328,8 +2330,6 @@ edit2/index.$(OBJEXT): edit2/$(am__dirstamp) \
 edit2/load.$(OBJEXT): edit2/$(am__dirstamp) \
 	edit2/$(DEPDIR)/$(am__dirstamp)
 edit2/save.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/styles.$(OBJEXT): edit2/$(am__dirstamp) \
 	edit2/$(DEPDIR)/$(am__dirstamp)
 edit2/logic.$(OBJEXT): edit2/$(am__dirstamp) \
 	edit2/$(DEPDIR)/$(am__dirstamp)
@@ -3403,7 +3403,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/position.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/preview.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/save.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
@@ -3419,6 +3418,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/html2usfm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/id.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/select.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/style.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editor/$(DEPDIR)/usfm2html.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editusfm/$(DEPDIR)/focus.Po@am__quote@ # am--include-marker
@@ -4475,7 +4475,6 @@ distclean: distclean-am
 	-rm -f edit2/$(DEPDIR)/position.Po
 	-rm -f edit2/$(DEPDIR)/preview.Po
 	-rm -f edit2/$(DEPDIR)/save.Po
-	-rm -f edit2/$(DEPDIR)/styles.Po
 	-rm -f editone/$(DEPDIR)/index.Po
 	-rm -f editone/$(DEPDIR)/load.Po
 	-rm -f editone/$(DEPDIR)/logic.Po
@@ -4491,6 +4490,7 @@ distclean: distclean-am
 	-rm -f editor/$(DEPDIR)/html2usfm.Po
 	-rm -f editor/$(DEPDIR)/id.Po
 	-rm -f editor/$(DEPDIR)/select.Po
+	-rm -f editor/$(DEPDIR)/style.Po
 	-rm -f editor/$(DEPDIR)/styles.Po
 	-rm -f editor/$(DEPDIR)/usfm2html.Po
 	-rm -f editusfm/$(DEPDIR)/focus.Po
@@ -5060,7 +5060,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f edit2/$(DEPDIR)/position.Po
 	-rm -f edit2/$(DEPDIR)/preview.Po
 	-rm -f edit2/$(DEPDIR)/save.Po
-	-rm -f edit2/$(DEPDIR)/styles.Po
 	-rm -f editone/$(DEPDIR)/index.Po
 	-rm -f editone/$(DEPDIR)/load.Po
 	-rm -f editone/$(DEPDIR)/logic.Po
@@ -5076,6 +5075,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f editor/$(DEPDIR)/html2usfm.Po
 	-rm -f editor/$(DEPDIR)/id.Po
 	-rm -f editor/$(DEPDIR)/select.Po
+	-rm -f editor/$(DEPDIR)/style.Po
 	-rm -f editor/$(DEPDIR)/styles.Po
 	-rm -f editor/$(DEPDIR)/usfm2html.Po
 	-rm -f editusfm/$(DEPDIR)/focus.Po

@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDIT2_STYLES_H
-#define INCLUDED_EDIT2_STYLES_H
+#ifndef INCLUDED_EDITOR_STYLE_H
+#define INCLUDED_EDITOR_STYLE_H
 
 
 #include <config/libraries.h>
 
 
-string edit2_styles_url ();
-bool edit2_styles_acl (void * webserver_request);
-string edit2_styles (void * webserver_request);
+string editor_style_url ();
+bool editor_style_acl (void * webserver_request);
+string editor_style (void * webserver_request);
 
 
 #endif

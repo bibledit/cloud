@@ -406,7 +406,7 @@ function editorEditorPollId ()
   editorIdPollerTimeoutStop ();
 
   editorChapterIdAjaxRequest = $.ajax ({
-    url: "id",
+    url: "../editor/id",
     type: "GET",
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter },
     success: function (response) {
@@ -732,7 +732,7 @@ function editorStylesButtonHandler ()
 {
   if (!editorWriteAccess) return;
   $.ajax ({
-    url: "styles",
+    url: "../editor/style",
     type: "GET",
     cache: false,
     success: function (response) {
@@ -806,7 +806,7 @@ function dynamicClickHandlers ()
 function requestStyle (style)
 {
   $.ajax ({
-    url: "styles",
+    url: "../editor/style",
     type: "GET",
     data: { style: style },
     cache: false,
@@ -833,7 +833,7 @@ function requestStyle (style)
 function displayAllStyles ()
 {
   $.ajax ({
-    url: "styles",
+    url: "../editor/style",
     type: "GET",
     data: { all: "" },
     cache: false,

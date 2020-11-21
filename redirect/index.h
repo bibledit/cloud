@@ -25,7 +25,7 @@
 
 
 string editone_index_url ();
-bool editone_index_acl (void * webserver_request);
+bool editone_index_acl ();
 string editone_index (void * webserver_request);
 
 

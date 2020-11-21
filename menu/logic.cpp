@@ -34,7 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/userresources.h>
 #include <developer/index.h>
 #include <edit/index.h>
-#include <editone/index.h>
+#include <editone2/index.h>
+#include <redirect/index.h>
 #include <editusfm/index.h>
 #include <email/index.h>
 #include <filter/string.h>
@@ -264,7 +265,7 @@ string menu_logic_basic_categories (void * webserver_request)
 
   vector <string> html;
   
-  if (editone_index_acl (webserver_request)) {
+  if (editone2_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (editone_index_url (), translate ("Translation"), true));
   }
   
@@ -354,7 +355,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   }
 
   // Visual verse editor.
-  if (editone_index_acl (webserver_request)) {
+  if (editone2_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (true, false);
     html.push_back (menu_logic_create_item (editone_index_url (), label, true));
     labels.push_back (label);

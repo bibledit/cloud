@@ -34,7 +34,7 @@
 #include <styles/sheets.h>
 #include <locale/logic.h>
 #include <bb/logic.h>
-#include <editone/index.h>
+#include <redirect/index.h>
 #include <editusfm/index.h>
 #include <resource/index.h>
 #include <resource/external.h>

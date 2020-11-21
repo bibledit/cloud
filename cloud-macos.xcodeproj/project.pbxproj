@@ -128,7 +128,6 @@
 		CADE45B924F174DF003165BB /* navigate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE39EA24F17423003165BB /* navigate.cpp */; };
 		CADE45BA24F174DF003165BB /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE39EB24F17423003165BB /* index.cpp */; };
 		CADE45BB24F174DF003165BB /* position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE39EC24F17423003165BB /* position.cpp */; };
-		CADE45C024F174E0003165BB /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE3A8C24F17424003165BB /* index.cpp */; };
 		CADE45C124F174E0003165BB /* select.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE3A0424F17423003165BB /* select.cpp */; };
 		CADE45C224F174E0003165BB /* html2usfm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE3A0724F17423003165BB /* html2usfm.cpp */; };
 		CADE45C324F174E0003165BB /* styles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE3A0B24F17423003165BB /* styles.cpp */; };
@@ -590,6 +589,8 @@
 		CAA001942569986E00BCA329 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
 		CAA0019525699DC300BCA329 /* style.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = style.h; sourceTree = "<group>"; };
 		CAA0019625699DC400BCA329 /* style.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = style.cpp; sourceTree = "<group>"; };
+		CAA0019F2569B59A00BCA329 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
+		CAA001A12569B59A00BCA329 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAAA5DB8256555E4003249CA /* paratext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -1180,8 +1181,6 @@
 		CADE3A6724F17424003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE3A6A24F17424003165BB /* poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poll.h; sourceTree = "<group>"; };
 		CADE3A7224F17424003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CADE3A7424F17424003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CADE3A8C24F17424003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE3A8E24F17424003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3A8F24F17424003165BB /* SIL-Licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-Licenses.txt"; sourceTree = "<group>"; };
 		CADE3A9024F17424003165BB /* SIL-README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-README.txt"; sourceTree = "<group>"; };
@@ -3339,7 +3338,6 @@
 				CADE3A1924F17423003165BB /* dyncss */,
 				CADE39BB24F17423003165BB /* edit */,
 				CA60BEF625337938004D6E06 /* edit2 */,
-				CADE3A7324F17424003165BB /* editone */,
 				CA60BF2825337938004D6E06 /* editone2 */,
 				CADE3A0224F17423003165BB /* editor */,
 				CADE392524F17422003165BB /* editusfm */,
@@ -3395,6 +3393,7 @@
 				CADE3F7C24F17488003165BB /* pugixml */,
 				CADE3F8A24F17488003165BB /* quill */,
 				CADE3FA524F17488003165BB /* rangy13 */,
+				CAA0019E2569B59A00BCA329 /* redirect */,
 				CADE406724F17496003165BB /* related */,
 				CADE3FBE24F17495003165BB /* resource */,
 				CADE406524F17496003165BB /* revisions */,
@@ -3485,6 +3484,15 @@
 				CA60BF3F25337938004D6E06 /* verse.h */,
 			);
 			path = editone2;
+			sourceTree = "<group>";
+		};
+		CAA0019E2569B59A00BCA329 /* redirect */ = {
+			isa = PBXGroup;
+			children = (
+				CAA0019F2569B59A00BCA329 /* index.h */,
+				CAA001A12569B59A00BCA329 /* index.cpp */,
+			);
+			path = redirect;
 			sourceTree = "<group>";
 		};
 		CADE36FD24F1737A003165BB /* access */ = {
@@ -4357,15 +4365,6 @@
 				CADE3A6A24F17424003165BB /* poll.h */,
 			);
 			path = consistency;
-			sourceTree = "<group>";
-		};
-		CADE3A7324F17424003165BB /* editone */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3A8C24F17424003165BB /* index.cpp */,
-				CADE3A7424F17424003165BB /* index.h */,
-			);
-			path = editone;
 			sourceTree = "<group>";
 		};
 		CADE3A8D24F17424003165BB /* fonts */ = {
@@ -7913,7 +7912,6 @@
 				CADE45B924F174DF003165BB /* navigate.cpp in Sources */,
 				CADE45BA24F174DF003165BB /* index.cpp in Sources */,
 				CADE45BB24F174DF003165BB /* position.cpp in Sources */,
-				CADE45C024F174E0003165BB /* index.cpp in Sources */,
 				CADE45C124F174E0003165BB /* select.cpp in Sources */,
 				CADE45C224F174E0003165BB /* html2usfm.cpp in Sources */,
 				CADE45C324F174E0003165BB /* styles.cpp in Sources */,

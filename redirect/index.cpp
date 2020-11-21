@@ -17,7 +17,7 @@
  */
 
 
-#include <editone/index.h>
+#include <redirect/index.h>
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <editone2/index.h>
@@ -29,7 +29,7 @@ string editone_index_url ()
 }
 
 
-bool editone_index_acl (void * webserver_request)
+bool editone_index_acl ()
 {
   return true;
 }

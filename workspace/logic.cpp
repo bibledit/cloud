@@ -23,7 +23,7 @@
 #include <webserver/request.h>
 #include <edit/index.h>
 #include <edit2/index.h>
-#include <editone/index.h>
+#include <redirect/index.h>
 #include <editone2/index.h>
 #include <editusfm/index.h>
 #include <search/index.h>

@@ -203,7 +203,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
 	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
 	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) editone/index.$(OBJEXT) \
+	jobs/index.$(OBJEXT) redirect/index.$(OBJEXT) \
 	editone2/index.$(OBJEXT) editone2/load.$(OBJEXT) \
 	editone2/save.$(OBJEXT) editone2/verse.$(OBJEXT) \
 	editone2/logic.$(OBJEXT) editone2/update.$(OBJEXT) \
@@ -480,18 +480,18 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	edit2/$(DEPDIR)/load.Po edit2/$(DEPDIR)/logic.Po \
 	edit2/$(DEPDIR)/navigate.Po edit2/$(DEPDIR)/position.Po \
 	edit2/$(DEPDIR)/preview.Po edit2/$(DEPDIR)/save.Po \
-	editone/$(DEPDIR)/index.Po editone2/$(DEPDIR)/index.Po \
-	editone2/$(DEPDIR)/load.Po editone2/$(DEPDIR)/logic.Po \
-	editone2/$(DEPDIR)/save.Po editone2/$(DEPDIR)/update.Po \
-	editone2/$(DEPDIR)/verse.Po editor/$(DEPDIR)/html2format.Po \
-	editor/$(DEPDIR)/html2usfm.Po editor/$(DEPDIR)/id.Po \
-	editor/$(DEPDIR)/select.Po editor/$(DEPDIR)/style.Po \
-	editor/$(DEPDIR)/styles.Po editor/$(DEPDIR)/usfm2html.Po \
-	editusfm/$(DEPDIR)/focus.Po editusfm/$(DEPDIR)/index.Po \
-	editusfm/$(DEPDIR)/load.Po editusfm/$(DEPDIR)/offset.Po \
-	editusfm/$(DEPDIR)/save.Po email/$(DEPDIR)/index.Po \
-	email/$(DEPDIR)/receive.Po email/$(DEPDIR)/send.Po \
-	esword/$(DEPDIR)/text.Po executable/$(DEPDIR)/bibledit.Po \
+	editone2/$(DEPDIR)/index.Po editone2/$(DEPDIR)/load.Po \
+	editone2/$(DEPDIR)/logic.Po editone2/$(DEPDIR)/save.Po \
+	editone2/$(DEPDIR)/update.Po editone2/$(DEPDIR)/verse.Po \
+	editor/$(DEPDIR)/html2format.Po editor/$(DEPDIR)/html2usfm.Po \
+	editor/$(DEPDIR)/id.Po editor/$(DEPDIR)/select.Po \
+	editor/$(DEPDIR)/style.Po editor/$(DEPDIR)/styles.Po \
+	editor/$(DEPDIR)/usfm2html.Po editusfm/$(DEPDIR)/focus.Po \
+	editusfm/$(DEPDIR)/index.Po editusfm/$(DEPDIR)/load.Po \
+	editusfm/$(DEPDIR)/offset.Po editusfm/$(DEPDIR)/save.Po \
+	email/$(DEPDIR)/index.Po email/$(DEPDIR)/receive.Po \
+	email/$(DEPDIR)/send.Po esword/$(DEPDIR)/text.Po \
+	executable/$(DEPDIR)/bibledit.Po \
 	executable/$(DEPDIR)/generate.Po \
 	export/$(DEPDIR)/bibledropbox.Po export/$(DEPDIR)/esword.Po \
 	export/$(DEPDIR)/html.Po export/$(DEPDIR)/index.Po \
@@ -590,8 +590,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	public/$(DEPDIR)/login.Po public/$(DEPDIR)/new.Po \
 	public/$(DEPDIR)/note.Po public/$(DEPDIR)/notes.Po \
 	pugixml/$(DEPDIR)/pugixml.Po pugixml/$(DEPDIR)/utils.Po \
-	quill/$(DEPDIR)/logic.Po related/$(DEPDIR)/logic.Po \
-	resource/$(DEPDIR)/bb2resource.Po \
+	quill/$(DEPDIR)/logic.Po redirect/$(DEPDIR)/index.Po \
+	related/$(DEPDIR)/logic.Po resource/$(DEPDIR)/bb2resource.Po \
 	resource/$(DEPDIR)/bbgateway.Po resource/$(DEPDIR)/cache.Po \
 	resource/$(DEPDIR)/convert2bible.Po \
 	resource/$(DEPDIR)/convert2resource.Po \
@@ -1106,7 +1106,7 @@ libbibledit_a_SOURCES = \
 	compare/index.cpp \
 	compare/compare.cpp \
 	jobs/index.cpp \
-	editone/index.cpp \
+	redirect/index.cpp \
   editone2/index.cpp \
   editone2/load.cpp \
   editone2/save.cpp \
@@ -2184,14 +2184,14 @@ jobs/$(DEPDIR)/$(am__dirstamp):
 	@: > jobs/$(DEPDIR)/$(am__dirstamp)
 jobs/index.$(OBJEXT): jobs/$(am__dirstamp) \
 	jobs/$(DEPDIR)/$(am__dirstamp)
-editone/$(am__dirstamp):
-	@$(MKDIR_P) editone
-	@: > editone/$(am__dirstamp)
-editone/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) editone/$(DEPDIR)
-	@: > editone/$(DEPDIR)/$(am__dirstamp)
-editone/index.$(OBJEXT): editone/$(am__dirstamp) \
-	editone/$(DEPDIR)/$(am__dirstamp)
+redirect/$(am__dirstamp):
+	@$(MKDIR_P) redirect
+	@: > redirect/$(am__dirstamp)
+redirect/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) redirect/$(DEPDIR)
+	@: > redirect/$(DEPDIR)/$(am__dirstamp)
+redirect/index.$(OBJEXT): redirect/$(am__dirstamp) \
+	redirect/$(DEPDIR)/$(am__dirstamp)
 editone2/$(am__dirstamp):
 	@$(MKDIR_P) editone2
 	@: > editone2/$(am__dirstamp)
@@ -3191,7 +3191,6 @@ mostlyclean-compile:
 	-rm -f dialog/*.$(OBJEXT)
 	-rm -f edit/*.$(OBJEXT)
 	-rm -f edit2/*.$(OBJEXT)
-	-rm -f editone/*.$(OBJEXT)
 	-rm -f editone2/*.$(OBJEXT)
 	-rm -f editor/*.$(OBJEXT)
 	-rm -f editusfm/*.$(OBJEXT)
@@ -3230,6 +3229,7 @@ mostlyclean-compile:
 	-rm -f public/*.$(OBJEXT)
 	-rm -f pugixml/*.$(OBJEXT)
 	-rm -f quill/*.$(OBJEXT)
+	-rm -f redirect/*.$(OBJEXT)
 	-rm -f related/*.$(OBJEXT)
 	-rm -f resource/*.$(OBJEXT)
 	-rm -f rss/*.$(OBJEXT)
@@ -3387,7 +3387,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/position.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/preview.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/save.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
@@ -3597,6 +3596,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/pugixml.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@quill/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@redirect/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@related/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bb2resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bbgateway.Po@am__quote@ # am--include-marker
@@ -4186,8 +4186,6 @@ distclean-generic:
 	-rm -f edit/$(am__dirstamp)
 	-rm -f edit2/$(DEPDIR)/$(am__dirstamp)
 	-rm -f edit2/$(am__dirstamp)
-	-rm -f editone/$(DEPDIR)/$(am__dirstamp)
-	-rm -f editone/$(am__dirstamp)
 	-rm -f editone2/$(DEPDIR)/$(am__dirstamp)
 	-rm -f editone2/$(am__dirstamp)
 	-rm -f editor/$(DEPDIR)/$(am__dirstamp)
@@ -4264,6 +4262,8 @@ distclean-generic:
 	-rm -f pugixml/$(am__dirstamp)
 	-rm -f quill/$(DEPDIR)/$(am__dirstamp)
 	-rm -f quill/$(am__dirstamp)
+	-rm -f redirect/$(DEPDIR)/$(am__dirstamp)
+	-rm -f redirect/$(am__dirstamp)
 	-rm -f related/$(DEPDIR)/$(am__dirstamp)
 	-rm -f related/$(am__dirstamp)
 	-rm -f resource/$(DEPDIR)/$(am__dirstamp)
@@ -4455,7 +4455,6 @@ distclean: distclean-am
 	-rm -f edit2/$(DEPDIR)/position.Po
 	-rm -f edit2/$(DEPDIR)/preview.Po
 	-rm -f edit2/$(DEPDIR)/save.Po
-	-rm -f editone/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/load.Po
 	-rm -f editone2/$(DEPDIR)/logic.Po
@@ -4665,6 +4664,7 @@ distclean: distclean-am
 	-rm -f pugixml/$(DEPDIR)/pugixml.Po
 	-rm -f pugixml/$(DEPDIR)/utils.Po
 	-rm -f quill/$(DEPDIR)/logic.Po
+	-rm -f redirect/$(DEPDIR)/index.Po
 	-rm -f related/$(DEPDIR)/logic.Po
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
 	-rm -f resource/$(DEPDIR)/bbgateway.Po
@@ -5036,7 +5036,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f edit2/$(DEPDIR)/position.Po
 	-rm -f edit2/$(DEPDIR)/preview.Po
 	-rm -f edit2/$(DEPDIR)/save.Po
-	-rm -f editone/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/load.Po
 	-rm -f editone2/$(DEPDIR)/logic.Po
@@ -5246,6 +5245,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f pugixml/$(DEPDIR)/pugixml.Po
 	-rm -f pugixml/$(DEPDIR)/utils.Po
 	-rm -f quill/$(DEPDIR)/logic.Po
+	-rm -f redirect/$(DEPDIR)/index.Po
 	-rm -f related/$(DEPDIR)/logic.Po
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
 	-rm -f resource/$(DEPDIR)/bbgateway.Po

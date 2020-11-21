@@ -76,7 +76,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/preview.h>
 #include <edit/position.h>
 #include <edit/navigate.h>
-#include <editone/index.h>
+#include <redirect/index.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -382,7 +382,7 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == editone_index_url ()) && browser_request_security_okay (request) && editone_index_acl (request)) {
+  if ((url == editone_index_url ()) && browser_request_security_okay (request) && editone_index_acl ()) {
     request->reply = editone_index (request);
     return;
   }

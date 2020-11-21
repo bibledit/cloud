@@ -875,7 +875,7 @@ function oneVerseHtmlClicked (event)
   var target = $(event.target);
   var tagName = target.prop("tagName");
   if (tagName == "P") target = $ (target.children ().last ());
-  while ((iterations < 10) && (!target.hasClass ("v"))) {
+  while ((iterations < 10) && (!target.hasClass ("i-v"))) {
     var previous = $(target.prev ());
     if (previous.length == 0) {
       target = $ (target.parent ().prev ());
@@ -891,7 +891,7 @@ function oneVerseHtmlClicked (event)
   
   if (target.length == 0) verse = "0";
   
-  if (target.hasClass ("v")) {
+  if (target.hasClass ("i-v")) {
     verse = target[0].innerText;
   }
 

@@ -236,8 +236,6 @@
 /editone2
 /editone2/index.html
 /editone2/index.js
-/editone/index.html
-/editone/index.js
 /editor
 /editor/select.html
 /editor/select.js

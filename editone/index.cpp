@@ -35,7 +35,7 @@ bool editone_index_acl (void * webserver_request)
 }
 
 
-string editone_index (void * webserver_request) // Todo redirect.
+string editone_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   redirect_browser (request, editone2_index_url ());

@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
-#include <editone/logic.h>
+#include <editone2/logic.h>
 
 
 void test_editone_logic_verse_indicator (int verse)
@@ -45,7 +45,7 @@ void test_editone_logic ()
     string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.usfm"));
     string html;
     string last_paragraph_style;
-    editone_logic_prefix_html (usfm, stylesheet, html, last_paragraph_style);
+    editone2_logic_prefix_html (usfm, stylesheet, html, last_paragraph_style);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "p", last_paragraph_style);
@@ -56,7 +56,7 @@ void test_editone_logic ()
     string usfm = filter_url_file_get_contents (filter_url_create_path (directory, "editone03.usfm"));
     string html;
     string last_paragraph_style;
-    editone_logic_suffix_html ("q1", usfm, stylesheet, html);
+    editone2_logic_suffix_html ("q1", usfm, stylesheet, html);
     string standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone03.html"));
     evaluate (__LINE__, __func__, standard, html);
     evaluate (__LINE__, __func__, "", last_paragraph_style);
@@ -69,7 +69,7 @@ void test_editone_logic ()
     string standard;
     prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone01prefix1.html"));
     suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone01suffix1.html"));
-    editone_logic_move_notes (prefix, suffix);
+    editone2_logic_move_notes (prefix, suffix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone01suffix2.html"));
@@ -83,7 +83,7 @@ void test_editone_logic ()
     string standard;
     prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone02prefix1.html"));
     suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone02suffix1.html"));
-    editone_logic_move_notes (prefix, suffix);
+    editone2_logic_move_notes (prefix, suffix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone02prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone02suffix2.html"));
@@ -97,7 +97,7 @@ void test_editone_logic ()
     string standard;
     prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone03prefix1.html"));
     suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone03suffix1.html"));
-    editone_logic_move_notes (prefix, suffix);
+    editone2_logic_move_notes (prefix, suffix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone03prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone03suffix2.html"));
@@ -111,7 +111,7 @@ void test_editone_logic ()
     string standard;
     prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone04prefix1.html"));
     suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone04suffix1.html"));
-    editone_logic_move_notes (prefix, suffix);
+    editone2_logic_move_notes (prefix, suffix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone04prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone04suffix2.html"));
@@ -125,7 +125,7 @@ void test_editone_logic ()
     string standard;
     prefix = filter_url_file_get_contents (filter_url_create_path (directory, "editone05prefix1.html"));
     suffix = filter_url_file_get_contents (filter_url_create_path (directory, "editone05suffix1.html"));
-    editone_logic_move_notes (prefix, suffix);
+    editone2_logic_move_notes (prefix, suffix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone05prefix2.html"));
     evaluate (__LINE__, __func__, standard, prefix);
     standard = filter_url_file_get_contents (filter_url_create_path (directory, "editone05suffix2.html"));
@@ -166,21 +166,21 @@ void test_editone_logic ()
       // The rendered html of the prefix to the editable verse.
       string prefix_html;
       string not_used;
-      editone_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
+      editone2_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
       reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "prefix.html"));
       evaluation = evaluate (__LINE__, __func__, reference, prefix_html);
       if (!evaluation) test_editone_logic_verse_indicator (verse);
 
       // The rendered html of the editable verse.
       string editable_html;
-      editone_logic_editable_html (editable_usfm, stylesheet, editable_html);
+      editone2_logic_editable_html (editable_usfm, stylesheet, editable_html);
       reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "edit.html"));
       evaluation = evaluate (__LINE__, __func__, reference, editable_html);
       if (!evaluation) test_editone_logic_verse_indicator (verse);
 
       // The html rendering of the suffix of the editable verse.
       string suffix_html;
-      editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
+      editone2_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
       reference = filter_url_file_get_contents (filter_url_create_path (directory, "editone06verse" + number + "suffix.html"));
       evaluation = evaluate (__LINE__, __func__, reference, suffix_html);
       if (!evaluation) test_editone_logic_verse_indicator (verse);

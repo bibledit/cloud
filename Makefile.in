@@ -204,21 +204,21 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
 	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
 	jobs/index.$(OBJEXT) editone/index.$(OBJEXT) \
-	editone/logic.$(OBJEXT) editone2/index.$(OBJEXT) \
-	editone2/load.$(OBJEXT) editone2/save.$(OBJEXT) \
-	editone2/verse.$(OBJEXT) editone2/logic.$(OBJEXT) \
-	editone2/update.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	navigation/paratext.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
-	editor/select.$(OBJEXT) editor/html2format.$(OBJEXT) \
-	editor/id.$(OBJEXT) editor/style.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/id.$(OBJEXT) edit/index.$(OBJEXT) edit/load.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	editone2/index.$(OBJEXT) editone2/load.$(OBJEXT) \
+	editone2/save.$(OBJEXT) editone2/verse.$(OBJEXT) \
+	editone2/logic.$(OBJEXT) editone2/update.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) navigation/paratext.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
+	editor/html2format.$(OBJEXT) editor/id.$(OBJEXT) \
+	editor/style.$(OBJEXT) edit/edit.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
 	edit/navigate.$(OBJEXT) edit2/edit.$(OBJEXT) \
 	edit2/index.$(OBJEXT) edit2/load.$(OBJEXT) \
@@ -480,19 +480,18 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	edit2/$(DEPDIR)/load.Po edit2/$(DEPDIR)/logic.Po \
 	edit2/$(DEPDIR)/navigate.Po edit2/$(DEPDIR)/position.Po \
 	edit2/$(DEPDIR)/preview.Po edit2/$(DEPDIR)/save.Po \
-	editone/$(DEPDIR)/index.Po editone/$(DEPDIR)/logic.Po \
-	editone2/$(DEPDIR)/index.Po editone2/$(DEPDIR)/load.Po \
-	editone2/$(DEPDIR)/logic.Po editone2/$(DEPDIR)/save.Po \
-	editone2/$(DEPDIR)/update.Po editone2/$(DEPDIR)/verse.Po \
-	editor/$(DEPDIR)/html2format.Po editor/$(DEPDIR)/html2usfm.Po \
-	editor/$(DEPDIR)/id.Po editor/$(DEPDIR)/select.Po \
-	editor/$(DEPDIR)/style.Po editor/$(DEPDIR)/styles.Po \
-	editor/$(DEPDIR)/usfm2html.Po editusfm/$(DEPDIR)/focus.Po \
-	editusfm/$(DEPDIR)/index.Po editusfm/$(DEPDIR)/load.Po \
-	editusfm/$(DEPDIR)/offset.Po editusfm/$(DEPDIR)/save.Po \
-	email/$(DEPDIR)/index.Po email/$(DEPDIR)/receive.Po \
-	email/$(DEPDIR)/send.Po esword/$(DEPDIR)/text.Po \
-	executable/$(DEPDIR)/bibledit.Po \
+	editone/$(DEPDIR)/index.Po editone2/$(DEPDIR)/index.Po \
+	editone2/$(DEPDIR)/load.Po editone2/$(DEPDIR)/logic.Po \
+	editone2/$(DEPDIR)/save.Po editone2/$(DEPDIR)/update.Po \
+	editone2/$(DEPDIR)/verse.Po editor/$(DEPDIR)/html2format.Po \
+	editor/$(DEPDIR)/html2usfm.Po editor/$(DEPDIR)/id.Po \
+	editor/$(DEPDIR)/select.Po editor/$(DEPDIR)/style.Po \
+	editor/$(DEPDIR)/styles.Po editor/$(DEPDIR)/usfm2html.Po \
+	editusfm/$(DEPDIR)/focus.Po editusfm/$(DEPDIR)/index.Po \
+	editusfm/$(DEPDIR)/load.Po editusfm/$(DEPDIR)/offset.Po \
+	editusfm/$(DEPDIR)/save.Po email/$(DEPDIR)/index.Po \
+	email/$(DEPDIR)/receive.Po email/$(DEPDIR)/send.Po \
+	esword/$(DEPDIR)/text.Po executable/$(DEPDIR)/bibledit.Po \
 	executable/$(DEPDIR)/generate.Po \
 	export/$(DEPDIR)/bibledropbox.Po export/$(DEPDIR)/esword.Po \
 	export/$(DEPDIR)/html.Po export/$(DEPDIR)/index.Po \
@@ -1108,7 +1107,6 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editone/index.cpp \
-	editone/logic.cpp \
   editone2/index.cpp \
   editone2/load.cpp \
   editone2/save.cpp \
@@ -2193,8 +2191,6 @@ editone/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) editone/$(DEPDIR)
 	@: > editone/$(DEPDIR)/$(am__dirstamp)
 editone/index.$(OBJEXT): editone/$(am__dirstamp) \
-	editone/$(DEPDIR)/$(am__dirstamp)
-editone/logic.$(OBJEXT): editone/$(am__dirstamp) \
 	editone/$(DEPDIR)/$(am__dirstamp)
 editone2/$(am__dirstamp):
 	@$(MKDIR_P) editone2
@@ -3392,7 +3388,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/preview.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/save.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@editone/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
@@ -4461,7 +4456,6 @@ distclean: distclean-am
 	-rm -f edit2/$(DEPDIR)/preview.Po
 	-rm -f edit2/$(DEPDIR)/save.Po
 	-rm -f editone/$(DEPDIR)/index.Po
-	-rm -f editone/$(DEPDIR)/logic.Po
 	-rm -f editone2/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/load.Po
 	-rm -f editone2/$(DEPDIR)/logic.Po
@@ -5043,7 +5037,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f edit2/$(DEPDIR)/preview.Po
 	-rm -f edit2/$(DEPDIR)/save.Po
 	-rm -f editone/$(DEPDIR)/index.Po
-	-rm -f editone/$(DEPDIR)/logic.Po
 	-rm -f editone2/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/load.Po
 	-rm -f editone2/$(DEPDIR)/logic.Po

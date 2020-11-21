@@ -183,7 +183,6 @@ libbibledit_a_SOURCES = \
 	compare/compare.cpp \
 	jobs/index.cpp \
 	editone/index.cpp \
-	editone/logic.cpp \
   editone2/index.cpp \
   editone2/load.cpp \
   editone2/save.cpp \

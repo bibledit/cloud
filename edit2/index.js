@@ -143,10 +143,8 @@ function navigationNewPassage ()
   if ((editorNavigationBook != editorLoadedBook) || (editorNavigationChapter != editorLoadedChapter)) {
     // Fixed: Reload text message when switching to another chapter.
     // https://github.com/bibledit/cloud/issues/408
-    editorSaveDate = new Date(0);
     editorSaveChapter ();
-    editorSaveDate = new Date(0);
-    editorLoadChapter (false);
+    editorLoadChapter (false); // Todo
   } else {
     editorScheduleCaretPositioning ();
   }
@@ -179,8 +177,6 @@ var editorCaretPosition = 0;
 var editorSaveAsync;
 var editorSaving = false;
 var editorWriteAccess = false;
-var editorLoadDate = new Date(0);
-var editorSaveDate = new Date(0);
 
 
 function editorLoadChapter (reload)
@@ -236,14 +232,6 @@ function editorLoadChapter (reload)
           positionCaret (editorCaretPosition);
         }
         editorScheduleCaretPositioning ();
-        // Alert on reloading soon after save, or after text reload.
-        // https://github.com/bibledit/cloud/issues/346
-        editorLoadDate = new Date();
-        var seconds = (editorLoadDate.getTime() - editorSaveDate.getTime()) / 1000;
-        seconds = 2; // Disable timer.
-        if ((seconds < 2) || reload) {
-          //if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
-        }
       } else {
         // Checksum error: Reload.
         editorLoadChapter (false);
@@ -297,12 +285,6 @@ function editorSaveChapter (sync)
       editorIdPollerTimeoutStart ();
       editorSaveAsync = true;
       editorSaving = false;
-      editorSaveDate = new Date();
-      var seconds = (editorSaveDate.getTime() - editorLoadDate.getTime()) / 1000;
-      seconds = 2; // Disable timer.
-      if (seconds < 2) {
-        if (editorWriteAccess) editorReloadAlert (editorChapterVerseUpdatedLoaded);
-      }
     },
   });
 }

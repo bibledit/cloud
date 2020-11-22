@@ -55,29 +55,29 @@ map <int, string> workspace_get_default_urls (int id)
   map <int, string> urls;
   switch (id) {
     case 1:
-      urls [0] = editone_index_url ();
+      urls [0] = editone2_index_url ();
       urls [5] = resource_index_url ();
       break;
     case 2:
-      urls [0] = editone_index_url ();
+      urls [0] = editone2_index_url ();
       urls [1] = notes_index_url ();
       break;
     case 3:
       urls [0] = resource_index_url ();
-      urls [1] = editone_index_url ();
+      urls [1] = editone2_index_url ();
       urls [2] = notes_index_url ();
       break;
     case 4:
-      urls [0] = editone_index_url ();
+      urls [0] = editone2_index_url ();
       urls [1] = consistency_index_url ();
       break;
     case 5:
       urls [0] = resource_index_url ();
-      urls [1] = editone_index_url ();
+      urls [1] = editone2_index_url ();
       urls [5] = editusfm_index_url ();
       break;
     default:
-      urls [0] = editone_index_url ();
+      urls [0] = editone2_index_url ();
       urls [1] = resource_index_url ();
       urls [2] = notes_index_url ();
       urls [3] = search_index_url ();

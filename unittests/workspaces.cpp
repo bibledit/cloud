@@ -49,7 +49,7 @@ void test_workspaces ()
     request.database_config_user()->setActiveWorkspace ("unittest");
     evaluate (__LINE__, __func__, "unittest", workspace_get_active_name (&request));
 
-    map <int, string> standard = { make_pair (0, "editone/index"), make_pair (5, "resource/index")};
+    map <int, string> standard = { make_pair (0, "editone2/index"), make_pair (5, "resource/index")};
     evaluate (__LINE__, __func__, standard, workspace_get_default_urls (1));
 
     {

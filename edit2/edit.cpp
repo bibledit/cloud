@@ -64,5 +64,5 @@ string edit2_edit (void * webserver_request)
   
   
   if (alive) return translate ("The passage has been opened in the existing Bible editor");
-  return "<a href=\"/editone/index\">" + translate ("Open a Bible editor to edit the passage") + "</a>";
+  return "<a href=\"/editone2/index\">" + translate ("Open a Bible editor to edit the passage") + "</a>";
 }

@@ -150,6 +150,7 @@ int main (int argc, char **argv)
   test_diff ();
   test_bibles ();
   test_string ();
+  test_workspaces ();
   refresh_sandbox (true);
   exit (0);
   

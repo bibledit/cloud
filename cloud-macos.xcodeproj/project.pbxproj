@@ -549,6 +549,8 @@
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
 		CA10382B2527A4010021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = html2format.h; sourceTree = "<group>"; };
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA3F5CFC256C435600FE6E67 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
+		CA3F5CFD256C435600FE6E67 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
 		CA60BEF725337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA60BEF925337938004D6E06 /* preview.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = preview.html; sourceTree = "<group>"; };
 		CA60BEFA25337938004D6E06 /* edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = edit.cpp; sourceTree = "<group>"; };
@@ -3435,6 +3437,8 @@
 				CA60BF0825337938004D6E06 /* preview.js */,
 				CA60BF0025337938004D6E06 /* save.cpp */,
 				CA60BF0525337938004D6E06 /* save.h */,
+				CA3F5CFD256C435600FE6E67 /* update.cpp */,
+				CA3F5CFC256C435600FE6E67 /* update.h */,
 			);
 			path = edit2;
 			sourceTree = "<group>";

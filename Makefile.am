@@ -226,6 +226,7 @@ libbibledit_a_SOURCES = \
   edit2/preview.cpp \
   edit2/position.cpp \
   edit2/navigate.cpp \
+  edit2/update.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \

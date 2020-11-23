@@ -315,7 +315,7 @@ var oneverseEditorChangeDeletes = [];
 function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 {
   // Record the change.
-  // It gives 4-byte UTF-16 characters as value "2".
+  // It gives 4-byte UTF-16 characters as lenvth value 2 instead of 1.
   var retain = 0;
   var insert = 0;
   var del = 0;
@@ -428,7 +428,7 @@ function oneverseEditorPollId ()
       if (oneverseChapterId != 0) {
         if (response != oneverseChapterId) {
           // The chapter identifier changed.
-          // That means that ikely there's updated text on the server.
+          // That means that likely there's updated text on the server.
           // Start the routine to load any possible updates into the editor.
           oneverseUpdateTrigger = true;
         }
@@ -939,7 +939,7 @@ function oneverseReloadAlertTimeout ()
 
 Section for the coordinating timer.
 This deals with the various events.
-It monitors the ongoing AJAX actions for editing and saving and loading,
+It monitors the ongoing AJAX actions for loading and updating and saving.
 It decides which action to take.
 It ensures that no two actions overlap or interfere with one another.
 It also handles network latency,
@@ -996,7 +996,7 @@ Section for the smart editor updating logic.
 */
 
 
-var editorHtmlAtStartUpdate = null;
+var editorHtmlAtStartOfUpdate = null;
 var useShadowQuill = false;
 
 
@@ -1021,12 +1021,12 @@ function oneverseUpdateExecute ()
   // A snapshot of the text originally loaded in the editor via AJAX.
   var encodedLoadedHtml = filter_url_plus_to_tag (oneverseLoadedText);
 
-  // A a snapshot of the current editor text at this point of time.
-  editorHtmlAtStartUpdate = $ ("#oneeditor > .ql-editor").html ();
-  var encodedEditedHtml = filter_url_plus_to_tag (editorHtmlAtStartUpdate);
+  // A snapshot of the current editor text at this point of time.
+  editorHtmlAtStartOfUpdate = $ ("#oneeditor > .ql-editor").html ();
+  var encodedEditedHtml = filter_url_plus_to_tag (editorHtmlAtStartOfUpdate);
   
   // The editor "saves..." if there's changes, and "updates..." if there's no changes.
-  if (editorHtmlAtStartUpdate == oneverseLoadedText) {
+  if (editorHtmlAtStartOfUpdate == oneverseLoadedText) {
     oneverseEditorStatus (oneverseEditorVerseUpdating);
   } else {
     oneverseEditorStatus (oneverseEditorVerseSaving);
@@ -1065,7 +1065,7 @@ function oneverseUpdateExecute ()
         // This shadow copy will be updated with the uncorrected changes from the server/device.
         // The html from this editor will then server as the "loaded text".
         useShadowQuill = (oneverseEditorChangeOffsets.length > 0);
-        if (useShadowQuill) startShadowQuill (editorHtmlAtStartUpdate);
+        if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
 
         // Split the response into the separate bits.
         var bits = [];

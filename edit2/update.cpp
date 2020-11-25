@@ -212,7 +212,7 @@ string edit2_update (void * webserver_request)
 
   
   // Safekeep the USFM to save for later.
-  string change = edited_chapter_usfm;
+  string change = edited_chapter_usfm; // Todo use this. Todo2 check oneverse2 has this too.
 
   
   // Do a three-way merge if needed.
@@ -391,6 +391,6 @@ string edit2_update (void * webserver_request)
   response = Checksum_Logic::send (response, write);
 
   // Ready.
-  //this_thread::sleep_for(chrono::seconds(60));
+  //this_thread::sleep_for(chrono::seconds(5));
   return response;
 }

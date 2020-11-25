@@ -278,7 +278,7 @@ function editorSaveChapter ()
 }
 
 
-function editorGetHtml () // Todo
+function editorGetHtml ()
 {
   var html = $ ("#editor > .ql-editor").html ();
   // Remove verse focus class name, if it is:
@@ -449,7 +449,7 @@ function editorCaretMovedTimeoutStart ()
 }
 
 
-function editorHandleCaretMoved ()
+function editorHandleCaretMoved () // Todo check code and update as needed.
 {
   // If the text in the editor has been changed, and therefore not saved,
   // or is being saved now, postpone handling the moved caret.
@@ -479,7 +479,7 @@ function editorHandleCaretMoved ()
     // Record the offset of the caret at the start of the ajax request.
     editorCaretMovedAjaxOffset = getCaretPosition ();
     // Initiate a new ajax request.
-    editorCaretMovedAjaxRequest = $.ajax ({
+    editorCaretMovedAjaxRequest = $.ajax ({ // Todo
       url: "navigate",
       type: "GET",
       data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, offset: editorCaretMovedAjaxOffset },
@@ -621,7 +621,7 @@ function positionCaretViaAjax ()
 }
 
 
-function positionCaretViaAjaxExecute ()
+function positionCaretViaAjaxExecute () // Todo
 {
   if (isNoVerseBook (editorLoadedBook)) return;
   $.ajax ({
@@ -1316,7 +1316,7 @@ function edit2UpdateExecute ()
 
       // The browser may reformat the loaded html, so take the possible reformatted data for reference.
       editorReferenceText = editorGetHtml ();
-      if (useShadowQuill) editorReferenceText = $ ("#edittemp > .ql-editor").html (); // Todo
+      if (useShadowQuill) editorReferenceText = $ ("#edittemp > .ql-editor").html ();
       $ ("#edittemp").empty ();
       
       // Create CSS for embedded styles.

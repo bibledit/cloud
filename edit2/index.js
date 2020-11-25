@@ -242,7 +242,7 @@ function editorSaveChapter ()
 {
   editorStatus ("");
   if (editorSaving) {
-    editorContentChangedTimeoutStart ();
+    editorContentChanged ();
     return;
   }
   if (!editorWriteAccess) return;
@@ -278,9 +278,9 @@ function editorSaveChapter ()
 }
 
 
-function editorGetHtml ()
+function editorGetHtml () // Todo
 {
-  var html = $ (".ql-editor").html ();
+  var html = $ ("#editor > .ql-editor").html ();
   // Remove verse focus class name, if it is:
   // * the only class name.
   html = html.split (' class="versebeam"').join ('');
@@ -342,7 +342,6 @@ function editorTextChangeHandler (delta, oldContents, source)
   edit2EditorChangeOffsets.push(retain);
   edit2EditorChangeInserts.push(insert);
   edit2EditorChangeDeletes.push(del);
-  //console.log ("retain", retain, "insert", insert, "del", del);
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {
     quill.history.undo ();
@@ -1217,8 +1216,6 @@ function edit2UpdateExecute ()
     },
     success: function (response) {
 
-      console.log (response); // Todo
-      
       // Flag for editor read-write or read-only.
       // Do not set the read-only status of the editor here.
       // This is already set at text-load.
@@ -1235,15 +1232,15 @@ function edit2UpdateExecute ()
         // and the moment the updates from the server/device are being applied.
         // This shadow copy will be updated with the uncorrected changes from the server/device.
         // The html from this editor will then server as the "loaded text".
-//        useShadowQuill = (oneverseEditorChangeOffsets.length > 0);
-//        if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
+        useShadowQuill = (edit2EditorChangeOffsets.length > 0);
+        if (useShadowQuill) startShadowQuill (editorHtmlAtStartOfUpdate);
 
         // Split the response into the separate bits.
         var bits = [];
         bits = response.split ("#_be_#");
 
         // The first bit is the feedback message to the user.
-        oneverseEditorStatus (bits.shift());
+        editorStatus (bits.shift());
 
         // The next bit is the new chapter identifier.
         oneverseChapterId = bits.shift();
@@ -1318,9 +1315,9 @@ function edit2UpdateExecute ()
       }
 
       // The browser may reformat the loaded html, so take the possible reformatted data for reference.
-//      editorReferenceText = $ ("#oneeditor > .ql-editor").html (); // Todo
-//      if (useShadowQuill) editorReferenceText = $ ("#onetemp > .ql-editor").html ();
-//      $ ("#onetemp").empty ();
+      editorReferenceText = editorGetHtml ();
+      if (useShadowQuill) editorReferenceText = $ ("#edittemp > .ql-editor").html (); // Todo
+      $ ("#edittemp").empty ();
       
       // Create CSS for embedded styles.
       css4embeddedstyles ();
@@ -1339,9 +1336,9 @@ var quill2 = undefined;
 function startShadowQuill (html)
 {
   if (quill2) delete quill2;
-  $ ("#onetemp").empty ();
-  $ ("#onetemp").append (html);
-  quill2 = new Quill ('#onetemp', { });
+  $ ("#edittemp").empty ();
+  $ ("#edittemp").append (html);
+  quill2 = new Quill ('#edittemp', { });
 }
 
 
@@ -1354,19 +1351,19 @@ function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op)
   // UTF-16 characters 4 bytes long have a size of 2 in Javascript.
   // So the routine takes care of that too.
   var i;
-  for (i = 0; i < oneverseEditorChangeOffsets.length; i++) {
+  for (i = 0; i < edit2EditorChangeOffsets.length; i++) {
     // Any delete or insert at a lower offset or the same offset
     // modifies the position where to apply the incoming edit from the server/device.
-    if (oneverseEditorChangeOffsets[i] <= position) {
-      position += oneverseEditorChangeInserts[i];
-      position -= oneverseEditorChangeDeletes[i]
+    if (edit2EditorChangeOffsets[i] <= position) {
+      position += edit2EditorChangeInserts[i];
+      position -= edit2EditorChangeDeletes[i]
     }
     // Any offset higher than the current position gets modified accordingly.
     // If inserting at the current position, increase that offset.
     // If deleting at the current position, decrease that offset.
-    if (oneverseEditorChangeOffsets[i] > position) {
-      if (ins_op) oneverseEditorChangeOffsets[i] += size;
-      if (del_op) oneverseEditorChangeOffsets[i] -= size;
+    if (edit2EditorChangeOffsets[i] > position) {
+      if (ins_op) edit2EditorChangeOffsets[i] += size;
+      if (del_op) edit2EditorChangeOffsets[i] -= size;
     }
   }
 

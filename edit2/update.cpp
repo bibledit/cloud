@@ -33,6 +33,7 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <editor/html2usfm.h>
+#include <editor/usfm2html.h>
 #include <editor/html2format.h>
 #include <access/bible.h>
 #include <bb/logic.h>
@@ -77,7 +78,6 @@ string edit2_update (void * webserver_request)
     if (!request->post.count ("bible")) parameters_ok = false;
     if (!request->post.count ("book")) parameters_ok = false;
     if (!request->post.count ("chapter")) parameters_ok = false;
-    if (!request->post.count ("verse")) parameters_ok = false;
     if (!request->post.count ("loaded")) parameters_ok = false;
     if (!request->post.count ("edited")) parameters_ok = false;
     if (!parameters_ok) {
@@ -91,7 +91,6 @@ string edit2_update (void * webserver_request)
   string bible;
   int book = 0;
   int chapter = 0;
-  int verse = 0;
   string loaded_html;
   string edited_html;
   string checksum1;
@@ -101,7 +100,6 @@ string edit2_update (void * webserver_request)
     bible = request->post["bible"];
     book = convert_to_int (request->post["book"]);
     chapter = convert_to_int (request->post["chapter"]);
-    verse = convert_to_int (request->post["verse"]);
     loaded_html = request->post["loaded"];
     edited_html = request->post["edited"];
     checksum1 = request->post["checksum1"];
@@ -110,7 +108,6 @@ string edit2_update (void * webserver_request)
   }
 
 
-  return "Todo"; // Todo
   // Checksums of the loaded and edited html.
   if (good2go) {
     if (Checksum_Logic::get (loaded_html) != checksum1) {
@@ -164,48 +161,100 @@ string edit2_update (void * webserver_request)
   if (good2go) old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
   
-  // Determine what (composed) version of USFM to save to the chapter.
-  // Do a three-way merge to obtain that USFM.
+  // Determine what version of USFM to save to the chapter.
+  // Later in the code, it will do a three-way merge, to obtain that USFM.
   // This needs the loaded USFM as the ancestor,
   // the edited USFM as a change-set,
   // and the existing USFM as a prioritized change-set.
-  string loaded_verse_usfm = editone2_logic_html_to_usfm (stylesheet, loaded_html);
-  string edited_verse_usfm = editone2_logic_html_to_usfm (stylesheet, edited_html);
-  string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
-  existing_verse_usfm = filter_string_trim (existing_verse_usfm);
+  string loaded_chapter_usfm;
+  if (good2go) {
+    Editor_Html2Usfm editor_export;
+    editor_export.load (loaded_html);
+    editor_export.stylesheet (stylesheet);
+    editor_export.run ();
+    loaded_chapter_usfm = editor_export.get ();
+  }
+  string edited_chapter_usfm;
+  if (good2go) {
+    Editor_Html2Usfm editor_export;
+    editor_export.load (edited_html);
+    editor_export.stylesheet (stylesheet);
+    editor_export.run ();
+    edited_chapter_usfm = editor_export.get ();
+  }
+  string existing_chapter_usfm = filter_string_trim (old_chapter_usfm);
+
+
+  // Check that the edited USFM contains no more than, and exactly like,
+  // the book and chapter that was loaded in the editor.
+  if (good2go && bible_write_access) {
+    vector <BookChapterData> book_chapter_text = usfm_import (edited_chapter_usfm, stylesheet);
+    if (book_chapter_text.size () != 1) {
+      Database_Logs::log (translate ("User tried to save something different from exactly one chapter."));
+      messages.push_back (translate("Incorrect chapter"));
+    }
+    int book_number = book_chapter_text[0].book;
+    int chapter_number = book_chapter_text[0].chapter;
+    edited_chapter_usfm = book_chapter_text[0].data;
+    bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
+    if (!chapter_ok) {
+      messages.push_back (translate("Incorrect chapter") + " " + convert_to_string (chapter_number));
+    }
+  }
 
 
   // Set a flag if there is a reason to save the editor text, since it was edited.
-  // This is important because the same routine is used for saving editor text
+  // This is important because the same routine is used for saving the editor text
   // as well as updating the editor text.
   // So if the text in the editor was not changed, it should not save it,
   // as saving the editor text would overwrite saves made by other(s).
-  bool text_was_edited = (loaded_verse_usfm != edited_verse_usfm);
+  bool text_was_edited = (loaded_chapter_usfm != edited_chapter_usfm);
+
   
+  // Safekeep the USFM to save for later.
+  string change = edited_chapter_usfm;
+
   
   // Do a three-way merge if needed.
   // There's a need for this if there were user-edits,
   // and if the USFM on the server differs from the USFM loaded in the editor.
   // The three-way merge reconciles those differences.
   if (good2go && bible_write_access && text_was_edited) {
-    if (loaded_verse_usfm != existing_verse_usfm) {
+    if (loaded_chapter_usfm != existing_chapter_usfm) {
       vector <Merge_Conflict> conflicts;
       // Do a merge while giving priority to the USFM already in the chapter.
-      string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
+      string merged_chapter_usfm = filter_merge_run (loaded_chapter_usfm, edited_chapter_usfm, existing_chapter_usfm, true, conflicts);
       // Mail the user if there is a merge anomaly.
-      bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm);
+      bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_chapter_usfm, edited_chapter_usfm, merged_chapter_usfm);
+      bible_logic_merge_irregularity_mail ({username}, conflicts);
       // Let the merged data now become the edited data (so it gets saved properly).
-      edited_verse_usfm = merged_verse_usfm;
+      edited_chapter_usfm = merged_chapter_usfm;
     }
   }
   
+
+  // Check whether the USFM on disk has changed compared to the USFM that was loaded in the editor.
+  // If there's a difference, email the user.
+  // Although a merge was done, still, it's good to alert the user on this.
+  // The rationale is that if Bible text was saved through Send/receive,
+  // or if another user saved Bible text,
+  // it's worth to check on this.
+  // Because the user's editor may not yet have loaded this updated Bible text.
+  // https://github.com/bibledit/cloud/issues/340
+  if (good2go && bible_write_access && text_was_edited) {
+    if (loaded_chapter_usfm != existing_chapter_usfm) {
+      bible_logic_recent_save_email (bible, book, chapter, 0, username, loaded_chapter_usfm, existing_chapter_usfm);
+    }
+  }
+
   
-  // Safely store the verse.
+  // Safely store the chapter.
   string explanation;
   string message;
   if (good2go && bible_write_access && text_was_edited) {
-    message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
-    bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
+    message = usfm_safely_store_chapter (request, bible, book, chapter, edited_chapter_usfm, explanation);
+    bible_logic_unsafe_save_mail (message, explanation, username, edited_chapter_usfm);
+    if (!message.empty ()) messages.push_back (message);
   }
 
   
@@ -218,7 +267,7 @@ string edit2_update (void * webserver_request)
 
   
   if (good2go && bible_write_access && text_was_edited) {
-    // If storing the verse worked out well, there's no message to display.
+    // If storing the chapter worked out well, there's no message to display.
     if (message.empty ()) {
 #ifdef HAVE_CLOUD
       // The Cloud stores details of the user's changes.
@@ -239,9 +288,9 @@ string edit2_update (void * webserver_request)
 
   
   // If there's no message at all, return at least something to the editor.
-  if (messages.empty ()) messages.push_back (translate ("Updated"));
-
-
+  if (messages.empty ()) messages.push_back (locale_logic_text_updated ());
+  
+  
   // The response to send to back to the editor.
   string response;
   string separator = "#_be_#";
@@ -264,12 +313,15 @@ string edit2_update (void * webserver_request)
   // insert - position - text - format
   // delete - position
   if (good2go) {
-    // Determine the server's current verse content, and the editor's current verse content.
+    // Determine the server's current chapter content, and the editor's current chapter content.
     string editor_html (edited_html);
     string server_html;
     {
-      string verse_usfm = usfm_get_verse_text_quill (new_chapter_usfm, verse);
-      editone2_logic_editable_html (verse_usfm, stylesheet, server_html);
+      Editor_Usfm2Html editor_usfm2html;
+      editor_usfm2html.load (new_chapter_usfm);
+      editor_usfm2html.stylesheet (stylesheet);
+      editor_usfm2html.run ();
+      server_html = editor_usfm2html.get ();
     }
     vector <int> positions;
     vector <int> sizes;

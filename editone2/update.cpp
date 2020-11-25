@@ -238,7 +238,7 @@ string editone2_update (void * webserver_request)
 
   
   // If there's no message at all, return at least something to the editor.
-  if (messages.empty ()) messages.push_back (translate ("Updated"));
+  if (messages.empty ()) messages.push_back (locale_logic_text_updated());
 
 
   // The response to send to back to the editor.

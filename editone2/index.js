@@ -330,7 +330,6 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
   oneverseEditorChangeOffsets.push(retain);
   oneverseEditorChangeInserts.push(insert);
   oneverseEditorChangeDeletes.push(del);
-  //console.log ("retain", retain, "insert", insert, "del", del);
   // Ensure that it does not delete a chapter number or verse number.
   if (!delta.ops [0].retain) {
     quill.history.undo ();

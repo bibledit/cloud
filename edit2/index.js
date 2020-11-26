@@ -99,6 +99,9 @@ function editorInitialize ()
   // Event handlers.
   quill.on ("text-change", editorTextChangeHandler);
   quill.on ("selection-change", editorSelectionChangeHandler);
+  
+  // Clear undo/redo stack.
+  quill.history.clear();
 }
 
 

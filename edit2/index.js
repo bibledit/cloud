@@ -39,7 +39,7 @@ $ (document).ready (function ()
   $ ("#stylebutton").on ("click", editorStylesButtonHandler);
   $ (window).on ("keydown", editorWindowKeyHandler);
   
-  positionCaretViaAjax ();
+  edit2PositionCaretViaAjaxStart ();
 
   if (swipe_operations) {
     $ ("body").swipe ( {
@@ -141,8 +141,6 @@ function navigationNewPassage ()
   }
   
   if ((editorNavigationBook != editorLoadedBook) || (editorNavigationChapter != editorLoadedChapter)) {
-    // Fixed: Reload text message when switching to another chapter.
-    // https://github.com/bibledit/cloud/issues/408
     edit2SaveChapter ();
     editorLoadChapter ();
   } else {
@@ -173,7 +171,7 @@ var editorLoadedBook;
 var editorLoadedChapter;
 var editorReferenceText;
 var editorTextChanged = false;
-var editorCaretPosition = 0;
+var edit2CaretPosition = 0;
 var editorSaving = false;
 var editorWriteAccess = false;
 
@@ -184,8 +182,8 @@ function editorLoadChapter ()
   editorLoadedBook = editorNavigationBook;
   editorLoadedChapter = editorNavigationChapter;
   editorChapterIdOnServer = 0;
-  editorCaretPosition = getCaretPosition ();
-  editorCaretInitialized = false;
+  edit2CaretPosition = getCaretPosition ();
+  edit2CaretInitialized = false;
   $.ajax ({
     url: "load",
     type: "GET",
@@ -224,7 +222,7 @@ function editorLoadChapter ()
           // Feedback.
           editorStatus (editorChapterLoaded);
         }
-        // Reference for comparison at save time.
+        // Reference for comparison at save or update time.
         editorReferenceText = editorGetHtml ();
         // Position caret.
         editorScheduleCaretPositioning ();
@@ -232,7 +230,7 @@ function editorLoadChapter ()
         // Checksum error: Reload.
         editorLoadChapter ();
       }
-      editorCaretInitialized = false;
+      edit2CaretInitialized = false;
     },
   });
 }
@@ -432,81 +430,67 @@ function editorSelectionChangeHandler (range, oldRange, source)
   // Bail out if text was selected.
   if (range.length != 0) return;
   
-  editorCaretMovedTimeoutStart ();
+  edit2CaretMovedTimeoutStart ();
 }
 
 
-var editorCaretMovedTimeoutId;
-var editorCaretMovedAjaxRequest;
-var editorCaretMovedAjaxOffset;
-var editorCaretInitialized = false;
+var edit2CaretInitialized = false;
+var edit2CaretMovedTimeoutId;
 
 
-function editorCaretMovedTimeoutStart ()
+function edit2CaretMovedTimeoutStart ()
 {
-  if (editorCaretMovedTimeoutId) clearTimeout (editorCaretMovedTimeoutId);
-  editorCaretMovedTimeoutId = setTimeout (editorHandleCaretMoved, 200);
+  if (edit2CaretMovedTimeoutId) clearTimeout (edit2CaretMovedTimeoutId);
+  edit2CaretMovedTimeoutId = setTimeout (edit2CaretMovedTimeoutFinish, 200);
 }
 
 
-function editorHandleCaretMoved () // Todo check code and update as needed.
+function edit2CaretMovedTimeoutFinish ()
 {
-  // If the text in the editor has been changed, and therefore not saved,
-  // or is being saved now, postpone handling the moved caret.
-  // It is important to also delay the handler "while" the text is being saved,
-  // because there have been situations that javascript initiated the save operation,
-  // shortly after that the moved caret handler via AJAX,
-  // and that the server completed processing the caret handler before it had completed the save operations,
-  // which led to inaccurate caret position calculations, which caused symptoms like a "jumping caret".
-  if (editorTextChanged || editorSaving) {
-    editorCaretMovedTimeoutStart ();
-    return;
-  }
-  
+  // Since the user moved the caret by hand,
+  // cancel any scheduled caret positioning.
+  edit2PositionCaretViaAjaxStop ();
+  // Trigger the caret moved handler.
+  edit2CaretMovedTrigger = true;
+}
+
+
+function edit2HandleCaretMoved ()
+{
   // If the caret has not yet been positioned, postpone the action.
-  if (!editorCaretInitialized) {
-    editorCaretMovedTimeoutStart ();
-    positionCaretViaAjax ();
+  if (!edit2CaretInitialized) {
+    edit2CaretMovedTimeoutStart ();
+    edit2PositionCaretViaAjaxStart ();
     return;
   }
 
   if (quill.hasFocus ()) {
-    // Cancel any previous ajax request that might still be incompleted.
-    // This is to avoid the caret jumping on slower or unstable connections.
-    if (editorCaretMovedAjaxRequest && editorCaretMovedAjaxRequest.readystate != 4) {
-      editorCaretMovedAjaxRequest.abort();
-    }
-    // Record the offset of the caret at the start of the ajax request.
-    editorCaretMovedAjaxOffset = getCaretPosition ();
     // Initiate a new ajax request.
-    editorCaretMovedAjaxRequest = $.ajax ({ // Todo
+    edit2AjaxActive = true;
+    $.ajax ({
       url: "navigate",
       type: "GET",
-      data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, offset: editorCaretMovedAjaxOffset },
+      data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, offset: getCaretPosition () },
       success: function (response) {
         if (response != "") {
-          var offset = getCaretPosition ();
-          // Take action only when the caret is still at the same position as it was when this ajax request was initiated.
-          if (offset == editorCaretMovedAjaxOffset) {
-            // Set the focused verse immediately,
-            // rather than waiting on the Navigator signal that likely will come later.
-            // This fixes a clicking / scrolling problem.
-            editorNavigationVerse = response;
-            editorScheduleWindowScrolling ();
-            editorHighlightVerseNumber ();
-          } else {
-            // Caret was moved during this AJAX operation: Reschedule it.
-            editorCaretMovedTimeoutStart ();
-          }
+          // Set the focused verse immediately,
+          // rather than waiting on the Navigator signal that likely will come later.
+          // This fixes a clicking / scrolling problem.
+          editorNavigationVerse = response;
+          editorScheduleWindowScrolling ();
+          editorHighlightVerseNumber ();
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         // On (network) failure, reschedule the update.
-        editorCaretMovedTimeoutStart ();
+        edit2CaretMovedTimeoutStart ();
+      },
+      complete: function (xhr, status) {
+        edit2AjaxActive = false;
       }
     });
   } else {
-    editorCaretMovedTimeoutStart ();
+    edit2CaretMovedTimeoutStart ();
   }
 
   editorActiveStylesFeedback ();
@@ -610,18 +594,25 @@ function positionCaret (position)
 }
 
 
-var editorPositionCaretViaAjaxTimerId;
+var edit2PositionCaretViaAjaxTimerId;
 
 
-function positionCaretViaAjax ()
+function edit2PositionCaretViaAjaxStop ()
 {
+  if (edit2PositionCaretViaAjaxTimerId) {
+    clearTimeout (edit2PositionCaretViaAjaxTimerId);
+  }
+}
+
+function edit2PositionCaretViaAjaxStart ()
+{
+  edit2PositionCaretViaAjaxStop ();
   // Very frequent positioning calls have been seen in some browsers, so they are filtered here.
-  if (editorPositionCaretViaAjaxTimerId) clearTimeout (editorPositionCaretViaAjaxTimerId);
-  editorPositionCaretViaAjaxTimerId = setTimeout (positionCaretViaAjaxExecute, 100);
+  edit2PositionCaretViaAjaxTimerId = setTimeout (edit2PositionCaretViaAjaxStartExecute, 100);
 }
 
 
-function positionCaretViaAjaxExecute () // Todo
+function edit2PositionCaretViaAjaxStartExecute ()
 {
   if (isNoVerseBook (editorLoadedBook)) return;
   $.ajax ({
@@ -637,7 +628,7 @@ function positionCaretViaAjaxExecute () // Todo
         if ((offset < start) || (offset > end)) {
           positionCaret (start);
         }
-        editorCaretInitialized = true;
+        edit2CaretInitialized = true;
       }
       editorScheduleWindowScrolling ();
     },
@@ -1024,7 +1015,7 @@ function editorPositioningTimerStart ()
 function editorPositioningRun ()
 {
   if (editorPendingCaretPositioning) {
-    positionCaretViaAjax ();
+    edit2PositionCaretViaAjaxStart ();
     editorPendingCaretPositioning = false;
     editorPendingWindowScrolling = false;
   }
@@ -1117,10 +1108,11 @@ https://github.com/bibledit/cloud/issues/424
 */
 
 
+var edit2UpdateTrigger = false;
+var edit2CaretMovedTrigger = false;
 var edit2AjaxActive = false;
 var edit2PollSelector = 0;
 var edit2PollDate = new Date();
-var edit2UpdateTrigger = false;
 
 
 function edit2CoordinatingTimeout ()
@@ -1128,6 +1120,10 @@ function edit2CoordinatingTimeout ()
   // Handle situation that an AJAX call is ongoing.
   if (edit2AjaxActive) {
     
+  }
+  else if (edit2CaretMovedTrigger) {
+    edit2CaretMovedTrigger = false;
+    edit2HandleCaretMoved ();
   }
   else if (edit2UpdateTrigger) {
     edit2UpdateTrigger = false;

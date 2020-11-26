@@ -33,7 +33,7 @@ $ (document).ready (function ()
 
   navigationNewPassage ();
   
-  $ (window).on ("unload", editorSaveChapter);
+  $ (window).on ("unload", edit2SaveChapter);
 
   editorBindUnselectable ();
   $ ("#stylebutton").on ("click", editorStylesButtonHandler);
@@ -143,7 +143,7 @@ function navigationNewPassage ()
   if ((editorNavigationBook != editorLoadedBook) || (editorNavigationChapter != editorLoadedChapter)) {
     // Fixed: Reload text message when switching to another chapter.
     // https://github.com/bibledit/cloud/issues/408
-    editorSaveChapter ();
+    edit2SaveChapter ();
     editorLoadChapter ();
   } else {
     editorScheduleCaretPositioning ();
@@ -238,11 +238,11 @@ function editorLoadChapter ()
 }
 
 
-function editorSaveChapter ()
+function edit2SaveChapter ()
 {
   editorStatus ("");
   if (editorSaving) {
-    editorContentChanged ();
+    edit2ContentChanged ();
     return;
   }
   if (!editorWriteAccess) return;
@@ -268,8 +268,8 @@ function editorSaveChapter ()
     error: function (jqXHR, textStatus, errorThrown) {
       editorStatus (editorChapterRetrying);
       editorReferenceText = "";
-      editorContentChanged ();
-      editorSaveChapter ();
+      edit2ContentChanged ();
+      edit2SaveChapter ();
     },
     complete: function (xhr, status) {
       editorSaving = false;
@@ -304,9 +304,6 @@ Portion dealing with triggers for when the editor's content changes.
 */
 
 
-var editorContentChangedTimeoutId;
-
-
 // Three combined lists store information about edits made in the editor,
 // during the time span between
 // 1. the moment the changes are sent to the server/device,
@@ -327,7 +324,7 @@ var edit2EditorChangeDeletes = [];
 function editorTextChangeHandler (delta, oldContents, source)
 {
   // Record the change.
-  // It gives 4-byte UTF-16 characters as lenvth value 2 instead of 1.
+  // It gives 4-byte UTF-16 characters as length value 2 instead of 1.
   var retain = 0;
   var insert = 0;
   var del = 0;
@@ -347,19 +344,22 @@ function editorTextChangeHandler (delta, oldContents, source)
     quill.history.undo ();
   }
   // Start save delay timer.
-  editorContentChanged ();
+  edit2ContentChanged ();
 }
 
 
-function editorContentChanged ()
+var edit2ContentChangedTimeoutId;
+
+
+function edit2ContentChanged ()
 {
   if (!editorWriteAccess) return;
   editorTextChanged = true;
   editorStatus (editorWillSave);
-  if (editorContentChangedTimeoutId) {
-    clearTimeout (editorContentChangedTimeoutId);
+  if (edit2ContentChangedTimeoutId) {
+    clearTimeout (edit2ContentChangedTimeoutId);
   }
-  editorContentChangedTimeoutId = setTimeout (edit2EditorTriggerSave, 1000);
+  edit2ContentChangedTimeoutId = setTimeout (edit2EditorTriggerSave, 1000);
 }
 
 
@@ -368,10 +368,10 @@ function edit2EditorTriggerSave ()
   if (!edit2UpdateTrigger) {
     edit2UpdateTrigger = true;
   } else {
-    if (editorContentChangedTimeoutId) {
-      clearTimeout (editorContentChangedTimeoutId);
+    if (edit2ContentChangedTimeoutId) {
+      clearTimeout (edit2ContentChangedTimeoutId);
     }
-    editorContentChangedTimeoutId = setTimeout (edit2EditorTriggerSave, 400);
+    edit2ContentChangedTimeoutId = setTimeout (edit2EditorTriggerSave, 400);
   }
 }
 
@@ -804,10 +804,10 @@ function requestStyle (style)
         applyCharacterStyle (style);
       } else if (action == 'n') {
         applyNotesStyle (style);
-        editorContentChanged ();
+        edit2ContentChanged ();
       } else if (action == "m") {
         applyMonoStyle (style);
-        editorContentChanged ();
+        edit2ContentChanged ();
       }
     },
   });
@@ -1212,7 +1212,7 @@ function edit2UpdateExecute ()
     data: { bible: editorLoadedBible, book: editorLoadedBook, chapter: editorLoadedChapter, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum1: checksum1, checksum2: checksum2, id: chapterEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       editorStatus (editorChapterRetrying);
-      editorContentChanged ();
+      edit2ContentChanged ();
     },
     success: function (response) {
 

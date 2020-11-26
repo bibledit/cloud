@@ -315,7 +315,7 @@ var oneverseEditorChangeDeletes = [];
 function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 {
   // Record the change.
-  // It gives 4-byte UTF-16 characters as lenvth value 2 instead of 1.
+  // It gives 4-byte UTF-16 characters as length value 2 instead of 1.
   var retain = 0;
   var insert = 0;
   var del = 0;

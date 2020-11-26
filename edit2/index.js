@@ -516,14 +516,15 @@ function editorWindowKeyHandler (event)
   if (event.keyCode == 27) {
     editorClearStyles ();
   }
-  // Undo and redo.
-  if ((event.metaKey == true) && (event.keyCode == 90)) {
-    if (event.shiftKey == true) {
-      // Checking on 2020-11-26 the .redo() did not work.
-      quill.history.redo();
-    } else {
-      quill.history.undo();
-    }
+  // Undo.
+  if ((event.metaKey == true) && (event.shiftKey == false) && (event.key == 'z')) {
+    quill.history.undo();
+    return false;
+  }
+  // Redo.
+  if ((event.metaKey == true) && (event.shiftKey == true) && (event.key == 'z')) {
+    // Checking on 2020-11-26 the .redo() did not work.
+    quill.history.redo();
     return false;
   }
 }

@@ -2062,9 +2062,6 @@
 		CADE3F9824F17488003165BB /* quill.core.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.core.css; sourceTree = "<group>"; };
 		CADE3F9924F17488003165BB /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CADE3F9A24F17488003165BB /* quill.core.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.core.js; sourceTree = "<group>"; };
-		CADE3F9C24F17488003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3F9D24F17488003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CADE3F9E24F17488003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3FA024F17488003165BB /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		CADE3FA124F17488003165BB /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		CADE3FA224F17488003165BB /* book.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = book.svg; sourceTree = "<group>"; };
@@ -5858,21 +5855,19 @@
 		CADE3F8A24F17488003165BB /* quill */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3F8B24F17488003165BB /* quill.js */,
-				CADE3F8C24F17488003165BB /* LICENSE */,
-				CADE3F8D24F17488003165BB /* quill.snow.css */,
-				CADE3F8E24F17488003165BB /* logic.cpp */,
-				CADE3F8F24F17488003165BB /* quill.bubble.css */,
-				CADE3F9024F17488003165BB /* quill.min.js */,
 				CADE3F9124F17488003165BB /* examples */,
+				CADE3F8C24F17488003165BB /* LICENSE */,
+				CADE3F8E24F17488003165BB /* logic.cpp */,
 				CADE3F9524F17488003165BB /* logic.h */,
 				CADE3F9624F17488003165BB /* logic.o */,
-				CADE3F9724F17488003165BB /* quill.min.js.map */,
+				CADE3F8F24F17488003165BB /* quill.bubble.css */,
 				CADE3F9824F17488003165BB /* quill.core.css */,
-				CADE3F9924F17488003165BB /* readme.txt */,
 				CADE3F9A24F17488003165BB /* quill.core.js */,
-				CADE3F9B24F17488003165BB /* .deps */,
-				CADE3F9E24F17488003165BB /* .dirstamp */,
+				CADE3F8B24F17488003165BB /* quill.js */,
+				CADE3F9024F17488003165BB /* quill.min.js */,
+				CADE3F9724F17488003165BB /* quill.min.js.map */,
+				CADE3F8D24F17488003165BB /* quill.snow.css */,
+				CADE3F9924F17488003165BB /* readme.txt */,
 			);
 			path = quill;
 			sourceTree = "<group>";
@@ -5885,15 +5880,6 @@
 				CADE3F9424F17488003165BB /* full.html */,
 			);
 			path = examples;
-			sourceTree = "<group>";
-		};
-		CADE3F9B24F17488003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3F9C24F17488003165BB /* .dirstamp */,
-				CADE3F9D24F17488003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3F9F24F17488003165BB /* pix */ = {

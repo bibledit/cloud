@@ -598,7 +598,6 @@ function getCaretPosition ()
 
 function positionCaret (position)
 {
-  console.log ("position caret at", position); // Todo
   if (position == undefined) return;
   var currentPosition = getCaretPosition ();
   if (currentPosition == undefined) return;

@@ -516,6 +516,16 @@ function editorWindowKeyHandler (event)
   if (event.keyCode == 27) {
     editorClearStyles ();
   }
+  // Undo and redo.
+  if ((event.metaKey == true) && (event.keyCode == 90)) {
+    if (event.shiftKey == true) {
+      // Checking on 2020-11-26 the .redo() did not work.
+      quill.history.redo();
+    } else {
+      quill.history.undo();
+    }
+    return false;
+  }
 }
 
 
@@ -584,6 +594,7 @@ function getCaretPosition ()
 
 function positionCaret (position)
 {
+  console.log ("position caret at", position); // Todo
   if (position == undefined) return;
   var currentPosition = getCaretPosition ();
   if (currentPosition == undefined) return;

@@ -288,7 +288,7 @@ string edit2_update (void * webserver_request)
 
   
   // If there's no message at all, return at least something to the editor.
-  if (messages.empty ()) messages.push_back (locale_logic_text_updated ());
+  if (messages.empty ()) messages.push_back (locale_logic_text_saved ());
   
   
   // The response to send to back to the editor.

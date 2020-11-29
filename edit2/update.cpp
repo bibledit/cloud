@@ -190,7 +190,7 @@ string edit2_update (void * webserver_request)
   if (good2go && bible_write_access) {
     vector <BookChapterData> book_chapter_text = usfm_import (edited_chapter_usfm, stylesheet);
     if (book_chapter_text.size () != 1) {
-      Database_Logs::log (translate ("User tried to save something different from exactly one chapter."));
+      Database_Logs::log (translate ("A user tried to save something different from exactly one chapter"));
       messages.push_back (translate("Incorrect chapter"));
     }
     int book_number = book_chapter_text[0].book;
@@ -209,10 +209,6 @@ string edit2_update (void * webserver_request)
   // So if the text in the editor was not changed, it should not save it,
   // as saving the editor text would overwrite saves made by other(s).
   bool text_was_edited = (loaded_chapter_usfm != edited_chapter_usfm);
-
-  
-  // Safekeep the USFM to save for later.
-  string change = edited_chapter_usfm; // Todo use this. Todo2 check oneverse2 has this too.
 
   
   // Do a three-way merge if needed.
@@ -241,11 +237,15 @@ string edit2_update (void * webserver_request)
   // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  if (good2go && bible_write_access && text_was_edited) {
-    if (loaded_chapter_usfm != existing_chapter_usfm) {
-      bible_logic_recent_save_email (bible, book, chapter, 0, username, loaded_chapter_usfm, existing_chapter_usfm);
-    }
-  }
+  // The above is no longer needed since the chapter editor does no longer "load" text.
+  // Instead of loading text, the existing text gets updated.
+  // The message below will no longer be given.
+  // It might cause confusion more than it clarifies.
+  //if (good2go && bible_write_access && text_was_edited) {
+    //if (loaded_chapter_usfm != existing_chapter_usfm) {
+      //bible_logic_recent_save_email (bible, book, chapter, 0, username, loaded_chapter_usfm, existing_chapter_usfm);
+    //}
+  //}
 
   
   // Safely store the chapter.

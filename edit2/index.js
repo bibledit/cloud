@@ -346,6 +346,8 @@ function editorTextChangeHandler (delta, oldContents, source)
   }
   // Start save delay timer.
   edit2ContentChanged ();
+  // Set a flag for the undo workaround.
+  edit2UndoChanged = true;
 }
 
 
@@ -506,6 +508,8 @@ Section with window events and their basic handlers.
 
 */
 
+var edit2UndoChanged = false;
+
 
 function editorWindowKeyHandler (event)
 {
@@ -521,7 +525,20 @@ function editorWindowKeyHandler (event)
   }
   // Undo.
   if ((event.metaKey == true) && (event.shiftKey == false) && (event.key == 'z')) {
+    edit2UndoChanged = false;
+    //var position = getCaretPosition ();
     quill.history.undo();
+    if (edit2UndoChanged == false) {
+      // This should fix an issue with the Quill editor.
+      // When doing an undo, and the history stack is empty,
+      // the Quill editor places the caret at the end of the text block.
+      // The solution should have been to reposition the caret.
+      // But repositioning the caret appears not to work.
+      // After repositioning the caret, the caret remains at the end of the text block.
+      //positionCaret (position);
+      //positionCaretDelayed (position)
+      //quill.setSelection (position, 0, "silent");
+    }
     return false;
   }
   // Redo.
@@ -593,6 +610,27 @@ function getCaretPosition ()
   var range = quill.getSelection();
   if (range) position = range.index;
   return position;
+}
+
+
+var edit2PositionCaretDelayedTimerId;
+var edit2PositionCaretValue;
+
+
+function positionCaretDelayed (position)
+{
+  if (edit2PositionCaretDelayedTimerId) {
+    clearTimeout (edit2PositionCaretDelayedTimerId);
+  }
+  edit2PositionCaretValue = position;
+  edit2PositionCaretDelayedTimerId = setTimeout (positionCaretDelayedTimeout, 100);
+}
+
+
+function positionCaretDelayedTimeout ()
+{
+  quill.setSelection (edit2PositionCaretValue, 0, "silent");
+  //positionCaret (edit2PositionCaretValue);
 }
 
 

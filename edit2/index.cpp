@@ -132,7 +132,6 @@ string edit2_index (void * webserver_request)
   "var editorChapterSaving = '" + locale_logic_text_saving () + "';\n"
   "var editorChapterSaved = '" + locale_logic_text_saved () + "';\n"
   "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"
-  "var editorChapterReformat = '" + locale_logic_text_reformat () + "';\n"
   "var editorChapterVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
   "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";

@@ -591,7 +591,6 @@ function editorSelectiveNotification (message)
   if (message == editorWillSave) return;
   if (message == editorChapterSaving) return;
   if (message == editorChapterSaved) return;
-  if (message == editorChapterReformat) return;
   if (message == "") return;
   notifyItError (message);
 }

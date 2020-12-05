@@ -27,12 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void test_export ()
+void test_export () // Todo
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
 
-  // Test object Text_Text.
+  // Test the plain text export tool.
   {
     Text_Text text_text;
     text_text.addtext ("text one");
@@ -58,7 +58,7 @@ void test_export ()
     evaluate (__LINE__, __func__, "paragraph", text_text.line ());
   }
 
-  // Test Esword_Text title.
+  // Test export title via the e-Sword tool.
   {
     Esword_Text esword_text = Esword_Text ("The Word of the Lord Jesus Christ");
     vector <string> sql = {
@@ -167,7 +167,7 @@ void test_export ()
     filter_url_unlink (filename);
   }
   
-  // Test class OnlineBible_Text.
+  // Test tool to export Online Bible.
   {
     OnlineBible_Text onlinebible_text = OnlineBible_Text ();
     onlinebible_text.addText ("No verse given, so discard this.");
@@ -199,6 +199,5 @@ void test_export ()
     evaluate (__LINE__, __func__, standard, result);
     filter_url_unlink (filename);
   }
-
 
 }

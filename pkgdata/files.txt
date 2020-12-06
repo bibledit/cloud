@@ -780,6 +780,10 @@
 /system/index.html
 /tasks
 /tasks/holder
+/tbsx
+/tbsx/example.docx
+/tbsx/example.txt
+/tbsx/specs.docx
 /text
 /timer
 /tmp

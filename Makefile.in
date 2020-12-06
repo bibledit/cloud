@@ -338,7 +338,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	related/logic.$(OBJEXT) sqlite/sqlite3.$(OBJEXT) \
 	ldap/logic.$(OBJEXT) quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) \
 	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
-	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT)
+	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
+	tbsx/text.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -643,9 +644,10 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	sync/$(DEPDIR)/settings.Po sync/$(DEPDIR)/setup.Po \
 	sync/$(DEPDIR)/usfmresources.Po system/$(DEPDIR)/index.Po \
 	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
-	tasks/$(DEPDIR)/run.Po text/$(DEPDIR)/text.Po \
-	timer/$(DEPDIR)/index.Po tmp/$(DEPDIR)/tmp.Po \
-	trash/$(DEPDIR)/handler.Po unittests/$(DEPDIR)/archive.Po \
+	tasks/$(DEPDIR)/run.Po tbsx/$(DEPDIR)/text.Po \
+	text/$(DEPDIR)/text.Po timer/$(DEPDIR)/index.Po \
+	tmp/$(DEPDIR)/tmp.Po trash/$(DEPDIR)/handler.Po \
+	unittests/$(DEPDIR)/archive.Po \
 	unittests/$(DEPDIR)/biblegateway.Po \
 	unittests/$(DEPDIR)/bibles.Po unittests/$(DEPDIR)/books.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/check.Po \
@@ -1374,7 +1376,8 @@ libbibledit_a_SOURCES = \
 	microtar/microtar.c \
 	miniz/miniz.c \
 	nmt/index.cpp \
-	nmt/logic.cpp
+	nmt/logic.cpp \
+  tbsx/text.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2972,6 +2975,14 @@ nmt/$(DEPDIR)/$(am__dirstamp):
 	@: > nmt/$(DEPDIR)/$(am__dirstamp)
 nmt/index.$(OBJEXT): nmt/$(am__dirstamp) nmt/$(DEPDIR)/$(am__dirstamp)
 nmt/logic.$(OBJEXT): nmt/$(am__dirstamp) nmt/$(DEPDIR)/$(am__dirstamp)
+tbsx/$(am__dirstamp):
+	@$(MKDIR_P) tbsx
+	@: > tbsx/$(am__dirstamp)
+tbsx/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tbsx/$(DEPDIR)
+	@: > tbsx/$(DEPDIR)/$(am__dirstamp)
+tbsx/text.$(OBJEXT): tbsx/$(am__dirstamp) \
+	tbsx/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3250,6 +3261,7 @@ mostlyclean-compile:
 	-rm -f sync/*.$(OBJEXT)
 	-rm -f system/*.$(OBJEXT)
 	-rm -f tasks/*.$(OBJEXT)
+	-rm -f tbsx/*.$(OBJEXT)
 	-rm -f text/*.$(OBJEXT)
 	-rm -f timer/*.$(OBJEXT)
 	-rm -f tmp/*.$(OBJEXT)
@@ -3697,6 +3709,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tbsx/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@timer/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tmp/$(DEPDIR)/tmp.Po@am__quote@ # am--include-marker
@@ -4301,6 +4314,8 @@ distclean-generic:
 	-rm -f system/$(am__dirstamp)
 	-rm -f tasks/$(DEPDIR)/$(am__dirstamp)
 	-rm -f tasks/$(am__dirstamp)
+	-rm -f tbsx/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tbsx/$(am__dirstamp)
 	-rm -f text/$(DEPDIR)/$(am__dirstamp)
 	-rm -f text/$(am__dirstamp)
 	-rm -f timer/$(DEPDIR)/$(am__dirstamp)
@@ -4766,6 +4781,7 @@ distclean: distclean-am
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/run.Po
+	-rm -f tbsx/$(DEPDIR)/text.Po
 	-rm -f text/$(DEPDIR)/text.Po
 	-rm -f timer/$(DEPDIR)/index.Po
 	-rm -f tmp/$(DEPDIR)/tmp.Po
@@ -5348,6 +5364,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/run.Po
+	-rm -f tbsx/$(DEPDIR)/text.Po
 	-rm -f text/$(DEPDIR)/text.Po
 	-rm -f timer/$(DEPDIR)/index.Po
 	-rm -f tmp/$(DEPDIR)/tmp.Po

@@ -24,10 +24,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <olb/text.h>
 #include <html/text.h>
 #include <odf/text.h>
+#include <tbsx/text.h>
 #include <filter/url.h>
 
 
-void test_export () // Todo
+void test_export ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
@@ -198,6 +199,65 @@ void test_export () // Todo
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
     filter_url_unlink (filename);
+  }
+
+  // TBS export book ID and book name.
+  {
+    Tbsx_Text tbsx;
+    tbsx.set_book_id("MAT");
+    tbsx.set_book_name("Matthew");
+    string standard =
+R"(###MAT
+###! Matthew)";
+    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+  }
+  
+  // Test TBS exporter chapter handling.
+  {
+    Tbsx_Text tbsx;
+    tbsx.set_chapter(2);
+    tbsx.set_header("Header");
+    string standard =
+R"(##2
+##! Header)";
+    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+  }
+  
+  // Text the TBS exporter tool paragraph handling.
+  {
+    Tbsx_Text tbsx;
+    tbsx.open_paragraph();
+    tbsx.add_text("1 Text contents");
+    string standard =
+R"(#%
+#1 Text contents)";
+    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+  }
+  
+  // Text the TBS exporter tool supplied text handling.
+    {
+    Tbsx_Text tbsx;
+    tbsx.open_paragraph();
+    tbsx.add_text("1 Text ");
+    tbsx.add_text("added", true);
+    tbsx.add_text(" content");
+    string standard =
+R"(#%
+#1 Text *added* content)";
+    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+  }
+
+  // Test the TBS text export tool. Todo
+  {
+    Tbsx_Text tbsx;
+    tbsx.add_text ("Text");
+    tbsx.open_note();
+    tbsx.add_text("note");
+    tbsx.close_note();
+    tbsx.add_text (" of verse.");
+    string standard =
+R"(#Text[note] of verse.)";
+    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
   }
 
 }

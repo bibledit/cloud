@@ -449,7 +449,8 @@ libbibledit_a_SOURCES = \
 	microtar/microtar.c \
 	miniz/miniz.c \
 	nmt/index.cpp \
-	nmt/logic.cpp
+	nmt/logic.cpp \
+  tbsx/text.cpp
 
 bin_PROGRAMS = server unittest generate
 

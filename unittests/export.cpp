@@ -235,7 +235,7 @@ R"(#%
   }
   
   // Text the TBS exporter tool supplied text handling.
-    {
+  {
     Tbsx_Text tbsx;
     tbsx.open_paragraph();
     tbsx.add_text("1 Text ");

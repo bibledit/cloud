@@ -22,29 +22,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-// Class for creating Trinitarian Bible Society online Bible documents.
+// Class for creating Trinitarian Bible Society online Bible documents. Todo
 
 
 void Tbsx_Text::set_book_id (string id)
 {
+  flush ();
   output.push_back ("###" + id);
 }
 
 
 void Tbsx_Text::set_book_name (string name)
 {
+  flush ();
   output.push_back ("###! " + name);
 }
 
 
 void Tbsx_Text::set_chapter (int chapter)
 {
+  flush ();
   output.push_back ("##" + convert_to_string (chapter));
 }
 
 
 void Tbsx_Text::set_header (string header)
 {
+  flush ();
   output.push_back ("##! " + header);
 }
 
@@ -61,7 +65,7 @@ void Tbsx_Text::open_verse (int verse)
 {
   flush ();
   in_note = false;
-  add_text ("#" + convert_to_string (verse));
+  add_text (convert_to_string (verse));
 }
 
 

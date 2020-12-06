@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void test_export ()
+void test_export () // Todo
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
@@ -247,7 +247,7 @@ R"(#%
     evaluate (__LINE__, __func__, standard, tbsx.get_document ());
   }
 
-  // Test the TBS text export tool. Todo
+  // Test the TBS text export tool.
   {
     Tbsx_Text tbsx;
     tbsx.add_text ("Text");

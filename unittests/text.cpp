@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_filter_text ()
+void test_filter_text () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -99,9 +99,9 @@ void test_filter_text ()
 
     // Check table of contents items.
     int desiredlongTOCs = 1;
-    int actuallongTOCs = filter_text.longTOCs.size();
+    size_t actuallongTOCs = filter_text.longTOCs.size();
     evaluate (__LINE__, __func__, desiredlongTOCs, actuallongTOCs);
-    if (desiredlongTOCs == actuallongTOCs) {
+    if (desiredlongTOCs == (int)actuallongTOCs) {
       evaluate (__LINE__, __func__, 1, filter_text.longTOCs[0].book);
       evaluate (__LINE__, __func__, 0, filter_text.longTOCs[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.longTOCs[0].verse);
@@ -109,9 +109,9 @@ void test_filter_text ()
       evaluate (__LINE__, __func__, "The Book of Genesis", filter_text.longTOCs[0].value);
     }
     int desiredshortTOCs = 1;
-    int actualshortTOCs = filter_text.shortTOCs.size();
+    size_t actualshortTOCs = filter_text.shortTOCs.size();
     evaluate (__LINE__, __func__, desiredshortTOCs, actualshortTOCs);
-    if (desiredlongTOCs == actuallongTOCs) {
+    if (desiredlongTOCs == (int)actuallongTOCs) {
       evaluate (__LINE__, __func__, 1, filter_text.shortTOCs[0].book);
       evaluate (__LINE__, __func__, 0, filter_text.shortTOCs[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.shortTOCs[0].verse);
@@ -121,9 +121,9 @@ void test_filter_text ()
 
     // Check book abbreviation.
     int desiredbookAbbreviations = 1;
-    int actualbookAbbreviations = filter_text.bookAbbreviations.size();
+    size_t actualbookAbbreviations = filter_text.bookAbbreviations.size();
     evaluate (__LINE__, __func__, desiredbookAbbreviations, actualbookAbbreviations);
-    if (desiredbookAbbreviations == actualbookAbbreviations) {
+    if (desiredbookAbbreviations == (int)actualbookAbbreviations) {
       evaluate (__LINE__, __func__, 1, filter_text.bookAbbreviations[0].book);
       evaluate (__LINE__, __func__, 0, filter_text.bookAbbreviations[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.bookAbbreviations[0].verse);
@@ -133,9 +133,9 @@ void test_filter_text ()
     
     // Check published chapter markers.
     int desiredpublishedChapterMarkers = 2;
-    int actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
+    size_t actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
     evaluate (__LINE__, __func__, desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
-    if (desiredpublishedChapterMarkers == actualpublishedChapterMarkers) {
+    if (desiredpublishedChapterMarkers == (int)actualpublishedChapterMarkers) {
       evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].book);
       evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[0].verse);
@@ -1021,9 +1021,9 @@ A Verse text.
     
     // Check chapter labels.
     int desiredchapterLabels = 1;
-    int actualchapterLabels = filter_text.chapterLabels.size();
+    size_t actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == actualchapterLabels) {
+    if (desiredchapterLabels == (int)actualchapterLabels) {
       evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
       evaluate (__LINE__, __func__, 0, filter_text.chapterLabels[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
@@ -1091,9 +1091,9 @@ Chapter 2
     
     // Check chapter labels.
     int desiredchapterLabels = 2;
-    int actualchapterLabels = filter_text.chapterLabels.size();
+    size_t actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == actualchapterLabels) {
+    if (desiredchapterLabels == (int)actualchapterLabels) {
       evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
       evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].chapter);
       evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
@@ -1151,9 +1151,9 @@ Chapter Two
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     int n = 3;
-    int size = filter_text.notes_plain_text.size();
+    size_t size = filter_text.notes_plain_text.size();
     evaluate (__LINE__, __func__, n, size);
-    if (size == n) {
+    if ((int)size == n) {
       evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[0].first);
       evaluate (__LINE__, __func__, "2", filter_text.notes_plain_text[1].first);
       evaluate (__LINE__, __func__, "3", filter_text.notes_plain_text[2].first);
@@ -1187,9 +1187,9 @@ Chapter Two
     evaluate (__LINE__, __func__, standard, output);
     
     int n = 5;
-    int size = filter_text.notes_plain_text.size();
+    size_t size = filter_text.notes_plain_text.size();
     evaluate (__LINE__, __func__, n, size);
-    if (size == n) {
+    if ((int)size == n) {
       evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[0].first);
       evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[1].first);
       evaluate (__LINE__, __func__, "2", filter_text.notes_plain_text[2].first);
@@ -1245,7 +1245,28 @@ Chapter Two
     
     2 Jesus came to save the people.
     )";
-    //evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    //evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt)); Todo fix.
+
+  }
+  
+  // Test basic export to TBSX. Todo
+  {
+    string usfm = R"(
+\id GEN
+\h Genesis
+\c 1
+\p
+\v 1 I will sing to the LORD.
+\c 2
+\p
+\v 2 Jesus came to save the people.
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.tbsx_text = new Tbsx_Text ();
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    string output = filter_text.tbsx_text->get_document ();
+    cout << output << endl; // Todo
 
   }
 

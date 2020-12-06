@@ -73,6 +73,7 @@ Filter_Text::Filter_Text (string bible_in)
   onlinebible_text = nullptr;
   esword_text = nullptr;
   text_text = nullptr;
+  tbsx_text = nullptr;
   headings_text_per_verse_active = false;
   space_type_after_verse = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
 }
@@ -90,6 +91,7 @@ Filter_Text::~Filter_Text ()
   if (onlinebible_text) delete onlinebible_text;
   if (esword_text) delete esword_text;
   if (text_text) delete text_text;
+  if (tbsx_text) delete tbsx_text;
 }
 
 
@@ -232,9 +234,12 @@ void Filter_Text::preprocessingStage ()
                   case IdentifierSubtypeBook:
                   {
                     // Get book number.
-                    string s = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
-                    s = filter_string_str_replace (soft_hyphen_u00AD (), "", s); // Remove possible soft hyphen.
-                    currentBookIdentifier = Database_Books::getIdFromUsfm (s);
+                    string usfm_id = usfm_get_book_identifier (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
+                    usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
+                    // The TBSX book identifier is completely equal to the USFM book identifier.
+                    if (tbsx_text) tbsx_text->set_book_id(usfm_id);
+                    // Get Bibledit book number.
+                    currentBookIdentifier = Database_Books::getIdFromUsfm (usfm_id);
                     // Reset chapter and verse numbers.
                     currentChapterNumber = 0;
                     numberOfChaptersPerBook[currentBookIdentifier] = 0;
@@ -246,6 +251,7 @@ void Filter_Text::preprocessingStage ()
                   {
                     string runningHeader = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                     runningHeaders.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
+                    if (tbsx_text) tbsx_text->set_book_name(runningHeader);
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
@@ -296,10 +302,12 @@ void Filter_Text::preprocessingStage ()
               case StyleTypeChapterNumber:
               {
                 string number = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
-                int inumber = convert_to_int (number);
-                currentChapterNumber = inumber;
-                numberOfChaptersPerBook[currentBookIdentifier] = inumber;
+                currentChapterNumber = convert_to_int (number);
+                numberOfChaptersPerBook[currentBookIdentifier] = currentChapterNumber;
                 currentVerseNumber = "0";
+                if (tbsx_text) {
+                  tbsx_text->set_chapter(currentChapterNumber);
+                }
                 break;
               }
               case StyleTypeVerseNumber:
@@ -307,6 +315,9 @@ void Filter_Text::preprocessingStage ()
                 string number = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
                 int inumber = convert_to_int (number);
                 currentVerseNumber = convert_to_string (inumber);
+                if (tbsx_text) {
+                  tbsx_text->open_verse(inumber); // Todo
+                }
                 break;
               }
               case StyleTypeFootEndNote:
@@ -635,7 +646,7 @@ void Filter_Text::processUsfm ()
 
               // This is the phase of outputting the chapter number in the text body.
               // It always outputs the chapter number to the clear text export.
-              if (text_text) {
+              if (text_text) { // Todo
                 text_text->paragraph (number);
               }
               // The chapter number is only output when there is more than one chapter in a book.
@@ -737,7 +748,7 @@ void Filter_Text::processUsfm ()
                   }
                 }
                 if (text_text) {
-                  text_text->paragraph ();
+                  text_text->paragraph (); // Todo
                 }
               }
               // Deal with the case of a pending chapter number.
@@ -821,7 +832,7 @@ void Filter_Text::processUsfm ()
                 if (html_text_linked) html_text_linked->closeTextStyle (false, false);
               }
               // Clear text output.
-              if (text_text) {
+              if (text_text) { // Todo
                 if (text_text->line () != "") {
                   text_text->addtext (" ");
                 }
@@ -921,7 +932,7 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
               if (html_text_standard) html_text_standard->newPageBreak ();
               if (html_text_linked) html_text_linked->newPageBreak ();
-              if (text_text) text_text->paragraph ();
+              if (text_text) text_text->paragraph (); // Todo
               break;
             }
             case StyleTypeTableElement:
@@ -1018,7 +1029,7 @@ void Filter_Text::processUsfm ()
         if (html_text_linked) html_text_linked->addText (currentItem);
         if (onlinebible_text) onlinebible_text->addText (currentItem);
         if (esword_text) esword_text->addText (currentItem);
-        if (text_text) text_text->addtext (currentItem);
+        if (text_text) text_text->addtext (currentItem); // Todo
         if (headings_text_per_verse_active && heading_started) {
           int iverse = convert_to_int (currentVerseNumber);
           verses_headings [iverse].append (currentItem);
@@ -1101,7 +1112,7 @@ void Filter_Text::processNote ()
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote);
                   // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  if (text_text) text_text->note ();
+                  if (text_text) text_text->note (); // Todo
                   // Handle opening notes in plain text.
                   notes_plain_text_handler ();
                   // Set flag.
@@ -1129,7 +1140,7 @@ void Filter_Text::processNote ()
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote, true);
                   // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  if (text_text) text_text->note ();
+                  if (text_text) text_text->note (); // Todo
                   // Handle opening notes in plain text.
                   notes_plain_text_handler ();
                   // Set flag.
@@ -1215,7 +1226,7 @@ void Filter_Text::processNote ()
                   if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerCrossReference);
                   // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  if (text_text) text_text->note ();
+                  if (text_text) text_text->note (); // Todo
                   // Handle opening notes in plain text.
                   notes_plain_text_handler ();
                   // Set flag.
@@ -1275,7 +1286,7 @@ void Filter_Text::processNote ()
       if (odf_text_notes) odf_text_notes->addText (currentItem);
       if (html_text_standard) html_text_standard->addNoteText (currentItem);
       if (html_text_linked) html_text_linked->addNoteText (currentItem);
-      if (text_text) text_text->addnotetext (currentItem);
+      if (text_text) text_text->addnotetext (currentItem); // Todo
       if (note_open_now) {
         notes_plain_text_buffer.append (currentItem);
       }
@@ -1496,7 +1507,7 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newParagraph (marker);
   if (html_text_standard) html_text_standard->newParagraph (marker);
   if (html_text_linked) html_text_linked->newParagraph (marker);
-  if (text_text) text_text->paragraph ();
+  if (text_text) text_text->paragraph (); // Todo
 }
 
 

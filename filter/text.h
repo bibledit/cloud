@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <html/text.h>
 #include <text/text.h>
 #include <esword/text.h>
+#include <tbsx/text.h>
 
 
 class Filter_Text_Passage_Marker_Value
@@ -156,6 +157,9 @@ public:
 public:
   Text_Text * text_text; // Object for exporting to plain text.
 
+public:
+  Tbsx_Text * tbsx_text; // Object for exporting to TBS online bible format.
+  
 public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
   map <int, string> getVersesText ();

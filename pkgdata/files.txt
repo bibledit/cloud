@@ -781,9 +781,13 @@
 /tasks
 /tasks/holder
 /tbsx
-/tbsx/example.docx
 /tbsx/example.txt
-/tbsx/specs.docx
+/tbsx/specs.html
+/tbsx/specs_html_622595c2542694fe.png
+/tbsx/specs_html_74141d66e02c8b0c.png
+/tbsx/specs_html_768dd1f5292670ef.png
+/tbsx/specs_html_85ad3e9582aca4e.png
+/tbsx/specs_html_f86d168cc11a0987.png
 /text
 /timer
 /tmp

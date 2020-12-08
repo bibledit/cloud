@@ -1228,25 +1228,12 @@ Chapter Two
     string odt;
     if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
     string standard = R"(
-    Genesis
-    =======
-    
-    Genesis 1
-    =========
-    
-    Chapter One
-    
-    1 I will sing to the LORD.
-    
-    Genesis 2
-    =========
-    
-    Chapter Two
-    
-    2 Jesus came to save the people.
-    )";
-    //evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt)); Todo fix.
+Unknown 1
+=========
 
+A Jesus is King.  B Jesus is the son of God.
+    )";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
   
   // Test basic export to TBSX.

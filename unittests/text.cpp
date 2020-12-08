@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_filter_text () // Todo
+void test_filter_text () 
 {
   trace_unit_tests (__func__);
   
@@ -1249,7 +1249,7 @@ Chapter Two
 
   }
   
-  // Test basic export to TBSX. Todo
+  // Test basic export to TBSX.
   {
     string usfm = R"(
 \id GEN
@@ -1266,7 +1266,6 @@ Chapter Two
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.tbsx_text->get_document ();
-    cout << output << endl; // Todo
 
   }
 

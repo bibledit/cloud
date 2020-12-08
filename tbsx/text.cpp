@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-// Class for creating Trinitarian Bible Society online Bible documents. Todo
+// Class for creating Trinitarian Bible Society online Bible documents. 
 
 
 void Tbsx_Text::set_book_id (string id)

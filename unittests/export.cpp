@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void test_export () // Todo
+void test_export () 
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);

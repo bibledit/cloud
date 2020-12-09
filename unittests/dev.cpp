@@ -28,8 +28,6 @@
 void test_dev ()
 {
   trace_unit_tests (__func__);
-  
 
   refresh_sandbox (true);
-  //exit(0);
 }

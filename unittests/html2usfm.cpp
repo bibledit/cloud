@@ -191,5 +191,43 @@ void test_html2usfm ()
     evaluate (__LINE__, __func__, standard_usfm, output_usfm);
   }
   
+  // Text plus note but with some unexpected character before the notebody span.
+  // The user could have typed this unexpected character.
+  {
+    string standard = R"(
+\p
+\v 1 Line\f  + \fr 117.1\fk  keyword\ft  Text.\f* one.
+)";
+    standard = filter_string_ltrim(standard);
+    string html = R"(
+<p class="b-p"><span class="i-v">1</span> Line<span class="i-notecall1">1</span> one.</p>
+<p class="b-f">&nbsp;<span class="i-notebody1">1</span> + <span class="i-fr">117.1</span><span class="i-fk"> keyword</span><span class="i-ft"> Text.</span></p>
+    )";
+    html = filter_string_trim(html);
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+  
+  // Text plus note but with a deleted notes separator.
+  {
+    string standard = R"(\p Body\x + \xo 117.1 \xt Note\x*)";
+    standard.append ("\n");
+    string html = R"(
+<p class="b-p">Body<span class="i-notecall33" /></p>
+<p class="b-x"><span class="i-notebody33">1</span> + <span class="i-xo">117.1</span> <span class="i-xt">Note</span></p>
+    )";
+    html = filter_string_trim(html);
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+    editor_html2usfm.run ();
+    string usfm = editor_html2usfm.get ();
+    evaluate (__LINE__, __func__, standard, usfm);
+  }
+
   refresh_sandbox (true);
 }

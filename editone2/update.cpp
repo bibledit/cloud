@@ -132,7 +132,6 @@ string editone2_update (void * webserver_request)
   edited_html = filter_url_tag_to_plus (edited_html);
   loaded_html = filter_string_trim (loaded_html);
   edited_html = filter_string_trim (edited_html);
-
   
   // Check on valid UTF-8.
   if (good2go) {
@@ -172,7 +171,6 @@ string editone2_update (void * webserver_request)
   string edited_verse_usfm = editone2_logic_html_to_usfm (stylesheet, edited_html);
   string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
-
 
   // Set a flag if there is a reason to save the editor text, since it was edited.
   // This is important because the same routine is used for saving editor text

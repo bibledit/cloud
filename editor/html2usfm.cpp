@@ -318,7 +318,19 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
     // Remove the first <span> element.
     // So we remain with:
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
-    note_p_element.remove_child (note_p_element.first_child());
+    {
+      xml_node node = note_p_element.first_child();
+      string name = node.name ();
+      if (name != "span") {
+        // Normally the <span> is the first child in the <p> that is a note.
+        // But the user may have typed some text there.
+        // If so, then the <span> is the second child of the <p>.
+        // This code cares for that situation.
+        node = node.next_sibling();
+        name = node.name();
+      }
+      note_p_element.remove_child (node);
+    }
 
     // Preserve active character styles in the main text, and reset them for the note.
     vector <string> preservedCharacterStyles = characterStyles;
@@ -335,7 +347,7 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
     // Remove this element so it can't be processed again.
     xml_node parent = note_p_element.parent ();
     parent.remove_child (note_p_element);
-    
+
   } else {
     Database_Logs::log ("Discarding note with id " + id);
   }
@@ -416,6 +428,14 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id)
   for (xml_node p_body_child : body.children ()) {
     xml_node span_notebody = p_body_child.first_child();
     string name = span_notebody.name ();
+    if (name != "span") {
+      // Normally the <span> is the first child in the <p> that is a note.
+      // But the user may have typed some text there.
+      // If so, then the <span> is the second child of the <p>.
+      // This code cares for that situation.
+      span_notebody = span_notebody.next_sibling();
+      name = span_notebody.name();
+    }
     if (name == "span") {
       string classs = span_notebody.attribute ("class").value ();
       if (classs.substr (0, 10) == id.substr(0, 10)) {

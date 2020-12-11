@@ -60,7 +60,7 @@ void test_html2usfm ()
   // Non-breaking spaces
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    string standard = "\\p The earth brought forth.";
+    string standard = "\\p The earth  brought  forth.";
     // Test Quill-based editor.
     html = filter_string_str_replace ("<span>", "", html);
     html = filter_string_str_replace ("</span>", "", html);
@@ -227,6 +227,32 @@ void test_html2usfm ()
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
     evaluate (__LINE__, __func__, standard, usfm);
+  }
+
+  // Check that it collapses only three spaces into two.
+  // And that it does not collapse two spaces into one.
+  {
+    string html = "<p class=\"p\"><span>The   earth  brought    forth.</span></p>";
+    string standard = "\\p The  earth  brought  forth.";
+    {
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
+    // The Quill library uses <span> only when needed, so remove them for testing.
+    html = filter_string_str_replace ("<span>", "", html);
+    html = filter_string_str_replace ("</span>", "", html);
+    {
+      Editor_Html2Usfm editor_html2usfm;
+      editor_html2usfm.load (html);
+      editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+      editor_html2usfm.run ();
+      string usfm = editor_html2usfm.get ();
+      evaluate (__LINE__, __func__, standard, usfm);
+    }
   }
 
   refresh_sandbox (true);

@@ -38,8 +38,11 @@ void Editor_Html2Usfm::load (string html)
   html = html2xml (html);
   
   // The user may add several spaces in sequence. Convert them to single spaces.
-  html = filter_string_str_replace ("   ", " ", html);
-  html = filter_string_str_replace ("  ", " ", html);
+  // But keep two spaces in sequence if there're there.
+  // These are needed for footnotes and cross references at times.
+  // https://github.com/bibledit/cloud/issues/460
+  html = filter_string_str_replace ("   ", "  ", html);
+  html = filter_string_str_replace ("   ", "  ", html);
   
   string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.

@@ -59,7 +59,7 @@ void test_html2format ()
   // Non-breaking spaces.
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    vector<string> texts = {"\n", "The earth brought forth."};
+    vector<string> texts = {"\n", "The earth  brought  forth."};
     vector<string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
@@ -303,6 +303,30 @@ void test_html2format ()
     editor_html2format.run ();
     evaluate (__LINE__, __func__, texts, editor_html2format.texts);
     evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+  }
+
+  // Test that it changes three or more spaces in sequence to two spaces.
+  {
+    string html = "<p class=\"p\"><span>The   earth    brought forth.</span></p>";
+    vector<string> texts = {"\n", "The  earth  brought forth."};
+    vector<string> formats = {"p", ""};
+    {
+      Editor_Html2Format editor_html2format;
+      editor_html2format.load (html);
+      editor_html2format.run ();
+      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
+      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+    }
+    // The Quill library uses <span> only when needed, so remove them for testing.
+    html = filter_string_str_replace ("<span>", "", html);
+    html = filter_string_str_replace ("</span>", "", html);
+    {
+      Editor_Html2Format editor_html2format;
+      editor_html2format.load (html);
+      editor_html2format.run ();
+      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
+      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+    }
   }
 
   refresh_sandbox (true);

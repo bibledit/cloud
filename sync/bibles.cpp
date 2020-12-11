@@ -87,10 +87,21 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   // There have been cases that USFM with double spaces in them caused the server to add one more space.
   // Thus the number of added spaces kept increasing each time the client sent a chapter to the server.
   // Remove all the double spaces.
+  // Since double spaces occur in footnotes at times, later the double spaces were no longer removed.
+  // See issue https://github.com/bibledit/cloud/issues/460.
+  // What it now does it to change three spaces in a row to two spaces in a row.
+  // Result is:
+  // 1. It still prevents the spaces from building up.
+  // 2. It keeps the possible double spaces in the footnotes.
+  string three_spaces = "   ";
+  string two_spaces = "  ";
   for (int i = 0; i < 10; i++) {
-    if (oldusfm.find ("  ")) oldusfm = filter_string_str_replace ("  ", " ", oldusfm);
-    if (newusfm.find ("  ")) newusfm = filter_string_str_replace ("  ", " ", newusfm);
-    if (serverusfm.find ("  ")) serverusfm = filter_string_str_replace ("  ", " ", serverusfm);
+    if (oldusfm.find (three_spaces))
+      oldusfm = filter_string_str_replace (three_spaces, two_spaces, oldusfm);
+    if (newusfm.find (three_spaces))
+      newusfm = filter_string_str_replace (three_spaces, two_spaces, newusfm);
+    if (serverusfm.find (three_spaces))
+      serverusfm = filter_string_str_replace (three_spaces, two_spaces, serverusfm);
   }
   
 

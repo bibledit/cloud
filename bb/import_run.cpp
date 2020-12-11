@@ -216,7 +216,8 @@ void bible_import_text (string text, string bible, int book, int chapter)
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (lines[i].empty())
       continue;
-    filter_string_str_replace ("  ", " ", lines[i]);
+    // https://github.com/bibledit/cloud/issues/460
+    filter_string_str_replace ("   ", "  ", lines[i]);
     filter_string_str_replace (" \n", "\n", lines[i]);
     newtext.append(lines[i]);
     newtext.append("\n");

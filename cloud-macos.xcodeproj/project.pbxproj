@@ -947,21 +947,16 @@
 		CADE392324F17422003165BB /* web.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = web.h; sourceTree = "<group>"; };
 		CADE392424F17422003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE392624F17422003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CADE392724F17422003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CADE392824F17422003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE392924F17422003165BB /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
-		CADE392A24F17422003165BB /* load.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = load.o; sourceTree = "<group>"; };
 		CADE392B24F17422003165BB /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
 		CADE392C24F17422003165BB /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
-		CADE392D24F17422003165BB /* save.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = save.o; sourceTree = "<group>"; };
 		CADE392E24F17422003165BB /* offset.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = offset.h; sourceTree = "<group>"; };
-		CADE392F24F17422003165BB /* offset.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = offset.o; sourceTree = "<group>"; };
 		CADE393024F17422003165BB /* offset.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = offset.cpp; sourceTree = "<group>"; };
 		CADE393124F17422003165BB /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CADE393224F17422003165BB /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
 		CADE393324F17422003165BB /* focus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = focus.cpp; sourceTree = "<group>"; };
 		CADE393C24F17422003165BB /* focus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = focus.h; sourceTree = "<group>"; };
-		CADE393D24F17422003165BB /* focus.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = focus.o; sourceTree = "<group>"; };
 		CADE393E24F17422003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE394024F17422003165BB /* css.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = css.cpp; sourceTree = "<group>"; };
 		CADE394124F17422003165BB /* memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = memory.cpp; sourceTree = "<group>"; };
@@ -3947,21 +3942,16 @@
 			children = (
 				CADE393324F17422003165BB /* focus.cpp */,
 				CADE393C24F17422003165BB /* focus.h */,
-				CADE393D24F17422003165BB /* focus.o */,
 				CADE393E24F17422003165BB /* index.cpp */,
 				CADE392624F17422003165BB /* index.h */,
 				CADE392824F17422003165BB /* index.html */,
 				CADE393124F17422003165BB /* index.js */,
-				CADE392724F17422003165BB /* index.o */,
 				CADE393224F17422003165BB /* load.cpp */,
 				CADE392B24F17422003165BB /* load.h */,
-				CADE392A24F17422003165BB /* load.o */,
 				CADE393024F17422003165BB /* offset.cpp */,
 				CADE392E24F17422003165BB /* offset.h */,
-				CADE392F24F17422003165BB /* offset.o */,
 				CADE392924F17422003165BB /* save.cpp */,
 				CADE392C24F17422003165BB /* save.h */,
-				CADE392D24F17422003165BB /* save.o */,
 			);
 			path = editusfm;
 			sourceTree = "<group>";

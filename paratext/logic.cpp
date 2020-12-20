@@ -341,6 +341,7 @@ void Paratext_Logic::synchronize ()
       string paratext_book = paratext_books [book];
       if (paratext_book.empty ()) {
         Database_Logs::log (journalTag (bible, book, -1) + "The Paratext project does not have this book", Filter_Roles::translator ());
+        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + usfm_get_opening_usfm("id") + Database_Books::getUsfmFromId (book) + " on the first line", Filter_Roles::translator ());
         continue;
       }
       

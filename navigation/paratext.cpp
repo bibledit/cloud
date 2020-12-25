@@ -31,7 +31,7 @@ string navigation_paratext_url ()
 }
 
 
-string navigation_paratext (void * webserver_request)
+string navigation_paratext (void * webserver_request) // Todo
 {
   // The request from the client.
   Webserver_Request * request = (Webserver_Request *) webserver_request;

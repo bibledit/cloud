@@ -26,7 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <thread>
 #include <timer/index.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
 #include <database/logs.h>
+#include <database/mappings.h>
+#include <database/books.h>
 #include <setup/index.h>
 #include <setup/logic.h>
 #include <library/locks.h>
@@ -37,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sendreceive/logic.h>
 #include <ldap/logic.h>
 #include <locale/logic.h>
+#include <ipc/focus.h>
 
 
 bool bibledit_started = false;
@@ -206,7 +210,7 @@ void bibledit_start_library ()
 // Gets the last page that was opened via the menu.
 const char * bibledit_get_last_page ()
 {
-  string href = Database_Config_General::getLastMenuClick ();
+  static string href = Database_Config_General::getLastMenuClick ();
   return href.c_str();
 }
 
@@ -370,4 +374,56 @@ const char * bibledit_disable_selection_popup_chrome_os ()
     return "true";
   }
   return "false";
+}
+
+
+// https://github.com/bibledit/cloud/issues/437
+// Accordance expects to receive a standardized verse reference.
+// So, for instance, a reference of Psalm 13:3 in the Hebrew Bible
+// will instead become the standardized (KJV-like) Psalm 13:2.
+const char * bibledit_get_reference_for_accordance () // Todo
+{
+  // Keep the static reference always in memory as a global reference.
+  // The purpose is that the value remains live in memory for the caller,
+  // even after the function has returned, and local variables will have been destroyed.
+  static string reference;
+
+  // Set the user name to the first one in the database.
+  // Or if the database has no users, make the user admin.
+  // That happens when disconnected from the Cloud.
+  string user = "admin";
+  Database_Users database_users;
+  vector <string> users = database_users.getUsers ();
+  if (!users.empty()) user = users [0];
+
+  // Get the active Bible and its versification system.
+  Webserver_Request request;
+  request.session_logic()->setUsername(user);
+  Database_Config_User database_config_user (&request);
+  string bible = request.database_config_user ()->getBible ();
+  string versification = Database_Config_Bible::getVersificationSystem (bible);
+
+  int book = Ipc_Focus::getBook (&request);
+  int chapter = Ipc_Focus::getChapter (&request);
+  int verse = Ipc_Focus::getVerse (&request);
+
+  // Accordance expects a verse reference in the English versification system.
+  vector <Passage> passages;
+  Database_Mappings database_mappings;
+  if ((versification != english()) && !versification.empty ()) {
+    passages = database_mappings.translate (versification, english (), book, chapter, verse);
+  } else {
+    passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
+  }
+  if (passages.empty()) return "";
+
+  // Accordance expects for instance, 2 Corinthians 9:2, to be broadcast as "2CO 9:2".
+  book = passages[0].book;
+  chapter = passages[0].chapter;
+  string verse_s = passages[0].verse;
+  string usfm_id = Database_Books::getUsfmFromId (book);
+  reference = usfm_id + " " + convert_to_string (chapter) + ":" + convert_to_string (verse_s);
+
+  // Return the reference.
+  return reference.c_str ();
 }

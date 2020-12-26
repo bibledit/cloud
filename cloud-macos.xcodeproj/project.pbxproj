@@ -2042,7 +2042,6 @@
 		CADE3FB224F17488003165BB /* rangy-classapplier.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-classapplier.min.js"; sourceTree = "<group>"; };
 		CADE3FB324F17488003165BB /* rangy-selectionsaverestore.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rangy-selectionsaverestore.js"; sourceTree = "<group>"; };
 		CADE3FB524F17488003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CADE3FB624F17488003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CADE3FB724F17488003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE3FB824F17488003165BB /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		CADE3FBD24F17488003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
@@ -5726,7 +5725,6 @@
 				CADE3FB524F17488003165BB /* index.h */,
 				CADE3FB724F17488003165BB /* index.html */,
 				CADE3FB824F17488003165BB /* index.js */,
-				CADE3FB624F17488003165BB /* index.o */,
 			);
 			path = personalize;
 			sourceTree = "<group>";

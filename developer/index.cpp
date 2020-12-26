@@ -134,9 +134,10 @@ string developer_index (void * webserver_request)
     view.set_variable ("success", "Starting to maintain the databases");
   }
 
-  if (debug == "setaccordance") {
+  if (debug == "accordance") {
     string reference = bibledit_get_reference_for_accordance ();
-    view.set_variable ("success", "Accordance reference: " + reference); // Todo
+    view.set_variable ("success", "Accordance reference: " + reference);
+    bibledit_put_reference_from_accordance("PSA 3:2");
   }
 
   view.set_variable ("code", code);

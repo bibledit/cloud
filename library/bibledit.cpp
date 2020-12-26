@@ -427,3 +427,56 @@ const char * bibledit_get_reference_for_accordance () // Todo
   // Return the reference.
   return reference.c_str ();
 }
+
+
+// https://github.com/bibledit/cloud/issues/437
+// Accordance sends a standardized verse reference.
+// So, for instance, a reference of Psalm 13:3 in the Hebrew Bible
+// will instead become the standardized (KJV-like) Psalm 13:2.
+void bibledit_put_reference_from_accordance (const char * reference) // Todo
+{
+  // Set the user name to the first one in the database.
+  // If the database has no users, make the user admin.
+  // That happens when disconnected from the Cloud.
+  string user = "admin";
+  Database_Users database_users;
+  vector <string> users = database_users.getUsers ();
+  if (!users.empty()) user = users [0];
+  Webserver_Request request;
+  request.session_logic()->setUsername(user);
+
+  // Setting whether to enable receiving verse references from Accordance.
+  bool enabled  = request.database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
+  if (!enabled) return;
+  
+  // Interpret the passage from Accordance, e.g. MAT 1:1.
+  // Accordance broadcasts for instance, 2 Corinthians 9:2, as "2CO 9:2".
+  vector<string> book_rest = filter_string_explode (reference, ' ');
+  if (book_rest.size() != 2) return;
+  int book = Database_Books::getIdFromUsfm (book_rest[0]);
+  vector <string> chapter_verse = filter_string_explode(book_rest[1], ':');
+  if (chapter_verse.size() != 2) return;
+  int chapter = convert_to_int(chapter_verse[0]);
+  int verse = convert_to_int(chapter_verse[1]);
+
+  // Get the active Bible and its versification system.
+  Database_Config_User database_config_user (&request);
+  string bible = request.database_config_user ()->getBible ();
+  string versification = Database_Config_Bible::getVersificationSystem (bible);
+
+  // Accordance expects a verse reference in the English versification system.
+  vector <Passage> passages;
+  Database_Mappings database_mappings;
+  if ((versification != english()) && !versification.empty ()) {
+    passages = database_mappings.translate (english (), versification, book, chapter, verse);
+  } else {
+    passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
+  }
+  if (passages.empty()) return;
+
+  // Set the focused passage in Bibledit.
+  book = passages[0].book;
+  chapter = passages[0].chapter;
+  string verse_s = passages[0].verse;
+  Ipc_Focus::set (&request, book, chapter, verse);
+}

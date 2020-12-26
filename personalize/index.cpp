@@ -480,6 +480,15 @@ string personalize_index (void * webserver_request)
   view.set_variable ("referencefromparatext", on_off);
 
   
+  // Setting for whether to receive the focused reference from Accordance on macOS. // Todo
+  if (request->query.count ("referencefromaccordance")) {
+    bool state = request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
+    request->database_config_user ()->setReceiveFocusedReferenceFromAccordance (!state);
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ());
+  view.set_variable ("referencefromaccordance", on_off);
+
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic_privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
@@ -518,6 +527,11 @@ string personalize_index (void * webserver_request)
 #ifdef HAVE_WINDOWS
   view.enable_zone ("windows");
 #endif
+
+  
+#ifdef HAVE_MAC
+#endif
+  view.enable_zone ("macos"); // Todo
 
   
   view.set_variable ("success", success);

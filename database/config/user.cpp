@@ -1360,3 +1360,18 @@ void Database_Config_User::setReceiveFocusedReferenceFromParatext (bool value)
 {
   setBValue (receive_focused_reference_from_paratext_key (), value);
 }
+
+
+const char * receive_focused_reference_from_accordance_key ()
+{
+  return "receive-focused-reference-from-accordance";
+}
+bool Database_Config_User::getReceiveFocusedReferenceFromAccordance ()
+{
+  return getBValue (receive_focused_reference_from_accordance_key (), true);
+}
+void Database_Config_User::setReceiveFocusedReferenceFromAccordance (bool value)
+{
+  setBValue (receive_focused_reference_from_accordance_key (), value);
+}
+

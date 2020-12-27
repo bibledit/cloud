@@ -480,7 +480,7 @@ string personalize_index (void * webserver_request)
   view.set_variable ("referencefromparatext", on_off);
 
   
-  // Setting for whether to receive the focused reference from Accordance on macOS. // Todo
+  // Setting for whether to receive the focused reference from Accordance on macOS.
   if (request->query.count ("referencefromaccordance")) {
     bool state = request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
     request->database_config_user ()->setReceiveFocusedReferenceFromAccordance (!state);
@@ -531,7 +531,7 @@ string personalize_index (void * webserver_request)
   
 #ifdef HAVE_MAC
 #endif
-  view.enable_zone ("macos"); // Todo
+  view.enable_zone ("macos");
 
   
   view.set_variable ("success", success);

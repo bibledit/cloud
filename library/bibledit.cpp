@@ -381,7 +381,7 @@ const char * bibledit_disable_selection_popup_chrome_os ()
 // Accordance expects to receive a standardized verse reference.
 // So, for instance, a reference of Psalm 13:3 in the Hebrew Bible
 // will instead become the standardized (KJV-like) Psalm 13:2.
-const char * bibledit_get_reference_for_accordance () // Todo
+const char * bibledit_get_reference_for_accordance ()
 {
   // Keep the static reference always in memory as a global reference.
   // The purpose is that the value remains live in memory for the caller,
@@ -433,7 +433,7 @@ const char * bibledit_get_reference_for_accordance () // Todo
 // Accordance sends a standardized verse reference.
 // So, for instance, a reference of Psalm 13:3 in the Hebrew Bible
 // will instead become the standardized (KJV-like) Psalm 13:2.
-void bibledit_put_reference_from_accordance (const char * reference) // Todo
+void bibledit_put_reference_from_accordance (const char * reference)
 {
   // Set the user name to the first one in the database.
   // If the database has no users, make the user admin.

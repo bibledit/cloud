@@ -288,6 +288,40 @@ function oneverseEditorForceSaveVerse ()
 }
 
 
+function oneverseEditorLoadNonEditable ()
+{
+  oneverseAjaxActive = true;
+  $.ajax ({
+    url: "load",
+    type: "GET",
+    data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoading, id: verseEditorUniqueID },
+    success: function (response) {
+      // Remove the flag for editor read-write or read-only.
+      checksum_readwrite (response);
+      // Checksumming.
+      response = checksum_receive (response);
+      // Splitting.
+      if (response !== false) {
+        var bits;
+        bits = response.split ("#_be_#");
+        if (bits.length != 3) response == false;
+        $ ("#oneprefix").empty ();
+        $ ("#oneprefix").append (bits [0]);
+        $ ("#oneprefix").off ("click");
+        $ ("#oneprefix").on ("click", oneVerseHtmlClicked);
+        $ ("#onesuffix").empty ();
+        $ ("#onesuffix").append (bits [2]);
+        $ ("#onesuffix").off ("click");
+        $ ("#onesuffix").on ("click", oneVerseHtmlClicked);
+      }
+    },
+    complete: function (xhr, status) {
+      oneverseAjaxActive = false;
+    }
+  });
+}
+
+
 //
 //
 // Portion dealing with triggers for editor's content change.
@@ -430,6 +464,8 @@ function oneverseEditorPollId ()
           // That means that likely there's updated text on the server.
           // Start the routine to load any possible updates into the editor.
           oneverseUpdateTrigger = true;
+          oneverseReloadNonEditableFlag = true;
+          
         }
       }
       oneverseChapterId = response;
@@ -953,6 +989,7 @@ var oneverseAjaxActive = false;
 var oneversePollSelector = 0;
 var oneversePollDate = new Date();
 var oneverseUpdateTrigger = false;
+var oneverseReloadNonEditableFlag = false;
 
 
 function oneverseCoordinatingTimeout ()
@@ -964,6 +1001,10 @@ function oneverseCoordinatingTimeout ()
   else if (oneverseUpdateTrigger) {
     oneverseUpdateTrigger = false;
     oneverseUpdateExecute ();
+  }
+  else if (oneverseReloadNonEditableFlag) {
+    oneverseReloadNonEditableFlag = false;
+    oneverseEditorLoadNonEditable ();
   }
   // Handle situation that no process is ongoing.
   // Now the regular pollers can run again.

@@ -127,7 +127,8 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   xml_document document;
   document.load_string (prefix.c_str(), parse_ws_pcdata_single);
 
-  const char * b_notes = "b-notes";
+  // The notes separator class.
+  const char * b_notes_class = "b-notes";
   
   // Iterate over the document to find:
   // - the possible notes separator.
@@ -140,7 +141,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
       prefix_note_nodes.push_back (p_node);
     }
     string cls = p_node.attribute ("class").value ();
-    if (cls == b_notes) {
+    if (cls == b_notes_class) {
       within_notes = true;
       prefix_separator_node = p_node;
     }
@@ -152,7 +153,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Get the note(s) text from the note node(s).
   // Remove the note node(s) from the prefix.
   // Remove the notes separator node from the prefix.
-  string notes_text; // Todo probably not needed, check it.
+  string notes_text;
   for (xml_node p_node : prefix_note_nodes) {
     stringstream ss;
     p_node.print (ss, "", format_raw);
@@ -179,7 +180,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   xml_node suffix_separator_node;
   for (xml_node p_node : document.children ()) {
     string cls = p_node.attribute ("class").value ();
-    if (cls == b_notes) {
+    if (cls == b_notes_class) {
       suffix_separator_node = p_node;
     }
   }
@@ -187,36 +188,19 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // If there's no notes container, add it.
   if (!suffix_separator_node) {
     suffix_separator_node = document.append_child ("p");
-    suffix_separator_node.append_attribute ("class") = b_notes;
+    suffix_separator_node.append_attribute ("class") = b_notes_class;
     suffix_separator_node.append_child ("br");
   }
 
-  // Move the collected notes from the prefix to the suffix. Todo
-//  xml_node node_before_next_note = suffix_separator_node;
-//  for (xml_node note_node : prefix_note_nodes) {
-//    document.append_child (note_node));
-//    node_before_next_note = document.insert_move_after (note_node, node_before_next_note);
-//  }
- 
   // Contain the prefix's notes and add them to the suffix's notes container.
-  //notes_text.insert (0, "<div>");
-  //notes_text.append ("</div>");
   suffix_separator_node.append_buffer (notes_text.c_str (), notes_text.size ());
 
-  // Put the notes in the correct order, if needed.
-  //if (!id.empty ()) {
-    //xml_node hr_node = div_node.first_child ();
-    //xml_node new_node = div_node.last_child ();
-    //div_node.insert_move_after (new_node, hr_node);
-  //}
-  
   // Convert the DOM to suffix text.
   {
     stringstream ss;
     document.print (ss, "", format_raw);
     suffix = ss.str ();
   }
-  //cout << suffix << endl; // Todo
 }
 
 

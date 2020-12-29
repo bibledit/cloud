@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void editone2_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style)
+void editone_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -44,7 +44,7 @@ void editone2_logic_prefix_html (string usfm, string stylesheet, string & html, 
 }
 
 
-void editone2_logic_editable_html (string usfm, string stylesheet, string & html)
+void editone_logic_editable_html (string usfm, string stylesheet, string & html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -56,7 +56,7 @@ void editone2_logic_editable_html (string usfm, string stylesheet, string & html
 }
 
 
-void editone2_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html)
+void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -92,7 +92,7 @@ void editone2_logic_suffix_html (string editable_last_p_style, string usfm, stri
 }
 
 
-string editone2_logic_html_to_usfm (string stylesheet, string html)
+string editone_logic_html_to_usfm (string stylesheet, string html)
 {
   // It used to convert XML entities to normal characters.
   // For example, it used to convert "&lt;" to "<".
@@ -115,7 +115,7 @@ string editone2_logic_html_to_usfm (string stylesheet, string html)
 
 
 // Move the notes from the $prefix to the $suffix.
-void editone2_logic_move_notes (string & prefix, string & suffix)
+void editone_logic_move_notes_v2 (string & prefix, string & suffix)
 {
   // No input: Ready.
   if (prefix.empty ()) return;
@@ -126,60 +126,89 @@ void editone2_logic_move_notes (string & prefix, string & suffix)
   // Load the prefix.
   xml_document document;
   document.load_string (prefix.c_str(), parse_ws_pcdata_single);
-  
-  // If there's any notes, it should be at the end.
-  xml_node div_node = document.last_child ();
-  string id = div_node.attribute ("id").value ();
-  
-  // No note(s): Ready.
-  if (id != "prefixnotes") return;
 
-  // Get the note(s) leaving out the surrounding data.
-  string notes_text;
-  for (xml_node child : div_node.children ()) {
-    if (strcmp (child.name (), "p") != 0) continue;
+  const char * b_notes = "b-notes";
+  
+  // Iterate over the document to find:
+  // - the possible notes separator.
+  // - any possible subsequent note nodes.
+  bool within_notes = false;
+  xml_node prefix_separator_node;
+  vector <xml_node> prefix_note_nodes;
+  for (xml_node p_node : document.children ()) {
+    if (within_notes) {
+      prefix_note_nodes.push_back (p_node);
+    }
+    string cls = p_node.attribute ("class").value ();
+    if (cls == b_notes) {
+      within_notes = true;
+      prefix_separator_node = p_node;
+    }
+  }
+
+  // No notes: Ready.
+  if (prefix_note_nodes.empty()) return;
+
+  // Get the note(s) text from the note node(s).
+  // Remove the note node(s) from the prefix.
+  // Remove the notes separator node from the prefix.
+  string notes_text; // Todo probably not needed, check it.
+  for (xml_node p_node : prefix_note_nodes) {
     stringstream ss;
-    child.print (ss, "", format_raw);
+    p_node.print (ss, "", format_raw);
     string note = ss.str ();
     notes_text.append (note);
+    document.remove_child (p_node);
   }
-  
-  // Remove the note(s) from the prefix.
-  document.remove_child (div_node);
+  document.remove_child (prefix_separator_node);
+
+  // Convert the XML document back to a possibly cleaned prefix without notes.
   {
     stringstream ss;
     document.print (ss, "", format_raw);
     prefix = ss.str ();
   }
 
-  // Do a html to xml conversion to avoid a mismatched tag error.
+  // Do a html to xml conversion in the suffix to avoid a mismatched tag error.
   suffix = html2xml (suffix);
-  
+
   // Load the suffix.
   document.load_string (suffix.c_str(), parse_ws_pcdata_single);
 
-  // If there's any notes, it should be at the end.
-  div_node = document.last_child ();
-  id = div_node.attribute ("id").value ();
-  
-  // If there's no notes container, add it.
-  if (id.empty ()) {
-    div_node = document.append_child ("div");
-    div_node.append_attribute ("id") = "suffixnotes";
-    div_node.append_child ("hr");
+  // Iterate over the document to find the possible notes separator.
+  xml_node suffix_separator_node;
+  for (xml_node p_node : document.children ()) {
+    string cls = p_node.attribute ("class").value ();
+    if (cls == b_notes) {
+      suffix_separator_node = p_node;
+    }
   }
-  
+
+  // If there's no notes container, add it.
+  if (!suffix_separator_node) {
+    suffix_separator_node = document.append_child ("p");
+    suffix_separator_node.append_attribute ("class") = b_notes;
+    suffix_separator_node.append_child ("br");
+  }
+
+  // Move the collected notes from the prefix to the suffix. Todo
+//  xml_node node_before_next_note = suffix_separator_node;
+//  for (xml_node note_node : prefix_note_nodes) {
+//    document.append_child (note_node));
+//    node_before_next_note = document.insert_move_after (note_node, node_before_next_note);
+//  }
+ 
   // Contain the prefix's notes and add them to the suffix's notes container.
-  notes_text.insert (0, "<div>");
-  notes_text.append ("</div>");
-  div_node.append_buffer (notes_text.c_str (), notes_text.size ());
+  //notes_text.insert (0, "<div>");
+  //notes_text.append ("</div>");
+  suffix_separator_node.append_buffer (notes_text.c_str (), notes_text.size ());
 
   // Put the notes in the correct order, if needed.
-  if (!id.empty ()) {
-    xml_node hr_node = div_node.first_child ();
-    xml_node new_node = div_node.last_child ();
-    div_node.insert_move_after (new_node, hr_node);
-  }
+  //if (!id.empty ()) {
+    //xml_node hr_node = div_node.first_child ();
+    //xml_node new_node = div_node.last_child ();
+    //div_node.insert_move_after (new_node, hr_node);
+  //}
   
   // Convert the DOM to suffix text.
   {
@@ -187,6 +216,7 @@ void editone2_logic_move_notes (string & prefix, string & suffix)
     document.print (ss, "", format_raw);
     suffix = ss.str ();
   }
+  //cout << suffix << endl; // Todo
 }
 
 

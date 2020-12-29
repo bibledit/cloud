@@ -109,7 +109,7 @@ string editone2_save (void * webserver_request)
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
  
   
-  string verse_usfm = editone2_logic_html_to_usfm (stylesheet, html);
+  string verse_usfm = editone_logic_html_to_usfm (stylesheet, html);
 
   
   // Collect some data about the changes for this user.

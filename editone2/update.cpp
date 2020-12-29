@@ -167,8 +167,8 @@ string editone2_update (void * webserver_request)
   // This needs the loaded USFM as the ancestor,
   // the edited USFM as a change-set,
   // and the existing USFM as a prioritized change-set.
-  string loaded_verse_usfm = editone2_logic_html_to_usfm (stylesheet, loaded_html);
-  string edited_verse_usfm = editone2_logic_html_to_usfm (stylesheet, edited_html);
+  string loaded_verse_usfm = editone_logic_html_to_usfm (stylesheet, loaded_html);
+  string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
   string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
@@ -266,7 +266,7 @@ string editone2_update (void * webserver_request)
     string server_html;
     {
       string verse_usfm = usfm_get_verse_text_quill (new_chapter_usfm, verse);
-      editone2_logic_editable_html (verse_usfm, stylesheet, server_html);
+      editone_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
     vector <int> positions;
     vector <int> sizes;

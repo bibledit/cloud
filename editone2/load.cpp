@@ -86,16 +86,16 @@ string editone2_load (void * webserver_request)
   
   string prefix_html;
   string not_used;
-  editone2_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
+  editone_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
   
   // The focused editable verse also has any footnotes contained in that verse.
   // It is convenient to have the footnote as near as possible to the verse text.
   // This is helpful for editing the verse and note.
   string focused_verse_html;
-  editone2_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
+  editone_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
   
   string suffix_html;
-  editone2_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
+  editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
   
   // If the verse was empty, ensure that it has a non-breaking space as the last character,
   // for easier text entry in the verse.
@@ -110,7 +110,7 @@ string editone2_load (void * webserver_request)
   }
 
   // Moves any notes from the prefix to the suffix.
-  editone2_logic_move_notes (prefix_html, suffix_html);
+  editone_logic_move_notes_v2 (prefix_html, suffix_html);
   
   string data;
   data.append (prefix_html);

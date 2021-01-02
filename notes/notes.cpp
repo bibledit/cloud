@@ -104,15 +104,26 @@ string notes_notes (void * webserver_request)
 
   bool show_bible_in_notes_list = request->database_config_user ()->getShowBibleInNotesList ();
   bool show_note_status = request->database_config_user ()->getShowNoteStatus ();
+  bool color_note_status = request->database_config_user ()->getUseColoredNoteStatusLabels ();
   string notesblock;
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.get_summary (identifier);
     vector <Passage> passages = database_notes.get_passages (identifier);
     string verses = filter_passage_display_inline (passages);
-    if (show_note_status) {
-      string status = database_notes.get_status (identifier);
-      verses.insert (0, status + " ");
+    if (show_note_status) { // Todo
+      string status_text = database_notes.get_status (identifier);
+      string status_class;
+      if (color_note_status) {
+        // The class properties are in the stylesheet.
+        // Distinct colors were generated through https://mokole.com/palette.html.
+        status_class = database_notes.get_raw_status (identifier);
+        status_class = unicode_string_casefold (status_class);
+        status_class = filter_string_str_replace (" ", "", status_class);
+        status_text.insert (0, R"(<span class="note-)" + status_class + R"(">)");
+        status_text.append ("</span>");
+      }
+      verses.insert (0, status_text + " ");
     }
     if (show_bible_in_notes_list) {
       string bible = database_notes.get_bible (identifier);

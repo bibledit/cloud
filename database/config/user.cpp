@@ -1375,3 +1375,17 @@ void Database_Config_User::setReceiveFocusedReferenceFromAccordance (bool value)
   setBValue (receive_focused_reference_from_accordance_key (), value);
 }
 
+
+const char * use_colored_note_status_labels_key ()
+{
+  return "use-colored-note-status-labels";
+}
+bool Database_Config_User::getUseColoredNoteStatusLabels ()
+{
+  return getBValue (use_colored_note_status_labels_key (), false);
+}
+void Database_Config_User::setUseColoredNoteStatusLabels (bool value)
+{
+  setBValue (use_colored_note_status_labels_key (), value);
+}
+

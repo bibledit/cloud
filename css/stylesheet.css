@@ -576,3 +576,29 @@ table.interlinear.rtl {
   -webkit-user-select: none;
   cursor: default;
 }
+
+.note-new {
+  color: #fff;
+  background-color: #008080;
+}
+
+.note-pending {
+  color: #0a0a0a;
+  background-color: #ffa500;
+}
+
+.note-inprogress {
+  color: #0a0a0a;
+  background-color: #00ff00;
+}
+
+.note-done {
+  color: #fff;
+  background-color: #0000ff;
+}
+
+.note-reopened {
+  color: #fff;
+  background-color: #ff1493;
+}
+

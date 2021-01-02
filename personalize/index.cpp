@@ -418,12 +418,24 @@ string personalize_index (void * webserver_request)
   
   
   // Whether to display the note status in the notes list and the note display.
+  // Setting for whether to colour the labels of the status of the consultation notes. // Todo
+  // These two settings work together.
   if (request->query.count ("shownotestatus")) {
     bool state = request->database_config_user ()->getShowNoteStatus ();
     request->database_config_user ()->setShowNoteStatus (!state);
   }
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getShowNoteStatus ());
-  view.set_variable ("shownotestatus", on_off);
+  if (request->query.count ("colorednotetatus")) {
+    bool state = request->database_config_user ()->getUseColoredNoteStatusLabels ();
+    request->database_config_user ()->setUseColoredNoteStatusLabels (!state);
+  }
+  {
+    bool state = request->database_config_user ()->getShowNoteStatus ();
+    on_off = styles_logic_off_on_inherit_toggle_text (state);
+    if (state) view.enable_zone ("notestatuson");
+    view.set_variable ("shownotestatus", on_off); // Todo
+  }
+  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getUseColoredNoteStatusLabels ());
+  view.set_variable ("colorednotetatus", on_off);
 
   
   // Whether to show the text of the focused Bible passage, while creating a new Consultation Note.

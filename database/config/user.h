@@ -233,6 +233,8 @@ public:
   void setReceiveFocusedReferenceFromParatext (bool value);
   bool getReceiveFocusedReferenceFromAccordance ();
   void setReceiveFocusedReferenceFromAccordance (bool value);
+  bool getUseColoredNoteStatusLabels ();
+  void setUseColoredNoteStatusLabels (bool value);
 private:
   void * webserver_request;
   string file (string user);

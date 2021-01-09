@@ -35,9 +35,13 @@ bool editone_index_acl ()
 }
 
 
-string editone_index (void * webserver_request)
+string editone_index (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  redirect_browser (request, editone2_index_url ());
+  string url = editone2_index_url ();
+  for (auto query : request->query) {
+    url = filter_url_build_http_query (url, query.first, query.second);
+  }
+  redirect_browser (request, url);
   return "";
 }

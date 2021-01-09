@@ -35,7 +35,7 @@ bool editone_index_acl ()
 }
 
 
-string editone_index (void * webserver_request) // Todo
+string editone_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string url = editone2_index_url ();

@@ -111,7 +111,7 @@ string notes_notes (void * webserver_request)
     string summary = database_notes.get_summary (identifier);
     vector <Passage> passages = database_notes.get_passages (identifier);
     string verses = filter_passage_display_inline (passages);
-    if (show_note_status) { // Todo
+    if (show_note_status) {
       string status_text = database_notes.get_status (identifier);
       string status_class;
       if (color_note_status) {

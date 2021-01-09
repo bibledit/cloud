@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <navigation/paratext.h>
 #include <database/logs.h>
 #include <database/books.h>
+#include <database/config/bible.h>
+#include <database/mappings.h>
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <ipc/focus.h>
@@ -60,6 +62,26 @@ string navigation_paratext (void * webserver_request)
           vector <string> users = database_users.getUsers ();
           if (!users.empty()) user = users [0];
           request->session_logic()->setUsername(user);
+          // "I believe how SantaFe works on Windows is
+          // that it always sends a standardised verse reference.
+          // So, for instance, a reference of Psalm 13:3 in the Hebrew Bible
+          // will instead send the standardised (KJV-like) Psalm 13:2."
+          // Assuming this to be the case for receiving a reference from Paratext,
+          // it means that the reference from Paratext
+          // may need to be mapped to the local versification system.
+          // Get the active Bible and its versification system.
+          string bible = request->database_config_user ()->getBible ();
+          string versification = Database_Config_Bible::getVersificationSystem (bible);
+          vector <Passage> passages;
+          Database_Mappings database_mappings;
+          if ((versification != english()) && !versification.empty ()) {
+            passages = database_mappings.translate (english (), versification, book, chapter, verse);
+          } else {
+            passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
+          }
+          if (passages.empty()) return "";
+          chapter = passages[0].chapter;
+          verse = convert_to_int (passages[0].verse);
           // Set the focused passage for Bibledit.
           Ipc_Focus::set (request, book, chapter, verse);
         }

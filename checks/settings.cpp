@@ -180,6 +180,12 @@ string checks_settings (void * webserver_request)
   view.set_variable ("frenchcitation", get_checkbox_status (Database_Config_Bible::getCheckFrenchCitationStyle (bible)));
 
   
+  if (checkbox == "transposenotes") {
+    Database_Config_Bible::setTransposeFixSpacesNotes (bible, checked);
+  }
+  view.set_variable ("transposenotes", get_checkbox_status (Database_Config_Bible::getTransposeFixSpacesNotes (bible)));
+
+  
   view.set_variable ("bible", bible);
 
   

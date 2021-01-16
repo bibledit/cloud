@@ -379,6 +379,20 @@ void Database_Config_Bible::setCheckFrenchCitationStyle (string bible, bool valu
 }
 
 
+const char * transpose_fix_spaces_notes_key ()
+{
+  return "transpose-fix-spaces-notes";
+}
+bool Database_Config_Bible::getTransposeFixSpacesNotes (string bible)
+{
+  return getBValue (bible, transpose_fix_spaces_notes_key (), false);
+}
+void Database_Config_Bible::setTransposeFixSpacesNotes (string bible, bool value)
+{
+  setBValue (bible, transpose_fix_spaces_notes_key (), value);
+}
+
+
 string Database_Config_Bible::getSprintTaskCompletionCategories (string bible)
 {
   return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");

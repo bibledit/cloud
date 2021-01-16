@@ -76,6 +76,8 @@ public:
   static void setCheckFrenchPunctuation (string bible, bool value);
   static bool getCheckFrenchCitationStyle (string bible);
   static void setCheckFrenchCitationStyle (string bible, bool value);
+  static bool getTransposeFixSpacesNotes (string bible);
+  static void setTransposeFixSpacesNotes (string bible, bool value);
   static string getSprintTaskCompletionCategories (string bible);
   static void setSprintTaskCompletionCategories (string bible, string value);
   static int getRepeatSendReceive (string bible);

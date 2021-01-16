@@ -24,6 +24,8 @@
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
+#include <database/modifications.h>
+#include <database/git.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -42,13 +44,16 @@
 #include <checks/settings.h>
 #include <checks/french.h>
 #include <email/send.h>
+#include <sendreceive/logic.h>
+#include <rss/logic.h>
 
 
 void checks_run (string bible)
 {
   Webserver_Request request;
   Database_Check database_check;
-  
+  Database_Modifications database_modifications;
+
   
   if (bible == "") return;
   
@@ -104,6 +109,7 @@ void checks_run (string bible)
   bool check_space_end_verse = Database_Config_Bible::getCheckSpaceEndVerse (bible);
   bool check_french_punctuation = Database_Config_Bible::getCheckFrenchPunctuation (bible);
   bool check_french_citation_style = Database_Config_Bible::getCheckFrenchCitationStyle (bible);
+  bool transpose_fix_space_in_notes = Database_Config_Bible::getTransposeFixSpacesNotes (bible);
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
@@ -119,6 +125,25 @@ void checks_run (string bible)
     
     for (auto chapter : chapters) {
       string chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter);
+    
+      
+      // Transpose and fix spacing around certain markers in footnotes and cross references. Todo
+      if (transpose_fix_space_in_notes) {
+        string old_usfm (chapterUsfm);
+        bool transposed = Checks_Space::transposeNoteSpace (chapterUsfm);
+        if (transposed) {
+          int oldID = request.database_bibles()->getChapterId (bible, book, chapter);
+          request.database_bibles()->storeChapter(bible, book, chapter, chapterUsfm);
+          int newID = request.database_bibles()->getChapterId (bible, book, chapter);
+          string username = "Bibledit";
+          database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
+          if (sendreceive_git_repository_linked (bible)) {
+            Database_Git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
+          }
+          rss_logic_schedule_update (username, bible, book, chapter, old_usfm, chapterUsfm);
+          Database_Logs::log ("Transposed and fixed double spaces around markers in footnotes or cross references in " + filter_passage_display (book, chapter, "") + " in Bible " + bible);
+        }
+      }
       
       
       vector <int> verses = usfm_get_verse_numbers (chapterUsfm);

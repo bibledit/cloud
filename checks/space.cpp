@@ -88,3 +88,27 @@ void Checks_Space::spaceEndVerse (string bible, int book, int chapter, string us
     if (hit) database_check.recordOutput (bible, book, chapter, verse, translate ("Space at the end of the verse"));
   }
 }
+
+
+bool Checks_Space::transposeNoteSpace (string & usfm)
+{
+  // Samples of footnote and cross reference markers that have spacing to be transposed.
+  // \v 1 Verse\f + \fr 3.1\fk  keyword\ft  Text.\f* one.
+  // \v 2 Verse\x + \xo 3.2\xt  Text.\x* two.
+
+  bool transposed = false;
+  size_t pos = usfm.find("  ");
+  if (pos != string::npos) {
+    map <string, string> data = {
+      make_pair (R"(\fk  )", R"( \fk )"),
+      make_pair (R"(\ft  )", R"( \ft )"),
+      make_pair (R"(\xt  )", R"( \xt )")
+    };
+    for (auto search_replace : data) {
+      int count = 0;
+      usfm = filter_string_str_replace (search_replace.first, search_replace.second, usfm, &count);
+      if (count) transposed = true;
+    }
+  }
+  return transposed;
+}

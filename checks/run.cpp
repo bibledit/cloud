@@ -52,7 +52,9 @@ void checks_run (string bible)
 {
   Webserver_Request request;
   Database_Check database_check;
+#ifndef HAVE_CLIENT
   Database_Modifications database_modifications;
+#endif
 
   
   if (bible == "") return;
@@ -132,8 +134,11 @@ void checks_run (string bible)
         string old_usfm (chapterUsfm);
         bool transposed = Checks_Space::transposeNoteSpace (chapterUsfm);
         if (transposed) {
+#ifndef HAVE_CLIENT
           int oldID = request.database_bibles()->getChapterId (bible, book, chapter);
+#endif
           request.database_bibles()->storeChapter(bible, book, chapter, chapterUsfm);
+#ifndef HAVE_CLIENT
           int newID = request.database_bibles()->getChapterId (bible, book, chapter);
           string username = "Bibledit";
           database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
@@ -141,6 +146,7 @@ void checks_run (string bible)
             Database_Git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
           }
           rss_logic_schedule_update (username, bible, book, chapter, old_usfm, chapterUsfm);
+#endif
           Database_Logs::log ("Transposed and fixed double spaces around markers in footnotes or cross references in " + filter_passage_display (book, chapter, "") + " in Bible " + bible);
         }
       }

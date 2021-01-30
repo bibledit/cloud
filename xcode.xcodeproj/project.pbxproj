@@ -2597,10 +2597,6 @@
 		CADE429424F174B1003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
 		CADE429524F174B1003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE429724F174B1003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CADE429824F174B1003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
-		CADE429A24F174B1003165BB /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CADE429B24F174B1003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE429C24F174B1003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE429D24F174B1003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE429F24F174BD003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CADE42A024F174BD003165BB /* utf8proc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utf8proc.c; sourceTree = "<group>"; };
@@ -6539,22 +6535,10 @@
 		CADE429624F174B1003165BB /* timer */ = {
 			isa = PBXGroup;
 			children = (
-				CADE429724F174B1003165BB /* index.h */,
-				CADE429824F174B1003165BB /* index.o */,
-				CADE429924F174B1003165BB /* .deps */,
-				CADE429C24F174B1003165BB /* .dirstamp */,
 				CADE429D24F174B1003165BB /* index.cpp */,
+				CADE429724F174B1003165BB /* index.h */,
 			);
 			path = timer;
-			sourceTree = "<group>";
-		};
-		CADE429924F174B1003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE429A24F174B1003165BB /* index.Po */,
-				CADE429B24F174B1003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE429E24F174BD003165BB /* utf8proc */ = {

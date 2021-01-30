@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <thread>
 #include <timer/index.h>
 #include <database/config/general.h>
@@ -133,6 +134,9 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   
   // Multiple start/stop guard.
   bibledit_started = false;
+  
+  // Set the number of seconds since the Unix epoch that Bibledit started.
+  config_globals_start_up_second_since_epoch = filter_date_seconds_since_epoch ();
 }
 
 

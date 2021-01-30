@@ -129,7 +129,7 @@ void checks_run (string bible)
       string chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter);
     
       
-      // Transpose and fix spacing around certain markers in footnotes and cross references. Todo
+      // Transpose and fix spacing around certain markers in footnotes and cross references.
       if (transpose_fix_space_in_notes) {
         string old_usfm (chapterUsfm);
         bool transposed = Checks_Space::transposeNoteSpace (chapterUsfm);

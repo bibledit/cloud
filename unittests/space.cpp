@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 
 
-void test_space () // Todo
+void test_space ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);

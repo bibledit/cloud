@@ -1133,9 +1133,8 @@ A Jesus is King.  B Jesus is the son of God.
 
   }
 
-  // Test invalid UTF8 input text. // Todo
+  // Test invalid UTF8 input text.
   {
-    
     string path = filter_url_create_root_path ("unittests", "tests", "invalid-utf8-2.usfm");
     string invalid_utf8_usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text (bible);
@@ -1144,14 +1143,10 @@ A Jesus is King.  B Jesus is the son of God.
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
-    evaluate (__LINE__, __func__, 0, ret);
+    evaluate (__LINE__, __func__, 256, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    string standard = R"(
-Unknown 1
-
-A Jesus is King.  B Jesus is the son of God.
-    )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    bool invalid_token = odt.find ("not well-formed (invalid token)") != string::npos;
+    evaluate (__LINE__, __func__, true, invalid_token);
   }
 
   filter_url_unlink (TextTestOdt);

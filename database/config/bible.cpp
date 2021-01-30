@@ -393,6 +393,20 @@ void Database_Config_Bible::setTransposeFixSpacesNotes (string bible, bool value
 }
 
 
+const char * check_valid_utf8_text_key ()
+{
+  return "check-valid-utf8-text";
+}
+bool Database_Config_Bible::getCheckValidUTF8Text (string bible)
+{
+  return getBValue (bible, check_french_citation_style_key (), false);
+}
+void Database_Config_Bible::setCheckValidUTF8Text (string bible, bool value)
+{
+  setBValue (bible, check_french_citation_style_key (), value);
+}
+
+
 string Database_Config_Bible::getSprintTaskCompletionCategories (string bible)
 {
   return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");

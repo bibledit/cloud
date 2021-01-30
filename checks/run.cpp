@@ -112,6 +112,7 @@ void checks_run (string bible)
   bool check_french_punctuation = Database_Config_Bible::getCheckFrenchPunctuation (bible);
   bool check_french_citation_style = Database_Config_Bible::getCheckFrenchCitationStyle (bible);
   bool transpose_fix_space_in_notes = Database_Config_Bible::getTransposeFixSpacesNotes (bible);
+  bool check_valid_utf8_text = Database_Config_Bible::getCheckValidUTF8Text (bible);
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
@@ -160,6 +161,12 @@ void checks_run (string bible)
         string verseUsfm = usfm_get_verse_text (chapterUsfm, verse);
         if (check_double_spaces_usfm) {
           Checks_Space::doubleSpaceUsfm (bible, book, chapter, verse, verseUsfm);
+        }
+        if (check_valid_utf8_text) {
+          if (!unicode_string_is_valid (verseUsfm)) {
+            string msg = "Invalid UTF-8 Unicode in verse text";
+            database_check.recordOutput (bible, book, chapter, verse, msg);
+          }
         }
       }
       

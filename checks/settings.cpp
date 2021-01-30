@@ -186,6 +186,12 @@ string checks_settings (void * webserver_request)
   view.set_variable ("transposenotes", get_checkbox_status (Database_Config_Bible::getTransposeFixSpacesNotes (bible)));
 
   
+  if (checkbox == "validutf8") {
+    Database_Config_Bible::setCheckValidUTF8Text (bible, checked);
+  }
+  view.set_variable ("validutf8", get_checkbox_status (Database_Config_Bible::getCheckValidUTF8Text (bible)));
+
+  
   view.set_variable ("bible", bible);
 
   

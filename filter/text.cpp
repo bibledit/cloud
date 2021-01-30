@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <database/logs.h>
 #include <locale/translate.h>
 
 
@@ -98,8 +99,12 @@ Filter_Text::~Filter_Text ()
 
 // This function adds USFM code to the class.
 // $code: USFM code.
-void Filter_Text::addUsfmCode (string usfm)
+void Filter_Text::addUsfmCode (string usfm) // Todo
 {
+  // Check that the USFM is valid UTF-8.
+  if (!unicode_string_is_valid (usfm)) {
+    Database_Logs::log (translate ("Exporting invalid UTF-8.") + " " + translate ("Please check.") + " " + usfm);
+  }
   // Clean the USFM.
   usfm = filter_string_trim (usfm);
   usfm += "\n";

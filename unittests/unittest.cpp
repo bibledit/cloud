@@ -141,7 +141,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_space ();
+  test_odf ();
+  test_filter_text ();
   refresh_sandbox (true);
   exit (0);
   

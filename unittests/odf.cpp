@@ -53,20 +53,17 @@ void test_odf ()
     odf_text.newParagraph ();
     odf_text.addText ("Paragraph Three");
     odf_text.save (OdfTextTestDotOdt);
-    // The binary odt2txt will detect the Terminal's encoding.
-    // This may not be UTF-8. This has been happening at times.
-    // So set it here.
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Paragraph One\n"
     "\n"
     "Paragraph Two\n"
     "\n"
     "Heading One\n"
-    "===========\n"
+    "\n"
+    "\n"
     "\n"
     "Paragraph Three\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -79,10 +76,9 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.addText ("Should create new paragraph automatically");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Should create new paragraph automatically\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -99,14 +95,11 @@ void test_odf ()
     odf_text.addNoteText ("Note");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "Text†\n"
-    "\n"
-    "Note\n"
+    "Text†Note\n"
     "\n"
     ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -128,10 +121,9 @@ void test_odf ()
     odf_text.addText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "textaddnormal.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -153,14 +145,11 @@ void test_odf ()
     odf_text.addNoteText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "Text𐌰\n"
-    "\n"
-    "Addnormal\n"
+    "Text𐌰Addnormal\n"
     "\n"
     ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -197,10 +186,9 @@ void test_odf ()
     odf_text.addText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "textaddndnormal.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -237,14 +225,11 @@ void test_odf ()
     odf_text.addNoteText ("normal");
     odf_text.addText (".");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
-    "text𐌰\n"
-    "\n"
-    "addndnormal\n"
+    "text𐌰addndnormal\n"
     "\n"
     ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -265,10 +250,9 @@ void test_odf ()
     odf_text.addText ("Paragraph with d style at first, then Standard");
     odf_text.updateCurrentParagraphStyle (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Paragraph with d style\n"
     "\n"
@@ -286,15 +270,17 @@ void test_odf ()
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.currentParagraphStyle);
     odf_text.addText ("One apostrophy ' and two more ''.");
     odf_text.save (OdfTextTestDotOdt);
-    string command = "odt2txt --encoding=UTF-8 " + OdfTextTestDotOdt + " > " + Odt2TxtOutput;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (Odt2TxtOutput);
+    int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "One apostrophy ' and two more ''.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
+  
   filter_url_unlink (OdfTextTestDotOdt);
   filter_url_unlink (Odt2TxtOutput);
   
   refresh_sandbox (true);
 }
+
+

@@ -150,41 +150,24 @@ void test_filter_text ()
     
     // OpenDocument output.
     filter_text.odf_text_standard->save (TextTestOdt);
-    // The binary odt2txt will detect the Terminal's encoding.
-    // This may not be UTF-8. This has been happening at times.
-    // So set it here.
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = R"(
 Header4
-=======
 
 Header4 Ⅰ
-=========
-
-[-- Image: frame1 --]
 
 Ⅰ
 
-This is the text of chapter 1, verse 1. This is the text of
-chapter 1, verse 1. This is the text of chapter 1, verse 1.
-This is the text of chapter 1, verse 1. This is the text of
-chapter 1, verse 1. This is the text of chapter 1, verse 1.
+This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1. This is the text of chapter 1, verse 1.
 
 Header4 ②
-=========
-
-[-- Image: frame2 --]
 
 ②
 
-This is the text of chapter 2, verse 2. This is the text of
-chapter 2, verse 2. This is the text of chapter 2, verse 2.
-This is the text of chapter 2, verse 2. This is the text of
-chapter 2, verse 2. This is the text of chapter 2, verse 2.
+This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -212,35 +195,30 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
     "Genesis 1\n"
-    "=========\n"
     "\n"
     "Text Genesis 1\n"
     "\n"
     "Genesis 2\n"
-    "=========\n"
     "\n"
     "Text Genesis 2\n"
     "\n"
+    "\n"
+    "\n"
     "Matthew\n"
-    "=======\n"
     "\n"
     "Matthew 1\n"
-    "=========\n"
     "\n"
     "Text Matthew 1\n"
     "\n"
     "Matthew 2\n"
-    "=========\n"
     "\n"
     "Text Matthew 2\n"
     "\n";
@@ -262,37 +240,30 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     filter_text.addUsfmCode (usfm_1_peter);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Ruth\n"
-    "====\n"
     "\n"
     "The Book of\n"
     "\n"
     "Ruth\n"
     "\n"
     "Ruth 1\n"
-    "======\n"
     "\n"
-    "1 In the days when the judges judged, there was a famine in the\n"
-    "land. A certain man of Bethlehem Judah went to live in the\n"
-    "country of Moab with his wife and his two sons.\n"
+    "1 In the days when the judges judged, there was a famine in the land. A certain man of Bethlehem Judah went to live in the country of Moab with his wife and his two sons.\n"
+    "\n"
+    "\n"
     "\n"
     "1 Peter\n"
-    "=======\n"
     "\n"
     "Peter’s First Letter\n"
     "\n"
     "1 Peter 1\n"
-    "=========\n"
     "\n"
-    "1 Peter, an apostle of Jesus Christ, to the chosen ones who are\n"
-    "living as foreigners in the Dispersion in Pontus, Galatia,\n"
-    "Cappadocia, Asia, and Bithynia,\n"
+    "1 Peter, an apostle of Jesus Christ, to the chosen ones who are living as foreigners in the Dispersion in Pontus, Galatia, Cappadocia, Asia, and Bithynia,\n"
     "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -313,14 +284,12 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
     "1 Verse One.\n"
     "\n"
@@ -340,36 +309,24 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
-    "1 Text 1a\n"
-    "\n"
-    "Isa. 1.1.\n"
+    "1 Text 1aIsa. 1.1.\n"
     "\n"
     "Isa. 2.2.\n"
     "\n"
-    "b\n"
+    "bIsa. 3.3.\n"
     "\n"
-    "Isa. 3.3.\n"
+    ", text 21Word1: Heb. Explanation1.\n"
     "\n"
-    ", text 21\n"
+    "2Word2: Heb. Explanation2.\n"
     "\n"
-    "Word1: Heb. Explanation1.\n"
-    "\n"
-    "2\n"
-    "\n"
-    "Word2: Heb. Explanation2.\n"
-    "\n"
-    ", text3.3\n"
-    "\n"
-    "Test: Heb. Note at the very end.\n"
+    ", text3.3Test: Heb. Note at the very end.\n"
     "\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -401,83 +358,48 @@ chapter 2, verse 2. This is the text of chapter 2, verse 2.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = R"(
-
 Genesis
-=======
 
 Genesis 1
-=========
-
-[-- Image: frame1 --]
 
 1
 
-Xref 1a
+Xref 1aXref 1.
 
-Xref 1.
+. 2 Xref 2bXref 2.
 
-. 2 Xref 2b
+. 3 Xref 3cXref 3.
 
-Xref 2.
+ 4 Note 11Note 1.
 
-. 3 Xref 3c
+. 5 Note 22Note 2.
 
-Xref 3.
-
-4 Note 11
-
-Note 1.
-
-. 5 Note 22
-
-Note 2.
-
-. 6 Note 33
-
-Note 3.
+. 6 Note 33Note 3.
 
 .
 
 Genesis 2
-=========
-
-[-- Image: frame2 --]
 
 2
 
-Xref 4a
+Xref 4aXref 4.
 
-Xref 4.
+. 2 Xref 5bXref 5.
 
-. 2 Xref 5b
+. 3 Xref 6cXref 6.
 
-Xref 5.
+ 4 Note 41Note 4.
 
-. 3 Xref 6c
+. 5 Note 52Note 5.
 
-Xref 6.
-
-4 Note 41
-
-Note 4.
-
-. 5 Note 52
-
-Note 5.
-
-. 6 Note 63
-
-Note 6.
+. 6 Note 63Note 6.
 
 .
-
-
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -499,33 +421,15 @@ Note 6.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     string standard = R"(
 Genesis
-=======
 
 Genesis 1
-=========
 
-၁။ ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို
-အတူတကွခေါ်ပြီးလျှင်
-နတ်ဆိုးအပေါင်းတို့ကို
-နှင်ထုတ်နိုင်ရန်နှင့်
-အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန်
-တန်ခိုးအာဏာတို့ကို သူတို့အား
-ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏
-နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို
-ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က
-သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ
-ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊
-လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။
-ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။
-မည်သည့်အိမ်ကိုမဆို
-သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍
-ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
+၁။ ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို အတူတကွခေါ်ပြီးလျှင် နတ်ဆိုးအပေါင်းတို့ကို နှင်ထုတ်နိုင်ရန်နှင့် အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန် တန်ခိုးအာဏာတို့ကို သူတို့အား ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။ မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
     )";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
@@ -899,17 +803,14 @@ A Verse text.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
     "Genesis 1\n"
-    "=========\n"
     "\n"
     "1 I will sing to the Lord.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -925,13 +826,11 @@ A Verse text.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
     "1 Text 1a text1 text1.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -950,17 +849,14 @@ A Verse text.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
     "Genesis 1\n"
-    "=========\n"
     "\n"
     "1 I will sing to the Lord God.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -979,17 +875,14 @@ A Verse text.
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
-    "=======\n"
     "\n"
     "Genesis 1\n"
-    "=========\n"
     "\n"
     "1 I will sing to the Lord.\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
@@ -1033,27 +926,20 @@ A Verse text.
     
     // OpenDocument output.
     filter_text.odf_text_standard->save (TextTestOdt);
-    // The binary odt2txt will detect the Terminal's encoding.
-    // This may not be UTF-8. This has been happening at times.
-    // So set it here.
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = R"(
 Genesis
-=======
 
 Genesis 1
-=========
 
 Chapter 1
 
 1 I will sing to the LORD.
 
 Genesis 2
-=========
 
 Chapter 2
 
@@ -1108,27 +994,20 @@ Chapter 2
     
     // OpenDocument output.
     filter_text.odf_text_standard->save (TextTestOdt);
-    // The binary odt2txt will detect the Terminal's encoding.
-    // This may not be UTF-8. This has been happening at times.
-    // So set it here.
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     odt = filter_string_str_replace ("  ", "", odt);
     string standard = R"(
 Genesis
-=======
 
 Genesis 1
-=========
 
 Chapter One
 
 1 I will sing to the LORD.
 
 Genesis 2
-=========
 
 Chapter Two
 
@@ -1223,13 +1102,11 @@ Chapter Two
     filter_text.addUsfmCode (filter_string_trim(usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
-    string command = "odt2txt --encoding=UTF-8 " + TextTestOdt + " > " + TextTestTxt;
-    int ret = system (command.c_str());
-    string odt;
-    if (ret == 0) odt = filter_url_file_get_contents (TextTestTxt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
     string standard = R"(
 Unknown 1
-=========
 
 A Jesus is King.  B Jesus is the son of God.
     )";
@@ -1254,6 +1131,27 @@ A Jesus is King.  B Jesus is the son of God.
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.tbsx_text->get_document ();
 
+  }
+
+  // Test invalid UTF8 input text. // Todo
+  {
+    
+    string path = filter_url_create_root_path ("unittests", "tests", "invalid-utf8-2.usfm");
+    string invalid_utf8_usfm = filter_url_file_get_contents (path);
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.addUsfmCode (filter_string_trim(invalid_utf8_usfm));
+    filter_text.run (styles_logic_standard_sheet ());
+    filter_text.odf_text_standard->save (TextTestOdt);
+    int ret = odf2txt (TextTestOdt, TextTestTxt);
+    evaluate (__LINE__, __func__, 0, ret);
+    string odt = filter_url_file_get_contents (TextTestTxt);
+    string standard = R"(
+Unknown 1
+
+A Jesus is King.  B Jesus is the son of God.
+    )";
+    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
 
   filter_url_unlink (TextTestOdt);

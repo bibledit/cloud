@@ -42,6 +42,7 @@ void evaluate (int line, string func, map <int, int> desired, map <int, int> act
 void evaluate (int line, string func, map <string, string> desired, map <string, string> actual);
 void evaluate (int line, string func, vector <pair<int, string>> desired, vector <pair<int, string>> actual);
 void trace_unit_tests (string func);
+int odf2txt (string odf, string txt);
 
 
 #endif

@@ -249,3 +249,22 @@ void trace_unit_tests (string func)
     cout << func << endl;
   }
 }
+
+
+// Initially a version of odt2txt was used written in C.
+// https://github.com/dstosberg/odt2txt
+// That worked well for converting een OpenDocument to text format.
+// But then there was need for a unit test that would catch invalid UTF8.
+// LibreOffice would give an error on invalid UTF8.
+// But the odt2txt written in C would not given an error,
+// but steamroll on.
+// So then a version of odf2txt written in Python was going to be used.
+// That version does catch invalid UTF-8.
+// https://github.com/mwoehlke/odf2txt
+int odf2txt (string odf, string txt)
+{
+  string script_path = filter_url_create_root_path ("unittests", "tests", "odf2txt", "odf2txt.py");
+  string command = "python2 " + script_path + " " + odf + " > " + txt + " 2>&1";
+  int ret = system (command.c_str());
+  return ret;
+}

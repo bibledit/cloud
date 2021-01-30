@@ -104,14 +104,14 @@ void timer_index ()
       can_mail = (filter_date_seconds_since_epoch () > (config_globals_start_up_second_since_epoch + 600));
 #endif
       
-      // Every minute send out queued email. // Todo
+      // Every minute send out queued email.
       if (can_mail) tasks_logic_queue (SENDEMAIL);
 
 #ifdef HAVE_CLOUD
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.
       if ((minute % 5) == 0) {
-        if (can_mail) tasks_logic_queue (RECEIVEEMAIL); // Todo
+        if (can_mail) tasks_logic_queue (RECEIVEEMAIL);
       }
 #endif
 

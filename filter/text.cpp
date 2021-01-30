@@ -99,7 +99,7 @@ Filter_Text::~Filter_Text ()
 
 // This function adds USFM code to the class.
 // $code: USFM code.
-void Filter_Text::addUsfmCode (string usfm) // Todo
+void Filter_Text::addUsfmCode (string usfm)
 {
   // Check that the USFM is valid UTF-8.
   if (!unicode_string_is_valid (usfm)) {

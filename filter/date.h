@@ -43,6 +43,7 @@ void filter_date_get_next_month (int & month, int & year);
 string filter_date_day_rfc822 (int day);
 string filter_date_month_rfc822 (int month);
 string filter_date_rfc822 (int seconds);
+long filter_date_elapsed_microseconds (long start);
 
 
 #endif

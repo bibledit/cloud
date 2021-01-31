@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/io.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/date.h>
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/certs.h>
@@ -474,6 +475,7 @@ void http_server ()
 // Processes a single request from a web client.
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
+  int us = filter_date_numerical_microseconds ();
   // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
   struct timeval tv;
@@ -481,6 +483,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   tv.tv_usec = 0;
   setsockopt (client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 #endif
+  long start_us = filter_date_elapsed_microseconds (0); // Todo
   
   // The environment for this request.
   // It gets passed around from function to function during the entire request.
@@ -720,6 +723,10 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   
   // Done with the SSL context.
   mbedtls_ssl_free (&ssl);
+  long elapsed_us = filter_date_elapsed_microseconds (start_us);
+  if (elapsed_us > 300000) {
+    //cout << __LINE__ << " elapsed " << filter_date_elapsed_microseconds (start_us) << " us" << endl; // Todo
+  }
 }
 
 

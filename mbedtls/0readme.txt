@@ -53,3 +53,9 @@ In function mbedtls_net_bind in file net_sockets.c, change this line:
   hints.ai_family = AF_UNSPEC;
 to this:
   hints.ai_family = AF_INET6;
+
+To increase the listen backlog, update
+MBEDTLS_NET_LISTEN_BACKLOG
+from 10 to 100 or so.
+
+

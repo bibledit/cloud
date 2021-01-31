@@ -286,3 +286,17 @@ string filter_date_rfc822 (int seconds)
   rfc822.append ("00");
   return rfc822;
 }
+
+
+// Calculates the number of microseconds elapsed since $start.
+// It returns the elapsed number of microseconds.
+long filter_date_elapsed_microseconds (long start) // Todo
+{
+  auto now = chrono::system_clock::now ();
+  auto duration = now.time_since_epoch ();
+  auto microseconds = chrono::duration_cast<std::chrono::microseconds>(duration).count();
+  long elapsed = microseconds - start;
+  return elapsed;
+}
+
+

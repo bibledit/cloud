@@ -1435,42 +1435,28 @@
 		CADE3D1F24F17470003165BB /* microtar.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = microtar.Po; sourceTree = "<group>"; };
 		CADE3D2024F17470003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3D2124F17470003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3D2324F17470003165BB /* pem.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pem.o; sourceTree = "<group>"; };
 		CADE3D2424F17470003165BB /* x509_create.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x509_create.c; sourceTree = "<group>"; };
 		CADE3D2824F17471003165BB /* pem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pem.h; sourceTree = "<group>"; };
 		CADE3D2924F17471003165BB /* x509_crt.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x509_crt.c; sourceTree = "<group>"; };
 		CADE3D2A24F17471003165BB /* check_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = check_config.h; sourceTree = "<group>"; };
-		CADE3D2B24F17471003165BB /* oid.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = oid.o; sourceTree = "<group>"; };
-		CADE3D2C24F17471003165BB /* md2.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = md2.o; sourceTree = "<group>"; };
-		CADE3D2D24F17471003165BB /* error.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = error.o; sourceTree = "<group>"; };
 		CADE3D2E24F17471003165BB /* aes.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = aes.c; sourceTree = "<group>"; };
-		CADE3D2F24F17471003165BB /* md_wrap.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = md_wrap.o; sourceTree = "<group>"; };
 		CADE3D3024F17471003165BB /* error.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		CADE3D3124F17471003165BB /* md2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md2.h; sourceTree = "<group>"; };
 		CADE3D3224F17471003165BB /* oid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = oid.h; sourceTree = "<group>"; };
-		CADE3D3324F17471003165BB /* rsa_internal.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = rsa_internal.o; sourceTree = "<group>"; };
-		CADE3D3424F17471003165BB /* pkcs5.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pkcs5.o; sourceTree = "<group>"; };
 		CADE3D3524F17471003165BB /* md4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md4.c; sourceTree = "<group>"; };
 		CADE3D3624F17471003165BB /* rsa_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rsa_internal.h; sourceTree = "<group>"; };
 		CADE3D3724F17471003165BB /* pkcs5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pkcs5.h; sourceTree = "<group>"; };
 		CADE3D3824F17471003165BB /* ripemd160.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ripemd160.h; sourceTree = "<group>"; };
-		CADE3D3924F17471003165BB /* ripemd160.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ripemd160.o; sourceTree = "<group>"; };
 		CADE3D3A24F17471003165BB /* ssl_srv.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ssl_srv.c; sourceTree = "<group>"; };
 		CADE3D3B24F17471003165BB /* camellia.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = camellia.c; sourceTree = "<group>"; };
 		CADE3D3C24F17471003165BB /* blowfish.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
-		CADE3D3D24F17471003165BB /* ssl_cli.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_cli.o; sourceTree = "<group>"; };
-		CADE3D3E24F17471003165BB /* blowfish.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = blowfish.o; sourceTree = "<group>"; };
 		CADE3D3F24F17471003165BB /* pk_wrap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_wrap.c; sourceTree = "<group>"; };
 		CADE3D4024F17471003165BB /* pk.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk.c; sourceTree = "<group>"; };
 		CADE3D4124F17471003165BB /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
-		CADE3D4224F17471003165BB /* debug.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = debug.o; sourceTree = "<group>"; };
 		CADE3D4324F17471003165BB /* x509.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x509.h; sourceTree = "<group>"; };
 		CADE3D4424F17471003165BB /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		CADE3D4524F17471003165BB /* version.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = version.o; sourceTree = "<group>"; };
-		CADE3D4624F17471003165BB /* x509.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509.o; sourceTree = "<group>"; };
 		CADE3D4724F17471003165BB /* ecp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecp.h; sourceTree = "<group>"; };
 		CADE3D4824F17471003165BB /* net.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
-		CADE3D4924F17471003165BB /* ecp.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ecp.o; sourceTree = "<group>"; };
 		CADE3D4A24F17471003165BB /* ecdh.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ecdh.c; sourceTree = "<group>"; };
 		CADE3D4B24F17471003165BB /* cipher_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cipher_internal.h; sourceTree = "<group>"; };
 		CADE3D4C24F17471003165BB /* ssl_tls.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ssl_tls.c; sourceTree = "<group>"; };
@@ -1478,20 +1464,15 @@
 		CADE3D4E24F17471003165BB /* md_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md_internal.h; sourceTree = "<group>"; };
 		CADE3D4F24F17471003165BB /* base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		CADE3D5024F17471003165BB /* pkcs11.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pkcs11.h; sourceTree = "<group>"; };
-		CADE3D5124F17471003165BB /* pkcs11.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pkcs11.o; sourceTree = "<group>"; };
 		CADE3D5224F17471003165BB /* cipher_wrap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cipher_wrap.c; sourceTree = "<group>"; };
-		CADE3D5324F17471003165BB /* base64.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = base64.o; sourceTree = "<group>"; };
 		CADE3D5424F17471003165BB /* chacha20.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = chacha20.c; sourceTree = "<group>"; };
 		CADE3D5524F17471003165BB /* ssl_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl_internal.h; sourceTree = "<group>"; };
 		CADE3D5624F17471003165BB /* asn1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
-		CADE3D5724F17471003165BB /* memory_buffer_alloc.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = memory_buffer_alloc.o; sourceTree = "<group>"; };
 		CADE3D5824F17471003165BB /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CADE3D5924F17471003165BB /* des.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = des.c; sourceTree = "<group>"; };
 		CADE3D5A24F17471003165BB /* memory_buffer_alloc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memory_buffer_alloc.h; sourceTree = "<group>"; };
-		CADE3D5B24F17471003165BB /* x509_csr.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509_csr.o; sourceTree = "<group>"; };
 		CADE3D5C24F17471003165BB /* ssl_cookie.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ssl_cookie.c; sourceTree = "<group>"; };
 		CADE3D5D24F17471003165BB /* x509_csr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x509_csr.h; sourceTree = "<group>"; };
-		CADE3D5E24F17471003165BB /* platform_util.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = platform_util.o; sourceTree = "<group>"; };
 		CADE3D5F24F17471003165BB /* ctr_drbg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ctr_drbg.c; sourceTree = "<group>"; };
 		CADE3D6024F17471003165BB /* platform_util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform_util.h; sourceTree = "<group>"; };
 		CADE3D6124F17471003165BB /* aesni.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = aesni.c; sourceTree = "<group>"; };
@@ -1500,74 +1481,51 @@
 		CADE3D6424F17471003165BB /* ssl_ciphersuites.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ssl_ciphersuites.c; sourceTree = "<group>"; };
 		CADE3D6524F17471003165BB /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		CADE3D6624F17471003165BB /* xtea.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xtea.h; sourceTree = "<group>"; };
-		CADE3D6724F17471003165BB /* poly1305.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = poly1305.o; sourceTree = "<group>"; };
-		CADE3D6824F17471003165BB /* x509write_crt.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509write_crt.o; sourceTree = "<group>"; };
 		CADE3D6924F17471003165BB /* hmac_drbg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hmac_drbg.c; sourceTree = "<group>"; };
 		CADE3D6A24F17471003165BB /* rsa.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsa.c; sourceTree = "<group>"; };
-		CADE3D6B24F17471003165BB /* xtea.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = xtea.o; sourceTree = "<group>"; };
 		CADE3D6C24F17471003165BB /* poly1305.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = poly1305.h; sourceTree = "<group>"; };
 		CADE3D6D24F17471003165BB /* threading.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = threading.h; sourceTree = "<group>"; };
 		CADE3D6E24F17471003165BB /* hkdf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hkdf.h; sourceTree = "<group>"; };
 		CADE3D6F24F17471003165BB /* compat-1.3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "compat-1.3.h"; sourceTree = "<group>"; };
 		CADE3D7024F17471003165BB /* ssl_ticket.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ssl_ticket.c; sourceTree = "<group>"; };
 		CADE3D7124F17471003165BB /* asn1parse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = asn1parse.c; sourceTree = "<group>"; };
-		CADE3D7224F17471003165BB /* threading.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = threading.o; sourceTree = "<group>"; };
-		CADE3D7324F17471003165BB /* md5.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = md5.o; sourceTree = "<group>"; };
 		CADE3D7424F17471003165BB /* certs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = certs.c; sourceTree = "<group>"; };
 		CADE3D7524F17471003165BB /* md5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
-		CADE3D7624F17471003165BB /* arc4.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = arc4.o; sourceTree = "<group>"; };
 		CADE3D7724F17471003165BB /* timing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timing.h; sourceTree = "<group>"; };
 		CADE3D7824F17471003165BB /* arc4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arc4.h; sourceTree = "<group>"; };
-		CADE3D7924F17471003165BB /* timing.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = timing.o; sourceTree = "<group>"; };
 		CADE3D7A24F17471003165BB /* pkwrite.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pkwrite.c; sourceTree = "<group>"; };
 		CADE3D7B24F17471003165BB /* chachapoly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chachapoly.h; sourceTree = "<group>"; };
 		CADE3D7C24F17471003165BB /* gcm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gcm.c; sourceTree = "<group>"; };
 		CADE3D7D24F17471003165BB /* sha1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
-		CADE3D7E24F17471003165BB /* chachapoly.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = chachapoly.o; sourceTree = "<group>"; };
 		CADE3D7F24F17471003165BB /* 0readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0readme.txt; sourceTree = "<group>"; };
-		CADE3D8024F17471003165BB /* sha256.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = sha256.o; sourceTree = "<group>"; };
 		CADE3D8124F17471003165BB /* sha256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sha256.h; sourceTree = "<group>"; };
-		CADE3D8224F17471003165BB /* ecp_curves.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ecp_curves.o; sourceTree = "<group>"; };
 		CADE3D8324F17471003165BB /* asn1write.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = asn1write.c; sourceTree = "<group>"; };
 		CADE3D8424F17471003165BB /* havege.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = havege.c; sourceTree = "<group>"; };
 		CADE3D8524F17471003165BB /* ccm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ccm.c; sourceTree = "<group>"; };
 		CADE3D8624F17471003165BB /* version_features.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = version_features.c; sourceTree = "<group>"; };
 		CADE3D8724F17471003165BB /* aria.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = aria.c; sourceTree = "<group>"; };
-		CADE3D8824F17471003165BB /* ecdsa.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ecdsa.o; sourceTree = "<group>"; };
 		CADE3D8924F17471003165BB /* ecdsa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecdsa.h; sourceTree = "<group>"; };
 		CADE3D8A24F17471003165BB /* nist_kw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nist_kw.h; sourceTree = "<group>"; };
 		CADE3D8B24F17471003165BB /* entropy_poll.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = entropy_poll.c; sourceTree = "<group>"; };
-		CADE3D8C24F17471003165BB /* md.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = md.o; sourceTree = "<group>"; };
 		CADE3D8D24F17471003165BB /* x509write_csr.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x509write_csr.c; sourceTree = "<group>"; };
 		CADE3D8E24F17471003165BB /* platform.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = platform.c; sourceTree = "<group>"; };
 		CADE3D8F24F17471003165BB /* md.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md.h; sourceTree = "<group>"; };
 		CADE3D9024F17471003165BB /* cmac.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cmac.c; sourceTree = "<group>"; };
-		CADE3D9124F17471003165BB /* cipher.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = cipher.o; sourceTree = "<group>"; };
 		CADE3D9224F17471003165BB /* bignum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bignum.c; sourceTree = "<group>"; };
-		CADE3D9324F17471003165BB /* ecjpake.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ecjpake.o; sourceTree = "<group>"; };
 		CADE3D9424F17471003165BB /* cipher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cipher.h; sourceTree = "<group>"; };
 		CADE3D9524F17471003165BB /* ecjpake.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecjpake.h; sourceTree = "<group>"; };
 		CADE3D9624F17471003165BB /* pkparse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pkparse.c; sourceTree = "<group>"; };
 		CADE3D9724F17471003165BB /* net_sockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net_sockets.h; sourceTree = "<group>"; };
 		CADE3D9824F17471003165BB /* entropy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = entropy.h; sourceTree = "<group>"; };
-		CADE3D9924F17471003165BB /* padlock.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = padlock.o; sourceTree = "<group>"; };
 		CADE3D9A24F17471003165BB /* pkcs12.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pkcs12.h; sourceTree = "<group>"; };
-		CADE3D9B24F17471003165BB /* entropy.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = entropy.o; sourceTree = "<group>"; };
-		CADE3D9C24F17471003165BB /* net_sockets.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = net_sockets.o; sourceTree = "<group>"; };
-		CADE3D9D24F17471003165BB /* pkcs12.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pkcs12.o; sourceTree = "<group>"; };
 		CADE3D9E24F17471003165BB /* padlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = padlock.h; sourceTree = "<group>"; };
-		CADE3D9F24F17471003165BB /* sha512.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = sha512.o; sourceTree = "<group>"; };
 		CADE3DA024F17471003165BB /* sha512.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sha512.h; sourceTree = "<group>"; };
-		CADE3DA124F17471003165BB /* pk.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pk.o; sourceTree = "<group>"; };
 		CADE3DA224F17471003165BB /* bn_mul.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bn_mul.h; sourceTree = "<group>"; };
 		CADE3DA324F17471003165BB /* pk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk.h; sourceTree = "<group>"; };
 		CADE3DA424F17471003165BB /* debug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = debug.c; sourceTree = "<group>"; };
 		CADE3DA524F17471003165BB /* ecp_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecp_internal.h; sourceTree = "<group>"; };
 		CADE3DA624F17471003165BB /* ripemd160.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ripemd160.c; sourceTree = "<group>"; };
 		CADE3DA724F17471003165BB /* ssl_cli.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ssl_cli.c; sourceTree = "<group>"; };
-		CADE3DA824F17471003165BB /* camellia.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = camellia.o; sourceTree = "<group>"; };
-		CADE3DA924F17471003165BB /* ssl_srv.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_srv.o; sourceTree = "<group>"; };
-		CADE3DAA24F17471003165BB /* pk_wrap.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pk_wrap.o; sourceTree = "<group>"; };
 		CADE3DAB24F17471003165BB /* ssl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl.h; sourceTree = "<group>"; };
 		CADE3DAC24F17471003165BB /* platform_time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform_time.h; sourceTree = "<group>"; };
 		CADE3DAD24F17471003165BB /* blowfish.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
@@ -1575,149 +1533,49 @@
 		CADE3DAF24F17471003165BB /* rsa_internal.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rsa_internal.c; sourceTree = "<group>"; };
 		CADE3DB024F17471003165BB /* pkcs5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pkcs5.c; sourceTree = "<group>"; };
 		CADE3DB124F17471003165BB /* md4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = md4.h; sourceTree = "<group>"; };
-		CADE3DB224F17471003165BB /* md4.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = md4.o; sourceTree = "<group>"; };
 		CADE3DB324F17471003165BB /* x509_crt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x509_crt.h; sourceTree = "<group>"; };
 		CADE3DB424F17471003165BB /* pem.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pem.c; sourceTree = "<group>"; };
-		CADE3DB524F17471003165BB /* x509_crt.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509_crt.o; sourceTree = "<group>"; };
-		CADE3DB624F17471003165BB /* x509_create.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509_create.o; sourceTree = "<group>"; };
 		CADE3DB724F17471003165BB /* oid.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = oid.c; sourceTree = "<group>"; };
 		CADE3DB824F17471003165BB /* error.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
 		CADE3DB924F17471003165BB /* md2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md2.c; sourceTree = "<group>"; };
 		CADE3DBA24F17471003165BB /* aes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
-		CADE3DBB24F17471003165BB /* aes.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = aes.o; sourceTree = "<group>"; };
 		CADE3DBC24F17471003165BB /* md_wrap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md_wrap.c; sourceTree = "<group>"; };
 		CADE3DBD24F17471003165BB /* x509_csr.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x509_csr.c; sourceTree = "<group>"; };
-		CADE3DBE24F17471003165BB /* ssl_cookie.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_cookie.o; sourceTree = "<group>"; };
 		CADE3DBF24F17471003165BB /* pk_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk_internal.h; sourceTree = "<group>"; };
 		CADE3DC024F17471003165BB /* ssl_cookie.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl_cookie.h; sourceTree = "<group>"; };
 		CADE3DC124F17471003165BB /* dhm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dhm.h; sourceTree = "<group>"; };
 		CADE3DC224F17471003165BB /* platform_util.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = platform_util.c; sourceTree = "<group>"; };
 		CADE3DC324F17471003165BB /* aesni.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aesni.h; sourceTree = "<group>"; };
 		CADE3DC424F17471003165BB /* ctr_drbg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ctr_drbg.h; sourceTree = "<group>"; };
-		CADE3DC524F17471003165BB /* dhm.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = dhm.o; sourceTree = "<group>"; };
-		CADE3DC624F17471003165BB /* ctr_drbg.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ctr_drbg.o; sourceTree = "<group>"; };
-		CADE3DC724F17471003165BB /* aesni.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = aesni.o; sourceTree = "<group>"; };
 		CADE3DC824F17471003165BB /* chacha20.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chacha20.h; sourceTree = "<group>"; };
 		CADE3DC924F17471003165BB /* pkcs11.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pkcs11.c; sourceTree = "<group>"; };
-		CADE3DCA24F17471003165BB /* chacha20.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = chacha20.o; sourceTree = "<group>"; };
-		CADE3DCB24F17471003165BB /* cipher_wrap.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = cipher_wrap.o; sourceTree = "<group>"; };
 		CADE3DCC24F17471003165BB /* base64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
 		CADE3DCD24F17471003165BB /* memory_buffer_alloc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = memory_buffer_alloc.c; sourceTree = "<group>"; };
 		CADE3DCE24F17471003165BB /* des.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = des.h; sourceTree = "<group>"; };
-		CADE3DCF24F17471003165BB /* des.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = des.o; sourceTree = "<group>"; };
 		CADE3DD024F17471003165BB /* ecp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ecp.c; sourceTree = "<group>"; };
 		CADE3DD124F17471003165BB /* x509_crl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x509_crl.h; sourceTree = "<group>"; };
-		CADE3DD224F17471003165BB /* ecdh.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ecdh.o; sourceTree = "<group>"; };
-		CADE3DD324F17471003165BB /* x509_crl.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509_crl.o; sourceTree = "<group>"; };
-		CADE3DD424F17471003165BB /* ssl_tls.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_tls.o; sourceTree = "<group>"; };
 		CADE3DD524F17471003165BB /* ecdh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ecdh.h; sourceTree = "<group>"; };
 		CADE3DD624F17471003165BB /* version.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = "<group>"; };
 		CADE3DD724F17471003165BB /* x509.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x509.c; sourceTree = "<group>"; };
 		CADE3DD824F17471003165BB /* sha1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
-		CADE3DD924F17471003165BB /* pkwrite.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pkwrite.o; sourceTree = "<group>"; };
 		CADE3DDA24F17471003165BB /* gcm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gcm.h; sourceTree = "<group>"; };
-		CADE3DDB24F17471003165BB /* sha1.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = sha1.o; sourceTree = "<group>"; };
 		CADE3DDC24F17471003165BB /* chachapoly.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = chachapoly.c; sourceTree = "<group>"; };
-		CADE3DDD24F17471003165BB /* gcm.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gcm.o; sourceTree = "<group>"; };
 		CADE3DDE24F17471003165BB /* sha256.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sha256.c; sourceTree = "<group>"; };
 		CADE3DDF24F17471003165BB /* ecp_curves.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ecp_curves.c; sourceTree = "<group>"; };
 		CADE3DE024F17471003165BB /* certs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = certs.h; sourceTree = "<group>"; };
 		CADE3DE124F17471003165BB /* md5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
-		CADE3DE224F17471003165BB /* certs.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = certs.o; sourceTree = "<group>"; };
 		CADE3DE324F17471003165BB /* arc4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = arc4.c; sourceTree = "<group>"; };
 		CADE3DE424F17471003165BB /* timing.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = timing.c; sourceTree = "<group>"; };
 		CADE3DE524F17471003165BB /* poly1305.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = poly1305.c; sourceTree = "<group>"; };
 		CADE3DE624F17471003165BB /* rsa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rsa.h; sourceTree = "<group>"; };
 		CADE3DE724F17471003165BB /* hmac_drbg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hmac_drbg.h; sourceTree = "<group>"; };
-		CADE3DE824F17471003165BB /* rsa.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = rsa.o; sourceTree = "<group>"; };
 		CADE3DE924F17471003165BB /* xtea.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = xtea.c; sourceTree = "<group>"; };
 		CADE3DEA24F17471003165BB /* x509write_crt.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x509write_crt.c; sourceTree = "<group>"; };
-		CADE3DEB24F17471003165BB /* hmac_drbg.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = hmac_drbg.o; sourceTree = "<group>"; };
 		CADE3DEC24F17471003165BB /* ssl_ticket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl_ticket.h; sourceTree = "<group>"; };
 		CADE3DED24F17471003165BB /* hkdf.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hkdf.c; sourceTree = "<group>"; };
 		CADE3DEE24F17471003165BB /* threading.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = threading.c; sourceTree = "<group>"; };
-		CADE3DEF24F17471003165BB /* ssl_ticket.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_ticket.o; sourceTree = "<group>"; };
-		CADE3DF024F17471003165BB /* asn1parse.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = asn1parse.o; sourceTree = "<group>"; };
-		CADE3DF124F17471003165BB /* ssl_cache.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_cache.o; sourceTree = "<group>"; };
-		CADE3DF224F17471003165BB /* ssl_ciphersuites.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ssl_ciphersuites.o; sourceTree = "<group>"; };
 		CADE3DF324F17471003165BB /* ssl_ciphersuites.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl_ciphersuites.h; sourceTree = "<group>"; };
 		CADE3DF424F17471003165BB /* ssl_cache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl_cache.h; sourceTree = "<group>"; };
-		CADE3DF624F17471003165BB /* threading.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = threading.Po; sourceTree = "<group>"; };
-		CADE3DF724F17471003165BB /* platform.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = platform.Po; sourceTree = "<group>"; };
-		CADE3DF824F17471003165BB /* x509write_crt.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509write_crt.Po; sourceTree = "<group>"; };
-		CADE3DF924F17471003165BB /* cipher.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = cipher.Po; sourceTree = "<group>"; };
-		CADE3DFA24F17471003165BB /* timing.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = timing.Po; sourceTree = "<group>"; };
-		CADE3DFB24F17471003165BB /* ssl_cookie.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_cookie.Po; sourceTree = "<group>"; };
-		CADE3DFC24F17471003165BB /* pkcs11.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pkcs11.Po; sourceTree = "<group>"; };
-		CADE3DFD24F17471003165BB /* camellia.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = camellia.Po; sourceTree = "<group>"; };
-		CADE3DFE24F17471003165BB /* asn1parse.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = asn1parse.Po; sourceTree = "<group>"; };
-		CADE3DFF24F17471003165BB /* version_features.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = version_features.Po; sourceTree = "<group>"; };
-		CADE3E0024F17471003165BB /* pk.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pk.Po; sourceTree = "<group>"; };
-		CADE3E0124F17471003165BB /* debug.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = debug.Po; sourceTree = "<group>"; };
-		CADE3E0224F17471003165BB /* poly1305.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = poly1305.Po; sourceTree = "<group>"; };
-		CADE3E0324F17471003165BB /* ssl_tls.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_tls.Po; sourceTree = "<group>"; };
-		CADE3E0424F17471003165BB /* xtea.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = xtea.Po; sourceTree = "<group>"; };
-		CADE3E0524F17471003165BB /* ecdsa.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ecdsa.Po; sourceTree = "<group>"; };
-		CADE3E0624F17471003165BB /* chacha20.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = chacha20.Po; sourceTree = "<group>"; };
-		CADE3E0724F17471003165BB /* cipher_wrap.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = cipher_wrap.Po; sourceTree = "<group>"; };
-		CADE3E0824F17471003165BB /* memory_buffer_alloc.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = memory_buffer_alloc.Po; sourceTree = "<group>"; };
-		CADE3E0924F17471003165BB /* blowfish.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = blowfish.Po; sourceTree = "<group>"; };
-		CADE3E0A24F17471003165BB /* ssl_cli.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_cli.Po; sourceTree = "<group>"; };
-		CADE3E0B24F17471003165BB /* ripemd160.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ripemd160.Po; sourceTree = "<group>"; };
-		CADE3E0C24F17471003165BB /* ssl_cache.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_cache.Po; sourceTree = "<group>"; };
-		CADE3E0D24F17471003165BB /* bignum.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = bignum.Po; sourceTree = "<group>"; };
-		CADE3E0E24F17471003165BB /* md4.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = md4.Po; sourceTree = "<group>"; };
-		CADE3E0F24F17471003165BB /* x509_crl.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509_crl.Po; sourceTree = "<group>"; };
-		CADE3E1024F17471003165BB /* x509_crt.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509_crt.Po; sourceTree = "<group>"; };
-		CADE3E1124F17471003165BB /* hmac_drbg.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = hmac_drbg.Po; sourceTree = "<group>"; };
-		CADE3E1224F17471003165BB /* net_sockets.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = net_sockets.Po; sourceTree = "<group>"; };
-		CADE3E1324F17471003165BB /* dhm.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = dhm.Po; sourceTree = "<group>"; };
-		CADE3E1424F17471003165BB /* md_wrap.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = md_wrap.Po; sourceTree = "<group>"; };
-		CADE3E1524F17471003165BB /* pkwrite.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pkwrite.Po; sourceTree = "<group>"; };
-		CADE3E1624F17471003165BB /* chachapoly.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = chachapoly.Po; sourceTree = "<group>"; };
-		CADE3E1724F17471003165BB /* ssl_ciphersuites.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_ciphersuites.Po; sourceTree = "<group>"; };
-		CADE3E1824F17471003165BB /* ecdh.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ecdh.Po; sourceTree = "<group>"; };
-		CADE3E1924F17471003165BB /* havege.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = havege.Po; sourceTree = "<group>"; };
-		CADE3E1A24F17471003165BB /* entropy.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = entropy.Po; sourceTree = "<group>"; };
-		CADE3E1B24F17471003165BB /* pk_wrap.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pk_wrap.Po; sourceTree = "<group>"; };
-		CADE3E1C24F17471003165BB /* des.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = des.Po; sourceTree = "<group>"; };
-		CADE3E1D24F17471003165BB /* md5.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = md5.Po; sourceTree = "<group>"; };
-		CADE3E1E24F17471003165BB /* gcm.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = gcm.Po; sourceTree = "<group>"; };
-		CADE3E1F24F17471003165BB /* ecp_curves.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ecp_curves.Po; sourceTree = "<group>"; };
-		CADE3E2024F17471003165BB /* x509_create.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509_create.Po; sourceTree = "<group>"; };
-		CADE3E2124F17471003165BB /* md2.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = md2.Po; sourceTree = "<group>"; };
-		CADE3E2224F17471003165BB /* padlock.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = padlock.Po; sourceTree = "<group>"; };
-		CADE3E2324F17471003165BB /* x509_csr.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509_csr.Po; sourceTree = "<group>"; };
-		CADE3E2424F17471003165BB /* oid.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = oid.Po; sourceTree = "<group>"; };
-		CADE3E2524F17471003165BB /* ssl_ticket.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_ticket.Po; sourceTree = "<group>"; };
-		CADE3E2624F17471003165BB /* pem.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pem.Po; sourceTree = "<group>"; };
-		CADE3E2724F17471003165BB /* ecp.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ecp.Po; sourceTree = "<group>"; };
-		CADE3E2824F17471003165BB /* md.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = md.Po; sourceTree = "<group>"; };
-		CADE3E2924F17471003165BB /* pkparse.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pkparse.Po; sourceTree = "<group>"; };
-		CADE3E2A24F17471003165BB /* ctr_drbg.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ctr_drbg.Po; sourceTree = "<group>"; };
-		CADE3E2B24F17471003165BB /* sha512.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sha512.Po; sourceTree = "<group>"; };
-		CADE3E2C24F17471003165BB /* entropy_poll.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = entropy_poll.Po; sourceTree = "<group>"; };
-		CADE3E2D24F17471003165BB /* arc4.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = arc4.Po; sourceTree = "<group>"; };
-		CADE3E2E24F17471003165BB /* base64.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = base64.Po; sourceTree = "<group>"; };
-		CADE3E2F24F17471003165BB /* error.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = error.Po; sourceTree = "<group>"; };
-		CADE3E3024F17471003165BB /* ssl_srv.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ssl_srv.Po; sourceTree = "<group>"; };
-		CADE3E3124F17471003165BB /* version.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = version.Po; sourceTree = "<group>"; };
-		CADE3E3224F17471003165BB /* x509.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509.Po; sourceTree = "<group>"; };
-		CADE3E3324F17471003165BB /* x509write_csr.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509write_csr.Po; sourceTree = "<group>"; };
-		CADE3E3424F17471003165BB /* aes.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = aes.Po; sourceTree = "<group>"; };
-		CADE3E3524F17471003165BB /* certs.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = certs.Po; sourceTree = "<group>"; };
-		CADE3E3624F17471003165BB /* ecjpake.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ecjpake.Po; sourceTree = "<group>"; };
-		CADE3E3724F17471003165BB /* rsa_internal.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = rsa_internal.Po; sourceTree = "<group>"; };
-		CADE3E3824F17471003165BB /* platform_util.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = platform_util.Po; sourceTree = "<group>"; };
-		CADE3E3924F17471003165BB /* rsa.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = rsa.Po; sourceTree = "<group>"; };
-		CADE3E3A24F17471003165BB /* sha1.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sha1.Po; sourceTree = "<group>"; };
-		CADE3E3B24F17471003165BB /* sha256.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sha256.Po; sourceTree = "<group>"; };
-		CADE3E3C24F17471003165BB /* asn1write.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = asn1write.Po; sourceTree = "<group>"; };
-		CADE3E3D24F17471003165BB /* aesni.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = aesni.Po; sourceTree = "<group>"; };
-		CADE3E3E24F17471003165BB /* ccm.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ccm.Po; sourceTree = "<group>"; };
-		CADE3E3F24F17471003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3E4024F17471003165BB /* pkcs12.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pkcs12.Po; sourceTree = "<group>"; };
-		CADE3E4124F17471003165BB /* pkcs5.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pkcs5.Po; sourceTree = "<group>"; };
 		CADE3E4224F17471003165BB /* padlock.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = padlock.c; sourceTree = "<group>"; };
 		CADE3E4324F17471003165BB /* pkcs12.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pkcs12.c; sourceTree = "<group>"; };
 		CADE3E4424F17471003165BB /* entropy.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = entropy.c; sourceTree = "<group>"; };
@@ -1725,26 +1583,16 @@
 		CADE3E4624F17471003165BB /* sha512.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sha512.c; sourceTree = "<group>"; };
 		CADE3E4724F17471003165BB /* cmac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cmac.h; sourceTree = "<group>"; };
 		CADE3E4824F17471003165BB /* md.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = md.c; sourceTree = "<group>"; };
-		CADE3E4924F17471003165BB /* x509write_csr.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = x509write_csr.o; sourceTree = "<group>"; };
 		CADE3E4A24F17471003165BB /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		CADE3E4B24F17471003165BB /* platform.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = platform.o; sourceTree = "<group>"; };
-		CADE3E4C24F17471003165BB /* bignum.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = bignum.o; sourceTree = "<group>"; };
 		CADE3E4D24F17471003165BB /* ecjpake.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ecjpake.c; sourceTree = "<group>"; };
 		CADE3E4E24F17471003165BB /* cipher.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cipher.c; sourceTree = "<group>"; };
-		CADE3E4F24F17471003165BB /* pkparse.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = pkparse.o; sourceTree = "<group>"; };
 		CADE3E5024F17471003165BB /* bignum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bignum.h; sourceTree = "<group>"; };
-		CADE3E5124F17471003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3E5224F17471003165BB /* ecdsa.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ecdsa.c; sourceTree = "<group>"; };
 		CADE3E5324F17471003165BB /* aria.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = aria.h; sourceTree = "<group>"; };
 		CADE3E5424F17471003165BB /* entropy_poll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = entropy_poll.h; sourceTree = "<group>"; };
-		CADE3E5524F17471003165BB /* entropy_poll.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = entropy_poll.o; sourceTree = "<group>"; };
 		CADE3E5624F17471003165BB /* nist_kw.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = nist_kw.c; sourceTree = "<group>"; };
-		CADE3E5724F17471003165BB /* asn1write.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = asn1write.o; sourceTree = "<group>"; };
-		CADE3E5824F17471003165BB /* havege.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = havege.o; sourceTree = "<group>"; };
 		CADE3E5924F17471003165BB /* havege.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = havege.h; sourceTree = "<group>"; };
 		CADE3E5A24F17471003165BB /* asn1write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asn1write.h; sourceTree = "<group>"; };
-		CADE3E5B24F17471003165BB /* ccm.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ccm.o; sourceTree = "<group>"; };
-		CADE3E5C24F17471003165BB /* version_features.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = version_features.o; sourceTree = "<group>"; };
 		CADE3E5D24F17471003165BB /* ccm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccm.h; sourceTree = "<group>"; };
 		CADE3E6024F17472003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3E6124F17472003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
@@ -4878,327 +4726,167 @@
 		CADE3D2224F17470003165BB /* mbedtls */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3D2324F17470003165BB /* pem.o */,
-				CADE3D2424F17470003165BB /* x509_create.c */,
-				CADE3D2824F17471003165BB /* pem.h */,
-				CADE3D2924F17471003165BB /* x509_crt.c */,
-				CADE3D2A24F17471003165BB /* check_config.h */,
-				CADE3D2B24F17471003165BB /* oid.o */,
-				CADE3D2C24F17471003165BB /* md2.o */,
-				CADE3D2D24F17471003165BB /* error.o */,
+				CADE3D7F24F17471003165BB /* 0readme.txt */,
 				CADE3D2E24F17471003165BB /* aes.c */,
-				CADE3D2F24F17471003165BB /* md_wrap.o */,
-				CADE3D3024F17471003165BB /* error.h */,
-				CADE3D3124F17471003165BB /* md2.h */,
-				CADE3D3224F17471003165BB /* oid.h */,
-				CADE3D3324F17471003165BB /* rsa_internal.o */,
-				CADE3D3424F17471003165BB /* pkcs5.o */,
-				CADE3D3524F17471003165BB /* md4.c */,
-				CADE3D3624F17471003165BB /* rsa_internal.h */,
-				CADE3D3724F17471003165BB /* pkcs5.h */,
-				CADE3D3824F17471003165BB /* ripemd160.h */,
-				CADE3D3924F17471003165BB /* ripemd160.o */,
-				CADE3D3A24F17471003165BB /* ssl_srv.c */,
-				CADE3D3B24F17471003165BB /* camellia.c */,
+				CADE3DBA24F17471003165BB /* aes.h */,
+				CADE3D6124F17471003165BB /* aesni.c */,
+				CADE3DC324F17471003165BB /* aesni.h */,
+				CADE3DE324F17471003165BB /* arc4.c */,
+				CADE3D7824F17471003165BB /* arc4.h */,
+				CADE3D8724F17471003165BB /* aria.c */,
+				CADE3E5324F17471003165BB /* aria.h */,
+				CADE3D5624F17471003165BB /* asn1.h */,
+				CADE3D7124F17471003165BB /* asn1parse.c */,
+				CADE3D8324F17471003165BB /* asn1write.c */,
+				CADE3E5A24F17471003165BB /* asn1write.h */,
+				CADE3DCC24F17471003165BB /* base64.c */,
+				CADE3D4F24F17471003165BB /* base64.h */,
+				CADE3D9224F17471003165BB /* bignum.c */,
+				CADE3E5024F17471003165BB /* bignum.h */,
+				CADE3DAD24F17471003165BB /* blowfish.c */,
 				CADE3D3C24F17471003165BB /* blowfish.h */,
-				CADE3D3D24F17471003165BB /* ssl_cli.o */,
-				CADE3D3E24F17471003165BB /* blowfish.o */,
+				CADE3DA224F17471003165BB /* bn_mul.h */,
+				CADE3D3B24F17471003165BB /* camellia.c */,
+				CADE3DAE24F17471003165BB /* camellia.h */,
+				CADE3D8524F17471003165BB /* ccm.c */,
+				CADE3E5D24F17471003165BB /* ccm.h */,
+				CADE3D7424F17471003165BB /* certs.c */,
+				CADE3DE024F17471003165BB /* certs.h */,
+				CADE3D5424F17471003165BB /* chacha20.c */,
+				CADE3DC824F17471003165BB /* chacha20.h */,
+				CADE3DDC24F17471003165BB /* chachapoly.c */,
+				CADE3D7B24F17471003165BB /* chachapoly.h */,
+				CADE3D2A24F17471003165BB /* check_config.h */,
+				CADE3D4B24F17471003165BB /* cipher_internal.h */,
+				CADE3D5224F17471003165BB /* cipher_wrap.c */,
+				CADE3E4E24F17471003165BB /* cipher.c */,
+				CADE3D9424F17471003165BB /* cipher.h */,
+				CADE3D9024F17471003165BB /* cmac.c */,
+				CADE3E4724F17471003165BB /* cmac.h */,
+				CADE3D6F24F17471003165BB /* compat-1.3.h */,
+				CADE3D5824F17471003165BB /* config.h */,
+				CADE3D5F24F17471003165BB /* ctr_drbg.c */,
+				CADE3DC424F17471003165BB /* ctr_drbg.h */,
+				CADE3DA424F17471003165BB /* debug.c */,
+				CADE3D4124F17471003165BB /* debug.h */,
+				CADE3D5924F17471003165BB /* des.c */,
+				CADE3DCE24F17471003165BB /* des.h */,
+				CADE3D6224F17471003165BB /* dhm.c */,
+				CADE3DC124F17471003165BB /* dhm.h */,
+				CADE3D4A24F17471003165BB /* ecdh.c */,
+				CADE3DD524F17471003165BB /* ecdh.h */,
+				CADE3E5224F17471003165BB /* ecdsa.c */,
+				CADE3D8924F17471003165BB /* ecdsa.h */,
+				CADE3E4D24F17471003165BB /* ecjpake.c */,
+				CADE3D9524F17471003165BB /* ecjpake.h */,
+				CADE3DDF24F17471003165BB /* ecp_curves.c */,
+				CADE3DA524F17471003165BB /* ecp_internal.h */,
+				CADE3DD024F17471003165BB /* ecp.c */,
+				CADE3D4724F17471003165BB /* ecp.h */,
+				CADE3D8B24F17471003165BB /* entropy_poll.c */,
+				CADE3E5424F17471003165BB /* entropy_poll.h */,
+				CADE3E4424F17471003165BB /* entropy.c */,
+				CADE3D9824F17471003165BB /* entropy.h */,
+				CADE3DB824F17471003165BB /* error.c */,
+				CADE3D3024F17471003165BB /* error.h */,
+				CADE3D7C24F17471003165BB /* gcm.c */,
+				CADE3DDA24F17471003165BB /* gcm.h */,
+				CADE3D8424F17471003165BB /* havege.c */,
+				CADE3E5924F17471003165BB /* havege.h */,
+				CADE3DED24F17471003165BB /* hkdf.c */,
+				CADE3D6E24F17471003165BB /* hkdf.h */,
+				CADE3D6924F17471003165BB /* hmac_drbg.c */,
+				CADE3DE724F17471003165BB /* hmac_drbg.h */,
+				CADE3D6524F17471003165BB /* Makefile */,
+				CADE3D4E24F17471003165BB /* md_internal.h */,
+				CADE3DBC24F17471003165BB /* md_wrap.c */,
+				CADE3E4824F17471003165BB /* md.c */,
+				CADE3D8F24F17471003165BB /* md.h */,
+				CADE3DB924F17471003165BB /* md2.c */,
+				CADE3D3124F17471003165BB /* md2.h */,
+				CADE3D3524F17471003165BB /* md4.c */,
+				CADE3DB124F17471003165BB /* md4.h */,
+				CADE3DE124F17471003165BB /* md5.c */,
+				CADE3D7524F17471003165BB /* md5.h */,
+				CADE3DCD24F17471003165BB /* memory_buffer_alloc.c */,
+				CADE3D5A24F17471003165BB /* memory_buffer_alloc.h */,
+				CADE3E4524F17471003165BB /* net_sockets.c */,
+				CADE3D9724F17471003165BB /* net_sockets.h */,
+				CADE3D4824F17471003165BB /* net.h */,
+				CADE3E5624F17471003165BB /* nist_kw.c */,
+				CADE3D8A24F17471003165BB /* nist_kw.h */,
+				CADE3DB724F17471003165BB /* oid.c */,
+				CADE3D3224F17471003165BB /* oid.h */,
+				CADE3E4224F17471003165BB /* padlock.c */,
+				CADE3D9E24F17471003165BB /* padlock.h */,
+				CADE3DB424F17471003165BB /* pem.c */,
+				CADE3D2824F17471003165BB /* pem.h */,
+				CADE3DBF24F17471003165BB /* pk_internal.h */,
 				CADE3D3F24F17471003165BB /* pk_wrap.c */,
 				CADE3D4024F17471003165BB /* pk.c */,
-				CADE3D4124F17471003165BB /* debug.h */,
-				CADE3D4224F17471003165BB /* debug.o */,
-				CADE3D4324F17471003165BB /* x509.h */,
-				CADE3D4424F17471003165BB /* version.h */,
-				CADE3D4524F17471003165BB /* version.o */,
-				CADE3D4624F17471003165BB /* x509.o */,
-				CADE3D4724F17471003165BB /* ecp.h */,
-				CADE3D4824F17471003165BB /* net.h */,
-				CADE3D4924F17471003165BB /* ecp.o */,
-				CADE3D4A24F17471003165BB /* ecdh.c */,
-				CADE3D4B24F17471003165BB /* cipher_internal.h */,
-				CADE3D4C24F17471003165BB /* ssl_tls.c */,
-				CADE3D4D24F17471003165BB /* x509_crl.c */,
-				CADE3D4E24F17471003165BB /* md_internal.h */,
-				CADE3D4F24F17471003165BB /* base64.h */,
-				CADE3D5024F17471003165BB /* pkcs11.h */,
-				CADE3D5124F17471003165BB /* pkcs11.o */,
-				CADE3D5224F17471003165BB /* cipher_wrap.c */,
-				CADE3D5324F17471003165BB /* base64.o */,
-				CADE3D5424F17471003165BB /* chacha20.c */,
-				CADE3D5524F17471003165BB /* ssl_internal.h */,
-				CADE3D5624F17471003165BB /* asn1.h */,
-				CADE3D5724F17471003165BB /* memory_buffer_alloc.o */,
-				CADE3D5824F17471003165BB /* config.h */,
-				CADE3D5924F17471003165BB /* des.c */,
-				CADE3D5A24F17471003165BB /* memory_buffer_alloc.h */,
-				CADE3D5B24F17471003165BB /* x509_csr.o */,
-				CADE3D5C24F17471003165BB /* ssl_cookie.c */,
-				CADE3D5D24F17471003165BB /* x509_csr.h */,
-				CADE3D5E24F17471003165BB /* platform_util.o */,
-				CADE3D5F24F17471003165BB /* ctr_drbg.c */,
-				CADE3D6024F17471003165BB /* platform_util.h */,
-				CADE3D6124F17471003165BB /* aesni.c */,
-				CADE3D6224F17471003165BB /* dhm.c */,
-				CADE3D6324F17471003165BB /* ssl_cache.c */,
-				CADE3D6424F17471003165BB /* ssl_ciphersuites.c */,
-				CADE3D6524F17471003165BB /* Makefile */,
-				CADE3D6624F17471003165BB /* xtea.h */,
-				CADE3D6724F17471003165BB /* poly1305.o */,
-				CADE3D6824F17471003165BB /* x509write_crt.o */,
-				CADE3D6924F17471003165BB /* hmac_drbg.c */,
-				CADE3D6A24F17471003165BB /* rsa.c */,
-				CADE3D6B24F17471003165BB /* xtea.o */,
-				CADE3D6C24F17471003165BB /* poly1305.h */,
-				CADE3D6D24F17471003165BB /* threading.h */,
-				CADE3D6E24F17471003165BB /* hkdf.h */,
-				CADE3D6F24F17471003165BB /* compat-1.3.h */,
-				CADE3D7024F17471003165BB /* ssl_ticket.c */,
-				CADE3D7124F17471003165BB /* asn1parse.c */,
-				CADE3D7224F17471003165BB /* threading.o */,
-				CADE3D7324F17471003165BB /* md5.o */,
-				CADE3D7424F17471003165BB /* certs.c */,
-				CADE3D7524F17471003165BB /* md5.h */,
-				CADE3D7624F17471003165BB /* arc4.o */,
-				CADE3D7724F17471003165BB /* timing.h */,
-				CADE3D7824F17471003165BB /* arc4.h */,
-				CADE3D7924F17471003165BB /* timing.o */,
-				CADE3D7A24F17471003165BB /* pkwrite.c */,
-				CADE3D7B24F17471003165BB /* chachapoly.h */,
-				CADE3D7C24F17471003165BB /* gcm.c */,
-				CADE3D7D24F17471003165BB /* sha1.c */,
-				CADE3D7E24F17471003165BB /* chachapoly.o */,
-				CADE3D7F24F17471003165BB /* 0readme.txt */,
-				CADE3D8024F17471003165BB /* sha256.o */,
-				CADE3D8124F17471003165BB /* sha256.h */,
-				CADE3D8224F17471003165BB /* ecp_curves.o */,
-				CADE3D8324F17471003165BB /* asn1write.c */,
-				CADE3D8424F17471003165BB /* havege.c */,
-				CADE3D8524F17471003165BB /* ccm.c */,
-				CADE3D8624F17471003165BB /* version_features.c */,
-				CADE3D8724F17471003165BB /* aria.c */,
-				CADE3D8824F17471003165BB /* ecdsa.o */,
-				CADE3D8924F17471003165BB /* ecdsa.h */,
-				CADE3D8A24F17471003165BB /* nist_kw.h */,
-				CADE3D8B24F17471003165BB /* entropy_poll.c */,
-				CADE3D8C24F17471003165BB /* md.o */,
-				CADE3D8D24F17471003165BB /* x509write_csr.c */,
-				CADE3D8E24F17471003165BB /* platform.c */,
-				CADE3D8F24F17471003165BB /* md.h */,
-				CADE3D9024F17471003165BB /* cmac.c */,
-				CADE3D9124F17471003165BB /* cipher.o */,
-				CADE3D9224F17471003165BB /* bignum.c */,
-				CADE3D9324F17471003165BB /* ecjpake.o */,
-				CADE3D9424F17471003165BB /* cipher.h */,
-				CADE3D9524F17471003165BB /* ecjpake.h */,
-				CADE3D9624F17471003165BB /* pkparse.c */,
-				CADE3D9724F17471003165BB /* net_sockets.h */,
-				CADE3D9824F17471003165BB /* entropy.h */,
-				CADE3D9924F17471003165BB /* padlock.o */,
-				CADE3D9A24F17471003165BB /* pkcs12.h */,
-				CADE3D9B24F17471003165BB /* entropy.o */,
-				CADE3D9C24F17471003165BB /* net_sockets.o */,
-				CADE3D9D24F17471003165BB /* pkcs12.o */,
-				CADE3D9E24F17471003165BB /* padlock.h */,
-				CADE3D9F24F17471003165BB /* sha512.o */,
-				CADE3DA024F17471003165BB /* sha512.h */,
-				CADE3DA124F17471003165BB /* pk.o */,
-				CADE3DA224F17471003165BB /* bn_mul.h */,
 				CADE3DA324F17471003165BB /* pk.h */,
-				CADE3DA424F17471003165BB /* debug.c */,
-				CADE3DA524F17471003165BB /* ecp_internal.h */,
-				CADE3DA624F17471003165BB /* ripemd160.c */,
-				CADE3DA724F17471003165BB /* ssl_cli.c */,
-				CADE3DA824F17471003165BB /* camellia.o */,
-				CADE3DA924F17471003165BB /* ssl_srv.o */,
-				CADE3DAA24F17471003165BB /* pk_wrap.o */,
-				CADE3DAB24F17471003165BB /* ssl.h */,
-				CADE3DAC24F17471003165BB /* platform_time.h */,
-				CADE3DAD24F17471003165BB /* blowfish.c */,
-				CADE3DAE24F17471003165BB /* camellia.h */,
-				CADE3DAF24F17471003165BB /* rsa_internal.c */,
 				CADE3DB024F17471003165BB /* pkcs5.c */,
-				CADE3DB124F17471003165BB /* md4.h */,
-				CADE3DB224F17471003165BB /* md4.o */,
-				CADE3DB324F17471003165BB /* x509_crt.h */,
-				CADE3DB424F17471003165BB /* pem.c */,
-				CADE3DB524F17471003165BB /* x509_crt.o */,
-				CADE3DB624F17471003165BB /* x509_create.o */,
-				CADE3DB724F17471003165BB /* oid.c */,
-				CADE3DB824F17471003165BB /* error.c */,
-				CADE3DB924F17471003165BB /* md2.c */,
-				CADE3DBA24F17471003165BB /* aes.h */,
-				CADE3DBB24F17471003165BB /* aes.o */,
-				CADE3DBC24F17471003165BB /* md_wrap.c */,
-				CADE3DBD24F17471003165BB /* x509_csr.c */,
-				CADE3DBE24F17471003165BB /* ssl_cookie.o */,
-				CADE3DBF24F17471003165BB /* pk_internal.h */,
-				CADE3DC024F17471003165BB /* ssl_cookie.h */,
-				CADE3DC124F17471003165BB /* dhm.h */,
-				CADE3DC224F17471003165BB /* platform_util.c */,
-				CADE3DC324F17471003165BB /* aesni.h */,
-				CADE3DC424F17471003165BB /* ctr_drbg.h */,
-				CADE3DC524F17471003165BB /* dhm.o */,
-				CADE3DC624F17471003165BB /* ctr_drbg.o */,
-				CADE3DC724F17471003165BB /* aesni.o */,
-				CADE3DC824F17471003165BB /* chacha20.h */,
+				CADE3D3724F17471003165BB /* pkcs5.h */,
 				CADE3DC924F17471003165BB /* pkcs11.c */,
-				CADE3DCA24F17471003165BB /* chacha20.o */,
-				CADE3DCB24F17471003165BB /* cipher_wrap.o */,
-				CADE3DCC24F17471003165BB /* base64.c */,
-				CADE3DCD24F17471003165BB /* memory_buffer_alloc.c */,
-				CADE3DCE24F17471003165BB /* des.h */,
-				CADE3DCF24F17471003165BB /* des.o */,
-				CADE3DD024F17471003165BB /* ecp.c */,
-				CADE3DD124F17471003165BB /* x509_crl.h */,
-				CADE3DD224F17471003165BB /* ecdh.o */,
-				CADE3DD324F17471003165BB /* x509_crl.o */,
-				CADE3DD424F17471003165BB /* ssl_tls.o */,
-				CADE3DD524F17471003165BB /* ecdh.h */,
-				CADE3DD624F17471003165BB /* version.c */,
-				CADE3DD724F17471003165BB /* x509.c */,
-				CADE3DD824F17471003165BB /* sha1.h */,
-				CADE3DD924F17471003165BB /* pkwrite.o */,
-				CADE3DDA24F17471003165BB /* gcm.h */,
-				CADE3DDB24F17471003165BB /* sha1.o */,
-				CADE3DDC24F17471003165BB /* chachapoly.c */,
-				CADE3DDD24F17471003165BB /* gcm.o */,
-				CADE3DDE24F17471003165BB /* sha256.c */,
-				CADE3DDF24F17471003165BB /* ecp_curves.c */,
-				CADE3DE024F17471003165BB /* certs.h */,
-				CADE3DE124F17471003165BB /* md5.c */,
-				CADE3DE224F17471003165BB /* certs.o */,
-				CADE3DE324F17471003165BB /* arc4.c */,
-				CADE3DE424F17471003165BB /* timing.c */,
-				CADE3DE524F17471003165BB /* poly1305.c */,
-				CADE3DE624F17471003165BB /* rsa.h */,
-				CADE3DE724F17471003165BB /* hmac_drbg.h */,
-				CADE3DE824F17471003165BB /* rsa.o */,
-				CADE3DE924F17471003165BB /* xtea.c */,
-				CADE3DEA24F17471003165BB /* x509write_crt.c */,
-				CADE3DEB24F17471003165BB /* hmac_drbg.o */,
-				CADE3DEC24F17471003165BB /* ssl_ticket.h */,
-				CADE3DED24F17471003165BB /* hkdf.c */,
-				CADE3DEE24F17471003165BB /* threading.c */,
-				CADE3DEF24F17471003165BB /* ssl_ticket.o */,
-				CADE3DF024F17471003165BB /* asn1parse.o */,
-				CADE3DF124F17471003165BB /* ssl_cache.o */,
-				CADE3DF224F17471003165BB /* ssl_ciphersuites.o */,
-				CADE3DF324F17471003165BB /* ssl_ciphersuites.h */,
-				CADE3DF424F17471003165BB /* ssl_cache.h */,
-				CADE3DF524F17471003165BB /* .deps */,
-				CADE3E4224F17471003165BB /* padlock.c */,
+				CADE3D5024F17471003165BB /* pkcs11.h */,
 				CADE3E4324F17471003165BB /* pkcs12.c */,
-				CADE3E4424F17471003165BB /* entropy.c */,
-				CADE3E4524F17471003165BB /* net_sockets.c */,
-				CADE3E4624F17471003165BB /* sha512.c */,
-				CADE3E4724F17471003165BB /* cmac.h */,
-				CADE3E4824F17471003165BB /* md.c */,
-				CADE3E4924F17471003165BB /* x509write_csr.o */,
+				CADE3D9A24F17471003165BB /* pkcs12.h */,
+				CADE3D9624F17471003165BB /* pkparse.c */,
+				CADE3D7A24F17471003165BB /* pkwrite.c */,
+				CADE3DAC24F17471003165BB /* platform_time.h */,
+				CADE3DC224F17471003165BB /* platform_util.c */,
+				CADE3D6024F17471003165BB /* platform_util.h */,
+				CADE3D8E24F17471003165BB /* platform.c */,
 				CADE3E4A24F17471003165BB /* platform.h */,
-				CADE3E4B24F17471003165BB /* platform.o */,
-				CADE3E4C24F17471003165BB /* bignum.o */,
-				CADE3E4D24F17471003165BB /* ecjpake.c */,
-				CADE3E4E24F17471003165BB /* cipher.c */,
-				CADE3E4F24F17471003165BB /* pkparse.o */,
-				CADE3E5024F17471003165BB /* bignum.h */,
-				CADE3E5124F17471003165BB /* .dirstamp */,
-				CADE3E5224F17471003165BB /* ecdsa.c */,
-				CADE3E5324F17471003165BB /* aria.h */,
-				CADE3E5424F17471003165BB /* entropy_poll.h */,
-				CADE3E5524F17471003165BB /* entropy_poll.o */,
-				CADE3E5624F17471003165BB /* nist_kw.c */,
-				CADE3E5724F17471003165BB /* asn1write.o */,
-				CADE3E5824F17471003165BB /* havege.o */,
-				CADE3E5924F17471003165BB /* havege.h */,
-				CADE3E5A24F17471003165BB /* asn1write.h */,
-				CADE3E5B24F17471003165BB /* ccm.o */,
-				CADE3E5C24F17471003165BB /* version_features.o */,
-				CADE3E5D24F17471003165BB /* ccm.h */,
+				CADE3DE524F17471003165BB /* poly1305.c */,
+				CADE3D6C24F17471003165BB /* poly1305.h */,
+				CADE3DA624F17471003165BB /* ripemd160.c */,
+				CADE3D3824F17471003165BB /* ripemd160.h */,
+				CADE3DAF24F17471003165BB /* rsa_internal.c */,
+				CADE3D3624F17471003165BB /* rsa_internal.h */,
+				CADE3D6A24F17471003165BB /* rsa.c */,
+				CADE3DE624F17471003165BB /* rsa.h */,
+				CADE3D7D24F17471003165BB /* sha1.c */,
+				CADE3DD824F17471003165BB /* sha1.h */,
+				CADE3DDE24F17471003165BB /* sha256.c */,
+				CADE3D8124F17471003165BB /* sha256.h */,
+				CADE3E4624F17471003165BB /* sha512.c */,
+				CADE3DA024F17471003165BB /* sha512.h */,
+				CADE3D6324F17471003165BB /* ssl_cache.c */,
+				CADE3DF424F17471003165BB /* ssl_cache.h */,
+				CADE3D6424F17471003165BB /* ssl_ciphersuites.c */,
+				CADE3DF324F17471003165BB /* ssl_ciphersuites.h */,
+				CADE3DA724F17471003165BB /* ssl_cli.c */,
+				CADE3D5C24F17471003165BB /* ssl_cookie.c */,
+				CADE3DC024F17471003165BB /* ssl_cookie.h */,
+				CADE3D5524F17471003165BB /* ssl_internal.h */,
+				CADE3D3A24F17471003165BB /* ssl_srv.c */,
+				CADE3D7024F17471003165BB /* ssl_ticket.c */,
+				CADE3DEC24F17471003165BB /* ssl_ticket.h */,
+				CADE3D4C24F17471003165BB /* ssl_tls.c */,
+				CADE3DAB24F17471003165BB /* ssl.h */,
+				CADE3DEE24F17471003165BB /* threading.c */,
+				CADE3D6D24F17471003165BB /* threading.h */,
+				CADE3DE424F17471003165BB /* timing.c */,
+				CADE3D7724F17471003165BB /* timing.h */,
+				CADE3D8624F17471003165BB /* version_features.c */,
+				CADE3DD624F17471003165BB /* version.c */,
+				CADE3D4424F17471003165BB /* version.h */,
+				CADE3D2424F17470003165BB /* x509_create.c */,
+				CADE3D4D24F17471003165BB /* x509_crl.c */,
+				CADE3DD124F17471003165BB /* x509_crl.h */,
+				CADE3D2924F17471003165BB /* x509_crt.c */,
+				CADE3DB324F17471003165BB /* x509_crt.h */,
+				CADE3DBD24F17471003165BB /* x509_csr.c */,
+				CADE3D5D24F17471003165BB /* x509_csr.h */,
+				CADE3DD724F17471003165BB /* x509.c */,
+				CADE3D4324F17471003165BB /* x509.h */,
+				CADE3DEA24F17471003165BB /* x509write_crt.c */,
+				CADE3D8D24F17471003165BB /* x509write_csr.c */,
+				CADE3DE924F17471003165BB /* xtea.c */,
+				CADE3D6624F17471003165BB /* xtea.h */,
 			);
 			path = mbedtls;
-			sourceTree = "<group>";
-		};
-		CADE3DF524F17471003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3DF624F17471003165BB /* threading.Po */,
-				CADE3DF724F17471003165BB /* platform.Po */,
-				CADE3DF824F17471003165BB /* x509write_crt.Po */,
-				CADE3DF924F17471003165BB /* cipher.Po */,
-				CADE3DFA24F17471003165BB /* timing.Po */,
-				CADE3DFB24F17471003165BB /* ssl_cookie.Po */,
-				CADE3DFC24F17471003165BB /* pkcs11.Po */,
-				CADE3DFD24F17471003165BB /* camellia.Po */,
-				CADE3DFE24F17471003165BB /* asn1parse.Po */,
-				CADE3DFF24F17471003165BB /* version_features.Po */,
-				CADE3E0024F17471003165BB /* pk.Po */,
-				CADE3E0124F17471003165BB /* debug.Po */,
-				CADE3E0224F17471003165BB /* poly1305.Po */,
-				CADE3E0324F17471003165BB /* ssl_tls.Po */,
-				CADE3E0424F17471003165BB /* xtea.Po */,
-				CADE3E0524F17471003165BB /* ecdsa.Po */,
-				CADE3E0624F17471003165BB /* chacha20.Po */,
-				CADE3E0724F17471003165BB /* cipher_wrap.Po */,
-				CADE3E0824F17471003165BB /* memory_buffer_alloc.Po */,
-				CADE3E0924F17471003165BB /* blowfish.Po */,
-				CADE3E0A24F17471003165BB /* ssl_cli.Po */,
-				CADE3E0B24F17471003165BB /* ripemd160.Po */,
-				CADE3E0C24F17471003165BB /* ssl_cache.Po */,
-				CADE3E0D24F17471003165BB /* bignum.Po */,
-				CADE3E0E24F17471003165BB /* md4.Po */,
-				CADE3E0F24F17471003165BB /* x509_crl.Po */,
-				CADE3E1024F17471003165BB /* x509_crt.Po */,
-				CADE3E1124F17471003165BB /* hmac_drbg.Po */,
-				CADE3E1224F17471003165BB /* net_sockets.Po */,
-				CADE3E1324F17471003165BB /* dhm.Po */,
-				CADE3E1424F17471003165BB /* md_wrap.Po */,
-				CADE3E1524F17471003165BB /* pkwrite.Po */,
-				CADE3E1624F17471003165BB /* chachapoly.Po */,
-				CADE3E1724F17471003165BB /* ssl_ciphersuites.Po */,
-				CADE3E1824F17471003165BB /* ecdh.Po */,
-				CADE3E1924F17471003165BB /* havege.Po */,
-				CADE3E1A24F17471003165BB /* entropy.Po */,
-				CADE3E1B24F17471003165BB /* pk_wrap.Po */,
-				CADE3E1C24F17471003165BB /* des.Po */,
-				CADE3E1D24F17471003165BB /* md5.Po */,
-				CADE3E1E24F17471003165BB /* gcm.Po */,
-				CADE3E1F24F17471003165BB /* ecp_curves.Po */,
-				CADE3E2024F17471003165BB /* x509_create.Po */,
-				CADE3E2124F17471003165BB /* md2.Po */,
-				CADE3E2224F17471003165BB /* padlock.Po */,
-				CADE3E2324F17471003165BB /* x509_csr.Po */,
-				CADE3E2424F17471003165BB /* oid.Po */,
-				CADE3E2524F17471003165BB /* ssl_ticket.Po */,
-				CADE3E2624F17471003165BB /* pem.Po */,
-				CADE3E2724F17471003165BB /* ecp.Po */,
-				CADE3E2824F17471003165BB /* md.Po */,
-				CADE3E2924F17471003165BB /* pkparse.Po */,
-				CADE3E2A24F17471003165BB /* ctr_drbg.Po */,
-				CADE3E2B24F17471003165BB /* sha512.Po */,
-				CADE3E2C24F17471003165BB /* entropy_poll.Po */,
-				CADE3E2D24F17471003165BB /* arc4.Po */,
-				CADE3E2E24F17471003165BB /* base64.Po */,
-				CADE3E2F24F17471003165BB /* error.Po */,
-				CADE3E3024F17471003165BB /* ssl_srv.Po */,
-				CADE3E3124F17471003165BB /* version.Po */,
-				CADE3E3224F17471003165BB /* x509.Po */,
-				CADE3E3324F17471003165BB /* x509write_csr.Po */,
-				CADE3E3424F17471003165BB /* aes.Po */,
-				CADE3E3524F17471003165BB /* certs.Po */,
-				CADE3E3624F17471003165BB /* ecjpake.Po */,
-				CADE3E3724F17471003165BB /* rsa_internal.Po */,
-				CADE3E3824F17471003165BB /* platform_util.Po */,
-				CADE3E3924F17471003165BB /* rsa.Po */,
-				CADE3E3A24F17471003165BB /* sha1.Po */,
-				CADE3E3B24F17471003165BB /* sha256.Po */,
-				CADE3E3C24F17471003165BB /* asn1write.Po */,
-				CADE3E3D24F17471003165BB /* aesni.Po */,
-				CADE3E3E24F17471003165BB /* ccm.Po */,
-				CADE3E3F24F17471003165BB /* .dirstamp */,
-				CADE3E4024F17471003165BB /* pkcs12.Po */,
-				CADE3E4124F17471003165BB /* pkcs5.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3E5F24F17472003165BB /* mapping */ = {

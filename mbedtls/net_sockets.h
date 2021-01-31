@@ -67,7 +67,7 @@
 #define MBEDTLS_ERR_NET_POLL_FAILED                       -0x0047  /**< Polling the net context failed. */
 #define MBEDTLS_ERR_NET_BAD_INPUT_DATA                    -0x0049  /**< Input invalid. */
 
-#define MBEDTLS_NET_LISTEN_BACKLOG         10 /**< The backlog that listen() should use. */
+#define MBEDTLS_NET_LISTEN_BACKLOG         100 /**< The backlog that listen() should use. */
 
 #define MBEDTLS_NET_PROTO_TCP 0 /**< The TCP transport protocol */
 #define MBEDTLS_NET_PROTO_UDP 1 /**< The UDP transport protocol */

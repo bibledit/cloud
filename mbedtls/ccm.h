@@ -28,8 +28,31 @@
  * consistent with RFC 3610.
  */
 /*
- *  Copyright (C) 2006-2018, Arm Limited (or its affiliates), All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -45,7 +68,7 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  This file is part of Mbed TLS (https://tls.mbed.org)
+ *  **********
  */
 
 #ifndef MBEDTLS_CCM_H
@@ -152,7 +175,7 @@ void mbedtls_ccm_free( mbedtls_ccm_context *ctx );
  *                  than zero, \p output must be a writable buffer of at least
  *                  that length.
  * \param tag       The buffer holding the authentication field. This must be a
- *                  readable buffer of at least \p tag_len Bytes.
+ *                  writable buffer of at least \p tag_len Bytes.
  * \param tag_len   The length of the authentication field to generate in Bytes:
  *                  4, 6, 8, 10, 12, 14 or 16.
  *
@@ -197,7 +220,7 @@ int mbedtls_ccm_encrypt_and_tag( mbedtls_ccm_context *ctx, size_t length,
  *                  than zero, \p output must be a writable buffer of at least
  *                  that length.
  * \param tag       The buffer holding the authentication field. This must be a
- *                  readable buffer of at least \p tag_len Bytes.
+ *                  writable buffer of at least \p tag_len Bytes.
  * \param tag_len   The length of the authentication field to generate in Bytes:
  *                  0, 4, 6, 8, 10, 12, 14 or 16.
  *

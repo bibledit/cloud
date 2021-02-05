@@ -1,8 +1,31 @@
 /*
  *  The RSA public-key cryptosystem
  *
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,7 +41,7 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
  */
 
 /*
@@ -58,7 +81,7 @@
 #include "mbedtls/md.h"
 #endif
 
-#if defined(MBEDTLS_PKCS1_V15) && !defined(__OpenBSD__)
+#if defined(MBEDTLS_PKCS1_V15) && !defined(__OpenBSD__) && !defined(__NetBSD__)
 #include <stdlib.h>
 #endif
 
@@ -251,6 +274,9 @@ int mbedtls_rsa_complete( mbedtls_rsa_context *ctx )
 {
     int ret = 0;
     int have_N, have_P, have_Q, have_D, have_E;
+#if !defined(MBEDTLS_RSA_NO_CRT)
+    int have_DP, have_DQ, have_QP;
+#endif
     int n_missing, pq_missing, d_missing, is_pub, is_priv;
 
     RSA_VALIDATE_RET( ctx != NULL );
@@ -260,6 +286,12 @@ int mbedtls_rsa_complete( mbedtls_rsa_context *ctx )
     have_Q = ( mbedtls_mpi_cmp_int( &ctx->Q, 0 ) != 0 );
     have_D = ( mbedtls_mpi_cmp_int( &ctx->D, 0 ) != 0 );
     have_E = ( mbedtls_mpi_cmp_int( &ctx->E, 0 ) != 0 );
+
+#if !defined(MBEDTLS_RSA_NO_CRT)
+    have_DP = ( mbedtls_mpi_cmp_int( &ctx->DP, 0 ) != 0 );
+    have_DQ = ( mbedtls_mpi_cmp_int( &ctx->DQ, 0 ) != 0 );
+    have_QP = ( mbedtls_mpi_cmp_int( &ctx->QP, 0 ) != 0 );
+#endif
 
     /*
      * Check whether provided parameters are enough
@@ -326,7 +358,7 @@ int mbedtls_rsa_complete( mbedtls_rsa_context *ctx )
      */
 
 #if !defined(MBEDTLS_RSA_NO_CRT)
-    if( is_priv )
+    if( is_priv && ! ( have_DP && have_DQ && have_QP ) )
     {
         ret = mbedtls_rsa_deduce_crt( &ctx->P,  &ctx->Q,  &ctx->D,
                                       &ctx->DP, &ctx->DQ, &ctx->QP );
@@ -774,6 +806,9 @@ static int rsa_prepare_blinding( mbedtls_rsa_context *ctx,
                  int (*f_rng)(void *, unsigned char *, size_t), void *p_rng )
 {
     int ret, count = 0;
+    mbedtls_mpi R;
+
+    mbedtls_mpi_init( &R );
 
     if( ctx->Vf.p != NULL )
     {
@@ -789,18 +824,40 @@ static int rsa_prepare_blinding( mbedtls_rsa_context *ctx,
     /* Unblinding value: Vf = random number, invertible mod N */
     do {
         if( count++ > 10 )
-            return( MBEDTLS_ERR_RSA_RNG_FAILED );
+        {
+            ret = MBEDTLS_ERR_RSA_RNG_FAILED;
+            goto cleanup;
+        }
 
         MBEDTLS_MPI_CHK( mbedtls_mpi_fill_random( &ctx->Vf, ctx->len - 1, f_rng, p_rng ) );
-        MBEDTLS_MPI_CHK( mbedtls_mpi_gcd( &ctx->Vi, &ctx->Vf, &ctx->N ) );
-    } while( mbedtls_mpi_cmp_int( &ctx->Vi, 1 ) != 0 );
 
-    /* Blinding value: Vi =  Vf^(-e) mod N */
-    MBEDTLS_MPI_CHK( mbedtls_mpi_inv_mod( &ctx->Vi, &ctx->Vf, &ctx->N ) );
+        /* Compute Vf^-1 as R * (R Vf)^-1 to avoid leaks from inv_mod. */
+        MBEDTLS_MPI_CHK( mbedtls_mpi_fill_random( &R, ctx->len - 1, f_rng, p_rng ) );
+        MBEDTLS_MPI_CHK( mbedtls_mpi_mul_mpi( &ctx->Vi, &ctx->Vf, &R ) );
+        MBEDTLS_MPI_CHK( mbedtls_mpi_mod_mpi( &ctx->Vi, &ctx->Vi, &ctx->N ) );
+
+        /* At this point, Vi is invertible mod N if and only if both Vf and R
+         * are invertible mod N. If one of them isn't, we don't need to know
+         * which one, we just loop and choose new values for both of them.
+         * (Each iteration succeeds with overwhelming probability.) */
+        ret = mbedtls_mpi_inv_mod( &ctx->Vi, &ctx->Vi, &ctx->N );
+        if( ret != 0 && ret != MBEDTLS_ERR_MPI_NOT_ACCEPTABLE )
+            goto cleanup;
+
+    } while( ret == MBEDTLS_ERR_MPI_NOT_ACCEPTABLE );
+
+    /* Finish the computation of Vf^-1 = R * (R Vf)^-1 */
+    MBEDTLS_MPI_CHK( mbedtls_mpi_mul_mpi( &ctx->Vi, &ctx->Vi, &R ) );
+    MBEDTLS_MPI_CHK( mbedtls_mpi_mod_mpi( &ctx->Vi, &ctx->Vi, &ctx->N ) );
+
+    /* Blinding value: Vi = Vf^(-e) mod N
+     * (Vi already contains Vf^-1 at this point) */
     MBEDTLS_MPI_CHK( mbedtls_mpi_exp_mod( &ctx->Vi, &ctx->Vi, &ctx->E, &ctx->N, &ctx->RN ) );
 
 
 cleanup:
+    mbedtls_mpi_free( &R );
+
     return( ret );
 }
 
@@ -2556,7 +2613,7 @@ void mbedtls_rsa_free( mbedtls_rsa_context *ctx )
 #if defined(MBEDTLS_PKCS1_V15)
 static int myrand( void *rng_state, unsigned char *output, size_t len )
 {
-#if !defined(__OpenBSD__)
+#if !defined(__OpenBSD__) && !defined(__NetBSD__)
     size_t i;
 
     if( rng_state != NULL )
@@ -2569,7 +2626,7 @@ static int myrand( void *rng_state, unsigned char *output, size_t len )
         rng_state = NULL;
 
     arc4random_buf( output, len );
-#endif /* !OpenBSD */
+#endif /* !OpenBSD && !NetBSD */
 
     return( 0 );
 }

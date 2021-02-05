@@ -4,8 +4,31 @@
  * \brief Run-time version information
  */
 /*
- *  Copyright (C) 2006-2015, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,7 +44,7 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
  */
 /*
  * This set of compile-time defines and run-time variables can be used to
@@ -42,16 +65,16 @@
  */
 #define MBEDTLS_VERSION_MAJOR  2
 #define MBEDTLS_VERSION_MINOR  16
-#define MBEDTLS_VERSION_PATCH  3
+#define MBEDTLS_VERSION_PATCH  9
 
 /**
  * The single version number has the following structure:
  *    MMNNPP00
  *    Major version | Minor version | Patch version
  */
-#define MBEDTLS_VERSION_NUMBER         0x02100300
-#define MBEDTLS_VERSION_STRING         "2.16.3"
-#define MBEDTLS_VERSION_STRING_FULL    "mbed TLS 2.16.3"
+#define MBEDTLS_VERSION_NUMBER         0x02100900
+#define MBEDTLS_VERSION_STRING         "2.16.9"
+#define MBEDTLS_VERSION_STRING_FULL    "mbed TLS 2.16.9"
 
 #if defined(MBEDTLS_VERSION_C)
 

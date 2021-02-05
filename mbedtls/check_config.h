@@ -4,8 +4,31 @@
  * \brief Consistency checks for configuration options
  */
 /*
- *  Copyright (C) 2006-2018, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,7 +44,7 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
  */
 
 /*
@@ -142,6 +165,16 @@
 #error "MBEDTLS_ECP_C defined, but not all prerequisites"
 #endif
 
+#if defined(MBEDTLS_ECP_C) && !(            \
+    defined(MBEDTLS_ECP_ALT) ||             \
+    defined(MBEDTLS_CTR_DRBG_C) ||          \
+    defined(MBEDTLS_HMAC_DRBG_C) ||         \
+    defined(MBEDTLS_SHA512_C) ||            \
+    defined(MBEDTLS_SHA256_C) ||            \
+    defined(MBEDTLS_ECP_NO_INTERNAL_RNG))
+#error "MBEDTLS_ECP_C requires a DRBG or SHA-2 module unless MBEDTLS_ECP_NO_INTERNAL_RNG is defined or an alternative implementation is used"
+#endif
+
 #if defined(MBEDTLS_PK_PARSE_C) && !defined(MBEDTLS_ASN1_PARSE_C)
 #error "MBEDTLS_PK_PARSE_C defined, but not all prerequesites"
 #endif
@@ -163,6 +196,16 @@
     defined(MBEDTLS_ENTROPY_FORCE_SHA256) && !defined(MBEDTLS_SHA256_C)
 #error "MBEDTLS_ENTROPY_FORCE_SHA256 defined, but not all prerequisites"
 #endif
+
+#if defined(__has_feature)
+#if __has_feature(memory_sanitizer)
+#define MBEDTLS_HAS_MEMSAN
+#endif
+#endif
+#if defined(MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN) &&  !defined(MBEDTLS_HAS_MEMSAN)
+#error "MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN requires building with MemorySanitizer"
+#endif
+#undef MBEDTLS_HAS_MEMSAN
 
 #if defined(MBEDTLS_TEST_NULL_ENTROPY) && \
     ( !defined(MBEDTLS_ENTROPY_C) || !defined(MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES) )
@@ -281,6 +324,14 @@
 #if defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C) &&                          \
     ( !defined(MBEDTLS_PLATFORM_C) || !defined(MBEDTLS_PLATFORM_MEMORY) )
 #error "MBEDTLS_MEMORY_BUFFER_ALLOC_C defined, but not all prerequisites"
+#endif
+
+#if defined(MBEDTLS_MEMORY_BACKTRACE) && !defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C)
+#error "MBEDTLS_MEMORY_BACKTRACE defined, but not all prerequesites"
+#endif
+
+#if defined(MBEDTLS_MEMORY_DEBUG) && !defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C)
+#error "MBEDTLS_MEMORY_DEBUG defined, but not all prerequesites"
 #endif
 
 #if defined(MBEDTLS_PADLOCK_C) && !defined(MBEDTLS_HAVE_ASM)
@@ -540,6 +591,23 @@
 #error "MBEDTLS_SSL_PROTO_TLS1_2 defined, but not all prerequisites"
 #endif
 
+#if (defined(MBEDTLS_SSL_PROTO_SSL3) || defined(MBEDTLS_SSL_PROTO_TLS1) ||  \
+     defined(MBEDTLS_SSL_PROTO_TLS1_1) || defined(MBEDTLS_SSL_PROTO_TLS1_2)) && \
+    !(defined(MBEDTLS_KEY_EXCHANGE_RSA_ENABLED) ||                          \
+      defined(MBEDTLS_KEY_EXCHANGE_DHE_RSA_ENABLED) ||                      \
+      defined(MBEDTLS_KEY_EXCHANGE_ECDHE_RSA_ENABLED) ||                    \
+      defined(MBEDTLS_KEY_EXCHANGE_ECDHE_ECDSA_ENABLED) ||                  \
+      defined(MBEDTLS_KEY_EXCHANGE_ECDH_RSA_ENABLED) ||                     \
+      defined(MBEDTLS_KEY_EXCHANGE_ECDH_ECDSA_ENABLED) ||                   \
+      defined(MBEDTLS_KEY_EXCHANGE_PSK_ENABLED) ||                          \
+      defined(MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED) ||                      \
+      defined(MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED) ||                      \
+      defined(MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED) ||                    \
+      defined(MBEDTLS_KEY_EXCHANGE_ECJPAKE_ENABLED) )
+#error "One or more versions of the TLS protocol are enabled " \
+        "but no key exchange methods defined with MBEDTLS_KEY_EXCHANGE_xxxx"
+#endif
+
 #if defined(MBEDTLS_SSL_PROTO_DTLS)     && \
     !defined(MBEDTLS_SSL_PROTO_TLS1_1)  && \
     !defined(MBEDTLS_SSL_PROTO_TLS1_2)
@@ -661,6 +729,10 @@
     !defined(MBEDTLS_OID_C) || !defined(MBEDTLS_ASN1_WRITE_C) ||       \
     !defined(MBEDTLS_PK_WRITE_C) )
 #error "MBEDTLS_X509_CREATE_C defined, but not all prerequisites"
+#endif
+
+#if defined(MBEDTLS_CERTS_C) && !defined(MBEDTLS_X509_USE_C)
+#error "MBEDTLS_CERTS_C defined, but not all prerequisites"
 #endif
 
 #if defined(MBEDTLS_X509_CRT_PARSE_C) && ( !defined(MBEDTLS_X509_USE_C) )

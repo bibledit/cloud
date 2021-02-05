@@ -8,8 +8,31 @@
  *  memory footprint.
  */
 /*
- *  Copyright (C) 2006-2018, ARM Limited, All Rights Reserved
- *  SPDX-License-Identifier: GPL-2.0
+ *  Copyright The Mbed TLS Contributors
+ *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
+ *
+ *  This file is provided under the Apache License 2.0, or the
+ *  GNU General Public License v2.0 or later.
+ *
+ *  **********
+ *  Apache License 2.0:
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *  **********
+ *
+ *  **********
+ *  GNU General Public License v2.0 or later:
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +48,7 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *  This file is part of mbed TLS (https://tls.mbed.org)
+ *  **********
  */
 
 #ifndef MBEDTLS_CONFIG_H
@@ -60,7 +83,7 @@
  *
  * Comment to disable the use of assembly code.
  */
-// #define MBEDTLS_HAVE_ASM
+//#define MBEDTLS_HAVE_ASM
 
 /**
  * \def MBEDTLS_NO_UDBL_DIVISION
@@ -527,6 +550,42 @@
 //#define MBEDTLS_ECP_NORMALIZE_MXZ_ALT
 
 /**
+ * \def MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN
+ *
+ * Enable testing of the constant-flow nature of some sensitive functions with
+ * clang's MemorySanitizer. This causes some existing tests to also test
+ * this non-functional property of the code under test.
+ *
+ * This setting requires compiling with clang -fsanitize=memory. The test
+ * suites can then be run normally.
+ *
+ * \warning This macro is only used for extended testing; it is not considered
+ * part of the library's API, so it may change or disappear at any time.
+ *
+ * Uncomment to enable testing of the constant-flow nature of selected code.
+ */
+//#define MBEDTLS_TEST_CONSTANT_FLOW_MEMSAN
+
+/**
+ * \def MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND
+ *
+ * Enable testing of the constant-flow nature of some sensitive functions with
+ * valgrind's memcheck tool. This causes some existing tests to also test
+ * this non-functional property of the code under test.
+ *
+ * This setting requires valgrind headers for building, and is only useful for
+ * testing if the tests suites are run with valgrind's memcheck. This can be
+ * done for an individual test suite with 'valgrind ./test_suite_xxx', or when
+ * using CMake, this can be done for all test suites with 'make memcheck'.
+ *
+ * \warning This macro is only used for extended testing; it is not considered
+ * part of the library's API, so it may change or disappear at any time.
+ *
+ * Uncomment to enable testing of the constant-flow nature of selected code.
+ */
+//#define MBEDTLS_TEST_CONSTANT_FLOW_VALGRIND
+
+/**
  * \def MBEDTLS_TEST_NULL_ENTROPY
  *
  * Enables testing and use of mbed TLS without any configured entropy sources.
@@ -691,6 +750,13 @@
 #define MBEDTLS_CIPHER_PADDING_ZEROS_AND_LEN
 #define MBEDTLS_CIPHER_PADDING_ZEROS
 
+/** \def MBEDTLS_CTR_DRBG_USE_128_BIT_KEY
+ *
+ * Uncomment this macro to use a 128-bit key in the CTR_DRBG module.
+ * By default, CTR_DRBG uses a 256-bit key.
+ */
+//#define MBEDTLS_CTR_DRBG_USE_128_BIT_KEY
+
 /**
  * \def MBEDTLS_ENABLE_WEAK_CIPHERSUITES
  *
@@ -774,6 +840,28 @@
  * Comment this macro to disable NIST curves optimisation.
  */
 #define MBEDTLS_ECP_NIST_OPTIM
+
+/**
+ * \def MBEDTLS_ECP_NO_INTERNAL_RNG
+ *
+ * When this option is disabled, mbedtls_ecp_mul() will make use of an
+ * internal RNG when called with a NULL \c f_rng argument, in order to protect
+ * against some side-channel attacks.
+ *
+ * This protection introduces a dependency of the ECP module on one of the
+ * DRBG or SHA modules (HMAC-DRBG, CTR-DRBG, SHA-512 or SHA-256.) For very
+ * constrained applications that don't require this protection (for example,
+ * because you're only doing signature verification, so not manipulating any
+ * secret, or because local/physical side-channel attacks are outside your
+ * threat model), it might be desirable to get rid of that dependency.
+ *
+ * \warning Enabling this option makes some uses of ECP vulnerable to some
+ * side-channel attacks. Only enable it if you know that's not a problem for
+ * your use case.
+ *
+ * Uncomment this macro to disable some counter-measures in ECP.
+ */
+//#define MBEDTLS_ECP_NO_INTERNAL_RNG
 
 /**
  * \def MBEDTLS_ECP_RESTARTABLE
@@ -1797,7 +1885,7 @@
  *
  * This modules adds support for the AES-NI instructions on x86-64
  */
-// #define MBEDTLS_AESNI_C
+//#define MBEDTLS_AESNI_C
 
 /**
  * \def MBEDTLS_AES_C
@@ -2151,7 +2239,11 @@
  *
  * Enable the CTR_DRBG AES-based random generator.
  * The CTR_DRBG generator uses AES-256 by default.
- * To use AES-128 instead, enable MBEDTLS_CTR_DRBG_USE_128_BIT_KEY below.
+ * To use AES-128 instead, enable \c MBEDTLS_CTR_DRBG_USE_128_BIT_KEY above.
+ *
+ * \note To achieve a 256-bit security strength with CTR_DRBG,
+ *       you must use AES-256 *and* use sufficient entropy.
+ *       See ctr_drbg.h for more details.
  *
  * Module:  library/ctr_drbg.c
  * Caller:
@@ -2533,7 +2625,7 @@
  *
  * This modules adds support for the VIA PadLock on x86.
  */
-// #define MBEDTLS_PADLOCK_C
+//#define MBEDTLS_PADLOCK_C
 
 /**
  * \def MBEDTLS_PEM_PARSE_C
@@ -3034,7 +3126,7 @@
  */
 
 /* MPI / BIGNUM options */
-//#define MBEDTLS_MPI_WINDOW_SIZE            6 /**< Maximum windows size used. */
+//#define MBEDTLS_MPI_WINDOW_SIZE            6 /**< Maximum window size used. */
 //#define MBEDTLS_MPI_MAX_SIZE            1024 /**< Maximum number of bytes for usable MPIs. */
 
 /* CTR_DRBG options */
@@ -3043,7 +3135,6 @@
 //#define MBEDTLS_CTR_DRBG_MAX_INPUT                256 /**< Maximum number of additional input bytes */
 //#define MBEDTLS_CTR_DRBG_MAX_REQUEST             1024 /**< Maximum number of requested bytes per call */
 //#define MBEDTLS_CTR_DRBG_MAX_SEED_INPUT           384 /**< Maximum size of (re)seed buffer */
-//#define MBEDTLS_CTR_DRBG_USE_128_BIT_KEY              /**< Use 128-bit key for CTR_DRBG - may reduce security (see ctr_drbg.h) */
 
 /* HMAC_DRBG options */
 //#define MBEDTLS_HMAC_DRBG_RESEED_INTERVAL   10000 /**< Interval before reseed is performed by default */

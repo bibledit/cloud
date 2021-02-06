@@ -44,9 +44,17 @@ A file with the name of client.https will do the same for Bibledit client traffi
 OpenLDAP server: See file ldap.txt for more information.
 
 
-Network port for http server: The default value is 8080. Put a different port number in file "network-port".
-The port number entered here is for the plain http. For secure http, https, Bibledit increases the port number by one.
+Network port for http server:
+The default value is 8080.
+Put a different port number in file "network-port".
+The port number entered here is for the plain http.
+
+
+Network port for the https server:
+By default the port number or secure http, https, is the plain port number plus one.
 So the default port number for https is 8081.
+Put a different port number in file "network-port-secure".
+If the file contains a "0", Bibledit won't run its embedded https server.
 
 
 Administrator details: To preset the administrator's account, put the details in the files "admin-username" and "admin-password" and "admin-email", one detail per file.

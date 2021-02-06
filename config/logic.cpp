@@ -67,11 +67,20 @@ string config_logic_http_network_port ()
 
 
 // Return the secure network port for the secure server.
-int config_logic_https_network_port ()
+string config_logic_https_network_port () // Todo
 {
-  int port = convert_to_int (config_logic_http_network_port ());
-  // The secure port is the plain http port plus one.
-  port++;
+  // Read the port number from file.
+  string path = filter_url_create_root_path (config_logic_config_folder (), "network-port-secure");
+  string port = filter_url_file_get_contents (path);
+  // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
+  port = filter_string_trim (port);
+  // Default value.
+  if (port.empty ()) {
+    // The secure port is the plain http port plus one.
+    int iport = convert_to_int (config_logic_http_network_port ());
+    iport++;
+    port = convert_to_string (iport);
+  }
   return port;
 }
 
@@ -141,7 +150,7 @@ string config_logic_site_url (void * webserver_request)
   
   // If a webserver request is passed, take the host from there.
   // The results is that in a situation where 192.168.2.6 is the same as localhost,
-  // uses can connect from localhost and also from 192.168.2.6.
+  // user can connect from localhost and also from 192.168.2.6.
   // In the past there was a situation that the admin set up a central server for the whole team on his localhost.
   // Then team members that connected to 192.168.2.6 were forwarded to localhost (which of course failed).
   // This solution deals with that.

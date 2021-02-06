@@ -475,7 +475,6 @@ void http_server ()
 // Processes a single request from a web client.
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
-  int us = filter_date_numerical_microseconds ();
   // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
   struct timeval tv;
@@ -727,11 +726,16 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
 void https_server ()
 {
-#ifdef RUN_SECURE_SERVER
   // On clients, don't run the secure web server.
   // It is not possible to get a https certificate for https://localhost anyway.
   // Not running this secure server saves valuable system resources on low power devices.
+#ifdef RUN_SECURE_SERVER
 
+  // The https network port to listen on.
+  // Port "0..9" means: Don't run the secure web server.
+  string network_port = config_logic_https_network_port ();
+  if (network_port.length() <= 1) return;
+  
   // File descriptor for the listener.
   mbedtls_net_context listen_fd;
   mbedtls_net_init (&listen_fd);
@@ -784,7 +788,7 @@ void https_server ()
   }
   
   // Setup the listening TCP socket.
-  ret = mbedtls_net_bind (&listen_fd, NULL, convert_to_string (config_logic_https_network_port ()).c_str (), MBEDTLS_NET_PROTO_TCP);
+  ret = mbedtls_net_bind (&listen_fd, NULL, network_port.c_str (), MBEDTLS_NET_PROTO_TCP); // Todo
   if (ret != 0) {
     filter_url_display_mbed_tls_error (ret, NULL, true);
     return;

@@ -28,7 +28,7 @@ const char * config_logic_config_folder ();
 const char * config_logic_version ();
 void config_logic_load_settings ();
 string config_logic_http_network_port ();
-int config_logic_https_network_port ();
+string config_logic_https_network_port ();
 bool config_logic_demo_enabled ();
 string config_logic_admin_username ();
 string config_logic_admin_password ();

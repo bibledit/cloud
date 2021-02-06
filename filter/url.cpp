@@ -113,7 +113,7 @@ string get_base_url (void * webserver_request)
   string port;
   if (request->secure || config_globals_enforce_https_browser) {
     scheme = "https";
-    port = convert_to_string (config_logic_https_network_port ());
+    port = config_logic_https_network_port (); // Todo
   } else {
     scheme = "http";
     port = config_logic_http_network_port ();
@@ -125,7 +125,7 @@ string get_base_url (void * webserver_request)
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void redirect_browser (void * webserver_request, string path)
+void redirect_browser (void * webserver_request, string path) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -143,7 +143,7 @@ void redirect_browser (void * webserver_request, string path)
   if (request->secure || config_globals_enforce_https_browser) {
     location = filter_string_str_replace ("http:", "https:", location);
     string plainport = config_logic_http_network_port ();
-    string secureport = convert_to_string (config_logic_https_network_port ());
+    string secureport = config_logic_https_network_port (); // Todo
     location = filter_string_str_replace (":" + plainport, ":" + secureport, location);
   }
   

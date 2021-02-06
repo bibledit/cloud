@@ -309,12 +309,15 @@ void bibledit_stop_library ()
   filter_url_http_get (url, error, false);
 
 #ifdef RUN_SECURE_SERVER
-  // Connect to the secure server to initiate its shutdown mechanism.
-  url = "https://localhost:";
-  url.append (convert_to_string (config_logic_https_network_port ()));
-  filter_url_http_get (url, error, false);
-  // Let the connection start, then close it.
-  // The server will then abort the TLS handshake, and shut down.
+  // If the secure server runs, connect to it to initiate its shutdown mechanism.
+  string https_port = config_logic_https_network_port ();
+  if (https_port.length() > 1) {
+    url = "https://localhost:";
+    url.append (https_port); // Todo
+    filter_url_http_get (url, error, false);
+    // Let the connection start, then close it.
+    // The server will then abort the TLS handshake, and shut down.
+  }
 #endif
 
 #ifndef HAVE_ANDROID

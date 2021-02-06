@@ -483,7 +483,6 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   tv.tv_usec = 0;
   setsockopt (client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 #endif
-  long start_us = filter_date_elapsed_microseconds (0); // Todo
   
   // The environment for this request.
   // It gets passed around from function to function during the entire request.
@@ -723,10 +722,6 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   
   // Done with the SSL context.
   mbedtls_ssl_free (&ssl);
-  long elapsed_us = filter_date_elapsed_microseconds (start_us);
-  if (elapsed_us > 300000) {
-    //cout << __LINE__ << " elapsed " << filter_date_elapsed_microseconds (start_us) << " us" << endl; // Todo
-  }
 }
 
 

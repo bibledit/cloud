@@ -290,7 +290,7 @@ string filter_date_rfc822 (int seconds)
 
 // Calculates the number of microseconds elapsed since $start.
 // It returns the elapsed number of microseconds.
-long filter_date_elapsed_microseconds (long start) // Todo
+long filter_date_elapsed_microseconds (long start)
 {
   auto now = chrono::system_clock::now ();
   auto duration = now.time_since_epoch ();

@@ -37,6 +37,7 @@ string client_logic_link_to_cloud (string path, string linktext);
 string client_logic_usfm_resources_path ();
 void client_logic_usfm_resources_update ();
 vector <string> client_logic_usfm_resources_get ();
+string client_logic_get_username ();
 
 
 #endif

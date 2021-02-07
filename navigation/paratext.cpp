@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <ipc/focus.h>
+#include <client/logic.h>
 
 
 string navigation_paratext_url ()
@@ -54,13 +55,8 @@ string navigation_paratext (void * webserver_request)
         if (chapter_verse.size() == 2) {
           int chapter = convert_to_int(chapter_verse[0]);
           int verse = convert_to_int(chapter_verse[1]);
-          // Set the user name to the first one in the database.
-          // Or if the database has no users, make the user admin.
-          // That happens when disconnected from the Cloud.
-          string user = "admin";
-          Database_Users database_users;
-          vector <string> users = database_users.getUsers ();
-          if (!users.empty()) user = users [0];
+          // Set the user name on this client device.
+          string user = client_logic_get_username ();
           request->session_logic()->setUsername(user);
           // "I believe how SantaFe works on Windows is
           // that it always sends a standardised verse reference.

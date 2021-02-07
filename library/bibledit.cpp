@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ldap/logic.h>
 #include <locale/logic.h>
 #include <ipc/focus.h>
+#include <client/logic.h>
 
 
 bool bibledit_started = false;
@@ -395,13 +396,8 @@ const char * bibledit_get_reference_for_accordance ()
   // even after the function has returned, and local variables will have been destroyed.
   static string reference;
 
-  // Set the user name to the first one in the database.
-  // Or if the database has no users, make the user admin.
-  // That happens when disconnected from the Cloud.
-  string user = "admin";
-  Database_Users database_users;
-  vector <string> users = database_users.getUsers ();
-  if (!users.empty()) user = users [0];
+  // Get the username on this client device.
+  string user = client_logic_get_username ();
 
   // Get the active Bible and its versification system.
   Webserver_Request request;
@@ -442,13 +438,8 @@ const char * bibledit_get_reference_for_accordance ()
 // will instead become the standardized (KJV-like) Psalm 13:2.
 void bibledit_put_reference_from_accordance (const char * reference)
 {
-  // Set the user name to the first one in the database.
-  // If the database has no users, make the user admin.
-  // That happens when disconnected from the Cloud.
-  string user = "admin";
-  Database_Users database_users;
-  vector <string> users = database_users.getUsers ();
-  if (!users.empty()) user = users [0];
+  // Get and set the user name on this client device.
+  string user = client_logic_get_username ();
   Webserver_Request request;
   request.session_logic()->setUsername(user);
 

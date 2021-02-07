@@ -35,6 +35,7 @@
 #include <tasks/logic.h>
 #include <locale/translate.h>
 #include <bb/logic.h>
+#include <client/logic.h>
 
 
 string Paratext_Logic::searchProjectsFolder ()
@@ -294,14 +295,9 @@ void Paratext_Logic::synchronize ()
   Database_Logs::log (synchronizeStartText (), Filter_Roles::translator ());
   
   
-  string username;
-  {
-    Database_Users database_users;
-    vector <string> users = database_users.getUsers ();
-    if (users.empty()) username = "unknown";
-    else username = users [0];
-  }
+  string username = client_logic_get_username ();
 
+  
   // When Bibledit writes changes to Paratext's USFM files, 
   // Paratext does not reload those changed USFM files. 
   // Thus Bibledit may overwrite changes made by others in the loaded chapter in Paratext.

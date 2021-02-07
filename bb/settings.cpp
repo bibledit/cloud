@@ -110,27 +110,6 @@ string bible_settings (void * webserver_request)
   view.set_variable ("versification", versification);
 
   
-  // Verse mapping.
-  if (request->query.count ("mapping")) {
-    string mapping = request->query["mapping"];
-    if (mapping == "") {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the verse mapping?"), translate ("A verse mapping can be used to match verses for parallel Bible display. Please make your choice below."), "");
-      dialog_list.add_query ("bible", bible);
-      Database_Mappings database_mappings;
-      vector <string> mapping_names = database_mappings.names ();
-      for (auto & mapping_name : mapping_names) {
-        dialog_list.add_row (mapping_name, "mapping", mapping_name);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      if (write_access) Database_Config_Bible::setVerseMapping (bible, mapping);
-    }
-  }
-  string mapping = Database_Config_Bible::getVerseMapping (bible);
-  view.set_variable ("mapping", mapping);
-
-  
   // Book creation.
   if (request->query.count ("createbook")) {
     string createbook = request->query["createbook"];

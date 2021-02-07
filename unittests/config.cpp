@@ -53,23 +53,13 @@ void test_database_config_bible ()
   string value = Database_Config_Bible::getVersificationSystem ("phpunit");
   evaluate (__LINE__, __func__, english (), value);
   
-  value = Database_Config_Bible::getVerseMapping ("phpunit");
-  evaluate (__LINE__, __func__, english (), value);
-  
   value = Database_Config_Bible::getVersificationSystem ("x");
-  evaluate (__LINE__, __func__, english (), value);
-
-  value = Database_Config_Bible::getVerseMapping ("x");
   evaluate (__LINE__, __func__, english (), value);
 
   Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
   value = Database_Config_Bible::getVersificationSystem ("phpunit");
   evaluate (__LINE__, __func__, "VersificatioN", value);
 
-  Database_Config_Bible::setVerseMapping ("phpunit", "VersificatioN");
-  value = Database_Config_Bible::getVerseMapping ("phpunit");
-  evaluate (__LINE__, __func__, "VersificatioN", value);
-  
   // Check default value for Bible.
   string bible = "A Bible";
   string standard = ", ;";

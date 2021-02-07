@@ -110,8 +110,6 @@ public:
   static void setExportStylesheet (string bible, string value);
   static string getVersificationSystem (string bible);
   static void setVersificationSystem (string bible, string value);
-  static string getVerseMapping (string bible);
-  static void setVerseMapping (string bible, string value);
   static bool getExportWebDuringNight (string bible);
   static void setExportWebDuringNight (string bible, bool value);
   static bool getExportHtmlDuringNight (string bible);

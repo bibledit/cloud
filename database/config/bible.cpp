@@ -557,16 +557,6 @@ void Database_Config_Bible::setVersificationSystem (string bible, string value)
 }
 
 
-string Database_Config_Bible::getVerseMapping (string bible)
-{
-  return getValue (bible, "verse-mapping", english ());
-}
-void Database_Config_Bible::setVerseMapping (string bible, string value)
-{
-  setValue (bible, "verse-mapping", value);
-}
-
-
 bool Database_Config_Bible::getExportWebDuringNight (string bible)
 {
   return getBValue (bible, "export-web-during-night", false);

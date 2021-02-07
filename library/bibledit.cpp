@@ -313,7 +313,7 @@ void bibledit_stop_library ()
   string https_port = config_logic_https_network_port ();
   if (https_port.length() > 1) {
     url = "https://localhost:";
-    url.append (https_port); // Todo
+    url.append (https_port);
     filter_url_http_get (url, error, false);
     // Let the connection start, then close it.
     // The server will then abort the TLS handshake, and shut down.

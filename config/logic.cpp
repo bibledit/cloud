@@ -67,7 +67,7 @@ string config_logic_http_network_port ()
 
 
 // Return the secure network port for the secure server.
-string config_logic_https_network_port () // Todo
+string config_logic_https_network_port ()
 {
   // Read the port number from file.
   string path = filter_url_create_root_path (config_logic_config_folder (), "network-port-secure");

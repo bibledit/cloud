@@ -197,7 +197,7 @@ int main (int argc, char **argv)
 #ifdef HAVE_CLOUD
   string https_port = config_logic_https_network_port ();
   if (https_port.length() > 1) {
-    cout << " and https://localhost:" << https_port; // Todo fix.
+    cout << " and https://localhost:" << https_port;
   }
 #endif
   cout << endl;

@@ -788,7 +788,7 @@ void https_server ()
   }
   
   // Setup the listening TCP socket.
-  ret = mbedtls_net_bind (&listen_fd, NULL, network_port.c_str (), MBEDTLS_NET_PROTO_TCP); // Todo
+  ret = mbedtls_net_bind (&listen_fd, NULL, network_port.c_str (), MBEDTLS_NET_PROTO_TCP);
   if (ret != 0) {
     filter_url_display_mbed_tls_error (ret, NULL, true);
     return;

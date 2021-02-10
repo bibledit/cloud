@@ -611,6 +611,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  bool demo = config_logic_demo_enabled ();
+  
   // The labels that may end up in the menu.
   string bibles = menu_logic_bible_manage_text ();
   string workspaces = menu_logic_workspace_organize_text ();

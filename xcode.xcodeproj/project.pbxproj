@@ -718,7 +718,6 @@
 		CADE37CF24F173D4003165BB /* logic.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = logic.js; sourceTree = "<group>"; };
 		CADE37D024F173D4003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE37D124F173D4003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CADE37D224F173D4003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE37D824F173D5003165BB /* manage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manage.h; sourceTree = "<group>"; };
 		CADE37D924F173D5003165BB /* manage.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = manage.o; sourceTree = "<group>"; };
 		CADE37DA24F173D5003165BB /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
@@ -3327,7 +3326,6 @@
 				CADE37D024F173D4003165BB /* logic.cpp */,
 				CADE37D124F173D4003165BB /* logic.h */,
 				CADE37CF24F173D4003165BB /* logic.js */,
-				CADE37D224F173D4003165BB /* logic.o */,
 			);
 			path = checksum;
 			sourceTree = "<group>";
@@ -6820,7 +6818,7 @@
 		CA18ADB724F169DA00FF603C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Bibledit;
 				TargetAttributes = {
 					CA18ADBE24F169DA00FF603C = {
@@ -7400,6 +7398,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -7458,6 +7457,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -7487,6 +7487,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "cloud-macos.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L37WFUB5MH;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -7507,6 +7508,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "cloud-macos.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L37WFUB5MH;
 				ENABLE_HARDENED_RUNTIME = YES;

@@ -944,7 +944,7 @@ void test_usfm2html2usfm ()
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
-    editor_html2usfm.load (html);
+    editor_html2usfm.load (standard_html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();

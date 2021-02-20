@@ -386,6 +386,10 @@ void Editor_Html2Usfm::flushLine ()
   if (!currentLine.empty ()) {
     // Trim so that '\p ' becomes '\p', for example.
     currentLine = filter_string_trim (currentLine);
+    // No longer doing the above
+    // because it would remove a space intentionally added to the end of a line.
+    // Instead it now only does a left trim instead of the full trim.
+    // currentLine = filter_string_ltrim (currentLine);
     output.push_back (currentLine);
     currentLine.clear ();
   }
@@ -474,34 +478,6 @@ string Editor_Html2Usfm::update_quill_class (string classname)
 }
 
 
-// This function takes the html from an editor that edits one verse,
-// and converts it to USFM.
-// It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse (string stylesheet, string html)
-{
-  // When the $html starts with a paragraph without a style,
-  // put a recognizable style there.
-  string style = "oneversestyle";
-  size_t pos = html.find ("<p>");
-  if (pos == 0) {
-    html.insert (2, " class=\"" + style + "\"");
-  }
-
-  // Convert html to USFM.
-  Editor_Html2Usfm editor_export;
-  editor_export.load (html);
-  editor_export.stylesheet (stylesheet);
-  editor_export.run ();
-  string usfm = editor_export.get ();
-
-  // Remove that recognizable style converted to USFM.
-  usfm = filter_string_str_replace ("\\" + style, "", usfm);
-  usfm = filter_string_trim (usfm);
-  
-  return usfm;
-}
-
-
 // This function takes the html from a Quill-based editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
@@ -514,7 +490,7 @@ string editor_export_verse_quill (string stylesheet, string html)
   if (pos == 0) {
     html.insert (2, " class=\"" + quill_logic_class_prefix_block () + style + "\"");
   }
-  
+
   // Convert html to USFM.
   Editor_Html2Usfm editor_export;
   editor_export.load (html);
@@ -525,6 +501,6 @@ string editor_export_verse_quill (string stylesheet, string html)
   // Remove that recognizable style converted to USFM.
   usfm = filter_string_str_replace ("\\" + style, "", usfm);
   usfm = filter_string_trim (usfm);
-  
+
   return usfm;
 }

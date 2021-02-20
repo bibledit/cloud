@@ -346,8 +346,10 @@ var oneverseEditorChangeDeletes = [];
 
 
 // Arguments: delta: Delta, oldContents: Delta, source: String
-function visualVerseEditorTextChangeHandler (delta, oldContents, source)
+function visualVerseEditorTextChangeHandler (delta, oldContents, source) // Todo
 {
+  // Whether a space was typed.
+  var space_typed = false;
   // Record the change.
   // It gives 4-byte UTF-16 characters as length value 2 instead of 1.
   var retain = 0;
@@ -358,7 +360,10 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
     if (obj.retain) retain = obj.retain;
     // For Unicode handling, see:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length
-    if (obj.insert) insert = obj.insert.length;
+    if (obj.insert) {
+      insert = obj.insert.length;
+      if (obj.insert.charCodeAt(0) == 160) space_typed = true;
+    }
     if (obj.delete) del = obj.delete;
   }
   oneverseEditorChangeOffsets.push(retain);
@@ -369,18 +374,26 @@ function visualVerseEditorTextChangeHandler (delta, oldContents, source)
     quill.history.undo ();
   }
   // Start save delay timer.
-  oneverseEditorChanged ();
+  oneverseEditorChanged (space_typed);
 }
 
 
-function oneverseEditorChanged ()
+function oneverseEditorChanged (space_typed)
 {
   if (!oneverseEditorWriteAccess) return;
   oneverseEditorStatus (oneverseEditorWillSave);
   if (oneverseEditorChangedTimeout) {
     clearTimeout (oneverseEditorChangedTimeout);
   }
-  oneverseEditorChangedTimeout = setTimeout (oneverseEditorTriggerSave, 1000);
+  // If a space was typed, do not save very soon.
+  // This is to fix issue https://github.com/bibledit/cloud/issues/481:
+  // "Verse editor refuses to accept a space at the end of a line".
+  // The USFM save system does not retain a space at the end of the line.
+  // The fix is that when a space is typed, not to save right away, but with a longer delay.
+  // That longer delay allows the user to decide what character to type after that space.
+  var delay = 1000;
+  if (space_typed) delay = 5000;
+  oneverseEditorChangedTimeout = setTimeout (oneverseEditorTriggerSave, delay);
 }
 
 
@@ -1084,7 +1097,7 @@ function oneverseUpdateExecute ()
   data: { bible: oneverseBible, book: oneverseBook, chapter: oneverseChapter, verse: oneverseVerseLoaded, loaded: encodedLoadedHtml, edited: encodedEditedHtml, checksum1: checksum1, checksum2: checksum2, id: verseEditorUniqueID },
     error: function (jqXHR, textStatus, errorThrown) {
       oneverseEditorStatus (oneverseEditorVerseRetrying);
-      oneverseEditorChanged ();
+      oneverseEditorChanged (false);
     },
     success: function (response) {
 

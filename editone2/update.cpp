@@ -171,14 +171,14 @@ string editone2_update (void * webserver_request)
   string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
   string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
-
+  
   // Set a flag if there is a reason to save the editor text, since it was edited.
   // This is important because the same routine is used for saving editor text
   // as well as updating the editor text.
   // So if the text in the editor was not changed, it should not save it,
   // as saving the editor text would overwrite saves made by other(s).
   bool text_was_edited = (loaded_verse_usfm != edited_verse_usfm);
-  
+
   
   // Do a three-way merge if needed.
   // There's a need for this if there were user-edits,

@@ -346,7 +346,7 @@ var oneverseEditorChangeDeletes = [];
 
 
 // Arguments: delta: Delta, oldContents: Delta, source: String
-function visualVerseEditorTextChangeHandler (delta, oldContents, source) // Todo
+function visualVerseEditorTextChangeHandler (delta, oldContents, source)
 {
   // Whether a space was typed.
   var space_typed = false;

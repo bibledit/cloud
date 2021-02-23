@@ -17,13 +17,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-function checksum_receive (data)
+// Checksum checking on received data.
+function checksum_receive (data, reload = 0)
 {
+  // The checksum is the first line of the data.
+  // It is the length of the data in bytes.
   var lines = data.split ("\n");
   var checksum = lines [0];
+  // Clean the checksum away, keep the data itself.
   lines.splice (0, 2);
   data = lines.join ("\n");
-  if (checksum != checksum_get (data)) return false;
+  // Here is a work-around for the desire that the USFM editor be able to load corrupted text.
+  // See issue https://github.com/bibledit/cloud/issues/482.
+  // The presumption is that the checksum of corrupted data need not be correct.
+  // So if the USFM editor fails to load corrupted data multiple times,
+  // it eventually disables the check on the checksum.
+  if (reload < 5) if (checksum != checksum_get (data)) return false;
+  // Return the data to the caller.
   return data;
 }
 

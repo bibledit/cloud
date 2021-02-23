@@ -72,8 +72,6 @@ var usfmPreviousHeight;
 var usfmEditorTextChanged = false;
 var usfmSaveAsync;
 var usfmSaving = false;
-var usfmLoadDate = new Date(0);
-var usfmSaveDate = new Date(0);
 
 
 function navigationNewPassage ()
@@ -89,11 +87,6 @@ function navigationNewPassage ()
   } else {
     return;
   }
-  if ((usfmNavigationBook != usfmBook) || (usfmNavigationChapter != usfmChapter)) {
-    // Fixed: Reload text message when switching to another chapter.
-    // https://github.com/bibledit/cloud/issues/408
-    usfmSaveDate = new Date(0);
-  }
   usfmEditorSaveChapter ();
   usfmReload = false;
   usfmEditorLoadChapter ();
@@ -103,6 +96,9 @@ function navigationNewPassage ()
     usfmPositionFocusedVerseViaAjax ();
   }
 }
+
+
+var usfmEditorReloadCount = 0;
 
 
 function usfmEditorLoadChapter ()
@@ -132,7 +128,7 @@ function usfmEditorLoadChapter ()
         var contenteditable = ($ ("#usfmeditor").attr('contenteditable') === 'true');
         if (usfmEditorWriteAccess != contenteditable) $ ("#usfmeditor").attr('contenteditable', usfmEditorWriteAccess);
         // Checksumming.
-        response = checksum_receive (response);
+        response = checksum_receive (response, usfmEditorReloadCount);
         if (response !== false) {
           $ ("#usfmeditor").empty ();
           $ ("#usfmeditor").append (response);
@@ -145,19 +141,21 @@ function usfmEditorLoadChapter ()
               usfmPositionCaretViaAjax ();
             }
           }
-          // Alert on reload soon after save, or on any reload.
-          // https://github.com/bibledit/cloud/issues/346
-          usfmLoadDate = new Date();
-          var seconds = (usfmLoadDate.getTime() - usfmSaveDate.getTime()) / 1000;
-          seconds = 2; // Disable timer.
-          if ((seconds < 2) | usfmReload) {
+          // Alert on reload.
+          if (usfmReload) {
             if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
           }
           usfmReload = false;
+          usfmEditorReloadCount = 0;
         } else {
           // Checksum error: Reload.
           usfmReload = true;
-          usfmEditorLoadChapter ();
+          // Increase the counter, so that eventually it will disable checksumming,
+          // so it can then load corrupted text in the USFM editor.
+          // https://github.com/bibledit/cloud/issues/482
+          usfmEditorReloadCount++
+          // Try loading the chapter again after a short timeoout.
+          setTimeout (usfmEditorLoadChapter, 100);
         }
         if (!usfmEditorWriteAccess) usfmPositionFocusedVerseViaAjax ();
       },
@@ -213,12 +211,6 @@ function usfmEditorSaveChapter (sync)
     complete: function (xhr, status) {
       usfmSaveAsync = true;
       usfmSaving = false;
-      usfmSaveDate = new Date();
-      var seconds = (usfmSaveDate.getTime() - usfmLoadDate.getTime()) / 1000;
-      seconds = 2; // Disable timer.
-      if (seconds < 2) {
-        if (usfmEditorWriteAccess) usfmEditorReloadAlert (usfmEditorVerseUpdatedLoaded);
-      }
     }
   });
 }

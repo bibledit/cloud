@@ -114,6 +114,12 @@ string session_login (void * webserver_request)
   } else {
     view.enable_zone ("local");
   }
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // Desire to disable account management in the Indonesian Cloud Free version.
+  // So the user should not be able to sign up this way and to do the forget password procedure.
+  view.disable_zone("local");
+#endif
+
 
   string page;
 

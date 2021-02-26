@@ -11,7 +11,7 @@
 #define HAVE_EXECINFO 1
 
 /* Define whether to compile for Indonesian Cloud Free */
-/* #undef HAVE_INDONESIANCLOUDFREE */
+#define HAVE_INDONESIANCLOUDFREE 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1

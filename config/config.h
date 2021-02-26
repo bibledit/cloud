@@ -94,6 +94,12 @@
 #endif
 
 
+// The free Bibledit Cloud account in Indonesian.
+// The configuration presumes that the user has a "Consultant" account.
+// A consultant has a range of options within Bibledit Cloud.
+// Through the #define options can be added to this Consultant role.
+// Adding options is done in the code where needed.
+// Likewise certain options can be removed through the #define.
 #ifdef HAVE_INDONESIANCLOUDFREE
 #endif
 

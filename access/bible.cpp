@@ -213,4 +213,8 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
     if (access_bible_read (webserver_request, bible)) read = true;
     if (access_bible_write (webserver_request, bible)) write = true;
   }
+#ifdef HAVE_INDONESIANCLOUDFREE
+  read = true;
+  write = true;
+#endif
 }

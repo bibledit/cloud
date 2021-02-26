@@ -51,6 +51,9 @@ string editone2_update_url ()
 
 bool editone2_update_acl (void * webserver_request)
 {
+#ifdef HAVE_INDONESIANCLOUDFREE
+  return true;
+#endif
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);

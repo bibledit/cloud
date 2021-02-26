@@ -42,6 +42,9 @@ string editone2_load_url ()
 
 bool editone2_load_acl (void * webserver_request)
 {
+#ifdef HAVE_INDONESIANCLOUDFREE
+  return true;
+#endif
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
@@ -58,7 +61,7 @@ string editone2_load (void * webserver_request)
   int chapter = convert_to_int (request->query ["chapter"]);
   int verse = convert_to_int (request->query ["verse"]);
   string unique_id = request->query ["id"];
-
+  
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
 
   string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
@@ -122,6 +125,6 @@ string editone2_load (void * webserver_request)
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible_book_write (webserver_request, user, bible, book);
   data = Checksum_Logic::send (data, write);
-  
+
   return data;
 }

@@ -781,6 +781,7 @@
 /sync
 /system
 /system/index.html
+/system/indonesianfree.html
 /tasks
 /tasks/holder
 /tbsx

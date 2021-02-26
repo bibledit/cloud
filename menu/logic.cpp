@@ -91,6 +91,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <ldap/logic.h>
 #include <jsonxx/jsonxx.h>
+#include <system/indonesianfree.h>
 
 
 string menu_logic_href (string href)
@@ -284,7 +285,12 @@ string menu_logic_basic_categories (void * webserver_request)
   }
 
   if (personalize_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true));
+#ifdef DEFAULT_SETTINGS_PAGES
+    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true)); // Todo test.
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+    html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true)); // Todo test
+#endif
   }
 
   // When a user is not logged in, or a guest,

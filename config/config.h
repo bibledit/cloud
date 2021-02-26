@@ -41,6 +41,10 @@
 #define RUN_SECURE_SERVER 1
 
 
+// Whether to have the default settings pages.
+#define DEFAULT_SETTINGS_PAGES 1
+
+
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
@@ -101,6 +105,7 @@
 // Adding options is done in the code where needed.
 // Likewise certain options can be removed through the #define.
 #ifdef HAVE_INDONESIANCLOUDFREE
+#undef DEFAULT_SETTINGS_PAGES
 #endif
 
 

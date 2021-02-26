@@ -192,33 +192,33 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
 	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
 	manage/privileges.$(OBJEXT) system/index.$(OBJEXT) \
-	system/logic.$(OBJEXT) collaboration/index.$(OBJEXT) \
-	collaboration/link.$(OBJEXT) collaboration/settings.$(OBJEXT) \
-	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
-	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
-	access/logic.$(OBJEXT) dialog/entry.$(OBJEXT) \
-	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
-	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
-	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
-	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
-	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
-	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
-	jobs/index.$(OBJEXT) redirect/index.$(OBJEXT) \
-	editone2/index.$(OBJEXT) editone2/load.$(OBJEXT) \
-	editone2/save.$(OBJEXT) editone2/verse.$(OBJEXT) \
-	editone2/logic.$(OBJEXT) editone2/update.$(OBJEXT) \
-	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
-	navigation/poll.$(OBJEXT) navigation/paratext.$(OBJEXT) \
-	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
-	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
-	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
-	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
-	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
-	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
-	editor/html2format.$(OBJEXT) editor/id.$(OBJEXT) \
-	editor/style.$(OBJEXT) edit/edit.$(OBJEXT) edit/id.$(OBJEXT) \
-	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
-	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	system/logic.$(OBJEXT) system/indonesianfree.$(OBJEXT) \
+	collaboration/index.$(OBJEXT) collaboration/link.$(OBJEXT) \
+	collaboration/settings.$(OBJEXT) search/rebibles.$(OBJEXT) \
+	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
+	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
+	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
+	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
+	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
+	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
+	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
+	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
+	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
+	redirect/index.$(OBJEXT) editone2/index.$(OBJEXT) \
+	editone2/load.$(OBJEXT) editone2/save.$(OBJEXT) \
+	editone2/verse.$(OBJEXT) editone2/logic.$(OBJEXT) \
+	editone2/update.$(OBJEXT) navigation/passage.$(OBJEXT) \
+	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
+	navigation/paratext.$(OBJEXT) ipc/focus.$(OBJEXT) \
+	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
+	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
+	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
+	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
+	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
+	editor/select.$(OBJEXT) editor/html2format.$(OBJEXT) \
+	editor/id.$(OBJEXT) editor/style.$(OBJEXT) edit/edit.$(OBJEXT) \
+	edit/id.$(OBJEXT) edit/index.$(OBJEXT) edit/load.$(OBJEXT) \
+	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
 	edit/navigate.$(OBJEXT) edit2/edit.$(OBJEXT) \
 	edit2/index.$(OBJEXT) edit2/load.$(OBJEXT) \
@@ -643,11 +643,11 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	sync/$(DEPDIR)/notes.Po sync/$(DEPDIR)/resources.Po \
 	sync/$(DEPDIR)/settings.Po sync/$(DEPDIR)/setup.Po \
 	sync/$(DEPDIR)/usfmresources.Po system/$(DEPDIR)/index.Po \
-	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
-	tasks/$(DEPDIR)/run.Po tbsx/$(DEPDIR)/text.Po \
-	text/$(DEPDIR)/text.Po timer/$(DEPDIR)/index.Po \
-	tmp/$(DEPDIR)/tmp.Po trash/$(DEPDIR)/handler.Po \
-	unittests/$(DEPDIR)/archive.Po \
+	system/$(DEPDIR)/indonesianfree.Po system/$(DEPDIR)/logic.Po \
+	tasks/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/run.Po \
+	tbsx/$(DEPDIR)/text.Po text/$(DEPDIR)/text.Po \
+	timer/$(DEPDIR)/index.Po tmp/$(DEPDIR)/tmp.Po \
+	trash/$(DEPDIR)/handler.Po unittests/$(DEPDIR)/archive.Po \
 	unittests/$(DEPDIR)/biblegateway.Po \
 	unittests/$(DEPDIR)/bibles.Po unittests/$(DEPDIR)/books.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/check.Po \
@@ -1087,6 +1087,7 @@ libbibledit_a_SOURCES = \
 	manage/privileges.cpp \
 	system/index.cpp \
 	system/logic.cpp \
+  system/indonesianfree.cpp \
 	collaboration/index.cpp \
 	collaboration/link.cpp \
 	collaboration/settings.cpp \
@@ -2090,6 +2091,8 @@ system/$(DEPDIR)/$(am__dirstamp):
 system/index.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 system/logic.$(OBJEXT): system/$(am__dirstamp) \
+	system/$(DEPDIR)/$(am__dirstamp)
+system/indonesianfree.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 collaboration/$(am__dirstamp):
 	@$(MKDIR_P) collaboration
@@ -3706,6 +3709,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/indonesianfree.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@ # am--include-marker
@@ -4778,6 +4782,7 @@ distclean: distclean-am
 	-rm -f sync/$(DEPDIR)/setup.Po
 	-rm -f sync/$(DEPDIR)/usfmresources.Po
 	-rm -f system/$(DEPDIR)/index.Po
+	-rm -f system/$(DEPDIR)/indonesianfree.Po
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/run.Po
@@ -5361,6 +5366,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f sync/$(DEPDIR)/setup.Po
 	-rm -f sync/$(DEPDIR)/usfmresources.Po
 	-rm -f system/$(DEPDIR)/index.Po
+	-rm -f system/$(DEPDIR)/indonesianfree.Po
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/run.Po

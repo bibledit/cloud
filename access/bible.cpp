@@ -33,6 +33,10 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 #ifdef HAVE_CLIENT
   return true;
 #endif
+  // Indonesian Cloud Free: Access all Bibles.
+#ifdef HAVE_INDONESIANCLOUDFREE
+  return true;
+#endif
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int level = 0;
@@ -81,7 +85,11 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
     return true;
   }
 #endif
-  
+  // Indonesian Cloud Free: Access all Bibles.
+#ifdef HAVE_INDONESIANCLOUDFREE
+  return true;
+#endif
+
   int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   if (user.empty ()) {
@@ -131,6 +139,10 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
   if (!client_logic_client_enabled ()) {
     return true;
   }
+#endif
+  // Indonesian Cloud Free: Access all Bibles.
+#ifdef HAVE_INDONESIANCLOUDFREE
+  return true;
 #endif
 
   int level = 0;

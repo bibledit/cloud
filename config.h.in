@@ -9,6 +9,9 @@
 /* Define whether execinfo.h is present */
 #undef HAVE_EXECINFO
 
+/* Define whether to compile for Indonesian Cloud Free */
+#undef HAVE_INDONESIANCLOUDFREE
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 

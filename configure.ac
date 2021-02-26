@@ -179,17 +179,26 @@ ENABLEIOS=yes
 ]
 )
 
+# Indonesian Cloud Free.
+ENABLEINDONESIANCLOUDFREE=no
+AC_ARG_ENABLE(indonesiancloudfree,
+[  --enable-indonesiancloudfree Presets for Indonesian Cloud Free],
+[
+AC_DEFINE([HAVE_INDONESIANCLOUDFREE], [1], [Define whether to compile for Indonesian Cloud Free])
+ENABLEINDONESIANCLOUDFREE=yes
+]
+)
+
 AC_OUTPUT(Makefile)
 
 echo "
 Bibledit $VERSION configuration summary:
 
-Installation prefix             : ${prefix}
-Windows    (--enable-windows)   : ${ENABLEWINDOWS}
-Android    (--enable-android)   : ${ENABLEANDROID}
-macOS      (--enable-mac)       : ${ENABLEMAC}
-Linux      (--enable-linux)     : ${ENABLELINUX}
-iOS        (--enable-ios)       : ${ENABLEIOS}
-Chrome OS  (--enable-chromeos)  : ${ENABLECHROMEOS}
-Chrome App (--enable-chromeapp) : ${ENABLECHROMEAPP}
+Installation prefix                                  : ${prefix}
+Windows               (--enable-windows)             : ${ENABLEWINDOWS}
+Android               (--enable-android)             : ${ENABLEANDROID}
+macOS                 (--enable-mac)                 : ${ENABLEMAC}
+Linux                 (--enable-linux)               : ${ENABLELINUX}
+iOS                   (--enable-ios)                 : ${ENABLEIOS}
+Indonesian Cloud Free (--enable-indonesiancloudfree) : ${ENABLEINDONESIANCLOUDFREE}
 "

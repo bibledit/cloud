@@ -551,6 +551,7 @@
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3F5CFC256C435600FE6E67 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CA3F5CFD256C435600FE6E67 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
+		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA60BEF725337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA60BEF925337938004D6E06 /* preview.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = preview.html; sourceTree = "<group>"; };
 		CA60BEFA25337938004D6E06 /* edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = edit.cpp; sourceTree = "<group>"; };
@@ -2944,6 +2945,7 @@
 				CADE381F24F173EB003165BB /* compare */,
 				CADE37F824F173EB003165BB /* config */,
 				CADE38F224F17422003165BB /* configure.ac */,
+				CA47B2C925E8D957001370A4 /* config.h */,
 				CADE3B5024F17425003165BB /* confirm */,
 				CADE3A5D24F17424003165BB /* consistency */,
 				CADE3AA524F17424003165BB /* consultations */,

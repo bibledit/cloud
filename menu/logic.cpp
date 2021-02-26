@@ -285,7 +285,7 @@ string menu_logic_basic_categories (void * webserver_request)
   }
 
   if (personalize_index_acl (webserver_request)) {
-#ifdef DEFAULT_SETTINGS_PAGES
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
     html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true)); // Todo test.
 #endif
 #ifdef HAVE_INDONESIANCLOUDFREE
@@ -1138,7 +1138,12 @@ bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chap
   int selection = 0;
   if (visual) selection = request->database_config_user ()->getFastSwitchVisualEditors ();
   else selection = request->database_config_user ()->getFastSwitchUsfmEditors ();
-  
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // Show all editors in the Indonesian Cloud Free.
+  if (visual) selection = 0;
+  else selection = 1;
+#endif
+
   if (visual) {
     // Check whether the visual chapter or verse editor is active.
     if (selection == 0) return true;

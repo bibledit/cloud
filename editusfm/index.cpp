@@ -140,6 +140,9 @@ string editusfm_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
+#ifdef HAVE_INDONESIANCLOUDFREE
+  view.enable_zone ("fastswitcheditor");
+#endif
 
   page += view.render ("editusfm", "index");
   

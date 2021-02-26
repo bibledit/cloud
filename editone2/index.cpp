@@ -139,7 +139,10 @@ string editone2_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-  
+#ifdef HAVE_INDONESIANCLOUDFREE
+  view.enable_zone ("fastswitcheditor");
+#endif
+
   // Whether to enable the styles button.
   if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
     view.enable_zone ("stylesbutton");

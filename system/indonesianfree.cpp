@@ -28,24 +28,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/logic.h>
 #include <dialog/list.h>
 #include <dialog/entry.h>
-#include <dialog/upload.h>
 #include <database/config/general.h>
-#include <database/config/bible.h>
-#include <database/jobs.h>
-#include <database/mail.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-#include <config/globals.h>
 #include <assets/external.h>
-#include <jobs/index.h>
-#include <tasks/logic.h>
-#include <journal/logic.h>
-#include <journal/index.h>
-#include <fonts/logic.h>
-#include <manage/index.h>
-#include <client/logic.h>
 #include <access/bible.h>
 #include <search/logic.h>
+#include <styles/sheets.h>
 
 
 string system_indonesianfree_url ()
@@ -96,6 +85,26 @@ string system_indonesianfree (void * webserver_request)
   }
 
   
+  // Store new font sizes before displaying the header,
+  // so that the page displays the new font sizes immediately.
+  if (request->post.count ("fontsizegeneral")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setGeneralFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  if (request->post.count ("fontsizemenu")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setMenuFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+
+  
   // The header: The language has been set already.
   Assets_Header header = Assets_Header (translate("System"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
@@ -108,9 +117,94 @@ string system_indonesianfree (void * webserver_request)
   // Get values for setting checkboxes.
   string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);
-#ifdef HAVE_CLIENT
   (void) checked;
-#endif
+
+  
+  // Font size for everything.
+  if (request->query.count ("fontsizegeneral")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getGeneralFontSize ()), "fontsizegeneral", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  view.set_variable ("fontsizegeneral", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
+
+  
+  // Font size for the menu.
+  if (request->query.count ("fontsizemenu")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getMenuFontSize ()), "fontsizemenu", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+  
+  
+  // Font size for the Bible editors.
+  if (request->query.count ("fontsizeeditors")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()), "fontsizeeditors", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizeeditors")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setBibleEditorsFontSize (value);
+      styles_sheets_create_all ();
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizeeditors", convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()));
+  
+  
+  // Font size for the resources.
+  if (request->query.count ("fontsizeresources")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getResourcesFontSize ()), "fontsizeresources", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizeresources")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setResourcesFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizeresources", convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
+  
+  
+  // Font size for Hebrew resources.
+  if (request->query.count ("fontsizehebrew")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getHebrewFontSize ()), "fontsizehebrew", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizehebrew")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setHebrewFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizehebrew", convert_to_string (request->database_config_user ()->getHebrewFontSize ()));
+  
+  
+  // Font size for Greek resources.
+  if (request->query.count ("fontsizegreek")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getGreekFontSize ()), "fontsizegreek", "");
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("fontsizegreek")) {
+    int value = convert_to_int (request->post["entry"]);
+    if ((value >= 50) && (value <= 300)) {
+      request->database_config_user ()->setGreekFontSize (value);
+    } else {
+      error = translate ("Incorrect font size in percents");
+    }
+  }
+  view.set_variable ("fontsizegreek", convert_to_string (request->database_config_user ()->getGreekFontSize ()));
 
   
   // Set the language on the page.

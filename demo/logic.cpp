@@ -214,6 +214,10 @@ void demo_clean_data ()
 // The name of the sample Bible.
 string demo_sample_bible_name ()
 {
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // MyBibleTranslation
+  return "PenerjemahanAlkitabku";
+#endif
   return "Sample";
 }
 
@@ -221,7 +225,7 @@ string demo_sample_bible_name ()
 // Creates a sample Bible.
 // Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
 // The new and current method does a simple copy operation and that is fast.
-void demo_create_sample_bible ()
+void demo_create_sample_bible () // Todo
 {
   Database_Logs::log ("Creating sample Bible");
   
@@ -244,6 +248,14 @@ void demo_create_sample_bible ()
     // and since Windows needs the backslash as directory separator,
     // replace these on Windows.
     file = filter_url_update_directory_separator_if_windows (file);
+    // The name of the Sample Bible should be part of the filename.
+    // If that is not the case,
+    // * it means that Bibledit uses a different name for the Sample Bible,
+    // * and the file needs an update.
+    size_t pos = file.find(demo_sample_bible_name());
+    if (pos == string::npos) {
+      file = filter_string_str_replace("Sample", demo_sample_bible_name(), file);
+    }
     // Proceed with the path.
     file = filter_url_create_root_path (file);
     string path = filter_url_dirname (file);

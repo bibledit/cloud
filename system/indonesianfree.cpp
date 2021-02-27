@@ -36,8 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <config/globals.h>
-#include <rss/feed.h>
-#include <rss/logic.h>
 #include <assets/external.h>
 #include <jobs/index.h>
 #include <tasks/logic.h>
@@ -46,6 +44,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fonts/logic.h>
 #include <manage/index.h>
 #include <client/logic.h>
+#include <access/bible.h>
+#include <search/logic.h>
 
 
 string system_indonesianfree_url ()
@@ -56,6 +56,7 @@ string system_indonesianfree_url ()
 
 bool system_indonesianfree_acl (void * webserver_request)
 {
+  (void) webserver_request;
 #ifdef HAVE_INDONESIANCLOUDFREE
   return true;
 #endif
@@ -116,216 +117,36 @@ string system_indonesianfree (void * webserver_request)
   string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
   language = localizations [language];
   view.set_variable ("language", language);
-
   
+  
+  // Since the Bible can be set, first ensure there's one available.
+  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
+
  
-#ifdef HAVE_CLOUD
-  // Whether to include the author with every change in the RSS feed.
-  if (checkbox == "rssauthor") {
-    Database_Config_General::setAuthorInRssFeed (checked);
-    return "";
+  // Change the name of the Bible.
+  if (request->query.count ("bible")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate ("Please enter a name for the Bible"), bible, "bible", "");
+    page += dialog_entry.run ();
+    return page;
   }
-  view.set_variable ("rssauthor", get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
-  // The location of the RSS feed.
-  view.set_variable ("rssfeed", rss_feed_url ());
-  // The Bibles that send their changes to the RSS feed.
-  Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
-  string rssbibles;
-  for (auto bible : bibles) {
-    if (Database_Config_Bible::getSendChangesToRSS (bible)) {
-      if (!rssbibles.empty ()) rssbibles.append (" ");
-      rssbibles.append (bible);
-    }
+  if (request->post.count ("bible")) {
+    string bible2 = request->post ["entry"];
+    // Copy the Bible data.
+    string origin_folder = request->database_bibles ()->bibleFolder (bible);
+    string destination_folder = request->database_bibles ()->bibleFolder (bible2);
+    filter_url_dir_cp (origin_folder, destination_folder);
+    // Copy the Bible search index.
+    search_logic_copy_bible (bible, bible2);
+    // Remove the old Bible.
+    request->database_bibles ()->deleteBible (bible);
+    search_logic_delete_bible (bible);
+    // Update logic.
+    bible = bible2;
+    // Feedback.
+    success = translate ("The Bible was renamed");
   }
-  if (rssbibles.empty ()) {
-    rssbibles.append (translate ("none"));
-  }
-  view.set_variable ("rssbibles", rssbibles);
-#endif
-
-  
-#ifdef HAVE_CLIENT
-  bool producebibles = request->query.count ("producebibles");
-  bool producenotes = request->query.count ("producenotes");
-  bool produceresources = request->query.count ("produceresources");
-  if (producebibles || producenotes || produceresources) {
-    Database_Jobs database_jobs;
-    int jobId = database_jobs.getNewId ();
-    database_jobs.setLevel (jobId, Filter_Roles::member ());
-    string task;
-    if (producebibles) task = PRODUCEBIBLESTRANSFERFILE;
-    if (producenotes) task = PRODUCERENOTESTRANSFERFILE;
-    if (produceresources) task = PRODUCERESOURCESTRANSFERFILE;
-    tasks_logic_queue (task, { convert_to_string (jobId) });
-    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
-    return "";
-  }
-#endif
-
-  
-#ifdef HAVE_CLIENT
-  string importbibles = "importbibles";
-  if (request->query.count (importbibles)) {
-    if (request->post.count ("upload")) {
-      string datafile = filter_url_tempfile () + request->post ["filename"];
-      string data = request->post ["data"];
-      if (!data.empty ()) {
-        filter_url_file_put_contents (datafile, data);
-        success = translate("Import has started.");
-        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (IMPORTBIBLESTRANSFERFILE, { datafile });
-      } else {
-        error = translate ("Nothing was imported");
-      }
-    } else {
-      Dialog_Upload dialog = Dialog_Upload ("indonesianfree", translate("Import a file with local Bibles"));
-      dialog.add_upload_query (importbibles, "");
-      page.append (dialog.run ());
-      return page;
-    }
-  }
-#endif
-
-  
-#ifdef HAVE_CLIENT
-  string importnotes = "importnotes";
-  if (request->query.count (importnotes)) {
-    if (request->post.count ("upload")) {
-      string datafile = filter_url_tempfile () + request->post ["filename"];
-      string data = request->post ["data"];
-      if (!data.empty ()) {
-        filter_url_file_put_contents (datafile, data);
-        success = translate("Import has started.");
-        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (IMPORTNOTESTRANSFERFILE, { datafile });
-      } else {
-        error = translate ("Nothing was imported");
-      }
-    } else {
-      Dialog_Upload dialog = Dialog_Upload ("indonesianfree", translate("Import a file with local Consultation Notes"));
-      dialog.add_upload_query (importnotes, "");
-      page.append (dialog.run ());
-      return page;
-    }
-  }
-#endif
-  
-  
-#ifdef HAVE_CLIENT
-  string importresources = "importresources";
-  if (request->query.count (importresources)) {
-    if (request->post.count ("upload")) {
-      string datafile = filter_url_tempfile () + request->post ["filename"];
-      string data = request->post ["data"];
-      if (!data.empty ()) {
-        filter_url_file_put_contents (datafile, data);
-        success = translate("Import has started.");
-        view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (IMPORTRESOURCESTRANSFERFILE, { datafile });
-      } else {
-        error = translate ("Nothing was imported");
-      }
-    } else {
-      Dialog_Upload dialog = Dialog_Upload ("indonesianfree", translate("Import a file with local Resources"));
-      dialog.add_upload_query (importresources, "");
-      page.append (dialog.run ());
-      return page;
-    }
-  }
-#endif
-
-  
-  // Force re-index Bibles.
-  if (request->query ["reindex"] == "bibles") {
-    Database_Config_General::setIndexBibles (true);
-    tasks_logic_queue (REINDEXBIBLES, {"1"});
-    redirect_browser (request, journal_index_url ());
-    return "";
-  }
-  
-  
-  // Re-index consultation notes.
-  if (request->query ["reindex"] == "notes") {
-    Database_Config_General::setIndexNotes (true);
-    tasks_logic_queue (REINDEXNOTES);
-    redirect_browser (request, journal_index_url ());
-    return "";
-  }
-
-  
-  // Delete a font.
-  string deletefont = request->query ["deletefont"];
-  if (!deletefont.empty ()) {
-    string font = filter_url_basename_web (deletefont);
-    bool font_in_use = false;
-    vector <string> bibles = request->database_bibles ()->getBibles ();
-    for (auto & bible : bibles) {
-      if (font == Fonts_Logic::getTextFont (bible)) font_in_use = true;
-    }
-    if (!font_in_use) {
-      // Only delete a font when it is not in use.
-      Fonts_Logic::erase (font);
-    } else {
-      error = translate("The font could not be deleted because it is in use");
-    }
-  }
-  
-  
-  // Upload a font.
-  if (request->post.count ("uploadfont")) {
-    string filename = request->post ["filename"];
-    string path = filter_url_create_root_path ("fonts", filename);
-    string fontdata = request->post ["fontdata"];
-    filter_url_file_put_contents (path, fontdata);
-    success = translate("The font has been uploaded.");
-  }
-  
-  
-  // Assemble the font block html.
-  vector <string> fonts = Fonts_Logic::getFonts ();
-  vector <string> fontsblock;
-  for (auto & font : fonts) {
-    fontsblock.push_back ("<p>");
-#ifndef HAVE_CLIENT
-    fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\">" + emoji_wastebasket () + "</a>");
-#endif
-    fontsblock.push_back (font);
-    fontsblock.push_back ("</p>");
-  }
-  view.set_variable ("fontsblock", filter_string_implode (fontsblock, "\n"));
-
-  
-  // Handle the command to clear the web and resources caches.
-  if (request->query.count ("clearcache")) {
-    tasks_logic_queue (CLEARCACHES);
-    redirect_browser (request, journal_index_url ());
-    return "";
-  }
-
-
-  // Handle display the number of unsent emails and clearing them.
-#ifdef HAVE_CLOUD
-  Database_Mail database_mail (webserver_request);
-  if (request->query.count ("clearemails")) {
-    vector <int> mails = database_mail.getAllMails ();
-    for (auto rowid : mails) {
-      database_mail.erase (rowid);
-    }
-  }
-  vector <int> mails = database_mail.getAllMails ();
-  string mailcount = convert_to_string (mails.size());
-  view.set_variable ("emailscount", mailcount);
-#endif
-
-  
-#ifdef HAVE_CLOUD
-  view.enable_zone ("cloud");
-#endif
-#ifdef HAVE_CLIENT
-  view.enable_zone ("client");
-  view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
-#endif
+  view.set_variable ("bible", bible);
   
   
   view.set_variable ("external", assets_external_logic_link_addon ());

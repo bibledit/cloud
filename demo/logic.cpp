@@ -28,6 +28,7 @@
 #include <database/logs.h>
 #include <database/notes.h>
 #include <database/sample.h>
+#include <database/books.h>
 #include <locale/translate.h>
 #include <client/logic.h>
 #include <styles/logic.h>
@@ -43,6 +44,7 @@
 #include <ipc/focus.h>
 #include <lexicon/logic.h>
 #include <search/logic.h>
+#include <book/create.h>
 
 
 /*
@@ -225,7 +227,7 @@ string demo_sample_bible_name ()
 // Creates a sample Bible.
 // Creating a Sample Bible used to take a relatively long time, in particular on low power devices.
 // The new and current method does a simple copy operation and that is fast.
-void demo_create_sample_bible () // Todo
+void demo_create_sample_bible ()
 {
   Database_Logs::log ("Creating sample Bible");
   
@@ -236,7 +238,8 @@ void demo_create_sample_bible () // Todo
   
   // Remove index for the sample Bible.
   search_logic_delete_bible (demo_sample_bible_name ());
-  
+
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
   // Copy the sample Bible data and search index into place.
   vector <int> rowids = Database_Sample::get ();
   for (auto rowid : rowids) {
@@ -262,6 +265,20 @@ void demo_create_sample_bible () // Todo
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);
   }
+#endif
+
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // In the Indonesian Cloud Free, the request is to create books
+  // with blank verses for the OT and NT.
+  vector <int> books = Database_Books::getIDs ();
+  for (auto book : books) {
+    string type = Database_Books::getType (book);
+    if ((type == "ot") || (type == "nt")) {
+      vector <string> feedback;
+      book_create (demo_sample_bible_name(), book, -1, feedback);
+    }
+  }
+#endif
   
   Database_Logs::log ("Sample Bible was created");
 }

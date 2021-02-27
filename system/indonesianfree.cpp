@@ -151,6 +151,12 @@ string system_indonesianfree (void * webserver_request)
   
   view.set_variable ("external", assets_external_logic_link_addon ());
 
+  
+  int level = request->session_logic ()->currentLevel ();
+  if (level >= Filter_Roles::manager ()) {
+    view.enable_zone ("can_use_advanced_mode");
+  }
+
 
   // Set some feedback, if any.
   view.set_variable ("success", success);

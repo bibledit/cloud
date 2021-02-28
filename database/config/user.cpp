@@ -648,6 +648,12 @@ void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 
 vector <string> Database_Config_User::getActiveResources ()
 {
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // The Indonesian Cloud instances gets their active resources updated from one master instance.
+  // This means that reading the active resources cannot be done from the memory cache.
+  // It should always be read from file, as the file might have been updated.
+  clear_cache();
+#endif
   return getList ("active-resources");
 }
 void Database_Config_User::setActiveResources (vector <string> values)

@@ -232,7 +232,6 @@
 /edit/index.html
 /edit/index.js
 /edit/keys.js
-/editone
 /editone2
 /editone2/index.html
 /editone2/index.js
@@ -512,6 +511,9 @@
 /rangy13/rangy-serializer.min.js
 /rangy13/rangy-textrange.js
 /rangy13/rangy-textrange.min.js
+/read
+/read/index.html
+/read/index.js
 /redirect
 /related
 /related/ot-quotations-in-nt.xml

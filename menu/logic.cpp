@@ -92,6 +92,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ldap/logic.h>
 #include <jsonxx/jsonxx.h>
 #include <system/indonesianfree.h>
+#include <read/index.h>
 
 
 string menu_logic_href (string href)
@@ -266,8 +267,16 @@ string menu_logic_basic_categories (void * webserver_request)
 
   vector <string> html;
   
+  if (read_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true)); // Todo read-only
+  }
+  
+  if (resource_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true));
+  }
+
   if (editone2_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editone2_index_url (), translate ("Translation"), true));
+    html.push_back (menu_logic_create_item (editone2_index_url (), menu_logic_translate_text (), true));
   }
   
   if (changes_changes_acl (webserver_request)) {
@@ -280,16 +289,12 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true));
   }
   
-  if (resource_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true));
-  }
-
   if (personalize_index_acl (webserver_request)) {
 #ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true));
+    html.push_back (menu_logic_create_item (personalize_index_url (), menu_logic_settings_text (), true));
 #endif
 #ifdef HAVE_INDONESIANCLOUDFREE
-    html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true));
+    html.push_back (menu_logic_create_item (system_indonesianfree_url (), menu_logic_settings_text (), true));
 #endif
   }
 

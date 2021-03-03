@@ -339,7 +339,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	ldap/logic.$(OBJEXT) quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) \
 	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
 	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
-	tbsx/text.$(OBJEXT)
+	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
+	read/verse.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -592,8 +593,10 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	public/$(DEPDIR)/login.Po public/$(DEPDIR)/new.Po \
 	public/$(DEPDIR)/note.Po public/$(DEPDIR)/notes.Po \
 	pugixml/$(DEPDIR)/pugixml.Po pugixml/$(DEPDIR)/utils.Po \
-	quill/$(DEPDIR)/logic.Po redirect/$(DEPDIR)/index.Po \
-	related/$(DEPDIR)/logic.Po resource/$(DEPDIR)/bb2resource.Po \
+	quill/$(DEPDIR)/logic.Po read/$(DEPDIR)/index.Po \
+	read/$(DEPDIR)/load.Po read/$(DEPDIR)/verse.Po \
+	redirect/$(DEPDIR)/index.Po related/$(DEPDIR)/logic.Po \
+	resource/$(DEPDIR)/bb2resource.Po \
 	resource/$(DEPDIR)/bbgateway.Po resource/$(DEPDIR)/cache.Po \
 	resource/$(DEPDIR)/convert2bible.Po \
 	resource/$(DEPDIR)/convert2resource.Po \
@@ -1378,7 +1381,10 @@ libbibledit_a_SOURCES = \
 	miniz/miniz.c \
 	nmt/index.cpp \
 	nmt/logic.cpp \
-  tbsx/text.cpp
+  tbsx/text.cpp \
+  read/index.cpp \
+  read/load.cpp \
+  read/verse.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -2986,6 +2992,18 @@ tbsx/$(DEPDIR)/$(am__dirstamp):
 	@: > tbsx/$(DEPDIR)/$(am__dirstamp)
 tbsx/text.$(OBJEXT): tbsx/$(am__dirstamp) \
 	tbsx/$(DEPDIR)/$(am__dirstamp)
+read/$(am__dirstamp):
+	@$(MKDIR_P) read
+	@: > read/$(am__dirstamp)
+read/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) read/$(DEPDIR)
+	@: > read/$(DEPDIR)/$(am__dirstamp)
+read/index.$(OBJEXT): read/$(am__dirstamp) \
+	read/$(DEPDIR)/$(am__dirstamp)
+read/load.$(OBJEXT): read/$(am__dirstamp) \
+	read/$(DEPDIR)/$(am__dirstamp)
+read/verse.$(OBJEXT): read/$(am__dirstamp) \
+	read/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3247,6 +3265,7 @@ mostlyclean-compile:
 	-rm -f public/*.$(OBJEXT)
 	-rm -f pugixml/*.$(OBJEXT)
 	-rm -f quill/*.$(OBJEXT)
+	-rm -f read/*.$(OBJEXT)
 	-rm -f redirect/*.$(OBJEXT)
 	-rm -f related/*.$(OBJEXT)
 	-rm -f resource/*.$(OBJEXT)
@@ -3616,6 +3635,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/pugixml.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@quill/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@read/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@read/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@read/$(DEPDIR)/verse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@redirect/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@related/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bb2resource.Po@am__quote@ # am--include-marker
@@ -4284,6 +4306,8 @@ distclean-generic:
 	-rm -f pugixml/$(am__dirstamp)
 	-rm -f quill/$(DEPDIR)/$(am__dirstamp)
 	-rm -f quill/$(am__dirstamp)
+	-rm -f read/$(DEPDIR)/$(am__dirstamp)
+	-rm -f read/$(am__dirstamp)
 	-rm -f redirect/$(DEPDIR)/$(am__dirstamp)
 	-rm -f redirect/$(am__dirstamp)
 	-rm -f related/$(DEPDIR)/$(am__dirstamp)
@@ -4689,6 +4713,9 @@ distclean: distclean-am
 	-rm -f pugixml/$(DEPDIR)/pugixml.Po
 	-rm -f pugixml/$(DEPDIR)/utils.Po
 	-rm -f quill/$(DEPDIR)/logic.Po
+	-rm -f read/$(DEPDIR)/index.Po
+	-rm -f read/$(DEPDIR)/load.Po
+	-rm -f read/$(DEPDIR)/verse.Po
 	-rm -f redirect/$(DEPDIR)/index.Po
 	-rm -f related/$(DEPDIR)/logic.Po
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
@@ -5273,6 +5300,9 @@ maintainer-clean: maintainer-clean-am
 	-rm -f pugixml/$(DEPDIR)/pugixml.Po
 	-rm -f pugixml/$(DEPDIR)/utils.Po
 	-rm -f quill/$(DEPDIR)/logic.Po
+	-rm -f read/$(DEPDIR)/index.Po
+	-rm -f read/$(DEPDIR)/load.Po
+	-rm -f read/$(DEPDIR)/verse.Po
 	-rm -f redirect/$(DEPDIR)/index.Po
 	-rm -f related/$(DEPDIR)/logic.Po
 	-rm -f resource/$(DEPDIR)/bb2resource.Po

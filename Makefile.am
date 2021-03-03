@@ -451,7 +451,10 @@ libbibledit_a_SOURCES = \
 	miniz/miniz.c \
 	nmt/index.cpp \
 	nmt/logic.cpp \
-  tbsx/text.cpp
+  tbsx/text.cpp \
+  read/index.cpp \
+  read/load.cpp \
+  read/verse.cpp
 
 bin_PROGRAMS = server unittest generate
 

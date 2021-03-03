@@ -206,6 +206,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editone2/save.h>
 #include <editone2/verse.h>
 #include <editone2/update.h>
+#include <read/index.h>
+#include <read/load.h>
+#include <read/verse.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1200,6 +1203,21 @@ void bootstrap_index (void * webserver_request)
   
   if ((url == editone2_update_url ()) && browser_request_security_okay (request) && editone2_update_acl (request)) {
     request->reply = editone2_update (request);
+    return;
+  }
+
+  if ((url == read_index_url ()) && browser_request_security_okay (request) && read_index_acl (request)) {
+    request->reply = read_index (request);
+    return;
+  }
+
+  if ((url == read_load_url ()) && browser_request_security_okay (request) && read_load_acl (request)) {
+    request->reply = read_load (request);
+    return;
+  }
+
+  if ((url == read_verse_url ()) && browser_request_security_okay (request) && read_verse_acl (request)) {
+    request->reply = read_verse (request);
     return;
   }
 

@@ -577,27 +577,27 @@ table.interlinear.rtl {
   cursor: default;
 }
 
-.note-new {
+.white-on-green {
   color: #fff;
   background-color: #008080;
 }
 
-.note-pending {
+.black-on-orange {
   color: #0a0a0a;
   background-color: #ffa500;
 }
 
-.note-inprogress {
+.black-on-neon-green {
   color: #0a0a0a;
   background-color: #00ff00;
 }
 
-.note-done {
+.white-on-purple {
   color: #fff;
   background-color: #0000ff;
 }
 
-.note-reopened {
+.white-on-pink {
   color: #fff;
   background-color: #ff1493;
 }

@@ -45,6 +45,11 @@ public:
   static int writingModeValue (string mode);
   static string getClass (string bible);
   static string getCss (string class_, string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
+  static string distinction_set1_class_white_on_green ();
+  static string distinction_set1_class_black_on_orange ();
+  static string distinction_set1_class_black_on_neon_green ();
+  static string distinction_set1_class_white_on_purple ();
+  static string distinction_set1_class_white_on_pink ();
 };
 
 

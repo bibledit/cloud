@@ -234,7 +234,38 @@ string Filter_Css::getCss (string class_, string font, int directionvalue, int l
 }
 
 
+string Filter_Css::distinction_set1_class_white_on_green ()
+{
+  return "white-on-green";
+}
+
+
+string Filter_Css::distinction_set1_class_black_on_orange ()
+{
+  return "black-on-orange";
+}
+
+
+string Filter_Css::distinction_set1_class_black_on_neon_green ()
+{
+  return "black-on-neon-green";
+}
+
+
+string Filter_Css::distinction_set1_class_white_on_purple ()
+{
+  return "white-on-purple";
+}
+
+
+string Filter_Css::distinction_set1_class_white_on_pink ()
+{
+  return "white-on-pink";
+}
+
+
 string filter_css_grey_background ()
 {
   return "style=\"background-color: #CCCCCC\"";
 }
+

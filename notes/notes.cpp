@@ -24,6 +24,7 @@
 #include <filter/roles.h>
 #include <filter/usfm.h>
 #include <filter/string.h>
+#include <filter/css.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
@@ -113,14 +114,20 @@ string notes_notes (void * webserver_request)
     string verses = filter_passage_display_inline (passages);
     if (show_note_status) {
       string status_text = database_notes.get_status (identifier);
-      string status_class;
+      string raw_status;
       if (color_note_status) {
         // The class properties are in the stylesheet.
         // Distinct colors were generated through https://mokole.com/palette.html.
-        status_class = database_notes.get_raw_status (identifier);
-        status_class = unicode_string_casefold (status_class);
-        status_class = filter_string_str_replace (" ", "", status_class);
-        status_text.insert (0, R"(<span class="note-)" + status_class + R"(">)");
+        raw_status = database_notes.get_raw_status (identifier);
+        raw_status = unicode_string_casefold (raw_status);
+        raw_status = filter_string_str_replace (" ", "", raw_status);
+        string css_class;
+        if (raw_status == "new") css_class = Filter_Css::distinction_set1_class_white_on_green ();
+        else if (raw_status == "pending") css_class = Filter_Css::distinction_set1_class_black_on_orange ();
+        else if (raw_status == "inprogress") css_class = Filter_Css::distinction_set1_class_black_on_neon_green ();
+        else if (raw_status == "done") css_class = Filter_Css::distinction_set1_class_white_on_purple ();
+        else if (raw_status == "reopened") css_class = Filter_Css::distinction_set1_class_white_on_pink ();
+        if (!css_class.empty()) status_text.insert (0, R"(<span class=")" + css_class + R"(">)");
         status_text.append ("</span>");
       }
       verses.insert (0, status_text + " ");

@@ -2899,6 +2899,9 @@
 		CAECA50325EED7B500650B41 /* verse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verse.h; sourceTree = "<group>"; };
 		CAECA50425EED7B500650B41 /* verse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verse.cpp; sourceTree = "<group>"; };
 		CAECA50525EED7B500650B41 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
+		CAECA50825EFDE1E00650B41 /* divider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = divider.cpp; sourceTree = "<group>"; };
+		CAECA50925EFDE1E00650B41 /* divider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = divider.h; sourceTree = "<group>"; };
+		CAECA50A25EFDE1E00650B41 /* divider.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = divider.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5267,6 +5270,9 @@
 				CADE400224F17495003165BB /* convert2bible.h */,
 				CADE3FCA24F17495003165BB /* convert2resource.cpp */,
 				CADE400924F17495003165BB /* convert2resource.h */,
+				CAECA50825EFDE1E00650B41 /* divider.cpp */,
+				CAECA50925EFDE1E00650B41 /* divider.h */,
+				CAECA50A25EFDE1E00650B41 /* divider.html */,
 				CADE403824F17495003165BB /* download.cpp */,
 				CADE3FF124F17495003165BB /* download.h */,
 				CADE400F24F17495003165BB /* download.html */,

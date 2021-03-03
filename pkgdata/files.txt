@@ -523,6 +523,7 @@
 /resource/bb2resource.html
 /resource/bbgateway.html
 /resource/cache.html
+/resource/divider.html
 /resource/download.html
 /resource/image.html
 /resource/images.html

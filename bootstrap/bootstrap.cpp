@@ -209,6 +209,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <read/index.h>
 #include <read/load.h>
 #include <read/verse.h>
+#include <resource/divider.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1218,6 +1219,11 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == read_verse_url ()) && browser_request_security_okay (request) && read_verse_acl (request)) {
     request->reply = read_verse (request);
+    return;
+  }
+
+  if ((url == resource_divider_url ()) && browser_request_security_okay (request) && resource_divider_acl (request)) {
+    request->reply = resource_divider (request);
     return;
   }
 

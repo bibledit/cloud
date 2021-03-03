@@ -454,7 +454,8 @@ libbibledit_a_SOURCES = \
   tbsx/text.cpp \
   read/index.cpp \
   read/load.cpp \
-  read/verse.cpp
+  read/verse.cpp \
+  resource/divider.cpp
 
 bin_PROGRAMS = server unittest generate
 

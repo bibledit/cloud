@@ -503,13 +503,77 @@ string resource_logic_orange_divider ()
 }
 
 
+string resource_logic_rich_divider ()
+{
+  return "Rich Divider";
+}
+
+
+bool resource_log_parse_rich_divider (string input, string & title, string & link,
+                                      string & foreground, string & background)
+{
+  title.clear();
+  link.clear();
+  foreground.clear();
+  background.clear();
+  vector <string> bits = filter_string_explode(input, '|');
+  if (bits.size() != 5) return false;
+  if (bits[0] != resource_logic_rich_divider()) return false;
+  title = bits[1];
+  link = bits[2];
+  foreground = bits[3];
+  background = bits[4];
+  return true;
+}
+
+
+string resource_logic_assemble_rich_divider (string title, string link,
+                                             string foreground, string background)
+{
+  vector <string> bits = {resource_logic_rich_divider(), title, link, foreground, background};
+  return filter_string_implode(bits, "|");
+}
+
+
 string resource_logic_get_divider (string resource)
 {
-  vector <string> bits = filter_string_explode (resource, ' ');
-  string colour = unicode_string_casefold (bits [0]);
-  // The $ influences the resource's embedding through javascript.
-  string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
-  return html;
+  string title;
+  string link;
+  string foreground;
+  string background;
+  if (resource_log_parse_rich_divider (resource, title, link, foreground, background)) {
+    // Render a rich divider.
+    if (title.empty ()) title = "---";
+    // The $ influences the resource's embedding through Javascript.
+    string html = "$";
+    html.append (R"(<div class="width100 center" style="background-color:)");
+    html.append (background);
+    html.append (R"(;color:)");
+    html.append (foreground);
+    html.append (R"(;)");
+    html.append (R"(">)");
+    if (!link.empty()) {
+      html.append (R"(<a href=")");
+      html.append (link);
+      html.append (R"(" target="_blank">)");
+    }
+    html.append (title);
+    if (!link.empty()) {
+      html.append (R"(</a>)");
+      html.append (R"()");
+      html.append (R"()");
+    }
+    html.append (R"(</div>)");
+    return html;
+  } else {
+    // Render the standard fixed dividers.
+    vector <string> bits = filter_string_explode (resource, ' ');
+    string colour = unicode_string_casefold (bits [0]);
+    // The $ influences the resource's embedding through Javascript.
+    string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
+    return html;
+  }
+
 }
 
 

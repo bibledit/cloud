@@ -340,7 +340,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
 	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
 	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
-	read/verse.$(OBJEXT)
+	read/verse.$(OBJEXT) resource/divider.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -600,15 +600,15 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	resource/$(DEPDIR)/bbgateway.Po resource/$(DEPDIR)/cache.Po \
 	resource/$(DEPDIR)/convert2bible.Po \
 	resource/$(DEPDIR)/convert2resource.Po \
-	resource/$(DEPDIR)/download.Po resource/$(DEPDIR)/external.Po \
-	resource/$(DEPDIR)/get.Po resource/$(DEPDIR)/image.Po \
-	resource/$(DEPDIR)/imagefetch.Po resource/$(DEPDIR)/images.Po \
-	resource/$(DEPDIR)/img.Po resource/$(DEPDIR)/index.Po \
-	resource/$(DEPDIR)/logic.Po resource/$(DEPDIR)/manage.Po \
-	resource/$(DEPDIR)/organize.Po resource/$(DEPDIR)/print.Po \
-	resource/$(DEPDIR)/select.Po resource/$(DEPDIR)/studylight.Po \
-	resource/$(DEPDIR)/sword.Po resource/$(DEPDIR)/unload.Po \
-	resource/$(DEPDIR)/user1edit.Po \
+	resource/$(DEPDIR)/divider.Po resource/$(DEPDIR)/download.Po \
+	resource/$(DEPDIR)/external.Po resource/$(DEPDIR)/get.Po \
+	resource/$(DEPDIR)/image.Po resource/$(DEPDIR)/imagefetch.Po \
+	resource/$(DEPDIR)/images.Po resource/$(DEPDIR)/img.Po \
+	resource/$(DEPDIR)/index.Po resource/$(DEPDIR)/logic.Po \
+	resource/$(DEPDIR)/manage.Po resource/$(DEPDIR)/organize.Po \
+	resource/$(DEPDIR)/print.Po resource/$(DEPDIR)/select.Po \
+	resource/$(DEPDIR)/studylight.Po resource/$(DEPDIR)/sword.Po \
+	resource/$(DEPDIR)/unload.Po resource/$(DEPDIR)/user1edit.Po \
 	resource/$(DEPDIR)/user1view.Po \
 	resource/$(DEPDIR)/user9edit.Po \
 	resource/$(DEPDIR)/user9view.Po rss/$(DEPDIR)/feed.Po \
@@ -1384,7 +1384,8 @@ libbibledit_a_SOURCES = \
   tbsx/text.cpp \
   read/index.cpp \
   read/load.cpp \
-  read/verse.cpp
+  read/verse.cpp \
+  resource/divider.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3004,6 +3005,8 @@ read/load.$(OBJEXT): read/$(am__dirstamp) \
 	read/$(DEPDIR)/$(am__dirstamp)
 read/verse.$(OBJEXT): read/$(am__dirstamp) \
 	read/$(DEPDIR)/$(am__dirstamp)
+resource/divider.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3645,6 +3648,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/cache.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2resource.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/divider.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/download.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/external.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/get.Po@am__quote@ # am--include-marker
@@ -4723,6 +4727,7 @@ distclean: distclean-am
 	-rm -f resource/$(DEPDIR)/cache.Po
 	-rm -f resource/$(DEPDIR)/convert2bible.Po
 	-rm -f resource/$(DEPDIR)/convert2resource.Po
+	-rm -f resource/$(DEPDIR)/divider.Po
 	-rm -f resource/$(DEPDIR)/download.Po
 	-rm -f resource/$(DEPDIR)/external.Po
 	-rm -f resource/$(DEPDIR)/get.Po
@@ -5310,6 +5315,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f resource/$(DEPDIR)/cache.Po
 	-rm -f resource/$(DEPDIR)/convert2bible.Po
 	-rm -f resource/$(DEPDIR)/convert2resource.Po
+	-rm -f resource/$(DEPDIR)/divider.Po
 	-rm -f resource/$(DEPDIR)/download.Po
 	-rm -f resource/$(DEPDIR)/external.Po
 	-rm -f resource/$(DEPDIR)/get.Po

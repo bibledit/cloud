@@ -41,7 +41,11 @@ string resource_logic_blue_divider ();
 string resource_logic_violet_divider ();
 string resource_logic_red_divider ();
 string resource_logic_orange_divider ();
+string resource_logic_rich_divider ();
 string resource_logic_get_divider (string resource);
+bool resource_log_parse_rich_divider (string input, string & title, string & link, string & foreground, string & background);
+string resource_logic_assemble_rich_divider (string title, string link,
+                                             string foreground, string background);
 
 string resource_logic_web_or_cache_get (string url, string & error);
 

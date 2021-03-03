@@ -24,10 +24,12 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/passage.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
 #include <resource/external.h>
+#include <resource/divider.h>
 #include <sword/logic.h>
 #include <sync/logic.h>
 #include <dialog/entry.h>
@@ -58,13 +60,21 @@ string resource_organize (void * webserver_request)
   bool checked = convert_to_bool (request->post ["checked"]);
 
   
+  // Deal with a new added resources.
   if (request->query.count ("add") || request->post.count ("add")) {
     string add = request->query["add"];
     if (add.empty ()) add = request->post ["add"];
-    vector <string> resources = request->database_config_user()->getActiveResources ();
-    resources.push_back (add);
-    request->database_config_user()->setActiveResources (resources);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+    if (add == resource_logic_rich_divider ()) {
+      // Navigate to the page to set up the rich divider.
+      redirect_browser (webserver_request, resource_divider_url ());
+      return "";
+    } else {
+      // Add the new resource to the existing list of resources for the current user.
+      vector <string> resources = request->database_config_user()->getActiveResources ();
+      resources.push_back (add);
+      request->database_config_user()->setActiveResources (resources);
+      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+    }
   }
   
   

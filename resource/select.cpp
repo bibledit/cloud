@@ -182,7 +182,8 @@ string resource_select (void * webserver_request)
       resource_logic_blue_divider (),
       resource_logic_violet_divider (),
       resource_logic_red_divider (),
-      resource_logic_orange_divider ()
+      resource_logic_orange_divider (),
+      resource_logic_rich_divider(),
     };
     for (auto resource : resources) {
       dialog_list.add_row (resource, "add", resource);

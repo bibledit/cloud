@@ -508,7 +508,7 @@ string resource_logic_get_divider (string resource)
   vector <string> bits = filter_string_explode (resource, ' ');
   string colour = unicode_string_casefold (bits [0]);
   // The $ influences the resource's embedding through javascript.
-  string html = "$<div class=\"width100\" style=\"background-color: " + colour + ";\">&nbsp;</div>";
+  string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
   return html;
 }
 

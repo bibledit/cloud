@@ -122,11 +122,12 @@ string notes_notes (void * webserver_request)
         raw_status = unicode_string_casefold (raw_status);
         raw_status = filter_string_str_replace (" ", "", raw_status);
         string css_class;
-        if (raw_status == "new") css_class = Filter_Css::distinction_set1_class_white_on_green ();
-        else if (raw_status == "pending") css_class = Filter_Css::distinction_set1_class_black_on_orange ();
-        else if (raw_status == "inprogress") css_class = Filter_Css::distinction_set1_class_black_on_neon_green ();
-        else if (raw_status == "done") css_class = Filter_Css::distinction_set1_class_white_on_purple ();
-        else if (raw_status == "reopened") css_class = Filter_Css::distinction_set1_class_white_on_pink ();
+        if (raw_status == "new") css_class = Filter_Css::distinction_set_1 (0);
+        else if (raw_status == "pending") css_class = Filter_Css::distinction_set_1 (1);
+        else if (raw_status == "inprogress") css_class = Filter_Css::distinction_set_1 (2);
+        else if (raw_status == "done") css_class = Filter_Css::distinction_set_1 (3);
+        else if (raw_status == "reopened") css_class = Filter_Css::distinction_set_1 (4);
+        else css_class = Filter_Css::distinction_set_1(5);
         if (!css_class.empty()) status_text.insert (0, R"(<span class=")" + css_class + R"(">)");
         status_text.append ("</span>");
       }

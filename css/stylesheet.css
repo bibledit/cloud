@@ -328,7 +328,7 @@ textarea {
   clear: both;
 }
 #topbar a {
-  color: #000;
+  color: inherit;
 }
 #breadcrumbs:not(:empty) {
   margin: 0.2em 0;
@@ -342,10 +342,7 @@ textarea {
 .menu-basic a {
   padding: 0 0.4em;
   border-style: solid;
-  text-decoration: none!important;
-  -webkit-appearance: button;
-     -moz-appearance: button;
-          appearance: button;
+  text-decoration: none;
 }
 .menu-advanced span {
   margin-right: 0.2em;
@@ -578,27 +575,46 @@ table.interlinear.rtl {
 }
 
 .white-on-green {
-  color: #fff;
+  color: #fff!important;
   background-color: #008080;
 }
 
 .black-on-orange {
-  color: #0a0a0a;
+  color: #0a0a0a!important;
   background-color: #ffa500;
 }
 
 .black-on-neon-green {
-  color: #0a0a0a;
+  color: #0a0a0a!important;
   background-color: #00ff00;
 }
 
 .white-on-purple {
-  color: #fff;
+  color: #fff!important;
   background-color: #0000ff;
 }
 
 .white-on-pink {
-  color: #fff;
+  color: #fff!important;
   background-color: #ff1493;
 }
 
+.black-on-yellow {
+  color: #0a0a0a!important;
+  background-color: #ffff54
+}
+
+.black-on-light-blue {
+  color: #0a0a0a!important;
+  background-color: #7ba6d7
+}
+
+.white-on-dark-blue {
+  color: #fff!important;
+  background-color: #2654c5
+}
+
+.white-on-turkish-blue {
+  color: #fff!important;
+  background-color: #53808c
+}

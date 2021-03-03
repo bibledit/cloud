@@ -234,33 +234,25 @@ string Filter_Css::getCss (string class_, string font, int directionvalue, int l
 }
 
 
-string Filter_Css::distinction_set1_class_white_on_green ()
+string Filter_Css::distinction_set_1 (int offset)
 {
-  return "white-on-green";
+  if (offset == 0) return "white-on-green";
+  if (offset == 1) return "black-on-orange";
+  if (offset == 2) return "black-on-neon-green";
+  if (offset == 3) return "white-on-purple";
+  if (offset == 4) return "white-on-pink";
+  return "";
 }
 
 
-string Filter_Css::distinction_set1_class_black_on_orange ()
+string Filter_Css::distinction_set_2 (int offset)
 {
-  return "black-on-orange";
-}
-
-
-string Filter_Css::distinction_set1_class_black_on_neon_green ()
-{
-  return "black-on-neon-green";
-}
-
-
-string Filter_Css::distinction_set1_class_white_on_purple ()
-{
-  return "white-on-purple";
-}
-
-
-string Filter_Css::distinction_set1_class_white_on_pink ()
-{
-  return "white-on-pink";
+  if (offset == 0) return "black-on-yellow";
+  if (offset == 1) return "black-on-neon-green";
+  if (offset == 2) return "black-on-light-blue";
+  if (offset == 3) return "white-on-dark-blue";
+  if (offset == 4) return "white-on-turkish-blue";
+  return "";
 }
 
 

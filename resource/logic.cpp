@@ -552,13 +552,14 @@ string resource_logic_get_divider (string resource)
     html.append (foreground);
     html.append (R"(;)");
     html.append (R"(">)");
+    html.append (" ");
+    html.append (title);
+    html.append (" - ");
     if (!link.empty()) {
       html.append (R"(<a href=")");
       html.append (link);
       html.append (R"(" target="_blank">)");
-    }
-    html.append (title);
-    if (!link.empty()) {
+      html.append (link);
       html.append (R"(</a>)");
       html.append (R"()");
       html.append (R"()");
@@ -1178,6 +1179,7 @@ bool resource_logic_is_divider (string resource)
   if (resource == resource_logic_violet_divider ()) return true;
   if (resource == resource_logic_red_divider ()) return true;
   if (resource == resource_logic_orange_divider ()) return true;
+  if (resource.find (resource_logic_rich_divider ()) == 0) return true;
   return false;
 }
 

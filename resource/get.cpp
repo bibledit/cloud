@@ -70,7 +70,10 @@ string resource_get (void * webserver_request)
 
 
       // Handle a divider.
-      if (resource_logic_is_divider (s_resource)) return resource_logic_get_divider (s_resource);
+      if (resource_logic_is_divider (s_resource)) {
+        string text = resource_logic_get_divider (s_resource);
+        return text;
+      }
       
       
       string bible = request->database_config_user ()->getBible ();

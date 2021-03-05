@@ -263,7 +263,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
  */
 
 
-string menu_logic_basic_categories (void * webserver_request) // Todo
+string menu_logic_basic_categories (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
@@ -276,7 +276,7 @@ string menu_logic_basic_categories (void * webserver_request) // Todo
   color = Filter_Css::distinction_set_2 (0);
 #endif
   if (read_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color)); // Todo read-only
+    html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
   }
   
 #ifdef HAVE_INDONESIANCLOUDFREE

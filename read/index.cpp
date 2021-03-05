@@ -78,7 +78,7 @@ string read_index (void * webserver_request)
   // Specific configuration for the Indonesian free Cloud instance.
   // The name of the default Bible in the Read tab will be AlkitabKita
   // (That means Our/Everyone's Translation.
-  request->database_config_user()->setBible (filter_indonesian_alkitabkita_name ());
+  request->database_config_user()->setBible (filter_indonesian_alkitabkita_ourtranslation_name ());
 #endif
 
   string page;

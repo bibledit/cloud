@@ -23,6 +23,7 @@
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/indonesian.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>
@@ -218,7 +219,7 @@ string demo_sample_bible_name ()
 {
 #ifdef HAVE_INDONESIANCLOUDFREE
   // MyBibleTranslation
-  return "PenerjemahanAlkitabku";
+  return filter_indonesian_terjemahanku_mytranslation_name ();
 #endif
   return "Sample";
 }

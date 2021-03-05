@@ -40,6 +40,7 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
+#include <demo/logic.h>
 
 
 string editone2_index_url ()
@@ -81,9 +82,14 @@ string editone2_index (void * webserver_request)
   // When the user changed that to another name, the editor will load that other name.
   {
     vector <string> bibles = access_bible_bibles (request);
-    string selected_bible = filter_indonesian_alkitabkita_name ();
+    string selected_bible;
     for (auto bible : bibles) {
-      if (bible != filter_indonesian_alkitabkita_name ()) selected_bible = bible;
+      if (bible != filter_indonesian_alkitabkita_ourtranslation_name ()) selected_bible = bible;
+    }
+    if (selected_bible.empty ()) {
+      // No Bible selected yet: Create the Indonesian Sample Bible and take that.
+      demo_create_sample_bible ();
+      selected_bible = demo_sample_bible_name ();
     }
     request->database_config_user()->setBible (selected_bible);
   }

@@ -882,6 +882,81 @@ string resource_logic_bible_gateway_book (int book)
 }
 
 
+string resource_external_convert_book_studylight (int book)
+{
+  // Map Bibledit books to biblehub.com books.
+  map <int, string> mapping = {
+    make_pair (1, "genesis"),
+    make_pair (2, "exodus"),
+    make_pair (3, "leviticus"),
+    make_pair (4, "numbers"),
+    make_pair (5, "deuteronomy"),
+    make_pair (6, "joshua"),
+    make_pair (7, "judges"),
+    make_pair (8, "ruth"),
+    make_pair (9, "1-samuel"),
+    make_pair (10, "2-samuel"),
+    make_pair (11, "1-kings"),
+    make_pair (12, "2-kings"),
+    make_pair (13, "1-chronicles"),
+    make_pair (14, "2-chronicles"),
+    make_pair (15, "ezra"),
+    make_pair (16, "nehemiah"),
+    make_pair (17, "esther"),
+    make_pair (18, "job"),
+    make_pair (19, "psalms"),
+    make_pair (20, "proverbs"),
+    make_pair (21, "ecclesiastes"),
+    make_pair (22, "song-of-solomon"),
+    make_pair (23, "isaiah"),
+    make_pair (24, "jeremiah"),
+    make_pair (25, "lamentations"),
+    make_pair (26, "ezekiel"),
+    make_pair (27, "daniel"),
+    make_pair (28, "hosea"),
+    make_pair (29, "joel"),
+    make_pair (30, "amos"),
+    make_pair (31, "obadiah"),
+    make_pair (32, "jonah"),
+    make_pair (33, "micah"),
+    make_pair (34, "nahum"),
+    make_pair (35, "habakkuk"),
+    make_pair (36, "zephaniah"),
+    make_pair (37, "haggai"),
+    make_pair (38, "zechariah"),
+    make_pair (39, "malachi"),
+    make_pair (40, "matthew"),
+    make_pair (41, "mark"),
+    make_pair (42, "luke"),
+    make_pair (43, "john"),
+    make_pair (44, "acts"),
+    make_pair (45, "romans"),
+    make_pair (46, "1-corinthians"),
+    make_pair (47, "2-corinthians"),
+    make_pair (48, "galatians"),
+    make_pair (49, "ephesians"),
+    make_pair (50, "philippians"),
+    make_pair (51, "colossians"),
+    make_pair (52, "1-thessalonians"),
+    make_pair (53, "2-thessalonians"),
+    make_pair (54, "1-timothy"),
+    make_pair (55, "2-timothy"),
+    make_pair (56, "titus"),
+    make_pair (57, "philemon"),
+    make_pair (58, "hebrews"),
+    make_pair (59, "james"),
+    make_pair (60, "1-peter"),
+    make_pair (61, "2-peter"),
+    make_pair (62, "1-john"),
+    make_pair (63, "2-john"),
+    make_pair (64, "3-john"),
+    make_pair (65, "jude"),
+    make_pair (66, "revelation")
+  };
+  return mapping [book];
+}
+
+
 struct bible_gateway_walker: xml_tree_walker
 {
   string verse;
@@ -1027,7 +1102,10 @@ string resource_logic_study_light_module_list_refresh ()
     // Example commentary fragment:
     // <h3><a class="emphasis" href="//www.studylight.org/commentaries/gsb.html">Geneva Study Bible</a></h3>
     do {
-      string fragment = "<a class=\"emphasis\"";
+      // <a class="emphasis" ...
+      string fragment = R"(<a class="emphasis")";
+      // New fragment on updated website:
+      fragment = R"(<a class="fg-darkgrey")";
       size_t pos = html.find (fragment);
       if (pos == string::npos) break;
       html.erase (0, pos + fragment.size ());
@@ -1043,7 +1121,8 @@ string resource_logic_study_light_module_list_refresh ()
       pos = html.find ("</a>");
       if (pos == string::npos) break;
       string name = html.substr (0, pos);
-      resources.push_back (name + " (" + abbreviation + ")");
+      string resource = name + " (studylight-" + abbreviation + ")";
+      resources.push_back (resource);
     } while (true);
     // Store the resources in a file.
     filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
@@ -1080,10 +1159,13 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
     if (pos != string::npos) {
       resource.erase (pos);
 
-      // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
-      book--;
-      
-      string url = "http://www.studylight.org/com/" + resource + "/view.cgi?bk=" + convert_to_string (book) + "&ch=" + convert_to_string (chapter);
+      // The resource abbreviation might look like this:
+      // studylight-eng/bnb
+      // Also remove that "studylight-" bit.
+      resource.erase (0, 11);
+
+      // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
+      string url = "http://www.studylight.org/commentaries/" + resource + "/" + resource_external_convert_book_studylight (book) + "-" + convert_to_string (chapter) + ".html";
 
       // Get the html from the server, and tidy it up.
       string error;
@@ -1093,7 +1175,12 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
       
       vector <string> relevant_lines;
       bool relevant_flag = false;
-      
+
+      // <a name="verse-2" ... >Verse 2</a>
+      // <a name="verses-1-4" ...>Verses 1-4</a>
+      string verse_tag = R"(name="verse-)" + convert_to_string (verse) + R"(")";
+      string verses_tag = R"(name="verses-)";
+
       for (auto & line : tidied) {
         
         if (relevant_flag) relevant_lines.push_back (line);
@@ -1101,8 +1188,23 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
         size_t pos = line.find ("</div>");
         if (pos != string::npos) relevant_flag = false;
         
-        pos = line.find ("name=\"" + convert_to_string (verse) + "\"");
+        pos = line.find (verse_tag);
         if (pos != string::npos) relevant_flag = true;
+        
+        pos = line.find (verses_tag);
+        if (pos != string::npos) {
+          size_t pos2 = line.find(R"(")", pos + 8);
+          if (pos2 != string::npos) {
+            // Example of multi-verse fragment: name="verses-47-54
+            string fragment = line.substr(pos, pos2 - pos);
+            vector <string> bits = filter_string_explode(fragment, '-');
+            if (bits.size() == 3) {
+              int lower = convert_to_int(bits[1]);
+              int higher = convert_to_int(bits[2]);
+              if ((verse >= lower) && (verse <= higher)) relevant_flag = true;
+            }
+          }
+        }
       }
       
       result = filter_string_implode (relevant_lines, "\n");

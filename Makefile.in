@@ -340,7 +340,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
 	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
 	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
-	read/verse.$(OBJEXT) resource/divider.$(OBJEXT)
+	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
+	filter/indonesian.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -504,45 +505,45 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	export/$(DEPDIR)/web.Po filter/$(DEPDIR)/archive.Po \
 	filter/$(DEPDIR)/css.Po filter/$(DEPDIR)/date.Po \
 	filter/$(DEPDIR)/diff.Po filter/$(DEPDIR)/git.Po \
-	filter/$(DEPDIR)/html.Po filter/$(DEPDIR)/mail.Po \
-	filter/$(DEPDIR)/md5.Po filter/$(DEPDIR)/memory.Po \
-	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/passage.Po \
-	filter/$(DEPDIR)/roles.Po filter/$(DEPDIR)/shell.Po \
-	filter/$(DEPDIR)/string.Po filter/$(DEPDIR)/text.Po \
-	filter/$(DEPDIR)/url.Po filter/$(DEPDIR)/usfm.Po \
-	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
-	fonts/$(DEPDIR)/logic.Po help/$(DEPDIR)/index.Po \
-	html/$(DEPDIR)/header.Po html/$(DEPDIR)/text.Po \
-	index/$(DEPDIR)/index.Po index/$(DEPDIR)/listing.Po \
-	ipc/$(DEPDIR)/focus.Po ipc/$(DEPDIR)/notes.Po \
-	jobs/$(DEPDIR)/index.Po journal/$(DEPDIR)/index.Po \
-	journal/$(DEPDIR)/logic.Po jsonxx/$(DEPDIR)/jsonxx.Po \
-	ldap/$(DEPDIR)/logic.Po lexicon/$(DEPDIR)/definition.Po \
-	lexicon/$(DEPDIR)/logic.Po library/$(DEPDIR)/bibledit.Po \
-	library/$(DEPDIR)/locks.Po locale/$(DEPDIR)/logic.Po \
-	locale/$(DEPDIR)/translate.Po manage/$(DEPDIR)/exports.Po \
-	manage/$(DEPDIR)/hyphenate.Po manage/$(DEPDIR)/hyphenation.Po \
-	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
-	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
-	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
-	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/aesni.Po \
-	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
-	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
-	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
-	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
-	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
-	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
-	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
-	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
-	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecjpake.Po \
-	mbedtls/$(DEPDIR)/ecp.Po mbedtls/$(DEPDIR)/ecp_curves.Po \
-	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
-	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
-	mbedtls/$(DEPDIR)/havege.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
-	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md2.Po \
-	mbedtls/$(DEPDIR)/md4.Po mbedtls/$(DEPDIR)/md5.Po \
-	mbedtls/$(DEPDIR)/md_wrap.Po \
+	filter/$(DEPDIR)/html.Po filter/$(DEPDIR)/indonesian.Po \
+	filter/$(DEPDIR)/mail.Po filter/$(DEPDIR)/md5.Po \
+	filter/$(DEPDIR)/memory.Po filter/$(DEPDIR)/merge.Po \
+	filter/$(DEPDIR)/passage.Po filter/$(DEPDIR)/roles.Po \
+	filter/$(DEPDIR)/shell.Po filter/$(DEPDIR)/string.Po \
+	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
+	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
+	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
+	help/$(DEPDIR)/index.Po html/$(DEPDIR)/header.Po \
+	html/$(DEPDIR)/text.Po index/$(DEPDIR)/index.Po \
+	index/$(DEPDIR)/listing.Po ipc/$(DEPDIR)/focus.Po \
+	ipc/$(DEPDIR)/notes.Po jobs/$(DEPDIR)/index.Po \
+	journal/$(DEPDIR)/index.Po journal/$(DEPDIR)/logic.Po \
+	jsonxx/$(DEPDIR)/jsonxx.Po ldap/$(DEPDIR)/logic.Po \
+	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
+	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
+	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
+	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/hyphenate.Po \
+	manage/$(DEPDIR)/hyphenation.Po manage/$(DEPDIR)/index.Po \
+	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
+	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
+	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
+	mbedtls/$(DEPDIR)/aesni.Po mbedtls/$(DEPDIR)/arc4.Po \
+	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
+	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
+	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
+	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
+	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
+	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
+	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
+	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
+	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
+	mbedtls/$(DEPDIR)/ecjpake.Po mbedtls/$(DEPDIR)/ecp.Po \
+	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
+	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
+	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/havege.Po \
+	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
+	mbedtls/$(DEPDIR)/md2.Po mbedtls/$(DEPDIR)/md4.Po \
+	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
 	mbedtls/$(DEPDIR)/memory_buffer_alloc.Po \
 	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
 	mbedtls/$(DEPDIR)/padlock.Po mbedtls/$(DEPDIR)/pem.Po \
@@ -1385,7 +1386,8 @@ libbibledit_a_SOURCES = \
   read/index.cpp \
   read/load.cpp \
   read/verse.cpp \
-  resource/divider.cpp
+  resource/divider.cpp \
+  filter/indonesian.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3007,6 +3009,8 @@ read/verse.$(OBJEXT): read/$(am__dirstamp) \
 	read/$(DEPDIR)/$(am__dirstamp)
 resource/divider.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+filter/indonesian.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3470,6 +3474,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/html.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/indonesian.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/mail.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/memory.Po@am__quote@ # am--include-marker
@@ -4549,6 +4554,7 @@ distclean: distclean-am
 	-rm -f filter/$(DEPDIR)/diff.Po
 	-rm -f filter/$(DEPDIR)/git.Po
 	-rm -f filter/$(DEPDIR)/html.Po
+	-rm -f filter/$(DEPDIR)/indonesian.Po
 	-rm -f filter/$(DEPDIR)/mail.Po
 	-rm -f filter/$(DEPDIR)/md5.Po
 	-rm -f filter/$(DEPDIR)/memory.Po
@@ -5137,6 +5143,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f filter/$(DEPDIR)/diff.Po
 	-rm -f filter/$(DEPDIR)/git.Po
 	-rm -f filter/$(DEPDIR)/html.Po
+	-rm -f filter/$(DEPDIR)/indonesian.Po
 	-rm -f filter/$(DEPDIR)/mail.Po
 	-rm -f filter/$(DEPDIR)/md5.Po
 	-rm -f filter/$(DEPDIR)/memory.Po

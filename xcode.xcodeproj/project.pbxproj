@@ -1115,16 +1115,10 @@
 		CADE3A9624F17424003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
 		CADE3A9724F17424003165BB /* SILEOT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SILEOT.ttf; sourceTree = "<group>"; };
 		CADE3A9824F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3A9A24F17424003165BB /* text.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = text.o; sourceTree = "<group>"; };
 		CADE3A9B24F17424003165BB /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CADE3A9C24F17424003165BB /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
-		CADE3A9D24F17424003165BB /* header.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = header.o; sourceTree = "<group>"; };
 		CADE3A9E24F17424003165BB /* header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = header.h; sourceTree = "<group>"; };
 		CADE3A9F24F17424003165BB /* header.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = header.cpp; sourceTree = "<group>"; };
-		CADE3AA124F17424003165BB /* text.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = text.Po; sourceTree = "<group>"; };
-		CADE3AA224F17424003165BB /* header.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = header.Po; sourceTree = "<group>"; };
-		CADE3AA324F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3AA424F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3AA624F17424003165BB /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CADE3AA924F17424003165BB /* i18n.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = i18n.sh; sourceTree = "<group>"; };
 		CADE3AAA24F17424003165BB /* i18n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = i18n.cpp; sourceTree = "<group>"; };
@@ -2902,6 +2896,8 @@
 		CAECA50825EFDE1E00650B41 /* divider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = divider.cpp; sourceTree = "<group>"; };
 		CAECA50925EFDE1E00650B41 /* divider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = divider.h; sourceTree = "<group>"; };
 		CAECA50A25EFDE1E00650B41 /* divider.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = divider.html; sourceTree = "<group>"; };
+		CAECA50C25F24D0900650B41 /* indonesian.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indonesian.h; sourceTree = "<group>"; };
+		CAECA50D25F24D0900650B41 /* indonesian.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indonesian.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3594,6 +3590,8 @@
 				CADE396024F17422003165BB /* git.h */,
 				CADE396224F17422003165BB /* html.cpp */,
 				CADE394924F17422003165BB /* html.h */,
+				CAECA50D25F24D0900650B41 /* indonesian.cpp */,
+				CAECA50C25F24D0900650B41 /* indonesian.h */,
 				CADE398C24F17422003165BB /* mail.cpp */,
 				CADE396424F17422003165BB /* mail.h */,
 				CADE394324F17422003165BB /* md5.cpp */,
@@ -3916,26 +3914,12 @@
 		CADE3A9924F17424003165BB /* html */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3A9A24F17424003165BB /* text.o */,
+				CADE3A9F24F17424003165BB /* header.cpp */,
+				CADE3A9E24F17424003165BB /* header.h */,
 				CADE3A9B24F17424003165BB /* text.cpp */,
 				CADE3A9C24F17424003165BB /* text.h */,
-				CADE3A9D24F17424003165BB /* header.o */,
-				CADE3A9E24F17424003165BB /* header.h */,
-				CADE3A9F24F17424003165BB /* header.cpp */,
-				CADE3AA024F17424003165BB /* .deps */,
-				CADE3AA424F17424003165BB /* .dirstamp */,
 			);
 			path = html;
-			sourceTree = "<group>";
-		};
-		CADE3AA024F17424003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3AA124F17424003165BB /* text.Po */,
-				CADE3AA224F17424003165BB /* header.Po */,
-				CADE3AA324F17424003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3AA524F17424003165BB /* consultations */ = {

@@ -25,6 +25,7 @@
 #include <filter/string.h>
 #include <filter/css.h>
 #include <filter/url.h>
+#include <filter/indonesian.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
@@ -71,7 +72,23 @@ string editone2_index (void * webserver_request)
     Ipc_Focus::set (request, switchbook, switchchapter, 1);
     Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
   }
-  
+
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // See issue https://github.com/bibledit/cloud/issues/503
+  // Specific configuration for the Indonesian free Cloud instance.
+  // The name of the default Bible in the Translate tab will be another Bible than AlkitabKita.
+  // Standard it will be Terjemahanku (My Translation).
+  // When the user changed that to another name, the editor will load that other name.
+  {
+    vector <string> bibles = access_bible_bibles (request);
+    string selected_bible = filter_indonesian_alkitabkita_name ();
+    for (auto bible : bibles) {
+      if (bible != filter_indonesian_alkitabkita_name ()) selected_bible = bible;
+    }
+    request->database_config_user()->setBible (selected_bible);
+  }
+#endif
+
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit verse"), request);

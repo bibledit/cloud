@@ -71,7 +71,15 @@ string read_index (void * webserver_request)
     Ipc_Focus::set (request, switchbook, switchchapter, 1);
     Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
   }
-  
+
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // See issue https://github.com/bibledit/cloud/issues/503
+  // Specific configuration for the Indonesian free Cloud instance.
+  // The name of the default Bible in the Read tab will be AlkitabKita
+  // (That means Our/Everyone's Translation.
+  request->database_config_user()->setBible ("AlkitabKita");
+#endif
+
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
@@ -87,7 +95,7 @@ string read_index (void * webserver_request)
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];
     if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to read"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);

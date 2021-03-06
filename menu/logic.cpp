@@ -278,7 +278,7 @@ string menu_logic_basic_categories (void * webserver_request)
   if (read_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
   }
-  
+
 #ifdef HAVE_INDONESIANCLOUDFREE
   color = Filter_Css::distinction_set_2 (1);
 #endif
@@ -317,10 +317,19 @@ string menu_logic_basic_categories (void * webserver_request)
 
   // When a user is not logged in, or a guest,
   // put the public feedback into the main menu, rather than in a sub menu.
-#ifndef HAVE_CLIENT
-  if (menu_logic_public_or_guest (webserver_request)) {
-    if (!public_logic_bibles (webserver_request).empty ()) {
-      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
+  // This is the default configuration.
+  bool public_feedback_possible = true;
+  // In the Indonesian free Cloud, there's no public feedback possible,
+  // since the aim is to keep things easy to understand for beginners.
+#ifdef HAVE_INDONESIANCLOUDFREE
+  public_feedback_possible = false;
+#endif
+#ifdef HAVE_CLOUD
+  if (public_feedback_possible) {
+    if (menu_logic_public_or_guest (webserver_request)) {
+      if (!public_logic_bibles (webserver_request).empty ()) {
+        html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
+      }
     }
   }
 #endif
@@ -330,8 +339,10 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true, "", ""));
   }
 
-  // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
-#ifndef HAVE_CLIENT
+  // When a user is logged in, and is a guest,
+  // put the Logout into the main menu,
+  // rather than in a sub menu.
+#ifdef HAVE_CLOUD
   if (request->session_logic ()->loggedIn ()) {
     if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
       if (session_logout_acl (webserver_request)) {

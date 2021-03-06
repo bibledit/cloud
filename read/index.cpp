@@ -50,10 +50,11 @@ string read_index_url ()
 
 bool read_index_acl (void * webserver_request)
 {
+  int role = Filter_Roles::translator ();
 #ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
+  role = Filter_Roles::consultant ();
 #endif
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  if (Filter_Roles::access_control (webserver_request, role)) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
   return read;

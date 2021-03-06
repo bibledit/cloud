@@ -51,10 +51,12 @@ string editone2_index_url ()
 
 bool editone2_index_acl (void * webserver_request)
 {
+  // Default minimum role for getting access.
+  int minimum_role = Filter_Roles::translator ();
 #ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
+  minimum_role = Filter_Roles::consultant ();
 #endif
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
   return read;

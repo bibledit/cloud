@@ -141,7 +141,13 @@ string session_signup (void * webserver_request)
       Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
       string initial_subject = translate("Signup verification");
       string initial_body = translate("There is a request to open an account with this email address.");
-      string query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail);
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+      string query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail); // Todo
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+      // The Indonesian free Cloud new account should have the consultant role for things to work well.
+      string query = database_users.add_userQuery (user, pass, Filter_Roles::consultant (), mail); // Todo
+#endif
       string subsequent_subject = translate("Account opened");
       string subsequent_body = translate("Welcome! Your account is now active.");
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);

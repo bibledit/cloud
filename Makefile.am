@@ -456,7 +456,8 @@ libbibledit_a_SOURCES = \
   read/load.cpp \
   read/verse.cpp \
   resource/divider.cpp \
-  filter/indonesian.cpp
+  filter/indonesian.cpp \
+  session/confirm.cpp
 
 bin_PROGRAMS = server unittest generate
 

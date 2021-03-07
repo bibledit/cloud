@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <email/send.h>
+#include <session/confirm.h>
 
 
 #ifdef HAVE_CLOUD
@@ -46,13 +47,20 @@ Confirm_Worker::Confirm_Worker (void * webserver_request_in)
 // query             : The query to be executed on the database if the user confirms the email successfully.
 // subsequent_subject: The subject of the email to send upon user confirmation.
 // subsequent_body   : The body of the email to send upon user confirmation.
-void Confirm_Worker::setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body)
+void Confirm_Worker::setup (string to,
+                            string initial_subject, string initial_body,
+                            string query,
+                            string subsequent_subject, string subsequent_body)
 {
   Database_Confirm database_confirm;
   int confirmation_id = database_confirm.getNewID ();
   initial_subject += " " + convert_to_string (confirmation_id);
   initial_body += "\n\n";
-  initial_body += translate ("Please confirm this request by replying to this email. There is a confirmation number in the subject line. Your reply should have this same confirmation number in the subject line.");
+  initial_body += translate ("Please confirm this request by clicking this following link:");
+  initial_body += "\n\n"; // Todo
+  string siteUrl = config_logic_site_url (webserver_request);
+  string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", convert_to_string(confirmation_id));
+  initial_body += confirmation_url;
   email_schedule (to, initial_subject, initial_body);
   database_confirm.store (confirmation_id, query, to, subsequent_subject, subsequent_body);
 }
@@ -83,6 +91,46 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
   database_confirm.erase (id);
   // Notify managers.
   informManagers (mailto, body);
+  // Job done.
+  return true;
+}
+
+
+// Handles a confirmation link clicked with a confirmation ID.
+// Returns true if link was valid, else false.
+bool Confirm_Worker::handleLink () // Todo
+{
+  // Get the confirmation identifier from the link that was clicked.
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  string web_id = request->query["id"];
+  
+  // If the identifier was not given, the link was not handled successfully.
+  if (web_id.empty()) return false;
+
+  // Find out in the confirmation database whether the subject line contains an active ID.
+  // If not, bail out.
+  Database_Confirm database_confirm;
+  int id = database_confirm.searchID (web_id);
+  if (id == 0) {
+    return false;
+  }
+ 
+  // An active ID was found: Execute the associated database query.
+  string query = database_confirm.getQuery (id);
+  request->database_users()->execute (query);
+
+  // Send confirmation mail.
+  string mailto = database_confirm.getMailTo (id);
+  string subject = database_confirm.getSubject (id);
+  string body = database_confirm.getBody (id);
+  email_schedule (mailto, subject, body);
+
+  // Delete the confirmation record.
+  database_confirm.erase (id);
+
+  // Notify managers.
+  informManagers (mailto, body);
+
   // Job done.
   return true;
 }

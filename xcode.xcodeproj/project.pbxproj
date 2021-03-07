@@ -601,6 +601,7 @@
 		CAA001A12569B59A00BCA329 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CAAA5DB8256555E4003249CA /* paratext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
+		CACA8C2625F4EFCD0099ABC8 /* stylesheet-coloured-tabs.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "stylesheet-coloured-tabs.css"; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
 		CADE36FE24F1737A003165BB /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bible.cpp; sourceTree = "<group>"; };
 		CADE36FF24F1737A003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -3692,6 +3693,7 @@
 			children = (
 				CADE39EE24F17423003165BB /* editor.css */,
 				CADE39F124F17423003165BB /* mouse.css */,
+				CACA8C2625F4EFCD0099ABC8 /* stylesheet-coloured-tabs.css */,
 				CADE39F024F17423003165BB /* stylesheet.css */,
 				CADE39EF24F17423003165BB /* touch.css */,
 			);

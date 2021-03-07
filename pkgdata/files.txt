@@ -5,6 +5,7 @@
 /assets/error.html
 /assets/external.js
 /assets/footer.html
+/assets/header-coloured-tabs.js
 /assets/header.html
 /assets/header.js
 /assets/logo48x48.png
@@ -71,6 +72,7 @@
 /css
 /css/editor.css
 /css/mouse.css
+/css/stylesheet-coloured-tabs.css
 /css/stylesheet.css
 /css/touch.css
 /database

@@ -310,6 +310,7 @@ string Assets_Header::run ()
             track.append ("</a>");
           }
         }
+        view->enable_zone("breadcrumbs");
         view->set_variable ("breadcrumbs", track);
       }
     }

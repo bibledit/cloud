@@ -29,6 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <confirm/worker.h>
 #include <email/send.h>
+#include <index/index.h>
+#include <database/logs.h>
+#include <database/config/general.h>
 
 
 class Verification
@@ -66,44 +69,32 @@ string session_confirm (void * webserver_request)
 #ifdef HAVE_CLOUD
 
   Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
-  bool valid = confirm_worker.handleLink ();
-  cout << "valid " << valid << endl; // Todo
-  
+  string email;
+  bool is_valid_confirmation = confirm_worker.handleLink (email);
 
-//  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  // Handle a valid confirmation.
+  if (is_valid_confirmation) {
 
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-//  (void) from;
-//  // Find out in the confirmation database whether the subject line contains an active ID.
-//  // If not, bail out.
-//  Database_Confirm database_confirm;
-//  int id = database_confirm.searchID (subject);
-//  if (id == 0) {
-//    return false;
-//  }
-//  // An active ID was found: Execute the associated database query.
-//  string query = database_confirm.getQuery (id);
-//  Webserver_Request * request = (Webserver_Request *) webserver_request;
-//  request->database_users()->execute (query);
-//  // Send confirmation mail.
-//  string mailto = database_confirm.getMailTo (id);
-//  subject = database_confirm.getSubject (id);
-//  body = database_confirm.getBody (id);
-//  email_schedule (mailto, subject, body);
-//  // Delete the confirmation record.
-//  database_confirm.erase (id);
-//  // Notify managers.
-//  informManagers (mailto, body);
-//  // Job done.
-//  return true;
-
-  
-  
-  
+    // Authenticate against local database, but skipping some checks.
+    if (request->session_logic()->attemptLogin (email, "", true, true)) {
+      // Log the login.
+      Database_Logs::log (request->session_logic()->currentUser () + " confirmed account and logged in");
+      // Store web site's base URL.
+      string siteUrl = get_base_url (request);
+      Database_Config_General::setSiteURL (siteUrl);
+    }
+    
 #ifdef DEFAULT_BIBLEDIT_CONFIGURATION
 #endif
 #ifdef HAVE_INDONESIANCLOUDFREE
 #endif
+
+  }
+  
+  // In all cases, go to the home page.
+  redirect_browser (webserver_request, index_index_url());
 
 #endif
 

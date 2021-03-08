@@ -57,7 +57,7 @@ void Confirm_Worker::setup (string to,
   initial_subject += " " + convert_to_string (confirmation_id);
   initial_body += "\n\n";
   initial_body += translate ("Please confirm this request by clicking this following link:");
-  initial_body += "\n\n"; // Todo
+  initial_body += "\n\n";
   string siteUrl = config_logic_site_url (webserver_request);
   string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", convert_to_string(confirmation_id));
   initial_body += confirmation_url;
@@ -98,7 +98,7 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
 
 // Handles a confirmation link clicked with a confirmation ID.
 // Returns true if link was valid, else false.
-bool Confirm_Worker::handleLink () // Todo
+bool Confirm_Worker::handleLink (string & email)
 {
   // Get the confirmation identifier from the link that was clicked.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -131,6 +131,9 @@ bool Confirm_Worker::handleLink () // Todo
   // Notify managers.
   informManagers (mailto, body);
 
+  // Pass the email address to the caller.
+  email = mailto;
+  
   // Job done.
   return true;
 }

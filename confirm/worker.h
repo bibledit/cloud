@@ -36,7 +36,7 @@ public:
               string query,
               string subsequent_subject, string subsequent_body);
   bool handleEmail (string from, string subject, string body);
-  bool handleLink ();
+  bool handleLink (string & email);
 private:
   void * webserver_request;
   void informManagers (string email, string body);

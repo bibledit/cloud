@@ -23,11 +23,18 @@
 #include <editor/html2usfm.h>
 #include <editor/html2format.h>
 #include <styles/logic.h>
+#include <database/state.h>
+#include <database/login.h>
+#include <database/users.h>
+#include <webserver/request.h>
+#include <user/logic.h>
 
 
 void test_dev ()
 {
   trace_unit_tests (__func__);
+
+  refresh_sandbox (true);
 
   refresh_sandbox (true);
 }

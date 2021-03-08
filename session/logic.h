@@ -32,7 +32,8 @@ class Session_Logic
 public:
   Session_Logic (void * webserver_request_in);
   void setUsername (string name);
-  bool attemptLogin (string user_or_email, string password, bool touch_enabled);
+  bool attemptLogin (string user_or_email, string password, bool touch_enabled,
+                     bool skip_checks = false);
   bool loggedIn ();
   string currentUser ();
   bool touchEnabled ();

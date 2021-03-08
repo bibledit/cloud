@@ -141,9 +141,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_html2usfm ();
-  test_usfm2html ();
-  test_usfm2html2usfm ();
+  test_session ();
   refresh_sandbox (true);
   exit (0);
   

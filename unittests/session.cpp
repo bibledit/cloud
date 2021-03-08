@@ -61,6 +61,7 @@ void test_session ()
     evaluate (__LINE__, __func__, username, request.session_logic ()->currentUser ());
     config_globals_open_installation = false;
   }
+
   {
     // In a client installation, a client is logged in as admin when there's no user in the database.
     refresh_sandbox (true);
@@ -76,6 +77,7 @@ void test_session ()
     evaluate (__LINE__, __func__, Filter_Roles::admin (), request.session_logic ()->currentLevel ());
     config_globals_client_prepared = false;
   }
+
   {
     // In a client installation, a client is logged in as the first user in the database.
     refresh_sandbox (true);
@@ -94,6 +96,7 @@ void test_session ()
     evaluate (__LINE__, __func__, level, request.session_logic ()->currentLevel ());
     config_globals_client_prepared = false;
   }
+
   {
     refresh_sandbox (true);
     Database_State::create ();
@@ -168,6 +171,7 @@ void test_session ()
     request.accept_language = accept_language;
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
   }
+
   {
     // Detection and mitigation of brute force login attack.
     refresh_sandbox (true);
@@ -228,5 +232,34 @@ void test_session ()
     evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request.session_logic ()->logout ();
+  }
+  
+  // Checks on login session without proper check, as in a confirmation through a link.
+  {
+    refresh_sandbox (true);
+    Database_State::create ();
+    Database_Login::create ();
+    Database_Users database_users;
+    database_users.create ();
+    database_users.upgrade ();
+    Webserver_Request request;
+
+    // Enter a user into the database.
+    string username = "ঃইঝম";
+    string password = "ᨃᨄᨔᨕ";
+    string email = "email@website";
+    int level = 10;
+    database_users.add_user (username, password, level, email);
+    string session = "abcdefgh";
+    
+    // Log in by providing email and incorrect password, but skip checks.
+    request.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (email, "incorrect", true, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
+    
+    // Log out and log in again with username, and skip checks, but this should fail.
+    request.session_logic()->logout();
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "wrong", true, true));
+    user_logic_login_failure_clear ();
   }
 }

@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2018-09-10 22:22+0000\n"
+"PO-Revision-Date: 2021-03-08 22:46+0000\n"
 "Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18826)\n"
+"X-Generator: Launchpad (build f41ce4c616a9df6b2066606b5a16a036a6d2f6bb)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -483,6 +483,15 @@ msgstr ""
 msgid "You do not have enough privileges to modify this book."
 msgstr ""
 
+msgid "Updated Bible text was loaded."
+msgstr ""
+
+msgid "Press Enter to continue."
+msgstr ""
+
+msgid "Please check the updated text."
+msgstr ""
+
 msgid "space"
 msgstr ""
 
@@ -512,17 +521,16 @@ msgid ""
 "the Cloud."
 msgstr ""
 
-msgid "Please do a Send/receive action to receive them from the Cloud."
+msgid ""
+"This will right itself in a little time if you are connected to the Internet."
+msgstr ""
+
+msgid "If not please do a Send/receive action."
 msgstr ""
 
 msgid ""
 "There are pending changes in the Bible text that have not yet been sent to "
 "the Cloud for some time."
-msgstr ""
-
-msgid ""
-"Changes will continue to be saved, but it is recommended to do a "
-"Send/receive action as soon as you can."
 msgstr ""
 
 msgid "The Cloud already had some changes in this chapter."
@@ -562,6 +570,24 @@ msgstr ""
 msgid "You may want to check whether this is correct."
 msgstr ""
 
+msgid "Check whether Bible text was saved"
+msgstr ""
+
+msgid "Bibledit saved the Bible text below."
+msgstr ""
+
+msgid "But it found that other Bible text was saved to the same chapter."
+msgstr ""
+
+msgid "This may have been done by you or by someone else."
+msgstr ""
+
+msgid "You may want to check whether the Bible text was saved correctly."
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
 msgid "Please enter a name for the new empty Bible"
 msgstr ""
 
@@ -599,9 +625,6 @@ msgid "This chapter already exists"
 msgstr ""
 
 msgid "Order"
-msgstr ""
-
-msgid "Bible"
 msgstr ""
 
 msgid "Would you like to change the versification system?"
@@ -785,6 +808,9 @@ msgstr ""
 msgid "Closing marker does not match opening marker"
 msgstr ""
 
+msgid "Embedded marker requires a plus sign"
+msgstr ""
+
 msgid "The book lacks the marker for the verbose book name:"
 msgstr ""
 
@@ -905,6 +931,12 @@ msgid "All Bibles"
 msgstr ""
 
 msgid "all of them"
+msgstr ""
+
+msgid "Sort on verse"
+msgstr ""
+
+msgid "Sort on author"
 msgstr ""
 
 msgid "You have entered the changes below in a Bible editor."
@@ -1111,6 +1143,15 @@ msgstr ""
 msgid "Copy Paratext to Bibledit"
 msgstr ""
 
+msgid "Copy larger Bibledit chapter to smaller Paratext chapter"
+msgstr ""
+
+msgid "Chapter merged"
+msgstr ""
+
+msgid "Cannot merge chapter due to missing parent data"
+msgstr ""
+
 msgid "Paratext: Send/receive"
 msgstr "Kirim ke/Terima dari Paratext"
 
@@ -1181,16 +1222,16 @@ msgid "Account"
 msgstr ""
 
 msgid "Password should be at least four characters long"
-msgstr ""
+msgstr "Kata sandi yang paling pendek harus terdiri dari empat huruf"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Kedua kata sandi tadi tidak sama."
 
 msgid "Current password is not valid"
-msgstr ""
+msgstr "Kata sandi tidak benar"
 
 msgid "The new password was saved"
-msgstr ""
+msgstr "Kata sandi baru sudah disimpan"
 
 msgid "Email address is not valid"
 msgstr ""
@@ -1425,6 +1466,9 @@ msgid "is the published chapter marker"
 msgstr ""
 
 msgid "is a comment with an endmarker"
+msgstr ""
+
+msgid "is the published verse marker"
 msgstr ""
 
 msgid "is a main title"
@@ -1836,6 +1880,15 @@ msgstr ""
 msgid "Import a file with local Resources"
 msgstr ""
 
+msgid "The font could not be deleted because it is in use"
+msgstr ""
+
+msgid "The font has been uploaded."
+msgstr ""
+
+msgid "Delete font"
+msgstr ""
+
 msgid "New feedback"
 msgstr ""
 
@@ -1855,7 +1908,7 @@ msgid "The email address is not valid"
 msgstr ""
 
 msgid "This account needs a password."
-msgstr ""
+msgstr "Akun ini perlu kata sandi."
 
 msgid "Please login the other way, through Menu / Login."
 msgstr ""
@@ -1930,9 +1983,6 @@ msgid "Your new note was posted"
 msgstr ""
 
 msgid "no Bible"
-msgstr ""
-
-msgid "The following notes were upgraded to the newest storage format:"
 msgstr ""
 
 msgid "Query about a change in the text"
@@ -2071,9 +2121,6 @@ msgid "Develop"
 msgstr ""
 
 msgid "Export"
-msgstr ""
-
-msgid "Indexes and Fonts"
 msgstr ""
 
 msgid "Mail"
@@ -2561,7 +2608,7 @@ msgstr ""
 msgid "Show the current verse text while creating a new consultation note"
 msgstr ""
 
-msgid "Night mode"
+msgid "Disable the pop-up menu when text is selected"
 msgstr ""
 
 msgid "Send / Receive"
@@ -2977,7 +3024,7 @@ msgid ""
 "versification system"
 msgstr ""
 
-msgid "well-formed USFM"
+msgid "well formed USFM"
 msgstr ""
 
 msgid "missing punctuation at the end of a verse"
@@ -3506,8 +3553,8 @@ msgid "Receive email about changes in a consultation note assigned to you."
 msgstr ""
 
 msgid ""
-"Suppress receiving email from an updated consultation note in case the "
-"update was made by you."
+"Suppress receiving email from an updated consultation note if the update was "
+"made by you."
 msgstr ""
 
 msgid ""
@@ -3590,15 +3637,17 @@ msgid ""
 "You can change your password or your email address. Your current email "
 "address is"
 msgstr ""
+"Saudara dapat mengubah kata sandimu atau alamat emailmu. Alamat email yang "
+"terdaftar sekarang adalah"
 
 msgid "Current password"
-msgstr ""
+msgstr "Kata sandi yang berlaku sekarang"
 
 msgid "New password"
-msgstr ""
+msgstr "Kata sandi baru"
 
 msgid "Again new password"
-msgstr ""
+msgstr "Isi ulang kata sandi baru"
 
 msgid "New email address"
 msgstr ""
@@ -3766,6 +3815,15 @@ msgid "Select this stylesheet."
 msgstr ""
 
 msgid "Delete the entire stylesheet."
+msgstr ""
+
+msgid "You can copy or backup this stylesheet."
+msgstr ""
+
+msgid "The stylesheet is kept in one folder."
+msgstr ""
+
+msgid "The name of the folder is this:"
 msgstr ""
 
 msgid "Category"
@@ -3948,6 +4006,44 @@ msgid "Make an archive of all the Resources installed on this device."
 msgstr ""
 
 msgid "Import a Resources archive into this device."
+msgstr ""
+
+msgid "Indexing"
+msgstr "Sedang membuat Indeks"
+
+msgid "Bibledit uses indexes for fast lookup."
+msgstr ""
+
+msgid "Normally the indexes are refreshed automatically."
+msgstr ""
+
+msgid ""
+"When the Journal indicates unusual behaviour of an index, or errors, it "
+"needs to be recreated."
+msgstr ""
+
+msgid "Recreate Bibles index."
+msgstr ""
+
+msgid "Recreate Consultation Notes index."
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
+msgid "The following fonts are available in Bibledit:"
+msgstr ""
+
+msgid "You can add or remove fonts in Bibledit Cloud:"
+msgstr ""
+
+msgid "You can upload a new font."
+msgstr ""
+
+msgid "Cache"
+msgstr ""
+
+msgid "Clear the web cache and the resources cache."
 msgstr ""
 
 msgid "Create new"
@@ -4281,38 +4377,6 @@ msgstr ""
 msgid "Enable JavaScript to work with Bibledit"
 msgstr ""
 
-msgid "Indexing"
-msgstr "Sedang membuat Indeks"
-
-msgid "Bibledit uses indexes for fast lookup."
-msgstr ""
-
-msgid "Normally the indexes are refreshed automatically."
-msgstr ""
-
-msgid ""
-"When the Journal indicates unusual behaviour of an index, or errors, it "
-"needs to be recreated."
-msgstr ""
-
-msgid "Recreate Bibles index."
-msgstr ""
-
-msgid "Recreate Consultation Notes index."
-msgstr ""
-
-msgid "Fonts"
-msgstr ""
-
-msgid "The following fonts are available in Bibledit:"
-msgstr ""
-
-msgid "You can add or remove fonts in Bibledit Cloud:"
-msgstr ""
-
-msgid "You can upload a new font."
-msgstr ""
-
 msgid "Hyphenation"
 msgstr ""
 
@@ -4413,6 +4477,9 @@ msgstr ""
 msgid "Export now."
 msgstr ""
 
+msgid "Email address for a feedback link:"
+msgstr ""
+
 msgid "Html"
 msgstr ""
 
@@ -4487,9 +4554,6 @@ msgid ""
 "module."
 msgstr ""
 
-msgid "Quick Bible"
-msgstr ""
-
 msgid "The exports use the following stylesheet:"
 msgstr ""
 
@@ -4503,6 +4567,9 @@ msgid "Submit the Bible to the Bible Drop Box now."
 msgstr ""
 
 msgid "Visit the Bible Drop Box for more options."
+msgstr ""
+
+msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
 msgid "Username"
@@ -4548,7 +4615,7 @@ msgid "You can create a new user."
 msgstr ""
 
 msgid "The password will be the same as the username."
-msgstr ""
+msgstr "Kata sandi akan sama dengan nama pengguna."
 
 msgid "Normally users register their own account."
 msgstr ""
@@ -4557,7 +4624,7 @@ msgid "You can set the privileges for the user."
 msgstr ""
 
 msgid "User:"
-msgstr ""
+msgstr "Pengguna:"
 
 msgid "Can view the resources."
 msgstr ""
@@ -4911,7 +4978,7 @@ msgstr ""
 msgid "Connected to Bibledit Cloud."
 msgstr ""
 
-msgid "Disconnect and log out."
+msgid "Connection information."
 msgstr ""
 
 msgid "Internet address"
@@ -4929,7 +4996,7 @@ msgid "Port number"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Kata Sandi"
 
 msgid "Connect"
 msgstr ""
@@ -4938,6 +5005,24 @@ msgid "Or else connect to the Bibledit Cloud demo."
 msgstr ""
 
 msgid "To get access to Bibledit Cloud, install a server instance."
+msgstr ""
+
+msgid ""
+"Bibledit is not like some programs that can work faster if you log out and "
+"log back in."
+msgstr ""
+
+msgid ""
+"If you log out, then any verses you drafted or changed will not be sent to "
+"the Cloud."
+msgstr ""
+
+msgid ""
+"Bibledit has been designed so that the user never has to log out under "
+"normal circumstances."
+msgstr ""
+
+msgid "I understand it and want to disconnect from the Cloud."
 msgstr ""
 
 msgid "This page deals with setting up the email system."
@@ -4959,6 +5044,8 @@ msgstr ""
 msgid ""
 "The email address is bibletranslation@gmail.com, and the password is pazzwrd."
 msgstr ""
+"Alamat email adalah bibletranslation@gmail.com, dan kata sandi adalah "
+"pazzwrd."
 
 msgid "The Google mail account should let less secure apps use the account."
 msgstr ""
@@ -5001,10 +5088,10 @@ msgid "POP3 Host: pop.gmail.com"
 msgstr ""
 
 msgid "Username: bibletranslation@gmail.com"
-msgstr ""
+msgstr "Nama pengguna: bibletranslation@gmail.com"
 
 msgid "Password: pazzwrd"
-msgstr ""
+msgstr "Kata sandi: pazzwrd"
 
 msgid "Protocol: POP3S"
 msgstr ""
@@ -6042,6 +6129,11 @@ msgid ""
 "choose Paragraph Styles. Right-click the style you want and choose Edit."
 msgstr ""
 
+msgid ""
+"Section headings look better after ticking ‘Balance ragged lines’ in the "
+"paragraph options."
+msgstr ""
+
 msgid "Running headers"
 msgstr ""
 
@@ -6161,7 +6253,13 @@ msgstr ""
 msgid "Open a terminal."
 msgstr ""
 
+msgid "On older versions of Ubuntu, or to get updated Bibledit software:"
+msgstr ""
+
 msgid "Add the Bibledit repository:"
+msgstr ""
+
+msgid "As of Ubuntu 18.04, the above is no longer needed."
 msgstr ""
 
 msgid "Read the repository:"
@@ -6171,6 +6269,9 @@ msgid "Install Bibledit:"
 msgstr ""
 
 msgid "Bibledit can be started from the menu."
+msgstr ""
+
+msgid "More information:"
 msgstr ""
 
 msgid "The Notes are an important part of Consultations."
@@ -6380,7 +6481,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2017 Teus Benschop."
+msgid "Copyright (©) 2003-2019 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -6520,7 +6621,7 @@ msgid "The type of access also depends on the role of a user."
 msgstr ""
 
 msgid "Manage users."
-msgstr ""
+msgstr "Mengolah para pengguna."
 
 msgid "Bibles can be made viewable by all users."
 msgstr ""
@@ -7541,7 +7642,7 @@ msgid "The OpenDocument files are used as a starting point for typesetting."
 msgstr ""
 
 msgid ""
-"Some of the word in the OpenDocument files are long. This results in too "
+"Some of the words in the OpenDocument files are long. This results in too "
 "much space between some words."
 msgstr ""
 
@@ -7555,7 +7656,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"But the programs do not have a hyphenation algorithms for all languages."
+"But the programs do not have hyphenation algorithms for all languages."
 msgstr ""
 
 msgid "Bibledit has a hyphenater that could assist."
@@ -7978,6 +8079,9 @@ msgstr ""
 msgid "Avoid hyphenations in the headings."
 msgstr ""
 
+msgid "It is helpful to remove all discretionary hyphens from the headings."
+msgstr ""
+
 msgid ""
 "Many book titles consist of a main title and a subtitle, like 'The gospel of "
 "Matthew'."
@@ -8045,7 +8149,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This result in less much white space between paragraphs or at the bottom of "
+"This results in less much white space between paragraphs or at the bottom of "
 "a page."
 msgstr ""
 
@@ -8435,6 +8539,8 @@ msgid ""
 "The user needs to regularly synchronize the data on the client with the data "
 "on Bibledit Cloud."
 msgstr ""
+"Pengguna perlu sering melakukan sync data dalam aplikasi Bibledit dengan "
+"Bibldit Cloud."
 
 msgid ""
 "A Client is useful when the Internet connection to Bibledit Cloud is not "
@@ -8445,6 +8551,9 @@ msgid ""
 "In the Bibledit client, connect to Bibledit Cloud once, and provide your "
 "username and password as you normally log in on Bibledit Cloud."
 msgstr ""
+"Dalam aplikasi/program Bibledit, hubungkan kepada akunmu di Bibledit Cloud "
+"hanya satu kali saja. Memberi nama pengguna dan kata sandi sama yang Saudara "
+"menggunakan dalam Bibledit Cloud."
 
 msgid "Also provide the port number."
 msgstr ""
@@ -8653,7 +8762,7 @@ msgid "Bibledit is an application for translating the Bible."
 msgstr ""
 
 msgid "People can sign up for an account and log in."
-msgstr ""
+msgstr "Anda dapat mendaftar untuk menjadi pengguna Bibledit."
 
 msgid "Each user has a certain role within the application."
 msgstr ""
@@ -8662,6 +8771,8 @@ msgid ""
 "The first role is Member. A member is somebody who has signed up to the "
 "site, and has confirmed this signup through his email."
 msgstr ""
+"Tingkat pengguna yang dasar adalah Tamu. Tamu adalah orang yang sudah "
+"mendaftar dan membuktikan alamat emailnya melalui proses pendaftaran."
 
 msgid ""
 "The second role is Consultant. Consultants are people who can be consulted "
@@ -8920,25 +9031,25 @@ msgid "Clicking them updates the Passage Navigator."
 msgstr ""
 
 msgid "Username or email address:"
-msgstr ""
+msgstr "Isilah nama pengguna atau alamat emailmu:"
 
 msgid "Username:"
-msgstr ""
+msgstr "Nama pengguna:"
 
 msgid "Password:"
-msgstr ""
+msgstr "Kata sandi:"
 
 msgid "Forgot password?"
-msgstr ""
+msgstr "Aku sudah lupa kata sandiku!"
 
 msgid "Not registered?"
-msgstr ""
+msgstr "Apakah akun Saudara belum terdaftar?"
 
 msgid "Sign up!"
-msgstr ""
+msgstr "Mendaftar sebagai pengguna!"
 
 msgid "Signup"
-msgstr ""
+msgstr "Mendaftar"
 
 msgid "Your account is pending."
 msgstr ""
@@ -8954,21 +9065,23 @@ msgid "This may take five or more minutes."
 msgstr ""
 
 msgid "Switched user"
-msgstr ""
+msgstr "Sudah mengganti akun pengguna"
 
 msgid "You have now logged in on behalf of another user:"
-msgstr ""
+msgstr "Saudara sudah masuk akun pengguna yang lain:"
 
 msgid ""
 "To go back to your own username, log this user out, and then login with your "
 "own credentials."
 msgstr ""
+"Untuk kembali kepada akun Bibledit sendiri, keluar (log out) dari akun ini "
+"dan login kembali atas namamu sendiri."
 
 msgid "Which username would you like to use?"
-msgstr ""
+msgstr "Berikanlah nama pengguna yang hendak Saudara menggunakan."
 
 msgid "Which password?"
-msgstr ""
+msgstr "Kata sandi yang mana?"
 
 msgid "Your email address?"
 msgstr ""
@@ -10145,7 +10258,7 @@ msgid ""
 "Second or alternate verse number. For coding dual numeration in Psalms."
 msgstr ""
 
-msgid "Publishing alternate verse"
+msgid "Published verse marker"
 msgstr ""
 
 msgid ""
@@ -10597,13 +10710,13 @@ msgid "No files in this folder"
 msgstr ""
 
 msgid "Please enter a name for the new user"
-msgstr "Isilah nama pengguna baru"
+msgstr "Isilah nama pengguna"
 
 msgid "User already exists"
 msgstr "Nama pengguna itu sudah terdaftar."
 
 msgid "User created"
-msgstr "Sudah berhasil mendaftar pengguna baru."
+msgstr "Akun pengguna sudah dibuat"
 
 msgid "Cannot remove the last user"
 msgstr ""
@@ -10662,6 +10775,15 @@ msgstr "Data ekspor sudah dihapuskan."
 msgid "The Bible is being exported to Web format."
 msgstr ""
 
+msgid "The email address for the feedback link was removed."
+msgstr ""
+
+msgid "The email address for the feedback link was saved."
+msgstr ""
+
+msgid "The email address is not valid."
+msgstr ""
+
 msgid "The Bible is being exported to Html format."
 msgstr ""
 
@@ -10710,9 +10832,6 @@ msgstr ""
 msgid "The Bible is being exported to Online Bible format."
 msgstr ""
 
-msgid "The Bible is being exported to Quick Bible format."
-msgstr ""
-
 msgid "Would you like to use another stylesheet for the exports?"
 msgstr ""
 
@@ -10726,15 +10845,6 @@ msgid "You will receive email with further details."
 msgstr ""
 
 msgid "Go to Bibledit Cloud to submit the Bible there."
-msgstr ""
-
-msgid "The font could not be deleted because it is in use"
-msgstr ""
-
-msgid "The font has been uploaded."
-msgstr ""
-
-msgid "Delete font"
 msgstr ""
 
 msgid "Number of chapters per book"
@@ -10848,9 +10958,6 @@ msgstr ""
 msgid "Exported to basic USFM and text"
 msgstr ""
 
-msgid "Exported to Quick Bible"
-msgstr ""
-
 msgid "Submit to the Bible Drop Box"
 msgstr ""
 
@@ -10858,6 +10965,9 @@ msgid "Bible translation through Bibledit"
 msgstr ""
 
 msgid "Go back to"
+msgstr ""
+
+msgid "Comment on"
 msgstr ""
 
 msgid "Exported to web"
@@ -11149,32 +11259,36 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Username or email address is too short"
-msgstr ""
+msgstr "Nama pengguna atau alamat email terlalu pendek"
 
 msgid "Account changed"
 msgstr ""
 
 msgid "Somebody requested a new password for your account."
-msgstr ""
+msgstr "Seseorang sudah minta mengubah kata sandi untuk akunmu."
 
 msgid "Here is the new password:"
-msgstr ""
+msgstr "Inilah kata sandi baru:"
 
 msgid ""
 "It is recommended to log into your account with this new password, and then "
 "change it."
 msgstr ""
+"Sebaiknya masuk akun Saudara dengan kata sandi baru ini, lalu mengubahnya "
+"lagi."
 
 msgid ""
 "A message was sent to the email address belonging to this account to help "
 "you getting the password"
 msgstr ""
+"Berita sudah dikirim kepada alamat email yang terdaftar untuk akun ini "
+"supaya bisa menentukan kata sandi baru"
 
 msgid "Username or email address cannot be found"
-msgstr ""
+msgstr "Nama pengguna atau alamat email tidak terdapat"
 
 msgid "Switch user"
-msgstr ""
+msgstr "Ganti pengguna"
 
 msgid ""
 "To which city was Paul travelling when a light from heaven shone round about "
@@ -11224,10 +11338,10 @@ msgid ""
 msgstr ""
 
 msgid "Username should be at least two characters long"
-msgstr ""
+msgstr "Nama pengguna paling pendek adalah dua huruf"
 
 msgid "Password should be at least two characters long"
-msgstr ""
+msgstr "Paling pendek, kata sandi harus terdiri dari dua huruf"
 
 msgid "The answer to the question is not correct"
 msgstr ""
@@ -11236,6 +11350,8 @@ msgid ""
 "The username that you have chosen has already been taken. Please choose "
 "another one."
 msgstr ""
+"Nama pengguna yang Saudara mengisi sudah diambil oleh orang lain. Mohon "
+"pilih nama pengguna yang lain."
 
 msgid ""
 "The email address that you have chosen has already been taken. Please choose "
@@ -11243,7 +11359,7 @@ msgid ""
 msgstr ""
 
 msgid "Signup verification"
-msgstr ""
+msgstr "Bukti pendaftaran"
 
 msgid "There is a request to open an account with this email address."
 msgstr ""
@@ -11255,4 +11371,4 @@ msgid "Welcome! Your account is now active."
 msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr ""
+msgstr "Nama pengguna atau alamat email yang dimasukkan tidak benar"

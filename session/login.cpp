@@ -64,6 +64,8 @@ string session_login (void * webserver_request)
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  string page;
+
   Assets_View view;
 
   // Form submission handler.
@@ -115,8 +117,6 @@ string session_login (void * webserver_request)
     view.enable_zone ("local");
   }
 
-
-  string page;
 
   string forward = request->query ["request"];
   

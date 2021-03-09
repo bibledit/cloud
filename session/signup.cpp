@@ -28,6 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <confirm/worker.h>
 #include <email/send.h>
+#include <pugixml/pugixml.hpp>
+using namespace pugi;
 
 
 class Verification
@@ -140,7 +142,40 @@ string session_signup (void * webserver_request)
     if (form_is_valid) {
       Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
       string initial_subject = translate("Signup verification");
-      string initial_body = translate("There is a request to open an account with this email address.");
+      // Create the initial body of the email to send to the new user.
+      xml_node node;
+      xml_document initial_document;
+      node = initial_document.append_child ("h3");
+      node.text ().set (initial_subject.c_str());
+      string information;
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+      node = initial_document.append_child ("p");
+      information = translate("There is a request to open an account with this email address.");
+      node.text ().set (information.c_str());
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+      node = initial_document.append_child ("p");
+      information = "Shalom " + user + "!";
+      node.text ().set (information.c_str());
+      node = initial_document.append_child ("p");
+      node.text ().set ("Kami senang sekali Saudara ingin mendaftar sebagai Tamu Bibledit. Sebelum meng-klik link untuk mulai menggunakannya, saya mohon Saudara membaca berita penting ini:");
+      node = initial_document.append_child ("p");
+      node.text ().set ("• Kunjunginlah alkitabkita.info setiap kali Saudara mau masuk Tamu Bibledit. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami.");
+      node = initial_document.append_child ("p");
+      information = "• Dalam blanko " + user + ", Saudara bisa mengisi username atau alamat email ini.";
+      node.text ().set (information.c_str());
+      node.text ().set (R"(• Kalau Saudara lupa kata sandi, isilah kata sandi yang salah, lalu meng-klik link “Aku lupa kata sandiku!”)");
+      node = initial_document.append_child ("p");
+      node.text ().set ("• Saudara diberi izin untuk menggunakan Bibledit sebagai Tamu selama satu bulan. Di akhir bulan hasil terjemahanmu akan dikirim kepada alamat email ini.");
+      node = initial_document.append_child ("p");
+      node.text ().set ("• Layanan Tamu Bibledit ini diberikan secara gratis dan Saudara dipersilakan mendaftar ulang setiap bulan.");
+#endif
+      string initial_body;
+      {
+        stringstream output;
+        initial_document.print (output, "", format_raw);
+        initial_body = output.str ();
+      }
 #ifdef DEFAULT_BIBLEDIT_CONFIGURATION
       string query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail);
 #endif
@@ -148,8 +183,49 @@ string session_signup (void * webserver_request)
       // The Indonesian free Cloud new account should have the consultant role for things to work well.
       string query = database_users.add_userQuery (user, pass, Filter_Roles::consultant (), mail);
 #endif
+      // Create the contents for the confirmation email
+      // that will be sent after the account has been verified.
       string subsequent_subject = translate("Account opened");
-      string subsequent_body = translate("Welcome!") + " " + translate("Your account is now active and you have logged in.");
+      xml_document subsequent_document;
+      node = subsequent_document.append_child ("h3");
+      node.text ().set (subsequent_subject.c_str());
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+      node = subsequent_document.append_child ("p");
+      information = translate("Welcome!");
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = translate("Your account is now active and you have logged in.");
+      node.text ().set (information.c_str());
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+      node = subsequent_document.append_child ("p");
+      information = "Shalom " + user + ",";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Puji TUHAN, Saudara sudah menjadi Tamu Bibledit!";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Kami mengajak Saudara supaya sesering mungkin mengunjungi situs alkitabkita.info untuk melihat pengumuman tentang seminar-seminar zoom. Segeralah menonton semua video petunjuk yang terdapat pada halaman dasar.";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Di tingkat Tamu Bibledit, Saudara akan menggunakan antar muka Basic/Dasar. Kami sarankan menggunakan antar muka Basic selama kurang lebih satu bulan. Saat Saudara ingin menggunakan antar muka yang lebih canggih dan powerful, silakan mendaftar untuk tingkat Member.";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Harga pendaftaran sebagai Member Bibledit adalah Rp. 100.000 setahun. Para Member diberi izin menginstalkan program Bibledit dan sumber penelitiannya ke dalam komputer dan tablet. Dengan demikian Saudara dapat bekerja dengan Bibledit tanpa menggunakan pulsa data Internet. Lihat informasi lebih lanjut mengenai tingkat Member di situs ini:";
+      information.append (" ");
+      information.append ("http://alkitabkita.info");
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Kami tim situs alkitabkita.info sungguh-sungguh berharap bahwa melalui kemampuan yang diberikan lewat Bibledit, Saudara akan dapat meneliti Firman Tuhan secara mendalam. Mohon jangan menggunakan kemampuan itu untuk membanggakan dirimu sendiri, tetapi gunakanlah kemampuan itu untuk memuliakan TUHAN, untuk mengajar, dan menerjemahkan Firman TUHAN dengan lebih wajar, jelas, dan tepat.";
+      node.text ().set (information.c_str());
+#endif
+      string subsequent_body;
+      {
+        stringstream output;
+        subsequent_document.print (output, "", format_raw);
+        subsequent_body = output.str ();
+      }
+      // Store the confirmation information in the database.
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
       signed_up = true;
     }

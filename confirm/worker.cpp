@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <email/send.h>
 #include <session/confirm.h>
+#include <pugixml/pugixml.hpp>
+using namespace pugi;
 
 
 #ifdef HAVE_CLOUD
@@ -50,17 +52,27 @@ Confirm_Worker::Confirm_Worker (void * webserver_request_in)
 void Confirm_Worker::setup (string to,
                             string initial_subject, string initial_body,
                             string query,
-                            string subsequent_subject, string subsequent_body)
+                            string subsequent_subject, string subsequent_body) // Todo
 {
   Database_Confirm database_confirm;
   int confirmation_id = database_confirm.getNewID ();
-  initial_subject += " " + convert_to_string (confirmation_id);
-  initial_body += "\n\n";
-  initial_body += translate ("Please confirm this request by clicking this following link:");
-  initial_body += "\n\n";
+  xml_document document;
+  xml_node node = document.append_child ("p");
+  string information;
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+  information = translate ("Please confirm this request by clicking this following link:");
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+  information = "Klik link ini untuk menyelesaikan proses pendaftaran dan masuk Bibledit:";
+#endif
+  node.text ().set (information.c_str());
+  node = document.append_child ("p");
   string siteUrl = config_logic_site_url (webserver_request);
   string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", convert_to_string(confirmation_id));
-  initial_body += confirmation_url;
+  node.text ().set (confirmation_url.c_str());
+  stringstream output;
+  document.print (output, "", format_raw);
+  initial_body += output.str ();
   email_schedule (to, initial_subject, initial_body);
   database_confirm.store (confirmation_id, query, to, subsequent_subject, subsequent_body);
 }

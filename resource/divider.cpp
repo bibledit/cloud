@@ -63,8 +63,7 @@ string resource_divider (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Rich Divider"), webserver_request);
-  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
+  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   Assets_View view;
@@ -74,7 +73,8 @@ string resource_divider (void * webserver_request)
   string key = "rich divider";
   
 
-  // Start off with default divider. Or keep divider being constructed.
+  // Start off with default comparative resource.
+  // Or keep the comparative resource now being constructed.
   bool clean_divider = true;
   if (request->query.count ("title")) clean_divider = false;
   if (request->query.count ("link")) clean_divider = false;
@@ -92,7 +92,7 @@ string resource_divider (void * webserver_request)
   string link;
   string foreground;
   string background;
-  if (!resource_log_parse_rich_divider (divider, title, link, foreground, background)) {
+  if (!resource_logic_parse_rich_divider (divider, title, link, foreground, background)) {
     title = "Divider title";
     link = "https://bibledit.org";
     foreground = "#000000";

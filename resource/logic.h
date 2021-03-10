@@ -43,7 +43,7 @@ string resource_logic_red_divider ();
 string resource_logic_orange_divider ();
 string resource_logic_rich_divider ();
 string resource_logic_get_divider (string resource);
-bool resource_log_parse_rich_divider (string input, string & title, string & link, string & foreground, string & background);
+bool resource_logic_parse_rich_divider (string input, string & title, string & link, string & foreground, string & background);
 string resource_logic_assemble_rich_divider (string title, string link,
                                              string foreground, string background);
 
@@ -76,6 +76,11 @@ bool resource_logic_is_sword (string resource);
 bool resource_logic_is_divider (string resource);
 bool resource_logic_is_biblegateway (string resource);
 bool resource_logic_is_studylight (string resource);
+
+string resource_logic_comparative_resource ();
+bool resource_logic_parse_comparative_resource (string input,
+                                                string & title, string & base, string & update);
+string resource_logic_assemble_comparative_resource (string title, string base, string update);
 
 
 #endif

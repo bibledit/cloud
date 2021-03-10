@@ -52,7 +52,7 @@ Confirm_Worker::Confirm_Worker (void * webserver_request_in)
 void Confirm_Worker::setup (string to,
                             string initial_subject, string initial_body,
                             string query,
-                            string subsequent_subject, string subsequent_body) // Todo
+                            string subsequent_subject, string subsequent_body)
 {
   Database_Confirm database_confirm;
   int confirmation_id = database_confirm.getNewID ();

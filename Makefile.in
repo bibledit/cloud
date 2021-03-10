@@ -341,7 +341,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
 	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
 	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
-	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT)
+	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT) \
+	resource/comparative.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -599,6 +600,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	redirect/$(DEPDIR)/index.Po related/$(DEPDIR)/logic.Po \
 	resource/$(DEPDIR)/bb2resource.Po \
 	resource/$(DEPDIR)/bbgateway.Po resource/$(DEPDIR)/cache.Po \
+	resource/$(DEPDIR)/comparative.Po \
 	resource/$(DEPDIR)/convert2bible.Po \
 	resource/$(DEPDIR)/convert2resource.Po \
 	resource/$(DEPDIR)/divider.Po resource/$(DEPDIR)/download.Po \
@@ -1389,7 +1391,8 @@ libbibledit_a_SOURCES = \
   read/verse.cpp \
   resource/divider.cpp \
   filter/indonesian.cpp \
-  session/confirm.cpp
+  session/confirm.cpp \
+  resource/comparative.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3015,6 +3018,8 @@ filter/indonesian.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 session/confirm.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
+resource/comparative.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3655,6 +3660,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bb2resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bbgateway.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/cache.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/comparative.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/divider.Po@am__quote@ # am--include-marker
@@ -4736,6 +4742,7 @@ distclean: distclean-am
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
 	-rm -f resource/$(DEPDIR)/bbgateway.Po
 	-rm -f resource/$(DEPDIR)/cache.Po
+	-rm -f resource/$(DEPDIR)/comparative.Po
 	-rm -f resource/$(DEPDIR)/convert2bible.Po
 	-rm -f resource/$(DEPDIR)/convert2resource.Po
 	-rm -f resource/$(DEPDIR)/divider.Po
@@ -5326,6 +5333,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
 	-rm -f resource/$(DEPDIR)/bbgateway.Po
 	-rm -f resource/$(DEPDIR)/cache.Po
+	-rm -f resource/$(DEPDIR)/comparative.Po
 	-rm -f resource/$(DEPDIR)/convert2bible.Po
 	-rm -f resource/$(DEPDIR)/convert2resource.Po
 	-rm -f resource/$(DEPDIR)/divider.Po

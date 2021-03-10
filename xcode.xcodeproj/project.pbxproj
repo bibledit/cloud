@@ -551,6 +551,9 @@
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1B741925F54DC90030846D /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
+		CA1B742025F8D7EE0030846D /* comparative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comparative.h; sourceTree = "<group>"; };
+		CA1B742125F8D7EE0030846D /* comparative.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative.cpp; sourceTree = "<group>"; };
+		CA1B742225F8D7EE0030846D /* comparative.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative.html; sourceTree = "<group>"; };
 		CA3F5CFC256C435600FE6E67 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CA3F5CFD256C435600FE6E67 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
 		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -5170,6 +5173,9 @@
 				CADE3FF924F17495003165BB /* cache.cpp */,
 				CADE3FE324F17495003165BB /* cache.h */,
 				CADE3FE524F17495003165BB /* cache.html */,
+				CA1B742125F8D7EE0030846D /* comparative.cpp */,
+				CA1B742025F8D7EE0030846D /* comparative.h */,
+				CA1B742225F8D7EE0030846D /* comparative.html */,
 				CADE400424F17495003165BB /* convert2bible.cpp */,
 				CADE400224F17495003165BB /* convert2bible.h */,
 				CADE3FCA24F17495003165BB /* convert2resource.cpp */,

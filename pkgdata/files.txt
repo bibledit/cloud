@@ -525,6 +525,7 @@
 /resource/bb2resource.html
 /resource/bbgateway.html
 /resource/cache.html
+/resource/comparative.html
 /resource/divider.html
 /resource/download.html
 /resource/image.html

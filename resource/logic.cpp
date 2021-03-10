@@ -509,7 +509,7 @@ string resource_logic_rich_divider ()
 }
 
 
-bool resource_log_parse_rich_divider (string input, string & title, string & link,
+bool resource_logic_parse_rich_divider (string input, string & title, string & link,
                                       string & foreground, string & background)
 {
   title.clear();
@@ -541,7 +541,7 @@ string resource_logic_get_divider (string resource)
   string link;
   string foreground;
   string background;
-  if (resource_log_parse_rich_divider (resource, title, link, foreground, background)) {
+  if (resource_logic_parse_rich_divider (resource, title, link, foreground, background)) {
     // Render a rich divider.
     if (title.empty ()) title = "---";
     // The $ influences the resource's embedding through Javascript.
@@ -1298,3 +1298,34 @@ bool resource_logic_is_studylight (string resource)
   vector <string> names = resource_logic_study_light_module_list_get ();
   return in_array (resource, names);
 }
+
+
+string resource_logic_comparative_resource ()
+{
+  return "Comparative Resource";
+}
+
+
+bool resource_logic_parse_comparative_resource (string input,
+                                                string & title, string & base, string & update) // Todo
+{
+  title.clear();
+  base.clear();
+  update.clear();
+  vector <string> bits = filter_string_explode(input, '|');
+  if (bits.size() != 4) return false;
+  if (bits[0] != resource_logic_comparative_resource()) return false;
+  title = bits[1];
+  base = bits[2];
+  update = bits[3];
+  return true;
+}
+
+
+string resource_logic_assemble_comparative_resource (string title, string base, string update) // Todo
+{
+  vector <string> bits = {resource_logic_comparative_resource(), title, base, update};
+  return filter_string_implode(bits, "|");
+}
+
+

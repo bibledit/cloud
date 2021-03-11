@@ -28,10 +28,13 @@ string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
                                 bool add_verse_numbers);
 string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse);
+string resource_logic_get_comparison (void * webserver_request,
+                                      string resource, int book, int chapter, int verse,
+                                      bool add_verse_numbers);
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse);
 string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse);
 
-vector <string> resource_logic_get_names (void * webserver_request);
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only);
 
 void resource_logic_import_images (string resource, string path);
 
@@ -76,11 +79,13 @@ bool resource_logic_is_sword (string resource);
 bool resource_logic_is_divider (string resource);
 bool resource_logic_is_biblegateway (string resource);
 bool resource_logic_is_studylight (string resource);
+bool resource_logic_is_comparative (string resource); // Todo is comparative. Use wherever the above ones are used.
 
 string resource_logic_comparative_resource ();
 bool resource_logic_parse_comparative_resource (string input,
                                                 string & title, string & base, string & update);
 string resource_logic_assemble_comparative_resource (string title, string base, string update);
+// Todo get comparative.
 
 
 #endif

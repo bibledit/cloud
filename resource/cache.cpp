@@ -52,7 +52,7 @@ bool resource_cache_acl (void * webserver_request)
 }
 
 
-string resource_cache (void * webserver_request)
+string resource_cache (void * webserver_request) // Todo use routine to get the resources.
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

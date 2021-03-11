@@ -36,6 +36,7 @@
 #include <filter/archive.h>
 #include <filter/shell.h>
 #include <filter/roles.h>
+#include <filter/diff.h>
 #include <resource/external.h>
 #include <locale/translate.h>
 #include <client/logic.h>
@@ -90,7 +91,7 @@ Stages to retrieve resource content and serve it.
 */
 
 
-vector <string> resource_logic_get_names (void * webserver_request)
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only) // Todo
 {
   vector <string> names;
   
@@ -108,13 +109,17 @@ vector <string> resource_logic_get_names (void * webserver_request)
   names.insert (names.end (), external_resources.begin(), external_resources.end());
   
   // Image resources.
-  Database_ImageResources database_imageresources;
-  vector <string> image_resources = database_imageresources.names ();
-  names.insert (names.end (), image_resources.begin(), image_resources.end());
+  if (!bibles_only) {
+    Database_ImageResources database_imageresources;
+    vector <string> image_resources = database_imageresources.names ();
+    names.insert (names.end (), image_resources.begin(), image_resources.end());
+  }
   
   // Lexicon resources.
-  vector <string> lexicon_resources = lexicon_logic_resource_names ();
-  names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
+  if (!bibles_only) {
+    vector <string> lexicon_resources = lexicon_logic_resource_names ();
+    names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
+  }
   
   // SWORD resources
   vector <string> sword_resources = sword_logic_get_available ();
@@ -128,8 +133,16 @@ vector <string> resource_logic_get_names (void * webserver_request)
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers)
+                                bool add_verse_numbers) // Todo
 {
+  // Handle a comparative resources.
+  // This type of resource is special.
+  // It fetches data from two resources and combines that into one.
+  if (resource_logic_is_comparative (resource)) {
+    return resource_logic_get_comparison(webserver_request, resource, book, chapter, verse, add_verse_numbers);
+  }
+  // From here on it handles a single resource.
+  
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string html;
@@ -143,7 +156,7 @@ string resource_logic_get_html (void * webserver_request,
   bool isImage = resource_logic_is_image (resource);
   bool isLexicon = resource_logic_is_lexicon (resource);
   bool isSword = resource_logic_is_sword (resource);
-  bool isBibleGateway = resource_logic_is_biblegateway (resource);
+  bool isBibleGateway = resource_logic_is_biblegateway (resource); // Todo add is comparative.
   bool isStudyLight = resource_logic_is_studylight (resource);
 
   // Retrieve versification system of the active Bible.
@@ -251,7 +264,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   bool isImage = resource_logic_is_image (resource);
   bool isLexicon = resource_logic_is_lexicon (resource);
   bool isSword = resource_logic_is_sword (resource);
-  bool isBibleGateway = resource_logic_is_biblegateway (resource);
+  bool isBibleGateway = resource_logic_is_biblegateway (resource); // Todo add is comparative resource.
   bool isStudyLight = resource_logic_is_studylight (resource);
   
   if (isBible || isLocalUsfm) {
@@ -315,6 +328,19 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 }
 
 
+string resource_logic_get_comparison (void * webserver_request,
+                                      string resource, int book, int chapter, int verse,
+                                      bool add_verse_numbers) // Todo
+{
+  string title, base, update;
+  resource_logic_parse_comparative_resource (resource, title, base, update);
+  base = resource_logic_get_html (webserver_request, base, book, chapter, verse, add_verse_numbers);
+  update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
+  string html = filter_diff_diff (base, update);
+  return html;
+}
+
+
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
@@ -324,7 +350,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool isUsfm = resource_logic_is_usfm (resource);
   bool isSword = resource_logic_is_sword (resource);
   bool isBibleGateway = resource_logic_is_biblegateway (resource);
-  bool isStudyLight = resource_logic_is_studylight (resource);
+  bool isStudyLight = resource_logic_is_studylight (resource); // Todo add comparative.
   
   if (isExternal) {
     // The server fetches it from the web.
@@ -1297,6 +1323,13 @@ bool resource_logic_is_studylight (string resource)
 {
   vector <string> names = resource_logic_study_light_module_list_get ();
   return in_array (resource, names);
+}
+
+
+bool resource_logic_is_comparative (string resource) // Todo
+{
+  string title, base, update;
+  return resource_logic_parse_comparative_resource (resource, title, base, update);
 }
 
 

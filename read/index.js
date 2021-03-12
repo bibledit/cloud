@@ -346,9 +346,10 @@ function readchooseHtmlClicked (event)
     data: { verse: verse },
     cache: false
   });
-  
-  setTimeout (readChooseGotoResources, 1000);
 
+  // It used to go to the Resources, but it was disabled later.
+  // https://github.com/bibledit/cloud/issues/508
+  // setTimeout (readChooseGotoResources, 1000);
 }
 
 

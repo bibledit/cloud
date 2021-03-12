@@ -47,11 +47,9 @@ string read_verse (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-
   // Only act if a verse was found
   string sverse = request->query ["verse"];
   if (!sverse.empty ()) {
-    
     
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
@@ -61,10 +59,7 @@ string read_verse (void * webserver_request)
       int chapter = Ipc_Focus::getChapter (request);
       Ipc_Focus::set (request, book, chapter, iverse);
     }
-    
-    
   }
-  
   
   return "";
 }

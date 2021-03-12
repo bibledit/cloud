@@ -113,7 +113,7 @@ string resource_comparative (void * webserver_request)
   }
 
   
-  // The comparative's base. // Todo assemble a list of verse-based resources, through some logic.
+  // The comparative's base.
   if (request->query.count ("base")) {
     string value = request->query["base"];
     if (value.empty()) {
@@ -132,7 +132,7 @@ string resource_comparative (void * webserver_request)
   }
 
   
-  // The comparative's base. // Todo assemble a list of verse-based resources, through some logic.
+  // The comparative's base.
   if (request->query.count ("update")) {
     string value = request->query["update"];
     if (value.empty()) {

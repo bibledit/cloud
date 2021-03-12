@@ -79,13 +79,12 @@ bool resource_logic_is_sword (string resource);
 bool resource_logic_is_divider (string resource);
 bool resource_logic_is_biblegateway (string resource);
 bool resource_logic_is_studylight (string resource);
-bool resource_logic_is_comparative (string resource); // Todo is comparative. Use wherever the above ones are used.
+bool resource_logic_is_comparative (string resource);
 
 string resource_logic_comparative_resource ();
 bool resource_logic_parse_comparative_resource (string input,
                                                 string & title, string & base, string & update);
 string resource_logic_assemble_comparative_resource (string title, string base, string update);
-// Todo get comparative.
 
 
 #endif

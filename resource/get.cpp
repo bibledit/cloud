@@ -39,7 +39,7 @@ bool resource_get_acl (void * webserver_request)
 }
 
 
-string resource_get (void * webserver_request) // Todo
+string resource_get (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

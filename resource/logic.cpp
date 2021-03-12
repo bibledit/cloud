@@ -91,7 +91,7 @@ Stages to retrieve resource content and serve it.
 */
 
 
-vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only) // Todo
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only)
 {
   vector <string> names;
   
@@ -133,7 +133,7 @@ vector <string> resource_logic_get_names (void * webserver_request, bool bibles_
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers) // Todo
+                                bool add_verse_numbers)
 {
   // Handle a comparative resources.
   // This type of resource is special.
@@ -156,7 +156,7 @@ string resource_logic_get_html (void * webserver_request,
   bool isImage = resource_logic_is_image (resource);
   bool isLexicon = resource_logic_is_lexicon (resource);
   bool isSword = resource_logic_is_sword (resource);
-  bool isBibleGateway = resource_logic_is_biblegateway (resource); // Todo add is comparative.
+  bool isBibleGateway = resource_logic_is_biblegateway (resource);
   bool isStudyLight = resource_logic_is_studylight (resource);
 
   // Retrieve versification system of the active Bible.
@@ -264,7 +264,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   bool isImage = resource_logic_is_image (resource);
   bool isLexicon = resource_logic_is_lexicon (resource);
   bool isSword = resource_logic_is_sword (resource);
-  bool isBibleGateway = resource_logic_is_biblegateway (resource); // Todo add is comparative resource.
+  bool isBibleGateway = resource_logic_is_biblegateway (resource);
   bool isStudyLight = resource_logic_is_studylight (resource);
   
   if (isBible || isLocalUsfm) {
@@ -330,12 +330,18 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
 string resource_logic_get_comparison (void * webserver_request,
                                       string resource, int book, int chapter, int verse,
-                                      bool add_verse_numbers) // Todo
+                                      bool add_verse_numbers)
 {
+  // Parse the resource name to get the base resource and the updated resource.
   string title, base, update;
   resource_logic_parse_comparative_resource (resource, title, base, update);
+  // Get the html of both resources to compare.
   base = resource_logic_get_html (webserver_request, base, book, chapter, verse, add_verse_numbers);
   update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
+  // Clean all html elements away from the text to get a better and cleaner comparison.
+  base = filter_string_html2text (base);
+  update = filter_string_html2text(update);
+  // Find the differences.
   string html = filter_diff_diff (base, update);
   return html;
 }
@@ -350,7 +356,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool isUsfm = resource_logic_is_usfm (resource);
   bool isSword = resource_logic_is_sword (resource);
   bool isBibleGateway = resource_logic_is_biblegateway (resource);
-  bool isStudyLight = resource_logic_is_studylight (resource); // Todo add comparative.
+  bool isStudyLight = resource_logic_is_studylight (resource);
   
   if (isExternal) {
     // The server fetches it from the web.
@@ -1326,7 +1332,7 @@ bool resource_logic_is_studylight (string resource)
 }
 
 
-bool resource_logic_is_comparative (string resource) // Todo
+bool resource_logic_is_comparative (string resource)
 {
   string title, base, update;
   return resource_logic_parse_comparative_resource (resource, title, base, update);
@@ -1340,7 +1346,7 @@ string resource_logic_comparative_resource ()
 
 
 bool resource_logic_parse_comparative_resource (string input,
-                                                string & title, string & base, string & update) // Todo
+                                                string & title, string & base, string & update)
 {
   title.clear();
   base.clear();
@@ -1355,7 +1361,7 @@ bool resource_logic_parse_comparative_resource (string input,
 }
 
 
-string resource_logic_assemble_comparative_resource (string title, string base, string update) // Todo
+string resource_logic_assemble_comparative_resource (string title, string base, string update)
 {
   vector <string> bits = {resource_logic_comparative_resource(), title, base, update};
   return filter_string_implode(bits, "|");

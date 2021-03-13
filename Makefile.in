@@ -342,7 +342,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
 	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
 	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT) \
-	resource/comparative.$(OBJEXT)
+	resource/comparative.$(OBJEXT) sources/abbott-smith.$(OBJEXT) \
+	database/abbottsmith.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -442,6 +443,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	confirm/$(DEPDIR)/worker.Po consistency/$(DEPDIR)/index.Po \
 	consistency/$(DEPDIR)/input.Po consistency/$(DEPDIR)/logic.Po \
 	consistency/$(DEPDIR)/poll.Po \
+	database/$(DEPDIR)/abbottsmith.Po \
 	database/$(DEPDIR)/bibleactions.Po \
 	database/$(DEPDIR)/bibles.Po database/$(DEPDIR)/books.Po \
 	database/$(DEPDIR)/cache.Po database/$(DEPDIR)/check.Po \
@@ -635,26 +637,26 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	session/$(DEPDIR)/logout.Po session/$(DEPDIR)/password.Po \
 	session/$(DEPDIR)/signup.Po session/$(DEPDIR)/switch.Po \
 	setup/$(DEPDIR)/index.Po setup/$(DEPDIR)/logic.Po \
-	sources/$(DEPDIR)/etcbc4.Po sources/$(DEPDIR)/hebrewlexicon.Po \
-	sources/$(DEPDIR)/kjv.Po sources/$(DEPDIR)/morphgnt.Po \
-	sources/$(DEPDIR)/morphhb.Po sources/$(DEPDIR)/oshb.Po \
-	sources/$(DEPDIR)/styles.Po sprint/$(DEPDIR)/burndown.Po \
-	sprint/$(DEPDIR)/index.Po sqlite/$(DEPDIR)/sqlite3.Po \
-	statistics/$(DEPDIR)/statistics.Po styles/$(DEPDIR)/css.Po \
-	styles/$(DEPDIR)/indexm.Po styles/$(DEPDIR)/logic.Po \
-	styles/$(DEPDIR)/sheetm.Po styles/$(DEPDIR)/sheets.Po \
-	styles/$(DEPDIR)/view.Po sword/$(DEPDIR)/logic.Po \
-	sync/$(DEPDIR)/bibles.Po sync/$(DEPDIR)/changes.Po \
-	sync/$(DEPDIR)/files.Po sync/$(DEPDIR)/logic.Po \
-	sync/$(DEPDIR)/mail.Po sync/$(DEPDIR)/notes.Po \
-	sync/$(DEPDIR)/resources.Po sync/$(DEPDIR)/settings.Po \
-	sync/$(DEPDIR)/setup.Po sync/$(DEPDIR)/usfmresources.Po \
-	system/$(DEPDIR)/index.Po system/$(DEPDIR)/indonesianfree.Po \
-	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
-	tasks/$(DEPDIR)/run.Po tbsx/$(DEPDIR)/text.Po \
-	text/$(DEPDIR)/text.Po timer/$(DEPDIR)/index.Po \
-	tmp/$(DEPDIR)/tmp.Po trash/$(DEPDIR)/handler.Po \
-	unittests/$(DEPDIR)/archive.Po \
+	sources/$(DEPDIR)/abbott-smith.Po sources/$(DEPDIR)/etcbc4.Po \
+	sources/$(DEPDIR)/hebrewlexicon.Po sources/$(DEPDIR)/kjv.Po \
+	sources/$(DEPDIR)/morphgnt.Po sources/$(DEPDIR)/morphhb.Po \
+	sources/$(DEPDIR)/oshb.Po sources/$(DEPDIR)/styles.Po \
+	sprint/$(DEPDIR)/burndown.Po sprint/$(DEPDIR)/index.Po \
+	sqlite/$(DEPDIR)/sqlite3.Po statistics/$(DEPDIR)/statistics.Po \
+	styles/$(DEPDIR)/css.Po styles/$(DEPDIR)/indexm.Po \
+	styles/$(DEPDIR)/logic.Po styles/$(DEPDIR)/sheetm.Po \
+	styles/$(DEPDIR)/sheets.Po styles/$(DEPDIR)/view.Po \
+	sword/$(DEPDIR)/logic.Po sync/$(DEPDIR)/bibles.Po \
+	sync/$(DEPDIR)/changes.Po sync/$(DEPDIR)/files.Po \
+	sync/$(DEPDIR)/logic.Po sync/$(DEPDIR)/mail.Po \
+	sync/$(DEPDIR)/notes.Po sync/$(DEPDIR)/resources.Po \
+	sync/$(DEPDIR)/settings.Po sync/$(DEPDIR)/setup.Po \
+	sync/$(DEPDIR)/usfmresources.Po system/$(DEPDIR)/index.Po \
+	system/$(DEPDIR)/indonesianfree.Po system/$(DEPDIR)/logic.Po \
+	tasks/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/run.Po \
+	tbsx/$(DEPDIR)/text.Po text/$(DEPDIR)/text.Po \
+	timer/$(DEPDIR)/index.Po tmp/$(DEPDIR)/tmp.Po \
+	trash/$(DEPDIR)/handler.Po unittests/$(DEPDIR)/archive.Po \
 	unittests/$(DEPDIR)/biblegateway.Po \
 	unittests/$(DEPDIR)/bibles.Po unittests/$(DEPDIR)/books.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/check.Po \
@@ -1392,7 +1394,9 @@ libbibledit_a_SOURCES = \
   resource/divider.cpp \
   filter/indonesian.cpp \
   session/confirm.cpp \
-  resource/comparative.cpp
+  resource/comparative.cpp \
+  sources/abbott-smith.cpp \
+  database/abbottsmith.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3020,6 +3024,10 @@ session/confirm.$(OBJEXT): session/$(am__dirstamp) \
 	session/$(DEPDIR)/$(am__dirstamp)
 resource/comparative.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+sources/abbott-smith.$(OBJEXT): sources/$(am__dirstamp) \
+	sources/$(DEPDIR)/$(am__dirstamp)
+database/abbottsmith.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3370,6 +3378,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/input.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/poll.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/abbottsmith.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@ # am--include-marker
@@ -3722,6 +3731,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/switch.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/abbott-smith.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcbc4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/hebrewlexicon.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/kjv.Po@am__quote@ # am--include-marker
@@ -4452,6 +4462,7 @@ distclean: distclean-am
 	-rm -f consistency/$(DEPDIR)/input.Po
 	-rm -f consistency/$(DEPDIR)/logic.Po
 	-rm -f consistency/$(DEPDIR)/poll.Po
+	-rm -f database/$(DEPDIR)/abbottsmith.Po
 	-rm -f database/$(DEPDIR)/bibleactions.Po
 	-rm -f database/$(DEPDIR)/bibles.Po
 	-rm -f database/$(DEPDIR)/books.Po
@@ -4804,6 +4815,7 @@ distclean: distclean-am
 	-rm -f session/$(DEPDIR)/switch.Po
 	-rm -f setup/$(DEPDIR)/index.Po
 	-rm -f setup/$(DEPDIR)/logic.Po
+	-rm -f sources/$(DEPDIR)/abbott-smith.Po
 	-rm -f sources/$(DEPDIR)/etcbc4.Po
 	-rm -f sources/$(DEPDIR)/hebrewlexicon.Po
 	-rm -f sources/$(DEPDIR)/kjv.Po
@@ -5043,6 +5055,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f consistency/$(DEPDIR)/input.Po
 	-rm -f consistency/$(DEPDIR)/logic.Po
 	-rm -f consistency/$(DEPDIR)/poll.Po
+	-rm -f database/$(DEPDIR)/abbottsmith.Po
 	-rm -f database/$(DEPDIR)/bibleactions.Po
 	-rm -f database/$(DEPDIR)/bibles.Po
 	-rm -f database/$(DEPDIR)/books.Po
@@ -5395,6 +5408,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f session/$(DEPDIR)/switch.Po
 	-rm -f setup/$(DEPDIR)/index.Po
 	-rm -f setup/$(DEPDIR)/logic.Po
+	-rm -f sources/$(DEPDIR)/abbott-smith.Po
 	-rm -f sources/$(DEPDIR)/etcbc4.Po
 	-rm -f sources/$(DEPDIR)/hebrewlexicon.Po
 	-rm -f sources/$(DEPDIR)/kjv.Po

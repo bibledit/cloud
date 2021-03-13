@@ -78,6 +78,7 @@
 /database
 /database/config
 /databases
+/databases/abbottsmith.sqlite
 /databases/cache
 /databases/cache/gitflag
 /databases/client
@@ -586,6 +587,9 @@
 /slip/readme.txt
 /slip/slip.js
 /sources
+/sources/abbott-smith
+/sources/abbott-smith/abbott-smith.tei_lemma.xml
+/sources/abbott-smith.txt
 /sources/description.txt
 /sources/etcbc4.txt
 /sources/hebrewlexicon

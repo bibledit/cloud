@@ -458,7 +458,9 @@ libbibledit_a_SOURCES = \
   resource/divider.cpp \
   filter/indonesian.cpp \
   session/confirm.cpp \
-  resource/comparative.cpp
+  resource/comparative.cpp \
+  sources/abbott-smith.cpp \
+  database/abbottsmith.cpp
 
 bin_PROGRAMS = server unittest generate
 

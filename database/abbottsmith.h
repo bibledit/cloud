@@ -29,16 +29,8 @@ class Database_AbbottSmith
 public:
   void create ();
   void optimize ();
-  void setaug (string aug, string target);
-  void setbdb (string id, string definition);
-  void setmap (string id, string bdb);
-  void setpos (string code, string name);
-  void setstrong (string strong, string definition);
-  string getaug (string aug);
-  string getbdb (string id);
-  string getmap (string id);
-  string getpos (string code);
-  string getstrong (string strong);
+  void store (string lemma, string lemma_casefold, string strong, string contents);
+  string get (string lemma, string strong);
 private:
   const char * filename ();
 };

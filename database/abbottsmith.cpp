@@ -41,23 +41,7 @@ void Database_AbbottSmith::create ()
   SqliteDatabase sql = SqliteDatabase (filename ());
 
   sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS aug (aug text, target text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS bdb (id text, definition text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS map (id text, bdb text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS pos (code text, name text);");
-  sql.execute ();
-  
-  sql.clear ();
-  sql.add ("CREATE TABLE IF NOT EXISTS strong (strong text, definition text);");
+  sql.add ("CREATE TABLE IF NOT EXISTS entry (lemma text, lemmacf text, strong text, contents string);");
   sql.execute ();
 }
 
@@ -70,121 +54,42 @@ void Database_AbbottSmith::optimize ()
 }
 
 
-void Database_AbbottSmith::setaug (string aug, string target)
+void Database_AbbottSmith::store (string lemma, string lemma_casefold, string strong, string contents)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("INSERT INTO aug VALUES (");
-  sql.add (aug);
-  sql.add (",");
-  sql.add (target);
-  sql.add (");");
+  sql.add ("PRAGMA temp_store = MEMORY;");
   sql.execute ();
-}
-
-
-void Database_AbbottSmith::setbdb (string id, string definition)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("INSERT INTO bdb VALUES (");
-  sql.add (id);
-  sql.add (",");
-  sql.add (definition);
-  sql.add (");");
+  sql.clear ();
+  sql.add ("PRAGMA synchronous = OFF;");
   sql.execute ();
-}
-
-
-void Database_AbbottSmith::setmap (string id, string bdb)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("INSERT INTO map VALUES (");
-  sql.add (id);
-  sql.add (",");
-  sql.add (bdb);
-  sql.add (");");
+  sql.clear ();
+  sql.add ("PRAGMA journal_mode = OFF;");
   sql.execute ();
-}
-
-
-void Database_AbbottSmith::setpos (string code, string name)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("INSERT INTO pos VALUES (");
-  sql.add (code);
+  sql.clear ();
+  sql.add ("INSERT INTO entry (lemma, lemmacf, strong, contents) VALUES (");
+  sql.add (lemma);
   sql.add (",");
-  sql.add (name);
-  sql.add (");");
-  sql.execute ();
-}
-
-
-void Database_AbbottSmith::setstrong (string strong, string definition)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("INSERT INTO strong VALUES (");
+  sql.add (lemma_casefold);
+  sql.add (",");
   sql.add (strong);
   sql.add (",");
-  sql.add (definition);
+  sql.add (contents);
   sql.add (");");
   sql.execute ();
 }
 
 
-string Database_AbbottSmith::getaug (string aug)
+string Database_AbbottSmith::get (string lemma, string strong)
 {
+  string contents;
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT target FROM aug WHERE aug =");
-  sql.add (aug);
-  sql.add (";");
-  vector <string> result = sql.query () ["target"];
-  if (!result.empty ()) return result [0];
-  return "";
-}
-
-
-string Database_AbbottSmith::getbdb (string id)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT definition FROM bdb WHERE id =");
-  sql.add (id);
-  sql.add (";");
-  vector <string> result = sql.query () ["definition"];
-  if (!result.empty ()) return result [0];
-  return "";
-}
-
-
-string Database_AbbottSmith::getmap (string id)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT bdb FROM map WHERE id =");
-  sql.add (id);
-  sql.add (";");
-  vector <string> result = sql.query () ["bdb"];
-  if (!result.empty ()) return result [0];
-  return "";
-}
-
-
-string Database_AbbottSmith::getpos (string code)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT name FROM pos WHERE code =");
-  sql.add (code);
-  sql.add (";");
-  vector <string> result = sql.query () ["name"];
-  if (!result.empty ()) return result [0];
-  return "";
-}
-
-
-string Database_AbbottSmith::getstrong (string strong)
-{
-  SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT definition FROM strong WHERE strong =");
+  sql.add ("SELECT contents FROM entry WHERE lemma =");
+  sql.add (lemma);
+  sql.add ("OR strong =");
   sql.add (strong);
   sql.add (";");
-  vector <string> result = sql.query () ["definition"];
-  if (!result.empty ()) return result [0];
-  return "";
+  vector <string> results = sql.query () ["contents"];
+  for (auto result : results) contents.append (result);
+  return contents;
 }
+

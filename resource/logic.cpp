@@ -341,6 +341,13 @@ string resource_logic_get_comparison (void * webserver_request,
   // Clean all html elements away from the text to get a better and cleaner comparison.
   base = filter_string_html2text (base);
   update = filter_string_html2text(update);
+  // When showing the difference between two Greek New Testaments,
+  // one with diacritics and the other without diacritics.
+  // there's a lot of flagging of difference, just because of the diacritics.
+  // To handle such a situation, remove the diacritics.
+  // Similarly to not mark small letters versus capitals as a difference, do case folding.
+  base = icu_string_normalize (base);
+  update = icu_string_normalize (update);
   // Find the differences.
   string html = filter_diff_diff (base, update);
   return html;

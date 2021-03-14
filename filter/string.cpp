@@ -29,6 +29,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <codecvt>
 #endif
+#ifdef HAVE_ICU
+#include <unicode/ustdio.h>
+#include <unicode/normlzr.h>
+#include <unicode/utypes.h>
+#include <unicode/unistr.h>
+#include <unicode/translit.h>
+#endif
+
+
+using namespace icu;
 
 
 // A C++ equivalent for PHP's explode function.
@@ -747,6 +757,30 @@ string unicode_string_str_replace (string search, string replace, string subject
   // Ready.
   return subject;
 }
+
+
+#ifdef HAVE_ICU
+string icu_string_normalize (string s)
+{
+  // UTF-8 std::string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  
+  // Case folding.
+  source.foldCase ();
+  
+  // Transliterate UTF-16 UnicodeString following this rule:
+  // decompose, remove diacritics, recompose
+  UErrorCode status = U_ZERO_ERROR;
+  Transliterator *accents_converter = Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
+  accents_converter->transliterate(source);
+  
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  string result;
+  source.toUTF8String (result);
+  
+  return result;
+}
+#endif
 
 
 // C++ equivalent for PHP's rand function

@@ -38,35 +38,6 @@ using namespace icu;
 int entry_element_count = 0;
 
 
-string sources_abbott_smith_normalize (string str)
-{
-#ifdef HAVE_ICU
-
-  // UTF-8 std::string -> UTF-16 UnicodeString
-  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (str));
-  
-  // Case folding.
-  source.foldCase ();
-  
-  // Transliterate UTF-16 UnicodeString following this rule:
-  // decompose, remove diacritics, recompose
-  UErrorCode status = U_ZERO_ERROR;
-  Transliterator *accentsConverter = Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
-  accentsConverter->transliterate(source);
-  
-  // UTF-16 UnicodeString -> UTF-8 std::string
-  std::string result;
-  source.toUTF8String (result);
-  
-  return result;
-
-#endif
-
-  cout << "Error: Cannot normalize lemma" << endl;
-  return str;
-}
-
-
 void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_abbottsmith,
                                                xml_node & node)
 {
@@ -87,7 +58,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
 
   // Get the lemma, and the Strong's number, and the raw XML of the entry's contents.
   string lemma = filter_string_trim (node.attribute ("lemma").value ());
-  lemma = sources_abbott_smith_normalize (lemma);
+  lemma = icu_string_normalize (lemma);
   string strong = filter_string_trim (node.attribute ("strong").value ());
   stringstream ss;
   for (xml_node child : node.children()) child.print(ss, "", format_raw);

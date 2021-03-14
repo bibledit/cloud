@@ -1316,15 +1316,9 @@
 		CADE3B9824F1742E003165BB /* focus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = focus.h; sourceTree = "<group>"; };
 		CADE3B9924F1742E003165BB /* focus.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = focus.o; sourceTree = "<group>"; };
 		CADE3B9B24F1742E003165BB /* definition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = definition.h; sourceTree = "<group>"; };
-		CADE3B9C24F1742E003165BB /* definition.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = definition.o; sourceTree = "<group>"; };
 		CADE3B9D24F1742E003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3B9E24F1742E003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CADE3B9F24F1742E003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE3BA024F1742E003165BB /* definition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = definition.cpp; sourceTree = "<group>"; };
-		CADE3BA224F1742E003165BB /* definition.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = definition.Po; sourceTree = "<group>"; };
-		CADE3BA324F1742E003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3BA424F1742E003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CADE3BA524F1742E003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3C9C24F1746F003165BB /* livetest.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = livetest.sh; sourceTree = "<group>"; };
 		CADE3C9D24F1746F003165BB /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
 		CADE3C9E24F1746F003165BB /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
@@ -4260,26 +4254,12 @@
 		CADE3B9A24F1742E003165BB /* lexicon */ = {
 			isa = PBXGroup;
 			children = (
+				CADE3BA024F1742E003165BB /* definition.cpp */,
 				CADE3B9B24F1742E003165BB /* definition.h */,
-				CADE3B9C24F1742E003165BB /* definition.o */,
 				CADE3B9D24F1742E003165BB /* logic.cpp */,
 				CADE3B9E24F1742E003165BB /* logic.h */,
-				CADE3B9F24F1742E003165BB /* logic.o */,
-				CADE3BA024F1742E003165BB /* definition.cpp */,
-				CADE3BA124F1742E003165BB /* .deps */,
-				CADE3BA524F1742E003165BB /* .dirstamp */,
 			);
 			path = lexicon;
-			sourceTree = "<group>";
-		};
-		CADE3BA124F1742E003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3BA224F1742E003165BB /* definition.Po */,
-				CADE3BA324F1742E003165BB /* .dirstamp */,
-				CADE3BA424F1742E003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3C9B24F1746F003165BB /* livetest */ = {

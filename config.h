@@ -10,6 +10,9 @@
 /* Define whether execinfo.h is present */
 #define HAVE_EXECINFO 1
 
+/* Define whether ICU is available */
+#define HAVE_ICU 1
+
 /* Define whether to compile for Indonesian Cloud Free */
 /* #undef HAVE_INDONESIANCLOUDFREE */
 

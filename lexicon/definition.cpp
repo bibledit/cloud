@@ -62,7 +62,9 @@ string lexicon_definition (void * webserver_request)
     else if (letter == KJV_LEXICON_PREFIX) {
       Database_Kjv database_kjv;
       string strong = database_kjv.strong (convert_to_int (id.substr (1)));
-      string rendering = lexicon_logic_render_definition (strong);
+      string rendering = lexicon_logic_render_strongs_definition (strong);
+      if (!rendering.empty ()) renderings.push_back (rendering);
+      rendering = lexicon_logic_render_abbott_smiths_definition("", strong);
       if (!rendering.empty ()) renderings.push_back (rendering);
     }
     
@@ -77,7 +79,7 @@ string lexicon_definition (void * webserver_request)
       vector <string> bdbs;
       lexicon_logic_convert_morphhb_parsing_to_strong (lemma, strongs, bdbs);
       for (size_t i = 0; i < strongs.size (); i++) {
-        string rendering = lexicon_logic_render_definition (strongs[i]);
+        string rendering = lexicon_logic_render_strongs_definition (strongs[i]);
         if (!rendering.empty ()) renderings.push_back (rendering);
         rendering = "<a href=\"" BDB_PREFIX + bdbs[i] + "\">Brown Driver Briggs</a>";
         renderings.push_back (rendering);
@@ -99,22 +101,25 @@ string lexicon_definition (void * webserver_request)
       renderings.push_back (rendering);
       // The lemma.
       string lemma = database_morphgnt.lemma (rowid);
+      cout << "lemma " << lemma << endl; // Todo
       vector <string> strongs = database_strong.strong (lemma);
       for (auto & id : strongs) {
-        rendering = lexicon_logic_render_definition (id);
+        rendering = lexicon_logic_render_strongs_definition (id);
         if (!rendering.empty ()) renderings.push_back (rendering);
       }
+      rendering = lexicon_logic_render_abbott_smiths_definition(lemma, "");
+      if (!rendering.empty ()) renderings.push_back (rendering);
     }
     
     // Strong's Hebrew.
     else if (letter == "H") {
-      string rendering = lexicon_logic_render_definition (id);
+      string rendering = lexicon_logic_render_strongs_definition (id);
       if (!rendering.empty ()) renderings.push_back (rendering);
     }
     
     // Strong's Greek.
     else if (letter == "G") {
-      string rendering = lexicon_logic_render_definition (id);
+      string rendering = lexicon_logic_render_strongs_definition (id);
       if (!rendering.empty ()) renderings.push_back (rendering);
     }
     

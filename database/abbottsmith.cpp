@@ -83,11 +83,25 @@ string Database_AbbottSmith::get (string lemma, string strong)
 {
   string contents;
   SqliteDatabase sql = SqliteDatabase (filename ());
-  sql.add ("SELECT contents FROM entry WHERE lemma =");
-  sql.add (lemma);
-  sql.add ("OR strong =");
-  sql.add (strong);
+  sql.add ("SELECT contents FROM entry WHERE");
+  if (lemma.empty()) {
+    // No lemma: Select on Strong's number only.
+    sql.add ("strong =");
+    sql.add (strong);
+  } else if (strong.empty()) {
+    // No Strong's number: Select on lemma only.
+    sql.add ("lemma =");
+    sql.add (lemma);
+  } else {
+    // Both Strong's number and lemma given: Select on any of those.
+    sql.add ("lemma =");
+    sql.add (lemma);
+    sql.add ("OR");
+    sql.add ("strong =");
+    sql.add (strong);
+  }
   sql.add (";");
+  cout << sql.sql << endl; // Todo
   vector <string> results = sql.query () ["contents"];
   for (auto result : results) contents.append (result);
   return contents;

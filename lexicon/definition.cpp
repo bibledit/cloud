@@ -101,7 +101,6 @@ string lexicon_definition (void * webserver_request)
       renderings.push_back (rendering);
       // The lemma.
       string lemma = database_morphgnt.lemma (rowid);
-      cout << "lemma " << lemma << endl; // Todo
       vector <string> strongs = database_strong.strong (lemma);
       for (auto & id : strongs) {
         rendering = lexicon_logic_render_strongs_definition (id);

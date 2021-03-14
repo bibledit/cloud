@@ -1465,7 +1465,7 @@ string lexicon_logic_hebrew_morphology_render_state (string & value)
 }
 
 
-struct abbott_smith_walker: xml_tree_walker // Todo
+struct abbott_smith_walker: xml_tree_walker
 {
   string text;
 
@@ -1516,7 +1516,7 @@ struct abbott_smith_walker: xml_tree_walker // Todo
 };
 
 
-string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong) // Todo
+string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong)
 {
   vector <string> renderings;
 
@@ -1524,12 +1524,6 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
 
   string definition = database_abbottsmith.get (lemma, lexicon_logic_strong_number_cleanup (strong));
   
-  cout << "Strong's " << strong << " lemma " << lemma << endl;
-
-  cout << "Raw definition" << endl;
-  cout << definition << endl;
-  cout << endl;
-
   xml_document document;
   document.load_string (definition.c_str());
   abbott_smith_walker tree_walker;
@@ -1561,9 +1555,6 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
   if (!rendering.empty ()) {
     rendering.insert(0, "Abbott Smith; ");
   }
-
-  cout << "Final rendering" << endl;
-  cout << rendering << endl; // Todo
    
   // Done.
   return rendering;

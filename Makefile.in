@@ -865,7 +865,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
 	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) \
-	-L/usr/local/lib -lmimetic
+	-L/usr/local/lib -lmimetic $(ICU_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -1495,7 +1495,7 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
-	$(WEBKIT2GTK_CFLAGS)
+	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

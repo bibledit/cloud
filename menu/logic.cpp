@@ -308,10 +308,10 @@ string menu_logic_basic_categories (void * webserver_request)
   
   if (personalize_index_acl (webserver_request)) {
 #ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-    html.push_back (menu_logic_create_item (personalize_index_url (), menu_logic_settings_text (), true, "", ""));
+    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", ""));
 #endif
 #ifdef HAVE_INDONESIANCLOUDFREE
-    html.push_back (menu_logic_create_item (system_indonesianfree_url (), menu_logic_settings_text (), true, "", Filter_Css::distinction_set_2 (4)));
+    html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true, "", Filter_Css::distinction_set_2 (4)));
 #endif
   }
 

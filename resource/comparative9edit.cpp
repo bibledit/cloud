@@ -23,11 +23,8 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
-#include <filter/url.h>
-#include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <journal/index.h>
 #include <menu/logic.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>

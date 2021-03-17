@@ -132,7 +132,7 @@ string resource_comparative (void * webserver_request)
   }
 
   
-  // The comparative's base.
+  // The comparative's updated resource name.
   if (request->query.count ("update")) {
     string value = request->query["update"];
     if (value.empty()) {

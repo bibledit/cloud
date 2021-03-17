@@ -29,11 +29,12 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
-#include <database/userresources.h>
+#include <database/config/general.h>
 #include <database/books.h>
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
+#include <dialog/list.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>
 #include <access/logic.h>
@@ -66,57 +67,87 @@ string resource_comparative1edit (void * webserver_request)
   
   string name = request->query ["name"];
   view.set_variable ("name", name);
-  
 
-  if (request->post.count ("submit")) {
-    string data = request->post["data"];
-    vector <string> lines = filter_string_explode (data, '\n');
-    int count = 0;
-    int bookcount = 0;
-    for (auto line : lines) {
-      line = filter_string_trim (line);
-      if (line.empty ()) continue;
-      if (count == 0) {
-        Database_UserResources::url (name, line);
-      } else {
-        vector <string> bits = filter_string_explode (line, '=');
-        if (bits.size () == 2) {
-          string english = filter_string_trim (bits [0]);
-          int id = Database_Books::getIdFromEnglish (english);
-          if (id) {
-            string fragment = filter_string_trim (bits [1]);
-            Database_UserResources::book (name, id, fragment);
-            bookcount++;
-          } else {
-            error.append (" ");
-            error.append ("Failure interpreting " + english);
-          }
-        }
+  
+  bool resource_edited = false;
+
+
+  string title, base, update;
+  {
+    vector <string> resources = Database_Config_General::getComparativeResources ();
+    for (auto resource : resources) {
+      string title2, base2, update2;
+      resource_logic_parse_comparative_resource_v2 (resource, &title2, &base2, &update2);
+      if (title2 == name) {
+        title = title2;
+        base = base2;
+        update = update2;
       }
-      count++;
     }
-    success = translate ("Number of defined books:") + " " + convert_to_string (bookcount);
+  }
+
+  
+  // The comparative resource's base resource.
+  if (request->query.count ("base")) {
+    string value = request->query["base"];
+    if (value.empty()) {
+      Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource."), translate ("The base resource is used as a starting point for the comparison."), "");
+      dialog_list.add_query ("name", name);
+      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      for (auto & resource : resources) {
+        dialog_list.add_row (resource, "base", resource);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      base = value;
+      resource_edited = true;
+    }
   }
   
   
-  vector <string> lines;
-  lines.push_back (Database_UserResources::url (name));
-  vector <int> ids = Database_Books::getIDs ();
-  for (auto id : ids) {
-    string type = Database_Books::getType (id);
-    if ((type == "ot") || (type == "nt")) {
-      string english = Database_Books::getEnglishFromId (id);
-      string book = Database_UserResources::book (name, id);
-      lines.push_back (english + " = " + book);
+  // The comparative resource's updated resource.
+  if (request->query.count ("update")) {
+    string value = request->query["update"];
+    if (value.empty()) {
+      Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as the updated resource."), translate ("The updated resource will be compared with the base resource."), "");
+      dialog_list.add_query ("name", name);
+      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      for (auto & resource : resources) {
+        dialog_list.add_row (resource, "update", resource);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      update = value;
+      resource_edited = true;
     }
   }
-  view.set_variable ("data", filter_string_implode (lines, "\n"));
-                   
+  
+  
+  // Save the comparative resource if it was edited.
+  if (resource_edited) {
+    vector <string> resources = Database_Config_General::getComparativeResources ();
+    error = translate ("Could not save");
+    for (size_t i = 0; i < resources.size(); i++) {
+      string title2;
+      resource_logic_parse_comparative_resource_v2 (resources[i], &title2);
+      if (title2 == title) {
+        string resource = resource_logic_assemble_comparative_resource_v2 (title, base, update);
+        resources[i] = resource;
+        success = translate ("Saved");
+        error.clear();
+      }
+    }
+    Database_Config_General::setComparativeResources (resources);
+  }
   
 
   view.set_variable ("success", success);
   view.set_variable ("error", error);
-  view.set_variable ("url", resource_logic_default_user_url ());
+  view.set_variable ("title", title);
+  view.set_variable ("base", base);
+  view.set_variable ("update", update);
   page += view.render ("resource", "comparative1edit");
   page += Assets_Page::footer ();
   return page;

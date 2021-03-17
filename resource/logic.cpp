@@ -1339,21 +1339,27 @@ bool resource_logic_is_studylight (string resource)
 }
 
 
-bool resource_logic_is_comparative (string resource)
+bool resource_logic_is_comparative (string resource) // Todo update, add v2 too, later remove v1 again.
 {
   string title, base, update;
   return resource_logic_parse_comparative_resource (resource, title, base, update);
 }
 
 
-string resource_logic_comparative_resource ()
+string resource_logic_comparative_resource () // Todo can go out.
 {
   return "Comparative Resource";
 }
 
 
+string resource_logic_comparative_resource_v2 () // Todo update.
+{
+  return "Comparative ";
+}
+
+
 bool resource_logic_parse_comparative_resource (string input,
-                                                string & title, string & base, string & update)
+                                                string & title, string & base, string & update) // Todo out.
 {
   title.clear();
   base.clear();
@@ -1368,9 +1374,43 @@ bool resource_logic_parse_comparative_resource (string input,
 }
 
 
-string resource_logic_assemble_comparative_resource (string title, string base, string update)
+bool resource_logic_parse_comparative_resource_v2 (string input,
+                                                   string * title, string * base, string * update) // Todo update.
+{
+  // The definite check whether this is a comparative resource
+  // is to check that "Comparative " is the first part of the input.
+  if (input.find(resource_logic_comparative_resource_v2()) != 0) return false;
+
+  // Do a forgiving parsing of the properties of this resource.
+  if (title) title->clear();
+  if (base) base->clear();
+  if (update) update->clear();
+  vector <string> bits = filter_string_explode(input, '|');
+  if (bits.size() > 0) if (title) title->assign (bits[0]);
+  if (bits.size() > 1) if (base) base->assign(bits[1]);
+  if (bits.size() > 2) if (update) update->assign(bits[2]);
+  
+  // Done.
+  return true;
+}
+
+
+string resource_logic_assemble_comparative_resource (string title, string base, string update) // Todo out.
 {
   vector <string> bits = {resource_logic_comparative_resource(), title, base, update};
+  return filter_string_implode(bits, "|");
+}
+
+
+string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update) // Todo update.
+{
+  // Check whether the "Comparative " flag already is included in the given $title.
+  size_t pos = title.find (resource_logic_comparative_resource_v2 ());
+  if (pos != string::npos) {
+    title.erase (pos, resource_logic_comparative_resource_v2 ().length());
+  }
+  // Ensure the "Comparative " flag is always included right at the start.
+  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update};
   return filter_string_implode(bits, "|");
 }
 

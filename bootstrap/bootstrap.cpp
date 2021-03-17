@@ -212,6 +212,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/divider.h>
 #include <resource/comparative.h>
 #include <session/confirm.h>
+#include <resource/comparative9edit.h>
+#include <resource/comparative1edit.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1236,6 +1238,16 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == session_confirm_url ()) && browser_request_security_okay (request) && session_confirm_acl (request)) {
     request->reply = session_confirm (request);
+    return;
+  }
+  
+  if ((url == resource_comparative9edit_url ()) && browser_request_security_okay (request) && resource_comparative9edit_acl (request)) {
+    request->reply = resource_comparative9edit (request);
+    return;
+  }
+
+  if ((url == resource_comparative1edit_url ()) && browser_request_security_okay (request) && resource_comparative1edit_acl (request)) {
+    request->reply = resource_comparative1edit (request);
     return;
   }
 

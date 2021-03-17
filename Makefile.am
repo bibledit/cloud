@@ -460,7 +460,9 @@ libbibledit_a_SOURCES = \
   session/confirm.cpp \
   resource/comparative.cpp \
   sources/abbott-smith.cpp \
-  database/abbottsmith.cpp
+  database/abbottsmith.cpp \
+  resource/comparative9edit.cpp \
+  resource/comparative1edit.cpp
 
 bin_PROGRAMS = server unittest generate
 

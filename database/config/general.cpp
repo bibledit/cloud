@@ -519,3 +519,19 @@ void Database_Config_General::setNotesVerseSeparator (string value)
 {
   setValue (notes_verse_separator_key (), value);
 }
+
+
+const char * comparative_resources_key ()
+{
+  return "comparative-resources";
+}
+vector <string> Database_Config_General::getComparativeResources ()
+{
+  return getList (comparative_resources_key ());
+}
+void Database_Config_General::setComparativeResources (vector <string> values)
+{
+  setList (comparative_resources_key (), values);
+}
+
+

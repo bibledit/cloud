@@ -94,6 +94,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <system/indonesianfree.h>
 #include <read/index.h>
 #include <filter/css.h>
+#include <resource/comparative9edit.h>
 
 
 string menu_logic_href (string href)
@@ -941,6 +942,13 @@ string menu_logic_settings_resources_category (void * webserver_request)
     }
   }
 #endif
+
+#ifdef HAVE_CLOUD
+  if (resource_comparative9edit_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_comparative9edit_url (), translate ("Comparative"), true, "", ""));
+  }
+#endif
+
 
   (void) webserver_request;
   

@@ -613,6 +613,12 @@
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
 		CACA8C2625F4EFCD0099ABC8 /* stylesheet-coloured-tabs.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "stylesheet-coloured-tabs.css"; sourceTree = "<group>"; };
 		CACA8C2725F4F1BB0099ABC8 /* header-coloured-tabs.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "header-coloured-tabs.js"; sourceTree = "<group>"; };
+		CAD55EAE260140360021FED0 /* comparative1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative1edit.html; sourceTree = "<group>"; };
+		CAD55EAF260140360021FED0 /* comparative9edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative9edit.cpp; sourceTree = "<group>"; };
+		CAD55EB0260140370021FED0 /* comparative1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative1edit.cpp; sourceTree = "<group>"; };
+		CAD55EB1260140370021FED0 /* comparative1edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comparative1edit.h; sourceTree = "<group>"; };
+		CAD55EB2260140370021FED0 /* comparative9edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comparative9edit.h; sourceTree = "<group>"; };
+		CAD55EB3260140370021FED0 /* comparative9edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative9edit.html; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
 		CADE36FE24F1737A003165BB /* bible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bible.cpp; sourceTree = "<group>"; };
 		CADE36FF24F1737A003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -5028,6 +5034,12 @@
 				CA1B742125F8D7EE0030846D /* comparative.cpp */,
 				CA1B742025F8D7EE0030846D /* comparative.h */,
 				CA1B742225F8D7EE0030846D /* comparative.html */,
+				CAD55EAF260140360021FED0 /* comparative9edit.cpp */,
+				CAD55EB2260140370021FED0 /* comparative9edit.h */,
+				CAD55EB3260140370021FED0 /* comparative9edit.html */,
+				CAD55EB0260140370021FED0 /* comparative1edit.cpp */,
+				CAD55EB1260140370021FED0 /* comparative1edit.h */,
+				CAD55EAE260140360021FED0 /* comparative1edit.html */,
 				CADE400424F17495003165BB /* convert2bible.cpp */,
 				CADE400224F17495003165BB /* convert2bible.h */,
 				CADE3FCA24F17495003165BB /* convert2resource.cpp */,

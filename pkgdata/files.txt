@@ -528,7 +528,6 @@
 /resource/cache.html
 /resource/comparative1edit.html
 /resource/comparative9edit.html
-/resource/comparative.html
 /resource/divider.html
 /resource/download.html
 /resource/image.html

@@ -332,12 +332,23 @@ string resource_logic_get_comparison (void * webserver_request,
                                       string resource, int book, int chapter, int verse,
                                       bool add_verse_numbers)
 {
-  // Parse the resource name to get the base resource and the updated resource.
+  // This starts off with the resource title only.
+  // So get all resources and look for the one with this title.
+  // And then get the additional properties belonging to this resource.
   string title, base, update;
-  resource_logic_parse_comparative_resource (resource, title, base, update);
+  vector <string> resources = Database_Config_General::getComparativeResources ();
+  for (auto s : resources) {
+    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update);
+    if (title == resource) break;
+  }
+  cout << resource << endl; // Todo
   // Get the html of both resources to compare.
+  cout << base << endl; // Todo
   base = resource_logic_get_html (webserver_request, base, book, chapter, verse, add_verse_numbers);
+  cout << base << endl; // Todo
+  cout << update << endl; // Todo
   update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
+  cout << update << endl; // Todo
   // Clean all html elements away from the text to get a better and cleaner comparison.
   base = filter_string_html2text (base);
   update = filter_string_html2text(update);
@@ -1339,43 +1350,19 @@ bool resource_logic_is_studylight (string resource)
 }
 
 
-bool resource_logic_is_comparative (string resource) // Todo update, add v2 too, later remove v1 again.
+bool resource_logic_is_comparative (string resource)
 {
-  string title, base, update;
-  return resource_logic_parse_comparative_resource (resource, title, base, update);
+  return resource_logic_parse_comparative_resource_v2(resource);
 }
 
 
-string resource_logic_comparative_resource () // Todo can go out.
-{
-  return "Comparative Resource";
-}
-
-
-string resource_logic_comparative_resource_v2 () // Todo update.
+string resource_logic_comparative_resource_v2 ()
 {
   return "Comparative ";
 }
 
 
-bool resource_logic_parse_comparative_resource (string input,
-                                                string & title, string & base, string & update) // Todo out.
-{
-  title.clear();
-  base.clear();
-  update.clear();
-  vector <string> bits = filter_string_explode(input, '|');
-  if (bits.size() != 4) return false;
-  if (bits[0] != resource_logic_comparative_resource()) return false;
-  title = bits[1];
-  base = bits[2];
-  update = bits[3];
-  return true;
-}
-
-
-bool resource_logic_parse_comparative_resource_v2 (string input,
-                                                   string * title, string * base, string * update) // Todo update.
+bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update) // Todo update.
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
@@ -1392,13 +1379,6 @@ bool resource_logic_parse_comparative_resource_v2 (string input,
   
   // Done.
   return true;
-}
-
-
-string resource_logic_assemble_comparative_resource (string title, string base, string update) // Todo out.
-{
-  vector <string> bits = {resource_logic_comparative_resource(), title, base, update};
-  return filter_string_implode(bits, "|");
 }
 
 

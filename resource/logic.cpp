@@ -341,14 +341,9 @@ string resource_logic_get_comparison (void * webserver_request,
     resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update);
     if (title == resource) break;
   }
-  cout << resource << endl; // Todo
   // Get the html of both resources to compare.
-  cout << base << endl; // Todo
   base = resource_logic_get_html (webserver_request, base, book, chapter, verse, add_verse_numbers);
-  cout << base << endl; // Todo
-  cout << update << endl; // Todo
   update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
-  cout << update << endl; // Todo
   // Clean all html elements away from the text to get a better and cleaner comparison.
   base = filter_string_html2text (base);
   update = filter_string_html2text(update);

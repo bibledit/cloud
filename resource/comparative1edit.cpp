@@ -72,11 +72,11 @@ string resource_comparative1edit (void * webserver_request)
   bool resource_edited = false;
 
 
-  string title, base, update, remove;
+  string title, base, update, remove, replace;
   {
     vector <string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
-      resource_logic_parse_comparative_resource_v2 (resource, &title, &base, &update, &remove);
+      resource_logic_parse_comparative_resource_v2 (resource, &title, &base, &update, &remove, &replace);
       if (title == name) break;
     }
   }
@@ -133,6 +133,19 @@ string resource_comparative1edit (void * webserver_request)
   }
 
   
+  // The characters to search for and replace in both resources before doing a comparison.
+  if (request->query.count ("replace")) {
+    Dialog_Entry dialog_entry = Dialog_Entry ("comparative1edit", translate("Enter or edit the search and replace sets"), replace, "replace", "");
+    dialog_entry.add_query ("name", name);
+    page += dialog_entry.run ();
+    return page;
+  }
+  if (request->post.count ("replace")) {
+    replace = request->post ["entry"];
+    resource_edited = true;
+  }
+
+  
   // Save the comparative resource if it was edited.
   if (resource_edited) {
     vector <string> resources = Database_Config_General::getComparativeResources ();
@@ -141,7 +154,7 @@ string resource_comparative1edit (void * webserver_request)
       string title2;
       resource_logic_parse_comparative_resource_v2 (resources[i], &title2);
       if (title2 == title) {
-        string resource = resource_logic_assemble_comparative_resource_v2 (title, base, update, remove);
+        string resource = resource_logic_assemble_comparative_resource_v2 (title, base, update, remove, replace);
         resources[i] = resource;
         success = translate ("Saved");
         error.clear();
@@ -157,6 +170,7 @@ string resource_comparative1edit (void * webserver_request)
   view.set_variable ("base", base);
   view.set_variable ("update", update);
   view.set_variable ("remove", remove);
+  view.set_variable ("replace", replace);
   page += view.render ("resource", "comparative1edit");
   page += Assets_Page::footer ();
   return page;

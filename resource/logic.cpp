@@ -335,10 +335,10 @@ string resource_logic_get_comparison (void * webserver_request,
   // This starts off with the resource title only.
   // So get all resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
-  string title, base, update, remove;
+  string title, base, update, remove, replace;
   vector <string> resources = Database_Config_General::getComparativeResources ();
   for (auto s : resources) {
-    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove);
+    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace);
     if (title == resource) break;
   }
 
@@ -356,6 +356,20 @@ string resource_logic_get_comparison (void * webserver_request,
     for (auto rem : bits) {
       base = filter_string_str_replace(rem, "", base);
       update = filter_string_str_replace(rem, "", update);
+    }
+  }
+  
+  // If search-and-replace sets are given to be applied to the resources, handle that now.
+  if (!replace.empty()) {
+    vector<string> search_replace_sets = filter_string_explode(replace, ' ');
+    for (auto search_replace_set : search_replace_sets) {
+      vector <string> search_replace = filter_string_explode(search_replace_set, '=');
+      if (search_replace.size() == 2) {
+        string search = search_replace[0];
+        string replace = search_replace[1];
+        base = filter_string_str_replace(search, replace, base);
+        update = filter_string_str_replace(search, replace, update);
+      }
     }
   }
 
@@ -1370,7 +1384,7 @@ string resource_logic_comparative_resource_v2 ()
 }
 
 
-bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove) // Todo update.
+bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace) // Todo update.
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
@@ -1380,18 +1394,21 @@ bool resource_logic_parse_comparative_resource_v2 (string input, string * title,
   if (title) title->clear();
   if (base) base->clear();
   if (update) update->clear();
+  if (remove) remove->clear();
+  if (replace) replace->clear();
   vector <string> bits = filter_string_explode(input, '|');
   if (bits.size() > 0) if (title) title->assign (bits[0]);
   if (bits.size() > 1) if (base) base->assign(bits[1]);
   if (bits.size() > 2) if (update) update->assign(bits[2]);
   if (bits.size() > 3) if (remove) remove->assign(bits[3]);
+  if (bits.size() > 4) if (replace) replace->assign(bits[4]);
 
   // Done.
   return true;
 }
 
 
-string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove) // Todo update.
+string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace) // Todo update.
 {
   // Check whether the "Comparative " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_comparative_resource_v2 ());
@@ -1399,7 +1416,7 @@ string resource_logic_assemble_comparative_resource_v2 (string title, string bas
     title.erase (pos, resource_logic_comparative_resource_v2 ().length());
   }
   // Ensure the "Comparative " flag is always included right at the start.
-  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update, remove};
+  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update, remove, replace};
   return filter_string_implode(bits, "|");
 }
 

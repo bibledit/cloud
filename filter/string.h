@@ -72,7 +72,9 @@ bool unicode_string_is_valid (string s);
 bool unicode_string_is_punctuation (string s);
 int unicode_string_convert_to_codepoint (string s);
 string unicode_string_str_replace (string search, string replace, string subject);
-string icu_string_normalize (string s);
+#ifdef HAVE_ICU
+string icu_string_normalize (string s, bool remove_diacritics, bool casefold);
+#endif
 int filter_string_rand (int floor, int ceiling);
 string filter_string_html2text (string html);
 string filter_string_extract_email (string input);

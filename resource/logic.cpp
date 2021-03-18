@@ -336,10 +336,10 @@ string resource_logic_get_comparison (void * webserver_request,
   // So get all resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
   string title, base, update, remove, replace;
-  bool diacritics;
+  bool diacritics, casefold;
   vector <string> resources = Database_Config_General::getComparativeResources ();
   for (auto s : resources) {
-    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace, &diacritics);
+    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
     if (title == resource) break;
   }
 
@@ -379,8 +379,8 @@ string resource_logic_get_comparison (void * webserver_request,
   // there's a lot of flagging of difference, just because of the diacritics.
   // To handle such a situation, remove the diacritics.
   // Similarly to not mark small letters versus capitals as a difference, do case folding.
-  base = icu_string_normalize (base); // Todo split these up in removal of diacritics, and in casefolding.
-  update = icu_string_normalize (update);
+  base = icu_string_normalize (base, diacritics, casefold); // Todo split these up in removal of diacritics, and in casefolding.
+  update = icu_string_normalize (update, diacritics, casefold);
 
   // Find the differences.
   string html = filter_diff_diff (base, update);

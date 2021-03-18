@@ -336,9 +336,10 @@ string resource_logic_get_comparison (void * webserver_request,
   // So get all resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
   string title, base, update, remove, replace;
+  bool diacritics;
   vector <string> resources = Database_Config_General::getComparativeResources ();
   for (auto s : resources) {
-    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace);
+    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace, &diacritics);
     if (title == resource) break;
   }
 
@@ -378,7 +379,7 @@ string resource_logic_get_comparison (void * webserver_request,
   // there's a lot of flagging of difference, just because of the diacritics.
   // To handle such a situation, remove the diacritics.
   // Similarly to not mark small letters versus capitals as a difference, do case folding.
-  base = icu_string_normalize (base);
+  base = icu_string_normalize (base); // Todo split these up in removal of diacritics, and in casefolding.
   update = icu_string_normalize (update);
 
   // Find the differences.
@@ -1384,7 +1385,7 @@ string resource_logic_comparative_resource_v2 ()
 }
 
 
-bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace) // Todo update.
+bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold) // Todo update.
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
@@ -1396,19 +1397,23 @@ bool resource_logic_parse_comparative_resource_v2 (string input, string * title,
   if (update) update->clear();
   if (remove) remove->clear();
   if (replace) replace->clear();
+  if (diacritics) * diacritics = false;
+  if (casefold) * casefold = false;
   vector <string> bits = filter_string_explode(input, '|');
   if (bits.size() > 0) if (title) title->assign (bits[0]);
   if (bits.size() > 1) if (base) base->assign(bits[1]);
   if (bits.size() > 2) if (update) update->assign(bits[2]);
   if (bits.size() > 3) if (remove) remove->assign(bits[3]);
   if (bits.size() > 4) if (replace) replace->assign(bits[4]);
+  if (bits.size() > 5) if (diacritics) * diacritics = convert_to_bool(bits[5]);
+  if (bits.size() > 6) if (casefold) * casefold = convert_to_bool(bits[6]);
 
   // Done.
   return true;
 }
 
 
-string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace) // Todo update.
+string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold) // Todo update.
 {
   // Check whether the "Comparative " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_comparative_resource_v2 ());
@@ -1416,7 +1421,7 @@ string resource_logic_assemble_comparative_resource_v2 (string title, string bas
     title.erase (pos, resource_logic_comparative_resource_v2 ().length());
   }
   // Ensure the "Comparative " flag is always included right at the start.
-  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update, remove, replace};
+  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update, remove, replace, convert_to_true_false(diacritics), convert_to_true_false(casefold)};
   return filter_string_implode(bits, "|");
 }
 

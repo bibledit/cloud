@@ -760,7 +760,7 @@ string unicode_string_str_replace (string search, string replace, string subject
 
 
 #ifdef HAVE_ICU
-string icu_string_normalize (string s)
+string icu_string_normalize (string s) // Todo
 {
   // UTF-8 std::string -> UTF-16 UnicodeString
   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));

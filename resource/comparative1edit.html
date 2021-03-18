@@ -51,7 +51,21 @@ translate("Finally enter the characters to be substituted.")
 translate("Example"): ῃ=η ῳ=ω search=replace
 </p>
 
+<br>
+<p>
+<input type="checkbox" name="diacritics" onchange="checkbox(this)" ##diacritics## />
+translate("Remove diacritics from the resources before doing the comparison.")
+</p>
 
 <br>
-<p><a href="comparative9edit">translate("Ready")</a></p>
-<p><a href="comparative9edit?delete=##name##">translate("Delete")</a></p>
+<p>
+<input type="checkbox" name="casefold" onchange="checkbox(this)" ##casefold## />
+translate("Do case folding of the resources before doing the comparison.")
+</p>
+
+<br>
+<p><a href="comparative9edit">translate("Resource is ready")</a></p>
+<br>
+<p><a href="comparative9edit?delete=##name##">translate("Delete this resource")</a></p>
+<br>
+<script type="text/javascript" src="../assets/checkbox.js"></script>

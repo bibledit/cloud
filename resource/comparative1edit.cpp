@@ -69,14 +69,19 @@ string resource_comparative1edit (void * webserver_request)
   view.set_variable ("name", name);
 
   
+  string checkbox = request->post ["checkbox"];
+  bool checked = convert_to_bool (request->post ["checked"]);
+
+  
   bool resource_edited = false;
 
 
   string title, base, update, remove, replace;
+  bool diacritics = false, casefold = false;
   {
     vector <string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
-      resource_logic_parse_comparative_resource_v2 (resource, &title, &base, &update, &remove, &replace);
+      resource_logic_parse_comparative_resource_v2 (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
       if (title == name) break;
     }
   }
@@ -146,6 +151,20 @@ string resource_comparative1edit (void * webserver_request)
   }
 
   
+  // Whether to remove diacritics before doing the comparison.
+  if (checkbox == "diacritics") {
+    diacritics = checked;
+    resource_edited = true;
+  }
+
+  
+  // Whether to do case folding of the text before doing the comparison.
+  if (checkbox == "casefold") {
+    casefold = checked;
+    resource_edited = true;
+  }
+
+  
   // Save the comparative resource if it was edited.
   if (resource_edited) {
     vector <string> resources = Database_Config_General::getComparativeResources ();
@@ -154,7 +173,7 @@ string resource_comparative1edit (void * webserver_request)
       string title2;
       resource_logic_parse_comparative_resource_v2 (resources[i], &title2);
       if (title2 == title) {
-        string resource = resource_logic_assemble_comparative_resource_v2 (title, base, update, remove, replace);
+        string resource = resource_logic_assemble_comparative_resource_v2 (title, base, update, remove, replace, diacritics, casefold);
         resources[i] = resource;
         success = translate ("Saved");
         error.clear();
@@ -171,6 +190,8 @@ string resource_comparative1edit (void * webserver_request)
   view.set_variable ("update", update);
   view.set_variable ("remove", remove);
   view.set_variable ("replace", replace);
+  view.set_variable ("diacritics", get_checkbox_status (diacritics));
+  view.set_variable ("casefold", get_checkbox_status (casefold));
   page += view.render ("resource", "comparative1edit");
   page += Assets_Page::footer ();
   return page;

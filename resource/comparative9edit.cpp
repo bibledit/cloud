@@ -23,6 +23,7 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
 #include <menu/logic.h>
@@ -30,6 +31,7 @@
 #include <dialog/yes.h>
 #include <database/config/general.h>
 #include <pugixml/pugixml.hpp>
+#include <resource/comparative1edit.h>
 
 
 using namespace pugi;
@@ -93,6 +95,11 @@ string resource_comparative9edit (void * webserver_request)
       resources.push_back (resource);
       Database_Config_General::setComparativeResources (resources);
       success = translate("The comparative resource was created");
+      
+      string url = resource_comparative1edit_url () + "?name=" + new_resource;
+      redirect_browser (webserver_request, url);
+      return "";
+  
     }
   }
 
@@ -131,6 +138,7 @@ string resource_comparative9edit (void * webserver_request)
       xml_node a_node = p_node.append_child("a");
       string href = "comparative1edit?name=" + title;
       a_node.append_attribute ("href") = href.c_str();
+      title.append (" [" + translate("edit") + "]");
       a_node.text().set (title.c_str());
     }
     stringstream output;

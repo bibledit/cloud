@@ -99,7 +99,6 @@ string resource_organize (void * webserver_request)
       array_move_from_to (resources, from, to);
       request->database_config_user()->setActiveResources (resources);
       request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-      for (auto s : resources) cout << s << " ";
     }
     return "";
   }

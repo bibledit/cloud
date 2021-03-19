@@ -687,7 +687,7 @@ bool unicode_string_is_valid (string s)
 
 
 // Returns whether $s is Unicode punctuation.
-bool unicode_string_is_punctuation (string s) // Todo
+bool unicode_string_is_punctuation (string s)
 {
   try {
     if (s.empty ()) return false;
@@ -763,7 +763,7 @@ string unicode_string_str_replace (string search, string replace, string subject
 
 
 #ifdef HAVE_ICU
-string icu_string_normalize (string s, bool remove_diacritics, bool casefold) // Todo
+string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
 {
   // Skip any conversions that slow things down if no normalization is to be done.
   if (!remove_diacritics && !casefold) return s;

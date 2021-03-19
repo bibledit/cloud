@@ -330,7 +330,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
 string resource_logic_get_comparison (void * webserver_request,
                                       string resource, int book, int chapter, int verse,
-                                      bool add_verse_numbers) // Todo
+                                      bool add_verse_numbers)
 {
   // This starts off with the resource title only.
   // So get all resources and look for the one with this title.
@@ -388,7 +388,7 @@ string resource_logic_get_comparison (void * webserver_request,
   // there's a lot of flagging of difference, just because of the diacritics.
   // To handle such a situation, remove the diacritics.
   // Similarly to not mark small letters versus capitals as a difference, do case folding.
-  base = icu_string_normalize (base, diacritics, casefold); // Todo split these up in removal of diacritics, and in casefolding.
+  base = icu_string_normalize (base, diacritics, casefold);
   update = icu_string_normalize (update, diacritics, casefold);
 
   // Find the differences.
@@ -1394,7 +1394,7 @@ string resource_logic_comparative_resource_v2 ()
 }
 
 
-bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold) // Todo update.
+bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold)
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
@@ -1422,7 +1422,7 @@ bool resource_logic_parse_comparative_resource_v2 (string input, string * title,
 }
 
 
-string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold) // Todo update.
+string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold)
 {
   // Check whether the "Comparative " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_comparative_resource_v2 ());

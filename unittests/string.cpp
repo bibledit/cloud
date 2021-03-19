@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void test_string () // Todo
+void test_string ()
 {
   trace_unit_tests (__func__);
   

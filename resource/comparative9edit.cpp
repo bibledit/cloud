@@ -91,15 +91,15 @@ string resource_comparative9edit (void * webserver_request)
     } else if (new_resource.empty ()) {
       error = translate("Please give a name for the comparative resource");
     } else {
+      // Store the new resource in the list.
       string resource = resource_logic_assemble_comparative_resource_v2 (new_resource);
       resources.push_back (resource);
       Database_Config_General::setComparativeResources (resources);
       success = translate("The comparative resource was created");
-      
+      // Redirect the user to the place where to edit that new resource.
       string url = resource_comparative1edit_url () + "?name=" + new_resource;
       redirect_browser (webserver_request, url);
       return "";
-  
     }
   }
 

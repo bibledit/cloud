@@ -1000,23 +1000,33 @@ void Database_Config_User::setSyncKey (string key)
 }
 
 
+const char * general_font_size_key ()
+{
+  return "general-font-size";
+}
 int Database_Config_User::getGeneralFontSize ()
 {
-  return getIValue ("general-font-size", 100);
+  // Default value, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (general_font_size_key (), 112);
 }
 void Database_Config_User::setGeneralFontSize (int size)
 {
-  setIValue ("general-font-size", size);
+  setIValue (general_font_size_key (), size);
 }
 
 
+const char * menu_font_size_key ()
+{
+  return "menu-font-size";
+}
 int Database_Config_User::getMenuFontSize ()
 {
-  return getIValue ("menu-font-size", 100);
+  // Default value, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (menu_font_size_key (), 112);
 }
 void Database_Config_User::setMenuFontSize (int size)
 {
-  setIValue ("menu-font-size", size);
+  setIValue (menu_font_size_key (), size);
 }
 
 

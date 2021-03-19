@@ -315,7 +315,14 @@ string Assets_Header::run ()
       }
     }
   }
-  
+
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+  view->enable_zone("default");
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+  view->enable_zone("indonesian");
+#endif
+
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");
   page += view->render("assets", "workspacewrapper_start");

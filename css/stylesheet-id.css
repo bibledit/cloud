@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2021 Teus Benschop.
+ Copyright (©) 2003-2020 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -17,81 +17,7 @@
  */
 
 /* BEGIN CSS RESETS */
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -100,27 +26,13 @@ video {
   font: inherit;
   font-size: 100%;
 }
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
   display: block;
 }
-blockquote,
-q {
+blockquote, q {
   quotes: none;
 }
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+blockquote:before, blockquote:after, q:before, q:after {
   content: "";
   content: none;
 }
@@ -136,8 +48,7 @@ hr {
   border: 0;
   border-top: 1px solid #CCC;
 }
-input,
-select {
+input, select {
   vertical-align: middle;
 }
 ins {
@@ -154,20 +65,23 @@ mark {
 del {
   text-decoration: line-through;
 }
-abbr[title],
-dfn[title] {
+abbr[title], dfn[title] {
   border-bottom: 1px dotted;
   cursor: help;
 }
-/* END CSS RESETS */
+/* END OF CSS RESETS */
+
+/* CONTAINER STYLING */
 html {
   height: 100%;
 }
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
+
 body {
   display: -webkit-box;
   display: -webkit-flex;
@@ -184,6 +98,7 @@ body {
   font-family: serif;
   line-height: 1.3;
 }
+
 body,
 #editorheader,
 #editorinnerheader {
@@ -191,23 +106,131 @@ body,
 }
 
 div[contenteditable=true],
-.bibleeditor
-{
+.bibleeditor {
   background: #FFFFFF;
 }
+
 #oneeditor .ql-editor,
 #oneeditor,
-.focusedverse
-{
+.focusedverse {
   background: lightyellow;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
+#topbar {
+  width: 100%;
+  max-width: 100vw;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: .3em;
+}
+
+  #topbar a {
+    color: #000;
+  }
+
+  #topbar > span {
+    flex-grow: 1;
+    padding: .3em .5em;
+    margin: 5px;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+    -webkit-filter: drop-shadow(0 0 10px #aaa);
+            filter: drop-shadow(0 0 10px #aaa);
+  }
+
+    #topbar > span:first-child {
+      position: relative;
+      -webkit-flex-basis: initial;
+          -ms-flex-preferred-size: initial;
+              flex-basis: initial;
+      margin: 0 5px;
+    }
+
+    #topbar > span:first-child > span {
+      border-left: 1.5px solid white;
+      margin: .1em .3em;
+      padding-left: .3em;
+    }
+
+    #topbar > span:first-child > span:first-child {
+      border-left: 0 !important;
+    }
+
+    #versepickerwrapper {
+      white-space: unset;
+      overflow: unset;
+      -o-text-overflow: unset;
+         text-overflow: unset;
+      max-width: 87.5vw;
+      padding: inherit 1em;
+    }
+
+    #applybook {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    #applybook .selector {
+      margin: .11rem;
+      white-space: nowrap;
+      border-left: 1.5px solid white;
+      padding-left: .2em;
+    }
+
+    #applybook .selector:nth-of-type(1),
+    #applybook .selector:nth-last-of-type(1),
+    #applybook .selector:nth-last-of-type(2) {
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    #applybook .selector a {
+      background-color: #ddd1;
+      padding: 0 5px;
+      transition: all 100ms;
+    }
+
+    #applybook .selector:nth-last-of-type(2) a,
+    #applybook .selector:nth-last-of-type(1) a {
+      background-color: #823a9c !important;
+      color: #fff;
+    }
+
+  #topbar.wrap-active {
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+
+    #topbar.wrap-active > span {
+      flex-grow: 1;
+    }
+/* END OF CONTAINER STYLING */
+
+
+/* TEXT AND TEXT CONTAINER STYLING */
+h1, h2, h3, h4, h5, h6,
 #name1,
 #name2,
 #name3,
@@ -215,204 +238,161 @@ h6,
 #editorinnerheader {
   font-family: sans-serif;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0.5em 0;
+
+h1, h2, h3, h4, h5, h6 {
+  margin: .5em 0;
   font-weight: bold;
 }
+
 h1 {
   font-size: 2em;
 }
+
 h2 {
   font-size: 1.5em;
 }
+
 h3 {
   font-size: 1.3em;
 }
+
 h4 {
   font-size: 1.1em;
 }
+
 h5 {
-  font-size: 0.9em;
+  font-size: .9em;
 }
+
 h6 {
-  font-size: 0.7em;
+  font-size: .7em;
 }
+
 i, em {
   font-style: italic;
 }
+
 b, strong {
   font-weight: bold;
 }
+
 strong {
   color: #488B9B;
 }
+
 a:link {
   background: none;
   color: blue;
   text-decoration: none;
 }
+
 a:visited {
   color: blue;
 }
+
 a:hover {
   text-decoration: underline;
 }
+
 a:focus,
 a:active {
   color: red;
 }
+
 .error {
   color: red;
   font-weight: bold;
 }
+
 .success {
   color: green;
   font-weight: bold;
 }
+
 .active {
   font-weight: bold;
   font-size: larger;
 }
+
 textarea {
   width: 100%;
   height: 20em;
 }
-.width100 {
-  width: 100%;
-}
+
 .fullheight {
   height: 100%;
 }
+
+.width100 {
+  width: 100%;
+}
+
 .width75 {
   width: 75%;
 }
+
 .width50 {
   width: 50%;
 }
+
 .topalign {
   vertical-align: top;
 }
+
 .selected {
   background: #FFC;
 }
+
 .small {
   font-size: small;
 }
+
 .center {
   text-align: center;
 }
+
 @font-face {
   font-family: "Ezra SIL";
   src: url(/fonts/SILEOT.ttf);
 }
+
 .hebrew {
   font-family: "Ezra SIL";
   direction: rtl;
   line-height: 1.8;
-  /* font-size: normal; : dynamically generated */
 }
+
 @font-face {
   font-family: "Cardo";
   src: url(/fonts/Cardo-Regular.ttf);
 }
+
 .greek {
   font-family: Cardo;
-  /* font-size: normal; : dynamically generated */
 }
+
 .clearfix {
   clear: both;
   display: none;
 }
+/* END OF TEXT AND TEXT CONTAINER STYLING */
 
-#topbar {
-  width: 100%;
-  max-width: 100vw;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-#topbar a {
-  color: inherit;
-}
-
-#topbar span {
-  padding: .3rem 1rem;
-  box-shadow: 1px 1px 5px #555;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#topbar > span:first-child {
-  background-color: wheat;
-}
-
-#topbar > span:nth-child(2) {
-  background-color: thistle;
-}
-
-#topbar > span:nth-child(3) {
-  background-color: coral;
-}
-
-#topbar > span:nth-child(4) {
-  background-color: tomato;
-}
-
-#topbar > span:nth-child(5) {
-  background-color: darkseagreen;
-}
-
-#topbar > span:nth-child(6) {
-  background-color:rgb(74, 122, 122);
-}
-
-#topbar.wrap-active {
-  flex-wrap: wrap;
-}
-
-#breadcrumbs {
-  display: none;
-}
 
 #breadcrumbs:not(:empty) {
-  margin: 0.2em 0;
-  padding: 0.2em 0;
-  border-top: 1px dotted #CCC;
-}
-.menu-basic,
-.menu-advanced {
-  padding: 0.3em;
+  margin: .2em 0;
+  padding: .2em 0;
+  border-top: 2px dotted #aaa;
 }
 .menu-basic a {
-  padding: 0 0.4em;
+  padding: 0 .4em;
   border-style: solid;
-  text-decoration: none;
+  text-decoration: none!important;
+  -webkit-appearance: button;
+     -moz-appearance: button;
+          appearance: button;
 }
 .menu-advanced span {
   margin-right: 0.2em;
-}
-.menu-advanced span.selector + span:before {
-  margin-right: 0.4em;
-  color: #CCC;
-  content: "|";
-}
-.menu-advanced span.selector {
-  white-space: nowrap;
-}
-.menu-advanced span.selector.active {
-  font-weight: bold;
-}
-.nowrap {
-  white-space: nowrap;
 }
 .previousverse {
   margin-right: 0.1em;
@@ -428,31 +408,7 @@ textarea {
   margin-left: 0.1em;
   padding-left: 0.1em;
 }
-@media print {
-  body,
-  #workspacewrapper,
-  #workspaces,
-  .iframewrapper,
-  .iframewrapper iframe {
-    display: block !important;
-    width: 100% !important;
-    height: inherit !important;
-  }
-  #topbar {
-    display: none;
-  }
-}
-@page {
-  margin: 2cm;
-}
-@page :left {
-  margin-right: 2cm;
-  margin-left: 3cm;
-}
-@page :right {
-  margin-right: 3cm;
-  margin-left: 2cm;
-}
+
 .nextresource {
   page-break-inside: avoid;
   orphans: 3;
@@ -535,7 +491,7 @@ textarea {
 .iframewrapper iframe + iframe {
   border-left: 2px inset;
 }
-# The following is to cause the iframes to fill all available space in Edge.
+/* The following is to cause the iframes to fill all available space in Edge. */
 iframe {
   width: 100%;
   height: 100%;
@@ -558,8 +514,9 @@ iframe {
   -ms-flex-positive: 1;
           flex-grow: 1;
   padding: 5%;
-  background: -webkit-radial-gradient(#FDD, #FFD, #FFF);
-  background:         radial-gradient(#FDD, #FFD, #FFF);
+  border-radius: 5px;
+  background: -webkit-radial-gradient( #FEFd, #FFFd);
+  background:         radial-gradient( #FEFd, #FFFd);
 }
 .splash > * {
   -webkit-box-flex: 1;
@@ -572,7 +529,7 @@ iframe {
   -webkit-flex-grow: 100;
   -ms-flex-positive: 100;
           flex-grow: 100;
-  background-image: url(/pix/book.svg);
+  background-image: url(/pix/bibledit_logo.svg);
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -580,14 +537,17 @@ iframe {
 span[contenteditable=true] {
   padding-right: 0.5em;
 }
+#workspacewrapper {
+  filter: drop-shadow(0 0 15px #aaa);
+}
 #workspacewrapper > table.editor {
   width: 100%;
 }
 table.burndown {
   text-align: center;
 }
-table.burndown tr {
-}
+/* table.burndown tr {
+} */
 table.burndown td {
   padding: 0.15em;
   vertical-align: bottom;
@@ -627,52 +587,28 @@ table.interlinear.rtl {
   cursor: default;
 }
 
-.white-on-green {
-  color: #fff!important;
-  background-color: #008080;
+@media print {
+  body,
+  #workspacewrapper,
+  #workspaces,
+  .iframewrapper,
+  .iframewrapper iframe {
+    display: block !important;
+    width: 100% !important;
+    height: inherit !important;
+  }
+  #topbar {
+    display: none;
+  }
 }
-
-.black-on-orange {
-  color: #0a0a0a!important;
-  background-color: #ffa500;
+@page {
+  margin: 2cm;
 }
-
-.black-on-neon-green {
-  color: #0a0a0a!important;
-  background-color: #00ff00;
+@page :left {
+  margin-right: 2cm;
+  margin-left: 3cm;
 }
-
-.white-on-purple {
-  color: #fff!important;
-  background-color: #0000ff;
-}
-
-.white-on-pink {
-  color: #fff!important;
-  background-color: #ff1493;
-}
-
-.black-on-yellow {
-  color: #0a0a0a!important;
-  background-color: #ffff54
-}
-
-.black-on-light-blue {
-  color: #0a0a0a!important;
-  background-color: #7ba6d7
-}
-
-.white-on-dark-blue {
-  color: #fff!important;
-  background-color: #2654c5
-}
-
-.white-on-turkish-blue {
-  color: #fff!important;
-  background-color: #53808c
-}
-
-.divider {
-  width: 100%;
-  height: 8px;
+@page :right {
+  margin-right: 3cm;
+  margin-left: 2cm;
 }

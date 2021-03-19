@@ -1070,13 +1070,18 @@ void Database_Config_User::setGreekFontSize (int size)
 }
 
 
+const char * vertical_caret_position_key ()
+{
+  return "vertical-caret-position";
+}
 int Database_Config_User::getVerticalCaretPosition ()
 {
-  return getIValue ("vertical-caret-position", 50);
+  // Updated default value, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (vertical_caret_position_key (), 30);
 }
 void Database_Config_User::setVerticalCaretPosition (int position)
 {
-  setIValue ("vertical-caret-position", position);
+  setIValue (vertical_caret_position_key (), position);
 }
 
 
@@ -1188,14 +1193,18 @@ void Database_Config_User::setIncludeRelatedPassages (bool value)
 }
 
 
+const char * enabled_visual_editors_key ()
+{
+  return "enabled-visual-editors";
+}
 int Database_Config_User::getFastSwitchVisualEditors ()
 {
-  // Initially only the visual verse editor is enabled.
-  return getIValue ("enabled-visual-editors", 2);
+  // Updated default values, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (enabled_visual_editors_key (), 0);
 }
 void Database_Config_User::setFastSwitchVisualEditors (int value)
 {
-  setIValue ("enabled-visual-editors", value);
+  setIValue (enabled_visual_editors_key (), value);
 }
 
 

@@ -336,7 +336,7 @@ string resource_logic_get_comparison (void * webserver_request,
   // So get all resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
   string title, base, update, remove, replace;
-  bool diacritics, casefold;
+  bool diacritics = false, casefold = false;
   vector <string> resources = Database_Config_General::getComparativeResources ();
   for (auto s : resources) {
     resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
@@ -350,6 +350,15 @@ string resource_logic_get_comparison (void * webserver_request,
   // Clean all html elements away from the text to get a better and cleaner comparison.
   base = filter_string_html2text (base);
   update = filter_string_html2text(update);
+  
+  // It has been seen that one resource had a normal space, and the updated resource a non-breaking space.
+  // In such a situation there was highlighting of differences between the two resources.
+  // But with the eye one could not find any differences.
+  // So the question would come up like:
+  // Why does it highlight a difference while there seems to be no difference?
+  // The solution is to convert types of non-breaking spaces to normal ones.
+  base = any_space_to_standard_space (base);
+  update = any_space_to_standard_space(update);
 
   // If characters are given to remove from the resources, handle that situation now.
   if (!remove.empty()) {

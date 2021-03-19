@@ -386,6 +386,9 @@ string any_space_to_standard_space (string s)
 {
   s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
   s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);
+  s = filter_string_str_replace (en_space_u2002 (), " ", s);
+  s = filter_string_str_replace (figure_space_u2007 (), " ", s);
+  s = filter_string_str_replace (narrow_non_breaking_space_u202F (), " ", s);
   return s;
 }
 

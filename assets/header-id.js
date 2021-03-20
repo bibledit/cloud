@@ -100,7 +100,9 @@ $ (document).ready (function () {
 
   // These change the colors of OT, NT, and other books respectively by their
   // index number. The name of the books have to be inserted manually because
-  // they are identified in the DOM from the element's text content.
+  // they are identified in the DOM from the element's text content. Also
+  // the if statement with regex is added so that the verse and chapters
+  // wouldn't be given background colors.
   var startOfOT = "Genesis" || "Kejadian";
   var endOfOT = "Malachi" || "Maleaki";
   var startOfOTIndex = 0;
@@ -109,27 +111,41 @@ $ (document).ready (function () {
   var endOfNT = "Revelation" || "Wahyu";
   var startOfNTIndex = 0;
   var endOfNTIndex = 0;
-  $ ("#versepickerwrapper").on ("mouseover", $ (".selector"), function (event) {
-    var bookSelector = $(".selector");
-    for (var i = 0; i < bookSelector.length; i++) {
-      if (bookSelector[i].textContent == startOfOT) {
-        startOfOTIndex = i;
-      } else if (bookSelector[i].textContent == endOfOT) {
-        endOfOTIndex = i;
-      } else if (bookSelector[i].textContent == startOfNT) {
-        startOfNTIndex = i;
-      } else if (bookSelector[i].textContent == endOfNT) {
-        endOfNTIndex = i;
-        break;
-      }
-    };
-    for (var i = startOfOTIndex; i <= endOfOTIndex; i++) {
-      bookSelector[i].querySelector('a').style.backgroundColor = "#b81a1a";
-      bookSelector[i].querySelector('a').style.color = "#fff";
+  $ ("#versepickerwrapper").on ("click", function() {
+    setTimeout(() => {
+      let bookSelector = $(".selector");
+      for (var i = 0; i < bookSelector.length; i++) {
+        if (bookSelector[i].textContent == startOfOT) {
+          startOfOTIndex = i;
+        } else if (bookSelector[i].textContent == endOfOT) {
+          endOfOTIndex = i;
+        } else if (bookSelector[i].textContent == startOfNT) {
+          startOfNTIndex = i;
+        } else if (bookSelector[i].textContent == endOfNT) {
+          endOfNTIndex = i;
+          break;
+        }
       };
-    for (var i = startOfNTIndex; i <= endOfNTIndex; i++) {
-      bookSelector[i].querySelector('a').style.backgroundColor = "#1a24ad";
-      bookSelector[i].querySelector('a').style.color = "#fff";
+      if (/[0-9]/.test(bookSelector[0].textContent) == false) {
+        for (var i = startOfOTIndex; i <= endOfOTIndex; i++) {
+          bookSelector[i].querySelector('a').style.backgroundColor = "#b81a1a";
+          bookSelector[i].querySelector('a').style.color = "#fff";
+          };
+        for (var i = startOfNTIndex; i <= endOfNTIndex; i++) {
+          bookSelector[i].querySelector('a').style.backgroundColor = "#1a24ad";
+          bookSelector[i].querySelector('a').style.color = "#fff";
+          };
       };
+    },750);
   });
+
+  // These add the active class to the workspace picker of the current workspace.
+  var startOfIndex = window.location.href.length - 2;
+  var endOfIndex = window.location.href.length;
+  let workspacePicker = $('.fadeout > span');
+  for (var i = 0; i <= workspacePicker.length; i++) {
+    if (i == window.location.href.slice(startOfIndex,endOfIndex).match(/[0-9]*/)) {
+      workspacePicker[i].classList.add('active');
+    }
+  }
 });

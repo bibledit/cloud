@@ -513,7 +513,8 @@ const char * notes_verse_separator_key ()
 }
 string Database_Config_General::getNotesVerseSeparator ()
 {
-  return getValue (notes_verse_separator_key (), ".");
+  // The colon is the default value. See https://github.com/bibledit/cloud/issues/509
+  return getValue (notes_verse_separator_key (), ":");
 }
 void Database_Config_General::setNotesVerseSeparator (string value)
 {

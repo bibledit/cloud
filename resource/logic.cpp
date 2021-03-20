@@ -626,8 +626,11 @@ string resource_logic_get_divider (string resource)
   string foreground;
   string background;
   if (resource_logic_parse_rich_divider (resource, title, link, foreground, background)) {
+    // Trim whitespace.
+    title = filter_string_trim(title);
+    link = filter_string_trim(link);
     // Render a rich divider.
-    if (title.empty ()) title = "---";
+    if (title.empty ()) title = link;
     // The $ influences the resource's embedding through Javascript.
     string html = "$";
     html.append (R"(<div class="width100 center" style="background-color:)");
@@ -636,18 +639,13 @@ string resource_logic_get_divider (string resource)
     html.append (foreground);
     html.append (R"(;)");
     html.append (R"(">)");
-    html.append (" ");
+    html.append (R"(<a href=")");
+    html.append (link);
+    html.append (R"(" target="_blank">)");
     html.append (title);
-    html.append (" - ");
-    if (!link.empty()) {
-      html.append (R"(<a href=")");
-      html.append (link);
-      html.append (R"(" target="_blank">)");
-      html.append (link);
-      html.append (R"(</a>)");
-      html.append (R"()");
-      html.append (R"()");
-    }
+    html.append (R"(</a>)");
+    html.append (R"()");
+    html.append (R"()");
     html.append (R"(</div>)");
     return html;
   } else {

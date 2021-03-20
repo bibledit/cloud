@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <filter/string.h>
 #include <filter/css.h>
 #include <filter/url.h>
+#include <filter/indonesian.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
@@ -49,10 +50,11 @@ string read_index_url ()
 
 bool read_index_acl (void * webserver_request)
 {
+  int role = Filter_Roles::translator ();
 #ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
+  role = Filter_Roles::consultant ();
 #endif
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  if (Filter_Roles::access_control (webserver_request, role)) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
   return read;
@@ -71,7 +73,15 @@ string read_index (void * webserver_request)
     Ipc_Focus::set (request, switchbook, switchchapter, 1);
     Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
   }
-  
+
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // See issue https://github.com/bibledit/cloud/issues/503
+  // Specific configuration for the Indonesian free Cloud instance.
+  // The name of the default Bible in the Read tab will be AlkitabKita
+  // (That means Our/Everyone's Translation.
+  request->database_config_user()->setBible (filter_indonesian_alkitabkita_ourtranslation_name ());
+#endif
+
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
@@ -87,7 +97,7 @@ string read_index (void * webserver_request)
   if (request->query.count ("changebible")) {
     string changebible = request->query ["changebible"];
     if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
+      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to read"), "", "");
       vector <string> bibles = access_bible_bibles (request);
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);

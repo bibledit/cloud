@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -210,6 +210,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <read/load.h>
 #include <read/verse.h>
 #include <resource/divider.h>
+#include <session/confirm.h>
+#include <resource/comparative9edit.h>
+#include <resource/comparative1edit.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1224,6 +1227,21 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == resource_divider_url ()) && browser_request_security_okay (request) && resource_divider_acl (request)) {
     request->reply = resource_divider (request);
+    return;
+  }
+
+  if ((url == session_confirm_url ()) && browser_request_security_okay (request) && session_confirm_acl (request)) {
+    request->reply = session_confirm (request);
+    return;
+  }
+  
+  if ((url == resource_comparative9edit_url ()) && browser_request_security_okay (request) && resource_comparative9edit_acl (request)) {
+    request->reply = resource_comparative9edit (request);
+    return;
+  }
+
+  if ((url == resource_comparative1edit_url ()) && browser_request_security_okay (request) && resource_comparative1edit_acl (request)) {
+    request->reply = resource_comparative1edit (request);
     return;
   }
 

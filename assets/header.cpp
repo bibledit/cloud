@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -310,11 +310,19 @@ string Assets_Header::run ()
             track.append ("</a>");
           }
         }
+        view->enable_zone("breadcrumbs");
         view->set_variable ("breadcrumbs", track);
       }
     }
   }
-  
+
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+  view->enable_zone("default");
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+  view->enable_zone("indonesian");
+#endif
+
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");
   page += view->render("assets", "workspacewrapper_start");

@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -155,26 +155,35 @@ string Session_Logic::fingerprint ()
 // Attempts to log into the system.
 // Records whether the user logged in from a touch-enabled device.
 // Returns boolean success.
-bool Session_Logic::attemptLogin (string user_or_email, string password, bool touch_enabled)
+bool Session_Logic::attemptLogin (string user_or_email, string password, bool touch_enabled,
+                                  bool skip_checks)
 {
   // Brute force attack mitigation.
   if (!user_logic_login_failure_check_okay ()) {
     return false;
   }
 
-  Database_Users database = Database_Users ();
+  Database_Users database_users = Database_Users ();
   bool login_okay = false;
 
   // Match username and email.
-  if (database.matchUserPassword (user_or_email, password)) {
+  if (database_users.matchUserPassword (user_or_email, password)) {
     login_okay = true;
   }
 
   // Match password and email.
-  if (database.matchEmailPassword (user_or_email, password)) {
+  if (database_users.matchEmailPassword (user_or_email, password)) {
     login_okay = true;
     // Fetch username that belongs to the email address that was used to login.
-    user_or_email = database.getEmailToUser (user_or_email);
+    user_or_email = database_users.getEmailToUser (user_or_email);
+  }
+  
+  // The routine can skip the checks, as in the case of a confirmation link.
+  if (skip_checks) {
+    login_okay = true;
+    // When skipping checks, the email is passed, so fetch the username from that.
+    user_or_email = database_users.getEmailToUser (user_or_email);
+    if (user_or_email.empty()) login_okay = false;
   }
   
   if (login_okay) {

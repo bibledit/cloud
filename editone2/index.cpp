@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <filter/string.h>
 #include <filter/css.h>
 #include <filter/url.h>
+#include <filter/indonesian.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
@@ -39,6 +40,7 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
+#include <demo/logic.h>
 
 
 string editone2_index_url ()
@@ -49,10 +51,12 @@ string editone2_index_url ()
 
 bool editone2_index_acl (void * webserver_request)
 {
+  // Default minimum role for getting access.
+  int minimum_role = Filter_Roles::translator ();
 #ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
+  minimum_role = Filter_Roles::consultant ();
 #endif
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
+  if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
   return read;
@@ -71,7 +75,28 @@ string editone2_index (void * webserver_request)
     Ipc_Focus::set (request, switchbook, switchchapter, 1);
     Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
   }
-  
+
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // See issue https://github.com/bibledit/cloud/issues/503
+  // Specific configuration for the Indonesian free Cloud instance.
+  // The name of the default Bible in the Translate tab will be another Bible than AlkitabKita.
+  // Standard it will be Terjemahanku (My Translation).
+  // When the user changed that to another name, the editor will load that other name.
+  {
+    vector <string> bibles = access_bible_bibles (request);
+    string selected_bible;
+    for (auto bible : bibles) {
+      if (bible != filter_indonesian_alkitabkita_ourtranslation_name ()) selected_bible = bible;
+    }
+    if (selected_bible.empty ()) {
+      // No Bible selected yet: Create the Indonesian Sample Bible and take that.
+      demo_create_sample_bible ();
+      selected_bible = demo_sample_bible_name ();
+    }
+    request->database_config_user()->setBible (selected_bible);
+  }
+#endif
+
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit verse"), request);

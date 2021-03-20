@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,6 +29,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <codecvt>
 #endif
+#ifdef HAVE_ICU
+#include <unicode/ustdio.h>
+#include <unicode/normlzr.h>
+#include <unicode/utypes.h>
+#include <unicode/unistr.h>
+#include <unicode/translit.h>
+#endif
+
+
+using namespace icu;
 
 
 // A C++ equivalent for PHP's explode function.
@@ -376,6 +386,9 @@ string any_space_to_standard_space (string s)
 {
   s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
   s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);
+  s = filter_string_str_replace (en_space_u2002 (), " ", s);
+  s = filter_string_str_replace (figure_space_u2007 (), " ", s);
+  s = filter_string_str_replace (narrow_non_breaking_space_u202F (), " ", s);
   return s;
 }
 
@@ -747,6 +760,140 @@ string unicode_string_str_replace (string search, string replace, string subject
   // Ready.
   return subject;
 }
+
+
+#ifdef HAVE_ICU
+string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
+{
+  // Skip any conversions that slow things down if no normalization is to be done.
+  if (!remove_diacritics && !casefold) return s;
+  
+  // UTF-8 std::string -> UTF-16 UnicodeString
+  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+
+  // The order of doing the normalization action may be of influence on the result.
+  // Right now it seems more logical to remove diacritics first and then doing the case folding.
+
+  // Removal of diacritics.
+  if (remove_diacritics) {
+    // Transliterate UTF-16 UnicodeString following this rule:
+    // decompose, remove diacritics, recompose
+    UErrorCode status = U_ZERO_ERROR;
+    Transliterator *accents_converter = Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
+    accents_converter->transliterate(source);
+  }
+
+  // Case folding.
+  if (casefold) {
+    source.foldCase ();
+  }
+  
+  // UTF-16 UnicodeString -> UTF-8 std::string
+  string result;
+  source.toUTF8String (result);
+  
+  return result;
+}
+#endif
+
+
+// Some code for when it's necessary to find out if text is alphabetic.
+//#include <unicode/uchar.h>
+//#include <unicode/unistr.h>
+//#include <unicode/schriter.h>
+//const std::string& word = static_cast<const std::string&>(symbol);
+//icu::UnicodeString uword = icu::UnicodeString::fromUTF8(icu::StringPiece(word.data(), word.size()));
+//
+//std::string signature = "<unk";
+//
+//// signature for English, taken from Stanford parser's getSignature5
+//int num_caps = 0;
+//bool has_digit  = false;
+//bool has_dash   = false;
+//bool has_lower  = false;
+//bool has_punct  = false;
+//bool has_symbol = false;
+//
+//size_t length = 0;
+//UChar32 ch0 = 0;
+//UChar32 ch_1 = 0;
+//UChar32 ch_2 = 0;
+//
+//icu::StringCharacterIterator iter(uword);
+//for (iter.setToStart(); iter.hasNext(); ++ length) {
+//  const UChar32 ch = iter.next32PostInc();
+//
+//  // keep initial char...
+//  if (ch0 == 0)
+//    ch0 = ch;
+//
+//  ch_2 = ch_1;
+//  ch_1 = ch;
+//
+//  const int32_t gc = u_getIntPropertyValue(ch, UCHAR_GENERAL_CATEGORY_MASK);
+//
+//  has_dash   |= ((gc & U_GC_PD_MASK) != 0);
+//  has_punct  |= ((gc & U_GC_P_MASK) != 0);
+//  has_symbol |= ((gc & U_GC_S_MASK) != 0);
+//
+//  has_digit  |= (u_getNumericValue(ch) != U_NO_NUMERIC_VALUE);
+//
+//  if (u_isUAlphabetic(ch)) {
+//    if (u_isULowercase(ch))
+//      has_lower = true;
+//    else if (u_istitle(ch)) {
+//      has_lower = true;
+//      ++ num_caps;
+//    } else
+//      ++ num_caps;
+//  }
+//}
+//
+//// transform into lower...
+//uword.toLower();
+//ch_2 = (ch_2 ? u_tolower(ch_2) : ch_2);
+//ch_1 = (ch_1 ? u_tolower(ch_1) : ch_1);
+//
+//// we do not check loc...
+//if (u_isUUppercase(ch0) || u_istitle(ch0))
+//  signature += "-caps";
+//else if (! u_isUAlphabetic(ch0) && num_caps)
+//  signature += "-caps";
+//else if (has_lower)
+//  signature += "-lc";
+//
+//if (has_digit)
+//  signature += "-num";
+//if (has_dash)
+//  signature += "-dash";
+//if (has_punct)
+//  signature += "-punct";
+//if (has_symbol)
+//  signature += "-sym";
+//
+//if (length >= 3 && ch_1 == 's') {
+//  if (ch_2 != 's' && ch_2 != 'i' && ch_2 != 'u')
+//    signature += "-s";
+//} else if (length >= 5 && ! has_dash && ! (has_digit && num_caps > 0)) {
+//  if (uword.endsWith("ed"))
+//    signature += "-ed";
+//  else if (uword.endsWith("ing"))
+//    signature += "-ing";
+//  else if (uword.endsWith("ion"))
+//    signature += "-ion";
+//  else if (uword.endsWith("er"))
+//    signature += "-er";
+//  else if (uword.endsWith("est"))
+//    signature += "-est";
+//  else if (uword.endsWith("ly"))
+//    signature += "-ly";
+//  else if (uword.endsWith("ity"))
+//    signature += "-ity";
+//  else if (uword.endsWith("y"))
+//    signature += "-y";
+//  else if (uword.endsWith("al"))
+//    signature += "-al";
+//}
 
 
 // C++ equivalent for PHP's rand function

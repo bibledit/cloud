@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +32,8 @@ class Session_Logic
 public:
   Session_Logic (void * webserver_request_in);
   void setUsername (string name);
-  bool attemptLogin (string user_or_email, string password, bool touch_enabled);
+  bool attemptLogin (string user_or_email, string password, bool touch_enabled,
+                     bool skip_checks = false);
   bool loggedIn ();
   string currentUser ();
   bool touchEnabled ();

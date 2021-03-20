@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -28,10 +28,13 @@ string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
                                 bool add_verse_numbers);
 string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse);
+string resource_logic_get_comparison (void * webserver_request,
+                                      string resource, int book, int chapter, int verse,
+                                      bool add_verse_numbers);
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse);
 string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse);
 
-vector <string> resource_logic_get_names (void * webserver_request);
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only);
 
 void resource_logic_import_images (string resource, string path);
 
@@ -43,7 +46,7 @@ string resource_logic_red_divider ();
 string resource_logic_orange_divider ();
 string resource_logic_rich_divider ();
 string resource_logic_get_divider (string resource);
-bool resource_log_parse_rich_divider (string input, string & title, string & link, string & foreground, string & background);
+bool resource_logic_parse_rich_divider (string input, string & title, string & link, string & foreground, string & background);
 string resource_logic_assemble_rich_divider (string title, string link,
                                              string foreground, string background);
 
@@ -76,6 +79,11 @@ bool resource_logic_is_sword (string resource);
 bool resource_logic_is_divider (string resource);
 bool resource_logic_is_biblegateway (string resource);
 bool resource_logic_is_studylight (string resource);
+bool resource_logic_is_comparative (string resource);
+
+string resource_logic_comparative_resource_v2 ();
+bool resource_logic_parse_comparative_resource_v2 (string input, string * title = nullptr, string * base = nullptr, string * update = nullptr, string * remove = nullptr, string * replace = nullptr, bool * diacritics = nullptr, bool * casefold = nullptr);
+string resource_logic_assemble_comparative_resource_v2 (string title, string base = "", string update = "", string remove = "", string replace = "", bool diacritics = false, bool casefold = false);
 
 
 #endif

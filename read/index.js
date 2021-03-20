@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -346,9 +346,10 @@ function readchooseHtmlClicked (event)
     data: { verse: verse },
     cache: false
   });
-  
-  setTimeout (readChooseGotoResources, 1000);
 
+  // It used to go to the Resources, but it was disabled later.
+  // https://github.com/bibledit/cloud/issues/508
+  // setTimeout (readChooseGotoResources, 1000);
 }
 
 

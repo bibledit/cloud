@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -62,7 +62,8 @@ string resource_get (void * webserver_request)
     int verse = convert_to_int (s_verse);
 
     
-    // In JavaScript the resource identifier starts at 1 instead of at 0.
+    // In JavaScript the resource identifier starts at 1.
+    // In the C++ Bibledit kernel it starts at 0.
     resource--;
     vector <string> resources = request->database_config_user()->getActiveResources ();
     if (resource < resources.size ()) {
@@ -70,7 +71,10 @@ string resource_get (void * webserver_request)
 
 
       // Handle a divider.
-      if (resource_logic_is_divider (s_resource)) return resource_logic_get_divider (s_resource);
+      if (resource_logic_is_divider (s_resource)) {
+        string text = resource_logic_get_divider (s_resource);
+        return text;
+      }
       
       
       string bible = request->database_config_user ()->getBible ();

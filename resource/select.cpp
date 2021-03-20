@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #include <dialog/list.h>
 #include <database/usfmresources.h>
 #include <database/imageresources.h>
+#include <database/config/general.h>
 #include <lexicon/logic.h>
 #include <sword/logic.h>
 #include <access/logic.h>
@@ -215,9 +216,33 @@ string resource_select (void * webserver_request)
     page += dialog_list.run ();
     return page;
   }
+
   
+  // The comparative resources are stored as one resource per line.
+  // The line contains multiple properties of the resource.
+  // One of those properties is the title.
+  // This selection mechanism here shows that title only.
+  if (request->query.count ("comparative")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, "", true);
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources;
+    vector<string> raw_resources = Database_Config_General::getComparativeResources ();
+    for (auto raw_resource : raw_resources) {
+      string title;
+      if (resource_logic_parse_comparative_resource_v2 (raw_resource, &title)) {
+        resources.push_back(title);
+      }
+    }
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run ();
+    return page;
+  }
+
   
-  // Whether to show or to hide sensitive Bible resources for in countries where Jesus' followers are in danger.
+  // Whether to show or to hide sensitive Bible resources.
+  // This is to accomodate the followers of Jesus in countries where they could be in danger.
   if (!config_globals_hide_bible_resources) {
     view.enable_zone ("sensitive_bible_resource");
   }

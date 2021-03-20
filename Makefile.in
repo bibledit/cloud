@@ -340,7 +340,11 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
 	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
 	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
-	read/verse.$(OBJEXT) resource/divider.$(OBJEXT)
+	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
+	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT) \
+	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
+	resource/comparative9edit.$(OBJEXT) \
+	resource/comparative1edit.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -440,6 +444,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	confirm/$(DEPDIR)/worker.Po consistency/$(DEPDIR)/index.Po \
 	consistency/$(DEPDIR)/input.Po consistency/$(DEPDIR)/logic.Po \
 	consistency/$(DEPDIR)/poll.Po \
+	database/$(DEPDIR)/abbottsmith.Po \
 	database/$(DEPDIR)/bibleactions.Po \
 	database/$(DEPDIR)/bibles.Po database/$(DEPDIR)/books.Po \
 	database/$(DEPDIR)/cache.Po database/$(DEPDIR)/check.Po \
@@ -504,45 +509,45 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	export/$(DEPDIR)/web.Po filter/$(DEPDIR)/archive.Po \
 	filter/$(DEPDIR)/css.Po filter/$(DEPDIR)/date.Po \
 	filter/$(DEPDIR)/diff.Po filter/$(DEPDIR)/git.Po \
-	filter/$(DEPDIR)/html.Po filter/$(DEPDIR)/mail.Po \
-	filter/$(DEPDIR)/md5.Po filter/$(DEPDIR)/memory.Po \
-	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/passage.Po \
-	filter/$(DEPDIR)/roles.Po filter/$(DEPDIR)/shell.Po \
-	filter/$(DEPDIR)/string.Po filter/$(DEPDIR)/text.Po \
-	filter/$(DEPDIR)/url.Po filter/$(DEPDIR)/usfm.Po \
-	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
-	fonts/$(DEPDIR)/logic.Po help/$(DEPDIR)/index.Po \
-	html/$(DEPDIR)/header.Po html/$(DEPDIR)/text.Po \
-	index/$(DEPDIR)/index.Po index/$(DEPDIR)/listing.Po \
-	ipc/$(DEPDIR)/focus.Po ipc/$(DEPDIR)/notes.Po \
-	jobs/$(DEPDIR)/index.Po journal/$(DEPDIR)/index.Po \
-	journal/$(DEPDIR)/logic.Po jsonxx/$(DEPDIR)/jsonxx.Po \
-	ldap/$(DEPDIR)/logic.Po lexicon/$(DEPDIR)/definition.Po \
-	lexicon/$(DEPDIR)/logic.Po library/$(DEPDIR)/bibledit.Po \
-	library/$(DEPDIR)/locks.Po locale/$(DEPDIR)/logic.Po \
-	locale/$(DEPDIR)/translate.Po manage/$(DEPDIR)/exports.Po \
-	manage/$(DEPDIR)/hyphenate.Po manage/$(DEPDIR)/hyphenation.Po \
-	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
-	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
-	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
-	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/aesni.Po \
-	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
-	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
-	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
-	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
-	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
-	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
-	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
-	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
-	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecjpake.Po \
-	mbedtls/$(DEPDIR)/ecp.Po mbedtls/$(DEPDIR)/ecp_curves.Po \
-	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
-	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
-	mbedtls/$(DEPDIR)/havege.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
-	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md2.Po \
-	mbedtls/$(DEPDIR)/md4.Po mbedtls/$(DEPDIR)/md5.Po \
-	mbedtls/$(DEPDIR)/md_wrap.Po \
+	filter/$(DEPDIR)/html.Po filter/$(DEPDIR)/indonesian.Po \
+	filter/$(DEPDIR)/mail.Po filter/$(DEPDIR)/md5.Po \
+	filter/$(DEPDIR)/memory.Po filter/$(DEPDIR)/merge.Po \
+	filter/$(DEPDIR)/passage.Po filter/$(DEPDIR)/roles.Po \
+	filter/$(DEPDIR)/shell.Po filter/$(DEPDIR)/string.Po \
+	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
+	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
+	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
+	help/$(DEPDIR)/index.Po html/$(DEPDIR)/header.Po \
+	html/$(DEPDIR)/text.Po index/$(DEPDIR)/index.Po \
+	index/$(DEPDIR)/listing.Po ipc/$(DEPDIR)/focus.Po \
+	ipc/$(DEPDIR)/notes.Po jobs/$(DEPDIR)/index.Po \
+	journal/$(DEPDIR)/index.Po journal/$(DEPDIR)/logic.Po \
+	jsonxx/$(DEPDIR)/jsonxx.Po ldap/$(DEPDIR)/logic.Po \
+	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
+	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
+	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
+	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/hyphenate.Po \
+	manage/$(DEPDIR)/hyphenation.Po manage/$(DEPDIR)/index.Po \
+	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
+	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
+	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
+	mbedtls/$(DEPDIR)/aesni.Po mbedtls/$(DEPDIR)/arc4.Po \
+	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
+	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
+	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
+	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
+	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
+	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
+	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
+	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
+	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
+	mbedtls/$(DEPDIR)/ecjpake.Po mbedtls/$(DEPDIR)/ecp.Po \
+	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
+	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
+	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/havege.Po \
+	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
+	mbedtls/$(DEPDIR)/md2.Po mbedtls/$(DEPDIR)/md4.Po \
+	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
 	mbedtls/$(DEPDIR)/memory_buffer_alloc.Po \
 	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
 	mbedtls/$(DEPDIR)/padlock.Po mbedtls/$(DEPDIR)/pem.Po \
@@ -598,6 +603,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	redirect/$(DEPDIR)/index.Po related/$(DEPDIR)/logic.Po \
 	resource/$(DEPDIR)/bb2resource.Po \
 	resource/$(DEPDIR)/bbgateway.Po resource/$(DEPDIR)/cache.Po \
+	resource/$(DEPDIR)/comparative1edit.Po \
+	resource/$(DEPDIR)/comparative9edit.Po \
 	resource/$(DEPDIR)/convert2bible.Po \
 	resource/$(DEPDIR)/convert2resource.Po \
 	resource/$(DEPDIR)/divider.Po resource/$(DEPDIR)/download.Po \
@@ -627,11 +634,12 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	sendreceive/$(DEPDIR)/logic.Po sendreceive/$(DEPDIR)/notes.Po \
 	sendreceive/$(DEPDIR)/resources.Po \
 	sendreceive/$(DEPDIR)/sendreceive.Po \
-	sendreceive/$(DEPDIR)/settings.Po session/$(DEPDIR)/logic.Po \
-	session/$(DEPDIR)/login.Po session/$(DEPDIR)/logout.Po \
-	session/$(DEPDIR)/password.Po session/$(DEPDIR)/signup.Po \
-	session/$(DEPDIR)/switch.Po setup/$(DEPDIR)/index.Po \
-	setup/$(DEPDIR)/logic.Po sources/$(DEPDIR)/etcbc4.Po \
+	sendreceive/$(DEPDIR)/settings.Po session/$(DEPDIR)/confirm.Po \
+	session/$(DEPDIR)/logic.Po session/$(DEPDIR)/login.Po \
+	session/$(DEPDIR)/logout.Po session/$(DEPDIR)/password.Po \
+	session/$(DEPDIR)/signup.Po session/$(DEPDIR)/switch.Po \
+	setup/$(DEPDIR)/index.Po setup/$(DEPDIR)/logic.Po \
+	sources/$(DEPDIR)/abbott-smith.Po sources/$(DEPDIR)/etcbc4.Po \
 	sources/$(DEPDIR)/hebrewlexicon.Po sources/$(DEPDIR)/kjv.Po \
 	sources/$(DEPDIR)/morphgnt.Po sources/$(DEPDIR)/morphhb.Po \
 	sources/$(DEPDIR)/oshb.Po sources/$(DEPDIR)/styles.Po \
@@ -847,6 +855,8 @@ GREP = @GREP@
 GUNZIP_PATH = @GUNZIP_PATH@
 GZIP_PATH = @GZIP_PATH@
 HAVE_CXX11 = @HAVE_CXX11@
+ICU_CFLAGS = @ICU_CFLAGS@
+ICU_LIBS = @ICU_LIBS@
 INSTALL = @INSTALL@
 INSTALLMGR_PATH = @INSTALLMGR_PATH@
 INSTALL_DATA = @INSTALL_DATA@
@@ -857,7 +867,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
 	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) \
-	-L/usr/local/lib -lmimetic
+	-L/usr/local/lib -lmimetic $(ICU_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -1385,7 +1395,13 @@ libbibledit_a_SOURCES = \
   read/index.cpp \
   read/load.cpp \
   read/verse.cpp \
-  resource/divider.cpp
+  resource/divider.cpp \
+  filter/indonesian.cpp \
+  session/confirm.cpp \
+  sources/abbott-smith.cpp \
+  database/abbottsmith.cpp \
+  resource/comparative9edit.cpp \
+  resource/comparative1edit.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1482,7 +1498,7 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
-	$(WEBKIT2GTK_CFLAGS)
+	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:
@@ -3007,6 +3023,18 @@ read/verse.$(OBJEXT): read/$(am__dirstamp) \
 	read/$(DEPDIR)/$(am__dirstamp)
 resource/divider.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+filter/indonesian.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+session/confirm.$(OBJEXT): session/$(am__dirstamp) \
+	session/$(DEPDIR)/$(am__dirstamp)
+sources/abbott-smith.$(OBJEXT): sources/$(am__dirstamp) \
+	sources/$(DEPDIR)/$(am__dirstamp)
+database/abbottsmith.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
+resource/comparative9edit.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/comparative1edit.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3357,6 +3385,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/input.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/poll.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/abbottsmith.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@ # am--include-marker
@@ -3470,6 +3499,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/diff.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/git.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/html.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/indonesian.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/mail.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/memory.Po@am__quote@ # am--include-marker
@@ -3646,6 +3676,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bb2resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/bbgateway.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/cache.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/comparative1edit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/comparative9edit.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2bible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/convert2resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/divider.Po@am__quote@ # am--include-marker
@@ -3698,6 +3730,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/resources.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/sendreceive.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sendreceive/$(DEPDIR)/settings.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/confirm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/login.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/logout.Po@am__quote@ # am--include-marker
@@ -3706,6 +3739,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@session/$(DEPDIR)/switch.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@setup/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/abbott-smith.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/etcbc4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/hebrewlexicon.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sources/$(DEPDIR)/kjv.Po@am__quote@ # am--include-marker
@@ -4436,6 +4470,7 @@ distclean: distclean-am
 	-rm -f consistency/$(DEPDIR)/input.Po
 	-rm -f consistency/$(DEPDIR)/logic.Po
 	-rm -f consistency/$(DEPDIR)/poll.Po
+	-rm -f database/$(DEPDIR)/abbottsmith.Po
 	-rm -f database/$(DEPDIR)/bibleactions.Po
 	-rm -f database/$(DEPDIR)/bibles.Po
 	-rm -f database/$(DEPDIR)/books.Po
@@ -4549,6 +4584,7 @@ distclean: distclean-am
 	-rm -f filter/$(DEPDIR)/diff.Po
 	-rm -f filter/$(DEPDIR)/git.Po
 	-rm -f filter/$(DEPDIR)/html.Po
+	-rm -f filter/$(DEPDIR)/indonesian.Po
 	-rm -f filter/$(DEPDIR)/mail.Po
 	-rm -f filter/$(DEPDIR)/md5.Po
 	-rm -f filter/$(DEPDIR)/memory.Po
@@ -4725,6 +4761,8 @@ distclean: distclean-am
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
 	-rm -f resource/$(DEPDIR)/bbgateway.Po
 	-rm -f resource/$(DEPDIR)/cache.Po
+	-rm -f resource/$(DEPDIR)/comparative1edit.Po
+	-rm -f resource/$(DEPDIR)/comparative9edit.Po
 	-rm -f resource/$(DEPDIR)/convert2bible.Po
 	-rm -f resource/$(DEPDIR)/convert2resource.Po
 	-rm -f resource/$(DEPDIR)/divider.Po
@@ -4777,6 +4815,7 @@ distclean: distclean-am
 	-rm -f sendreceive/$(DEPDIR)/resources.Po
 	-rm -f sendreceive/$(DEPDIR)/sendreceive.Po
 	-rm -f sendreceive/$(DEPDIR)/settings.Po
+	-rm -f session/$(DEPDIR)/confirm.Po
 	-rm -f session/$(DEPDIR)/logic.Po
 	-rm -f session/$(DEPDIR)/login.Po
 	-rm -f session/$(DEPDIR)/logout.Po
@@ -4785,6 +4824,7 @@ distclean: distclean-am
 	-rm -f session/$(DEPDIR)/switch.Po
 	-rm -f setup/$(DEPDIR)/index.Po
 	-rm -f setup/$(DEPDIR)/logic.Po
+	-rm -f sources/$(DEPDIR)/abbott-smith.Po
 	-rm -f sources/$(DEPDIR)/etcbc4.Po
 	-rm -f sources/$(DEPDIR)/hebrewlexicon.Po
 	-rm -f sources/$(DEPDIR)/kjv.Po
@@ -5024,6 +5064,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f consistency/$(DEPDIR)/input.Po
 	-rm -f consistency/$(DEPDIR)/logic.Po
 	-rm -f consistency/$(DEPDIR)/poll.Po
+	-rm -f database/$(DEPDIR)/abbottsmith.Po
 	-rm -f database/$(DEPDIR)/bibleactions.Po
 	-rm -f database/$(DEPDIR)/bibles.Po
 	-rm -f database/$(DEPDIR)/books.Po
@@ -5137,6 +5178,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f filter/$(DEPDIR)/diff.Po
 	-rm -f filter/$(DEPDIR)/git.Po
 	-rm -f filter/$(DEPDIR)/html.Po
+	-rm -f filter/$(DEPDIR)/indonesian.Po
 	-rm -f filter/$(DEPDIR)/mail.Po
 	-rm -f filter/$(DEPDIR)/md5.Po
 	-rm -f filter/$(DEPDIR)/memory.Po
@@ -5313,6 +5355,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f resource/$(DEPDIR)/bb2resource.Po
 	-rm -f resource/$(DEPDIR)/bbgateway.Po
 	-rm -f resource/$(DEPDIR)/cache.Po
+	-rm -f resource/$(DEPDIR)/comparative1edit.Po
+	-rm -f resource/$(DEPDIR)/comparative9edit.Po
 	-rm -f resource/$(DEPDIR)/convert2bible.Po
 	-rm -f resource/$(DEPDIR)/convert2resource.Po
 	-rm -f resource/$(DEPDIR)/divider.Po
@@ -5365,6 +5409,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f sendreceive/$(DEPDIR)/resources.Po
 	-rm -f sendreceive/$(DEPDIR)/sendreceive.Po
 	-rm -f sendreceive/$(DEPDIR)/settings.Po
+	-rm -f session/$(DEPDIR)/confirm.Po
 	-rm -f session/$(DEPDIR)/logic.Po
 	-rm -f session/$(DEPDIR)/login.Po
 	-rm -f session/$(DEPDIR)/logout.Po
@@ -5373,6 +5418,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f session/$(DEPDIR)/switch.Po
 	-rm -f setup/$(DEPDIR)/index.Po
 	-rm -f setup/$(DEPDIR)/logic.Po
+	-rm -f sources/$(DEPDIR)/abbott-smith.Po
 	-rm -f sources/$(DEPDIR)/etcbc4.Po
 	-rm -f sources/$(DEPDIR)/hebrewlexicon.Po
 	-rm -f sources/$(DEPDIR)/kjv.Po

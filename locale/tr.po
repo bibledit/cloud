@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 18826)\n"
+"X-Generator: Launchpad (build 7100fef41f9a5d5fd53de99e6c59312f81a744cf)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -273,6 +273,9 @@ msgstr ""
 msgid "Select which Bible to make the active one for editing"
 msgstr ""
 
+msgid "Which verse separator to use for notes entry?"
+msgstr ""
+
 msgid "Changes"
 msgstr ""
 
@@ -468,6 +471,12 @@ msgstr ""
 msgid "Will save..."
 msgstr ""
 
+msgid "Updating..."
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
 msgid "Saving..."
 msgstr ""
 
@@ -481,6 +490,9 @@ msgid "Reformat"
 msgstr ""
 
 msgid "You do not have enough privileges to modify this book."
+msgstr ""
+
+msgid "Updated Bible text was loaded."
 msgstr ""
 
 msgid "space"
@@ -514,8 +526,12 @@ msgstr ""
 "İncil metnindeki değişikliklerin Bulut'tan alınmasının üzerinden bir süre "
 "geçti."
 
-msgid "Please do a Send/receive action to receive them from the Cloud."
-msgstr "Lütfen Bulut'tan almak için bir Gönder/al işlemi yapın."
+msgid ""
+"This will right itself in a little time if you are connected to the Internet."
+msgstr ""
+
+msgid "If not please do a Send/receive action."
+msgstr ""
 
 msgid ""
 "There are pending changes in the Bible text that have not yet been sent to "
@@ -523,13 +539,6 @@ msgid ""
 msgstr ""
 "İncil metnindeki değişikliklerin Bulut'a gönderilmesinin üzerinden bir süre "
 "geçti."
-
-msgid ""
-"Changes will continue to be saved, but it is recommended to do a "
-"Send/receive action as soon as you can."
-msgstr ""
-"Değişiklikler kaydedilmeye devam edecektir, fakat en kısa zamanda bir "
-"Gönder/al işlemi yapmanız önerilir."
 
 msgid "The Cloud already had some changes in this chapter."
 msgstr ""
@@ -566,6 +575,33 @@ msgid ""
 msgstr ""
 
 msgid "You may want to check whether this is correct."
+msgstr ""
+
+msgid "Check whether Bible text was saved"
+msgstr ""
+
+msgid "Bibledit saved the Bible text below."
+msgstr ""
+
+msgid "But Bibledit is not entirely sure that all went well."
+msgstr ""
+
+msgid "You may want to check whether the Bible text was saved correctly."
+msgstr ""
+
+msgid "The text in bold was added."
+msgstr ""
+
+msgid "The text in strikethrough was removed."
+msgstr ""
+
+msgid "Bible"
+msgstr ""
+
+msgid "You edited:"
+msgstr ""
+
+msgid "Bibledit saved:"
 msgstr ""
 
 msgid "Please enter a name for the new empty Bible"
@@ -607,23 +643,12 @@ msgstr "Bu bölüm zaten var"
 msgid "Order"
 msgstr ""
 
-msgid "Bible"
-msgstr ""
-
 msgid "Would you like to change the versification system?"
 msgstr ""
 
 msgid ""
 "A versification system determines how many chapters are in each book, and "
 "how many verses are in each chapter. Please make your choice below."
-msgstr ""
-
-msgid "Would you like to change the verse mapping?"
-msgstr ""
-
-msgid ""
-"A verse mapping can be used to match verses for parallel Bible display. "
-"Please make your choice below."
 msgstr ""
 
 msgid "Create book"
@@ -791,6 +816,9 @@ msgstr ""
 msgid "Closing marker does not match opening marker"
 msgstr ""
 
+msgid "Embedded marker requires a plus sign"
+msgstr ""
+
 msgid "The book lacks the marker for the verbose book name:"
 msgstr ""
 
@@ -913,6 +941,12 @@ msgstr ""
 msgid "all of them"
 msgstr ""
 
+msgid "Sort on verse"
+msgstr ""
+
+msgid "Sort on author"
+msgstr ""
+
 msgid "You have entered the changes below in a Bible editor."
 msgstr ""
 
@@ -980,6 +1014,36 @@ msgid "I have done my part on it"
 msgstr ""
 
 msgid "mark for deletion"
+msgstr ""
+
+msgid "Don't know where to save"
+msgstr ""
+
+msgid "Checksum error"
+msgstr ""
+
+msgid "Nothing to save"
+msgstr ""
+
+msgid "Cannot save: Needs Unicode"
+msgstr ""
+
+msgid "No write access"
+msgstr ""
+
+msgid "Merging chapter."
+msgstr ""
+
+msgid "Don't know what to update"
+msgstr ""
+
+msgid "Cannot update: Needs Unicode"
+msgstr ""
+
+msgid "Edit verse"
+msgstr ""
+
+msgid "Select which Bible to open in the editor"
 msgstr ""
 
 msgid "Editor and Resources"
@@ -1051,16 +1115,16 @@ msgstr ""
 msgid "Workspace"
 msgstr ""
 
+msgid "Select which Bible to read"
+msgstr ""
+
 msgid "Bibledit"
 msgstr ""
 
 msgid "Recent changes in the Bible texts"
 msgstr ""
 
-msgid ""
-"Please confirm this request by replying to this email. There is a "
-"confirmation number in the subject line. Your reply should have this same "
-"confirmation number in the subject line."
+msgid "Please confirm this request by clicking this following link:"
 msgstr ""
 
 msgid "User account change"
@@ -1075,28 +1139,55 @@ msgstr ""
 msgid "The following email was sent to this user:"
 msgstr ""
 
-msgid "Back"
+msgid "The passage has been opened in the existing Bible editor"
 msgstr ""
 
-msgid "Forward"
+msgid "Open a Bible editor to edit the passage"
 msgstr ""
 
-msgid "Select book"
+msgid "Insufficient information"
+msgstr ""
+
+msgid "There was no text."
+msgstr ""
+
+msgid "Nothing was saved."
+msgstr "Hiçbir şey kaydedilmedi."
+
+msgid "The original text of the chapter was reloaded."
+msgstr ""
+
+msgid "Save failure"
+msgstr ""
+
+msgid "User tried to save something different from exactly one chapter."
+msgstr ""
+
+msgid "Incorrect chapter"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "A user tried to save something different from exactly one chapter"
+msgstr ""
+
+msgid "Edit"
 msgstr ""
 
 msgid "Select chapter"
 msgstr ""
 
-msgid "Go to previous verse"
+msgid "cancel"
+msgstr ""
+
+msgid "Select book"
 msgstr ""
 
 msgid "Select verse"
 msgstr ""
 
-msgid "Go to next verse"
-msgstr ""
-
-msgid "cancel"
+msgid "Enter passage to go to"
 msgstr ""
 
 msgid "Copying Bible from Bibledit to a Paratext project."
@@ -1115,6 +1206,15 @@ msgid "Copy Bibledit to Paratext"
 msgstr ""
 
 msgid "Copy Paratext to Bibledit"
+msgstr ""
+
+msgid "Copy larger Bibledit chapter to smaller Paratext chapter"
+msgstr ""
+
+msgid "Chapter merged"
+msgstr ""
+
+msgid "Cannot merge chapter due to missing parent data"
 msgstr ""
 
 msgid "Paratext: Send/receive"
@@ -1150,28 +1250,16 @@ msgstr ""
 msgid "Merging and saving chapter."
 msgstr ""
 
-msgid "No write access"
-msgstr ""
-
 msgid "Passage mismatch"
 msgstr ""
 
 msgid "Needs Unicode"
 msgstr ""
 
-msgid "Nothing to save"
-msgstr ""
-
-msgid "Checksum error"
-msgstr ""
-
 msgid "Confusing data"
 msgstr ""
 
 msgid "Edit USFM"
-msgstr ""
-
-msgid "Select which Bible to open in the editor"
 msgstr ""
 
 msgid "Search the Bible"
@@ -1257,42 +1345,6 @@ msgid "Here are the various options:"
 msgstr ""
 
 msgid "Please pick one."
-msgstr ""
-
-msgid "The passage has been opened in the existing Bible editor"
-msgstr ""
-
-msgid "Open a Bible editor to edit the passage"
-msgstr ""
-
-msgid "Insufficient information"
-msgstr ""
-
-msgid "There was no text."
-msgstr ""
-
-msgid "Nothing was saved."
-msgstr "Hiçbir şey kaydedilmedi."
-
-msgid "The original text of the chapter was reloaded."
-msgstr ""
-
-msgid "Save failure"
-msgstr ""
-
-msgid "User tried to save something different from exactly one chapter."
-msgstr ""
-
-msgid "Incorrect chapter"
-msgstr ""
-
-msgid "Merging chapter."
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Edit"
 msgstr ""
 
 msgid "Stylesheet"
@@ -1431,6 +1483,9 @@ msgid "is the published chapter marker"
 msgstr ""
 
 msgid "is a comment with an endmarker"
+msgstr ""
+
+msgid "is the published verse marker"
 msgstr ""
 
 msgid "is a main title"
@@ -1818,6 +1873,12 @@ msgstr ""
 msgid "System"
 msgstr ""
 
+msgid "Please enter a name for the Bible"
+msgstr ""
+
+msgid "The Bible was renamed"
+msgstr ""
+
 msgid "Please enter a timezone between -12 and +14"
 msgstr ""
 
@@ -1840,6 +1901,15 @@ msgid "Import a file with local Consultation Notes"
 msgstr ""
 
 msgid "Import a file with local Resources"
+msgstr ""
+
+msgid "The font could not be deleted because it is in use"
+msgstr ""
+
+msgid "The font has been uploaded."
+msgstr ""
+
+msgid "Delete font"
 msgstr ""
 
 msgid "New feedback"
@@ -1938,9 +2008,6 @@ msgstr ""
 msgid "no Bible"
 msgstr ""
 
-msgid "The following notes were upgraded to the newest storage format:"
-msgstr ""
-
 msgid "Query about a change in the text"
 msgstr ""
 
@@ -2025,19 +2092,10 @@ msgstr ""
 msgid "unassign"
 msgstr ""
 
-msgid "Don't know where to save"
-msgstr ""
-
-msgid "Cannot save: Needs Unicode"
-msgstr ""
-
-msgid "Edit verse"
-msgstr ""
-
 msgid "Login"
 msgstr ""
 
-msgid "Translation"
+msgid "Read"
 msgstr ""
 
 msgid "User resources"
@@ -2077,9 +2135,6 @@ msgid "Develop"
 msgstr ""
 
 msgid "Export"
-msgstr ""
-
-msgid "Indexes and Fonts"
 msgstr ""
 
 msgid "Mail"
@@ -2158,6 +2213,12 @@ msgid "Verse editor"
 msgstr ""
 
 msgid "USFM editor"
+msgstr ""
+
+msgid "dot"
+msgstr ""
+
+msgid "colon"
 msgstr ""
 
 msgid "Bible bible does not exist: Cannot create book"
@@ -2391,6 +2452,9 @@ msgstr ""
 msgid "Password protected network repository"
 msgstr ""
 
+msgid "Personal access token protected network repository"
+msgstr ""
+
 msgid "Secured network repository"
 msgstr ""
 
@@ -2564,10 +2628,30 @@ msgstr ""
 msgid "The consultation notes show the note status"
 msgstr ""
 
+msgid "Show the status of the consultation notes in colour"
+msgstr ""
+
 msgid "Show the current verse text while creating a new consultation note"
 msgstr ""
 
-msgid "Night mode"
+msgid "Disable the pop-up menu when text is selected"
+msgstr ""
+
+msgid "Verse separator for Bible notes entry"
+msgstr ""
+
+msgid "Receive focused verse reference from Paratext and Accordance"
+msgstr ""
+
+msgid ""
+"In Accordance, enable this in Preferences / General / Synchronize text with "
+"other applications."
+msgstr ""
+
+msgid "Receive focused verse reference from Accordance"
+msgstr ""
+
+msgid "Bibledit always sends the focused verse reference to Accordance."
 msgstr ""
 
 msgid "Send / Receive"
@@ -2855,9 +2939,6 @@ msgstr ""
 msgid "Versification system"
 msgstr ""
 
-msgid "Verse mapping"
-msgstr ""
-
 msgid "Import text"
 msgstr ""
 
@@ -2983,7 +3064,7 @@ msgid ""
 "versification system"
 msgstr ""
 
-msgid "well-formed USFM"
+msgid "well formed USFM"
 msgstr ""
 
 msgid "missing punctuation at the end of a verse"
@@ -3005,6 +3086,12 @@ msgid "no-break space at French punctuation"
 msgstr ""
 
 msgid "multiple « in French citation style"
+msgstr ""
+
+msgid "transpose and fix double spaces in footnotes and cross references"
+msgstr ""
+
+msgid "valid UTF-8 Unicode text"
 msgstr ""
 
 msgid "Settings for the sentence structure"
@@ -3222,6 +3309,12 @@ msgid "User"
 msgstr ""
 
 msgid "Number of changes"
+msgstr ""
+
+msgid "editor"
+msgstr ""
+
+msgid "preview"
 msgstr ""
 
 msgid "Create"
@@ -3484,11 +3577,8 @@ msgstr ""
 msgid "The collaboration is being set up."
 msgstr ""
 
-msgid "editor"
-msgstr ""
-
 msgid ""
-"Subscribe to a consultation note you created or edited online or by email."
+"Subscribe to a consultation note I created or edited online or by email."
 msgstr ""
 
 msgid ""
@@ -3497,62 +3587,63 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Receive email confirmation of your posts to a consultation notes done by "
-"email."
+"Receive email confirmation of my posts to a consultation notes done by email."
 msgstr ""
 
 msgid ""
-"Receive email about changes in a consultation note you are subscribed to."
+"Receive email about changes in a consultation note I am subscribed to."
 msgstr ""
 
-msgid "A consultation note that gets changed will be assigned to you."
+msgid "A consultation note that gets changed will be assigned to me."
 msgstr ""
 
-msgid "Receive email about changes in a consultation note assigned to you."
-msgstr ""
-
-msgid ""
-"Suppress receiving email from an updated consultation note in case the "
-"update was made by you."
+msgid "Receive email about changes in a consultation note assigned to me."
 msgstr ""
 
 msgid ""
-"Receive daily mail with the number of consultation notes assigned to you."
+"Suppress receiving email from an updated consultation note if the update was "
+"made by me."
 msgstr ""
 
 msgid ""
-"Receive daily mail with the number of consultation notes you are subscribed "
-"to."
+"Receive daily mail with the number of consultation notes assigned to me."
+msgstr ""
+
+msgid ""
+"Receive daily mail with the number of consultation notes I am subscribed to."
 msgstr ""
 
 msgid "Receive email about a deleted consultation note."
 msgstr ""
 
 msgid ""
-"Emails that would normally be sent right after you have created a "
-"consultation note, delay them till the evening."
+"Emails that would normally be sent right after I have created a consultation "
+"note, delay them till the evening."
 msgstr ""
 
 msgid "This setting may be useful in the following scenario:"
 msgstr ""
 
 msgid ""
-"Each time you create a new note, the other members of the team get "
-"interrupted by your email."
+"Each time I create a new note, the other members of the team get interrupted "
+"by my email."
 msgstr ""
 
 msgid "This happens many times a day."
 msgstr ""
 
 msgid ""
-"You don't want these interruptions, but the team members need to get your "
-"email eventually."
+"I don't want these interruptions, but the team members need to get my email "
+"eventually."
 msgstr ""
 
-msgid "Tick this setting, and you're done."
+msgid "Tick this setting, and I am done."
 msgstr ""
 
-msgid "Receive daily mail with the changes in the Bible made by you."
+msgid "Assign notes I create to these users:"
+msgstr ""
+
+msgid "Receive daily mail with the changes in the Bible made by me."
 msgstr ""
 
 msgid "Receive daily mail with the changes in the Bible made by anyone."
@@ -3560,22 +3651,22 @@ msgstr ""
 
 msgid ""
 "Notifications about changes in the Bible made by anyone will be generated "
-"for you online."
+"for me online."
 msgstr ""
 
 msgid ""
-"Notifications about changes in the Bible made by you will be generated for "
-"you online."
+"Notifications about changes in the Bible made by me will be generated for me "
+"online."
 msgstr ""
 
 msgid ""
 "Notifications about changes in the Bible made by the individual contributors "
-"will be generated for you online."
+"will be generated for me online."
 msgstr ""
 
 msgid ""
 "Receive daily mail with the number of online change notifications awaiting "
-"your attention."
+"my attention."
 msgstr ""
 
 msgid "Text Checks"
@@ -3774,6 +3865,15 @@ msgstr ""
 msgid "Delete the entire stylesheet."
 msgstr ""
 
+msgid "You can copy or backup this stylesheet."
+msgstr ""
+
+msgid "The stylesheet is kept in one folder."
+msgstr ""
+
+msgid "The name of the folder is this:"
+msgstr ""
+
 msgid "Category"
 msgstr ""
 
@@ -3954,6 +4054,56 @@ msgid "Make an archive of all the Resources installed on this device."
 msgstr ""
 
 msgid "Import a Resources archive into this device."
+msgstr ""
+
+msgid "Indexing"
+msgstr ""
+
+msgid "Bibledit uses indexes for fast lookup."
+msgstr ""
+
+msgid "Normally the indexes are refreshed automatically."
+msgstr ""
+
+msgid ""
+"When the Journal indicates unusual behaviour of an index, or errors, it "
+"needs to be recreated."
+msgstr ""
+
+msgid "Recreate Bibles index."
+msgstr ""
+
+msgid "Recreate Consultation Notes index."
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
+msgid "The following fonts are available in Bibledit:"
+msgstr ""
+
+msgid "You can add or remove fonts in Bibledit Cloud:"
+msgstr ""
+
+msgid "You can upload a new font."
+msgstr ""
+
+msgid "Cache"
+msgstr ""
+
+msgid "Clear the web cache and the resources cache."
+msgstr ""
+
+msgid "Queued emails"
+msgstr ""
+
+msgid "Number of emails still to be sent:"
+msgstr ""
+
+msgid "The name of the Bible is"
+msgstr ""
+
+msgid "Visit alkitabkita.info for more information."
 msgstr ""
 
 msgid "Create new"
@@ -4278,45 +4428,10 @@ msgstr ""
 msgid "Select the user to assign the note to"
 msgstr ""
 
-msgid "preview"
-msgstr ""
-
 msgid "Compare this Bible with any of the Bibles or USFM Resources below."
 msgstr ""
 
 msgid "Enable JavaScript to work with Bibledit"
-msgstr ""
-
-msgid "Indexing"
-msgstr ""
-
-msgid "Bibledit uses indexes for fast lookup."
-msgstr ""
-
-msgid "Normally the indexes are refreshed automatically."
-msgstr ""
-
-msgid ""
-"When the Journal indicates unusual behaviour of an index, or errors, it "
-"needs to be recreated."
-msgstr ""
-
-msgid "Recreate Bibles index."
-msgstr ""
-
-msgid "Recreate Consultation Notes index."
-msgstr ""
-
-msgid "Fonts"
-msgstr ""
-
-msgid "The following fonts are available in Bibledit:"
-msgstr ""
-
-msgid "You can add or remove fonts in Bibledit Cloud:"
-msgstr ""
-
-msgid "You can upload a new font."
 msgstr ""
 
 msgid "Hyphenation"
@@ -4419,6 +4534,9 @@ msgstr ""
 msgid "Export now."
 msgstr ""
 
+msgid "Email address for a feedback link:"
+msgstr ""
+
 msgid "Html"
 msgstr ""
 
@@ -4493,9 +4611,6 @@ msgid ""
 "module."
 msgstr ""
 
-msgid "Quick Bible"
-msgstr ""
-
 msgid "The exports use the following stylesheet:"
 msgstr ""
 
@@ -4509,6 +4624,9 @@ msgid "Submit the Bible to the Bible Drop Box now."
 msgstr ""
 
 msgid "Visit the Bible Drop Box for more options."
+msgstr ""
+
+msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
 msgid "Username"
@@ -4600,6 +4718,20 @@ msgid "Old Testament"
 msgstr ""
 
 msgid "New Testament"
+msgstr ""
+
+msgid "Neural Machine Translation"
+msgstr ""
+
+msgid "The reference Bible translation:"
+msgstr ""
+
+msgid "The Bible being translated:"
+msgstr ""
+
+msgid ""
+"Export both Bibles and generate data for training a neural machine "
+"translation model."
 msgstr ""
 
 msgid "Resource categories"
@@ -4804,6 +4936,24 @@ msgid ""
 "image."
 msgstr ""
 
+msgid "Rich Divider"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "Edit text colour"
+msgstr ""
+
+msgid "Edit background colour"
+msgstr ""
+
+msgid "Add it to the Resources"
+msgstr ""
+
 msgid "Resource Organizer"
 msgstr ""
 
@@ -4917,7 +5067,7 @@ msgstr ""
 msgid "Connected to Bibledit Cloud."
 msgstr ""
 
-msgid "Disconnect and log out."
+msgid "Connection information."
 msgstr ""
 
 msgid "Internet address"
@@ -4944,6 +5094,24 @@ msgid "Or else connect to the Bibledit Cloud demo."
 msgstr ""
 
 msgid "To get access to Bibledit Cloud, install a server instance."
+msgstr ""
+
+msgid ""
+"Bibledit is not like some programs that can work faster if you log out and "
+"log back in."
+msgstr ""
+
+msgid ""
+"If you log out, then any verses you drafted or changed will not be sent to "
+"the Cloud."
+msgstr ""
+
+msgid ""
+"Bibledit has been designed so that the user never has to log out under "
+"normal circumstances."
+msgstr ""
+
+msgid "I understand it and want to disconnect from the Cloud."
 msgstr ""
 
 msgid "This page deals with setting up the email system."
@@ -5047,6 +5215,9 @@ msgstr ""
 msgid ""
 "If the SMTP server does not need authentication, just leave the fields for "
 "username and password empty."
+msgstr ""
+
+msgid "Any port other than 25 will use a secure connection."
 msgstr ""
 
 msgid ""
@@ -6048,6 +6219,11 @@ msgid ""
 "choose Paragraph Styles. Right-click the style you want and choose Edit."
 msgstr ""
 
+msgid ""
+"Section headings look better after ticking ‘Balance ragged lines’ in the "
+"paragraph options."
+msgstr ""
+
 msgid "Running headers"
 msgstr ""
 
@@ -6167,7 +6343,13 @@ msgstr ""
 msgid "Open a terminal."
 msgstr ""
 
+msgid "On older versions of Ubuntu, or to get updated Bibledit software:"
+msgstr ""
+
 msgid "Add the Bibledit repository:"
+msgstr ""
+
+msgid "As of Ubuntu 18.04, the above is no longer needed."
 msgstr ""
 
 msgid "Read the repository:"
@@ -6177,6 +6359,9 @@ msgid "Install Bibledit:"
 msgstr ""
 
 msgid "Bibledit can be started from the menu."
+msgstr ""
+
+msgid "More information:"
 msgstr ""
 
 msgid "The Notes are an important part of Consultations."
@@ -6386,7 +6571,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2017 Teus Benschop."
+msgid "Copyright (©) 2003-2021 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -6879,7 +7064,8 @@ msgid "Bibledit Cloud can also be installed from source."
 msgstr ""
 
 msgid ""
-"When the Navigator is displayed, it focuses the name of the Bible book."
+"When the Navigator is displayed, enter the passage to focus through the "
+"keyboard."
 msgstr ""
 
 msgid "Escape"
@@ -7547,7 +7733,7 @@ msgid "The OpenDocument files are used as a starting point for typesetting."
 msgstr ""
 
 msgid ""
-"Some of the word in the OpenDocument files are long. This results in too "
+"Some of the words in the OpenDocument files are long. This results in too "
 "much space between some words."
 msgstr ""
 
@@ -7561,7 +7747,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"But the programs do not have a hyphenation algorithms for all languages."
+"But the programs do not have hyphenation algorithms for all languages."
 msgstr ""
 
 msgid "Bibledit has a hyphenater that could assist."
@@ -7984,6 +8170,9 @@ msgstr ""
 msgid "Avoid hyphenations in the headings."
 msgstr ""
 
+msgid "It is helpful to remove all discretionary hyphens from the headings."
+msgstr ""
+
 msgid ""
 "Many book titles consist of a main title and a subtitle, like 'The gospel of "
 "Matthew'."
@@ -8051,7 +8240,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This result in less much white space between paragraphs or at the bottom of "
+"This results in less much white space between paragraphs or at the bottom of "
 "a page."
 msgstr ""
 
@@ -8807,10 +8996,10 @@ msgstr ""
 msgid "Install the software Bibledit relies on:"
 msgstr ""
 
-msgid "Download Bibledit:"
+msgid "Download a recent version of Bibledit from"
 msgstr ""
 
-msgid "Unpack Bibledit in folder bibledit:"
+msgid "Unpack the downloaded Bibledit in folder bibledit:"
 msgstr ""
 
 msgid "Change to the directory:"
@@ -8952,11 +9141,7 @@ msgstr ""
 msgid "A verification email has been sent."
 msgstr ""
 
-msgid ""
-"After you reply to the verification email, your account will be activated."
-msgstr ""
-
-msgid "This may take five or more minutes."
+msgid "Follow the instructions in the email to activate your account."
 msgstr ""
 
 msgid "Switched user"
@@ -10151,7 +10336,7 @@ msgid ""
 "Second or alternate verse number. For coding dual numeration in Psalms."
 msgstr ""
 
-msgid "Publishing alternate verse"
+msgid "Published verse marker"
 msgstr ""
 
 msgid ""
@@ -10668,6 +10853,15 @@ msgstr ""
 msgid "The Bible is being exported to Web format."
 msgstr ""
 
+msgid "The email address for the feedback link was removed."
+msgstr ""
+
+msgid "The email address for the feedback link was saved."
+msgstr ""
+
+msgid "The email address is not valid."
+msgstr ""
+
 msgid "The Bible is being exported to Html format."
 msgstr ""
 
@@ -10716,9 +10910,6 @@ msgstr ""
 msgid "The Bible is being exported to Online Bible format."
 msgstr ""
 
-msgid "The Bible is being exported to Quick Bible format."
-msgstr ""
-
 msgid "Would you like to use another stylesheet for the exports?"
 msgstr ""
 
@@ -10734,13 +10925,20 @@ msgstr ""
 msgid "Go to Bibledit Cloud to submit the Bible there."
 msgstr ""
 
-msgid "The font could not be deleted because it is in use"
+msgid ""
+"Which Bible would you like to use as a reference for producing the neural "
+"machine translation suggestions?"
 msgstr ""
 
-msgid "The font has been uploaded."
+msgid ""
+"Which Bible would you like to use as the one now being translated for "
+"getting the neural machine translation suggestions?"
 msgstr ""
 
-msgid "Delete font"
+msgid "Exporting invalid UTF-8."
+msgstr ""
+
+msgid "Please check."
 msgstr ""
 
 msgid "Number of chapters per book"
@@ -10854,9 +11052,6 @@ msgstr ""
 msgid "Exported to basic USFM and text"
 msgstr ""
 
-msgid "Exported to Quick Bible"
-msgstr ""
-
 msgid "Submit to the Bible Drop Box"
 msgstr ""
 
@@ -10864,6 +11059,9 @@ msgid "Bible translation through Bibledit"
 msgstr ""
 
 msgid "Go back to"
+msgstr ""
+
+msgid "Comment on"
 msgstr ""
 
 msgid "Exported to web"
@@ -11023,6 +11221,12 @@ msgid "Remove"
 msgstr ""
 
 msgid "Convert"
+msgstr ""
+
+msgid "Please enter the title for the divider"
+msgstr ""
+
+msgid "Please enter the link for the divider"
 msgstr ""
 
 msgid "Converting USFM Resource to Bible"
@@ -11257,7 +11461,10 @@ msgstr ""
 msgid "Account opened"
 msgstr ""
 
-msgid "Welcome! Your account is now active."
+msgid "Welcome!"
+msgstr ""
+
+msgid "Your account is now active and you have logged in."
 msgstr ""
 
 msgid "Username or email address or password are not correct"

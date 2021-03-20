@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -141,9 +141,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_html2usfm ();
-  test_usfm2html ();
-  test_usfm2html2usfm ();
+  test_string ();
   refresh_sandbox (true);
   exit (0);
   

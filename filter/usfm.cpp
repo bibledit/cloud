@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -628,17 +628,27 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   const char * explanation1 = "The text was not saved for safety reasons.";
-  const char * explanation2 = "Make smaller changes and save more often. Or relax the restriction in the editing settings. See menu Settings - Preferences.";
+  const char * explanation2 = "Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.";
   
   // Allowed percentage difference.
-  int allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
-  if (chapter) allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
+  int allowed_percentage = 0;
+  if (chapter)
+    allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
+  else
+    allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
 
   // When the verse editor has an empty verse, it should allow for 100% change.
+  // Same for the chapter editor, if it has empty verses, allow for a 100% change.
   // This is useful for filling in empty verses.
-  if (!chapter) {
+  if (chapter) {
+    if (oldtext.length () < 50) allowed_percentage = 100;
+  } else {
     if (oldtext.length () < 10) allowed_percentage = 100;
   }
+  
+  // When the new text is longer than the old text, it means the user is typing extra text in the verse.
+  // Allow that in all cases.
+  if (newtext.length() > oldtext.length()) allowed_percentage = 100;
   
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();

@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -23,11 +23,18 @@
 #include <editor/html2usfm.h>
 #include <editor/html2format.h>
 #include <styles/logic.h>
+#include <database/state.h>
+#include <database/login.h>
+#include <database/users.h>
+#include <webserver/request.h>
+#include <user/logic.h>
 
 
 void test_dev ()
 {
   trace_unit_tests (__func__);
+
+  refresh_sandbox (true);
 
   refresh_sandbox (true);
 }

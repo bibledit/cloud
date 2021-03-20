@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <filter/archive.h>
 #include <filter/shell.h>
 #include <filter/roles.h>
+#include <filter/diff.h>
 #include <resource/external.h>
 #include <locale/translate.h>
 #include <client/logic.h>
@@ -90,7 +91,7 @@ Stages to retrieve resource content and serve it.
 */
 
 
-vector <string> resource_logic_get_names (void * webserver_request)
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only)
 {
   vector <string> names;
   
@@ -108,13 +109,17 @@ vector <string> resource_logic_get_names (void * webserver_request)
   names.insert (names.end (), external_resources.begin(), external_resources.end());
   
   // Image resources.
-  Database_ImageResources database_imageresources;
-  vector <string> image_resources = database_imageresources.names ();
-  names.insert (names.end (), image_resources.begin(), image_resources.end());
+  if (!bibles_only) {
+    Database_ImageResources database_imageresources;
+    vector <string> image_resources = database_imageresources.names ();
+    names.insert (names.end (), image_resources.begin(), image_resources.end());
+  }
   
   // Lexicon resources.
-  vector <string> lexicon_resources = lexicon_logic_resource_names ();
-  names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
+  if (!bibles_only) {
+    vector <string> lexicon_resources = lexicon_logic_resource_names ();
+    names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
+  }
   
   // SWORD resources
   vector <string> sword_resources = sword_logic_get_available ();
@@ -130,6 +135,14 @@ string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
                                 bool add_verse_numbers)
 {
+  // Handle a comparative resources.
+  // This type of resource is special.
+  // It fetches data from two resources and combines that into one.
+  if (resource_logic_is_comparative (resource)) {
+    return resource_logic_get_comparison(webserver_request, resource, book, chapter, verse, add_verse_numbers);
+  }
+  // From here on it handles a single resource.
+  
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string html;
@@ -312,6 +325,77 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   data = filter_string_str_replace ("<span class=\"s ", "<span class=\"", data);
 
   return data;
+}
+
+
+string resource_logic_get_comparison (void * webserver_request,
+                                      string resource, int book, int chapter, int verse,
+                                      bool add_verse_numbers)
+{
+  // This starts off with the resource title only.
+  // So get all resources and look for the one with this title.
+  // And then get the additional properties belonging to this resource.
+  string title, base, update, remove, replace;
+  bool diacritics = false, casefold = false;
+  vector <string> resources = Database_Config_General::getComparativeResources ();
+  for (auto s : resources) {
+    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
+    if (title == resource) break;
+  }
+
+  // Get the html of both resources to compare.
+  base = resource_logic_get_html (webserver_request, base, book, chapter, verse, add_verse_numbers);
+  update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
+
+  // Clean all html elements away from the text to get a better and cleaner comparison.
+  base = filter_string_html2text (base);
+  update = filter_string_html2text(update);
+  
+  // It has been seen that one resource had a normal space, and the updated resource a non-breaking space.
+  // In such a situation there was highlighting of differences between the two resources.
+  // But with the eye one could not find any differences.
+  // So the question would come up like:
+  // Why does it highlight a difference while there seems to be no difference?
+  // The solution is to convert types of non-breaking spaces to normal ones.
+  base = any_space_to_standard_space (base);
+  update = any_space_to_standard_space(update);
+
+  // If characters are given to remove from the resources, handle that situation now.
+  if (!remove.empty()) {
+    vector<string> bits = filter_string_explode(remove, ' ');
+    for (auto rem : bits) {
+      if (rem.empty()) continue;
+      base = filter_string_str_replace(rem, "", base);
+      update = filter_string_str_replace(rem, "", update);
+    }
+  }
+  
+  // If search-and-replace sets are given to be applied to the resources, handle that now.
+  if (!replace.empty()) {
+    vector<string> search_replace_sets = filter_string_explode(replace, ' ');
+    for (auto search_replace_set : search_replace_sets) {
+      vector <string> search_replace = filter_string_explode(search_replace_set, '=');
+      if (search_replace.size() == 2) {
+        string search = search_replace[0];
+        if (search.empty()) continue;
+        string replace = search_replace[1];
+        base = filter_string_str_replace(search, replace, base);
+        update = filter_string_str_replace(search, replace, update);
+      }
+    }
+  }
+
+  // When showing the difference between two Greek New Testaments,
+  // one with diacritics and the other without diacritics.
+  // there's a lot of flagging of difference, just because of the diacritics.
+  // To handle such a situation, remove the diacritics.
+  // Similarly to not mark small letters versus capitals as a difference, do case folding.
+  base = icu_string_normalize (base, diacritics, casefold);
+  update = icu_string_normalize (update, diacritics, casefold);
+
+  // Find the differences.
+  string html = filter_diff_diff (base, update);
+  return html;
 }
 
 
@@ -509,7 +593,7 @@ string resource_logic_rich_divider ()
 }
 
 
-bool resource_log_parse_rich_divider (string input, string & title, string & link,
+bool resource_logic_parse_rich_divider (string input, string & title, string & link,
                                       string & foreground, string & background)
 {
   title.clear();
@@ -541,9 +625,12 @@ string resource_logic_get_divider (string resource)
   string link;
   string foreground;
   string background;
-  if (resource_log_parse_rich_divider (resource, title, link, foreground, background)) {
+  if (resource_logic_parse_rich_divider (resource, title, link, foreground, background)) {
+    // Trim whitespace.
+    title = filter_string_trim(title);
+    link = filter_string_trim(link);
     // Render a rich divider.
-    if (title.empty ()) title = "---";
+    if (title.empty ()) title = link;
     // The $ influences the resource's embedding through Javascript.
     string html = "$";
     html.append (R"(<div class="width100 center" style="background-color:)");
@@ -552,17 +639,13 @@ string resource_logic_get_divider (string resource)
     html.append (foreground);
     html.append (R"(;)");
     html.append (R"(">)");
-    if (!link.empty()) {
-      html.append (R"(<a href=")");
-      html.append (link);
-      html.append (R"(" target="_blank">)");
-    }
+    html.append (R"(<a href=")");
+    html.append (link);
+    html.append (R"(" target="_blank">)");
     html.append (title);
-    if (!link.empty()) {
-      html.append (R"(</a>)");
-      html.append (R"()");
-      html.append (R"()");
-    }
+    html.append (R"(</a>)");
+    html.append (R"()");
+    html.append (R"()");
     html.append (R"(</div>)");
     return html;
   } else {
@@ -881,6 +964,81 @@ string resource_logic_bible_gateway_book (int book)
 }
 
 
+string resource_external_convert_book_studylight (int book)
+{
+  // Map Bibledit books to biblehub.com books.
+  map <int, string> mapping = {
+    make_pair (1, "genesis"),
+    make_pair (2, "exodus"),
+    make_pair (3, "leviticus"),
+    make_pair (4, "numbers"),
+    make_pair (5, "deuteronomy"),
+    make_pair (6, "joshua"),
+    make_pair (7, "judges"),
+    make_pair (8, "ruth"),
+    make_pair (9, "1-samuel"),
+    make_pair (10, "2-samuel"),
+    make_pair (11, "1-kings"),
+    make_pair (12, "2-kings"),
+    make_pair (13, "1-chronicles"),
+    make_pair (14, "2-chronicles"),
+    make_pair (15, "ezra"),
+    make_pair (16, "nehemiah"),
+    make_pair (17, "esther"),
+    make_pair (18, "job"),
+    make_pair (19, "psalms"),
+    make_pair (20, "proverbs"),
+    make_pair (21, "ecclesiastes"),
+    make_pair (22, "song-of-solomon"),
+    make_pair (23, "isaiah"),
+    make_pair (24, "jeremiah"),
+    make_pair (25, "lamentations"),
+    make_pair (26, "ezekiel"),
+    make_pair (27, "daniel"),
+    make_pair (28, "hosea"),
+    make_pair (29, "joel"),
+    make_pair (30, "amos"),
+    make_pair (31, "obadiah"),
+    make_pair (32, "jonah"),
+    make_pair (33, "micah"),
+    make_pair (34, "nahum"),
+    make_pair (35, "habakkuk"),
+    make_pair (36, "zephaniah"),
+    make_pair (37, "haggai"),
+    make_pair (38, "zechariah"),
+    make_pair (39, "malachi"),
+    make_pair (40, "matthew"),
+    make_pair (41, "mark"),
+    make_pair (42, "luke"),
+    make_pair (43, "john"),
+    make_pair (44, "acts"),
+    make_pair (45, "romans"),
+    make_pair (46, "1-corinthians"),
+    make_pair (47, "2-corinthians"),
+    make_pair (48, "galatians"),
+    make_pair (49, "ephesians"),
+    make_pair (50, "philippians"),
+    make_pair (51, "colossians"),
+    make_pair (52, "1-thessalonians"),
+    make_pair (53, "2-thessalonians"),
+    make_pair (54, "1-timothy"),
+    make_pair (55, "2-timothy"),
+    make_pair (56, "titus"),
+    make_pair (57, "philemon"),
+    make_pair (58, "hebrews"),
+    make_pair (59, "james"),
+    make_pair (60, "1-peter"),
+    make_pair (61, "2-peter"),
+    make_pair (62, "1-john"),
+    make_pair (63, "2-john"),
+    make_pair (64, "3-john"),
+    make_pair (65, "jude"),
+    make_pair (66, "revelation")
+  };
+  return mapping [book];
+}
+
+
 struct bible_gateway_walker: xml_tree_walker
 {
   string verse;
@@ -1026,7 +1184,10 @@ string resource_logic_study_light_module_list_refresh ()
     // Example commentary fragment:
     // <h3><a class="emphasis" href="//www.studylight.org/commentaries/gsb.html">Geneva Study Bible</a></h3>
     do {
-      string fragment = "<a class=\"emphasis\"";
+      // <a class="emphasis" ...
+      string fragment = R"(<a class="emphasis")";
+      // New fragment on updated website:
+      fragment = R"(<a class="fg-darkgrey")";
       size_t pos = html.find (fragment);
       if (pos == string::npos) break;
       html.erase (0, pos + fragment.size ());
@@ -1042,7 +1203,8 @@ string resource_logic_study_light_module_list_refresh ()
       pos = html.find ("</a>");
       if (pos == string::npos) break;
       string name = html.substr (0, pos);
-      resources.push_back (name + " (" + abbreviation + ")");
+      string resource = name + " (studylight-" + abbreviation + ")";
+      resources.push_back (resource);
     } while (true);
     // Store the resources in a file.
     filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
@@ -1079,10 +1241,13 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
     if (pos != string::npos) {
       resource.erase (pos);
 
-      // On StudyLight.org, Genesis equals book 0, Exodus book 1, and so on.
-      book--;
-      
-      string url = "http://www.studylight.org/com/" + resource + "/view.cgi?bk=" + convert_to_string (book) + "&ch=" + convert_to_string (chapter);
+      // The resource abbreviation might look like this:
+      // studylight-eng/bnb
+      // Also remove that "studylight-" bit.
+      resource.erase (0, 11);
+
+      // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
+      string url = "http://www.studylight.org/commentaries/" + resource + "/" + resource_external_convert_book_studylight (book) + "-" + convert_to_string (chapter) + ".html";
 
       // Get the html from the server, and tidy it up.
       string error;
@@ -1092,7 +1257,12 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
       
       vector <string> relevant_lines;
       bool relevant_flag = false;
-      
+
+      // <a name="verse-2" ... >Verse 2</a>
+      // <a name="verses-1-4" ...>Verses 1-4</a>
+      string verse_tag = R"(name="verse-)" + convert_to_string (verse) + R"(")";
+      string verses_tag = R"(name="verses-)";
+
       for (auto & line : tidied) {
         
         if (relevant_flag) relevant_lines.push_back (line);
@@ -1100,8 +1270,23 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
         size_t pos = line.find ("</div>");
         if (pos != string::npos) relevant_flag = false;
         
-        pos = line.find ("name=\"" + convert_to_string (verse) + "\"");
+        pos = line.find (verse_tag);
         if (pos != string::npos) relevant_flag = true;
+        
+        pos = line.find (verses_tag);
+        if (pos != string::npos) {
+          size_t pos2 = line.find(R"(")", pos + 8);
+          if (pos2 != string::npos) {
+            // Example of multi-verse fragment: name="verses-47-54
+            string fragment = line.substr(pos, pos2 - pos);
+            vector <string> bits = filter_string_explode(fragment, '-');
+            if (bits.size() == 3) {
+              int lower = convert_to_int(bits[1]);
+              int higher = convert_to_int(bits[2]);
+              if ((verse >= lower) && (verse <= higher)) relevant_flag = true;
+            }
+          }
+        }
       }
       
       result = filter_string_implode (relevant_lines, "\n");
@@ -1178,6 +1363,7 @@ bool resource_logic_is_divider (string resource)
   if (resource == resource_logic_violet_divider ()) return true;
   if (resource == resource_logic_red_divider ()) return true;
   if (resource == resource_logic_orange_divider ()) return true;
+  if (resource.find (resource_logic_rich_divider ()) == 0) return true;
   return false;
 }
 
@@ -1194,3 +1380,58 @@ bool resource_logic_is_studylight (string resource)
   vector <string> names = resource_logic_study_light_module_list_get ();
   return in_array (resource, names);
 }
+
+
+bool resource_logic_is_comparative (string resource)
+{
+  return resource_logic_parse_comparative_resource_v2(resource);
+}
+
+
+string resource_logic_comparative_resource_v2 ()
+{
+  return "Comparative ";
+}
+
+
+bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold)
+{
+  // The definite check whether this is a comparative resource
+  // is to check that "Comparative " is the first part of the input.
+  if (input.find(resource_logic_comparative_resource_v2()) != 0) return false;
+
+  // Do a forgiving parsing of the properties of this resource.
+  if (title) title->clear();
+  if (base) base->clear();
+  if (update) update->clear();
+  if (remove) remove->clear();
+  if (replace) replace->clear();
+  if (diacritics) * diacritics = false;
+  if (casefold) * casefold = false;
+  vector <string> bits = filter_string_explode(input, '|');
+  if (bits.size() > 0) if (title) title->assign (bits[0]);
+  if (bits.size() > 1) if (base) base->assign(bits[1]);
+  if (bits.size() > 2) if (update) update->assign(bits[2]);
+  if (bits.size() > 3) if (remove) remove->assign(bits[3]);
+  if (bits.size() > 4) if (replace) replace->assign(bits[4]);
+  if (bits.size() > 5) if (diacritics) * diacritics = convert_to_bool(bits[5]);
+  if (bits.size() > 6) if (casefold) * casefold = convert_to_bool(bits[6]);
+
+  // Done.
+  return true;
+}
+
+
+string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold)
+{
+  // Check whether the "Comparative " flag already is included in the given $title.
+  size_t pos = title.find (resource_logic_comparative_resource_v2 ());
+  if (pos != string::npos) {
+    title.erase (pos, resource_logic_comparative_resource_v2 ().length());
+  }
+  // Ensure the "Comparative " flag is always included right at the start.
+  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update, remove, replace, convert_to_true_false(diacritics), convert_to_true_false(casefold)};
+  return filter_string_implode(bits, "|");
+}
+
+

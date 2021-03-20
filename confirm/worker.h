@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,8 +31,12 @@ class Confirm_Worker
 {
 public:
   Confirm_Worker (void * webserver_request_in);
-  void setup (string to, string initial_subject, string initial_body, string query, string subsequent_subject, string subsequent_body);
+  void setup (string to,
+              string initial_subject, string initial_body,
+              string query,
+              string subsequent_subject, string subsequent_body);
   bool handleEmail (string from, string subject, string body);
+  bool handleLink (string & email);
 private:
   void * webserver_request;
   void informManagers (string email, string body);

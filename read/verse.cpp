@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -47,11 +47,9 @@ string read_verse (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
-
   // Only act if a verse was found
   string sverse = request->query ["verse"];
   if (!sverse.empty ()) {
-    
     
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
@@ -61,10 +59,7 @@ string read_verse (void * webserver_request)
       int chapter = Ipc_Focus::getChapter (request);
       Ipc_Focus::set (request, book, chapter, iverse);
     }
-    
-    
   }
-  
   
   return "";
 }

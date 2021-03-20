@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/morphhb.h>
 #include <sources/oshb.h>
 #include <sources/styles.h>
+#include <sources/abbott-smith.h>
 
 
 int main (int argc, char **argv)
@@ -57,6 +58,7 @@ int main (int argc, char **argv)
   string morphhb_command = "morphhb";
   string oshb_command = "oshb";
   string stylesheet_command = "styles";
+  string abbott_smith_command = "abbott-smith";
   
   if (command == locale_command) {
   
@@ -92,6 +94,11 @@ int main (int argc, char **argv)
     
     cout << "Parsing style values and importing them into the default styles" << endl;
     sources_styles_parse ();
+
+  } else if (command == abbott_smith_command) {
+
+    cout << "Parsing Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << endl;
+    sources_abbott_smith_parse ();
     
   } else {
     
@@ -104,6 +111,7 @@ int main (int argc, char **argv)
     cerr << morphhb_command << ": Parse Open Scriptures Hebrew with limited morphology into the morphhb database" << endl;
     cerr << oshb_command << ": Parse Open Scriptures Hebrew Bible with morphology into the oshb database" << endl;
     cerr << stylesheet_command << ": Parse style values and import them into the default styles" << endl;
+    cout << abbott_smith_command << ": Parse Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << endl;
     
     return EXIT_FAILURE;
     

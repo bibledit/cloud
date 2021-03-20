@@ -1,0 +1,71 @@
+<h2>translate("Comparative resource") "##name##"</h2>
+
+<p class="success">##success##</p>
+<p class="error">##error##</p>
+
+<p>translate("Title"): ##name##</p>
+
+<br>
+<p>
+translate("Base resource"):
+##base##
+<a href="comparative1edit?name=##name##&base=">[translate ("edit")]</a>
+</p>
+
+<p>
+translate("Updated resource"):
+##update##
+<a href="comparative1edit?name=##name##&update=">[translate ("edit")]</a>
+</p>
+<p>
+translate("This resource will take the base resource as a starting point.")
+translate("It will compare the updated resource with the base resource.")
+translate("Any words that the updated resource has added as compared to the base resource will be shown in bold.")
+translate("Any words that were removed will be shown in strikethrough.")
+</p>
+
+<br>
+<p>
+translate("Characters to remove"):
+##remove##
+<a href="comparative1edit?name=##name##&remove=">[translate ("edit")]</a>
+</p>
+<p>
+translate("Characters to be removed from the base and updated resources before doing the comparison.")
+translate("Separate the characters by spaces.")
+translate("Example"): . ! ? :
+</p>
+
+<br>
+<p>
+translate("Characters to replace"):
+##replace##
+<a href="comparative1edit?name=##name##&replace=">[translate ("edit")]</a>
+</p>
+<p>
+translate("Characters to search for and be replaced in the base and updated resources before doing the comparison.")
+translate("Separate the sets by spaces.")
+translate("First enter the characters to search for.")
+translate("Then enter the = sign.")
+translate("Finally enter the characters to be substituted.")
+translate("Example"): ῃ=η ῳ=ω search=replace
+</p>
+
+<br>
+<p>
+<input type="checkbox" name="diacritics" onchange="checkbox(this)" ##diacritics## />
+translate("Remove diacritics from the resources before doing the comparison.")
+</p>
+
+<br>
+<p>
+<input type="checkbox" name="casefold" onchange="checkbox(this)" ##casefold## />
+translate("Do case folding of the resources before doing the comparison.")
+</p>
+
+<br>
+<p><a href="comparative9edit">translate("Resource is ready")</a></p>
+<br>
+<p><a href="comparative9edit?delete=##name##">translate("Delete this resource")</a></p>
+<br>
+<script type="text/javascript" src="../assets/checkbox.js"></script>

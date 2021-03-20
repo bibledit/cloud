@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1000,23 +1000,33 @@ void Database_Config_User::setSyncKey (string key)
 }
 
 
+const char * general_font_size_key ()
+{
+  return "general-font-size";
+}
 int Database_Config_User::getGeneralFontSize ()
 {
-  return getIValue ("general-font-size", 100);
+  // Default value, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (general_font_size_key (), 112);
 }
 void Database_Config_User::setGeneralFontSize (int size)
 {
-  setIValue ("general-font-size", size);
+  setIValue (general_font_size_key (), size);
 }
 
 
+const char * menu_font_size_key ()
+{
+  return "menu-font-size";
+}
 int Database_Config_User::getMenuFontSize ()
 {
-  return getIValue ("menu-font-size", 100);
+  // Default value, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (menu_font_size_key (), 112);
 }
 void Database_Config_User::setMenuFontSize (int size)
 {
-  setIValue ("menu-font-size", size);
+  setIValue (menu_font_size_key (), size);
 }
 
 
@@ -1060,13 +1070,18 @@ void Database_Config_User::setGreekFontSize (int size)
 }
 
 
+const char * vertical_caret_position_key ()
+{
+  return "vertical-caret-position";
+}
 int Database_Config_User::getVerticalCaretPosition ()
 {
-  return getIValue ("vertical-caret-position", 50);
+  // Updated default value, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (vertical_caret_position_key (), 30);
 }
 void Database_Config_User::setVerticalCaretPosition (int position)
 {
-  setIValue ("vertical-caret-position", position);
+  setIValue (vertical_caret_position_key (), position);
 }
 
 
@@ -1090,23 +1105,31 @@ void Database_Config_User::setWorkspaceMenuFadeoutDelay (int value)
 }
 
 
+const char * editing_allowed_difference_chapter_key ()
+{
+  return "editing-allowed-difference-chapter";
+}
 int Database_Config_User::getEditingAllowedDifferenceChapter ()
 {
-  return getIValue ("editing-allowed-difference-chapter", 20);
+  return getIValue (editing_allowed_difference_chapter_key (), 20);
 }
 void Database_Config_User::setEditingAllowedDifferenceChapter (int value)
 {
-  setIValue ("editing-allowed-difference-chapter", value);
+  setIValue (editing_allowed_difference_chapter_key (), value);
 }
 
 
+const char * editing_allowed_difference_verse_key ()
+{
+  return "editing-allowed-difference-verse";
+}
 int Database_Config_User::getEditingAllowedDifferenceVerse ()
 {
-  return getIValue ("editing-allowed-difference-verse", 75);
+  return getIValue (editing_allowed_difference_verse_key (), 75);
 }
 void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 {
-  setIValue ("editing-allowed-difference-verse", value);
+  setIValue (editing_allowed_difference_verse_key (), value);
 }
 
 
@@ -1178,14 +1201,18 @@ void Database_Config_User::setIncludeRelatedPassages (bool value)
 }
 
 
+const char * enabled_visual_editors_key ()
+{
+  return "enabled-visual-editors";
+}
 int Database_Config_User::getFastSwitchVisualEditors ()
 {
-  // Initially only the visual verse editor is enabled.
-  return getIValue ("enabled-visual-editors", 2);
+  // Updated default values, see https://github.com/bibledit/cloud/issues/509
+  return getIValue (enabled_visual_editors_key (), 0);
 }
 void Database_Config_User::setFastSwitchVisualEditors (int value)
 {
-  setIValue ("enabled-visual-editors", value);
+  setIValue (enabled_visual_editors_key (), value);
 }
 
 

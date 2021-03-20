@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -270,7 +270,8 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   string smtp = "smtp://";
   smtp.append (Database_Config_General::getMailSendHost());
   smtp.append (":");
-  smtp.append (Database_Config_General::getMailSendPort());
+  string port = Database_Config_General::getMailSendPort();
+  smtp.append (port);
   curl_easy_setopt(curl, CURLOPT_URL, smtp.c_str());
 
   /* In this example, we'll start with a plain text connection, and upgrade
@@ -278,7 +279,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
    * of using CURLUSESSL_TRY here, because if TLS upgrade fails, the transfer
    * will continue anyway - see the security discussion in the libcurl
    * tutorial for more details. */
-  curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+  if (port != "25") curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
 
   /* If your server doesn't have a valid certificate, then you can disable
    * part of the Transport Layer Security protection by setting the

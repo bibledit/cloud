@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/sqlite.h>
 #include <filter/date.h>
+#include <config/globals.h>
 
 
 // Handles email and web page confirmations.
@@ -66,7 +67,8 @@ unsigned int Database_Confirm::getNewID ()
 {
   unsigned int id = 0;
   do {
-    id = filter_string_rand (100000000, 999999999);
+    id = config_globals_int_distribution (config_globals_random_engine);
+    
   } while (IDExists (id));
   return id;
 }

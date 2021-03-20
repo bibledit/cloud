@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -42,13 +42,13 @@ string lexicon_logic_strong_number_cleanup (string strong);
 void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
                                                       vector <string>& strongs,
                                                       vector <string>& bdbs);
-string lexicon_logic_render_definition (string strong);
-string lexicon_logic_render_part_of_speech (string value);
-string lexicon_logic_render_part_of_speech_stem (string abbrev);
-string lexicon_logic_render_part_of_speech_person (string abbrev);
-string lexicon_logic_render_part_of_speech_gender (string abbrev);
-string lexicon_logic_render_part_of_speech_number (string abbrev);
-string lexicon_logic_render_part_of_speech_state (string abbrev);
+string lexicon_logic_render_strongs_definition (string strong);
+string lexicon_logic_render_strongs_part_of_speech (string value);
+string lexicon_logic_render_strongs_part_of_speech_stem (string abbrev);
+string lexicon_logic_render_strongs_part_of_speech_person (string abbrev);
+string lexicon_logic_render_strongs_part_of_speech_gender (string abbrev);
+string lexicon_logic_render_strongs_part_of_speech_number (string abbrev);
+string lexicon_logic_render_strongs_part_of_speech_state (string abbrev);
 string lexicon_logic_define_user_strong (string strong);
 string lexicon_logic_render_morphgnt_part_of_speech (string pos);
 string lexicon_logic_render_morphgnt_parsing_code (string parsing);
@@ -70,6 +70,8 @@ string lexicon_logic_hebrew_morphology_render_person (string & value);
 string lexicon_logic_hebrew_morphology_render_gender (string & value);
 string lexicon_logic_hebrew_morphology_render_number (string & value);
 string lexicon_logic_hebrew_morphology_render_state (string & value);
+
+string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong);
 
 
 #endif

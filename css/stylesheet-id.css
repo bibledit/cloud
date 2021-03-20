@@ -1,0 +1,614 @@
+/*
+ Copyright (©) 2003-2020 Teus Benschop.
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+/* BEGIN CSS RESETS */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  vertical-align: baseline;
+  font: inherit;
+  font-size: 100%;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+hr {
+  display: block;
+  margin: 1em 0;
+  padding: 0;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #CCC;
+}
+input, select {
+  vertical-align: middle;
+}
+ins {
+  background-color: #FF9;
+  color: #000;
+  text-decoration: none;
+}
+mark {
+  background-color: #FF9;
+  color: #000;
+  font-weight: bold;
+  font-style: italic;
+}
+del {
+  text-decoration: line-through;
+}
+abbr[title], dfn[title] {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+/* END OF CSS RESETS */
+
+/* CONTAINER STYLING */
+html {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: serif;
+  line-height: 1.3;
+}
+
+body,
+#editorheader,
+#editorinnerheader {
+  background-color: #F3F3F3;
+}
+
+div[contenteditable=true],
+.bibleeditor {
+  background: #FFFFFF;
+}
+
+#oneeditor .ql-editor,
+#oneeditor,
+.focusedverse {
+  background: lightyellow;
+}
+
+#topbar {
+  width: 100%;
+  max-width: 100vw;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: .3em;
+}
+
+  #topbar a {
+    color: #000;
+  }
+
+  #topbar > span {
+    flex-grow: 1;
+    padding: .3em .5em;
+    margin: 5px;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+    -webkit-filter: drop-shadow(0 0 10px #aaa);
+            filter: drop-shadow(0 0 10px #aaa);
+  }
+
+    #topbar > span:first-child {
+      position: relative;
+      -webkit-flex-basis: initial;
+          -ms-flex-preferred-size: initial;
+              flex-basis: initial;
+      margin: 0 5px;
+    }
+
+    #topbar > span:first-child > span {
+      border-left: 1.5px solid white;
+      margin: .1em .3em;
+      padding-left: .3em;
+    }
+
+    #topbar > span:first-child > span:first-child {
+      border-left: 0 !important;
+    }
+
+    #versepickerwrapper {
+      white-space: unset;
+      overflow: unset;
+      -o-text-overflow: unset;
+         text-overflow: unset;
+      max-width: 87.5vw;
+      padding: inherit 1em;
+    }
+
+    #applybook {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    #applybook .selector {
+      margin: .11rem;
+      white-space: nowrap;
+      border-left: 1.5px solid white;
+      padding-left: .2em;
+    }
+
+    #applybook .selector:nth-of-type(1),
+    #applybook .selector:nth-last-of-type(1),
+    #applybook .selector:nth-last-of-type(2) {
+      border-left: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    #applybook .selector a {
+      background-color: #ddd1;
+      padding: 0 5px;
+      transition: all 100ms;
+    }
+
+    #applybook .selector:nth-last-of-type(2) a,
+    #applybook .selector:nth-last-of-type(1) a {
+      background-color: #823a9c !important;
+      color: #fff;
+    }
+
+  #topbar.wrap-active {
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+
+    #topbar.wrap-active > span {
+      flex-grow: 1;
+    }
+/* END OF CONTAINER STYLING */
+
+
+/* TEXT AND TEXT CONTAINER STYLING */
+h1, h2, h3, h4, h5, h6,
+#name1,
+#name2,
+#name3,
+#topbar,
+#editorinnerheader {
+  font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: .5em 0;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.3em;
+}
+
+h4 {
+  font-size: 1.1em;
+}
+
+h5 {
+  font-size: .9em;
+}
+
+h6 {
+  font-size: .7em;
+}
+
+i, em {
+  font-style: italic;
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+strong {
+  color: #488B9B;
+}
+
+a:link {
+  background: none;
+  color: blue;
+  text-decoration: none;
+}
+
+a:visited {
+  color: blue;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus,
+a:active {
+  color: red;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+.active {
+  font-weight: bold;
+  font-size: larger;
+}
+
+textarea {
+  width: 100%;
+  height: 20em;
+}
+
+.fullheight {
+  height: 100%;
+}
+
+.width100 {
+  width: 100%;
+}
+
+.width75 {
+  width: 75%;
+}
+
+.width50 {
+  width: 50%;
+}
+
+.topalign {
+  vertical-align: top;
+}
+
+.selected {
+  background: #FFC;
+}
+
+.small {
+  font-size: small;
+}
+
+.center {
+  text-align: center;
+}
+
+@font-face {
+  font-family: "Ezra SIL";
+  src: url(/fonts/SILEOT.ttf);
+}
+
+.hebrew {
+  font-family: "Ezra SIL";
+  direction: rtl;
+  line-height: 1.8;
+}
+
+@font-face {
+  font-family: "Cardo";
+  src: url(/fonts/Cardo-Regular.ttf);
+}
+
+.greek {
+  font-family: Cardo;
+}
+
+.clearfix {
+  clear: both;
+  display: none;
+}
+/* END OF TEXT AND TEXT CONTAINER STYLING */
+
+
+#breadcrumbs:not(:empty) {
+  margin: .2em 0;
+  padding: .2em 0;
+  border-top: 2px dotted #aaa;
+}
+.menu-basic a {
+  padding: 0 .4em;
+  border-style: solid;
+  text-decoration: none!important;
+  -webkit-appearance: button;
+     -moz-appearance: button;
+          appearance: button;
+}
+.menu-advanced span {
+  margin-right: 0.2em;
+}
+.previousverse {
+  margin-right: 0.1em;
+  padding-right: 0.1em;
+}
+.selectverse {
+  margin-right: 0.1em;
+  margin-left: 0.1em;
+  padding-right: 0.1em;
+  padding-left: 0.1em;
+}
+.nextverse {
+  margin-left: 0.1em;
+  padding-left: 0.1em;
+}
+
+.nextresource {
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 2;
+}
+#workspacewrapper {
+  padding: 0.5em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+          overflow: auto;
+}
+#workspacewrapper > * {
+  -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+          flex-shrink: 0;
+}
+#workspacewrapper > #workspaces {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  margin: -0.5em;
+  width: calc(100% + 1em);
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-align-content: stretch;
+  -ms-flex-line-pack: stretch;
+          align-content: stretch;
+}
+.iframewrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-flex: 1;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+          flex-shrink: 1;
+  height: 1em;
+  border-top: 2px inset;
+  border-bottom: 2px inset;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.iframewrapper iframe {
+  -webkit-box-flex: 2;
+  -webkit-flex-grow: 2;
+  -ms-flex-positive: 2;
+          flex-grow: 2;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+          flex-shrink: 1;
+  width: 1em;
+  border: none;
+}
+.iframewrapper iframe + iframe {
+  border-left: 2px inset;
+}
+/* The following is to cause the iframes to fill all available space in Edge. */
+iframe {
+  width: 100%;
+  height: 100%;
+}
+.drag {
+  cursor: move;
+}
+.splash {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 5%;
+  border-radius: 5px;
+  background: -webkit-radial-gradient( #FEFd, #FFFd);
+  background:         radial-gradient( #FEFd, #FFFd);
+}
+.splash > * {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+.centerbible {
+  -webkit-box-flex: 100;
+  -webkit-flex-grow: 100;
+  -ms-flex-positive: 100;
+          flex-grow: 100;
+  background-image: url(/pix/bibledit_logo.svg);
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+span[contenteditable=true] {
+  padding-right: 0.5em;
+}
+#workspacewrapper {
+  filter: drop-shadow(0 0 15px #aaa);
+}
+#workspacewrapper > table.editor {
+  width: 100%;
+}
+table.burndown {
+  text-align: center;
+}
+/* table.burndown tr {
+} */
+table.burndown td {
+  padding: 0.15em;
+  vertical-align: bottom;
+}
+table.burndown td.day {
+  width: 1em;
+}
+.tablefloat,
+table.interlinear {
+  float: left;
+  margin-left: 0.5em;
+}
+.tablefloatheb,
+table.interlinear.rtl {
+  float: right;
+  margin-right: 0.5em;
+}
+
+#toolbar-container,
+.ql-clipboard,
+.ql-tooltip
+{
+  position: absolute;
+  left: 150%;
+}
+
+.slip-reordering {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.45);
+}
+.slip-swiping-container {
+  overflow-x: hidden;
+}
+.slippylist li {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+@media print {
+  body,
+  #workspacewrapper,
+  #workspaces,
+  .iframewrapper,
+  .iframewrapper iframe {
+    display: block !important;
+    width: 100% !important;
+    height: inherit !important;
+  }
+  #topbar {
+    display: none;
+  }
+}
+@page {
+  margin: 2cm;
+}
+@page :left {
+  margin-right: 2cm;
+  margin-left: 3cm;
+}
+@page :right {
+  margin-right: 3cm;
+  margin-left: 2cm;
+}

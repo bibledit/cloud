@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -99,7 +99,6 @@ string resource_organize (void * webserver_request)
       array_move_from_to (resources, from, to);
       request->database_config_user()->setActiveResources (resources);
       request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-      for (auto s : resources) cout << s << " ";
     }
     return "";
   }

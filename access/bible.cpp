@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2020 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -226,7 +226,13 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
     if (access_bible_write (webserver_request, bible)) write = true;
   }
 #ifdef HAVE_INDONESIANCLOUDFREE
-  read = true;
-  write = true;
+  int level = request->session_logic ()->currentLevel ();
+  if (level >= Filter_Roles::consultant()) {
+    read = true;
+    write = true;
+  } else {
+    read = false;
+    write = false;
+  }
 #endif
 }

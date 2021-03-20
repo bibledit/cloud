@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.0.939],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.940],[http://bibledit.org])
 AM_INIT_AUTOMAKE
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
@@ -114,7 +114,6 @@ AC_DEFINE_UNQUOTED(PACKAGE_PREFIX_DIR, "${prefix}", [Package prefix directory])
 CPPFLAGS+=" -I/usr/local/include "
 AC_CHECK_HEADER(mimetic/mimetic.h,AC_DEFINE([HAVE_MIMETIC],[1],[Define whether mimetic/mimetic.h is present]),AC_MSG_ERROR(Library "mimetic" is needed. Install this first.))
 
-
 # Check whether function 'stoi' is available
 AC_MSG_CHECKING([whether stoi is available])
 AC_COMPILE_IFELSE(
@@ -127,6 +126,11 @@ int i = stoi ("string");
    AC_MSG_RESULT([yes])],
   [AC_MSG_RESULT([no])]
 )
+
+# Check ICU Unicode library whether available.
+PKG_CHECK_MODULES(ICU, icu-i18n >= 60.0, AC_DEFINE(HAVE_ICU, 1, Define whether ICU is available), AC_MSG_NOTICE(libicui18n development version >= 60.0 is needed for the Cloud.))
+AC_SUBST(ICU_CFLAGS)
+AC_SUBST(ICU_LIBS)
 
 # Windows.
 ENABLEWINDOWS=no

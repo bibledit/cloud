@@ -1,5 +1,5 @@
 /*
- Copyright (©) 2003-2020 Teus Benschop.
+ Copyright (©) 2003-2021 Teus Benschop.
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <database/morphgnt.h>
 #include <database/strong.h>
 #include <database/hebrewlexicon.h>
+#include <database/abbottsmith.h>
 #include <pugixml/pugixml.hpp>
 #include <webserver/request.h>
 
@@ -278,7 +279,7 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
 }
 
 
-string lexicon_logic_render_definition (string strong)
+string lexicon_logic_render_strongs_definition (string strong)
 {
   vector <string> renderings;
   Database_Strong database_strong;
@@ -301,7 +302,7 @@ string lexicon_logic_render_definition (string strong)
       // Part of speech.
       string pos = lexicon_logic_get_remove_attribute (line, "pos");
       if (!pos.empty ()) {
-        pos = lexicon_logic_render_part_of_speech (pos);
+        pos = lexicon_logic_render_strongs_part_of_speech (pos);
         renderings.push_back (pos);
       }
       // Pronounciation.
@@ -429,7 +430,7 @@ string lexicon_logic_render_part_of_speech_pop_front (vector <string> & parts)
 
 
 // Render the part of speech.
-string lexicon_logic_render_part_of_speech (string value)
+string lexicon_logic_render_strongs_part_of_speech (string value)
 {
   if (value == unicode_string_casefold (value)) {
     // Deal with Strong's parsings.
@@ -526,31 +527,31 @@ string lexicon_logic_render_part_of_speech (string value)
 }
 
 
-string lexicon_logic_render_part_of_speech_stem (string abbrev)
+string lexicon_logic_render_strongs_part_of_speech_stem (string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_part_of_speech_person (string abbrev)
+string lexicon_logic_render_strongs_part_of_speech_person (string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_part_of_speech_gender (string abbrev)
+string lexicon_logic_render_strongs_part_of_speech_gender (string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_part_of_speech_number (string abbrev)
+string lexicon_logic_render_strongs_part_of_speech_number (string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_part_of_speech_state (string abbrev)
+string lexicon_logic_render_strongs_part_of_speech_state (string abbrev)
 {
   return abbrev;
 }
@@ -1460,5 +1461,101 @@ string lexicon_logic_hebrew_morphology_render_state (string & value)
     else if (code == "d") rendering = "determined";
     else                  rendering = code;
   }
+  return rendering;
+}
+
+
+struct abbott_smith_walker: xml_tree_walker
+{
+  string text;
+
+  bool text_element_already_handled = false;
+  string previous_element_name;
+
+  virtual bool for_each (xml_node& node)
+  {
+    // Details of the current node.
+    string clas = node.attribute ("class").value ();
+    string name = node.name ();
+
+    // Handle occurrences count in the New Testament.
+    if (name == "note") {
+      string type = node.attribute("type").value();
+      if (type == "occurrencesNT") {
+        text.append ("occurs ");
+        text.append (node.text().get());
+        text.append (" times in the New Testament, ");
+        text_element_already_handled = true;
+        return true;
+      }
+    }
+
+    // Handle sense indicators.
+    if (name == "sense") {
+      if (previous_element_name != "sense") text.append (" sense ");
+      string n = node.attribute("n").value();
+      if (!n.empty()) {
+        text.append (n);
+        text.append (" ");
+      }
+    }
+    
+    // Include node's text content.
+    if (name.empty()) {
+      if (!text_element_already_handled) {
+        text.append (node.value());
+      }
+      text_element_already_handled = false;
+    }
+
+    previous_element_name = name;
+    
+    // Continue parsing.
+    return true;
+  }
+};
+
+
+string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong)
+{
+  vector <string> renderings;
+
+  Database_AbbottSmith database_abbottsmith;
+
+  string definition = database_abbottsmith.get (lemma, lexicon_logic_strong_number_cleanup (strong));
+  
+  xml_document document;
+  document.load_string (definition.c_str());
+  abbott_smith_walker tree_walker;
+  document.traverse (tree_walker);
+  renderings.push_back (tree_walker.text);
+  
+//      // Transform link to a source Strong's number.
+//      line = filter_string_str_replace ("<w ", "<a ", line);
+//      line = filter_string_str_replace ("src=", "href=", line);
+//      line = filter_string_str_replace ("</w>", "</a>", line);
+
+//      // Clarify Strong's number.
+//      line = filter_string_str_replace ("<strongs>", "Strong's ", line);
+//      line = filter_string_str_replace ("</strongs>", "", line);
+//      // Get the <greek /> line to extract information from it.
+//            string xml = see_strongsref;
+//            // Strong's reference.
+//            string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
+//            if (i) {
+//              replacement = "<a href=\"" + language.substr (0, 1) + strongs + "\">" + strongs + "</a>";
+//            }
+//    }
+//  }
+
+  string rendering = filter_string_implode (renderings, " ");
+  rendering = filter_string_trim (rendering);
+
+  // If any rendering is given, then prefix the name of the lexicon.
+  if (!rendering.empty ()) {
+    rendering.insert(0, "Abbott Smith; ");
+  }
+   
+  // Done.
   return rendering;
 }

@@ -1,0 +1,6 @@
+Abbott-Smith's Manual Greek Lexicon
+
+The repository is at https://github.com/translatable-exegetical-tools/Abbott-Smith
+
+The data files were downloaded on 12 March 2021.
+

@@ -364,6 +364,7 @@ string resource_logic_get_comparison (void * webserver_request,
   if (!remove.empty()) {
     vector<string> bits = filter_string_explode(remove, ' ');
     for (auto rem : bits) {
+      if (rem.empty()) continue;
       base = filter_string_str_replace(rem, "", base);
       update = filter_string_str_replace(rem, "", update);
     }
@@ -376,6 +377,7 @@ string resource_logic_get_comparison (void * webserver_request,
       vector <string> search_replace = filter_string_explode(search_replace_set, '=');
       if (search_replace.size() == 2) {
         string search = search_replace[0];
+        if (search.empty()) continue;
         string replace = search_replace[1];
         base = filter_string_str_replace(search, replace, base);
         update = filter_string_str_replace(search, replace, update);

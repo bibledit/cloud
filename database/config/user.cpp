@@ -1105,23 +1105,31 @@ void Database_Config_User::setWorkspaceMenuFadeoutDelay (int value)
 }
 
 
+const char * editing_allowed_difference_chapter_key ()
+{
+  return "editing-allowed-difference-chapter";
+}
 int Database_Config_User::getEditingAllowedDifferenceChapter ()
 {
-  return getIValue ("editing-allowed-difference-chapter", 20);
+  return getIValue (editing_allowed_difference_chapter_key (), 20);
 }
 void Database_Config_User::setEditingAllowedDifferenceChapter (int value)
 {
-  setIValue ("editing-allowed-difference-chapter", value);
+  setIValue (editing_allowed_difference_chapter_key (), value);
 }
 
 
+const char * editing_allowed_difference_verse_key ()
+{
+  return "editing-allowed-difference-verse";
+}
 int Database_Config_User::getEditingAllowedDifferenceVerse ()
 {
-  return getIValue ("editing-allowed-difference-verse", 75);
+  return getIValue (editing_allowed_difference_verse_key (), 75);
 }
 void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 {
-  setIValue ("editing-allowed-difference-verse", value);
+  setIValue (editing_allowed_difference_verse_key (), value);
 }
 
 

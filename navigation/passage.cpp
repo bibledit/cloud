@@ -155,7 +155,7 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
 }
 
 
-string Navigation_Passage::getBooksFragment (void * webserver_request, string bible)
+string Navigation_Passage::getBooksFragment (void * webserver_request, string bible) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   int activeBook = Ipc_Focus::getBook (request);
@@ -432,7 +432,7 @@ void Navigation_Passage::goForward (void * webserver_request)
 }
 
 
-void Navigation_Passage::addSelectorLink (string& html, string id, string href, string text, bool selected)
+void Navigation_Passage::addSelectorLink (string& html, string id, string href, string text, bool selected) // Todo
 {
   // Add bit to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");

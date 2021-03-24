@@ -89,6 +89,12 @@ string notes_create (void * webserver_request)
   if (request->post.count ("submit")) {
     string summary = filter_string_trim (request->post["summary"]);
     string contents = filter_string_trim (request->post["contents"]);
+    // Normally the new note applies to the currently selected Bible.
+#ifdef HAVE_INDONESIANCLOUDFREE
+    // Indonesian free Cloud: A new note applies to all Bibles.
+    // https://github.com/bibledit/cloud/issues/519
+    bible.clear ();
+#endif
     notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
     redirect_browser (request, notes_index_url ());
     return "";

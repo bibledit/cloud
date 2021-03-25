@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 7100fef41f9a5d5fd53de99e6c59312f81a744cf)\n"
+"X-Generator: Launchpad (build d4fcb062545ed29d3cd7773e52e43615e042623f)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -4767,6 +4767,9 @@ msgstr ""
 msgid "StudyLight resources"
 msgstr ""
 
+msgid "Comparative Resource"
+msgstr ""
+
 msgid "User-defined resources"
 msgstr ""
 
@@ -4822,6 +4825,32 @@ msgid "Progress will be visible in the Journal."
 msgstr ""
 
 msgid "Refresh the list of resources from BibleGateway."
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Base resource"
+msgstr ""
+
+msgid "Updated resource"
+msgstr ""
+
+msgid "Add it to the Resources"
+msgstr ""
+
+msgid "This resource will display the base resource as a starting point."
+msgstr ""
+
+msgid "It will compare the updated resource with the base resource."
+msgstr ""
+
+msgid ""
+"Any extra words that the updated resource has added as compared to the base "
+"resource will be shown in bold."
+msgstr ""
+
+msgid "Any words that were removed will be shown in strikethrough."
 msgstr ""
 
 msgid "The following resources are being installed:"
@@ -4939,9 +4968,6 @@ msgstr ""
 msgid "Rich Divider"
 msgstr ""
 
-msgid "Title"
-msgstr ""
-
 msgid "Link"
 msgstr ""
 
@@ -4949,9 +4975,6 @@ msgid "Edit text colour"
 msgstr ""
 
 msgid "Edit background colour"
-msgstr ""
-
-msgid "Add it to the Resources"
 msgstr ""
 
 msgid "Resource Organizer"
@@ -11194,6 +11217,21 @@ msgid "installed"
 msgstr ""
 
 msgid "to be updated"
+msgstr ""
+
+msgid "Please enter the title for the comparative resource"
+msgstr ""
+
+msgid "Select a resource to be used as a base resource."
+msgstr ""
+
+msgid "The base resource is used as a starting point for the comparison."
+msgstr ""
+
+msgid "Select a resource to be used as the updated resource."
+msgstr ""
+
+msgid "The updated resource will be compared with the base resource."
 msgstr ""
 
 msgid "Select a book"

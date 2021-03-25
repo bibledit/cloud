@@ -258,6 +258,7 @@
 /export/usfm.html
 /filter
 /filter/cas.crt
+/filter/focus.js
 /filter/passage.js
 /filter/url.js
 /filter/usfm.js

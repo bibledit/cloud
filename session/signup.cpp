@@ -160,15 +160,23 @@ string session_signup (void * webserver_request)
       node = initial_document.append_child ("p");
       node.text ().set ("Kami senang sekali Saudara ingin mendaftar sebagai Tamu Bibledit. Sebelum meng-klik link untuk mulai menggunakannya, saya mohon Saudara membaca berita penting ini:");
       node = initial_document.append_child ("p");
-      node.text ().set ("• Kunjunginlah alkitabkita.info setiap kali Saudara mau masuk Tamu Bibledit. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami.");
+      node.text ().set ("• Cara yang paling baik memasuki Bibledit Tamu adalah lewat halaman dasar alkitabkita.info. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami. Lewat formulir di bagian atas halaman dasar alkitabkita.info isilah:");
       node = initial_document.append_child ("p");
-      information = "• Dalam blanko " + user + ", Saudara bisa mengisi username atau alamat email ini.";
+      information = "Nama penggunamu: " + user;
       node.text ().set (information.c_str());
+      node = initial_document.append_child ("p");
+      node.text ().set ("Kata sandimu:");
+      node = initial_document.append_child ("p");
+      information = "Nomor sekuritimu: " + config_logic_http_network_port ();
+      node.text ().set (information.c_str());
+      node = initial_document.append_child ("p");
       node.text ().set (R"(• Kalau Saudara lupa kata sandi, isilah kata sandi yang salah, lalu meng-klik link “Aku lupa kata sandiku!”)");
       node = initial_document.append_child ("p");
       node.text ().set ("• Saudara diberi izin untuk menggunakan Bibledit sebagai Tamu selama satu bulan. Di akhir bulan hasil terjemahanmu akan dikirim kepada alamat email ini.");
       node = initial_document.append_child ("p");
       node.text ().set ("• Layanan Tamu Bibledit ini diberikan secara gratis dan Saudara dipersilakan mendaftar ulang setiap bulan.");
+      node = initial_document.append_child ("p");
+      node.text ().set ("• Simpanlah email ini.");
 #endif
       string initial_body;
       {

@@ -536,3 +536,17 @@ void Database_Config_General::setComparativeResources (vector <string> values)
 }
 
 
+const char * active_resources_key ()
+{
+  return "active-resources";
+}
+vector <string> Database_Config_General::getActiveResources ()
+{
+  return getList (active_resources_key ());
+}
+void Database_Config_General::setActiveResources (vector <string> values)
+{
+  setList (active_resources_key (), values);
+}
+
+

@@ -26,9 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/indonesian.h>
 #include <confirm/worker.h>
 #include <email/send.h>
 #include <pugixml/pugixml.hpp>
+#include <tasks/logic.h>
+
+
 using namespace pugi;
 
 
@@ -110,13 +114,13 @@ string session_signup (void * webserver_request)
     string mail     = request->post["mail"];
     string answer   = request->post["answer"];
     string standard = request->post["standard"];
-    if (user.length () < 2) {
+    if (user.length () < 4) {
       form_is_valid = false;
-      view.set_variable ("username_invalid_message", translate("Username should be at least two characters long"));
+      view.set_variable ("username_invalid_message", translate("Username should be at least four characters long"));
     }
-    if (pass.length () < 2) {
+    if (pass.length () < 4) {
       form_is_valid = false;
-      view.set_variable ("password_invalid_message", translate("Password should be at least two characters long"));
+      view.set_variable ("password_invalid_message", translate("Password should be at least four characters long"));
     }
     if (!filter_url_email_is_valid (mail)) {
       form_is_valid = false;
@@ -129,13 +133,15 @@ string session_signup (void * webserver_request)
     Database_Users database_users;
     if (form_is_valid) {
       if (database_users.usernameExists (user)) {
-        view.set_variable ("error_message", translate("The username that you have chosen has already been taken. Please choose another one."));
+        string message = translate("The username that you have chosen has already been taken.") + " " + translate("Please choose another one.");
+        view.set_variable ("error_message", message);
         form_is_valid = false;
       }
     }
     if (form_is_valid) {
       if (database_users.emailExists (mail)) {
-        view.set_variable ("error_message", translate("The email address that you have chosen has already been taken. Please choose another one."));
+        string message = translate("The email address that you have chosen has already been taken.") + " " + translate("Please choose another one.");
+        view.set_variable ("error_message", message);
         form_is_valid = false;
       }
     }
@@ -242,6 +248,14 @@ string session_signup (void * webserver_request)
       }
       // Store the confirmation information in the database.
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
+      // In the Indonesian free Cloud, create the Bible for the user. Todo
+#ifdef HAVE_INDONESIANCLOUDFREE
+      {
+        string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
+        tasks_logic_queue (CREATEEMPTYBIBLE, {bible});
+      }
+#endif
+      // Done signup.
       signed_up = true;
     }
   }

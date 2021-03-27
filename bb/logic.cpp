@@ -47,6 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/logic.h>
 #include <locale/translate.h>
 #include <editor/html2format.h>
+#include <book/create.h>
 
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm)
@@ -1136,4 +1137,30 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
     }
   }
   
+}
+
+
+void bible_logic_create_empty_bible (const string & name) // Todo
+{
+  Database_Logs::log (translate("Creating Bible") + " " + name);
+  
+  // Remove and create the empty Bible.
+  Database_Bibles database_bibles;
+  database_bibles.deleteBible (name);
+  database_bibles.createBible (name);
+  
+  // Remove index for the Bible.
+  search_logic_delete_bible (name);
+
+  // Create books with blank verses for the OT and NT.
+  vector <int> books = Database_Books::getIDs ();
+  for (auto book : books) {
+    string type = Database_Books::getType (book);
+    if ((type == "ot") || (type == "nt")) {
+      vector <string> feedback;
+      book_create (name, book, -1, feedback);
+    }
+  }
+  
+  Database_Logs::log (translate("Created:") + " " + name);
 }

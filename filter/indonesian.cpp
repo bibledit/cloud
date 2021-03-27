@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibles.h>
 #include <search/logic.h>
 #include <book/create.h>
+#include <locale/translate.h>
 
 
 string filter_indonesian_alkitabkita_ourtranslation_name ()
@@ -47,7 +48,7 @@ void filter_indonesian_create_mytranslation (const string & user) // Todo
   // The name of the Bible to create for this user.
   string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
   
-  Database_Logs::log ("Creating My Translation " + user);
+  Database_Logs::log (translate("Creating Bible") + " " + bible);
   
   // Remove and create the sample Bible.
   Database_Bibles database_bibles;
@@ -68,5 +69,5 @@ void filter_indonesian_create_mytranslation (const string & user) // Todo
     }
   }
   
-  Database_Logs::log ("My Translation " + user + " was created");
+  Database_Logs::log (translate("Created:") + " " + bible);
 }

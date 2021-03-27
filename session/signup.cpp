@@ -160,15 +160,23 @@ string session_signup (void * webserver_request)
       node = initial_document.append_child ("p");
       node.text ().set ("Kami senang sekali Saudara ingin mendaftar sebagai Tamu Bibledit. Sebelum meng-klik link untuk mulai menggunakannya, saya mohon Saudara membaca berita penting ini:");
       node = initial_document.append_child ("p");
-      node.text ().set ("• Kunjunginlah alkitabkita.info setiap kali Saudara mau masuk Tamu Bibledit. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami.");
+      node.text ().set ("• Cara yang paling baik memasuki Bibledit Tamu adalah lewat halaman dasar alkitabkita.info. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami. Lewat formulir di bagian atas halaman dasar alkitabkita.info isilah:");
       node = initial_document.append_child ("p");
-      information = "• Dalam blanko " + user + ", Saudara bisa mengisi username atau alamat email ini.";
+      information = "Nama penggunamu: " + user;
       node.text ().set (information.c_str());
+      node = initial_document.append_child ("p");
+      node.text ().set ("Kata sandimu:");
+      node = initial_document.append_child ("p");
+      information = "Nomor sekuritimu: " + config_logic_http_network_port ();
+      node.text ().set (information.c_str());
+      node = initial_document.append_child ("p");
       node.text ().set (R"(• Kalau Saudara lupa kata sandi, isilah kata sandi yang salah, lalu meng-klik link “Aku lupa kata sandiku!”)");
       node = initial_document.append_child ("p");
       node.text ().set ("• Saudara diberi izin untuk menggunakan Bibledit sebagai Tamu selama satu bulan. Di akhir bulan hasil terjemahanmu akan dikirim kepada alamat email ini.");
       node = initial_document.append_child ("p");
       node.text ().set ("• Layanan Tamu Bibledit ini diberikan secara gratis dan Saudara dipersilakan mendaftar ulang setiap bulan.");
+      node = initial_document.append_child ("p");
+      node.text ().set ("• Simpanlah email ini.");
 #endif
       string initial_body;
       {
@@ -205,18 +213,25 @@ string session_signup (void * webserver_request)
       information = "Puji TUHAN, Saudara sudah menjadi Tamu Bibledit!";
       node.text ().set (information.c_str());
       node = subsequent_document.append_child ("p");
-      information = "Kami mengajak Saudara supaya sesering mungkin mengunjungi situs alkitabkita.info untuk melihat pengumuman tentang seminar-seminar zoom. Segeralah menonton semua video petunjuk yang terdapat pada halaman dasar.";
+      information = "Kami mengajak Saudara supaya sesering mungkin mengunjungi situs alkitabkita.info untuk melihat pengumuman tentang kesempatan mengikuti trening dan seminar zoom. Segeralah menonton semua video petunjuk yang terdapat pada halaman dasar.";
       node.text ().set (information.c_str());
       node = subsequent_document.append_child ("p");
-      information = "Di tingkat Tamu Bibledit, Saudara akan menggunakan antar muka Basic/Dasar. Kami sarankan menggunakan antar muka Basic selama kurang lebih satu bulan. Saat Saudara ingin menggunakan antar muka yang lebih canggih dan powerful, silakan mendaftar untuk tingkat Member.";
+      information = "Di tingkat Bibledit Tamu, Saudara dapat menggunakan antar muka Basic/Dasar. Kami sarankan menggunakan antar muka Basic selama kurang lebih sebulan. Saat Saudara ingin menggunakan antar muka yang lebih canggih dan powerful, silakan mendaftar untuk tingkat Bibledit Member.";
       node.text ().set (information.c_str());
       node = subsequent_document.append_child ("p");
-      information = "Harga pendaftaran sebagai Member Bibledit adalah Rp. 100.000 setahun. Para Member diberi izin menginstalkan program Bibledit dan sumber penelitiannya ke dalam komputer dan tablet. Dengan demikian Saudara dapat bekerja dengan Bibledit tanpa menggunakan pulsa data Internet. Lihat informasi lebih lanjut mengenai tingkat Member di situs ini:";
-      information.append (" ");
-      information.append ("http://alkitabkita.info");
+      information = "Harga pendaftaran sebagai Member adalah Rp. 100.000 setahun. Para Member diberi izin menginstalkan program Bibledit dan sumber penelitiannya ke dalam komputer dan tablet. Dengan demikian Saudara dapat bekerja dengan Bibledit tanpa menggunakan pulsa data Internet. Lihat informasi lebih lanjut mengenai tingkat Member di situs alkitabkita.info.";
       node.text ().set (information.c_str());
       node = subsequent_document.append_child ("p");
-      information = "Kami tim situs alkitabkita.info sungguh-sungguh berharap bahwa melalui kemampuan yang diberikan lewat Bibledit, Saudara akan dapat meneliti Firman Tuhan secara mendalam. Mohon jangan menggunakan kemampuan itu untuk membanggakan dirimu sendiri, tetapi gunakanlah kemampuan itu untuk memuliakan TUHAN, untuk mengajar, dan menerjemahkan Firman TUHAN dengan lebih wajar, jelas, dan tepat.";
+      information = "Kami tim situs alkitabkita.info sungguh-sungguh berharap bahwa melalui Bibledit, Saudara akan dimampukan meneliti Firman Tuhan secara mendalam. Mohon jangan menggunakan kemampuan itu untuk membanggakan dirimu sendiri, tetapi gunakanlah kemampuan itu untuk memuliakan TUHAN, untuk mengajar, dan menerjemahkan Firman TUHAN dengan lebih wajar, jelas, dan tepat.";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Tuhan memberkati!";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Balazi Gulo";
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = "Ketua Yayasan Albata";
       node.text ().set (information.c_str());
 #endif
       string subsequent_body;

@@ -171,9 +171,10 @@ string Navigation_Passage::getBooksFragment (void * webserver_request, string bi
     string bookName = Database_Books::getEnglishFromId (book);
     bookName = translate (bookName);
     bool selected = (book == activeBook);
-    addSelectorLink (html, convert_to_string (book), "applybook", bookName, selected);
+    string bookType = Database_Books::getType (book);
+    addSelectorLink (html, convert_to_string (book), "applybook", bookName, selected, bookType);
   }
-  addSelectorLink (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
 
   html.insert (0, "<span id='applybook'>" + translate ("Select book") + ": ");
   html.append ("</span>");
@@ -196,9 +197,9 @@ string Navigation_Passage::getChaptersFragment (void * webserver_request, string
   html.append (" ");
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
-    addSelectorLink (html, convert_to_string (ch), "applychapter", convert_to_string (ch), selected);
+    addSelectorLink (html, convert_to_string (ch), "applychapter", convert_to_string (ch), selected, "");
   }
-  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false, "");
 
   html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
@@ -221,9 +222,9 @@ string Navigation_Passage::getVersesFragment (void * webserver_request, string b
   html.append (" ");
   for (auto vs : verses) {
     bool selected = (verse == vs);
-    addSelectorLink (html, convert_to_string (vs), "applyverse", convert_to_string (vs), selected);
+    addSelectorLink (html, convert_to_string (vs), "applyverse", convert_to_string (vs), selected, "");
   }
-  addSelectorLink (html, "cancel", "applyverse", "[" + translate ("cancel") + "]", false);
+  addSelectorLink (html, "cancel", "applyverse", "[" + translate ("cancel") + "]", false, "");
 
   html.insert (0, "<span id=\"applyverse\">" + translate ("Select verse"));
   html.append ("</span>");
@@ -432,16 +433,20 @@ void Navigation_Passage::goForward (void * webserver_request)
 }
 
 
-void Navigation_Passage::addSelectorLink (string& html, string id, string href, string text, bool selected)
+void Navigation_Passage::addSelectorLink (string& html, string id, string href, string text, bool selected, string extra_class)
 {
   // Add bit to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");
 
-  string isactive = "";
-  if (selected) isactive  = " active";
+  string class_expansion;
+  if (selected) class_expansion.append (" active");
+  if (!extra_class.empty()) {
+    class_expansion.append (" ");
+    class_expansion.append (extra_class);
+  }
   
   // No wrapping of a book name made of more than one word.
-  html.append ("<span class='selector" + isactive + "'><a id='" + id + "apply' href='" + href + "'>");
+  html.append ("<span class='selector" + class_expansion + "'><a id='" + id + "apply' href='" + href + "'>");
   html.append (text);
   html.append ("</a></span>");
 }

@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 7100fef41f9a5d5fd53de99e6c59312f81a744cf)\n"
+"X-Generator: Launchpad (build 21fefc602783aa4ba863a4a6c29d38d788ce04ad)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -2243,6 +2243,9 @@ msgstr "SWORD"
 
 msgid "User-defined"
 msgstr "Défini par l'utilisateur"
+
+msgid "Comparative"
+msgstr ""
 
 msgid "Help and About"
 msgstr "Aide et à proppos"
@@ -5172,6 +5175,9 @@ msgstr "Ressources de BibleGateway"
 msgid "StudyLight resources"
 msgstr "Ressources StudyLight"
 
+msgid "Comparative resources"
+msgstr ""
+
 msgid "User-defined resources"
 msgstr "Ressources définies par l'utilisateur"
 
@@ -5199,6 +5205,18 @@ msgstr ""
 msgid "It displays a web page based on the focused passage within Bibledit."
 msgstr ""
 "Elles affichent une page Web basée sur le passage ciblé dans Bibledit."
+
+msgid "Create a new empty comparative resource"
+msgstr ""
+
+msgid "A comparative resource takes two existing resources as input."
+msgstr ""
+
+msgid "It compares the two resources."
+msgstr ""
+
+msgid "It displays the differences between the two."
+msgstr ""
 
 msgid "Image"
 msgstr "Image"
@@ -5305,6 +5323,78 @@ msgid "Start the conversion process and view it in the Journal."
 msgstr ""
 "Commencez le processus de conversion et consultez-le dans le Journal."
 
+msgid "Comparative resource"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Base resource"
+msgstr ""
+
+msgid "Updated resource"
+msgstr ""
+
+msgid "This resource will take the base resource as a starting point."
+msgstr ""
+
+msgid "It will compare the updated resource with the base resource."
+msgstr ""
+
+msgid ""
+"Any words that the updated resource has added as compared to the base "
+"resource will be shown in bold."
+msgstr ""
+
+msgid "Any words that were removed will be shown in strikethrough."
+msgstr ""
+
+msgid "Characters to remove"
+msgstr ""
+
+msgid ""
+"Characters to be removed from the base and updated resources before doing "
+"the comparison."
+msgstr ""
+
+msgid "Separate the characters by spaces."
+msgstr ""
+
+msgid "Example"
+msgstr ""
+
+msgid "Characters to replace"
+msgstr ""
+
+msgid ""
+"Characters to search for and be replaced in the base and updated resources "
+"before doing the comparison."
+msgstr ""
+
+msgid "Separate the sets by spaces."
+msgstr ""
+
+msgid "First enter the characters to search for."
+msgstr ""
+
+msgid "Then enter the = sign."
+msgstr ""
+
+msgid "Finally enter the characters to be substituted."
+msgstr ""
+
+msgid "Remove diacritics from the resources before doing the comparison."
+msgstr ""
+
+msgid "Do case folding of the resources before doing the comparison."
+msgstr ""
+
+msgid "Resource is ready"
+msgstr ""
+
+msgid "Delete this resource"
+msgstr ""
+
 msgid "Refresh the list of resources from StudyLight."
 msgstr "Rafraîchir la liste des ressources depuis StudyLight."
 
@@ -5369,9 +5459,6 @@ msgstr ""
 "Pour un passage ciblé, Bibledit peut afficher l'image correspondante."
 
 msgid "Rich Divider"
-msgstr ""
-
-msgid "Title"
 msgstr ""
 
 msgid "Link"
@@ -12862,6 +12949,9 @@ msgstr "Sélectionner une ressource BibleGateway"
 msgid "Select a StudyLight resource"
 msgstr "Sélectionner un ressource StudyLight"
 
+msgid "Select a Comparative resource"
+msgstr ""
+
 msgid "Converting Bible to USFM Resource"
 msgstr "Convertion de la Bible en ressource USFM"
 
@@ -12952,11 +13042,44 @@ msgstr ""
 msgid "Please enter the link for the divider"
 msgstr ""
 
+msgid "Please enter a name for the new comparative resource"
+msgstr ""
+
+msgid "This comparative resource already exists"
+msgstr ""
+
+msgid "Please give a name for the comparative resource"
+msgstr ""
+
+msgid "The comparative resource was created"
+msgstr ""
+
 msgid "Converting USFM Resource to Bible"
 msgstr "Conversion de ressources USFM en bible"
 
 msgid "Conversion completed"
 msgstr "Conversion terminée"
+
+msgid "Select a resource to be used as a base resource."
+msgstr ""
+
+msgid "The base resource is used as a starting point for the comparison."
+msgstr ""
+
+msgid "Select a resource to be used as the updated resource."
+msgstr ""
+
+msgid "The updated resource will be compared with the base resource."
+msgstr ""
+
+msgid "Enter or edit the characters to remove from the resources"
+msgstr ""
+
+msgid "Enter or edit the search and replace sets"
+msgstr ""
+
+msgid "Could not save"
+msgstr ""
 
 msgid "Unknown starting book."
 msgstr "Livre de départ inconnu."

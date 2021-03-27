@@ -23,34 +23,47 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/privileges.h>
 #include <client/logic.h>
 #include <filter/roles.h>
+#include <filter/indonesian.h>
 
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool access_bible_read (void * webserver_request, const string & bible, string user)
+bool access_bible_read (void * webserver_request, const string & bible, string user) // Todo
 {
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+
   // Client: User has access to all Bibles.
 #ifdef HAVE_CLIENT
   return true;
 #endif
-  // Indonesian Cloud Free: Access all Bibles.
-#ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
-#endif
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  int level = 0;
+  // Get the level, that is the role, of the given user.
+  int role_level = 0;
   if (user.empty ()) {
     // Current user.
     user = request->session_logic ()->currentUser ();
-    level = request->session_logic ()->currentLevel ();
+    role_level = request->session_logic ()->currentLevel ();
   } else {
     // Take level belonging to user.
-    level = request->database_users ()->get_level (user);
+    role_level = request->database_users ()->get_level (user);
   }
 
+  // Indonesian Cloud Free.
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // A free guest account has a role of "Consultant".
+  if (role_level == Filter_Roles::consultant()) {
+    // This level/role has access to:
+    // 1. AlkitabKita / Everyone's Translation.
+    if (bible == filter_indonesian_alkitabkita_ourtranslation_name ()) return true;
+    // 2. Terjemahanku <user> (My Translation <user>).
+    else if (bible == filter_indonesian_terjemahanku_mytranslation_name (user)) return true;
+    // If the Bible is none of the above, the free guest account does not have access to it.
+    else return false;
+  }
+#endif
+
   // Managers and higher have read access.
-  if (level >= Filter_Roles::manager ()) {
+  if (role_level >= Filter_Roles::manager ()) {
     return true;
   }
 
@@ -62,7 +75,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
   }
 
   // No Bibles assigned: Consultant can view any Bible.
-  if (level >= Filter_Roles::consultant ()) {
+  if (role_level >= Filter_Roles::consultant ()) {
     int privileges_count = Database_Privileges::getBibleBookCount ();
     if (privileges_count == 0) {
       return true;

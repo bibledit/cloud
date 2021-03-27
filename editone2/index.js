@@ -92,7 +92,7 @@ function visualVerseEditorInitializeLoad ()
     return new Delta().insert (plaintext);
   });
 
-  if (oneverseEditorWriteAccess) if (!quill.hasFocus ()) quill.focus ();
+  if (oneverseEditorWriteAccess) if (!verseEditorHasFocus ()) quill.focus ();
   
   // Event handlers.
   quill.on ("text-change", visualVerseEditorTextChangeHandler);
@@ -478,7 +478,6 @@ function oneverseEditorPollId ()
           // Start the routine to load any possible updates into the editor.
           oneverseUpdateTrigger = true;
           oneverseReloadNonEditableFlag = true;
-          
         }
       }
       oneverseChapterId = response;
@@ -673,7 +672,7 @@ function oneverseDisplayAllStyles ()
 function oneverseApplyParagraphStyle (style)
 {
   if (!oneverseEditorWriteAccess) return;
-  if (!quill.hasFocus ()) quill.focus ();
+  if (!verseEditorHasFocus ()) quill.focus ();
   quill.format ("paragraph", style, "user");
   oneverseActiveStylesFeedback ();
 }
@@ -682,7 +681,7 @@ function oneverseApplyParagraphStyle (style)
 function oneverseApplyCharacterStyle (style)
 {
   if (!oneverseEditorWriteAccess) return;
-  if (!quill.hasFocus ()) quill.focus ();
+  if (!verseEditorHasFocus ()) quill.focus ();
   // No formatting of a verse.
   var range = quill.getSelection();
   if (range) {
@@ -968,7 +967,7 @@ Section for reload notifications.
 function oneverseReloadAlert (message)
 {
   // Take action only if the editor has focus and the user can type in it.
-  if (!quill.hasFocus ()) return;
+  if (!verseEditorHasFocus ()) return;
   // Do the notification stuff.
   notifyItSuccess (message)
   quill.enable (false);
@@ -1255,3 +1254,19 @@ function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op)
   return position
 }
 
+
+
+//
+//
+// Section for the focus.
+//
+//
+
+
+function verseEditorHasFocus ()
+{
+  var focus = $(getActiveElement());
+  var focused = (focus.attr('class') == "ql-editor");
+  if (focused) focused = quill.hasFocus ();
+  return focused;
+}

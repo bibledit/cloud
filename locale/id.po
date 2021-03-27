@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2021-03-08 22:46+0000\n"
+"PO-Revision-Date: 2021-03-26 19:33+0000\n"
 "Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 7100fef41f9a5d5fd53de99e6c59312f81a744cf)\n"
+"X-Generator: Launchpad (build 21fefc602783aa4ba863a4a6c29d38d788ce04ad)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -310,7 +310,7 @@ msgid "Synchronizing"
 msgstr ""
 
 msgid "Notes"
-msgstr ""
+msgstr "Catatan"
 
 msgid "No local user found"
 msgstr ""
@@ -394,7 +394,7 @@ msgid "Bibledit resolved the conflicts"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "Setelan"
 
 msgid "Failure sending and receiving Settings"
 msgstr ""
@@ -403,7 +403,7 @@ msgid "Sending settings"
 msgstr ""
 
 msgid "Resources"
-msgstr ""
+msgstr "Teliti"
 
 msgid "Sending and receiving:"
 msgstr ""
@@ -911,7 +911,7 @@ msgid "Space before a full stop"
 msgstr ""
 
 msgid "Space before a question mark"
-msgstr ""
+msgstr "Terdapat spasi sebelum tanda tanya."
 
 msgid "Space before an exclamation mark"
 msgstr ""
@@ -1043,13 +1043,13 @@ msgid "Select which Bible to open in the editor"
 msgstr ""
 
 msgid "Editor and Resources"
-msgstr ""
+msgstr "Jendela Editor dan Teliti"
 
 msgid "Editor and Notes"
 msgstr ""
 
 msgid "Resources and Editor and Notes"
-msgstr ""
+msgstr "Jendela Teliti, Editor, dan Catatan"
 
 msgid "Editor and Consistency tool"
 msgstr ""
@@ -1130,7 +1130,7 @@ msgid "A user account was changed."
 msgstr ""
 
 msgid "Email address:"
-msgstr ""
+msgstr "Alamat email:"
 
 msgid "The following email was sent to this user:"
 msgstr ""
@@ -1277,13 +1277,13 @@ msgid "Passwords do not match"
 msgstr "Kedua kata sandi tadi tidak sama."
 
 msgid "Current password is not valid"
-msgstr "Kata sandi tidak benar"
+msgstr "Kata sandi tadi tidak benar."
 
 msgid "The new password was saved"
 msgstr "Kata sandi baru sudah disimpan"
 
 msgid "Email address is not valid"
-msgstr ""
+msgstr "Alamat email itu salah."
 
 msgid "Email address verification"
 msgstr ""
@@ -1293,14 +1293,14 @@ msgid ""
 msgstr ""
 
 msgid "Email address change"
-msgstr ""
+msgstr "Mengubah alamat email"
 
 msgid ""
 "The email address that belongs to your account has been changed successfully."
 msgstr ""
 
 msgid "A verification email was sent to"
-msgstr ""
+msgstr "Sebuah email konfirmasi sudah dikirim kepada"
 
 msgid "No changes were made"
 msgstr ""
@@ -1335,7 +1335,7 @@ msgid "Checking"
 msgstr ""
 
 msgid "Ready"
-msgstr ""
+msgstr "Siap"
 
 msgid "Here are the various options:"
 msgstr ""
@@ -1838,7 +1838,7 @@ msgid "Amount of resources:"
 msgstr ""
 
 msgid "Download the archive with all installed resources."
-msgstr ""
+msgstr "Mengunduh seluruh materi penelitian dalam bentuk archive."
 
 msgid "This will create the same resources in that other client."
 msgstr ""
@@ -1924,7 +1924,7 @@ msgid "The name should be at least two characters long"
 msgstr ""
 
 msgid "The email address is not valid"
-msgstr ""
+msgstr "Alamat email itu salah."
 
 msgid "This account needs a password."
 msgstr "Akun ini perlu kata sandi."
@@ -2092,10 +2092,10 @@ msgid "Login"
 msgstr ""
 
 msgid "Read"
-msgstr ""
+msgstr "Baca"
 
 msgid "User resources"
-msgstr ""
+msgstr "Materi penelitian pengguna"
 
 msgid "Advanced search"
 msgstr ""
@@ -2152,6 +2152,9 @@ msgid "SWORD"
 msgstr ""
 
 msgid "User-defined"
+msgstr ""
+
+msgid "Comparative"
 msgstr ""
 
 msgid "Help and About"
@@ -2475,14 +2478,14 @@ msgid ""
 msgstr ""
 
 msgid "Relative font size for the resources"
-msgstr ""
+msgstr "Ukuran font untuk materi penelitian"
 
 msgid ""
 "The size of the font for the resources, relative to the general font size."
 msgstr ""
 
 msgid "Relative font size for Hebrew resources"
-msgstr ""
+msgstr "Ukuran font untuk bahasa Ibrani"
 
 msgid ""
 "The size of Hebrew text within resources, relative to the resources font "
@@ -2490,7 +2493,7 @@ msgid ""
 msgstr ""
 
 msgid "Relative font size for Greek resources"
-msgstr ""
+msgstr "Ukuran font untuk bahasa Yunani dalam materi penelitian"
 
 msgid ""
 "The size of Greek text within resources, relative to the resources font size."
@@ -3045,6 +3048,8 @@ msgid ""
 "a space before a comma, semicolon, colon, full stop, question mark, or "
 "exclamation mark"
 msgstr ""
+"Terdapat spasi sebelum koma, titik koma, titik dua, titik tanda tanya, atau "
+"tanda tegas."
 
 msgid "sentence structure"
 msgstr ""
@@ -3696,7 +3701,7 @@ msgid "Again new password"
 msgstr "Isi ulang kata sandi baru"
 
 msgid "New email address"
-msgstr ""
+msgstr "Alamat email baru"
 
 msgid "Passages:"
 msgstr ""
@@ -4123,7 +4128,7 @@ msgid "Thank you for being interested in providing feedback on the Bible."
 msgstr ""
 
 msgid "Please provide your name and email address."
-msgstr ""
+msgstr "Berikanlah namamu dan alamat emailmu."
 
 msgid "You will then receive email about any feedback you give."
 msgstr ""
@@ -4634,7 +4639,7 @@ msgid "Role"
 msgstr ""
 
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 msgid "Privileges"
 msgstr ""
@@ -4739,10 +4744,10 @@ msgid "Bibles within Bibledit"
 msgstr ""
 
 msgid "USFM resources"
-msgstr ""
+msgstr "Pilihan materi penelitian dari USFM"
 
 msgid "Web resources"
-msgstr ""
+msgstr "Pilihan materi penelitian dari Internet"
 
 msgid "Original language texts"
 msgstr ""
@@ -4760,13 +4765,16 @@ msgid "Dividers"
 msgstr ""
 
 msgid "BibleGateway resources"
-msgstr ""
+msgstr "Pilihan materi penelitian dari BibleGateway"
 
 msgid "StudyLight resources"
+msgstr "Pilihan materi penelitian dari StudyLight"
+
+msgid "Comparative resources"
 msgstr ""
 
 msgid "User-defined resources"
-msgstr ""
+msgstr "Pilihan materi penelitian yang dibuat oleh pengguna"
 
 msgid "Image resource"
 msgstr ""
@@ -4790,6 +4798,18 @@ msgstr ""
 msgid "It displays a web page based on the focused passage within Bibledit."
 msgstr ""
 
+msgid "Create a new empty comparative resource"
+msgstr ""
+
+msgid "A comparative resource takes two existing resources as input."
+msgstr ""
+
+msgid "It compares the two resources."
+msgstr ""
+
+msgid "It displays the differences between the two."
+msgstr ""
+
 msgid "Image"
 msgstr ""
 
@@ -4803,7 +4823,7 @@ msgid "Delete this image."
 msgstr ""
 
 msgid "USFM Resources"
-msgstr ""
+msgstr "Pilihan materi penelitian dari USFM"
 
 msgid ""
 "To create a USFM resource, go to the Bibles, and convert it to a USFM "
@@ -4884,6 +4904,78 @@ msgstr ""
 msgid "Start the conversion process and view it in the Journal."
 msgstr ""
 
+msgid "Comparative resource"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Base resource"
+msgstr ""
+
+msgid "Updated resource"
+msgstr ""
+
+msgid "This resource will take the base resource as a starting point."
+msgstr ""
+
+msgid "It will compare the updated resource with the base resource."
+msgstr ""
+
+msgid ""
+"Any words that the updated resource has added as compared to the base "
+"resource will be shown in bold."
+msgstr ""
+
+msgid "Any words that were removed will be shown in strikethrough."
+msgstr ""
+
+msgid "Characters to remove"
+msgstr ""
+
+msgid ""
+"Characters to be removed from the base and updated resources before doing "
+"the comparison."
+msgstr ""
+
+msgid "Separate the characters by spaces."
+msgstr ""
+
+msgid "Example"
+msgstr ""
+
+msgid "Characters to replace"
+msgstr ""
+
+msgid ""
+"Characters to search for and be replaced in the base and updated resources "
+"before doing the comparison."
+msgstr ""
+
+msgid "Separate the sets by spaces."
+msgstr ""
+
+msgid "First enter the characters to search for."
+msgstr ""
+
+msgid "Then enter the = sign."
+msgstr ""
+
+msgid "Finally enter the characters to be substituted."
+msgstr ""
+
+msgid "Remove diacritics from the resources before doing the comparison."
+msgstr ""
+
+msgid "Do case folding of the resources before doing the comparison."
+msgstr ""
+
+msgid "Resource is ready"
+msgstr ""
+
+msgid "Delete this resource"
+msgstr ""
+
 msgid "Refresh the list of resources from StudyLight."
 msgstr ""
 
@@ -4935,9 +5027,6 @@ msgid ""
 msgstr ""
 
 msgid "Rich Divider"
-msgstr ""
-
-msgid "Title"
 msgstr ""
 
 msgid "Link"
@@ -5154,7 +5243,7 @@ msgid "Name: Bibledit Cloud"
 msgstr ""
 
 msgid "Email address: bibletranslation@gmail.com"
-msgstr ""
+msgstr "Alamat email: bibletranslation@gmail.com"
 
 msgid "To switch the mailer off, leave the fields empty."
 msgstr ""
@@ -5163,7 +5252,7 @@ msgid "Enter the name and the email address, and press Submit."
 msgstr ""
 
 msgid "Email address"
-msgstr ""
+msgstr "Alamat email"
 
 msgid "Retrieving mail"
 msgstr ""
@@ -9171,13 +9260,13 @@ msgid "Which password?"
 msgstr "Kata sandi yang mana?"
 
 msgid "Your email address?"
-msgstr ""
+msgstr "Apa alamat emailmu?"
 
 msgid "Security question:"
-msgstr ""
+msgstr "Pertanyaan sekuriti:"
 
 msgid "Hint for answering the security question:"
-msgstr ""
+msgstr "Kalau perlu bantuan untuk menjawab pertanyaan sekuriti:"
 
 msgid ""
 "Submit your username or email address, and instructions will be emailed to "
@@ -10803,7 +10892,7 @@ msgid "User already exists"
 msgstr "Nama pengguna itu sudah terdaftar."
 
 msgid "User created"
-msgstr "Akun pengguna sudah dibuat"
+msgstr "Berhasil. Akun pengguna sudah dibuat."
 
 msgid "Cannot remove the last user"
 msgstr ""
@@ -10818,7 +10907,7 @@ msgid "Please enter an email address for"
 msgstr ""
 
 msgid "Email address was updated"
-msgstr "Sudah berhasil mendaftar alamat e-mail."
+msgstr "Perubahan alamat email sudah berhasil."
 
 msgid "Would you like to grant the user access to a Bible?"
 msgstr ""
@@ -10869,7 +10958,7 @@ msgid "The email address for the feedback link was saved."
 msgstr ""
 
 msgid "The email address is not valid."
-msgstr ""
+msgstr "Alamat email tadi tidak benar."
 
 msgid "The Bible is being exported to Html format."
 msgstr ""
@@ -11148,6 +11237,9 @@ msgstr ""
 msgid "Select a StudyLight resource"
 msgstr ""
 
+msgid "Select a Comparative resource"
+msgstr ""
+
 msgid "Converting Bible to USFM Resource"
 msgstr ""
 
@@ -11238,10 +11330,43 @@ msgstr ""
 msgid "Please enter the link for the divider"
 msgstr ""
 
+msgid "Please enter a name for the new comparative resource"
+msgstr ""
+
+msgid "This comparative resource already exists"
+msgstr ""
+
+msgid "Please give a name for the comparative resource"
+msgstr ""
+
+msgid "The comparative resource was created"
+msgstr ""
+
 msgid "Converting USFM Resource to Bible"
 msgstr ""
 
 msgid "Conversion completed"
+msgstr ""
+
+msgid "Select a resource to be used as a base resource."
+msgstr ""
+
+msgid "The base resource is used as a starting point for the comparison."
+msgstr ""
+
+msgid "Select a resource to be used as the updated resource."
+msgstr ""
+
+msgid "The updated resource will be compared with the base resource."
+msgstr ""
+
+msgid "Enter or edit the characters to remove from the resources"
+msgstr ""
+
+msgid "Enter or edit the search and replace sets"
+msgstr ""
+
+msgid "Could not save"
 msgstr ""
 
 msgid "Unknown starting book."
@@ -11344,7 +11469,7 @@ msgid "The emailer is not yet set up."
 msgstr ""
 
 msgid "The email address does not appear to be valid"
-msgstr ""
+msgstr "Alamat email tadi nampaknya tidak benar."
 
 msgid "The name and email address were saved"
 msgstr ""
@@ -11368,7 +11493,7 @@ msgid "Would you like to delete this versification system?"
 msgstr ""
 
 msgid "Username or email address is too short"
-msgstr "Nama pengguna atau alamat email terlalu pendek"
+msgstr "Nama pengguna atau alamat email terlalu pendek."
 
 msgid "Account changed"
 msgstr ""
@@ -11394,7 +11519,7 @@ msgstr ""
 "supaya bisa menentukan kata sandi baru"
 
 msgid "Username or email address cannot be found"
-msgstr "Nama pengguna atau alamat email tidak terdapat"
+msgstr "Nama pengguna atau alamat email tidak terdapat."
 
 msgid "Switch user"
 msgstr "Ganti pengguna"
@@ -11405,55 +11530,67 @@ msgid ""
 msgstr ""
 
 msgid "Damascus"
-msgstr ""
+msgstr "Damsyik"
 
 msgid ""
 "And while he travelled, he came near Damascus; and suddenly a light from "
 "heaven shone round about him."
 msgstr ""
+"Selama ia sedang berjalan, ia semakin dekat dengan Damsyik, dan tiba-tiba "
+"suatu cahaya dari langit memancar mengelilinginya. (Kisah 9:3 AYT)"
 
 msgid "What is the name of the brother of Aaron the high priest?"
-msgstr ""
+msgstr "Siapakah adik Imam Besar Harun?"
 
 msgid "Moses"
-msgstr ""
+msgstr "Musa"
 
 msgid ""
 "And the anger of Jehova was kindled against Moses, and he said: Is not Aaron "
 "the Levite your brother?"
 msgstr ""
+"Kemarahan TUHAN pun menyala atas Musa, dan Dia berfirman, “Bukankah Harun, "
+"orang Lewi itu, kakakmu? Aku tahu, dia pandai berkata-kata. Lihat, dia akan "
+"datang untuk menemuimu. Ketika dia menemuimu, dia akan bersukacita dalam "
+"hatinya. (Keluaran 4:14 AYT)"
 
 msgid "What is the name of the city where Jesus was born?"
 msgstr ""
 
 msgid "Bethlehem"
-msgstr ""
+msgstr "Betlehem"
 
 msgid ""
 "When Jesus was born in Bethlehem of Judaea in the days of Herod the king, "
 "behold, wise men from the east came to Jerusalem."
 msgstr ""
+"Sekarang, setelah Yesus lahir di Betlehem, di Yudea, pada zaman Raja "
+"Herodes, lihat, orang-orang Majus dari timur datang ke Yerusalem. (Matius "
+"2:1 AYT)"
 
 msgid "What is the name of the island where John was sent to?"
-msgstr ""
+msgstr "Penulis kitab Wahyu, Yohanes, ditahan di pulau mana?"
 
 msgid "Patmos"
-msgstr ""
+msgstr "Patmos"
 
 msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
 msgstr ""
+"Aku, Yohanes, saudara dan sesamamu yang ambil bagian dalam kesusahan, dalam "
+"Kerajaan, dan dalam ketekunan di dalam Yesus, berada di pulau yang disebut "
+"Patmos karena firman Allah dan kesaksian Yesus. (Wahyu 1:9 AYT)"
 
 msgid "Username should be at least two characters long"
-msgstr "Nama pengguna paling pendek adalah dua huruf"
+msgstr "Nama pengguna paling pendek adalah dua huruf."
 
 msgid "Password should be at least two characters long"
 msgstr "Paling pendek, kata sandi harus terdiri dari dua huruf"
 
 msgid "The answer to the question is not correct"
-msgstr ""
+msgstr "Jawabanmu itu tidak benar!"
 
 msgid ""
 "The username that you have chosen has already been taken. Please choose "
@@ -11483,4 +11620,4 @@ msgid "Your account is now active and you have logged in."
 msgstr ""
 
 msgid "Username or email address or password are not correct"
-msgstr "Nama pengguna atau alamat email yang dimasukkan tidak benar"
+msgstr "Nama pengguna atau alamat email yang dimasukkan tidak benar."

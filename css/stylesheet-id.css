@@ -182,6 +182,15 @@ div[contenteditable=true],
       border-left: 0 !important;
     }
 
+    #topbar .fadeout {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      overflow: unset;
+      white-space: unset;
+    }
+
     #versepickerwrapper {
       white-space: unset;
       overflow: unset;
@@ -218,10 +227,25 @@ div[contenteditable=true],
       transition: all 250ms;
     }
 
-    #applybook .selector:nth-last-of-type(2) a,
-    #applybook .selector:nth-last-of-type(1) a {
+    #applybook .selector:nth-last-of-type(1) a,
+    #applybook .selector.frontback a {
       background-color: #823a9c !important;
-      color: #fff;
+      color: #fff !important;
+    }
+
+    #applybook .selector.ap a {
+      background-color: #1116 !important;
+      color: #fff !important;
+    }
+
+    #applybook .selector.ot a {
+      background-color: #b81a1a !important;
+      color: #fff !important;
+    }
+  
+    #applybook .selector.nt a {
+      background-color: #1a24ad !important;
+      color: #fff !important;
     }
 
   #applyverse,
@@ -238,6 +262,22 @@ div[contenteditable=true],
     #topbar.wrap-active > span {
       flex-grow: 1;
     }
+
+.manatee-blue {
+  background-color: hsl(242, 17%, 60%);
+}
+.logan-blue {
+  background-color: hsl(242, 17%, 75%);
+}
+.blossom-red {
+  background-color: hsl(354, 20%, 90%);
+}
+.rosy-brown {
+  background-color: hsl(354, 20%, 75%);
+}
+.opium-brown {
+  background-color: hsl(354, 20%, 60%);
+}
 /* END OF CONTAINER STYLING */
 
 
@@ -636,12 +676,12 @@ table.interlinear.rtl {
 }
 
 .white-on-dark-blue {
-  color: #fff!important;
+  /* color: #fff!important; */
   background-color: #2654c5
 }
 
 .white-on-turkish-blue {
-  color: #fff!important;
+  /* color: #fff!important; */
   background-color: #53808c
 }
 

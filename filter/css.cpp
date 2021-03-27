@@ -247,11 +247,11 @@ string Filter_Css::distinction_set_1 (int offset)
 
 string Filter_Css::distinction_set_2 (int offset)
 {
-  if (offset == 0) return "black-on-yellow";
-  if (offset == 1) return "black-on-neon-green";
-  if (offset == 2) return "black-on-light-blue";
-  if (offset == 3) return "white-on-dark-blue";
-  if (offset == 4) return "white-on-turkish-blue";
+  if (offset == 0) return "manatee-blue";
+  if (offset == 1) return "logan-blue";
+  if (offset == 2) return "blossom-red";
+  if (offset == 3) return "rosy-brown";
+  if (offset == 4) return "opium-brown";
   return "";
 }
 

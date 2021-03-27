@@ -246,7 +246,7 @@ string session_signup (void * webserver_request)
     }
   }
   
-  view.set_variable ("mailer", email_setup_information ());
+  view.set_variable ("mailer", email_setup_information (true, false));
 
   if (signed_up) page += view.render ("session", "signedup");
   else page += view.render ("session", "signup");

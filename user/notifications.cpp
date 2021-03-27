@@ -224,7 +224,7 @@ string user_notifications (void * webserver_request)
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
     view.enable_zone ("consultant");
   
-  view.set_variable ("error", email_setup_information ());
+  view.set_variable ("error", email_setup_information (true, false));
   
   page += view.render ("user", "notifications");
 

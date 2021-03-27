@@ -63,7 +63,7 @@ bool editone2_index_acl (void * webserver_request)
 }
 
 
-string editone2_index (void * webserver_request)
+string editone2_index (void * webserver_request) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   
@@ -90,8 +90,9 @@ string editone2_index (void * webserver_request)
     }
     if (selected_bible.empty ()) {
       // No Bible selected yet: Create the Indonesian Sample Bible and take that.
-      demo_create_sample_bible ();
-      selected_bible = demo_sample_bible_name ();
+      string user = request->session_logic ()->currentUser ();
+      filter_indonesian_create_mytranslation (user);
+      selected_bible = filter_indonesian_terjemahanku_mytranslation_name (user);
     }
     request->database_config_user()->setBible (selected_bible);
   }

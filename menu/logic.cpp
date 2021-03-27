@@ -367,9 +367,16 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
+    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    string activeWorkspace = request->database_config_user()->getActiveWorkspace ();
     vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspaces[i], true, "", "");
+      // Adds an active class if it is the current workspace
+      if (workspaces[i] == activeWorkspace) {
+        int startIndex = item.find(R"("><a)");
+        item.insert (startIndex, "active");
+      }
       html.push_back (item);
       labels.push_back (workspaces [i]);
     }

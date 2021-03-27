@@ -375,7 +375,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
       // Adds an active class if it is the current workspace
       if (workspaces[i] == activeWorkspace) {
         int startIndex = item.find(R"("><a)");
-        item.insert (startIndex, "active");
+        item.insert (startIndex, " active");
       }
       html.push_back (item);
       labels.push_back (workspaces [i]);

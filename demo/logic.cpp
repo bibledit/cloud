@@ -219,7 +219,7 @@ string demo_sample_bible_name ()
 {
 #ifdef HAVE_INDONESIANCLOUDFREE
   // MyBibleTranslation
-  return filter_indonesian_terjemahanku_mytranslation_name ();
+  return filter_indonesian_terjemahanku_mytranslation_name ("");
 #endif
   return "Sample";
 }
@@ -240,7 +240,6 @@ void demo_create_sample_bible ()
   // Remove index for the sample Bible.
   search_logic_delete_bible (demo_sample_bible_name ());
 
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
   // Copy the sample Bible data and search index into place.
   vector <int> rowids = Database_Sample::get ();
   for (auto rowid : rowids) {
@@ -266,20 +265,6 @@ void demo_create_sample_bible ()
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);
   }
-#endif
-
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // In the Indonesian Cloud Free, the request is to create books
-  // with blank verses for the OT and NT.
-  vector <int> books = Database_Books::getIDs ();
-  for (auto book : books) {
-    string type = Database_Books::getType (book);
-    if ((type == "ot") || (type == "nt")) {
-      vector <string> feedback;
-      book_create (demo_sample_bible_name(), book, -1, feedback);
-    }
-  }
-#endif
   
   Database_Logs::log ("Sample Bible was created");
 }

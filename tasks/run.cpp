@@ -309,7 +309,7 @@ void tasks_run_one (string filename)
   else if (command == EXPORT2NMT) {
     nmt_logic_export (parameter1, parameter2);
   }
-  else if (command == CREATEEMPTYBIBLE) { // Todo
+  else if (command == CREATEEMPTYBIBLE) {
     bible_logic_create_empty_bible (parameter1);
   }
   else {

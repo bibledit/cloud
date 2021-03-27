@@ -248,8 +248,8 @@ string session_signup (void * webserver_request)
       }
       // Store the confirmation information in the database.
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
-      // In the Indonesian free Cloud, create the Bible for the user. Todo
 #ifdef HAVE_INDONESIANCLOUDFREE
+      // In the Indonesian free Cloud, create the Bible for the user.
       {
         string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
         tasks_logic_queue (CREATEEMPTYBIBLE, {bible});

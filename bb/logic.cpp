@@ -1140,7 +1140,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
 }
 
 
-void bible_logic_create_empty_bible (const string & name) // Todo
+void bible_logic_create_empty_bible (const string & name)
 {
   Database_Logs::log (translate("Creating Bible") + " " + name);
   

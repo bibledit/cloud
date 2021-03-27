@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool access_bible_read (void * webserver_request, const string & bible, string user) // Todo
+bool access_bible_read (void * webserver_request, const string & bible, string user)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

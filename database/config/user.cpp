@@ -647,7 +647,7 @@ void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 }
 
 
-vector <string> Database_Config_User::getActiveResources () // Todo
+vector <string> Database_Config_User::getActiveResources ()
 {
 #ifdef DEFAULT_BIBLEDIT_CONFIGURATION
   return getList ("active-resources");

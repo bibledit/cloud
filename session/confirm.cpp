@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <index/index.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <user/logic.h>
 
 
 class Verification
@@ -84,12 +85,9 @@ string session_confirm (void * webserver_request)
       // Store web site's base URL.
       string siteUrl = get_base_url (request);
       Database_Config_General::setSiteURL (siteUrl);
+      // Store account creation time.
+      user_logic_store_account_creation (request->session_logic()->currentUser ());
     }
-    
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-#endif
 
   }
   

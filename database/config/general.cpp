@@ -550,3 +550,16 @@ void Database_Config_General::setActiveResources (vector <string> values)
 }
 
 
+const char * account_creation_times_key ()
+{
+  return "account-creation-times";
+}
+vector <string> Database_Config_General::getAccountCreationTimes ()
+{
+  return getList (account_creation_times_key ());
+}
+void Database_Config_General::setAccountCreationTimes (vector <string> values)
+{
+  setList (account_creation_times_key (), values);
+}
+

@@ -144,6 +144,9 @@ public:
   static vector <string> getActiveResources ();
   static void setActiveResources (vector <string> values);
 
+  static vector <string> getAccountCreationTimes ();
+  static void setAccountCreationTimes (vector <string> values);
+
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

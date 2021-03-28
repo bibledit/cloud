@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/userresources.h>
 #include <developer/index.h>
 #include <edit/index.h>
+#include <edit2/index.h>
 #include <editone2/index.h>
 #include <redirect/index.h>
 #include <editusfm/index.h>
@@ -372,10 +373,10 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
     vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspaces[i], true, "", "");
-      // Adds an active class if it is the current workspace
+      // Adds an active class if it is the current workspace.
       if (workspaces[i] == activeWorkspace) {
-        int startIndex = item.find(R"("><a)");
-        item.insert (startIndex, " active");
+        size_t startIndex = item.find(R"("><a)");
+        if (startIndex != string::npos) item.insert (startIndex, " active");
       }
       html.push_back (item);
       labels.push_back (workspaces [i]);
@@ -395,9 +396,9 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   vector <string> labels;
   
   // Visual chapter editor.
-  if (edit_index_acl (webserver_request)) {
+  if (edit2_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (true, true);
-    html.push_back (menu_logic_create_item (edit_index_url (), label, true, "", ""));
+    html.push_back (menu_logic_create_item (edit2_index_url (), label, true, "", "")); // Todo
     labels.push_back (label);
   }
 

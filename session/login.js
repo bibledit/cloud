@@ -29,4 +29,12 @@ $(document).ready (function () {
       touch.attr ("value", "0");
     }
   });
+  $("#show").change(function() {
+    var input = $("#pass");
+      if (input.attr("type") === "password") {
+        input.attr("type", "text");
+      } else {
+        input.attr("type", "password");
+      }
+  });
 });

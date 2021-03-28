@@ -743,7 +743,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       // Many Cloud instances may run on one server, and if the Cloud were to cache resources,
       /// it was going to use a huge amount of disk space.
       if (resource_cache_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true));
+        html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true, "", ""));
         tiplabels.push_back (menu_logic_resources_text ());
       }
 #endif
@@ -833,7 +833,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 #ifdef HAVE_PARATEXT
     if (label == paratext) {
       if (paratext_index_acl (webserver_request)) {
-        html.push_back (menu_logic_create_item (paratext_index_url (), label, true));
+        html.push_back (menu_logic_create_item (paratext_index_url (), label, true, "", ""));
         tiplabels.push_back (paratext_index_url ());
       }
     }

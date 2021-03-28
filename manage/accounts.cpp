@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <webserver/request.h>
 #include <journal/index.h>
@@ -117,6 +118,19 @@ string manage_accounts (void * webserver_request)
   }
   
   
+  // Get the account creation times.
+  map <string, int> account_creation_times;
+  {
+    vector <string> lines = Database_Config_General::getAccountCreationTimes ();
+    for (auto line : lines) {
+      vector <string> bits = filter_string_explode(line, '|');
+      if (bits.size() != 2) continue;
+      int seconds = convert_to_int(bits[0]);
+      string user = bits[1];
+      account_creation_times [user] = seconds;
+    }
+  }
+  
   // Retrieve assigned users.
   vector <string> users = access_user_assignees (webserver_request);
   for (auto & username : users) {
@@ -125,6 +139,11 @@ string manage_accounts (void * webserver_request)
     user_level = request->database_users ()->get_level (username);
     string role = Filter_Roles::text (user_level);
     string email = request->database_users ()->get_email (username);
+    string days;
+    {
+      int seconds = filter_date_seconds_since_epoch() - account_creation_times[username];
+      days = convert_to_string (seconds / (3600 * 24));
+    }
     
     // In the Indonesian free Cloud,
     // the free guest accounts have a role of Consultant.
@@ -137,6 +156,7 @@ string manage_accounts (void * webserver_request)
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {
       make_pair ("user", username),
+      make_pair ("days", days),
       make_pair ("role", role),
       make_pair ("email", email),
     });

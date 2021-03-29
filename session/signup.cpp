@@ -93,7 +93,47 @@ string session_signup (void * webserver_request)
   verification.passage  = translate("I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.");
   verifications.push_back (verification);
   
-  int question_number = filter_string_rand (0, 3);
+    verification.question = translate("Who is the first person to acknowledge Jesus as the Christ?");
+  verification.answer   = translate("Simeon");
+  verification.passage  = translate("And, behold, there was a man in Jerusalem, whose name was Simeon; and the same man was just and devout, waiting for the consolation of Israel: and the Holy Ghost was upon him. And it was revealed unto him by the Holy Ghost, that he should not see death, before he had seen the Lord's Christ.");
+  verifications.push_back (verification);
+
+  verification.question = translate("To whom was the Acts Of Apostles written?");
+  verification.answer   = translate("Theophilus");
+  verification.passage  = translate("The former treatise have I made, O Theophilus, of all that Jesus began both to do and teach,");
+  verifications.push_back (verification);
+
+  verification.question = translate("Where did Jesus met the woman of Samaria?");
+  verification.answer   = translate("Jacob's well");
+  verification.passage  = translate("Then cometh he to a city of Samaria, which is called Sychar, near to the parcel of ground that Jacob gave to his son Joseph. Now Jacob's well was there. Jesus therefore, being wearied with his journey, sat thus on the well: and it was about the sixth hour. There cometh a woman of Samaria to draw water: Jesus saith unto her, Give me to drink.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who was the father of Abraham?");
+  verification.answer   = translate("Terah");
+  verification.passage  = translate("And Terah took Abram his son,");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who was the son of Cush, the mighty hunter before the LORD?");
+  verification.answer   = translate("Nimrod");
+  verification.passage  = translate("And Cush begat Nimrod: he began to be a mighty one in the earth. He was a mighty hunter before the Lord: wherefore it is said, Even as Nimrod the mighty hunter before the Lord.");
+  verifications.push_back (verification);
+
+  verification.question = translate("What is the name of Job's friend that answered him first?");
+  verification.answer   = translate("Eliphaz");
+  verification.passage  = translate("Then Eliphaz the Temanite answered and said,");
+  verifications.push_back (verification);
+
+  verification.question = translate("What is the name of Ruth's husband?");
+  verification.answer   = translate("Boaz");
+  verification.passage  = translate("So Boaz took Ruth, and she was his wife: and when he went in unto her, the Lord gave her conception, and she bare a son.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who taught Lemuel Proverbs chapter 31?");
+  verification.answer   = translate("Lemuel's mother");
+  verification.passage  = translate("The words of king Lemuel, the prophecy that his mother taught him.");
+  verifications.push_back (verification);
+
+  int question_number = filter_string_rand (0, 11);
   view.set_variable ("question", verifications[question_number].question);
   view.set_variable ("passage", verifications[question_number].passage);
   // The form has a hidden text entry. This text entry stores the right answer to the questions.

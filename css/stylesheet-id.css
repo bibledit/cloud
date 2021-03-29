@@ -234,17 +234,17 @@ div[contenteditable=true],
     }
 
     #applybook .selector.ap a {
-      background-color: #1116 !important;
+      background-color: #3d3d3d !important;
       color: #fff !important;
     }
 
     #applybook .selector.ot a {
-      background-color: #b81a1a !important;
+      background-color: #820d0d !important;
       color: #fff !important;
     }
   
     #applybook .selector.nt a {
-      background-color: #1a24ad !important;
+      background-color: #0f0d82 !important;
       color: #fff !important;
     }
 

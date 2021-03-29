@@ -362,6 +362,7 @@
 /logbook/gitflag
 /man
 /manage
+/manage/accounts.html
 /manage/exports.html
 /manage/hyphenation.html
 /manage/index.html

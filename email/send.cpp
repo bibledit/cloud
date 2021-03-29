@@ -357,22 +357,26 @@ void email_schedule (string to, string subject, string body, int time)
 // If the email sending and receiving has not yet been (completely) set up,
 // it returns information about that.
 // If everything's OK, it returns nothing.
-string email_setup_information ()
+string email_setup_information (bool require_send, bool require_receive)
 {
 #ifdef HAVE_CLOUD
-  int missing_items = 0;
-  if (Database_Config_General::getSiteMailName ().empty ()) missing_items++;
-  if (Database_Config_General::getSiteMailAddress ().empty ()) missing_items++;
-  if (Database_Config_General::getMailStorageHost ().empty ()) missing_items++;
-  if (Database_Config_General::getMailStorageUsername ().empty ()) missing_items++;
-  if (Database_Config_General::getMailStoragePassword ().empty ()) missing_items++;
-  if (Database_Config_General::getMailStorageProtocol ().empty ()) missing_items++;
-  if (Database_Config_General::getMailStoragePort ().empty ()) missing_items++;
-  if (Database_Config_General::getMailSendHost ().empty ()) missing_items++;
-  if (Database_Config_General::getMailSendUsername ().empty ()) missing_items++;
-  if (Database_Config_General::getMailSendPassword ().empty ()) missing_items++;
-  if (Database_Config_General::getMailSendPort ().empty ()) missing_items++;
-  if (missing_items) {
+  bool incomplete = false;
+  if (Database_Config_General::getSiteMailName ().empty ()) incomplete = true;
+  if (Database_Config_General::getSiteMailAddress ().empty ()) incomplete = true;
+  if (require_receive) {
+    if (Database_Config_General::getMailStorageHost ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailStorageUsername ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailStoragePassword ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailStorageProtocol ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailStoragePort ().empty ()) incomplete = true;
+  }
+  if (require_send) {
+    if (Database_Config_General::getMailSendHost ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailSendUsername ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailSendPassword ().empty ()) incomplete = true;
+    if (Database_Config_General::getMailSendPort ().empty ()) incomplete = true;
+  }
+  if (incomplete) {
     string msg1 = translate ("Cannot send email yet.");
     string msg2 = translate ("The emailer is not yet set up.");
     return msg1 + " <a href=\"../" + email_index_url () + + "\">" + msg2 + "</a>";

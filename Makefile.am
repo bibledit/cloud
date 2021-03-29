@@ -153,6 +153,7 @@ libbibledit_a_SOURCES = \
 	user/logic.cpp \
 	manage/index.cpp \
 	manage/users.cpp \
+  manage/accounts.cpp \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \

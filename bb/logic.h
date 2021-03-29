@@ -72,6 +72,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
                                          vector <int> & sizes,
                                          vector <string> & operators,
                                          vector <string> & content);
+void bible_logic_create_empty_bible (const string & name);
 
 
 #endif

@@ -98,7 +98,7 @@ string session_password (void * webserver_request)
     }
   }
   
-  view.set_variable ("mailer", email_setup_information ());
+  view.set_variable ("mailer", email_setup_information (true, false));
 
   page += view.render ("session", "password");
 

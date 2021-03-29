@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <tasks/logic.h>
 #include <webserver/request.h>
 #include <journal/index.h>
@@ -40,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <session/switch.h>
 #include <ldap/logic.h>
+#include <user/logic.h>
 
 
 string manage_users_url ()
@@ -87,6 +89,7 @@ string manage_users (void * webserver_request)
       page += Assets_Page::error (translate("User already exists"));
     } else {
       request->database_users ()->add_user(user, user, Filter_Roles::member (), "");
+      user_logic_store_account_creation (user);
       user_updated = true;
       page += Assets_Page::success (translate("User created"));
     }
@@ -109,28 +112,10 @@ string manage_users (void * webserver_request)
     } else if ((objectUserLevel >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
     } else {
-      string message = "Deleted user " + objectUsername + " with role " + role + " and email " + email;
-      Database_Logs::log (message, Filter_Roles::admin ());
-      request->database_users ()->removeUser (objectUsername);
+      string message;
+      user_logic_delete_account (objectUsername, role, email, message); // Todo
       user_updated = true;
-      database_privileges_client_remove (objectUsername);
       page += Assets_Page::success (message);
-      // Also remove any privileges for this user.
-      // In particular for the Bible privileges this is necessary,
-      // beause if old users remain in the privileges storage,
-      // then a situation where no user has any privileges to any Bible,
-      // and thus all relevant users have all privileges,
-      // can never be achieved again.
-      Database_Privileges::removeUser (objectUsername);
-      // Remove any login tokens the user might have had: Just to clean things up.
-      Database_Login::removeTokens (objectUsername);
-      // Remove any settings for the user.
-      // The advantage of this is that when a user is removed, all settings are gone,
-      // so when the same user would be created again, all settings will go back to their defaults.
-      request->database_config_user ()->remove (objectUsername);
-      // Remove note assignments for clients for this user.
-      Database_NoteAssignment database_noteassignment;
-      database_noteassignment.remove (objectUsername);
     }
   }
   
@@ -373,7 +358,13 @@ string manage_users (void * webserver_request)
   if (!ldap_on) {
     view.enable_zone ("local");
   }
-  
+
+  bool manage_accounts = false;
+#ifdef HAVE_INDONESIANCLOUDFREE
+  manage_accounts = true;
+#endif
+  if (manage_accounts) view.enable_zone("accounts");
+
   page += view.render ("manage", "users");
 
   page += Assets_Page::footer ();

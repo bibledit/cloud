@@ -22,9 +22,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/md5.h>
 #include <filter/date.h>
+#include <filter/roles.h>
 #include <database/users.h>
 #include <database/config/user.h>
+#include <database/config/general.h>
 #include <database/logs.h>
+#include <database/privileges.h>
+#include <database/login.h>
+#include <database/noteassignment.h>
 #include <email/send.h>
 #include <ldap/logic.h>
 #include <webserver/request.h>
@@ -88,4 +93,50 @@ void user_logic_login_failure_clear ()
 {
   // Clear login failure tracker.
   user_logic_login_failure_time = 0;
+}
+
+
+void user_logic_store_account_creation (string username) // Todo
+{
+  vector <string> account_creation_times = Database_Config_General::getAccountCreationTimes (); // Todo
+  string account_creation_time = convert_to_string(filter_date_seconds_since_epoch()) + "|" + username;
+  account_creation_times.push_back(account_creation_time);
+  Database_Config_General::setAccountCreationTimes(account_creation_times);
+}
+
+
+void user_logic_delete_account (string user, string role, string email, string & feedback) // Todo
+{
+  feedback = "Deleted user " + user + " with role " + role + " and email " + email;
+  Database_Logs::log (feedback, Filter_Roles::admin ());
+  Database_Users database_users;
+  database_users.removeUser (user);
+  database_privileges_client_remove (user);
+  // Also remove any privileges for this user.
+  // In particular for the Bible privileges this is necessary,
+  // beause if old users remain in the privileges storage,
+  // then a situation where no user has any privileges to any Bible,
+  // and thus all relevant users have all privileges,
+  // can never be achieved again.
+  Database_Privileges::removeUser (user);
+  // Remove any login tokens the user might have had: Just to clean things up.
+  Database_Login::removeTokens (user);
+  // Remove any settings for the user.
+  // The advantage of this is that when a user is removed, all settings are gone,
+  // so when the same user would be created again, all settings will go back to their defaults.
+  Database_Config_User database_config_user (nullptr);
+  database_config_user.remove (user);
+  // Remove note assignments for clients for this user.
+  Database_NoteAssignment database_noteassignment;
+  database_noteassignment.remove (user);
+  // Remove the account creation time.
+  vector <string> updated;
+  vector <string> existing = Database_Config_General::getAccountCreationTimes (); // Todo
+  for (auto line : existing) {
+    vector <string> bits = filter_string_explode(line, '|');
+    if (bits.size() != 2) continue;
+    if (bits[1] == user) continue;
+    updated.push_back(line);
+  }
+  Database_Config_General::setAccountCreationTimes(updated);
 }

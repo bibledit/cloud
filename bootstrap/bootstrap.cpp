@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <user/account.h>
 #include <manage/index.h>
 #include <manage/users.h>
+#include <manage/accounts.h>
 #include <manage/exports.h>
 #include <manage/hyphenation.h>
 #include <manage/write.h>
@@ -686,7 +687,12 @@ void bootstrap_index (void * webserver_request)
     request->reply = manage_users (request);
     return;
   }
-  
+
+  if ((url == manage_accounts_url ()) && browser_request_security_okay (request) && manage_accounts_acl (request)) {
+    request->reply = manage_accounts (request);
+    return;
+  }
+
   if ((url == manage_index_url ()) && browser_request_security_okay (request) && manage_index_acl (request)) {
     request->reply = manage_index (request);
     return;

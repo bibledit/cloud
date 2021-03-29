@@ -109,7 +109,7 @@ string system_index (void * webserver_request)
 
 
   // Get values for setting checkboxes.
-  string checkbox = request->post ["checkbox"];
+  string checkbox = request->post ["checkbox"]; // Todo
   bool checked = convert_to_bool (request->post ["checked"]);
 #ifdef HAVE_CLIENT
   (void) checked;
@@ -341,6 +341,16 @@ string system_index (void * webserver_request)
     redirect_browser (request, journal_index_url ());
     return "";
   }
+  
+  
+  // Handle the setting whether to keep the resource caches for an extended period of time. Todo
+#ifdef HAVE_CLOUD
+  if (checkbox == "keepcache") {
+    Database_Config_General::setKeepResourcesCacheForLong (checked);
+    return "";
+  }
+  view.set_variable ("keepcache", get_checkbox_status (Database_Config_General::getKeepResourcesCacheForLong ()));
+#endif
 
 
   // Handle display the number of unsent emails and clearing them.

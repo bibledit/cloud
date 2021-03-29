@@ -563,3 +563,17 @@ void Database_Config_General::setAccountCreationTimes (vector <string> values)
   setList (account_creation_times_key (), values);
 }
 
+
+const char * keep_resources_cache_for_long_key ()
+{
+  return "keep-resources-cache-for-long";
+}
+bool Database_Config_General::getKeepResourcesCacheForLong ()
+{
+  return getBValue (keep_resources_cache_for_long_key (), false);
+}
+void Database_Config_General::setKeepResourcesCacheForLong (bool value)
+{
+  setBValue (keep_resources_cache_for_long_key (), value);
+}
+

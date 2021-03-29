@@ -147,6 +147,9 @@ public:
   static vector <string> getAccountCreationTimes ();
   static void setAccountCreationTimes (vector <string> values);
 
+  static bool getKeepResourcesCacheForLong ();
+  static void setKeepResourcesCacheForLong (bool value);
+
 private:
   static string file (const char * key);
   static string getValue (const char * key, const char * default_value);

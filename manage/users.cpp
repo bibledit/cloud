@@ -113,7 +113,7 @@ string manage_users (void * webserver_request)
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
     } else {
       string message;
-      user_logic_delete_account (objectUsername, role, email, message); // Todo
+      user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
       page += Assets_Page::success (message);
     }

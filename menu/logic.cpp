@@ -398,7 +398,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   // Visual chapter editor.
   if (edit2_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (true, true);
-    html.push_back (menu_logic_create_item (edit2_index_url (), label, true, "", "")); // Todo
+    html.push_back (menu_logic_create_item (edit2_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 

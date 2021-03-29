@@ -76,7 +76,7 @@ string manage_accounts (void * webserver_request)
   //int myLevel = request->session_logic ()->currentLevel ();
   
   
-  // New user creation. Todo not needed.
+  // New user creation.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("users", translate("Please enter a name for the new user"), "", "new", "");
     page += dialog_entry.run ();
@@ -99,7 +99,7 @@ string manage_accounts (void * webserver_request)
   int user_level = request->database_users ()->get_level (objectUsername);
   
   
-  // Delete a user. Todo implement And unify all required operations for account removal into one location.
+  // Delete a user.
   if (request->query.count ("delete")) {
     string role = Filter_Roles::text (user_level);
     string email = request->database_users ()->get_email (objectUsername);
@@ -111,7 +111,7 @@ string manage_accounts (void * webserver_request)
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
     } else {
       string message;
-      user_logic_delete_account (objectUsername, role, email, message); // Todo
+      user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
       page += Assets_Page::success (message);
     }

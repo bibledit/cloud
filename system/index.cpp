@@ -109,7 +109,7 @@ string system_index (void * webserver_request)
 
 
   // Get values for setting checkboxes.
-  string checkbox = request->post ["checkbox"]; // Todo
+  string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);
 #ifdef HAVE_CLIENT
   (void) checked;
@@ -343,7 +343,7 @@ string system_index (void * webserver_request)
   }
   
   
-  // Handle the setting whether to keep the resource caches for an extended period of time. Todo
+  // Handle the setting whether to keep the resource caches for an extended period of time.
 #ifdef HAVE_CLOUD
   if (checkbox == "keepcache") {
     Database_Config_General::setKeepResourcesCacheForLong (checked);

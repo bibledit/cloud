@@ -536,3 +536,30 @@ void Database_Config_General::setComparativeResources (vector <string> values)
 }
 
 
+const char * active_resources_key ()
+{
+  return "active-resources";
+}
+vector <string> Database_Config_General::getActiveResources ()
+{
+  return getList (active_resources_key ());
+}
+void Database_Config_General::setActiveResources (vector <string> values)
+{
+  setList (active_resources_key (), values);
+}
+
+
+const char * account_creation_times_key ()
+{
+  return "account-creation-times";
+}
+vector <string> Database_Config_General::getAccountCreationTimes ()
+{
+  return getList (account_creation_times_key ());
+}
+void Database_Config_General::setAccountCreationTimes (vector <string> values)
+{
+  setList (account_creation_times_key (), values);
+}
+

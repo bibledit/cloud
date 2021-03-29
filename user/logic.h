@@ -29,6 +29,8 @@ void user_logic_optional_ldap_authentication (void * webserver_request, string u
 bool user_logic_login_failure_check_okay ();
 void user_logic_login_failure_register ();
 void user_logic_login_failure_clear ();
+void user_logic_store_account_creation (string username);
+void user_logic_delete_account (string user, string role, string email, string & feedback);
 
 
 #endif

@@ -91,13 +91,23 @@ string resource_index (void * webserver_request)
   view.set_variable ("resourceblock", resourceblock);
   
   
-  int resource_count = resources.size ();
+  size_t resource_count = resources.size ();
   string username = request->session_logic()->currentUser ();
   int window_position = config_globals_resource_window_positions [username];
   string script = "var resourceCount = " + convert_to_string (resource_count) + ";\n"
                   "var resourceWindowPosition = " + convert_to_string (window_position) + ";";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
+  
+  
+  bool can_organize_active_resources = true;
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // In the Indonesian free Cloud, only Managers and higher roles can organize the resources.
+  // In that type of Cloud, all resources for all users are one and the same setting.
+  int level = request->session_logic()->currentLevel();
+  can_organize_active_resources = (level >= Filter_Roles::manager());
+#endif
+  if (can_organize_active_resources) view.enable_zone("organize");
   
   
   page += view.render ("resource", "index");

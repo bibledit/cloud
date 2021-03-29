@@ -217,10 +217,6 @@ void demo_clean_data ()
 // The name of the sample Bible.
 string demo_sample_bible_name ()
 {
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // MyBibleTranslation
-  return filter_indonesian_terjemahanku_mytranslation_name ("");
-#endif
   return "Sample";
 }
 

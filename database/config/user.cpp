@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <filter/date.h>
 #include <database/logic.h>
+#include <database/config/general.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)
@@ -648,17 +649,22 @@ void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 
 vector <string> Database_Config_User::getActiveResources ()
 {
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // The Indonesian Cloud instances gets their active resources updated from one master instance.
-  // This means that reading the active resources cannot be done from the memory cache.
-  // It should always be read from file, as the file might have been updated.
-  clear_cache();
-#endif
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
   return getList ("active-resources");
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+  // In the Indonesian Cloud free, there's one central location for storing the active resources.
+  return Database_Config_General::getActiveResources ();
+#endif
 }
 void Database_Config_User::setActiveResources (vector <string> values)
 {
+#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
   setList ("active-resources", values);
+#endif
+#ifdef HAVE_INDONESIANCLOUDFREE
+  Database_Config_General::setActiveResources (values);
+#endif
 }
 
 

@@ -189,36 +189,37 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	email/receive.$(OBJEXT) user/notifications.$(OBJEXT) \
 	user/account.$(OBJEXT) user/logic.$(OBJEXT) \
 	manage/index.$(OBJEXT) manage/users.$(OBJEXT) \
-	manage/exports.$(OBJEXT) manage/hyphenation.$(OBJEXT) \
-	manage/hyphenate.$(OBJEXT) manage/write.$(OBJEXT) \
-	manage/privileges.$(OBJEXT) system/index.$(OBJEXT) \
-	system/logic.$(OBJEXT) system/indonesianfree.$(OBJEXT) \
-	collaboration/index.$(OBJEXT) collaboration/link.$(OBJEXT) \
-	collaboration/settings.$(OBJEXT) search/rebibles.$(OBJEXT) \
-	search/renotes.$(OBJEXT) access/user.$(OBJEXT) \
-	access/bible.$(OBJEXT) access/logic.$(OBJEXT) \
-	dialog/entry.$(OBJEXT) dialog/list.$(OBJEXT) \
-	dialog/yes.$(OBJEXT) dialog/color.$(OBJEXT) \
-	dialog/books.$(OBJEXT) dialog/upload.$(OBJEXT) \
-	fonts/logic.$(OBJEXT) versification/index.$(OBJEXT) \
-	versification/system.$(OBJEXT) versification/logic.$(OBJEXT) \
-	book/create.$(OBJEXT) compare/index.$(OBJEXT) \
-	compare/compare.$(OBJEXT) jobs/index.$(OBJEXT) \
-	redirect/index.$(OBJEXT) editone2/index.$(OBJEXT) \
-	editone2/load.$(OBJEXT) editone2/save.$(OBJEXT) \
-	editone2/verse.$(OBJEXT) editone2/logic.$(OBJEXT) \
-	editone2/update.$(OBJEXT) navigation/passage.$(OBJEXT) \
-	navigation/update.$(OBJEXT) navigation/poll.$(OBJEXT) \
-	navigation/paratext.$(OBJEXT) ipc/focus.$(OBJEXT) \
-	ipc/notes.$(OBJEXT) checksum/logic.$(OBJEXT) \
-	editusfm/focus.$(OBJEXT) editusfm/index.$(OBJEXT) \
-	editusfm/load.$(OBJEXT) editusfm/offset.$(OBJEXT) \
-	editusfm/save.$(OBJEXT) editor/styles.$(OBJEXT) \
-	editor/html2usfm.$(OBJEXT) editor/usfm2html.$(OBJEXT) \
-	editor/select.$(OBJEXT) editor/html2format.$(OBJEXT) \
-	editor/id.$(OBJEXT) editor/style.$(OBJEXT) edit/edit.$(OBJEXT) \
-	edit/id.$(OBJEXT) edit/index.$(OBJEXT) edit/load.$(OBJEXT) \
-	edit/save.$(OBJEXT) edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
+	manage/accounts.$(OBJEXT) manage/exports.$(OBJEXT) \
+	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
+	manage/write.$(OBJEXT) manage/privileges.$(OBJEXT) \
+	system/index.$(OBJEXT) system/logic.$(OBJEXT) \
+	system/indonesianfree.$(OBJEXT) collaboration/index.$(OBJEXT) \
+	collaboration/link.$(OBJEXT) collaboration/settings.$(OBJEXT) \
+	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
+	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
+	access/logic.$(OBJEXT) dialog/entry.$(OBJEXT) \
+	dialog/list.$(OBJEXT) dialog/yes.$(OBJEXT) \
+	dialog/color.$(OBJEXT) dialog/books.$(OBJEXT) \
+	dialog/upload.$(OBJEXT) fonts/logic.$(OBJEXT) \
+	versification/index.$(OBJEXT) versification/system.$(OBJEXT) \
+	versification/logic.$(OBJEXT) book/create.$(OBJEXT) \
+	compare/index.$(OBJEXT) compare/compare.$(OBJEXT) \
+	jobs/index.$(OBJEXT) redirect/index.$(OBJEXT) \
+	editone2/index.$(OBJEXT) editone2/load.$(OBJEXT) \
+	editone2/save.$(OBJEXT) editone2/verse.$(OBJEXT) \
+	editone2/logic.$(OBJEXT) editone2/update.$(OBJEXT) \
+	navigation/passage.$(OBJEXT) navigation/update.$(OBJEXT) \
+	navigation/poll.$(OBJEXT) navigation/paratext.$(OBJEXT) \
+	ipc/focus.$(OBJEXT) ipc/notes.$(OBJEXT) \
+	checksum/logic.$(OBJEXT) editusfm/focus.$(OBJEXT) \
+	editusfm/index.$(OBJEXT) editusfm/load.$(OBJEXT) \
+	editusfm/offset.$(OBJEXT) editusfm/save.$(OBJEXT) \
+	editor/styles.$(OBJEXT) editor/html2usfm.$(OBJEXT) \
+	editor/usfm2html.$(OBJEXT) editor/select.$(OBJEXT) \
+	editor/html2format.$(OBJEXT) editor/id.$(OBJEXT) \
+	editor/style.$(OBJEXT) edit/edit.$(OBJEXT) edit/id.$(OBJEXT) \
+	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
+	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
 	edit/navigate.$(OBJEXT) edit2/edit.$(OBJEXT) \
 	edit2/index.$(OBJEXT) edit2/load.$(OBJEXT) \
@@ -526,28 +527,29 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
 	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
 	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
-	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/hyphenate.Po \
-	manage/$(DEPDIR)/hyphenation.Po manage/$(DEPDIR)/index.Po \
-	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
-	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
-	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
-	mbedtls/$(DEPDIR)/aesni.Po mbedtls/$(DEPDIR)/arc4.Po \
-	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
-	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
-	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
-	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
-	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
-	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
-	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
-	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
-	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
-	mbedtls/$(DEPDIR)/ecjpake.Po mbedtls/$(DEPDIR)/ecp.Po \
-	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
-	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
-	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/havege.Po \
-	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
-	mbedtls/$(DEPDIR)/md2.Po mbedtls/$(DEPDIR)/md4.Po \
-	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
+	manage/$(DEPDIR)/accounts.Po manage/$(DEPDIR)/exports.Po \
+	manage/$(DEPDIR)/hyphenate.Po manage/$(DEPDIR)/hyphenation.Po \
+	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
+	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
+	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
+	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/aesni.Po \
+	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
+	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
+	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
+	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
+	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
+	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
+	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
+	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
+	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
+	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecjpake.Po \
+	mbedtls/$(DEPDIR)/ecp.Po mbedtls/$(DEPDIR)/ecp_curves.Po \
+	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
+	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
+	mbedtls/$(DEPDIR)/havege.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
+	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md2.Po \
+	mbedtls/$(DEPDIR)/md4.Po mbedtls/$(DEPDIR)/md5.Po \
+	mbedtls/$(DEPDIR)/md_wrap.Po \
 	mbedtls/$(DEPDIR)/memory_buffer_alloc.Po \
 	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
 	mbedtls/$(DEPDIR)/padlock.Po mbedtls/$(DEPDIR)/pem.Po \
@@ -1093,6 +1095,7 @@ libbibledit_a_SOURCES = \
 	user/logic.cpp \
 	manage/index.cpp \
 	manage/users.cpp \
+  manage/accounts.cpp \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
@@ -2094,6 +2097,8 @@ manage/$(DEPDIR)/$(am__dirstamp):
 manage/index.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/users.$(OBJEXT): manage/$(am__dirstamp) \
+	manage/$(DEPDIR)/$(am__dirstamp)
+manage/accounts.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
 manage/exports.$(OBJEXT): manage/$(am__dirstamp) \
 	manage/$(DEPDIR)/$(am__dirstamp)
@@ -3532,6 +3537,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@library/$(DEPDIR)/locks.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@locale/$(DEPDIR)/translate.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/accounts.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/exports.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@manage/$(DEPDIR)/hyphenation.Po@am__quote@ # am--include-marker
@@ -4617,6 +4623,7 @@ distclean: distclean-am
 	-rm -f library/$(DEPDIR)/locks.Po
 	-rm -f locale/$(DEPDIR)/logic.Po
 	-rm -f locale/$(DEPDIR)/translate.Po
+	-rm -f manage/$(DEPDIR)/accounts.Po
 	-rm -f manage/$(DEPDIR)/exports.Po
 	-rm -f manage/$(DEPDIR)/hyphenate.Po
 	-rm -f manage/$(DEPDIR)/hyphenation.Po
@@ -5211,6 +5218,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f library/$(DEPDIR)/locks.Po
 	-rm -f locale/$(DEPDIR)/logic.Po
 	-rm -f locale/$(DEPDIR)/translate.Po
+	-rm -f manage/$(DEPDIR)/accounts.Po
 	-rm -f manage/$(DEPDIR)/exports.Po
 	-rm -f manage/$(DEPDIR)/hyphenate.Po
 	-rm -f manage/$(DEPDIR)/hyphenation.Po

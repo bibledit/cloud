@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibles.h>
 #include <search/logic.h>
 #include <book/create.h>
+#include <locale/translate.h>
 
 
 string filter_indonesian_alkitabkita_ourtranslation_name ()
@@ -42,31 +43,3 @@ string filter_indonesian_terjemahanku_mytranslation_name (const string & user)
 }
 
 
-void filter_indonesian_create_mytranslation (const string & user) // Todo
-{
-  // The name of the Bible to create for this user.
-  string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
-  
-  Database_Logs::log ("Creating My Translation " + user);
-  
-  // Remove and create the sample Bible.
-  Database_Bibles database_bibles;
-  database_bibles.deleteBible (bible);
-  database_bibles.createBible (bible);
-  
-  // Remove index for the sample Bible.
-  search_logic_delete_bible (bible);
-
-  // In the Indonesian Cloud Free, the request is:
-  // to create books with blank verses for the OT and NT.
-  vector <int> books = Database_Books::getIDs ();
-  for (auto book : books) {
-    string type = Database_Books::getType (book);
-    if ((type == "ot") || (type == "nt")) {
-      vector <string> feedback;
-      book_create (bible, book, -1, feedback);
-    }
-  }
-  
-  Database_Logs::log ("My Translation " + user + " was created");
-}

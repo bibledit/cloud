@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <database/logs.h>
 #include <database/logic.h>
+#include <database/config/general.h>
 
 
 // Databases resilience:
@@ -317,16 +318,41 @@ void database_cache_trim (bool clear) // Todo
 
   // The directory that contains the file-based cache files.
   string path = database_cache_full_path ("");
-
+  
+  // Get the free space on the file system that contains the cache.
+  output.clear ();
+  error.clear ();
+  filter_shell_run (path, "df", {"."}, &output, &error);
+  if (!error.empty ()) Database_Logs::log (error);
+  int percentage_disk_in_use = 0;
+  {
+    vector<string> bits = filter_string_explode(output, ' ');
+    for (auto bit : bits) {
+      if (bit.find ("%") != string::npos) {
+        percentage_disk_in_use = convert_to_int(bit);
+        // If a real percentage was found, other than 0, then skip the remainder.
+        // On macOS the first percentage found is %iused, so will be skipped.
+        if (percentage_disk_in_use != 0) break;
+      }
+    }
+  }
+  Database_Logs::log ("Disk space in use is " + convert_to_string(percentage_disk_in_use) + "%");
+  
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
   // If the cache is left untrimmed, the size can be even larger.
   // This leads to errors when the disk runs out of space.
-  // Therefore it's good to remove cached files older than a couple of hours.
+  // Therefore it's good to remove cached files older than a couple of hours
+  // in cases where disk space is tight.
+  // Two hours.
   string minutes = "+120";
+  // One day.
+  if (percentage_disk_in_use < 70) minutes = "+1440";
+  // One week.
+  if (percentage_disk_in_use < 50) minutes = "+10080";
 
   // Handle clearing the cache immediately.
   if (clear) minutes = "+0";
-
+  
   // Remove files that have not been modified for x minutes.
   // It uses a Linux shell command.
   // This can be done because it runs on the server only.
@@ -352,30 +378,25 @@ void database_cache_trim (bool clear) // Todo
   // The directory that contains the database-based cache files.
   path = filter_url_create_root_path (database_logic_databases ());
 
-  // The space these database-based cache files use.
-  output.clear ();
-  error.clear ();
-  int megabytes = 0;
-  filter_shell_run ("cd " + path + "; du -csm " + Database_Cache::fragment () + "*", output);
-  vector <string> lines = filter_string_explode (output, '\n');
-  for (auto line : lines) {
-    megabytes = convert_to_int (line);
-  }
-
-  // The number of days to keep cached data depends on the size the cache takes.
+  // The number of days to keep cached data depends on the percentage of the disk in use.
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
   // This can be even more.
   // This may lead to errors when the disk runs out of space.
-  // Therefore it's good to limit large caches more speedy.
-  string days = "+5";
-  if (megabytes >=  50) days = "+4";
-  if (megabytes >= 100) days = "+3";
-  if (megabytes >= 150) days = "+2";
-  if (megabytes >= 200) days = "+1";
+  // Therefore it's good to limit caches more if the space is tight.
+  // By default keep the resources cache for 30 days.
+  string days = "+30";
+  // If keeping the resources cache for an extended period of time, keep it for a full year.
+  if (Database_Config_General::getKeepResourcesCacheForLong()) days = "+365";
+  // If free disk space is tighter, keep the caches for a shorter period.
+  if (percentage_disk_in_use > 80) days = "+14";
+  if (percentage_disk_in_use > 85) days = "+7";
+  if (percentage_disk_in_use > 90) days = "+1";
 
   // Handle clearing the cache immediately.
   if (clear) days = "0";
 
+  Database_Logs::log ("Will remove resource caches not accessed for " + days + " days");
+  
   // Remove database-based cached files that have not been modified for x days.
   output.clear ();
   error.clear ();

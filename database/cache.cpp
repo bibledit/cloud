@@ -310,7 +310,7 @@ void database_filebased_cache_remove (string schema)
 
 
 // Deletes expired cached items.
-void database_cache_trim (bool clear) // Todo
+void database_cache_trim (bool clear)
 {
   if (clear) Database_Logs::log ("Clearing cache");
 

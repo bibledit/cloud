@@ -427,7 +427,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // Running diatheke only works when it runs in the SWORD installation directory.
   string sword_path = sword_logic_get_path ();
   // Running several instances of diatheke simultaneously fails.
-  sword_logic_diatheke_run_mutex.lock ();
+  sword_logic_diatheke_run_mutex.lock (); // Todo use mutex for the bulk fetcher too.
   // The server fetches the module text as follows:
   // diatheke -b KJV -k Jn 3:16
   string error;
@@ -479,7 +479,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 }
 
 
-map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses)
+map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo goes out.
 {
   // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
   {
@@ -539,6 +539,69 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
       text = sword_logic_clean_verse (module, chapter, verse, text);
       output [verse] = text;
     }
+  }
+  
+  // Done.
+  return output;
+}
+
+
+map <int, string> sword_logic_get_bulk_text_v2 (const string & module, int book, int chapter, vector <int> verses) // Todo
+{
+  // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
+  {
+    string path = sword_logic_access_tracker (module);
+    filter_url_file_put_contents (path, "bulk");
+  }
+
+  // The name of the book to pass to diatheke.
+  string osis = Database_Books::getOsisFromId (book);
+
+  // Cannot run more than one "diatheke" per user, so use a mutex for that.
+  sword_logic_diatheke_run_mutex.lock ();
+
+  // Here is how to speed up SWORD text retrieval.
+  // The main point is to not pass just one verse,
+  // but to pass the chapter number without the verse.
+  // So it returns the entire chapter in one go.
+  // One would even be able to pass the book only, so it returns the entire book.
+  // But that would not add much to increasing the speed.
+  // cd ~/.sword/InstallMgr
+  // diatheke -b AB -k Ezra 5:1
+  // diatheke -b AB -k Ezra 5
+  // diatheke -b AB -k Ezra
+  string error;
+  string bulk_text;
+  int result = filter_shell_run (sword_logic_get_path (), "diatheke", { "-b", module, "-k", osis, convert_to_string (chapter) }, &bulk_text, &error);
+  bulk_text.append (error);
+  if (result != 0) Database_Logs::log (error);
+  // This is how the output would look.
+  // Malachi 3:1: <verse osisID="Mal.3.1">Behold, I send forth My messenger, and he shall survey the way before Me: and the Lord, whom you seek, shall suddenly come into His temple, even the Messenger of the covenant, whom you take pleasure in: behold, He is coming, says the Lord Almighty.
+
+  sword_logic_diatheke_run_mutex.unlock ();
+
+  // Resulting verse text.
+  map <int, string> output;
+
+  // Iterate over all requested verses to extract the correct content from the chapter.
+  // This works well in general.
+  // It has been seen in a sample module, the "AB", that some verses in the SWORD module were empty.
+  // In case of such verses, there's no content to extract from the chapter.
+  // The cause in such verses is in the module builder.
+  for (auto & verse : verses) {
+    string starter = " " + convert_to_string(chapter) + ":" + convert_to_string(verse) + ":";
+    size_t pos1 = bulk_text.find (starter);
+    if (pos1 == string::npos) {
+      //Database_Logs::log("Cannot find starter: |" + starter + "|");
+      continue;
+    }
+    string finisher = "\n";
+    size_t pos2 = bulk_text.find (finisher, pos1);
+    if (pos2 == string::npos) pos2 = bulk_text.length() + 1;
+    pos1 += starter.length ();
+    string text = bulk_text.substr (pos1, pos2 - pos1);
+    text = sword_logic_clean_verse (module, chapter, verse, text);
+    output [verse] = text;
   }
   
   // Done.

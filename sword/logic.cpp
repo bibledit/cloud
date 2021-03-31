@@ -427,7 +427,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   // Running diatheke only works when it runs in the SWORD installation directory.
   string sword_path = sword_logic_get_path ();
   // Running several instances of diatheke simultaneously fails.
-  sword_logic_diatheke_run_mutex.lock (); // Todo use mutex for the bulk fetcher too.
+  sword_logic_diatheke_run_mutex.lock ();
   // The server fetches the module text as follows:
   // diatheke -b KJV -k Jn 3:16
   string error;
@@ -479,74 +479,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 }
 
 
-map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo goes out.
-{
-  // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
-  {
-    string path = sword_logic_access_tracker (module);
-    filter_url_file_put_contents (path, "bulk");
-  }
-
-  // The name of the book to pass to diatheke.
-  string osis = Database_Books::getOsisFromId (book);
-  
-  // Signatures that will indicate start and end of verse text.
-  map <int, string> starters, finishers;
-  
-  // The script to run.
-  // It will fetch verse text for all verses in a chapter.
-  // Fetching verse text in bulk reduces the number of fork () calls.
-  vector <string> script;
-  script.push_back ("#!/bin/bash");
-  script.push_back ("cd '" + sword_logic_get_path () + "'");
-  for (auto verse : verses) {
-    string starter = "starter" + convert_to_string (verse) + "starter";
-    script.push_back ("echo " + starter);
-    starters [verse] = starter;
-    string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
-    script.push_back ("diatheke -b " + module + " -k " + osis + " " + chapter_verse);
-    string finisher = "finisher" + convert_to_string (verse) + "finisher";
-    script.push_back ("echo " + finisher);
-    finishers [verse] = finisher;
-  }
-
-  // Store the script and make it executable.
-  string script_path = filter_url_create_path (sword_logic_get_path (), "script.sh");
-  filter_url_file_put_contents (script_path, filter_string_implode (script, "\n"));
-  string chmod = "chmod +x " + script_path;
-  int result;
-#ifdef HAVE_CLOUD
-  result = system (chmod.c_str ());
-  (void) result;
-#endif
-
-  // Run the script.
-  string out_err;
-  result = filter_shell_run (script_path, out_err);
-  (void) result;
-
-  // Resulting verse text.
-  map <int, string> output;
-  
-  for (auto & verse : verses) {
-    string starter = starters [verse];
-    size_t pos1 = out_err.find (starter);
-    string finisher = finishers [verse];
-    size_t pos2 = out_err.find (finisher);
-    if ((pos1 != string::npos) && (pos2 != string::npos)) {
-      pos1 += starter.length ();
-      string text = out_err.substr (pos1, pos2 - pos1);
-      text = sword_logic_clean_verse (module, chapter, verse, text);
-      output [verse] = text;
-    }
-  }
-  
-  // Done.
-  return output;
-}
-
-
-map <int, string> sword_logic_get_bulk_text_v2 (const string & module, int book, int chapter, vector <int> verses) // Todo
+map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo
 {
   // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
   {

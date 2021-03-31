@@ -773,7 +773,7 @@ void resource_logic_create_cache ()
     // Forking once per chapter is much better, also for the performance.
     map <int, string> sword_texts;
     if (is_sword_module) {
-      sword_texts = sword_logic_get_bulk_text_v2 (sword_module, book, chapter, verses); // Todo
+      sword_texts = sword_logic_get_bulk_text (sword_module, book, chapter, verses);
     }
     
     // Iterate over the verses.

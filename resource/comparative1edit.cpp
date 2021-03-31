@@ -91,7 +91,7 @@ string resource_comparative1edit (void * webserver_request)
   if (request->query.count ("base")) {
     string value = request->query["base"];
     if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource."), translate ("The base resource is used as a starting point for the comparison."), "");
+      Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource"), translate ("The base resource is used as a starting point for the comparison."), "");
       dialog_list.add_query ("name", name);
       vector <string> resources = resource_logic_get_names (webserver_request, true);
       for (auto & resource : resources) {

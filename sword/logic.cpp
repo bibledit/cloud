@@ -83,7 +83,7 @@ void sword_logic_refresh_module_list ()
 #ifdef HAVE_SWORD
   sword_logic_installmgr_initialize ();
 #else
-  filter_shell_run ("echo yes | installmgr -init", out_err);
+  filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -init", out_err);
   sword_logic_log (out_err);
 #endif
   
@@ -97,7 +97,7 @@ void sword_logic_refresh_module_list ()
     return;
   }
 #else
-  filter_shell_run ("echo yes | installmgr -sc", out_err);
+  filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   sword_logic_log (out_err);
 #endif
@@ -132,7 +132,7 @@ void sword_logic_refresh_module_list ()
       Database_Logs::log ("Error refreshing remote source " + remote_source);
     }
 #else
-    filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
+    filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     sword_logic_log (out_err);
 #endif
@@ -315,7 +315,7 @@ void sword_logic_install_module (string source_name, string module_name)
 #else
   
   string out_err;
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
+  filter_shell_run ("cd " + sword_path + "; installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
   sword_logic_log (out_err);
   
 #endif

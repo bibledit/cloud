@@ -86,17 +86,18 @@ string notes_create (void * webserver_request)
   else verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  if (request->post.count ("submit")) {
+  if (request->post.count ("summary")) {
     string summary = filter_string_trim (request->post["summary"]);
-    string contents = filter_string_trim (request->post["contents"]);
+    summary = filter_url_tag_to_plus (summary);
+    string body = filter_string_trim (request->post["body"]);
+    body = filter_url_tag_to_plus (body);
     // Normally the new note applies to the currently selected Bible.
 #ifdef HAVE_INDONESIANCLOUDFREE
     // Indonesian free Cloud: A new note applies to all Bibles.
     // https://github.com/bibledit/cloud/issues/519
     bible.clear ();
 #endif
-    notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
-    redirect_browser (request, notes_index_url ());
+    notes_logic.createNote (bible, book, chapter, verse, summary, body, false);
     return "";
   }
 
@@ -145,8 +146,9 @@ string notes_create (void * webserver_request)
   }
                                                                                                       
   
+  // page += view.render ("notes", "create");
   page += view.render ("notes", "create");
-  
+
   page += Assets_Page::footer ();
   
   return page;

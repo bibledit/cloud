@@ -479,7 +479,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
 }
 
 
-map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses) // Todo
+map <int, string> sword_logic_get_bulk_text (const string & module, int book, int chapter, vector <int> verses)
 {
   // Touch the cache so the server knows that the module has been accessed and won't uninstall it too soon.
   {

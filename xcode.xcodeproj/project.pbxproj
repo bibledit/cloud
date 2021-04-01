@@ -615,6 +615,8 @@
 		CAA323FA25FBC70A00F5A99E /* abbottsmith.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = abbottsmith.cpp; sourceTree = "<group>"; };
 		CAAA5DB8256555E4003249CA /* paratext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
+		CABF7CB12614B854000D9FAB /* quill.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.js; sourceTree = "<group>"; };
+		CABF7CB22614BC37000D9FAB /* create.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = create.html; sourceTree = "<group>"; };
 		CAD55EAE260140360021FED0 /* comparative1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative1edit.html; sourceTree = "<group>"; };
 		CAD55EAF260140360021FED0 /* comparative9edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative9edit.cpp; sourceTree = "<group>"; };
 		CAD55EB0260140370021FED0 /* comparative1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative1edit.cpp; sourceTree = "<group>"; };
@@ -1620,7 +1622,6 @@
 		CADE3EA324F17472003165BB /* comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comment.h; sourceTree = "<group>"; };
 		CADE3EA524F17472003165BB /* severity-1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "severity-1.cpp"; sourceTree = "<group>"; };
 		CADE3EA624F17472003165BB /* click.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = click.js; sourceTree = "<group>"; };
-		CADE3EA724F17472003165BB /* create.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = create.html; sourceTree = "<group>"; };
 		CADE3EA824F17472003165BB /* assign-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "assign-n.html"; sourceTree = "<group>"; };
 		CADE3EAA24F17472003165BB /* bulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bulk.cpp; sourceTree = "<group>"; };
 		CADE3EAB24F17472003165BB /* bb-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bb-1.h"; sourceTree = "<group>"; };
@@ -4640,7 +4641,7 @@
 				CADE3EBA24F17472003165BB /* comment.html */,
 				CADE3EBD24F17472003165BB /* create.cpp */,
 				CADE3EED24F17472003165BB /* create.h */,
-				CADE3EA724F17472003165BB /* create.html */,
+				CABF7CB22614BC37000D9FAB /* create.html */,
 				CADE3E8C24F17472003165BB /* edit.cpp */,
 				CADE3E9124F17472003165BB /* edit.h */,
 				CADE3EB324F17472003165BB /* edit.html */,
@@ -4659,6 +4660,7 @@
 				CADE3EA224F17472003165BB /* poll.cpp */,
 				CADE3EC924F17472003165BB /* poll.h */,
 				CADE3EB624F17472003165BB /* poll.js */,
+				CABF7CB12614B854000D9FAB /* quill.js */,
 				CADE3E9024F17472003165BB /* select.cpp */,
 				CADE3EFA24F17472003165BB /* select.h */,
 				CADE3E8624F17472003165BB /* select.html */,

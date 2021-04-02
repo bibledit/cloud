@@ -46,19 +46,6 @@ $ (document).ready (function () {
         e.href = newHref;
       }
     })
-    const submitButtons = document.querySelectorAll('input', 'button');
-    submitButtons.forEach((e) => {
-      e.addEventListener('submit', () => {
-        var newHref = e.href;
-        if (/\?/.test(e.href)) {
-          newHref = newHref + "&topbar=0";
-          e.href = newHref;
-        } else {
-          newHref = newHref + "?topbar=0";
-          e.href = newHref;
-        }
-      })
-    })
     $ ('#topbar').empty();
   };
   if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0) {

@@ -601,6 +601,12 @@ msgstr ""
 msgid "Bibledit saved:"
 msgstr ""
 
+msgid "Creating Bible"
+msgstr ""
+
+msgid "Created:"
+msgstr ""
+
 msgid "Please enter a name for the new empty Bible"
 msgstr ""
 
@@ -4434,6 +4440,30 @@ msgstr ""
 msgid "Enable JavaScript to work with Bibledit"
 msgstr ""
 
+msgid "Accounts"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "This lists several user accounts and their properties."
+msgstr ""
+
+msgid "You can see how long ago a user account has been opened."
+msgstr ""
+
+msgid "Return to the users page."
+msgstr ""
+
 msgid "Hyphenation"
 msgstr ""
 
@@ -4629,18 +4659,6 @@ msgstr ""
 msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
-msgid "Username"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "Privileges"
-msgstr ""
-
 msgid ""
 "This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
@@ -4675,6 +4693,9 @@ msgid "The password will be the same as the username."
 msgstr ""
 
 msgid "Normally users register their own account."
+msgstr ""
+
+msgid "You can manage the accounts."
 msgstr ""
 
 msgid "You can set the privileges for the user."
@@ -11553,23 +11574,19 @@ msgid ""
 "because of the word of God, and because of the testimony of Jesus Christ."
 msgstr ""
 
-msgid "Username should be at least two characters long"
-msgstr ""
-
-msgid "Password should be at least two characters long"
+msgid "Username should be at least four characters long"
 msgstr ""
 
 msgid "The answer to the question is not correct"
 msgstr ""
 
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
+msgid "The username that you have chosen has already been taken."
 msgstr ""
 
-msgid ""
-"The email address that you have chosen has already been taken. Please choose "
-"another one."
+msgid "Please choose another one."
+msgstr ""
+
+msgid "The email address that you have chosen has already been taken."
 msgstr ""
 
 msgid "Signup verification"
@@ -11585,6 +11602,9 @@ msgid "Welcome!"
 msgstr ""
 
 msgid "Your account is now active and you have logged in."
+msgstr ""
+
+msgid "Username should be at least two characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"

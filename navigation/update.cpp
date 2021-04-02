@@ -60,7 +60,7 @@ string navigation_update (void * webserver_request)
   
   else if (request->query.count ("passage")) {
     string passage = request->query["passage"];
-    Navigation_Passage::interpretKeyboardNavigator (request, bible, passage);
+    Navigation_Passage::interpretKeyboardNavigator (request, bible, passage); // Todo
   }
 
 

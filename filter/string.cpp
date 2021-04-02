@@ -38,7 +38,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
+#ifdef HAVE_ICU
 using namespace icu;
+#endif
 
 
 // A C++ equivalent for PHP's explode function.

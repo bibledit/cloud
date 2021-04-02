@@ -32,7 +32,9 @@
 
 
 using namespace pugi;
+#ifdef HAVE_ICU
 using namespace icu;
+#endif
 
 
 int entry_element_count = 0;

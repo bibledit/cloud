@@ -624,6 +624,12 @@ msgstr ""
 msgid "Bibledit saved:"
 msgstr ""
 
+msgid "Creating Bible"
+msgstr ""
+
+msgid "Created:"
+msgstr ""
+
 msgid "Please enter a name for the new empty Bible"
 msgstr "Veuillez entrer un nom pour la nouvelle Bible"
 
@@ -4798,6 +4804,30 @@ msgstr ""
 msgid "Enable JavaScript to work with Bibledit"
 msgstr "Activer JavaScript pour travailler avec Bibledit"
 
+msgid "Accounts"
+msgstr ""
+
+msgid "Username"
+msgstr "Identifiant"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Privileges"
+msgstr "Privilèges"
+
+msgid "This lists several user accounts and their properties."
+msgstr ""
+
+msgid "You can see how long ago a user account has been opened."
+msgstr ""
+
+msgid "Return to the users page."
+msgstr ""
+
 msgid "Hyphenation"
 msgstr "Césure"
 
@@ -5028,18 +5058,6 @@ msgstr "Visitez Bible Drop Box pour plus d'options."
 msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
-msgid "Username"
-msgstr "Identifiant"
-
-msgid "Role"
-msgstr "Rôle"
-
-msgid "Email"
-msgstr "Email"
-
-msgid "Privileges"
-msgstr "Privilèges"
-
 msgid ""
 "This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
@@ -5081,6 +5099,9 @@ msgstr "Le mot de passe sera identique au nom d'utilisateur."
 
 msgid "Normally users register their own account."
 msgstr "Normalement, les utilisateurs enregistrent leur propre compte."
+
+msgid "You can manage the accounts."
+msgstr ""
 
 msgid "You can set the privileges for the user."
 msgstr "Vous pouvez pararmétrer les privilèges pour l'utilisateur."
@@ -13294,28 +13315,20 @@ msgstr ""
 "royaume et l’endurance pour Jésus, j’étais alors dans l’île de Patmos à "
 "cause de la parole de Dieu et du témoignage de Jésus."
 
-msgid "Username should be at least two characters long"
-msgstr "Le nom d'utilisateur doit comporter au moins deux caractères"
-
-msgid "Password should be at least two characters long"
-msgstr "Le mot de passe doit comporter au moins deux caractères"
+msgid "Username should be at least four characters long"
+msgstr ""
 
 msgid "The answer to the question is not correct"
 msgstr "La réponse à la question n'est pas correcte"
 
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
+msgid "The username that you have chosen has already been taken."
 msgstr ""
-"Le nom d'utilisateur que vous avez choisi est déjà utilisé. Veuillez en "
-"choisir un autre."
 
-msgid ""
-"The email address that you have chosen has already been taken. Please choose "
-"another one."
+msgid "Please choose another one."
 msgstr ""
-"L'adresse courriel que vous avez choisi est déjà utilisé. Veuillez en "
-"choisir une autre."
+
+msgid "The email address that you have chosen has already been taken."
+msgstr ""
 
 msgid "Signup verification"
 msgstr "Vérification de l'inscription"
@@ -13332,6 +13345,9 @@ msgstr ""
 
 msgid "Your account is now active and you have logged in."
 msgstr ""
+
+msgid "Username should be at least two characters long"
+msgstr "Le nom d'utilisateur doit comporter au moins deux caractères"
 
 msgid "Username or email address or password are not correct"
 msgstr ""

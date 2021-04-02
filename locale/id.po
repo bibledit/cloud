@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2021-03-28 01:33+0000\n"
+"PO-Revision-Date: 2021-04-02 01:32+0000\n"
 "Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 21fefc602783aa4ba863a4a6c29d38d788ce04ad)\n"
+"X-Generator: Launchpad (build 57f1f603f707b9cfa764cae8dd0f3999026b4763)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -598,6 +598,12 @@ msgid "You edited:"
 msgstr ""
 
 msgid "Bibledit saved:"
+msgstr ""
+
+msgid "Creating Bible"
+msgstr ""
+
+msgid "Created:"
 msgstr ""
 
 msgid "Please enter a name for the new empty Bible"
@@ -2140,7 +2146,7 @@ msgid "Cloud"
 msgstr ""
 
 msgid "Basic mode"
-msgstr "Antar muka dasar"
+msgstr "Antarmuka Sederhana"
 
 msgid "USFM"
 msgstr ""
@@ -2542,7 +2548,7 @@ msgid "Keep main menu always visible"
 msgstr ""
 
 msgid "This works in both basic and advanced mode."
-msgstr ""
+msgstr "Hal ini berfungsi dalam Antarmuka Sederhana dan yang Lengkap."
 
 msgid "Enable swipe navigation actions"
 msgstr ""
@@ -2580,16 +2586,18 @@ msgid "This is for collaboration with fellow translators and for backup."
 msgstr ""
 
 msgid "Switch to advanced mode."
-msgstr ""
+msgstr "Beralih ke Antarmuka Lengkap"
 
 msgid "Advanced mode offers more options than basic mode."
 msgstr ""
+"Antarmuka Lengkap memiliki jauh lebih banyak pilihan dan fitur dari "
+"Antarmuka Sederhana."
 
 msgid ""
 "Once in advanced mode, return to basic mode via menu Settings / Basic mode."
 msgstr ""
-"Nanti kalau mau kembali ke Antar muka dasar, meng-klik Settings, lalu Antar "
-"muka dasar."
+"Nanti kalau mau kembali ke Antarmuka Sederhana, meng-klik Settings, lalu "
+"meng-klik Antarmuka Sederhana."
 
 msgid "Show the changes"
 msgstr ""
@@ -4439,6 +4447,30 @@ msgstr ""
 msgid "Enable JavaScript to work with Bibledit"
 msgstr ""
 
+msgid "Accounts"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Privileges"
+msgstr ""
+
+msgid "This lists several user accounts and their properties."
+msgstr ""
+
+msgid "You can see how long ago a user account has been opened."
+msgstr ""
+
+msgid "Return to the users page."
+msgstr ""
+
 msgid "Hyphenation"
 msgstr ""
 
@@ -4634,18 +4666,6 @@ msgstr ""
 msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
-msgid "Username"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Email"
-msgstr "Email"
-
-msgid "Privileges"
-msgstr ""
-
 msgid ""
 "This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
@@ -4682,6 +4702,9 @@ msgstr "Kata sandi akan sama dengan nama pengguna."
 msgid "Normally users register their own account."
 msgstr ""
 
+msgid "You can manage the accounts."
+msgstr ""
+
 msgid "You can set the privileges for the user."
 msgstr ""
 
@@ -4701,7 +4724,7 @@ msgid "Can delete consultation notes."
 msgstr ""
 
 msgid "Can use advanced mode in Cloud."
-msgstr ""
+msgstr "Saudara dapat menggunakan Antarmuka Lengkap dengan browser Internet."
 
 msgid "Go back."
 msgstr ""
@@ -8758,6 +8781,8 @@ msgid ""
 "The client mode is useful in a situation where the Internet connection is "
 "not optimal."
 msgstr ""
+"Menggunakan aplikasi Bibledit berguna untuk lokasi di mana hubungan Internet "
+"tidak kuat ataupun tidak ada."
 
 msgid "All data is stored locally on your computing device."
 msgstr ""
@@ -9259,10 +9284,10 @@ msgid "Which username would you like to use?"
 msgstr "Berikanlah nama pengguna yang hendak Saudara menggunakan."
 
 msgid "Which password?"
-msgstr "Kata sandi yang mana?"
+msgstr "Tentukanlah kata sandi."
 
 msgid "Your email address?"
-msgstr "Apa alamat emailmu?"
+msgstr "Berikanlah alamat emailmu."
 
 msgid "Security question:"
 msgstr "Pertanyaan sekuriti:"
@@ -11585,25 +11610,19 @@ msgstr ""
 "Kerajaan, dan dalam ketekunan di dalam Yesus, berada di pulau yang disebut "
 "Patmos karena firman Allah dan kesaksian Yesus. (Wahyu 1:9 AYT)"
 
-msgid "Username should be at least two characters long"
-msgstr "Nama pengguna paling pendek adalah dua huruf."
-
-msgid "Password should be at least two characters long"
-msgstr "Paling pendek, kata sandi harus terdiri dari dua huruf"
+msgid "Username should be at least four characters long"
+msgstr ""
 
 msgid "The answer to the question is not correct"
 msgstr "Jawabanmu itu tidak benar!"
 
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
+msgid "The username that you have chosen has already been taken."
 msgstr ""
-"Nama pengguna yang Saudara mengisi sudah diambil oleh orang lain. Mohon "
-"pilih nama pengguna yang lain."
 
-msgid ""
-"The email address that you have chosen has already been taken. Please choose "
-"another one."
+msgid "Please choose another one."
+msgstr ""
+
+msgid "The email address that you have chosen has already been taken."
 msgstr ""
 
 msgid "Signup verification"
@@ -11620,6 +11639,9 @@ msgstr ""
 
 msgid "Your account is now active and you have logged in."
 msgstr ""
+
+msgid "Username should be at least two characters long"
+msgstr "Nama pengguna paling pendek adalah dua huruf."
 
 msgid "Username or email address or password are not correct"
 msgstr "Nama pengguna atau alamat email yang dimasukkan tidak benar."

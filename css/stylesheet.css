@@ -294,6 +294,9 @@ textarea {
 .width50 {
   width: 50%;
 }
+.height50 {
+  height: 50% !important;
+}
 .topalign {
   vertical-align: top;
 }

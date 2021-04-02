@@ -422,6 +422,7 @@
 /notes/index.js
 /notes/note.html
 /notes/poll.js
+/notes/quill.js
 /notes/select.html
 /notes/severity-1.html
 /notes/severity-n.html
@@ -510,6 +511,7 @@
 /quill/quill.js
 /quill/quill.min.js
 /quill/quill.min.js.map
+/quill/quill.notes.css
 /quill/quill.snow.css
 /quill/readme.txt
 /rangy13

@@ -40,7 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This keeps the site more responsive during the day.
 
 
-// The order for running the following nightly scripts is important.
+// The order in which the following nightly scripts run is important.
 // Any of those scripts may influence the subsequent ones.
 // The order is such that all information generated is as recent as possible.
 // More important tasks are done first, and the less important ones at the end.
@@ -122,7 +122,7 @@ void timer_index ()
       if (minute == 9) tasks_logic_queue (ROTATEJOURNAL);
       
       // Sending and receiving Bibles to and from the git repository.
-      // On a production website running on an inexpensive virtual private server
+      // On a production website running on an inexpensive virtual private server,
       // with 512 Mbyte of memory and a fast network connection,
       // sending and receiving two Bibles takes more than 15 minutes when there are many changes.
       bool sendreceive = ((hour == 0) && (minute == 5));

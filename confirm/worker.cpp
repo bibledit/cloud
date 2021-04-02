@@ -63,7 +63,7 @@ void Confirm_Worker::setup (string to,
   information = translate ("Please confirm this request by clicking this following link:");
 #endif
 #ifdef HAVE_INDONESIANCLOUDFREE
-  information = "Klik link ini untuk menyelesaikan proses pendaftaran dan masuk Bibledit:";
+  information = "Klik tautan ini untuk menyelesaikan proses pendaftaran dan masuk Bibledit:";
 #endif
   node.text ().set (information.c_str());
   node = document.append_child ("p");

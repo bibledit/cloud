@@ -96,16 +96,16 @@ void user_logic_login_failure_clear ()
 }
 
 
-void user_logic_store_account_creation (string username) // Todo
+void user_logic_store_account_creation (string username)
 {
-  vector <string> account_creation_times = Database_Config_General::getAccountCreationTimes (); // Todo
+  vector <string> account_creation_times = Database_Config_General::getAccountCreationTimes ();
   string account_creation_time = convert_to_string(filter_date_seconds_since_epoch()) + "|" + username;
   account_creation_times.push_back(account_creation_time);
   Database_Config_General::setAccountCreationTimes(account_creation_times);
 }
 
 
-void user_logic_delete_account (string user, string role, string email, string & feedback) // Todo
+void user_logic_delete_account (string user, string role, string email, string & feedback)
 {
   feedback = "Deleted user " + user + " with role " + role + " and email " + email;
   Database_Logs::log (feedback, Filter_Roles::admin ());
@@ -131,7 +131,7 @@ void user_logic_delete_account (string user, string role, string email, string &
   database_noteassignment.remove (user);
   // Remove the account creation time.
   vector <string> updated;
-  vector <string> existing = Database_Config_General::getAccountCreationTimes (); // Todo
+  vector <string> existing = Database_Config_General::getAccountCreationTimes ();
   for (auto line : existing) {
     vector <string> bits = filter_string_explode(line, '|');
     if (bits.size() != 2) continue;

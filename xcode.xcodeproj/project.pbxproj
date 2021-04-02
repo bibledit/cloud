@@ -545,6 +545,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA09D6E52616F089002FDA23 /* quill.notes.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.notes.css; sourceTree = "<group>"; };
 		CA10382725279F940021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = html2format.cpp; path = editor/html2format.cpp; sourceTree = SOURCE_ROOT; };
 		CA10382825279F940021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = html2format.h; path = editor/html2format.h; sourceTree = SOURCE_ROOT; };
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
@@ -615,6 +616,8 @@
 		CAA323FA25FBC70A00F5A99E /* abbottsmith.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = abbottsmith.cpp; sourceTree = "<group>"; };
 		CAAA5DB8256555E4003249CA /* paratext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
+		CABF7CB12614B854000D9FAB /* quill.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.js; sourceTree = "<group>"; };
+		CABF7CB22614BC37000D9FAB /* create.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = create.html; sourceTree = "<group>"; };
 		CAD55EAE260140360021FED0 /* comparative1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative1edit.html; sourceTree = "<group>"; };
 		CAD55EAF260140360021FED0 /* comparative9edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative9edit.cpp; sourceTree = "<group>"; };
 		CAD55EB0260140370021FED0 /* comparative1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative1edit.cpp; sourceTree = "<group>"; };
@@ -1620,7 +1623,6 @@
 		CADE3EA324F17472003165BB /* comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comment.h; sourceTree = "<group>"; };
 		CADE3EA524F17472003165BB /* severity-1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "severity-1.cpp"; sourceTree = "<group>"; };
 		CADE3EA624F17472003165BB /* click.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = click.js; sourceTree = "<group>"; };
-		CADE3EA724F17472003165BB /* create.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = create.html; sourceTree = "<group>"; };
 		CADE3EA824F17472003165BB /* assign-n.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "assign-n.html"; sourceTree = "<group>"; };
 		CADE3EAA24F17472003165BB /* bulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bulk.cpp; sourceTree = "<group>"; };
 		CADE3EAB24F17472003165BB /* bb-1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bb-1.h"; sourceTree = "<group>"; };
@@ -1762,7 +1764,6 @@
 		CADE3F9324F17488003165BB /* snow.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = snow.html; sourceTree = "<group>"; };
 		CADE3F9424F17488003165BB /* full.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = full.html; sourceTree = "<group>"; };
 		CADE3F9524F17488003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CADE3F9624F17488003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE3F9724F17488003165BB /* quill.min.js.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = quill.min.js.map; sourceTree = "<group>"; };
 		CADE3F9824F17488003165BB /* quill.core.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.core.css; sourceTree = "<group>"; };
 		CADE3F9924F17488003165BB /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
@@ -4640,7 +4641,7 @@
 				CADE3EBA24F17472003165BB /* comment.html */,
 				CADE3EBD24F17472003165BB /* create.cpp */,
 				CADE3EED24F17472003165BB /* create.h */,
-				CADE3EA724F17472003165BB /* create.html */,
+				CABF7CB22614BC37000D9FAB /* create.html */,
 				CADE3E8C24F17472003165BB /* edit.cpp */,
 				CADE3E9124F17472003165BB /* edit.h */,
 				CADE3EB324F17472003165BB /* edit.html */,
@@ -4659,6 +4660,7 @@
 				CADE3EA224F17472003165BB /* poll.cpp */,
 				CADE3EC924F17472003165BB /* poll.h */,
 				CADE3EB624F17472003165BB /* poll.js */,
+				CABF7CB12614B854000D9FAB /* quill.js */,
 				CADE3E9024F17472003165BB /* select.cpp */,
 				CADE3EFA24F17472003165BB /* select.h */,
 				CADE3E8624F17472003165BB /* select.html */,
@@ -4864,13 +4866,13 @@
 				CADE3F8C24F17488003165BB /* LICENSE */,
 				CADE3F8E24F17488003165BB /* logic.cpp */,
 				CADE3F9524F17488003165BB /* logic.h */,
-				CADE3F9624F17488003165BB /* logic.o */,
 				CADE3F8F24F17488003165BB /* quill.bubble.css */,
 				CADE3F9824F17488003165BB /* quill.core.css */,
 				CADE3F9A24F17488003165BB /* quill.core.js */,
 				CADE3F8B24F17488003165BB /* quill.js */,
 				CADE3F9024F17488003165BB /* quill.min.js */,
 				CADE3F9724F17488003165BB /* quill.min.js.map */,
+				CA09D6E52616F089002FDA23 /* quill.notes.css */,
 				CADE3F8D24F17488003165BB /* quill.snow.css */,
 				CADE3F9924F17488003165BB /* readme.txt */,
 			);

@@ -2,25 +2,20 @@
 <p>translate("Summary"): ##summary##</p>
 <div>##content##</div>
 <hr>
-<form style="border:1px #bbb solid;" action="comment" name="form" method="post">
-  <p>translate("Add a comment to this note:")</p>
-  <textarea name="comment" id="comment" class="width100"></textarea>
-  <p>
-    <input type="submit" name="submit" value=translate("Save") onClick="this.value = 'translate ("Please wait")'; return true;" />
-    <input type="submit" name="cancel" value=translate("Cancel") />
-  </p>
-  <input type="hidden" name="id" value=##id## />
-</form>
-<script src="/nicedit/nicedit.min.js?##VERSION##"></script>
+<p>translate("Add a comment to this note:")</p>
+<div id="body" class="width100 height50"></div>
+<input type="hidden" id="id" value=##id## />
+<p>
+  <input type="submit" id="create2" value="translate("Create")" />
+  <input type="submit" id="cancel2" value="translate("Cancel")" />
+</p>
+<link rel="stylesheet" type="text/css" href="../quill/quill.notes.css?##VERSION##">
+<script type="text/javascript" src="/filter/url.js?##VERSION##"></script>
+<script src="../quill/quill.min.js?##VERSION##"></script>
+<script src="quill.js?##VERSION##"></script>
 <script type="text/javascript">
-  area1 = new nicEditor({fullPanel : true}).panelInstance('comment',{hasPanel : true});
-  $ ("body").on ("paste", function (e) {
-    var data = e.originalEvent.clipboardData.getData ('Text');
-    e.preventDefault();
-    data = data.replace (/\n/g, "<br>");
-    document.execCommand ("insertHTML", false, data);
-  });
-  $(document).ready (function () {
-    $ (".nicEdit-main").focus ();
-  });
+  ##script##
+</script>
+<script type="text/javascript">
+  $("#comment").focus();
 </script>

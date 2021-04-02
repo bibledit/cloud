@@ -88,7 +88,12 @@ translate("You can add or remove fonts in Bibledit Cloud:")
 
 <!-- #BEGINZONE cloud -->
 <h3>translate("Cache")</h3>
-<p><a href="?clearcache=">translate("Clear the web cache and the resources cache.")</a></p>
+<p><a href="?clearcache=">translate("Clear the web cache and the resources cache now.")</a></p>
+<p>
+<input type="checkbox" name="keepcache" onchange="checkbox(this)" ##keepcache## />
+translate("Keep the resources cache for an extended period of time.")
+translate("This makes the second and subsequent resources downloads by Bibledit clients much faster.")
+</p>
 <!-- #ENDZONE cloud -->
 
 <!-- #BEGINZONE cloud -->

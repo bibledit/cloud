@@ -607,6 +607,12 @@ msgstr ""
 msgid "Bibledit saved:"
 msgstr ""
 
+msgid "Creating Bible"
+msgstr ""
+
+msgid "Created:"
+msgstr ""
+
 msgid "Please enter a name for the new empty Bible"
 msgstr "Geef een naam op voor de nieuwe lege Bijbel"
 
@@ -4450,6 +4456,30 @@ msgstr ""
 msgid "Enable JavaScript to work with Bibledit"
 msgstr ""
 
+msgid "Accounts"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Privileges"
+msgstr ""
+
+msgid "This lists several user accounts and their properties."
+msgstr ""
+
+msgid "You can see how long ago a user account has been opened."
+msgstr ""
+
+msgid "Return to the users page."
+msgstr ""
+
 msgid "Hyphenation"
 msgstr "Woordafbreking"
 
@@ -4645,18 +4675,6 @@ msgstr ""
 msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
-msgid "Username"
-msgstr ""
-
-msgid "Role"
-msgstr ""
-
-msgid "Email"
-msgstr ""
-
-msgid "Privileges"
-msgstr ""
-
 msgid ""
 "This lists the accounts of the users who have roles you are responsible for."
 msgstr ""
@@ -4691,6 +4709,9 @@ msgid "The password will be the same as the username."
 msgstr ""
 
 msgid "Normally users register their own account."
+msgstr ""
+
+msgid "You can manage the accounts."
 msgstr ""
 
 msgid "You can set the privileges for the user."
@@ -11584,28 +11605,20 @@ msgstr ""
 "de volharding van Jezus Christus, was in het eiland genaamd Patmos, vanwege "
 "het woord van God, en vanwege het getuigenis van Jezus Christus."
 
-msgid "Username should be at least two characters long"
-msgstr ""
-
-msgid "Password should be at least two characters long"
+msgid "Username should be at least four characters long"
 msgstr ""
 
 msgid "The answer to the question is not correct"
 msgstr "Het antwoord op de vraag is niet juist"
 
-msgid ""
-"The username that you have chosen has already been taken. Please choose "
-"another one."
+msgid "The username that you have chosen has already been taken."
 msgstr ""
-"De gebruikersnaam die u heeft gekozen is al in gebruik. U kunt een andere "
-"kiezen."
 
-msgid ""
-"The email address that you have chosen has already been taken. Please choose "
-"another one."
+msgid "Please choose another one."
 msgstr ""
-"Het email adres dat u gekozen heeft is al in gebruik. Kiest u een ander "
-"adres."
+
+msgid "The email address that you have chosen has already been taken."
+msgstr ""
 
 msgid "Signup verification"
 msgstr "Verificatie inschrijving"
@@ -11620,6 +11633,9 @@ msgid "Welcome!"
 msgstr ""
 
 msgid "Your account is now active and you have logged in."
+msgstr ""
+
+msgid "Username should be at least two characters long"
 msgstr ""
 
 msgid "Username or email address or password are not correct"

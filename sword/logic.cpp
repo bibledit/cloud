@@ -83,7 +83,7 @@ void sword_logic_refresh_module_list ()
 #ifdef HAVE_SWORD
   sword_logic_installmgr_initialize ();
 #else
-  filter_shell_run ("echo yes | installmgr -init", out_err);
+  filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -init", out_err);
   sword_logic_log (out_err);
 #endif
   
@@ -97,7 +97,7 @@ void sword_logic_refresh_module_list ()
     return;
   }
 #else
-  filter_shell_run ("echo yes | installmgr -sc", out_err);
+  filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
   filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
   sword_logic_log (out_err);
 #endif
@@ -132,7 +132,7 @@ void sword_logic_refresh_module_list ()
       Database_Logs::log ("Error refreshing remote source " + remote_source);
     }
 #else
-    filter_shell_run ("echo yes | installmgr -r \"" + remote_source + "\"", out_err);
+    filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
     sword_logic_log (out_err);
 #endif
@@ -315,7 +315,7 @@ void sword_logic_install_module (string source_name, string module_name)
 #else
   
   string out_err;
-  filter_shell_run ("cd " + sword_path + "; echo yes | installmgr -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
+  filter_shell_run ("cd " + sword_path + "; installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
   sword_logic_log (out_err);
   
 #endif
@@ -489,56 +489,52 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
 
   // The name of the book to pass to diatheke.
   string osis = Database_Books::getOsisFromId (book);
-  
-  // Signatures that will indicate start and end of verse text.
-  map <int, string> starters, finishers;
-  
-  // The script to run.
-  // It will fetch verse text for all verses in a chapter.
-  // Fetching verse text in bulk reduces the number of fork () calls.
-  vector <string> script;
-  script.push_back ("#!/bin/bash");
-  script.push_back ("cd '" + sword_logic_get_path () + "'");
-  for (auto verse : verses) {
-    string starter = "starter" + convert_to_string (verse) + "starter";
-    script.push_back ("echo " + starter);
-    starters [verse] = starter;
-    string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
-    script.push_back ("diatheke -b " + module + " -k " + osis + " " + chapter_verse);
-    string finisher = "finisher" + convert_to_string (verse) + "finisher";
-    script.push_back ("echo " + finisher);
-    finishers [verse] = finisher;
-  }
 
-  // Store the script and make it executable.
-  string script_path = filter_url_create_path (sword_logic_get_path (), "script.sh");
-  filter_url_file_put_contents (script_path, filter_string_implode (script, "\n"));
-  string chmod = "chmod +x " + script_path;
-  int result;
-#ifdef HAVE_CLOUD
-  result = system (chmod.c_str ());
-  (void) result;
-#endif
+  // Cannot run more than one "diatheke" per user, so use a mutex for that.
+  sword_logic_diatheke_run_mutex.lock ();
 
-  // Run the script.
-  string out_err;
-  result = filter_shell_run (script_path, out_err);
-  (void) result;
+  // Here is how to speed up SWORD text retrieval.
+  // The main point is to not pass just one verse,
+  // but to pass the chapter number without the verse.
+  // So it returns the entire chapter in one go.
+  // One would even be able to pass the book only, so it returns the entire book.
+  // But that would not add much to increasing the speed.
+  // cd ~/.sword/InstallMgr
+  // diatheke -b AB -k Ezra 5:1
+  // diatheke -b AB -k Ezra 5
+  // diatheke -b AB -k Ezra
+  string error;
+  string bulk_text;
+  int result = filter_shell_run (sword_logic_get_path (), "diatheke", { "-b", module, "-k", osis, convert_to_string (chapter) }, &bulk_text, &error);
+  bulk_text.append (error);
+  if (result != 0) Database_Logs::log (error);
+  // This is how the output would look.
+  // Malachi 3:1: <verse osisID="Mal.3.1">Behold, I send forth My messenger, and he shall survey the way before Me: and the Lord, whom you seek, shall suddenly come into His temple, even the Messenger of the covenant, whom you take pleasure in: behold, He is coming, says the Lord Almighty.
+
+  sword_logic_diatheke_run_mutex.unlock ();
 
   // Resulting verse text.
   map <int, string> output;
-  
+
+  // Iterate over all requested verses to extract the correct content from the chapter.
+  // This works well in general.
+  // It has been seen in a sample module, the "AB", that some verses in the SWORD module were empty.
+  // In case of such verses, there's no content to extract from the chapter.
+  // The cause in such verses is in the module builder.
   for (auto & verse : verses) {
-    string starter = starters [verse];
-    size_t pos1 = out_err.find (starter);
-    string finisher = finishers [verse];
-    size_t pos2 = out_err.find (finisher);
-    if ((pos1 != string::npos) && (pos2 != string::npos)) {
-      pos1 += starter.length ();
-      string text = out_err.substr (pos1, pos2 - pos1);
-      text = sword_logic_clean_verse (module, chapter, verse, text);
-      output [verse] = text;
+    string starter = " " + convert_to_string(chapter) + ":" + convert_to_string(verse) + ":";
+    size_t pos1 = bulk_text.find (starter);
+    if (pos1 == string::npos) {
+      //Database_Logs::log("Cannot find starter: |" + starter + "|");
+      continue;
     }
+    string finisher = "\n";
+    size_t pos2 = bulk_text.find (finisher, pos1);
+    if (pos2 == string::npos) pos2 = bulk_text.length() + 1;
+    pos1 += starter.length ();
+    string text = bulk_text.substr (pos1, pos2 - pos1);
+    text = sword_logic_clean_verse (module, chapter, verse, text);
+    output [verse] = text;
   }
   
   // Done.

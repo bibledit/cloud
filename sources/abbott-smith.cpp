@@ -60,7 +60,9 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
 
   // Get the lemma, and the Strong's number, and the raw XML of the entry's contents.
   string lemma = filter_string_trim (node.attribute ("lemma").value ());
+#ifdef HAVE_ICU
   lemma = icu_string_normalize (lemma, true, true);
+#endif
   string strong = filter_string_trim (node.attribute ("strong").value ());
   stringstream ss;
   for (xml_node child : node.children()) child.print(ss, "", format_raw);

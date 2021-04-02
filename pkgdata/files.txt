@@ -511,6 +511,7 @@
 /quill/quill.js
 /quill/quill.min.js
 /quill/quill.min.js.map
+/quill/quill.notes.css
 /quill/quill.snow.css
 /quill/readme.txt
 /rangy13

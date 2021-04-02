@@ -64,14 +64,14 @@ function noteCreate ()
     async: false,
     data: { bible: bible, book: book, chapter: chapter, verse: verse, summary: summary, body: body },
     complete: function (xhr, status) {
-      window.location.assign ("index");
+      window.location.assign ("index" + "?topbar=0");
     }
   });
 }
 
 function noteCancel ()
 {
-  window.location.assign ("index");
+  window.location.assign ("index" + "?topbar=0");
 }
 
 function noteCreate2 ()
@@ -84,12 +84,12 @@ function noteCreate2 ()
     async: false,
     data: { id: noteId, body: body },
     complete: function (xhr, status) {
-      window.location.assign ("note?id=" + noteId + "&temporal=");
+      window.location.assign ("note?id=" + noteId + "&temporal=" + "&topbar=0");
     }
   });
 }
 
 function noteCancel2 ()
 {
-  window.location.assign ("note?id=" + noteId);
+  window.location.assign ("note?id=" + noteId + "&topbar=0");
 }

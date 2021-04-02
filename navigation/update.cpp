@@ -41,17 +41,11 @@ string navigation_update (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   
-  string bible;
-  //if (request->query.count ("bible")) {
-  //  bible = request->query ["bible"];
-  //} else {
-  //  bible = request->database_config_user()->getBible ();
-  //}
-  // It used to take the Bible from the Bible variable stored in javascript.
+  // It used to take the Bible from the Bible variable stored in Javascript.
   // But then, when switching from a Bible that has the NT only, to a Bible that has OT and NT,
   // the navigator would only show the NT books.
   // Now, by taking the Bible from the database, it will show the books of the last selected Bible.
-  bible = request->database_config_user()->getBible ();
+  string bible = request->database_config_user()->getBible ();
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
   int verse = convert_to_int (request->query ["verse"]);

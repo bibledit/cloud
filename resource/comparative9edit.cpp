@@ -73,16 +73,16 @@ string resource_comparative9edit (void * webserver_request)
     // Clean the title up and ensure it always starts with "Comparative ".
     // This word flags the comparative resource as being one of that category.
     string new_resource = request->post ["entry"];
-    size_t pos = new_resource.find (resource_logic_comparative_resource_v2 ());
+    size_t pos = new_resource.find (resource_logic_comparative_resource ());
     if (pos != string::npos) {
-      new_resource.erase (pos, resource_logic_comparative_resource_v2 ().length());
+      new_resource.erase (pos, resource_logic_comparative_resource ().length());
     }
-    new_resource.insert (0, resource_logic_comparative_resource_v2 ());
+    new_resource.insert (0, resource_logic_comparative_resource ());
     vector <string> titles;
     vector <string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
       string title;
-      if (resource_logic_parse_comparative_resource_v2 (resource, &title)) {
+      if (resource_logic_parse_comparative_resource (resource, &title)) {
         titles.push_back (title);
       }
     }
@@ -92,7 +92,7 @@ string resource_comparative9edit (void * webserver_request)
       error = translate("Please give a name for the comparative resource");
     } else {
       // Store the new resource in the list.
-      string resource = resource_logic_assemble_comparative_resource_v2 (new_resource);
+      string resource = resource_logic_assemble_comparative_resource (new_resource);
       resources.push_back (resource);
       Database_Config_General::setComparativeResources (resources);
       success = translate("The comparative resource was created");
@@ -118,7 +118,7 @@ string resource_comparative9edit (void * webserver_request)
       vector <string> existing_resources = Database_Config_General::getComparativeResources ();
       for (auto resource : existing_resources) {
         string title;
-        resource_logic_parse_comparative_resource_v2 (resource, &title);
+        resource_logic_parse_comparative_resource (resource, &title);
         if (title != title2remove) updated_resources.push_back (resource);
       }
       Database_Config_General::setComparativeResources (updated_resources);
@@ -133,7 +133,7 @@ string resource_comparative9edit (void * webserver_request)
     xml_document document;
     for (auto & resource : resources) {
       string title;
-      if (!resource_logic_parse_comparative_resource_v2 (resource, &title)) continue;
+      if (!resource_logic_parse_comparative_resource (resource, &title)) continue;
       xml_node p_node = document.append_child ("p");
       xml_node a_node = p_node.append_child("a");
       string href = "comparative1edit?name=" + title;

@@ -626,3 +626,8 @@ table.interlinear.rtl {
   width: 100%;
   height: 8px;
 }
+
+.ql-editor, .bibleeditor {
+  padding: 4px 4px;
+}
+

@@ -29,6 +29,8 @@ $(document).ready (function () {
   if ($ ("#cancel").length) $ ("#cancel").on ("click", noteCancel);
   if ($ ("#create2").length) $ ("#create2").on ("click", noteCreate2);
   if ($ ("#cancel2").length) $ ("#cancel2").on ("click", noteCancel2);
+  // The following if condition will add a query to supress the topbar
+  // when this page is loaded as a workspace item.
   if (window.self !== window.top) {
     return arrayOfAdditionalAddresses = ['?topbar=0','&topbar=0'];
   }

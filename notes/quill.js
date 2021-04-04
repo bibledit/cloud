@@ -21,7 +21,7 @@ var Delta = Quill.import ("delta");
 
 var quill = null;
 
-var arrayOfAdditionalAddresses = [];
+var arrayOfAdditionalAddresses = ["", ""];
 
 $(document).ready (function () {
   noteLoadQuill();

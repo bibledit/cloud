@@ -46,7 +46,6 @@ $ (document).ready (function () {
         e.href = newHref;
       }
     })
-    $ ('#topbar').empty();
   };
   if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0) {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);

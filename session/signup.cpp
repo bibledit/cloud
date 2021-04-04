@@ -94,12 +94,12 @@ string session_signup (void * webserver_request)
   
   verification.question = translate("What is the name of the island where John was sent to?");
   verification.answer   = translate("Patmos");
-  verification.passage  = translate("I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island which is called Patmos, because of the word of God, and because of the testimony of Jesus Christ.");
+  verification.passage  = translate("I, John, your brother and companion in the persecution, and in the kingdom and endurance of Jesus Christ, was in the island called Patmos, because of the word of God, and because of the testimony of Jesus Christ.");
   verifications.push_back (verification);
   
-    verification.question = translate("Who is the first person to acknowledge Jesus as the Christ?");
+  verification.question = translate("Who is the first person to acknowledge Jesus as the Christ?");
   verification.answer   = translate("Simeon");
-  verification.passage  = translate("And, behold, there was a man in Jerusalem, whose name was Simeon; and the same man was just and devout, waiting for the consolation of Israel: and the Holy Ghost was upon him. And it was revealed unto him by the Holy Ghost, that he should not see death, before he had seen the Lord's Christ.");
+  verification.passage  = translate("There was Simeon. A just and devout man. The Holy Spirit told him that he will see Christ before his death.");
   verifications.push_back (verification);
 
   verification.question = translate("To whom was the Acts Of Apostles written?");
@@ -107,9 +107,9 @@ string session_signup (void * webserver_request)
   verification.passage  = translate("The former treatise have I made, O Theophilus, of all that Jesus began both to do and teach,");
   verifications.push_back (verification);
 
-  verification.question = translate("Where did Jesus met the woman of Samaria?");
+  verification.question = translate("Where did Jesus met the woman from Samaria?");
   verification.answer   = translate("Jacob's well");
-  verification.passage  = translate("Then cometh he to a city of Samaria, which is called Sychar, near to the parcel of ground that Jacob gave to his son Joseph. Now Jacob's well was there. Jesus therefore, being wearied with his journey, sat thus on the well: and it was about the sixth hour. There cometh a woman of Samaria to draw water: Jesus saith unto her, Give me to drink.");
+  verification.passage  = translate("Jesus being wearied by his journey, sat on Jacob's well. Then came a woman from Samaria to get water.");
   verifications.push_back (verification);
 
   verification.question = translate("Who was the father of Abraham?");
@@ -117,19 +117,19 @@ string session_signup (void * webserver_request)
   verification.passage  = translate("And Terah took Abram his son,");
   verifications.push_back (verification);
 
-  verification.question = translate("Who was the son of Cush, the mighty hunter before the LORD?");
+  verification.question = translate("Who was the son of Cush, the mighty hunter before the Lord?");
   verification.answer   = translate("Nimrod");
-  verification.passage  = translate("And Cush begat Nimrod: he began to be a mighty one in the earth. He was a mighty hunter before the Lord: wherefore it is said, Even as Nimrod the mighty hunter before the Lord.");
+  verification.passage  = translate("And Cush bore Nimrod. He was a mighty hunter before the Lord.");
   verifications.push_back (verification);
 
   verification.question = translate("What is the name of Job's friend that answered him first?");
   verification.answer   = translate("Eliphaz");
-  verification.passage  = translate("Then Eliphaz the Temanite answered and said,");
+  verification.passage  = translate("Then Eliphaz the Temanite answered and said to Job.");
   verifications.push_back (verification);
 
   verification.question = translate("What is the name of Ruth's husband?");
   verification.answer   = translate("Boaz");
-  verification.passage  = translate("So Boaz took Ruth, and she was his wife: and when he went in unto her, the Lord gave her conception, and she bare a son.");
+  verification.passage  = translate("So Boaz took Ruth as his wife.");
   verifications.push_back (verification);
 
   verification.question = translate("Who taught Lemuel Proverbs chapter 31?");
@@ -137,7 +137,52 @@ string session_signup (void * webserver_request)
   verification.passage  = translate("The words of king Lemuel, the prophecy that his mother taught him.");
   verifications.push_back (verification);
 
-  int question_number = filter_string_rand (0, 11);
+  verification.question = translate("Who is the chosen people of God in the Old Testament?");
+  verification.answer   = translate("Israel");
+  verification.passage  = translate("Israel, you are the chosen people of the Lord your God.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Where did God rescue Israel from?");
+  verification.answer   = translate("Egypt");
+  verification.passage  = translate("Then with his mighty arm, he rescued you from Egypt.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who's the father of Abimelech?");
+  verification.answer   = translate("Gideon");
+  verification.passage  = translate("Abimelech the son of Gideon went to Shechem.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who's the father of Joshua the priest in the time of Ezra?");
+  verification.answer   = translate("Jozadak");
+  verification.passage  = translate("The priest Joshua son of Jozadak.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who's Nebuchadnezzar?");
+  verification.answer   = translate("The king of Babylonia");
+  verification.passage  = translate("We were told that their people had made God angry, and he let them be captured by Nebuchadnezzar, the king of Babylonia.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who's Cyrus?");
+  verification.answer   = translate("King of Babylonia");
+  verification.passage  = translate("They also said that during the first year Cyrus was king of Babylonia.");
+  verifications.push_back (verification);
+
+  verification.question = translate("For how many days does Jesus appeared to the disciples after he rose from the dead?");
+  verification.answer   = translate("40");
+  verification.passage  = translate("For 40 days after Jesus had suffered and died, he proved in many ways that he had been raised from death.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who wrote Song of Songs?");
+  verification.answer   = translate("Solomon");
+  verification.passage  = translate("This is Solomon's most beautiful song.");
+  verifications.push_back (verification);
+
+  verification.question = translate("Who's the father of Hosea?");
+  verification.answer   = translate("Beeri");
+  verification.passage  = translate("I am Hosea son of Beeri.");
+  verifications.push_back (verification);
+
+  int question_number = filter_string_rand (0, 20);
   view.set_variable ("question", verifications[question_number].question);
   view.set_variable ("passage", verifications[question_number].passage);
   // The form has a hidden text entry. This text entry stores the right answer to the questions.

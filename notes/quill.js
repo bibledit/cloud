@@ -21,12 +21,19 @@ var Delta = Quill.import ("delta");
 
 var quill = null;
 
+var arrayOfAdditionalAddresses = [];
+
 $(document).ready (function () {
   noteLoadQuill();
   if ($ ("#create").length) $ ("#create").on ("click", noteCreate);
   if ($ ("#cancel").length) $ ("#cancel").on ("click", noteCancel);
   if ($ ("#create2").length) $ ("#create2").on ("click", noteCreate2);
   if ($ ("#cancel2").length) $ ("#cancel2").on ("click", noteCancel2);
+  // The following if condition will add a query to supress the topbar
+  // when this page is loaded as a workspace item.
+  if (window.self !== window.top) {
+    return arrayOfAdditionalAddresses = ['?topbar=0','&topbar=0'];
+  }
 });
 
 function noteLoadQuill ()
@@ -64,14 +71,14 @@ function noteCreate ()
     async: false,
     data: { bible: bible, book: book, chapter: chapter, verse: verse, summary: summary, body: body },
     complete: function (xhr, status) {
-      window.location.assign ("index");
+      window.location.assign ("index" + arrayOfAdditionalAddresses[0]);
     }
   });
 }
 
 function noteCancel ()
 {
-  window.location.assign ("index");
+  window.location.assign ("index" + arrayOfAdditionalAddresses[0]);
 }
 
 function noteCreate2 ()
@@ -84,12 +91,12 @@ function noteCreate2 ()
     async: false,
     data: { id: noteId, body: body },
     complete: function (xhr, status) {
-      window.location.assign ("note?id=" + noteId + "&temporal=");
+      window.location.assign ("note?id=" + noteId + "&temporal=" + arrayOfAdditionalAddresses[1]);
     }
   });
 }
 
 function noteCancel2 ()
 {
-  window.location.assign ("note?id=" + noteId);
+  window.location.assign ("note?id=" + noteId + arrayOfAdditionalAddresses[1]);
 }

@@ -35,7 +35,20 @@ $ (document).ready (function () {
     // The topbar is removed by the server via the Workspace,
     // but in other cases the topbar makes it to the browser,
     // and is to be removed here within the iframe.
-    $ ("#topbar").empty ();
+    const pageLinks = document.querySelectorAll('a');
+    pageLinks.forEach((e) => {
+      var newHref = e.href;
+      if (/\?/.test(e.href)) {
+        newHref = newHref + "&topbar=0";
+        e.href = newHref;
+      } else {
+        newHref = newHref + "?topbar=0";
+        e.href = newHref;
+      }
+    })
+    if (/\?/.test(window.location.href) === false) {
+      window.location.assign("?topbar=0");
+    }
   };
   if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0) {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);

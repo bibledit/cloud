@@ -229,7 +229,7 @@ string resource_select (void * webserver_request)
     vector<string> raw_resources = Database_Config_General::getComparativeResources ();
     for (auto raw_resource : raw_resources) {
       string title;
-      if (resource_logic_parse_comparative_resource_v2 (raw_resource, &title)) {
+      if (resource_logic_parse_comparative_resource (raw_resource, &title)) {
         resources.push_back(title);
       }
     }

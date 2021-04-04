@@ -135,19 +135,9 @@ string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
                                 bool add_verse_numbers)
 {
-  // Handle a comparative resources.
-  // This type of resource is special.
-  // It fetches data from two resources and combines that into one.
-  if (resource_logic_is_comparative (resource)) {
-    return resource_logic_get_comparison(webserver_request, resource, book, chapter, verse, add_verse_numbers);
-  }
-  // From here on it handles a single resource.
-  
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
   string html;
-
-  Database_Mappings database_mappings;
 
   // Determine the type of the resource.
   bool isBible = resource_logic_is_bible (resource);
@@ -158,6 +148,23 @@ string resource_logic_get_html (void * webserver_request,
   bool isSword = resource_logic_is_sword (resource);
   bool isBibleGateway = resource_logic_is_biblegateway (resource);
   bool isStudyLight = resource_logic_is_studylight (resource);
+  bool isComparative = resource_logic_is_comparative (resource);
+
+  // Handle a comparative resource.
+  // This type of resource is special.
+  // It is not one resource, but made out of two resources.
+  // It fetches data from two resources and combines that into one. Todo
+  if (isComparative) {
+#ifdef HAVE_CLOUD
+    html = resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
+#endif
+#ifdef HAVE_CLIENT
+    html = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
+#endif
+    return html;
+  }
+
+  Database_Mappings database_mappings;
 
   // Retrieve versification system of the active Bible.
   string bible = request->database_config_user ()->getBible ();
@@ -328,25 +335,25 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 }
 
 
-string resource_logic_get_comparison (void * webserver_request,
-                                      string resource, int book, int chapter, int verse,
-                                      bool add_verse_numbers)
+string resource_logic_cloud_get_comparison (void * webserver_request,
+                                            string resource, int book, int chapter, int verse,
+                                            bool add_verse_numbers) // Todo client to fetch it from cloud.
 {
-  // This starts off with the resource title only.
+  // This function gets passed the resource title only.
   // So get all resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
   string title, base, update, remove, replace;
   bool diacritics = false, casefold = false;
   vector <string> resources = Database_Config_General::getComparativeResources ();
   for (auto s : resources) {
-    resource_logic_parse_comparative_resource_v2 (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
+    resource_logic_parse_comparative_resource (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
     if (title == resource) break;
   }
 
   // Get the html of both resources to compare.
   base = resource_logic_get_html (webserver_request, base, book, chapter, verse, add_verse_numbers);
   update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
-
+  
   // Clean all html elements away from the text to get a better and cleaner comparison.
   base = filter_string_html2text (base);
   update = filter_string_html2text(update);
@@ -403,7 +410,7 @@ string resource_logic_get_comparison (void * webserver_request,
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo handle comparative somehow.
 {
   // Determine the type of the current resource.
   bool isExternal = resource_logic_is_external (resource);
@@ -411,7 +418,8 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool isSword = resource_logic_is_sword (resource);
   bool isBibleGateway = resource_logic_is_biblegateway (resource);
   bool isStudyLight = resource_logic_is_studylight (resource);
-  
+  bool isComparative = resource_logic_is_comparative (resource);
+
   if (isExternal) {
     // The server fetches it from the web.
     return resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse);
@@ -447,6 +455,15 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     return resource_logic_study_light_get (resource, book, chapter, verse);
   }
 
+  if (isComparative) {
+    // Handle a comparative resource.
+    // This type of resource is special.
+    // It is not one resource, but made out of two resources.
+    // It fetches data from two resources and combines that into one.
+    Webserver_Request request;
+    return resource_logic_cloud_get_comparison (&request, resource, book, chapter, verse, false);
+  }
+  
   // Nothing found.
   return translate ("Bibledit Cloud could not localize this resource");
 }
@@ -456,7 +473,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 // or from its local cache,
 // and to update the local cache with the fetched content, if needed,
 // and to return the requested content.
-string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
+string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse) // Todo
 {
   // Ensure that the cache for this resource exists on the client.
   if (!Database_Cache::exists (resource, book)) {
@@ -1386,21 +1403,21 @@ bool resource_logic_is_studylight (string resource)
 
 bool resource_logic_is_comparative (string resource)
 {
-  return resource_logic_parse_comparative_resource_v2(resource);
+  return resource_logic_parse_comparative_resource(resource);
 }
 
 
-string resource_logic_comparative_resource_v2 ()
+string resource_logic_comparative_resource ()
 {
   return "Comparative ";
 }
 
 
-bool resource_logic_parse_comparative_resource_v2 (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold)
+bool resource_logic_parse_comparative_resource (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold)
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
-  if (input.find(resource_logic_comparative_resource_v2()) != 0) return false;
+  if (input.find(resource_logic_comparative_resource()) != 0) return false;
 
   // Do a forgiving parsing of the properties of this resource.
   if (title) title->clear();
@@ -1424,15 +1441,15 @@ bool resource_logic_parse_comparative_resource_v2 (string input, string * title,
 }
 
 
-string resource_logic_assemble_comparative_resource_v2 (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold)
+string resource_logic_assemble_comparative_resource (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold)
 {
   // Check whether the "Comparative " flag already is included in the given $title.
-  size_t pos = title.find (resource_logic_comparative_resource_v2 ());
+  size_t pos = title.find (resource_logic_comparative_resource ());
   if (pos != string::npos) {
-    title.erase (pos, resource_logic_comparative_resource_v2 ().length());
+    title.erase (pos, resource_logic_comparative_resource ().length());
   }
   // Ensure the "Comparative " flag is always included right at the start.
-  vector <string> bits = {resource_logic_comparative_resource_v2() + title, base, update, remove, replace, convert_to_true_false(diacritics), convert_to_true_false(casefold)};
+  vector <string> bits = {resource_logic_comparative_resource() + title, base, update, remove, replace, convert_to_true_false(diacritics), convert_to_true_false(casefold)};
   return filter_string_implode(bits, "|");
 }
 

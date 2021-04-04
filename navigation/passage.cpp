@@ -400,7 +400,7 @@ void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bib
 }
 
 
-void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse)
+void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse) // Todo
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();
@@ -574,6 +574,7 @@ void Navigation_Passage::interpretKeyboardNavigator (void * webserver_request, s
   
   // Store book / chapter / verse.
   Ipc_Focus::set (request, new_passage.book, new_passage.chapter, convert_to_int (new_passage.verse));
+  Navigation_Passage::recordHistory (request, new_passage.book, new_passage.chapter, convert_to_int (new_passage.verse));
 }
 
 

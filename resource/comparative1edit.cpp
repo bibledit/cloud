@@ -81,7 +81,7 @@ string resource_comparative1edit (void * webserver_request)
   {
     vector <string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
-      resource_logic_parse_comparative_resource_v2 (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
+      resource_logic_parse_comparative_resource (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
       if (title == name) break;
     }
   }
@@ -171,9 +171,9 @@ string resource_comparative1edit (void * webserver_request)
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       string title2;
-      resource_logic_parse_comparative_resource_v2 (resources[i], &title2);
+      resource_logic_parse_comparative_resource (resources[i], &title2);
       if (title2 == title) {
-        string resource = resource_logic_assemble_comparative_resource_v2 (title, base, update, remove, replace, diacritics, casefold);
+        string resource = resource_logic_assemble_comparative_resource (title, base, update, remove, replace, diacritics, casefold);
         resources[i] = resource;
         success = translate ("Saved");
         error.clear();

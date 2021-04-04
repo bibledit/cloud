@@ -719,3 +719,8 @@ table.interlinear.rtl {
   margin-right: 3cm;
   margin-left: 2cm;
 }
+
+.ql-editor, .bibleeditor {
+  padding: 4px 4px;
+}
+

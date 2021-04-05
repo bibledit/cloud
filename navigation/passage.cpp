@@ -400,7 +400,7 @@ void Navigation_Passage::gotoPreviousVerse (void * webserver_request, string bib
 }
 
 
-void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse) // Todo
+void Navigation_Passage::recordHistory (void * webserver_request, int book, int chapter, int verse)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string user = request->session_logic()->currentUser ();

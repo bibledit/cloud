@@ -153,7 +153,7 @@ string resource_logic_get_html (void * webserver_request,
   // Handle a comparative resource.
   // This type of resource is special.
   // It is not one resource, but made out of two resources.
-  // It fetches data from two resources and combines that into one. Todo
+  // It fetches data from two resources and combines that into one.
   if (isComparative) {
 #ifdef HAVE_CLOUD
     html = resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
@@ -337,7 +337,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 
 string resource_logic_cloud_get_comparison (void * webserver_request,
                                             string resource, int book, int chapter, int verse,
-                                            bool add_verse_numbers) // Todo client to fetch it from cloud.
+                                            bool add_verse_numbers)
 {
   // This function gets passed the resource title only.
   // So get all resources and look for the one with this title.
@@ -410,7 +410,7 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo handle comparative somehow.
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Determine the type of the current resource.
   bool isExternal = resource_logic_is_external (resource);
@@ -473,7 +473,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 // or from its local cache,
 // and to update the local cache with the fetched content, if needed,
 // and to return the requested content.
-string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse) // Todo
+string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
 {
   // Ensure that the cache for this resource exists on the client.
   if (!Database_Cache::exists (resource, book)) {

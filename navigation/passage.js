@@ -42,9 +42,15 @@ function buildKeyboardNavigator () {
     data: { bible: navigationBible, keyboard: "" },
     cache: false,
     success: function (response) {
+      navigatorContainer = $ ("#versepickerwrapper");
+      if (navigatorContainer.length == 0) {
+        navigatorContainer = $(parent.document).find ("#versepickerwrapper");
+      }
       navigatorContainer.empty ();
       navigatorContainer.append (response);
-      $ ("#keyboard").focus ();
+      var keyboard = $ ("#keyboard");
+      if (keyboard.length == 0) keyboard = $(parent.document).find ("#keyboard");
+      keyboard.focus ();
     },
   });
 }

@@ -46,9 +46,7 @@ $ (document).ready (function () {
         e.href = newHref;
       }
     })
-    if (/\?/.test(window.location.href) === false) {
-      window.location.assign("?topbar=0");
-    }
+    $ ('#topbar').empty ();
   };
   if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0) {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);

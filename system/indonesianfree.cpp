@@ -213,36 +213,6 @@ string system_indonesianfree (void * webserver_request)
   view.set_variable ("language", language);
   
   
-  // Since the Bible can be set, first ensure there's one available.
-  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
-
- 
-  // Change the name of the Bible.
-  if (request->query.count ("bible")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("indonesianfree", translate ("Please enter a name for the Bible"), bible, "bible", "");
-    page += dialog_entry.run ();
-    return page;
-  }
-  if (request->post.count ("bible")) {
-    string bible2 = request->post ["entry"];
-    // Copy the Bible data.
-    string origin_folder = request->database_bibles ()->bibleFolder (bible);
-    string destination_folder = request->database_bibles ()->bibleFolder (bible2);
-    filter_url_dir_cp (origin_folder, destination_folder);
-    // Copy the Bible search index.
-    search_logic_copy_bible (bible, bible2);
-    // Remove the old Bible.
-    request->database_bibles ()->deleteBible (bible);
-    search_logic_delete_bible (bible);
-    // Update logic.
-    bible = bible2;
-    // Feedback.
-    success = translate ("The Bible was renamed");
-  }
-  view.set_variable ("bible", bible);
-  
-  
   view.set_variable ("external", assets_external_logic_link_addon ());
 
   

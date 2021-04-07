@@ -32,18 +32,30 @@ $ (document).ready (function () {
     });
   } else {
     // In workspace iframe: Remove possible top bar.
-    // The topbar is removed by the server via the Workspace,
-    // but in other cases the topbar makes it to the browser,
+    // The topbar is removed by the server via the Workspace.
+    // But in other cases the topbar makes it to the browser,
     // and is to be removed here within the iframe.
-    const pageLinks = document.querySelectorAll('a');
-    pageLinks.forEach((e) => {
-      var newHref = e.href;
-      if (/\?/.test(e.href)) {
-        newHref = newHref + "&topbar=0";
-        e.href = newHref;
-      } else {
-        newHref = newHref + "?topbar=0";
-        e.href = newHref;
+    // (1) By adding the query to each anchor element's href
+    // attribute and form element's action attribute.
+    // (2) By emptying the actual topbar.
+    document.querySelectorAll('a').forEach((element) => {
+      if (/topbar/.test(element.href) === false) {
+        if (/\?/.test(element.href)) {
+          element.href = element.href + "&topbar=0";
+        } else if (/\?/.test(element.href) === false &&
+        /topbar/.test(element.href) === false) {
+          element.href = element.href + "?topbar=0";
+        }
+      }
+    })
+    document.querySelectorAll('form').forEach((element) => {
+      if (/topbar/.test(element.action) === false) {
+        if (/\?/.test(element.action)) {
+          element.action = element.action + "&topbar=0";
+        } else if (/\?/.test(element.action) === false &&
+        /topbar/.test(element.action) === false) {
+          element.action = element.action + "?topbar=0";
+        }
       }
     })
     $ ('#topbar').empty ();

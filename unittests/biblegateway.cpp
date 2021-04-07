@@ -29,7 +29,14 @@ void test_biblegateway () // Todo
   string resource;
   int book;
   string text;
+  
+  resource = "Living Bible (TLB)";
 
+  book = 40; // Matthew.
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 17);
+  evaluate (__LINE__, __func__, "These are fourteen[a] of the generations from Abraham to King David; and fourteen from King David’s time to the exile; and fourteen from the exile to Christ.<br>Note: Matthew 1:17These are fourteen, literally, “So all the generations from Abraham unto David are fourteen.”", text);
+  
   resource = "Библия, ревизирано издание (BPB)";
 
   book = 1; // Genesis.

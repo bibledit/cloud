@@ -690,7 +690,6 @@
 		CADE375F24F17394003165BB /* import.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = import.cpp; sourceTree = "<group>"; };
 		CADE376124F17394003165BB /* books.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = books.js; sourceTree = "<group>"; };
 		CADE376224F17394003165BB /* create.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = create.cpp; sourceTree = "<group>"; };
-		CADE376624F17394003165BB /* create.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = create.o; sourceTree = "<group>"; };
 		CADE376724F17394003165BB /* create.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = create.h; sourceTree = "<group>"; };
 		CADE376A24F17394003165BB /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CADE376B24F17394003165BB /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bibledit; sourceTree = "<group>"; };
@@ -2997,7 +2996,6 @@
 				CADE376124F17394003165BB /* books.js */,
 				CADE376224F17394003165BB /* create.cpp */,
 				CADE376724F17394003165BB /* create.h */,
-				CADE376624F17394003165BB /* create.o */,
 			);
 			path = book;
 			sourceTree = "<group>";

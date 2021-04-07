@@ -30,7 +30,7 @@
 #include <user/logic.h>
 
 
-void test_dev () // Todo
+void test_dev ()
 {
   trace_unit_tests (__func__);
 

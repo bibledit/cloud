@@ -1175,7 +1175,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         walker.verse = convert_to_string (verse);
         passage_content_node.traverse (walker);
         result.append (walker.text);
-        // Adding text of the footnote(s) if any. Todo
+        // Adding text of the footnote(s) if any.
         for (auto footnote_id : walker.footnotes) {
           if (footnote_id.empty()) continue;
           // Example footnote ID is: #fen-TLB-20531a

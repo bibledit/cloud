@@ -22,20 +22,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/logic.h>
 
 
-void test_biblegateway ()
+void test_biblegateway () // Todo
 {
   trace_unit_tests (__func__);
   
   string resource;
   int book;
   string text;
+  
+  resource = "Living Bible (TLB)";
 
+  book = 40; // Matthew.
+
+  text = resource_logic_bible_gateway_get (resource, book, 1, 17);
+  evaluate (__LINE__, __func__, "These are fourteen[a] of the generations from Abraham to King David; and fourteen from King David’s time to the exile; and fourteen from the exile to Christ.<br>Note: Matthew 1:17These are fourteen, literally, “So all the generations from Abraham unto David are fourteen.”", text);
+  
   resource = "Библия, ревизирано издание (BPB)";
 
   book = 1; // Genesis.
 
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "В началото Бог сътвори небето и земята.", text);
+  evaluate (__LINE__, __func__, "(A)В началото Бог сътвори небето и земята.", text);
 
   resource = "21st Century King James Version (KJ21)";
 

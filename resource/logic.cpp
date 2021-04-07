@@ -1064,6 +1064,7 @@ struct bible_gateway_walker: xml_tree_walker
   bool skip_next_text = false;
   bool within_verse = false;
   string text;
+  vector <string> footnotes;
 
   virtual bool for_each (xml_node& node)
   {
@@ -1113,6 +1114,13 @@ struct bible_gateway_walker: xml_tree_walker
     // Include node's text content.
     if (within_verse) {
       text.append (node.value ());
+    }
+    
+    // Fetch the foonote(s) relevant to this verse.
+    // <sup data-fn='#fen-TLB-20531a' class='footnote' data-link=......
+    if (within_verse && (clas == "footnote")) {
+      string data_fn = node.attribute ("data-fn").value ();
+      footnotes.push_back(data_fn);
     }
     
     // Continue parsing.
@@ -1167,6 +1175,24 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         walker.verse = convert_to_string (verse);
         passage_content_node.traverse (walker);
         result.append (walker.text);
+        // Adding text of the footnote(s) if any. Todo
+        for (auto footnote_id : walker.footnotes) {
+          if (footnote_id.empty()) continue;
+          // Example footnote ID is: #fen-TLB-20531a
+          // Remove the #.
+          footnote_id.erase (0, 1);
+          // XPath selector.
+          string selector = "//li[@id='" + footnote_id + "']";
+          xpath_node xpath = document.select_node(selector.c_str());
+          if (xpath) {
+            stringstream ss;
+            xpath.node().print (ss, "", format_raw);
+            string html = ss.str ();
+            string footnote_text = filter_string_html2text (html);
+            result.append ("<br>Note: ");
+            result.append (footnote_text);
+          }
+        }
       }
     }
   }

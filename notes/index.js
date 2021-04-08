@@ -32,6 +32,11 @@ function navigationNewPassage ()
       var container = $ ("#noteslist");
       container.empty ();
       container.append (response);
+      if (window.self !== window.top) {
+        document.querySelectorAll('a').forEach((element) => {
+          element.href = topbarRemovalQueryAddition (element.href);
+        })
+      }
     },
   });
 }

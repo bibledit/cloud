@@ -157,17 +157,8 @@ string notes_notes (void * webserver_request)
       content = database_notes.get_contents (identifier);
     }
 
-    // If the page contains the topbar suppressing query,
-    // add the same query to each new note's link.
-    string topbar_suppresion_query = "topbar";
-    if (request->query.count (topbar_suppresion_query)) {
-      topbar_suppresion_query = "&topbar=0";
-    } else {
-      topbar_suppresion_query = "";
-    }
-
     notesblock.append ("<a name=\"note" + convert_to_string (identifier) + "\"></a>\n");
-    notesblock.append ("<p><a href=\"note?id=" + convert_to_string (identifier) + topbar_suppresion_query + "\">" + summary + "</a></p>\n");
+    notesblock.append ("<p><a href=\"note?id=" + convert_to_string (identifier) + "\">" + summary + "</a></p>\n");
     if (!verse_text.empty ()) notesblock.append ("<p>" + verse_text + "</p>\n");
     if (!content.empty ()) notesblock.append ("<p>" + content + "</p>\n");
   }

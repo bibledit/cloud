@@ -151,13 +151,10 @@ void redirect_browser (void * webserver_request, string path)
 
   // If the page contains the topbar suppressing query,
   // the same query will be appended on the URL of the redirected page.
-  if ((request->query.count ("topbar") || request->post.count ("topbar")) &&
-  location.find ("topbar") == string::npos) {
-    if (location.find ("?") == string::npos) {
-      location.append ("?topbar=0");
-    } else {
-      location.append ("&topbar=0");
-    }
+  if (request->query.count ("topbar") || request->post.count ("topbar")) {
+    string new_location = filter_url_build_http_query (location, "topbar", "0");
+    location.clear ();
+    location.append (new_location);
   }
 
   request->header = "Location: " + location;

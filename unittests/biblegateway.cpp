@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/logic.h>
 
 
-void test_biblegateway () // Todo
+void test_biblegateway ()
 {
   trace_unit_tests (__func__);
   

@@ -15,6 +15,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+function topbarRemovalQueryAddition (elementsAttribute) {
+  if (elementsAttribute === "") {
+    return elementsAttribute;
+  } else if (/topbar/.test(elementsAttribute) === false) {
+    if (/\?/.test(elementsAttribute)) {
+      return elementsAttribute + "&topbar=0";
+    } else if (/\?/.test(elementsAttribute) === false &&
+    /topbar/.test(elementsAttribute) === false) {
+      return elementsAttribute + "?topbar=0";
+    }
+  }
+}
 let counterForBreadcrumbContainerDisplay = 0;
 $ (document).ready (function () {
   if (window.self === window.top) {
@@ -37,26 +49,14 @@ $ (document).ready (function () {
     // and is to be removed here within the iframe.
     // (1) By adding the query to each anchor element's href
     // attribute and form element's action attribute.
+    // The function is declared outside $ (document).ready
+    // so that it can be called from other JavaScript files.
     // (2) By emptying the actual topbar.
     document.querySelectorAll('a').forEach((element) => {
-      if (/topbar/.test(element.href) === false) {
-        if (/\?/.test(element.href)) {
-          element.href = element.href + "&topbar=0";
-        } else if (/\?/.test(element.href) === false &&
-        /topbar/.test(element.href) === false) {
-          element.href = element.href + "?topbar=0";
-        }
-      }
+      element.href = topbarRemovalQueryAddition (element.href);
     })
     document.querySelectorAll('form').forEach((element) => {
-      if (/topbar/.test(element.action) === false) {
-        if (/\?/.test(element.action)) {
-          element.action = element.action + "&topbar=0";
-        } else if (/\?/.test(element.action) === false &&
-        /topbar/.test(element.action) === false) {
-          element.action = element.action + "?topbar=0";
-        }
-      }
+      element.action = topbarRemovalQueryAddition (element.action);
     })
     $ ('#topbar').empty ();
   };

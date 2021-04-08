@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 21fefc602783aa4ba863a4a6c29d38d788ce04ad)\n"
+"X-Generator: Launchpad (build 57f1f603f707b9cfa764cae8dd0f3999026b4763)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -4096,7 +4096,15 @@ msgstr ""
 msgid "Cache"
 msgstr ""
 
-msgid "Clear the web cache and the resources cache."
+msgid "Clear the web cache and the resources cache now."
+msgstr ""
+
+msgid "Keep the resources cache for an extended period of time."
+msgstr ""
+
+msgid ""
+"This makes the second and subsequent resources downloads by Bibledit clients "
+"much faster."
 msgstr ""
 
 msgid "Queued emails"
@@ -4445,13 +4453,13 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+msgid "Days"
+msgstr ""
+
 msgid "Role"
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "Privileges"
 msgstr ""
 
 msgid "This lists several user accounts and their properties."
@@ -4656,6 +4664,9 @@ msgid "Visit the Bible Drop Box for more options."
 msgstr ""
 
 msgid "There are more export formats through the BibleMultiConverter."
+msgstr ""
+
+msgid "Privileges"
 msgstr ""
 
 msgid ""
@@ -11354,7 +11365,7 @@ msgstr ""
 msgid "Conversion completed"
 msgstr ""
 
-msgid "Select a resource to be used as a base resource."
+msgid "Select a resource to be used as a base resource"
 msgstr ""
 
 msgid "The base resource is used as a starting point for the comparison."
@@ -11572,6 +11583,94 @@ msgid ""
 "I, John, your brother and companion in the persecution, and in the kingdom "
 "and endurance of Jesus Christ, was in the island which is called Patmos, "
 "because of the word of God, and because of the testimony of Jesus Christ."
+msgstr ""
+
+msgid "Who is the first person to acknowledge Jesus as the Christ?"
+msgstr ""
+
+msgid "Simeon"
+msgstr ""
+
+msgid ""
+"And, behold, there was a man in Jerusalem, whose name was Simeon; and the "
+"same man was just and devout, waiting for the consolation of Israel: and the "
+"Holy Ghost was upon him. And it was revealed unto him by the Holy Ghost, "
+"that he should not see death, before he had seen the Lord's Christ."
+msgstr ""
+
+msgid "To whom was the Acts Of Apostles written?"
+msgstr ""
+
+msgid "Theophilus"
+msgstr ""
+
+msgid ""
+"The former treatise have I made, O Theophilus, of all that Jesus began both "
+"to do and teach,"
+msgstr ""
+
+msgid "Where did Jesus met the woman of Samaria?"
+msgstr ""
+
+msgid "Jacob's well"
+msgstr ""
+
+msgid ""
+"Then cometh he to a city of Samaria, which is called Sychar, near to the "
+"parcel of ground that Jacob gave to his son Joseph. Now Jacob's well was "
+"there. Jesus therefore, being wearied with his journey, sat thus on the "
+"well: and it was about the sixth hour. There cometh a woman of Samaria to "
+"draw water: Jesus saith unto her, Give me to drink."
+msgstr ""
+
+msgid "Who was the father of Abraham?"
+msgstr ""
+
+msgid "Terah"
+msgstr ""
+
+msgid "And Terah took Abram his son,"
+msgstr ""
+
+msgid "Who was the son of Cush, the mighty hunter before the LORD?"
+msgstr ""
+
+msgid "Nimrod"
+msgstr ""
+
+msgid ""
+"And Cush begat Nimrod: he began to be a mighty one in the earth. He was a "
+"mighty hunter before the Lord: wherefore it is said, Even as Nimrod the "
+"mighty hunter before the Lord."
+msgstr ""
+
+msgid "What is the name of Job's friend that answered him first?"
+msgstr ""
+
+msgid "Eliphaz"
+msgstr ""
+
+msgid "Then Eliphaz the Temanite answered and said,"
+msgstr ""
+
+msgid "What is the name of Ruth's husband?"
+msgstr ""
+
+msgid "Boaz"
+msgstr ""
+
+msgid ""
+"So Boaz took Ruth, and she was his wife: and when he went in unto her, the "
+"Lord gave her conception, and she bare a son."
+msgstr ""
+
+msgid "Who taught Lemuel Proverbs chapter 31?"
+msgstr ""
+
+msgid "Lemuel's mother"
+msgstr ""
+
+msgid "The words of king Lemuel, the prophecy that his mother taught him."
 msgstr ""
 
 msgid "Username should be at least four characters long"

@@ -32,8 +32,12 @@ $(document).ready (function () {
   // The following if condition will add a query to supress the topbar
   // when this page is loaded as a workspace item.
   if (window.self !== window.top) {
-    return arrayOfAdditionalAddresses = ['?topbar=0','&topbar=0'];
+    arrayOfAdditionalAddresses = ['?topbar=0','&topbar=0'];
   }
+  // Upon creating a note, focus the summary line.
+  if ($("#summary").length) $("#summary").focus();
+  // Upon adding a comment to a note, focus the text area.
+  else $(".ql-editor").focus();
 });
 
 function noteLoadQuill ()

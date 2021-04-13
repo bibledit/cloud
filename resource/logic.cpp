@@ -1182,7 +1182,8 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           // Remove the #.
           footnote_id.erase (0, 1);
           // XPath selector.
-          string selector = "//li[@id='" + footnote_id + "']";
+          // <li id="fen-TLB-20531a"><a href="#en-TLB-20531" title="Go to Matthew 1:17">Matthew 1:17</a> <span class='footnote-text'><i>These are fourteen,</i> literally, “So all the generations from Abraham unto David are fourteen.”</span></li>
+          string selector = "//li[@id='" + footnote_id + "']/span[@class='footnote-text']";
           xpath_node xpath = document.select_node(selector.c_str());
           if (xpath) {
             stringstream ss;

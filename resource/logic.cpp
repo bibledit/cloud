@@ -1168,6 +1168,19 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         string verse_s = convert_to_string (verse);
         xml_document document;
         document.load_string (html.c_str());
+//        cout << html.substr (0, 1000) << endl; // Todo
+        
+        // There can be cross references in the html.
+        // These result in e.g. "A" or "B" scattered through the final text.
+        // So remove these.
+        // Sample cross reference XML:
+        // <sup class='crossreference' data-cr='#cen-NASB-30388A'  data-link='(&lt;a href=&quot;#cen-NASB-30388A&quot; title=&quot;See cross-reference A&quot;&gt;A&lt;/a&gt;)'>(<a href="#cen-NASB-30388A" title="See cross-reference A">A</a>)</sup>
+        {
+          string selector = "//sup[@class='crossreference']";
+          xpath_node_set nodeset = document.select_nodes(selector.c_str());
+          for (auto xrefnode: nodeset) xrefnode.node().parent().remove_child(xrefnode.node());
+        }
+        // Start parsing for actual text.
         xml_node passage_text_node = document.first_child ();
         xml_node passage_wrap_node = passage_text_node.first_child ();
         xml_node passage_content_node = passage_wrap_node.first_child ();

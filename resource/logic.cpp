@@ -1168,8 +1168,6 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         string verse_s = convert_to_string (verse);
         xml_document document;
         document.load_string (html.c_str());
-//        cout << html.substr (0, 1000) << endl; // Todo
-        
         // There can be cross references in the html.
         // These result in e.g. "A" or "B" scattered through the final text.
         // So remove these.

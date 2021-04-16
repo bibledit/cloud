@@ -523,7 +523,7 @@ string Navigation_Passage::getKeyboardNavigator (void * webserver_request, strin
 }
 
 
-void Navigation_Passage::interpretKeyboardNavigator (void * webserver_request, string bible, string passage) // Todo
+void Navigation_Passage::interpretKeyboardNavigator (void * webserver_request, string bible, string passage)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

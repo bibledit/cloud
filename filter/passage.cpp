@@ -161,7 +161,7 @@ Passage filter_integer_to_passage (int integer)
 // This filter takes $books as a string,
 // and looks whether it can be interpreted as a valid book in any way.
 // It returns a valid book identifier, or 0 in case no book could be interpreted.
-int filter_passage_interpret_book (string book) // Todo
+int filter_passage_interpret_book (string book)
 {
   book = filter_string_trim (book);
   int identifier = 0;
@@ -278,7 +278,7 @@ string filter_passage_clean_passage (string text)
 // Takes the passage in $text, and explodes it into book, chapter, verse.
 // The book is the numerical identifier, not the string, e.g.,
 // it would not return "Genesis", but identifier 1.
-Passage filter_passage_explode_passage (string text) // Todo
+Passage filter_passage_explode_passage (string text)
 {
   text = filter_passage_clean_passage (text);
   // Cut the text in its parts.
@@ -315,7 +315,7 @@ Passage filter_passage_explode_passage (string text) // Todo
 // - Book and two numbers given, e.g. "Song of Solomon 2 3".
 // It deals with these situations.
 // If needed, it bases the interpreted passage on $currentPassage.
-Passage filter_passage_interpret_passage (Passage currentPassage, string rawPassage) // Todo
+Passage filter_passage_interpret_passage (Passage currentPassage, string rawPassage)
 {
   rawPassage = filter_passage_clean_passage (rawPassage);
 
@@ -341,7 +341,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
 
   // Deal with: Only book given, e.g. "Genesis".
   if ((book != "") && (numerals.size () == 0)) {
-    return filter_passage_explode_passage (book + " 1 1"); // Todo check this one.
+    return filter_passage_explode_passage (book + " 1 1");
   }
 
   // Deal with: One number given, e.g. "10".

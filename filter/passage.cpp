@@ -161,7 +161,7 @@ Passage filter_integer_to_passage (int integer)
 // This filter takes $books as a string,
 // and looks whether it can be interpreted as a valid book in any way.
 // It returns a valid book identifier, or 0 in case no book could be interpreted.
-int filter_passage_interpret_book (string book)
+int filter_passage_interpret_book (string book) // Todo
 {
   book = filter_string_trim (book);
   int identifier = 0;
@@ -172,12 +172,30 @@ int filter_passage_interpret_book (string book)
   book = filter_string_str_replace ("II ", "2 ", book);
   book = filter_string_str_replace ("I ", "1 ", book);
 
+  // Do case folding, i.e., work with lower case only.
+  book = unicode_string_casefold (book);
+
+  // Remove any spaces from the book name and try with that too.
+  string nospacebook = filter_string_str_replace (" ", "", book);
+
+  // Store all of the available IDs locally.
+  vector <int> bookids = Database_Books::getIDs ();
+  
   // Check on names entered like "Genesis" or "1 Corinthians", the full English name.
-  // A bug was discovered so that "Judges" was interpreted as "Jude", because
-  // of the three letters "Jud". Solved by checking on full English name first.
-  identifier = Database_Books::getIdFromEnglish (book);
-  if (identifier) {
-    return identifier;
+  // A bug was discovered so that "Judges" was interpreted as "Jude",
+  // because of the three letters "Jud".
+  // Solved by checking on full English name first.
+  // In general, do exact matching first before moving on to similarity matching.
+  // Compare with the translation to Bibledit's language too.
+  for (auto identifier : bookids) {
+    string english = Database_Books::getEnglishFromId(identifier);
+    if (english.empty()) continue;
+    if (book == unicode_string_casefold(english)) return identifier;
+    if (nospacebook == unicode_string_casefold(english)) return identifier;
+    string localized = translate(english);
+    if (localized.empty()) continue;
+    if (book == unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == unicode_string_casefold(localized)) return identifier;
   }
 
   // Recognise the USFM book abbreviations.
@@ -185,12 +203,28 @@ int filter_passage_interpret_book (string book)
   if (identifier) return identifier;
 
   // Try the OSIS abbreviations.
-  identifier = Database_Books::getIdFromOsis (book);
-  if (identifier) return identifier;
-
+  for (auto identifier : bookids) {
+    string osis = Database_Books::getOsisFromId(identifier);
+    if (osis.empty()) continue;
+    if (book == unicode_string_casefold(osis)) return identifier;
+    if (nospacebook == unicode_string_casefold(osis)) return identifier;
+    string localized = translate(osis);
+    if (localized.empty()) continue;
+    if (book == unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+  }
+  
   // Try the abbreviations of BibleWorks.
-  identifier = Database_Books::getIdFromBibleworks (book);
-  if (identifier) return identifier;
+  for (auto identifier : bookids) {
+    string bibleworks = Database_Books::getBibleworksFromId(identifier);
+    if (bibleworks.empty()) continue;
+    if (book == unicode_string_casefold(bibleworks)) return identifier;
+    if (nospacebook == unicode_string_casefold(bibleworks)) return identifier;
+    string localized = translate(bibleworks);
+    if (localized.empty()) continue;
+    if (book == unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+  }
 
   // Handle names from BibleWorks when copying the verse list to the clipboard.
   // These are not handled elsewhere.
@@ -203,28 +237,21 @@ int filter_passage_interpret_book (string book)
   if (book == "3 Jn") return 64;
 
   // Try the abbreviations of the Online Bible.
-  identifier = Database_Books::getIdFromOnlinebible (book);
-  if (identifier) return identifier;
+  for (auto identifier : bookids) {
+    string onlinebible = Database_Books::getOnlinebibleFromId(identifier);
+    if (onlinebible.empty()) continue;
+    if (book == unicode_string_casefold(onlinebible)) return identifier;
+    if (nospacebook == unicode_string_casefold(onlinebible)) return identifier;
+    string localized = translate(onlinebible);
+    if (localized.empty()) continue;
+    if (book == unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+  }
 
   // Do a case-insensitive search in the books database for something like the book given.
   identifier = Database_Books::getIdLikeText (book);
   if (identifier) return identifier;
   
-  // Remove any spaces from the book name, and try again.
-  book = filter_string_str_replace (" ", "", book);
-  identifier = Database_Books::getIdFromOsis (book);
-  if (identifier) return identifier;
-  identifier = Database_Books::getIdFromBibleworks (book);
-  if (identifier) return identifier;
-  identifier = Database_Books::getIdFromOnlinebible (book);
-  if (identifier) return identifier;
-  identifier = Database_Books::getIdLikeText (book);
-  if (identifier) return identifier;
-  
-  // Last effort to find a book.
-  identifier = Database_Books::getIdLastEffort (book);
-  if (identifier) return identifier;
-
   // Sorry, no book found.
   return 0;
 }
@@ -251,7 +278,7 @@ string filter_passage_clean_passage (string text)
 // Takes the passage in $text, and explodes it into book, chapter, verse.
 // The book is the numerical identifier, not the string, e.g.,
 // it would not return "Genesis", but identifier 1.
-Passage filter_passage_explode_passage (string text)
+Passage filter_passage_explode_passage (string text) // Todo
 {
   text = filter_passage_clean_passage (text);
   // Cut the text in its parts.
@@ -288,7 +315,7 @@ Passage filter_passage_explode_passage (string text)
 // - Book and two numbers given, e.g. "Song of Solomon 2 3".
 // It deals with these situations.
 // If needed, it bases the interpreted passage on $currentPassage.
-Passage filter_passage_interpret_passage (Passage currentPassage, string rawPassage)
+Passage filter_passage_interpret_passage (Passage currentPassage, string rawPassage) // Todo
 {
   rawPassage = filter_passage_clean_passage (rawPassage);
 
@@ -314,7 +341,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
 
   // Deal with: Only book given, e.g. "Genesis".
   if ((book != "") && (numerals.size () == 0)) {
-    return filter_passage_explode_passage (book + " 1 1");
+    return filter_passage_explode_passage (book + " 1 1"); // Todo check this one.
   }
 
   // Deal with: One number given, e.g. "10".

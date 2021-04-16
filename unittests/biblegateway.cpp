@@ -33,14 +33,14 @@ void test_biblegateway ()
   resource = "Библия, ревизирано издание (BPB)";
   book = 1; // Genesis.
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "В началото Бог сътвори небето и земята.", text);
+  evaluate (__LINE__, __func__, "НАЧАЛО НА СВЕТА И ЧОВЕЧЕСТВОТОСътворението 1 В началото Бог сътвори небето и земята.", text);
 
   resource = "21st Century King James Version (KJ21)";
   book = 34; // Nahum.
   text = resource_logic_bible_gateway_get (resource, book, 1, 0);
   evaluate (__LINE__, __func__, "", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "The burden of Nineveh. The book of the vision of Nahum the Elkoshite.", text);
+  evaluate (__LINE__, __func__, "1 The burden of Nineveh. The book of the vision of Nahum the Elkoshite.", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 15);
   evaluate (__LINE__, __func__, "Behold upon the mountains the feet of Him that bringeth good tidings, that publisheth peace! O Judah, keep thy solemn feasts, perform thy vows; for the wicked shall no more pass through thee; he is utterly cut off.", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 16);
@@ -61,9 +61,9 @@ void test_biblegateway ()
   text = resource_logic_bible_gateway_get (resource, book, 1, 0);
   evaluate (__LINE__, __func__, "", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 1);
-  evaluate (__LINE__, __func__, "This is the ·message [oracle; burden] for the city of Nineveh [C the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [L the Elkoshite; C of uncertain location].", text);
+  evaluate (__LINE__, __func__, "1 This is the ·message [oracle; burden] for the city of Nineveh [C the capital of the Assyrian empire]. This is the book of the vision of Nahum, ·who was from the town of Elkosh [L the Elkoshite; C of uncertain location].", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 2);
-  evaluate (__LINE__, __func__, "The Lord is a ·jealous [zealous] God [Ex. 20:5; 34:14; Deut. 4:24; 5:9; Josh. 24:19] who ·punishes [avenges]; the Lord ·punishes [avenges] and is filled with ·anger [wrath]. The Lord ·punishes [takes vengeance on] ·those who are against him [his adversaries/enemies], and he ·stays angry with [or vents his wrath against] his enemies.", text);
+  evaluate (__LINE__, __func__, "The Lord Is Angry with Nineveh The Lord is a ·jealous [zealous] God [Ex. 20:5; 34:14; Deut. 4:24; 5:9; Josh. 24:19] who ·punishes [avenges]; the Lord ·punishes [avenges] and is filled with ·anger [wrath]. The Lord ·punishes [takes vengeance on] ·those who are against him [his adversaries/enemies], and he ·stays angry with [or vents his wrath against] his enemies.", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 11);
   evaluate (__LINE__, __func__, "Someone has come from ·Nineveh [L you] who ·makes evil plans [plots evil] against the Lord and gives wicked ·advice [counsel; strategy].", text);
   text = resource_logic_bible_gateway_get (resource, book, 1, 12);
@@ -82,11 +82,17 @@ void test_biblegateway ()
   resource = "New American Standard Bible (NASB)";
   book = 60; // 1 Peter.
   text = resource_logic_bible_gateway_get (resource, book, 2, 5);
-  evaluate (__LINE__, __func__, "you also, as living stones, [j]are being built up as a spiritual house for a holy priesthood, to offer spiritual sacrifices that are acceptable to God through Jesus Christ.<br>Note: Or allow yourselves to be built up; or build yourselves up", text);
+  evaluate (__LINE__, __func__, "you also, as living stones, [a]are being built up as a spiritual house for a holy priesthood, to offer spiritual sacrifices that are acceptable to God through Jesus Christ.<br>Note: Or allow yourselves to be built up; or build yourselves up", text);
 
   resource = "English Standard Version (ESV)";
   book = 60; // 1 Peter.
   text = resource_logic_bible_gateway_get (resource, book, 3, 7);
   evaluate (__LINE__, __func__, "Likewise, husbands, live with your wives in an understanding way, showing honor to the woman as the weaker vessel, since they are heirs with you[a] of the grace of life, so that your prayers may not be hindered.<br>Note: Some manuscripts since you are joint heirs", text);
+
+  // Test poetry in verses.
+  resource = "New American Standard Bible (NASB)";
+  book = 54; // 1 Timothy.
+  text = resource_logic_bible_gateway_get (resource, book, 3, 16);
+  evaluate (__LINE__, __func__, "Beyond question, great is the mystery of godliness: He who was revealed in the flesh, Was [a]vindicated [b]in the Spirit, Seen by angels, Proclaimed among the nations, Believed on in the world, Taken up in glory.<br>Note: Or justified<br>Note: Or by", text);
 
 }

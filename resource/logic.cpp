@@ -1060,65 +1060,45 @@ string resource_external_convert_book_studylight (int book)
 
 struct bible_gateway_walker: xml_tree_walker
 {
-  string verse;
   bool skip_next_text = false;
-  bool within_verse = false;
+  bool parsing = true;
   string text;
   vector <string> footnotes;
 
   virtual bool for_each (xml_node& node)
   {
     // Details of the current node.
-    string clas = node.attribute ("class").value ();
-    string name = node.name ();
+    string classname = node.attribute ("class").value ();
+    string nodename = node.name ();
 
-    // Don't include this node's text content.
-    if (skip_next_text) {
-      skip_next_text = false;
-      return true;
-    }
-    
-    // The chapter number signals verse 1.
-    if (clas == "chapternum") {
-      skip_next_text = true;
-      if (verse == "1") within_verse = true;
+    // At the end of the verse, there's this:
+    // Read full chapter.
+    if (classname == "full-chap-link") {
+      parsing = false;
       return true;
     }
 
-    // The verse number to know where the parser is.
-    if (clas == "versenum") {
+    // Do not include the verse number with the Bible text.
+    if (classname == "versenum") {
       skip_next_text = true;
-      string versenum = filter_string_trim (any_space_to_standard_space (node.text ().get ()));
-      vector <int> verses;
-      if (usfm_handle_verse_range (versenum, verses)) {
-        int iverse = convert_to_int (verse);
-        within_verse = in_array (iverse, verses);
-      } else {
-        within_verse = (versenum == verse);
-      }
       return true;
     }
-    
-    // This really signals the parser is at the end of the chapter.
-    if ((name == "div") || (name == "h3")) {
-      within_verse = false;
-      return true;
-    }
-    
-    if (name == "br") {
-      if (within_verse) {
-        text.append (" ");
-      }
-    }
+
+    // Add spaces instead of new lines.
+    if (nodename == "p") if (parsing) text.append (" ");
+    if (nodename == "br") if (parsing) text.append (" ");
 
     // Include node's text content.
-    if (within_verse) {
-      text.append (node.value ());
+    if (parsing) {
+      if (!skip_next_text) {
+        text.append (node.value ());
+      }
+      skip_next_text = false;
     }
     
     // Fetch the foonote(s) relevant to this verse.
     // <sup data-fn='#fen-TLB-20531a' class='footnote' data-link=......
-    if (within_verse && (clas == "footnote")) {
+    if (parsing && (classname == "footnote")) {
       string data_fn = node.attribute ("data-fn").value ();
       footnotes.push_back(data_fn);
     }
@@ -1144,7 +1124,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
       resource.erase (pos);
       // Assemble the URL to fetch the chapter.
       string bookname = resource_logic_bible_gateway_book (book);
-      string url = "https://www.biblegateway.com/passage/?search=" + bookname + "+" + convert_to_string (chapter) + "&version=" + resource;
+      string url = "https://www.biblegateway.com/passage/?search=" + bookname + "+" + convert_to_string (chapter) + ":" + convert_to_string(verse) + "&version=" + resource;
       // Fetch the html.
       string error;
       string html = resource_logic_web_or_cache_get (url, error);
@@ -1183,7 +1163,6 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         xml_node passage_wrap_node = passage_text_node.first_child ();
         xml_node passage_content_node = passage_wrap_node.first_child ();
         bible_gateway_walker walker;
-        walker.verse = convert_to_string (verse);
         passage_content_node.traverse (walker);
         result.append (walker.text);
         // Adding text of the footnote(s) if any.

@@ -263,6 +263,11 @@
 /flate
 /fonts
 /fonts/Cardo-Regular.ttf
+/fonts/Esteban-License(OFL).txt
+/fonts/Esteban-Regular.ttf
+/fonts/Montserrat-License(OFL).txt
+/fonts/Montserrat-Light.ttf
+/fonts/Montserrat-Regular.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
 /generate
@@ -825,6 +830,7 @@
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py
+/unittests/scripts/geckodriver.log
 /unittests/stress
 /unittests/tests
 /unittests/tests/01GEN-0.SFM
@@ -903,7 +909,7 @@
 /unittests/tests/emails/farmerandstork.txt
 /unittests/tests/emails/greenball.png
 /unittests/tests/emails/hareandtoroise.txt
-/unittests/tests/emails/HasenundFrîsche.txt
+/unittests/tests/emails/HasenundFrîsche.txt
 /unittests/tests/emails/m0001.msg
 /unittests/tests/emails/m0001.msg.txt
 /unittests/tests/emails/m0002.msg

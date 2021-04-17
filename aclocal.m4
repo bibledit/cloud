@@ -14,8 +14,8 @@
 m4_ifndef([AC_CONFIG_MACRO_DIRS], [m4_defun([_AM_CONFIG_MACRO_DIRS], [])m4_defun([AC_CONFIG_MACRO_DIRS], [_AM_CONFIG_MACRO_DIRS($@)])])
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
-m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.69],,
-[m4_warning([this file was generated for autoconf 2.69.
+m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.71],,
+[m4_warning([this file was generated for autoconf 2.71.
 You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
@@ -38,7 +38,7 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #   The second argument, if specified, indicates whether you insist on an
 #   extended mode (e.g. -std=gnu++11) or a strict conformance mode (e.g.
 #   -std=c++11).  If neither is specified, you get whatever works, with
-#   preference for an extended mode.
+#   preference for no added switch, and then for an extended mode.
 #
 #   The third argument, if specified 'mandatory' or if left unspecified,
 #   indicates that baseline support for the specified C++ standard is
@@ -56,13 +56,15 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #   Copyright (c) 2015 Paul Norman <penorman@mac.com>
 #   Copyright (c) 2015 Moritz Klammler <moritz@klammler.eu>
 #   Copyright (c) 2016, 2018 Krzesimir Nowak <qdlacz@gmail.com>
+#   Copyright (c) 2019 Enji Cooper <yaneurabeya@gmail.com>
+#   Copyright (c) 2020 Jason Merrill <jason@redhat.com>
 #
 #   Copying and distribution of this file, with or without modification, are
 #   permitted in any medium without royalty provided the copyright notice
 #   and this notice are preserved.  This file is offered as-is, without any
 #   warranty.
 
-#serial 10
+#serial 12
 
 dnl  This macro is based on the code from the AX_CXX_COMPILE_STDCXX_11 macro
 dnl  (serial version number 13).
@@ -82,6 +84,16 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
         [m4_fatal([invalid third argument `$3' to AX_CXX_COMPILE_STDCXX])])
   AC_LANG_PUSH([C++])dnl
   ac_success=no
+
+  m4_if([$2], [], [dnl
+    AC_CACHE_CHECK(whether $CXX supports C++$1 features by default,
+		   ax_cv_cxx_compile_cxx$1,
+      [AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+        [ax_cv_cxx_compile_cxx$1=yes],
+        [ax_cv_cxx_compile_cxx$1=no])])
+    if test x$ax_cv_cxx_compile_cxx$1 = xyes; then
+      ac_success=yes
+    fi])
 
   m4_if([$2], [noext], [], [dnl
   if test x$ac_success = xno; then
@@ -211,11 +223,13 @@ namespace cxx11
 
     struct Base
     {
+      virtual ~Base() {}
       virtual void f() {}
     };
 
     struct Derived : public Base
     {
+      virtual ~Derived() override {}
       virtual void f() override {}
     };
 

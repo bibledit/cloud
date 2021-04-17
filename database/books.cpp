@@ -140,17 +140,17 @@ int Database_Books::getIdLikeText (string text)
   for (unsigned int i = 0; i < data_count(); i++) {
     int id = books_table[i].id;
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, books_table[i].english));
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, books_table[i].osis));
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].osis)));
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, books_table[i].usfm));
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, books_table[i].bibleworks));
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].bibleworks)));
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, books_table[i].onlinebible));
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].onlinebible)));
   }
-  quick_sort (similarities, ids, 0, ids.size());
+  quick_sort (similarities, ids, 0, (int)ids.size());
   return ids.back ();
 }
 
@@ -174,31 +174,6 @@ string Database_Books::getOnlinebibleFromId (int id)
     }
   }
   return "";
-}
-
-
-int Database_Books::getIdLastEffort (string text)
-{
-  // Remove all spaces.
-  text = filter_string_str_replace (" ", "", text);
-  text = unicode_string_casefold (text);
-  // Length.
-  int length = text.length ();
-  // Go through all book data, convert everything to lower case, and remove all spaces, and compare only "length" characters.
-  for (unsigned int i = 0; i < data_count(); i++) {
-    string book;
-    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].english));
-    if (text == book.substr (0, length)) return books_table[i].id;
-    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].osis));
-    if (text == book.substr (0, length)) return books_table[i].id;
-    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].usfm));
-    if (text == book.substr (0, length)) return books_table[i].id;
-    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].bibleworks));
-    if (text == book.substr (0, length)) return books_table[i].id;
-    book = unicode_string_casefold (filter_string_str_replace (" ", "", books_table[i].onlinebible));
-    if (text == book.substr (0, length)) return books_table[i].id;
-  }
-  return 0;
 }
 
 

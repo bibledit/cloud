@@ -788,6 +788,7 @@ function editorShowResponse (response)
   $ ("#nostyles").hide ();
   var area = $ ("#stylesarea");
   area.empty ();
+  area.addClass ('style-of-stylesarea');
   area.append (response);
 }
 
@@ -795,6 +796,7 @@ function editorShowResponse (response)
 function editorClearStyles ()
 {
   var area = $ ("#stylesarea");
+  area.removeClass ('style-of-stylesarea');
   area.empty ();
   $ ("#stylebutton").show ();
   $ ("#nostyles").show ();

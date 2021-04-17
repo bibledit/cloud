@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <assets/header.h>
+#include <filter/css.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <config/globals.h>
@@ -286,7 +287,15 @@ string Assets_Header::run ()
   if (!embedded_css.empty ()) {
     view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
   }
-  
+
+  int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
+  // Add the theme color css class selector name on the body element,..
+  view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
+  // ..workspacewrapper div element..
+  view->set_variable ("workspace_theme_color", Filter_Css::theme_picker (current_theme_index, 4));
+  // ..and as a variable for JavaScript.
+  view->set_variable ("themecolorfortabs", Filter_Css::theme_picker (current_theme_index, 1));
+
   if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
     if (!breadcrumbs.empty ()) {
       // No bread crumbs in basic mode.
@@ -315,13 +324,6 @@ string Assets_Header::run ()
       }
     }
   }
-
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-  view->enable_zone("default");
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-  view->enable_zone("indonesian");
-#endif
 
   page += view->render("assets", "xhtml_start");
   page += view->render("assets", "header");

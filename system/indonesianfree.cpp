@@ -104,7 +104,15 @@ string system_indonesianfree (void * webserver_request)
     }
   }
 
+
+  // Set the user chosen theme as the current theme.
+  if (request->post.count ("themepicker")) {
+    int themepicker = convert_to_int (request->post ["themepicker"]);
+    request->database_config_user ()->setCurrentTheme(themepicker);
+    return "";
+  }
   
+
   // The header: The language has been set already.
   Assets_Header header = Assets_Header (translate("System"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
@@ -205,6 +213,16 @@ string system_indonesianfree (void * webserver_request)
     }
   }
   view.set_variable ("fontsizegreek", convert_to_string (request->database_config_user ()->getGreekFontSize ()));
+
+
+  // Set the chosen theme on the option HTML tag.
+  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
+  view.set_variable ("themepicker", convert_to_string(current_theme_index));
+  switch (current_theme_index) {
+    case 0: view.set_variable ("themepickerindex0", "selected"); break;
+    case 1: view.set_variable ("themepickerindex1", "selected"); break;
+    case 2: view.set_variable ("themepickerindex2", "selected"); break;
+  }
 
   
   // Set the language on the page.

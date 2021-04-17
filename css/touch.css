@@ -16,8 +16,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+@font-face {
+  font-family: "Montserrat Regular";
+  src: url(/fonts/Montserrat-Regular.ttf);
+}
 body {
-  font-family: sans-serif;
+  font-family: "Montserrat Regular", sans-serif;
 }
 .button {
   margin-top: 0.5em;
@@ -29,7 +33,6 @@ body {
   padding-bottom: 0.7em;
   padding-left: 1em;
   width: 50vw;
-  border-style: solid;
   text-align: center;
   text-decoration: none!important;
   font-weight: 700;

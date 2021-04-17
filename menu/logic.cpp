@@ -189,29 +189,31 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   }
 
   string menutooltip;
+  int current_theme_index[2] = {convert_to_int (request->database_config_user ()->getCurrentTheme ()), 1};
+  string color = Filter_Css::theme_picker (current_theme_index[0], current_theme_index[1]);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false, menutooltip, ""));
+    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false, menutooltip, color));
     tooltipbits.push_back (menu_logic_translate_text ());
   }
   
   if (!menu_logic_search_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false, menutooltip, ""));
+    html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false, menutooltip, color));
     tooltipbits.push_back (menu_logic_search_text ());
   }
 
   if (!menu_logic_tools_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false, menutooltip, ""));
+    html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false, menutooltip, color));
     tooltipbits.push_back (menu_logic_tools_text ());
   }
 
   if (!menu_logic_settings_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false, menutooltip, ""));
+    html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false, menutooltip, color));
     tooltipbits.push_back (menu_logic_settings_text ());
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true, menu_logic_help_text (), ""));
+    html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true, menu_logic_help_text (), color));
     tooltipbits.push_back (menu_logic_help_text ());
   }
 
@@ -271,49 +273,37 @@ string menu_logic_basic_categories (void * webserver_request)
 
   vector <string> html;
 
-  // For the Indonesian free Cloud, threre are special requested colours for the menu items in basic mode.
-  string color;
+  int current_theme_index[2] = {convert_to_int (request->database_config_user ()->getCurrentTheme ()), 1};
+  string color = Filter_Css::theme_picker (current_theme_index[0], current_theme_index[1]);
 
-#ifdef HAVE_INDONESIANCLOUDFREE
-  color = Filter_Css::distinction_set_2 (0);
-#endif
   if (read_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
   }
 
-#ifdef HAVE_INDONESIANCLOUDFREE
-  color = Filter_Css::distinction_set_2 (1);
-#endif
   if (resource_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true, "", color));
   }
 
-#ifdef HAVE_INDONESIANCLOUDFREE
-  color = Filter_Css::distinction_set_2 (2);
-#endif
   if (editone2_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (editone2_index_url (), menu_logic_translate_text (), true, "", color));
   }
   
   if (changes_changes_acl (webserver_request)) {
     if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
-      html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", ""));
+      html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", color));
     }
   }
 
-#ifdef HAVE_INDONESIANCLOUDFREE
-  color = Filter_Css::distinction_set_2 (3);
-#endif
   if (notes_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true, "", color));
   }
   
   if (personalize_index_acl (webserver_request)) {
 #ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", ""));
+    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
 #endif
 #ifdef HAVE_INDONESIANCLOUDFREE
-    html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true, "", Filter_Css::distinction_set_2 (4)));
+    html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true, "", color));
 #endif
   }
 

@@ -74,6 +74,14 @@ string personalize_index (void * webserver_request)
   }
   
 
+  // Set the user chosen theme as the current theme.
+  if (request->post.count ("themepicker")) {
+    int themepicker = convert_to_int (request->post ["themepicker"]);
+    request->database_config_user ()->setCurrentTheme(themepicker);
+    return "";
+  }
+
+  
   // Breadcrumbs: Before displaying the page, so the page does the correct thing with the bread crumbs.
   if (request->query.count ("breadcrumbs")) {
     bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
@@ -267,6 +275,16 @@ string personalize_index (void * webserver_request)
   // Whether to display bread crumbs.
   string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
   view.set_variable ("breadcrumbs", on_off);
+
+  
+  // Set the chosen theme on the option HTML tag.
+  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
+  view.set_variable ("themepicker", convert_to_string(current_theme_index));
+  switch (current_theme_index) {
+    case 0: view.set_variable ("themepickerindex0", "selected"); break;
+    case 1: view.set_variable ("themepickerindex1", "selected"); break;
+    case 2: view.set_variable ("themepickerindex2", "selected"); break;
+  }
 
   
   // Workspace menu fade-out delay.

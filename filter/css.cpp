@@ -234,24 +234,52 @@ string Filter_Css::getCss (string class_, string font, int directionvalue, int l
 }
 
 
-string Filter_Css::distinction_set_1 (int offset)
+void Filter_Css::distinction_set_basic ()
 {
-  if (offset == 0) return "white-on-green";
-  if (offset == 1) return "black-on-orange";
-  if (offset == 2) return "black-on-neon-green";
-  if (offset == 3) return "white-on-purple";
-  if (offset == 4) return "white-on-pink";
+  return;
+}
+
+
+string Filter_Css::distinction_set_light (int itemstyleindex)
+{
+  if (itemstyleindex == 0) return "light-background";
+  if (itemstyleindex == 1) return "light-menu-tabs";
+  if (itemstyleindex == 2) return "light-editor";
+  if (itemstyleindex == 3) return "light-active-editor";
+  if (itemstyleindex == 4) return "light-workspacewrapper";
   return "";
 }
 
 
-string Filter_Css::distinction_set_2 (int offset)
+string Filter_Css::distinction_set_dark (int itemstyleindex)
 {
-  if (offset == 0) return "manatee-blue";
-  if (offset == 1) return "logan-blue";
-  if (offset == 2) return "blossom-red";
-  if (offset == 3) return "rosy-brown";
-  if (offset == 4) return "opium-brown";
+  if (itemstyleindex == 0) return "dark-background";
+  if (itemstyleindex == 1) return "dark-menu-tabs";
+  if (itemstyleindex == 2) return "dark-editor";
+  if (itemstyleindex == 3) return "dark-active-editor";
+  if (itemstyleindex == 4) return "dark-workspacewrapper";
+  if (itemstyleindex == 5) return "dark-versebeam";
+  return "";
+}
+
+
+string Filter_Css::distinction_set_notes (int itemstyleindex)
+{
+  if (itemstyleindex == 0) return "note-status-new";
+  if (itemstyleindex == 1) return "note-status-pending";
+  if (itemstyleindex == 2) return "note-status-inprogress";
+  if (itemstyleindex == 3) return "note-status-done";
+  if (itemstyleindex == 4) return "note-status-reopened";
+  if (itemstyleindex == 5) return "note-status-unset";
+  return "";
+}
+
+
+string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
+{
+  if (indexnumber == 0) distinction_set_basic ();
+  if (indexnumber == 1) return distinction_set_light (itemstyleindex);
+  if (indexnumber == 2) return distinction_set_dark (itemstyleindex);
   return "";
 }
 

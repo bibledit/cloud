@@ -589,6 +589,7 @@ function oneverseShowResponse (response)
   $ ("#nostyles").hide ();
   var area = $ ("#stylesarea");
   area.empty ();
+  area.addClass ('style-of-stylesarea');
   area.append (response);
 }
 
@@ -596,6 +597,7 @@ function oneverseShowResponse (response)
 function oneverseClearStyles ()
 {
   var area = $ ("#stylesarea");
+  area.removeClass ('style-of-stylesarea');
   area.empty ();
   $ ("#stylebutton").show ();
   $ ("#nostyles").show ();

@@ -126,9 +126,12 @@ string editusfm_index (void * webserver_request)
 
   string cls = Filter_Css::getClass (bible);
   string font = Fonts_Logic::getTextFont (bible);
+  int current_theme_index = convert_to_int(request->database_config_user ()->getCurrentTheme ());
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
+  view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_Css::getCss (cls,
                                                              Fonts_Logic::getFontPath (font),

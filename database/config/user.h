@@ -181,6 +181,8 @@ public:
   int getGreekFontSize ();
   void setVerticalCaretPosition (int position);
   int getVerticalCaretPosition ();
+  void setCurrentTheme (int index);
+  int getCurrentTheme ();
   bool getDisplayBreadcrumbs ();
   void setDisplayBreadcrumbs (bool value);
   void setWorkspaceMenuFadeoutDelay (int value);

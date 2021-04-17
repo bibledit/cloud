@@ -19,6 +19,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 $ (document).ready (function () 
 {
+  $ ("#themepicker").change (function () {
+    var value = document.querySelector ("#themepicker").value;
+
+    if (/indonesianfree/.test(window.location.href)) {
+      $.post ("indonesianfree", { themepicker:value });
+    } else {
+      $.post ("index", { themepicker:value });
+    }
+    $ ("#themepicker > option").removeAttr ("selected");
+
+    document.querySelector (`#themepicker > option[value='${value}']`).setAttribute ("selected", "");
+    setTimeout (()=>{ location.reload() },100);
+  });
   $("#chapterpercentage").change (function () {
     var value = $(this).val ();
     $.post ("index", { chapterpercentage:value });

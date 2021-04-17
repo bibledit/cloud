@@ -1091,6 +1091,20 @@ void Database_Config_User::setVerticalCaretPosition (int position)
 }
 
 
+const char * current_theme_style_key ()
+{
+  return "current-theme-style";
+}
+int Database_Config_User::getCurrentTheme ()
+{
+  return getIValue (current_theme_style_key (), 0);
+}
+void Database_Config_User::setCurrentTheme (int index)
+{
+  setIValue (current_theme_style_key (), index);
+}
+
+
 bool Database_Config_User::getDisplayBreadcrumbs ()
 {
   return getBValue ("display-breadcrumbs", false);

@@ -22,15 +22,14 @@ $ (document).ready (function ()
   $ ("#themepicker").change (function () {
     var value = document.querySelector ("#themepicker").value;
 
-    if (/indonesianfree/.test(window.location.href)) {
-      $.post ("indonesianfree", { themepicker:value });
+    if (/\?.+=/.test(window.location.href)) {
+      window.location.href = window.location.href.replace(/\?.+=\d?/, '?themepicker=' + value);
     } else {
-      $.post ("index", { themepicker:value });
+      window.location.href = window.location.href + '?themepicker=' + value;
     }
     $ ("#themepicker > option").removeAttr ("selected");
 
     document.querySelector (`#themepicker > option[value='${value}']`).setAttribute ("selected", "");
-    setTimeout (()=>{ location.reload() },100);
   });
   $("#chapterpercentage").change (function () {
     var value = $(this).val ();

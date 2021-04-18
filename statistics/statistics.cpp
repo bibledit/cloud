@@ -56,14 +56,17 @@ void statistics_statistics ()
     string subject = "Bibledit " + translate("statistics");
     vector <string> body;
     
-    
+  
+    size_t change_notificatons_count = 0;
     if (request.database_config_user()->getUserPendingChangesNotification (user)) {
       string any_bible = "";
       vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
+      change_notificatons_count = ids.size();
       body.push_back ("<p><a href=\"" + siteUrl + changes_changes_url () + "\">" + translate("Number of change notifications") + "</a>: " + convert_to_string (ids.size()) + "</p>\n");
     }
     
-    
+
+    size_t assigned_notes_count = 0;
     if (request.database_config_user()->getUserAssignedNotesStatisticsNotification (user)) {
       vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bibles.
@@ -81,10 +84,12 @@ void statistics_statistics ()
                                                      0,      // Text selector.
                                                      "",     // Search text.
                                                      -1);     // Limit.
+      assigned_notes_count = ids.size();
       body.push_back ("<p><a href=\"" + siteUrl + notes_index_url () + "?presetselection=assigned\">" + translate("Number of consultation notes assigned to you awaiting your response") + "</a>: " + convert_to_string (ids.size ()) + "</p>\n");
     }
     
-    
+
+    size_t subscribed_notes_count = 0;
     if (request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
       body.push_back ("<p>" + translate("Number of consultation notes you are subscribed to") + ":</p>\n");
       body.push_back ("<ul>\n");
@@ -106,6 +111,7 @@ void statistics_statistics ()
                                                      0,      // Text selector.
                                                      "",     // Search text.
                                                      -1);     // Limit.
+      subscribed_notes_count = ids.size();
       body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribed\">" + translate("Total") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
       ids = database_notes.select_notes (
                                                      bibles, // Bible.
@@ -144,9 +150,9 @@ void statistics_statistics ()
       body.push_back ("</ul>\n");
       request.session_logic ()->setUsername ("");
     }
+
     
-    
-    if (!body.empty ()) {
+    if (change_notificatons_count || assigned_notes_count || subscribed_notes_count) {
       string mailbody = filter_string_implode (body, "\n");
       email_schedule (user, subject, mailbody);
     }

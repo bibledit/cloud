@@ -2502,6 +2502,9 @@ msgstr ""
 msgid "Initial vertical position of the editing cursor in the Bible editors"
 msgstr ""
 
+msgid "Choose theme"
+msgstr ""
+
 msgid "Show breadcrumbs"
 msgstr ""
 

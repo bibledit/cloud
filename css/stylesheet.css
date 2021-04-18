@@ -16,7 +16,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-/* BEGIN CSS RESETS */
+/* I. BEGIN CSS RESETS */
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -71,7 +71,7 @@ abbr[title], dfn[title] {
 }
 /* END OF CSS RESETS */
 
-/* CONTAINER STYLING */
+/* II. GLOBAL STYLING */
 html {
   height: 100%;
 }
@@ -104,18 +104,82 @@ body {
   line-height: 1.3;
 }
 
+#themepicker {
+  font: normal 18px "Montserrat Regular", sans-serif !important;
+  color: #171717;
+  outline: 0;
+  width: 135px;
+}
+
+#themepicker:focus, 
+#themepicker:hover {
+  filter: drop-shadow(0 0 2.5px #999);
+  background-color: #ffffef;
+}
+
+  #themepicker option[value="1"] {
+    background-color: #efefef;
+    color: #124568 !important;
+  }
+
+  #themepicker option[value="2"] {
+    background-color: #171717;
+    color: #5e92b4 !important;
+  }
+
+.splash {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 5%;
+  border-radius: 5px;
+}
+
+  .splash > * {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+            flex-grow: 1;
+  }
+
+@font-face {
+  font-family: "Montserrat Light";
+  src: url(/fonts/Montserrat-Light.ttf);
+}
+
+#software-name {
+  font: 4.5rem "Montserrat Light", sans-serif;
+  background-color: #598fb2;
+  background-image: linear-gradient(35deg, #196394, #30739f, #598fb2);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+.centerbible {
+  -webkit-box-flex: 100;
+  -webkit-flex-grow: 100;
+  -ms-flex-positive: 100;
+          flex-grow: 100;
+  background-image: url(/pix/bibledit_logo.svg);
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .resource {
   font-family: "Esteban", serif;
-}
-
-#stylebutton {
-  font: 1rem "Montserrat Regular";
-  margin: .5rem;
-}
-
-#stylesarea.style-of-stylesarea {
-  display: inline-block;
-  margin: .5rem !important;
 }
 
 body,
@@ -130,6 +194,7 @@ div[contenteditable=true],
 #oneeditor,
 .focusedverse {
   background: #ffffe8;
+  color: #171717;
   outline: 0;
 }
 
@@ -197,7 +262,7 @@ div[contenteditable=true],
     #topbar > span:first-child > span:first-child {
       border-left: 0 !important;
     }
-
+/* II. a. GLOBAL STYLING: Workspace Page */
     #topbar .fadeout {
       display: flex;
       flex-direction: row;
@@ -240,6 +305,11 @@ div[contenteditable=true],
       border-left: 1.5px solid #171717;
       padding-left: .2em;
     }
+
+    #applybook .selector:hover {
+      font-weight: bold;
+    }
+
     .light-menu-tabs #applybook .selector,
     .dark-menu-tabs #applybook .selector {
       border-left: 0;
@@ -262,22 +332,26 @@ div[contenteditable=true],
       background: linear-gradient(35deg, #681212de, #761414de, #851717de, #941919de) !important;
     }
 
-    #applybook .selector.frontback a {
+    .light-background #applybook .selector.frontback a,
+    .dark-background #applybook .selector.frontback a  {
       background: linear-gradient(35deg, #75348c99, #9b61b099) !important;
       color: #fff !important;
     }
 
-    #applybook .selector.ap a {
+    .light-background #applybook .selector.ap a,
+    .dark-background #applybook .selector.ap a  {
       background-color: #eeeeee10;
       color: #fff !important;
     }
 
-    #applybook .selector.ot a {
+    .light-background #applybook .selector.ot a,
+    .dark-background #applybook .selector.ot a  {
       background: linear-gradient(35deg, #68121277, #85171777) !important;
       color: #fff !important;
     }
   
-    #applybook .selector.nt a {
+    .light-background #applybook .selector.nt a,
+    .dark-background #applybook .selector.nt a  {
       background: linear-gradient(35deg, #0f0d8277, #27258f77) !important;
       color: #fff !important;
     }
@@ -297,82 +371,30 @@ div[contenteditable=true],
       flex-grow: 1;
     }
 
-#themepicker {
-  font: normal 18px "Montserrat Regular", sans-serif !important;
-  color: #171717;
-  outline: 0;
-  width: 135px;
+/* II. b. GLOBAL STYLING: Editone2, edit2, and editusfm page */
+
+#stylebutton {
+  font: 1rem "Montserrat Regular";
+  margin: .5rem;
 }
-#themepicker:focus, 
-#themepicker:hover {
-  filter: drop-shadow(0 0 2.5px #999);
-  background-color: #ffffef;
-}
-  #themepicker option[value="1"] {
-    background-color: #efefef;
-    color: #124568 !important;
-  }
-  #themepicker option[value="2"] {
-    background-color: #171717;
-    color: #5e92b4 !important;
+    
+  #stylesarea.style-of-stylesarea {
+    display: inline-block;
+    margin: .5rem !important;
   }
 
-.splash {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-          flex-grow: 1;
-  padding: 5%;
-  border-radius: 5px;
-}
-  .splash > * {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-            flex-grow: 1;
-  }
-@font-face {
-  font-family: "Montserrat Light";
-  src: url(/fonts/Montserrat-Light.ttf);
-}
-#software-name {
-  font: 6rem "Montserrat Light", sans-serif;
-  background-color: #598fb2;
-  background-image: linear-gradient(35deg, #196394, #30739f, #598fb2);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-.centerbible {
-  -webkit-box-flex: 100;
-  -webkit-flex-grow: 100;
-  -ms-flex-positive: 100;
-          flex-grow: 100;
-  background-image: url(/pix/bibledit_logo.svg);
-  background-position: center center;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
+/* III. THEME SPECIFIC STYLING */
 
 .light-background,
   .light-background .splash {
   background: #efefef !important;
   color: #171717 !important;
 }
+
     .light-background .splash {
       color: #196394 !important;
     }
+    
     .light-background input[type="range"] {
       border: .5px solid #ddd;
       border-radius: 2.5px;
@@ -380,12 +402,14 @@ div[contenteditable=true],
       -webkit-appearance: none;
       background-color: #196394;
     }
+
     .light-background input[type="range"]::-webkit-slider-runnable-track {
       height: 10px;
       -webkit-appearance: none;
       color: #196394;
       margin-top: -1px;
     }
+
     .light-background input[type="range"]::-webkit-slider-thumb {
       width: 10px;
       height: 10px;
@@ -394,24 +418,29 @@ div[contenteditable=true],
       background: #3a4653;
       box-shadow: 80px 0 0 80px #fff;
     }
+
 .light-menu-tabs {
   background: linear-gradient(-35deg, #124568, #144f76, #175985, #196394) !important;
   color: #fff !important;
 }
+
   .light-menu-tabs a,
   .light-menu-tabs span {
     color: #fff !important;  
   }
+
 .light-editor {
   background-color: #efefef !important;
   color: #171717 !important;
 }
+
 .light-active-editor,
   .light-active-editor * {
     background-color: #dce6f0 !important;
     outline: 0;
     color: #171717 !important;
   }
+
 .light-workspacewrapper {
   background-color: #efefef !important;
 }
@@ -419,7 +448,6 @@ div[contenteditable=true],
   .light-workspacewrapper a:visited {
     color: #196394;
   }
-    
     
 .dark-background,
   .dark-background .splash {
@@ -432,6 +460,7 @@ div[contenteditable=true],
 /* .dark-background input[type="range"]::-ms-fill-lower {
   background-color: #93976B;
 } */
+
   .dark-background input[type="range"] {
     border: .5px solid #333;
     border-radius: 2.5px;
@@ -439,12 +468,14 @@ div[contenteditable=true],
     -webkit-appearance: none;
     background-color: #196394;
   }
+
   .dark-background input[type="range"]::-webkit-slider-runnable-track {
     height: 10px;
     -webkit-appearance: none;
     color: #196394;
     margin-top: -1px;
   }
+
   .dark-background input[type="range"]::-webkit-slider-thumb {
     width: 10px;
     height: 10px;
@@ -453,32 +484,37 @@ div[contenteditable=true],
     background: #0f3b59;
     box-shadow: 80px 0 0 80px #fff;
   }
+
 .dark-menu-tabs {
   background: linear-gradient(30deg, #196394, #175985, #144f76, #124568) !important;
   color: #fff !important;
 }
+
   .dark-menu-tabs a,
   .dark-menu-tabs span {
     color: #fff !important;  
   }
+
 .dark-editor {
   background-color: #171717 !important;
   color: #fff !important;
 }
+
 .dark-active-editor,
   .dark-active-editor * {
     background-color: #252c35 !important;
     outline: 0;
     color: #fff !important;
   }
+
 .dark-workspacewrapper {
   background-color: #171717 !important;
 }
+
   .dark-workspacewrapper a:link,
   .dark-workspacewrapper a:visited {
     color: #5e92b4;
   }
-
     
 .note-status-new {
   background-color: #623289 !important;
@@ -600,6 +636,12 @@ a:hover {
   font-weight: bold;
 }
 
+#versepickerwrapper.light-menu-tabs:hover,
+#versepickerwrapper.dark-menu-tabs:hover {
+  font-weight: normal;
+  background: 0;
+}
+
 a:focus,
 a:active {
   color: red;
@@ -704,6 +746,9 @@ textarea {
   padding: .2em 0;
   border-top: 2px dotted #aaa;
 }
+  .dark-background #breadcrumbs:not(:empty) a {
+    color: #efefef;
+  }
 .menu-basic a {
   padding: 0 .4em;
   border-style: solid;
@@ -944,6 +989,11 @@ table.interlinear.rtl {
 @page :right {
   margin-right: 3cm;
   margin-left: 2cm;
+}
+@media (min-width: 500px) {
+  #software-name {
+    font-size: 6rem;
+  }
 }
 
 .ql-editor, .bibleeditor {

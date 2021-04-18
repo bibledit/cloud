@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2021-04-07 20:19+0000\n"
+"PO-Revision-Date: 2021-04-17 19:14+0000\n"
 "Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1)\n"
+"X-Generator: Launchpad (build 26785e5a6adccabf68a42300ea7053912615013e)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -2095,7 +2095,7 @@ msgid "Read"
 msgstr "Baca"
 
 msgid "User resources"
-msgstr "Materi penelitian pengguna"
+msgstr "Bahan Tafsir"
 
 msgid "Advanced search"
 msgstr ""
@@ -8646,6 +8646,9 @@ msgstr ""
 msgid "Give it a while to initialize."
 msgstr ""
 
+msgid "Alternative installation options:"
+msgstr ""
+
 msgid "Versions"
 msgstr ""
 
@@ -10596,6 +10599,9 @@ msgstr "Keluaran"
 msgid "Exod"
 msgstr "Kel"
 
+msgid "Exo"
+msgstr ""
+
 msgid "Leviticus"
 msgstr "Imamat"
 
@@ -10614,11 +10620,17 @@ msgstr "Ulangan"
 msgid "Deut"
 msgstr ""
 
+msgid "Deu"
+msgstr ""
+
 msgid "Joshua"
 msgstr "Yosua"
 
 msgid "Josh"
 msgstr "Yos"
+
+msgid "Jos"
+msgstr ""
 
 msgid "Judges"
 msgstr "Hakim-hakim"
@@ -10626,8 +10638,14 @@ msgstr "Hakim-hakim"
 msgid "Judg"
 msgstr "Hak"
 
+msgid "Jdg"
+msgstr ""
+
 msgid "Ruth"
 msgstr "Rut"
+
+msgid "Rut"
+msgstr ""
 
 msgid "1 Samuel"
 msgstr "1 Samuel"
@@ -10635,11 +10653,17 @@ msgstr "1 Samuel"
 msgid "1Sam"
 msgstr "1Sam"
 
+msgid "1Sa"
+msgstr ""
+
 msgid "2 Samuel"
 msgstr "2 Samuel"
 
 msgid "2Sam"
 msgstr "2Sam"
+
+msgid "2Sa"
+msgstr ""
 
 msgid "1 Kings"
 msgstr "1 Raja"
@@ -10647,11 +10671,17 @@ msgstr "1 Raja"
 msgid "1Kgs"
 msgstr "1Raj"
 
+msgid "1Ki"
+msgstr ""
+
 msgid "2 Kings"
 msgstr "2 Raja"
 
 msgid "2Kgs"
 msgstr "2Raj"
+
+msgid "2Ki"
+msgstr ""
 
 msgid "1 Chronicles"
 msgstr "1 Tawarik"
@@ -10659,14 +10689,23 @@ msgstr "1 Tawarik"
 msgid "1Chr"
 msgstr "1Taw"
 
+msgid "1Ch"
+msgstr ""
+
 msgid "2 Chronicles"
 msgstr "2 Tawarik"
 
 msgid "2Chr"
 msgstr "2Taw"
 
+msgid "2Ch"
+msgstr ""
+
 msgid "Ezra"
 msgstr "Ezra"
+
+msgid "Ezr"
+msgstr ""
 
 msgid "Nehemiah"
 msgstr "Nehemia"
@@ -10680,6 +10719,9 @@ msgstr "Ester"
 msgid "Esth"
 msgstr "Est"
 
+msgid "Est"
+msgstr ""
+
 msgid "Job"
 msgstr "Ayub"
 
@@ -10689,11 +10731,17 @@ msgstr "Mazmur"
 msgid "Ps"
 msgstr "Mzm"
 
+msgid "Psa"
+msgstr ""
+
 msgid "Proverbs"
 msgstr "Amsal"
 
 msgid "Prov"
 msgstr "Ams"
+
+msgid "Pro"
+msgstr ""
 
 msgid "Ecclesiastes"
 msgstr "Pengkotbah"
@@ -10701,11 +10749,17 @@ msgstr "Pengkotbah"
 msgid "Eccl"
 msgstr "Pkh"
 
+msgid "Ecc"
+msgstr ""
+
 msgid "Song of Solomon"
 msgstr ""
 
 msgid "Song"
 msgstr "Kid"
+
+msgid "Sol"
+msgstr ""
 
 msgid "Isaiah"
 msgstr "Yesaya"
@@ -10731,6 +10785,9 @@ msgstr "Yeheskiel"
 msgid "Ezek"
 msgstr "Yeh"
 
+msgid "Eze"
+msgstr ""
+
 msgid "Daniel"
 msgstr "Daniel"
 
@@ -10746,8 +10803,14 @@ msgstr "Hos"
 msgid "Joel"
 msgstr "Yoel"
 
+msgid "Joe"
+msgstr ""
+
 msgid "Amos"
 msgstr "Amos"
+
+msgid "Amo"
+msgstr ""
 
 msgid "Obadiah"
 msgstr "Obaja"
@@ -10755,8 +10818,14 @@ msgstr "Obaja"
 msgid "Obad"
 msgstr "Oba"
 
+msgid "Oba"
+msgstr ""
+
 msgid "Jonah"
 msgstr "Yunus"
+
+msgid "Jon"
+msgstr ""
 
 msgid "Micah"
 msgstr "Mika"
@@ -10782,6 +10851,9 @@ msgstr "Zefanya"
 msgid "Zeph"
 msgstr "Zef"
 
+msgid "Zep"
+msgstr ""
+
 msgid "Haggai"
 msgstr "Hagai"
 
@@ -10793,6 +10865,9 @@ msgstr "Zekaria"
 
 msgid "Zech"
 msgstr "Zek"
+
+msgid "Zec"
+msgstr ""
 
 msgid "Malachi"
 msgstr "Maleaki"
@@ -10806,17 +10881,32 @@ msgstr "Matius"
 msgid "Matt"
 msgstr "Mat"
 
+msgid "Mat"
+msgstr ""
+
 msgid "Mark"
 msgstr "Markus"
+
+msgid "Mar"
+msgstr ""
 
 msgid "Luke"
 msgstr "Lukas"
 
+msgid "Luk"
+msgstr ""
+
 msgid "John"
 msgstr "Yohanes"
 
+msgid "Joh"
+msgstr ""
+
 msgid "Acts"
 msgstr "Kisah"
+
+msgid "Act"
+msgstr ""
 
 msgid "Romans"
 msgstr "Roma"
@@ -10830,11 +10920,17 @@ msgstr "1 Korintus"
 msgid "1Cor"
 msgstr "1Kor"
 
+msgid "1Co"
+msgstr ""
+
 msgid "2 Corinthians"
 msgstr "2 Korintus"
 
 msgid "2Cor"
 msgstr "2Kor"
+
+msgid "2Co"
+msgstr ""
 
 msgid "Galatians"
 msgstr "Galatia"
@@ -10854,6 +10950,9 @@ msgstr "Filipi"
 msgid "Phil"
 msgstr ""
 
+msgid "Phi"
+msgstr ""
+
 msgid "Colossians"
 msgstr "Kolose"
 
@@ -10866,11 +10965,17 @@ msgstr "1 Tesalonika"
 msgid "1Thess"
 msgstr "1Tes"
 
+msgid "1Th"
+msgstr ""
+
 msgid "2 Thessalonians"
 msgstr "2 Tesalonika"
 
 msgid "2Thess"
 msgstr "2Tes"
+
+msgid "2Th"
+msgstr ""
 
 msgid "1 Timothy"
 msgstr "1 Timotius"
@@ -10878,20 +10983,32 @@ msgstr "1 Timotius"
 msgid "1Tim"
 msgstr "1Tim"
 
+msgid "1Ti"
+msgstr ""
+
 msgid "2 Timothy"
 msgstr "2 Timotius"
 
 msgid "2Tim"
 msgstr "2Tim"
 
+msgid "2Ti"
+msgstr ""
+
 msgid "Titus"
 msgstr "Titus"
+
+msgid "Tit"
+msgstr ""
 
 msgid "Philemon"
 msgstr "Filemon"
 
 msgid "Phlm"
 msgstr "Flm"
+
+msgid "Phm"
+msgstr ""
 
 msgid "Hebrews"
 msgstr "Ibrani"
@@ -10905,11 +11022,17 @@ msgstr "Yakobus"
 msgid "Jas"
 msgstr ""
 
+msgid "Jam"
+msgstr ""
+
 msgid "1 Peter"
 msgstr "1 Petrus"
 
 msgid "1Pet"
 msgstr "1Pet"
+
+msgid "1Pe"
+msgstr ""
 
 msgid "2 Peter"
 msgstr "2 Petrus"
@@ -10917,10 +11040,16 @@ msgstr "2 Petrus"
 msgid "2Pet"
 msgstr "2Pet"
 
+msgid "2Pe"
+msgstr ""
+
 msgid "1 John"
 msgstr "1 Yohanes"
 
 msgid "1John"
+msgstr ""
+
+msgid "1Jo"
 msgstr ""
 
 msgid "2 John"
@@ -10929,14 +11058,23 @@ msgstr "2 Yohanes"
 msgid "2John"
 msgstr ""
 
+msgid "2Jo"
+msgstr ""
+
 msgid "3 John"
 msgstr "3 Yohanes"
 
 msgid "3John"
 msgstr ""
 
+msgid "3Jo"
+msgstr ""
+
 msgid "Jude"
 msgstr "Yudas"
+
+msgid "Jud"
+msgstr ""
 
 msgid "Revelation"
 msgstr "Wahyu"
@@ -10971,6 +11109,9 @@ msgstr ""
 msgid "AddEsth"
 msgstr ""
 
+msgid "EsG"
+msgstr ""
+
 msgid "Wisdom of Solomon"
 msgstr ""
 
@@ -10995,10 +11136,16 @@ msgstr ""
 msgid "EpJer"
 msgstr ""
 
+msgid "LJe"
+msgstr ""
+
 msgid "Song of the Three Children"
 msgstr ""
 
 msgid "PrAzar"
+msgstr ""
+
+msgid "S3Y"
 msgstr ""
 
 msgid "Susanna"
@@ -11019,10 +11166,16 @@ msgstr ""
 msgid "1Macc"
 msgstr ""
 
+msgid "1Ma"
+msgstr ""
+
 msgid "2 Maccabees"
 msgstr ""
 
 msgid "2Macc"
+msgstr ""
+
+msgid "2Ma"
 msgstr ""
 
 msgid "1 Esdras (Greek)"
@@ -11031,10 +11184,16 @@ msgstr ""
 msgid "1Esd"
 msgstr ""
 
+msgid "1Es"
+msgstr ""
+
 msgid "Prayer of Manasses"
 msgstr ""
 
 msgid "PrMan"
+msgstr ""
+
+msgid "Man"
 msgstr ""
 
 msgid "Psalm 151"
@@ -11043,10 +11202,16 @@ msgstr ""
 msgid "Ps151"
 msgstr ""
 
+msgid "Ps2"
+msgstr ""
+
 msgid "3 Maccabees"
 msgstr ""
 
 msgid "3Macc"
+msgstr ""
+
+msgid "3Ma"
 msgstr ""
 
 msgid "2 Esdras (Latin)"
@@ -11055,10 +11220,16 @@ msgstr ""
 msgid "2Esd"
 msgstr ""
 
+msgid "2Es"
+msgstr ""
+
 msgid "4 Maccabees"
 msgstr ""
 
 msgid "4Macc"
+msgstr ""
+
+msgid "4Ma"
 msgstr ""
 
 msgid "Daniel (Greek)"
@@ -11357,7 +11528,7 @@ msgid "Consultant"
 msgstr ""
 
 msgid "Member"
-msgstr ""
+msgstr "Anggota"
 
 msgid "Guest"
 msgstr ""
@@ -11826,7 +11997,7 @@ msgid ""
 msgstr ""
 
 msgid "Who is the first person to acknowledge Jesus as the Christ?"
-msgstr ""
+msgstr "Siapa namanya orang pertama untuk menyambut Yesus sebagai Kristus?"
 
 msgid "Simeon"
 msgstr ""
@@ -11835,6 +12006,11 @@ msgid ""
 "There was Simeon. A just and devout man. The Holy Spirit told him that he "
 "will see Christ before his death."
 msgstr ""
+"Lukas 2:25-26 AYT: Ada seorang laki-laki bernama Simeon yang tinggal di "
+"Yerusalem. Ia adalah orang yang benar dan saleh, yang menanti-nantikan "
+"penghiburan Allah atas Israel, dan Roh Kudus menyertainya. Roh Kudus "
+"memberitahunya bahwa ia tidak akan mati sebelum melihat Kristus yang diurapi "
+"Tuhan."
 
 msgid "To whom was the Acts Of Apostles written?"
 msgstr ""
@@ -11986,10 +12162,10 @@ msgid "Who's the father of Hosea?"
 msgstr ""
 
 msgid "Beeri"
-msgstr ""
+msgstr "Beeri"
 
 msgid "I am Hosea son of Beeri."
-msgstr ""
+msgstr "Saya adalah Hosea anak Beeri."
 
 msgid "Username should be at least four characters long"
 msgstr ""

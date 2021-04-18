@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build f3c8a1aed7c0b9bc4f5601dbf2698b30e1ab66f1)\n"
+"X-Generator: Launchpad (build 929bdb49da44562d032228b8f93c5c598dae8678)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -8636,6 +8636,9 @@ msgstr ""
 msgid "Give it a while to initialize."
 msgstr ""
 
+msgid "Alternative installation options:"
+msgstr ""
+
 msgid "Versions"
 msgstr ""
 
@@ -10575,6 +10578,9 @@ msgstr "Exodus"
 msgid "Exod"
 msgstr ""
 
+msgid "Exo"
+msgstr ""
+
 msgid "Leviticus"
 msgstr "Levitikus"
 
@@ -10593,10 +10599,16 @@ msgstr "Deuteronomium"
 msgid "Deut"
 msgstr ""
 
+msgid "Deu"
+msgstr ""
+
 msgid "Joshua"
 msgstr "Josua"
 
 msgid "Josh"
+msgstr ""
+
+msgid "Jos"
 msgstr ""
 
 msgid "Judges"
@@ -10605,13 +10617,22 @@ msgstr "Richter"
 msgid "Judg"
 msgstr ""
 
+msgid "Jdg"
+msgstr ""
+
 msgid "Ruth"
 msgstr "Rut"
+
+msgid "Rut"
+msgstr ""
 
 msgid "1 Samuel"
 msgstr "1 Samuel"
 
 msgid "1Sam"
+msgstr ""
+
+msgid "1Sa"
 msgstr ""
 
 msgid "2 Samuel"
@@ -10620,10 +10641,16 @@ msgstr "2 Samuel"
 msgid "2Sam"
 msgstr ""
 
+msgid "2Sa"
+msgstr ""
+
 msgid "1 Kings"
 msgstr "1 Könige"
 
 msgid "1Kgs"
+msgstr ""
+
+msgid "1Ki"
 msgstr ""
 
 msgid "2 Kings"
@@ -10632,10 +10659,16 @@ msgstr "2 Könige"
 msgid "2Kgs"
 msgstr ""
 
+msgid "2Ki"
+msgstr ""
+
 msgid "1 Chronicles"
 msgstr "1 Chronik"
 
 msgid "1Chr"
+msgstr ""
+
+msgid "1Ch"
 msgstr ""
 
 msgid "2 Chronicles"
@@ -10644,8 +10677,14 @@ msgstr "2 Chronik"
 msgid "2Chr"
 msgstr ""
 
+msgid "2Ch"
+msgstr ""
+
 msgid "Ezra"
 msgstr "Esra"
+
+msgid "Ezr"
+msgstr ""
 
 msgid "Nehemiah"
 msgstr "Nehemia"
@@ -10659,6 +10698,9 @@ msgstr "Ester"
 msgid "Esth"
 msgstr ""
 
+msgid "Est"
+msgstr ""
+
 msgid "Job"
 msgstr "Ijob"
 
@@ -10668,10 +10710,16 @@ msgstr "Psalmen"
 msgid "Ps"
 msgstr ""
 
+msgid "Psa"
+msgstr ""
+
 msgid "Proverbs"
 msgstr "Sprichwörter"
 
 msgid "Prov"
+msgstr ""
+
+msgid "Pro"
 msgstr ""
 
 msgid "Ecclesiastes"
@@ -10680,10 +10728,16 @@ msgstr "Kohelet"
 msgid "Eccl"
 msgstr ""
 
+msgid "Ecc"
+msgstr ""
+
 msgid "Song of Solomon"
 msgstr "Hoheslied"
 
 msgid "Song"
+msgstr ""
+
+msgid "Sol"
 msgstr ""
 
 msgid "Isaiah"
@@ -10710,6 +10764,9 @@ msgstr "Ezechiel"
 msgid "Ezek"
 msgstr ""
 
+msgid "Eze"
+msgstr ""
+
 msgid "Daniel"
 msgstr "Daniel"
 
@@ -10725,8 +10782,14 @@ msgstr ""
 msgid "Joel"
 msgstr "Joël"
 
+msgid "Joe"
+msgstr ""
+
 msgid "Amos"
 msgstr "Amos"
+
+msgid "Amo"
+msgstr ""
 
 msgid "Obadiah"
 msgstr "Obadja"
@@ -10734,8 +10797,14 @@ msgstr "Obadja"
 msgid "Obad"
 msgstr ""
 
+msgid "Oba"
+msgstr ""
+
 msgid "Jonah"
 msgstr "Jona"
+
+msgid "Jon"
+msgstr ""
 
 msgid "Micah"
 msgstr "Micha"
@@ -10761,6 +10830,9 @@ msgstr "Zefanja"
 msgid "Zeph"
 msgstr ""
 
+msgid "Zep"
+msgstr ""
+
 msgid "Haggai"
 msgstr "Haggai"
 
@@ -10771,6 +10843,9 @@ msgid "Zechariah"
 msgstr "Sacharja"
 
 msgid "Zech"
+msgstr ""
+
+msgid "Zec"
 msgstr ""
 
 msgid "Malachi"
@@ -10785,17 +10860,32 @@ msgstr "Matthäus"
 msgid "Matt"
 msgstr ""
 
+msgid "Mat"
+msgstr ""
+
 msgid "Mark"
 msgstr "Markus"
+
+msgid "Mar"
+msgstr ""
 
 msgid "Luke"
 msgstr "Lukas"
 
+msgid "Luk"
+msgstr ""
+
 msgid "John"
 msgstr "Johannes"
 
+msgid "Joh"
+msgstr ""
+
 msgid "Acts"
 msgstr "Apostelgeschichte"
+
+msgid "Act"
+msgstr ""
 
 msgid "Romans"
 msgstr "Römer"
@@ -10809,10 +10899,16 @@ msgstr "1 Korinther"
 msgid "1Cor"
 msgstr ""
 
+msgid "1Co"
+msgstr ""
+
 msgid "2 Corinthians"
 msgstr "2 Korinther"
 
 msgid "2Cor"
+msgstr ""
+
+msgid "2Co"
 msgstr ""
 
 msgid "Galatians"
@@ -10833,6 +10929,9 @@ msgstr "Philipper"
 msgid "Phil"
 msgstr ""
 
+msgid "Phi"
+msgstr ""
+
 msgid "Colossians"
 msgstr "Kolosser"
 
@@ -10845,10 +10944,16 @@ msgstr "1 Thessalonicher"
 msgid "1Thess"
 msgstr ""
 
+msgid "1Th"
+msgstr ""
+
 msgid "2 Thessalonians"
 msgstr "2 Thessalonicher"
 
 msgid "2Thess"
+msgstr ""
+
+msgid "2Th"
 msgstr ""
 
 msgid "1 Timothy"
@@ -10857,19 +10962,31 @@ msgstr "1 Timotheus"
 msgid "1Tim"
 msgstr ""
 
+msgid "1Ti"
+msgstr ""
+
 msgid "2 Timothy"
 msgstr "2 Timotheus"
 
 msgid "2Tim"
 msgstr ""
 
+msgid "2Ti"
+msgstr ""
+
 msgid "Titus"
 msgstr "Titus"
+
+msgid "Tit"
+msgstr ""
 
 msgid "Philemon"
 msgstr "Philemon"
 
 msgid "Phlm"
+msgstr ""
+
+msgid "Phm"
 msgstr ""
 
 msgid "Hebrews"
@@ -10884,10 +11001,16 @@ msgstr "Jakobus"
 msgid "Jas"
 msgstr ""
 
+msgid "Jam"
+msgstr ""
+
 msgid "1 Peter"
 msgstr "1 Petrus"
 
 msgid "1Pet"
+msgstr ""
+
+msgid "1Pe"
 msgstr ""
 
 msgid "2 Peter"
@@ -10896,10 +11019,16 @@ msgstr "2 Petrus"
 msgid "2Pet"
 msgstr ""
 
+msgid "2Pe"
+msgstr ""
+
 msgid "1 John"
 msgstr "1 Johannes"
 
 msgid "1John"
+msgstr ""
+
+msgid "1Jo"
 msgstr ""
 
 msgid "2 John"
@@ -10908,14 +11037,23 @@ msgstr "2 Johannes"
 msgid "2John"
 msgstr ""
 
+msgid "2Jo"
+msgstr ""
+
 msgid "3 John"
 msgstr "3 Johannes"
 
 msgid "3John"
 msgstr ""
 
+msgid "3Jo"
+msgstr ""
+
 msgid "Jude"
 msgstr "Judas"
+
+msgid "Jud"
+msgstr ""
 
 msgid "Revelation"
 msgstr "Offenbarung"
@@ -10950,6 +11088,9 @@ msgstr "Ester (Griechisch)"
 msgid "AddEsth"
 msgstr ""
 
+msgid "EsG"
+msgstr ""
+
 msgid "Wisdom of Solomon"
 msgstr "Weisheit"
 
@@ -10974,10 +11115,16 @@ msgstr "Brief des Jeremia"
 msgid "EpJer"
 msgstr ""
 
+msgid "LJe"
+msgstr ""
+
 msgid "Song of the Three Children"
 msgstr ""
 
 msgid "PrAzar"
+msgstr ""
+
+msgid "S3Y"
 msgstr ""
 
 msgid "Susanna"
@@ -10998,10 +11145,16 @@ msgstr "1 Makkabäer"
 msgid "1Macc"
 msgstr ""
 
+msgid "1Ma"
+msgstr ""
+
 msgid "2 Maccabees"
 msgstr "2 Makkabäer"
 
 msgid "2Macc"
+msgstr ""
+
+msgid "2Ma"
 msgstr ""
 
 msgid "1 Esdras (Greek)"
@@ -11010,10 +11163,16 @@ msgstr ""
 msgid "1Esd"
 msgstr ""
 
+msgid "1Es"
+msgstr ""
+
 msgid "Prayer of Manasses"
 msgstr ""
 
 msgid "PrMan"
+msgstr ""
+
+msgid "Man"
 msgstr ""
 
 msgid "Psalm 151"
@@ -11022,10 +11181,16 @@ msgstr ""
 msgid "Ps151"
 msgstr ""
 
+msgid "Ps2"
+msgstr ""
+
 msgid "3 Maccabees"
 msgstr ""
 
 msgid "3Macc"
+msgstr ""
+
+msgid "3Ma"
 msgstr ""
 
 msgid "2 Esdras (Latin)"
@@ -11034,10 +11199,16 @@ msgstr ""
 msgid "2Esd"
 msgstr ""
 
+msgid "2Es"
+msgstr ""
+
 msgid "4 Maccabees"
 msgstr ""
 
 msgid "4Macc"
+msgstr ""
+
+msgid "4Ma"
 msgstr ""
 
 msgid "Daniel (Greek)"

@@ -553,6 +553,11 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   string error;
   string text = resource_logic_web_or_cache_get (url, error);
   
+  // Due to an error, the result could include PHP.
+  // See https://github.com/bibledit/cloud/issues/579.
+  // So if the text contains ".php", then there's that error.
+  if (text.find(".php") != string::npos) text.clear();
+  
   string output = text;
   
   url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);

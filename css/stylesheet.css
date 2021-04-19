@@ -17,7 +17,13 @@
  */
 
 /* I. BEGIN CSS RESETS */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5,
+h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub,
+sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label,
+legend, table, caption, tbody, tfoot, thead, article, aside, canvas,
+details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -26,7 +32,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   font: inherit;
   font-size: 100%;
 }
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article, aside, details, figcaption, figure, footer, header,
+hgroup, menu, nav, section {
   display: block;
 }
 blockquote, q {
@@ -201,9 +208,11 @@ div[contenteditable=true],
 #topbar {
   width: 100%;
   max-width: 100vw;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
+  display: block;
+}
+
+.light-background #topbar,
+.dark-background #topbar {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
@@ -226,12 +235,7 @@ div[contenteditable=true],
   }
 
   #topbar > span {
-    position: relative;
-    flex-grow: 1;
-    padding: .3em .5em;
     margin: 5px;
-    -webkit-border-radius: 3px;
-            border-radius: 3px;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -239,8 +243,18 @@ div[contenteditable=true],
        text-overflow: ellipsis;
     transition: all 200ms;
   }
+  
+  .light-background #topbar > span,
+  .dark-background #topbar > span {
+    padding: .3em .5em;
+    position: relative;
+    flex-grow: 1;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+  }
 
-    #topbar > span:first-child {
+  .light-background #topbar > span:first-child,
+  .dark-background #topbar > span:first-child {
       position: relative;
       -webkit-flex-basis: initial;
           -ms-flex-preferred-size: initial;
@@ -270,6 +284,7 @@ div[contenteditable=true],
       justify-content: center;
       overflow: unset;
       white-space: unset;
+      font-weight: normal;
     }
 
     #topbar .fadeout span a {
@@ -282,15 +297,17 @@ div[contenteditable=true],
       font-size: larger;
       font-weight: bold;
       text-decoration: none;
+      filter: 0;
     }
 
     #versepickerwrapper {
+      page-break-before: always;
       white-space: unset;
       overflow: unset;
       -o-text-overflow: unset;
          text-overflow: unset;
       max-width: 87.5vw;
-      padding: inherit 1em;
+      padding: 0 1em;
     }
 
     #applybook {
@@ -422,6 +439,7 @@ div[contenteditable=true],
 .light-menu-tabs {
   background: linear-gradient(-35deg, #124568, #144f76, #175985, #196394) !important;
   color: #fff !important;
+  filter: drop-shadow(0 0 10px #999);
 }
 
   .light-menu-tabs a,
@@ -460,6 +478,7 @@ div[contenteditable=true],
 /* .dark-background input[type="range"]::-ms-fill-lower {
   background-color: #93976B;
 } */
+
 
   .dark-background input[type="range"] {
     border: .5px solid #333;
@@ -607,6 +626,8 @@ strong {
 a {
   padding: 8px 0;
   transition: all 200ms;
+  color: inherit;
+  text-decoration: none;
 }
 
 a:link,
@@ -622,18 +643,18 @@ a:hover {
 
 #topbar a:hover {
   text-decoration: none;
-  filter: drop-shadow(0 0 8px #888);
+  filter: drop-shadow(0 0 8px #bbb);
 }
 
 #topbar .light-menu-tabs a:hover,
 #topbar .dark-menu-tabs a:hover {
   filter: 0;
+  color: #ccc;  
 }
 
 .light-menu-tabs:hover,
 .dark-menu-tabs:hover {
   background: linear-gradient(-35deg, #22516f, #265c7f, #2b688f, #30739f) !important;
-  font-weight: bold;
 }
 
 #versepickerwrapper.light-menu-tabs:hover,

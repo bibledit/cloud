@@ -100,6 +100,7 @@ function bindClickHandlers () {
   });
   $("#selectbook").on ("click", function (event) {
     $ (".fadeout").hide ();
+    $ ('#topbar').addClass('wrap-active');
     displayBooks (event);
   });
   $("#selectchapter").on ("click", function (event) {
@@ -164,6 +165,7 @@ function displayBooks (event) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
       $("#applybook").on ("click", function (event) {
+        $ ('#topbar').removeClass('wrap-active');
         applyBook (event);
       });
     },

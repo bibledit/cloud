@@ -74,7 +74,7 @@ $ (document).ready (function () {
     }
   }
 
-  // If there are more than 6 tabs, a wrapping property in CSS will be activated.
+  // If there are more than 9 tabs, a wrapping property in CSS will be activated.
   if ($ ('#topbar > span').length > 9) {
     $ ('#topbar').addClass('wrap-active');
   } else {

@@ -56,6 +56,12 @@
   margin: 0.5em;
   background: black;
 }
+.dark-background .b-notes {
+  background: #efefef !important;
+}
+.light-background .b-notes {
+  background: #171717 !important;
+}
 [class^='i-note'] {
   cursor: pointer;
 }

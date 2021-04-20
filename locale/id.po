@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2021-04-17 19:14+0000\n"
-"Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
+"PO-Revision-Date: 2021-04-19 13:19+0000\n"
+"Last-Translator: Aranggi Josef Toar <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 26785e5a6adccabf68a42300ea7053912615013e)\n"
+"X-Generator: Launchpad (build 8932ab84469600dc3d8b3344fb7135c702d5179e)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -22,79 +22,83 @@ msgid "See the Journal for progress."
 msgstr ""
 
 msgid "Journal"
-msgstr "Riwayat pembaharuan"
+msgstr ""
 
 msgid "You are connected to a public demo of Bibledit Cloud."
-msgstr ""
+msgstr "Anda terhubung kepada demo Bibledit Cloud yang terbuka untuk umum."
 
 msgid "Everybody can modify the data on that server."
-msgstr ""
+msgstr "Semua orang dapat mengubah data dalam server itu."
 
 msgid "After send and receive your data will reflect the data on the server."
 msgstr ""
+"Setelah mengirim dan menerima, data Anda akan merefleksikan data dalam "
+"server."
 
 msgid "Sending statistics"
-msgstr ""
+msgstr "Mengirim statistik"
 
 msgid "statistics"
-msgstr ""
+msgstr "statistik"
 
 msgid "Number of change notifications"
-msgstr ""
+msgstr "Jumlah dari pemberitahuan tentang perubahan"
 
 msgid "Number of consultation notes assigned to you awaiting your response"
 msgstr ""
+"Jumlah dari catatan konsultasi yang ditugaskan kepada Anda tetapi belum Anda "
+"tanggapi"
 
 msgid "Number of consultation notes you are subscribed to"
 msgstr ""
 
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 msgid "Inactive for a day"
-msgstr ""
+msgstr "Tidak aktif selama satu hari"
 
 msgid "Inactive for a week"
-msgstr ""
+msgstr "Tidak aktif selama satu minggu"
 
 msgid "Verse mappings"
-msgstr ""
+msgstr "Pemetaan ayat"
 
 msgid "The verse mapping was saved"
-msgstr ""
+msgstr "Pemetaan ayat telah disimpan"
 
 msgid "Verse Mappings"
-msgstr ""
+msgstr "Pemetaan Ayat"
 
 msgid "Enter a name for the new verse mapping"
-msgstr ""
+msgstr "Masukkan nama untuk pemetaan ayat yang baru"
 
 msgid "This verse mapping already exists"
-msgstr ""
+msgstr "Pemetaan ayat ini telah ada"
 
 msgid "Would you like to delete this verse mapping?"
-msgstr ""
+msgstr "Apakah Anda ingin menghapus pemetaan ayat ini?"
 
 msgid "The verse mapping was deleted"
-msgstr ""
+msgstr "Pemetaan ayat telah dihapus"
 
 msgid "Unknown"
-msgstr ""
+msgstr "Tak diketahui"
 
 msgid "New"
-msgstr ""
+msgstr "Baru"
 
 msgid "Pending"
-msgstr ""
+msgstr "Tertunda"
 
 msgid "In progress"
-msgstr ""
+msgstr "Dalam proses"
 
 msgid "Done"
-msgstr ""
+msgstr "Selesai"
 
 msgid "Reopened"
-msgstr ""
+msgstr "Dibuka kembali"
 
 msgid "Wish"
 msgstr ""
@@ -103,22 +107,22 @@ msgid "Minor"
 msgstr ""
 
 msgid "Normal"
-msgstr ""
+msgstr "Biasa"
 
 msgid "Important"
-msgstr ""
+msgstr "Penting"
 
 msgid "Major"
 msgstr ""
 
 msgid "Critical"
-msgstr ""
+msgstr "Darurat"
 
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 msgid "Information"
-msgstr ""
+msgstr "Keterangan"
 
 msgid "displaying no more of these"
 msgstr ""
@@ -127,31 +131,31 @@ msgid "No Bible given"
 msgstr "Nama Alkitab belum diisi"
 
 msgid "It is unclear which data to copy to where"
-msgstr ""
+msgstr "Tidak jelas data apa yang perlu disalin kemana"
 
 msgid "Reading"
-msgstr ""
+msgstr "Membaca"
 
 msgid "Read access to the repository is successful."
 msgstr ""
 
 msgid "Read access failed."
-msgstr ""
+msgstr "Akses membaca gagal."
 
 msgid "Cloning"
-msgstr ""
+msgstr "Kloning"
 
 msgid "Copy repository to Bibledit"
-msgstr ""
+msgstr "Menyalin repository ke BIbledit"
 
 msgid "Configuring"
-msgstr ""
+msgstr "Mengkonfigurasi"
 
 msgid "Configure copied data"
 msgstr ""
 
 msgid "Writing"
-msgstr ""
+msgstr "Menulis"
 
 msgid "A file was added to the data successfully."
 msgstr ""
@@ -178,13 +182,13 @@ msgid "Pushing"
 msgstr ""
 
 msgid "Changes were pushed to the repository successfully."
-msgstr ""
+msgstr "Perubahan telah berhasil didorong ke repositori."
 
 msgid "Pushing changes to the repository failed."
 msgstr ""
 
 msgid "Cleaning"
-msgstr ""
+msgstr "Membersihkan"
 
 msgid "The temporal file was removed from the data successfully."
 msgstr ""
@@ -199,13 +203,13 @@ msgid "Failure committing the removed temporal file."
 msgstr ""
 
 msgid "The changes were pushed to the repository successfully."
-msgstr ""
+msgstr "Perubahan telah berhasil didorong ke dalam repositori."
 
 msgid "Copying"
-msgstr ""
+msgstr "Menyalin"
 
 msgid "Copying the data from the repository and storing it in Bibledit."
-msgstr ""
+msgstr "Menyalin data dari repositori dan menyimpannya di dalam Bibledit."
 
 msgid "Storing the local Bible data to the staging area."
 msgstr ""
@@ -214,7 +218,7 @@ msgid "The local Bible data was staged successfully."
 msgstr ""
 
 msgid "Failure staging the local Bible data."
-msgstr ""
+msgstr "Gagal memasukkan data lokal Alkitab ke dalam staging area."
 
 msgid "The local Bible data was committed successfully."
 msgstr ""
@@ -229,28 +233,28 @@ msgid "Pushing the local Bible data to the repository failed."
 msgstr ""
 
 msgid "Syncing"
-msgstr ""
+msgstr "Menyinkronkan"
 
 msgid "Link repository"
-msgstr ""
+msgstr "Menghubungkan repositori"
 
 msgid "Collaboration"
-msgstr ""
+msgstr "Kolaborasi"
 
 msgid "Repository"
-msgstr ""
+msgstr "Repositori"
 
 msgid "Which Bible are you going to use?"
-msgstr ""
+msgstr "Alkitab mana yang akan Anda gunakan?"
 
 msgid "Incorrect font size in percents"
 msgstr ""
 
 msgid "Preferences"
-msgstr ""
+msgstr "Preferensi"
 
 msgid "Please enter a font size between 50 and 300 percent"
-msgstr ""
+msgstr "Mohon masukkan ukuran font antara 50 sampai 300 persen"
 
 msgid "Please enter a caret position between 20 and 80 percent"
 msgstr ""
@@ -260,33 +264,35 @@ msgstr ""
 
 msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
 msgstr ""
+"Mohon masukkan nilai antara 1 sampai 100 detik, atau 0 untuk menonaktifkan"
 
 msgid "Incorrect fade-out delay in seconds"
 msgstr ""
 
 msgid "Which visual Bible editors to enable?"
-msgstr ""
+msgstr "Editor Alkitab visual mana yang ingin Anda diaktifkan?"
 
 msgid "Enable the USFM Bible editor?"
-msgstr ""
+msgstr "Aktifkan editor Alkitab USFM?"
 
 msgid "Select which Bible to make the active one for editing"
-msgstr ""
+msgstr "Pilih Alkitab yang akan diedit"
 
 msgid "Which verse separator to use for notes entry?"
 msgstr ""
+"Pemisah ayat seperti apa yang akan digunakan untuk memasukkan catatan?"
 
 msgid "Changes"
-msgstr ""
+msgstr "Perubahan"
 
 msgid "Send/receive"
 msgstr "Kirim/Terima"
 
 msgid "Up to date"
-msgstr ""
+msgstr "Terbaru"
 
 msgid "Still busy"
-msgstr ""
+msgstr "Masih sibuk"
 
 msgid "Watchdog timeout"
 msgstr ""
@@ -295,7 +301,7 @@ msgid "Recreate damaged modifications database"
 msgstr ""
 
 msgid "Failure to initiate connection"
-msgstr ""
+msgstr "Gagal untuk menghubungkan"
 
 msgid "No user found"
 msgstr ""
@@ -319,28 +325,28 @@ msgid "Sending note to server"
 msgstr ""
 
 msgid "Bibles"
-msgstr "Alkitab-Alkitab"
+msgstr "Alkitab"
 
 msgid "Sending to server"
 msgstr "Sedang kirim ke server"
 
 msgid "Failure sending chapter"
-msgstr ""
+msgstr "Gagal mengirim pasal"
 
 msgid "Bibledit Cloud says:"
-msgstr ""
+msgstr "Bibledit Cloud mengatakan:"
 
 msgid "Failure getting total checksum"
 msgstr ""
 
 msgid "Failure getting list of Bibles"
-msgstr ""
+msgstr "Gagal mendapatkan daftar Alkitab"
 
 msgid "Checksum error while receiving list of Bibles"
 msgstr ""
 
 msgid "Deleting Bible because the server did not grant access to it"
-msgstr ""
+msgstr "Menghapus Alkitab karena server tidak memberikan akses"
 
 msgid "Failure getting Bible checksum"
 msgstr ""
@@ -349,40 +355,40 @@ msgid "Bible up to date"
 msgstr ""
 
 msgid "Failure getting books"
-msgstr ""
+msgstr "Gagal mendapatkan buku-buku"
 
 msgid "Checksum error while receiving list of books from server"
-msgstr ""
+msgstr "Checksum gagal sewaktu mendapatkan daftar buku dari server"
 
 msgid "Deleting book because the server does not have it"
-msgstr ""
+msgstr "Menghapus buku karena server tidak memilikinya"
 
 msgid "Failure getting book checksum"
 msgstr ""
 
 msgid "Failure getting list of chapters:"
-msgstr ""
+msgstr "Gagal mendapatkan daftar pasal:"
 
 msgid "Checksum error while receiving list of chapters"
 msgstr ""
 
 msgid "Deleting chapter because the server does not have it"
-msgstr ""
+msgstr "Menghapus pasal karena server tidak memilikinya"
 
 msgid "Failure getting checksum:"
 msgstr ""
 
 msgid "Getting chapter:"
-msgstr ""
+msgstr "Mendapatkan pasal:"
 
 msgid "Failure getting chapter:"
-msgstr ""
+msgstr "Gagal mendapatkan pasal:"
 
 msgid "Checksum error while receiving chapter from server:"
 msgstr ""
 
 msgid "Merging changes on server and client"
-msgstr ""
+msgstr "Menyatukan perubahan antara server dengan klien"
 
 msgid "Changes made in Bibledit"
 msgstr ""
@@ -391,34 +397,34 @@ msgid "Bibledit will resolve the conflicts"
 msgstr ""
 
 msgid "Bibledit resolved the conflicts"
-msgstr ""
+msgstr "Bibledit berhasil menyelesaikan konflik"
 
 msgid "Settings"
 msgstr "Setelan"
 
 msgid "Failure sending and receiving Settings"
-msgstr ""
+msgstr "Gagal mengirim dan menerima Pengaturan"
 
 msgid "Sending settings"
-msgstr ""
+msgstr "Mengirim pengaturan"
 
 msgid "Resources"
 msgstr "Teliti"
 
 msgid "Sending and receiving:"
-msgstr ""
+msgstr "Mengirim dan menerima:"
 
 msgid "Send/Receive"
-msgstr "Kirim/Terima"
+msgstr "Mengirim/Menerima"
 
 msgid "Select a Bible"
-msgstr "Pilihlah nama Alkitab"
+msgstr "Pilih Alkitab"
 
 msgid "Starting to send and receive now."
-msgstr ""
+msgstr "Mulai untuk mengirim dan menerima sekarang."
 
 msgid "Starting to send now."
-msgstr ""
+msgstr "Mulai untuk mengirim sekarang."
 
 msgid "Still sending and receiving from the last time."
 msgstr ""
@@ -427,76 +433,76 @@ msgid "Still synchronizing with Paratext."
 msgstr ""
 
 msgid "January"
-msgstr ""
+msgstr "Januari"
 
 msgid "February"
-msgstr ""
+msgstr "Februari"
 
 msgid "March"
-msgstr ""
+msgstr "Maret"
 
 msgid "April"
-msgstr ""
+msgstr "April"
 
 msgid "May"
-msgstr ""
+msgstr "Mei"
 
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 msgid "August"
-msgstr ""
+msgstr "Agustus"
 
 msgid "September"
-msgstr ""
+msgstr "September"
 
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 msgid "November"
-msgstr ""
+msgstr "November"
 
 msgid "December"
-msgstr ""
+msgstr "Desember"
 
 msgid "Month"
-msgstr ""
+msgstr "Bulan"
 
 msgid "Loaded"
-msgstr ""
+msgstr "Telah dimuat"
 
 msgid "Will save..."
-msgstr ""
+msgstr "Akan menyimpan..."
 
 msgid "Updating..."
-msgstr ""
+msgstr "Memperbarui..."
 
 msgid "Updated"
-msgstr ""
+msgstr "Diperbarui"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Menyimpan..."
 
 msgid "Saved"
-msgstr ""
+msgstr "Tersimpan"
 
 msgid "Retrying..."
-msgstr ""
+msgstr "Mencoba kembali..."
 
 msgid "Reformat"
 msgstr ""
 
 msgid "You do not have enough privileges to modify this book."
-msgstr ""
+msgstr "Anda tidak memiliki hak istimewa yang cukup untuk mengubah buku ini."
 
 msgid "Updated Bible text was loaded."
-msgstr ""
+msgstr "Teks Alkitab yang diperbarui telah dimuat."
 
 msgid "space"
-msgstr ""
+msgstr "spasi"
 
 msgid "non-breaking space"
 msgstr ""
@@ -511,10 +517,10 @@ msgid "narrow non-breaking space"
 msgstr ""
 
 msgid "unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 msgid "Font and text direction"
-msgstr ""
+msgstr "Arah font dan teks"
 
 msgid "Waiting while Bibledit Cloud installs the requested SWORD module"
 msgstr ""
@@ -523,6 +529,8 @@ msgid ""
 "It has been some time ago that changes in the Bible text were received from "
 "the Cloud."
 msgstr ""
+"Sudah cukup lama sejak perubahan terakhir pada teks Alkitab diterima dari "
+"Cloud."
 
 msgid ""
 "This will right itself in a little time if you are connected to the Internet."
@@ -2500,6 +2508,9 @@ msgid ""
 msgstr ""
 
 msgid "Initial vertical position of the editing cursor in the Bible editors"
+msgstr ""
+
+msgid "Choose theme"
 msgstr ""
 
 msgid "Show breadcrumbs"
@@ -11912,7 +11923,7 @@ msgid "Username or email address is too short"
 msgstr "Nama pengguna atau alamat email terlalu pendek."
 
 msgid "Account changed"
-msgstr ""
+msgstr "Akun telah diubah"
 
 msgid "Somebody requested a new password for your account."
 msgstr "Seseorang sudah minta mengubah kata sandi untuk akunmu."
@@ -11944,6 +11955,8 @@ msgid ""
 "To which city was Paul travelling when a light from heaven shone round about "
 "him?"
 msgstr ""
+"Paulus sedang bepergian kemana sewaktu suatu cahaya dari langit memancar "
+"mengelilinginya?"
 
 msgid "Damascus"
 msgstr "Damsyik"
@@ -11971,7 +11984,7 @@ msgstr ""
 "hatinya. (Keluaran 4:14 AYT)"
 
 msgid "What is the name of the city where Jesus was born?"
-msgstr ""
+msgstr "Apa nama kota tempat Yesus dilahirkan?"
 
 msgid "Bethlehem"
 msgstr "Betlehem"
@@ -11995,12 +12008,15 @@ msgid ""
 "and endurance of Jesus Christ, was in the island called Patmos, because of "
 "the word of God, and because of the testimony of Jesus Christ."
 msgstr ""
+"Saya Yohanes, Saudara kalian dalam penderitaan karena iman kita, dalam "
+"ketabahan, dan dalam kerajaan Yesus Kristus. Saya ada di sebuah pulau "
+"bernama Patmos, karena firman Allah dan Yesus Kristus yang saya beritakan."
 
 msgid "Who is the first person to acknowledge Jesus as the Christ?"
 msgstr "Siapa namanya orang pertama untuk menyambut Yesus sebagai Kristus?"
 
 msgid "Simeon"
-msgstr ""
+msgstr "Simeon"
 
 msgid ""
 "There was Simeon. A just and devout man. The Holy Spirit told him that he "
@@ -12013,153 +12029,166 @@ msgstr ""
 "Tuhan."
 
 msgid "To whom was the Acts Of Apostles written?"
-msgstr ""
+msgstr "Kisah Para Rasul ditulis untuk siapa?"
 
 msgid "Theophilus"
-msgstr ""
+msgstr "Teofilus"
 
 msgid ""
 "The former treatise have I made, O Theophilus, of all that Jesus began both "
 "to do and teach,"
 msgstr ""
+"Kepada yang terhormat Teofilus: Di dalam laporan saya yang pertama ..."
 
 msgid "Where did Jesus met the woman from Samaria?"
-msgstr ""
+msgstr "Dimana Yesus bertemu dengan perempuan dari Samaria?"
 
 msgid "Jacob's well"
-msgstr ""
+msgstr "Sumur Yakub"
 
 msgid ""
 "Jesus being wearied by his journey, sat on Jacob's well. Then came a woman "
 "from Samaria to get water."
 msgstr ""
+"Merasa lelah karena perjalanan, Yesus duduk di sumur Yakub. Kemudian datang "
+"seorang perempuan dari Samaria untuk menimba air."
 
 msgid "Who was the father of Abraham?"
-msgstr ""
+msgstr "Siapakah ayah Abraham?"
 
 msgid "Terah"
-msgstr ""
+msgstr "Terah"
 
 msgid "And Terah took Abram his son,"
-msgstr ""
+msgstr "Dan Terah membawa Abraham anaknya."
 
 msgid "Who was the son of Cush, the mighty hunter before the Lord?"
-msgstr ""
+msgstr "Siapakah anak Kus, orang yang sangat perkasa dalam berperang?"
 
 msgid "Nimrod"
-msgstr ""
+msgstr "Nimrod"
 
 msgid "And Cush bore Nimrod. He was a mighty hunter before the Lord."
 msgstr ""
+"Kus mempunyai seorang anak bernama Nimrod. Dia dikenal sebagai orang yang "
+"sangat perkasa dalam berperang."
 
 msgid "What is the name of Job's friend that answered him first?"
-msgstr ""
+msgstr "Siapakah teman Ayub yang menjawabnya paling pertama?"
 
 msgid "Eliphaz"
-msgstr ""
+msgstr "Elifas"
 
 msgid "Then Eliphaz the Temanite answered and said to Job."
-msgstr ""
+msgstr "Lalu, Elifas, orang Teman, menjawab Ayub."
 
 msgid "What is the name of Ruth's husband?"
-msgstr ""
+msgstr "Siapakah nama dari suami Rut?"
 
 msgid "Boaz"
-msgstr ""
+msgstr "Boas"
 
 msgid "So Boaz took Ruth as his wife."
-msgstr ""
+msgstr "Maka Boas menikahi Rut."
 
 msgid "Who taught Lemuel Proverbs chapter 31?"
-msgstr ""
+msgstr "Siapa yang mengajarkan Lemuel Amsal pasal 31?"
 
 msgid "Lemuel's mother"
-msgstr ""
+msgstr "Ibu Lemuel"
 
 msgid "The words of king Lemuel, the prophecy that his mother taught him."
-msgstr ""
+msgstr "Kata-kata raja Lemuel, yang diajarkan oleh ibunya kepadanya."
 
 msgid "Who is the chosen people of God in the Old Testament?"
-msgstr ""
+msgstr "Siapakah bangsa yang dipilih Allah dalam Perjanjian Lama?"
 
 msgid "Israel"
-msgstr ""
+msgstr "Israel"
 
 msgid "Israel, you are the chosen people of the Lord your God."
-msgstr ""
+msgstr "Israel, kalian adalah orang yang dipilih oleh Tuhan, Allah kalian."
 
 msgid "Where did God rescue Israel from?"
-msgstr ""
+msgstr "Allah menyelamatkan Israel dari mana?"
 
 msgid "Egypt"
-msgstr ""
+msgstr "Mesir"
 
 msgid "Then with his mighty arm, he rescued you from Egypt."
-msgstr ""
+msgstr "Dengan tangan-Nya yang perkasa, Dia menyelamatkanmu dari Mesir."
 
 msgid "Who's the father of Abimelech?"
-msgstr ""
+msgstr "Siapa ayah Abimelekh?"
 
 msgid "Gideon"
-msgstr ""
+msgstr "Gideon"
 
 msgid "Abimelech the son of Gideon went to Shechem."
-msgstr ""
+msgstr "Abimelekh anak Gideon pergi ke kota Sikhem."
 
 msgid "Who's the father of Joshua the priest in the time of Ezra?"
-msgstr ""
+msgstr "Siapakah ayah Yesua, imam pada zaman Ezra?"
 
 msgid "Jozadak"
-msgstr ""
+msgstr "Yozadak"
 
 msgid "The priest Joshua son of Jozadak."
-msgstr ""
+msgstr "Imam Yosua anak Yozadak."
 
 msgid "Who's Nebuchadnezzar?"
-msgstr ""
+msgstr "Siapakah Nebukadnezar?"
 
 msgid "The king of Babylonia"
-msgstr ""
+msgstr "Raja Babel"
 
 msgid ""
 "We were told that their people had made God angry, and he let them be "
 "captured by Nebuchadnezzar, the king of Babylonia."
 msgstr ""
+"Kita telah diberitahu bahwa mereka memancing amarah Allah, dan Dia "
+"membiarkan mereka ditangkap oleh Nebukadnezar, raja Babel."
 
 msgid "Who's Cyrus?"
-msgstr ""
+msgstr "Siapakah Koresh?"
 
 msgid "King of Babylonia"
-msgstr ""
+msgstr "Raja Babel"
 
 msgid ""
 "They also said that during the first year Cyrus was king of Babylonia."
 msgstr ""
+"Mereka juga mengatakan hal yang sama sepanjang tahun pertama Koresh sebagai "
+"raja Babel."
 
 msgid ""
 "For how many days does Jesus appeared to the disciples after he rose from "
 "the dead?"
 msgstr ""
+"Berapa lama Yesus menampakkan diri-Nya kepada para murid setelah kebangkitan-"
+"Nya?"
 
 msgid "40"
-msgstr ""
+msgstr "40"
 
 msgid ""
 "For 40 days after Jesus had suffered and died, he proved in many ways that "
 "he had been raised from death."
 msgstr ""
+"Selama 40 hari setelah Yesus menderita dan meninggal, Dia membuktikan dengan "
+"banyak cara bahwa Dia telah bangkit dari kematian."
 
 msgid "Who wrote Song of Songs?"
-msgstr ""
+msgstr "Siapa yang menulis Kidung Agung?"
 
 msgid "Solomon"
-msgstr ""
+msgstr "Salomo"
 
 msgid "This is Solomon's most beautiful song."
-msgstr ""
+msgstr "Ini adalah lagu terindah ciptaan Salomo."
 
 msgid "Who's the father of Hosea?"
-msgstr ""
+msgstr "Siapakah ayah Hosea?"
 
 msgid "Beeri"
 msgstr "Beeri"
@@ -12168,25 +12197,25 @@ msgid "I am Hosea son of Beeri."
 msgstr "Saya adalah Hosea anak Beeri."
 
 msgid "Username should be at least four characters long"
-msgstr ""
+msgstr "Panjang nama pengguna harus paling tidak empat karakter"
 
 msgid "The answer to the question is not correct"
 msgstr "Jawabanmu itu tidak benar!"
 
 msgid "The username that you have chosen has already been taken."
-msgstr ""
+msgstr "Nama pengguna yang Anda pilih telah diambil."
 
 msgid "Please choose another one."
-msgstr ""
+msgstr "Mohon pilih yang lain."
 
 msgid "The email address that you have chosen has already been taken."
-msgstr ""
+msgstr "Alamat email yang Anda pilih telah diambil."
 
 msgid "Signup verification"
 msgstr "Bukti pendaftaran"
 
 msgid "There is a request to open an account with this email address."
-msgstr ""
+msgstr "Telah ada permintaan untuk membuka akun dengan alamat email ini."
 
 msgid "Account opened"
 msgstr ""

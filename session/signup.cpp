@@ -255,8 +255,8 @@ string session_signup (void * webserver_request)
       node = initial_document.append_child ("p");
       information = "Nama pengguna: " + user;
       node.text ().set (information.c_str());
-      node = initial_document.append_child ("p");
-      node.text ().set ("Kata sandi:");
+//      node = initial_document.append_child ("p");
+//      node.text ().set ("Kata sandi:");
       node = initial_document.append_child ("p");
       node.text ().set (R"(• Kalau Saudara lupa kata sandi, di halaman login kliklah tautan tentang “Aku lupa kata sandiku!””)");
       node = initial_document.append_child ("p");

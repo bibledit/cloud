@@ -103,7 +103,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
 
-  string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
+  string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -176,7 +176,7 @@ string edit_save (void * webserver_request)
 #endif
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.

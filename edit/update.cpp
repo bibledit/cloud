@@ -17,7 +17,7 @@
  */
 
 
-#include <edit2/update.h>
+#include <edit/update.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -38,19 +38,19 @@
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <editone2/logic.h>
-#include <edit2/logic.h>
+#include <edit/logic.h>
 #include <developer/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 
 
-string edit2_update_url ()
+string edit_update_url ()
 {
-  return "edit2/update";
+  return "edit/update";
 }
 
 
-bool edit2_update_acl (void * webserver_request)
+bool edit_update_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
@@ -59,7 +59,7 @@ bool edit2_update_acl (void * webserver_request)
 }
 
 
-string edit2_update (void * webserver_request)
+string edit_update (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 

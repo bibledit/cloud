@@ -220,15 +220,7 @@ libbibledit_a_SOURCES = \
 	edit/preview.cpp \
 	edit/position.cpp \
 	edit/navigate.cpp \
-  edit2/edit.cpp \
-  edit2/index.cpp \
-  edit2/load.cpp \
-  edit2/save.cpp \
-  edit2/logic.cpp \
-  edit2/preview.cpp \
-  edit2/position.cpp \
-  edit2/navigate.cpp \
-  edit2/update.cpp \
+  edit/update.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \

@@ -27,7 +27,7 @@
 #include <locale/translate.h>
 #include <access/bible.h>
 #include <menu/logic.h>
-#include <edit2/index.h>
+#include <edit/index.h>
 #include <editone2/index.h>
 #include <editusfm/index.h>
 
@@ -58,10 +58,10 @@ string editor_select (void * webserver_request)
   
   vector <string> urls;
   
-  if (edit2_index_acl (webserver_request)) {
+  if (edit_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {
       string label = menu_logic_editor_menu_text (true, true);
-      string url = edit2_index_url ();
+      string url = edit_index_url ();
       view.add_iteration ("editor", { make_pair ("url", url), make_pair ("label", label) } );
       urls.push_back (url);
     }

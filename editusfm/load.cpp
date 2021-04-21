@@ -51,7 +51,7 @@ string editusfm_load (void * webserver_request)
   string unique_id = request->query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
 
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
 

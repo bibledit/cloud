@@ -192,16 +192,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <journal/logic.h>
 #include <nmt/index.h>
-#include <edit2/index.h>
-#include <edit2/edit.h>
 #include <editor/id.h>
-#include <edit2/load.h>
-#include <edit2/save.h>
 #include <editor/style.h>
-#include <edit2/preview.h>
-#include <edit2/position.h>
-#include <edit2/navigate.h>
-#include <edit2/update.h>
+#include <edit/update.h>
 #include <editone2/index.h>
 #include <editone2/load.h>
 #include <editone2/save.h>
@@ -1141,33 +1134,33 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  if ((url == edit2_index_url ()) && browser_request_security_okay (request) && edit2_index_acl (request)) {
-    request->reply = edit2_index (request);
+  if ((url == edit_index_url ()) && browser_request_security_okay (request) && edit_index_acl (request)) {
+    request->reply = edit_index (request);
     return;
   }
   
-  if ((url == edit2_position_url ()) && browser_request_security_okay (request) && edit2_position_acl (request)) {
-    request->reply = edit2_position (request);
+  if ((url == edit_position_url ()) && browser_request_security_okay (request) && edit_position_acl (request)) {
+    request->reply = edit_position (request);
     return;
   }
 
-  if ((url == edit2_navigate_url ()) && browser_request_security_okay (request) && edit2_navigate_acl (request)) {
-    request->reply = edit2_navigate (request);
+  if ((url == edit_navigate_url ()) && browser_request_security_okay (request) && edit_navigate_acl (request)) {
+    request->reply = edit_navigate (request);
     return;
   }
   
-  if ((url == edit2_preview_url ()) && browser_request_security_okay (request) && edit2_preview_acl (request)) {
-    request->reply = edit2_preview (request);
+  if ((url == edit_preview_url ()) && browser_request_security_okay (request) && edit_preview_acl (request)) {
+    request->reply = edit_preview (request);
     return;
   }
   
-  if ((url == edit2_edit_url ()) && browser_request_security_okay (request) && edit2_edit_acl (request)) {
-    request->reply = edit2_edit (request);
+  if ((url == edit_edit_url ()) && browser_request_security_okay (request) && edit_edit_acl (request)) {
+    request->reply = edit_edit (request);
     return;
   }
 
-  if ((url == edit2_update_url ()) && browser_request_security_okay (request) && edit2_update_acl (request)) {
-    request->reply = edit2_update (request);
+  if ((url == edit_update_url ()) && browser_request_security_okay (request) && edit_update_acl (request)) {
+    request->reply = edit_update (request);
     return;
   }
 
@@ -1176,13 +1169,13 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   
-  if ((url == edit2_load_url ()) && browser_request_security_okay (request) && edit2_load_acl (request)) {
-    request->reply = edit2_load (request);
+  if ((url == edit_load_url ()) && browser_request_security_okay (request) && edit_load_acl (request)) {
+    request->reply = edit_load (request);
     return;
   }
   
-  if ((url == edit2_save_url ()) && browser_request_security_okay (request) && edit2_save_acl (request)) {
-    request->reply = edit2_save (request);
+  if ((url == edit_save_url ()) && browser_request_security_okay (request) && edit_save_acl (request)) {
+    request->reply = edit_save (request);
     return;
   }
   

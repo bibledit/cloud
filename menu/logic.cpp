@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/userresources.h>
 #include <developer/index.h>
 #include <edit/index.h>
-#include <edit2/index.h>
+#include <edit/index.h>
 #include <editone2/index.h>
 #include <redirect/index.h>
 #include <editusfm/index.h>
@@ -386,9 +386,9 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   vector <string> labels;
   
   // Visual chapter editor.
-  if (edit2_index_acl (webserver_request)) {
+  if (edit_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (true, true);
-    html.push_back (menu_logic_create_item (edit2_index_url (), label, true, "", ""));
+    html.push_back (menu_logic_create_item (edit_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 

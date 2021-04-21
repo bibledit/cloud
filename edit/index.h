@@ -17,8 +17,8 @@
  */
 
 
-#ifndef INCLUDED_EDIT_INDEX_H
-#define INCLUDED_EDIT_INDEX_H
+#ifndef INCLUDED_EDIT2_INDEX_H
+#define INCLUDED_EDIT2_INDEX_H
 
 
 #include <config/libraries.h>

@@ -17,8 +17,8 @@
  */
 
 
-#ifndef INCLUDED_EDIT_LOAD_H
-#define INCLUDED_EDIT_LOAD_H
+#ifndef INCLUDED_EDIT2_LOAD_H
+#define INCLUDED_EDIT2_LOAD_H
 
 
 #include <config/libraries.h>

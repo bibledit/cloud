@@ -68,7 +68,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
 string resource_logic_study_light_module_list_path ();
 string resource_logic_study_light_module_list_refresh ();
 vector <string> resource_logic_study_light_module_list_get ();
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse);
+string resource_logic_study_light_get_v2 (string resource, int book, int chapter, int verse);
 
 bool resource_logic_is_bible (string resource);
 bool resource_logic_is_usfm (string resource);

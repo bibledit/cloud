@@ -552,7 +552,8 @@ unittest_SOURCES = \
 	unittests/french.cpp \
   unittests/merge.cpp \
   unittests/nmt.cpp \
-  unittests/html2format.cpp
+  unittests/html2format.cpp \
+  unittests/studylight.cpp
 
 unittest_LDADD = libbibledit.a
 

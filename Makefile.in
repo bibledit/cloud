@@ -396,7 +396,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/privileges.$(OBJEXT) unittests/statistics.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
-	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT)
+	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
+	unittests/studylight.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -698,6 +699,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/sqlite.Po unittests/$(DEPDIR)/state.Po \
 	unittests/$(DEPDIR)/statistics.Po \
 	unittests/$(DEPDIR)/string.Po unittests/$(DEPDIR)/strong.Po \
+	unittests/$(DEPDIR)/studylight.Po \
 	unittests/$(DEPDIR)/styles.Po unittests/$(DEPDIR)/tasks.Po \
 	unittests/$(DEPDIR)/text.Po unittests/$(DEPDIR)/unittest.Po \
 	unittests/$(DEPDIR)/url.Po unittests/$(DEPDIR)/users.Po \
@@ -1488,7 +1490,8 @@ unittest_SOURCES = \
 	unittests/french.cpp \
   unittests/merge.cpp \
   unittests/nmt.cpp \
-  unittests/html2format.cpp
+  unittests/html2format.cpp \
+  unittests/studylight.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3233,6 +3236,8 @@ unittests/nmt.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/html2format.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/studylight.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3849,6 +3854,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/statistics.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/string.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/strong.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/studylight.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tasks.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
@@ -4935,6 +4941,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/statistics.Po
 	-rm -f unittests/$(DEPDIR)/string.Po
 	-rm -f unittests/$(DEPDIR)/strong.Po
+	-rm -f unittests/$(DEPDIR)/studylight.Po
 	-rm -f unittests/$(DEPDIR)/styles.Po
 	-rm -f unittests/$(DEPDIR)/tasks.Po
 	-rm -f unittests/$(DEPDIR)/text.Po
@@ -5530,6 +5537,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/statistics.Po
 	-rm -f unittests/$(DEPDIR)/string.Po
 	-rm -f unittests/$(DEPDIR)/strong.Po
+	-rm -f unittests/$(DEPDIR)/studylight.Po
 	-rm -f unittests/$(DEPDIR)/styles.Po
 	-rm -f unittests/$(DEPDIR)/tasks.Po
 	-rm -f unittests/$(DEPDIR)/text.Po

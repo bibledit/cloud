@@ -106,8 +106,8 @@ string system_indonesianfree (void * webserver_request)
 
 
   // Set the user chosen theme as the current theme.
-  if (request->post.count ("themepicker")) {
-    int themepicker = convert_to_int (request->post ["themepicker"]);
+  if (request->query.count ("themepicker")) {
+    int themepicker = convert_to_int (request->query ["themepicker"]);
     request->database_config_user ()->setCurrentTheme(themepicker);
     return "";
   }

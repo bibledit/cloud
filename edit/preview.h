@@ -17,8 +17,8 @@
  */
 
 
-#ifndef INCLUDED_EDIT2_PREVIEW_H
-#define INCLUDED_EDIT2_PREVIEW_H
+#ifndef INCLUDED_EDIT_PREVIEW_H
+#define INCLUDED_EDIT_PREVIEW_H
 
 
 #include <config/libraries.h>

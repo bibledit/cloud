@@ -17,8 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#ifndef INCLUDED_EDIT2_LOGIC_H
-#define INCLUDED_EDIT2_LOGIC_H
+#ifndef INCLUDED_EDIT_LOGIC_H
+#define INCLUDED_EDIT_LOGIC_H
 
 
 #include <config/libraries.h>

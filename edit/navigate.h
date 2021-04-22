@@ -17,8 +17,8 @@
  */
 
 
-#ifndef INCLUDED_EDIT2_NAVIGATE_H
-#define INCLUDED_EDIT2_NAVIGATE_H
+#ifndef INCLUDED_EDIT_NAVIGATE_H
+#define INCLUDED_EDIT_NAVIGATE_H
 
 
 #include <config/libraries.h>

@@ -655,6 +655,8 @@ ICU_LIBS
 ICU_CFLAGS
 HAVE_LIBMBEDTLS_FALSE
 HAVE_LIBMBEDTLS_TRUE
+XML2_LIBS
+XML2_CFLAGS
 OPENSSL_LIBS
 OPENSSL_CFLAGS
 CURL_LIBS
@@ -794,6 +796,8 @@ CURL_CFLAGS
 CURL_LIBS
 OPENSSL_CFLAGS
 OPENSSL_LIBS
+XML2_CFLAGS
+XML2_LIBS
 ICU_CFLAGS
 ICU_LIBS'
 
@@ -1456,6 +1460,8 @@ Some influential environment variables:
               C compiler flags for OPENSSL, overriding pkg-config
   OPENSSL_LIBS
               linker flags for OPENSSL, overriding pkg-config
+  XML2_CFLAGS C compiler flags for XML2, overriding pkg-config
+  XML2_LIBS   linker flags for XML2, overriding pkg-config
   ICU_CFLAGS  C compiler flags for ICU, overriding pkg-config
   ICU_LIBS    linker flags for ICU, overriding pkg-config
 
@@ -6716,6 +6722,80 @@ printf "%s\n" "no" >&6; }
 else
 	OPENSSL_CFLAGS=$pkg_cv_OPENSSL_CFLAGS
 	OPENSSL_LIBS=$pkg_cv_OPENSSL_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+
+
+
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libxml-2.0 >= 2.9.0" >&5
+printf %s "checking for libxml-2.0 >= 2.9.0... " >&6; }
+
+if test -n "$XML2_CFLAGS"; then
+    pkg_cv_XML2_CFLAGS="$XML2_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libxml-2.0 >= 2.9.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libxml-2.0 >= 2.9.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_XML2_CFLAGS=`$PKG_CONFIG --cflags "libxml-2.0 >= 2.9.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$XML2_LIBS"; then
+    pkg_cv_XML2_LIBS="$XML2_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libxml-2.0 >= 2.9.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libxml-2.0 >= 2.9.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_XML2_LIBS=`$PKG_CONFIG --libs "libxml-2.0 >= 2.9.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        XML2_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libxml-2.0 >= 2.9.0" 2>&1`
+        else
+	        XML2_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libxml-2.0 >= 2.9.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$XML2_PKG_ERRORS" >&5
+
+	as_fn_error $? "GNOME XML2 library development version >= 2.9.0 is needed." "$LINENO" 5
+elif test $pkg_failed = untried; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "GNOME XML2 library development version >= 2.9.0 is needed." "$LINENO" 5
+else
+	XML2_CFLAGS=$pkg_cv_XML2_CFLAGS
+	XML2_LIBS=$pkg_cv_XML2_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 

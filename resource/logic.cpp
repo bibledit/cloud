@@ -310,7 +310,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   } else if (isBibleGateway) {
     data = resource_logic_bible_gateway_get (resource, book, chapter, verse);
   } else if (isStudyLight) {
-    data = resource_logic_study_light_get_v2 (resource, book, chapter, verse);
+    data = resource_logic_study_light_get (resource, book, chapter, verse);
   } else {
     // Nothing found.
   }
@@ -452,7 +452,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 
   if (isStudyLight) {
     // The server fetches it from the web.
-    return resource_logic_study_light_get_v2 (resource, book, chapter, verse);
+    return resource_logic_study_light_get (resource, book, chapter, verse);
   }
 
   if (isComparative) {
@@ -1263,7 +1263,7 @@ vector <string> resource_logic_study_light_module_list_get ()
 
 
 // Get the slightly formatted of a passage of a StudyLight resource.
-string resource_logic_study_light_get_v2 (string resource, int book, int chapter, int verse)
+string resource_logic_study_light_get (string resource, int book, int chapter, int verse)
 {
   string result;
 
@@ -1312,11 +1312,15 @@ string resource_logic_study_light_get_v2 (string resource, int book, int chapter
       size_t pos = result.offset - 2;
       html.erase (pos);
     }
+//    cout << html << endl; // Todo
+//    cout << result.offset << endl; // Todo
+//    cout << result.description() << endl; // Todo
   }
   // Parse the html into a DOM.
   string verse_s = convert_to_string (verse);
   xml_document document;
   document.load_string (html.c_str());
+  //cout << html << endl; // Todo
 
   // Example verse indicator within the XML:
   // <a name="verses-2-10"></a>
@@ -1326,6 +1330,7 @@ string resource_logic_study_light_get_v2 (string resource, int book, int chapter
   string selector = selector1 + "|" + selector2;
   xpath_node_set nodeset = document.select_nodes(selector.c_str());
   nodeset.sort();
+//  cout << "nodes selected: " << nodeset.size() << endl; // Todo
   for (xpath_node xpathnode : nodeset) {
     xml_node h3_node = xpathnode.node().parent();
     xml_node div_node = h3_node.parent();

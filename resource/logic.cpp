@@ -1295,32 +1295,13 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
-  // Look for the place where the main text fragment starts.
-  pos = html.find (R"(<div class="ptb10">)");
-  if (pos == string::npos) return "";
-  // Remove all contents before that text fragment.
-  html.erase (0, pos);
+  // Therefore the html is tidied first.
+  html = filter_string_tidy_invalid_html (html);
 
-  // Load the remaining html into the XML parser.
-  // The parser will given an error about Start-end tags mismatch.
-  // The parser will also give the location where this mismatch occurs first.
-  // The location where the mismatch occurs indicates the end of the relevant verses content.
-  {
-    xml_document document;
-    xml_parse_result result = document.load_string (html.c_str(), parse_default | parse_fragment);
-    if (result.offset > 10) {
-      size_t pos = result.offset - 2;
-      html.erase (pos);
-    }
-//    cout << html << endl; // Todo
-//    cout << result.offset << endl; // Todo
-//    cout << result.description() << endl; // Todo
-  }
   // Parse the html into a DOM.
   string verse_s = convert_to_string (verse);
   xml_document document;
   document.load_string (html.c_str());
-  //cout << html << endl; // Todo
 
   // Example verse indicator within the XML:
   // <a name="verses-2-10"></a>
@@ -1330,7 +1311,6 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   string selector = selector1 + "|" + selector2;
   xpath_node_set nodeset = document.select_nodes(selector.c_str());
   nodeset.sort();
-//  cout << "nodes selected: " << nodeset.size() << endl; // Todo
   for (xpath_node xpathnode : nodeset) {
     xml_node h3_node = xpathnode.node().parent();
     xml_node div_node = h3_node.parent();

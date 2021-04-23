@@ -554,7 +554,7 @@ void test_string ()
     evaluate (__LINE__, __func__, 2, (int)u16.length());
   }
   
-  // Test tidying invalid html. // Todo
+  // Test tidying invalid html.
   {
     string path_invalid = filter_url_create_root_path ("unittests", "tests", "html-invalid-1.html");
     string html_invalid = filter_url_file_get_contents(path_invalid);

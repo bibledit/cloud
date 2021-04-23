@@ -560,8 +560,6 @@
 		CA47B2CB25E9282B001370A4 /* indonesianfree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indonesianfree.cpp; sourceTree = "<group>"; };
 		CA47B2CC25E9282B001370A4 /* indonesianfree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indonesianfree.h; sourceTree = "<group>"; };
 		CA47B2CD25E9282B001370A4 /* indonesianfree.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indonesianfree.html; sourceTree = "<group>"; };
-		CA4B4D7B2604D1CD00D9BFB2 /* stylesheet-id.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "stylesheet-id.css"; sourceTree = "<group>"; };
-		CA4B4D7C2604D1F700D9BFB2 /* header-id.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "header-id.js"; sourceTree = "<group>"; };
 		CA60BF2925337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA60BF2B25337938004D6E06 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA60BF2C25337938004D6E06 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
@@ -2884,7 +2882,6 @@
 				CADE371624F1737A003165BB /* external.h */,
 				CADE371E24F1737A003165BB /* external.js */,
 				CADE372324F1737A003165BB /* footer.html */,
-				CA4B4D7C2604D1F700D9BFB2 /* header-id.js */,
 				CADE371824F1737A003165BB /* header.cpp */,
 				CADE371424F1737A003165BB /* header.h */,
 				CADE372C24F1737A003165BB /* header.html */,
@@ -3422,7 +3419,6 @@
 			children = (
 				CADE39EE24F17423003165BB /* editor.css */,
 				CADE39F124F17423003165BB /* mouse.css */,
-				CA4B4D7B2604D1CD00D9BFB2 /* stylesheet-id.css */,
 				CADE39F024F17423003165BB /* stylesheet.css */,
 				CADE39EF24F17423003165BB /* touch.css */,
 			);

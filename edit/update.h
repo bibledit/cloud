@@ -17,16 +17,16 @@
  */
 
 
-#ifndef INCLUDED_EDIT2_LOAD_H
-#define INCLUDED_EDIT2_LOAD_H
+#ifndef INCLUDED_EDIT_UPDATE_H
+#define INCLUDED_EDIT_UPDATE_H
 
 
 #include <config/libraries.h>
 
 
-string edit2_load_url ();
-bool edit2_load_acl (void * webserver_request);
-string edit2_load (void * webserver_request);
+string edit_update_url ();
+bool edit_update_acl (void * webserver_request);
+string edit_update (void * webserver_request);
 
 
 #endif

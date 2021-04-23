@@ -112,6 +112,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/paratext.h>
 #include <unittests/nmt.h>
 #include <unittests/html2format.h>
+#include <unittests/studylight.h>
 
 
 int main (int argc, char **argv) 
@@ -141,7 +142,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_biblegateway ();
+  //test_biblegateway ();
+  test_studylight ();
   refresh_sandbox (true);
   exit (0);
   
@@ -244,6 +246,8 @@ int main (int argc, char **argv)
   test_paratext ();
   test_nmt ();
   test_html2format ();
+  test_studylight ();
+
 
   // Output possible journal entries.
   refresh_sandbox (true);

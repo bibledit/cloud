@@ -310,7 +310,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   } else if (isBibleGateway) {
     data = resource_logic_bible_gateway_get (resource, book, chapter, verse);
   } else if (isStudyLight) {
-    data = resource_logic_study_light_get (resource, book, chapter, verse);
+    data = resource_logic_study_light_get_v2 (resource, book, chapter, verse);
   } else {
     // Nothing found.
   }
@@ -452,7 +452,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 
   if (isStudyLight) {
     // The server fetches it from the web.
-    return resource_logic_study_light_get (resource, book, chapter, verse);
+    return resource_logic_study_light_get_v2 (resource, book, chapter, verse);
   }
 
   if (isComparative) {
@@ -1262,8 +1262,8 @@ vector <string> resource_logic_study_light_module_list_get ()
 }
 
 
-// Get the clean text of a passage of a StudyLight resource.
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse)
+// Get the slightly formatted of a passage of a StudyLight resource.
+string resource_logic_study_light_get_v2 (string resource, int book, int chapter, int verse)
 {
   string result;
 
@@ -1271,64 +1271,67 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   // Transform the full name to the abbreviation for the website, e.g.:
   // "Adam Clarke Commentary (acc)" becomes "acc".
   size_t pos = resource.find_last_of ("(");
-  if (pos != string::npos) {
-    resource.erase (0, pos + 1);
-    pos = resource.find (")");
-    if (pos != string::npos) {
-      resource.erase (pos);
+  if (pos == string::npos) return "";
+  resource.erase (0, pos + 1);
+  pos = resource.find (")");
+  if (pos == string::npos) return "";
+  resource.erase (pos);
+  
+  // The resource abbreviation might look like this:
+  // studylight-eng/bnb
+  // Also remove that "studylight-" bit.
+  resource.erase (0, 11);
+  
+  // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
+  string url;
+  url.append ("http://www.studylight.org/commentaries/");
+  url.append (resource + "/");
+  url.append (resource_external_convert_book_studylight (book));
+  url.append ("-" + convert_to_string (chapter) + ".html");
+  
+  // Get the html from the server.
+  string error;
+  string html = resource_logic_web_or_cache_get (url, error);
 
-      // The resource abbreviation might look like this:
-      // studylight-eng/bnb
-      // Also remove that "studylight-" bit.
-      resource.erase (0, 11);
+  // It appears that the html from this website is not well-formed.
+  // It cannot be loaded as an XML document without errors and missing text.
+  // Look for the place where the main text fragment starts.
+  pos = html.find (R"(<div class="ptb10">)");
+  if (pos == string::npos) return "";
+  // Remove all contents before that text fragment.
+  html.erase (0, pos);
 
-      // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
-      string url = "http://www.studylight.org/commentaries/" + resource + "/" + resource_external_convert_book_studylight (book) + "-" + convert_to_string (chapter) + ".html";
-
-      // Get the html from the server, and tidy it up.
-      string error;
-      string html = resource_logic_web_or_cache_get (url, error);
-      string tidy = html_tidy (html);
-      vector <string> tidied = filter_string_explode (tidy, '\n');
-      
-      vector <string> relevant_lines;
-      bool relevant_flag = false;
-
-      // <a name="verse-2" ... >Verse 2</a>
-      // <a name="verses-1-4" ...>Verses 1-4</a>
-      string verse_tag = R"(name="verse-)" + convert_to_string (verse) + R"(")";
-      string verses_tag = R"(name="verses-)";
-
-      for (auto & line : tidied) {
-        
-        if (relevant_flag) relevant_lines.push_back (line);
-        
-        size_t pos = line.find ("</div>");
-        if (pos != string::npos) relevant_flag = false;
-        
-        pos = line.find (verse_tag);
-        if (pos != string::npos) relevant_flag = true;
-        
-        pos = line.find (verses_tag);
-        if (pos != string::npos) {
-          size_t pos2 = line.find(R"(")", pos + 8);
-          if (pos2 != string::npos) {
-            // Example of multi-verse fragment: name="verses-47-54
-            string fragment = line.substr(pos, pos2 - pos);
-            vector <string> bits = filter_string_explode(fragment, '-');
-            if (bits.size() == 3) {
-              int lower = convert_to_int(bits[1]);
-              int higher = convert_to_int(bits[2]);
-              if ((verse >= lower) && (verse <= higher)) relevant_flag = true;
-            }
-          }
-        }
-      }
-      
-      result = filter_string_implode (relevant_lines, "\n");
-      html.append ("<p><a href=\"" + url + "\">" + url + "</a></p>\n");
-    
+  // Load the remaining html into the XML parser.
+  // The parser will given an error about Start-end tags mismatch.
+  // The parser will also give the location where this mismatch occurs first.
+  // The location where the mismatch occurs indicates the end of the relevant verses content.
+  {
+    xml_document document;
+    xml_parse_result result = document.load_string (html.c_str(), parse_default | parse_fragment);
+    if (result.offset > 10) {
+      size_t pos = result.offset - 2;
+      html.erase (pos);
     }
+  }
+  // Parse the html into a DOM.
+  string verse_s = convert_to_string (verse);
+  xml_document document;
+  document.load_string (html.c_str());
+
+  // Example verse indicator within the XML:
+  // <a name="verses-2-10"></a>
+  // <a name="verse-2"></a>
+  string selector1 = "//a[contains(@name,'verses-" + convert_to_string (verse) + "-')]";
+  string selector2 = "//a[@name='verse-" + convert_to_string (verse) + "']";
+  string selector = selector1 + "|" + selector2;
+  xpath_node_set nodeset = document.select_nodes(selector.c_str());
+  nodeset.sort();
+  for (xpath_node xpathnode : nodeset) {
+    xml_node h3_node = xpathnode.node().parent();
+    xml_node div_node = h3_node.parent();
+    stringstream ss;
+    div_node.print (ss, "", format_raw);
+    result.append(ss.str ());
   }
 #endif
 

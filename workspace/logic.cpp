@@ -22,7 +22,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <edit/index.h>
-#include <edit2/index.h>
+#include <edit/index.h>
 #include <redirect/index.h>
 #include <editone2/index.h>
 #include <editusfm/index.h>
@@ -579,7 +579,6 @@ map <int, int> workspace_add_bible_editor_number (map <int, string> & urls)
     string url = element.second;
     if (url.empty()) continue;
     if (url.find (edit_index_url ()) != string::npos) is_bible_editor = true;
-    if (url.find (edit2_index_url ()) != string::npos) is_bible_editor = true;
     if (url.find (editone_index_url ()) != string::npos) is_bible_editor = true;
     if (url.find (editone2_index_url ()) != string::npos) is_bible_editor = true;
     if (url.find (editusfm_index_url ()) != string::npos) is_bible_editor = true;

@@ -221,11 +221,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	edit/index.$(OBJEXT) edit/load.$(OBJEXT) edit/save.$(OBJEXT) \
 	edit/styles.$(OBJEXT) edit/logic.$(OBJEXT) \
 	edit/preview.$(OBJEXT) edit/position.$(OBJEXT) \
-	edit/navigate.$(OBJEXT) edit2/edit.$(OBJEXT) \
-	edit2/index.$(OBJEXT) edit2/load.$(OBJEXT) \
-	edit2/save.$(OBJEXT) edit2/logic.$(OBJEXT) \
-	edit2/preview.$(OBJEXT) edit2/position.$(OBJEXT) \
-	edit2/navigate.$(OBJEXT) edit2/update.$(OBJEXT) \
+	edit/navigate.$(OBJEXT) edit/update.$(OBJEXT) \
 	search/all.$(OBJEXT) search/index.$(OBJEXT) \
 	search/replace.$(OBJEXT) search/getids.$(OBJEXT) \
 	search/replacepre.$(OBJEXT) search/replacego.$(OBJEXT) \
@@ -396,7 +392,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/privileges.$(OBJEXT) unittests/statistics.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
-	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT)
+	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
+	unittests/studylight.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -485,11 +482,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	edit/$(DEPDIR)/logic.Po edit/$(DEPDIR)/navigate.Po \
 	edit/$(DEPDIR)/position.Po edit/$(DEPDIR)/preview.Po \
 	edit/$(DEPDIR)/save.Po edit/$(DEPDIR)/styles.Po \
-	edit2/$(DEPDIR)/edit.Po edit2/$(DEPDIR)/index.Po \
-	edit2/$(DEPDIR)/load.Po edit2/$(DEPDIR)/logic.Po \
-	edit2/$(DEPDIR)/navigate.Po edit2/$(DEPDIR)/position.Po \
-	edit2/$(DEPDIR)/preview.Po edit2/$(DEPDIR)/save.Po \
-	edit2/$(DEPDIR)/update.Po editone2/$(DEPDIR)/index.Po \
+	edit/$(DEPDIR)/update.Po editone2/$(DEPDIR)/index.Po \
 	editone2/$(DEPDIR)/load.Po editone2/$(DEPDIR)/logic.Po \
 	editone2/$(DEPDIR)/save.Po editone2/$(DEPDIR)/update.Po \
 	editone2/$(DEPDIR)/verse.Po editor/$(DEPDIR)/html2format.Po \
@@ -698,6 +691,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/sqlite.Po unittests/$(DEPDIR)/state.Po \
 	unittests/$(DEPDIR)/statistics.Po \
 	unittests/$(DEPDIR)/string.Po unittests/$(DEPDIR)/strong.Po \
+	unittests/$(DEPDIR)/studylight.Po \
 	unittests/$(DEPDIR)/styles.Po unittests/$(DEPDIR)/tasks.Po \
 	unittests/$(DEPDIR)/text.Po unittests/$(DEPDIR)/unittest.Po \
 	unittests/$(DEPDIR)/url.Po unittests/$(DEPDIR)/users.Po \
@@ -1160,15 +1154,7 @@ libbibledit_a_SOURCES = \
 	edit/preview.cpp \
 	edit/position.cpp \
 	edit/navigate.cpp \
-  edit2/edit.cpp \
-  edit2/index.cpp \
-  edit2/load.cpp \
-  edit2/save.cpp \
-  edit2/logic.cpp \
-  edit2/preview.cpp \
-  edit2/position.cpp \
-  edit2/navigate.cpp \
-  edit2/update.cpp \
+  edit/update.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \
@@ -1488,7 +1474,8 @@ unittest_SOURCES = \
 	unittests/french.cpp \
   unittests/merge.cpp \
   unittests/nmt.cpp \
-  unittests/html2format.cpp
+  unittests/html2format.cpp \
+  unittests/studylight.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -2335,30 +2322,8 @@ edit/position.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
 edit/navigate.$(OBJEXT): edit/$(am__dirstamp) \
 	edit/$(DEPDIR)/$(am__dirstamp)
-edit2/$(am__dirstamp):
-	@$(MKDIR_P) edit2
-	@: > edit2/$(am__dirstamp)
-edit2/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) edit2/$(DEPDIR)
-	@: > edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/edit.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/index.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/load.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/save.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/logic.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/preview.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/position.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/navigate.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
-edit2/update.$(OBJEXT): edit2/$(am__dirstamp) \
-	edit2/$(DEPDIR)/$(am__dirstamp)
+edit/update.$(OBJEXT): edit/$(am__dirstamp) \
+	edit/$(DEPDIR)/$(am__dirstamp)
 search/all.$(OBJEXT): search/$(am__dirstamp) \
 	search/$(DEPDIR)/$(am__dirstamp)
 search/index.$(OBJEXT): search/$(am__dirstamp) \
@@ -3233,6 +3198,8 @@ unittests/nmt.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/html2format.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/studylight.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3260,7 +3227,6 @@ mostlyclean-compile:
 	-rm -f developer/*.$(OBJEXT)
 	-rm -f dialog/*.$(OBJEXT)
 	-rm -f edit/*.$(OBJEXT)
-	-rm -f edit2/*.$(OBJEXT)
 	-rm -f editone2/*.$(OBJEXT)
 	-rm -f editor/*.$(OBJEXT)
 	-rm -f editusfm/*.$(OBJEXT)
@@ -3452,15 +3418,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/preview.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/save.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/edit.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/navigate.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/position.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/preview.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/save.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@edit2/$(DEPDIR)/update.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@edit/$(DEPDIR)/update.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@editone2/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
@@ -3849,6 +3807,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/statistics.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/string.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/strong.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/studylight.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tasks.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
@@ -4270,8 +4229,6 @@ distclean-generic:
 	-rm -f dialog/$(am__dirstamp)
 	-rm -f edit/$(DEPDIR)/$(am__dirstamp)
 	-rm -f edit/$(am__dirstamp)
-	-rm -f edit2/$(DEPDIR)/$(am__dirstamp)
-	-rm -f edit2/$(am__dirstamp)
 	-rm -f editone2/$(DEPDIR)/$(am__dirstamp)
 	-rm -f editone2/$(am__dirstamp)
 	-rm -f editor/$(DEPDIR)/$(am__dirstamp)
@@ -4538,15 +4495,7 @@ distclean: distclean-am
 	-rm -f edit/$(DEPDIR)/preview.Po
 	-rm -f edit/$(DEPDIR)/save.Po
 	-rm -f edit/$(DEPDIR)/styles.Po
-	-rm -f edit2/$(DEPDIR)/edit.Po
-	-rm -f edit2/$(DEPDIR)/index.Po
-	-rm -f edit2/$(DEPDIR)/load.Po
-	-rm -f edit2/$(DEPDIR)/logic.Po
-	-rm -f edit2/$(DEPDIR)/navigate.Po
-	-rm -f edit2/$(DEPDIR)/position.Po
-	-rm -f edit2/$(DEPDIR)/preview.Po
-	-rm -f edit2/$(DEPDIR)/save.Po
-	-rm -f edit2/$(DEPDIR)/update.Po
+	-rm -f edit/$(DEPDIR)/update.Po
 	-rm -f editone2/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/load.Po
 	-rm -f editone2/$(DEPDIR)/logic.Po
@@ -4935,6 +4884,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/statistics.Po
 	-rm -f unittests/$(DEPDIR)/string.Po
 	-rm -f unittests/$(DEPDIR)/strong.Po
+	-rm -f unittests/$(DEPDIR)/studylight.Po
 	-rm -f unittests/$(DEPDIR)/styles.Po
 	-rm -f unittests/$(DEPDIR)/tasks.Po
 	-rm -f unittests/$(DEPDIR)/text.Po
@@ -5133,15 +5083,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f edit/$(DEPDIR)/preview.Po
 	-rm -f edit/$(DEPDIR)/save.Po
 	-rm -f edit/$(DEPDIR)/styles.Po
-	-rm -f edit2/$(DEPDIR)/edit.Po
-	-rm -f edit2/$(DEPDIR)/index.Po
-	-rm -f edit2/$(DEPDIR)/load.Po
-	-rm -f edit2/$(DEPDIR)/logic.Po
-	-rm -f edit2/$(DEPDIR)/navigate.Po
-	-rm -f edit2/$(DEPDIR)/position.Po
-	-rm -f edit2/$(DEPDIR)/preview.Po
-	-rm -f edit2/$(DEPDIR)/save.Po
-	-rm -f edit2/$(DEPDIR)/update.Po
+	-rm -f edit/$(DEPDIR)/update.Po
 	-rm -f editone2/$(DEPDIR)/index.Po
 	-rm -f editone2/$(DEPDIR)/load.Po
 	-rm -f editone2/$(DEPDIR)/logic.Po
@@ -5530,6 +5472,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/statistics.Po
 	-rm -f unittests/$(DEPDIR)/string.Po
 	-rm -f unittests/$(DEPDIR)/strong.Po
+	-rm -f unittests/$(DEPDIR)/studylight.Po
 	-rm -f unittests/$(DEPDIR)/styles.Po
 	-rm -f unittests/$(DEPDIR)/tasks.Po
 	-rm -f unittests/$(DEPDIR)/text.Po

@@ -27,7 +27,7 @@
 #include <config/globals.h>
 #include <access/bible.h>
 #include <read/logic.h>
-#include <edit2/logic.h>
+#include <edit/logic.h>
 #include <database/config/bible.h>
 
 

@@ -37,7 +37,7 @@
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <editone2/logic.h>
-#include <edit2/logic.h>
+#include <edit/logic.h>
 #include <developer/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>

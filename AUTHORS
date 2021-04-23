@@ -8,7 +8,7 @@ Aranggi Toar:
     modifications -> assets/header.cpp; assets/header.js; assets/workspacewrapper_start.html; assets/xhtml_start.html;
                      css/editor.css; css/stylesheet.css; css/touch.css;
                      database/config/user.h; database/config/user.cpp;
-                     edit2/index.cpp; edit2/index.html; edit2/index.js;
+                     edit/index.cpp; edit/index.html; edit/index.js;
                      editone2/index.cpp; editone2/index.html; editone2/index.js;
                      editusfm/index.cpp; editusfm/index.html;
                      filter/css.cpp; filter/css.h; filter/url.cpp;

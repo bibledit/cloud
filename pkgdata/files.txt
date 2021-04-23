@@ -224,13 +224,6 @@
 /dyncss
 /dyncss/create_css.txt
 /edit
-/edit2
-/edit2/embed.js
-/edit2/index.html
-/edit2/index.js
-/edit2/keys.js
-/edit2/preview.html
-/edit2/preview.js
 /edit/embed.js
 /edit/index.html
 /edit/index.js

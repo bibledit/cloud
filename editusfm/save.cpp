@@ -80,7 +80,7 @@ string editusfm_save (void * webserver_request)
             string chapter_data_to_save = data.data;
             if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
               // The USFM loaded into the editor.
-              string ancestor_usfm = getLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
+              string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
               string username = request->session_logic()->currentUser ();
               int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
@@ -134,7 +134,7 @@ string editusfm_save (void * webserver_request)
                   (void) oldID;
 #endif
                   // Store a copy of the USFM loaded in the editor for later reference.
-                  storeLoadedUsfm (webserver_request, bible, book, chapter, unique_id);
+                  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
                   return locale_logic_text_saved ();
                 }
                 return message;

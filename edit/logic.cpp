@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-string edit_logic_volatile_key (string bible, int book, int chapter, string editor)
+string edit2_logic_volatile_key (string bible, int book, int chapter, string editor)
 {
   string key;
   key.append (bible);
@@ -38,7 +38,7 @@ string edit_logic_volatile_key (string bible, int book, int chapter, string edit
 }
 
 
-void storeLoadedUsfm (void * webserver_request, string bible, int book, int chapter, string editor, const char * message)
+void storeLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor, const char * message)
 {
   (void) message;
   
@@ -46,7 +46,7 @@ void storeLoadedUsfm (void * webserver_request, string bible, int book, int chap
 
   int userid = filter_string_user_identifier (webserver_request);
   
-  string key = edit_logic_volatile_key (bible, book, chapter, editor);
+  string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
   string usfm = request->database_bibles ()->getChapter (bible, book, chapter);
   
@@ -54,11 +54,11 @@ void storeLoadedUsfm (void * webserver_request, string bible, int book, int chap
 }
 
 
-string getLoadedUsfm (void * webserver_request, string bible, int book, int chapter, string editor)
+string getLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor)
 {
   int userid = filter_string_user_identifier (webserver_request);
   
-  string key = edit_logic_volatile_key (bible, book, chapter, editor);
+  string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
   string usfm = Database_Volatile::getValue (userid, key);
   

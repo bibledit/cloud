@@ -126,11 +126,12 @@ string edit_index (void * webserver_request)
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition (); 
   string script =
   "var editorChapterLoaded = '" + locale_logic_text_loaded () + "';\n"
+  "var editorChapterUpdating = '" + locale_logic_text_updating () + "';\n"
+  "var editorChapterUpdated = '" + locale_logic_text_updated () + "';\n"
   "var editorWillSave = '" + locale_logic_text_will_save () + "';\n"
   "var editorChapterSaving = '" + locale_logic_text_saving () + "';\n"
   "var editorChapterSaved = '" + locale_logic_text_saved () + "';\n"
   "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"
-  "var editorChapterReformat = '" + locale_logic_text_reformat () + "';\n"
   "var editorChapterVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
   "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
@@ -140,9 +141,15 @@ string edit_index (void * webserver_request)
   
   string clss = Filter_Css::getClass (bible);
   string font = Fonts_Logic::getTextFont (bible);
+  int current_theme_index = convert_to_int(request->database_config_user ()->getCurrentTheme ());
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  string versebeam_current_theme = Filter_Css::theme_picker (current_theme_index, 5);
+  if (versebeam_current_theme == "") versebeam_current_theme = "versebeam";
+  view.set_variable ("versebeam_theme_color", versebeam_current_theme);
+  view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
+  view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", clss);
   view.set_variable ("custom_css", Filter_Css::getCss (clss,
                                                        Fonts_Logic::getFontPath (font),
@@ -164,7 +171,6 @@ string edit_index (void * webserver_request)
 #ifdef HAVE_INDONESIANCLOUDFREE
   view.enable_zone ("fastswitcheditor");
 #endif
-
 
   
   // Whether to enable the styles button.

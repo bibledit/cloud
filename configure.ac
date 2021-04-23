@@ -61,6 +61,10 @@ PKG_CHECK_MODULES(OPENSSL, openssl >= 0.9.0,,AC_MSG_ERROR(openssl development ve
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LIBS)
 
+PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.9.0,,AC_MSG_ERROR(GNOME XML2 library development version >= 2.9.0 is needed.))
+AC_SUBST(XML2_CFLAGS)
+AC_SUBST(XML2_LIBS)
+
 # linux PKG_CHECK_MODULES(GTK, gtk+-3.0,,AC_MSG_ERROR(Gtk3 development version is needed.))
 # linux AC_SUBST(GTK_LIBS)
 # linux AC_SUBST(GTK_CFLAGS)

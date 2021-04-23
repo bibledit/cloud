@@ -553,5 +553,21 @@ void test_string ()
     u16 = convert_to_u16string ("😀");
     evaluate (__LINE__, __func__, 2, (int)u16.length());
   }
+  
+  // Test tidying invalid html. // Todo
+  {
+    string path_invalid = filter_url_create_root_path ("unittests", "tests", "html-invalid-1.html");
+    string html_invalid = filter_url_file_get_contents(path_invalid);
+    string html_tidied = filter_string_tidy_invalid_html (html_invalid);
+    string path_valid = filter_url_create_root_path ("unittests", "tests", "html-fixed-1.html");
+    string html_valid = filter_url_file_get_contents(path_valid);
+    evaluate (__LINE__, __func__, html_valid, html_tidied);
+  }
+  
+  // Test "tidying" empty html.
+  {
+    string result = filter_string_tidy_invalid_html ("");
+    evaluate (__LINE__, __func__, "", result);
+  }
 
 }

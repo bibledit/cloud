@@ -58,4 +58,4 @@ bool config_globals_hide_bible_resources = false;
 bool config_globals_running_on_chrome_os = false;
 bool config_globals_log_incoming_connections = false;
 int config_globals_start_up_second_since_epoch = 0;
-
+string config_globals_negotiated_port_number;

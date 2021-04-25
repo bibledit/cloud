@@ -52,7 +52,7 @@ void config_logic_load_settings ()
 
 
 // Return the network port configured for the server.
-string config_logic_http_network_port () // Todo
+string config_logic_http_network_port ()
 {
   // If a port number is known already, take that.
   if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number;

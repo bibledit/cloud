@@ -1676,7 +1676,7 @@ string filter_url_update_directory_separator_if_windows (string filename)
 
 
 // Returns true if it is possible to connect to port $port on $hostname.
-bool filter_url_port_can_connect (string hostname, int port) // Todo
+bool filter_url_port_can_connect (string hostname, int port)
 {
   // Resolve the host.
   struct addrinfo hints;

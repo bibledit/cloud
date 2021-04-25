@@ -58,7 +58,7 @@ const char * bibledit_get_version_number ()
 // Get the port number that Bibledit's web server listens on.
 // If the server already runs, it will give that port number.
 // If the server does not yet run, on a client, it will negotiate a free port number, and give that.
-const char * bibledit_get_network_port () // Todo
+const char * bibledit_get_network_port ()
 {
   // If the port number has already been set or negotiated, return that port number.
   if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number.c_str();

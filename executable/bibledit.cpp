@@ -181,15 +181,15 @@ int main (int argc, char **argv)
     }
   }
 #endif
-  // The $make install will copy the data files to /usr/share/bibledit.
+  // The $ make install will copy the data files to /usr/share/bibledit.
   // That is the package data directory.
   // Bibledit will copy this to the webroot upon first run for a certain version number.
   // If this directory is empty, it won't copy anything.
   // That would be okay if it runs in a user folder like ~/bibledit or similar.
   // Read the package directory from config.h.
   bibledit_initialize_library (PACKAGE_DATA_DIR, webroot.c_str());
-
   
+
   // Start the Bibledit library.
   bibledit_start_library ();
   bibledit_log ("The server started");

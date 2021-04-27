@@ -56,11 +56,29 @@ const char * bibledit_get_version_number ()
 
 
 // Get the port number that Bibledit's web server listens on.
-string library_bibledit_network_port;
+// If the server already runs, it will give that port number.
+// If the server does not yet run, on a client, it will negotiate a free port number, and give that.
 const char * bibledit_get_network_port ()
 {
-  library_bibledit_network_port = config_logic_http_network_port ();
-  return library_bibledit_network_port.c_str ();
+  // If the port number has already been set or negotiated, return that port number.
+  if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number.c_str();
+
+  // On a client device, negotiate a local port number.
+#ifdef HAVE_CLIENT
+  vector <int> ports = { 9876, 9987, 9998 };
+  for (auto port : ports) {
+    if (!filter_url_port_can_connect ("localhost", port)) {
+      config_globals_negotiated_port_number = convert_to_string(port);
+      break;
+    }
+  }
+#endif
+
+  // Set the port number.
+  config_logic_http_network_port ();
+
+  // Give the port number to the caller.
+  return config_globals_negotiated_port_number.c_str ();
 }
 
 

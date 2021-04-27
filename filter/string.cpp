@@ -36,6 +36,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
 #endif
+#ifdef HAVE_CLOUD
+#include <libxml/tree.h>
+#include <libxml/HTMLparser.h>
+#endif
 
 
 #ifdef HAVE_ICU
@@ -1696,5 +1700,50 @@ string filter_text_html_get_element (string html, string element)
       html.erase (pos + 7);
     }
   }
+  return html;
+}
+
+
+string filter_string_tidy_invalid_html (string html)
+{
+  // Everything in the <head> can be left out: It is not relevant.
+  filter_string_replace_between (html, "<head>", "</head>", "");
+  
+  // Every <script...</script> can be left out: They are irrelevant.
+  int counter = 0;
+  while (counter < 100) {
+    counter++;
+    bool replaced = filter_string_replace_between (html, "<script", "</script>", "");
+    if (!replaced) break;
+  }
+  
+#ifdef HAVE_CLOUD
+
+  // Create a parser context.
+  htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (NULL, NULL, NULL, 0, NULL, XML_CHAR_ENCODING_UTF8);
+  
+  // Set relevant options on the parser context.
+  htmlCtxtUseOptions(parser, HTML_PARSE_NOBLANKS | HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING | HTML_PARSE_NONET);
+
+  // Parse the (X)HTML text.
+  // char * data : buffer containing part of the web page
+  // int len : number of bytes in data
+  // Last argument is 0 if the web page isn't complete, and 1 for the final call.
+  htmlParseChunk(parser, html.c_str(), (int)html.size(), 1);
+
+  // Extract the fixed html
+  if (parser->myDoc) {
+    xmlChar *s;
+    int size;
+    xmlDocDumpMemory(parser->myDoc, &s, &size);
+    html = (char *)s;
+    xmlFree(s);
+  }
+  
+  // Free memory.
+  if (parser) xmlFree (parser);
+
+#endif
+
   return html;
 }

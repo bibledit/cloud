@@ -54,15 +54,17 @@ void config_logic_load_settings ()
 // Return the network port configured for the server.
 string config_logic_http_network_port ()
 {
+  // If a port number is known already, take that.
+  if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number;
   // Read the port number from file.
   string path = filter_url_create_root_path (config_logic_config_folder (), "network-port");
-  string port = filter_url_file_get_contents (path);
+  config_globals_negotiated_port_number = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
-  port = filter_string_trim (port);
-  // Default value.
-  if (port.empty ()) port = "8080";
+  config_globals_negotiated_port_number = filter_string_trim (config_globals_negotiated_port_number);
+  // Default port number.
+  if (config_globals_negotiated_port_number.empty ()) config_globals_negotiated_port_number = "8080";
   // Done.
-  return port;
+  return config_globals_negotiated_port_number;
 }
 
 

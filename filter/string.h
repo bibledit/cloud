@@ -123,6 +123,7 @@ string wstring2string (const wstring& wstr);
 string lf2crlf (string str);
 string crlf2lf (string str);
 string filter_text_html_get_element (string html, string element);
+string filter_string_tidy_invalid_html (string html);
 
 
 #endif

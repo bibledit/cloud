@@ -1673,3 +1673,55 @@ string filter_url_update_directory_separator_if_windows (string filename)
 #endif
   return filename;
 }
+
+
+// Returns true if it is possible to connect to port $port on $hostname.
+bool filter_url_port_can_connect (string hostname, int port)
+{
+  // Resolve the host.
+  struct addrinfo hints;
+  struct addrinfo * address_results = nullptr;
+  bool address_info_resolved = false;
+  memset (&hints, 0, sizeof (struct addrinfo));
+  // Allow IPv4 and IPv6.
+  hints.ai_family = AF_UNSPEC;
+  // TCP/IP socket.
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = 0;
+  // Select protocol that matches with the socket type.
+  hints.ai_protocol = 0;
+  // The 'service' is actually the port number.
+  string service = convert_to_string (port);
+  // Get a list of address structures. There can be several of them.
+  int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
+  if (res != 0) return false;
+  // Result of the text.
+  bool connected = false;
+  // Iterate over the list of address structures.
+  vector <string> errors;
+  struct addrinfo * rp = NULL;
+  for (rp = address_results; rp != NULL; rp = rp->ai_next) {
+    // Try to get a socket for this address structure.
+    int sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+    // If it fails, try the next one.
+    if (sock < 0) continue;
+    // Try to connect.
+    int res = connect (sock, rp->ai_addr, rp->ai_addrlen);
+    // If connected, set the flag.
+    if (res != -1) connected = true;
+    // Socket should be closed.
+    if (sock) {
+  #ifdef HAVE_WINDOWS
+      closesocket (sock);
+  #else
+      close (sock);
+  #endif
+    }
+    // If connected: Done.
+    if (connected) break;
+  }
+  // No longer needed: Only to be freed when the address was resolved.
+  if (address_info_resolved) freeaddrinfo (address_results);
+  // Done.
+  return connected;
+}

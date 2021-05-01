@@ -105,7 +105,6 @@ void timer_index ()
 #endif
       
       // Every minute send out queued email.
-      can_mail = true; // Todo out.
       if (can_mail) tasks_logic_queue (SENDEMAIL);
 
 #ifdef HAVE_CLOUD

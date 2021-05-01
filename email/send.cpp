@@ -51,7 +51,6 @@ void email_send ()
   Database_Mail database_mail = Database_Mail (&request);
   Database_Users database_users;
 
-  cout << __LINE__ << endl; // Todo
   vector <int> mails = database_mail.getMailsToSend ();
   for (auto id : mails) {
 
@@ -84,12 +83,19 @@ void email_send ()
     }
 
 #endif
-  
+
+    // If there had been a crash while sending an email,
+    // log this email and erase it.
+    // Do not attempt to send it again as it would cause the crash again in an endless loop.
+    if (config_globals_has_crashed_while_mailing) {
+      database_mail.erase (id);
+      Database_Logs::log ("Email to " + email + " with subject \"" + subject + "\" was deleted because it has caused a crash");
+      config_globals_has_crashed_while_mailing = false;
+      continue;
+    }
+    
     // Send the email.
-    cout << __LINE__ << endl; // Todo
     string result = email_send (email, username, subject, body);
-    cout << result << endl; // Todo
-    cout << __LINE__ << endl; // Todo
     if (result.empty ()) {
       database_mail.erase (id);
       result = "Email to " + email + " with subject \"" + subject + "\" was ";

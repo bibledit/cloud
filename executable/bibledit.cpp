@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <windows.h>
 #endif
+#include <config/globals.h>
 
 
 void sigint_handler (int s)
@@ -212,6 +213,8 @@ int main (int argc, char **argv)
     vector <string> lines = filter_string_explode (backtrace, '\n');
     for (auto & line : lines) {
       Database_Logs::log (line);
+      // Set a flag if the backtrace appears to be caused while sending email.
+      if (line.find ("email_send") != string::npos) config_globals_has_crashed_while_mailing = true;
     }
   }
 

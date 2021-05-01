@@ -905,7 +905,10 @@ string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
 // C++ equivalent for PHP's rand function
 int filter_string_rand (int floor, int ceiling)
 {
-  srand(time(NULL));
+  // The following was disabled because it makes the function non-random
+  // if called at the same time repeatedly.
+  // srand(time(NULL));
+  // The above requires another mechanism, to be called once at program startup.
   int range = ceiling - floor;
   int r = rand () % range + floor;
   return r;

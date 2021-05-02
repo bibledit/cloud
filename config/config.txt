@@ -68,5 +68,9 @@ Obfuscating the user interface: See folder obfuscate for more information.
 
 Logging all incoming IP connections. To enable this, put a file "log-net" in the config folder. The file can be left empty. If this file is there, Bibledit will log all incoming IP connections to the Journal.
 
+
+Indonesian Cloud Free: If the file config/indonesiancloudfree is present, the Cloud modifies its behaviour in several places, so it can be used as a free Indonesian Bibledit Cloud.
+
+
 After making a change in the configuration, restart Bibledit Cloud, for the new configuration to take effect.
 

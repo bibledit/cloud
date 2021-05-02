@@ -44,6 +44,7 @@ bool config_logic_enforce_https_browser ();
 bool config_logic_enforce_https_client ();
 void config_logic_swipe_enabled (void * webserver_request, string & script);
 bool config_logic_log_incoming_connections ();
+bool config_logic_indonesian_cloud_free ();
 
 
 #endif

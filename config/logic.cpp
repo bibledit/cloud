@@ -279,3 +279,21 @@ bool config_logic_log_incoming_connections ()
 {
   return config_globals_log_incoming_connections;
 }
+
+
+// Whether the free Indonesian Cloud is enabled.
+bool config_logic_indonesian_cloud_free ()
+{
+  // Keep status in memory once it has been read from disk.
+  // This is to speed up things.
+  static bool indonesian_cloud_free_read = false;
+  static bool indonesian_cloud_free_status = false;
+  if (indonesian_cloud_free_read) return indonesian_cloud_free_status;
+
+  // Read the status from disk and cache it.
+  string path = filter_url_create_root_path (config_logic_config_folder (), "indonesiancloudfree");
+  indonesian_cloud_free_status = file_or_dir_exists (path);
+  indonesian_cloud_free_read = true;
+ 
+  return indonesian_cloud_free_status;
+}

@@ -42,9 +42,9 @@ string editone2_load_url ()
 
 bool editone2_load_acl (void * webserver_request)
 {
-#ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    return true;
+  }
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);

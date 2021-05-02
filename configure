@@ -776,7 +776,6 @@ enable_android
 enable_mac
 enable_linux
 enable_ios
-enable_indonesiancloudfree
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1437,7 +1436,6 @@ Optional Features:
   --enable-mac Compile for Mac
   --enable-linux Compile for Linux
   --enable-ios Compile for iOS
-  --enable-indonesiancloudfree Presets for Indonesian Cloud Free
 
 Some influential environment variables:
   CC          C compiler command
@@ -7136,21 +7134,6 @@ ENABLEIOS=yes
 fi
 
 
-# Indonesian Cloud Free.
-ENABLEINDONESIANCLOUDFREE=no
-# Check whether --enable-indonesiancloudfree was given.
-if test ${enable_indonesiancloudfree+y}
-then :
-  enableval=$enable_indonesiancloudfree;
-
-printf "%s\n" "#define HAVE_INDONESIANCLOUDFREE 1" >>confdefs.h
-
-ENABLEINDONESIANCLOUDFREE=yes
-
-
-fi
-
-
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -8639,6 +8622,5 @@ Android               (--enable-android)             : ${ENABLEANDROID}
 macOS                 (--enable-mac)                 : ${ENABLEMAC}
 Linux                 (--enable-linux)               : ${ENABLELINUX}
 iOS                   (--enable-ios)                 : ${ENABLEIOS}
-Indonesian Cloud Free (--enable-indonesiancloudfree) : ${ENABLEINDONESIANCLOUDFREE}
 "
 

@@ -299,12 +299,12 @@ string menu_logic_basic_categories (void * webserver_request)
   }
   
   if (personalize_index_acl (webserver_request)) {
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-    html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true, "", color));
-#endif
+    if (config_logic_default_bibledit_configuration ()) {
+      html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
+    }
+    if (config_logic_indonesian_cloud_free ()) {
+      html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true, "", color));
+    }
   }
 
   // When a user is not logged in, or a guest,
@@ -313,9 +313,9 @@ string menu_logic_basic_categories (void * webserver_request)
   bool public_feedback_possible = true;
   // In the Indonesian free Cloud, there's no public feedback possible,
   // since the aim is to keep things easy to understand for beginners.
-#ifdef HAVE_INDONESIANCLOUDFREE
-  public_feedback_possible = false;
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    public_feedback_possible = false;
+  }
 #ifdef HAVE_CLOUD
   if (public_feedback_possible) {
     if (menu_logic_public_or_guest (webserver_request)) {
@@ -1177,11 +1177,11 @@ bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chap
   int selection = 0;
   if (visual) selection = request->database_config_user ()->getFastSwitchVisualEditors ();
   else selection = request->database_config_user ()->getFastSwitchUsfmEditors ();
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // Show all editors in the Indonesian Cloud Free.
-  if (visual) selection = 0;
-  else selection = 1;
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    // Show all editors in the Indonesian Cloud Free.
+    if (visual) selection = 0;
+    else selection = 1;
+  }
 
   if (visual) {
     // Check whether the visual chapter or verse editor is active.

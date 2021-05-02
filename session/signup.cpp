@@ -239,89 +239,88 @@ string session_signup (void * webserver_request)
       node = initial_document.append_child ("h3");
       node.text ().set (initial_subject.c_str());
       string information;
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-      node = initial_document.append_child ("p");
-      information = translate("There is a request to open an account with this email address.");
-      node.text ().set (information.c_str());
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-      node = initial_document.append_child ("p");
-      information = "Shalom " + user + "!";
-      node.text ().set (information.c_str());
-      node = initial_document.append_child ("p");
-      node.text ().set ("Senang sekali Saudara ingin mendaftar sebagai Tamu Bibledit. Sebelum meng-klik tautan untuk mulai menggunakannya, mohon Saudara membaca berita penting ini:");
-      node = initial_document.append_child ("p");
-      node.text ().set ("• Cara yang terbaik masuk dalam Bibledit Tamu adalah melalui tautan yang terdapat di halaman dasar alkitabkita.info. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami. Dalam formulir yang terdapat di bagian atas halaman dasar alkitabkita.info isilah:");
-      node = initial_document.append_child ("p");
-      information = "Nama pengguna: " + user;
-      node.text ().set (information.c_str());
-//      node = initial_document.append_child ("p");
-//      node.text ().set ("Kata sandi:");
-      node = initial_document.append_child ("p");
-      node.text ().set (R"(• Kalau Saudara lupa kata sandi, di halaman login kliklah tautan tentang “Aku lupa kata sandiku!””)");
-      node = initial_document.append_child ("p");
-      node.text ().set ("• Saudara diberi izin untuk menggunakan Bibledit sebagai Tamu selama satu bulan. Ketika bulan tersebut habis, tautan untuk mengunduh hasil terjemahanmu akan dikirim kepada Saudara di alamat email ini.");
-      node = initial_document.append_child ("p");
-      node.text ().set ("• Layanan Tamu Bibledit ini diberikan secara gratis dan Saudara dipersilahkan mendaftar ulang setiap bulan.");
-      node = initial_document.append_child ("p");
-      node.text ().set ("• Simpanlah email ini.");
-#endif
+      if (config_logic_default_bibledit_configuration ()) {
+        node = initial_document.append_child ("p");
+        information = translate("There is a request to open an account with this email address.");
+        node.text ().set (information.c_str());
+      }
+      if (config_logic_indonesian_cloud_free ()) {
+        node = initial_document.append_child ("p");
+        information = "Shalom " + user + "!";
+        node.text ().set (information.c_str());
+        node = initial_document.append_child ("p");
+        node.text ().set ("Senang sekali Saudara ingin mendaftar sebagai Tamu Bibledit. Sebelum meng-klik tautan untuk mulai menggunakannya, mohon Saudara membaca berita penting ini:");
+        node = initial_document.append_child ("p");
+        node.text ().set ("• Cara yang terbaik masuk dalam Bibledit Tamu adalah melalui tautan yang terdapat di halaman dasar alkitabkita.info. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami. Dalam formulir yang terdapat di bagian atas halaman dasar alkitabkita.info isilah:");
+        node = initial_document.append_child ("p");
+        information = "Nama pengguna: " + user;
+        node.text ().set (information.c_str());
+        node = initial_document.append_child ("p");
+        node.text ().set (R"(• Kalau Saudara lupa kata sandi, di halaman login kliklah tautan tentang “Aku lupa kata sandiku!””)");
+        node = initial_document.append_child ("p");
+        node.text ().set ("• Saudara diberi izin untuk menggunakan Bibledit sebagai Tamu selama satu bulan. Ketika bulan tersebut habis, tautan untuk mengunduh hasil terjemahanmu akan dikirim kepada Saudara di alamat email ini.");
+        node = initial_document.append_child ("p");
+        node.text ().set ("• Layanan Tamu Bibledit ini diberikan secara gratis dan Saudara dipersilahkan mendaftar ulang setiap bulan.");
+        node = initial_document.append_child ("p");
+        node.text ().set ("• Simpanlah email ini.");
+      }
       string initial_body;
       {
         stringstream output;
         initial_document.print (output, "", format_raw);
         initial_body = output.str ();
       }
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-      string query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail);
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-      // The Indonesian free Cloud new account should have the consultant role for things to work well.
-      string query = database_users.add_userQuery (user, pass, Filter_Roles::consultant (), mail);
-#endif
+      string query;
+      if (config_logic_default_bibledit_configuration ()) {
+        query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail);
+      }
+      if (config_logic_indonesian_cloud_free ()) {
+        // The Indonesian free Cloud new account should have the consultant role for things to work well.
+        query = database_users.add_userQuery (user, pass, Filter_Roles::consultant (), mail);
+      }
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.
       string subsequent_subject = translate("Account opened");
       xml_document subsequent_document;
       node = subsequent_document.append_child ("h3");
       node.text ().set (subsequent_subject.c_str());
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-      node = subsequent_document.append_child ("p");
-      information = translate("Welcome!");
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = translate("Your account is now active and you have logged in.");
-      node.text ().set (information.c_str());
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-      node = subsequent_document.append_child ("p");
-      information = "Shalom " + user + ",";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Puji TUHAN, Saudara sudah menjadi Tamu Bibledit!";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Kami mengajak Saudara supaya sesering mungkin mengunjungi situs alkitabkita.info untuk melihat pengumuman tentang kesempatan mengikuti pelatihan dan seminar zoom. Segeralah menonton semua video petunjuk yang terdapat pada halaman dasar.";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Di tingkat Bibledit Tamu, Saudara dapat menggunakan Antarmuka Sederhana. Kami sarankan menggunakan Antarmuka Sederhana selama kurang lebih sebulan. Saat Saudara ingin menggunakan Antarmuka Lengkap yang lebih canggih dan powerful, silakan mendaftar untuk tingkat Bibledit Anggota.";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Harga pendaftaran sebagai anggota adalah Rp 100.000,- setahun. Para anggota diberi izin menginstal program Bibledit dan sumber penelitiannya di komputer dan tablet. Dengan demikian Saudara dapat bekerja dengan Bibledit tanpa menggunakan pulsa data Internet. Lihat informasi lebih lanjut mengenai tingkat anggota di situs alkitabkita.info.";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Kami tim situs alkitabkita.info sangat berharap dengan menggunakan Bibledit ini Saudara akan dimampukan meneliti Firman Tuhan secara lebih mendalam. Mohon jangan menggunakan kemampuan itu untuk membanggakan dirimu sendiri, tetapi gunakanlah untuk memuliakan TUHAN, untuk mengajar, dan menerjemahkan Firman TUHAN dengan lebih wajar, jelas, dan tepat.";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Tuhan memberkati!";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Balazi Gulo";
-      node.text ().set (information.c_str());
-      node = subsequent_document.append_child ("p");
-      information = "Ketua Yayasan Albata";
-      node.text ().set (information.c_str());
-#endif
+      if (config_logic_default_bibledit_configuration ()) {
+        node = subsequent_document.append_child ("p");
+        information = translate("Welcome!");
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = translate("Your account is now active and you have logged in.");
+        node.text ().set (information.c_str());
+      }
+      if (config_logic_indonesian_cloud_free ()) {
+        node = subsequent_document.append_child ("p");
+        information = "Shalom " + user + ",";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Puji TUHAN, Saudara sudah menjadi Tamu Bibledit!";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Kami mengajak Saudara supaya sesering mungkin mengunjungi situs alkitabkita.info untuk melihat pengumuman tentang kesempatan mengikuti pelatihan dan seminar zoom. Segeralah menonton semua video petunjuk yang terdapat pada halaman dasar.";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Di tingkat Bibledit Tamu, Saudara dapat menggunakan Antarmuka Sederhana. Kami sarankan menggunakan Antarmuka Sederhana selama kurang lebih sebulan. Saat Saudara ingin menggunakan Antarmuka Lengkap yang lebih canggih dan powerful, silakan mendaftar untuk tingkat Bibledit Anggota.";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Harga pendaftaran sebagai anggota adalah Rp 100.000,- setahun. Para anggota diberi izin menginstal program Bibledit dan sumber penelitiannya di komputer dan tablet. Dengan demikian Saudara dapat bekerja dengan Bibledit tanpa menggunakan pulsa data Internet. Lihat informasi lebih lanjut mengenai tingkat anggota di situs alkitabkita.info.";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Kami tim situs alkitabkita.info sangat berharap dengan menggunakan Bibledit ini Saudara akan dimampukan meneliti Firman Tuhan secara lebih mendalam. Mohon jangan menggunakan kemampuan itu untuk membanggakan dirimu sendiri, tetapi gunakanlah untuk memuliakan TUHAN, untuk mengajar, dan menerjemahkan Firman TUHAN dengan lebih wajar, jelas, dan tepat.";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Tuhan memberkati!";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Balazi Gulo";
+        node.text ().set (information.c_str());
+        node = subsequent_document.append_child ("p");
+        information = "Ketua Yayasan Albata";
+        node.text ().set (information.c_str());
+      }
       string subsequent_body;
       {
         stringstream output;
@@ -330,13 +329,11 @@ string session_signup (void * webserver_request)
       }
       // Store the confirmation information in the database.
       confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
-#ifdef HAVE_INDONESIANCLOUDFREE
-      // In the Indonesian free Cloud, create the Bible for the user.
-      {
+      if (config_logic_indonesian_cloud_free ()) {
+        // In the Indonesian free Cloud, create the Bible for the user.
         string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
         tasks_logic_queue (CREATEEMPTYBIBLE, {bible});
       }
-#endif
       // Done signup.
       signed_up = true;
     }

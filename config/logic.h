@@ -45,6 +45,7 @@ bool config_logic_enforce_https_client ();
 void config_logic_swipe_enabled (void * webserver_request, string & script);
 bool config_logic_log_incoming_connections ();
 bool config_logic_indonesian_cloud_free ();
+bool config_logic_default_bibledit_configuration ();
 
 
 #endif

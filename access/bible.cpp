@@ -49,18 +49,18 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
   }
 
   // Indonesian Cloud Free.
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // A free guest account has a role of "Consultant".
-  if (role_level == Filter_Roles::consultant()) {
-    // This level/role has access to:
-    // 1. AlkitabKita / Everyone's Translation.
-    if (bible == filter_indonesian_alkitabkita_ourtranslation_name ()) return true;
-    // 2. Terjemahanku <user> (My Translation <user>).
-    else if (bible == filter_indonesian_terjemahanku_mytranslation_name (user)) return true;
-    // If the Bible is none of the above, the free guest account does not have access to it.
-    else return false;
+  if (config_logic_indonesian_cloud_free ()) {
+    // A free guest account has a role of "Consultant".
+    if (role_level == Filter_Roles::consultant()) {
+      // This level/role has access to:
+      // 1. AlkitabKita / Everyone's Translation.
+      if (bible == filter_indonesian_alkitabkita_ourtranslation_name ()) return true;
+      // 2. Terjemahanku <user> (My Translation <user>).
+      else if (bible == filter_indonesian_terjemahanku_mytranslation_name (user)) return true;
+      // If the Bible is none of the above, the free guest account does not have access to it.
+      else return false;
+    }
   }
-#endif
 
   // Managers and higher have read access.
   if (role_level >= Filter_Roles::manager ()) {
@@ -99,9 +99,9 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
   }
 #endif
   // Indonesian Cloud Free: Access all Bibles.
-#ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    return true;
+  }
 
   int level = 0;
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -170,14 +170,14 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
   // The free guest account has a role of Consultant.
   // The consultant has write access to his/her own Bible.
   // The consultant has read-access to the "AlkitabKita" Bible.
-#ifdef HAVE_INDONESIANCLOUDFREE
-  if (level == Filter_Roles::consultant()) {
-    if (bible == filter_indonesian_alkitabkita_ourtranslation_name()) {
-      return false;
+  if (config_logic_indonesian_cloud_free ()) {
+    if (level == Filter_Roles::consultant()) {
+      if (bible == filter_indonesian_alkitabkita_ourtranslation_name()) {
+        return false;
+      }
     }
+    return true;
   }
-  return true;
-#endif
 
   // Managers and higher always have write access.
   if (level >= Filter_Roles::manager ()) {
@@ -248,14 +248,14 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
     if (access_bible_read (webserver_request, bible)) read = true;
     if (access_bible_write (webserver_request, bible)) write = true;
   }
-#ifdef HAVE_INDONESIANCLOUDFREE
-  int level = request->session_logic ()->currentLevel ();
-  if (level >= Filter_Roles::consultant()) {
-    read = true;
-    write = true;
-  } else {
-    read = false;
-    write = false;
+  if (config_logic_indonesian_cloud_free ()) {
+    int level = request->session_logic ()->currentLevel ();
+    if (level >= Filter_Roles::consultant()) {
+      read = true;
+      write = true;
+    } else {
+      read = false;
+      write = false;
+    }
   }
-#endif
 }

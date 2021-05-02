@@ -149,9 +149,9 @@ string manage_accounts (void * webserver_request)
     // the free guest accounts have a role of Consultant.
     // So only displays roles of Consultant or lower.
     // Skip any higher roles.
-#ifdef HAVE_INDONESIANCLOUDFREE
-    if (user_level > Filter_Roles::consultant()) continue;
-#endif
+    if (config_logic_indonesian_cloud_free ()) {
+      if (user_level > Filter_Roles::consultant()) continue;
+    }
 
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {

@@ -53,9 +53,9 @@ bool editone2_index_acl (void * webserver_request)
 {
   // Default minimum role for getting access.
   int minimum_role = Filter_Roles::translator ();
-#ifdef HAVE_INDONESIANCLOUDFREE
-  minimum_role = Filter_Roles::consultant ();
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    minimum_role = Filter_Roles::consultant ();
+  }
   if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
@@ -76,27 +76,27 @@ string editone2_index (void * webserver_request)
     Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
   }
 
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // See issue https://github.com/bibledit/cloud/issues/503
-  // Specific configuration for the Indonesian free Cloud instance.
-  // The name of the default Bible in the Translate tab will be another Bible than AlkitabKita.
-  // Standard it will be Terjemahanku (My Translation).
-  // When the user changed that to another name, the editor will load that other name.
-  {
-    vector <string> bibles = access_bible_bibles (request);
-    string selected_bible;
-    for (auto bible : bibles) {
-      if (bible != filter_indonesian_alkitabkita_ourtranslation_name ()) selected_bible = bible;
+  if (config_logic_indonesian_cloud_free ()) {
+    // See issue https://github.com/bibledit/cloud/issues/503
+    // Specific configuration for the Indonesian free Cloud instance.
+    // The name of the default Bible in the Translate tab will be another Bible than AlkitabKita.
+    // Standard it will be Terjemahanku (My Translation).
+    // When the user changed that to another name, the editor will load that other name.
+    {
+      vector <string> bibles = access_bible_bibles (request);
+      string selected_bible;
+      for (auto bible : bibles) {
+        if (bible != filter_indonesian_alkitabkita_ourtranslation_name ()) selected_bible = bible;
+      }
+      if (selected_bible.empty ()) {
+        // No Bible selected yet: Create the Indonesian Sample Bible and take that.
+        string user = request->session_logic ()->currentUser ();
+        selected_bible = filter_indonesian_terjemahanku_mytranslation_name (user);
+        bible_logic_create_empty_bible (selected_bible);
+      }
+      request->database_config_user()->setBible (selected_bible);
     }
-    if (selected_bible.empty ()) {
-      // No Bible selected yet: Create the Indonesian Sample Bible and take that.
-      string user = request->session_logic ()->currentUser ();
-      selected_bible = filter_indonesian_terjemahanku_mytranslation_name (user);
-      bible_logic_create_empty_bible (selected_bible);
-    }
-    request->database_config_user()->setBible (selected_bible);
   }
-#endif
 
   string page;
   
@@ -168,9 +168,9 @@ string editone2_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-#ifdef HAVE_INDONESIANCLOUDFREE
-  view.enable_zone ("fastswitcheditor");
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    view.enable_zone ("fastswitcheditor");
+  }
 
   // Whether to enable the styles button.
   if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {

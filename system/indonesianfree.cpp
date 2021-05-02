@@ -46,9 +46,9 @@ string system_indonesianfree_url ()
 bool system_indonesianfree_acl (void * webserver_request)
 {
   (void) webserver_request;
-#ifdef HAVE_INDONESIANCLOUDFREE
-  return true;
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    return true;
+  }
   return false;
 }
 

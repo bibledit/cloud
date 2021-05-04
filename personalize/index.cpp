@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/user.h>
 #include <database/logs.h>
+#include <locale/logic.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <styles/sheets.h>
@@ -36,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/logic.h>
 #include <access/bible.h>
 #include <dialog/list.h>
+#include <dialog/list2.h>
 #include <bb/logic.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
@@ -142,20 +144,23 @@ string personalize_index (void * webserver_request)
   // Store new font sizes before displaying the header,
   // so that the page displays the new font sizes immediately.
   if (request->post.count ("fontsizegeneral")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 50) && (value <= 300)) {
-      request->database_config_user ()->setGeneralFontSize (value);
-    } else {
-      error = translate ("Incorrect font size in percents");
-    }
+   int fontsizegeneral = convert_to_int (request->post["fontsizegeneral"]);
+    fontsizegeneral = clip (fontsizegeneral, 50, 300);
+    request->database_config_user ()->setGeneralFontSize (fontsizegeneral);
+    return "";
   }
   if (request->post.count ("fontsizemenu")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 50) && (value <= 300)) {
-      request->database_config_user ()->setMenuFontSize (value);
-    } else {
-      error = translate ("Incorrect font size in percents");
-    }
+    int fontsizemenu = convert_to_int (request->post["fontsizemenu"]);
+    fontsizemenu = clip (fontsizemenu, 50, 300);
+    request->database_config_user ()->setMenuFontSize (fontsizemenu);
+    return "";
+  }
+
+
+  // Set the language from the generated option tags below.
+  if (request->post.count ("languageselection")) {
+    string languageselection = locale_logic_filter_default_language (request->post ["languageselection"]);
+    request->database_config_user ()->setSiteLanguage (languageselection);
   }
   
   
@@ -165,108 +170,79 @@ string personalize_index (void * webserver_request)
 
   
   Assets_View view;
-  
+
+
+  // The available localizations.
+  map <string, string> localizations = locale_logic_localizations ();
+
+
+  // Create the option tags for interface language selection.
+  // Also the current selected option.
+  for (auto element : localizations) {
+    Options_To_Select::add_selection (element.second, element.first);
+  }
+  string current_user_preference = request->database_config_user ()->getSiteLanguage ();
+  string language = locale_logic_filter_default_language (current_user_preference);
+  Options_To_Select::mark_selected (language);
+  view.set_variable ("languageselectionoptags", Options_To_Select::return_tags ());
+  view.set_variable ("languageselection", language);
+
   
   // Font size for everything.
-  if (request->query.count ("fontsizegeneral")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getGeneralFontSize ()), "fontsizegeneral", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   view.set_variable ("fontsizegeneral", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
 
   
   // Font size for the menu.
-  if (request->query.count ("fontsizemenu")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getMenuFontSize ()), "fontsizemenu", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
   
   
   // Font size for the Bible editors.
-  if (request->query.count ("fontsizeeditors")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()), "fontsizeeditors", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("fontsizeeditors")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 50) && (value <= 300)) {
-      request->database_config_user ()->setBibleEditorsFontSize (value);
-      styles_sheets_create_all ();
-    } else {
-      error = translate ("Incorrect font size in percents");
-    }
+    int fontsizeeditors = convert_to_int (request->post["fontsizeeditors"]);
+    fontsizeeditors = clip (fontsizeeditors, 50, 300);
+    request->database_config_user ()->setBibleEditorsFontSize (fontsizeeditors);
+    styles_sheets_create_all ();
+    return "";
   }
   view.set_variable ("fontsizeeditors", convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()));
   
   
   // Font size for the resources.
-  if (request->query.count ("fontsizeresources")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getResourcesFontSize ()), "fontsizeresources", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("fontsizeresources")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 50) && (value <= 300)) {
-      request->database_config_user ()->setResourcesFontSize (value);
-    } else {
-      error = translate ("Incorrect font size in percents");
-    }
+    int fontsizeresources = convert_to_int (request->post["fontsizeresources"]);
+    fontsizeresources = clip (fontsizeresources, 50, 300);
+    request->database_config_user ()->setResourcesFontSize (fontsizeresources);
+    return "";
   }
   view.set_variable ("fontsizeresources", convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
   
   
   // Font size for Hebrew resources.
-  if (request->query.count ("fontsizehebrew")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getHebrewFontSize ()), "fontsizehebrew", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("fontsizehebrew")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 50) && (value <= 300)) {
-      request->database_config_user ()->setHebrewFontSize (value);
-    } else {
-      error = translate ("Incorrect font size in percents");
-    }
+    int fontsizehebrew = convert_to_int (request->post["fontsizehebrew"]);
+    fontsizehebrew = clip (fontsizehebrew, 50, 300);
+    request->database_config_user ()->setHebrewFontSize (fontsizehebrew);
+    return "";
   }
   view.set_variable ("fontsizehebrew", convert_to_string (request->database_config_user ()->getHebrewFontSize ()));
   
   
   // Font size for Greek resources.
-  if (request->query.count ("fontsizegreek")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a font size between 50 and 300 percent"), convert_to_string (request->database_config_user ()->getGreekFontSize ()), "fontsizegreek", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("fontsizegreek")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 50) && (value <= 300)) {
-      request->database_config_user ()->setGreekFontSize (value);
-    } else {
-      error = translate ("Incorrect font size in percents");
-    }
+    int fontsizegreek = convert_to_int (request->post["fontsizegreek"]);
+    fontsizegreek = clip (fontsizegreek, 50, 300);
+    request->database_config_user ()->setGreekFontSize (fontsizegreek);
+    return "";
   }
   view.set_variable ("fontsizegreek", convert_to_string (request->database_config_user ()->getGreekFontSize ()));
   
   
   // Vertical caret position in chapter editors.
-  if (request->query.count ("caretposition")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a caret position between 20 and 80 percent"), convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()), "caretposition", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("caretposition")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 20) && (value <= 80)) {
-      request->database_config_user ()->setVerticalCaretPosition (value);
-    } else {
-      error = translate ("Incorrect caret position in percents");
-    }
+    int caretposition = convert_to_int (request->post["caretposition"]);
+    caretposition = clip (caretposition, 20, 80);
+    request->database_config_user ()->setVerticalCaretPosition (caretposition);
+    return "";
   }
   view.set_variable ("caretposition", convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
   
@@ -277,28 +253,21 @@ string personalize_index (void * webserver_request)
 
   
   // Set the chosen theme on the option HTML tag.
-  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
-  view.set_variable ("themepicker", convert_to_string(current_theme_index));
-  switch (current_theme_index) {
-    case 0: view.set_variable ("themepickerindex0", "selected"); break;
-    case 1: view.set_variable ("themepickerindex1", "selected"); break;
-    case 2: view.set_variable ("themepickerindex2", "selected"); break;
-  }
+  string theme_key = convert_to_string (request->database_config_user ()->getCurrentTheme ());
+  Options_To_Select::add_selection ("Basic", "0");
+  Options_To_Select::add_selection ("Light", "1");
+  Options_To_Select::add_selection ("Dark", "2");
+  Options_To_Select::mark_selected (theme_key);
+  view.set_variable ("themepickeroptags", Options_To_Select::return_tags ());
+  view.set_variable ("themepicker", theme_key);
 
   
   // Workspace menu fade-out delay.
-  if (request->query.count ("workspacefadeoutdelay")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter a value between 1 and 100 seconds, or 0 to disable"), convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()), "workspacefadeoutdelay", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("workspacefadeoutdelay")) {
-    int value = convert_to_int (request->post["entry"]);
-    if ((value >= 0) && (value <= 100)) {
-      request->database_config_user ()->setWorkspaceMenuFadeoutDelay (value);
-    } else {
-      error = translate ("Incorrect fade-out delay in seconds");
-    }
+    int workspacefadeoutdelay = convert_to_int (request->post["workspacefadeoutdelay"]);
+    workspacefadeoutdelay = clip (workspacefadeoutdelay, 0, 100);
+    request->database_config_user ()->setWorkspaceMenuFadeoutDelay (workspacefadeoutdelay);
+    return "";
   }
   view.set_variable ("workspacefadeoutdelay", convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
 
@@ -324,42 +293,35 @@ string personalize_index (void * webserver_request)
 
   
   // Visual editors in the fast Bible editor switcher.
-  string editors;
   const char * fastswitchvisualeditors = "fastswitchvisualeditors";
-  if (request->query.count (fastswitchvisualeditors)) {
-    editors = request->query[fastswitchvisualeditors];
-    if (editors.empty ()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which visual Bible editors to enable?"), "", "");
-      for (int i = 0; i < 3; i++) {
-        dialog_list.add_row (menu_logic_editor_settings_text (true, i), fastswitchvisualeditors, convert_to_string (i));
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      request->database_config_user ()->setFastSwitchVisualEditors (convert_to_int (editors));
-    }
+  for (int i = 0; i < 3; i++) {
+    Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), convert_to_string (i));
   }
-  editors = menu_logic_editor_settings_text (true, request->database_config_user ()->getFastSwitchVisualEditors ());
-  view.set_variable (fastswitchvisualeditors, editors);
+  if (request->post.count (fastswitchvisualeditors)) {
+    int visual_editor_key = convert_to_int (request->post [fastswitchvisualeditors]);
+    request->database_config_user ()->setFastSwitchVisualEditors (visual_editor_key);
+    return "";
+  }
+  string editor_key = convert_to_string (request->database_config_user ()->getFastSwitchVisualEditors ());
+  Options_To_Select::mark_selected (editor_key);
+  view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::return_tags ());
+  view.set_variable (fastswitchvisualeditors, editor_key);
 
   
   // USFM editors fast Bible editor switcher.
   const char * fastswitchusfmeditors = "fastswitchusfmeditors";
-  if (request->query.count (fastswitchusfmeditors)) {
-    editors = request->query[fastswitchusfmeditors];
-    if (editors.empty ()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Enable the USFM Bible editor?"), "", "");
-      for (int i = 0; i < 2; i++) {
-        dialog_list.add_row (menu_logic_editor_settings_text (false, i), fastswitchusfmeditors, convert_to_string (i));
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      request->database_config_user ()->setFastSwitchUsfmEditors (convert_to_int (editors));
-    }
+  for (int i = 0; i < 2; i++) {
+    Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), convert_to_string (i));
   }
-  editors = menu_logic_editor_settings_text (false, request->database_config_user ()->getFastSwitchUsfmEditors ());
-  view.set_variable (fastswitchusfmeditors, editors);
+  if (request->post.count (fastswitchusfmeditors)) {
+    int usfm_editor_key = convert_to_int (request->post [fastswitchusfmeditors]);
+    request->database_config_user ()->setFastSwitchUsfmEditors (usfm_editor_key);
+    return "";
+  }
+  editor_key = convert_to_string(request->database_config_user ()->getFastSwitchUsfmEditors ());
+  Options_To_Select::mark_selected (editor_key);
+  view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::return_tags ());
+  view.set_variable (fastswitchusfmeditors, editor_key);
 
   
   // Whether to enable editing styles in the visual editors.
@@ -483,21 +445,16 @@ string personalize_index (void * webserver_request)
 
   
   // Setting for the verse separator during notes entry.
-  const char * verseseparator = "verseseparator";
-  if (request->query.count (verseseparator)) {
-    string verse_separator = request->query[verseseparator];
-    if (verse_separator.empty ()) {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Which verse separator to use for notes entry?"), "", "");
-      dialog_list.add_row (menu_logic_verse_separator ("."), verseseparator, ".");
-      dialog_list.add_row (menu_logic_verse_separator (":"), verseseparator, ":");
-      page += dialog_list.run ();
-      return page;
-    } else {
-      Database_Config_General::setNotesVerseSeparator (verse_separator);
-    }
+  if (request->post.count ("verseseparator")) {
+    Database_Config_General::setNotesVerseSeparator (request->post["verseseparator"]);
+    return "";
   }
-  view.set_variable (verseseparator,
-                     menu_logic_verse_separator (Database_Config_General::getNotesVerseSeparator ()));
+  string separator_key = Database_Config_General::getNotesVerseSeparator ();
+  Options_To_Select::add_selection (menu_logic_verse_separator ("."), ".");
+  Options_To_Select::add_selection (menu_logic_verse_separator (":"), ":");
+  Options_To_Select::mark_selected (separator_key);
+  view.set_variable ("verseseparatoroptags", Options_To_Select::return_tags ());
+  view.set_variable ("verseseparator", menu_logic_verse_separator (separator_key));
 
   
   // Setting for whether to receive the focused reference from Paratext on Windows.

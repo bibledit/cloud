@@ -19,26 +19,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 $ (document).ready (function () 
 {
-  $ ("#themepicker").change (function () {
-    var value = document.querySelector ("#themepicker").value;
+  let arrayOfQueryNames = ["themepicker", "languageselection", "fontsizegeneral", "fontsizemenu",
+                           "fontsizeeditors", "fontsizeresources", "fontsizehebrew", "fontsizegreek",
+                           "caretposition", "workspacefadeoutdelay", "fastswitchusfmeditors", "verseseparator",
+                           "fastswitchvisualeditors", "chapterpercentage", "versepercentage"]
+  let arrayOfQuerySubmissionTechniques = ["reload"];
+  for (var i = 0; i < 3; i++) { arrayOfQuerySubmissionTechniques.push("both") };
+  for (var i = 0; i < 9; i++) { arrayOfQuerySubmissionTechniques.push("post") };
+  for (var i = 0; i < 2; i++) { arrayOfQuerySubmissionTechniques.push("post+") };
 
-    if (/\?.+=/.test(window.location.href)) {
-      window.location.href = window.location.href.replace(/\?.+=\d?/, '?themepicker=' + value);
-    } else {
-      window.location.href = window.location.href + '?themepicker=' + value;
-    }
-    $ ("#themepicker > option").removeAttr ("selected");
 
-    document.querySelector (`#themepicker > option[value='${value}']`).setAttribute ("selected", "");
-  });
-  $("#chapterpercentage").change (function () {
-    var value = $(this).val ();
-    $.post ("index", { chapterpercentage:value });
-    $ ("#chapterpercentageval").html (value);
-  });
-  $("#versepercentage").change (function () {
-    var value = $(this).val ();
-    $.post ("index", { versepercentage:value });
-    $ ("#versepercentageval").html (value);
-  });
+  for (let i = 0; i < arrayOfQueryNames.length; i++) {
+    (function () {
+      var elementName = "#" + arrayOfQueryNames[i];
+      var queryName = arrayOfQueryNames[i];
+      var submissionTechnique = arrayOfQuerySubmissionTechniques[i];
+
+      $ (elementName).change (function () {
+        var value = $(elementName).val ();
+        var postData = '{"'+queryName+'":"'+value+'"}';
+        postData = JSON.parse(postData);
+
+        if (submissionTechnique == "post" || submissionTechnique == "post+" || submissionTechnique == "both") {
+          $.post ("index", postData);
+        }
+
+        if (submissionTechnique == "reload" || submissionTechnique == "both") {
+          console.log("page reloaded");
+          window.location.replace(window.location.origin + window.location.pathname + '?' + queryName + '=' + value);
+        }
+
+        if (submissionTechnique == "post+") {
+          $ (elementName + "val").html (value);
+        }
+      })
+    }());
+  }
 });

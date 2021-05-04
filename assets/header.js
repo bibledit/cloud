@@ -80,4 +80,10 @@ $ (document).ready (function () {
   } else {
     $ ('#topbar').removeClass('wrap-active');
   };
+
+  // If it's notes/actions.html, add padding for all the p tag
+  if (/notes\/actions/.test(window.location.href)) {
+    var allPTag = document.querySelectorAll('p');
+    allPTag.forEach((e) => { e.style.padding = "4px 0" });
+  };
 });

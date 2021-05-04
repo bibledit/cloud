@@ -3,18 +3,29 @@
 
 <!-- #BEGINZONE advancedmode -->
 <h3>translate("Preferences")</h3>
+
+<br>
+<p class="settings-container">
+<label for="languageselection">translate("The language for Bibledit:")</label>
+<select id="languageselection" name="languageselection" value="##languageselection##">
+  ##languageselectionoptags##
+</select>
+</p>
 <!-- #ENDZONE advancedmode -->
 
-<p>
+<br>
+<p class="settings-container">
 translate("General font size for the interface"):
-<a href="?fontsizegeneral=">##fontsizegeneral##%</a>.
+<input type="text" name="fontsizegeneral" id="fontsizegeneral" class="setting-input" value="##fontsizegeneral##" min="50" max="300">%.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a font size between 50 and 300 percent")</span>
 translate("Size throughout the interface.")
 </p>
 
 <br>
-<p>
+<p class="settings-container">
 translate("Relative font size for the menu"):
-<a href="?fontsizemenu=">##fontsizemenu##%</a>.
+<input type="text" name="fontsizemenu" id="fontsizemenu" class="setting-input" value="##fontsizemenu##" min="50" max="300">%.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a font size between 50 and 300 percent")</span>
 translate("The size of the font for the menu, relative to the general font size.")
 </p>
 
@@ -22,41 +33,46 @@ translate("The size of the font for the menu, relative to the general font size.
 
 <!-- #BEGINZONE bibles -->
 <br>
-<p>
+<p class="settings-container">
 translate("Relative font size for the Bible editors"):
-<a href="?fontsizeeditors=">##fontsizeeditors##%</a>.
+<input type="text" name="fontsizeeditors" id="fontsizeeditors" class="setting-input" value="##fontsizeeditors##" min="50" max="300">%.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a font size between 50 and 300 percent")</span>
 translate("The size of the font for the Bible editors, relative to the general font size.")
 </p>
 <!-- #ENDZONE bibles -->
 
 <!-- #BEGINZONE resources -->
 <br>
-<p>
+<p class="settings-container">
 translate("Relative font size for the resources"):
-<a href="?fontsizeresources=">##fontsizeresources##%</a>.
+<input type="text" name="fontsizeresources" id="fontsizeresources" class="setting-input" value="##fontsizeresources##" min="50" max="300">%.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a font size between 50 and 300 percent")</span>
 translate("The size of the font for the resources, relative to the general font size.")
 </p>
 
 <br>
-<p>
+<p class="settings-container">
 translate("Relative font size for Hebrew resources"):
-<a href="?fontsizehebrew=">##fontsizehebrew##%</a>.
+<input type="text" name="fontsizehebrew" id="fontsizehebrew" class="setting-input" value="##fontsizehebrew##" min="50" max="300">%.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a font size between 50 and 300 percent")</span>
 translate("The size of Hebrew text within resources, relative to the resources font size.")
 </p>
 
 <br>
-<p>
+<p class="settings-container">
 translate("Relative font size for Greek resources"):
-<a href="?fontsizegreek=">##fontsizegreek##%</a>.
+<input type="text" name="fontsizegreek" id="fontsizegreek" class="setting-input" value="##fontsizegreek##" min="50" max="300">%.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a font size between 50 and 300 percent")</span>
 translate("The size of Greek text within resources, relative to the resources font size.")
 </p>
 <!-- #ENDZONE resources -->
 
 <!-- #BEGINZONE bibles -->
 <br>
-<p>
+<p class="settings-container">
 translate("Initial vertical position of the editing cursor in the Bible editors"):
-<a href="?caretposition=">##caretposition##%</a>.
+<input type="text" name="caretposition" id="caretposition" class="setting-input" value="##caretposition##" min="20" max="80">.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a caret position between 20 and 80 percent")</span>
 </p>
 <!-- #ENDZONE bibles -->
 
@@ -64,9 +80,7 @@ translate("Initial vertical position of the editing cursor in the Bible editors"
 <p>
   <label for="themepicker">translate("Choose theme"):</label>
   <select id="themepicker" name="themepicker" value="##themepicker##">
-    <option value="0" ##themepickerindex0##>Basic</option>
-    <option value="1" ##themepickerindex1##>Light</option>
-    <option value="2" ##themepickerindex2##>Dark</option>
+    ##themepickeroptags##
   </select>
 </p>
 
@@ -77,9 +91,10 @@ translate("Show breadcrumbs"):
 </p>
 
 <br>
-<p>
+<p class="settings-container">
 translate("Workspace menu fade-out delay"):
-<a href="?workspacefadeoutdelay=">##workspacefadeoutdelay## seconds</a>.
+<input type="text" name="workspacefadeoutdelay" id="workspacefadeoutdelay" class="setting-input" value="##workspacefadeoutdelay##" min="0" max="100">seconds.<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a value between 1 and 100 seconds, or 0 to disable")</span>
 translate("How long it takes for the workspace menu to start fading out.")
 </p>
 
@@ -111,7 +126,7 @@ translate("The permitted difference can be set below as a percentage.")
 translate("Keep main menu always visible"):
 <a href="?menuvisible=">##menuvisible##</a>.
 translate("This works in both basic and advanced mode.")
-</p>
+ </p>
 
 <!-- #BEGINZONE touch -->
 <br>
@@ -129,8 +144,22 @@ translate("Show a link in the Bible editor to select another Bible editor"):
 translate("Available Bible editors in the Bible editor selector:")
 [<a href="../editor/select">...</a>]
 </p>
-<p>translate("Text editors:") <a href="?fastswitchvisualeditors=">##fastswitchvisualeditors##</a>.</p>
-<p>translate("USFM editor:") <a href="?fastswitchusfmeditors=">##fastswitchusfmeditors##</a>.</p>
+<p class="settings-container">
+  <label for="fastswitchvisualeditors">translate("Text editors:")<span class="tooltip"></span>
+    <span class="tooltip-text">translate("Which visual Bible editors to enable?")</span>
+  </label>
+  <select id="fastswitchvisualeditors" name="fastswitchvisualeditors" value="##fastswitchvisualeditors##">
+    ##fastswitchvisualeditorsoptags##
+  </select>
+</p>
+<p class="settings-container">
+  <label for="fastswitchusfmeditors">translate("USFM editor:")<span class="tooltip"></span>
+    <span class="tooltip-text">translate("Enable the USFM Bible editor?")</span>
+  </label>
+  <select id="fastswitchusfmeditors" name="fastswitchusfmeditors" value="##fastswitchusfmeditors##">
+    ##fastswitchusfmeditorsoptags##
+  </select>
+</p>
 
 <br>
 <p>
@@ -261,9 +290,13 @@ translate ("Disable the pop-up menu when text is selected"):
 
 <!-- #BEGINZONE advancedmode -->
 <br>
-<p>
-translate("Verse separator for Bible notes entry"):
-<a href="?verseseparator=">##verseseparator##</a>.
+<p class="settings-container">
+  <label for="verseseparator">translate("Verse separator for Bible notes entry"):<span class="tooltip"></span>
+    <span class="tooltip-text">translate("Which verse separator to use for notes entry?")</span>
+  </label>
+  <select id="verseseparator" name="verseseparator" value="##verseseparator##">
+    ##verseseparatoroptags##
+  </select>
 </p>
 <!-- #ENDZONE advancedmode -->
 

@@ -167,6 +167,8 @@ public:
   int getResourceVersesAfter ();
   string getSyncKey ();
   void setSyncKey (string key);
+  string getSiteLanguage ();
+  void setSiteLanguage (string value);
   void setGeneralFontSize (int size);
   int getGeneralFontSize ();
   void setMenuFontSize (int size);

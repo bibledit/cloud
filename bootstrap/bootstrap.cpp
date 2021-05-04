@@ -129,6 +129,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/bbgateway.h>
 #include <resource/studylight.h>
 #include <resource/unload.h>
+#include <locale/translate.h>
 #include <mapping/index.h>
 #include <mapping/map.h>
 #include <notes/index.h>
@@ -283,6 +284,8 @@ void bootstrap_index (void * webserver_request)
     http_stream_file (request, true);
     return;
   }
+
+  check_user_localization_preference (request);
 
   if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) {
     request->reply = resource_imagefetch (request);

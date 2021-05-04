@@ -1005,6 +1005,16 @@ void Database_Config_User::setSyncKey (string key)
 }
 
 
+string Database_Config_User::getSiteLanguage ()
+{
+  return getValue ("site-language", "");
+}
+void Database_Config_User::setSiteLanguage (string value)
+{
+  setValue ("site-language", value);
+}
+
+
 const char * general_font_size_key ()
 {
   return "general-font-size";

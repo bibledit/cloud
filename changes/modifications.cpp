@@ -84,8 +84,8 @@ void changes_process_identifiers (Webserver_Request * request,
         filter_text_new.addUsfmCode (new_verse_usfm);
         filter_text_old.run (stylesheet);
         filter_text_new.run (stylesheet);
-        string old_html = filter_text_old.html_text_standard->getInnerHtml ();
-        string new_html = filter_text_new.html_text_standard->getInnerHtml ();
+        string old_html = filter_text_old.html_text_standard->get_inner_html ();
+        string new_html = filter_text_new.html_text_standard->get_inner_html ();
         string old_text = filter_text_old.text_text->get ();
         string new_text = filter_text_new.text_text->get ();
         if (old_text != new_text) {
@@ -327,8 +327,8 @@ void changes_modifications ()
               filter_text_new.addUsfmCode (new_verse_usfm);
               filter_text_old.run (stylesheet);
               filter_text_new.run (stylesheet);
-              old_html = filter_text_old.html_text_standard->getInnerHtml ();
-              new_html = filter_text_new.html_text_standard->getInnerHtml ();
+              old_html = filter_text_old.html_text_standard->get_inner_html ();
+              new_html = filter_text_new.html_text_standard->get_inner_html ();
               old_text = filter_text_old.text_text->get ();
               new_text = filter_text_new.text_text->get ();
             }

@@ -53,11 +53,11 @@ string public_chapter (void * webserver_request)
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new Html_Text (bible);
-  filter_text.html_text_standard->customClass = Filter_Css::getClass (bible);
+  filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
   filter_text.addUsfmCode (usfm);
   filter_text.run (stylesheet);
 
-  string html = filter_text.html_text_standard->getInnerHtml ();
+  string html = filter_text.html_text_standard->get_inner_html ();
   
   return html;
 }

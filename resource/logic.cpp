@@ -284,7 +284,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     filter_text.html_text_standard = new Html_Text ("");
     filter_text.addUsfmCode (verse_usfm);
     filter_text.run (stylesheet);
-    data = filter_text.html_text_standard->getInnerHtml ();
+    data = filter_text.html_text_standard->get_inner_html ();
   } else if (isRemoteUsfm) {
     data = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
   } else if (isExternal) {
@@ -435,7 +435,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     filter_text.html_text_standard = new Html_Text ("");
     filter_text.addUsfmCode (verse_usfm);
     filter_text.run (stylesheet);
-    return filter_text.html_text_standard->getInnerHtml ();
+    return filter_text.html_text_standard->get_inner_html ();
   }
   
   if (isSword) {

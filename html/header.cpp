@@ -49,13 +49,13 @@ void Html_Header::searchBackLink (string url, string text)
 void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
 {
   Html_Text * html_text = (Html_Text *) htmlText;
-  xml_node tableElement = html_text->newTable ();
-  xml_node tableRowElement = html_text->newTableRow (tableElement);
-  xml_node tableDataElement = html_text->newTableData (tableRowElement);
+  xml_node tableElement = html_text->new_table ();
+  xml_node tableRowElement = html_text->new_table_row (tableElement);
+  xml_node tableDataElement = html_text->new_table_data (tableRowElement);
   for (auto breadcrumb : breadcrumbs) {
-    html_text->addLink (tableDataElement, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
+    html_text->add_link (tableDataElement, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
   }
-  tableDataElement = html_text->newTableData (tableRowElement, true);
+  tableDataElement = html_text->new_table_data (tableRowElement, true);
   xml_node formElement = tableDataElement.append_child ("form");
   formElement.append_attribute ("action") = "/webbb/search";
   formElement.append_attribute ("method") = "GET";

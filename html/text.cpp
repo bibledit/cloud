@@ -29,97 +29,97 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Html_Text::Html_Text (string title)
 {
-  currentParagraphStyle.clear();
-  currentParagraphContent.clear();
-  noteCount = 0;
+  current_paragraph_style.clear();
+  current_paragraph_content.clear();
+  note_count = 0;
   
   // <html>
-  xml_node root_node = htmlDom.append_child ("html");
+  xml_node root_node = document.append_child ("html");
   
   // <head>
-  headDomNode = root_node.append_child ("head");
+  head_node = root_node.append_child ("head");
   
-  xml_node title_node = headDomNode.append_child ("title");
+  xml_node title_node = head_node.append_child ("title");
   title_node.text ().set (title.c_str());
   
   // <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  xml_node meta_node = headDomNode.append_child ("meta");
+  xml_node meta_node = head_node.append_child ("meta");
   meta_node.append_attribute ("http-equiv") = "content-type";
   meta_node.append_attribute ("content") = "text/html; charset=UTF-8";
 
   // <meta name="viewport" content="width=device-width, initial-scale=1.0">
   // This tag helps to make the page mobile-friendly.
   // See https://www.google.com/webmasters/tools/mobile-friendly/
-  meta_node = headDomNode.append_child ("meta");
+  meta_node = head_node.append_child ("meta");
   meta_node.append_attribute ("name") = "viewport";
   meta_node.append_attribute ("content") = "width=device-width, initial-scale=1.0";
 
   // <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  xml_node link_node = headDomNode.append_child ("link");
+  xml_node link_node = head_node.append_child ("link");
   link_node.append_attribute ("rel") = "stylesheet";
   link_node.append_attribute ("type") = "text/css";
   link_node.append_attribute ("href") = "stylesheet.css";
   
   // <body>
-  bodyDomNode = root_node.append_child ("body");
+  body_node = root_node.append_child ("body");
   
   // Optional for notes: <div>
-  notesDivDomNode = bodyDomNode.append_child ("div");
+  notes_div_node = body_node.append_child ("div");
 }
 
 
-void Html_Text::newParagraph (string style)
+void Html_Text::new_paragraph (string style)
 {
-  currentPDomElement = bodyDomNode.append_child ("p");
+  current_p_node = body_node.append_child ("p");
   if (style != "") {
     string clss = style;
-    if (customClass != "") {
-      clss += " " + customClass;
+    if (custom_class != "") {
+      clss += " " + custom_class;
     }
-    currentPDomElement.append_attribute ("class") = clss.c_str();
+    current_p_node.append_attribute ("class") = clss.c_str();
   }
   current_p_node_open = true;
-  currentParagraphStyle = style;
-  currentParagraphContent.clear();
+  current_paragraph_style = style;
+  current_paragraph_content.clear();
 }
 
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Html_Text::addText (string text)
+void Html_Text::add_text (string text)
 {
   if (text != "") {
-    if (!current_p_node_open) newParagraph ();
-    xml_node span = currentPDomElement.append_child ("span");
+    if (!current_p_node_open) new_paragraph ();
+    xml_node span = current_p_node.append_child ("span");
     span.text().set (text.c_str());
-    if (!currentTextStyle.empty ()) {
+    if (!current_text_style.empty ()) {
       // Take character style(s) as specified in the object.
-      span.append_attribute ("class") = filter_string_implode (currentTextStyle, " ").c_str();
+      span.append_attribute ("class") = filter_string_implode (current_text_style, " ").c_str();
     }
-    currentParagraphContent += text;
+    current_paragraph_content += text;
   }
 }
 
 
 // This creates a <h1> heading with contents.
 // $text: Contents.
-void Html_Text::newHeading1 (string text, bool hide)
+void Html_Text::new_heading1 (string text, bool hide)
 {
-  newNamedHeading ("h1", text, hide);
+  new_named_heading ("h1", text, hide);
 }
 
 
 // This applies a page break.
-void Html_Text::newPageBreak ()
+void Html_Text::new_page_break ()
 {
   // The style is already in the css.
-  newParagraph ("break");
+  new_paragraph ("break");
   // Always clear the flag for the open paragraph,
   // because we don't want subsequent text to be added to this page break,
   // since it would be nearly invisible, and thus text would seem to be lost.
   current_p_node_open = false;
-  currentParagraphStyle.clear();
-  currentParagraphContent.clear();
+  current_paragraph_style.clear();
+  current_paragraph_content.clear();
 }
 
 
@@ -129,15 +129,15 @@ void Html_Text::newPageBreak ()
 // $embed: boolean: Whether to embed the new text style in an existing text style.
 //                  true: add the new style to the existing style.
 //                  false: close any existing text style, and open the new style.
-void Html_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
+void Html_Text::open_text_style (Database_Styles_Item style, bool note, bool embed)
 {
   string marker = style.marker;
   if (note) {
-    if (!embed) currentNoteTextStyle.clear();
-    currentNoteTextStyle.push_back (marker);
+    if (!embed) current_note_text_style.clear();
+    current_note_text_style.push_back (marker);
   } else {
-    if (!embed) currentTextStyle.clear();
-    currentTextStyle.push_back (marker);
+    if (!embed) current_text_style.clear();
+    current_text_style.push_back (marker);
   }
 }
 
@@ -147,14 +147,14 @@ void Html_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed
 // $embed: boolean: Whether to embed the new text style in an existing text style.
 //                  true: add the new style to the existing style.
 //                  false: close any existing text style, and open the new style.
-void Html_Text::closeTextStyle (bool note, bool embed)
+void Html_Text::close_text_style (bool note, bool embed)
 {
   if (note) {
-    if (!currentNoteTextStyle.empty()) currentNoteTextStyle.pop_back ();
-    if (!embed) currentNoteTextStyle.clear();
+    if (!current_note_text_style.empty()) current_note_text_style.pop_back ();
+    if (!embed) current_note_text_style.clear();
   } else {
-    if (!currentTextStyle.empty()) currentTextStyle.pop_back ();
-    if (!embed) currentTextStyle.clear ();
+    if (!current_text_style.empty()) current_text_style.pop_back ();
+    if (!embed) current_text_style.clear ();
   }
 }
 
@@ -163,57 +163,60 @@ void Html_Text::closeTextStyle (bool note, bool embed)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Html_Text::addNote (string citation, string style, bool endnote)
+void Html_Text::add_note (string citation, string style, bool endnote)
 {
+  (void) endnote;
+  
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!current_p_node_open) newParagraph ();
+  if (!current_p_node_open) new_paragraph ();
   
-  if (endnote) {};
-  
-  noteCount++;
+  note_count++;
   
   // Add the link with all relevant data for the note citation.
-  string reference = "#note" + convert_to_string (noteCount);
-  string identifier = "citation" + convert_to_string (noteCount);
-  addLink (currentPDomElement, reference, identifier, "", "superscript", citation);
+  string reference = "#note" + convert_to_string (note_count);
+  string identifier = "citation" + convert_to_string (note_count);
+  add_link (current_p_node, reference, identifier, "", "superscript", citation, add_popup_notes);
   
   // Open a paragraph element for the note body.
-  notePDomElement = notesDivDomNode.append_child ("p");
-  notePDomElement.append_attribute ("class") = style.c_str();
+  note_p_node = notes_div_node.append_child ("p");
+  note_p_node.append_attribute ("class") = style.c_str();
   note_p_node_open = true;
   
-  closeTextStyle (true, false);
+  close_text_style (true, false);
   
   // Add the link with all relevant data for the note body.
-  reference = "#citation" + convert_to_string (noteCount);
-  identifier = "note" + convert_to_string (noteCount);
-  addLink (notePDomElement, reference, identifier, "", "", citation);
+  reference = "#citation" + convert_to_string (note_count);
+  identifier = "note" + convert_to_string (note_count);
+  add_link (note_p_node, reference, identifier, "", "", citation);
   
   // Add a space.
-  addNoteText (" ");
+  add_note_text (" ");
 }
 
 
 // This function adds text to the current footnote.
 // $text: The text to add.
-void Html_Text::addNoteText (string text)
+void Html_Text::add_note_text (string text)
 {
-  if (text != "") {
-    if (!note_p_node_open) addNote ("?", "");
-    xml_node spanDomElement = notePDomElement.append_child ("span");
-    spanDomElement.text().set (text.c_str());
-    if (!currentNoteTextStyle.empty ()) {
-      // Take character style as specified in this object.
-      spanDomElement.append_attribute ("class") = filter_string_implode (currentNoteTextStyle, " ").c_str();
-    }
+  if (text.empty()) return;
+  if (!note_p_node_open) add_note ("?", "");
+  xml_node span_node = note_p_node.append_child ("span");
+  span_node.text().set (text.c_str());
+  if (!current_note_text_style.empty ()) {
+    // Take character style as specified in this object.
+    span_node.append_attribute ("class") = filter_string_implode (current_note_text_style, " ").c_str();
+  }
+  if (popup_node) {
+    xml_node span_node = popup_node.append_child ("span");
+    span_node.text().set (text.c_str());
   }
 }
 
 
 // This function closes the current footnote.
-void Html_Text::closeCurrentNote ()
+void Html_Text::close_current_note ()
 {
-  closeTextStyle (true, false);
+  close_text_style (true, false);
   note_p_node_open = false;
 }
 
@@ -225,36 +228,50 @@ void Html_Text::closeCurrentNote ()
 // $title: The link's title, to make it accessible, e.g. for screenreaders.
 // $style: The link text's style.
 // $text: The link's text.
-void Html_Text::addLink (xml_node domNode, string reference, string identifier, string title, string style, string text)
+void Html_Text::add_link (xml_node node,
+                         string reference, string identifier,
+                         string title, string style, string text,
+                         bool add_popup) // Todo
 {
-  xml_node aDomElement = domNode.append_child ("a");
-  aDomElement.append_attribute ("href") = reference.c_str();
-  aDomElement.append_attribute ("id") = identifier.c_str();
-  if (!title.empty ()) {
-    aDomElement.append_attribute ("title") = title.c_str();
+  xml_node a_node = node.append_child ("a");
+  a_node.append_attribute ("href") = reference.c_str();
+  a_node.append_attribute ("id") = identifier.c_str();
+  if (!title.empty ()) a_node.append_attribute ("title") = title.c_str();
+  if (!style.empty()) a_node.append_attribute ("class") = style.c_str();
+  xml_node pcdata = a_node.append_child (node_pcdata);
+  pcdata.set_value(text.c_str());
+  // Whether to add a popup span in a note.
+  if (add_popup) {
+    popup_node = a_node.append_child("span");
+    popup_node.append_attribute("class") = "popup";
+//  } else {
+//    popup_node = xml_node();
   }
-  if (style != "") {
-    aDomElement.append_attribute ("class") = style.c_str();
+  
+  {
+    stringstream output;
+    a_node.print (output, "", format_raw);
+//    cout << output.str () << endl; // Todo
   }
-  aDomElement.text ().set (text.c_str());
+  
 }
 
 
 // This gets and then returns the html text
-string Html_Text::getHtml ()
+string Html_Text::get_html ()
 {
   // Move any notes into place: At the end of the body.
   // Or remove empty notes container.
-  if (noteCount > 0) {
-    bodyDomNode.append_move (notesDivDomNode);
+  if (note_count > 0) {
+    body_node.append_move (notes_div_node);
   } else {
-    bodyDomNode.remove_child (notesDivDomNode);
+    body_node.remove_child (notes_div_node);
   }
-  noteCount = 0;
+  note_count = 0;
 
   // Get the html.
   stringstream output;
-  htmlDom.print (output, "", format_raw);
+  document.print (output, "", format_raw);
   string html = output.str ();
   
   // Add html5 doctype.
@@ -265,9 +282,9 @@ string Html_Text::getHtml ()
 
 
 // Returns the html text within the <body> tags, that is, without the <head> stuff.
-string Html_Text::getInnerHtml ()
+string Html_Text::get_inner_html ()
 {
-  string page = getHtml ();
+  string page = get_html ();
   size_t pos = page.find ("<body>");
   if (pos != string::npos) {
     page = page.substr (pos + 6);
@@ -284,21 +301,21 @@ string Html_Text::getInnerHtml ()
 // $name: the name of the file to save to.
 void Html_Text::save (string name)
 {
-  string html = getHtml ();
+  string html = get_html ();
   filter_url_file_put_contents (name, html);
 }
 
 
 // This adds a new table to the html DOM.
 // Returns: The new $tableElement
-xml_node Html_Text::newTable ()
+xml_node Html_Text::new_table ()
 {
   // Adding subsequent text should create a new paragraph.
   current_p_node_open = false;
-  currentParagraphStyle.clear();
-  currentParagraphContent.clear();
+  current_paragraph_style.clear();
+  current_paragraph_content.clear();
   // Append the table.
-  xml_node tableElement = bodyDomNode.append_child ("table");
+  xml_node tableElement = body_node.append_child ("table");
   tableElement.append_attribute ("width") = "100%";
   return tableElement;
 }
@@ -306,7 +323,7 @@ xml_node Html_Text::newTable ()
 
 // This adds a new row to an existing $tableElement.
 // Returns: The new $tableRowElement.
-xml_node Html_Text::newTableRow (xml_node tableElement)
+xml_node Html_Text::new_table_row (xml_node tableElement)
 {
   xml_node tableRowElement = tableElement.append_child ("tr");
   return tableRowElement;
@@ -315,7 +332,7 @@ xml_node Html_Text::newTableRow (xml_node tableElement)
 
 // This adds a new data cell to an existing $tableRowElement.
 // Returns: The new $tableDataElement.
-xml_node Html_Text::newTableData (xml_node tableRowElement, bool alignRight)
+xml_node Html_Text::new_table_data (xml_node tableRowElement, bool alignRight)
 {
   xml_node tableDataElement = tableRowElement.append_child ("td");
   if (alignRight) tableDataElement.append_attribute ("align") = "right";
@@ -326,13 +343,20 @@ xml_node Html_Text::newTableData (xml_node tableRowElement, bool alignRight)
 // This creates a heading with styled content.
 // $style: A style name.
 // $text: Content.
-void Html_Text::newNamedHeading (string style, string text, bool hide)
+void Html_Text::new_named_heading (string style, string text, bool hide)
 {
   if (hide) {};
-  xml_node textHDomElement = bodyDomNode.append_child (style.c_str());
+  xml_node textHDomElement = body_node.append_child (style.c_str());
   textHDomElement.text ().set (text.c_str());
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
   current_p_node_open = false;
-  currentParagraphStyle.clear ();
-  currentParagraphContent.clear ();
+  current_paragraph_style.clear ();
+  current_paragraph_content.clear ();
+}
+
+
+// Whether to add pop-up notes as well.
+void Html_Text::have_popup_notes ()
+{
+  add_popup_notes = true;
 }

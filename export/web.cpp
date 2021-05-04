@@ -38,7 +38,7 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book, bool log)
+void export_web_book (string bible, int book, bool log) // Todo
 {
   string directory = Export_Logic::webDirectory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
@@ -79,8 +79,8 @@ void export_web_book (string bible, int book, bool log)
     make_pair (bible, filter_url_html_file_name_bible ()),
     make_pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ())
   });
-  html_text_rich_book_index.newParagraph ("navigationbar");
-  html_text_rich_book_index.addText ("|");
+  html_text_rich_book_index.new_paragraph ("navigationbar");
+  html_text_rich_book_index.add_text ("|");
   
   
   // Go through the chapters of this book.
@@ -104,7 +104,7 @@ void export_web_book (string bible, int book, bool log)
     
     // Interlinked web data for one chapter.
     filter_text_chapter.html_text_linked = new Html_Text (translate("Bible"));
-    filter_text_chapter.html_text_linked->customClass = Filter_Css::getClass (bible);
+    filter_text_chapter.html_text_linked->custom_class = Filter_Css::getClass (bible);
     
     // Create breadcrumbs and navigator for the chapter.
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
@@ -133,8 +133,8 @@ void export_web_book (string bible, int book, bool log)
     filter_text_chapter.run (stylesheet);
     filter_text_chapter.html_text_linked->save (filter_url_html_file_name_bible (directory, book, chapter));
     
-    html_text_rich_book_index.addLink (html_text_rich_book_index.currentPDomElement, filter_url_html_file_name_bible ("", book, chapter), "", convert_to_string (chapter), "", " " + convert_to_string (chapter) + " ");
-    html_text_rich_book_index.addText ("|");
+    html_text_rich_book_index.add_link (html_text_rich_book_index.current_p_node, filter_url_html_file_name_bible ("", book, chapter), "", convert_to_string (chapter), "", " " + convert_to_string (chapter) + " ");
+    html_text_rich_book_index.add_text ("|");
   }
   
   
@@ -186,16 +186,16 @@ void export_web_index (string bible, bool log)
   
   
   // Prepare for the list of books in de html index file.
-  html_text_rich_bible_index.newParagraph ("navigationbar");
-  html_text_rich_bible_index.addText (" |");
+  html_text_rich_bible_index.new_paragraph ("navigationbar");
+  html_text_rich_bible_index.add_text (" |");
   
   
   // Go through the Bible books.
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
     // Add this book to the main web index.
-    html_text_rich_bible_index.addLink (html_text_rich_bible_index.currentPDomElement,  filter_url_html_file_name_bible ("", book), "", translate (Database_Books::getEnglishFromId (book)), "", " " + translate (Database_Books::getEnglishFromId (book)) + " ");
-    html_text_rich_bible_index.addText ("|");
+    html_text_rich_bible_index.add_link (html_text_rich_bible_index.current_p_node,  filter_url_html_file_name_bible ("", book), "", translate (Database_Books::getEnglishFromId (book)), "", " " + translate (Database_Books::getEnglishFromId (book)) + " ");
+    html_text_rich_bible_index.add_text ("|");
   }
   
   

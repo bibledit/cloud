@@ -61,7 +61,7 @@ string public_new (void * webserver_request)
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (verse_usfm);
     filter_text.run (stylesheet);
-    return filter_text.html_text_standard->getInnerHtml ();
+    return filter_text.html_text_standard->get_inner_html ();
   }
 
   

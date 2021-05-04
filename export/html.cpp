@@ -38,7 +38,7 @@
 #include <styles/sheets.h>
 
 
-void export_html_book (string bible, int book, bool log)
+void export_html_book (string bible, int book, bool log) // Todo
 {
   // Create folders for the html export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "html");
@@ -76,7 +76,7 @@ void export_html_book (string bible, int book, bool log)
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new Html_Text (translate("Bible"));
-  filter_text.html_text_standard->customClass = Filter_Css::getClass (bible);
+  filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
   
   
   // Load one book.

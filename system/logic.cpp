@@ -52,11 +52,11 @@ void system_logic_produce_bibles_file (int jobid)
   // Generate the initial page.
   {
     Html_Text html_text ("");
-    html_text.newParagraph ();
-    html_text.addText (translate ("Generating a file with the Bibles."));
-    html_text.newParagraph ();
-    html_text.addText (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.getInnerHtml ());
+    html_text.new_paragraph ();
+    html_text.add_text (translate ("Generating a file with the Bibles."));
+    html_text.new_paragraph ();
+    html_text.add_text (translate ("In progress..."));
+    database_jobs.setStart (jobid, html_text.get_inner_html ());
   }
 
   
@@ -100,21 +100,21 @@ void system_logic_produce_bibles_file (int jobid)
   // Ready, provide info about how to download the file, or about the error.
   {
     Html_Text html_text ("");
-    html_text.newParagraph ();
+    html_text.new_paragraph ();
     if (error.empty ()) {
-      html_text.addText (translate ("The file with Bibles is ready."));
-      html_text.newParagraph ();
-      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_bibles_file_name (), "", "", "", translate ("Get it."));
-      html_text.newParagraph ();
-      html_text.addText (translate ("The file can be imported in another Bibledit client."));
-      html_text.addText (" ");
-      html_text.addText (translate ("This will create the same Bibles in that other client."));
+      html_text.add_text (translate ("The file with Bibles is ready."));
+      html_text.new_paragraph ();
+      html_text.add_link (html_text.current_p_node, "/" + system_logic_bibles_file_name (), "", "", "", translate ("Get it."));
+      html_text.new_paragraph ();
+      html_text.add_text (translate ("The file can be imported in another Bibledit client."));
+      html_text.add_text (" ");
+      html_text.add_text (translate ("This will create the same Bibles in that other client."));
     } else {
-      html_text.addText (translate ("It failed to create the file with Bibles."));
-      html_text.newParagraph ();
-      html_text.addText (error);
+      html_text.add_text (translate ("It failed to create the file with Bibles."));
+      html_text.new_paragraph ();
+      html_text.add_text (error);
     }
-    database_jobs.setResult (jobid, html_text.getInnerHtml ());
+    database_jobs.setResult (jobid, html_text.get_inner_html ());
   }
 }
 
@@ -195,11 +195,11 @@ void system_logic_produce_notes_file (int jobid)
   // Generate the initial page.
   {
     Html_Text html_text ("");
-    html_text.newParagraph ();
-    html_text.addText (translate ("Generating a file with the Consultation Notes."));
-    html_text.newParagraph ();
-    html_text.addText (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.getInnerHtml ());
+    html_text.new_paragraph ();
+    html_text.add_text (translate ("Generating a file with the Consultation Notes."));
+    html_text.new_paragraph ();
+    html_text.add_text (translate ("In progress..."));
+    database_jobs.setStart (jobid, html_text.get_inner_html ());
   }
   
   
@@ -226,21 +226,21 @@ void system_logic_produce_notes_file (int jobid)
   // Ready, provide info about how to download the file, or about the error.
   {
     Html_Text html_text ("");
-    html_text.newParagraph ();
+    html_text.new_paragraph ();
     if (error.empty ()) {
-      html_text.addText (translate ("The file with Consultation Notes is ready."));
-      html_text.newParagraph ();
-      html_text.addLink (html_text.currentPDomElement, "/" + system_logic_notes_file_name (), "", "", "", translate ("Get it."));
-      html_text.newParagraph ();
-      html_text.addText (translate ("The file can be imported in another Bibledit client."));
-      html_text.addText (" ");
-      html_text.addText (translate ("This will create the same Consultation Notes in that other client."));
+      html_text.add_text (translate ("The file with Consultation Notes is ready."));
+      html_text.new_paragraph ();
+      html_text.add_link (html_text.current_p_node, "/" + system_logic_notes_file_name (), "", "", "", translate ("Get it."));
+      html_text.new_paragraph ();
+      html_text.add_text (translate ("The file can be imported in another Bibledit client."));
+      html_text.add_text (" ");
+      html_text.add_text (translate ("This will create the same Consultation Notes in that other client."));
     } else {
-      html_text.addText (translate ("It failed to create the file with Consultation Notes."));
-      html_text.newParagraph ();
-      html_text.addText (error);
+      html_text.add_text (translate ("It failed to create the file with Consultation Notes."));
+      html_text.new_paragraph ();
+      html_text.add_text (error);
     }
-    database_jobs.setResult (jobid, html_text.getInnerHtml ());
+    database_jobs.setResult (jobid, html_text.get_inner_html ());
   }
 }
 
@@ -287,11 +287,11 @@ void system_logic_produce_resources_file (int jobid)
   // Generate the initial page.
   {
     Html_Text html_text ("");
-    html_text.newParagraph ();
-    html_text.addText (translate ("Generating a file with the resources."));
-    html_text.newParagraph ();
-    html_text.addText (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.getInnerHtml ());
+    html_text.new_paragraph ();
+    html_text.add_text (translate ("Generating a file with the resources."));
+    html_text.new_paragraph ();
+    html_text.add_text (translate ("In progress..."));
+    database_jobs.setStart (jobid, html_text.get_inner_html ());
   }
   
   // The location of the single tarball to generate.
@@ -365,43 +365,43 @@ void system_logic_produce_resources_file (int jobid)
   // Ready, provide info about how to download the file or about the error.
   {
     Html_Text html_text ("");
-    html_text.newParagraph ();
+    html_text.new_paragraph ();
     if (!resources.empty ()) {
       if (error.empty ()) {
-        html_text.addText (translate ("The file with all of the installed resources is ready."));
-        html_text.addText (" ");
-        html_text.addText (translate ("Amount of resources:"));
-        html_text.addText (" ");
-        html_text.addText (convert_to_string (single_resources.size()));
-        html_text.addText (".");
-        html_text.newParagraph ();
-        html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download the archive with all installed resources."));
-        html_text.newParagraph ();
-        html_text.addText (translate ("The file can be imported in another Bibledit client."));
-        html_text.addText (" ");
-        html_text.addText (translate ("This will create the same resources in that other client."));
-        html_text.newParagraph ();
-        html_text.addText (translate ("The above file may be huge in case there is lots of installed resources."));
-        html_text.addText (" ");
-        html_text.addText (translate ("For that reason there are alternative files with individual resources below."));
-        html_text.addText (" ");
-        html_text.addText (translate ("These are smaller in size."));
+        html_text.add_text (translate ("The file with all of the installed resources is ready."));
+        html_text.add_text (" ");
+        html_text.add_text (translate ("Amount of resources:"));
+        html_text.add_text (" ");
+        html_text.add_text (convert_to_string (single_resources.size()));
+        html_text.add_text (".");
+        html_text.new_paragraph ();
+        html_text.add_link (html_text.current_p_node, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download the archive with all installed resources."));
+        html_text.new_paragraph ();
+        html_text.add_text (translate ("The file can be imported in another Bibledit client."));
+        html_text.add_text (" ");
+        html_text.add_text (translate ("This will create the same resources in that other client."));
+        html_text.new_paragraph ();
+        html_text.add_text (translate ("The above file may be huge in case there is lots of installed resources."));
+        html_text.add_text (" ");
+        html_text.add_text (translate ("For that reason there are alternative files with individual resources below."));
+        html_text.add_text (" ");
+        html_text.add_text (translate ("These are smaller in size."));
         for (auto element : single_resources) {
           string resource_name = element.first;
-          html_text.newParagraph ();
-          html_text.addLink (html_text.currentPDomElement, "/" + system_logic_resources_file_name (resource_name), "", "", "", translate ("Download") + " " + resource_name);
+          html_text.new_paragraph ();
+          html_text.add_link (html_text.current_p_node, "/" + system_logic_resources_file_name (resource_name), "", "", "", translate ("Download") + " " + resource_name);
         }
       } else {
-        html_text.addText (translate ("It failed to create the file with resources."));
-        html_text.newParagraph ();
-        html_text.addText (error);
+        html_text.add_text (translate ("It failed to create the file with resources."));
+        html_text.new_paragraph ();
+        html_text.add_text (error);
       }
     } else {
-      html_text.addText (translate ("There were no installed resources to make an archive from."));
-      html_text.addText (" ");
-      html_text.addText (translate ("Install some resources on the device, and try again."));
+      html_text.add_text (translate ("There were no installed resources to make an archive from."));
+      html_text.add_text (" ");
+      html_text.add_text (translate ("Install some resources on the device, and try again."));
     }
-    database_jobs.setResult (jobid, html_text.getInnerHtml ());
+    database_jobs.setResult (jobid, html_text.get_inner_html ());
   }
 }
 

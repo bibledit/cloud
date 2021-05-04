@@ -74,7 +74,7 @@ string public_create (void * webserver_request)
   filter_text.html_text_standard = new Html_Text (bible);
   filter_text.addUsfmCode (verse_usfm);
   filter_text.run (stylesheet);
-  string versetext = filter_text.html_text_standard->getInnerHtml ();
+  string versetext = filter_text.html_text_standard->get_inner_html ();
   view.set_variable ("versetext", versetext);
 
  

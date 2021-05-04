@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_filter_text () 
+void test_filter_text () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -731,7 +731,7 @@ A Verse text.
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    string html = filter_text.html_text_standard->getInnerHtml ();
+    string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
@@ -754,7 +754,7 @@ A Verse text.
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    string html = filter_text.html_text_standard->getInnerHtml ();
+    string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
@@ -778,7 +778,7 @@ A Verse text.
     filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    string html = filter_text.html_text_standard->getInnerHtml ();
+    string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"

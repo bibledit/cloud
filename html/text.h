@@ -33,38 +33,45 @@ class Html_Text
 {
 public:
   Html_Text (string title);
-  void newParagraph (string style = "");
-  void addText (string text);
-  string getHtml ();
-  string getInnerHtml ();
-  void newHeading1 (string text, bool hide = false);
-  void newPageBreak ();
-  void openTextStyle (Database_Styles_Item style, bool note, bool embed);
-  void closeTextStyle (bool note, bool embed);
-  void addNote (string citation, string style, bool endnote = false);
-  void addNoteText (string text);
-  void closeCurrentNote ();
-  void addLink (xml_node domNode, string reference, string identifier, string title, string style, string text);
-  xml_node newTable ();
-  xml_node newTableRow (xml_node tableElement);
-  xml_node newTableData (xml_node tableRowElement, bool alignRight = false);
+  void new_paragraph (string style = "");
+  void add_text (string text);
+  string get_html ();
+  string get_inner_html ();
+  void new_heading1 (string text, bool hide = false);
+  void new_page_break ();
+  void open_text_style (Database_Styles_Item style, bool note, bool embed);
+  void close_text_style (bool note, bool embed);
+  void add_note (string citation, string style, bool endnote = false);
+  void add_note_text (string text);
+  void close_current_note ();
+  void add_link (xml_node node,
+                string reference, string identifier,
+                string title, string style, string text,
+                bool add_popup = false);
+  xml_node new_table ();
+  xml_node new_table_row (xml_node tableElement);
+  xml_node new_table_data (xml_node tableRowElement, bool alignRight = false);
   void save (string name);
-  xml_node currentPDomElement; // The current p element.
-  string currentParagraphStyle;
-  string currentParagraphContent;
-  vector <string> currentTextStyle;
-  string customClass = ""; // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
+  xml_node current_p_node; // The current p element.
+  string current_paragraph_style;
+  string current_paragraph_content;
+  vector <string> current_text_style;
+  // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
+  string custom_class = "";
+  void have_popup_notes ();
 private:
-  xml_document htmlDom;
-  xml_node headDomNode;
-  xml_node bodyDomNode;
-  xml_node notesDivDomNode;
+  xml_document document;
+  xml_node head_node;
+  xml_node body_node;
+  xml_node notes_div_node;
   bool current_p_node_open = false;
-  int noteCount;
-  xml_node notePDomElement; // The p element of the current footnote, if any.
+  int note_count;
+  xml_node note_p_node; // The p element of the current footnote, if any.
   bool note_p_node_open = false;
-  vector <string> currentNoteTextStyle;
-  void newNamedHeading (string style, string text, bool hide = false);
+  vector <string> current_note_text_style;
+  void new_named_heading (string style, string text, bool hide = false);
+  bool add_popup_notes = false;
+  xml_node popup_node;
 };
 
 

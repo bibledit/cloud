@@ -393,8 +393,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
               {
                 case IdentifierSubtypeBook:
@@ -414,8 +414,8 @@ void Filter_Text::processUsfm ()
                       if (odf_text_standard) odf_text_standard->newPageBreak ();
                       if (odf_text_text_only) odf_text_text_only->newPageBreak ();
                       if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
-                      if (html_text_standard) html_text_standard->newPageBreak ();
-                      if (html_text_linked) html_text_linked->newPageBreak ();
+                      if (html_text_standard) html_text_standard->new_page_break ();
+                      if (html_text_linked) html_text_linked->new_page_break ();
                     }
                   }
                   processedBooksCount++;
@@ -546,8 +546,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
               {
                 case ParagraphSubtypeMainTitle:
@@ -589,14 +589,14 @@ void Filter_Text::processUsfm ()
                 if (odf_text_standard) odf_text_standard->openTextStyle (style, false, isEmbeddedMarker);
                 if (odf_text_text_only) odf_text_text_only->openTextStyle (style, false, isEmbeddedMarker);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, isEmbeddedMarker);
-                if (html_text_standard) html_text_standard->openTextStyle (style, false, isEmbeddedMarker);
-                if (html_text_linked) html_text_linked->openTextStyle (style, false, isEmbeddedMarker);
+                if (html_text_standard) html_text_standard->open_text_style (style, false, isEmbeddedMarker);
+                if (html_text_linked) html_text_linked->open_text_style (style, false, isEmbeddedMarker);
               } else {
                 if (odf_text_standard) odf_text_standard->closeTextStyle (false, isEmbeddedMarker);
                 if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, isEmbeddedMarker);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, isEmbeddedMarker);
-                if (html_text_standard) html_text_standard->closeTextStyle (false, isEmbeddedMarker);
-                if (html_text_linked) html_text_linked->closeTextStyle (false, isEmbeddedMarker);
+                if (html_text_standard) html_text_standard->close_text_style (false, isEmbeddedMarker);
+                if (html_text_linked) html_text_linked->close_text_style (false, isEmbeddedMarker);
               }
               break;
             }
@@ -606,8 +606,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
 
               if (onlinebible_text) onlinebible_text->storeData ();
 
@@ -687,8 +687,8 @@ void Filter_Text::processUsfm ()
                   if (odf_text_standard) odf_text_standard->addText (number);
                   if (odf_text_text_only) odf_text_text_only->addText (number);
                   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (number);
-                  if (html_text_standard) html_text_standard->addText (number);
-                  if (html_text_linked) html_text_linked->addText (number);
+                  if (html_text_standard) html_text_standard->add_text (number);
+                  if (html_text_linked) html_text_linked->add_text (number);
                 }
               }
 
@@ -716,8 +716,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               if (onlinebible_text) onlinebible_text->storeData ();
               // Care for the situation that a new verse starts a new paragraph.
               if (style.userbool1) {
@@ -737,13 +737,13 @@ void Filter_Text::processUsfm ()
                   }
                 }
                 if (html_text_standard) {
-                  if (html_text_standard->currentParagraphContent != "") {
-                    html_text_standard->newParagraph (html_text_standard->currentParagraphStyle);
+                  if (html_text_standard->current_paragraph_content != "") {
+                    html_text_standard->new_paragraph (html_text_standard->current_paragraph_style);
                   }
                 }
                 if (html_text_linked) {
-                  if (html_text_linked->currentParagraphContent != "") {
-                    html_text_linked->newParagraph (html_text_linked->currentParagraphStyle);
+                  if (html_text_linked->current_paragraph_content != "") {
+                    html_text_linked->new_paragraph (html_text_linked->current_paragraph_style);
                   }
                 }
                 if (text_text) {
@@ -763,12 +763,12 @@ void Filter_Text::processUsfm ()
                 }
                 Database_Styles_Item styleItem = Database_Styles_Item ();
                 styleItem.marker = "dropcaps";
-                if (html_text_standard) html_text_standard->openTextStyle (styleItem, false, false);
-                if (html_text_standard) html_text_standard->addText (outputChapterTextAtFirstVerse);
-                if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-                if (html_text_linked) html_text_linked->openTextStyle (styleItem, false, false);
-                if (html_text_linked) html_text_linked->addText (outputChapterTextAtFirstVerse);
-                if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->open_text_style (styleItem, false, false);
+                if (html_text_standard) html_text_standard->add_text (outputChapterTextAtFirstVerse);
+                if (html_text_standard) html_text_standard->close_text_style (false, false);
+                if (html_text_linked) html_text_linked->open_text_style (styleItem, false, false);
+                if (html_text_linked) html_text_linked->add_text (outputChapterTextAtFirstVerse);
+                if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
               // Temporarily retrieve the text that follows the \v verse marker.
               string textFollowingMarker = usfm_get_text_following_marker (chapterUsfmMarkersAndText, chapterUsfmMarkersAndTextPointer);
@@ -805,30 +805,30 @@ void Filter_Text::processUsfm ()
                   }
                 }
                 if (html_text_standard) {
-                  if (html_text_standard->currentParagraphContent != "") {
-                    html_text_standard->addText (" ");
+                  if (html_text_standard->current_paragraph_content != "") {
+                    html_text_standard->add_text (" ");
                   }
                 }
                 if (html_text_linked) {
-                  if (html_text_linked->currentParagraphContent != "") {
-                    html_text_linked->addText (" ");
+                  if (html_text_linked->current_paragraph_content != "") {
+                    html_text_linked->add_text (" ");
                   }
                 }
                 if (odf_text_standard) odf_text_standard->openTextStyle (style, false, false);
                 if (odf_text_text_only) odf_text_text_only->openTextStyle (style, false, false);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, false);
-                if (html_text_standard) html_text_standard->openTextStyle (style, false, false);
-                if (html_text_linked) html_text_linked->openTextStyle (style, false, false);
+                if (html_text_standard) html_text_standard->open_text_style (style, false, false);
+                if (html_text_linked) html_text_linked->open_text_style (style, false, false);
                 if (odf_text_standard) odf_text_standard->addText (v_vp_number);
                 if (odf_text_text_only) odf_text_text_only->addText (v_vp_number);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (v_vp_number);
-                if (html_text_standard) html_text_standard->addText (v_vp_number);
-                if (html_text_linked) html_text_linked->addText (v_vp_number);
+                if (html_text_standard) html_text_standard->add_text (v_vp_number);
+                if (html_text_linked) html_text_linked->add_text (v_vp_number);
                 if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
                 if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-                if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-                if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->close_text_style (false, false);
+                if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
               // Clear text output.
               if (text_text) { 
@@ -889,8 +889,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
               {
                 case PeripheralSubtypePublication:
@@ -917,8 +917,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               addToFallout ("Picture formatting not implemented", true);
               break;
             }
@@ -928,13 +928,13 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               if (odf_text_standard) odf_text_standard->newPageBreak ();
               if (odf_text_text_only) odf_text_text_only->newPageBreak ();
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
-              if (html_text_standard) html_text_standard->newPageBreak ();
-              if (html_text_linked) html_text_linked->newPageBreak ();
+              if (html_text_standard) html_text_standard->new_page_break ();
+              if (html_text_linked) html_text_linked->new_page_break ();
               if (text_text) text_text->paragraph (); 
               break;
             }
@@ -944,8 +944,8 @@ void Filter_Text::processUsfm ()
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
               if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->closeTextStyle (false, false);
-              if (html_text_linked) html_text_linked->closeTextStyle (false, false);
+              if (html_text_standard) html_text_standard->close_text_style (false, false);
+              if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
               {
                 case TableElementSubtypeRow:
@@ -1028,8 +1028,8 @@ void Filter_Text::processUsfm ()
         if (odf_text_standard) odf_text_standard->addText (currentItem);
         if (odf_text_text_only) odf_text_text_only->addText (currentItem);
         if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
-        if (html_text_standard) html_text_standard->addText (currentItem);
-        if (html_text_linked) html_text_linked->addText (currentItem);
+        if (html_text_standard) html_text_standard->add_text (currentItem);
+        if (html_text_linked) html_text_linked->add_text (currentItem);
         if (onlinebible_text) onlinebible_text->addText (currentItem);
         if (esword_text) esword_text->addText (currentItem);
         if (text_text) text_text->addtext (currentItem);
@@ -1112,8 +1112,8 @@ void Filter_Text::processNote ()
                   // Add the note citation. And a no-break space after it.
                   if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_u00A0());
                   // Open note in the web pages.
-                  if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerFootEndNote);
-                  if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote);
+                  if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote);
+                  if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerFootEndNote);
                   // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note (); 
@@ -1140,8 +1140,8 @@ void Filter_Text::processNote ()
                     odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Open note in the web page.
-                  if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerFootEndNote, true);
-                  if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerFootEndNote, true);
+                  if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote, true);
+                  if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerFootEndNote, true);
                   // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note (); 
@@ -1161,8 +1161,8 @@ void Filter_Text::processNote ()
                 // in order to return to the correct style for the paragraph.
                 if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
                 if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-                if (html_text_standard) html_text_standard->closeTextStyle (true, false);
-                if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                if (html_text_standard) html_text_standard->close_text_style (true, false);
+                if (html_text_linked) html_text_linked->close_text_style (true, false);
                 break;
               }
               case FootEndNoteSubtypeContent:
@@ -1171,13 +1171,13 @@ void Filter_Text::processNote ()
                 if (isOpeningMarker) {
                   if (odf_text_standard) odf_text_standard->openTextStyle (style, true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->openTextStyle (style, false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->openTextStyle (style, true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->openTextStyle (style, true, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
                   if (odf_text_standard) odf_text_standard->closeTextStyle (true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->closeTextStyle (false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->closeTextStyle (true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->closeTextStyle (true, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->close_text_style (true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->close_text_style (true, isEmbeddedMarker);
                 }
                 break;
               }
@@ -1186,8 +1186,8 @@ void Filter_Text::processNote ()
                 // The style of this is not yet implemented.
                 if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
                 if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-                if (html_text_standard) html_text_standard->closeTextStyle (true, false);
-                if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                if (html_text_standard) html_text_standard->close_text_style (true, false);
+                if (html_text_linked) html_text_linked->close_text_style (true, false);
                 if (text_text) text_text->note ();
                 break;
               }
@@ -1226,8 +1226,8 @@ void Filter_Text::processNote ()
                   if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_u00A0());
                   // Open note in the web page.
                   ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
-                  if (html_text_standard) html_text_standard->addNote (citation, standardContentMarkerCrossReference);
-                  if (html_text_linked) html_text_linked->addNote (citation, standardContentMarkerCrossReference);
+                  if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerCrossReference);
+                  if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerCrossReference);
                   // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note (); 
@@ -1247,8 +1247,8 @@ void Filter_Text::processNote ()
                 // in order to return to the correct style for the paragraph.
                 if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
                 if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-                if (html_text_standard) html_text_standard->closeTextStyle (true, false);
-                if (html_text_linked) html_text_linked->closeTextStyle (true, false);
+                if (html_text_standard) html_text_standard->close_text_style (true, false);
+                if (html_text_linked) html_text_linked->close_text_style (true, false);
                 break;
               }
               case CrossreferenceSubtypeContent:
@@ -1257,13 +1257,13 @@ void Filter_Text::processNote ()
                 if (isOpeningMarker) {
                   if (odf_text_standard) odf_text_standard->openTextStyle (style, true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->openTextStyle (style, false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->openTextStyle (style, true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->openTextStyle (style, true, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
                   if (odf_text_standard) odf_text_standard->closeTextStyle (true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->closeTextStyle (false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->closeTextStyle (true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->closeTextStyle (true, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->close_text_style (true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->close_text_style (true, isEmbeddedMarker);
                 }
                 break;
               }
@@ -1288,8 +1288,8 @@ void Filter_Text::processNote ()
       // Here is no marker. Treat it as text.
       if (odf_text_standard) odf_text_standard->addNoteText (currentItem);
       if (odf_text_notes) odf_text_notes->addText (currentItem);
-      if (html_text_standard) html_text_standard->addNoteText (currentItem);
-      if (html_text_linked) html_text_linked->addNoteText (currentItem);
+      if (html_text_standard) html_text_standard->add_note_text (currentItem);
+      if (html_text_linked) html_text_linked->add_note_text (currentItem);
       if (text_text) text_text->addnotetext (currentItem); 
       if (note_open_now) {
         notes_plain_text_buffer.append (currentItem);
@@ -1303,8 +1303,8 @@ void Filter_Text::processNote ()
   // will be added to a new note, not to the last one created.
   if (odf_text_standard) odf_text_standard->closeCurrentNote ();
   if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-  if (html_text_standard) html_text_standard->closeCurrentNote ();
-  if (html_text_linked) html_text_linked->closeCurrentNote ();
+  if (html_text_standard) html_text_standard->close_current_note ();
+  if (html_text_linked) html_text_linked->close_current_note ();
   //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
   if (!notes_plain_text_buffer.empty ()) {
     notes_plain_text.push_back (make_pair (currentVerseNumber, notes_plain_text_buffer));
@@ -1323,84 +1323,84 @@ void Filter_Text::produceInfoDocument (string path)
   Html_Text information (translate("Information"));
 
   // Number of chapters per book.
-  information.newHeading1 (translate("Number of chapters per book"));
+  information.new_heading1 (translate("Number of chapters per book"));
   for (const auto & element : numberOfChaptersPerBook) {
     string line = Database_Books::getEnglishFromId (element.first) + " => " + convert_to_string (element.second);
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
 
   // Running headers.
-  information.newHeading1 (translate("Running headers"));
+  information.new_heading1 (translate("Running headers"));
   for (auto item : runningHeaders) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
 
   // Table of Contents entries.
-  information.newHeading1 (translate("Long table of contents entries"));
+  information.new_heading1 (translate("Long table of contents entries"));
   for (auto item : longTOCs) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
-  information.newHeading1 (translate("Short table of contents entries"));
+  information.new_heading1 (translate("Short table of contents entries"));
   for (auto item : shortTOCs) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
 
   // Book abbreviations.
-  information.newHeading1 (translate("Book abbreviations"));
+  information.new_heading1 (translate("Book abbreviations"));
   for (auto item : bookAbbreviations) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
 
   // Chapter specials.
-  information.newHeading1 (translate("Publishing chapter labels"));
+  information.new_heading1 (translate("Publishing chapter labels"));
   for (auto item : chapterLabels) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
-  information.newHeading1 (translate("Publishing alternate chapter numbers"));
+  information.new_heading1 (translate("Publishing alternate chapter numbers"));
   for (auto item : publishedChapterMarkers) {
     string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
-    information.newParagraph ();
-    information.addText (line);
+    information.new_paragraph ();
+    information.add_text (line);
   }
 
   // Word lists.
-  information.newHeading1 (translate("Word list, glossary, dictionary entries"));
+  information.new_heading1 (translate("Word list, glossary, dictionary entries"));
   for (auto item : wordListGlossaryDictionary) {
-    information.newParagraph ();
-    information.addText (item);
+    information.new_paragraph ();
+    information.add_text (item);
   }
-  information.newHeading1 (translate("Hebrew word list entries"));
+  information.new_heading1 (translate("Hebrew word list entries"));
   for (auto item : hebrewWordList) {
-    information.newParagraph ();
-    information.addText (item);
+    information.new_paragraph ();
+    information.add_text (item);
   }
-  information.newHeading1 (translate("Greek word list entries"));
+  information.new_heading1 (translate("Greek word list entries"));
   for (auto item : greekWordList) {
-    information.newParagraph ();
-    information.addText (item);
+    information.new_paragraph ();
+    information.add_text (item);
   }
-  information.newHeading1 (translate("Subject index entries"));
+  information.new_heading1 (translate("Subject index entries"));
   for (auto item : subjectIndex) {
-    information.newParagraph ();
-    information.addText (item);
+    information.new_paragraph ();
+    information.add_text (item);
   }
 
   // Other info.
-  information.newHeading1 (translate("Other information"));
+  information.new_heading1 (translate("Other information"));
   for (auto item : info) {
-    information.newParagraph ();
-    information.addText (item);
+    information.new_paragraph ();
+    information.add_text (item);
   }
 
   information.save (path);
@@ -1467,10 +1467,10 @@ void Filter_Text::addToWordList (vector <string>  & list)
 void Filter_Text::produceFalloutDocument (string path)
 {
   Html_Text html_text (translate("Fallout"));
-  html_text.newHeading1 (translate("Fallout"));
+  html_text.new_heading1 (translate("Fallout"));
   for (string line : fallout) {
-    html_text.newParagraph ();
-    html_text.addText (line);
+    html_text.new_paragraph ();
+    html_text.add_text (line);
   }
   html_text.save (path);
 }
@@ -1509,8 +1509,8 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
   if (odf_text_standard) odf_text_standard->newParagraph (marker);
   if (odf_text_text_only) odf_text_text_only->newParagraph (marker);
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newParagraph (marker);
-  if (html_text_standard) html_text_standard->newParagraph (marker);
-  if (html_text_linked) html_text_linked->newParagraph (marker);
+  if (html_text_standard) html_text_standard->new_paragraph (marker);
+  if (html_text_linked) html_text_linked->new_paragraph (marker);
   if (text_text) text_text->paragraph (); 
 }
 

@@ -9,7 +9,7 @@ AC_PROG_CXX
 AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_PROG_RANLIB
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADER(config.h)
 
 
 AC_PATH_PROG(GZIP_PATH, gzip, no)
@@ -187,8 +187,7 @@ ENABLEIOS=yes
 ]
 )
 
-AC_CONFIG_FILES([Makefile])
-AC_OUTPUT
+AC_OUTPUT(Makefile)
 
 echo "
 Bibledit $VERSION configuration summary:

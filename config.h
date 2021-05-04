@@ -13,9 +13,6 @@
 /* Define whether ICU is available */
 #define HAVE_ICU 1
 
-/* Define whether to compile for Indonesian Cloud Free */
-/* #undef HAVE_INDONESIANCLOUDFREE */
-
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 

@@ -93,25 +93,14 @@ void timer_index ()
       if (minute == previous_minute) continue;
       previous_minute = minute;
 
-      // In a client, it can always do the emailing.
-      // In a Cloud, it can only begin to mail some time after startup.
-      // Reason: If the external mailer causes a crash,
-      // the Bibledit will keep crashing right after startup,
-      // rendering Bibledit hard to use.
-      // https://github.com/bibledit/cloud/issues/466
-      bool can_mail = true;
-#ifdef HAVE_CLOUD
-      can_mail = (filter_date_seconds_since_epoch () > (config_globals_start_up_second_since_epoch + 600));
-#endif
-      
       // Every minute send out queued email.
-      if (can_mail) tasks_logic_queue (SENDEMAIL);
+      tasks_logic_queue (SENDEMAIL);
 
 #ifdef HAVE_CLOUD
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.
       if ((minute % 5) == 0) {
-        if (can_mail) tasks_logic_queue (RECEIVEEMAIL);
+        tasks_logic_queue (RECEIVEEMAIL);
       }
 #endif
 

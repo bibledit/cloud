@@ -649,22 +649,21 @@ void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 
 vector <string> Database_Config_User::getActiveResources ()
 {
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
+  if (config_logic_indonesian_cloud_free ()) {
+    // In the Indonesian Cloud free, there's one central location for storing the active resources.
+    return Database_Config_General::getActiveResources ();
+  }
+  // Default values.
   return getList ("active-resources");
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // In the Indonesian Cloud free, there's one central location for storing the active resources.
-  return Database_Config_General::getActiveResources ();
-#endif
 }
 void Database_Config_User::setActiveResources (vector <string> values)
 {
-#ifdef DEFAULT_BIBLEDIT_CONFIGURATION
-  setList ("active-resources", values);
-#endif
-#ifdef HAVE_INDONESIANCLOUDFREE
-  Database_Config_General::setActiveResources (values);
-#endif
+  if (config_logic_default_bibledit_configuration ()) {
+    setList ("active-resources", values);
+  }
+  if (config_logic_indonesian_cloud_free ()) {
+    Database_Config_General::setActiveResources (values);
+  }
 }
 
 

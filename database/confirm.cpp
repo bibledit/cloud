@@ -68,7 +68,6 @@ unsigned int Database_Confirm::getNewID ()
   unsigned int id = 0;
   do {
     id = config_globals_int_distribution (config_globals_random_engine);
-    
   } while (IDExists (id));
   return id;
 }

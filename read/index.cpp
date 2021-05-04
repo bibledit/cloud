@@ -51,9 +51,9 @@ string read_index_url ()
 bool read_index_acl (void * webserver_request)
 {
   int role = Filter_Roles::translator ();
-#ifdef HAVE_INDONESIANCLOUDFREE
-  role = Filter_Roles::consultant ();
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    role = Filter_Roles::consultant ();
+  }
   if (Filter_Roles::access_control (webserver_request, role)) return true;
   bool read, write;
   access_a_bible (webserver_request, read, write);
@@ -74,13 +74,13 @@ string read_index (void * webserver_request)
     Navigation_Passage::recordHistory (request, switchbook, switchchapter, 1);
   }
 
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // See issue https://github.com/bibledit/cloud/issues/503
-  // Specific configuration for the Indonesian free Cloud instance.
-  // The name of the default Bible in the Read tab will be AlkitabKita
-  // (That means Our/Everyone's Translation.
-  request->database_config_user()->setBible (filter_indonesian_alkitabkita_ourtranslation_name ());
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    // See issue https://github.com/bibledit/cloud/issues/503
+    // Specific configuration for the Indonesian free Cloud instance.
+    // The name of the default Bible in the Read tab will be AlkitabKita
+    // (That means Our/Everyone's Translation.
+    request->database_config_user()->setBible (filter_indonesian_alkitabkita_ourtranslation_name ());
+  }
 
   string page;
   
@@ -152,9 +152,9 @@ string read_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-#ifdef HAVE_INDONESIANCLOUDFREE
-  view.enable_zone ("fastswitcheditor");
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    view.enable_zone ("fastswitcheditor");
+  }
 
   // Whether to enable the styles button.
   if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {

@@ -41,10 +41,6 @@
 #define RUN_SECURE_SERVER 1
 
 
-// Whether to have the default settings pages.
-#define DEFAULT_BIBLEDIT_CONFIGURATION 1
-
-
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
@@ -95,17 +91,6 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
-#endif
-
-
-// The free Bibledit Cloud account in Indonesian.
-// The configuration presumes that the user has a "Consultant" account.
-// A consultant has a range of options within Bibledit Cloud.
-// Through the #define options can be added to this Consultant role.
-// Adding options is done in the code where needed.
-// Likewise certain options can be removed through the #define.
-#ifdef HAVE_INDONESIANCLOUDFREE
-#undef DEFAULT_BIBLEDIT_CONFIGURATION
 #endif
 
 

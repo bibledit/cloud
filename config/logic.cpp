@@ -279,3 +279,38 @@ bool config_logic_log_incoming_connections ()
 {
   return config_globals_log_incoming_connections;
 }
+
+
+// Whether the free Indonesian Cloud is enabled.
+bool config_logic_indonesian_cloud_free ()
+{
+  // Keep status in memory once it has been read from disk.
+  // This is to speed up things.
+  static bool read = false;
+  static bool status = false;
+  if (read) return status;
+
+  // Read the status from disk and cache it.
+  string path = filter_url_create_root_path (config_logic_config_folder (), "indonesiancloudfree");
+  status = file_or_dir_exists (path);
+  read = true;
+ 
+  return status;
+}
+
+
+// Whether the default Bibledit configuration is enabled.
+bool config_logic_default_bibledit_configuration ()
+{
+  // Keep status in memory once it has been read from disk.
+  // This is to speed up things.
+  static bool read = false;
+  static bool status = true;
+  if (read) return status;
+
+  // If any of the special configurations is enabled, the default configuration is disabled.
+  if (config_logic_indonesian_cloud_free()) status = false;
+  read = true;
+  
+  return status;
+}

@@ -902,12 +902,11 @@ string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
 //}
 
 
-// C++ equivalent for PHP's rand function
+// Generate a truly random number between $floor and $ceiling.
 int filter_string_rand (int floor, int ceiling)
 {
-  srand(time(NULL));
   int range = ceiling - floor;
-  int r = rand () % range + floor;
+  int r = config_globals_int_distribution (config_globals_random_engine) % range + floor;
   return r;
 }
 

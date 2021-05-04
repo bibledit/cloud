@@ -101,12 +101,12 @@ string resource_index (void * webserver_request)
   
   
   bool can_organize_active_resources = true;
-#ifdef HAVE_INDONESIANCLOUDFREE
-  // In the Indonesian free Cloud, only Managers and higher roles can organize the resources.
-  // In that type of Cloud, all resources for all users are one and the same setting.
-  int level = request->session_logic()->currentLevel();
-  can_organize_active_resources = (level >= Filter_Roles::manager());
-#endif
+  if (config_logic_indonesian_cloud_free ()) {
+    // In the Indonesian free Cloud, only Managers and higher roles can organize the resources.
+    // In that type of Cloud, all resources for all users are one and the same setting.
+    int level = request->session_logic()->currentLevel();
+    can_organize_active_resources = (level >= Filter_Roles::manager());
+  }
   if (can_organize_active_resources) view.enable_zone("organize");
   
   

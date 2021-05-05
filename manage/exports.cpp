@@ -148,7 +148,13 @@ string manage_exports (void * webserver_request)
     Export_Logic::scheduleHtml (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Html format."));
   }
+
   
+  if (checkbox == "htmlpopup") {
+    Database_Config_Bible::setExportHtmlNotesOnHover (bible, checked);
+  }
+  view.set_variable ("htmlpopup", get_checkbox_status (Database_Config_Bible::getExportHtmlNotesOnHover (bible)));
+
   
   if (checkbox == "usfm") {
     Database_Config_Bible::setExportUsfmDuringNight (bible, checked);

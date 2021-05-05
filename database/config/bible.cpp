@@ -577,6 +577,20 @@ void Database_Config_Bible::setExportHtmlDuringNight (string bible, bool value)
 }
 
 
+const char * export_html_notes_on_hover_key ()
+{
+  return "export-html-notes-on-hover";
+}
+bool Database_Config_Bible::getExportHtmlNotesOnHover (string bible)
+{
+  return getBValue (bible, export_html_notes_on_hover_key (), false);
+}
+void Database_Config_Bible::setExportHtmlNotesOnHover (string bible, bool value)
+{
+  setBValue (bible, export_html_notes_on_hover_key (), value);
+}
+
+
 bool Database_Config_Bible::getExportUsfmDuringNight (string bible)
 {
   return getBValue (bible, "export-usfm-during-night", false);

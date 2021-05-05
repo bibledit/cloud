@@ -114,6 +114,8 @@ public:
   static void setExportWebDuringNight (string bible, bool value);
   static bool getExportHtmlDuringNight (string bible);
   static void setExportHtmlDuringNight (string bible, bool value);
+  static bool getExportHtmlNotesOnHover (string bible);
+  static void setExportHtmlNotesOnHover (string bible, bool value);
   static bool getExportUsfmDuringNight (string bible);
   static void setExportUsfmDuringNight (string bible, bool value);
   static bool getExportTextDuringNight (string bible);

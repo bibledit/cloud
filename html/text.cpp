@@ -244,10 +244,8 @@ void Html_Text::add_link (xml_node node,
   if (add_popup) {
     popup_node = a_node.append_child("span");
     popup_node.append_attribute("class") = "popup";
-//  } else {
-//    popup_node = xml_node();
   }
-  
+ 
   {
     stringstream output;
     a_node.print (output, "", format_raw);

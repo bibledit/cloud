@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <html/text.h>
 
 
-void test_html () // Todo
+void test_html ()
 {
   trace_unit_tests (__func__);
 
@@ -60,7 +60,7 @@ void test_html () // Todo
     evaluate (__LINE__, __func__, standard, html);
   }
   
-  // Test basic note.
+  // Test a basic note.
   {
     Html_Text html_text ({});
     html_text.new_paragraph ();
@@ -74,7 +74,7 @@ void test_html () // Todo
   }
   {
     Html_Text html_text ({});
-    html_text.have_popup_notes(); // Todo
+    html_text.have_popup_notes();
     html_text.new_paragraph ();
     html_text.add_text ("Text1");
     html_text.add_note ("†", "");
@@ -85,7 +85,7 @@ void test_html () // Todo
     evaluate (__LINE__, __func__, standard, html);
   }
   
-  // Test getInnerHtml ()
+  // Test getting the inner html.
   {
     Html_Text html_text ("test");
     html_text.new_paragraph ();
@@ -93,11 +93,11 @@ void test_html () // Todo
     html_text.new_paragraph ();
     html_text.add_text ("Paragraph Two");
     string html = html_text.get_inner_html ();
-    string standard = "<p><span>Paragraph One</span></p><p><span>Paragraph Two</span></p>";
+    string standard = R"(<p><span>Paragraph One</span></p><p><span>Paragraph Two</span></p>)";
     evaluate (__LINE__, __func__, standard, html);
   }
   
-  // Test basic formatted note. Todo add counterpart with popup notes.
+  // Test basic formatted note.
   {
     Database_Styles_Item style;
     Html_Text html_text ("");
@@ -114,8 +114,25 @@ void test_html () // Todo
     string standard = R"(<p><span>Text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">Add</span><span>normal</span></p></div>)";
     evaluate (__LINE__, __func__, standard, html);
   }
-  
-  // Test embedded formatted note. Todo add counterpart with popup notes.
+  {
+    Database_Styles_Item style;
+    Html_Text html_text ("");
+    html_text.have_popup_notes();
+    html_text.new_paragraph ();
+    html_text.add_text ("text");
+    html_text.add_note ("𐌰", "f");
+    style.marker = "add";
+    html_text.open_text_style (style, true, false);
+    html_text.add_note_text ("add");
+    html_text.close_text_style (true, false);
+    html_text.add_note_text ("normal");
+    html_text.add_text (".");
+    string html = html_text.get_inner_html ();
+    string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>normal</span></span></a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span>normal</span></p></div>)";
+    evaluate (__LINE__, __func__, standard, html);
+  }
+
+  // Test embedded formatted note.
   {
     Database_Styles_Item style;
     Html_Text html_text ("");
@@ -132,21 +149,27 @@ void test_html () // Todo
     html_text.add_note_text ("normal");
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
-    string standard =
-    "<p>"
-    "<span>text</span>"
-    "<a href=\"#note1\" id=\"citation1\" class=\"superscript\">𐌰</a>"
-    "<span>.</span>"
-    "</p>"
-    "<div>"
-    "<p class=\"f\">"
-    "<a href=\"#citation1\" id=\"note1\">𐌰</a>"
-    "<span> </span>"
-    "<span class=\"add\">add</span>"
-    "<span class=\"add nd\">nd</span>"
-    "<span>normal</span>"
-    "</p>"
-    "</div>";
+    string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p></div>)";
+    evaluate (__LINE__, __func__, standard, html);
+  }
+  {
+    Database_Styles_Item style;
+    Html_Text html_text ("");
+    html_text.have_popup_notes();
+    html_text.new_paragraph ();
+    html_text.add_text ("text");
+    html_text.add_note ("𐌰", "f");
+    style.marker = "add";
+    html_text.open_text_style (style, true, false);
+    html_text.add_note_text ("add");
+    style.marker = "nd";
+    html_text.open_text_style (style, true, true);
+    html_text.add_note_text ("nd");
+    html_text.close_text_style (true, false);
+    html_text.add_note_text ("normal");
+    html_text.add_text (".");
+    string html = html_text.get_inner_html ();
+    string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>nd</span><span>normal</span></span></a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p></div>)";
     evaluate (__LINE__, __func__, standard, html);
   }
 

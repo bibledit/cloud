@@ -38,7 +38,7 @@
 #include <styles/sheets.h>
 
 
-void export_html_book (string bible, int book, bool log) // Todo
+void export_html_book (string bible, int book, bool log)
 {
   // Create folders for the html export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "html");
@@ -47,8 +47,8 @@ void export_html_book (string bible, int book, bool log) // Todo
   
   // Filename for the html file.
   string basename = Export_Logic::baseBookFileName (book);
-  string filename = filter_url_create_path (directory, basename + ".html");
-  string filecss = filter_url_create_path (directory, "stylesheet.css");
+  string filename_html = filter_url_create_path (directory, basename + ".html");
+  string stylesheet_css = filter_url_create_path (directory, "stylesheet.css");
   
   
   Database_Bibles database_bibles;
@@ -59,7 +59,7 @@ void export_html_book (string bible, int book, bool log) // Todo
   
   // Create stylesheet.
   Styles_Sheets styles_sheets;
-  styles_sheets.create (stylesheet, filecss, false, bible);
+  styles_sheets.create (stylesheet, stylesheet_css, false, bible);
   
   
   // Copy font to the output directory.
@@ -77,6 +77,9 @@ void export_html_book (string bible, int book, bool log) // Todo
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new Html_Text (translate("Bible"));
   filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
+  if (Database_Config_Bible::getExportHtmlNotesOnHover(bible)) {
+    filter_text.html_text_standard->have_popup_notes();
+  }
   
   
   // Load one book.
@@ -98,7 +101,7 @@ void export_html_book (string bible, int book, bool log) // Todo
   
   
   // Save file.
-  filter_text.html_text_standard->save (filename);
+  filter_text.html_text_standard->save (filename_html);
   
   
   // Clear the flag for this export.

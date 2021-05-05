@@ -332,6 +332,8 @@ void Styles_Css::add_exports_styles ()
   code.push_back ("a:hover { text-decoration: underline; }");
   code.push_back (".breadcrumbs { font-size: normal; }");
   code.push_back (".navigationbar { font-size: normal; }");
+  code.push_back (".popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }");
+  code.push_back ("a:hover .popup { display:block; }");
 }
 
 

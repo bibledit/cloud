@@ -231,7 +231,7 @@ void Html_Text::close_current_note ()
 void Html_Text::add_link (xml_node node,
                          string reference, string identifier,
                          string title, string style, string text,
-                         bool add_popup) // Todo
+                         bool add_popup)
 {
   xml_node a_node = node.append_child ("a");
   a_node.append_attribute ("href") = reference.c_str();
@@ -245,13 +245,6 @@ void Html_Text::add_link (xml_node node,
     popup_node = a_node.append_child("span");
     popup_node.append_attribute("class") = "popup";
   }
- 
-  {
-    stringstream output;
-    a_node.print (output, "", format_raw);
-//    cout << output.str () << endl; // Todo
-  }
-  
 }
 
 

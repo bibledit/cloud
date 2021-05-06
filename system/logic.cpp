@@ -447,7 +447,7 @@ void system_logic_import_resources_file (string tarball)
 }
 
 
-void system_logic_indonesian_free_deletion (string username, string email) // Todo
+void system_logic_indonesian_free_deletion (string username, string email)
 {
   Database_Logs::log ("Starting to inform and delete user " + username + " and associated Bible");
 

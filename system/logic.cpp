@@ -22,6 +22,7 @@
 #include <filter/url.h>
 #include <filter/archive.h>
 #include <filter/usfm.h>
+#include <filter/indonesian.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <database/jobs.h>
@@ -34,6 +35,7 @@
 #include <styles/logic.h>
 #include <tasks/logic.h>
 #include <database/logic.h>
+#include <email/send.h>
 
 
 string system_logic_bibles_file_name ()
@@ -439,4 +441,90 @@ void system_logic_import_resources_file (string tarball)
 
   // Ready, hallelujah!
   Database_Logs::log ("Importing Resources ready");
+}
+
+
+void system_logic_indonesian_free_deletion (string username, string email) // Todo
+{
+  Database_Logs::log ("Starting to inform and delete user " + username + " and associated Bible");
+
+  {
+    // Create the body of the email.
+    xml_document document;
+    xml_node node;
+    
+    node = document.append_child ("p");
+    node.text ().set ("Shalom Bapak/Ibu Pengguna Bibledit,");
+    
+    node = document.append_child ("p");
+    node.text ().set ("Kami berharap Saudara sempat menggunakan Bibledit Tamu selama sebulan ini. Kami mengundang Saudara untuk mendaftar kembali sekarang, atau di saat di mana Saudara punya keperluan meneliti ayat Alkitab. Kami juga mengundang Saudara mengunjungi situs http://alkitabkita.info untuk segala informasi dari bahan penelitian Alkitab yang akan ditambahkan.");
+
+    node = document.append_child ("p");
+    node.text ().set ("Apabila Saudara sudah memasukkan ayat-ayat dalam bagian Terjemahanku ... the chapters will be mailed to you.");
+
+    node = document.append_child ("p");
+    node.text ().set ("Klik link ini untuk membaca tentang kelebihan tingkat Bibledit Anggota https://sites.google.com/view/alkitabkita/menjadi-anggota-bibledit.");
+
+    node = document.append_child ("p");
+    node.text ().set ("Tuhan memberkati Saudara,");
+
+    node = document.append_child ("p");
+    node.text ().set ("Balazi Gulo");
+
+    node = document.append_child ("p");
+    node.text ().set ("Pengurus Albata");
+
+    node = document.append_child ("p");
+    node.text ().set ("(albata.info)");
+
+    // Convert the document to a string.
+    stringstream output;
+    document.print (output, "", format_raw);
+    string html = output.str ();
+    
+    // Schedule the mail for sending to the user.
+    email_schedule (email, "Bibledit", html);
+  }
+  
+  Database_Bibles database_bibles;
+  string bible = filter_indonesian_terjemahanku_mytranslation_name (username);
+  vector <int> books = database_bibles.getBooks (bible);
+  for (auto book : books) {
+    vector <int> chapters = database_bibles.getChapters (bible, book);
+    for (auto chapter : chapters) {
+
+      // If the chapter identifier is equal to the initial ID,
+      // it means the chapter was not changed by anyone.
+      int chapter_id = database_bibles.getChapterId (bible, book, chapter);
+      if (chapter_id == 100000001) continue;
+      // If the chapter was changed, email the contents of that chapter to the user.
+
+      // Create the body of the email.
+      xml_document document;
+      xml_node node;
+      
+      string heading = filter_passage_display (book, chapter, {});
+      node = document.append_child ("h3");
+      node.text ().set (heading.c_str());
+      
+      string explanation = translate ("Here is the text of the chapter changed by you");
+      node = document.append_child ("p");
+      node.text ().set (explanation.c_str ());
+
+      document.append_child ("br");
+      node = document.append_child ("pre");
+      string usfm = database_bibles.getChapter(bible, book, chapter);
+      node.text ().set (usfm.c_str ());
+      
+      // Convert the document to a string.
+      stringstream output;
+      document.print (output, "", format_raw);
+      string html = output.str ();
+      
+      // Schedule the mail for sending to the user.
+      email_schedule (email, translate ("Part of your Bible: " + heading), html);
+    }
+  }
+  
+  Database_Logs::log ("Ready handling user and associated data");
 }

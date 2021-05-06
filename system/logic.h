@@ -33,6 +33,7 @@ void system_logic_import_notes_file (string tarball);
 string system_logic_resources_file_name (string resourcename = "");
 void system_logic_produce_resources_file (int jobid);
 void system_logic_import_resources_file (string tarball);
+void system_logic_indonesian_free_deletion (string username, string email);
 
 
 #endif

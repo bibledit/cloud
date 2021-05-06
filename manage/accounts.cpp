@@ -110,9 +110,13 @@ string manage_accounts (void * webserver_request)
     } else if ((user_level >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
     } else {
+      
       string message;
       user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
+      tasks_logic_queue (DELETEINDONESIANFREEUSER, {objectUsername, email});
+      message.append (" ");
+      message.append ("See the Journal for progress");
       page += Assets_Page::success (message);
     }
   }

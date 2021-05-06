@@ -312,6 +312,9 @@ void tasks_run_one (string filename)
   else if (command == CREATEEMPTYBIBLE) {
     bible_logic_create_empty_bible (parameter1);
   }
+  else if (command == DELETEINDONESIANFREEUSER) {
+    system_logic_indonesian_free_deletion (parameter1, parameter2);
+  }
   else {
     Database_Logs::log ("Unknown task: " + command);
   }

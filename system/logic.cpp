@@ -31,11 +31,14 @@
 #include <database/books.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/config/bible.h>
+#include <database/privileges.h>
 #include <html/text.h>
 #include <styles/logic.h>
 #include <tasks/logic.h>
 #include <database/logic.h>
 #include <email/send.h>
+#include <search/logic.h>
 
 
 string system_logic_bibles_file_name ()
@@ -525,6 +528,12 @@ void system_logic_indonesian_free_deletion (string username, string email) // To
       email_schedule (email, translate ("Part of your Bible: " + heading), html);
     }
   }
+  
+  // Delete the user's Bible and associated data.
+  database_bibles.deleteBible(bible);
+  search_logic_delete_bible (bible);
+  Database_Privileges::removeBible (bible);
+  Database_Config_Bible::remove (bible);
   
   Database_Logs::log ("Ready handling user and associated data");
 }

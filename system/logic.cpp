@@ -463,7 +463,7 @@ void system_logic_indonesian_free_deletion (string username, string email)
     node.text ().set ("Kami berharap Saudara sempat menggunakan Bibledit Tamu selama sebulan ini. Kami mengundang Saudara untuk mendaftar kembali sekarang, atau di saat di mana Saudara punya keperluan meneliti ayat Alkitab. Kami juga mengundang Saudara mengunjungi situs http://alkitabkita.info untuk segala informasi dari bahan penelitian Alkitab yang akan ditambahkan.");
 
     node = document.append_child ("p");
-    node.text ().set ("Apabila Saudara sudah memasukkan ayat-ayat dalam bagian Terjemahanku ... the chapters will be mailed to you.");
+    node.text ().set ("Apabila Saudara sudah memasukkan ayat-ayat dalam bagian Terjemahanku pasal-pasal itu akan dikirim lewat email kepada Saudara.");
 
     node = document.append_child ("p");
     node.text ().set ("Klik link ini untuk membaca tentang kelebihan tingkat Bibledit Anggota https://sites.google.com/view/alkitabkita/menjadi-anggota-bibledit.");
@@ -510,7 +510,7 @@ void system_logic_indonesian_free_deletion (string username, string email)
       node = document.append_child ("h3");
       node.text ().set (heading.c_str());
       
-      string explanation = translate ("Here is the text of the chapter changed by you");
+      string explanation = translate ("Inilah hasil terjemahan Saudara:");
       node = document.append_child ("p");
       node.text ().set (explanation.c_str ());
 
@@ -525,7 +525,7 @@ void system_logic_indonesian_free_deletion (string username, string email)
       string html = output.str ();
       
       // Schedule the mail for sending to the user.
-      email_schedule (email, translate ("Part of your Bible: " + heading), html);
+      email_schedule (email, translate (bible + ": " + heading), html);
     }
   }
   

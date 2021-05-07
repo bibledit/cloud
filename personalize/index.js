@@ -19,12 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 $ (document).ready (function () 
 {
-  let arrayOfQueryNames = ["themepicker", "languageselection", "fontsizegeneral", "fontsizemenu",
+  let arrayOfQueryNames = ["themepicker", "fontsizegeneral", "fontsizemenu", "languageselection",
                            "fontsizeeditors", "fontsizeresources", "fontsizehebrew", "fontsizegreek",
                            "caretposition", "workspacefadeoutdelay", "fastswitchusfmeditors", "verseseparator",
                            "fastswitchvisualeditors", "chapterpercentage", "versepercentage"]
-  let arrayOfQuerySubmissionTechniques = ["reload"];
-  for (var i = 0; i < 3; i++) { arrayOfQuerySubmissionTechniques.push("both") };
+  let arrayOfQuerySubmissionTechniques = [];
+  for (var i = 0; i < 4; i++) { arrayOfQuerySubmissionTechniques.push("post+reload") };
   for (var i = 0; i < 9; i++) { arrayOfQuerySubmissionTechniques.push("post") };
   for (var i = 0; i < 2; i++) { arrayOfQuerySubmissionTechniques.push("post+") };
 
@@ -40,13 +40,13 @@ $ (document).ready (function ()
         var postData = '{"'+queryName+'":"'+value+'"}';
         postData = JSON.parse(postData);
 
-        if (submissionTechnique == "post" || submissionTechnique == "post+" || submissionTechnique == "both") {
+        if (submissionTechnique == "post+reload") {
           $.post ("index", postData);
+          window.location.reload();
         }
 
-        if (submissionTechnique == "reload" || submissionTechnique == "both") {
-          console.log("page reloaded");
-          window.location.replace(window.location.origin + window.location.pathname + '?' + queryName + '=' + value);
+        if (submissionTechnique == "post" || submissionTechnique == "post+") {
+          $.post ("index", postData);
         }
 
         if (submissionTechnique == "post+") {

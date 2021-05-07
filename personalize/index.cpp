@@ -178,13 +178,13 @@ string personalize_index (void * webserver_request)
 
   // Create the option tags for interface language selection.
   // Also the current selected option.
+  string language_html;
   for (auto element : localizations) {
-    Options_To_Select::add_selection (element.second, element.first);
+    language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
   }
   string current_user_preference = request->database_config_user ()->getSiteLanguage ();
   string language = locale_logic_filter_default_language (current_user_preference);
-  Options_To_Select::mark_selected (language);
-  view.set_variable ("languageselectionoptags", Options_To_Select::return_tags ());
+  view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
   view.set_variable ("languageselection", language);
 
   
@@ -254,11 +254,11 @@ string personalize_index (void * webserver_request)
   
   // Set the chosen theme on the option HTML tag.
   string theme_key = convert_to_string (request->database_config_user ()->getCurrentTheme ());
-  Options_To_Select::add_selection ("Basic", "0");
-  Options_To_Select::add_selection ("Light", "1");
-  Options_To_Select::add_selection ("Dark", "2");
-  Options_To_Select::mark_selected (theme_key);
-  view.set_variable ("themepickeroptags", Options_To_Select::return_tags ());
+  string theme_html;
+  theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
+  theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);
+  theme_html = Options_To_Select::add_selection ("Dark", "2", theme_html);
+  view.set_variable ("themepickeroptags", Options_To_Select::mark_selected (theme_key, theme_html));
   view.set_variable ("themepicker", theme_key);
 
   
@@ -294,8 +294,9 @@ string personalize_index (void * webserver_request)
   
   // Visual editors in the fast Bible editor switcher.
   const char * fastswitchvisualeditors = "fastswitchvisualeditors";
+  string visual_editors_html;
   for (int i = 0; i < 3; i++) {
-    Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), convert_to_string (i));
+    visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), convert_to_string (i), visual_editors_html);
   }
   if (request->post.count (fastswitchvisualeditors)) {
     int visual_editor_key = convert_to_int (request->post [fastswitchvisualeditors]);
@@ -303,15 +304,15 @@ string personalize_index (void * webserver_request)
     return "";
   }
   string editor_key = convert_to_string (request->database_config_user ()->getFastSwitchVisualEditors ());
-  Options_To_Select::mark_selected (editor_key);
-  view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::return_tags ());
+  view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::mark_selected (editor_key, visual_editors_html));
   view.set_variable (fastswitchvisualeditors, editor_key);
 
   
   // USFM editors fast Bible editor switcher.
   const char * fastswitchusfmeditors = "fastswitchusfmeditors";
+  string usfm_editors_html;
   for (int i = 0; i < 2; i++) {
-    Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), convert_to_string (i));
+    usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), convert_to_string (i), usfm_editors_html);
   }
   if (request->post.count (fastswitchusfmeditors)) {
     int usfm_editor_key = convert_to_int (request->post [fastswitchusfmeditors]);
@@ -319,8 +320,7 @@ string personalize_index (void * webserver_request)
     return "";
   }
   editor_key = convert_to_string(request->database_config_user ()->getFastSwitchUsfmEditors ());
-  Options_To_Select::mark_selected (editor_key);
-  view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::return_tags ());
+  view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::mark_selected (editor_key, usfm_editors_html));
   view.set_variable (fastswitchusfmeditors, editor_key);
 
   
@@ -450,10 +450,10 @@ string personalize_index (void * webserver_request)
     return "";
   }
   string separator_key = Database_Config_General::getNotesVerseSeparator ();
-  Options_To_Select::add_selection (menu_logic_verse_separator ("."), ".");
-  Options_To_Select::add_selection (menu_logic_verse_separator (":"), ":");
-  Options_To_Select::mark_selected (separator_key);
-  view.set_variable ("verseseparatoroptags", Options_To_Select::return_tags ());
+  string separator_html;
+  separator_html = Options_To_Select::add_selection (menu_logic_verse_separator ("."), ".", separator_html);
+  separator_html = Options_To_Select::add_selection (menu_logic_verse_separator (":"), ":", separator_html);
+  view.set_variable ("verseseparatoroptags", Options_To_Select::mark_selected (separator_key, separator_html));
   view.set_variable ("verseseparator", menu_logic_verse_separator (separator_key));
 
   

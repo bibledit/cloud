@@ -8,9 +8,8 @@
 class Options_To_Select
 {
 public:
-  static void add_selection (string text, string value);
-  static void mark_selected (string value);
-  static string return_tags ();
+  static string add_selection (string text, string value, string html);
+  static string mark_selected (string value, string html);
 };
 
 

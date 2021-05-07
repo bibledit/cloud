@@ -86,6 +86,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define EXPORT2NMT "export2nmt"
 #define CREATEEMPTYBIBLE "createemptybible"
 #define DELETEINDONESIANFREEUSER "deleteindonesianfreeuser"
+#define EXPIREINDONESIANFREEUSERS "expireindonesianfreeusers"
 
 
 string tasks_logic_folder ();

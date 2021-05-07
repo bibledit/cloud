@@ -229,6 +229,16 @@ void timer_index ()
       }
 #endif
 
+      
+#ifdef HAVE_CLOUD
+      // In the free Indonesian Cloud configuration, expire free users after so many days.
+      if (config_logic_indonesian_cloud_free ()) {
+        if ((hour == 3) && (minute == 10)) {
+          tasks_logic_queue (EXPIREINDONESIANFREEUSERS); // Todo
+        }
+      }
+#endif
+
 	
 #ifdef HAVE_CLOUD
       // Update SWORD modules and other web resources once a week.

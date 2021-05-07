@@ -537,3 +537,10 @@ void system_logic_indonesian_free_deletion (string username, string email)
   
   Database_Logs::log ("Ready handling user and associated data");
 }
+
+
+void system_logic_indonesian_free_expiration () // Todo
+{
+  Database_Logs::log ("Expiring free Indonesian Cloud accounts and associated data");
+
+}

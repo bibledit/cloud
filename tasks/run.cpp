@@ -315,6 +315,9 @@ void tasks_run_one (string filename)
   else if (command == DELETEINDONESIANFREEUSER) {
     system_logic_indonesian_free_deletion (parameter1, parameter2);
   }
+  else if (command == EXPIREINDONESIANFREEUSERS) {
+    system_logic_indonesian_free_expiration ();
+  }
   else {
     Database_Logs::log ("Unknown task: " + command);
   }

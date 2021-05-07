@@ -42,7 +42,7 @@ $ (document).ready (function ()
 
         if (submissionTechnique == "post+reload") {
           $.post ("index", postData);
-          window.location.reload();
+          setTimeout(()=>{ window.location.reload() }, 150);
         }
 
         if (submissionTechnique == "post" || submissionTechnique == "post+") {

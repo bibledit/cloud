@@ -569,7 +569,6 @@ input#cancel,
 #versepickerwrapper.light-menu-tabs a,
 #versepickerwrapper.dark-menu-tabs span,
 #versepickerwrapper.dark-menu-tabs a {
-  width: 100%;
   height: 100%;
 }
 
@@ -623,16 +622,19 @@ input#cancel,
 
 #versepickerwrapper {
   page-break-before: always;
-  white-space: unset;
-  overflow: unset;
-  -o-text-overflow: unset;
-  text-overflow: unset;
+  white-space: unset !important;
+  overflow: unset !important;
+  -o-text-overflow: unset !important;
+  text-overflow: unset !important;
   max-width: 87.5vw;
-  padding: 0 1em;
 }
 
 #versepickerwrapper span {
-  margin: 0 2px;
+  margin: 0;
+}
+
+#versepickerwrapper span a {
+  padding: 0 .2em;
 }
 
 #applybook {

@@ -58,46 +58,20 @@ bool manage_accounts_acl (void * webserver_request)
 string manage_accounts (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-
   
   bool user_updated = false;
   bool privileges_updated = false;
-  
   
   string page;
   Assets_Header header = Assets_Header (translate("Accounts"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-
   
   Assets_View view;
 
-
-  //int myLevel = request->session_logic ()->currentLevel ();
-  
-  
-  // New user creation. Todo clean up.
-  if (request->query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("users", translate("Please enter a name for the new user"), "", "new", "");
-    page += dialog_entry.run ();
-    return page;
-  }
-  if (request->post.count ("new")) {
-    string user = request->post["entry"];
-    if (request->database_users ()->usernameExists (user)) {
-      page += Assets_Page::error (translate("User already exists"));
-    } else {
-      request->database_users ()->add_user(user, user, Filter_Roles::member (), "");
-      user_updated = true;
-      page += Assets_Page::success (translate("User created"));
-    }
-  }
-  
-  
   // The user to act on.
   string objectUsername = request->query["user"];
   int user_level = request->database_users ()->get_level (objectUsername);
-  
   
   // Delete a user.
   if (request->query.count ("delete")) {
@@ -110,7 +84,6 @@ string manage_accounts (void * webserver_request)
     } else if ((user_level >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
     } else {
-      
       string message;
       user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
@@ -120,7 +93,6 @@ string manage_accounts (void * webserver_request)
       page += Assets_Page::success (message);
     }
   }
-  
   
   // Get the account creation times.
   map <string, int> account_creation_times;
@@ -143,11 +115,8 @@ string manage_accounts (void * webserver_request)
     user_level = request->database_users ()->get_level (username);
     string role = Filter_Roles::text (user_level);
     string email = request->database_users ()->get_email (username);
-    string days;
-    {
-      int seconds = filter_date_seconds_since_epoch() - account_creation_times[username];
-      days = convert_to_string (seconds / (3600 * 24));
-    }
+    int seconds = filter_date_seconds_since_epoch() - account_creation_times[username];
+    string days = convert_to_string (seconds / (3600 * 24));
     
     // In the Indonesian free Cloud,
     // the free guest accounts have a role of Consultant.

@@ -70,7 +70,7 @@ string client_logic_connection_setup (string user, string hash)
   Database_Users database_users;
   
   if (user.empty ()) {
-    vector <string> users = database_users.getUsers ();
+    vector <string> users = database_users.get_users ();
     if (users.empty()) return "";
     user = users [0];
     hash = database_users.get_md5 (user);
@@ -218,7 +218,7 @@ string client_logic_get_username ()
   // That happens when disconnected from the Cloud.
   string user = session_admin_credentials ();
   Database_Users database_users;
-  vector <string> users = database_users.getUsers ();
+  vector <string> users = database_users.get_users ();
   if (!users.empty()) user = users [0];
   return user;
 }

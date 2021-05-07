@@ -268,7 +268,7 @@ void Database_Users::updateUserEmail (string user, string email)
 
 
 // Return an array with the available users.
-vector <string> Database_Users::getUsers ()
+vector <string> Database_Users::get_users ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users;");

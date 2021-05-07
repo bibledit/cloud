@@ -135,7 +135,7 @@ void sprint_burndown (string bible, int manualyear, int manualmonth)
         vector <string> categories = filter_string_explode (scategories, '\n');
         int category_count = categories.size();
         int category_percentage = round (100 / category_count);
-        vector <string> users = request.database_users ()->getUsers ();
+        vector <string> users = request.database_users ()->get_users ();
         for (auto user : users) {
           if (request.database_config_user()->getUserSprintProgressNotification (user)) {
             

@@ -23,6 +23,8 @@
 #include <filter/archive.h>
 #include <filter/usfm.h>
 #include <filter/indonesian.h>
+#include <filter/roles.h>
+#include <filter/date.h>
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <database/jobs.h>
@@ -39,6 +41,7 @@
 #include <database/logic.h>
 #include <email/send.h>
 #include <search/logic.h>
+#include <user/logic.h>
 
 
 string system_logic_bibles_file_name ()
@@ -542,5 +545,32 @@ void system_logic_indonesian_free_deletion (string username, string email)
 void system_logic_indonesian_free_expiration () // Todo
 {
   Database_Logs::log ("Expiring free Indonesian Cloud accounts and associated data");
-
+  Database_Users database_users;
+  vector<string> users = database_users.get_users();
+  for (auto user : users) {
+    // In the free Indonesian Cloud, the relevant level is that of Consultant.
+    int level = database_users.get_level(user);
+    if (level != Filter_Roles::consultant()) continue;
+    // Expire this account after 30 days.
+    int account_creation_time = filter_date_seconds_since_epoch();
+    {
+      vector <string> lines = Database_Config_General::getAccountCreationTimes ();
+      for (auto line : lines) {
+        vector <string> bits = filter_string_explode(line, '|');
+        if (bits.size() != 2) continue;
+        int seconds = convert_to_int(bits[0]);
+        if (user == bits[1]) account_creation_time = seconds;
+      }
+    }
+    int seconds = filter_date_seconds_since_epoch() - account_creation_time;
+    int days = seconds / (3600 * 24);
+    if (days <= 30) continue;
+    // Get details of this user.
+    string email = database_users.get_email(user);
+    // Delete the user account. Todo
+    Database_Logs::log("Deleting free user " + user + " with email " + email);
+    string message;
+    user_logic_delete_account (user, "free", email, message);
+    system_logic_indonesian_free_deletion (user, email);
+  }
 }

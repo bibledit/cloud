@@ -375,7 +375,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     }
 
     // Users to get subscribed to the note, or to whom the note is to be assigned.
-    vector <string> users = request->database_users ()->getUsers ();
+    vector <string> users = request->database_users ()->get_users ();
     for (const string & user : users) {
       if (access_bible_read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
@@ -415,7 +415,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // notify only the users with this specific notification set.
   if ((notification == notifyNoteDelete) || (notification == notifyMarkNoteForDeletion)) {
     recipients.clear ();
-    vector <string> users = request->database_users ()->getUsers ();
+    vector <string> users = request->database_users ()->get_users ();
     for (const auto & user : users) {
       if (request->database_config_user ()->getUserDeletedConsultationNoteNotification (user)) {
         if (access_bible_read (webserver_request, bible, user)) {
@@ -688,7 +688,7 @@ void notes_logic_maintain_note_assignees (bool force)
   Webserver_Request webserver_request;
   
   Database_Users database_users;
-  vector <string> users = database_users.getUsers ();
+  vector <string> users = database_users.get_users ();
 
   // If even one user's assignees are absent, force rebuilding them for all users.
   for (auto & user : users) {

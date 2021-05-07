@@ -109,7 +109,7 @@ void sendreceive_files ()
 
   
   // The client user is the sole user registered on the system.
-  vector <string> users = request.database_users ()->getUsers ();
+  vector <string> users = request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     sendreceive_files_done ();

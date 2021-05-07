@@ -49,7 +49,7 @@ void statistics_statistics ()
   vector <string> bibles = request.database_bibles()->getBibles ();
   
   
-  vector <string> users = request.database_users ()->getUsers ();
+  vector <string> users = request.database_users ()->get_users ();
   for (auto & user : users) {
     
     

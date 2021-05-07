@@ -52,7 +52,7 @@ bool client_index_acl (void * webserver_request)
 void client_index_remove_all_users (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
-  vector <string> existingusers = request->database_users()->getUsers ();
+  vector <string> existingusers = request->database_users()->get_users ();
   for (auto existinguser : existingusers) {
     request->database_users()->removeUser (existinguser);
   }
@@ -166,7 +166,7 @@ string client_index (void * webserver_request)
   
   view.set_variable ("url", client_logic_link_to_cloud ("", ""));
   
-  vector <string> users = request->database_users ()->getUsers ();
+  vector <string> users = request->database_users ()->get_users ();
   for (auto & user : users) {
     int level = request->database_users()->get_level (user);
     view.set_variable ("role", Filter_Roles::text (level));

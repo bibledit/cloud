@@ -115,7 +115,7 @@ bool sendreceive_notes_upload ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = request.database_users ()->getUsers ();
+  vector <string> users = request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
@@ -335,7 +335,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The server will use this user to find out the Bibles this user has access to,
   // so the server can select the correct notes for this user.
   // The client selects all available notes on the system.
-  vector <string> users = request.database_users ()->getUsers ();
+  vector <string> users = request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;

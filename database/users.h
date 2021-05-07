@@ -46,7 +46,7 @@ public:
   vector <string> getAdministrators ();
   string updateEmailQuery (string user, string email);
   void updateUserEmail (string user, string email);
-  vector <string> getUsers ();
+  vector <string> get_users ();
   string get_md5 (string user);
   void execute (string sqlfragment);
   void set_ldap (string user, bool on);

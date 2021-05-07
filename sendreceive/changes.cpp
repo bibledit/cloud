@@ -102,7 +102,7 @@ void sendreceive_changes ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = request.database_users ()->getUsers ();
+  vector <string> users = request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     send_receive_changes_done ();

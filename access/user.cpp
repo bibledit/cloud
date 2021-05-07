@@ -35,7 +35,7 @@ vector <string> access_user_assignees (void * webserver_request)
   vector <string> assignees;
 
   // Process all users.
-  vector <string> users = request->database_users ()->getUsers ();
+  vector <string> users = request->database_users ()->get_users ();
   sort (users.begin(), users.end());
   for (auto & user : users) {
     // Assignees should have a level less than or equal to mylevel.

@@ -141,7 +141,7 @@ void test_database_users ()
     database_users.updateUserEmail (username1, email);
     evaluate (__LINE__, __func__, email, database_users.get_email (username1));
     
-    vector <string> users = database_users.getUsers ();
+    vector <string> users = database_users.get_users ();
     evaluate (__LINE__, __func__, 2, (int)users.size());
     
     evaluate (__LINE__, __func__, md5 (password), database_users.get_md5 (username1));

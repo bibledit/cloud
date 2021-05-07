@@ -131,7 +131,7 @@ string workspace_organize (void * webserver_request)
   string send = request->query ["send"];
   if (!send.empty ()) {
     string me = request->session_logic ()->currentUser ();
-    vector <string> users = request->database_users ()->getUsers ();
+    vector <string> users = request->database_users ()->get_users ();
     for (auto user : users) {
       if (user != me) {
         workspace_send (webserver_request, send, user);

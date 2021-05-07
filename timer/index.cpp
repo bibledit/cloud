@@ -234,7 +234,7 @@ void timer_index ()
       // In the free Indonesian Cloud configuration, expire free users after so many days.
       if (config_logic_indonesian_cloud_free ()) {
         if ((hour == 3) && (minute == 10)) {
-          tasks_logic_queue (EXPIREINDONESIANFREEUSERS); // Todo
+          tasks_logic_queue (EXPIREINDONESIANFREEUSERS);
         }
       }
 #endif

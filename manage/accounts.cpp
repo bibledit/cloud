@@ -76,7 +76,7 @@ string manage_accounts (void * webserver_request)
   //int myLevel = request->session_logic ()->currentLevel ();
   
   
-  // New user creation.
+  // New user creation. Todo clean up.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("users", translate("Please enter a name for the new user"), "", "new", "");
     page += dialog_entry.run ();
@@ -103,7 +103,7 @@ string manage_accounts (void * webserver_request)
   if (request->query.count ("delete")) {
     string role = Filter_Roles::text (user_level);
     string email = request->database_users ()->get_email (objectUsername);
-    vector <string> users = request->database_users ()->getUsers ();
+    vector <string> users = request->database_users ()->get_users ();
     vector <string> administrators = request->database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += Assets_Page::error (translate("Cannot remove the last user"));

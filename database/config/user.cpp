@@ -236,7 +236,7 @@ void Database_Config_User::trim ()
   // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
   int time = filter_date_seconds_since_epoch () - (2 * 24 * 3600);
   Database_Users database_users;
-  vector <string> users = database_users.getUsers ();
+  vector <string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());
     if (file_or_dir_exists (filename)) {

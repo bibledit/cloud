@@ -270,7 +270,7 @@ bool Session_Logic::clientAccess ()
   // or as the admin in case no user has been set up yet.
   if (config_globals_client_prepared) {
     Database_Users database_users;
-    vector <string> users = database_users.getUsers ();
+    vector <string> users = database_users.get_users ();
     string user;
     if (users.empty ()) {
       user = session_admin_credentials ();

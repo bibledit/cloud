@@ -268,7 +268,7 @@ void checks_run (string bible)
   if (!emailBody.empty ()) {
     string subject = translate("Bible Checks") + " " + bible;
     string body = filter_string_implode (emailBody, "\n");
-    vector <string> users = request.database_users ()->getUsers ();
+    vector <string> users = request.database_users ()->get_users ();
     for (auto user : users) {
       if (request.database_config_user()->getUserBibleChecksNotification (user)) {
         if (access_bible_read (&request, bible, user)) {

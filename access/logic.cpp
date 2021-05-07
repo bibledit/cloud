@@ -118,7 +118,7 @@ void access_logic_user_level (void * webserver_request, string & user, int & lev
 void access_logic_create_client_files ()
 {
   Database_Users database_users;
-  vector <string> users = database_users.getUsers ();
+  vector <string> users = database_users.get_users ();
   for (auto & user : users) {
     // Only maintain the privilege file if it does not yet exist,
     // to avoid unnecessary downloads by the clients.

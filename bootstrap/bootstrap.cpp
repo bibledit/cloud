@@ -208,6 +208,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/confirm.h>
 #include <resource/comparative9edit.h>
 #include <resource/comparative1edit.h>
+#include <developer/logic.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -235,8 +236,8 @@ bool browser_request_security_okay (Webserver_Request * request)
 // it decides which functions to call to obtain the response.
 void bootstrap_index (void * webserver_request)
 {
-  if (config_logic_log_incoming_connections ()) {
-    journal_logic_log_incoming_connection (webserver_request);
+  if (config_globals_log_network) { // Todo
+    developer_logic_log_network_cache (webserver_request);
   }
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;

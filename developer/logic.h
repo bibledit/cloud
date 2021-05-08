@@ -25,7 +25,8 @@
 
 
 void developer_logic_timing (int order, bool initialize = false);
-void developer_logic_log (string message);
+void developer_logic_log_network_cache (void * webserver_request);
+void developer_logic_log_network_write ();
 
 
 #endif

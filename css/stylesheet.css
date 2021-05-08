@@ -1006,7 +1006,7 @@ input#cancel,
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  overflow-x: hidden;
+  overflow: auto;
 }
 #workspacewrapper > p {
   font-family: "Montserrat Regular", sans-serif;

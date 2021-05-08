@@ -27,8 +27,6 @@
 bool journal_logic_filter_entry (const string& entry);
 string journal_logic_filtered_message ();
 string journal_logic_see_journal_for_progress ();
-void journal_logic_log_incoming_connection (void * webserver_request);
-void journal_logic_log_incoming_connections ();
 
 
 #endif

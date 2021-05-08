@@ -81,7 +81,7 @@ void timer_index ()
       // Check whether client sends/receives Bibles and Consultation Notes and other stuff.
       sendreceive_queue_sync (minute, second);
       // Log any connections that have come in.
-      journal_logic_log_incoming_connections ();
+      developer_logic_log_network_write ();
 
       // Run the part below every so many seconds.
       int fraction = second / 5;

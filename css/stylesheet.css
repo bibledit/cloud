@@ -366,7 +366,6 @@ div[contenteditable=true],
   padding: 2px 7px;
   color: white;
   outline: 0;
-  -webkit-appearance: button;
   -moz-appearance: button;
   appearance: button;
   cursor: pointer;

@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-string localization;
+//string localization;
 
 void check_user_localization_preference (void * webserver_request)
 {
@@ -36,11 +36,11 @@ void check_user_localization_preference (void * webserver_request)
   bool is_logged_in = request->session_logic ()->loggedIn ();
 
   if (user_preference.empty () && is_logged_in == true) {
-    localization = "";
+//    localization = "";
   } else if (system_settings != user_preference && !user_preference.empty ()) {
-    localization = user_preference;
+//    localization = user_preference;
   } else {
-    localization = system_settings;
+//    localization = system_settings;
   }
 }
 
@@ -55,6 +55,8 @@ string translate (string english)
   // Start off with the English message.
   string result (english);
   // Check whether a language has been set on the website or the app.
+  // Check whether a language has been set on the website or the app.
+  string localization = Database_Config_General::getSiteLanguage ();
   if (!localization.empty ()) {
     // Localize it.
     Database_Localization database_localization = Database_Localization (localization);

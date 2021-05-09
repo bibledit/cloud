@@ -236,8 +236,10 @@ bool browser_request_security_okay (Webserver_Request * request)
 // it decides which functions to call to obtain the response.
 void bootstrap_index (void * webserver_request)
 {
-  if (config_globals_log_network) { // Todo
-    developer_logic_log_network_cache (webserver_request);
+  shared_ptr<Developer_Logic_Tracer> developer_logic_tracer = nullptr;
+  //config_globals_log_network = true; // Todo
+  if (config_globals_log_network) {
+    developer_logic_tracer = make_shared<Developer_Logic_Tracer>(webserver_request);
   }
 
   Webserver_Request * request = (Webserver_Request *) webserver_request;

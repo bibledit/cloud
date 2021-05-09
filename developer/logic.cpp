@@ -42,20 +42,6 @@ mutex log_network_mutex;
 vector <string> log_network_cache;
 
 
-void developer_logic_log_network_cache (void * webserver_request)
-{
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
-  int seconds = filter_date_seconds_since_epoch ();
-  string rfc822 = filter_date_rfc822 (seconds);
-  vector <string> bits = {rfc822, request->remote_address, request->get};
-  bits.push_back(request->session_logic()->currentUser());
-  string entry = filter_string_implode(bits, ",");
-  log_network_mutex.lock ();
-  log_network_cache.push_back (entry);
-  log_network_mutex.unlock ();
-}
-
-
 void developer_logic_log_network_write ()
 {
   if (!log_network_cache.empty ()) {
@@ -73,4 +59,29 @@ void developer_logic_log_network_write ()
     }
     filter_url_file_put_contents_append (path, lines);
   }
+}
+
+
+Developer_Logic_Tracer::Developer_Logic_Tracer(void * webserver_request)
+{
+  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  seconds1 = filter_date_seconds_since_epoch ();
+  microseconds1 = filter_date_numerical_microseconds();
+  rfc822 = filter_date_rfc822 (seconds1);
+  remote_address = request->remote_address;
+  request_get = request->get;
+  username = request->session_logic()->currentUser();
+}
+
+
+Developer_Logic_Tracer::~Developer_Logic_Tracer()
+{
+  int seconds2 = filter_date_seconds_since_epoch();
+  int microseconds2 = filter_date_numerical_microseconds();
+  int microseconds = (seconds2 - seconds1) * 1000 + microseconds2 - microseconds1;
+  vector <string> bits = {rfc822, convert_to_string (microseconds), request_get, username};
+  string entry = filter_string_implode(bits, ",");
+  log_network_mutex.lock();
+  log_network_cache.push_back(entry);
+  log_network_mutex.unlock();
 }

@@ -25,8 +25,20 @@
 
 
 void developer_logic_timing (int order, bool initialize = false);
-void developer_logic_log_network_cache (void * webserver_request);
 void developer_logic_log_network_write ();
+
+class Developer_Logic_Tracer
+{
+public:
+  Developer_Logic_Tracer(void * webserver_request);
+  ~Developer_Logic_Tracer();
+  int seconds1 = 0;
+  int microseconds1 = 0;
+  string rfc822;
+  string remote_address;
+  string request_get;
+  string username;
+};
 
 
 #endif

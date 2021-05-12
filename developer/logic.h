@@ -24,7 +24,6 @@
 #include <config/libraries.h>
 
 
-void developer_logic_timing (int order, bool initialize = false);
 void developer_logic_log_network_write ();
 
 class Developer_Logic_Tracer
@@ -37,6 +36,7 @@ public:
   string rfc822;
   string remote_address;
   string request_get;
+  string request_query;
   string username;
 };
 

@@ -24,20 +24,6 @@
 #include <webserver/request.h>
 
 
-void developer_logic_timing (int order, bool initialize)
-{
-  int now = filter_date_seconds_since_epoch ();
-  int unow = filter_date_numerical_microseconds ();
-  static int seconds = 0;
-  static int useconds = 0;
-  if (initialize) {
-    seconds = now;
-    useconds = unow;
-  }
-  cout << order << ": " << 1000000 * (now - seconds) + (unow - useconds) << endl;
-}
-
-
 mutex log_network_mutex;
 vector <string> log_network_cache;
 
@@ -55,7 +41,7 @@ void developer_logic_log_network_write ()
     log_network_mutex.unlock ();
     string path = filter_url_create_root_path (filter_url_temp_dir(), "log-network.csv");
     if (!file_or_dir_exists(path)) {
-      filter_url_file_put_contents_append (path, "date,IPaddress,URL,username\n");
+      filter_url_file_put_contents_append (path, "date,IPaddress,URL,query,username\n");
     }
     filter_url_file_put_contents_append (path, lines);
   }
@@ -70,6 +56,12 @@ Developer_Logic_Tracer::Developer_Logic_Tracer(void * webserver_request)
   rfc822 = filter_date_rfc822 (seconds1);
   remote_address = request->remote_address;
   request_get = request->get;
+  for (auto element : request->query) {
+    request_query.append(" ");
+    request_query.append(element.first);
+    request_query.append("=");
+    request_query.append(element.second);
+  }
   username = request->session_logic()->currentUser();
 }
 
@@ -78,8 +70,8 @@ Developer_Logic_Tracer::~Developer_Logic_Tracer()
 {
   int seconds2 = filter_date_seconds_since_epoch();
   int microseconds2 = filter_date_numerical_microseconds();
-  int microseconds = (seconds2 - seconds1) * 1000 + microseconds2 - microseconds1;
-  vector <string> bits = {rfc822, convert_to_string (microseconds), request_get, username};
+  int microseconds = (seconds2 - seconds1) * 1000000 + microseconds2 - microseconds1;
+  vector <string> bits = {rfc822, convert_to_string (microseconds), request_get, request_query, username};
   string entry = filter_string_implode(bits, ",");
   log_network_mutex.lock();
   log_network_cache.push_back(entry);

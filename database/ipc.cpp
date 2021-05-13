@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/ipc.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <database/logic.h>
@@ -47,6 +48,16 @@ void Database_Ipc::trim ()
   for (auto & record : data) {
     if (record.user == "") {
       deleteMessage (record.rowid);
+    }
+  }
+  int now = filter_date_seconds_since_epoch ();
+  vector <string> files = filter_url_scandir (folder ());
+  for (string item : files) {
+    string path = file(item);
+    int time = filter_url_file_modification_time (path);
+    int age_seconds = now - time;
+    if (age_seconds > 3600) {
+      filter_url_unlink (path);
     }
   }
 }

@@ -542,7 +542,7 @@ void system_logic_indonesian_free_deletion (string username, string email)
 }
 
 
-void system_logic_indonesian_free_expiration () // Todo
+void system_logic_indonesian_free_expiration ()
 {
   Database_Logs::log ("Expiring free Indonesian Cloud accounts and associated data");
   Database_Users database_users;
@@ -567,7 +567,7 @@ void system_logic_indonesian_free_expiration () // Todo
     if (days <= 30) continue;
     // Get details of this user.
     string email = database_users.get_email(user);
-    // Delete the user account. Todo
+    // Delete the user account.
     Database_Logs::log("Deleting free user " + user + " with email " + email);
     string message;
     user_logic_delete_account (user, "free", email, message);

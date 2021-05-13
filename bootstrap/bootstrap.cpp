@@ -237,7 +237,6 @@ bool browser_request_security_okay (Webserver_Request * request)
 void bootstrap_index (void * webserver_request)
 {
   shared_ptr<Developer_Logic_Tracer> developer_logic_tracer = nullptr;
-  //config_globals_log_network = true; // Todo
   if (config_globals_log_network) {
     developer_logic_tracer = make_shared<Developer_Logic_Tracer>(webserver_request);
   }

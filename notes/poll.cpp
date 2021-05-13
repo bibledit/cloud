@@ -37,16 +37,14 @@ string notes_poll_url ()
 }
 
 
-bool notes_poll_acl (void * webserver_request) // Todo is this taking the time?
+bool notes_poll_acl (void * webserver_request)
 {
   return access_logic_privilege_view_notes (webserver_request);
 }
 
 
-string notes_poll (void * webserver_request) // Todo is this taking the time?
+string notes_poll (void * webserver_request)
 {
-//  Developer_Logic_Tracer tracer (webserver_request);
-//  tracer.request_get = "notes_poll";
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   string action = request->query ["action"];
   if (action == "alive") {

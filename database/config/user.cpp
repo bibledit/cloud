@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/logic.h>
 #include <database/config/general.h>
+#include <locale/logic.h>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)
@@ -1005,13 +1006,20 @@ void Database_Config_User::setSyncKey (string key)
 }
 
 
-string Database_Config_User::getSiteLanguage ()
+
+const char * site_language_key ()
 {
-  return getValue ("site-language", "");
+  return "site-language";
+}
+string Database_Config_User::getSiteLanguage () // Todo
+{
+  // The default value is "default".
+  // That means: Take the system setting. The user has no language preference.
+  return getValue (site_language_key (), locale_logic_get_default_language());
 }
 void Database_Config_User::setSiteLanguage (string value)
 {
-  setValue ("site-language", value);
+  setValue (site_language_key (), value);
 }
 
 

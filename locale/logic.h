@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 string locale_logic_filter_default_language (string localization);
+const char * locale_logic_get_default_language ();
 string locale_logic_month (int month);
 string locale_logic_date (int seconds);
 string locale_logic_date_time (int seconds);

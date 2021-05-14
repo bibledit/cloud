@@ -1335,7 +1335,6 @@
 		CADE3CE624F17470003165BB /* ny.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ny.po; sourceTree = "<group>"; };
 		CADE3CE724F17470003165BB /* id.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = id.po; sourceTree = "<group>"; };
 		CADE3CE824F17470003165BB /* bibledit.pot */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.pot; sourceTree = "<group>"; };
-		CADE3CE924F17470003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE3CEA24F17470003165BB /* translate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = translate.cpp; sourceTree = "<group>"; };
 		CADE3CEB24F17470003165BB /* af.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = af.po; sourceTree = "<group>"; };
 		CADE3CF024F17470003165BB /* pt.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pt.po; sourceTree = "<group>"; };
@@ -4163,7 +4162,6 @@
 				CADE3CD824F17470003165BB /* ku.po */,
 				CADE3CDF24F17470003165BB /* logic.cpp */,
 				CADE3CE524F17470003165BB /* logic.h */,
-				CADE3CE924F17470003165BB /* logic.o */,
 				CADE3CD224F17470003165BB /* lt.po */,
 				CADE3CD624F17470003165BB /* nl.po */,
 				CADE3CE624F17470003165BB /* ny.po */,

@@ -80,7 +80,7 @@ string system_indonesianfree (void * webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      Database_Config_General::setSiteLanguage (locale_logic_filter_default_language (language));
+      Database_Config_General::setSiteLanguage (language);
     }
   }
 
@@ -226,7 +226,7 @@ string system_indonesianfree (void * webserver_request)
 
   
   // Set the language on the page.
-  string language = locale_logic_filter_default_language (Database_Config_General::getSiteLanguage ());
+  string language = Database_Config_General::getSiteLanguage ();
   language = localizations [language];
   view.set_variable ("language", language);
   

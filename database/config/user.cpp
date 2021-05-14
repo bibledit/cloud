@@ -1015,7 +1015,7 @@ string Database_Config_User::getSiteLanguage () // Todo
 {
   // The default value is "default".
   // That means: Take the system setting. The user has no language preference.
-  return getValue (site_language_key (), locale_logic_get_default_language());
+  return getValue (site_language_key (), "");
 }
 void Database_Config_User::setSiteLanguage (string value)
 {

@@ -157,9 +157,9 @@ string personalize_index (void * webserver_request)
   }
 
 
-  // Set the language from the generated option tags below.
+  // Set the language from the generated option tags below. // Todo
   if (request->post.count ("languageselection")) {
-    string languageselection = locale_logic_filter_default_language (request->post ["languageselection"]);
+    string languageselection = request->post ["languageselection"];
     request->database_config_user ()->setSiteLanguage (languageselection);
   }
   
@@ -174,6 +174,8 @@ string personalize_index (void * webserver_request)
 
   // The available localizations.
   map <string, string> localizations = locale_logic_localizations ();
+  // Add the "default" localization: That means: Take the system language.
+  // Todo out localizations[locale_logic_get_default_language ()] = locale_logic_get_default_language ();
 
 
   // Create the option tags for interface language selection.
@@ -183,7 +185,7 @@ string personalize_index (void * webserver_request)
     language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
   }
   string current_user_preference = request->database_config_user ()->getSiteLanguage ();
-  string language = locale_logic_filter_default_language (current_user_preference);
+  string language = current_user_preference;
   view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
   view.set_variable ("languageselection", language);
 

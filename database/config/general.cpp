@@ -272,13 +272,21 @@ void Database_Config_General::setSiteURL (string value)
 }
 
 
+const char * general_site_language_key ()
+{
+  return "site-language";
+}
 string Database_Config_General::getSiteLanguage ()
 {
-  return getValue ("site-language", "");
+  // The default site language is an empty string.
+  // It means not to localize the interface.
+  // Since the default messages are all in English,
+  // the default language for the interface will be English.
+  return getValue (general_site_language_key (), "");
 }
 void Database_Config_General::setSiteLanguage (string value)
 {
-  setValue ("site-language", value);
+  setValue (general_site_language_key (), value);
 }
 
 

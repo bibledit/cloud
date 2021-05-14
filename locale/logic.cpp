@@ -25,22 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-// Filters out the default language.
-// Returns the $localization, or "" in case of the default language.
-string locale_logic_filter_default_language (string localization) // Todo
-{
-  if (localization == locale_logic_get_default_language ()) localization.clear ();
-  return localization;
-}
-
-
-// The "default" language setting for a user setting means to take the language set for the system.
-const char * locale_logic_get_default_language () // Todo
-{
-  return "default";
-}
-
-
 // Takes a month from 1 to 12, and returns its localized name.
 string locale_logic_month (int month)
 {

@@ -262,4 +262,5 @@ void test_session ()
     evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "wrong", true, true));
     user_logic_login_failure_clear ();
   }
+  
 }

@@ -1007,20 +1007,20 @@ void Database_Config_User::setSyncKey (string key)
 
 
 
-const char * site_language_key ()
-{
-  return "site-language";
-}
-string Database_Config_User::getSiteLanguage () // Todo
-{
-  // The default value is "default".
-  // That means: Take the system setting. The user has no language preference.
-  return getValue (site_language_key (), "");
-}
-void Database_Config_User::setSiteLanguage (string value)
-{
-  setValue (site_language_key (), value);
-}
+//const char * site_language_key ()
+//{
+//  return "site-language";
+//}
+//string Database_Config_User::getSiteLanguage ()
+//{
+//  // The default value is "default".
+//  // That means: Take the system setting. The user has no language preference.
+//  return getValue (site_language_key (), "");
+//}
+//void Database_Config_User::setSiteLanguage (string value)
+//{
+//  setValue (site_language_key (), value);
+//}
 
 
 const char * general_font_size_key ()

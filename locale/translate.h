@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 extern vector <string> locale_translate_obfuscation_search;
 extern vector <string> locale_translate_obfuscation_replace;
-void check_user_localization_preference (void * webserver_request);
+//void check_user_localization_preference (void * webserver_request);
 string translate (string english);
 
 

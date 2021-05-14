@@ -287,7 +287,7 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  check_user_localization_preference (request);
+  // check_user_localization_preference (request);
 
   if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (request)) {
     request->reply = resource_imagefetch (request);

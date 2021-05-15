@@ -83,7 +83,7 @@ string resource_comparative9edit (void * webserver_request)
     for (auto resource : resources) {
       string title;
       if (resource_logic_parse_comparative_resource (resource, &title)) {
-        titles.push_back (title);
+        titles.push_back (title); // Todo cache?
       }
     }
     if (in_array (new_resource, titles)) {
@@ -118,7 +118,7 @@ string resource_comparative9edit (void * webserver_request)
       vector <string> existing_resources = Database_Config_General::getComparativeResources ();
       for (auto resource : existing_resources) {
         string title;
-        resource_logic_parse_comparative_resource (resource, &title);
+        resource_logic_parse_comparative_resource (resource, &title); // Todo cache?
         if (title != title2remove) updated_resources.push_back (resource);
       }
       Database_Config_General::setComparativeResources (updated_resources);
@@ -133,7 +133,7 @@ string resource_comparative9edit (void * webserver_request)
     xml_document document;
     for (auto & resource : resources) {
       string title;
-      if (!resource_logic_parse_comparative_resource (resource, &title)) continue;
+      if (!resource_logic_parse_comparative_resource (resource, &title)) continue; // Todo cache?
       xml_node p_node = document.append_child ("p");
       xml_node a_node = p_node.append_child("a");
       string href = "comparative1edit?name=" + title;

@@ -77,11 +77,11 @@ string resource_comparative1edit (void * webserver_request)
 
 
   string title, base, update, remove, replace;
-  bool diacritics = false, casefold = false;
+  bool diacritics = false, casefold = false, cache = false;
   {
     vector <string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
-      resource_logic_parse_comparative_resource (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
+      resource_logic_parse_comparative_resource (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold, &cache);
       if (title == name) break;
     }
   }
@@ -165,15 +165,22 @@ string resource_comparative1edit (void * webserver_request)
   }
 
   
+  // Whether to cache the resource on client devices.
+  if (checkbox == "cache") {
+    cache = checked;
+    resource_edited = true;
+  }
+
+  
   // Save the comparative resource if it was edited.
   if (resource_edited) {
     vector <string> resources = Database_Config_General::getComparativeResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       string title2;
-      resource_logic_parse_comparative_resource (resources[i], &title2);
+      resource_logic_parse_comparative_resource (resources[i], &title2); // Todo cache?
       if (title2 == title) {
-        string resource = resource_logic_assemble_comparative_resource (title, base, update, remove, replace, diacritics, casefold);
+        string resource = resource_logic_assemble_comparative_resource (title, base, update, remove, replace, diacritics, casefold, cache); // Todo save here.
         resources[i] = resource;
         success = translate ("Saved");
         error.clear();
@@ -192,6 +199,7 @@ string resource_comparative1edit (void * webserver_request)
   view.set_variable ("replace", replace);
   view.set_variable ("diacritics", get_checkbox_status (diacritics));
   view.set_variable ("casefold", get_checkbox_status (casefold));
+  view.set_variable ("cache", get_checkbox_status (cache));
   page += view.render ("resource", "comparative1edit");
   page += Assets_Page::footer ();
   return page;

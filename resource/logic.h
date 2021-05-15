@@ -82,8 +82,8 @@ bool resource_logic_is_studylight (string resource);
 bool resource_logic_is_comparative (string resource);
 
 string resource_logic_comparative_resource ();
-bool resource_logic_parse_comparative_resource (string input, string * title = nullptr, string * base = nullptr, string * update = nullptr, string * remove = nullptr, string * replace = nullptr, bool * diacritics = nullptr, bool * casefold = nullptr);
-string resource_logic_assemble_comparative_resource (string title, string base = "", string update = "", string remove = "", string replace = "", bool diacritics = false, bool casefold = false);
+bool resource_logic_parse_comparative_resource (string input, string * title = nullptr, string * base = nullptr, string * update = nullptr, string * remove = nullptr, string * replace = nullptr, bool * diacritics = nullptr, bool * casefold = nullptr, bool * cache = nullptr);
+string resource_logic_assemble_comparative_resource (string title, string base = "", string update = "", string remove = "", string replace = "", bool diacritics = false, bool casefold = false, bool cache = false);
 
 
 #endif

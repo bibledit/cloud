@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 var checkboxLastInput;
 
-function checkbox (input, url) {
+function checkbox (input, url, var1, var2) {
   // Store this input.
   checkboxLastInput = input;
   // The URL where to POST to.
@@ -31,7 +31,7 @@ function checkbox (input, url) {
   $.ajax ({
     url: url,
     type: "POST",
-    data: { checkbox: input.name, checked: input.checked },
+    data: { checkbox: input.name, checked: input.checked, var1: var1, var2: var2 },
     error: function (jqXHR, textStatus, errorThrown) {
       // Could not save: Revert the checkbox.
       checkboxLastInput.checked = !checkboxLastInput.checked;

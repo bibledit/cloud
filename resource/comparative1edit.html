@@ -53,19 +53,19 @@ translate("Example"): ῃ=η ῳ=ω search=replace
 
 <br>
 <p>
-<input type="checkbox" name="diacritics" onchange="checkbox(this)" ##diacritics## />
+<input type="checkbox" name="diacritics" onchange="checkbox(this,undefined,'##name##')" ##diacritics## />
 translate("Remove diacritics from the resources before doing the comparison.")
 </p>
 
 <br>
 <p>
-<input type="checkbox" name="casefold" onchange="checkbox(this)" ##casefold## />
+<input type="checkbox" name="casefold" onchange="checkbox(this,undefined,'##name##')" ##casefold## />
 translate("Do case folding of the resources before doing the comparison.")
 </p>
 
 <br>
 <p>
-<input type="checkbox" name="cache" onchange="checkbox(this)" ##cache## />
+<input type="checkbox" name="cache" onchange="checkbox(this,undefined,'##name##')" ##cache## />
 translate("Cache the resource on client devices.")
 translate("Caching makes the resource available offline.")
 translate("Caching makes a snapshot of the base and updated resources.")

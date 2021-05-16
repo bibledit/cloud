@@ -38,6 +38,7 @@
 #include <tasks/logic.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <client/logic.h>
 
 
 string resource_comparative1edit_url ()
@@ -66,6 +67,10 @@ string resource_comparative1edit (void * webserver_request)
   
   
   string name = request->query ["name"];
+  {
+    string var1 = request->post ["var1"];
+    if (!var1.empty()) name = var1;
+  }
   view.set_variable ("name", name);
 
   
@@ -187,6 +192,8 @@ string resource_comparative1edit (void * webserver_request)
       }
     }
     Database_Config_General::setComparativeResources (resources);
+    if (cache) client_logic_no_cache_resource_add(title);
+    else client_logic_no_cache_resource_remove(title);
   }
   
 

@@ -20,14 +20,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/client.h>
 #include <unittests/utilities.h>
 #include <client/logic.h>
+#include <database/logic.h>
+#include <filter/url.h>
 
 
-void test_client ()
+void test_client () // Todo
 {
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
-  // Test Client Enabled.
+  
+  // Test client enabled logic.
   {
     bool enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);
@@ -42,7 +45,8 @@ void test_client ()
     enabled = client_logic_client_enabled ();
     evaluate (__LINE__, __func__, false, enabled);
   }
-  // Test Create Note En/Decode
+
+  // Test create consultation note encoding and decoding.
   {
     string data = client_logic_create_note_encode ("bible", 1, 2, 3, "summary", "line1\nline2", false);
     string standard =
@@ -72,4 +76,34 @@ void test_client ()
     "line2";
     evaluate (__LINE__, __func__, standard, contents);
   }
+  
+  // Testing logic for resources not to cache. // Todo
+  {
+    string path = client_logic_no_cache_resources_path ();
+    string standard = filter_url_create_root_path ("databases/client/no_cache_resources.txt");
+    evaluate (__LINE__, __func__, standard, path);
+    
+    vector <string> resources = client_logic_no_cache_resources_get ();
+    evaluate (__LINE__, __func__, {}, resources);
+
+    string name1 = "comparative test";
+    string name2 = "comparative greek";
+
+    client_logic_no_cache_resource_add (name1);
+    resources = client_logic_no_cache_resources_get ();
+    evaluate (__LINE__, __func__, {name1}, resources);
+
+    client_logic_no_cache_resource_add (name2);
+    resources = client_logic_no_cache_resources_get ();
+    evaluate (__LINE__, __func__, {name1, name2}, resources);
+
+    client_logic_no_cache_resource_remove (name1);
+    resources = client_logic_no_cache_resources_get ();
+    evaluate (__LINE__, __func__, {name2}, resources);
+
+    client_logic_no_cache_resource_remove (name2);
+    resources = client_logic_no_cache_resources_get ();
+    evaluate (__LINE__, __func__, {}, resources);
+  }
+  
 }

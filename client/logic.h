@@ -38,6 +38,10 @@ string client_logic_usfm_resources_path ();
 void client_logic_usfm_resources_update ();
 vector <string> client_logic_usfm_resources_get ();
 string client_logic_get_username ();
+string client_logic_no_cache_resources_path ();
+void client_logic_no_cache_resource_add (string name);
+void client_logic_no_cache_resource_remove (string name);
+vector <string> client_logic_no_cache_resources_get ();
 
 
 #endif

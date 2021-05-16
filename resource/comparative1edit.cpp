@@ -192,8 +192,8 @@ string resource_comparative1edit (void * webserver_request)
       }
     }
     Database_Config_General::setComparativeResources (resources);
-    if (cache) client_logic_no_cache_resource_add(title);
-    else client_logic_no_cache_resource_remove(title);
+    if (cache) client_logic_no_cache_resource_remove(title);
+    else client_logic_no_cache_resource_add(title);
   }
   
 

@@ -473,19 +473,22 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 // or from its local cache,
 // and to update the local cache with the fetched content, if needed,
 // and to return the requested content.
-string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
+string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse) // Todo
 {
+  // Whether the client should cache this resource.
+  bool cache = !in_array(resource, client_logic_no_cache_resources_get ());
+  
   // Ensure that the cache for this resource exists on the client.
-  if (!Database_Cache::exists (resource, book)) {
+  if (cache && !Database_Cache::exists (resource, book)) {
     Database_Cache::create (resource, book);
   }
   
   // If the content exists in the cache, return that content.
-  if (Database_Cache::exists (resource, book, chapter, verse)) {
+  if (cache && Database_Cache::exists (resource, book, chapter, verse)) {
     return Database_Cache::retrieve (resource, book, chapter, verse);
   }
   
-  // Fetch this resource from Bibledit Cloud or from the cache.
+  // Fetch this resource from Bibledit Cloud.
   string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
   if (!client_logic_client_enabled ()) {
@@ -504,8 +507,8 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
   string content = filter_url_http_get (url, error, false);
   
   if (error.empty ()) {
-    // No error: Cache content.
-    Database_Cache::cache (resource, book, chapter, verse, content);
+    // No error: Cache content (if to be cached).
+    if (cache) Database_Cache::cache (resource, book, chapter, verse, content);
   } else {
     // Error: Log it, and return it.
     Database_Logs::log (resource + ": " + error);

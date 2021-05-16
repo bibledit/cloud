@@ -62,7 +62,7 @@ string resource_comparative9edit (void * webserver_request)
   string error, success;
   
 
-  // New comparative resource handler.
+  // New comparative resource handler. // Todo add it to the no-cache file, if that's the default.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("comparative9edit", translate("Please enter a name for the new comparative resource"), "", "new", "");
     page += dialog_entry.run ();
@@ -83,7 +83,7 @@ string resource_comparative9edit (void * webserver_request)
     for (auto resource : resources) {
       string title;
       if (resource_logic_parse_comparative_resource (resource, &title)) {
-        titles.push_back (title); // Todo cache?
+        titles.push_back (title);
       }
     }
     if (in_array (new_resource, titles)) {
@@ -118,7 +118,7 @@ string resource_comparative9edit (void * webserver_request)
       vector <string> existing_resources = Database_Config_General::getComparativeResources ();
       for (auto resource : existing_resources) {
         string title;
-        resource_logic_parse_comparative_resource (resource, &title); // Todo cache?
+        resource_logic_parse_comparative_resource (resource, &title); // Todo cache? If delete, delete it from the client file too.
         if (title != title2remove) updated_resources.push_back (resource);
       }
       Database_Config_General::setComparativeResources (updated_resources);

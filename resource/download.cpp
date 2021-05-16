@@ -35,6 +35,7 @@
 #include <journal/index.h>
 #include <menu/logic.h>
 #include <resource/cache.h>
+#include <client/logic.h>
 
 
 string resource_download_url ()
@@ -101,7 +102,9 @@ string resource_download (void * webserver_request)
   
   
   if (resource_logic_can_cache (name)) {
-    view.enable_zone ("installable");
+    bool cache = !in_array(name, client_logic_no_cache_resources_get ());
+    if (cache) view.enable_zone ("installable");
+    else view.enable_zone("nocache");
   } else {
     view.enable_zone ("embedded");
   }

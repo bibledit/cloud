@@ -483,7 +483,7 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
     Database_Cache::create (resource, book);
   }
   
-  // If the content exists in the cache, return that content.
+  // If content is to be cached and the content exists in the cache, return that content.
   if (cache && Database_Cache::exists (resource, book, chapter, verse)) {
     return Database_Cache::retrieve (resource, book, chapter, verse);
   }

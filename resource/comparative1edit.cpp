@@ -178,9 +178,9 @@ string resource_comparative1edit (void * webserver_request)
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       string title2;
-      resource_logic_parse_comparative_resource (resources[i], &title2); // Todo cache?
+      resource_logic_parse_comparative_resource (resources[i], &title2);
       if (title2 == title) {
-        string resource = resource_logic_assemble_comparative_resource (title, base, update, remove, replace, diacritics, casefold, cache); // Todo save here.
+        string resource = resource_logic_assemble_comparative_resource (title, base, update, remove, replace, diacritics, casefold, cache);
         resources[i] = resource;
         success = translate ("Saved");
         error.clear();

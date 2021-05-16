@@ -1418,7 +1418,15 @@ string resource_logic_comparative_resource ()
 }
 
 
-bool resource_logic_parse_comparative_resource (string input, string * title, string * base, string * update, string * remove, string * replace, bool * diacritics, bool * casefold, bool * cache) // Todo cache.
+bool resource_logic_parse_comparative_resource (string input,
+                                                string * title,
+                                                string * base,
+                                                string * update,
+                                                string * remove,
+                                                string * replace,
+                                                bool * diacritics,
+                                                bool * casefold,
+                                                bool * cache) // Todo cache.
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
@@ -1448,7 +1456,14 @@ bool resource_logic_parse_comparative_resource (string input, string * title, st
 }
 
 
-string resource_logic_assemble_comparative_resource (string title, string base, string update, string remove, string replace, bool diacritics, bool casefold, bool cache)
+string resource_logic_assemble_comparative_resource (string title,
+                                                     string base,
+                                                     string update,
+                                                     string remove,
+                                                     string replace,
+                                                     bool diacritics,
+                                                     bool casefold,
+                                                     bool cache)
 {
   // Check whether the "Comparative " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_comparative_resource ());

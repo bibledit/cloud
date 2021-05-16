@@ -884,6 +884,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   }
 
   (void) request;
+  (void) demo;
   
   if (!html.empty ()) {
     string user = request->session_logic ()->currentUser ();

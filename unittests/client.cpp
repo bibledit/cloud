@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void test_client () // Todo
+void test_client ()
 {
   trace_unit_tests (__func__);
   
@@ -77,7 +77,7 @@ void test_client () // Todo
     evaluate (__LINE__, __func__, standard, contents);
   }
   
-  // Testing logic for resources not to cache. // Todo
+  // Testing logic for resources not to cache.
   {
     string path = client_logic_no_cache_resources_path ();
     string standard = filter_url_create_root_path ("databases/client/no_cache_resources.txt");

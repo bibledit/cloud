@@ -32,6 +32,7 @@
 #include <database/config/general.h>
 #include <pugixml/pugixml.hpp>
 #include <resource/comparative1edit.h>
+#include <client/logic.h>
 
 
 using namespace pugi;
@@ -62,7 +63,7 @@ string resource_comparative9edit (void * webserver_request)
   string error, success;
   
 
-  // New comparative resource handler. // Todo add it to the no-cache file, if that's the default.
+  // New comparative resource handler.
   if (request->query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("comparative9edit", translate("Please enter a name for the new comparative resource"), "", "new", "");
     page += dialog_entry.run ();
@@ -96,6 +97,9 @@ string resource_comparative9edit (void * webserver_request)
       resources.push_back (resource);
       Database_Config_General::setComparativeResources (resources);
       success = translate("The comparative resource was created");
+      // Since the default for a new resource is not to cache it,
+      // add the resource to the ones not to be cached by the client.
+      client_logic_no_cache_resource_add (new_resource);
       // Redirect the user to the place where to edit that new resource.
       string url = resource_comparative1edit_url () + "?name=" + new_resource;
       redirect_browser (webserver_request, url);
@@ -118,10 +122,11 @@ string resource_comparative9edit (void * webserver_request)
       vector <string> existing_resources = Database_Config_General::getComparativeResources ();
       for (auto resource : existing_resources) {
         string title;
-        resource_logic_parse_comparative_resource (resource, &title); // Todo cache? If delete, delete it from the client file too.
+        resource_logic_parse_comparative_resource (resource, &title);
         if (title != title2remove) updated_resources.push_back (resource);
       }
       Database_Config_General::setComparativeResources (updated_resources);
+      client_logic_no_cache_resource_remove (title2remove);
       success = translate ("The resource was deleted");
     }
   }
@@ -133,7 +138,7 @@ string resource_comparative9edit (void * webserver_request)
     xml_document document;
     for (auto & resource : resources) {
       string title;
-      if (!resource_logic_parse_comparative_resource (resource, &title)) continue; // Todo cache?
+      if (!resource_logic_parse_comparative_resource (resource, &title)) continue;
       xml_node p_node = document.append_child ("p");
       xml_node a_node = p_node.append_child("a");
       string href = "comparative1edit?name=" + title;

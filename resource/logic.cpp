@@ -346,7 +346,7 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
   bool diacritics = false, casefold = false;
   vector <string> resources = Database_Config_General::getComparativeResources ();
   for (auto s : resources) {
-    resource_logic_parse_comparative_resource (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold); // Todo cache?
+    resource_logic_parse_comparative_resource (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
     if (title == resource) break;
   }
 
@@ -473,7 +473,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 // or from its local cache,
 // and to update the local cache with the fetched content, if needed,
 // and to return the requested content.
-string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse) // Todo
+string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
 {
   // Whether the client should cache this resource.
   bool cache = !in_array(resource, client_logic_no_cache_resources_get ());
@@ -1429,7 +1429,7 @@ bool resource_logic_parse_comparative_resource (string input,
                                                 string * replace,
                                                 bool * diacritics,
                                                 bool * casefold,
-                                                bool * cache) // Todo cache.
+                                                bool * cache)
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.

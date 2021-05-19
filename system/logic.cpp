@@ -453,6 +453,9 @@ void system_logic_import_resources_file (string tarball)
 
 void system_logic_indonesian_free_deletion (string username, string email)
 {
+  (void) username;
+  (void) email;
+#ifdef HAVE_CLOUD
   Database_Logs::log ("Starting to inform and delete user " + username + " and associated Bible");
 
   {
@@ -540,11 +543,13 @@ void system_logic_indonesian_free_deletion (string username, string email)
   Database_Config_Bible::remove (bible);
   
   Database_Logs::log ("Ready handling user and associated data");
+#endif
 }
 
 
 void system_logic_indonesian_free_expiration ()
 {
+#ifdef HAVE_CLOUD
   // The first sequence is to removed expired accounts and data that belongs to it.
   Database_Logs::log ("Expiring free Indonesian Cloud accounts and associated data");
   Database_Users database_users;
@@ -608,4 +613,5 @@ void system_logic_indonesian_free_expiration ()
     Database_Privileges::removeBible (bible);
     Database_Config_Bible::remove (bible);
   }
+#endif
 }

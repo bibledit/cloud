@@ -101,13 +101,6 @@ void database_maintenance ()
   database_notes.optimize ();
   
   
-  /*
-  Database_Shell database_shell = Database_Shell ();
-  database_shell.trim ();
-  database_shell.optimize ();
-  */
-  
-  
   Database_Check database_check = Database_Check ();
   database_check.optimize ();
   

@@ -229,6 +229,7 @@ void setup_initialize_data ()
   config_globals_setup_message = "confirmations";
   Database_Confirm database_confirm;
   database_confirm.create ();
+  database_confirm.upgrade();
 #endif
   config_globals_setup_message = "jobs";
   Database_Jobs database_jobs = Database_Jobs ();

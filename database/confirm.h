@@ -31,6 +31,7 @@ class Database_Confirm
 {
 public:
   void create ();
+  void upgrade ();
   void optimize ();
   unsigned int getNewID ();
   bool IDExists (unsigned int id);

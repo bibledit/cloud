@@ -328,7 +328,7 @@ string session_signup (void * webserver_request)
         subsequent_body = output.str ();
       }
       // Store the confirmation information in the database.
-      confirm_worker.setup (mail, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
+      confirm_worker.setup (mail, user, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
       if (config_logic_indonesian_cloud_free ()) {
         // In the Indonesian free Cloud, create the Bible for the user.
         string bible = filter_indonesian_terjemahanku_mytranslation_name (user);

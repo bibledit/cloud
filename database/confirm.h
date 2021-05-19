@@ -33,14 +33,15 @@ public:
   void create ();
   void upgrade ();
   void optimize ();
-  unsigned int getNewID ();
-  bool IDExists (unsigned int id);
-  void store (unsigned int id, string query, string to, string subject, string body);
-  unsigned int searchID (string subject);
-  string getQuery (unsigned int id);
-  string getMailTo (unsigned int id);
-  string getSubject (unsigned int id);
-  string getBody (unsigned int id);
+  unsigned int get_new_id ();
+  bool id_exists (unsigned int id);
+  void store (unsigned int id, string query, string to, string subject, string body, string username);
+  unsigned int search_id (string subject);
+  string get_query (unsigned int id);
+  string get_mail_to (unsigned int id);
+  string get_subject (unsigned int id);
+  string get_body (unsigned int id);
+  string get_username (unsigned int id);
   void erase (unsigned int id);
   void trim ();
 private:

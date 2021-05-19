@@ -31,7 +31,7 @@ class Confirm_Worker
 {
 public:
   Confirm_Worker (void * webserver_request_in);
-  void setup (string to,
+  void setup (string mailto, string username,
               string initial_subject, string initial_body,
               string query,
               string subsequent_subject, string subsequent_body);

@@ -79,18 +79,18 @@ void Database_Confirm::optimize ()
 
 
 // getNewID - returns a new unique confirmation ID as an integer
-unsigned int Database_Confirm::getNewID ()
+unsigned int Database_Confirm::get_new_id ()
 {
   unsigned int id = 0;
   do {
     id = config_globals_int_distribution (config_globals_random_engine);
-  } while (IDExists (id));
+  } while (id_exists (id));
   return id;
 }
 
 
 // Returns true if the $id exists
-bool Database_Confirm::IDExists (unsigned int id)
+bool Database_Confirm::id_exists (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm WHERE id =");
@@ -101,8 +101,10 @@ bool Database_Confirm::IDExists (unsigned int id)
 }
 
 
-// stores a confirmation cycle
-void Database_Confirm::store (unsigned int id, string query, string to, string subject, string body)
+// Store a confirmation cycle
+void Database_Confirm::store (unsigned int id, string query,
+                              string to, string subject, string body,
+                              string username)
 {
   SqliteDatabase sql (filename ());
   sql.add ("INSERT INTO confirm VALUES (");
@@ -117,6 +119,8 @@ void Database_Confirm::store (unsigned int id, string query, string to, string s
   sql.add (subject);
   sql.add (",");
   sql.add (body);
+  sql.add (",");
+  sql.add (username);
   sql.add (");");
   sql.execute ();
 }
@@ -124,7 +128,7 @@ void Database_Confirm::store (unsigned int id, string query, string to, string s
 
 // Search the database for an existing ID in $subject.
 // If it exists, it returns the ID number, else it returns 0.
-unsigned int Database_Confirm::searchID (string subject)
+unsigned int Database_Confirm::search_id (string subject)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm;");
@@ -140,7 +144,7 @@ unsigned int Database_Confirm::searchID (string subject)
 
 
 // Returns the query for $id.
-string Database_Confirm::getQuery (unsigned int id)
+string Database_Confirm::get_query (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT query FROM confirm WHERE id =");
@@ -153,7 +157,7 @@ string Database_Confirm::getQuery (unsigned int id)
 
 
 // Returns the To: address for $id.
-string Database_Confirm::getMailTo (unsigned int id)
+string Database_Confirm::get_mail_to (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT mailto FROM confirm WHERE id =");
@@ -166,7 +170,7 @@ string Database_Confirm::getMailTo (unsigned int id)
 
 
 // Returns the Subject: for $id.
-string Database_Confirm::getSubject (unsigned int id)
+string Database_Confirm::get_subject (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT subject FROM confirm WHERE id =");
@@ -179,7 +183,7 @@ string Database_Confirm::getSubject (unsigned int id)
 
 
 // Returns the email's body for $id.
-string Database_Confirm::getBody (unsigned int id)
+string Database_Confirm::get_body (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT body FROM confirm WHERE id =");
@@ -188,6 +192,19 @@ string Database_Confirm::getBody (unsigned int id)
   vector <string> result = sql.query () ["body"];
   if (!result.empty ()) return result [0];
   return "";
+}
+
+
+// Returns the username for $id.
+string Database_Confirm::get_username (unsigned int id) // Test return valid and invalid username.
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT username FROM confirm WHERE id =");
+  sql.add (id);
+  sql.add (";");
+  vector <string> result = sql.query () ["username"];
+  if (!result.empty ()) return result [0];
+  return string();
 }
 
 

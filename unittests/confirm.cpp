@@ -32,37 +32,42 @@ void test_database_confirm ()
   refresh_sandbox (true);
   Database_Confirm database_confirm;
   database_confirm.create ();
-  
+  database_confirm.upgrade();
   database_confirm.optimize ();
   database_confirm.trim ();
   
   // New ID generation test.
-  int id = database_confirm.getNewID ();
+  int id = database_confirm.get_new_id ();
   if (id < 10000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
   
   // Store data for the ID.
-  database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body");
+  database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
   
   // Search for this ID based on subject.
-  int id2 = database_confirm.searchID ("Subject line CID" + convert_to_string (id) + " Re:");
+  int id2 = database_confirm.search_id ("Subject line CID" + convert_to_string (id) + " Re:");
   evaluate (__LINE__, __func__, id, id2);
   
   // Retrieve data for the ID.
-  string query = database_confirm.getQuery (id);
-  evaluate (__LINE__, __func__,"SELECT x, y, z FROM a;", query);
+  string query = database_confirm.get_query (id);
+  evaluate (__LINE__, __func__, "SELECT x, y, z FROM a;", query);
   
-  string to = database_confirm.getMailTo (id);
-  evaluate (__LINE__, __func__,"email", to);
+  string to = database_confirm.get_mail_to (id);
+  evaluate (__LINE__, __func__, "email", to);
   
-  string subject = database_confirm.getSubject (id);
-  evaluate (__LINE__, __func__,"subject", subject);
+  string subject = database_confirm.get_subject (id);
+  evaluate (__LINE__, __func__, "subject", subject);
   
-  string body = database_confirm.getBody (id);
-  evaluate (__LINE__, __func__,"body", body);
+  string body = database_confirm.get_body (id);
+  evaluate (__LINE__, __func__, "body", body);
   
+  string username = database_confirm.get_username(id);
+  evaluate (__LINE__, __func__, "username", username);
+  username = database_confirm.get_username(id + 1);
+  evaluate (__LINE__, __func__, string(), username);
+
   // Delete this ID.
   database_confirm.erase (id);
-  query = database_confirm.getQuery (id);
+  query = database_confirm.get_query (id);
   evaluate (__LINE__, __func__,"", query);
 
 #endif

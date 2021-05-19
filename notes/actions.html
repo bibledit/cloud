@@ -53,17 +53,12 @@ translate("This is a general note, it does not apply to any specific Bible")
 <!-- #ENDZONE deletenote -->
 <!-- #BEGINZONE cloud -->
 <p>
-translate("Public note:")
-<!-- #BEGINZONE translator -->
-<a href="?id=##id##&publicnote=">
-<!-- #ENDZONE translator -->
-##publicnote##
-<!-- #BEGINZONE translator -->
-</a>
-<!-- #ENDZONE translator -->
+<input type="checkbox" name="public" onchange="checkbox_v2(this, ##id##)" ##public## ##disabled## />
+translate("Make this a public note.")
+<!--Todo checkbox sample-->
 </p>
 <!-- #ENDZONE cloud -->
 <p class="error">##error##</p>
 <p class="success">##success##</p>
 <script type="text/javascript" src="poll.js?##VERSION##"></script>
-<script type="text/javascript" src="../assets/checkbox.js##VERSION##"></script>
+<script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>

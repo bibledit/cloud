@@ -38,9 +38,10 @@ function checkbox (input, url, var1, var2) { // Todo out eventually.
     }
   });
 }
+
 var checkbox_last_input;
 
-function checkbox_v2 (input, field1, value1, field2, value2, field3, value3 ) {
+function checkbox_v2 (input, val1, val2, val3 ) {
   // Store this input.
   checkbox_last_input = input;
   // The URL where to POST to.
@@ -50,7 +51,7 @@ function checkbox_v2 (input, field1, value1, field2, value2, field3, value3 ) {
   $.ajax ({
     url: url,
     type: "POST",
-    data: { checkbox: input.name, checked: input.checked, field1: value1, field2: value2, field3: value3 },
+    data: { checkbox: input.name, checked: input.checked, val1: val1, val2: val2, val3: val3 },
     error: function (jqXHR, textStatus, errorThrown) {
       // Could not save: Revert the checkbox for consistency.
       checkbox_last_input.checked = !checkbox_last_input.checked;

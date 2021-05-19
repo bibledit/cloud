@@ -65,6 +65,9 @@ void test_database_confirm ()
   username = database_confirm.get_username(id + 1);
   evaluate (__LINE__, __func__, string(), username);
 
+  vector <int> ids = database_confirm.get_ids();
+  evaluate (__LINE__, __func__, { id }, ids);
+
   // Delete this ID.
   database_confirm.erase (id);
   query = database_confirm.get_query (id);

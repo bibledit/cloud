@@ -37,6 +37,7 @@ public:
   bool id_exists (unsigned int id);
   void store (unsigned int id, string query, string to, string subject, string body, string username);
   unsigned int search_id (string subject);
+  vector <int> get_ids ();
   string get_query (unsigned int id);
   string get_mail_to (unsigned int id);
   string get_subject (unsigned int id);

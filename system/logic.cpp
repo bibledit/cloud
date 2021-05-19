@@ -35,6 +35,7 @@
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/privileges.h>
+#include <database/confirm.h>
 #include <html/text.h>
 #include <styles/logic.h>
 #include <tasks/logic.h>
@@ -544,6 +545,7 @@ void system_logic_indonesian_free_deletion (string username, string email)
 
 void system_logic_indonesian_free_expiration ()
 {
+  // The first sequence is to removed expired accounts and data that belongs to it.
   Database_Logs::log ("Expiring free Indonesian Cloud accounts and associated data");
   Database_Users database_users;
   vector<string> users = database_users.get_users();
@@ -572,5 +574,38 @@ void system_logic_indonesian_free_expiration ()
     string message;
     user_logic_delete_account (user, "free", email, message);
     system_logic_indonesian_free_deletion (user, email);
+  }
+  
+  // The next sequence is to delete a Bible that was created for a user,
+  // but the user is no longer there, or did not confirm the account.
+  
+  // Create a container with Indonesian Bibles that are associated to an existing or pending user.
+  vector<string> valid_indonesian_bibles;
+  users = database_users.get_users();
+  for (auto user : users) {
+    string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
+    valid_indonesian_bibles.push_back(bible);
+  }
+  Database_Confirm database_confirm;
+  vector <int> ids = database_confirm.get_ids();
+  for (auto id : ids) {
+    string username = database_confirm.get_username(id);
+    string bible = filter_indonesian_terjemahanku_mytranslation_name (username);
+    valid_indonesian_bibles.push_back(bible);
+  }
+  // Get all available Bibles at the system.
+  Database_Bibles database_bibles;
+  vector<string> bibles = database_bibles.getBibles();
+  // Get array of Bibles to delete.
+  vector <string> bibles_to_delete = filter_string_array_diff(bibles, valid_indonesian_bibles);
+  for (auto bible : bibles_to_delete) {
+    // Skip the shared Indonesian Bible.
+    if (bible == filter_indonesian_alkitabkita_ourtranslation_name()) continue;
+    // Delete this unassociated Bible.
+    Database_Logs::log("Deleting Bible not associated with any account: " + bible);
+    database_bibles.deleteBible(bible);
+    search_logic_delete_bible (bible);
+    Database_Privileges::removeBible (bible);
+    Database_Config_Bible::remove (bible);
   }
 }

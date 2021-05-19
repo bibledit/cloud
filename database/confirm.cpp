@@ -143,6 +143,17 @@ unsigned int Database_Confirm::search_id (string subject)
 }
 
 
+vector <int> Database_Confirm::get_ids ()
+{
+  SqliteDatabase sql (filename ());
+  sql.add ("SELECT id FROM confirm;");
+  vector <string> s_ids = sql.query () ["id"];
+  vector <int> ids;
+  for (auto id : s_ids) ids.push_back(convert_to_int(id));
+  return ids;
+}
+
+
 // Returns the query for $id.
 string Database_Confirm::get_query (unsigned int id)
 {

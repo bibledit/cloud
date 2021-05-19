@@ -176,7 +176,7 @@ string notes_actions (void * webserver_request)
   else view.enable_zone ("mark");
   
   
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
   string on_off = styles_logic_off_on_inherit_toggle_text (database_notes.get_public (id));
   view.set_variable ("publicnote", on_off);

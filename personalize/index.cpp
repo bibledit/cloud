@@ -60,6 +60,10 @@ string personalize_index (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
 
+  
+  string checkbox = request->post ["checkbox"]; // Todo sample.
+  bool checked = convert_to_bool (request->post ["checked"]);
+
 
   // Accept values for allowed relative changes for the four Bible text editors.
   if (request->post.count ("chapterpercentage")) {
@@ -82,27 +86,6 @@ string personalize_index (void * webserver_request)
     request->database_config_user ()->setCurrentTheme (themepicker);
   }
 
-  
-  // Breadcrumbs: Before displaying the page, so the page does the correct thing with the bread crumbs.
-  if (request->query.count ("breadcrumbs")) {
-    bool state = request->database_config_user ()->getDisplayBreadcrumbs ();
-    request->database_config_user ()->setDisplayBreadcrumbs (!state);
-  }
-  
-  
-  // Main menu always visible: Before displaying page, so the page does the correct thing with the menu.
-  if (request->query.count ("menuvisible")) {
-    bool state = request->database_config_user ()->getMainMenuAlwaysVisible ();
-    request->database_config_user ()->setMainMenuAlwaysVisible (!state);
-  }
-  
-  
-  // Swipe actions.
-  if (request->query.count ("swipeactions")) {
-    bool state = request->database_config_user ()->getSwipeActionsAvailable ();
-    request->database_config_user ()->setSwipeActionsAvailable (!state);
-  }
-  
   
   // Fast Bible editor switching.
   if (request->query.count ("fasteditorswitch")) {
@@ -249,9 +232,12 @@ string personalize_index (void * webserver_request)
   view.set_variable ("caretposition", convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
   
 
-  // Whether to display bread crumbs.
-  string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getDisplayBreadcrumbs ());
-  view.set_variable ("breadcrumbs", on_off);
+  // Whether to display bread crumbs. Todo
+  if (checkbox == "breadcrumbs") {
+    request->database_config_user ()->setDisplayBreadcrumbs (checked);
+    return "reload";
+  }
+  view.set_variable ("breadcrumbs", get_checkbox_status (request->database_config_user ()->getDisplayBreadcrumbs ()));
 
   
   // Set the chosen theme on the option HTML tag.
@@ -280,17 +266,23 @@ string personalize_index (void * webserver_request)
   
   
   // Whether to keep the main menu always visible.
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getMainMenuAlwaysVisible ());
-  view.set_variable ("menuvisible", on_off);
+  if (checkbox == "menuvisible") {
+    request->database_config_user ()->setMainMenuAlwaysVisible (checked);
+    return "reload";
+  }
+  view.set_variable ("menuvisible", get_checkbox_status (request->database_config_user ()->getMainMenuAlwaysVisible ()));
   
   
   // Whether to enable swipe actions.
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getSwipeActionsAvailable ());
-  view.set_variable ("swipeactions", on_off);
+  if (checkbox == "swipeactions") {
+    request->database_config_user ()->setSwipeActionsAvailable (checked);
+    return "";
+  }
+  view.set_variable ("swipeactions", get_checkbox_status(request->database_config_user ()->getSwipeActionsAvailable ()));
   
   
   // Whether to enable fast Bible editor switching.
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getFastEditorSwitchingAvailable ());
+  string on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getFastEditorSwitchingAvailable ());
   view.set_variable ("fasteditorswitch", on_off);
 
   
@@ -488,7 +480,8 @@ string personalize_index (void * webserver_request)
   if (request->session_logic ()->touchEnabled ()) {
     view.enable_zone ("touch");
   }
-  
+  view.enable_zone ("touch"); // Todo out.
+
 
   // Enable the sections for either basic or advanced mode.
   if (request->database_config_user ()->getBasicInterfaceMode ()) {

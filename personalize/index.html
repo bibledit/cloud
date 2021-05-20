@@ -86,8 +86,8 @@ translate("Initial vertical position of the editing cursor in the Bible editors"
 
 <br>
 <p>
-translate("Show breadcrumbs"):
-<a href="?breadcrumbs=">##breadcrumbs##</a>.
+<input type="checkbox" name="breadcrumbs" onchange="checkbox_v2(this)" ##breadcrumbs## />
+translate("Show breadcrumbs.")
 </p>
 
 <br>
@@ -123,14 +123,17 @@ translate("The permitted difference can be set below as a percentage.")
 
 <br>
 <p>
-translate("Keep main menu always visible"):
-<a href="?menuvisible=">##menuvisible##</a>.
+<input type="checkbox" name="menuvisible" onchange="checkbox_v2(this)" ##menuvisible## />
+translate("Keep main menu always visible.")
 translate("This works in both basic and advanced mode.")
  </p>
 
 <!-- #BEGINZONE touch -->
 <br>
-<p>translate("Enable swipe navigation actions"): <a href="?swipeactions=">##swipeactions##</a>.</p>
+<p>
+<input type="checkbox" name="swipeactions" onchange="checkbox_v2(this)" ##swipeactions## />
+translate("Enable swipe navigation actions.")
+</p>
 <!-- #ENDZONE touch -->
 
 <br>
@@ -328,3 +331,4 @@ translate("Bibledit always sends the focused verse reference to Accordance.")
 
 <br>
 <script type="text/javascript" src="index.js?##VERSION##"></script>
+<script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>

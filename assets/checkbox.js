@@ -55,6 +55,13 @@ function checkbox_v2 (input, val1, val2, val3 ) {
     error: function (jqXHR, textStatus, errorThrown) {
       // Could not save: Revert the checkbox for consistency.
       checkbox_last_input.checked = !checkbox_last_input.checked;
+    },
+    success: function (response) {
+      if (response == "reload") {
+        location.reload();
+      }
+    },
+    complete: function (xhr, status) {
     }
   });
 }

@@ -17,9 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-var checkboxLastInput; // Todo out.
+var checkboxLastInput;
 
-function checkbox (input, url, var1, var2) { // Todo out eventually.
+function checkbox (input, url, var1, var2) {
   // Store this input.
   checkboxLastInput = input;
   // The URL where to POST to.

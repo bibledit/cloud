@@ -308,8 +308,8 @@ translate ("Disable the pop-up menu when text is selected.")
 <!-- #BEGINZONE windows -->
 <br>
 <p>
-translate("Receive focused verse reference from Paratext and Accordance"):
-<a href="?referencefromparatext">##referencefromparatext##</a>.
+<input type="checkbox" name="referencefromparatext" onchange="checkbox_v2(this)" ##referencefromparatext## />
+translate("Receive focused verse reference from Paratext and Accordance.")
 translate("In Accordance, enable this in Preferences / General / Synchronize text with other applications.")
 </p>
 <!-- #ENDZONE windows -->
@@ -320,8 +320,8 @@ translate("In Accordance, enable this in Preferences / General / Synchronize tex
 <!-- #BEGINZONE macos -->
 <br>
 <p>
-translate("Receive focused verse reference from Accordance"):
-<a href="?referencefromaccordance">##referencefromaccordance##</a>.
+<input type="checkbox" name="referencefromaccordance" onchange="checkbox_v2(this)" ##referencefromaccordance## />
+translate("Receive focused verse reference from Accordance.")
 translate("In Accordance, enable this in Preferences / General / Synchronize text with other applications.")
 translate("Bibledit always sends the focused verse reference to Accordance.")
 </p>

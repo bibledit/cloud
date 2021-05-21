@@ -420,21 +420,17 @@ string personalize_index (void * webserver_request)
 
   
   // Setting for whether to receive the focused reference from Paratext on Windows.
-  if (request->query.count ("referencefromparatext")) {
-    bool state = request->database_config_user ()->getReceiveFocusedReferenceFromParatext ();
-    request->database_config_user ()->setReceiveFocusedReferenceFromParatext (!state);
+  if (checkbox == "referencefromparatext") {
+    request->database_config_user ()->setReceiveFocusedReferenceFromParatext (checked);
   }
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getReceiveFocusedReferenceFromParatext ());
-  view.set_variable ("referencefromparatext", on_off);
+  view.set_variable ("referencefromparatext", get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromParatext ()));
 
   
   // Setting for whether to receive the focused reference from Accordance on macOS.
-  if (request->query.count ("referencefromaccordance")) {
-    bool state = request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
-    request->database_config_user ()->setReceiveFocusedReferenceFromAccordance (!state);
+  if (checkbox == "referencefromaccordance") {
+    request->database_config_user ()->setReceiveFocusedReferenceFromAccordance (checked);
   }
-  on_off = styles_logic_off_on_inherit_toggle_text (request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ());
-  view.set_variable ("referencefromaccordance", on_off);
+  view.set_variable ("referencefromaccordance", get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ()));
 
   
   // Enable the sections with settings relevant to the user and device.

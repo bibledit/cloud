@@ -103,7 +103,7 @@ translate("How long it takes for the workspace menu to start fading out.")
 <p>
 translate("While editing the Bible text and saving it, Bibledit looks at how much the text of the chapter or verse to be saved differs from the existing chapter or verse text.")
 translate("If the text to be saved differs more than a certain percentage from the existing text, Bibledit will not save it.")
-translate("This safety mechanisms prevents accidental loss of Bible data in many cases.")
+translate("This safety mechanism prevents accidental loss of Bible data in many cases.")
 translate("The permitted difference can be set below as a percentage.")
 </p>
 <p>translate("Maximum difference for:")</p>
@@ -138,8 +138,8 @@ translate("Enable swipe navigation actions.")
 
 <br>
 <p>
-translate("Show a link in the Bible editor to select another Bible editor"):
-<a href="?fasteditorswitch=">##fasteditorswitch##</a>.
+<input type="checkbox" name="fasteditorswitch" onchange="checkbox_v2(this)" ##fasteditorswitch## />
+translate("Show a link in the Bible editor to select another Bible editor.")
 </p>
 
 <br>
@@ -166,8 +166,8 @@ translate("Available Bible editors in the Bible editor selector:")
 
 <br>
 <p>
-translate("Enable the Styles button in the visual Bible editors"):
-<a href="?enablestylesbutton=">##enablestylesbutton##</a>.
+<input type="checkbox" name="enablestylesbutton" onchange="checkbox_v2(this)" ##enablestylesbutton## />
+translate("Enable the Styles button in the visual Bible editors.")
 </p>
 
 <!-- #ENDZONE advancedmode -->
@@ -207,8 +207,8 @@ translate ("Once in advanced mode, return to basic mode via menu Settings / Basi
 
 <br>
 <p>
-translate ("Show the changes"):
-<a href="?showchanges">##showchanges##</a>.
+<input type="checkbox" name="showchanges" onchange="checkbox_v2(this)" ##showchanges## />
+translate ("Show the changes.")
 translate ("Whether to have a menu entry to go to the changes.")
 </p>
 
@@ -224,8 +224,8 @@ translate ("Whether to have a menu entry to go to the changes.")
 <!-- #BEGINZONE advancedmode -->
 <br>
 <p>
-translate ("Controls for selecting and dismissing change notifications at the top"):
-<a href="?dismisschangesattop">##dismisschangesattop##</a>.
+<input type="checkbox" name="dismisschangesattop" onchange="checkbox_v2(this)" ##dismisschangesattop## />
+translate ("Controls for selecting and dismissing change notifications at the top.")
 translate ("This applies to the page with the change notifications.")
 translate ("Normally the controls are at the bottom of the page.")
 </p>
@@ -235,8 +235,8 @@ translate ("Normally the controls are at the bottom of the page.")
 <!-- #BEGINZONE tabs_possible -->
 <br>
 <p>
-translate("Display main menu in tabbed view"):
-<a href="?mainmenutabs=">##mainmenutabs##</a>.
+<input type="checkbox" name="mainmenutabs" onchange="checkbox_v2(this)" ##mainmenutabs## />
+translate("Display main menu in tabbed view.")
 </p>
 <!-- #ENDZONE tabs_possible -->
 <!-- #ENDZONE basicmode -->
@@ -244,8 +244,8 @@ translate("Display main menu in tabbed view"):
 <!-- #BEGINZONE advancedmode -->
 <br>
 <p>
-translate ("Quickly edit consultation note contents"):
-<a href="?quickeditnotecontents">##quickeditnotecontents##</a>.
+<input type="checkbox" name="quickeditnotecontents" onchange="checkbox_v2(this)" ##quickeditnotecontents## />
+translate ("Quickly edit consultation note contents.")
 translate ("This adds a control for editing the note contents right below the note contents.")
 translate ("This is an extra control in addition to the normal one.")
 </p>
@@ -254,21 +254,21 @@ translate ("This is an extra control in addition to the normal one.")
 <!-- #BEGINZONE advancedmode -->
 <br>
 <p>
-translate ("The list of consultation notes shows the Bible the note refers to"):
-<a href="?showbibleinnoteslist">##showbibleinnoteslist##</a>.
+<input type="checkbox" name="showbibleinnoteslist" onchange="checkbox_v2(this)" ##showbibleinnoteslist## />
+translate ("The list of consultation notes shows the Bible the note refers to.")
 </p>
 <!-- #ENDZONE advancedmode -->
 
 <!-- #BEGINZONE advancedmode -->
 <br>
 <p>
-translate ("The consultation notes show the note status"):
-<a href="?shownotestatus">##shownotestatus##</a>.
+<input type="checkbox" name="shownotestatus" onchange="checkbox_v2(this)" ##shownotestatus## />
+translate ("The consultation notes show the note status.")
 </p>
 <!-- #BEGINZONE notestatuson -->
 <p>
-translate("Show the status of the consultation notes in colour"):
-<a href="?colorednotetatus=">##colorednotetatus##</a>.
+<input type="checkbox" name="colorednotetatus" onchange="checkbox_v2(this)" ##colorednotetatus## />
+translate("Show the status of the consultation notes in colour.")
 </p>
 <!-- #ENDZONE notestatuson -->
 <!-- #ENDZONE advancedmode -->
@@ -276,8 +276,8 @@ translate("Show the status of the consultation notes in colour"):
 <!-- #BEGINZONE advancedmode -->
 <br>
 <p>
-translate ("Show the current verse text while creating a new consultation note"):
-<a href="?showversetextcreatenote">##showversetextcreatenote##</a>.
+<input type="checkbox" name="showversetextcreatenote" onchange="checkbox_v2(this)" ##showversetextcreatenote## />
+translate ("Show the current verse text while creating a new consultation note.")
 </p>
 <!-- #ENDZONE advancedmode -->
 
@@ -285,8 +285,8 @@ translate ("Show the current verse text while creating a new consultation note")
 <!-- #BEGINZONE chromeos -->
 <br>
 <p>
-translate ("Disable the pop-up menu when text is selected"):
-<a href="?disableselectionpopupchromeos">##disableselectionpopupchromeos##</a>.
+<input type="checkbox" name="disableselectionpopupchromeos" onchange="checkbox_v2(this)" ##disableselectionpopupchromeos## />
+translate ("Disable the pop-up menu when text is selected.")
 </p>
 <!-- #ENDZONE chromeos -->
 <!-- #ENDZONE advancedmode -->

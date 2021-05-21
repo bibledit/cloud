@@ -399,11 +399,11 @@ const char * check_valid_utf8_text_key ()
 }
 bool Database_Config_Bible::getCheckValidUTF8Text (string bible)
 {
-  return getBValue (bible, check_french_citation_style_key (), false);
+  return getBValue (bible, check_valid_utf8_text_key (), false);
 }
 void Database_Config_Bible::setCheckValidUTF8Text (string bible, bool value)
 {
-  setBValue (bible, check_french_citation_style_key (), value);
+  setBValue (bible, check_valid_utf8_text_key (), value);
 }
 
 

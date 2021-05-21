@@ -69,11 +69,11 @@ string notes_actions (void * webserver_request)
   int level = request->session_logic()->currentLevel ();
 
   
-  int id = convert_to_int (request->query ["id"]); // Todo checkbox sample.
+  int id = convert_to_int (request->query ["id"]);
   if (!id) id = convert_to_int (request->post ["val1"]);
 
   
-  string checkbox = request->post ["checkbox"]; // Todo sample.
+  string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);
 
 
@@ -116,7 +116,7 @@ string notes_actions (void * webserver_request)
   }
   
   
-  if (checkbox == "public") { // Todo sample.
+  if (checkbox == "public") {
     database_notes.set_public (id, checked);
     return "";
   }
@@ -182,10 +182,10 @@ string notes_actions (void * webserver_request)
   
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
-  view.set_variable ("public", get_checkbox_status (database_notes.get_public (id))); // Todo sample.
+  view.set_variable ("public", get_checkbox_status (database_notes.get_public (id)));
 #endif
   // Roles of translator or higher can edit the public visibility of a note.
-  if (level < Filter_Roles::translator ()) view.set_variable("disabled", "disabled"); // Todo sample.
+  if (level < Filter_Roles::translator ()) view.set_variable("disabled", "disabled");
 
   
   view.set_variable ("success", success);

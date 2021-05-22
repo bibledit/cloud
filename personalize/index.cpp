@@ -203,7 +203,7 @@ string personalize_index (void * webserver_request)
   // Whether to display bread crumbs.
   if (checkbox == "breadcrumbs") {
     request->database_config_user ()->setDisplayBreadcrumbs (checked);
-    return "reload";
+    return get_reload ();
   }
   view.set_variable ("breadcrumbs", get_checkbox_status (request->database_config_user ()->getDisplayBreadcrumbs ()));
 
@@ -236,7 +236,7 @@ string personalize_index (void * webserver_request)
   // Whether to keep the main menu always visible.
   if (checkbox == "menuvisible") {
     request->database_config_user ()->setMainMenuAlwaysVisible (checked);
-    return "reload";
+    return get_reload ();
   }
   view.set_variable ("menuvisible", get_checkbox_status (request->database_config_user ()->getMainMenuAlwaysVisible ()));
   
@@ -328,7 +328,7 @@ string personalize_index (void * webserver_request)
   if (checkbox == "showchanges") {
     request->database_config_user ()->setMenuChangesInBasicMode (checked);
     menu_logic_tabbed_mode_save_json (webserver_request);
-    return "reload";
+    return get_reload ();
   }
   view.set_variable ("showchanges", get_checkbox_status(request->database_config_user ()->getMenuChangesInBasicMode ()));
 
@@ -370,7 +370,7 @@ string personalize_index (void * webserver_request)
   // These two settings work together.
   if (checkbox == "shownotestatus") {
     request->database_config_user ()->setShowNoteStatus (checked);
-    return "reload";
+    return get_reload ();
   }
   if (checkbox == "colorednotetatus") {
     request->database_config_user ()->setUseColoredNoteStatusLabels (checked);

@@ -185,7 +185,7 @@ string notes_actions (void * webserver_request)
   view.set_variable ("public", get_checkbox_status (database_notes.get_public (id)));
 #endif
   // Roles of translator or higher can edit the public visibility of a note.
-  if (level < Filter_Roles::translator ()) view.set_variable("disabled", "disabled");
+  if (level < Filter_Roles::translator ()) view.set_variable(get_disabled(), get_disabled());
 
   
   view.set_variable ("success", success);

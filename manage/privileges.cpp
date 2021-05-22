@@ -137,7 +137,7 @@ string manage_privileges (void * webserver_request)
   if (privileges_updated) database_privileges_client_create (user, true);
 
   
-  if (privileges_updated) return "reload";
+  if (privileges_updated) return get_reload ();
 
 
   page += view.render ("manage", "privileges");

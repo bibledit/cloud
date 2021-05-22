@@ -1023,10 +1023,16 @@ string get_checkbox_status (bool enabled)
 }
 
 
-string get_disabled (bool disabled) // Todo use throughout.
+string get_disabled (bool disabled)
 {
   if (disabled) return "disabled";
   return string();
+}
+
+
+string get_reload ()
+{
+  return string("reload");
 }
 
 

@@ -67,10 +67,7 @@ string resource_comparative1edit (void * webserver_request)
   
   
   string name = request->query ["name"];
-  {
-    string var1 = request->post ["var1"];
-    if (!var1.empty()) name = var1;
-  }
+  if (name.empty()) name = request->post ["val1"];
   view.set_variable ("name", name);
 
   

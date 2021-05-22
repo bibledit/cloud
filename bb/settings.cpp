@@ -76,7 +76,7 @@ string bible_settings (void * webserver_request)
   
   // The Bible.
   string bible = request->query["bible"];
-  if (bible.empty()) bible = request->post ["val1"]; // Todo
+  if (bible.empty()) bible = request->post ["val1"];
   bible = access_bible_clamp (request, bible);
   view.set_variable ("bible", escape_special_xml_characters (bible));
 
@@ -87,7 +87,7 @@ string bible_settings (void * webserver_request)
 
   
   // The state of the checkbox.
-  string checkbox = request->post ["checkbox"]; // Todo
+  string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);
 
   

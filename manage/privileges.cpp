@@ -60,6 +60,7 @@ string manage_privileges (void * webserver_request)
   
   // Get the user and his/her level.
   string user = request->query["user"];
+  if (user.empty()) user = request->post["val1"];
   view.set_variable ("user", user);
   int level;
   access_logic_user_level (webserver_request, user, level);
@@ -136,7 +137,7 @@ string manage_privileges (void * webserver_request)
   if (privileges_updated) database_privileges_client_create (user, true);
 
   
-  if (privileges_updated) return "";
+  if (privileges_updated) return "reload";
 
 
   page += view.render ("manage", "privileges");

@@ -58,20 +58,22 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
   
   // Links to go back and forward are available only when there's available history to go to.
   // In basic mode they are not there.
-  if (!basic_mode) {
-    fragment.append ("<span>");
-    if (database_navigation.previousExists (user)) {
-      fragment.append (R"(<a id="navigateback" href="navigateback" title=")" + translate("Back") + R"(">↶</a>)");
-    }
-    fragment.append ("</span>");
-    fragment.append ("<span>");
-    fragment.append (" ");
-    if (database_navigation.nextExists (user)) {
-      fragment.append (R"(<a id="navigateforward" href="navigateforward" title=")" + translate("Forward") + R"(">↷</a>)");
-    }
-    fragment.append ("</span>");
-    fragment.append ("\n");
+  //if (!basic_mode) {
+  // It's now there in basic mode too.
+  // https://github.com/bibledit/cloud/issues/641
+  fragment.append ("<span>");
+  if (database_navigation.previousExists (user)) {
+    fragment.append (R"(<a id="navigateback" href="navigateback" title=")" + translate("Back") + R"(">↶</a>)");
   }
+  fragment.append ("</span>");
+  fragment.append ("<span>");
+  fragment.append (" ");
+  if (database_navigation.nextExists (user)) {
+    fragment.append (R"(<a id="navigateforward" href="navigateforward" title=")" + translate("Forward") + R"(">↷</a>)");
+  }
+  fragment.append ("</span>");
+  fragment.append ("\n");
+  //}
   
   int book = Ipc_Focus::getBook (request);
   

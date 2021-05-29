@@ -80,8 +80,17 @@ string workspace_settings (void * webserver_request)
     workspace_set_urls (request, urls);
     workspace_set_widths (request, widths);
     workspace_set_heights (request, row_heights);
+    // If no "px" or "%" is given, then default to "%".
+    // https://github.com/bibledit/cloud/issues/643
     string workspacewidth = request->post ["workspacewidth"];
-    workspace_set_entire_width (request, workspacewidth);
+    size_t pos_px = workspacewidth.find ("px");
+    size_t pos_pct = workspacewidth.find ("%");
+    if (pos_px == string::npos) {
+      if (pos_pct == string::npos) {
+        workspacewidth.append("%");
+      }
+    }
+    workspace_set_entire_width (request, workspacewidth); // Todo
     redirect_browser (request, workspace_index_url ());
     return "";
   }

@@ -146,7 +146,7 @@ string developer_index (void * webserver_request)
       view.set_variable ("success", "Task was started");
     } else view.set_variable ("error", "Not configured");
   }
-
+  
   view.set_variable ("code", code);
 
   page += view.render ("developer", "index");

@@ -341,7 +341,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT) \
 	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
 	resource/comparative9edit.$(OBJEXT) \
-	resource/comparative1edit.$(OBJEXT)
+	resource/comparative1edit.$(OBJEXT) developer/delay.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -473,28 +473,28 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	database/config/$(DEPDIR)/bible.Po \
 	database/config/$(DEPDIR)/general.Po \
 	database/config/$(DEPDIR)/user.Po demo/$(DEPDIR)/logic.Po \
-	developer/$(DEPDIR)/index.Po developer/$(DEPDIR)/logic.Po \
-	dialog/$(DEPDIR)/books.Po dialog/$(DEPDIR)/color.Po \
-	dialog/$(DEPDIR)/entry.Po dialog/$(DEPDIR)/list.Po \
-	dialog/$(DEPDIR)/list2.Po dialog/$(DEPDIR)/upload.Po \
-	dialog/$(DEPDIR)/yes.Po edit/$(DEPDIR)/edit.Po \
-	edit/$(DEPDIR)/id.Po edit/$(DEPDIR)/index.Po \
-	edit/$(DEPDIR)/load.Po edit/$(DEPDIR)/logic.Po \
-	edit/$(DEPDIR)/navigate.Po edit/$(DEPDIR)/position.Po \
-	edit/$(DEPDIR)/preview.Po edit/$(DEPDIR)/save.Po \
-	edit/$(DEPDIR)/styles.Po edit/$(DEPDIR)/update.Po \
-	editone2/$(DEPDIR)/index.Po editone2/$(DEPDIR)/load.Po \
-	editone2/$(DEPDIR)/logic.Po editone2/$(DEPDIR)/save.Po \
-	editone2/$(DEPDIR)/update.Po editone2/$(DEPDIR)/verse.Po \
-	editor/$(DEPDIR)/html2format.Po editor/$(DEPDIR)/html2usfm.Po \
-	editor/$(DEPDIR)/id.Po editor/$(DEPDIR)/select.Po \
-	editor/$(DEPDIR)/style.Po editor/$(DEPDIR)/styles.Po \
-	editor/$(DEPDIR)/usfm2html.Po editusfm/$(DEPDIR)/focus.Po \
-	editusfm/$(DEPDIR)/index.Po editusfm/$(DEPDIR)/load.Po \
-	editusfm/$(DEPDIR)/offset.Po editusfm/$(DEPDIR)/save.Po \
-	email/$(DEPDIR)/index.Po email/$(DEPDIR)/receive.Po \
-	email/$(DEPDIR)/send.Po esword/$(DEPDIR)/text.Po \
-	executable/$(DEPDIR)/bibledit.Po \
+	developer/$(DEPDIR)/delay.Po developer/$(DEPDIR)/index.Po \
+	developer/$(DEPDIR)/logic.Po dialog/$(DEPDIR)/books.Po \
+	dialog/$(DEPDIR)/color.Po dialog/$(DEPDIR)/entry.Po \
+	dialog/$(DEPDIR)/list.Po dialog/$(DEPDIR)/list2.Po \
+	dialog/$(DEPDIR)/upload.Po dialog/$(DEPDIR)/yes.Po \
+	edit/$(DEPDIR)/edit.Po edit/$(DEPDIR)/id.Po \
+	edit/$(DEPDIR)/index.Po edit/$(DEPDIR)/load.Po \
+	edit/$(DEPDIR)/logic.Po edit/$(DEPDIR)/navigate.Po \
+	edit/$(DEPDIR)/position.Po edit/$(DEPDIR)/preview.Po \
+	edit/$(DEPDIR)/save.Po edit/$(DEPDIR)/styles.Po \
+	edit/$(DEPDIR)/update.Po editone2/$(DEPDIR)/index.Po \
+	editone2/$(DEPDIR)/load.Po editone2/$(DEPDIR)/logic.Po \
+	editone2/$(DEPDIR)/save.Po editone2/$(DEPDIR)/update.Po \
+	editone2/$(DEPDIR)/verse.Po editor/$(DEPDIR)/html2format.Po \
+	editor/$(DEPDIR)/html2usfm.Po editor/$(DEPDIR)/id.Po \
+	editor/$(DEPDIR)/select.Po editor/$(DEPDIR)/style.Po \
+	editor/$(DEPDIR)/styles.Po editor/$(DEPDIR)/usfm2html.Po \
+	editusfm/$(DEPDIR)/focus.Po editusfm/$(DEPDIR)/index.Po \
+	editusfm/$(DEPDIR)/load.Po editusfm/$(DEPDIR)/offset.Po \
+	editusfm/$(DEPDIR)/save.Po email/$(DEPDIR)/index.Po \
+	email/$(DEPDIR)/receive.Po email/$(DEPDIR)/send.Po \
+	esword/$(DEPDIR)/text.Po executable/$(DEPDIR)/bibledit.Po \
 	executable/$(DEPDIR)/generate.Po \
 	export/$(DEPDIR)/bibledropbox.Po export/$(DEPDIR)/esword.Po \
 	export/$(DEPDIR)/html.Po export/$(DEPDIR)/index.Po \
@@ -1392,7 +1392,8 @@ libbibledit_a_SOURCES = \
   sources/abbott-smith.cpp \
   database/abbottsmith.cpp \
   resource/comparative9edit.cpp \
-  resource/comparative1edit.cpp
+  resource/comparative1edit.cpp \
+  developer/delay.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3009,6 +3010,8 @@ resource/comparative9edit.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/comparative1edit.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+developer/delay.$(OBJEXT): developer/$(am__dirstamp) \
+	developer/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3406,6 +3409,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@demo/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@developer/$(DEPDIR)/delay.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@developer/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@developer/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@dialog/$(DEPDIR)/books.Po@am__quote@ # am--include-marker
@@ -4484,6 +4488,7 @@ distclean: distclean-am
 	-rm -f database/config/$(DEPDIR)/general.Po
 	-rm -f database/config/$(DEPDIR)/user.Po
 	-rm -f demo/$(DEPDIR)/logic.Po
+	-rm -f developer/$(DEPDIR)/delay.Po
 	-rm -f developer/$(DEPDIR)/index.Po
 	-rm -f developer/$(DEPDIR)/logic.Po
 	-rm -f dialog/$(DEPDIR)/books.Po
@@ -5073,6 +5078,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f database/config/$(DEPDIR)/general.Po
 	-rm -f database/config/$(DEPDIR)/user.Po
 	-rm -f demo/$(DEPDIR)/logic.Po
+	-rm -f developer/$(DEPDIR)/delay.Po
 	-rm -f developer/$(DEPDIR)/index.Po
 	-rm -f developer/$(DEPDIR)/logic.Po
 	-rm -f dialog/$(DEPDIR)/books.Po

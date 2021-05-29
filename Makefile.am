@@ -455,7 +455,8 @@ libbibledit_a_SOURCES = \
   sources/abbott-smith.cpp \
   database/abbottsmith.cpp \
   resource/comparative9edit.cpp \
-  resource/comparative1edit.cpp
+  resource/comparative1edit.cpp \
+  developer/delay.cpp
 
 bin_PROGRAMS = server unittest generate
 

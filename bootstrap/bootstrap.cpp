@@ -209,6 +209,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/comparative9edit.h>
 #include <resource/comparative1edit.h>
 #include <developer/logic.h>
+#include <developer/delay.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1246,6 +1247,11 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == resource_comparative1edit_url ()) && browser_request_security_okay (request) && resource_comparative1edit_acl (request)) {
     request->reply = resource_comparative1edit (request);
+    return;
+  }
+
+  if ((url == developer_delay_url ()) && developer_delay_acl (request)) {
+    request->reply = developer_delay (request);
     return;
   }
 

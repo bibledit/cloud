@@ -4,9 +4,11 @@
 <p>##journal##</p>
 
 <h3>translate("Language")</h3>
-<p>
-translate("The language for Bibledit:")
-<a href="?language=select">##language##</a>.
+<p class="settings-container">
+<label for="languageselection">translate("The language for Bibledit:")</label>
+<select id="languageselection" name="languageselection" value="##languageselection##">
+##languageselectionoptags##
+</select>
 </p>
 <br>
 <p>
@@ -19,9 +21,10 @@ translate("Your translation will be included with the next Bibledit release.")
 
 <!-- #BEGINZONE timezone -->
 <h3>translate("Timezone")</h3>
-<p>
+<p class="settings-container">
 translate("The timezone for Bibledit as an offset from Coordinated Universal Time in hours"):
-<a href="?timezone=">##timezone## translate ("hours")</a>.
+<input type="text" name="timezone" id="timezone" class="setting-input" value="##timezone##" min="-12" max="14"> translate ("hours").<span class="tooltip"></span>
+<span class="tooltip-text">translate("Please enter a timezone between -12 and +14")</span>
 </p>
 <!-- #ENDZONE timezone -->
 
@@ -105,5 +108,6 @@ translate("Number of emails still to be sent:")
 </p>
 <!-- #ENDZONE cloud -->
 
+<script type="text/javascript" src="../personalize/index.js?##VERSION##"></script>
 <script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>
 <script type="text/javascript" src="../assets/external.js"></script>

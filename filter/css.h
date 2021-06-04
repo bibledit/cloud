@@ -48,6 +48,8 @@ public:
   static void distinction_set_basic ();
   static string distinction_set_light (int itemstyleindex);
   static string distinction_set_dark (int itemstyleindex);
+  static string distinction_set_redblue_light (int itemstyleindex);
+  static string distinction_set_redblue_dark (int itemstyleindex);
   static string distinction_set_notes (int itemstyleindex);
   static string theme_picker (int themestyleindex, int itemstyleindex);
 };

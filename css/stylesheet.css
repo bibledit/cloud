@@ -745,12 +745,14 @@ input#cancel,
   background-color: #ffffef;
 }
 
-#themepicker option[value="1"] {
+#themepicker option[value="1"],
+#themepicker option[value="3"] {
   background-color: #efefef;
   color: #124568 !important;
 }
 
-#themepicker option[value="2"] {
+#themepicker option[value="2"],
+#themepicker option[value="4"] {
   background-color: #171717;
   color: #5e92b4 !important;
 }
@@ -787,6 +789,7 @@ input#cancel,
   border-radius: 3px;
   padding: 2px;
   background-color: #fff;
+  color: #171717;
   border: 1px solid #171717;
 }
 

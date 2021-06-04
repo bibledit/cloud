@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <dialog/list.h>
+#include <dialog/list2.h>
 #include <dialog/entry.h>
 #include <dialog/upload.h>
 #include <database/config/general.h>
@@ -77,25 +78,11 @@ string system_index (void * webserver_request)
   string error;
 
   
-  // The available localizations.
-  map <string, string> localizations = locale_logic_localizations ();
-
-  
   // User can set the system language.
   // This is to be done before displaying the header.
-  if (request->query.count ("language")) {
-    string language = request->query ["language"];
-    if (language == "select") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Set the language for Bibledit"), "", "");
-      for (auto element : localizations) {
-        dialog_list.add_row (element.second, "language", element.first);
-      }
-      page = Assets_Page::header ("", webserver_request);
-      page += dialog_list.run ();
-      return page;
-    } else {
-      Database_Config_General::setSiteLanguage (language);
-    }
+  if (request->post.count ("languageselection")) {
+    string languageselection = request->post ["languageselection"];
+    Database_Config_General::setSiteLanguage (languageselection);
   }
 
   
@@ -115,35 +102,31 @@ string system_index (void * webserver_request)
   (void) checked;
 #endif
 
-  
+
+  // The available localizations.
+  map <string, string> localizations = locale_logic_localizations ();
+
+
   // Set the language on the page.
-  string language = Database_Config_General::getSiteLanguage ();
-  language = localizations [language];
-  view.set_variable ("language", language);
+    // Create the option tags for interface language selection.
+  // Also the current selected option.
+  string language_html;
+  for (auto element : localizations) {
+    language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
+  }
+  string current_user_preference = Database_Config_General::getSiteLanguage ();
+  string language = current_user_preference;
+  view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
+  view.set_variable ("languageselection", language);
 
   
   // Entry of time zone offset in hours.
-  if (request->query.count ("timezone")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("index", translate ("Please enter a timezone between -12 and +14"), convert_to_string (Database_Config_General::getTimezone ()), "timezone", "");
-    page += dialog_entry.run ();
-    return page;
-  }
   if (request->post.count ("timezone")) {
-    string input = request->post ["entry"];
+    string input = request->post ["timezone"];
     input = filter_string_str_replace ("UTC", "", input);
     int timezone = convert_to_int (input);
-    bool clipped = false;
-    if (timezone < MINIMUM_TIMEZONE) {
-      timezone = MINIMUM_TIMEZONE;
-      clipped = true;
-    }
-    if (timezone > MAXIMUM_TIMEZONE) {
-      timezone = MAXIMUM_TIMEZONE;
-      clipped = true;
-    }
-    if (clipped) error = translate ("The timezone was clipped");
+    timezone = clip (timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
     Database_Config_General::setTimezone (timezone);
-    success = translate ("The timezone was saved");
   }
   // Set the time zone offset in the GUI.
   int timezone = Database_Config_General::getTimezone();

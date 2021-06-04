@@ -263,6 +263,28 @@ string Filter_Css::distinction_set_dark (int itemstyleindex)
 }
 
 
+string Filter_Css::distinction_set_redblue_light (int itemstyleindex)
+{
+  string standard_light = distinction_set_light (itemstyleindex);
+  if (itemstyleindex == 1) {
+    return standard_light = "redblue-menu-tabs";
+  } else {
+    return standard_light;
+  }
+}
+
+
+string Filter_Css::distinction_set_redblue_dark (int itemstyleindex)
+{
+  string standard_dark = distinction_set_dark (itemstyleindex);
+  if (itemstyleindex == 1) {
+    return standard_dark = "redblue-menu-tabs";
+  } else {
+    return standard_dark;
+  }
+}
+
+
 string Filter_Css::distinction_set_notes (int itemstyleindex)
 {
   if (itemstyleindex == 0) return "note-status-new";
@@ -280,6 +302,8 @@ string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
   if (indexnumber == 0) distinction_set_basic ();
   if (indexnumber == 1) return distinction_set_light (itemstyleindex);
   if (indexnumber == 2) return distinction_set_dark (itemstyleindex);
+  if (indexnumber == 3) return distinction_set_redblue_light (itemstyleindex);
+  if (indexnumber == 4) return distinction_set_redblue_dark (itemstyleindex);
   return "";
 }
 

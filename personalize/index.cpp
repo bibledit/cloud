@@ -106,13 +106,6 @@ string personalize_index (void * webserver_request)
     request->database_config_user ()->setMenuFontSize (fontsizemenu);
     return "";
   }
-
-
-  // Set the language from the generated option tags below.
-//  if (request->post.count ("languageselection")) {
-//    string languageselection = request->post ["languageselection"];
-//    request->database_config_user ()->setSiteLanguage (languageselection);
-//  }
   
   
   Assets_Header header = Assets_Header (translate("Preferences"), webserver_request);
@@ -121,24 +114,6 @@ string personalize_index (void * webserver_request)
 
   
   Assets_View view;
-
-
-  // The available localizations.
-//  map <string, string> localizations = locale_logic_localizations ();
-  // Add the "default" localization: That means: Take the system language.
-  // localizations[locale_logic_get_default_language ()] = locale_logic_get_default_language ();
-
-
-  // Create the option tags for interface language selection.
-  // Also the current selected option.
-//  string language_html;
-//  for (auto element : localizations) {
-//    language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
-//  }
-//  string current_user_preference = request->database_config_user ()->getSiteLanguage ();
-//  string language = current_user_preference;
-//  view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
-//  view.set_variable ("languageselection", language);
 
   
   // Font size for everything.
@@ -214,6 +189,8 @@ string personalize_index (void * webserver_request)
   theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
   theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);
   theme_html = Options_To_Select::add_selection ("Dark", "2", theme_html);
+  theme_html = Options_To_Select::add_selection ("Red Blue Light", "3", theme_html);
+  theme_html = Options_To_Select::add_selection ("Red Blue Dark", "4", theme_html);
   view.set_variable ("themepickeroptags", Options_To_Select::mark_selected (theme_key, theme_html));
   view.set_variable ("themepicker", theme_key);
 

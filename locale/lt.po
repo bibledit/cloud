@@ -1143,42 +1143,6 @@ msgstr ""
 msgid "The following email was sent to this user:"
 msgstr ""
 
-msgid "The passage has been opened in the existing Bible editor"
-msgstr ""
-
-msgid "Open a Bible editor to edit the passage"
-msgstr ""
-
-msgid "Insufficient information"
-msgstr ""
-
-msgid "There was no text."
-msgstr ""
-
-msgid "Nothing was saved."
-msgstr "Nieko nebuvo išsaugota./Nothing was saved."
-
-msgid "The original text of the chapter was reloaded."
-msgstr ""
-
-msgid "Save failure"
-msgstr ""
-
-msgid "User tried to save something different from exactly one chapter."
-msgstr ""
-
-msgid "Incorrect chapter"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "A user tried to save something different from exactly one chapter"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
 msgid "Select chapter"
 msgstr ""
 
@@ -1349,6 +1313,42 @@ msgid "Here are the various options:"
 msgstr ""
 
 msgid "Please pick one."
+msgstr ""
+
+msgid "The passage has been opened in the existing Bible editor"
+msgstr ""
+
+msgid "Open a Bible editor to edit the passage"
+msgstr ""
+
+msgid "Insufficient information"
+msgstr ""
+
+msgid "There was no text."
+msgstr ""
+
+msgid "Nothing was saved."
+msgstr "Nieko nebuvo išsaugota./Nothing was saved."
+
+msgid "The original text of the chapter was reloaded."
+msgstr ""
+
+msgid "Save failure"
+msgstr ""
+
+msgid "User tried to save something different from exactly one chapter."
+msgstr ""
+
+msgid "Incorrect chapter"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "A user tried to save something different from exactly one chapter"
+msgstr ""
+
+msgid "Edit"
 msgstr ""
 
 msgid "Stylesheet"

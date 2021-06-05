@@ -1191,44 +1191,6 @@ msgstr "Adresse électronique :"
 msgid "The following email was sent to this user:"
 msgstr "Le courriel suivant a été envoyé à cet utilisateur :"
 
-msgid "The passage has been opened in the existing Bible editor"
-msgstr "Le passage a été ouvert dans l'éditeur biblique existant"
-
-msgid "Open a Bible editor to edit the passage"
-msgstr "Ouvrez l'éditeur biblique pour modifier le passage"
-
-msgid "Insufficient information"
-msgstr "Information insuffisante"
-
-msgid "There was no text."
-msgstr "Il n'y avait pas de texte."
-
-msgid "Nothing was saved."
-msgstr "Rien n'a été sauvé."
-
-msgid "The original text of the chapter was reloaded."
-msgstr "Le texte original du chapitre a été rechargé."
-
-msgid "Save failure"
-msgstr "Échec de la sauvegarde"
-
-msgid "User tried to save something different from exactly one chapter."
-msgstr ""
-"L'utilisateur a essayé de sauver quelque chose qui ne correspond pas tout à "
-"fait à un seul chapitre."
-
-msgid "Incorrect chapter"
-msgstr "Chapitre incorrect"
-
-msgid "Preview"
-msgstr "Aperçu"
-
-msgid "A user tried to save something different from exactly one chapter"
-msgstr ""
-
-msgid "Edit"
-msgstr "Éditer"
-
 msgid "Select chapter"
 msgstr "Sélectionner un chapitre"
 
@@ -1402,6 +1364,44 @@ msgstr "Voici les différentes options :"
 
 msgid "Please pick one."
 msgstr "Veuillez sélectionner votre choix."
+
+msgid "The passage has been opened in the existing Bible editor"
+msgstr "Le passage a été ouvert dans l'éditeur biblique existant"
+
+msgid "Open a Bible editor to edit the passage"
+msgstr "Ouvrez l'éditeur biblique pour modifier le passage"
+
+msgid "Insufficient information"
+msgstr "Information insuffisante"
+
+msgid "There was no text."
+msgstr "Il n'y avait pas de texte."
+
+msgid "Nothing was saved."
+msgstr "Rien n'a été sauvé."
+
+msgid "The original text of the chapter was reloaded."
+msgstr "Le texte original du chapitre a été rechargé."
+
+msgid "Save failure"
+msgstr "Échec de la sauvegarde"
+
+msgid "User tried to save something different from exactly one chapter."
+msgstr ""
+"L'utilisateur a essayé de sauver quelque chose qui ne correspond pas tout à "
+"fait à un seul chapitre."
+
+msgid "Incorrect chapter"
+msgstr "Chapitre incorrect"
+
+msgid "Preview"
+msgstr "Aperçu"
+
+msgid "A user tried to save something different from exactly one chapter"
+msgstr ""
+
+msgid "Edit"
+msgstr "Éditer"
 
 msgid "Stylesheet"
 msgstr "Feuille de style"

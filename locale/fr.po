@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 1552fceb1603b3da6cfa437575d9c9fc4b2e683a)\n"
+"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -248,39 +248,11 @@ msgstr "Dépôt"
 msgid "Which Bible are you going to use?"
 msgstr "Quelle Bible êtes-vous sur le point d'utiliser ?"
 
-msgid "Incorrect font size in percents"
-msgstr "Taille de police en pourcentages incorrecte"
-
 msgid "Preferences"
 msgstr "Préférences"
 
-msgid "Please enter a font size between 50 and 300 percent"
-msgstr "Entrez une taille de police entre 50 et 300 pourcent"
-
-msgid "Please enter a caret position between 20 and 80 percent"
-msgstr "Veuillez entrer une position du caret entre 20 et 80%"
-
-msgid "Incorrect caret position in percents"
-msgstr "Position en pourcentages du caret incorrecte"
-
-msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
-msgstr ""
-"Veuillez entrer une valeur entre 1 et 100 secondes, ou 0 pour le désactiver."
-
-msgid "Incorrect fade-out delay in seconds"
-msgstr "Délai du fondu en secondes  incorrect"
-
-msgid "Which visual Bible editors to enable?"
-msgstr "Quel éditeur d'aperçu de Bible activer ?"
-
-msgid "Enable the USFM Bible editor?"
-msgstr "Activer l'éditeur biblique USFM ?"
-
 msgid "Select which Bible to make the active one for editing"
 msgstr "Sélectionnez quelle Bible rendre active pour l'édition"
-
-msgid "Which verse separator to use for notes entry?"
-msgstr ""
 
 msgid "Changes"
 msgstr "Modifications"
@@ -1958,20 +1930,23 @@ msgstr "Il n'y a pas de ressources installées pour en créer un archive."
 msgid "Install some resources on the device, and try again."
 msgstr "Installez des ressources sur le périphérique, puis réessayez."
 
+msgid "Inilah hasil terjemahan Saudara:"
+msgstr ""
+
+msgid ": "
+msgstr ""
+
 msgid "Set the language for Bibledit"
 msgstr "Choisissez une langue pour Bibledit"
+
+msgid "Incorrect font size in percents"
+msgstr "Taille de police en pourcentages incorrecte"
 
 msgid "System"
 msgstr "Système"
 
-msgid "Please enter a timezone between -12 and +14"
-msgstr "Veuillez saisir un fuseau horaire entre -12 et +14"
-
-msgid "The timezone was clipped"
-msgstr "Le fuseau horaire a été interrompu"
-
-msgid "The timezone was saved"
-msgstr "Le fuseau horaire a été enregistré"
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr "Entrez une taille de police entre 50 et 300 pourcent"
 
 msgid "none"
 msgstr "aucun"
@@ -2625,14 +2600,21 @@ msgid "Initial vertical position of the editing cursor in the Bible editors"
 msgstr ""
 "Position verticale initiale du curseur d'édition dans les éditeurs biblique"
 
+msgid "Please enter a caret position between 20 and 80 percent"
+msgstr "Veuillez entrer une position du caret entre 20 et 80%"
+
 msgid "Choose theme"
 msgstr ""
 
-msgid "Show breadcrumbs"
-msgstr "Montrer le fil d'ariane (chemin)"
+msgid "Show breadcrumbs."
+msgstr ""
 
 msgid "Workspace menu fade-out delay"
 msgstr "Délai du fondu enchaîné du menu Espace de travail"
+
+msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
+msgstr ""
+"Veuillez entrer une valeur entre 1 et 100 secondes, ou 0 pour le désactiver."
 
 msgid "How long it takes for the workspace menu to start fading out."
 msgstr ""
@@ -2656,10 +2638,8 @@ msgstr ""
 "texte existant, Bibledit ne le sauvegardera pas."
 
 msgid ""
-"This safety mechanisms prevents accidental loss of Bible data in many cases."
+"This safety mechanism prevents accidental loss of Bible data in many cases."
 msgstr ""
-"Ce mécanisme de sécurité permet dans de nombreux cas d'éviter les pertes "
-"accidentelles de données bibliques."
 
 msgid "The permitted difference can be set below as a percentage."
 msgstr "La différence permise peut être paramétrée plus bas en pourcentage."
@@ -2673,19 +2653,17 @@ msgstr "Éditeur de chapitre :"
 msgid "Verse editor:"
 msgstr "Éditeur de verset :"
 
-msgid "Keep main menu always visible"
-msgstr "Garder le menu principal toujours visible"
+msgid "Keep main menu always visible."
+msgstr ""
 
 msgid "This works in both basic and advanced mode."
 msgstr "Cela fonctionne en mode basique et avancé."
 
-msgid "Enable swipe navigation actions"
-msgstr "Activer les actions de navigation tactile"
-
-msgid "Show a link in the Bible editor to select another Bible editor"
+msgid "Enable swipe navigation actions."
 msgstr ""
-"Afficher un lien dans l'éditeur de la Bible pour sélectionner un autre "
-"éditeur de Bible"
+
+msgid "Show a link in the Bible editor to select another Bible editor."
+msgstr ""
 
 msgid "Available Bible editors in the Bible editor selector:"
 msgstr ""
@@ -2694,11 +2672,17 @@ msgstr ""
 msgid "Text editors:"
 msgstr "Éditeur de texte :"
 
+msgid "Which visual Bible editors to enable?"
+msgstr "Quel éditeur d'aperçu de Bible activer ?"
+
 msgid "USFM editor:"
 msgstr "Éditeur USFM :"
 
-msgid "Enable the Styles button in the visual Bible editors"
-msgstr "Activer le bouton Styles dans l'éditeur d'aperçu de Bible"
+msgid "Enable the USFM Bible editor?"
+msgstr "Activer l'éditeur biblique USFM ?"
+
+msgid "Enable the Styles button in the visual Bible editors."
+msgstr ""
 
 msgid "Select the Bible for editing:"
 msgstr "Sélectionner la Bible à éditer :"
@@ -2732,8 +2716,8 @@ msgstr ""
 "Une fois en mode avancé, revenir au mode basique via le menu Paramètres / "
 "mode basique."
 
-msgid "Show the changes"
-msgstr "Montrer les modifications"
+msgid "Show the changes."
+msgstr ""
 
 msgid "Whether to have a menu entry to go to the changes."
 msgstr ""
@@ -2742,10 +2726,9 @@ msgstr ""
 msgid "Logout."
 msgstr "Déconexion."
 
-msgid "Controls for selecting and dismissing change notifications at the top"
+msgid ""
+"Controls for selecting and dismissing change notifications at the top."
 msgstr ""
-"Commandes pour sélectionner et ignorer les notifications de modification en "
-"haut"
 
 msgid "This applies to the page with the change notifications."
 msgstr "Cela s'applique à la page avec les notifications de modification."
@@ -2753,11 +2736,11 @@ msgstr "Cela s'applique à la page avec les notifications de modification."
 msgid "Normally the controls are at the bottom of the page."
 msgstr "Normalement, les vérifications se trouvent au bas de la page."
 
-msgid "Display main menu in tabbed view"
-msgstr "Afficher le menu principal avec affichage à onglets"
+msgid "Display main menu in tabbed view."
+msgstr ""
 
-msgid "Quickly edit consultation note contents"
-msgstr "Modifier rapidement le contenu des notes de consultation"
+msgid "Quickly edit consultation note contents."
+msgstr ""
 
 msgid ""
 "This adds a control for editing the note contents right below the note "
@@ -2769,29 +2752,28 @@ msgstr ""
 msgid "This is an extra control in addition to the normal one."
 msgstr "C'est une vérifcation supplémentaire en plus de la normale."
 
-msgid "The list of consultation notes shows the Bible the note refers to"
-msgstr ""
-"La liste des notes de consultation montre la Bible à laquelle la note fait "
-"référence"
-
-msgid "The consultation notes show the note status"
-msgstr "Les notes de consultation montrent l'état de la note"
-
-msgid "Show the status of the consultation notes in colour"
+msgid "The list of consultation notes shows the Bible the note refers to."
 msgstr ""
 
-msgid "Show the current verse text while creating a new consultation note"
+msgid "The consultation notes show the note status."
 msgstr ""
-"Affiche le texte du verset actuel tout en créant une nouvelle note de "
-"consultation"
 
-msgid "Disable the pop-up menu when text is selected"
+msgid "Show the status of the consultation notes in colour."
+msgstr ""
+
+msgid "Show the current verse text while creating a new consultation note."
+msgstr ""
+
+msgid "Disable the pop-up menu when text is selected."
 msgstr ""
 
 msgid "Verse separator for Bible notes entry"
 msgstr ""
 
-msgid "Receive focused verse reference from Paratext and Accordance"
+msgid "Which verse separator to use for notes entry?"
+msgstr ""
+
+msgid "Receive focused verse reference from Paratext and Accordance."
 msgstr ""
 
 msgid ""
@@ -2799,7 +2781,7 @@ msgid ""
 "other applications."
 msgstr ""
 
-msgid "Receive focused verse reference from Accordance"
+msgid "Receive focused verse reference from Accordance."
 msgstr ""
 
 msgid "Bibledit always sends the focused verse reference to Accordance."
@@ -3774,6 +3756,12 @@ msgstr ""
 "Cela peut être utile sur les appareils avec des écrans plus petits, tels que "
 "les téléphones."
 
+msgid "You can set the width as a percentage."
+msgstr ""
+
+msgid "You can set the width as as a number of pixels."
+msgstr ""
+
 msgid "Paratext bridge"
 msgstr "Passerelle Paratext"
 
@@ -4340,6 +4328,9 @@ msgstr ""
 msgid "hours"
 msgstr "heure(s)"
 
+msgid "Please enter a timezone between -12 and +14"
+msgstr "Veuillez saisir un fuseau horaire entre -12 et +14"
+
 msgid "RSS feed"
 msgstr "Flux RSS"
 
@@ -4676,8 +4667,8 @@ msgstr "Marquez la note pour qu'elle soit supprimée après une semaine"
 msgid "Delete the note now"
 msgstr "Supprimez la note maintenant"
 
-msgid "Public note:"
-msgstr "Note publique :"
+msgid "Make this a public note."
+msgstr ""
 
 msgid "select"
 msgstr "sélectionner"
@@ -4827,6 +4818,14 @@ msgstr ""
 msgid "You can see how long ago a user account has been opened."
 msgstr ""
 
+msgid "Deleting a user will also send an email to the user."
+msgstr ""
+
+msgid ""
+"If the user's personal Bible was changed, it will send a link where the user "
+"can download that Bible."
+msgstr ""
+
 msgid "Return to the users page."
 msgstr ""
 
@@ -4963,6 +4962,9 @@ msgstr ""
 
 msgid "Html"
 msgstr "Html"
+
+msgid "Display footnote on hovering above footnote caller."
+msgstr ""
 
 msgid "Full USFM"
 msgstr "USFM complet"
@@ -5415,6 +5417,20 @@ msgstr ""
 msgid "Do case folding of the resources before doing the comparison."
 msgstr ""
 
+msgid "Cache the resource on client devices."
+msgstr ""
+
+msgid "Caching makes the resource available offline."
+msgstr ""
+
+msgid "Caching makes a snapshot of the base and updated resources."
+msgstr ""
+
+msgid ""
+"If the base or updated resources change after the snapshot, the client "
+"device does not display those changes."
+msgstr ""
+
 msgid "Resource is ready"
 msgstr ""
 
@@ -5594,6 +5610,14 @@ msgstr "Il ne télécharge que les pièces manquantes."
 msgid "Clear the installed resource to do a clean installation."
 msgstr ""
 "Effacer la ressource installée pour effectuer une installation propre."
+
+msgid "The Cloud has set this resource to not be cached."
+msgstr ""
+
+msgid ""
+"Every time this resource is displayed, it fetches fresh content from the "
+"Cloud."
+msgstr ""
 
 msgid "This resource comes with Bibledit."
 msgstr "Cette ressource vient avec Bibledit."
@@ -13003,6 +13027,12 @@ msgstr "Index de noms"
 msgid "No files in this folder"
 msgstr "Aucun fichier dans ce dossier"
 
+msgid "Cannot remove the last user"
+msgstr "Impossible de supprimer le dernier utilisateur"
+
+msgid "Cannot remove the last administrator"
+msgstr "Impossible de supprimer le dernier administrateur"
+
 msgid "Please enter a name for the new user"
 msgstr "Entrer un nom pour le nouvel utilisateur"
 
@@ -13011,12 +13041,6 @@ msgstr "L'utilisateur existe déjà"
 
 msgid "User created"
 msgstr "Utilisateur créé"
-
-msgid "Cannot remove the last user"
-msgstr "Impossible de supprimer le dernier utilisateur"
-
-msgid "Cannot remove the last administrator"
-msgstr "Impossible de supprimer le dernier administrateur"
 
 msgid "Select a role for"
 msgstr "Sélectionnez un rôle pour"

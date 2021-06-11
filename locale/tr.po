@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 1552fceb1603b3da6cfa437575d9c9fc4b2e683a)\n"
+"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -243,37 +243,10 @@ msgstr ""
 msgid "Which Bible are you going to use?"
 msgstr ""
 
-msgid "Incorrect font size in percents"
-msgstr ""
-
 msgid "Preferences"
 msgstr ""
 
-msgid "Please enter a font size between 50 and 300 percent"
-msgstr ""
-
-msgid "Please enter a caret position between 20 and 80 percent"
-msgstr ""
-
-msgid "Incorrect caret position in percents"
-msgstr ""
-
-msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
-msgstr ""
-
-msgid "Incorrect fade-out delay in seconds"
-msgstr ""
-
-msgid "Which visual Bible editors to enable?"
-msgstr ""
-
-msgid "Enable the USFM Bible editor?"
-msgstr ""
-
 msgid "Select which Bible to make the active one for editing"
-msgstr ""
-
-msgid "Which verse separator to use for notes entry?"
 msgstr ""
 
 msgid "Changes"
@@ -1873,19 +1846,22 @@ msgstr ""
 msgid "Install some resources on the device, and try again."
 msgstr ""
 
+msgid "Inilah hasil terjemahan Saudara:"
+msgstr ""
+
+msgid ": "
+msgstr ""
+
 msgid "Set the language for Bibledit"
+msgstr ""
+
+msgid "Incorrect font size in percents"
 msgstr ""
 
 msgid "System"
 msgstr ""
 
-msgid "Please enter a timezone between -12 and +14"
-msgstr ""
-
-msgid "The timezone was clipped"
-msgstr ""
-
-msgid "The timezone was saved"
+msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
 msgid "none"
@@ -2506,13 +2482,19 @@ msgstr ""
 msgid "Initial vertical position of the editing cursor in the Bible editors"
 msgstr ""
 
+msgid "Please enter a caret position between 20 and 80 percent"
+msgstr ""
+
 msgid "Choose theme"
 msgstr ""
 
-msgid "Show breadcrumbs"
+msgid "Show breadcrumbs."
 msgstr ""
 
 msgid "Workspace menu fade-out delay"
+msgstr ""
+
+msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
 msgstr ""
 
 msgid "How long it takes for the workspace menu to start fading out."
@@ -2530,7 +2512,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This safety mechanisms prevents accidental loss of Bible data in many cases."
+"This safety mechanism prevents accidental loss of Bible data in many cases."
 msgstr ""
 
 msgid "The permitted difference can be set below as a percentage."
@@ -2545,16 +2527,16 @@ msgstr ""
 msgid "Verse editor:"
 msgstr ""
 
-msgid "Keep main menu always visible"
+msgid "Keep main menu always visible."
 msgstr ""
 
 msgid "This works in both basic and advanced mode."
 msgstr ""
 
-msgid "Enable swipe navigation actions"
+msgid "Enable swipe navigation actions."
 msgstr ""
 
-msgid "Show a link in the Bible editor to select another Bible editor"
+msgid "Show a link in the Bible editor to select another Bible editor."
 msgstr ""
 
 msgid "Available Bible editors in the Bible editor selector:"
@@ -2563,10 +2545,16 @@ msgstr ""
 msgid "Text editors:"
 msgstr ""
 
+msgid "Which visual Bible editors to enable?"
+msgstr ""
+
 msgid "USFM editor:"
 msgstr ""
 
-msgid "Enable the Styles button in the visual Bible editors"
+msgid "Enable the USFM Bible editor?"
+msgstr ""
+
+msgid "Enable the Styles button in the visual Bible editors."
 msgstr ""
 
 msgid "Select the Bible for editing:"
@@ -2596,7 +2584,7 @@ msgid ""
 "Once in advanced mode, return to basic mode via menu Settings / Basic mode."
 msgstr ""
 
-msgid "Show the changes"
+msgid "Show the changes."
 msgstr ""
 
 msgid "Whether to have a menu entry to go to the changes."
@@ -2605,7 +2593,8 @@ msgstr ""
 msgid "Logout."
 msgstr ""
 
-msgid "Controls for selecting and dismissing change notifications at the top"
+msgid ""
+"Controls for selecting and dismissing change notifications at the top."
 msgstr ""
 
 msgid "This applies to the page with the change notifications."
@@ -2614,10 +2603,10 @@ msgstr ""
 msgid "Normally the controls are at the bottom of the page."
 msgstr ""
 
-msgid "Display main menu in tabbed view"
+msgid "Display main menu in tabbed view."
 msgstr ""
 
-msgid "Quickly edit consultation note contents"
+msgid "Quickly edit consultation note contents."
 msgstr ""
 
 msgid ""
@@ -2628,25 +2617,28 @@ msgstr ""
 msgid "This is an extra control in addition to the normal one."
 msgstr ""
 
-msgid "The list of consultation notes shows the Bible the note refers to"
+msgid "The list of consultation notes shows the Bible the note refers to."
 msgstr ""
 
-msgid "The consultation notes show the note status"
+msgid "The consultation notes show the note status."
 msgstr ""
 
-msgid "Show the status of the consultation notes in colour"
+msgid "Show the status of the consultation notes in colour."
 msgstr ""
 
-msgid "Show the current verse text while creating a new consultation note"
+msgid "Show the current verse text while creating a new consultation note."
 msgstr ""
 
-msgid "Disable the pop-up menu when text is selected"
+msgid "Disable the pop-up menu when text is selected."
 msgstr ""
 
 msgid "Verse separator for Bible notes entry"
 msgstr ""
 
-msgid "Receive focused verse reference from Paratext and Accordance"
+msgid "Which verse separator to use for notes entry?"
+msgstr ""
+
+msgid "Receive focused verse reference from Paratext and Accordance."
 msgstr ""
 
 msgid ""
@@ -2654,7 +2646,7 @@ msgid ""
 "other applications."
 msgstr ""
 
-msgid "Receive focused verse reference from Accordance"
+msgid "Receive focused verse reference from Accordance."
 msgstr ""
 
 msgid "Bibledit always sends the focused verse reference to Accordance."
@@ -3496,6 +3488,12 @@ msgstr ""
 msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
+msgid "You can set the width as a percentage."
+msgstr ""
+
+msgid "You can set the width as as a number of pixels."
+msgstr ""
+
 msgid "Paratext bridge"
 msgstr ""
 
@@ -4006,6 +4004,9 @@ msgstr ""
 msgid "hours"
 msgstr ""
 
+msgid "Please enter a timezone between -12 and +14"
+msgstr ""
+
 msgid "RSS feed"
 msgstr ""
 
@@ -4325,7 +4326,7 @@ msgstr ""
 msgid "Delete the note now"
 msgstr ""
 
-msgid "Public note:"
+msgid "Make this a public note."
 msgstr ""
 
 msgid "select"
@@ -4466,6 +4467,14 @@ msgstr ""
 msgid "You can see how long ago a user account has been opened."
 msgstr ""
 
+msgid "Deleting a user will also send an email to the user."
+msgstr ""
+
+msgid ""
+"If the user's personal Bible was changed, it will send a link where the user "
+"can download that Bible."
+msgstr ""
+
 msgid "Return to the users page."
 msgstr ""
 
@@ -4573,6 +4582,9 @@ msgid "Email address for a feedback link:"
 msgstr ""
 
 msgid "Html"
+msgstr ""
+
+msgid "Display footnote on hovering above footnote caller."
 msgstr ""
 
 msgid "Full USFM"
@@ -4996,6 +5008,20 @@ msgstr ""
 msgid "Do case folding of the resources before doing the comparison."
 msgstr ""
 
+msgid "Cache the resource on client devices."
+msgstr ""
+
+msgid "Caching makes the resource available offline."
+msgstr ""
+
+msgid "Caching makes a snapshot of the base and updated resources."
+msgstr ""
+
+msgid ""
+"If the base or updated resources change after the snapshot, the client "
+"device does not display those changes."
+msgstr ""
+
 msgid "Resource is ready"
 msgstr ""
 
@@ -5145,6 +5171,14 @@ msgid "It only downloads the missing pieces."
 msgstr ""
 
 msgid "Clear the installed resource to do a clean installation."
+msgstr ""
+
+msgid "The Cloud has set this resource to not be cached."
+msgstr ""
+
+msgid ""
+"Every time this resource is displayed, it fetches fresh content from the "
+"Cloud."
 msgstr ""
 
 msgid "This resource comes with Bibledit."
@@ -11287,6 +11321,12 @@ msgstr ""
 msgid "No files in this folder"
 msgstr ""
 
+msgid "Cannot remove the last user"
+msgstr ""
+
+msgid "Cannot remove the last administrator"
+msgstr ""
+
 msgid "Please enter a name for the new user"
 msgstr ""
 
@@ -11294,12 +11334,6 @@ msgid "User already exists"
 msgstr ""
 
 msgid "User created"
-msgstr ""
-
-msgid "Cannot remove the last user"
-msgstr ""
-
-msgid "Cannot remove the last administrator"
 msgstr ""
 
 msgid "Select a role for"

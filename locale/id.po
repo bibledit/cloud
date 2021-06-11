@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2021-04-21 20:28+0000\n"
+"PO-Revision-Date: 2021-06-10 10:28+0000\n"
 "Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 1552fceb1603b3da6cfa437575d9c9fc4b2e683a)\n"
+"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -247,40 +247,11 @@ msgstr "Repositori"
 msgid "Which Bible are you going to use?"
 msgstr "Alkitab mana yang akan Anda gunakan?"
 
-msgid "Incorrect font size in percents"
-msgstr ""
-
 msgid "Preferences"
 msgstr "Preferensi"
 
-msgid "Please enter a font size between 50 and 300 percent"
-msgstr "Mohon masukkan ukuran font antara 50 sampai 300 persen"
-
-msgid "Please enter a caret position between 20 and 80 percent"
-msgstr ""
-
-msgid "Incorrect caret position in percents"
-msgstr ""
-
-msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
-msgstr ""
-"Mohon masukkan nilai antara 1 sampai 100 detik, atau 0 untuk menonaktifkan"
-
-msgid "Incorrect fade-out delay in seconds"
-msgstr ""
-
-msgid "Which visual Bible editors to enable?"
-msgstr "Editor Alkitab visual mana yang ingin Anda diaktifkan?"
-
-msgid "Enable the USFM Bible editor?"
-msgstr "Aktifkan editor Alkitab USFM?"
-
 msgid "Select which Bible to make the active one for editing"
 msgstr "Pilih Alkitab yang akan diedit"
-
-msgid "Which verse separator to use for notes entry?"
-msgstr ""
-"Pemisah ayat seperti apa yang akan digunakan untuk memasukkan catatan?"
 
 msgid "Changes"
 msgstr "Perubahan"
@@ -1877,20 +1848,23 @@ msgstr ""
 msgid "Install some resources on the device, and try again."
 msgstr ""
 
+msgid "Inilah hasil terjemahan Saudara:"
+msgstr ""
+
+msgid ": "
+msgstr ""
+
 msgid "Set the language for Bibledit"
 msgstr "Pilihlah bahasa untuk Bibledit"
+
+msgid "Incorrect font size in percents"
+msgstr ""
 
 msgid "System"
 msgstr ""
 
-msgid "Please enter a timezone between -12 and +14"
-msgstr ""
-
-msgid "The timezone was clipped"
-msgstr ""
-
-msgid "The timezone was saved"
-msgstr ""
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr "Mohon masukkan ukuran font antara 50 sampai 300 persen"
 
 msgid "none"
 msgstr ""
@@ -2510,14 +2484,21 @@ msgstr ""
 msgid "Initial vertical position of the editing cursor in the Bible editors"
 msgstr ""
 
+msgid "Please enter a caret position between 20 and 80 percent"
+msgstr ""
+
 msgid "Choose theme"
 msgstr "Pilih tema"
 
-msgid "Show breadcrumbs"
+msgid "Show breadcrumbs."
 msgstr ""
 
 msgid "Workspace menu fade-out delay"
 msgstr ""
+
+msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
+msgstr ""
+"Mohon masukkan nilai antara 1 sampai 100 detik, atau 0 untuk menonaktifkan"
 
 msgid "How long it takes for the workspace menu to start fading out."
 msgstr ""
@@ -2534,7 +2515,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This safety mechanisms prevents accidental loss of Bible data in many cases."
+"This safety mechanism prevents accidental loss of Bible data in many cases."
 msgstr ""
 
 msgid "The permitted difference can be set below as a percentage."
@@ -2549,16 +2530,16 @@ msgstr ""
 msgid "Verse editor:"
 msgstr ""
 
-msgid "Keep main menu always visible"
+msgid "Keep main menu always visible."
 msgstr ""
 
 msgid "This works in both basic and advanced mode."
 msgstr "Hal ini berfungsi dalam Antarmuka Sederhana dan yang Lengkap."
 
-msgid "Enable swipe navigation actions"
+msgid "Enable swipe navigation actions."
 msgstr ""
 
-msgid "Show a link in the Bible editor to select another Bible editor"
+msgid "Show a link in the Bible editor to select another Bible editor."
 msgstr ""
 
 msgid "Available Bible editors in the Bible editor selector:"
@@ -2567,10 +2548,16 @@ msgstr ""
 msgid "Text editors:"
 msgstr ""
 
+msgid "Which visual Bible editors to enable?"
+msgstr "Editor Alkitab visual mana yang ingin Anda diaktifkan?"
+
 msgid "USFM editor:"
 msgstr ""
 
-msgid "Enable the Styles button in the visual Bible editors"
+msgid "Enable the USFM Bible editor?"
+msgstr "Aktifkan editor Alkitab USFM?"
+
+msgid "Enable the Styles button in the visual Bible editors."
 msgstr ""
 
 msgid "Select the Bible for editing:"
@@ -2604,7 +2591,7 @@ msgstr ""
 "Nanti kalau mau kembali ke Antarmuka Sederhana, meng-klik Settings, lalu "
 "meng-klik Antarmuka Sederhana."
 
-msgid "Show the changes"
+msgid "Show the changes."
 msgstr ""
 
 msgid "Whether to have a menu entry to go to the changes."
@@ -2613,7 +2600,8 @@ msgstr ""
 msgid "Logout."
 msgstr ""
 
-msgid "Controls for selecting and dismissing change notifications at the top"
+msgid ""
+"Controls for selecting and dismissing change notifications at the top."
 msgstr ""
 
 msgid "This applies to the page with the change notifications."
@@ -2622,10 +2610,10 @@ msgstr ""
 msgid "Normally the controls are at the bottom of the page."
 msgstr ""
 
-msgid "Display main menu in tabbed view"
+msgid "Display main menu in tabbed view."
 msgstr ""
 
-msgid "Quickly edit consultation note contents"
+msgid "Quickly edit consultation note contents."
 msgstr ""
 
 msgid ""
@@ -2636,25 +2624,29 @@ msgstr ""
 msgid "This is an extra control in addition to the normal one."
 msgstr ""
 
-msgid "The list of consultation notes shows the Bible the note refers to"
+msgid "The list of consultation notes shows the Bible the note refers to."
 msgstr ""
 
-msgid "The consultation notes show the note status"
+msgid "The consultation notes show the note status."
 msgstr ""
 
-msgid "Show the status of the consultation notes in colour"
+msgid "Show the status of the consultation notes in colour."
 msgstr ""
 
-msgid "Show the current verse text while creating a new consultation note"
+msgid "Show the current verse text while creating a new consultation note."
 msgstr ""
 
-msgid "Disable the pop-up menu when text is selected"
+msgid "Disable the pop-up menu when text is selected."
 msgstr ""
 
 msgid "Verse separator for Bible notes entry"
 msgstr ""
 
-msgid "Receive focused verse reference from Paratext and Accordance"
+msgid "Which verse separator to use for notes entry?"
+msgstr ""
+"Pemisah ayat seperti apa yang akan digunakan untuk memasukkan catatan?"
+
+msgid "Receive focused verse reference from Paratext and Accordance."
 msgstr ""
 
 msgid ""
@@ -2662,7 +2654,7 @@ msgid ""
 "other applications."
 msgstr ""
 
-msgid "Receive focused verse reference from Accordance"
+msgid "Receive focused verse reference from Accordance."
 msgstr ""
 
 msgid "Bibledit always sends the focused verse reference to Accordance."
@@ -3506,6 +3498,12 @@ msgstr ""
 msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
 
+msgid "You can set the width as a percentage."
+msgstr ""
+
+msgid "You can set the width as as a number of pixels."
+msgstr ""
+
 msgid "Paratext bridge"
 msgstr ""
 
@@ -4018,6 +4016,9 @@ msgstr ""
 msgid "hours"
 msgstr ""
 
+msgid "Please enter a timezone between -12 and +14"
+msgstr ""
+
 msgid "RSS feed"
 msgstr ""
 
@@ -4337,7 +4338,7 @@ msgstr ""
 msgid "Delete the note now"
 msgstr ""
 
-msgid "Public note:"
+msgid "Make this a public note."
 msgstr ""
 
 msgid "select"
@@ -4478,6 +4479,14 @@ msgstr ""
 msgid "You can see how long ago a user account has been opened."
 msgstr ""
 
+msgid "Deleting a user will also send an email to the user."
+msgstr ""
+
+msgid ""
+"If the user's personal Bible was changed, it will send a link where the user "
+"can download that Bible."
+msgstr ""
+
 msgid "Return to the users page."
 msgstr ""
 
@@ -4585,6 +4594,9 @@ msgid "Email address for a feedback link:"
 msgstr ""
 
 msgid "Html"
+msgstr ""
+
+msgid "Display footnote on hovering above footnote caller."
 msgstr ""
 
 msgid "Full USFM"
@@ -5008,6 +5020,20 @@ msgstr ""
 msgid "Do case folding of the resources before doing the comparison."
 msgstr ""
 
+msgid "Cache the resource on client devices."
+msgstr ""
+
+msgid "Caching makes the resource available offline."
+msgstr ""
+
+msgid "Caching makes a snapshot of the base and updated resources."
+msgstr ""
+
+msgid ""
+"If the base or updated resources change after the snapshot, the client "
+"device does not display those changes."
+msgstr ""
+
 msgid "Resource is ready"
 msgstr ""
 
@@ -5157,6 +5183,14 @@ msgid "It only downloads the missing pieces."
 msgstr ""
 
 msgid "Clear the installed resource to do a clean installation."
+msgstr ""
+
+msgid "The Cloud has set this resource to not be cached."
+msgstr ""
+
+msgid ""
+"Every time this resource is displayed, it fetches fresh content from the "
+"Cloud."
 msgstr ""
 
 msgid "This resource comes with Bibledit."
@@ -10615,7 +10649,7 @@ msgid "Exod"
 msgstr "Kel"
 
 msgid "Exo"
-msgstr ""
+msgstr "Kel"
 
 msgid "Leviticus"
 msgstr "Imamat"
@@ -10633,10 +10667,10 @@ msgid "Deuteronomy"
 msgstr "Ulangan"
 
 msgid "Deut"
-msgstr ""
+msgstr "Ul"
 
 msgid "Deu"
-msgstr ""
+msgstr "Ul"
 
 msgid "Joshua"
 msgstr "Yosua"
@@ -10645,7 +10679,7 @@ msgid "Josh"
 msgstr "Yos"
 
 msgid "Jos"
-msgstr ""
+msgstr "Yos"
 
 msgid "Judges"
 msgstr "Hakim-hakim"
@@ -10654,13 +10688,13 @@ msgid "Judg"
 msgstr "Hak"
 
 msgid "Jdg"
-msgstr ""
+msgstr "Hak"
 
 msgid "Ruth"
 msgstr "Rut"
 
 msgid "Rut"
-msgstr ""
+msgstr "Rut"
 
 msgid "1 Samuel"
 msgstr "1 Samuel"
@@ -10669,7 +10703,7 @@ msgid "1Sam"
 msgstr "1Sam"
 
 msgid "1Sa"
-msgstr ""
+msgstr "1Sam"
 
 msgid "2 Samuel"
 msgstr "2 Samuel"
@@ -10678,49 +10712,49 @@ msgid "2Sam"
 msgstr "2Sam"
 
 msgid "2Sa"
-msgstr ""
+msgstr "2Sam"
 
 msgid "1 Kings"
-msgstr "1 Raja"
+msgstr "1 Raja-raja"
 
 msgid "1Kgs"
 msgstr "1Raj"
 
 msgid "1Ki"
-msgstr ""
+msgstr "1Raj"
 
 msgid "2 Kings"
-msgstr "2 Raja"
+msgstr "2 Raja-raja"
 
 msgid "2Kgs"
 msgstr "2Raj"
 
 msgid "2Ki"
-msgstr ""
+msgstr "2Raj"
 
 msgid "1 Chronicles"
-msgstr "1 Tawarik"
+msgstr "1 Tawarikh"
 
 msgid "1Chr"
 msgstr "1Taw"
 
 msgid "1Ch"
-msgstr ""
+msgstr "1Taw"
 
 msgid "2 Chronicles"
-msgstr "2 Tawarik"
+msgstr "2 Tawarikh"
 
 msgid "2Chr"
 msgstr "2Taw"
 
 msgid "2Ch"
-msgstr ""
+msgstr "2Taw"
 
 msgid "Ezra"
 msgstr "Ezra"
 
 msgid "Ezr"
-msgstr ""
+msgstr "Ezr"
 
 msgid "Nehemiah"
 msgstr "Nehemia"
@@ -10735,7 +10769,7 @@ msgid "Esth"
 msgstr "Est"
 
 msgid "Est"
-msgstr ""
+msgstr "Est"
 
 msgid "Job"
 msgstr "Ayub"
@@ -10747,7 +10781,7 @@ msgid "Ps"
 msgstr "Mzm"
 
 msgid "Psa"
-msgstr ""
+msgstr "Mzm"
 
 msgid "Proverbs"
 msgstr "Amsal"
@@ -10756,7 +10790,7 @@ msgid "Prov"
 msgstr "Ams"
 
 msgid "Pro"
-msgstr ""
+msgstr "Ams"
 
 msgid "Ecclesiastes"
 msgstr "Pengkotbah"
@@ -10765,16 +10799,16 @@ msgid "Eccl"
 msgstr "Pkh"
 
 msgid "Ecc"
-msgstr ""
+msgstr "Pkh"
 
 msgid "Song of Solomon"
-msgstr ""
+msgstr "Kidung Agung"
 
 msgid "Song"
 msgstr "Kid"
 
 msgid "Sol"
-msgstr ""
+msgstr "Kid"
 
 msgid "Isaiah"
 msgstr "Yesaya"
@@ -10795,13 +10829,13 @@ msgid "Lam"
 msgstr "Rat"
 
 msgid "Ezekiel"
-msgstr "Yeheskiel"
+msgstr "Yehezkiel"
 
 msgid "Ezek"
 msgstr "Yeh"
 
 msgid "Eze"
-msgstr ""
+msgstr "Yeh"
 
 msgid "Daniel"
 msgstr "Daniel"
@@ -10819,34 +10853,34 @@ msgid "Joel"
 msgstr "Yoel"
 
 msgid "Joe"
-msgstr ""
+msgstr "Yl"
 
 msgid "Amos"
 msgstr "Amos"
 
 msgid "Amo"
-msgstr ""
+msgstr "Am"
 
 msgid "Obadiah"
 msgstr "Obaja"
 
 msgid "Obad"
-msgstr "Oba"
+msgstr "Ob"
 
 msgid "Oba"
-msgstr ""
+msgstr "Ob"
 
 msgid "Jonah"
 msgstr "Yunus"
 
 msgid "Jon"
-msgstr ""
+msgstr "Yun"
 
 msgid "Micah"
-msgstr "Mika"
+msgstr "Mikha"
 
 msgid "Mic"
-msgstr "Mik"
+msgstr "Mi"
 
 msgid "Nahum"
 msgstr "Nahum"
@@ -10867,7 +10901,7 @@ msgid "Zeph"
 msgstr "Zef"
 
 msgid "Zep"
-msgstr ""
+msgstr "Zef"
 
 msgid "Haggai"
 msgstr "Hagai"
@@ -10876,16 +10910,16 @@ msgid "Hag"
 msgstr "Hag"
 
 msgid "Zechariah"
-msgstr "Zekaria"
+msgstr "Zakharia"
 
 msgid "Zech"
-msgstr "Zek"
+msgstr "Za"
 
 msgid "Zec"
-msgstr ""
+msgstr "Za"
 
 msgid "Malachi"
-msgstr "Maleaki"
+msgstr "Maleakhi"
 
 msgid "Mal"
 msgstr "Mal"
@@ -10897,31 +10931,31 @@ msgid "Matt"
 msgstr "Mat"
 
 msgid "Mat"
-msgstr ""
+msgstr "Mat"
 
 msgid "Mark"
 msgstr "Markus"
 
 msgid "Mar"
-msgstr ""
+msgstr "Mrk"
 
 msgid "Luke"
 msgstr "Lukas"
 
 msgid "Luk"
-msgstr ""
+msgstr "Luk"
 
 msgid "John"
 msgstr "Yohanes"
 
 msgid "Joh"
-msgstr ""
+msgstr "Yoh"
 
 msgid "Acts"
-msgstr "Kisah"
+msgstr "Kisah Para Rasul"
 
 msgid "Act"
-msgstr ""
+msgstr "Kis"
 
 msgid "Romans"
 msgstr "Roma"
@@ -10936,7 +10970,7 @@ msgid "1Cor"
 msgstr "1Kor"
 
 msgid "1Co"
-msgstr ""
+msgstr "1Kor"
 
 msgid "2 Corinthians"
 msgstr "2 Korintus"
@@ -10945,7 +10979,7 @@ msgid "2Cor"
 msgstr "2Kor"
 
 msgid "2Co"
-msgstr ""
+msgstr "2Kor"
 
 msgid "Galatians"
 msgstr "Galatia"
@@ -10963,10 +10997,10 @@ msgid "Philippians"
 msgstr "Filipi"
 
 msgid "Phil"
-msgstr ""
+msgstr "Flp"
 
 msgid "Phi"
-msgstr ""
+msgstr "Flp"
 
 msgid "Colossians"
 msgstr "Kolose"
@@ -10981,7 +11015,7 @@ msgid "1Thess"
 msgstr "1Tes"
 
 msgid "1Th"
-msgstr ""
+msgstr "1Tes"
 
 msgid "2 Thessalonians"
 msgstr "2 Tesalonika"
@@ -10990,7 +11024,7 @@ msgid "2Thess"
 msgstr "2Tes"
 
 msgid "2Th"
-msgstr ""
+msgstr "2Tes"
 
 msgid "1 Timothy"
 msgstr "1 Timotius"
@@ -10999,7 +11033,7 @@ msgid "1Tim"
 msgstr "1Tim"
 
 msgid "1Ti"
-msgstr ""
+msgstr "1Tim"
 
 msgid "2 Timothy"
 msgstr "2 Timotius"
@@ -11008,13 +11042,13 @@ msgid "2Tim"
 msgstr "2Tim"
 
 msgid "2Ti"
-msgstr ""
+msgstr "2Tim"
 
 msgid "Titus"
 msgstr "Titus"
 
 msgid "Tit"
-msgstr ""
+msgstr "Tit"
 
 msgid "Philemon"
 msgstr "Filemon"
@@ -11023,7 +11057,7 @@ msgid "Phlm"
 msgstr "Flm"
 
 msgid "Phm"
-msgstr ""
+msgstr "Flm"
 
 msgid "Hebrews"
 msgstr "Ibrani"
@@ -11035,25 +11069,25 @@ msgid "James"
 msgstr "Yakobus"
 
 msgid "Jas"
-msgstr ""
+msgstr "Yak"
 
 msgid "Jam"
-msgstr ""
+msgstr "Yak"
 
 msgid "1 Peter"
 msgstr "1 Petrus"
 
 msgid "1Pet"
-msgstr "1Pet"
+msgstr "1Ptr"
 
 msgid "1Pe"
-msgstr ""
+msgstr "1Ptr"
 
 msgid "2 Peter"
 msgstr "2 Petrus"
 
 msgid "2Pet"
-msgstr "2Pet"
+msgstr "2Ptr"
 
 msgid "2Pe"
 msgstr ""
@@ -11062,34 +11096,34 @@ msgid "1 John"
 msgstr "1 Yohanes"
 
 msgid "1John"
-msgstr ""
+msgstr "1Yoh"
 
 msgid "1Jo"
-msgstr ""
+msgstr "1Yoh"
 
 msgid "2 John"
 msgstr "2 Yohanes"
 
 msgid "2John"
-msgstr ""
+msgstr "2Yoh"
 
 msgid "2Jo"
-msgstr ""
+msgstr "2Yoh"
 
 msgid "3 John"
 msgstr "3 Yohanes"
 
 msgid "3John"
-msgstr ""
+msgstr "3Yoh"
 
 msgid "3Jo"
-msgstr ""
+msgstr "3Yoh"
 
 msgid "Jude"
 msgstr "Yudas"
 
 msgid "Jud"
-msgstr ""
+msgstr "Yud"
 
 msgid "Revelation"
 msgstr "Wahyu"
@@ -11316,6 +11350,12 @@ msgstr ""
 msgid "No files in this folder"
 msgstr ""
 
+msgid "Cannot remove the last user"
+msgstr ""
+
+msgid "Cannot remove the last administrator"
+msgstr ""
+
 msgid "Please enter a name for the new user"
 msgstr "Isilah nama pengguna"
 
@@ -11324,12 +11364,6 @@ msgstr "Nama pengguna itu sudah terdaftar."
 
 msgid "User created"
 msgstr "Berhasil. Akun pengguna sudah dibuat."
-
-msgid "Cannot remove the last user"
-msgstr ""
-
-msgid "Cannot remove the last administrator"
-msgstr ""
 
 msgid "Select a role for"
 msgstr ""

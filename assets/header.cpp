@@ -205,6 +205,8 @@ string Assets_Header::run ()
     if (item.empty ())
       if (request->database_config_user ()->getMainMenuAlwaysVisible ())
         main_menu_always_on = true;
+        // Add the 
+        view->set_variable ("mainmenualwayson", convert_to_string (main_menu_always_on));
     if ((item == "main") || main_menu_always_on) {
       if (basic_mode) {
         // Basic mode gives basic menu, but nothing in tabbed mode.

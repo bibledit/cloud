@@ -99,6 +99,10 @@ abbr[title], dfn[title] {
   src: url(/fonts/Montserrat-Regular.ttf);
 }
 @font-face {
+  font-family: "Montserrat Semi-Bold";
+  src: url(/fonts/Montserrat-SemiBold.ttf);
+}
+@font-face {
   font-family: "Ezra SIL";
   src: url(/fonts/SILEOT.ttf);
 }
@@ -352,7 +356,6 @@ div[contenteditable=true],
   background: #fff;
   padding: 4px 4px;
   color: #171717;
-  outline: 0;
 }
 
 .button,
@@ -365,7 +368,6 @@ div[contenteditable=true],
   border-radius: 3.5px;
   padding: 2px 7px;
   color: white;
-  outline: 0;
   -webkit-appearance: button;
   -moz-appearance: button;
   appearance: button;
@@ -430,7 +432,6 @@ input#cancel,
 .dark-workspacewrapper #summary:-internal-autofill-selected {
   background-color: #252c35 !important;
   color: #fff !important;
-  outline: 0;
   border: 0;
   filter: none;
 }
@@ -441,7 +442,6 @@ input#cancel,
 .light-workspacewrapper #summary,
 .light-workspacewrapper #summary:-internal-autofill-selected {
   background-color: #dce6f0 !important;
-  outline: 0;
   border: 0;
   filter: none;
 }
@@ -486,15 +486,34 @@ input#cancel,
   padding: 1px;
 }
 
+.light-background #topbar span,
+.dark-background #topbar span {
+  margin: 5px;
+}
+
 #topbar a {
+  text-transform: uppercase !important;
+  font-family: 'Montserrat Semi-Bold';
+  font-size: 14px;
   color: #171717;
 }
 
+.redblue-menu-tabs {
+  opacity: 0.7;
+}
+
 .light-menu-tabs a,
-.dark-menu-tabs a {
+.dark-menu-tabs a,
+.redblue-menu-tabs a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   position: relative;
   -moz-appearance: button;
   appearance: button;
+  padding: 6px 0;
 }
 
 #topbar > span {
@@ -504,7 +523,7 @@ input#cancel,
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
-  transition: all 200ms;
+  transition: all 400ms;
 }
 
 .light-background #topbar > span,
@@ -538,7 +557,7 @@ input#cancel,
 #topbar a:hover,
 #topbar a:focus {
   text-decoration: none;
-  filter: drop-shadow(0 0 8px #bbb);
+  /* filter: drop-shadow(0 0 8px #bbb); */
 }
 
 #topbar .light-menu-tabs a:hover,
@@ -553,7 +572,13 @@ input#cancel,
 .light-menu-tabs:focus,
 .dark-menu-tabs:hover,
 .dark-menu-tabs:focus {
-  background: linear-gradient(-35deg, #22516f, #265c7f, #2b688f, #30739f) !important;
+  opacity: 1;
+  box-shadow: inset 1px 1px 3px rgba(22, 27, 29, 75%), inset -1px -1px 3px rgba(250, 251, 255, 15%);
+}
+
+.redblue-menu-tabs:hover,
+.redblue-menu-tabs:focus {
+  opacity: 1;
 }
 
 #versepickerwrapper.light-menu-tabs:hover,
@@ -734,7 +759,6 @@ input#cancel,
 .settings-container select {
   font: normal 16px "Montserrat Regular", sans-serif;
   color: #171717;
-  outline: 0;
   width: fit-content;
   height: 1.75em;
 }
@@ -838,14 +862,26 @@ input#cancel,
   box-shadow: 80px 0 0 80px #fff;
 }
 
-.light-menu-tabs {
+.light-menu-tabs,
+.dark-menu-tabs {
   background: linear-gradient(-35deg, #124568, #144f76, #175985, #196394) !important;
   color: #fff !important;
-  /* filter: drop-shadow(0 0 10px #999); */
+  opacity: 0.7;
+  box-shadow: -1px -1px 3px rgb(22, 27, 29), 1px 1px 3px rgb(22, 27, 29);
+}
+
+.light-menu-tabs {
+  box-shadow: -1px -1px 3px rgb(250, 251, 255), 1px 1px 3px rgb(250, 251, 255);
+}
+
+.dark-menu-tabs {
+  background: linear-gradient(30deg, #196394, #175985, #144f76, #124568) !important;
 }
 
 .light-menu-tabs a,
-.light-menu-tabs span {
+.light-menu-tabs span,
+.dark-menu-tabs a,
+.dark-menu-tabs span {
   color: #fff !important;
 }
 
@@ -857,7 +893,6 @@ input#cancel,
 .light-active-editor,
 .light-active-editor * {
   background-color: #dce6f0 !important;
-  outline: 0;
   color: #171717 !important;
 }
 
@@ -905,16 +940,6 @@ input#cancel,
   box-shadow: 80px 0 0 80px #fff;
 }
 
-.dark-menu-tabs {
-  background: linear-gradient(30deg, #196394, #175985, #144f76, #124568) !important;
-  color: #fff !important;
-}
-
-.dark-menu-tabs a,
-.dark-menu-tabs span {
-  color: #fff !important;
-}
-
 .dark-editor {
   background-color: #171717 !important;
   color: #fff !important;
@@ -923,7 +948,6 @@ input#cancel,
 .dark-active-editor,
 .dark-active-editor * {
   background-color: #252c35 !important;
-  outline: 0;
   color: #fff !important;
 }
 
@@ -1213,7 +1237,7 @@ table.interlinear.rtl {
     font-size: 6rem;
   }
   #topbar > span {
-    margin: 3px;
+    margin: 10px;
   }
   .light-background #topbar > span,
   .dark-background #topbar > span {

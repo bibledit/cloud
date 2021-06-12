@@ -261,6 +261,7 @@
 /fonts/Montserrat-License(OFL).txt
 /fonts/Montserrat-Light.ttf
 /fonts/Montserrat-Regular.ttf
+/fonts/Montserrat-SemiBold.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
 /generate

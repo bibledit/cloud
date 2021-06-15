@@ -104,9 +104,9 @@ $ (document).ready (function () {
   function activeTopbarButton (pageLocation, nodeListVariable) {
     for (i = 0; i < nodeListVariable.length; i++) {
       var pageLocationRegExp = new RegExp(pageLocation);
-      if (pageLocationRegExp.test(nodeListVariable[i].href && themeColorForTabs !== "")) {
+      if (pageLocationRegExp.test(nodeListVariable[i].href)) {
         nodeListVariable[i].parentNode.style.opacity = "1";
-        if (themeColorForTabs !== "redblue-menu-tabs") {
+        if (themeColorForTabs !== "redblue-menu-tabs" && themeColorForTabs !== "") {
           nodeListVariable[i].parentNode.style.boxShadow = "inset 1px 1px 3px rgba(22, 27, 29, 75%), inset -1px -1px 3px rgba(250, 251, 255, 15%)";
         }
       }

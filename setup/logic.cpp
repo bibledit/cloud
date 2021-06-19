@@ -42,6 +42,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/roles.h>
+#include <filter/date.h>
 #include <config/globals.h>
 #include <demo/logic.h>
 #include <locale/logic.h>
@@ -206,7 +207,7 @@ void setup_wait_till_main_folders_present ()
 }
 
 
-void setup_initialize_data ()
+void setup_initialize_data () // Todo
 {
   // Do the database setup.
   Webserver_Request request;
@@ -224,7 +225,9 @@ void setup_initialize_data ()
   database_bibleactions.create ();
   config_globals_setup_message = "checks";
   request.database_check ()->create ();
-  setup_generate_locale_databases (false);
+  long start = filter_date_elapsed_microseconds (0); // Todo
+  setup_generate_locale_databases (false); // Todo takes long.
+  cout << "locale took " << filter_date_elapsed_microseconds (start) << " microseconds" << endl; // Todo
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "confirmations";
   Database_Confirm database_confirm;
@@ -246,12 +249,16 @@ void setup_initialize_data ()
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
   config_globals_setup_message = "mappings";
-  setup_generate_verse_mapping_databases ();
+  start = filter_date_elapsed_microseconds (0); // Todo
+  setup_generate_verse_mapping_databases (); // Todo takes long.
+  cout << "mappings took " << filter_date_elapsed_microseconds (start) << " microseconds" << endl; // Todo
   config_globals_setup_message = "note actions";
   Database_NoteActions database = Database_NoteActions ();
   database.create ();
   config_globals_setup_message = "versifications";
-  setup_generate_versification_databases ();
+  start = filter_date_elapsed_microseconds (0); // Todo
+  setup_generate_versification_databases (); // Todo takes long.
+  cout << "versifications took " << filter_date_elapsed_microseconds (start) << " microseconds" << endl; // Todo
   config_globals_setup_message = "modifications";
   Database_Modifications database_modifications;
   database_modifications.create ();

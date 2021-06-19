@@ -142,7 +142,10 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_database_confirm ();
+  test_versification ();
+  test_database_mappings ();
+  test_database_versifications ();
+
   refresh_sandbox (true);
   exit (0);
   

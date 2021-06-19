@@ -30,7 +30,7 @@ void test_versification ()
 {
   trace_unit_tests (__func__);
   
-  // Test Available Books
+  // Test the available books.
   {
     refresh_sandbox (true);
     Database_Versifications database_versifications;
@@ -53,7 +53,8 @@ void test_versification ()
       evaluate (__LINE__, __func__, "This book is absent from the Bible", hit.data);
     }
   }
-  // Test Available Chapters
+  
+  // Test the available chapters.
   {
     refresh_sandbox (true);
     Database_Versifications database_versifications;
@@ -89,7 +90,8 @@ void test_versification ()
       evaluate (__LINE__, __func__, "This chapter is extra", hit.data);
     }
   }
-  // Test Available Verses One
+
+  // Test available verses.
   {
     refresh_sandbox (true);
     Database_Versifications database_versifications;
@@ -141,7 +143,8 @@ void test_versification ()
       evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
     }
   }
-  // Test Available Verses Two
+
+  // Test the available verses.
   {
     refresh_sandbox (true);
     Database_Versifications database_versifications;
@@ -194,7 +197,7 @@ void test_database_mappings ()
 {
   trace_unit_tests (__func__);
   
-  // Setup
+  // Setup.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -205,7 +208,8 @@ void test_database_mappings ()
     vector <string> names = database_mappings.names ();
     evaluate (__LINE__, __func__, {"Dutch Traditional", english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
   }
-  // Import Export
+
+  // Import and export. Todo
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -220,7 +224,8 @@ void test_database_mappings ()
     string output = database_mappings.output ("phpunit");
     evaluate (__LINE__, __func__, filter_string_trim (import), filter_string_trim (output));
   }
-  // Create
+  
+  // Create.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -229,7 +234,8 @@ void test_database_mappings ()
     vector <string> names = database_mappings.names ();
     evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
   }
-  // Translate Same
+  
+  // Translate the same.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -243,7 +249,8 @@ void test_database_mappings ()
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
-  // Translate
+  
+  // Translate.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -264,7 +271,8 @@ void test_database_mappings ()
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
-  // Translate
+
+  // Translate.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -285,7 +293,8 @@ void test_database_mappings ()
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
-  // Translate Double Result.
+
+  // Translate double result.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -309,7 +318,8 @@ void test_database_mappings ()
     standard = Passage ("", 14, 14, "13");
     evaluate (__LINE__, __func__, true, passages[1].equal (standard));
   }
-  // Translate From Original
+
+  // Translate from original.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;
@@ -321,6 +331,7 @@ void test_database_mappings ()
     evaluate (__LINE__, __func__, 1, (int)passages.size ());
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
+
   // Translate From Original Double
   {
     refresh_sandbox (true);
@@ -337,6 +348,7 @@ void test_database_mappings ()
     standard = Passage ("", 14, 14, "13");
     evaluate (__LINE__, __func__, true, passages[1].equal (standard));
   }
+
   // Translate From Original No Mapping
   {
     refresh_sandbox (true);
@@ -349,6 +361,7 @@ void test_database_mappings ()
     Passage standard = Passage ("", 14, 15, "14");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
+
   // Translate To Original
   {
     refresh_sandbox (true);
@@ -361,6 +374,7 @@ void test_database_mappings ()
     Passage standard = Passage ("", 14, 14, "14");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
+
   // Translate To Original Double
   {
     refresh_sandbox (true);

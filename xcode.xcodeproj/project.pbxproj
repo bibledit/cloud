@@ -1542,10 +1542,6 @@
 		CADE3E6D24F17472003165BB /* Dutch_Traditional.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dutch_Traditional.txt; sourceTree = "<group>"; };
 		CADE3E6E24F17472003165BB /* Russian_Orthodox.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Russian_Orthodox.txt; sourceTree = "<group>"; };
 		CADE3E6F24F17472003165BB /* Spanish.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Spanish.txt; sourceTree = "<group>"; };
-		CADE3E7124F17472003165BB /* map.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = map.Po; sourceTree = "<group>"; };
-		CADE3E7224F17472003165BB /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CADE3E7324F17472003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3E7424F17472003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3E7524F17472003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE3E7724F17472003165BB /* nicedit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = nicedit.js; sourceTree = "<group>"; };
 		CADE3E7824F17472003165BB /* nicEditorIcons.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = nicEditorIcons.gif; sourceTree = "<group>"; };
@@ -4410,37 +4406,25 @@
 		CADE3E5F24F17472003165BB /* mapping */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3E6024F17472003165BB /* index.h */,
-				CADE3E6124F17472003165BB /* index.o */,
-				CADE3E6224F17472003165BB /* map.html */,
-				CADE3E6324F17472003165BB /* index.html */,
-				CADE3E6424F17472003165BB /* map.o */,
-				CADE3E6524F17472003165BB /* map.h */,
-				CADE3E6624F17472003165BB /* Russian_Protestant.txt */,
-				CADE3E6724F17472003165BB /* Russian_Canonical.txt */,
-				CADE3E6824F17472003165BB /* map.cpp */,
-				CADE3E6924F17472003165BB /* Vulgate.txt */,
-				CADE3E6A24F17472003165BB /* Septuagint.txt */,
+				CADE3E6D24F17472003165BB /* Dutch_Traditional.txt */,
 				CADE3E6B24F17472003165BB /* English.txt */,
 				CADE3E6C24F17472003165BB /* French_Louise_Segond.txt */,
-				CADE3E6D24F17472003165BB /* Dutch_Traditional.txt */,
-				CADE3E6E24F17472003165BB /* Russian_Orthodox.txt */,
-				CADE3E6F24F17472003165BB /* Spanish.txt */,
-				CADE3E7024F17472003165BB /* .deps */,
-				CADE3E7424F17472003165BB /* .dirstamp */,
 				CADE3E7524F17472003165BB /* index.cpp */,
+				CADE3E6024F17472003165BB /* index.h */,
+				CADE3E6324F17472003165BB /* index.html */,
+				CADE3E6124F17472003165BB /* index.o */,
+				CADE3E6824F17472003165BB /* map.cpp */,
+				CADE3E6524F17472003165BB /* map.h */,
+				CADE3E6224F17472003165BB /* map.html */,
+				CADE3E6424F17472003165BB /* map.o */,
+				CADE3E6724F17472003165BB /* Russian_Canonical.txt */,
+				CADE3E6E24F17472003165BB /* Russian_Orthodox.txt */,
+				CADE3E6624F17472003165BB /* Russian_Protestant.txt */,
+				CADE3E6A24F17472003165BB /* Septuagint.txt */,
+				CADE3E6F24F17472003165BB /* Spanish.txt */,
+				CADE3E6924F17472003165BB /* Vulgate.txt */,
 			);
 			path = mapping;
-			sourceTree = "<group>";
-		};
-		CADE3E7024F17472003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3E7124F17472003165BB /* map.Po */,
-				CADE3E7224F17472003165BB /* index.Po */,
-				CADE3E7324F17472003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3E7624F17472003165BB /* nicedit */ = {

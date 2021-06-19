@@ -104,7 +104,7 @@ void Database_Mappings::optimize ()
 }
 
 
-void Database_Mappings::import (const string& name, const string& data)
+void Database_Mappings::import (const string& name, const string& data) // Todo
 {
   // Delete existing mapping with this name.
   erase (name);
@@ -113,10 +113,7 @@ void Database_Mappings::import (const string& name, const string& data)
 
   // Begin a transaction for better speed.
   database_sqlite_exec (db, "BEGIN;");
-  
-  Passage lastPassage = Passage ("", 1, 1, "1");
-  Passage lastOriginal = Passage ("", 1, 1, "1");
-  
+
   vector <string> lines = filter_string_explode (data, '\n');
   for (string line : lines) {
     
@@ -131,40 +128,54 @@ void Database_Mappings::import (const string& name, const string& data)
     vector <string> entry = filter_string_explode (line, '=');
     if (entry.size() != 2) continue;
     
-    string spassage = filter_string_trim (entry [0]);
-    string soriginal = filter_string_trim (entry [1]);
+    string passage_string = filter_string_trim (entry [0]);
+    string original_string = filter_string_trim (entry [1]);
+
+    // Storage for further interpretation.
+    vector <string> bits;
     
-    Passage passage = filter_passage_interpret_passage (lastPassage, spassage);
-    lastPassage.book = passage.book;
-    lastPassage.chapter = passage.chapter;
-    lastPassage.verse = passage.verse;
-    Passage original = filter_passage_interpret_passage (lastOriginal, soriginal);
-    lastOriginal.book = original.book;
-    lastOriginal.chapter = original.chapter;
-    lastOriginal.verse = original.verse;
+    // Split the passage entry on the colon (:) to get the verse.
+    bits = filter_string_explode(passage_string, ':');
+    if (bits.size() != 2) continue;
+    int passage_verse = convert_to_int(bits[1]);
+    // Split the first bit on the spaces and get the last item as the chapter.
+    bits = filter_string_explode(bits[0], ' ');
+    if (bits.size() < 2) continue;
+    int passage_chapter = convert_to_int(bits[bits.size()-1]);
+    // Remove the last bit so it remains with the book, and get that book.
+    bits.pop_back();
+    string passage_book_string = filter_string_implode(bits, " ");
+    int passage_book = Database_Books::getIdFromEnglish(passage_book_string);
 
-    int book        = passage.book;
-    int chapter     = passage.chapter;
-    int verse       = convert_to_int (passage.verse);
-    int origbook    = original.book;
-    int origchapter = original.chapter;
-    int origverse   = convert_to_int (original.verse);
+    // Split the original entry on the colon (:) to get the verse.
+    bits = filter_string_explode(original_string, ':');
+    if (bits.size() != 2) continue;
+    int original_verse = convert_to_int(bits[1]);
+    // Split the first bit on the spaces and get the last item as the chapter.
+    bits = filter_string_explode(bits[0], ' ');
+    if (bits.size() < 2) continue;
+    int original_chapter = convert_to_int(bits[bits.size()-1]);
+    // Remove the last bit so it remains with the book, and get that book.
+    bits.pop_back();
+    string original_book_string = filter_string_implode(bits, " ");
+    int original_book = Database_Books::getIdFromEnglish(original_book_string);
 
+    // Store it in the database.
     SqliteSQL sql = SqliteSQL ();
     sql.add ("INSERT INTO maps VALUES (");
     sql.add (name);
     sql.add (",");
-    sql.add (book);
+    sql.add (passage_book);
     sql.add (",");
-    sql.add (chapter);
+    sql.add (passage_chapter);
     sql.add (",");
-    sql.add (verse);
+    sql.add (passage_verse);
     sql.add (",");
-    sql.add (origbook);
+    sql.add (original_book);
     sql.add (",");
-    sql.add (origchapter);
+    sql.add (original_chapter);
     sql.add (",");
-    sql.add (origverse);
+    sql.add (original_verse);
     sql.add (");");
     database_sqlite_exec (db, sql.sql);
   }

@@ -134,7 +134,7 @@ void Database_Mappings::import (const string& name, const string& data) // Todo
     // Storage for further interpretation.
     vector <string> bits;
     
-    // Split the passage entry on the colon (:) to get the verse.
+    // Split the passage entry on the colon (:) to get the verse. Todo
     bits = filter_string_explode(passage_string, ':');
     if (bits.size() != 2) continue;
     int passage_verse = convert_to_int(bits[1]);

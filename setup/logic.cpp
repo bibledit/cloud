@@ -247,9 +247,9 @@ void setup_initialize_data () // Todo
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
   config_globals_setup_message = "mappings";
-  long start = filter_date_elapsed_microseconds (0); // Todo
+//  long start = filter_date_elapsed_microseconds (0); // Todo
   setup_generate_verse_mapping_databases (); // Todo takes long.
-  cout << "mappings took " << filter_date_elapsed_microseconds (start) << " microseconds" << endl; // Todo
+//  cout << "mappings took " << filter_date_elapsed_microseconds (start) << " microseconds" << endl; // Todo
   config_globals_setup_message = "note actions";
   Database_NoteActions database = Database_NoteActions ();
   database.create ();

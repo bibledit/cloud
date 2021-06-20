@@ -90,22 +90,34 @@ void Database_Versifications::input (const string& contents, const string& name)
   for (auto line : lines) {
     line = filter_string_trim (line);
     if (line.empty ()) continue;
-    Passage passage = filter_passage_explode_passage (line);
-    if ((passage.book == 0)
-     || (passage.chapter == 0)
-     || (passage.verse.empty ())) {
+    // The line will be something similar to this: 1 Corinthians 1:31
+    // Split the passage entry on the colon (:) to get the verse.
+    vector <string> bits = filter_string_explode(line, ':');
+    if (bits.size() != 2) continue;
+    int verse = convert_to_int(bits[1]);
+    // Split the first bit on the spaces and get the last item as the chapter.
+    bits = filter_string_explode(bits[0], ' ');
+    if (bits.size() < 2) continue;
+    int chapter = convert_to_int(bits[bits.size()-1]);
+    // Remove the last bit so it remains with the book, and get that book.
+    bits.pop_back();
+    string passage_book_string = filter_string_implode(bits, " ");
+    int book = Database_Books::getIdFromEnglish(passage_book_string);
+    // Check result.
+    if ((book == 0) || (chapter == 0)) {
       Database_Logs::log ("Malformed versification entry: " + line);
       continue;
     }
+    // Store result.
     SqliteSQL sql = SqliteSQL ();
     sql.add ("INSERT INTO data (system, book, chapter, verse) VALUES (");
     sql.add (id);
     sql.add (",");
-    sql.add (passage.book);
+    sql.add (book);
     sql.add (",");
-    sql.add (passage.chapter);
+    sql.add (chapter);
     sql.add (",");
-    sql.add (convert_to_int (passage.verse));
+    sql.add (verse);
     sql.add (");");
     database_sqlite_exec (db, sql.sql);
   }

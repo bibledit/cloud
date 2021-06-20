@@ -92,7 +92,7 @@ string workspace_settings (void * webserver_request)
         }
       }
     }
-    workspace_set_entire_width (request, workspacewidth); // Todo
+    workspace_set_entire_width (request, workspacewidth);
     redirect_browser (request, workspace_index_url ());
     return "";
   }

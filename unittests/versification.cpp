@@ -209,7 +209,7 @@ void test_database_mappings ()
     evaluate (__LINE__, __func__, {"Dutch Traditional", english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
   }
 
-  // Import and export. Todo
+  // Import and export.
   {
     refresh_sandbox (true);
     Database_Mappings database_mappings;

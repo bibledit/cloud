@@ -29,7 +29,7 @@ const char * developer_delay_url ()
 }
 
 
-bool developer_delay_acl (void * webserver_request) // Todo only in demo mode.
+bool developer_delay_acl (void * webserver_request)
 {
   return true;
 }

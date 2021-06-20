@@ -744,26 +744,26 @@ Song of Solomon 5:16
 Song of Solomon 6:12
 Song of Solomon 7:14
 Song of Solomon 8:14
-Wisdom 1:16
-Wisdom 2:24
-Wisdom 3:19
-Wisdom 4:20
-Wisdom 5:23
-Wisdom 6:25
-Wisdom 7:30
-Wisdom 8:21
-Wisdom 9:18
-Wisdom 10:21
-Wisdom 11:26
-Wisdom 12:27
-Wisdom 13:19
-Wisdom 19:18
-Wisdom 14:31
-Wisdom 15:19
-Wisdom 16:29
-Wisdom 17:21
-Wisdom 18:25
-Wisdom 19:22
+Wisdom of Solomon 1:16
+Wisdom of Solomon 2:24
+Wisdom of Solomon 3:19
+Wisdom of Solomon 4:20
+Wisdom of Solomon 5:23
+Wisdom of Solomon 6:25
+Wisdom of Solomon 7:30
+Wisdom of Solomon 8:21
+Wisdom of Solomon 9:18
+Wisdom of Solomon 10:21
+Wisdom of Solomon 11:26
+Wisdom of Solomon 12:27
+Wisdom of Solomon 13:19
+Wisdom of Solomon 19:18
+Wisdom of Solomon 14:31
+Wisdom of Solomon 15:19
+Wisdom of Solomon 16:29
+Wisdom of Solomon 17:21
+Wisdom of Solomon 18:25
+Wisdom of Solomon 19:22
 Sirach 1:30
 Sirach 2:18
 Sirach 3:31

@@ -113,6 +113,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/nmt.h>
 #include <unittests/html2format.h>
 #include <unittests/studylight.h>
+#include <unittests/gbs.h>
 
 
 int main (int argc, char **argv) 
@@ -142,10 +143,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_versification ();
-  test_database_mappings ();
-  test_database_versifications ();
-
+  test_gbs ();
   refresh_sandbox (true);
   exit (0);
   

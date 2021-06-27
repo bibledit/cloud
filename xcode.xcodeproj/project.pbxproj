@@ -545,6 +545,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CA05A59826878ACA000D0737 /* gbs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gbs.cpp; sourceTree = "<group>"; };
+		CA05A59926878ACA000D0737 /* gbs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gbs.h; sourceTree = "<group>"; };
 		CA09D6E52616F089002FDA23 /* quill.notes.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.notes.css; sourceTree = "<group>"; };
 		CA10382725279F940021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = html2format.cpp; path = editor/html2format.cpp; sourceTree = SOURCE_ROOT; };
 		CA10382825279F940021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = html2format.h; path = editor/html2format.h; sourceTree = SOURCE_ROOT; };
@@ -5476,6 +5478,8 @@
 				CADE42B124F174BD003165BB /* folders.h */,
 				CADE44C124F174BF003165BB /* french.cpp */,
 				CADE445324F174BE003165BB /* french.h */,
+				CA05A59826878ACA000D0737 /* gbs.cpp */,
+				CA05A59926878ACA000D0737 /* gbs.h */,
 				CADE44D224F174BF003165BB /* git.cpp */,
 				CADE43FE24F174BE003165BB /* git.h */,
 				CADE440C24F174BE003165BB /* html.cpp */,

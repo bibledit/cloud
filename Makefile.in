@@ -393,7 +393,7 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
 	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
-	unittests/studylight.$(OBJEXT)
+	unittests/studylight.$(OBJEXT) unittests/gbs.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -664,8 +664,9 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/diff.Po unittests/$(DEPDIR)/editone.Po \
 	unittests/$(DEPDIR)/etcbc4.Po unittests/$(DEPDIR)/export.Po \
 	unittests/$(DEPDIR)/flate.Po unittests/$(DEPDIR)/folders.Po \
-	unittests/$(DEPDIR)/french.Po unittests/$(DEPDIR)/git.Po \
-	unittests/$(DEPDIR)/html.Po unittests/$(DEPDIR)/html2format.Po \
+	unittests/$(DEPDIR)/french.Po unittests/$(DEPDIR)/gbs.Po \
+	unittests/$(DEPDIR)/git.Po unittests/$(DEPDIR)/html.Po \
+	unittests/$(DEPDIR)/html2format.Po \
 	unittests/$(DEPDIR)/html2usfm.Po unittests/$(DEPDIR)/http.Po \
 	unittests/$(DEPDIR)/hyphenate.Po unittests/$(DEPDIR)/ipc.Po \
 	unittests/$(DEPDIR)/javascript.Po unittests/$(DEPDIR)/jobs.Po \
@@ -1480,7 +1481,8 @@ unittest_SOURCES = \
   unittests/merge.cpp \
   unittests/nmt.cpp \
   unittests/html2format.cpp \
-  unittests/studylight.cpp
+  unittests/studylight.cpp \
+  unittests/gbs.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3209,6 +3211,8 @@ unittests/html2format.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/studylight.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/gbs.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3770,6 +3774,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/french.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/gbs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/git.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2format.Po@am__quote@ # am--include-marker
@@ -4849,6 +4854,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/flate.Po
 	-rm -f unittests/$(DEPDIR)/folders.Po
 	-rm -f unittests/$(DEPDIR)/french.Po
+	-rm -f unittests/$(DEPDIR)/gbs.Po
 	-rm -f unittests/$(DEPDIR)/git.Po
 	-rm -f unittests/$(DEPDIR)/html.Po
 	-rm -f unittests/$(DEPDIR)/html2format.Po
@@ -5439,6 +5445,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/flate.Po
 	-rm -f unittests/$(DEPDIR)/folders.Po
 	-rm -f unittests/$(DEPDIR)/french.Po
+	-rm -f unittests/$(DEPDIR)/gbs.Po
 	-rm -f unittests/$(DEPDIR)/git.Po
 	-rm -f unittests/$(DEPDIR)/html.Po
 	-rm -f unittests/$(DEPDIR)/html2format.Po

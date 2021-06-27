@@ -274,8 +274,83 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
 }
 
 
+string resource_external_convert_book_gbs_statenbijbel (int book) // Todo use it and test it.
+{
+  switch (book) {
+    case 1: return "genesis";
+    case 2: return "exodus";
+    case 3: return "leviticus";
+    case 4: return "numeri";
+    case 5: return "deuteronomium";
+    case 6: return "jozua";
+    case 7: return "richteren";
+    case 8: return "ruth";
+    case 9: return "1-samuel";
+    case 10: return "2-samuel";
+    case 11: return "1-koningen";
+    case 12: return "2-koningen";
+    case 13: return "1-kronieken";
+    case 14: return "2-kronieken";
+    case 15: return "ezra";
+    case 16: return "nehemia";
+    case 17: return "esther";
+    case 18: return "job";
+    case 19: return "psalmen";
+    case 20: return "spreuken";
+    case 21: return "prediker";
+    case 22: return "hooglied";
+    case 23: return "jesaja";
+    case 24: return "jeremia";
+    case 25: return "klaagliederen";
+    case 26: return "ezechiel";
+    case 27: return "daniel";
+    case 28: return "hosea";
+    case 29: return "joel";
+    case 30: return "amos";
+    case 31: return "obadja";
+    case 32: return "jona";
+    case 33: return "micha";
+    case 34: return "nahum";
+    case 35: return "habakuk";
+    case 36: return "zefanja";
+    case 37: return "haggai";
+    case 38: return "zacharia";
+    case 39: return "maleachi";
+    case 40: return "mattheus";
+    case 41: return "markus";
+    case 42: return "lukas";
+    case 43: return "johannes";
+    case 44: return "handelingen";
+    case 45: return "romeinen";
+    case 46: return "1-korinthe";
+    case 47: return "2-korinthe";
+    case 48: return "galaten";
+    case 49: return "efeze";
+    case 50: return "filippenzen";
+    case 51: return "kolossenzen";
+    case 52: return "1-thessalonicenzen";
+    case 53: return "2-thessalonicenzen";
+    case 54: return "1-timotheus";
+    case 55: return "2-timotheus";
+    case 56: return "titus";
+    case 57: return "filemon";
+    case 58: return "hebreeen";
+    case 59: return "jakobus";
+    case 60: return "1-petrus";
+    case 61: return "2-petrus";
+    case 62: return "1-johannes";
+    case 63: return "2-johannes";
+    case 64: return "3-johannes";
+    case 65: return "judas";
+    case 66: return "openbaring";
+    default: return string();
+  }
+  return string();
+}
+
+
 // This script fetches the Statenbijbel from the Dutch GBS.
-string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
+string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse) // Todo
 {
   // Books OT: http://gbsdigitaal.nl/Data/Statenvertaling/1.json
   // Books NT: http://gbsdigitaal.nl/Data/Statenvertaling/2.json
@@ -725,20 +800,18 @@ string resource_external_type (string name)
 // It extracts the relevant snipped from the larger http(s) content.
 string resource_external_cloud_fetch_cache_extract (string name, int book, int chapter, int verse)
 {
-  string (* func) (int, int, int) = NULL;
+  string (* function_name) (int, int, int) = NULL;
 
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     string resource = resource_table [i].name;
     if (name == resource) {
-      func = resource_table [i].func;
+      function_name = resource_table [i].func;
     }
   }
   
-  if (func == NULL) {
-    return "";
-  }
+  if (function_name == NULL) return string();
 
-  string result = func (book, chapter, verse);
+  string result = function_name (book, chapter, verse);
   
   return result;
 }

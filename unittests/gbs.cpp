@@ -37,6 +37,6 @@ void test_gbs () // Todo
   text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 14);
   evaluate (__LINE__, __func__, "Want met één offerande heeft Hij in eeuwigheid volmaakt degenen die geheiligd worden.", text);
 
-//  cout << text << endl; // Todo
+  cout << text << endl; // Todo
  
 }

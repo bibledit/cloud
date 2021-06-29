@@ -188,8 +188,13 @@ string gbs_digitaal_processor_v2 (string url, int verse) // Todo code and test.
   document.load_string (html.c_str());
 
   // Example verse container within the XML:
+  // Verse 0:
+  // <p class="summary">...</>
+  // Other verses:
   // <div class="verse verse-1 active size-change bold-change cursive-change align-change">...
-  string selector = "//div[contains(@class,'verse-" + convert_to_string (verse) + " ')]";
+  string selector;
+  if (verse != 0) selector = "//div[contains(@class,'verse-" + convert_to_string (verse) + " ')]";
+  else selector = "//p[@class='summary']";
   xpath_node xpathnode = document.select_node(selector.c_str());
   xml_node div_node = xpathnode.node();
 

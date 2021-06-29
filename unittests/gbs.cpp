@@ -17,7 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/studylight.h>
+#include <unittests/gbs.h>
 #include <unittests/utilities.h>
 #include <resource/logic.h>
 #include <resource/external.h>
@@ -35,22 +35,8 @@ void test_gbs () // Todo
   resource = "Statenbijbel GBS";
   book = 58; // Hebrews.
   text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 14);
+  evaluate (__LINE__, __func__, "Want met één offerande heeft Hij in eeuwigheid volmaakt degenen die geheiligd worden.", text);
 
-
-  cout << text << endl; // Todo
+//  cout << text << endl; // Todo
  
-//  resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
-//  text = filter_string_html2text (text);
-//  evaluate (__LINE__, __func__, 2973, text.find("τους ἁγιαζομενους"));
-//  evaluate (__LINE__, __func__, 3750, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
-//
-//  resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
-//  book = 58; // Hebrews.
-//  text = resource_logic_study_light_get (resource, book, 10, 14);
-//  text = filter_string_html2text (text);
-//  evaluate (__LINE__, __func__, 17, text.find("The accomplishment of our high priest"));
-//  evaluate (__LINE__, __func__, 509, text.find("distinctive features of the high priestly office of the Son"));
-//  evaluate (__LINE__, __func__, 1183, text.find("The one sacrifice of Christ"));
-//  evaluate (__LINE__, __func__, 1490, text.find("the finality of Jesus Christ\"s offering"));
-//  evaluate (__LINE__, __func__, 2254, text.find("those whom Jesus Christ has perfected"));
 }

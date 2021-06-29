@@ -89,7 +89,7 @@ resource_record resource_table [] =
 
 
 // This function displays the canonical text from gbsdigitaal.nl.
-string gbs_digitaal_processor (string url, int verse)
+string gbs_digitaal_processor (string url, int verse) // Todo out.
 {
   string text;
 
@@ -131,6 +131,79 @@ string gbs_digitaal_processor (string url, int verse)
   
   // Add new line.
   text += "\n";
+  
+  // Done.
+  return text;
+}
+
+
+struct gbs_basic_walker: xml_tree_walker // Todo
+{
+  vector <string> texts;
+  bool canonical_text = false;
+
+  virtual bool for_each (xml_node& node)
+  {
+    xml_node_type nodetype = node.type();
+    if (nodetype == node_pcdata) {
+      // Handle plain character data.
+      string text = node.text().get();
+      if (canonical_text) texts.push_back(text);
+      // If the text above was a footnote caller,
+      // in the GBS layout the following text could be canonical again.
+      canonical_text = true;
+    } else {
+      // Handle the node itself.
+      string nodename = node.name ();
+      string classname = node.attribute ("class").value ();
+      canonical_text = true;
+      // Bits to exclude from the canonical text.
+      if (classname == "verse-number") canonical_text = false;
+      if (classname == "kanttekening") canonical_text = false;
+      if (classname == "verwijzing") canonical_text = false;
+      // End of parsing this verse.
+      if (classname == "verse-references") return false;
+    }
+
+    // Continue parsing.
+    return true;
+  }
+};
+
+
+// This function displays the canonical text from bijbel-statenvertaling.com.
+string gbs_digitaal_processor_v2 (string url, int verse) // Todo code and test.
+{
+  string text;
+  
+  // Get the html from the server.
+  string error;
+  string html = resource_logic_web_or_cache_get (url, error);
+
+  // Tidy the html so it can be loaded as xml.
+  html = filter_string_tidy_invalid_html (html);
+
+  // Parse the html into a DOM.
+  xml_document document;
+  document.load_string (html.c_str());
+
+  // Example verse container within the XML:
+  // <div class="verse verse-1 active size-change bold-change cursive-change align-change">...
+  string selector = "//div[contains(@class,'verse-" + convert_to_string (verse) + " ')]";
+  xpath_node xpathnode = document.select_node(selector.c_str());
+  xml_node div_node = xpathnode.node();
+
+  stringstream ss;
+  div_node.print (ss, "", format_raw);
+  cout << ss.str() << endl; // Todo
+
+  gbs_basic_walker walker;
+  div_node.traverse (walker);
+
+  for (unsigned int i = 0; i < walker.texts.size(); i++) {
+    if (i) text.append (" ");
+    text.append (filter_string_trim(walker.texts[i]));
+  }
   
   // Done.
   return text;
@@ -352,21 +425,19 @@ string resource_external_convert_book_gbs_statenbijbel (int book) // Todo use it
 // This script fetches the Statenbijbel from the Dutch GBS.
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse) // Todo
 {
-  // Books OT: http://gbsdigitaal.nl/Data/Statenvertaling/1.json
-  // Books NT: http://gbsdigitaal.nl/Data/Statenvertaling/2.json
-  // Genesis intro http://gbsdigitaal.nl/Data/Statenvertaling/1/1/1.json
-  // Genesis 1 http://gbsdigitaal.nl/Data/Statenvertaling/1/1/2.json
-  // Matthew 1 http://gbsdigitaal.nl/Data/Statenvertaling/2/40/2.json
+  // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   
   // Old Testament = 1 and New Testament = 2.
-  int testament = book >= 40 ? 2 : 1;
+//  int testament = book >= 40 ? 2 : 1;
   
   // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = convert_to_string (chapter + 1);
+//  string urlchapter = convert_to_string (chapter + 1);
   
-  string url = "http://gbsdigitaal.nl/Data/Statenvertaling/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
-  
-  return gbs_digitaal_processor (url, verse);
+//  string url = "https://gbsdigitaal.nl/Data/Statenvertaling/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
+  string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
+
+  //return gbs_digitaal_processor (url, verse);
+  return gbs_digitaal_processor_v2 (url, verse);
 }
 
 

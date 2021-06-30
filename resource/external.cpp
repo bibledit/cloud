@@ -36,7 +36,6 @@ using namespace pugi;
 
 unsigned int resource_external_count ();
 int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length);
-string gbs_digitaal_processor (string url, int chapter, int verse);
 string gbs_digitaal_plus_processor (string url, int verse);
 string bibleserver_processor (string directory, int book, int chapter, int verse);
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse);
@@ -88,56 +87,7 @@ resource_record resource_table [] =
 };
 
 
-// This function displays the canonical text from gbsdigitaal.nl.
-string gbs_digitaal_processor (string url, int verse) // Todo out.
-{
-  string text;
-
-  // Retrieve JSON from the website or cache.
-  string json = resource_logic_web_or_cache_get (url, text);
-  
-  // Convert the JSON to XML.
-  Object object;
-  object.parse (json);
-  string xml = object.xml(TaggedXML);
-  
-  // Parse the XML text.
-  xml_document document;
-  document.load_string (xml.c_str());
-  
-  xml_node root_node = document.first_child ();
-  
-  xml_node verses_node = root_node.child ("verses");
-  // Iterate through the children of the verses node.
-  for (xml_node JsonItem_node : verses_node.children()) {
-    // Look for the matching verse number.
-    string number = JsonItem_node.child_value ("number");
-    if (verse == convert_to_int (number)) {
-      // The node that contains the canonical verse text.
-      if (!text.empty ()) text.append (" ");
-      string text_value = JsonItem_node.child_value ("text");
-      text.append (text_value);
-    }
-  }
-
-  // Take out breaks.
-  text = filter_string_str_replace ("<br />", " ", text);
-
-  // Remove the note callers.
-  filter_string_replace_between (text, "<sup", "</sup>", "");
-  
-  // Remove the pilcrow sign / paragraph sign if it's there.
-  text = filter_string_str_replace ("¶", "", text);
-  
-  // Add new line.
-  text += "\n";
-  
-  // Done.
-  return text;
-}
-
-
-struct gbs_basic_walker: xml_tree_walker // Todo
+struct gbs_basic_walker: xml_tree_walker
 {
   vector <string> texts;
   bool canonical_text = false;
@@ -173,7 +123,7 @@ struct gbs_basic_walker: xml_tree_walker // Todo
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_digitaal_processor_v2 (string url, int verse) // Todo code and test.
+string gbs_basic_processor (string url, int verse)
 {
   string text;
   
@@ -199,13 +149,9 @@ string gbs_digitaal_processor_v2 (string url, int verse) // Todo code and test.
   xpath_node xpathnode = document.select_node(selector.c_str());
   xml_node div_node = xpathnode.node();
 
-  stringstream ss;
-  div_node.print (ss, "", format_raw);
-  cout << ss.str() << endl; // Todo
-
+  // Extract relevant information.
   gbs_basic_walker walker;
   div_node.traverse (walker);
-
   for (unsigned int i = 0; i < walker.texts.size(); i++) {
     if (i) text.append (" ");
     text.append (filter_string_trim(walker.texts[i]));
@@ -428,7 +374,7 @@ string resource_external_convert_book_gbs_statenbijbel (int book)
 }
 
 
-string resource_external_convert_book_gbs_king_james_bible (int book) // Todo use it and test it in the final application.
+string resource_external_convert_book_gbs_king_james_bible (int book)
 {
   switch (book) {
     case 1: return "genesis";
@@ -504,11 +450,11 @@ string resource_external_convert_book_gbs_king_james_bible (int book) // Todo us
 
 
 // This script fetches the Statenbijbel from the Dutch GBS.
-string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse) // Todo
+string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
-  return gbs_digitaal_processor_v2 (url, verse);
+  return gbs_basic_processor (url, verse);
 }
 
 
@@ -536,11 +482,11 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 
 
 // This script displays the King James Bible published by the Dutch GBS.
-string resource_external_get_king_james_version_gbs (int book, int chapter, int verse) // Todo
+string resource_external_get_king_james_version_gbs (int book, int chapter, int verse)
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
-  return gbs_digitaal_processor_v2 (url, verse);
+  return gbs_basic_processor (url, verse);
 }
 
 

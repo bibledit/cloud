@@ -42,4 +42,9 @@ void test_gbs () // Todo
   text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 14);
   evaluate (__LINE__, __func__, "For by one offering he hath perfected for ever them that are sanctified.", text);
 
+  resource = "Statenbijbel Plus GBS";
+  book = 58; // Hebrews.
+  text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 1);
+  evaluate (__LINE__, __func__, "WANT a 1 de wet, hebbende 2 een schaduw 3 der toekomende goederen, niet 4 het beeld zelf der zaken, kan met 5 dezelfde offeranden die zij alle jaar 6 geduriglijk opofferen, nimmermeer 7 heiligen degenen die 8 daar toegaan. <br> a Kol. 2:17 Welke zijn een schaduw der toekomende dingen, maar het lichaam is van Christus. <br> a Hebr. 8:5 Welke het voorbeeld en de schaduw der hemelse dingen dienen, gelijk Mozes door Goddelijke aanspraak vermaand was, als hij den tabernakel volmaken zou. Want zie, zegt Hij, dat gij het alles maakt naar de afbeelding die u op den berg getoond is.", text);
+ 
 }

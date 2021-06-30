@@ -247,6 +247,7 @@ int main (int argc, char **argv)
   test_nmt ();
   test_html2format ();
   test_studylight ();
+  test_gbs ();
 
 
   // Output possible journal entries.

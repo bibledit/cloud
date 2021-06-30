@@ -161,6 +161,7 @@ struct gbs_basic_walker: xml_tree_walker // Todo
       if (classname == "verse-number") canonical_text = false;
       if (classname == "kanttekening") canonical_text = false;
       if (classname == "verwijzing") canonical_text = false;
+      if (classname == "sup") canonical_text = false;
       // End of parsing this verse.
       if (classname == "verse-references") return false;
     }
@@ -352,7 +353,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
 }
 
 
-string resource_external_convert_book_gbs_statenbijbel (int book) // Todo use it and test it.
+string resource_external_convert_book_gbs_statenbijbel (int book)
 {
   switch (book) {
     case 1: return "genesis";
@@ -427,21 +428,86 @@ string resource_external_convert_book_gbs_statenbijbel (int book) // Todo use it
 }
 
 
+string resource_external_convert_book_gbs_king_james_bible (int book) // Todo use it and test it in the final application.
+{
+  switch (book) {
+    case 1: return "genesis";
+    case 2: return "exodus";
+    case 3: return "leviticus";
+    case 4: return "numbers";
+    case 5: return "deuteronomy";
+    case 6: return "joshua";
+    case 7: return "judges";
+    case 8: return "ruth";
+    case 9: return "1-samuel";
+    case 10: return "2-samuel";
+    case 11: return "1-kings";
+    case 12: return "2-kings";
+    case 13: return "1-chronicles";
+    case 14: return "2-chronicles";
+    case 15: return "ezra";
+    case 16: return "nehemiah";
+    case 17: return "esther";
+    case 18: return "job";
+    case 19: return "psalms";
+    case 20: return "proverbs";
+    case 21: return "ecclesiastes";
+    case 22: return "song-of-solomon";
+    case 23: return "isaiah";
+    case 24: return "jeremiah";
+    case 25: return "lamentations";
+    case 26: return "ezekiel";
+    case 27: return "daniel";
+    case 28: return "hosea";
+    case 29: return "joel";
+    case 30: return "amos";
+    case 31: return "obadiah";
+    case 32: return "jonah";
+    case 33: return "micah";
+    case 34: return "nahum";
+    case 35: return "habakkuk";
+    case 36: return "zephaniah";
+    case 37: return "haggai";
+    case 38: return "zechariah";
+    case 39: return "malachi";
+    case 40: return "matthew";
+    case 41: return "mark";
+    case 42: return "luke";
+    case 43: return "john";
+    case 44: return "acts";
+    case 45: return "romans";
+    case 46: return "1-corinthians";
+    case 47: return "2-corinthians";
+    case 48: return "galatians";
+    case 49: return "ephesians";
+    case 50: return "philippians";
+    case 51: return "colossians";
+    case 52: return "1-thessalonians";
+    case 53: return "2-thessalonians";
+    case 54: return "1-timothy";
+    case 55: return "2-timothy";
+    case 56: return "titus";
+    case 57: return "philemon";
+    case 58: return "hebrews";
+    case 59: return "james";
+    case 60: return "1-peter";
+    case 61: return "2-peter";
+    case 62: return "1-john";
+    case 63: return "2-john";
+    case 64: return "3-john";
+    case 65: return "jude";
+    case 66: return "revelation";
+    default: return string();
+  }
+  return string();
+}
+
+
 // This script fetches the Statenbijbel from the Dutch GBS.
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse) // Todo
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
-  
-  // Old Testament = 1 and New Testament = 2.
-//  int testament = book >= 40 ? 2 : 1;
-  
-  // Chapter 1 of the text is chapter 2 in the URL.
-//  string urlchapter = convert_to_string (chapter + 1);
-  
-//  string url = "https://gbsdigitaal.nl/Data/Statenvertaling/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
   string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
-
-  //return gbs_digitaal_processor (url, verse);
   return gbs_digitaal_processor_v2 (url, verse);
 }
 
@@ -470,23 +536,11 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 
 
 // This script displays the King James Bible published by the Dutch GBS.
-string resource_external_get_king_james_version_gbs (int book, int chapter, int verse)
+string resource_external_get_king_james_version_gbs (int book, int chapter, int verse) // Todo
 {
-  // Books OT: http://gbsdigitaal.nl/Data/AuthorizedVersion/1.json
-  // Books NT: http://gbsdigitaal.nl/Data/AuthorizedVersion/2.json
-  // Genesis intro http://gbsdigitaal.nl/Data/AuthorizedVersion/1/1/1.json
-  // Genesis 1 http://gbsdigitaal.nl/Data/AuthorizedVersion/1/1/2.json
-  // Matthew 1 http://gbsdigitaal.nl/Data/AuthorizedVersion/2/40/2.json
-  
-  // Old (1) or New (2) Testament.
-  int testament = book >= 40 ? 2 : 1;
-  
-  // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = convert_to_string (chapter + 1);
-  
-  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
-  
-  return gbs_digitaal_processor (url, verse);
+  // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
+  string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
+  return gbs_digitaal_processor_v2 (url, verse);
 }
 
 

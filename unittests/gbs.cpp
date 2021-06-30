@@ -31,12 +31,15 @@ void test_gbs () // Todo
   string resource;
   int book, chapter, verse;
   string text;
-  
+
   resource = "Statenbijbel GBS";
   book = 58; // Hebrews.
   text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 14);
   evaluate (__LINE__, __func__, "Want met één offerande heeft Hij in eeuwigheid volmaakt degenen die geheiligd worden.", text);
 
-  cout << text << endl; // Todo
- 
+  resource = "King James Version GBS";
+  book = 58; // Hebrews.
+  text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 14);
+  evaluate (__LINE__, __func__, "For by one offering he hath perfected for ever them that are sanctified.", text);
+
 }

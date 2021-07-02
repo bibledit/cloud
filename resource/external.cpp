@@ -89,7 +89,7 @@ resource_record resource_table [] =
 struct gbs_basic_walker: xml_tree_walker
 {
   vector <string> texts;
-  bool canonical_text = false;
+  bool canonical_text = true;
 
   virtual bool for_each (xml_node& node)
   {
@@ -105,6 +105,7 @@ struct gbs_basic_walker: xml_tree_walker
       // Handle the node itself.
       string nodename = node.name ();
       string classname = node.attribute ("class").value ();
+//      cout << nodename << " " << classname << endl; // Todo
       canonical_text = true;
       // Bits to exclude from the canonical text.
       if (classname == "verse-number") canonical_text = false;
@@ -163,7 +164,7 @@ string gbs_basic_processor (string url, int verse)
 struct gbs_plus_walker: xml_tree_walker
 {
   vector <string> texts;
-  bool canonical_text = false;
+  bool canonical_text = true;
   bool verse_references = false;
   string reference_number;
 

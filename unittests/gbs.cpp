@@ -32,9 +32,6 @@ void test_gbs () // Todo
   int book, chapter, verse;
   string text;
 
-
-  //return; // Todo
-
   resource = "Statenbijbel GBS";
   book = 58; // Hebrews.
   text = resource_external_cloud_fetch_cache_extract (resource, book, 10, 14);

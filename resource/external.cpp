@@ -214,8 +214,39 @@ struct gbs_plus_walker: xml_tree_walker // Todo
 };
 
 
+struct gbs_annotation_walker: xml_tree_walker // Todo
+{
+  vector <string> texts;
+  bool within_annotations = false;
+
+  virtual bool for_each (xml_node& node)
+  {
+    xml_node_type nodetype = node.type();
+    if (nodetype == node_pcdata) {
+      if (within_annotations) {
+        string text = node.text().get();
+        texts.push_back(text);
+      }
+    } else {
+      // Handle the node itself.
+      string nodename = node.name ();
+      string classname = node.attribute ("class").value ();
+//      cout << nodename << " class " << classname << endl; // Todo
+      if (classname == "annotationnumber") {
+        texts.push_back("<br>");
+        within_annotations = true;
+      }
+      if (classname == "annotationtext") within_annotations = true;
+      if (nodename == "hr") within_annotations = false;
+    }
+    // Continue parsing.
+    return true;
+  }
+};
+
+
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_plus_processor_v2 (string url, int chapter, int verse) // Todo write / use
+string gbs_plus_processor_v2 (string url, int book, int chapter, int verse) // Todo write / use
 {
   string text;
   
@@ -252,6 +283,46 @@ string gbs_plus_processor_v2 (string url, int chapter, int verse) // Todo write 
   for (unsigned int i = 0; i < walker.texts.size(); i++) {
     if (i) text.append (" ");
     text.append (filter_string_trim(walker.texts[i]));
+  }
+  
+  // Get the raw annotations html.
+  string annotation_info = div_node.attribute("onclick").value();
+//  cout << annotation_info << endl; // Todo
+  vector <string> bits = filter_string_explode(annotation_info, '\'');
+//  cout << bits.size() << endl; // Todo
+  if (bits.size() >= 13) {
+    string url = "https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php";
+    map <string, string> post;
+    post ["prefix"] = bits[1];
+    post ["verse_id"] = bits[3];
+    post ["short_bookname"] = bits[5];
+    post ["chapter"] = bits[7];
+    post ["verse"] = bits[9];
+    post ["slug_id"] = bits[11];
+    post ["book_id"] = convert_to_string(book);
+    string error, html;
+    html = filter_url_http_post (url, post, error, false, false);
+    if (error.empty()) {
+      html = filter_string_tidy_invalid_html (html);
+      xml_document document;
+      document.load_string (html.c_str());
+      string selector = "//body";
+      xpath_node xpathnode = document.select_node(selector.c_str());
+      xml_node body_node = xpathnode.node();
+      stringstream ss;
+      body_node.print (ss, "", format_raw);
+//      cout << ss.str() << endl; // Todo
+//      filter_url_file_put_contents("/Users/teus/Desktop/annotations.html", ss.str()); // Todo
+      gbs_annotation_walker walker; // Todo
+      body_node.traverse (walker);
+      for (auto fragment : walker.texts) {
+        text.append(" ");
+        text.append (filter_string_trim(fragment));
+      }
+    } else {
+      text.append("<br>");
+      text.append(error);
+    }
   }
   
   // Done.
@@ -561,7 +632,7 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
-  return gbs_plus_processor_v2 (url, chapter, verse);
+  return gbs_plus_processor_v2 (url, book, chapter, verse);
 }
 
 

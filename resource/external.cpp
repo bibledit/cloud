@@ -160,7 +160,7 @@ string gbs_basic_processor (string url, int verse)
 }
 
 
-struct gbs_plus_walker: xml_tree_walker // Todo
+struct gbs_plus_walker: xml_tree_walker
 {
   vector <string> texts;
   bool canonical_text = false;
@@ -214,7 +214,7 @@ struct gbs_plus_walker: xml_tree_walker // Todo
 };
 
 
-struct gbs_annotation_walker: xml_tree_walker // Todo
+struct gbs_annotation_walker: xml_tree_walker
 {
   vector <string> texts;
   bool within_annotations = false;
@@ -231,7 +231,6 @@ struct gbs_annotation_walker: xml_tree_walker // Todo
       // Handle the node itself.
       string nodename = node.name ();
       string classname = node.attribute ("class").value ();
-//      cout << nodename << " class " << classname << endl; // Todo
       if (classname == "annotationnumber") {
         texts.push_back("<br>");
         within_annotations = true;
@@ -246,7 +245,7 @@ struct gbs_annotation_walker: xml_tree_walker // Todo
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_plus_processor_v2 (string url, int book, int chapter, int verse) // Todo write / use
+string gbs_plus_processor (string url, int book, int chapter, int verse)
 {
   string text;
   
@@ -273,9 +272,6 @@ string gbs_plus_processor_v2 (string url, int book, int chapter, int verse) // T
 
   // Example text:
   // <div class="verse verse-1 active size-change bold-change cursive-change align-change" id="1" onclick="i_toggle_annotation('sv','30217','Hebr.','10','1', '1201')"><span class="verse-number">  1</span><div class="verse-text "><p class="text">      WANT<span class="verwijzing"> a</span><span class="kanttekening">1</span>de wet, hebbende <span class="kanttekening"> 2</span>een schaduw <span class="kanttekening"> 3</span>der toekomende goederen, niet <span class="kanttekening"> 4</span>het beeld zelf der zaken, kan met <span class="kanttekening"> 5</span>dezelfde offeranden die zij alle jaar <span class="kanttekening"> 6</span>geduriglijk opofferen, nimmermeer <span class="kanttekening"> 7</span>heiligen degenen die <span class="kanttekening"> 8</span>daar toegaan.    </p><span class="verse-references"><div class="verse-reference"><span class="reference-number">a </span><a href="/statenvertaling/kolossenzen/2/#17" target="_blank" class="reference" data-title="Kol. 2:17" data-content="Welke zijn een schaduw der toekomende dingen, maar het lichaam is van Christus.">Kol. 2:17</a>. <a href="/statenvertaling/hebreeen/8/#5" target="_blank" class="reference" data-title="Hebr. 8:5" data-content="Welke het voorbeeld en de schaduw der hemelse dingen dienen, gelijk Mozes door Goddelijke aanspraak vermaand was, als hij den tabernakel volmaken zou. Want zie, zegt Hij, dat gij het alles maakt naar de afbeelding die u op den berg getoond is.">Hebr. 8:5</a>.        </div></span></div></div>
-//  stringstream ss;
-//  div_node.print (ss, "", format_raw);
-//  cout << ss.str() << endl; // Todo
 
   // Extract relevant information.
   gbs_plus_walker walker;
@@ -287,9 +283,7 @@ string gbs_plus_processor_v2 (string url, int book, int chapter, int verse) // T
   
   // Get the raw annotations html.
   string annotation_info = div_node.attribute("onclick").value();
-//  cout << annotation_info << endl; // Todo
   vector <string> bits = filter_string_explode(annotation_info, '\'');
-//  cout << bits.size() << endl; // Todo
   if (bits.size() >= 13) {
     string url = "https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php";
     map <string, string> post;
@@ -311,9 +305,7 @@ string gbs_plus_processor_v2 (string url, int book, int chapter, int verse) // T
       xml_node body_node = xpathnode.node();
       stringstream ss;
       body_node.print (ss, "", format_raw);
-//      cout << ss.str() << endl; // Todo
-//      filter_url_file_put_contents("/Users/teus/Desktop/annotations.html", ss.str()); // Todo
-      gbs_annotation_walker walker; // Todo
+      gbs_annotation_walker walker;
       body_node.traverse (walker);
       for (auto fragment : walker.texts) {
         text.append(" ");
@@ -325,110 +317,6 @@ string gbs_plus_processor_v2 (string url, int book, int chapter, int verse) // T
     }
   }
   
-  // Done.
-  return text;
-}
-
-
-// This funcion processes and displays Bible data from gbsdigitaal.nl
-// plus extra content like headers, introductions, cross references, and notes.
-// It is called by a more specific script.
-string gbs_plus_processor (string url, int chapter, int verse) // Todo old to go out.
-{
-  string text;
-  
-  // Retrieve JSON from the website.
-  string json = resource_logic_web_or_cache_get (url, text);
-
-  // Convert the JSON to XML.
-  Object object;
-  object.parse (json);
-  string xml = object.xml(TaggedXML);
-
-  // Parse the XML text.
-  xml_document document;
-  document.load_string (xml.c_str());
-
-  xml_node root_node = document.first_child ();
-
-  // The title of the book plus introduction.
-  if (!chapter) {
-    vector <string> bits;
-    string title = root_node.child_value ("title");
-    if (!title.empty ()) bits.push_back (title);
-    xml_node paragraphs_node = root_node.child ("paragraphs");
-    for (xml_node JsonItem_node : paragraphs_node.children()) {
-      string header = JsonItem_node.child_value ("header");
-      if (!header.empty ()) bits.push_back (header);
-      xml_node lines_node = JsonItem_node.child ("lines");
-      for (xml_node JsonItem_node : lines_node.children()) {
-        string content = JsonItem_node.child_value ("content");
-        if (!content.empty ()) bits.push_back (content);
-      }
-    }
-    text.append (filter_string_implode (bits, "<br>"));
-  }
-  
-  // The chapter summary at verse 0.
-  else if (chapter && !verse) {
-    string name = root_node.child_value ("name");
-    text.append (name);
-    text.append (" ");
-    string summary = root_node.child ("summary").child_value ("originalText");
-    text.append (summary);
-  }
-  
-  // Deal with verses other than 0.
-  else if (chapter && verse) {
-    string header;
-    xml_node verses_node = root_node.child ("verses");
-    // Iterate through the children of the verses node.
-    for (xml_node JsonItem_node : verses_node.children()) {
-      // Look for the matching verse number.
-      string number = JsonItem_node.child_value ("number");
-      if (verse == convert_to_int (number)) {
-        // Add queued header.
-        if (!header.empty ()) {
-          text.append (header);
-          text.append ("<br>");
-          header.clear ();
-        }
-        // The node that contains the canonical verse text.
-        string text_value = JsonItem_node.child_value ("text");
-        text.append (text_value);
-        // The node that has the textual notes.
-        xml_node commentaries_node = JsonItem_node.child ("commentaries");
-        for (xml_node JsonItem_node : commentaries_node.children()) {
-          string number = JsonItem_node.child_value ("number");
-          text.append ("<br>\n• ");
-          text.append (number);
-          string originalText = JsonItem_node.child_value ("originalText");
-          text.append (" ");
-          text.append (originalText);
-        }
-      } else {
-        // This is not the matching verse: clear the header.
-        header.clear ();
-      }
-      // Look for a header, and queue it if found.
-      string isHeader = JsonItem_node.child_value ("isHeader");
-      string isPerikoop = JsonItem_node.child_value ("isPerikoop");
-      if (!isHeader.empty () || !isPerikoop.empty ()) {
-        header = JsonItem_node.child_value ("text");
-      }
-    }
-  }
-
-  text = filter_string_str_replace ("\n", " ", text);
-  text = filter_string_str_replace ("\r", " ", text);
-  text = filter_string_str_replace ("\t", "", text);
-  text = filter_string_str_replace ("  ", " ", text);
-  text = filter_string_str_replace ("<br />", "", text);
-  text = filter_string_trim (text);
-
-  // Add new line.
-  if (!text.empty ()) text.append ("\n");
-
   // Done.
   return text;
 }
@@ -632,14 +520,13 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
-  return gbs_plus_processor_v2 (url, book, chapter, verse);
+  return gbs_plus_processor (url, book, chapter, verse);
 }
 
 
 // This script displays the King James Bible published by the Dutch GBS.
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse)
 {
-  // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
   return gbs_basic_processor (url, verse);
 }
@@ -649,22 +536,8 @@ string resource_external_get_king_james_version_gbs (int book, int chapter, int 
 // It also includes headers, introductions, and notes.
 string resource_external_get_king_james_version_plus_gbs (int book, int chapter, int verse)
 {
-  // Books OT: http://gbsdigitaal.nl/Data/Statenvertaling/1.json
-  // Books NT: http://gbsdigitaal.nl/Data/Statenvertaling/2.json
-  // Genesis intro http://gbsdigitaal.nl/Data/Statenvertaling/1/1/1.json
-  // Genesis 1 http://gbsdigitaal.nl/Data/Statenvertaling/1/1/2.json
-  // Matthew 1 http://gbsdigitaal.nl/Data/Statenvertaling/2/40/2.json
-  
-  // Old (1) or New (2) Testament.
-  int testament = book >= 40 ? 2 : 1;
-  
-  // Introduction is chapter 1 in the URL.
-  // Chapter 1 of the text is chapter 2 in the URL.
-  string urlchapter = convert_to_string (chapter + 1);
-  
-  string url = "http://gbsdigitaal.nl/Data/AuthorizedVersion/" + convert_to_string (testament) + "/" + convert_to_string (book) + "/" + urlchapter + ".json";
-  
-  return gbs_plus_processor (url, chapter, verse);
+  string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
+  return gbs_plus_processor (url, book, chapter, verse);
 }
 
 

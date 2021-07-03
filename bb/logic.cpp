@@ -918,17 +918,13 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
     vector <string> user_removals, user_additions, merged_removals, merged_additions;
     filter_diff_diff (ancestor_verse_usfm, edited_verse_usfm, &user_removals, &user_additions);
     filter_diff_diff (ancestor_verse_usfm, merged_verse_usfm, &merged_removals, &merged_additions);
-    //vector <string> missed_removals, missed_additions;
     for (auto user_removal : user_removals) {
-      //if (!in_array (user_removal, merged_removals)) missed_removals.push_back (user_removal);
       if (!in_array (user_removal, merged_removals)) anomaly_found = true;
     }
     for (auto user_addition : user_additions) {
-      //if (!in_array (user_addition, merged_additions)) missed_additions.push_back (user_addition);
       if (!in_array (user_addition, merged_additions)) anomaly_found = true;
     }
     if (!anomaly_found) continue;
-    anomalies_found = true;
     Filter_Text filter_text_ancestor = Filter_Text (bible);
     Filter_Text filter_text_edited = Filter_Text (bible);
     Filter_Text filter_text_merged = Filter_Text (bible);
@@ -947,13 +943,20 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
     string ancestor_text = filter_text_ancestor.text_text->get ();
     string edited_text = filter_text_edited.text_text->get ();
     string merged_text = filter_text_merged.text_text->get ();
-    string modification;
+    string modification_edited = filter_diff_diff (ancestor_text, edited_text);
+    string modification_saved = filter_diff_diff (ancestor_text, merged_text);
+    // If the edited and saved modifications are the same, do not email this.
+    // This keeps changes in footnotes and cross references out from consideration.
+    if (modification_saved == modification_edited) continue;
+    // Add labels to the modifications.
+    modification_edited.insert(0, translate ("You edited:") + " ");
+    modification_saved.insert(0, translate ("Bibledit saved:") + " ");
+    // Add the modifications to the email body.
     node = document.append_child ("p");
-    modification = translate ("You edited:") + " " + filter_diff_diff (ancestor_text, edited_text);
-    node.append_buffer (modification.c_str (), modification.size ());
+    node.append_buffer (modification_edited.c_str (), modification_edited.size ());
     node = document.append_child ("p");
-    modification = translate ("Bibledit saved:") + " " + filter_diff_diff (ancestor_text, merged_text);
-    node.append_buffer (modification.c_str (), modification.size ());
+    node.append_buffer (modification_saved.c_str (), modification_saved.size ());
+    anomalies_found = true;
   }
 
   // If no differences were found, bail out.

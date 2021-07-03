@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_gbs () // Todo
+void test_gbs ()
 {
   trace_unit_tests (__func__);
 

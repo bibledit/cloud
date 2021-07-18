@@ -1,17 +1,19 @@
 <h3><span id="count"></span> translate("Change Notifications")</h3>
 <!-- #BEGINZONE controlsattop -->
 <br>
-<p>translate("Dismiss the notifications of the changes of the following categories:")</p>
 <!-- #BEGINITERATION matching -->
-<p>* <a href="?matching=##user##&selectedbible=##selectedbible##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
+<p><a href="?matching=##user##&selectedbible=##selectedbible##">translate ("Dismiss the notifications of the changes made by") ##icon## translate ("when they match with changes made by anyone else on the team") 📖.</a></p>
 <!-- #ENDITERATION matching -->
 <!-- #BEGINZONE personal -->
-<p>* <a href="?personal=&selectedbible=##selectedbible##">😊 translate("(all of them)"): ##personalcount##</a></p>
+<p><a href="?personal=&selectedbible=##selectedbible##">translate ("Dismiss the notifications of all changes made by me") 😊: ##personalcount##</a></p>
 <!-- #ENDZONE personal -->
 <!-- #BEGINZONE bible -->
-<p>* <a href="?bible=&selectedbible=##selectedbible##">📖 translate("(all of them)"): ##teamcount##</a></p>
+<p><a href="?bible=&selectedbible=##selectedbible##">translate ("Dismiss the notifications of all changes made by anyone") 📖: ##teamcount##</a></p>
 <!-- #ENDZONE bible -->
-##dismissblock##
+<!-- #BEGINITERATION individual -->
+<p><a href="?dismiss=##user##&selectbible=##selectedbible##">translate ("Dismiss the notifications of the changes made by") ##user##: ##count##</a></p>
+<!-- #ENDITERATION individual -->
+<br>
 <p><a href="?sort=##sortquery##">##sorttext##</a></p>
 <p>
 translate("Select Bible:")
@@ -102,17 +104,19 @@ translate("The different categories of change notifications enable you to find o
 </p>
 <!-- #BEGINZONE controlsatbottom -->
 <br>
-<p>translate("Dismiss the notifications of the changes of the following categories:")</p>
 <!-- #BEGINITERATION matching -->
-<p>* <a href="?matching=##user##&selectedbible=##selectedbible##">##icon## translate ("and") 📖 translate("(if their changes and verses match)")</a></p>
+<p><a href="?matching=##user##&selectedbible=##selectedbible##">translate ("Dismiss the notifications of the changes made by") ##icon## translate ("when they match with changes made by anyone else on the team") 📖.</a></p>
 <!-- #ENDITERATION matching -->
 <!-- #BEGINZONE personal -->
-<p>* <a href="?personal=&selectedbible=##selectedbible##">😊 translate("(all of them)"): ##personalcount##</a></p>
+<p><a href="?personal=&selectedbible=##selectedbible##">translate ("Dismiss the notifications of all changes made by me") 😊: ##personalcount##</a></p>
 <!-- #ENDZONE personal -->
 <!-- #BEGINZONE bible -->
-<p>* <a href="?bible=&selectedbible=##selectedbible##">📖 translate("(all of them)"): ##teamcount##</a></p>
+<p><a href="?bible=&selectedbible=##selectedbible##">translate ("Dismiss the notifications of all changes made by anyone") 📖: ##teamcount##</a></p>
 <!-- #ENDZONE bible -->
-##dismissblock##
+<!-- #BEGINITERATION individual -->
+<p><a href="?dismiss=##user##&selectbible=##selectedbible##">translate ("Dismiss the notifications of the changes made by") ##user##: ##count##</a></p>
+<!-- #ENDITERATION individual -->
+<br>
 <p><a href="?sort=##sortquery##">##sorttext##</a></p>
 <!-- #ENDZONE controlsatbottom -->
 <br>

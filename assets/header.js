@@ -114,6 +114,7 @@ $ (document).ready (function () {
   }
   if (mainMenuAlwaysOn === "1") {
     var nodeListOfTopbarLinks = document.querySelectorAll('div#topbar > span >  a');
+		// For advanced mode.
     if (/workspace\/index/.test(window.location.pathname) === true) {
       activeTopbarButton ("workspace", nodeListOfTopbarLinks);
     } else if (/edit\/index/.test(window.location.pathname) || /editone2\/index/.test(window.location.pathname) ||
@@ -145,7 +146,19 @@ $ (document).ready (function () {
       activeTopbarButton ("settings", nodeListOfTopbarLinks);
     } else if (/help/.test(window.location.pathname)) {
       activeTopbarButton ("help", nodeListOfTopbarLinks);
-    }
+		}
+		// For basic mode.
+    if (/read\/index/.test(window.location.pathname)) {
+			activeTopbarButton ("read", nodeListOfTopbarLinks);
+    } else if (/resource\/index/.test(window.location.pathname)) {
+			activeTopbarButton ("resource", nodeListOfTopbarLinks);
+    } else if (/editone2\/index/.test(window.location.pathname)) {
+			activeTopbarButton ("editone2", nodeListOfTopbarLinks);
+    } else if (/notes\/index/.test(window.location.pathname)) {
+			activeTopbarButton ("notes", nodeListOfTopbarLinks);
+    } else if (/personalize\/index/.test(window.location.pathname)) {
+			activeTopbarButton ("personalize", nodeListOfTopbarLinks);
+		}
   }
 
   // If there are more than 9 tabs, a wrapping property in CSS will be activated.

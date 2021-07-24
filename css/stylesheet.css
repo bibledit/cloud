@@ -468,10 +468,6 @@ input#cancel,
   color: #171717;
 }
 
-.dark-background #topbar {
-	color: #efefef;
-}
-
 .dark-background a:link,
 .dark-background a:visited {
   color: #5e92b4;

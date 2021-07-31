@@ -150,7 +150,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
       irregularity = true;
     }
   }
-  
+
   if (irregularity) {
     Merge_Conflict conflict;
     conflict.base = base;

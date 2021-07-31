@@ -477,7 +477,8 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
     document.append_child ("br");
     xml_node div_node;
     div_node = document.append_child ("div");
-    div_node.append_attribute ("style") = "font-size: 30%";
+    // Disabled: https://github.com/bibledit/cloud/issues/401
+    // div_node.append_attribute ("style") = "font-size: 30%";
 
     node = div_node.append_child ("p");
     node.text ().set ("Full details follow below.");

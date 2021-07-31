@@ -202,6 +202,7 @@ string bible_settings (void * webserver_request)
   view.set_variable ("public", get_checkbox_status (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
 
   
+ 
   // RSS feed.
 #ifdef HAVE_CLOUD
   if (checkbox == "rss") {
@@ -233,7 +234,23 @@ string bible_settings (void * webserver_request)
   }
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   view.set_variable ("stylesheet", stylesheet);
+
   
+  // Automatic daily checks on text.
+#ifdef HAVE_CLOUD
+  if (checkbox == "checks") {
+    if (write_access) {
+      Database_Config_Bible::setDailyChecksEnabled (bible, checked);
+      if (!checked) {
+        // If checking is switched off, also remove any existing checking results for this Bible.
+        Database_Check database_check;
+        database_check.truncateOutput(bible);
+      }
+    }
+  }
+  view.set_variable ("checks", get_checkbox_status (Database_Config_Bible::getDailyChecksEnabled (bible)));
+#endif
+
   
   view.set_variable ("systemindex", system_index_url());
   view.set_variable ("success_message", success_message);

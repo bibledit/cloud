@@ -19,6 +19,7 @@
 
 #include <checks/logic.h>
 #include <database/bibles.h>
+#include <database/config/bible.h>
 #include <tasks/logic.h>
 
 
@@ -27,7 +28,8 @@ void checks_logic_start_all ()
   Database_Bibles database_bibles;
   vector <string> bibles = database_bibles.getBibles ();
   for (auto bible : bibles) {
-    checks_logic_start (bible);
+    bool enabled = Database_Config_Bible::getDailyChecksEnabled (bible);
+    if (enabled) checks_logic_start (bible);
   }
 }
 

@@ -836,3 +836,16 @@ void Database_Config_Bible::setOdtSpaceAfterVerse (string bible, string value)
   setValue (bible, odt_space_after_verse_key (), value);
 }
 
+
+const char * daily_checks_enabled_key ()
+{
+  return "daily-checks-enabled";
+}
+bool Database_Config_Bible::getDailyChecksEnabled (string bible)
+{
+  return getBValue (bible, daily_checks_enabled_key (), true);
+}
+void Database_Config_Bible::setDailyChecksEnabled (string bible, bool value)
+{
+  setBValue (bible, daily_checks_enabled_key (), value);
+}

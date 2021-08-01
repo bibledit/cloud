@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/external.h>
 #include <config/globals.h>
 #include <library/bibledit.h>
+#include <developer/logic.h>
 
 
 const char * developer_index_url ()
@@ -145,6 +146,11 @@ string developer_index (void * webserver_request)
       tasks_logic_queue (EXPIREINDONESIANFREEUSERS);
       view.set_variable ("success", "Task was started");
     } else view.set_variable ("error", "Not configured");
+  }
+  
+  if (debug == "changes") {
+    developer_logic_import_changes ();
+    view.set_variable ("success", "Task was done see Journal");
   }
   
   view.set_variable ("code", code);

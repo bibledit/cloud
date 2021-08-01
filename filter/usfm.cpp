@@ -733,7 +733,7 @@ string usfm_safely_store_chapter (void * webserver_request,
 // On failure it returns a message that specifies the reason why it could not be saved.
 // This function proves useful in cases that the text in the Bible editor gets corrupted due to human error.
 // It also is useful in cases where the session is deleted from the server,
-// where the text in the editors would get corrupted.
+ // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
 string usfm_safely_store_verse (void * webserver_request,

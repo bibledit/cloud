@@ -40,5 +40,7 @@ public:
   string username;
 };
 
+void developer_logic_import_changes ();
+
 
 #endif

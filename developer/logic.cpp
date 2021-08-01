@@ -22,6 +22,9 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <webserver/request.h>
+#include <database/logs.h>
+#include <database/books.h>
+#include <filter/usfm.h>
 
 
 mutex log_network_mutex;
@@ -76,4 +79,97 @@ Developer_Logic_Tracer::~Developer_Logic_Tracer()
   log_network_mutex.lock();
   log_network_cache.push_back(entry);
   log_network_mutex.unlock();
+}
+
+
+void developer_logic_import_changes_save (string bible, int book, int chapter, int verse, string & text)
+{
+  cout << "saving verse " << verse << endl;
+  cout << text << endl;
+  if (text.empty()) {
+    return;
+  }
+  
+  Webserver_Request webserver_request;
+  string explanation = "import changes";
+  string message = usfm_safely_store_verse (&webserver_request, bible, book, chapter, verse, text, explanation, false);
+  if (!message.empty()) Database_Logs::log (message);
+  text.clear ();
+}
+
+
+void developer_logic_import_changes ()
+{
+  string home_path = ".";
+  char * home = getenv ("HOME");
+  if (home) home_path = home;
+  string file_path = filter_url_create_path (home_path, "Desktop", "changes.usfm");
+  string bible = "test";
+  Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
+  Database_Bibles database_bibles;
+  vector <string> bibles = database_bibles.getBibles ();
+  if (!in_array(bible, bibles)) {
+    Database_Logs::log ("Cannot locate Bible " + bible);
+    return;
+  }
+  if (!file_or_dir_exists (file_path)) {
+    Database_Logs::log ("Cannot locate " + file_path);
+    return;
+  }
+  string contents = filter_url_file_get_contents(file_path);
+  vector<string> lines = filter_string_explode(contents, "\n");
+
+  vector <int> book_ids = Database_Books::getIDs ();
+
+  Passage passage (bible, 0, 0, "");
+  string text;
+
+  for (auto line : lines) {
+    if (line.empty()) continue;
+    
+    int book = 0;
+    int chapter = -1;
+    int verse = -1;
+
+    // Locate and extract the book identifier.
+    for (auto book_id : book_ids) {
+      string s = Database_Books::getEnglishFromId(book_id);
+      size_t pos = line.find(s);
+      if (pos != 3) continue;
+      book = book_id;
+      line.erase (0, pos + s.length());
+      break;
+    }
+    
+    // Extract chapter and verse.
+    bool passage_found = false;
+    if (book) {
+      size_t pos = line.find (":");
+      if (pos != string::npos) {
+        vector <string> bits = filter_string_explode(line.substr (0, pos), ".");
+        if (bits.size() == 2) {
+          chapter = convert_to_int(filter_string_trim(bits[0]));
+          verse = convert_to_int(filter_string_trim(bits[1]));
+          line.erase (0, pos + 2);
+          passage_found = (book) && (chapter >= 0) && (verse >= 0);
+        }
+      }
+    }
+    
+    // If a new passage was found:
+    // 1. Save the accumulated text to the existing passage.
+    // 2. Update the passage to point to the new one.
+    if (passage_found) {
+      developer_logic_import_changes_save (passage.bible, passage.book, passage.chapter, convert_to_int (passage.verse), text);
+      passage = Passage(bible, book, chapter, convert_to_string(verse));
+    }
+    // Accumulate the text.
+    if (!text.empty()) text.append ("\n");
+    //if (verse == 1) text.append ("\\p\n");
+    text.append(line);
+
+  }
+  
+  developer_logic_import_changes_save (passage.bible, passage.book, passage.chapter, convert_to_int (passage.verse), text);
+
 }

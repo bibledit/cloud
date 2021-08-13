@@ -191,7 +191,7 @@ string editone2_update (void * webserver_request)
     if (loaded_verse_usfm != existing_verse_usfm) {
       vector <Merge_Conflict> conflicts;
       // Do a merge while giving priority to the USFM already in the chapter.
-      string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
+      string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts); // Todo how are conflicts handled?
       // Mail the user if there is a merge anomaly.
       bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm);
       // Let the merged data now become the edited data (so it gets saved properly).

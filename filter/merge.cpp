@@ -146,7 +146,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
   
   if (!irregularity) {
     if ((change != base) && (prioritized_change != change) && (prioritized_change == result)) {
-      subject = "Failed to merge your changes";
+      subject = "Failed to merge your changes"; // Todo
       irregularity = true;
     }
   }
@@ -175,7 +175,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
 // If $clever, it calls a more clever routine when it fails to merge.
 string filter_merge_run (string base, string change, string prioritized_change,
                          bool clever,
-                         vector <Merge_Conflict> & conflicts)
+                         vector <Merge_Conflict> & conflicts) // Todo
 {
   // Trim the input.
   base = filter_string_trim (base);

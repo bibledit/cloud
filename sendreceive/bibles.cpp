@@ -529,7 +529,7 @@ void sendreceive_bibles ()
         Database_Logs::log (sendreceive_bibles_text () + translate("Merging changes on server and client") + " " + bible + " " + book_name + " " + convert_to_string (chapter), Filter_Roles::translator ());
         string client_usfm = request.database_bibles()->getChapter (bible, book, chapter);
         string merged_usfm = filter_merge_run (old_usfm, client_usfm, server_usfm, true, conflicts);
-        bible_logic_merge_irregularity_mail ( { user }, conflicts);
+        bible_logic_merge_irregularity_mail ( { user }, conflicts); // Todo does it include reference?
         bible_logic_store_chapter (bible, book, chapter, merged_usfm);
       }
     }

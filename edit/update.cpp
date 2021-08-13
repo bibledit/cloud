@@ -222,7 +222,7 @@ string edit_update (void * webserver_request)
       string merged_chapter_usfm = filter_merge_run (loaded_chapter_usfm, edited_chapter_usfm, existing_chapter_usfm, true, conflicts);
       // Mail the user if there is a merge anomaly.
       bible_logic_optional_merge_irregularity_email (bible, book, chapter, username, loaded_chapter_usfm, edited_chapter_usfm, merged_chapter_usfm);
-      bible_logic_merge_irregularity_mail ({username}, conflicts);
+      bible_logic_merge_irregularity_mail ({username}, conflicts); // Todo does it include reference?
       // Let the merged data now become the edited data (so it gets saved properly).
       edited_chapter_usfm = merged_chapter_usfm;
     }

@@ -430,7 +430,7 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
     
     // Add the passage to the subject.
     string newsubject = conflict.subject;
-    if (conflict.book) newsubject.append (" | " + filter_passage_display (conflict.book, conflict.chapter, ""));
+    newsubject.append (" | " + filter_passage_display (conflict.book, conflict.chapter, ""));
     
     // Create the body of the email.
     xml_document document;

@@ -418,6 +418,7 @@ void Paratext_Logic::synchronize ()
 
         // If there's any conflicts, email full details about the conflict to the user.
         // This may enable the user to resolve conflicts manually.
+        filter_merge_add_book_chapter (conflicts, book, chapter);
         bible_logic_merge_irregularity_mail ({ username }, conflicts);
         
         // Store the updated chapter in Bibledit.

@@ -146,7 +146,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
   
   if (!irregularity) {
     if ((change != base) && (prioritized_change != change) && (prioritized_change == result)) {
-      subject = "Failed to merge your changes"; // Todo
+      subject = "Failed to merge your changes";
       irregularity = true;
     }
   }
@@ -175,7 +175,7 @@ void filter_merge_detect_conflict (string base, string change, string prioritize
 // If $clever, it calls a more clever routine when it fails to merge.
 string filter_merge_run (string base, string change, string prioritized_change,
                          bool clever,
-                         vector <Merge_Conflict> & conflicts) // Todo
+                         vector <Merge_Conflict> & conflicts)
 {
   // Trim the input.
   base = filter_string_trim (base);
@@ -292,4 +292,13 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
   
   // Done.
   return filter_string_implode (results, "\n");
+}
+
+
+void filter_merge_add_book_chapter (vector <Merge_Conflict> & conflicts, int book, int chapter)
+{
+  for (auto & conflict : conflicts) {
+    conflict.book = book;
+    conflict.chapter = chapter;
+  }
 }

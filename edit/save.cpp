@@ -141,7 +141,8 @@ string edit_save (void * webserver_request)
   }
   
   // Check on the merge.
-  bible_logic_merge_irregularity_mail ({username}, conflicts); // Todo does it include reference?
+  filter_merge_add_book_chapter (conflicts, book, chapter);
+  bible_logic_merge_irregularity_mail ({username}, conflicts);
   
   // Check whether the USFM on disk has changed compared to the USFM that was loaded in the editor.
   // If there's a difference, email the user.

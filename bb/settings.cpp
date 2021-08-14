@@ -215,16 +215,16 @@ string bible_settings (void * webserver_request)
 #endif
 
   
-  // Stylesheet.
-  if (request->query.count ("stylesheet")) {
-    string stylesheet = request->query["stylesheet"];
-    if (stylesheet == "") {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet?"), translate ("A stylesheet affects how the Bible text in the editor looks.") + " " + translate ("Please make your choice below."), "");
+  // Stylesheet for editing.
+  if (request->query.count ("stylesheetediting")) {
+    string stylesheet = request->query["stylesheetediting"];
+    if (stylesheet.empty()) {
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for editing?"), translate ("The stylesheet affects how the Bible text in the editor looks.") + " " + translate ("Please make your choice below."), "");
       dialog_list.add_query ("bible", bible);
       Database_Styles database_styles = Database_Styles();
       vector <string> sheets = database_styles.getSheets();
       for (auto & name : sheets) {
-        dialog_list.add_row (name, "stylesheet", name);
+        dialog_list.add_row (name, "stylesheetediting", name);
       }
       page += dialog_list.run ();
       return page;
@@ -233,8 +233,29 @@ string bible_settings (void * webserver_request)
     }
   }
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  view.set_variable ("stylesheet", stylesheet);
+  view.set_variable ("stylesheetediting", stylesheet);
 
+  
+  // Stylesheet for export.
+  if (request->query.count ("stylesheetexport")) {
+    string stylesheet = request->query["stylesheetexport"];
+    if (stylesheet.empty()) {
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Would you like to change the stylesheet for export?"), translate ("The stylesheet affects how the Bible text looks when exported.") + " " + translate ("Please make your choice below."), "");
+      dialog_list.add_query ("bible", bible);
+      Database_Styles database_styles = Database_Styles();
+      vector <string> sheets = database_styles.getSheets();
+      for (auto & name : sheets) {
+        dialog_list.add_row (name, "stylesheetexport", name);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      if (write_access) Database_Config_Bible::setExportStylesheet (bible, stylesheet);
+    }
+  }
+  stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  view.set_variable ("stylesheetexport", stylesheet);
+  
   
   // Automatic daily checks on text.
 #ifdef HAVE_CLOUD

@@ -383,24 +383,6 @@ string manage_exports (void * webserver_request)
     view.set_variable ("success", translate("The Bible is being exported to Online Bible format."));
   }
   
-  
-  if (request->query.count ("sheet")) {
-    string sheet = request->query["sheet"];
-    if (sheet == "") {
-      Dialog_List dialog_list = Dialog_List ("exports", translate("Would you like to use another stylesheet for the exports?"), "", "");
-      vector <string> sheets = request->database_styles()->getSheets();
-      for (auto sheet : sheets) {
-        dialog_list.add_row (sheet, "sheet", sheet);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
-      Database_Config_Bible::setExportStylesheet (bible, sheet);
-    }
-  }
-  view.set_variable ("stylesheet", Database_Config_Bible::getExportStylesheet (bible));
-                     
                      
   if (request->post.count ("passwordsubmit")) {
     string password = request->post["passwordentry"];

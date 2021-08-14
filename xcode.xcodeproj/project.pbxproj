@@ -1087,12 +1087,8 @@
 		CADE3A8F24F17424003165BB /* SIL-Licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-Licenses.txt"; sourceTree = "<group>"; };
 		CADE3A9024F17424003165BB /* SIL-README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SIL-README.txt"; sourceTree = "<group>"; };
 		CADE3A9124F17424003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CADE3A9224F17424003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE3A9324F17424003165BB /* Cardo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cardo-Regular.ttf"; sourceTree = "<group>"; };
-		CADE3A9524F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3A9624F17424003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
 		CADE3A9724F17424003165BB /* SILEOT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SILEOT.ttf; sourceTree = "<group>"; };
-		CADE3A9824F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3A9B24F17424003165BB /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CADE3A9C24F17424003165BB /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		CADE3A9E24F17424003165BB /* header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = header.h; sourceTree = "<group>"; };
@@ -3535,26 +3531,14 @@
 		CADE3A8D24F17424003165BB /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CADE3A9324F17424003165BB /* Cardo-Regular.ttf */,
 				CADE3A8E24F17424003165BB /* logic.cpp */,
+				CADE3A9124F17424003165BB /* logic.h */,
 				CADE3A8F24F17424003165BB /* SIL-Licenses.txt */,
 				CADE3A9024F17424003165BB /* SIL-README.txt */,
-				CADE3A9124F17424003165BB /* logic.h */,
-				CADE3A9224F17424003165BB /* logic.o */,
-				CADE3A9324F17424003165BB /* Cardo-Regular.ttf */,
-				CADE3A9424F17424003165BB /* .deps */,
 				CADE3A9724F17424003165BB /* SILEOT.ttf */,
-				CADE3A9824F17424003165BB /* .dirstamp */,
 			);
 			path = fonts;
-			sourceTree = "<group>";
-		};
-		CADE3A9424F17424003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3A9524F17424003165BB /* .dirstamp */,
-				CADE3A9624F17424003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3A9924F17424003165BB /* html */ = {

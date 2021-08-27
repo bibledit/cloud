@@ -150,8 +150,11 @@ function resourceUnload ()
 
 
 // Scroll the window to the same position it had the previous time it displayed.
+// Later this was disabled.
+// The reason is explained in https://github.com/bibledit/cloud/issues/660.
 function resourcePosition ()
 {
+  return;
   if (resourceWindowPosition != 0) {
     var position = $("#workspacewrapper").scrollTop();
     if (position != resourceWindowPosition) {

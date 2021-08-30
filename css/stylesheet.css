@@ -493,7 +493,6 @@ input#cancel,
   padding: 1px;
   text-transform: uppercase !important;
   font-family: 'Montserrat Semi-Bold';
-  font-size: 15px;
 }
 
 .light-background #topbar span,
@@ -649,7 +648,7 @@ input#cancel,
 }
 
 #topbar .fadeout span a:hover {
-  font-size: larger;
+  font-size: 1.05em;
   font-weight: bold;
   text-decoration: none;
   filter: 0;

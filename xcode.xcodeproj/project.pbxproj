@@ -617,6 +617,7 @@
 		CAD8B11526E4E18C00639404 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
 		CAD8B11626E4E18C00639404 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view.cpp; sourceTree = "<group>"; };
 		CAD8B11726E4E18C00639404 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
+		CAD8B11826E50BF700639404 /* installcloudcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudcentos.html; sourceTree = "<group>"; };
 		CADD5A382630A3F5003AAB27 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CADD5A392630A3F5003AAB27 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -3344,6 +3345,7 @@
 				CADE39AD24F17423003165BB /* installandroid.html */,
 				CADE39AE24F17423003165BB /* installation.html */,
 				CADE399524F17422003165BB /* installchromeos.html */,
+				CAD8B11826E50BF700639404 /* installcloudcentos.html */,
 				CADE39B724F17423003165BB /* installcloudsourcedebian.html */,
 				CADE39A724F17423003165BB /* installcloudubuntu.html */,
 				CADE39A324F17423003165BB /* installios.html */,

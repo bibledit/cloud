@@ -456,7 +456,10 @@ libbibledit_a_SOURCES = \
   database/abbottsmith.cpp \
   resource/comparative9edit.cpp \
   resource/comparative1edit.cpp \
-  developer/delay.cpp
+  developer/delay.cpp \
+  images/index.cpp \
+  images/view.cpp \
+  database/bibleimages.cpp
 
 bin_PROGRAMS = server unittest generate
 
@@ -548,7 +551,8 @@ unittest_SOURCES = \
   unittests/nmt.cpp \
   unittests/html2format.cpp \
   unittests/studylight.cpp \
-  unittests/gbs.cpp
+  unittests/gbs.cpp \
+  unittests/bibleimages.cpp
 
 unittest_LDADD = libbibledit.a
 

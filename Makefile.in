@@ -341,7 +341,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT) \
 	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
 	resource/comparative9edit.$(OBJEXT) \
-	resource/comparative1edit.$(OBJEXT) developer/delay.$(OBJEXT)
+	resource/comparative1edit.$(OBJEXT) developer/delay.$(OBJEXT) \
+	images/index.$(OBJEXT) images/view.$(OBJEXT) \
+	database/bibleimages.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -393,7 +395,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
 	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
-	unittests/studylight.$(OBJEXT) unittests/gbs.$(OBJEXT)
+	unittests/studylight.$(OBJEXT) unittests/gbs.$(OBJEXT) \
+	unittests/bibleimages.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -444,10 +447,11 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	consistency/$(DEPDIR)/poll.Po \
 	database/$(DEPDIR)/abbottsmith.Po \
 	database/$(DEPDIR)/bibleactions.Po \
-	database/$(DEPDIR)/bibles.Po database/$(DEPDIR)/books.Po \
-	database/$(DEPDIR)/cache.Po database/$(DEPDIR)/check.Po \
-	database/$(DEPDIR)/confirm.Po database/$(DEPDIR)/etcbc4.Po \
-	database/$(DEPDIR)/git.Po database/$(DEPDIR)/hebrewlexicon.Po \
+	database/$(DEPDIR)/bibleimages.Po database/$(DEPDIR)/bibles.Po \
+	database/$(DEPDIR)/books.Po database/$(DEPDIR)/cache.Po \
+	database/$(DEPDIR)/check.Po database/$(DEPDIR)/confirm.Po \
+	database/$(DEPDIR)/etcbc4.Po database/$(DEPDIR)/git.Po \
+	database/$(DEPDIR)/hebrewlexicon.Po \
 	database/$(DEPDIR)/imageresources.Po database/$(DEPDIR)/ipc.Po \
 	database/$(DEPDIR)/jobs.Po database/$(DEPDIR)/kjv.Po \
 	database/$(DEPDIR)/localization.Po database/$(DEPDIR)/logic.Po \
@@ -513,7 +517,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
 	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
 	help/$(DEPDIR)/index.Po html/$(DEPDIR)/header.Po \
-	html/$(DEPDIR)/text.Po index/$(DEPDIR)/index.Po \
+	html/$(DEPDIR)/text.Po images/$(DEPDIR)/index.Po \
+	images/$(DEPDIR)/view.Po index/$(DEPDIR)/index.Po \
 	index/$(DEPDIR)/listing.Po ipc/$(DEPDIR)/focus.Po \
 	ipc/$(DEPDIR)/notes.Po jobs/$(DEPDIR)/index.Po \
 	journal/$(DEPDIR)/index.Po journal/$(DEPDIR)/logic.Po \
@@ -656,6 +661,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	timer/$(DEPDIR)/index.Po tmp/$(DEPDIR)/tmp.Po \
 	trash/$(DEPDIR)/handler.Po unittests/$(DEPDIR)/archive.Po \
 	unittests/$(DEPDIR)/biblegateway.Po \
+	unittests/$(DEPDIR)/bibleimages.Po \
 	unittests/$(DEPDIR)/bibles.Po unittests/$(DEPDIR)/books.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/check.Po \
 	unittests/$(DEPDIR)/checksum.Po unittests/$(DEPDIR)/client.Po \
@@ -1394,7 +1400,10 @@ libbibledit_a_SOURCES = \
   database/abbottsmith.cpp \
   resource/comparative9edit.cpp \
   resource/comparative1edit.cpp \
-  developer/delay.cpp
+  developer/delay.cpp \
+  images/index.cpp \
+  images/view.cpp \
+  database/bibleimages.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1482,7 +1491,8 @@ unittest_SOURCES = \
   unittests/nmt.cpp \
   unittests/html2format.cpp \
   unittests/studylight.cpp \
-  unittests/gbs.cpp
+  unittests/gbs.cpp \
+  unittests/bibleimages.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3014,6 +3024,18 @@ resource/comparative1edit.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 developer/delay.$(OBJEXT): developer/$(am__dirstamp) \
 	developer/$(DEPDIR)/$(am__dirstamp)
+images/$(am__dirstamp):
+	@$(MKDIR_P) images
+	@: > images/$(am__dirstamp)
+images/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) images/$(DEPDIR)
+	@: > images/$(DEPDIR)/$(am__dirstamp)
+images/index.$(OBJEXT): images/$(am__dirstamp) \
+	images/$(DEPDIR)/$(am__dirstamp)
+images/view.$(OBJEXT): images/$(am__dirstamp) \
+	images/$(DEPDIR)/$(am__dirstamp)
+database/bibleimages.$(OBJEXT): database/$(am__dirstamp) \
+	database/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3213,6 +3235,8 @@ unittests/studylight.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/gbs.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/bibleimages.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3252,6 +3276,7 @@ mostlyclean-compile:
 	-rm -f fonts/*.$(OBJEXT)
 	-rm -f help/*.$(OBJEXT)
 	-rm -f html/*.$(OBJEXT)
+	-rm -f images/*.$(OBJEXT)
 	-rm -f index/*.$(OBJEXT)
 	-rm -f ipc/*.$(OBJEXT)
 	-rm -f jobs/*.$(OBJEXT)
@@ -3369,6 +3394,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@consistency/$(DEPDIR)/poll.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/abbottsmith.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleactions.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibleimages.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/books.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/cache.Po@am__quote@ # am--include-marker
@@ -3493,6 +3519,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/header.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@images/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@images/$(DEPDIR)/view.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@index/$(DEPDIR)/listing.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@ipc/$(DEPDIR)/focus.Po@am__quote@ # am--include-marker
@@ -3757,6 +3785,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/archive.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/biblegateway.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/bibleimages.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/books.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/cache.Po@am__quote@ # am--include-marker
@@ -4269,6 +4298,8 @@ distclean-generic:
 	-rm -f help/$(am__dirstamp)
 	-rm -f html/$(DEPDIR)/$(am__dirstamp)
 	-rm -f html/$(am__dirstamp)
+	-rm -f images/$(DEPDIR)/$(am__dirstamp)
+	-rm -f images/$(am__dirstamp)
 	-rm -f index/$(DEPDIR)/$(am__dirstamp)
 	-rm -f index/$(am__dirstamp)
 	-rm -f ipc/$(DEPDIR)/$(am__dirstamp)
@@ -4449,6 +4480,7 @@ distclean: distclean-am
 	-rm -f consistency/$(DEPDIR)/poll.Po
 	-rm -f database/$(DEPDIR)/abbottsmith.Po
 	-rm -f database/$(DEPDIR)/bibleactions.Po
+	-rm -f database/$(DEPDIR)/bibleimages.Po
 	-rm -f database/$(DEPDIR)/bibles.Po
 	-rm -f database/$(DEPDIR)/books.Po
 	-rm -f database/$(DEPDIR)/cache.Po
@@ -4573,6 +4605,8 @@ distclean: distclean-am
 	-rm -f help/$(DEPDIR)/index.Po
 	-rm -f html/$(DEPDIR)/header.Po
 	-rm -f html/$(DEPDIR)/text.Po
+	-rm -f images/$(DEPDIR)/index.Po
+	-rm -f images/$(DEPDIR)/view.Po
 	-rm -f index/$(DEPDIR)/index.Po
 	-rm -f index/$(DEPDIR)/listing.Po
 	-rm -f ipc/$(DEPDIR)/focus.Po
@@ -4837,6 +4871,7 @@ distclean: distclean-am
 	-rm -f trash/$(DEPDIR)/handler.Po
 	-rm -f unittests/$(DEPDIR)/archive.Po
 	-rm -f unittests/$(DEPDIR)/biblegateway.Po
+	-rm -f unittests/$(DEPDIR)/bibleimages.Po
 	-rm -f unittests/$(DEPDIR)/bibles.Po
 	-rm -f unittests/$(DEPDIR)/books.Po
 	-rm -f unittests/$(DEPDIR)/cache.Po
@@ -5040,6 +5075,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f consistency/$(DEPDIR)/poll.Po
 	-rm -f database/$(DEPDIR)/abbottsmith.Po
 	-rm -f database/$(DEPDIR)/bibleactions.Po
+	-rm -f database/$(DEPDIR)/bibleimages.Po
 	-rm -f database/$(DEPDIR)/bibles.Po
 	-rm -f database/$(DEPDIR)/books.Po
 	-rm -f database/$(DEPDIR)/cache.Po
@@ -5164,6 +5200,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f help/$(DEPDIR)/index.Po
 	-rm -f html/$(DEPDIR)/header.Po
 	-rm -f html/$(DEPDIR)/text.Po
+	-rm -f images/$(DEPDIR)/index.Po
+	-rm -f images/$(DEPDIR)/view.Po
 	-rm -f index/$(DEPDIR)/index.Po
 	-rm -f index/$(DEPDIR)/listing.Po
 	-rm -f ipc/$(DEPDIR)/focus.Po
@@ -5428,6 +5466,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f trash/$(DEPDIR)/handler.Po
 	-rm -f unittests/$(DEPDIR)/archive.Po
 	-rm -f unittests/$(DEPDIR)/biblegateway.Po
+	-rm -f unittests/$(DEPDIR)/bibleimages.Po
 	-rm -f unittests/$(DEPDIR)/bibles.Po
 	-rm -f unittests/$(DEPDIR)/books.Po
 	-rm -f unittests/$(DEPDIR)/cache.Po

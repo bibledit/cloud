@@ -210,6 +210,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/comparative1edit.h>
 #include <developer/logic.h>
 #include <developer/delay.h>
+#include <images/index.h>
+#include <images/view.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1252,6 +1254,16 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == developer_delay_url ()) && developer_delay_acl (request)) {
     request->reply = developer_delay (request);
+    return;
+  }
+
+  if ((url == images_index_url ()) && browser_request_security_okay (request) && images_index_acl (request)) {
+    request->reply = images_index (request);
+    return;
+  }
+
+  if ((url == images_view_url ()) && browser_request_security_okay (request) && images_view_acl (request)) {
+    request->reply = images_view (request);
     return;
   }
 

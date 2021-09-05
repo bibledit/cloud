@@ -304,6 +304,10 @@
 /html
 /i18n
 /i18n/i18n.sh
+/images
+/images/gitflag
+/images/index.html
+/images/view.html
 /index
 /index/index.html
 /index/listing.html
@@ -837,6 +841,8 @@
 /unittests/tests/60-1Peter.usfm
 /unittests/tests/basic.css
 /unittests/tests/biblehub-john-1-1.html
+/unittests/tests/bibleimage.jpeg
+/unittests/tests/bibleimage.png
 /unittests/tests/cache_resource_test.sqlite
 /unittests/tests/changed_verses.html
 /unittests/tests/chapters_new.usfm

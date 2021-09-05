@@ -96,6 +96,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <read/index.h>
 #include <filter/css.h>
 #include <resource/comparative9edit.h>
+#include <images/index.h>
 
 
 string menu_logic_href (string href)
@@ -670,6 +671,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   string account = translate ("Account");
   string basic_mode = translate ("Basic mode");
   string system = translate ("System");
+  string images = menu_logic_images_index_text();
   vector <string> labels = {
     bibles,
     workspaces,
@@ -689,7 +691,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     notifications,
     account,
     basic_mode,
-    system
+    system,
+    images
   };
   
   // Sort the labels in alphabetical order for the menu.
@@ -877,6 +880,13 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == system) {
       if (system_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (system_index_url (), label, true, "", ""));
+        tiplabels.push_back (label);
+      }
+    }
+
+    if (label == images) { // Todo
+      if (images_index_acl (webserver_request)) {
+        html.push_back (menu_logic_create_item (images_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
@@ -1152,7 +1162,12 @@ string menu_logic_styles_text ()
 string menu_logic_menu_text ()
 {
   return translate ("Menu");
-  
+}
+
+
+string menu_logic_images_index_text () // Todo use it.
+{
+  return translate ("Images");
 }
 
 

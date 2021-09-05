@@ -114,6 +114,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/html2format.h>
 #include <unittests/studylight.h>
 #include <unittests/gbs.h>
+#include <unittests/bibleimages.h>
 
 
 int main (int argc, char **argv) 
@@ -143,7 +144,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_gbs ();
+  test_database_bible_images ();
   refresh_sandbox (true);
   exit (0);
   
@@ -248,6 +249,7 @@ int main (int argc, char **argv)
   test_html2format ();
   test_studylight ();
   test_gbs ();
+  test_database_bible_images ();
 
 
   // Output possible journal entries.

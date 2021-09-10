@@ -459,6 +459,7 @@ libbibledit_a_SOURCES = \
   developer/delay.cpp \
   images/index.cpp \
   images/view.cpp \
+  images/fetch.cpp \
   database/bibleimages.cpp
 
 bin_PROGRAMS = server unittest generate

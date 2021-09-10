@@ -212,6 +212,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/delay.h>
 #include <images/index.h>
 #include <images/view.h>
+#include <images/fetch.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.
@@ -1264,6 +1265,11 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == images_view_url ()) && browser_request_security_okay (request) && images_view_acl (request)) {
     request->reply = images_view (request);
+    return;
+  }
+
+  if ((url == images_fetch_url ()) && browser_request_security_okay (request) && images_fetch_acl (request)) {
+    request->reply = images_fetch (request);
     return;
   }
 

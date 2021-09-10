@@ -598,6 +598,8 @@
 		CAA323FA25FBC70A00F5A99E /* abbottsmith.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = abbottsmith.cpp; sourceTree = "<group>"; };
 		CAAA5DB8256555E4003249CA /* paratext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = paratext.h; sourceTree = "<group>"; };
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
+		CAAAB4B326EBE803000C8254 /* fetch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fetch.cpp; sourceTree = "<group>"; };
+		CAAAB4B426EBE803000C8254 /* fetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fetch.h; sourceTree = "<group>"; };
 		CABDBAD226E3E00200BE27F8 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CABDBAD326E3E00200BE27F8 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CABDBAD426E3E00200BE27F8 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
@@ -2822,6 +2824,8 @@
 		CABDBAD126E3E00200BE27F8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				CAAAB4B326EBE803000C8254 /* fetch.cpp */,
+				CAAAB4B426EBE803000C8254 /* fetch.h */,
 				CABDBAD426E3E00200BE27F8 /* gitflag */,
 				CABDBAD526E3E00200BE27F8 /* index.cpp */,
 				CABDBAD226E3E00200BE27F8 /* index.h */,

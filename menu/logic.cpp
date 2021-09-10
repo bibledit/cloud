@@ -884,7 +884,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       }
     }
 
-    if (label == images) { // Todo
+    if (label == images) {
       if (images_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (images_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
@@ -1165,7 +1165,7 @@ string menu_logic_menu_text ()
 }
 
 
-string menu_logic_images_index_text () // Todo use it.
+string menu_logic_images_index_text ()
 {
   return translate ("Images");
 }

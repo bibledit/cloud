@@ -81,8 +81,8 @@ bool parse_post_data(const std::string& postData,
 
 /*!
  * Parse data from GET request (query string)
- * @param[in]  getData
- * @param[out] postDataMap
+ * @param[in]  getData x
+ * @param[out] postDataMap x
  * @return success of parsing
  */
 bool parse_get_data(const std::string& getData, WebDataMap& postDataMap);

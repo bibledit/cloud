@@ -600,6 +600,8 @@
 		CAAA5DB9256555E5003249CA /* paratext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = paratext.cpp; sourceTree = "<group>"; };
 		CAAAB4B326EBE803000C8254 /* fetch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fetch.cpp; sourceTree = "<group>"; };
 		CAAAB4B426EBE803000C8254 /* fetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fetch.h; sourceTree = "<group>"; };
+		CAAAB4B526ECE062000C8254 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
+		CAAAB4B626ECE062000C8254 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CABDBAD226E3E00200BE27F8 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CABDBAD326E3E00200BE27F8 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CABDBAD426E3E00200BE27F8 /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
@@ -2830,6 +2832,8 @@
 				CABDBAD526E3E00200BE27F8 /* index.cpp */,
 				CABDBAD226E3E00200BE27F8 /* index.h */,
 				CABDBAD326E3E00200BE27F8 /* index.html */,
+				CAAAB4B626ECE062000C8254 /* logic.cpp */,
+				CAAAB4B526ECE062000C8254 /* logic.h */,
 				CAD8B11626E4E18C00639404 /* view.cpp */,
 				CAD8B11526E4E18C00639404 /* view.h */,
 				CAD8B11726E4E18C00639404 /* view.html */,

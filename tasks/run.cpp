@@ -72,6 +72,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/logic.h>
 #include <database/cache.h>
 #include <nmt/logic.h>
+#include <images/logic.h>
 
 
 atomic <int> running_tasks (0);
@@ -317,6 +318,9 @@ void tasks_run_one (string filename)
   }
   else if (command == EXPIREINDONESIANFREEUSERS) {
     system_logic_indonesian_free_expiration ();
+  }
+  else if (command == IMPORTBIBLEIMAGES) {
+    images_logic_import_images (parameter1);
   }
   else {
     Database_Logs::log ("Unknown task: " + command);

@@ -277,14 +277,11 @@ void bootstrap_index (void * webserver_request)
   
   // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.
   if (   (extension == "ico")
-      || (extension == "png")
-      || (extension == "gif")
-      || (extension == "jpg")
+      || (filter_url_is_image (extension))
       || (extension == "css")
       || (extension == "js")
       || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
-      || (extension == "svg")
       || (extension == "map")
       ) {
     http_stream_file (request, true);

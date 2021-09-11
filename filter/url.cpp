@@ -1725,3 +1725,18 @@ bool filter_url_port_can_connect (string hostname, int port)
   // Done.
   return connected;
 }
+
+
+bool filter_url_is_image (string extension)
+{
+  if (extension == "png") return true;
+  
+  if (extension == "gif") return true;
+
+  if (extension == "jpg") return true;
+  
+  if (extension == "svg") return true;
+  
+  // Default: It is not an image.
+  return false;
+}

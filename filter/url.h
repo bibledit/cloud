@@ -80,6 +80,7 @@ string filter_url_filename_clean (string name);
 string filter_url_filename_unclean (string name);
 string filter_url_update_directory_separator_if_windows (string filename);
 bool filter_url_port_can_connect (string hostname, int port);
+bool filter_url_is_image (string extension);
 
 
 #endif

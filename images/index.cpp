@@ -74,7 +74,7 @@ string images_index (void * webserver_request)
       string extension = filter_url_get_extension (file);
       extension = unicode_string_casefold (extension);
       if (background_import) {
-//        tasks_logic_queue (IMPORTIMAGES, { name, file }); // Todo
+        tasks_logic_queue (IMPORTBIBLEIMAGES, { file });
         success = translate("The file was uploaded and is being processed.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
       } else {

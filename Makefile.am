@@ -460,6 +460,7 @@ libbibledit_a_SOURCES = \
   images/index.cpp \
   images/view.cpp \
   images/fetch.cpp \
+  images/logic.cpp \
   database/bibleimages.cpp
 
 bin_PROGRAMS = server unittest generate

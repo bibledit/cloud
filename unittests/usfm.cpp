@@ -1186,7 +1186,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
   }
   
-  // Testing removing word level attributes.
+  // Testing removing word level attributes. Todo
   {
     string usfm;
     string result;
@@ -1253,6 +1253,97 @@ void test_usfm ()
       make_pair (3, "Unclosed markers: vp"),
     };
     evaluate (__LINE__, __func__, standard, results);
+  }
+  
+  // Test extracting the figure attributes. Todo
+  // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
+  {
+    string usfm;
+    string caption;
+    string alt;
+    string src;
+    string size;
+    string loc;
+    string copy;
+    string ref;
+
+    // USFM without any figure information.
+    usfm = R"(Text \fig Empty figure.\fig* text.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, string(), caption);
+    evaluate (__LINE__, __func__, string(), alt);
+    evaluate (__LINE__, __func__, string(), src);
+    evaluate (__LINE__, __func__, string(), size);
+    evaluate (__LINE__, __func__, string(), loc);
+    evaluate (__LINE__, __func__, string(), copy);
+    evaluate (__LINE__, __func__, string(), ref);
+
+    // USFM 1/2.x with invalid figure information.
+    usfm = R"(Text \fig DESC|SIZE|LOC|COPY|CAP|REF\fig* text.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, string(), caption);
+    evaluate (__LINE__, __func__, string(), alt);
+    evaluate (__LINE__, __func__, string(), src);
+    evaluate (__LINE__, __func__, string(), size);
+    evaluate (__LINE__, __func__, string(), loc);
+    evaluate (__LINE__, __func__, string(), copy);
+    evaluate (__LINE__, __func__, string(), ref);
+
+    // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
+    usfm = R"(Text \fig |avnt016.tif|span|||At once they left their nets.|1.18\fig* text.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, "At once they left their nets.", caption);
+    evaluate (__LINE__, __func__, string(), alt);
+    evaluate (__LINE__, __func__, "avnt016.tif", src);
+    evaluate (__LINE__, __func__, "span", size);
+    evaluate (__LINE__, __func__, string(), loc);
+    evaluate (__LINE__, __func__, string(), copy);
+    evaluate (__LINE__, __func__, "1.18", ref);
+
+    // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
+    usfm = R"(Text \fig |avnt017.tif|col|||Took her by the hand, and...the fever left her.|1.31\fig* text.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
+    evaluate (__LINE__, __func__, string(), alt);
+    evaluate (__LINE__, __func__, "avnt017.tif", src);
+    evaluate (__LINE__, __func__, "col", size);
+    evaluate (__LINE__, __func__, string(), loc);
+    evaluate (__LINE__, __func__, string(), copy);
+    evaluate (__LINE__, __func__, "1.31", ref);
+
+    // Default USFM 1/2.x \fig definition.
+    usfm = R"(Text \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig* text.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, "CAP", caption);
+    evaluate (__LINE__, __func__, "DESC", alt);
+    evaluate (__LINE__, __func__, "FILE", src);
+    evaluate (__LINE__, __func__, "SIZE", size);
+    evaluate (__LINE__, __func__, "LOC", loc);
+    evaluate (__LINE__, __func__, "COPY", copy);
+    evaluate (__LINE__, __func__, "REF", ref);
+
+    // USFM 3.0 example.
+    usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, "At once they left their nets.", caption);
+    evaluate (__LINE__, __func__, "", alt);
+    evaluate (__LINE__, __func__, "avnt016.jpg", src);
+    evaluate (__LINE__, __func__, "span", size);
+    evaluate (__LINE__, __func__, "", loc);
+    evaluate (__LINE__, __func__, "", copy);
+    evaluate (__LINE__, __func__, "1.18", ref);
+
+    // USFM 3.0 example.
+    usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
+    usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
+    evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
+    evaluate (__LINE__, __func__, "", alt);
+    evaluate (__LINE__, __func__, "avnt017.tif", src);
+    evaluate (__LINE__, __func__, "col", size);
+    evaluate (__LINE__, __func__, "", loc);
+    evaluate (__LINE__, __func__, "", copy);
+    evaluate (__LINE__, __func__, "1.31", ref);
+
   }
 
 }

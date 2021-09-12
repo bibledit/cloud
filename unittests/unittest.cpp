@@ -144,6 +144,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
+  test_usfm ();
   test_database_bible_images ();
   refresh_sandbox (true);
   exit (0);

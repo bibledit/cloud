@@ -69,6 +69,7 @@ const char * usfm_marker_v ();
 const char * usfm_marker_va ();
 const char * usfm_marker_vp ();
 string usfm_remove_word_level_attributes (string usfm);
+void usfm_fig_extract_attributes (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref);
 
 
 #endif

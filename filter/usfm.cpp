@@ -988,8 +988,11 @@ string usfm_remove_word_level_attributes (string usfm) // Todo
 // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
 // That means it is backwards compatible with USFM 1/2:
 // \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig*
-void usfm_fig_extract_attributes (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref)
+string usfm_fig_extract_attributes (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref) // Todo
 {
+  // The resulting USFM where the \fig markup has been removed from.
+  string usfm_out;
+  
   // The string passed in the $usfm variable may contain the \fig..\fig* markup.
   // Or it may omit those.
   // Handle both cases: Get the USFM fragment within the \fig...\fig* markup.
@@ -997,15 +1000,19 @@ void usfm_fig_extract_attributes (string usfm, string & caption, string & alt, s
   
   // If the opener is there, it means the \fig markup could be there.
   string opener = usfm_get_opening_usfm (marker);
-  size_t pos = usfm.find (opener);
-  if (pos != string::npos) {
-    usfm.erase (0, pos + opener.length()); // Todo test it also erases usfm before the \fig.
+  size_t pos1 = usfm.find (opener);
+  if (pos1 != string::npos) {
+    usfm_out.append(usfm.substr(0, pos1));
+    usfm.erase (0, pos1 + opener.length());
     // Erase the \fig* closing markup.
     string closer = usfm_get_closing_usfm(marker);
-    pos = usfm.find(closer);
-    if (pos != string::npos) {
-      usfm.erase(pos); // Todo test it also erases anything after \fig*.
+    size_t pos2 = usfm.find(closer);
+    if (pos2 != string::npos) {
+      usfm_out.append(usfm.substr(pos2 + closer.length()));
+      usfm.erase(pos2);
     }
+  } else {
+    usfm_out.assign(usfm);
   }
   
   // Split the bit of USFM between the \fig...\fig* markup on the vertical bar.
@@ -1031,10 +1038,9 @@ void usfm_fig_extract_attributes (string usfm, string & caption, string & alt, s
     copy = bits[4];
     caption = bits[5];
     ref = bits[6];
-    return;
   }
 
-  // Handle the situation that there are two bits of information. Todo follow USFM 3 spec and test everything.
+  // Handle the situation that there are two bits of information.
   // This is when there is one vertical bar.
   // This is the situation of USFM 3.x.
   // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
@@ -1050,7 +1056,8 @@ void usfm_fig_extract_attributes (string usfm, string & caption, string & alt, s
     loc = node.attribute ("loc").value ();
     copy = node.attribute ("copy").value ();
     ref = node.attribute ("ref").value ();
-    return;
   }
- 
+
+  // The resulting USFM with the figure markup removed.
+  return usfm_out;
 }

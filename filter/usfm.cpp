@@ -931,7 +931,7 @@ const char * usfm_marker_vp ()
 //   attribute = "value".
 // Example:
 //   \w gracious|lemma="grace"\w*
-string usfm_remove_word_level_attributes (string usfm) // Todo
+string usfm_remove_word_level_attributes (string usfm) // Todo can go out eventually.
 {
   // Check for a vertical bar at all in the input USFM.
   // If it's not there, then there won't be any word-level attributes.
@@ -983,12 +983,73 @@ string usfm_remove_word_level_attributes (string usfm) // Todo
 }
 
 
+// This removes the word level attributes from $usfm.
+// See https://ubsicap.github.io/usfm/attributes/index.html
+// Within a character marker span,
+// an attributes list is separated from the text content by a vertical bar |.
+// Attributes are listed as pairs of name and corresponding value using the syntax:
+//   attribute = "value".
+// Example:
+//   \w gracious|lemma="grace"\w*
+string usfm_remove_word_level_attributes_v2 (string usfm) // Todo
+{
+  // Check for a vertical bar at all in the input USFM.
+  // If it's not there, then there won't be any word-level attributes.
+  if (usfm.find ("|") != string::npos) {
+
+    // Flag whether a replacement was made.
+    bool keep_going = false;
+    
+    // In USFM 3.0 there's two character markers that support word level attributes.
+    // But the \fig is already handled elsewhere.
+    vector <string> supported_character_markers = { "w" };
+    for (auto & marker : supported_character_markers) {
+
+      // Support multiple replacements.
+      size_t last_pos = 0;
+      do {
+      
+        // Set flag.
+        keep_going = false;
+
+        // The opener should be there.
+        size_t opener_pos = usfm.find (usfm_get_opening_usfm (marker), last_pos);
+        if (opener_pos == string::npos) continue;
+        last_pos = opener_pos + 1;
+
+        // The closer should be there too.
+        size_t closer_pos = usfm.find (usfm_get_closing_usfm (marker), last_pos);
+        if (closer_pos == string::npos) continue;
+
+        // The vertical bar should be between the opener and closer.
+        size_t bar_pos = usfm.find ("|", last_pos);
+        if (bar_pos == string::npos) continue;
+        if (bar_pos < opener_pos) continue;
+        
+        // There may be situations without the vertical bar.
+        if (bar_pos < closer_pos) {
+          // Remove the word level attribute.
+          usfm.erase (bar_pos, closer_pos - bar_pos);
+        }
+
+        // Set flag.
+        keep_going = true;
+
+      } while (keep_going);
+    }
+  }
+  
+  // Done.
+  return usfm;
+}
+
+
 // This extracts the attributs for the "fig" markup.
 // It supports USFM 3.x.
 // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
 // That means it is backwards compatible with USFM 1/2:
 // \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig*
-string usfm_fig_extract_attributes (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref) // Todo
+string usfm_extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref) // Todo
 {
   // The resulting USFM where the \fig markup has been removed from.
   string usfm_out;

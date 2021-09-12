@@ -1190,21 +1190,31 @@ void test_usfm ()
   {
     string usfm;
     string result;
+    string dummy;
     string standard;
 
     usfm = R"(\v 1 This is an example \w gracious|lemma="grace"\w* this is an example \w gracious|grace\w* this is an example \w gracious|strong="H01234,G05485"\w* this is an example \w gracious\w* this is an example \w gracious|x-myattr="metadata"\w* this is an example \w gracious|lemma="grace" x-myattr="metadata"\w*.)";
-    result = usfm_remove_word_level_attributes (usfm);
+    result = usfm_remove_word_level_attributes_v2 (usfm);
     standard = R"(\v 1 This is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w*.)";
     evaluate (__LINE__, __func__, standard, result);
 
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
-    result = usfm_remove_word_level_attributes (usfm);
-    standard = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.\fig*)";
+    result = usfm_remove_word_level_attributes_v2 (usfm);
+    evaluate (__LINE__, __func__, usfm, result);
+
+    usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
+    result = usfm_extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
+    standard = R"(\v 18 At once they left their nets and went with him. )";
     evaluate (__LINE__, __func__, standard, result);
 
     usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*)";
-    result = usfm_remove_word_level_attributes (usfm);
+    result = usfm_remove_word_level_attributes_v2 (usfm);
     standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.\fig*)";
+    evaluate (__LINE__, __func__, usfm, result);
+
+    usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*)";
+    result = usfm_extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
+    standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. )";
     evaluate (__LINE__, __func__, standard, result);
   }
   
@@ -1270,7 +1280,7 @@ void test_usfm ()
 
     // USFM without any figure information.
     usfm_in = R"(Text \fig Empty figure.\fig* text.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, string(), caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, string(), src);
@@ -1282,7 +1292,7 @@ void test_usfm ()
 
     // USFM 1/2.x with invalid figure information.
     usfm_in = R"(Text \fig DESC|SIZE|LOC|COPY|CAP|REF\fig* text.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, string(), caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, string(), src);
@@ -1294,7 +1304,7 @@ void test_usfm ()
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt016.tif|span|||At once they left their nets.|1.18\fig* text.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "At once they left their nets.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt016.tif", src);
@@ -1306,7 +1316,7 @@ void test_usfm ()
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt017.tif|col|||Took her by the hand, and...the fever left her.|1.31\fig* text.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt017.tif", src);
@@ -1318,7 +1328,7 @@ void test_usfm ()
 
     // Default USFM 1/2.x \fig definition.
     usfm_in = R"(Text \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig* text.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "CAP", caption);
     evaluate (__LINE__, __func__, "DESC", alt);
     evaluate (__LINE__, __func__, "FILE", src);
@@ -1330,7 +1340,7 @@ void test_usfm ()
 
     // USFM 3.0 example.
     usfm_in = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "At once they left their nets.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt016.jpg", src);
@@ -1342,7 +1352,7 @@ void test_usfm ()
 
     // USFM 3.0 example.
     usfm_in = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
-    usfm_out = usfm_fig_extract_attributes (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt017.tif", src);

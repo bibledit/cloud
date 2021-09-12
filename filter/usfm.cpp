@@ -991,7 +991,7 @@ string usfm_remove_word_level_attributes (string usfm) // Todo can go out eventu
 //   attribute = "value".
 // Example:
 //   \w gracious|lemma="grace"\w*
-string usfm_remove_word_level_attributes_v2 (string usfm) // Todo
+string usfm_remove_w_attributes (string usfm) // Todo use this.
 {
   // Check for a vertical bar at all in the input USFM.
   // If it's not there, then there won't be any word-level attributes.

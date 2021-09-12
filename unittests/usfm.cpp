@@ -1194,12 +1194,12 @@ void test_usfm ()
     string standard;
 
     usfm = R"(\v 1 This is an example \w gracious|lemma="grace"\w* this is an example \w gracious|grace\w* this is an example \w gracious|strong="H01234,G05485"\w* this is an example \w gracious\w* this is an example \w gracious|x-myattr="metadata"\w* this is an example \w gracious|lemma="grace" x-myattr="metadata"\w*.)";
-    result = usfm_remove_word_level_attributes_v2 (usfm);
+    result = usfm_remove_w_attributes (usfm);
     standard = R"(\v 1 This is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w*.)";
     evaluate (__LINE__, __func__, standard, result);
 
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
-    result = usfm_remove_word_level_attributes_v2 (usfm);
+    result = usfm_remove_w_attributes (usfm);
     evaluate (__LINE__, __func__, usfm, result);
 
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
@@ -1208,7 +1208,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, result);
 
     usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*)";
-    result = usfm_remove_word_level_attributes_v2 (usfm);
+    result = usfm_remove_w_attributes (usfm);
     standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.\fig*)";
     evaluate (__LINE__, __func__, usfm, result);
 

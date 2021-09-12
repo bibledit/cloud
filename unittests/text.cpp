@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_filter_text ()
+void test_filter_text () // Todo
 {
   trace_unit_tests (__func__);
   
@@ -1133,6 +1133,8 @@ A Jesus is King.  B Jesus is the son of God.
 
   }
 
+  refresh_sandbox (true);
+
   // Test invalid UTF8 input text.
   {
     string path = filter_url_create_root_path ("unittests", "tests", "invalid-utf8-2.usfm");
@@ -1147,7 +1149,11 @@ A Jesus is King.  B Jesus is the son of God.
     string odt = filter_url_file_get_contents (TextTestTxt);
     bool invalid_token = odt.find ("not well-formed (invalid token)") != string::npos;
     evaluate (__LINE__, __func__, true, invalid_token);
+    // The above test produces logbook entries.
+    // Clear them so they don't disturb the output in the terminal.
+    refresh_sandbox (false);
   }
+
 
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);

@@ -72,7 +72,7 @@ void export_odt_book (string bible, int book, bool log)
       for (auto chapter : chapters) {
         string usfm = database_bibles.getChapter (bible, book, chapter);
         // Filter it.
-        usfm = usfm_remove_word_level_attributes (usfm); // Todo handle fig and w.
+        usfm = usfm_remove_w_attributes (usfm); // Todo handle fig and w.
         usfm = filter_string_trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.addUsfmCode (usfm);
@@ -84,7 +84,7 @@ void export_odt_book (string bible, int book, bool log)
     for (auto chapter : chapters) {
       string usfm = database_bibles.getChapter (bible, book, chapter);
       // Filter it.
-      usfm = usfm_remove_word_level_attributes (usfm); // Todo handle fig and w.
+      usfm = usfm_remove_w_attributes (usfm); // Todo handle fig and w.
       usfm = filter_string_trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.addUsfmCode (usfm);

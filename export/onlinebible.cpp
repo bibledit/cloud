@@ -59,7 +59,7 @@ void export_onlinebible (string bible, bool log)
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (auto chapter : chapters) {
       string chapter_data = database_bibles.getChapter (bible, book, chapter);
-      chapter_data = usfm_remove_word_level_attributes (chapter_data); // Todo handle fig and w.
+      chapter_data = usfm_remove_w_attributes (chapter_data); // Todo handle fig and w.
       chapter_data = filter_string_trim (chapter_data);
       filter_text_bible.addUsfmCode (chapter_data);
     }

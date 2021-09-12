@@ -911,7 +911,7 @@ void Filter_Text::processUsfm ()
               }
               break;
             }
-            case StyleTypePicture:
+            case StyleTypePicture: // Todo handle it.
             {
               if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
               if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);

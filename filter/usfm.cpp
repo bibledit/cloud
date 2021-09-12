@@ -931,67 +931,7 @@ const char * usfm_marker_vp ()
 //   attribute = "value".
 // Example:
 //   \w gracious|lemma="grace"\w*
-string usfm_remove_word_level_attributes (string usfm) // Todo can go out eventually.
-{
-  // Check for a vertical bar at all in the input USFM.
-  // If it's not there, then there won't be any word-level attributes.
-  if (usfm.find ("|") != string::npos) {
-
-    // Flag whether a replacement was made.
-    bool keep_going = false;
-    
-    // In USFM 3.0 there's two character markers that support word level attributes:
-    vector <string> supported_character_markers = { "w", "fig" };
-    for (auto & marker : supported_character_markers) {
-
-      // Support multiple replacements.
-      size_t last_pos = 0;
-      do {
-      
-        // Set flag.
-        keep_going = false;
-
-        // The opener should be there.
-        size_t opener_pos = usfm.find (usfm_get_opening_usfm (marker), last_pos);
-        if (opener_pos == string::npos) continue;
-        last_pos = opener_pos + 1;
-
-        // The closer should be there too.
-        size_t closer_pos = usfm.find (usfm_get_closing_usfm (marker), last_pos);
-        if (closer_pos == string::npos) continue;
-
-        // The vertical bar should be between the opener and closer.
-        size_t bar_pos = usfm.find ("|", last_pos);
-        if (bar_pos == string::npos) continue;
-        if (bar_pos < opener_pos) continue;
-        
-        // There may be situations without the vertical bar.
-        if (bar_pos < closer_pos) {
-          // Remove the word level attribute.
-          usfm.erase (bar_pos, closer_pos - bar_pos);
-        }
-
-        // Set flag.
-        keep_going = true;
-
-      } while (keep_going);
-    }
-  }
-  
-  // Done.
-  return usfm;
-}
-
-
-// This removes the word level attributes from $usfm.
-// See https://ubsicap.github.io/usfm/attributes/index.html
-// Within a character marker span,
-// an attributes list is separated from the text content by a vertical bar |.
-// Attributes are listed as pairs of name and corresponding value using the syntax:
-//   attribute = "value".
-// Example:
-//   \w gracious|lemma="grace"\w*
-string usfm_remove_w_attributes (string usfm) // Todo use this.
+string usfm_remove_w_attributes (string usfm)
 {
   // Check for a vertical bar at all in the input USFM.
   // If it's not there, then there won't be any word-level attributes.

@@ -1186,7 +1186,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
   }
   
-  // Testing removing word level attributes. Todo
+  // Testing removing word level attributes.
   {
     string usfm;
     string result;
@@ -1265,7 +1265,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
   
-  // Test extracting the figure attributes. Todo
+  // Test extracting the figure attributes.
   // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
   {
     string usfm_in;

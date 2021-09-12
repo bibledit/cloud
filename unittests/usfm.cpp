@@ -1326,22 +1326,22 @@ void test_usfm ()
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*.)";
     usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "At once they left their nets.", caption);
-    evaluate (__LINE__, __func__, "", alt);
+    evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt016.jpg", src);
     evaluate (__LINE__, __func__, "span", size);
-    evaluate (__LINE__, __func__, "", loc);
-    evaluate (__LINE__, __func__, "", copy);
+    evaluate (__LINE__, __func__, string(), loc);
+    evaluate (__LINE__, __func__, string(), copy);
     evaluate (__LINE__, __func__, "1.18", ref);
 
     // USFM 3.0 example.
     usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
     usfm_fig_extract_attributes (usfm, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
-    evaluate (__LINE__, __func__, "", alt);
+    evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt017.tif", src);
     evaluate (__LINE__, __func__, "col", size);
-    evaluate (__LINE__, __func__, "", loc);
-    evaluate (__LINE__, __func__, "", copy);
+    evaluate (__LINE__, __func__, string(), loc);
+    evaluate (__LINE__, __func__, string(), copy);
     evaluate (__LINE__, __func__, "1.31", ref);
 
   }

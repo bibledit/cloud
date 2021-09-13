@@ -645,11 +645,12 @@ input#cancel,
   line-height: 28.5px;
   display: block;
   padding: 0 5px;
+	transition: all 250ms;
 }
 
 #topbar .fadeout span a:hover {
-  font-size: 1.05em;
-  font-weight: bold;
+  font-size: 1.025em;
+	text-shadow: 0 0 .65px #ddd, 0 0 .65px #ddd;
   text-decoration: none;
   filter: 0;
 }

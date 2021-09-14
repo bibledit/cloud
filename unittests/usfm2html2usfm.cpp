@@ -333,7 +333,7 @@ void test_usfm2html2usfm ()
     evaluate (__LINE__, __func__, standard_usfm, usfm);
   }
 
-  // Picture. Todo
+  // Picture.
   {
     string standard_usfm =
     "\\p Text\n"

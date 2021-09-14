@@ -96,7 +96,7 @@ void export_web_book (string bible, int book, bool log)
     // Get the USFM for the chapter.
     string usfm = database_bibles.getChapter (bible, book, chapter);
     // Clean the word level attributes out.
-    usfm = usfm_remove_w_attributes (usfm); // Todo handle fig and w.
+    usfm = usfm_remove_w_attributes (usfm); // Todo handle fig.
     // Trim it.
     usfm = filter_string_trim (usfm);
     // Use small chunks of USFM at a time for much better performance.

@@ -197,6 +197,12 @@ private:
   string notes_plain_text_buffer;
   // Handler.
   void notes_plain_text_handler ();
+  
+public:
+private:
+  // Flag for whether the processor is now within figure markup.
+  bool is_within_figure_markup = false;
+  
 };
 
 

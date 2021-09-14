@@ -20,6 +20,7 @@
 #include <codecvt>
 #include <unittests/utilities.h>
 #include <filter/string.h>
+#include <filter/text.h>
 #include <editor/html2usfm.h>
 #include <editor/html2format.h>
 #include <styles/logic.h>
@@ -35,9 +36,31 @@
 using namespace pugi;
 
 
-void test_dev ()
+void test_dev () // Todo move into place.
 {
-//  trace_unit_tests (__func__);
-//  refresh_sandbox (true);
-//  refresh_sandbox (true);
+  trace_unit_tests (__func__);
+  refresh_sandbox (true);
+  
+  // Test extraction of all sorts of information from USFM code.
+  // Test basic formatting into OpenDocument.
+  {
+    string bible = "bible";
+    string usfm = R"(
+\c 1
+\p
+\v 1 Verse one. \fig caption|src="filename" size="size" ref="reference"\fig*
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.esword_text = new Esword_Text (bible);
+    filter_text.addUsfmCode (usfm);
+    filter_text.run (styles_logic_standard_sheet());
+    filter_text.esword_text->finalize ();
+    //filter_text.esword_text->createModule ("filename");
+
+
+//      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].book);
+
+  }
+  exit (0); // Todo
+  refresh_sandbox (true);
 }

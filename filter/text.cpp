@@ -77,6 +77,7 @@ Filter_Text::Filter_Text (string bible_in)
   tbsx_text = nullptr;
   headings_text_per_verse_active = false;
   space_type_after_verse = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
+  is_within_figure_markup = false;
 }
 
 
@@ -913,13 +914,21 @@ void Filter_Text::processUsfm ()
             }
             case StyleTypePicture: // Todo handle it.
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
-              if (html_text_standard) html_text_standard->close_text_style (false, false);
-              if (html_text_linked) html_text_linked->close_text_style (false, false);
-              addToFallout ("Picture formatting not implemented", true);
+              if (isOpeningMarker) {
+                // Set a flag that the parser is going to be within figure markup.
+                is_within_figure_markup = true;
+                // At the start of the \fig marker, close all text styles that might be open.
+                if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
+                if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (html_text_standard) html_text_standard->close_text_style (false, false);
+                if (html_text_linked) html_text_linked->close_text_style (false, false);
+              } else {
+                // Closing the \fig* markup.
+                // Clear the flag since the parser is no longer within figure markup.
+                is_within_figure_markup = false;
+              }
               break;
             }
             case StyleTypePageBreak:
@@ -1024,35 +1033,44 @@ void Filter_Text::processUsfm ()
           addToFallout ("Unknown marker \\" + marker + ", formatting error:", true);
         }
       } else {
-        // Here is no marker. Treat it as text.
-        if (odf_text_standard) odf_text_standard->addText (currentItem);
-        if (odf_text_text_only) odf_text_text_only->addText (currentItem);
-        if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
-        if (html_text_standard) html_text_standard->add_text (currentItem);
-        if (html_text_linked) html_text_linked->add_text (currentItem);
-        if (onlinebible_text) onlinebible_text->addText (currentItem);
-        if (esword_text) esword_text->addText (currentItem);
-        if (text_text) text_text->addtext (currentItem);
-        if (tbsx_text) tbsx_text->add_text(currentItem);
-        if (headings_text_per_verse_active && heading_started) {
-          int iverse = convert_to_int (currentVerseNumber);
-          verses_headings [iverse].append (currentItem);
+        // Here is no marker, just text.
+
+        // Treat this content as figure directions.
+        if (is_within_figure_markup) {
+          //cout << "figure " << currentItem << endl; // Todo
         }
-        if (headings_text_per_verse_active && text_started) {
-          int iverse = convert_to_int (currentVerseNumber);
-          if (verses_text.count (iverse) && !verses_text [iverse].empty ()) {
-            verses_text [iverse].append (currentItem);
-            actual_verses_paragraph [iverse].append (currentItem);
-          } else {
-            // The verse text straight after the \v starts with certain space type.
-            // Replace it with a normal space.
-            string item = filter_string_str_replace (space_type_after_verse, " ", currentItem);
-            verses_text [iverse] = filter_string_ltrim (item);
-            actual_verses_paragraph [iverse] = filter_string_ltrim (item);
+
+        // Treat this content as text.
+        else {
+          if (odf_text_standard) odf_text_standard->addText (currentItem);
+          if (odf_text_text_only) odf_text_text_only->addText (currentItem);
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
+          if (html_text_standard) html_text_standard->add_text (currentItem);
+          if (html_text_linked) html_text_linked->add_text (currentItem);
+          if (onlinebible_text) onlinebible_text->addText (currentItem);
+          if (esword_text) esword_text->addText (currentItem);
+          if (text_text) text_text->addtext (currentItem);
+          if (tbsx_text) tbsx_text->add_text(currentItem);
+          if (headings_text_per_verse_active && heading_started) {
+            int iverse = convert_to_int (currentVerseNumber);
+            verses_headings [iverse].append (currentItem);
           }
-        }
-        if (note_open_now) {
-          notes_plain_text_buffer.append (currentItem);
+          if (headings_text_per_verse_active && text_started) {
+            int iverse = convert_to_int (currentVerseNumber);
+            if (verses_text.count (iverse) && !verses_text [iverse].empty ()) {
+              verses_text [iverse].append (currentItem);
+              actual_verses_paragraph [iverse].append (currentItem);
+            } else {
+              // The verse text straight after the \v starts with certain space type.
+              // Replace it with a normal space.
+              string item = filter_string_str_replace (space_type_after_verse, " ", currentItem);
+              verses_text [iverse] = filter_string_ltrim (item);
+              actual_verses_paragraph [iverse] = filter_string_ltrim (item);
+            }
+          }
+          if (note_open_now) {
+            notes_plain_text_buffer.append (currentItem);
+          }
         }
       }
     }

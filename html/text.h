@@ -59,6 +59,7 @@ public:
   // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
   string custom_class = "";
   void have_popup_notes ();
+  void add_image (string alt, string src);
 private:
   xml_document document;
   xml_node head_node;

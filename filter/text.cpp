@@ -1035,9 +1035,16 @@ void Filter_Text::processUsfm ()
       } else {
         // Here is no marker, just text.
 
-        // Treat this content as figure directions.
+        // Treat this content as figure directions. // Todo
         if (is_within_figure_markup) {
-          //cout << "figure " << currentItem << endl; // Todo
+          // Extract the bits for this image / picture / figure.
+          string caption, alt, src, size, loc, copy, ref;
+          usfm_extract_fig (currentItem, caption, alt, src, size, loc, copy, ref);
+          // Store the name of this image in the object, ready to be copied into place if needed.
+          image_sources.push_back(src);
+          // Add the image to the various output formats.
+          if (html_text_standard) html_text_standard->add_image(alt, src);
+          if (html_text_linked) html_text_linked->add_image(alt, src);
         }
 
         // Treat this content as text.

@@ -25,6 +25,7 @@
 #include <database/logs.h>
 #include <database/config/bible.h>
 #include <database/state.h>
+#include <database/bibleimages.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -38,7 +39,7 @@
 #include <styles/sheets.h>
 
 
-void export_html_book (string bible, int book, bool log)
+void export_html_book (string bible, int book, bool log) // Todo do images.
 {
   // Create folders for the html export.
   string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "html");
@@ -52,7 +53,8 @@ void export_html_book (string bible, int book, bool log)
   
   
   Database_Bibles database_bibles;
-  
+  Database_BibleImages database_bibleimages;
+
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
@@ -100,9 +102,17 @@ void export_html_book (string bible, int book, bool log)
   filter_text.run (stylesheet);
   
   
-  // Save file.
+  // Save the html file.
   filter_text.html_text_standard->save (filename_html);
   
+  
+  // Save any images that were included.
+  for (auto src : filter_text.image_sources) {
+    string contents = database_bibleimages.get(src);
+    string filename = filter_url_create_path (directory, src);
+    filter_url_file_put_contents(filename, contents);
+  }
+
   
   // Clear the flag for this export.
   Database_State::clearExport (bible, book, Export_Logic::export_html);

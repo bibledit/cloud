@@ -25,6 +25,7 @@
 #include <database/logs.h>
 #include <database/config/bible.h>
 #include <database/state.h>
+#include <database/bibleimages.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -38,13 +39,14 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book, bool log)
+void export_web_book (string bible, int book, bool log) // Todo do the images.
 {
   string directory = Export_Logic::webDirectory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   Database_Bibles database_bibles;
+  Database_BibleImages database_bibleimages;
   
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -135,6 +137,13 @@ void export_web_book (string bible, int book, bool log)
     
     html_text_rich_book_index.add_link (html_text_rich_book_index.current_p_node, filter_url_html_file_name_bible ("", book, chapter), "", convert_to_string (chapter), "", " " + convert_to_string (chapter) + " ");
     html_text_rich_book_index.add_text ("|");
+    
+    // Save any images that were included.
+    for (auto src : filter_text_chapter.image_sources) {
+      string contents = database_bibleimages.get(src);
+      string filename = filter_url_create_path (directory, src);
+      filter_url_file_put_contents(filename, contents);
+    }
   }
   
   

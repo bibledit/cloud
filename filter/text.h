@@ -199,6 +199,8 @@ private:
   void notes_plain_text_handler ();
   
 public:
+  // The images that have been encountered to use.
+  vector <string> image_sources; // Todo
 private:
   // Flag for whether the processor is now within figure markup.
   bool is_within_figure_markup = false;

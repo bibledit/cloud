@@ -351,3 +351,17 @@ void Html_Text::have_popup_notes ()
 {
   add_popup_notes = true;
 }
+
+
+// Add an image to the html.
+void Html_Text::add_image (string alt, string src) // Todo
+{
+  xml_node img_node = body_node.append_child ("img");
+  img_node.append_attribute("alt") = alt.c_str();
+  img_node.append_attribute("src") = src.c_str();
+  img_node.append_attribute ("width") = "100%";
+  // Close the paragraph so that adding subsequent text creates a new paragraph.
+  current_p_node_open = false;
+  current_paragraph_style.clear ();
+  current_paragraph_content.clear ();
+}

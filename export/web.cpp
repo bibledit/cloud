@@ -39,7 +39,7 @@
 #include <styles/sheets.h>
 
 
-void export_web_book (string bible, int book, bool log) // Todo do the images.
+void export_web_book (string bible, int book, bool log)
 {
   string directory = Export_Logic::webDirectory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
@@ -98,7 +98,7 @@ void export_web_book (string bible, int book, bool log) // Todo do the images.
     // Get the USFM for the chapter.
     string usfm = database_bibles.getChapter (bible, book, chapter);
     // Clean the word level attributes out.
-    usfm = usfm_remove_w_attributes (usfm); // Todo handle fig.
+    usfm = usfm_remove_w_attributes (usfm);
     // Trim it.
     usfm = filter_string_trim (usfm);
     // Use small chunks of USFM at a time for much better performance.

@@ -842,8 +842,10 @@
 /unittests/tests/60-1Peter.usfm
 /unittests/tests/basic.css
 /unittests/tests/biblehub-john-1-1.html
-/unittests/tests/bibleimage.jpeg
-/unittests/tests/bibleimage.png
+/unittests/tests/bibleimage1.jpeg
+/unittests/tests/bibleimage1.png
+/unittests/tests/bibleimage2.png
+/unittests/tests/bibleimage3.png
 /unittests/tests/cache_resource_test.sqlite
 /unittests/tests/changed_verses.html
 /unittests/tests/chapters_new.usfm

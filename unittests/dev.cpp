@@ -20,6 +20,7 @@
 #include <codecvt>
 #include <unittests/utilities.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <filter/text.h>
 #include <editor/html2usfm.h>
 #include <editor/html2format.h>
@@ -27,6 +28,7 @@
 #include <database/state.h>
 #include <database/login.h>
 #include <database/users.h>
+#include <database/bibleimages.h>
 #include <webserver/request.h>
 #include <user/logic.h>
 #include <pugixml/pugixml.hpp>
@@ -44,23 +46,35 @@ void test_dev () // Todo move into place.
   // Test extraction of all sorts of information from USFM code.
   // Test basic formatting into OpenDocument.
   {
+    string image_2_name = "bibleimage2.png";
+    string image_3_name = "bibleimage3.png";
+    string image_2_path = filter_url_create_root_path ("unittests", "tests", image_2_name);
+    string image_3_path = filter_url_create_root_path ("unittests", "tests", image_3_name);
+    Database_BibleImages database_bibleimages;
+    database_bibleimages.store(image_2_path);
+    database_bibleimages.store(image_3_path);
     string bible = "bible";
     string usfm = R"(
 \c 1
 \p
-\v 1 Verse one. \fig caption|src="filename" size="size" ref="reference"\fig*
+\v 1 Verse one. \fig caption|src="bibleimage2.png" size="size" ref="reference"\fig*
+\v 2 Verse two.
     )";
+    string standard = R"(<p class="p"><span class="v">1</span><span> Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span class="v">2</span><span> Verse two.</span></p>)";
+    string html;
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.esword_text = new Esword_Text (bible);
+    filter_text.html_text_standard = new Html_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet());
-    filter_text.esword_text->finalize ();
-    //filter_text.esword_text->createModule ("filename");
-
-
-//      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].book);
-
+    html = filter_text.html_text_standard->get_inner_html();
+    evaluate (__LINE__, __func__, standard, html);
+    evaluate (__LINE__, __func__, {image_2_name}, filter_text.image_sources);
+    filter_text.html_text_standard->save ("/Users/teus/Desktop/html.html");
+    for (auto src : filter_text.image_sources) {
+      string contents = database_bibleimages.get(src);
+      filter_url_file_put_contents("/Users/teus/Desktop/" + src, contents);
+    }
   }
-  exit (0); // Todo
+//  exit (0); // Todo
   refresh_sandbox (true);
 }

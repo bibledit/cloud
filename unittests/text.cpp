@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/text.h>
 #include <unittests/utilities.h>
 #include <database/config/bible.h>
+#include <database/bibleimages.h>
 #include <filter/text.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -1154,6 +1155,43 @@ A Jesus is King.  B Jesus is the son of God.
     refresh_sandbox (false);
   }
 
+  // Test converting USFM with an image to other formats.
+  {
+    // Store images in the database that keeps the Bible images.
+    string image_2_name = "bibleimage2.png";
+    string image_3_name = "bibleimage3.png";
+    string image_2_path = filter_url_create_root_path ("unittests", "tests", image_2_name);
+    string image_3_path = filter_url_create_root_path ("unittests", "tests", image_3_name);
+    Database_BibleImages database_bibleimages;
+    database_bibleimages.store(image_2_path);
+    database_bibleimages.store(image_3_path);
+    string bible = "bible";
+    string usfm = R"(
+\c 1
+\p
+\v 1 Verse one. \fig caption|src="bibleimage2.png" size="size" ref="reference"\fig*
+\v 2 Verse two.
+    )";
+    // Test converting the USFM to html.
+    {
+      string standard = R"(<p class="p"><span class="v">1</span><span> Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span class="v">2</span><span> Verse two.</span></p>)";
+      string html;
+      Filter_Text filter_text = Filter_Text (bible);
+      filter_text.html_text_standard = new Html_Text (bible);
+      filter_text.addUsfmCode (usfm);
+      filter_text.run (styles_logic_standard_sheet());
+      html = filter_text.html_text_standard->get_inner_html();
+      evaluate (__LINE__, __func__, standard, html);
+      evaluate (__LINE__, __func__, {image_2_name}, filter_text.image_sources);
+      for (auto src : filter_text.image_sources) {
+        string contents = database_bibleimages.get(src);
+        string standard = filter_url_file_get_contents(image_2_path);
+        evaluate (__LINE__, __func__, standard, contents);
+      }
+    }
+
+  }
+  
 
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);

@@ -50,21 +50,22 @@ public:
   void addNoteText (string text);
   void closeCurrentNote ();
   void save (string name);
-  string currentParagraphStyle;
-  string currentParagraphContent;
+  string current_paragraph_style;
+  string current_paragraph_content;
   vector <string> currentTextStyle;
+  void add_image (string alt, string src);
 private:
   string bible;
   string unpackedOdtFolder;
   xml_document contentDom; // The content.xml DOMDocument.
-  xml_node officeTextDomNode; // The office:text DOMNode.
+  xml_node office_text_node; // The office:text DOMNode.
   xml_document stylesDom; // The styles.xml DOMDocument.
   vector <string> createdStyles; // An array with styles already created in the $stylesDom.
   xml_node officeStylesDomNode; // The office:styles DOMNode.
   //xml_node officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
-  xml_node currentTextPDomElement; // The current text:p DOMElement.
-  bool current_text_p_opened = false; // Whether the text:p element has been opened.
-  xml_attribute currentTextPDomElementNameNode; // The DOMAttr of the name of the style of the current text:p element.
+  xml_node current_text_p_node; // The current text:p DOMElement.
+  bool current_text_p_node_opened = false; // Whether the text:p element has been opened.
+  xml_attribute current_text_p_node_style_name; // The DOMAttr of the name of the style of the current text:p element.
   int frameCount;
   int noteCount;
   xml_node noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
@@ -74,6 +75,8 @@ private:
   void initialize_styles_xml ();
   void newNamedHeading (string style, string text, bool hide = false);
   string convertStyleName (string style);
+  int image_counter;
+  // string pictures_folder;
 };
 
 

@@ -723,18 +723,18 @@ void Filter_Text::processUsfm ()
               // Care for the situation that a new verse starts a new paragraph.
               if (style.userbool1) {
                 if (odf_text_standard) {
-                  if (odf_text_standard->currentParagraphContent != "") {
-                    odf_text_standard->newParagraph (odf_text_standard->currentParagraphStyle);
+                  if (odf_text_standard->current_paragraph_content != "") {
+                    odf_text_standard->newParagraph (odf_text_standard->current_paragraph_style);
                   }
                 }
                 if (odf_text_text_only) {
-                  if (odf_text_text_only->currentParagraphContent != "") {
-                    odf_text_text_only->newParagraph (odf_text_text_only->currentParagraphStyle);
+                  if (odf_text_text_only->current_paragraph_content != "") {
+                    odf_text_text_only->newParagraph (odf_text_text_only->current_paragraph_style);
                   }
                 }
                 if (odf_text_text_and_note_citations) {
-                  if (odf_text_text_and_note_citations->currentParagraphContent != "") {
-                    odf_text_text_and_note_citations->newParagraph (odf_text_text_and_note_citations->currentParagraphStyle);
+                  if (odf_text_text_and_note_citations->current_paragraph_content != "") {
+                    odf_text_text_and_note_citations->newParagraph (odf_text_text_and_note_citations->current_paragraph_style);
                   }
                 }
                 if (html_text_standard) {
@@ -791,17 +791,17 @@ void Filter_Text::processUsfm ()
               if (outputChapterTextAtFirstVerse.empty ()) {
                 // If the current paragraph has text already, then insert a space.
                 if (odf_text_standard) {
-                  if (odf_text_standard->currentParagraphContent != "") {
+                  if (odf_text_standard->current_paragraph_content != "") {
                     odf_text_standard->addText (" ");
                   }
                 }
                 if (odf_text_text_only) {
-                  if (odf_text_text_only->currentParagraphContent != "") {
+                  if (odf_text_text_only->current_paragraph_content != "") {
                     odf_text_text_only->addText (" ");
                   }
                 }
                 if (odf_text_text_and_note_citations) {
-                  if (odf_text_text_and_note_citations->currentParagraphContent != "") {
+                  if (odf_text_text_and_note_citations->current_paragraph_content != "") {
                     odf_text_text_and_note_citations->addText (" ");
                   }
                 }
@@ -1043,6 +1043,7 @@ void Filter_Text::processUsfm ()
           // Store the name of this image in the object, ready to be copied into place if needed.
           image_sources.push_back(src);
           // Add the image to the various output formats.
+          if (odf_text_standard) odf_text_standard->add_image(alt, src);
           if (html_text_standard) html_text_standard->add_image(alt, src);
           if (html_text_linked) html_text_linked->add_image(alt, src);
         }
@@ -1130,7 +1131,7 @@ void Filter_Text::processNote ()
                   }
                   // Add space if the paragraph has text already.
                   if (odf_text_notes) {
-                    if (odf_text_notes->currentParagraphContent != "") {
+                    if (odf_text_notes->current_paragraph_content != "") {
                       odf_text_notes->addText (" ");
                     }
                   }
@@ -1243,7 +1244,7 @@ void Filter_Text::processNote ()
                   }
                   // Add a space if the paragraph has text already.
                   if (odf_text_notes) {
-                    if (odf_text_notes->currentParagraphContent != "") {
+                    if (odf_text_notes->current_paragraph_content != "") {
                       odf_text_notes->addText (" ");
                     }
                   }
@@ -1549,9 +1550,9 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
   // To name a style according to the number of characters to put in drop caps,
   // e.g. a style name like p_c1 or p_c2 or p_c3.
   if (odf_text_standard) {
-    string combined_style = odf_text_standard->currentParagraphStyle + "_" + chapterMarker + convert_to_string (dropCapsLength);
+    string combined_style = odf_text_standard->current_paragraph_style + "_" + chapterMarker + convert_to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
-      Database_Styles_Item style = styles[odf_text_standard->currentParagraphStyle];
+      Database_Styles_Item style = styles[odf_text_standard->current_paragraph_style];
       string fontname = Database_Config_Bible::getExportFont (bible);
       float fontsize = style.fontsize;
       int italic = style.italic;

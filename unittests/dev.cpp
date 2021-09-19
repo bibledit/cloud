@@ -43,21 +43,6 @@ void test_dev () // Todo move into place.
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
-
-  // Test some functions of the image filter.
-  {
-    string image_2_name = "bibleimage2.png";
-    string image_3_name = "bibleimage3.png";
-    string image_2_path = filter_url_create_root_path ("unittests", "tests", image_2_name);
-    string image_3_path = filter_url_create_root_path ("unittests", "tests", image_3_name);
-    int width = 0, height = 0;
-    filter_image_get_sizes (image_2_path, width, height);
-    evaluate (__LINE__, __func__, 860, width);
-    evaluate (__LINE__, __func__, 318, height);
-    filter_image_get_sizes (image_3_path, width, height);
-    evaluate (__LINE__, __func__, 427, width);
-    evaluate (__LINE__, __func__, 304, height);
-  }
   
   // Test extraction of all sorts of information from USFM code.
   // Test basic formatting into OpenDocument.
@@ -92,5 +77,5 @@ void test_dev () // Todo move into place.
     }
   }
 //  refresh_sandbox (true);
-  exit (0); // Todo
+//  exit (0); // Todo
 }

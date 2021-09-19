@@ -397,7 +397,7 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
 	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
 	unittests/studylight.$(OBJEXT) unittests/gbs.$(OBJEXT) \
-	unittests/bibleimages.$(OBJEXT)
+	unittests/bibleimages.$(OBJEXT) unittests/image.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -676,10 +676,11 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/git.Po unittests/$(DEPDIR)/html.Po \
 	unittests/$(DEPDIR)/html2format.Po \
 	unittests/$(DEPDIR)/html2usfm.Po unittests/$(DEPDIR)/http.Po \
-	unittests/$(DEPDIR)/hyphenate.Po unittests/$(DEPDIR)/ipc.Po \
-	unittests/$(DEPDIR)/javascript.Po unittests/$(DEPDIR)/jobs.Po \
-	unittests/$(DEPDIR)/json.Po unittests/$(DEPDIR)/kjv.Po \
-	unittests/$(DEPDIR)/ldap.Po unittests/$(DEPDIR)/lexicon.Po \
+	unittests/$(DEPDIR)/hyphenate.Po unittests/$(DEPDIR)/image.Po \
+	unittests/$(DEPDIR)/ipc.Po unittests/$(DEPDIR)/javascript.Po \
+	unittests/$(DEPDIR)/jobs.Po unittests/$(DEPDIR)/json.Po \
+	unittests/$(DEPDIR)/kjv.Po unittests/$(DEPDIR)/ldap.Po \
+	unittests/$(DEPDIR)/lexicon.Po \
 	unittests/$(DEPDIR)/localization.Po unittests/$(DEPDIR)/log.Po \
 	unittests/$(DEPDIR)/login.Po unittests/$(DEPDIR)/mail.Po \
 	unittests/$(DEPDIR)/md5.Po unittests/$(DEPDIR)/memory.Po \
@@ -1497,7 +1498,8 @@ unittest_SOURCES = \
   unittests/html2format.cpp \
   unittests/studylight.cpp \
   unittests/gbs.cpp \
-  unittests/bibleimages.cpp
+  unittests/bibleimages.cpp \
+  unittests/image.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3248,6 +3250,8 @@ unittests/gbs.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/bibleimages.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/image.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3824,6 +3828,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2usfm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/image.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/ipc.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/javascript.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/jobs.Po@am__quote@ # am--include-marker
@@ -4913,6 +4918,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/html2usfm.Po
 	-rm -f unittests/$(DEPDIR)/http.Po
 	-rm -f unittests/$(DEPDIR)/hyphenate.Po
+	-rm -f unittests/$(DEPDIR)/image.Po
 	-rm -f unittests/$(DEPDIR)/ipc.Po
 	-rm -f unittests/$(DEPDIR)/javascript.Po
 	-rm -f unittests/$(DEPDIR)/jobs.Po
@@ -5511,6 +5517,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/html2usfm.Po
 	-rm -f unittests/$(DEPDIR)/http.Po
 	-rm -f unittests/$(DEPDIR)/hyphenate.Po
+	-rm -f unittests/$(DEPDIR)/image.Po
 	-rm -f unittests/$(DEPDIR)/ipc.Po
 	-rm -f unittests/$(DEPDIR)/javascript.Po
 	-rm -f unittests/$(DEPDIR)/jobs.Po

@@ -581,6 +581,8 @@
 		CA6A12CD26F782C600CDB5DB /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		CA6A12CE26F782C700CDB5DB /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		CA6A12CF26F79EC900CDB5DB /* stb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stb; sourceTree = "<group>"; };
+		CA6A12D026F7BBE400CDB5DB /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
+		CA6A12D126F7BBE400CDB5DB /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
 		CA6A2765260B966200EE8844 /* focus.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = focus.js; sourceTree = "<group>"; };
 		CA6BEA0326456C08009A0416 /* list2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = list2.cpp; sourceTree = "<group>"; };
 		CA6BEA0426456C08009A0416 /* list2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list2.h; sourceTree = "<group>"; };
@@ -5506,6 +5508,8 @@
 				CADE42DE24F174BD003165BB /* http.h */,
 				CADE443024F174BE003165BB /* hyphenate.cpp */,
 				CADE42BA24F174BD003165BB /* hyphenate.h */,
+				CA6A12D026F7BBE400CDB5DB /* image.cpp */,
+				CA6A12D126F7BBE400CDB5DB /* image.h */,
 				CADE42B424F174BD003165BB /* ipc.cpp */,
 				CADE42F524F174BD003165BB /* ipc.h */,
 				CADE444524F174BE003165BB /* javascript.cpp */,

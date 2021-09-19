@@ -912,7 +912,7 @@ void Filter_Text::processUsfm ()
               }
               break;
             }
-            case StyleTypePicture: // Todo handle it.
+            case StyleTypePicture:
             {
               if (isOpeningMarker) {
                 // Set a flag that the parser is going to be within figure markup.
@@ -1035,7 +1035,7 @@ void Filter_Text::processUsfm ()
       } else {
         // Here is no marker, just text.
 
-        // Treat this content as figure directions. // Todo
+        // Treat this content as figure directions.
         if (is_within_figure_markup) {
           // Extract the bits for this image / picture / figure.
           string caption, alt, src, size, loc, copy, ref;
@@ -1044,6 +1044,8 @@ void Filter_Text::processUsfm ()
           image_sources.push_back(src);
           // Add the image to the various output formats.
           if (odf_text_standard) odf_text_standard->add_image(alt, src);
+          if (odf_text_text_only) odf_text_text_only->add_image(alt, src);
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_image(alt, src);
           if (html_text_standard) html_text_standard->add_image(alt, src);
           if (html_text_linked) html_text_linked->add_image(alt, src);
         }

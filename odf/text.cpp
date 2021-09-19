@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/archive.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <database/bibleimages.h>
 #include <styles/logic.h>
 
 
@@ -35,19 +36,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 Odf_Text::Odf_Text (string bible_in)
 {
   bible = bible_in;
-  current_text_p_opened = false;
-  currentParagraphStyle.clear();
-  currentParagraphContent.clear();
+  current_text_p_node_opened = false;
+  current_paragraph_style.clear();
+  current_paragraph_content.clear();
   currentTextStyle.clear();
   frameCount = 0;
   note_text_p_opened = false;
   noteCount = 0;
   currentNoteTextStyle.clear();
+  image_counter = 0;
 
   // Unpack the .odt template.
   string templateOdf = filter_url_create_root_path ("odf", "template.odt");
   unpackedOdtFolder = filter_archive_unzip (templateOdf);
   filter_url_rmdir (filter_url_create_path (unpackedOdtFolder, "Configurations2"));
+  // Create the Pictures folder.
+  // pictures_folder = filter_url_create_path (unpackedOdtFolder, "Pictures");
+  //filter_url_mkdir(pictures_folder);
   
   initialize_content_xml ();
   initialize_styles_xml ();
@@ -179,13 +184,36 @@ void Odf_Text::initialize_content_xml ()
         }
       }
     }
+
+    // Add the automatic image style. Todo
+    // <style:style style:name="fr1" style:family="graphic" style:parent-style-name="Graphics">
+    //   <style:graphic-properties style:mirror="none" fo:clip="rect(0mm, 0mm, 0mm, 0mm)" draw:luminance="0%" draw:contrast="0%" draw:red="0%" draw:green="0%" draw:blue="0%" draw:gamma="100%" draw:color-inversion="false" draw:image-opacity="100%" draw:color-mode="standard" />
+    // </style:style>
+    style_style = office_automatic_styles.append_child ("style:style");
+    style_style.append_attribute ("style:name") = "fr1";
+    style_style.append_attribute ("style:family") = "graphic";
+    style_style.append_attribute ("style:parent-style-name") = "Graphics";
+    {
+      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      style_paragraph_properties.append_attribute ("style:mirror") = "none";
+      style_paragraph_properties.append_attribute ("fo:clip") = "rect(0mm, 0mm, 0mm, 0mm)";
+      style_paragraph_properties.append_attribute ("draw:luminance") = "0%";
+      style_paragraph_properties.append_attribute ("draw:contrast") = "0%";
+      style_paragraph_properties.append_attribute ("draw:red") = "0%";
+      style_paragraph_properties.append_attribute ("draw:green") = "0%";
+      style_paragraph_properties.append_attribute ("draw:blue") = "0%";
+      style_paragraph_properties.append_attribute ("draw:gamma") = "100%";
+      style_paragraph_properties.append_attribute ("draw:color-inversion") = "false";
+      style_paragraph_properties.append_attribute ("draw:image-opacity") = "100%";
+      style_paragraph_properties.append_attribute ("draw:color-mode") = "standard";
+    }
   }
 
   xml_node office_body = rootnode.append_child ("office:body");
   {
-    officeTextDomNode = office_body.append_child ("office:text");
+    office_text_node = office_body.append_child ("office:text");
     {
-      xml_node text_sequence_decls = officeTextDomNode.append_child ("text:sequence-decls");
+      xml_node text_sequence_decls = office_text_node.append_child ("text:sequence-decls");
       {
         xml_node text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
         text_sequence_decl.append_attribute ("text:display-outline-level") = "0";
@@ -538,11 +566,11 @@ void Odf_Text::initialize_styles_xml ()
 
 void Odf_Text::newParagraph (string style)
 {
-  currentTextPDomElement = officeTextDomNode.append_child ("text:p");
-  currentTextPDomElementNameNode = currentTextPDomElement.append_attribute ("text:style-name") = style.c_str();
-  current_text_p_opened = true;
-  currentParagraphStyle = style;
-  currentParagraphContent.clear();
+  current_text_p_node = office_text_node.append_child ("text:p");
+  current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style.c_str();
+  current_text_p_node_opened = true;
+  current_paragraph_style = style;
+  current_paragraph_content.clear();
 }
 
 
@@ -554,14 +582,14 @@ void Odf_Text::addText (string text)
   if (text.empty()) return;
 
   // Ensure a paragraph has started.
-  if (!current_text_p_opened) newParagraph ();
+  if (!current_text_p_node_opened) newParagraph ();
   
   // Temporal styles array should have at least one style for the code below to work.
   vector <string> styles (currentTextStyle.begin (), currentTextStyle.end ());
   if (styles.empty()) styles.push_back ("");
   
   // Write a text span element, nesting the second and later ones.
-  xml_node domElement = currentTextPDomElement;
+  xml_node domElement = current_text_p_node;
   for (string style : styles) {
     xml_node textSpanDomElement = domElement.append_child ("text:span");
     if (!style.empty ()) {
@@ -576,7 +604,7 @@ void Odf_Text::addText (string text)
   domElement.text ().set (text.c_str());
 
   // Update public paragraph text.
-  currentParagraphContent += text;
+  current_paragraph_content += text;
 }
 
 
@@ -621,9 +649,9 @@ void Odf_Text::newPageBreak ()
   // Always clear the paragraph-opened-flag,
   // because we don't want subsequent text to be added to this page break,
   // since it would be nearly invisible, and thus text would mysteriously get lost.
-  current_text_p_opened = false;
-  currentParagraphStyle.clear ();
-  currentParagraphContent.clear ();
+  current_text_p_node_opened = false;
+  current_paragraph_style.clear ();
+  current_paragraph_content.clear ();
 }
 
 
@@ -722,10 +750,10 @@ void Odf_Text::createParagraphStyle (string name, string fontname, float fontsiz
 // $name: the name of the style, e.g. 'p'.
 void Odf_Text::updateCurrentParagraphStyle (string name)
 {
-  if (!current_text_p_opened) newParagraph ();
-  currentTextPDomElement.remove_attribute (currentTextPDomElementNameNode);
-  currentTextPDomElementNameNode = currentTextPDomElement.append_attribute ("text:style-name");
-  currentTextPDomElementNameNode = convertStyleName (name).c_str();
+  if (!current_text_p_node_opened) newParagraph ();
+  current_text_p_node.remove_attribute (current_text_p_node_style_name);
+  current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name");
+  current_text_p_node_style_name = convertStyleName (name).c_str();
 }
 
 
@@ -836,7 +864,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
 
   // The frame goes in an existing paragraph (text:p) element, just like a 'text:span' element.
   // Ensure that a paragraph is open.
-  if (!current_text_p_opened) newParagraph ();
+  if (!current_text_p_node_opened) newParagraph ();
 
   // The frame looks like this, in content.xml:
   // <draw:frame draw:style-name="fr1" draw:name="frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
@@ -844,7 +872,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
   //     <text:p text:style-name="c">1</text:p>
   //   </draw:text-box>
   // </draw:frame>
-  xml_node drawFrameDomElement = currentTextPDomElement.append_child ("draw:frame");
+  xml_node drawFrameDomElement = current_text_p_node.append_child ("draw:frame");
   drawFrameDomElement.append_attribute ("draw:style-name") = "chapterframe";
   frameCount++;
   drawFrameDomElement.append_attribute ("draw:name") = convert_to_string ("frame" + convert_to_string (frameCount)).c_str();
@@ -956,9 +984,9 @@ void Odf_Text::createSuperscriptStyle ()
 void Odf_Text::addNote (string caller, string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!current_text_p_opened) newParagraph ();
+  if (!current_text_p_node_opened) newParagraph ();
 
-  xml_node textNoteDomElement = currentTextPDomElement.append_child ("text:note");
+  xml_node textNoteDomElement = current_text_p_node.append_child ("text:note");
   textNoteDomElement.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (noteCount)).c_str();
   noteCount++;
   note_text_p_opened = true;
@@ -1025,7 +1053,7 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
 {
   // Heading looks like this in content.xml:
   // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
-  xml_node textHDomElement = officeTextDomNode.append_child ("text:h");
+  xml_node textHDomElement = office_text_node.append_child ("text:h");
   textHDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
   textHDomElement.append_attribute ("text:outline-level") = "1";
   textHDomElement.text().set(escape_special_xml_characters (text).c_str());
@@ -1060,9 +1088,9 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
   }
 
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
-  current_text_p_opened = false;
-  currentParagraphStyle.clear ();
-  currentParagraphContent.clear ();
+  current_text_p_node_opened = false;
+  current_paragraph_style.clear ();
+  current_paragraph_content.clear ();
 }
 
 
@@ -1102,3 +1130,60 @@ void Odf_Text::save (string name)
 }
 
 
+// Add an image to the document.
+// <text:p text:style-name="p">
+//   <draw:frame draw:style-name="fr1" draw:name="Image1" text:anchor-type="char" svg:width="180mm" svg:height="66.55mm" draw:z-index="0">
+//     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
+//   </draw:frame>
+// </text:p>
+void Odf_Text::add_image (string alt, string src) // Todo
+{
+  (void) alt;
+  const char * style = "p";
+  current_text_p_node = office_text_node.append_child ("text:p");
+  current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style;
+  current_text_p_node_opened = true;
+  current_paragraph_style = style;
+  current_paragraph_content.clear();
+  {
+    image_counter++;
+    xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
+    draw_frame_node.append_attribute("draw:style-name") = "fr1";
+    draw_frame_node.append_attribute("draw:name") = string ("Image" + convert_to_string(image_counter)).c_str();
+    draw_frame_node.append_attribute("text:anchor-type") = "char";
+    draw_frame_node.append_attribute("svg:width") = "180mm"; // Todo set percentage
+//    draw_frame_node.append_attribute("style:rel-width") = "100%";
+    draw_frame_node.append_attribute("svg:height") = "66.55mm"; // Todo check out what to set.
+//    draw_frame_node.append_attribute("style:rel-height") = "scale";
+    draw_frame_node.append_attribute("draw:z-index") = "0";
+    {
+      xml_node draw_image_node = draw_frame_node.append_child("draw:image");
+      // draw_image_node.append_attribute("xlink:href") = string("Pictures/" + src).c_str();
+      draw_image_node.append_attribute("xlink:href") = string("../" + src).c_str();
+      draw_image_node.append_attribute("xlink:type") = "simple";
+      draw_image_node.append_attribute("xlink:show") = "embed";
+      draw_image_node.append_attribute("xlink:actuate") = "onLoad";
+      draw_image_node.append_attribute("draw:filter-name") = "&lt;All formats&gt;";
+      draw_image_node.append_attribute("draw:mime-type") = "image/png"; // Todo set depending on type.
+    }
+  }
+
+  // Save the picture into the Pictures output folder.
+  // Later on this was not done,
+  // because it would require an updated meta-inf/manifest.xml.
+  // <manifest:file-entry manifest:full-path="Pictures/100002010000035C0000013E97D1D9088C414E87.png" manifest:media-type="image/png"/>
+  // Another advantage of not including the pictures in the opendocument file is:
+  // The OpenDocument file without pictures in them would be smaller as it contains only text.
+  {
+    //Database_BibleImages database_bibleimages;
+    //string contents = database_bibleimages.get(src);
+    //string path = filter_url_create_path(pictures_folder, src);
+    //filter_url_file_put_contents(path, contents);
+  }
+
+  // Close the current paragraph.
+  // Goal: Any text that will be added will be output into a new paragraph.
+  current_text_p_node_opened = false;
+  current_paragraph_style.clear ();
+  current_paragraph_content.clear ();
+}

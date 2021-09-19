@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/archive.h>
+#include <filter/image.h>
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/bibleimages.h>
@@ -1139,22 +1140,47 @@ void Odf_Text::save (string name)
 void Odf_Text::add_image (string alt, string src) // Todo
 {
   (void) alt;
+  
+  // The parent paragraph for the image has the "p" style.
   const char * style = "p";
   current_text_p_node = office_text_node.append_child ("text:p");
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style;
   current_text_p_node_opened = true;
   current_paragraph_style = style;
   current_paragraph_content.clear();
+
+  // Get the width and height of the image in pixels.
+  int image_width_pixels = 0, image_height_pixels = 0;
+  {
+    Database_BibleImages database_bibleimages;
+    string path = filter_url_create_root_path (filter_url_temp_dir (), "image_contents");
+    string contents = database_bibleimages.get(src);
+    filter_url_file_put_contents(path, contents);
+    filter_image_get_sizes (path, image_width_pixels, image_height_pixels);
+
+  }
+
+  // Determine the width of the available space so the image width will be equal to that.
+  // Then the image height depends on the ratio of the image width and height in pixels.
+  int available_width_mm = 0;
+  int available_height_mm = 50;
+  {
+    available_width_mm = convert_to_int (Database_Config_Bible::getPageWidth (bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (bible));
+    if (image_width_pixels && image_height_pixels) {
+      available_height_mm = available_width_mm * image_height_pixels / image_width_pixels;
+    }
+  }
+  
   {
     image_counter++;
     xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
     draw_frame_node.append_attribute("draw:style-name") = "fr1";
     draw_frame_node.append_attribute("draw:name") = string ("Image" + convert_to_string(image_counter)).c_str();
     draw_frame_node.append_attribute("text:anchor-type") = "char";
-    draw_frame_node.append_attribute("svg:width") = "180mm"; // Todo set percentage
-//    draw_frame_node.append_attribute("style:rel-width") = "100%";
-    draw_frame_node.append_attribute("svg:height") = "66.55mm"; // Todo check out what to set.
-//    draw_frame_node.append_attribute("style:rel-height") = "scale";
+    draw_frame_node.append_attribute("svg:width") = string(convert_to_string (available_width_mm) + "mm").c_str();
+    // draw_frame_node.append_attribute("style:rel-width") = "100%";
+    draw_frame_node.append_attribute("svg:height") = string (convert_to_string (available_height_mm) + "mm").c_str(); // Todo check out what to set.
+    // draw_frame_node.append_attribute("style:rel-height") = "scale";
     draw_frame_node.append_attribute("draw:z-index") = "0";
     {
       xml_node draw_image_node = draw_frame_node.append_child("draw:image");

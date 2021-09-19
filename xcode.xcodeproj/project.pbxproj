@@ -580,6 +580,7 @@
 		CA60BF4425337938004D6E06 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CA6A12CD26F782C600CDB5DB /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 		CA6A12CE26F782C700CDB5DB /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		CA6A12CF26F79EC900CDB5DB /* stb */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stb; sourceTree = "<group>"; };
 		CA6A2765260B966200EE8844 /* focus.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = focus.js; sourceTree = "<group>"; };
 		CA6BEA0326456C08009A0416 /* list2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = list2.cpp; sourceTree = "<group>"; };
 		CA6BEA0426456C08009A0416 /* list2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list2.h; sourceTree = "<group>"; };
@@ -2752,6 +2753,7 @@
 				CADE419824F174A4003165BB /* sprint */,
 				CADE410C24F174A3003165BB /* sqlite */,
 				CADE420724F174B0003165BB /* statistics */,
+				CA6A12CF26F79EC900CDB5DB /* stb */,
 				CADE41AA24F174B0003165BB /* styles */,
 				CADE421724F174B1003165BB /* sword */,
 				CADE41DB24F174B0003165BB /* sync */,

@@ -25,6 +25,7 @@
 #include <database/logs.h>
 #include <database/state.h>
 #include <database/config/bible.h>
+#include <database/bibleimages.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
@@ -52,6 +53,7 @@ void export_odt_book (string bible, int book, bool log)
 
   
   Database_Bibles database_bibles;
+  Database_BibleImages database_bibleimages;
   
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -72,7 +74,7 @@ void export_odt_book (string bible, int book, bool log)
       for (auto chapter : chapters) {
         string usfm = database_bibles.getChapter (bible, book, chapter);
         // Filter it.
-        usfm = usfm_remove_w_attributes (usfm); // Todo handle fig.
+        usfm = usfm_remove_w_attributes (usfm);
         usfm = filter_string_trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.addUsfmCode (usfm);
@@ -84,7 +86,7 @@ void export_odt_book (string bible, int book, bool log)
     for (auto chapter : chapters) {
       string usfm = database_bibles.getChapter (bible, book, chapter);
       // Filter it.
-      usfm = usfm_remove_w_attributes (usfm); // Todo handle fig.
+      usfm = usfm_remove_w_attributes (usfm);
       usfm = filter_string_trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.addUsfmCode (usfm);
@@ -96,13 +98,18 @@ void export_odt_book (string bible, int book, bool log)
   filter_text.run (stylesheet);
   
   
-  // Save files.
+  // Save text files and optionally the images included in the text.
   filter_text.odf_text_standard->save (standardFilename);
   filter_text.odf_text_text_only->save (textOnlyFilename);
   filter_text.odf_text_text_and_note_citations->save (textAndCitationsFilename);
   filter_text.odf_text_notes->save (notesFilename);
-  
-  
+  for (auto src : filter_text.image_sources) {
+    string contents = database_bibleimages.get(src);
+    string path = filter_url_create_path (directory, src);
+    filter_url_file_put_contents(path, contents);
+  }
+
+    
   // Securing the OpenDocument export implies that the exported files are zipped and secured with a password.
   // It uses the external zip binary.
   bool secure = Database_Config_Bible::getSecureOdtExport (bible);

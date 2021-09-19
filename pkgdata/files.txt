@@ -707,6 +707,8 @@
 /sqlite
 /sqlite/readme.txt
 /statistics
+/stb
+/stb/LICENSE
 /styles
 /styles/indexm.html
 /styles/sheetm.html

@@ -22,6 +22,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/text.h>
+#include <filter/image.h>
 #include <editor/html2usfm.h>
 #include <editor/html2format.h>
 #include <styles/logic.h>
@@ -42,6 +43,21 @@ void test_dev () // Todo move into place.
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
+
+  // Test some functions of the image filter.
+  {
+    string image_2_name = "bibleimage2.png";
+    string image_3_name = "bibleimage3.png";
+    string image_2_path = filter_url_create_root_path ("unittests", "tests", image_2_name);
+    string image_3_path = filter_url_create_root_path ("unittests", "tests", image_3_name);
+    int width = 0, height = 0;
+    filter_image_get_sizes (image_2_path, width, height);
+    evaluate (__LINE__, __func__, 860, width);
+    evaluate (__LINE__, __func__, 318, height);
+    filter_image_get_sizes (image_3_path, width, height);
+    evaluate (__LINE__, __func__, 427, width);
+    evaluate (__LINE__, __func__, 304, height);
+  }
   
   // Test extraction of all sorts of information from USFM code.
   // Test basic formatting into OpenDocument.
@@ -61,20 +77,20 @@ void test_dev () // Todo move into place.
 \v 2 Verse two.
     )";
     string standard = R"(<p class="p"><span class="v">1</span><span> Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span class="v">2</span><span> Verse two.</span></p>)";
-    string html;
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new Html_Text (bible);
+    filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.addUsfmCode (usfm);
     filter_text.run (styles_logic_standard_sheet());
-    html = filter_text.html_text_standard->get_inner_html();
-    evaluate (__LINE__, __func__, standard, html);
-    evaluate (__LINE__, __func__, {image_2_name}, filter_text.image_sources);
-    filter_text.html_text_standard->save ("/Users/teus/Desktop/html.html");
+    filter_text.odf_text_standard->save ("/Users/teus/Desktop/odt.odt");
+
+//    evaluate (__LINE__, __func__, standard, html);
+//    evaluate (__LINE__, __func__, {image_2_name}, filter_text.image_sources);
+//    filter_text.html_text_standard->save ("/Users/teus/Desktop/html.html");
     for (auto src : filter_text.image_sources) {
       string contents = database_bibleimages.get(src);
       filter_url_file_put_contents("/Users/teus/Desktop/" + src, contents);
     }
   }
-//  exit (0); // Todo
-  refresh_sandbox (true);
+//  refresh_sandbox (true);
+  exit (0); // Todo
 }

@@ -1137,7 +1137,7 @@ void Odf_Text::save (string name)
 //     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
 //   </draw:frame>
 // </text:p>
-void Odf_Text::add_image (string alt, string src) // Todo
+void Odf_Text::add_image (string alt, string src, string caption) // Todo
 {
   (void) alt;
   
@@ -1192,6 +1192,12 @@ void Odf_Text::add_image (string alt, string src) // Todo
       draw_image_node.append_attribute("draw:filter-name") = "&lt;All formats&gt;";
       draw_image_node.append_attribute("draw:mime-type") = "image/png"; // Todo set depending on type.
     }
+  }
+  
+  // Optionally add the caption if given. Todo
+  if (!caption.empty()) {
+    xml_node text_node = current_text_p_node.append_child(node_pcdata);
+    text_node.set_value(caption.c_str());
   }
 
   // Save the picture into the Pictures output folder.

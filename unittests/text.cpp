@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_filter_text () // Todo
+void test_filter_text ()
 {
   trace_unit_tests (__func__);
   
@@ -1172,9 +1172,9 @@ A Jesus is King.  B Jesus is the son of God.
 \v 1 Verse one. \fig caption|src="bibleimage2.png" size="size" ref="reference"\fig*
 \v 2 Verse two.
     )";
-    // Test converting the USFM to html.
+    // Test converting the USFM with an image to html.
     {
-      string standard = R"(<p class="p"><span class="v">1</span><span> Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span class="v">2</span><span> Verse two.</span></p>)";
+      string standard = R"(<p class="p"><span class="v">1</span><span> Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span>caption</span></p><p><span class="v">2</span><span> Verse two.</span></p>)";
       string html;
       Filter_Text filter_text = Filter_Text (bible);
       filter_text.html_text_standard = new Html_Text (bible);
@@ -1189,9 +1189,29 @@ A Jesus is King.  B Jesus is the son of God.
         evaluate (__LINE__, __func__, standard, contents);
       }
     }
+    // Test converting the USFM with an image to OpenDocument.
+    {
+      Filter_Text filter_text = Filter_Text (bible);
+      filter_text.odf_text_standard = new Odf_Text (bible);
+      filter_text.addUsfmCode (usfm);
+      filter_text.run (styles_logic_standard_sheet());
+      filter_text.odf_text_standard->save (TextTestOdt);
+      int ret = odf2txt (TextTestOdt, TextTestTxt);
+      evaluate (__LINE__, __func__, 0, ret);
+      string odt = filter_url_file_get_contents (TextTestTxt);
+      odt = filter_string_str_replace ("  ", "", odt);
+      string standard = R"(
+Unknown 1
 
+1 Verse one. 
+
+caption
+
+2 Verse two.
+      )";
+      evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    }
   }
-  
 
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);

@@ -1740,3 +1740,9 @@ bool filter_url_is_image (string extension)
   // Default: It is not an image.
   return false;
 }
+
+
+string filter_url_get_mime_type (string extension) // Todo
+{
+  return string();
+}

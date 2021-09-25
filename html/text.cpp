@@ -354,7 +354,7 @@ void Html_Text::have_popup_notes ()
 
 
 // Add an image to the html.
-void Html_Text::add_image (string alt, string src, string caption) // Todo
+void Html_Text::add_image (string alt, string src, string caption)
 {
   xml_node img_node = body_node.append_child ("img");
   img_node.append_attribute("alt") = alt.c_str();

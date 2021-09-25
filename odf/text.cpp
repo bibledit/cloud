@@ -186,7 +186,7 @@ void Odf_Text::initialize_content_xml ()
       }
     }
 
-    // Add the automatic image style. Todo
+    // Add the automatic image style.
     // <style:style style:name="fr1" style:family="graphic" style:parent-style-name="Graphics">
     //   <style:graphic-properties style:mirror="none" fo:clip="rect(0mm, 0mm, 0mm, 0mm)" draw:luminance="0%" draw:contrast="0%" draw:red="0%" draw:green="0%" draw:blue="0%" draw:gamma="100%" draw:color-inversion="false" draw:image-opacity="100%" draw:color-mode="standard" />
     // </style:style>
@@ -1137,7 +1137,7 @@ void Odf_Text::save (string name)
 //     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
 //   </draw:frame>
 // </text:p>
-void Odf_Text::add_image (string alt, string src, string caption) // Todo
+void Odf_Text::add_image (string alt, string src, string caption)
 {
   (void) alt;
   
@@ -1179,7 +1179,7 @@ void Odf_Text::add_image (string alt, string src, string caption) // Todo
     draw_frame_node.append_attribute("text:anchor-type") = "char";
     draw_frame_node.append_attribute("svg:width") = string(convert_to_string (available_width_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-width") = "100%";
-    draw_frame_node.append_attribute("svg:height") = string (convert_to_string (available_height_mm) + "mm").c_str(); // Todo check out what to set.
+    draw_frame_node.append_attribute("svg:height") = string (convert_to_string (available_height_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-height") = "scale";
     draw_frame_node.append_attribute("draw:z-index") = "0";
     {
@@ -1194,7 +1194,7 @@ void Odf_Text::add_image (string alt, string src, string caption) // Todo
     }
   }
   
-  // Optionally add the caption if given. Todo
+  // Optionally add the caption if given.
   if (!caption.empty()) {
     xml_node text_node = current_text_p_node.append_child(node_pcdata);
     text_node.set_value(caption.c_str());

@@ -1046,8 +1046,8 @@ void Filter_Text::processUsfm ()
           if (odf_text_standard) odf_text_standard->add_image(alt, src);
           if (odf_text_text_only) odf_text_text_only->add_image(alt, src);
           if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_image(alt, src);
-          if (html_text_standard) html_text_standard->add_image(alt, src);
-          if (html_text_linked) html_text_linked->add_image(alt, src);
+          if (html_text_standard) html_text_standard->add_image(alt, src, caption);
+          if (html_text_linked) html_text_linked->add_image(alt, src, caption);
         }
 
         // Treat this content as text.

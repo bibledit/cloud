@@ -354,12 +354,17 @@ void Html_Text::have_popup_notes ()
 
 
 // Add an image to the html.
-void Html_Text::add_image (string alt, string src) // Todo
+void Html_Text::add_image (string alt, string src, string caption) // Todo
 {
   xml_node img_node = body_node.append_child ("img");
   img_node.append_attribute("alt") = alt.c_str();
   img_node.append_attribute("src") = src.c_str();
   img_node.append_attribute ("width") = "100%";
+  // Add the caption if it is given.
+  if (!caption.empty()) {
+    new_paragraph();
+    add_text(caption);
+  }
   // Close the paragraph so that adding subsequent text creates a new paragraph.
   current_p_node_open = false;
   current_paragraph_style.clear ();

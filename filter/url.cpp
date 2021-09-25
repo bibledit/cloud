@@ -1742,7 +1742,42 @@ bool filter_url_is_image (string extension)
 }
 
 
+// Source:
+// https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+// See also:
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 string filter_url_get_mime_type (string extension) // Todo
 {
-  return string();
+  static map <string, string> mime_types = {
+    {"jar", "application/java-archive"},
+    {"js", "application/javascript"},
+    {"json", "application/json"},
+    {"pdf", "application/pdf"},
+    {"odt", "application/vnd.oasis.opendocument.text"},
+    {"xml", "application/xml"},
+    {"zip", "application/zip"},
+    {"otf", "font/otf"},
+    {"ttf", "application/font-sfnt"},
+    {"woff", "application/font-woff"},
+    {"bmp", "image/bmp"}, // Windows OS/2 Bitmap Graphics
+    {"gif", "image/gif"}, // Graphics Interchange Format
+    {"jpe", "image/jpeg"}, // JPEG images
+    {"jpg", "image/jpeg"}, // JPEG images
+    {"jpeg", "image/jpeg"}, // JPEG images
+    {"png", "image/png"}, // Portable Network Graphics
+    {"svgz", "image/svg+xml"},
+    {"svg", "image/svg+xml"}, // Scalable Vector Graphics
+    {"tif", "image/tiff"}, // Tagged Image File Format
+    {"tiff", "image/tiff"}, // Tagged Image File Format
+    {"ico", "image/vnd.microsoft.icon"}, // Icon format
+    {"css", "text/css"},
+    {"csv", "text/csv"},
+    {"htm", "text/html"},
+    {"html", "text/html"},
+    {"txt", "text/plain"},
+    {"usfm", "text/plain"},
+    {"webp", "image/webp"}, // WEBP image
+  };
+  return mime_types [extension];
 }
+    

@@ -1190,7 +1190,10 @@ void Odf_Text::add_image (string alt, string src, string caption)
       draw_image_node.append_attribute("xlink:show") = "embed";
       draw_image_node.append_attribute("xlink:actuate") = "onLoad";
       draw_image_node.append_attribute("draw:filter-name") = "&lt;All formats&gt;";
-      draw_image_node.append_attribute("draw:mime-type") = "image/png"; // Todo set depending on type.
+      // The mime type should have been set according to the MIME type of the actual image.
+      // But omitting it is the easier solution.
+      // LibreOffice can still open the document without any problems.
+      //draw_image_node.append_attribute("draw:mime-type") = "image/png";
     }
   }
   

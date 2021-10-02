@@ -22,24 +22,28 @@ function assetsEditorAddNote (quill, style, caller, noteId, chapter, separator, 
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1.1 </span><span class="i-fk"> keyword </span><span class="i-ft"> Footnote text.</span></p>
   // Footnote uses \fr \fk \ft.
   // Cross reference uses \xo \xt.
+  // As for spacing, see issue https://github.com/bibledit/cloud/issues/672
+  // A vertical bar | now gets inserted before the keyword and the text for easy of editing.
+  // It is about which style gets applied when typing.
+  // The vertical bar makes it easier to see which style will get applied.
   var length = quill.getLength ();
   quill.insertText (length, "\n", "paragraph", style, "user");
   quill.insertText (length, caller, "character", "notebody" + noteId, "user");
   length++;
   quill.insertText (length, " + ", "character", "", "user");
   length += 3;
-  var referenceText = chapter + separator + verse;
+  var referenceText = chapter + separator + verse + " ";
   var referenceStyle = "fr";
   if (style == "x") referenceStyle = "xo";
   quill.insertText (length, referenceText, "character", referenceStyle, "user");
   length += referenceText.length;
   if (style != "x") {
     var keywordStyle = "fk";
-    quill.insertText (length, " keyword", "character", keywordStyle, "user");
-    length += 8;
+    quill.insertText (length, "|keyword ", "character", keywordStyle, "user");
+    length += 9;
   }
   var textStyle = "ft";
   if (style == "x") textStyle = "xt";
-  quill.insertText (length, " Text.", "character", textStyle, "user");
+  quill.insertText (length, "|text.", "character", textStyle, "user");
 }
 

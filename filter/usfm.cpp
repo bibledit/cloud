@@ -1062,3 +1062,14 @@ string usfm_extract_fig (string usfm, string & caption, string & alt, string& sr
   // The resulting USFM with the figure markup removed.
   return usfm_out;
 }
+
+
+// Returns true if the marker is a standard "q." marker.
+bool usfm_is_standard_q_poetry (const string & marker)
+{
+  if (marker == "q") return true;
+  if (marker == "q1") return true;
+  if (marker == "q2") return true;
+  if (marker == "q3") return true;
+  return false;
+}

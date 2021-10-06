@@ -1361,7 +1361,15 @@ void test_usfm ()
     evaluate (__LINE__, __func__, string(), copy);
     evaluate (__LINE__, __func__, "1.31", ref);
     evaluate (__LINE__, __func__, R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. .)", usfm_out);
-
   }
 
+  // Test determining standard q poetry styles.
+  {
+    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q"));
+    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q1"));
+    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q2"));
+    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q3"));
+    evaluate (__LINE__, __func__, false, usfm_is_standard_q_poetry ("q4"));
+    evaluate (__LINE__, __func__, false, usfm_is_standard_q_poetry ("q5"));
+  }
 }

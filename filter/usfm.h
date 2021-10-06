@@ -70,6 +70,7 @@ const char * usfm_marker_va ();
 const char * usfm_marker_vp ();
 string usfm_remove_w_attributes (string usfm);
 string usfm_extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref);
+bool usfm_is_standard_q_poetry (const string & marker);
 
 
 #endif

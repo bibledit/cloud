@@ -587,9 +587,9 @@ void Filter_Text::processUsfm ()
             {
               // Support for a normal and an embedded character style.
               if (isOpeningMarker) {
-                if (odf_text_standard) odf_text_standard->openTextStyle (style, false, isEmbeddedMarker);
-                if (odf_text_text_only) odf_text_text_only->openTextStyle (style, false, isEmbeddedMarker);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, isEmbeddedMarker);
+                if (odf_text_standard) odf_text_standard->open_text_style (style, false, isEmbeddedMarker);
+                if (odf_text_text_only) odf_text_text_only->open_text_style (style, false, isEmbeddedMarker);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (style, false, isEmbeddedMarker);
                 if (html_text_standard) html_text_standard->open_text_style (style, false, isEmbeddedMarker);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, isEmbeddedMarker);
               } else {
@@ -815,9 +815,9 @@ void Filter_Text::processUsfm ()
                     html_text_linked->add_text (" ");
                   }
                 }
-                if (odf_text_standard) odf_text_standard->openTextStyle (style, false, false);
-                if (odf_text_text_only) odf_text_text_only->openTextStyle (style, false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->openTextStyle (style, false, false);
+                if (odf_text_standard) odf_text_standard->open_text_style (style, false, false);
+                if (odf_text_text_only) odf_text_text_only->open_text_style (style, false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (style, false, false);
                 if (html_text_standard) html_text_standard->open_text_style (style, false, false);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, false);
                 if (odf_text_standard) odf_text_standard->addText (v_vp_number);
@@ -1197,8 +1197,8 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (isOpeningMarker) {
-                  if (odf_text_standard) odf_text_standard->openTextStyle (style, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->openTextStyle (style, false, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->open_text_style (style, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->open_text_style (style, false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
@@ -1283,8 +1283,8 @@ void Filter_Text::processNote ()
               case CrossreferenceSubtypeContentWithEndmarker:
               {
                 if (isOpeningMarker) {
-                  if (odf_text_standard) odf_text_standard->openTextStyle (style, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->openTextStyle (style, false, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->open_text_style (style, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->open_text_style (style, false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
@@ -1574,9 +1574,9 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
       if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
       createdStyles.push_back (combined_style);
     }
-    if (odf_text_standard) odf_text_standard->updateCurrentParagraphStyle (combined_style);
-    if (odf_text_text_only) odf_text_text_only->updateCurrentParagraphStyle (combined_style);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->updateCurrentParagraphStyle (combined_style);
+    if (odf_text_standard) odf_text_standard->update_current_paragraph_style (combined_style);
+    if (odf_text_text_only) odf_text_text_only->update_current_paragraph_style (combined_style);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->update_current_paragraph_style (combined_style);
   }
 }
 

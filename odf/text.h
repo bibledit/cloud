@@ -51,8 +51,8 @@ public:
                                float firstlineindent,
                                bool keepWithNext,
                                int dropcaps);
-  void updateCurrentParagraphStyle (string name);
-  void openTextStyle (Database_Styles_Item style, bool note, bool embed);
+  void update_current_paragraph_style (string name);
+  void open_text_style (Database_Styles_Item style, bool note, bool embed);
   void closeTextStyle (bool note, bool embed);
   void placeTextInFrame (string text, string style, float fontsize, int italic, int bold);
   void createSuperscriptStyle ();

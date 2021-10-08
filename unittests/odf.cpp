@@ -115,7 +115,7 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.newParagraph ();
     odf_text.addText ("text");
-    odf_text.openTextStyle (add, false, false);
+    odf_text.open_text_style (add, false, false);
     odf_text.addText ("add");
     odf_text.closeTextStyle (false, false);
     odf_text.addText ("normal");
@@ -139,7 +139,7 @@ void test_odf ()
     odf_text.newParagraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("𐌰", "f");
-    odf_text.openTextStyle (add, true, false);
+    odf_text.open_text_style (add, true, false);
     odf_text.addNoteText ("Add");
     odf_text.closeTextStyle (true, false);
     odf_text.addNoteText ("normal");
@@ -178,9 +178,9 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.newParagraph ();
     odf_text.addText ("text");
-    odf_text.openTextStyle (add, false, false);
+    odf_text.open_text_style (add, false, false);
     odf_text.addText ("add");
-    odf_text.openTextStyle (nd, false, true);
+    odf_text.open_text_style (nd, false, true);
     odf_text.addText ("nd");
     odf_text.closeTextStyle (false, false);
     odf_text.addText ("normal");
@@ -217,9 +217,9 @@ void test_odf ()
     odf_text.newParagraph ();
     odf_text.addText ("text");
     odf_text.addNote ("𐌰", "f");
-    odf_text.openTextStyle (add, true, false);
+    odf_text.open_text_style (add, true, false);
     odf_text.addNoteText ("add");
-    odf_text.openTextStyle (nd, true, true);
+    odf_text.open_text_style (nd, true, true);
     odf_text.addNoteText ("nd");
     odf_text.closeTextStyle (true, false);
     odf_text.addNoteText ("normal");
@@ -248,7 +248,7 @@ void test_odf ()
     odf_text.addText ("Paragraph with d style");
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style at first, then Standard");
-    odf_text.updateCurrentParagraphStyle (styles_logic_standard_sheet ());
+    odf_text.update_current_paragraph_style (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);

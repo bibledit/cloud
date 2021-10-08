@@ -670,7 +670,7 @@ void Odf_Text::create_paragraph_style (string name,
                                        float leftmargin, float rightmargin,
                                        float firstlineindent,
                                        bool keepWithNext,
-                                       int dropcaps) // Todo
+                                       int dropcaps)
 {
   // Whether to align verse numbers in poetry to the left of the margin,
   // and if so, whether this is one of the defined poetry styles.
@@ -752,7 +752,7 @@ void Odf_Text::create_paragraph_style (string name,
   // and that the verse is aligned at the very left of the column.
   // (And then a tab puts the text at the desired first line indent space.)
   int millimeters = firstlineindent;
-  if (is_poetry_q_style) millimeters = 0 - leftmargin; // Todo
+  if (is_poetry_q_style) millimeters = 0 - leftmargin;
   string first_lineindent_mm = convert_to_string (millimeters) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:text-indent") = first_lineindent_mm.c_str();
 
@@ -764,10 +764,10 @@ void Odf_Text::create_paragraph_style (string name,
   if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
     string length = convert_to_string (dropcaps);
-    xml_node styleDropCapDomElement = style_paragraph_properties_node.append_child ("style:drop-cap");
-    styleDropCapDomElement.append_attribute ("style:lines") = "2";
-    styleDropCapDomElement.append_attribute ("style:length") = length.c_str();
-    styleDropCapDomElement.append_attribute ("style:distance") = "0.15cm";
+    xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
+    style_drop_cap_node.append_attribute ("style:lines") = "2";
+    style_drop_cap_node.append_attribute ("style:length") = length.c_str();
+    style_drop_cap_node.append_attribute ("style:distance") = "0.15cm";
   }
   
   // For poetry styles like q, q1, and so on,
@@ -775,7 +775,7 @@ void Odf_Text::create_paragraph_style (string name,
   if (is_poetry_q_style) {
     xml_node style_tab_stops = style_paragraph_properties_node.append_child("style:tab-stops");
     xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
-    string tab_stop = convert_to_string(firstlineindent) + "mm"; // Todo
+    string tab_stop = convert_to_string(firstlineindent) + "mm";
     style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
   }
 }
@@ -783,7 +783,7 @@ void Odf_Text::create_paragraph_style (string name,
 
 // This updates the style name of the current paragraph.
 // $name: the name of the style, e.g. 'p'.
-void Odf_Text::updateCurrentParagraphStyle (string name)
+void Odf_Text::update_current_paragraph_style (string name)
 {
   if (!current_text_p_node_opened) newParagraph ();
   current_text_p_node.remove_attribute (current_text_p_node_style_name);
@@ -796,7 +796,7 @@ void Odf_Text::updateCurrentParagraphStyle (string name)
 // $style: the object with the style variables.
 // $note: Whether this refers to notes.
 // $embed: boolean: Whether nest $style in an existing character style.
-void Odf_Text::openTextStyle (Database_Styles_Item style, bool note, bool embed)
+void Odf_Text::open_text_style (Database_Styles_Item style, bool note, bool embed)
 {
   string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {

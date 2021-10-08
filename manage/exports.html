@@ -97,6 +97,13 @@ translate("The type of space to insert after a verse number")
 <!-- #ENDITERATION spaces -->
 </p>
 <br>
+<p>
+  <input type="checkbox" name="odtqleft" onchange="checkbox_v2(this)" ##odtqleft## />
+  translate("Align the verse numbers in poetry to the left.")
+  translate("This applies to the following markers:")
+  ##poetrymarkers##
+</p>
+<br>
 <form action="exports" name="fontform" method="post">
   <p>
   translate("Font:")

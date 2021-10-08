@@ -849,3 +849,17 @@ void Database_Config_Bible::setDailyChecksEnabled (string bible, bool value)
 {
   setBValue (bible, daily_checks_enabled_key (), value);
 }
+
+
+const char * odt_poetry_verses_left_key ()
+{
+  return "odt-poetry-verses-left";
+}
+bool Database_Config_Bible::getOdtPoetryVersesLeft (string bible)
+{
+  return getBValue (bible, odt_poetry_verses_left_key(), false);
+}
+void Database_Config_Bible::setOdtPoetryVersesLeft (string bible, bool value)
+{
+  setBValue (bible, odt_poetry_verses_left_key(), value);
+}

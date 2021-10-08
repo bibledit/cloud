@@ -25,6 +25,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/archive.h>
+#include <filter/usfm.h>
 #include <dialog/list.h>
 #include <dialog/entry.h>
 #include <access/bible.h>
@@ -37,6 +38,7 @@
 #include <menu/logic.h>
 #include <assets/external.h>
 #include <locale/logic.h>
+#include <styles/logic.h>
 
 
 const char * manage_exports_url ()
@@ -334,7 +336,23 @@ string manage_exports (void * webserver_request)
     name = locale_logic_space_get_name (space, false);
     view.add_iteration ("spaces", { make_pair ("space", href), make_pair ("class", cssclass), make_pair ("name", name) } );
   }
+
   
+  if (checkbox == "odtqleft") {
+    Database_Config_Bible::setOdtPoetryVersesLeft (bible, checked);
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+  }
+  view.set_variable ("odtqleft", get_checkbox_status (Database_Config_Bible::getOdtPoetryVersesLeft (bible)));
+  {
+    Database_Styles database_styles;
+    vector <string> markers = database_styles.getMarkers (styles_logic_standard_sheet ());
+    vector <string> poetry_styles;
+    for (auto & style : markers) {
+      if (usfm_is_standard_q_poetry (style)) poetry_styles.push_back(style);
+    }
+    view.set_variable("poetrymarkers", filter_string_implode(poetry_styles, " "));
+  }
+
   
   if (request->post.count ("fontsubmit")) {
     string font = request->post["fontentry"];

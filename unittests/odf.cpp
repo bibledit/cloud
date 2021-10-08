@@ -243,7 +243,7 @@ void test_odf ()
     database_styles.create ();
     Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
     Odf_Text odf_text (bible);
-    odf_text.createParagraphStyle (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
+    odf_text.create_paragraph_style (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.newParagraph ("d");
     odf_text.addText ("Paragraph with d style");
     odf_text.newParagraph ("d");

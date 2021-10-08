@@ -40,7 +40,17 @@ public:
   void newHeading1 (string text, bool hide = false);
   void createPageBreakStyle ();
   void newPageBreak ();
-  void createParagraphStyle (string name, string fontname, float fontsize, int italic, int bold, int underline, int smallcaps, int alignment, float spacebefore, float spaceafter, float leftmargin, float rightmargin, float firstlineindent, bool keepWithNext, int dropcaps);
+  void create_paragraph_style (string name,
+                               string fontname,
+                               float fontsize,
+                               int italic, int bold, int underline,
+                               int smallcaps,
+                               int alignment,
+                               float spacebefore, float spaceafter,
+                               float leftmargin, float rightmargin,
+                               float firstlineindent,
+                               bool keepWithNext,
+                               int dropcaps);
   void updateCurrentParagraphStyle (string name);
   void openTextStyle (Database_Styles_Item style, bool note, bool embed);
   void closeTextStyle (bool note, bool embed);
@@ -61,7 +71,7 @@ private:
   xml_node office_text_node; // The office:text DOMNode.
   xml_document stylesDom; // The styles.xml DOMDocument.
   vector <string> createdStyles; // An array with styles already created in the $stylesDom.
-  xml_node officeStylesDomNode; // The office:styles DOMNode.
+  xml_node office_styles_node; // The office:styles DOMNode.
   //xml_node officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
   xml_node current_text_p_node; // The current text:p DOMElement.
   bool current_text_p_node_opened = false; // Whether the text:p element has been opened.

@@ -41,17 +41,17 @@ void test_odf ()
     odf_text.createPageBreakStyle ();
     odf_text.new_paragraph ();
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.current_paragraph_style);
-    odf_text.addText ("Paragraph One");
+    odf_text.add_text ("Paragraph One");
     evaluate (__LINE__, __func__, "Paragraph One", odf_text.current_paragraph_content);
     odf_text.new_paragraph ();
     evaluate (__LINE__, __func__, "", odf_text.current_paragraph_content);
-    odf_text.addText ("Paragraph Two");
+    odf_text.add_text ("Paragraph Two");
     evaluate (__LINE__, __func__, "Paragraph Two", odf_text.current_paragraph_content);
-    odf_text.newHeading1 ("Heading One");
+    odf_text.new_heading1 ("Heading One");
     evaluate (__LINE__, __func__, "", odf_text.current_paragraph_content);
     odf_text.newPageBreak ();
     odf_text.new_paragraph ();
-    odf_text.addText ("Paragraph Three");
+    odf_text.add_text ("Paragraph Three");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -74,7 +74,7 @@ void test_odf ()
   // Test automatic paragraph.
   {
     Odf_Text odf_text (bible);
-    odf_text.addText ("Should create new paragraph automatically");
+    odf_text.add_text ("Should create new paragraph automatically");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -90,10 +90,10 @@ void test_odf ()
   {
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
-    odf_text.addText ("Text");
+    odf_text.add_text ("Text");
     odf_text.addNote ("†", "");
     odf_text.addNoteText ("Note");
-    odf_text.addText (".");
+    odf_text.add_text (".");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -114,12 +114,12 @@ void test_odf ()
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
-    odf_text.addText ("text");
+    odf_text.add_text ("text");
     odf_text.open_text_style (add, false, false);
-    odf_text.addText ("add");
+    odf_text.add_text ("add");
     odf_text.closeTextStyle (false, false);
-    odf_text.addText ("normal");
-    odf_text.addText (".");
+    odf_text.add_text ("normal");
+    odf_text.add_text (".");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -137,13 +137,13 @@ void test_odf ()
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
-    odf_text.addText ("Text");
+    odf_text.add_text ("Text");
     odf_text.addNote ("𐌰", "f");
     odf_text.open_text_style (add, true, false);
     odf_text.addNoteText ("Add");
     odf_text.closeTextStyle (true, false);
     odf_text.addNoteText ("normal");
-    odf_text.addText (".");
+    odf_text.add_text (".");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -177,14 +177,14 @@ void test_odf ()
     nd.color = "#000000";
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
-    odf_text.addText ("text");
+    odf_text.add_text ("text");
     odf_text.open_text_style (add, false, false);
-    odf_text.addText ("add");
+    odf_text.add_text ("add");
     odf_text.open_text_style (nd, false, true);
-    odf_text.addText ("nd");
+    odf_text.add_text ("nd");
     odf_text.closeTextStyle (false, false);
-    odf_text.addText ("normal");
-    odf_text.addText (".");
+    odf_text.add_text ("normal");
+    odf_text.add_text (".");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -215,7 +215,7 @@ void test_odf ()
     nd.color = "#000000";
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
-    odf_text.addText ("text");
+    odf_text.add_text ("text");
     odf_text.addNote ("𐌰", "f");
     odf_text.open_text_style (add, true, false);
     odf_text.addNoteText ("add");
@@ -223,7 +223,7 @@ void test_odf ()
     odf_text.addNoteText ("nd");
     odf_text.closeTextStyle (true, false);
     odf_text.addNoteText ("normal");
-    odf_text.addText (".");
+    odf_text.add_text (".");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);
@@ -245,9 +245,9 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.create_paragraph_style (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.new_paragraph ("d");
-    odf_text.addText ("Paragraph with d style");
+    odf_text.add_text ("Paragraph with d style");
     odf_text.new_paragraph ("d");
-    odf_text.addText ("Paragraph with d style at first, then Standard");
+    odf_text.add_text ("Paragraph with d style at first, then Standard");
     odf_text.update_current_paragraph_style (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
@@ -268,7 +268,7 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.current_paragraph_style);
-    odf_text.addText ("One apostrophy ' and two more ''.");
+    odf_text.add_text ("One apostrophy ' and two more ''.");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
     evaluate (__LINE__, __func__, 0, ret);

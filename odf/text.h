@@ -36,8 +36,8 @@ public:
   Odf_Text (string bible_in);
   ~Odf_Text ();
   void new_paragraph (string style = styles_logic_standard_sheet ());
-  void addText (string text);
-  void newHeading1 (string text, bool hide = false);
+  void add_text (string text);
+  void new_heading1 (string text, bool hide = false);
   void createPageBreakStyle ();
   void newPageBreak ();
   void create_paragraph_style (string name,
@@ -84,7 +84,7 @@ private:
   void initialize_content_xml ();
   void initialize_styles_xml ();
   void newNamedHeading (string style, string text, bool hide = false);
-  string convertStyleName (string style);
+  string convert_style_name (string style);
   int image_counter;
   // string pictures_folder;
 };

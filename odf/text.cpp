@@ -578,7 +578,7 @@ void Odf_Text::new_paragraph (string style)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Odf_Text::addText (string text)
+void Odf_Text::add_text (string text) // Todo copy to tab method.
 {
   // Bail out if there's no text.
   if (text.empty()) return;
@@ -587,23 +587,24 @@ void Odf_Text::addText (string text)
   if (!current_text_p_node_opened) new_paragraph ();
   
   // Temporal styles array should have at least one style for the code below to work.
+  // So ensure it has at least one style.
   vector <string> styles (currentTextStyle.begin (), currentTextStyle.end ());
-  if (styles.empty()) styles.push_back ("");
+  if (styles.empty()) styles.push_back (string());
   
   // Write a text span element, nesting the second and later ones.
-  xml_node domElement = current_text_p_node;
+  xml_node dom_node = current_text_p_node;
   for (string style : styles) {
-    xml_node textSpanDomElement = domElement.append_child ("text:span");
+    xml_node text_span_node = dom_node.append_child ("text:span");
     if (!style.empty ()) {
-      textSpanDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+      text_span_node.append_attribute ("text:style-name") = convert_style_name (style).c_str();
     }
-    domElement = textSpanDomElement;
+    dom_node = text_span_node;
   }
   // It used to escape the special XML characters.
   // Ecaping e.g. the apostrophy (') would lead to the following fragment in the .odt file:
   // &apos;
-  // So it no longer escaped the special XML characters.
-  domElement.text ().set (text.c_str());
+  // So it no longer escapes the special XML characters.
+  dom_node.text ().set (text.c_str());
 
   // Update public paragraph text.
   current_paragraph_content += text;
@@ -612,7 +613,7 @@ void Odf_Text::addText (string text)
 
 // This creates a heading with contents styled "Heading 1".
 // $text: Contents.
-void Odf_Text::newHeading1 (string text, bool hide)
+void Odf_Text::new_heading1 (string text, bool hide)
 {
   newNamedHeading ("Heading 1", text, hide);
 }
@@ -686,7 +687,7 @@ void Odf_Text::create_paragraph_style (string name,
   //   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
   // </style:style>
   xml_node style_style_node = office_styles_node.append_child ("style:style");
-  style_style_node.append_attribute ("style:name") = convertStyleName (name).c_str();
+  style_style_node.append_attribute ("style:name") = convert_style_name (name).c_str();
   style_style_node.append_attribute ("style:display-name") = name.c_str();
   style_style_node.append_attribute ("style:family") = "paragraph";
 
@@ -788,7 +789,7 @@ void Odf_Text::update_current_paragraph_style (string name)
   if (!current_text_p_node_opened) new_paragraph ();
   current_text_p_node.remove_attribute (current_text_p_node_style_name);
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name");
-  current_text_p_node_style_name = convertStyleName (name).c_str();
+  current_text_p_node_style_name = convert_style_name (name).c_str();
 }
 
 
@@ -814,7 +815,7 @@ void Odf_Text::open_text_style (Database_Styles_Item style, bool note, bool embe
     // <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
     // </style:style>
     xml_node styleDomElement = office_styles_node.append_child ("style:style");
-    styleDomElement.append_attribute ("style:name") = convertStyleName (marker).c_str();
+    styleDomElement.append_attribute ("style:name") = convert_style_name (marker).c_str();
     styleDomElement.append_attribute ("style:display-name") = marker.c_str();
     styleDomElement.append_attribute ("style:family") = "text";
 
@@ -920,7 +921,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
   drawTextBoxDomElement.append_attribute ("fo:min-height") = "0.34cm";
 
   xml_node textPDomElement = drawTextBoxDomElement.append_child ("text:p");
-  textPDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+  textPDomElement.append_attribute ("text:style-name") = convert_style_name (style).c_str();
   textPDomElement.text().set( escape_special_xml_characters (text).c_str());
 
   // File styles.xml contains the appropriate styles for this frame and text box and paragraph.
@@ -935,7 +936,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
       //   <style:text-properties fo:font-size="24pt" fo:font-weight="bold" style:font-size-asian="24pt" style:font-weight-asian="bold" style:font-size-complex="24pt" style:font-weight-complex="bold"/>
       // </style:style>
       xml_node styleDomElement = office_styles_node.append_child ("style:style");
-      styleDomElement.append_attribute ("style:name") = convertStyleName (style).c_str();
+      styleDomElement.append_attribute ("style:name") = convert_style_name (style).c_str();
       styleDomElement.append_attribute ("style:family") = "paragraph";
   
       xml_node styleParagraphPropertiesDomElement = styleDomElement.append_child ("style:paragraph-properties");
@@ -1040,7 +1041,7 @@ void Odf_Text::addNote (string caller, string style, bool endnote)
   xml_node textNoteBodyDomElement = textNoteDomElement.append_child ("text:note-body");
 
   noteTextPDomElement = textNoteBodyDomElement.append_child ("text:p");
-  noteTextPDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+  noteTextPDomElement.append_attribute ("text:style-name") = convert_style_name (style).c_str();
 
   closeTextStyle (true, false);
 }
@@ -1065,7 +1066,7 @@ void Odf_Text::addNoteText (string text)
   for (string style : styles) {
     xml_node textSpanDomElement = domElement.append_child ("text:span");
     if (!style.empty()) {
-      textSpanDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+      textSpanDomElement.append_attribute ("text:style-name") = convert_style_name (style).c_str();
     }
     domElement = textSpanDomElement;
   }
@@ -1089,7 +1090,7 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
   // Heading looks like this in content.xml:
   // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
   xml_node textHDomElement = office_text_node.append_child ("text:h");
-  textHDomElement.append_attribute ("text:style-name") = convertStyleName (style).c_str();
+  textHDomElement.append_attribute ("text:style-name") = convert_style_name (style).c_str();
   textHDomElement.append_attribute ("text:outline-level") = "1";
   textHDomElement.text().set(escape_special_xml_characters (text).c_str());
 
@@ -1100,7 +1101,7 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
   // Create the style if it does not yet exist.
   if (find (createdStyles.begin(), createdStyles.end (), style) == createdStyles.end()) {
     xml_node styleDomElement = office_styles_node.append_child ("style:style");
-    styleDomElement.append_attribute ("style:name") = convertStyleName (style).c_str();
+    styleDomElement.append_attribute ("style:name") = convert_style_name (style).c_str();
     styleDomElement.append_attribute ("style:display-name") = style.c_str();
     styleDomElement.append_attribute ("style:family") = "paragraph";
     styleDomElement.append_attribute ("style:parent-style-name") = "Heading";
@@ -1133,7 +1134,7 @@ void Odf_Text::newNamedHeading (string style, string text, bool hide)
 // E.g. 'Heading 1' becomes 'Heading_20_1'
 // $style: Input
 // It returns the converted style name.
-string Odf_Text::convertStyleName (string style)
+string Odf_Text::convert_style_name (string style)
 {
   style = filter_string_str_replace (" ", "_20_", style);
   return style;

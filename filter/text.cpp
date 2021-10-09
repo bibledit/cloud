@@ -437,10 +437,10 @@ void Filter_Text::process_usfm ()
                       runningHeader = item.value;
                     }
                   }
-                  if (odf_text_standard) odf_text_standard->newHeading1 (runningHeader, true);
-                  if (odf_text_text_only) odf_text_text_only->newHeading1 (runningHeader, true);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newHeading1 (runningHeader, true);
-                  if (odf_text_notes) odf_text_notes->newHeading1 (runningHeader, false);
+                  if (odf_text_standard) odf_text_standard->new_heading1 (runningHeader, true);
+                  if (odf_text_text_only) odf_text_text_only->new_heading1 (runningHeader, true);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (runningHeader, true);
+                  if (odf_text_notes) odf_text_notes->new_heading1 (runningHeader, false);
                   // The TBSX book identifier is identical to the USFM book identifier.
                   if (tbsx_text) tbsx_text->set_book_id(usfm_id);
                   // Done.
@@ -639,10 +639,10 @@ void Filter_Text::process_usfm ()
                 }
               }
               runningHeader = runningHeader + " " + number;
-              if (odf_text_standard) odf_text_standard->newHeading1 (runningHeader, true);
-              if (odf_text_text_only) odf_text_text_only->newHeading1 (runningHeader, true);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newHeading1 (runningHeader, true);
-              if (odf_text_notes) odf_text_notes->newHeading1 (runningHeader, false);
+              if (odf_text_standard) odf_text_standard->new_heading1 (runningHeader, true);
+              if (odf_text_text_only) odf_text_text_only->new_heading1 (runningHeader, true);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (runningHeader, true);
+              if (odf_text_notes) odf_text_notes->new_heading1 (runningHeader, false);
 
               // This is the phase of outputting the chapter number in the text body.
               // It always outputs the chapter number to the clear text export.
@@ -686,9 +686,9 @@ void Filter_Text::process_usfm ()
                   // The chapter number shows in a new paragraph.
                   // Keep it together with the next paragraph.
                   newParagraph (style, true);
-                  if (odf_text_standard) odf_text_standard->addText (number);
-                  if (odf_text_text_only) odf_text_text_only->addText (number);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (number);
+                  if (odf_text_standard) odf_text_standard->add_text (number);
+                  if (odf_text_text_only) odf_text_text_only->add_text (number);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (number);
                   if (html_text_standard) html_text_standard->add_text (number);
                   if (html_text_linked) html_text_linked->add_text (number);
                 }
@@ -757,9 +757,9 @@ void Filter_Text::process_usfm ()
                 if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) {
                   int dropCapsLength = (int)unicode_string_length (output_chapter_text_at_first_verse);
                   applyDropCapsToCurrentParagraph (dropCapsLength);
-                  if (odf_text_standard) odf_text_standard->addText (output_chapter_text_at_first_verse);
-                  if (odf_text_text_only) odf_text_text_only->addText (output_chapter_text_at_first_verse);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (output_chapter_text_at_first_verse);
+                  if (odf_text_standard) odf_text_standard->add_text (output_chapter_text_at_first_verse);
+                  if (odf_text_text_only) odf_text_text_only->add_text (output_chapter_text_at_first_verse);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (output_chapter_text_at_first_verse);
                 } else {
                   putChapterNumberInFrame (output_chapter_text_at_first_verse);
                 }
@@ -793,17 +793,17 @@ void Filter_Text::process_usfm ()
                 // If the current paragraph has text already, then insert a space.
                 if (odf_text_standard) {
                   if (!odf_text_standard->current_paragraph_content.empty()) {
-                    odf_text_standard->addText (" ");
+                    odf_text_standard->add_text (" ");
                   }
                 }
                 if (odf_text_text_only) {
                   if (!odf_text_text_only->current_paragraph_content.empty()) {
-                    odf_text_text_only->addText (" ");
+                    odf_text_text_only->add_text (" ");
                   }
                 }
                 if (odf_text_text_and_note_citations) {
                   if (!odf_text_text_and_note_citations->current_paragraph_content.empty()) {
-                    odf_text_text_and_note_citations->addText (" ");
+                    odf_text_text_and_note_citations->add_text (" ");
                   }
                 }
                 if (html_text_standard) {
@@ -821,9 +821,9 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (style, false, false);
                 if (html_text_standard) html_text_standard->open_text_style (style, false, false);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, false);
-                if (odf_text_standard) odf_text_standard->addText (v_vp_number);
-                if (odf_text_text_only) odf_text_text_only->addText (v_vp_number);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (v_vp_number);
+                if (odf_text_standard) odf_text_standard->add_text (v_vp_number);
+                if (odf_text_text_only) odf_text_text_only->add_text (v_vp_number);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (v_vp_number);
                 if (html_text_standard) html_text_standard->add_text (v_vp_number);
                 if (html_text_linked) html_text_linked->add_text (v_vp_number);
                 if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
@@ -865,9 +865,9 @@ void Filter_Text::process_usfm ()
                 // Exception:
                 // If a chapter number was put, do not output a space.
                 if (output_chapter_text_at_first_verse.empty()) { // Todo
-                  if (odf_text_standard) odf_text_standard->addText (space_type_after_verse);
-                  if (odf_text_text_only) odf_text_text_only->addText (space_type_after_verse);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (space_type_after_verse);
+                  if (odf_text_standard) odf_text_standard->add_text (space_type_after_verse);
+                  if (odf_text_text_only) odf_text_text_only->add_text (space_type_after_verse);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (space_type_after_verse);
                   if (html_text_standard) html_text_standard->add_text (space_type_after_verse);
                   if (html_text_linked) html_text_linked->add_text (space_type_after_verse);
                 }
@@ -1063,9 +1063,9 @@ void Filter_Text::process_usfm ()
 
         // Treat this content as text.
         else {
-          if (odf_text_standard) odf_text_standard->addText (currentItem);
-          if (odf_text_text_only) odf_text_text_only->addText (currentItem);
-          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->addText (currentItem);
+          if (odf_text_standard) odf_text_standard->add_text (currentItem);
+          if (odf_text_text_only) odf_text_text_only->add_text (currentItem);
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (currentItem);
           if (html_text_standard) html_text_standard->add_text (currentItem);
           if (html_text_linked) html_text_linked->add_text (currentItem);
           if (onlinebible_text) onlinebible_text->addText (currentItem);
@@ -1139,17 +1139,17 @@ void Filter_Text::processNote ()
                   if (odf_text_text_and_note_citations) {
                     vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
                     odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
-                    odf_text_text_and_note_citations->addText (citation);
+                    odf_text_text_and_note_citations->add_text (citation);
                     odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Add space if the paragraph has text already.
                   if (odf_text_notes) {
                     if (odf_text_notes->current_paragraph_content != "") {
-                      odf_text_notes->addText (" ");
+                      odf_text_notes->add_text (" ");
                     }
                   }
                   // Add the note citation. And a no-break space after it.
-                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_u00A0());
+                  if (odf_text_notes) odf_text_notes->add_text (citation + non_breaking_space_u00A0());
                   // Open note in the web pages.
                   if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote);
                   if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerFootEndNote);
@@ -1175,7 +1175,7 @@ void Filter_Text::processNote ()
                   if (odf_text_text_and_note_citations) {
                     vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
                     odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
-                    odf_text_text_and_note_citations->addText (citation);
+                    odf_text_text_and_note_citations->add_text (citation);
                     odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Open note in the web page.
@@ -1252,17 +1252,17 @@ void Filter_Text::processNote ()
                   if (odf_text_text_and_note_citations) {
                     vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
                     odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
-                    odf_text_text_and_note_citations->addText (citation);
+                    odf_text_text_and_note_citations->add_text (citation);
                     odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
                   }
                   // Add a space if the paragraph has text already.
                   if (odf_text_notes) {
                     if (odf_text_notes->current_paragraph_content != "") {
-                      odf_text_notes->addText (" ");
+                      odf_text_notes->add_text (" ");
                     }
                   }
                   // Add the note citation. And a no-break space (NBSP) after it.
-                  if (odf_text_notes) odf_text_notes->addText (citation + non_breaking_space_u00A0());
+                  if (odf_text_notes) odf_text_notes->add_text (citation + non_breaking_space_u00A0());
                   // Open note in the web page.
                   ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
                   if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerCrossReference);
@@ -1326,7 +1326,7 @@ void Filter_Text::processNote ()
     } else {
       // Here is no marker. Treat it as text.
       if (odf_text_standard) odf_text_standard->addNoteText (currentItem);
-      if (odf_text_notes) odf_text_notes->addText (currentItem);
+      if (odf_text_notes) odf_text_notes->add_text (currentItem);
       if (html_text_standard) html_text_standard->add_note_text (currentItem);
       if (html_text_linked) html_text_linked->add_note_text (currentItem);
       if (text_text) text_text->addnotetext (currentItem); 

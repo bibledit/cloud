@@ -736,7 +736,8 @@ A Verse text.
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
-    "<span> I will sing </span>"
+    "<span> </span>"
+    "<span>I will sing </span>"
     "<span class=\"add\">to the </span>"
     "<span class=\"add nd\">Lord</span>"
     "<span>.</span>"
@@ -759,7 +760,8 @@ A Verse text.
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
-    "<span> I will sing </span>"
+    "<span> </span>"
+    "<span>I will sing </span>"
     "<span class=\"add\">to the </span>"
     "<span class=\"add nd\">Lord</span>"
     "<span class=\"add\"> God</span>"
@@ -770,7 +772,8 @@ A Verse text.
   
   // Test embedded character styles to html output.
   {
-    // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
+    // Open character style, open embedded character style,
+    // then closing the outer one closes the embedded one also.
     string usfm =
     "\\c 1\n"
     "\\p\n"
@@ -783,7 +786,8 @@ A Verse text.
     string standard =
     "<p class=\"p\">"
     "<span class=\"v\">1</span>"
-    "<span> I will sing </span>"
+    "<span> </span>"
+    "<span>I will sing </span>"
     "<span class=\"add\">to the </span>"
     "<span class=\"add nd\">Lord</span>"
     "<span>.</span>"
@@ -1174,7 +1178,7 @@ A Jesus is King.  B Jesus is the son of God.
     )";
     // Test converting the USFM with an image to html.
     {
-      string standard = R"(<p class="p"><span class="v">1</span><span> Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span>caption</span></p><p><span class="v">2</span><span> Verse two.</span></p>)";
+      string standard = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
       string html;
       Filter_Text filter_text = Filter_Text (bible);
       filter_text.html_text_standard = new Html_Text (bible);

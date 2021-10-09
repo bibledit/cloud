@@ -66,7 +66,8 @@ private:
 public:
   void addUsfmCode (string usfm);
 private:
-  vector <string> usfmMarkersAndText; // Vector holding USFM, alternating between markup and text.
+  // Container holding USFM, alternating between markup and text.
+  vector <string> usfmMarkersAndText;
   unsigned int usfmMarkersAndTextPointer;
   bool unprocessedUsfmCodeAvailable ();
   void getUsfmNextChapter ();
@@ -74,25 +75,33 @@ private:
 public:
   void run (string stylesheet);
 private:
-  vector <string> chapterUsfmMarkersAndText; // Vector holding a chapter of USFM code, alternating between USFM and text.
-  unsigned int chapterUsfmMarkersAndTextPointer;
+  // Container holding a chapter of USFM code, alternating between USFM and text.
+  vector <string> chapter_usfm_markers_and_text;
+  unsigned int chapter_usfm_markers_and_text_pointer;
 
 public:
   void getStyles (string stylesheet);
 private:
-  map <string, Database_Styles_Item> styles; // A map of marker -> object with style information.
-  string chapterMarker; // Usually this is: c
-  vector <string> createdStyles; // Array holding styles created in Odf_Text class.
+  // A map of marker -> object with style information.
+  map <string, Database_Styles_Item> styles;
+  // Usually this is: c
+  string chapterMarker;
+  // Array holding styles created in Odf_Text class.
+  vector <string> createdStyles;
 
 public:
-  void preprocessingStage ();
+  void pre_process_usfm ();
 private:
-  int currentBookIdentifier; // Book identifier, e.g. 1, 2, 3, and so on.
-  int currentChapterNumber; // Chapter number, e.g. 1, 2, 3, etc.
-  string currentVerseNumber; // Verse number, e.g. "0", "1", "2", and so on.
+  // Book identifier, e.g. 1, 2, 3, and so on.
+  int currentBookIdentifier;
+  // Chapter number, e.g. 1, 2, 3, etc.
+  int currentChapterNumber;
+  // Verse number, e.g. "0", "1", "2", and so on.
+  string currentVerseNumber;
   string getCurrentPassageText ();
-  map <int, int> numberOfChaptersPerBook; // Map of (book, chapter number).
-  void processUsfm ();
+  // Map of (book, chapter number).
+  map <int, int> numberOfChaptersPerBook;
+  void process_usfm ();
   void processNote ();
   void newParagraph (Database_Styles_Item style, bool keepWithNext);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
@@ -103,10 +112,14 @@ private:
   void ensureNoteParagraphStyle (string marker, Database_Styles_Item style);
 
 public:
-  vector <Filter_Text_Passage_Marker_Value> runningHeaders; // Vector with objects (book, chapter, verse, marker, header value).
-  vector <Filter_Text_Passage_Marker_Value> longTOCs; // Vector with objects (book, chapter, verse, marker, TOC value).
-  vector <Filter_Text_Passage_Marker_Value> shortTOCs; // Vector with objects (book, chapter, verse, marker, TOC value).
-  vector <Filter_Text_Passage_Marker_Value> bookAbbreviations; // Vector with objects (book, chapter, verse, marker, abbreviation value).
+  // Container with objects (book, chapter, verse, marker, header value).
+  vector <Filter_Text_Passage_Marker_Value> runningHeaders;
+  // Container with objects (book, chapter, verse, marker, TOC value).
+  vector <Filter_Text_Passage_Marker_Value> longTOCs;
+  // Container with objects (book, chapter, verse, marker, TOC value).
+  vector <Filter_Text_Passage_Marker_Value> shortTOCs;
+  // Container with objects (book, chapter, verse, marker, abbreviation value).
+  vector <Filter_Text_Passage_Marker_Value> bookAbbreviations;
 
 public:
   // Vector with objects (book, chapter, verse, marker, label value).
@@ -117,13 +130,17 @@ public:
   vector <Filter_Text_Passage_Marker_Value> publishedVerseMarkers;
 private:
   // String holding the chapter number or text to output at the first verse.
-  string outputChapterTextAtFirstVerse;
+  string output_chapter_text_at_first_verse;
 
 public:
-  Odf_Text * odf_text_standard; // Object for creating OpenDocument with text in standard form.
-  Odf_Text * odf_text_text_only; // Object for creating OpenDocument with text only.
-  Odf_Text * odf_text_text_and_note_citations; // Object for creating OpenDocument with text and note citations.
-  Odf_Text * odf_text_notes; // Object for creating OpenDocument with the notes only.
+  // Object for creating OpenDocument with text in standard form.
+  Odf_Text * odf_text_standard;
+  // Object for creating OpenDocument with text only.
+  Odf_Text * odf_text_text_only;
+  // Object for creating OpenDocument with text and note citations.
+  Odf_Text * odf_text_text_and_note_citations;
+  // Object for creating OpenDocument with the notes only.
+  Odf_Text * odf_text_notes;
 
 public:
   void produceInfoDocument (string path);
@@ -145,20 +162,26 @@ private:
   string standardContentMarkerCrossReference;
 
 public:
-  Html_Text * html_text_standard; // Object for creating standard web documents.
-  Html_Text * html_text_linked; // Object for creating interlinked web documents.
+  // Object for creating standard web documents.
+  Html_Text * html_text_standard;
+  // Object for creating interlinked web documents.
+  Html_Text * html_text_linked;
 
 public:
-  OnlineBible_Text * onlinebible_text; // Object for creating the input file for the Online Bible compiler.
+  // Object for creating the input file for the Online Bible compiler.
+  OnlineBible_Text * onlinebible_text;
 
 public:
-  Esword_Text * esword_text; // Object for creating the Bible module for eSword.
+  // Object for creating the Bible module for eSword.
+  Esword_Text * esword_text;
 
 public:
-  Text_Text * text_text; // Object for exporting to plain text.
+  // Object for exporting to plain text.
+  Text_Text * text_text;
 
 public:
-  Tbsx_Text * tbsx_text; // Object for exporting to TBS online bible format.
+  // Object for exporting to TBS online bible format.
+  Tbsx_Text * tbsx_text;
   
 public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
@@ -204,6 +227,12 @@ public:
 private:
   // Flag for whether the processor is now within figure markup.
   bool is_within_figure_markup = false;
+  
+public:
+private:
+  // Flag for whether to left-align certain poetry styles
+  // in exports to OpenDocument format. Todo
+  bool odt_left_align_verse_in_poetry_styles = false;
   
 };
 

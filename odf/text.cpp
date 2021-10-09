@@ -566,7 +566,7 @@ void Odf_Text::initialize_styles_xml ()
 }
 
 
-void Odf_Text::newParagraph (string style)
+void Odf_Text::new_paragraph (string style)
 {
   current_text_p_node = office_text_node.append_child ("text:p");
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style.c_str();
@@ -584,7 +584,7 @@ void Odf_Text::addText (string text)
   if (text.empty()) return;
 
   // Ensure a paragraph has started.
-  if (!current_text_p_node_opened) newParagraph ();
+  if (!current_text_p_node_opened) new_paragraph ();
   
   // Temporal styles array should have at least one style for the code below to work.
   vector <string> styles (currentTextStyle.begin (), currentTextStyle.end ());
@@ -647,7 +647,7 @@ void Odf_Text::createPageBreakStyle ()
 // This applies a page break.
 void Odf_Text::newPageBreak ()
 {
-  newParagraph ("Page_20_Break");
+  new_paragraph ("Page_20_Break");
   // Always clear the paragraph-opened-flag,
   // because we don't want subsequent text to be added to this page break,
   // since it would be nearly invisible, and thus text would mysteriously get lost.
@@ -785,7 +785,7 @@ void Odf_Text::create_paragraph_style (string name,
 // $name: the name of the style, e.g. 'p'.
 void Odf_Text::update_current_paragraph_style (string name)
 {
-  if (!current_text_p_node_opened) newParagraph ();
+  if (!current_text_p_node_opened) new_paragraph ();
   current_text_p_node.remove_attribute (current_text_p_node_style_name);
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name");
   current_text_p_node_style_name = convertStyleName (name).c_str();
@@ -899,7 +899,7 @@ void Odf_Text::placeTextInFrame (string text, string style, float fontsize, int 
 
   // The frame goes in an existing paragraph (text:p) element, just like a 'text:span' element.
   // Ensure that a paragraph is open.
-  if (!current_text_p_node_opened) newParagraph ();
+  if (!current_text_p_node_opened) new_paragraph ();
 
   // The frame looks like this, in content.xml:
   // <draw:frame draw:style-name="fr1" draw:name="frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
@@ -1019,7 +1019,7 @@ void Odf_Text::createSuperscriptStyle ()
 void Odf_Text::addNote (string caller, string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!current_text_p_node_opened) newParagraph ();
+  if (!current_text_p_node_opened) new_paragraph ();
 
   xml_node textNoteDomElement = current_text_p_node.append_child ("text:note");
   textNoteDomElement.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (noteCount)).c_str();

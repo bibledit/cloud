@@ -35,7 +35,7 @@ class Odf_Text
 public:
   Odf_Text (string bible_in);
   ~Odf_Text ();
-  void newParagraph (string style = styles_logic_standard_sheet ());
+  void new_paragraph (string style = styles_logic_standard_sheet ());
   void addText (string text);
   void newHeading1 (string text, bool hide = false);
   void createPageBreakStyle ();

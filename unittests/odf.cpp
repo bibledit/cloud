@@ -39,18 +39,18 @@ void test_odf ()
   {
     Odf_Text odf_text (bible);
     odf_text.createPageBreakStyle ();
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.current_paragraph_style);
     odf_text.addText ("Paragraph One");
     evaluate (__LINE__, __func__, "Paragraph One", odf_text.current_paragraph_content);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     evaluate (__LINE__, __func__, "", odf_text.current_paragraph_content);
     odf_text.addText ("Paragraph Two");
     evaluate (__LINE__, __func__, "Paragraph Two", odf_text.current_paragraph_content);
     odf_text.newHeading1 ("Heading One");
     evaluate (__LINE__, __func__, "", odf_text.current_paragraph_content);
     odf_text.newPageBreak ();
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     odf_text.addText ("Paragraph Three");
     odf_text.save (OdfTextTestDotOdt);
     int ret = odf2txt (OdfTextTestDotOdt, Odt2TxtOutput);
@@ -89,7 +89,7 @@ void test_odf ()
   // Test basic note.
   {
     Odf_Text odf_text (bible);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("†", "");
     odf_text.addNoteText ("Note");
@@ -113,7 +113,7 @@ void test_odf ()
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text (bible);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     odf_text.addText ("text");
     odf_text.open_text_style (add, false, false);
     odf_text.addText ("add");
@@ -136,7 +136,7 @@ void test_odf ()
     database_styles.create ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     Odf_Text odf_text (bible);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     odf_text.addText ("Text");
     odf_text.addNote ("𐌰", "f");
     odf_text.open_text_style (add, true, false);
@@ -176,7 +176,7 @@ void test_odf ()
     nd.superscript = false;
     nd.color = "#000000";
     Odf_Text odf_text (bible);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     odf_text.addText ("text");
     odf_text.open_text_style (add, false, false);
     odf_text.addText ("add");
@@ -214,7 +214,7 @@ void test_odf ()
     nd.superscript = false;
     nd.color = "#000000";
     Odf_Text odf_text (bible);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     odf_text.addText ("text");
     odf_text.addNote ("𐌰", "f");
     odf_text.open_text_style (add, true, false);
@@ -244,9 +244,9 @@ void test_odf ()
     Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
     Odf_Text odf_text (bible);
     odf_text.create_paragraph_style (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
-    odf_text.newParagraph ("d");
+    odf_text.new_paragraph ("d");
     odf_text.addText ("Paragraph with d style");
-    odf_text.newParagraph ("d");
+    odf_text.new_paragraph ("d");
     odf_text.addText ("Paragraph with d style at first, then Standard");
     odf_text.update_current_paragraph_style (styles_logic_standard_sheet ());
     odf_text.save (OdfTextTestDotOdt);
@@ -266,7 +266,7 @@ void test_odf ()
   // Test converting apostrophy.
   {
     Odf_Text odf_text (bible);
-    odf_text.newParagraph ();
+    odf_text.new_paragraph ();
     evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.current_paragraph_style);
     odf_text.addText ("One apostrophy ' and two more ''.");
     odf_text.save (OdfTextTestDotOdt);

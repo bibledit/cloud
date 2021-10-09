@@ -64,6 +64,7 @@ public:
   string current_paragraph_content;
   vector <string> currentTextStyle;
   void add_image (string alt, string src, string caption);
+  void add_tab ();
 private:
   string bible;
   string unpackedOdtFolder;

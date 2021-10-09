@@ -1257,3 +1257,19 @@ void Odf_Text::add_image (string alt, string src, string caption)
   current_paragraph_style.clear ();
   current_paragraph_content.clear ();
 }
+
+
+// This function adds a tab to the current paragraph.
+void Odf_Text::add_tab () // Todo test.
+{
+  // Ensure a paragraph has started.
+  if (!current_text_p_node_opened) new_paragraph ();
+  
+  // Write a text tab element.
+  xml_node dom_node = current_text_p_node;
+  //xml_node text_tab_node =
+  dom_node.append_child ("text:tab");
+
+  // Update public paragraph text.
+  current_paragraph_content += "\t";
+}

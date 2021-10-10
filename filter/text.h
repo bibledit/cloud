@@ -232,7 +232,7 @@ private:
 public:
 private:
   // Flag for whether to left-align certain poetry styles
-  // in exports to OpenDocument format. Todo
+  // in exports to OpenDocument format.
   bool odt_left_align_verse_in_poetry_styles = false;
   
 };

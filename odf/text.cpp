@@ -578,7 +578,7 @@ void Odf_Text::new_paragraph (string style)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Odf_Text::add_text (string text) // Todo copy to tab method.
+void Odf_Text::add_text (string text)
 {
   // Bail out if there's no text.
   if (text.empty()) return;
@@ -1260,7 +1260,7 @@ void Odf_Text::add_image (string alt, string src, string caption)
 
 
 // This function adds a tab to the current paragraph.
-void Odf_Text::add_tab () // Todo
+void Odf_Text::add_tab ()
 {
   // Ensure a paragraph has started.
   if (!current_text_p_node_opened) new_paragraph ();

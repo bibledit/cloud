@@ -849,15 +849,12 @@ void Filter_Text::process_usfm ()
                 if (pos != string::npos) {
                   text_following_v_marker = text_following_v_marker.substr (pos + v_number.length ());
                 }
-                // If a verse number was put, do this: Todo
+                // If a verse number was put, do this:
                 // Remove any whitespace from the start of the following text.
                 text_following_v_marker = filter_string_ltrim (text_following_v_marker);
-                if (output_chapter_text_at_first_verse.empty()) {
-                  // Todo text_following_v_marker = space_type_after_verse + text_following_v_marker;
-                }
                 chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer] = text_following_v_marker;
                 chapter_usfm_markers_and_text_pointer--;
-                // If a verse number was put, do this too: Todo
+                // If a verse number was put, do this too:
                 // Output the type of space that the user has set.
                 // This could be a fixed-width space, or a non-breaking space,
                 // or a combination of the two.
@@ -866,7 +863,7 @@ void Filter_Text::process_usfm ()
                 // then output a tab to OpenDocument instead of the space.
                 // Exception:
                 // If a chapter number was put, do not output any white space.
-                if (output_chapter_text_at_first_verse.empty()) { // Todo
+                if (output_chapter_text_at_first_verse.empty()) {
                   if (odf_text_standard) {
                     bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_standard->current_paragraph_style);
                     if (tab) odf_text_standard->add_tab();
@@ -1075,7 +1072,7 @@ void Filter_Text::process_usfm ()
           if (html_text_linked) html_text_linked->add_image(alt, src, caption);
         }
 
-        // Treat this content as text. // Todo
+        // Treat this content as text.
         else {
           // Handle situation that verses in poetry are to be left aligned.
           // In such a case, if the OpenDocument paragraph is still empty,

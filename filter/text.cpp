@@ -867,17 +867,19 @@ void Filter_Text::process_usfm ()
                 // Exception:
                 // If a chapter number was put, do not output any white space.
                 if (output_chapter_text_at_first_verse.empty()) { // Todo
-                  bool output_tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (current_paragraph_style);
                   if (odf_text_standard) {
-                    if (output_tab) odf_text_standard->add_tab();
+                    bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_standard->current_paragraph_style);
+                    if (tab) odf_text_standard->add_tab();
                     else odf_text_standard->add_text (space_type_after_verse);
                   }
                   if (odf_text_text_only) {
-                    if (output_tab) odf_text_text_only->add_tab();
+                    bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_text_only->current_paragraph_style);
+                    if (tab) odf_text_text_only->add_tab();
                     else odf_text_text_only->add_text (space_type_after_verse);
                   }
                   if (odf_text_text_and_note_citations) {
-                    if (output_tab) odf_text_text_and_note_citations->add_tab();
+                    bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style);
+                    if (tab) odf_text_text_and_note_citations->add_tab();
                     else odf_text_text_and_note_citations->add_text (space_type_after_verse);
                   }
                   if (html_text_standard) html_text_standard->add_text (space_type_after_verse);
@@ -1073,8 +1075,27 @@ void Filter_Text::process_usfm ()
           if (html_text_linked) html_text_linked->add_image(alt, src, caption);
         }
 
-        // Treat this content as text.
+        // Treat this content as text. // Todo
         else {
+          // Handle situation that verses in poetry are to be left aligned.
+          // In such a case, if the OpenDocument paragraph is still empty,
+          // output a tab before any text.
+          if (odf_text_standard)
+            if (odt_left_align_verse_in_poetry_styles)
+              if (usfm_is_standard_q_poetry (odf_text_standard->current_paragraph_style))
+                if (odf_text_standard->current_paragraph_content.empty())
+                  odf_text_standard->add_tab();
+          if (odf_text_text_only)
+            if (odt_left_align_verse_in_poetry_styles)
+              if (usfm_is_standard_q_poetry (odf_text_text_only->current_paragraph_style))
+                if (odf_text_text_only->current_paragraph_content.empty())
+                  odf_text_text_only->add_tab();
+          if (odf_text_text_and_note_citations)
+            if (odt_left_align_verse_in_poetry_styles)
+              if (usfm_is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style))
+                if (odf_text_text_and_note_citations->current_paragraph_content.empty())
+                  odf_text_text_and_note_citations->add_tab();
+          // Output text as normal.
           if (odf_text_standard) odf_text_standard->add_text (currentItem);
           if (odf_text_text_only) odf_text_text_only->add_text (currentItem);
           if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (currentItem);
@@ -1534,8 +1555,8 @@ void Filter_Text::produceFalloutDocument (string path)
 // $keepWithNext: Whether to keep this paragraph with the next one.
 void Filter_Text::new_paragraph (Database_Styles_Item style, bool keepWithNext)
 {
-  current_paragraph_style = style.marker;
-  if (find (createdStyles.begin(), createdStyles.end(), current_paragraph_style) == createdStyles.end()) {
+  string marker = style.marker;
+  if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
     string fontname = Database_Config_Bible::getExportFont (bible);
     float fontsize = style.fontsize;
     int italic = style.italic;
@@ -1552,16 +1573,16 @@ void Filter_Text::new_paragraph (Database_Styles_Item style, bool keepWithNext)
     // Copying and pasting sections with columns between documents in LibreOffice failed to work.
     // int spancolumns = style.spancolumns;
     int dropcaps = 0;
-    if (odf_text_standard) odf_text_standard->create_paragraph_style (current_paragraph_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_only) odf_text_text_only->create_paragraph_style (current_paragraph_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (current_paragraph_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    createdStyles.push_back (current_paragraph_style);
+    if (odf_text_standard) odf_text_standard->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_only) odf_text_text_only->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    createdStyles.push_back (marker);
   }
-  if (odf_text_standard) odf_text_standard->new_paragraph (current_paragraph_style);
-  if (odf_text_text_only) odf_text_text_only->new_paragraph (current_paragraph_style);
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_paragraph (current_paragraph_style);
-  if (html_text_standard) html_text_standard->new_paragraph (current_paragraph_style);
-  if (html_text_linked) html_text_linked->new_paragraph (current_paragraph_style);
+  if (odf_text_standard) odf_text_standard->new_paragraph (marker);
+  if (odf_text_text_only) odf_text_text_only->new_paragraph (marker);
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_paragraph (marker);
+  if (html_text_standard) html_text_standard->new_paragraph (marker);
+  if (html_text_linked) html_text_linked->new_paragraph (marker);
   if (text_text) text_text->paragraph (); 
 }
 

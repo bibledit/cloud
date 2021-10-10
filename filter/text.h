@@ -105,8 +105,6 @@ private:
   void processNote ();
   // Opening a new paragraph.
   void new_paragraph (Database_Styles_Item style, bool keepWithNext);
-  // The style (USFM marker) of the current open paragraph.
-  string current_paragraph_style;
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (string chapterText);
   void createNoteCitation (Database_Styles_Item style);

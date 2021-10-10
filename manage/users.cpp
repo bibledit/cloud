@@ -111,6 +111,8 @@ string manage_users (void * webserver_request)
       page += Assets_Page::error (translate("Cannot remove the last user"));
     } else if ((objectUserLevel >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
+    } else if (config_logic_demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
+      page += Assets_Page::error (translate("Cannot remove the demo admin"));
     } else {
       string message;
       user_logic_delete_account (objectUsername, role, email, message);

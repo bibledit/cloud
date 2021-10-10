@@ -109,7 +109,7 @@ void search_logic_index_chapter (string bible, int book, int chapter)
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.initializeHeadingsAndTextPerVerse (true);
-    filter_text.addUsfmCode (raw_usfm);
+    filter_text.add_usfm_code (raw_usfm);
     filter_text.run (stylesheet);
 
     string raw_plain;
@@ -526,7 +526,7 @@ string search_logic_plain_replace_verse_text (string usfm)
   Filter_Text filter_text = Filter_Text ("");
   filter_text.text_text = new Text_Text ();
   filter_text.initializeHeadingsAndTextPerVerse (true);
-  filter_text.addUsfmCode (usfm);
+  filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
   
   // The resulting plain text.

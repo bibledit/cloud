@@ -368,10 +368,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
         if (old_verse_text != new_verse_text) {
           string usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + ": " + old_verse_text;
           old_vs_usfm.push_back (usfmCode);
-          filter_text_old.addUsfmCode (usfmCode);
+          filter_text_old.add_usfm_code (usfmCode);
           usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + ": " + new_verse_text;
           new_vs_usfm.push_back (usfmCode);
-          filter_text_new.addUsfmCode (usfmCode);
+          filter_text_new.add_usfm_code (usfmCode);
         }
       }
     }

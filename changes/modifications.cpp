@@ -80,8 +80,8 @@ void changes_process_identifiers (Webserver_Request * request,
         filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
         filter_text_old.text_text = new Text_Text ();
         filter_text_new.text_text = new Text_Text ();
-        filter_text_old.addUsfmCode (old_verse_usfm);
-        filter_text_new.addUsfmCode (new_verse_usfm);
+        filter_text_old.add_usfm_code (old_verse_usfm);
+        filter_text_new.add_usfm_code (new_verse_usfm);
         filter_text_old.run (stylesheet);
         filter_text_new.run (stylesheet);
         string old_html = filter_text_old.html_text_standard->get_inner_html ();
@@ -323,8 +323,8 @@ void changes_modifications ()
               filter_text_new.html_text_standard = new Html_Text ("");
               filter_text_old.text_text = new Text_Text ();
               filter_text_new.text_text = new Text_Text ();
-              filter_text_old.addUsfmCode (old_verse_usfm);
-              filter_text_new.addUsfmCode (new_verse_usfm);
+              filter_text_old.add_usfm_code (old_verse_usfm);
+              filter_text_new.add_usfm_code (new_verse_usfm);
               filter_text_old.run (stylesheet);
               filter_text_new.run (stylesheet);
               old_html = filter_text_old.html_text_standard->get_inner_html ();

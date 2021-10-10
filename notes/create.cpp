@@ -139,7 +139,7 @@ string notes_create (void * webserver_request)
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
-    filter_text.addUsfmCode (verse_usfm);
+    filter_text.add_usfm_code (verse_usfm);
     filter_text.run (stylesheet);
     versetext = filter_text.text_text->get ();
     view.set_variable ("versetext", versetext);

@@ -64,7 +64,7 @@ private:
   string bible;
 
 public:
-  void addUsfmCode (string usfm);
+  void add_usfm_code (string usfm);
 private:
   // Container holding USFM, alternating between markup and text.
   vector <string> usfmMarkersAndText;
@@ -103,7 +103,10 @@ private:
   map <int, int> numberOfChaptersPerBook;
   void process_usfm ();
   void processNote ();
-  void newParagraph (Database_Styles_Item style, bool keepWithNext);
+  // Opening a new paragraph.
+  void new_paragraph (Database_Styles_Item style, bool keepWithNext);
+  // The style (USFM marker) of the current open paragraph.
+  string current_paragraph_style;
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (string chapterText);
   void createNoteCitation (Database_Styles_Item style);

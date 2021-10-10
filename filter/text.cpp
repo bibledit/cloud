@@ -101,7 +101,7 @@ Filter_Text::~Filter_Text ()
 
 // This function adds USFM code to the class.
 // $code: USFM code.
-void Filter_Text::addUsfmCode (string usfm)
+void Filter_Text::add_usfm_code (string usfm)
 {
   // Check that the USFM is valid UTF-8.
   if (!unicode_string_is_valid (usfm)) {
@@ -556,7 +556,7 @@ void Filter_Text::process_usfm ()
                 case ParagraphSubtypeSubTitle:
                 case ParagraphSubtypeSectionHeading:
                 {
-                  newParagraph (style, true);
+                  new_paragraph (style, true);
                   heading_started = true;
                   text_started = false;
                   break;
@@ -564,7 +564,7 @@ void Filter_Text::process_usfm ()
                 case ParagraphSubtypeNormalParagraph:
                 default:
                 {
-                  newParagraph (style, false);
+                  new_paragraph (style, false);
                   heading_started = false;
                   text_started = true;
                   if (headings_text_per_verse_active) {
@@ -685,7 +685,7 @@ void Filter_Text::process_usfm ()
                   }
                   // The chapter number shows in a new paragraph.
                   // Keep it together with the next paragraph.
-                  newParagraph (style, true);
+                  new_paragraph (style, true);
                   if (odf_text_standard) odf_text_standard->add_text (number);
                   if (odf_text_text_only) odf_text_text_only->add_text (number);
                   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (number);
@@ -862,12 +862,24 @@ void Filter_Text::process_usfm ()
                 // This could be a fixed-width space, or a non-breaking space,
                 // or a combination of the two.
                 // This space type improves the appearance of the verse plus text.
+                // In case the verse numbers in poetry are to be left aligned,
+                // then output a tab to OpenDocument instead of the space.
                 // Exception:
-                // If a chapter number was put, do not output a space.
+                // If a chapter number was put, do not output any white space.
                 if (output_chapter_text_at_first_verse.empty()) { // Todo
-                  if (odf_text_standard) odf_text_standard->add_text (space_type_after_verse);
-                  if (odf_text_text_only) odf_text_text_only->add_text (space_type_after_verse);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (space_type_after_verse);
+                  bool output_tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (current_paragraph_style);
+                  if (odf_text_standard) {
+                    if (output_tab) odf_text_standard->add_tab();
+                    else odf_text_standard->add_text (space_type_after_verse);
+                  }
+                  if (odf_text_text_only) {
+                    if (output_tab) odf_text_text_only->add_tab();
+                    else odf_text_text_only->add_text (space_type_after_verse);
+                  }
+                  if (odf_text_text_and_note_citations) {
+                    if (output_tab) odf_text_text_and_note_citations->add_tab();
+                    else odf_text_text_and_note_citations->add_text (space_type_after_verse);
+                  }
                   if (html_text_standard) html_text_standard->add_text (space_type_after_verse);
                   if (html_text_linked) html_text_linked->add_text (space_type_after_verse);
                 }
@@ -976,7 +988,7 @@ void Filter_Text::process_usfm ()
                 case TableElementSubtypeHeading:
                 case TableElementSubtypeCell:
                 {
-                  newParagraph (style, false);
+                  new_paragraph (style, false);
                   break;
                 }
                 default:
@@ -1520,10 +1532,10 @@ void Filter_Text::produceFalloutDocument (string path)
 // and then opens a paragraph with that style.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
+void Filter_Text::new_paragraph (Database_Styles_Item style, bool keepWithNext)
 {
-  string marker = style.marker;
-  if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
+  current_paragraph_style = style.marker;
+  if (find (createdStyles.begin(), createdStyles.end(), current_paragraph_style) == createdStyles.end()) {
     string fontname = Database_Config_Bible::getExportFont (bible);
     float fontsize = style.fontsize;
     int italic = style.italic;
@@ -1540,16 +1552,16 @@ void Filter_Text::newParagraph (Database_Styles_Item style, bool keepWithNext)
     // Copying and pasting sections with columns between documents in LibreOffice failed to work.
     // int spancolumns = style.spancolumns;
     int dropcaps = 0;
-    if (odf_text_standard) odf_text_standard->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_only) odf_text_text_only->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    createdStyles.push_back (marker);
+    if (odf_text_standard) odf_text_standard->create_paragraph_style (current_paragraph_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_only) odf_text_text_only->create_paragraph_style (current_paragraph_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (current_paragraph_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
+    createdStyles.push_back (current_paragraph_style);
   }
-  if (odf_text_standard) odf_text_standard->new_paragraph (marker);
-  if (odf_text_text_only) odf_text_text_only->new_paragraph (marker);
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_paragraph (marker);
-  if (html_text_standard) html_text_standard->new_paragraph (marker);
-  if (html_text_linked) html_text_linked->new_paragraph (marker);
+  if (odf_text_standard) odf_text_standard->new_paragraph (current_paragraph_style);
+  if (odf_text_text_only) odf_text_text_only->new_paragraph (current_paragraph_style);
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_paragraph (current_paragraph_style);
+  if (html_text_standard) html_text_standard->new_paragraph (current_paragraph_style);
+  if (html_text_linked) html_text_linked->new_paragraph (current_paragraph_style);
   if (text_text) text_text->paragraph (); 
 }
 

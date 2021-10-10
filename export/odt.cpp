@@ -77,7 +77,7 @@ void export_odt_book (string bible, int book, bool log)
         usfm = usfm_remove_w_attributes (usfm);
         usfm = filter_string_trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
-        filter_text.addUsfmCode (usfm);
+        filter_text.add_usfm_code (usfm);
       }
     }
   } else {
@@ -89,7 +89,7 @@ void export_odt_book (string bible, int book, bool log)
       usfm = usfm_remove_w_attributes (usfm);
       usfm = filter_string_trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
-      filter_text.addUsfmCode (usfm);
+      filter_text.add_usfm_code (usfm);
     }
   }
   

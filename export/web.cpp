@@ -102,7 +102,7 @@ void export_web_book (string bible, int book, bool log)
     // Trim it.
     usfm = filter_string_trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
-    filter_text_chapter.addUsfmCode (usfm);
+    filter_text_chapter.add_usfm_code (usfm);
     
     // Interlinked web data for one chapter.
     filter_text_chapter.html_text_linked = new Html_Text (translate("Bible"));

@@ -64,7 +64,7 @@ void test_filter_text ()
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
     int desiredRunningHeaders = 5;
@@ -193,7 +193,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\\xxx Unknown markup\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -237,8 +237,8 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path (directory, "60-1Peter.usfm"));
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm_ruth);
-    filter_text.addUsfmCode (usfm_1_peter);
+    filter_text.add_usfm_code (usfm_ruth);
+    filter_text.add_usfm_code (usfm_1_peter);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -282,7 +282,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\\v 5 Verse Five.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -307,7 +307,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*\\x + \\xt Isa. 3.3.\\x*, text 2\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f*, text3.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -356,7 +356,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     usfm = filter_string_trim (usfm);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -419,7 +419,7 @@ Xref 4aXref 4.
     usfm = filter_string_trim (usfm);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -445,7 +445,7 @@ Genesis 1
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string standard = R"(
@@ -468,7 +468,7 @@ A Verse text.
     "\\v 1 In the be\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*ginning, God created\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f* the heavens and the earth.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string notes = filter_text.text_text->getnote ();
@@ -501,7 +501,7 @@ A Verse text.
     "\\v 2 Verse two.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.text_text->get ();
     string notes = filter_text.text_text->getnote ();
@@ -536,7 +536,7 @@ A Verse text.
     "\\v 1 Verse one.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
     map <int, string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
@@ -559,7 +559,7 @@ A Verse text.
     "\\v 3 Verse three\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.verses_headings;
     map <int, string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
@@ -588,7 +588,7 @@ A Verse text.
     "\\v 1 Verse one\\x + \\xt Isa. 1.1.\\x*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
@@ -613,7 +613,7 @@ A Verse text.
     "\\v 2 The Lord is my strength.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
@@ -635,7 +635,7 @@ A Verse text.
     "\\q2 I trust in Him.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, {"p", "q1", "q2"}, filter_text.paragraph_starting_markers);
   }
@@ -646,7 +646,7 @@ A Verse text.
     string usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text ("");
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     for (size_t i = 0; i < filter_text.verses_paragraphs.size (); i++) {
       map <int, string> verses_paragraph = filter_text.verses_paragraphs [i];
@@ -711,7 +711,7 @@ A Verse text.
     "\\v 2 The \\nd Lord\\nd* is my strength.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     map <int, string> output = filter_text.getVersesText ();
     map <int, string> standard = {
@@ -730,7 +730,7 @@ A Verse text.
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
@@ -754,7 +754,7 @@ A Verse text.
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
@@ -780,7 +780,7 @@ A Verse text.
     "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
@@ -805,7 +805,7 @@ A Verse text.
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -828,7 +828,7 @@ A Verse text.
     "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_text_and_note_citations = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -851,7 +851,7 @@ A Verse text.
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -877,7 +877,7 @@ A Verse text.
     "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -914,7 +914,7 @@ A Verse text.
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     
     // Check chapter labels.
@@ -977,7 +977,7 @@ Chapter 2
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     
     // Check chapter labels.
@@ -1032,7 +1032,7 @@ Chapter Two
 \v 3 This is verse three\fe + Endnote 3\fe*.
     )";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     int n = 3;
     size_t size = filter_text.notes_plain_text.size();
@@ -1059,7 +1059,7 @@ Chapter Two
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     
     map <int, string> output = filter_text.getVersesText ();
@@ -1104,7 +1104,7 @@ Chapter Two
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (filter_string_trim(usfm));
+    filter_text.add_usfm_code (filter_string_trim(usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -1132,7 +1132,7 @@ A Jesus is King.  B Jesus is the son of God.
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.tbsx_text = new Tbsx_Text ();
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string output = filter_text.tbsx_text->get_document ();
 
@@ -1146,7 +1146,7 @@ A Jesus is King.  B Jesus is the son of God.
     string invalid_utf8_usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
-    filter_text.addUsfmCode (filter_string_trim(invalid_utf8_usfm));
+    filter_text.add_usfm_code (filter_string_trim(invalid_utf8_usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -1182,7 +1182,7 @@ A Jesus is King.  B Jesus is the son of God.
       string html;
       Filter_Text filter_text = Filter_Text (bible);
       filter_text.html_text_standard = new Html_Text (bible);
-      filter_text.addUsfmCode (usfm);
+      filter_text.add_usfm_code (usfm);
       filter_text.run (styles_logic_standard_sheet());
       html = filter_text.html_text_standard->get_inner_html();
       evaluate (__LINE__, __func__, standard, html);
@@ -1197,7 +1197,7 @@ A Jesus is King.  B Jesus is the son of God.
     {
       Filter_Text filter_text = Filter_Text (bible);
       filter_text.odf_text_standard = new Odf_Text (bible);
-      filter_text.addUsfmCode (usfm);
+      filter_text.add_usfm_code (usfm);
       filter_text.run (styles_logic_standard_sheet());
       filter_text.odf_text_standard->save (TextTestOdt);
       int ret = odf2txt (TextTestOdt, TextTestTxt);

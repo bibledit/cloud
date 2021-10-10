@@ -99,7 +99,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
           string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
-          filter_text.addUsfmCode (chapter_usfm);
+          filter_text.add_usfm_code (chapter_usfm);
           filter_text.run (stylesheet);
           map <int, string> output = filter_text.getVersesText ();
           reference_text = output [reference_verse];
@@ -117,7 +117,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
           string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
-          filter_text.addUsfmCode (chapter_usfm);
+          filter_text.add_usfm_code (chapter_usfm);
           filter_text.run (stylesheet);
           map <int, string> output = filter_text.getVersesText ();
           translation_text = output [translation_verse];

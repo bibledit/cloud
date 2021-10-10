@@ -128,8 +128,8 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
       Filter_Text filter_text_new = Filter_Text (bible);
       filter_text_old.text_text = new Text_Text ();
       filter_text_new.text_text = new Text_Text ();
-      filter_text_old.addUsfmCode (old_verse_usfm);
-      filter_text_new.addUsfmCode (new_verse_usfm);
+      filter_text_old.add_usfm_code (old_verse_usfm);
+      filter_text_new.add_usfm_code (new_verse_usfm);
       filter_text_old.run (stylesheet);
       filter_text_new.run (stylesheet);
       string old_text = filter_text_old.text_text->get ();

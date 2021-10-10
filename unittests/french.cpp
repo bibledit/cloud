@@ -98,7 +98,7 @@ void test_french ()
 )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
@@ -134,7 +134,7 @@ void test_french ()
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.addUsfmCode (usfm);
+    filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);

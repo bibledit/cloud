@@ -63,7 +63,7 @@ void export_info (string bible, bool log)
       string usfm = database_bibles.getChapter (bible, book, chapter);
       usfm = filter_string_trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
-      filter_text.addUsfmCode (usfm);
+      filter_text.add_usfm_code (usfm);
     }
   }
   

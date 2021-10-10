@@ -61,7 +61,7 @@ void export_onlinebible (string bible, bool log)
       string chapter_data = database_bibles.getChapter (bible, book, chapter);
       chapter_data = usfm_remove_w_attributes (chapter_data);
       chapter_data = filter_string_trim (chapter_data);
-      filter_text_bible.addUsfmCode (chapter_data);
+      filter_text_bible.add_usfm_code (chapter_data);
     }
   }
   filter_text_bible.run (stylesheet);

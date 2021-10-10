@@ -1260,7 +1260,7 @@ void Odf_Text::add_image (string alt, string src, string caption)
 
 
 // This function adds a tab to the current paragraph.
-void Odf_Text::add_tab () // Todo test.
+void Odf_Text::add_tab () // Todo
 {
   // Ensure a paragraph has started.
   if (!current_text_p_node_opened) new_paragraph ();

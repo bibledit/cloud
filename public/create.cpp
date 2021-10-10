@@ -72,7 +72,7 @@ string public_create (void * webserver_request)
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new Html_Text (bible);
-  filter_text.addUsfmCode (verse_usfm);
+  filter_text.add_usfm_code (verse_usfm);
   filter_text.run (stylesheet);
   string versetext = filter_text.html_text_standard->get_inner_html ();
   view.set_variable ("versetext", versetext);

@@ -87,8 +87,8 @@ void export_text_usfm_book (string bible, int book, bool log)
     
     // Add the chapter's USFM code to the Text_* filter for the book, and for the chapter.
     // Use small chunks of USFM at a time. This provides much better performance.
-    filter_text_book.addUsfmCode (chapter_data);
-    filter_text_chapter.addUsfmCode (chapter_data);
+    filter_text_book.add_usfm_code (chapter_data);
+    filter_text_chapter.add_usfm_code (chapter_data);
     
     
     // Convert the chapter

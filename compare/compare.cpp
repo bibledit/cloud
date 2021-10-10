@@ -177,8 +177,8 @@ void compare_compare (string bible, string compare, int jobId)
         filter_text_compare.html_text_standard = new Html_Text ("");
         filter_text_bible.text_text = new Text_Text ();
         filter_text_compare.text_text = new Text_Text ();
-        filter_text_bible.addUsfmCode (bible_verse_usfm);
-        filter_text_compare.addUsfmCode (compare_verse_usfm);
+        filter_text_bible.add_usfm_code (bible_verse_usfm);
+        filter_text_compare.add_usfm_code (compare_verse_usfm);
         filter_text_bible.run (stylesheet);
         filter_text_compare.run (stylesheet);
         string bible_html = filter_text_bible.html_text_standard->get_inner_html ();

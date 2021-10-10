@@ -298,8 +298,8 @@ void bible_logic_log_change (const string& bible, int book, int chapter, const s
       Filter_Text filter_text_new = Filter_Text (bible);
       filter_text_old.text_text = new Text_Text ();
       filter_text_new.text_text = new Text_Text ();
-      filter_text_old.addUsfmCode (existing_verse_usfm);
-      filter_text_new.addUsfmCode (verse_usfm);
+      filter_text_old.add_usfm_code (existing_verse_usfm);
+      filter_text_new.add_usfm_code (verse_usfm);
       filter_text_old.run (stylesheet);
       filter_text_new.run (stylesheet);
       string old_text = filter_text_old.text_text->get ();
@@ -835,8 +835,8 @@ void bible_logic_recent_save_email (const string & bible, int book, int chapter,
     filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
     filter_text_old.text_text = new Text_Text ();
     filter_text_new.text_text = new Text_Text ();
-    filter_text_old.addUsfmCode (old_verses[i]);
-    filter_text_new.addUsfmCode (new_verses[i]);
+    filter_text_old.add_usfm_code (old_verses[i]);
+    filter_text_new.add_usfm_code (new_verses[i]);
     filter_text_old.run (styles_logic_standard_sheet());
     filter_text_new.run (styles_logic_standard_sheet());
     string old_text = filter_text_old.text_text->get ();
@@ -935,9 +935,9 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
     filter_text_ancestor.text_text = new Text_Text ();
     filter_text_edited.text_text = new Text_Text ();
     filter_text_merged.text_text = new Text_Text ();
-    filter_text_ancestor.addUsfmCode (ancestor_verse_usfm);
-    filter_text_edited.addUsfmCode (edited_verse_usfm);
-    filter_text_merged.addUsfmCode (merged_verse_usfm);
+    filter_text_ancestor.add_usfm_code (ancestor_verse_usfm);
+    filter_text_edited.add_usfm_code (edited_verse_usfm);
+    filter_text_merged.add_usfm_code (merged_verse_usfm);
     filter_text_ancestor.run (styles_logic_standard_sheet());
     filter_text_edited.run (styles_logic_standard_sheet());
     filter_text_merged.run (styles_logic_standard_sheet());

@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2021-06-10 10:28+0000\n"
-"Last-Translator: Phil Fields <oreo@bahasakita.net>\n"
+"PO-Revision-Date: 2021-08-27 16:00+0000\n"
+"Last-Translator: Aranggi Josef Toar <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
+"X-Generator: Launchpad (build 76ef73296f01d64cdfe5c48bfc4daf35cdfde808)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -1031,16 +1031,16 @@ msgid "Editor and Resources"
 msgstr "Jendela Editor dan Teliti"
 
 msgid "Editor and Notes"
-msgstr ""
+msgstr "Jendela Editor dan Catatan"
 
 msgid "Resources and Editor and Notes"
 msgstr "Jendela Teliti, Editor, dan Catatan"
 
 msgid "Editor and Consistency tool"
-msgstr ""
+msgstr "Jendela Editor dan Alat Konsistensi"
 
 msgid "Visual editor and USFM editor"
-msgstr ""
+msgstr "Editor Visual dan USFM"
 
 msgid "The workspace was added"
 msgstr ""
@@ -2143,7 +2143,7 @@ msgid "Help and About"
 msgstr ""
 
 msgid "Translate"
-msgstr "Terjemahanku"
+msgstr "Tulis"
 
 msgid "Tools"
 msgstr "Alat-alat"
@@ -2173,13 +2173,13 @@ msgid "Menu"
 msgstr ""
 
 msgid "Both the visual chapter and visual verse editors"
-msgstr ""
+msgstr "Editor pasal dan ayat visual"
 
 msgid "Only the visual chapter editor"
-msgstr ""
+msgstr "Hanya editor pasal visual"
 
 msgid "Only the visual verse editor"
-msgstr ""
+msgstr "Hanya editor ayat visual"
 
 msgid "Hide"
 msgstr ""
@@ -2188,13 +2188,13 @@ msgid "Show"
 msgstr ""
 
 msgid "Chapter editor"
-msgstr ""
+msgstr "Editor pasal"
 
 msgid "Verse editor"
-msgstr ""
+msgstr "Editor ayat"
 
 msgid "USFM editor"
-msgstr ""
+msgstr "Editor USFM"
 
 msgid "dot"
 msgstr ""
@@ -2452,12 +2452,12 @@ msgid "The size of the font for the menu, relative to the general font size."
 msgstr ""
 
 msgid "Relative font size for the Bible editors"
-msgstr ""
+msgstr "Ukuran font relatif untuk editor Alkitab"
 
 msgid ""
 "The size of the font for the Bible editors, relative to the general font "
 "size."
-msgstr ""
+msgstr "Ukuran font untuk editor Alkitab, relatif terhadap ukuran font umum."
 
 msgid "Relative font size for the resources"
 msgstr "Ukuran font untuk materi penelitian"
@@ -2482,7 +2482,7 @@ msgid ""
 msgstr ""
 
 msgid "Initial vertical position of the editing cursor in the Bible editors"
-msgstr ""
+msgstr "Posisi vertikal awal dari kursor dalam editor Alkitab"
 
 msgid "Please enter a caret position between 20 and 80 percent"
 msgstr ""
@@ -2525,10 +2525,10 @@ msgid "Maximum difference for:"
 msgstr ""
 
 msgid "Chapter editors:"
-msgstr ""
+msgstr "Editor pasal:"
 
 msgid "Verse editor:"
-msgstr ""
+msgstr "Editor ayat:"
 
 msgid "Keep main menu always visible."
 msgstr ""
@@ -2541,18 +2541,19 @@ msgstr ""
 
 msgid "Show a link in the Bible editor to select another Bible editor."
 msgstr ""
+"Tunjukkan tautan dalam editor Alkitab untuk memilih editor Alkitab lain."
 
 msgid "Available Bible editors in the Bible editor selector:"
-msgstr ""
+msgstr "Editor Alkitab yang tersedia dalam pemilih editor Alkitab:"
 
 msgid "Text editors:"
-msgstr ""
+msgstr "Editor teks:"
 
 msgid "Which visual Bible editors to enable?"
 msgstr "Editor Alkitab visual mana yang ingin Anda diaktifkan?"
 
 msgid "USFM editor:"
-msgstr ""
+msgstr "Editor USFM"
 
 msgid "Enable the USFM Bible editor?"
 msgstr "Aktifkan editor Alkitab USFM?"
@@ -2774,7 +2775,7 @@ msgid "Font and text settings"
 msgstr ""
 
 msgid "Make settings for font and text for the Bible editors."
-msgstr ""
+msgstr "Mengatur font dan teks untuk editor Alkitab."
 
 msgid "Font"
 msgstr ""
@@ -2990,7 +2991,7 @@ msgid ""
 msgstr ""
 
 msgid "Click a passage to open it in the Bible text editor."
-msgstr ""
+msgstr "Klik perikop untuk membukanya dalam editor teks Alkitab."
 
 msgid "The Manager can enable or disable checks."
 msgstr ""
@@ -3320,7 +3321,7 @@ msgid "Number of changes"
 msgstr ""
 
 msgid "editor"
-msgstr ""
+msgstr "editor"
 
 msgid "preview"
 msgstr ""
@@ -3451,6 +3452,8 @@ msgstr ""
 
 msgid "To edit two Bibles side-by side, add two editors to the workspace."
 msgstr ""
+"Mengedit dua Alkitab secara bersebelahan, tambahkan dua editor ke dalam "
+"workspace."
 
 msgid "Add the following to each of them:"
 msgstr ""
@@ -5390,7 +5393,7 @@ msgid "SMTP Host"
 msgstr ""
 
 msgid "Select editor"
-msgstr ""
+msgstr "Pilih editor"
 
 msgid ""
 "This shows how many verses each chapter of the Bible has according to this "
@@ -10733,7 +10736,7 @@ msgid "2Ki"
 msgstr "2Raj"
 
 msgid "1 Chronicles"
-msgstr "1 Tawarikh"
+msgstr "1 Tawarik"
 
 msgid "1Chr"
 msgstr "1Taw"
@@ -10742,7 +10745,7 @@ msgid "1Ch"
 msgstr "1Taw"
 
 msgid "2 Chronicles"
-msgstr "2 Tawarikh"
+msgstr "2 Tawarik"
 
 msgid "2Chr"
 msgstr "2Taw"
@@ -10877,7 +10880,7 @@ msgid "Jon"
 msgstr "Yun"
 
 msgid "Micah"
-msgstr "Mikha"
+msgstr "Mika"
 
 msgid "Mic"
 msgstr "Mi"
@@ -10910,7 +10913,7 @@ msgid "Hag"
 msgstr "Hag"
 
 msgid "Zechariah"
-msgstr "Zakharia"
+msgstr "Zakaria"
 
 msgid "Zech"
 msgstr "Za"
@@ -10919,7 +10922,7 @@ msgid "Zec"
 msgstr "Za"
 
 msgid "Malachi"
-msgstr "Maleakhi"
+msgstr "Maleaki"
 
 msgid "Mal"
 msgstr "Mal"
@@ -12157,13 +12160,13 @@ msgid "Then with his mighty arm, he rescued you from Egypt."
 msgstr "Dengan tangan-Nya yang perkasa, Dia menyelamatkanmu dari Mesir."
 
 msgid "Who's the father of Abimelech?"
-msgstr "Siapa ayah Abimelekh?"
+msgstr "Siapa ayah Abimelek?"
 
 msgid "Gideon"
 msgstr "Gideon"
 
 msgid "Abimelech the son of Gideon went to Shechem."
-msgstr "Abimelekh anak Gideon pergi ke kota Sikhem."
+msgstr "Abimelek anak Gideon pergi ke kota Sikem"
 
 msgid "Who's the father of Joshua the priest in the time of Ezra?"
 msgstr "Siapakah ayah Yesua, imam pada zaman Ezra?"

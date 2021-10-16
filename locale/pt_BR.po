@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2017-01-10 17:19+0000\n"
-"Last-Translator: Teus Benschop <teusjannette@gmail.com>\n"
+"PO-Revision-Date: 2021-10-04 01:10+0000\n"
+"Last-Translator: Jorge Santos <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
+"X-Generator: Launchpad (build d41d323cd49b34518b2141c77ec7b2f852e5f261)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -49,7 +49,7 @@ msgid "Number of consultation notes you are subscribed to"
 msgstr ""
 
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 msgid "Inactive for a day"
 msgstr ""
@@ -79,46 +79,46 @@ msgid "The verse mapping was deleted"
 msgstr ""
 
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 msgid "New"
-msgstr ""
+msgstr "Novo"
 
 msgid "Pending"
-msgstr ""
+msgstr "Pendente"
 
 msgid "In progress"
-msgstr ""
+msgstr "Em andamento"
 
 msgid "Done"
-msgstr ""
+msgstr "Concluido"
 
 msgid "Reopened"
-msgstr ""
+msgstr "Reaberto"
 
 msgid "Wish"
 msgstr ""
 
 msgid "Minor"
-msgstr ""
+msgstr "Menor"
 
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 msgid "Important"
-msgstr ""
+msgstr "Importante"
 
 msgid "Major"
-msgstr ""
+msgstr "Principal"
 
 msgid "Critical"
-msgstr ""
+msgstr "Crítico"
 
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 msgid "Information"
-msgstr ""
+msgstr "Informação"
 
 msgid "displaying no more of these"
 msgstr ""
@@ -130,7 +130,7 @@ msgid "It is unclear which data to copy to where"
 msgstr ""
 
 msgid "Reading"
-msgstr ""
+msgstr "Leitura"
 
 msgid "Read access to the repository is successful."
 msgstr ""
@@ -145,13 +145,13 @@ msgid "Copy repository to Bibledit"
 msgstr ""
 
 msgid "Configuring"
-msgstr ""
+msgstr "Configurar"
 
 msgid "Configure copied data"
 msgstr ""
 
 msgid "Writing"
-msgstr ""
+msgstr "Gravação"
 
 msgid "A file was added to the data successfully."
 msgstr ""
@@ -202,7 +202,7 @@ msgid "The changes were pushed to the repository successfully."
 msgstr ""
 
 msgid "Copying"
-msgstr ""
+msgstr "Copiando"
 
 msgid "Copying the data from the repository and storing it in Bibledit."
 msgstr ""
@@ -229,22 +229,22 @@ msgid "Pushing the local Bible data to the repository failed."
 msgstr ""
 
 msgid "Syncing"
-msgstr ""
+msgstr "Sincronizando"
 
 msgid "Link repository"
 msgstr ""
 
 msgid "Collaboration"
-msgstr ""
+msgstr "Colaboração"
 
 msgid "Repository"
-msgstr ""
+msgstr "Repositório"
 
 msgid "Which Bible are you going to use?"
 msgstr ""
 
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
 msgid "Select which Bible to make the active one for editing"
 msgstr ""
@@ -256,7 +256,7 @@ msgid "Send/receive"
 msgstr ""
 
 msgid "Up to date"
-msgstr ""
+msgstr "Atualizado"
 
 msgid "Still busy"
 msgstr ""
@@ -277,13 +277,13 @@ msgid "Not downloading change notifications due to communication error"
 msgstr ""
 
 msgid "Files"
-msgstr ""
+msgstr "Arquívos"
 
 msgid "Synchronizing"
-msgstr ""
+msgstr "Sincronizando"
 
 msgid "Notes"
-msgstr ""
+msgstr "Anotações"
 
 msgid "No local user found"
 msgstr ""
@@ -292,7 +292,7 @@ msgid "Sending note to server"
 msgstr ""
 
 msgid "Bibles"
-msgstr ""
+msgstr "Bíblias"
 
 msgid "Sending to server"
 msgstr ""
@@ -367,7 +367,7 @@ msgid "Bibledit resolved the conflicts"
 msgstr ""
 
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 msgid "Failure sending and receiving Settings"
 msgstr ""
@@ -376,7 +376,7 @@ msgid "Sending settings"
 msgstr ""
 
 msgid "Resources"
-msgstr ""
+msgstr "Recursos"
 
 msgid "Sending and receiving:"
 msgstr ""
@@ -400,61 +400,61 @@ msgid "Still synchronizing with Paratext."
 msgstr ""
 
 msgid "January"
-msgstr ""
+msgstr "Janeiro"
 
 msgid "February"
-msgstr ""
+msgstr "Fevereiro"
 
 msgid "March"
-msgstr ""
+msgstr "Março"
 
 msgid "April"
-msgstr ""
+msgstr "Abril"
 
 msgid "May"
-msgstr ""
+msgstr "Maio"
 
 msgid "June"
-msgstr ""
+msgstr "Junho"
 
 msgid "July"
-msgstr ""
+msgstr "Julho"
 
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
 msgid "September"
-msgstr ""
+msgstr "Setembro"
 
 msgid "October"
-msgstr ""
+msgstr "Outubro"
 
 msgid "November"
-msgstr ""
+msgstr "Novembro"
 
 msgid "December"
-msgstr ""
+msgstr "Dezembro"
 
 msgid "Month"
-msgstr ""
+msgstr "Mês"
 
 msgid "Loaded"
-msgstr ""
+msgstr "Carregado"
 
 msgid "Will save..."
-msgstr ""
+msgstr "Irá salvar"
 
 msgid "Updating..."
-msgstr ""
+msgstr "Atualizando…"
 
 msgid "Updated"
-msgstr ""
+msgstr "Atualizada"
 
 msgid "Saving..."
-msgstr ""
+msgstr "Salvando ..."
 
 msgid "Saved"
-msgstr ""
+msgstr "Salvo"
 
 msgid "Retrying..."
 msgstr ""
@@ -469,7 +469,7 @@ msgid "Updated Bible text was loaded."
 msgstr ""
 
 msgid "space"
-msgstr ""
+msgstr "espaço"
 
 msgid "non-breaking space"
 msgstr ""
@@ -484,7 +484,7 @@ msgid "narrow non-breaking space"
 msgstr ""
 
 msgid "unknown"
-msgstr ""
+msgstr "desconhecido"
 
 msgid "Font and text direction"
 msgstr ""
@@ -508,6 +508,8 @@ msgid ""
 "There are pending changes in the Bible text that have not yet been sent to "
 "the Cloud for some time."
 msgstr ""
+"Existem mudanças pendentes no texto da Bíblia que ainda não foram enviadas "
+"para a nuvem por algum tempo."
 
 msgid "The Cloud already had some changes in this chapter."
 msgstr ""
@@ -516,7 +518,7 @@ msgid "You sent some changes for this chapter too."
 msgstr ""
 
 msgid "The Cloud merged the two."
-msgstr ""
+msgstr "A nuvem mesclou os dois."
 
 msgid "Most likely this is okay."
 msgstr ""
@@ -577,7 +579,7 @@ msgid "Creating Bible"
 msgstr ""
 
 msgid "Created:"
-msgstr ""
+msgstr "Criada:"
 
 msgid "Please enter a name for the new empty Bible"
 msgstr ""
@@ -592,7 +594,7 @@ msgid "Please enter a name for where to copy the Bible to"
 msgstr ""
 
 msgid "Cannot copy the Bible because the destination Bible already exists."
-msgstr ""
+msgstr "Não é possível copiar a Bíblia porque a Bíblia de destino já existe."
 
 msgid "The Bible was copied."
 msgstr ""
@@ -601,10 +603,10 @@ msgid "Would you like to delete this Bible?"
 msgstr ""
 
 msgid "Chapter"
-msgstr ""
+msgstr "Capítulo"
 
 msgid "Book"
-msgstr ""
+msgstr "Livro"
 
 msgid "Would you like to delete this chapter?"
 msgstr ""
@@ -616,7 +618,7 @@ msgid "This chapter already exists"
 msgstr ""
 
 msgid "Order"
-msgstr ""
+msgstr "Ordem"
 
 msgid "Would you like to change the versification system?"
 msgstr ""
@@ -627,7 +629,7 @@ msgid ""
 msgstr ""
 
 msgid "Create book"
-msgstr ""
+msgstr "Criar livro"
 
 msgid "Would you like to delete this book?"
 msgstr ""
@@ -660,7 +662,7 @@ msgid "More operations in the Cloud"
 msgstr ""
 
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 msgid "Import has started."
 msgstr ""
@@ -693,7 +695,7 @@ msgid "This verse is extra according to the versification system"
 msgstr ""
 
 msgid "The verse is out of sequence"
-msgstr ""
+msgstr "O versículo está fora da sequência"
 
 msgid "Closing character"
 msgstr ""
@@ -702,40 +704,41 @@ msgid "without its matching opening character"
 msgstr ""
 
 msgid "Opening character"
-msgstr ""
+msgstr "Caractere de abertura"
 
 msgid "without its matching closing character"
-msgstr ""
+msgstr "sem seu caractere de fechamento correspondente"
 
 msgid "Suppressed checking results"
-msgstr ""
+msgstr "Resultados de verificação suprimidos"
 
 msgid "The check result is no longer suppressed."
-msgstr ""
+msgstr "O resultado da verificação não é mais suprimido."
 
 msgid "Matching pairs"
-msgstr ""
+msgstr "Pares correspondentes"
 
 msgid "A pair should consist of two characters:"
-msgstr ""
+msgstr "Um par deve consistir em dois caracteres:"
 
 msgid "The pairs were saved"
-msgstr ""
+msgstr "Os pares foram salvos"
 
 msgid "No punctuation at end of verse:"
-msgstr ""
+msgstr "Sem pontuação no final do verso:"
 
 msgid "Pattern found in text:"
-msgstr ""
+msgstr "Padrão encontrado no texto:"
 
 msgid "Capital follows mid-sentence punctuation mark"
 msgstr ""
 
 msgid "Small letter follows straight after a mid-sentence punctuation mark"
 msgstr ""
+"A letra minúscula segue logo após um sinal de pontuação no meio da frase"
 
 msgid "Capital follows straight after a mid-sentence punctuation mark"
-msgstr ""
+msgstr "O maiúsculo vem logo após um sinal de pontuação no meio da frase"
 
 msgid "A letter follows straight after an end-sentence punctuation mark"
 msgstr ""
@@ -744,16 +747,16 @@ msgid "No capital after an end-sentence punctuation mark"
 msgstr ""
 
 msgid "Two punctuation marks in sequence"
-msgstr ""
+msgstr "Dois sinais de pontuação em sequência"
 
 msgid "Paragraph does not start with a capital:"
-msgstr ""
+msgstr "O parágrafo não começa com maiúscula:"
 
 msgid "Paragraph does not end with an end marker:"
-msgstr ""
+msgstr "O parágrafo não termina com um marcador final:"
 
 msgid "Unknown character"
-msgstr ""
+msgstr "Caractere desconhecido"
 
 msgid "Checking results online"
 msgstr ""
@@ -762,25 +765,25 @@ msgid "Bible Checks"
 msgstr ""
 
 msgid "Unclosed markers:"
-msgstr ""
+msgstr "Marcadores não fechados:"
 
 msgid "Malformed verse number"
-msgstr ""
+msgstr "Número do versículo malformado"
 
 msgid "New line within USFM:"
-msgstr ""
+msgstr "Nova linha dentro da USFM:"
 
 msgid "Marker not in stylesheet"
-msgstr ""
+msgstr "O marcador não está na folha de estilo"
 
 msgid "Unknown ID"
-msgstr ""
+msgstr "ID desconhecido"
 
 msgid "ID is not in uppercase"
 msgstr ""
 
 msgid "Forward slash instead of backslash:"
-msgstr ""
+msgstr "Barra para frente em vez de barra invertida:"
 
 msgid "Widow backslash"
 msgstr ""
@@ -789,34 +792,34 @@ msgid "Repeating opening marker"
 msgstr ""
 
 msgid "Closing marker does not match opening marker"
-msgstr ""
+msgstr "O marcador de fechamento não corresponde ao marcador de abertura"
 
 msgid "Embedded marker requires a plus sign"
-msgstr ""
+msgstr "O marcador incorporado requer um sinal de adição"
 
 msgid "The book lacks the marker for the verbose book name:"
 msgstr ""
 
 msgid "The book lacks the marker for the short book name:"
-msgstr ""
+msgstr "O livro não tem o marcador para o nome do livro curto:"
 
 msgid "The following marker belongs in chapter 0:"
-msgstr ""
+msgstr "O seguinte marcador pertence ao capítulo 0:"
 
 msgid "Sentence Structure"
-msgstr ""
+msgstr "Estrutura de sentença"
 
 msgid "The capitals were stored"
 msgstr ""
 
 msgid "The small letters were stored"
-msgstr ""
+msgstr "As letras minúsculas foram armazenadas"
 
 msgid "The punctuation marks at the ends of sentences were stored"
-msgstr ""
+msgstr "Os sinais de pontuação no final das frases foram armazenados"
 
 msgid "The punctuation marks within the sentences were stored"
-msgstr ""
+msgstr "Os sinais de pontuação nas frases foram armazenados"
 
 msgid ""
 "The characters that should be disregarded within the sentences were stored"
@@ -829,18 +832,20 @@ msgid ""
 "The markers that start a new line but not necessarily a new sentence were "
 "saved"
 msgstr ""
+"Os marcadores que iniciam uma nova linha, mas não necessariamente uma nova "
+"frase, foram salvos"
 
 msgid "Punctuation at end of heading:"
 msgstr ""
 
 msgid "Manage Checks"
-msgstr ""
+msgstr "Gerenciar verificações"
 
 msgid "Select which Bible to manage"
-msgstr ""
+msgstr "Selecione qual Bíblia gerenciar"
 
 msgid "Will run the checks."
-msgstr ""
+msgstr "Executará as verificações."
 
 msgid ""
 "Should be followed by a no-break space rather than a plain space in French"
@@ -866,488 +871,495 @@ msgid "The paragraph contains more left guillements than needed"
 msgstr ""
 
 msgid "The paragraph contains more right guillements than needed"
-msgstr ""
+msgstr "O parágrafo contém mais guilhotinas certas do que o necessário"
 
 msgid "Patterns"
-msgstr ""
+msgstr "Padrões"
 
 msgid "The patterns were saved"
-msgstr ""
+msgstr "Os padrões foram salvos"
 
 msgid "Double space:"
-msgstr ""
+msgstr "Espaço duplo:"
 
 msgid "Space before a comma"
-msgstr ""
+msgstr "Espaço antes de uma vírgula"
 
 msgid "Space before a semicolon"
-msgstr ""
+msgstr "Espaço antes de um ponto e vírgula"
 
 msgid "Space before a colon"
-msgstr ""
+msgstr "Espaço antes de dois pontos"
 
 msgid "Space before a full stop"
-msgstr ""
+msgstr "Espaço antes de um ponto final"
 
 msgid "Space before a question mark"
-msgstr ""
+msgstr "Espaço antes de um ponto de interrogação"
 
 msgid "Space before an exclamation mark"
-msgstr ""
+msgstr "Espaço antes de um ponto de exclamação"
 
 msgid "Space at the end of the verse"
-msgstr ""
+msgstr "Espaço no final do versículo"
 
 msgid "Checks"
-msgstr ""
+msgstr "Verificações"
 
 msgid "The entry was suppressed."
-msgstr ""
+msgstr "A entrada foi suprimida."
 
 msgid "The entry was deleted for just now."
-msgstr ""
+msgstr "A entrada foi excluída por agora."
 
 msgid "Loading ..."
-msgstr ""
+msgstr "Carregando ..."
 
 msgid "All Bibles"
-msgstr ""
+msgstr "Todas as Bíblias"
 
 msgid "all of them"
-msgstr ""
+msgstr "Todas elas"
 
 msgid "Sort on verse"
-msgstr ""
+msgstr "Classificar por versículo"
 
 msgid "Sort on author"
-msgstr ""
+msgstr "Classificar por autor"
 
 msgid "You have entered the changes below in a Bible editor."
-msgstr ""
+msgstr "Você inseriu as alterações abaixo em um editor da Bíblia."
 
 msgid "You may check if it made its way into the Bible text."
-msgstr ""
+msgstr "Você pode verificar se ele entrou no texto da Bíblia."
 
 msgid "Changes you entered in"
-msgstr ""
+msgstr "Mudanças que você inseriu"
 
 msgid "The following passage has no change in the text."
-msgstr ""
+msgstr "A seguinte passagem não tem nenhuma mudança no texto."
 
 msgid "Only the formatting was changed."
-msgstr ""
+msgstr "Apenas a formatação foi alterada."
 
 msgid "The USFM code is given for reference."
-msgstr ""
+msgstr "O código USFM é fornecido para referência."
 
 msgid "Old code:"
-msgstr ""
+msgstr "Código antigo:"
 
 msgid "New code:"
-msgstr ""
+msgstr "Código novo:"
 
 msgid "Recent changes:"
-msgstr ""
+msgstr "Modificações Recentes:"
 
 msgid "View"
-msgstr ""
+msgstr "Visualização"
 
 msgid "Statistics"
-msgstr ""
+msgstr "Estatísticas"
 
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 msgid "Manage"
-msgstr ""
+msgstr "Gerenciar"
 
 msgid "Start clearing change notifications"
-msgstr ""
+msgstr "Comece a limpar notificações de mudança"
 
 msgid "Total:"
-msgstr ""
+msgstr "Total:"
 
 msgid "Ready clearing change notifications"
-msgstr ""
+msgstr "Pronto para limpar notificações de alteração"
 
 msgid "Change statistics"
-msgstr ""
+msgstr "Alterar estatísticas"
 
 msgid "Everyone"
-msgstr ""
+msgstr "Todos"
 
 msgid "Clearing change notifications."
-msgstr ""
+msgstr "Limpar notificações de alteração."
 
 msgid "Will generate lists of changes"
-msgstr ""
+msgstr "Irá gerar listas de mudanças"
 
 msgid "unsubscribe"
-msgstr ""
+msgstr "descadastrar"
 
 msgid "I have done my part on it"
-msgstr ""
+msgstr "Fiz minha parte"
 
 msgid "mark for deletion"
-msgstr ""
+msgstr "marcar para exclusão"
 
 msgid "Don't know where to save"
-msgstr ""
+msgstr "Não sei onde guardar"
 
 msgid "Checksum error"
-msgstr ""
+msgstr "Erro de checksum"
 
 msgid "Nothing to save"
-msgstr ""
+msgstr "Nada para salvar"
 
 msgid "Cannot save: Needs Unicode"
-msgstr ""
+msgstr "Não é possível salvar: precisa de Unicode"
 
 msgid "No write access"
-msgstr ""
+msgstr "Sem acesso de gravação"
 
 msgid "Merging chapter."
-msgstr ""
+msgstr "Capítulo mesclado."
 
 msgid "Don't know what to update"
-msgstr ""
+msgstr "Não sei o que atualizar"
 
 msgid "Cannot update: Needs Unicode"
-msgstr ""
+msgstr "Não é possível atualizar: precisa de Unicode"
 
 msgid "Edit verse"
-msgstr ""
+msgstr "Editar verso"
 
 msgid "Select which Bible to open in the editor"
-msgstr ""
+msgstr "Selecione qual Bíblia abrir no editor"
 
 msgid "Editor and Resources"
-msgstr ""
+msgstr "Editor e Recursos"
 
 msgid "Editor and Notes"
-msgstr ""
+msgstr "Editor e notas"
 
 msgid "Resources and Editor and Notes"
-msgstr ""
+msgstr "Recursos, editor e notas"
 
 msgid "Editor and Consistency tool"
-msgstr ""
+msgstr "Editor e ferramenta de consistência"
 
 msgid "Visual editor and USFM editor"
-msgstr ""
+msgstr "Editor visual e editor USFM"
 
 msgid "The workspace was added"
-msgstr ""
+msgstr "O espaço de trabalho foi adicionado"
 
 msgid "The workspace was moved up"
-msgstr ""
+msgstr "A área de trabalho foi movida para cima"
 
 msgid "The workspace was moved down"
-msgstr ""
+msgstr "A área de trabalho foi movida para baixo"
 
 msgid "The default workspaces were created"
-msgstr ""
+msgstr "As áreas de trabalho padrão foram criadas"
 
 msgid "Workspaces"
-msgstr ""
+msgstr "Áreas de trabalho"
 
 msgid "Would you like to delete this workspace configuration?"
-msgstr ""
+msgstr "Gostaria de deletar esta configuração da área de trabalho?"
 
 msgid "The workspace was removed"
-msgstr ""
+msgstr "A área de trabalho foi removida"
 
 msgid "Please enter a name for the new workspace"
-msgstr ""
+msgstr "Insira um nome para o novo espaço de trabalho"
 
 msgid "The workspace was copied"
-msgstr ""
+msgstr "A área de trabalho foi copiada"
 
 msgid "The workspace was sent to all users"
-msgstr ""
+msgstr "A área de trabalho foi enviada para todos os usuários"
 
 msgid "Delete workspace"
-msgstr ""
+msgstr "Deletar área de trabalho"
 
 msgid "Move workspace up"
-msgstr ""
+msgstr "Mova a área de trabalho para cima"
 
 msgid "Move workspace down"
-msgstr ""
+msgstr "Mova a área de trabalho para baixo"
 
 msgid "Edit workspace"
-msgstr ""
+msgstr "Editar área de trabalho"
 
 msgid "Copy workspace"
-msgstr ""
+msgstr "Copiar área de trabalho"
 
 msgid "Send workspace to all users"
-msgstr ""
+msgstr "Enviar área de trabalho para todos os usuários"
 
 msgid "See the help below for information about what to enter"
-msgstr ""
+msgstr "Consulte a ajuda abaixo para obter informações sobre o que inserir"
 
 msgid "Workspace"
-msgstr ""
+msgstr "Área de trabalho"
 
 msgid "Select which Bible to read"
-msgstr ""
+msgstr "Selecione qual Bíblia irá ler"
 
 msgid "Bibledit"
-msgstr ""
+msgstr "Bibledit"
 
 msgid "Recent changes in the Bible texts"
-msgstr ""
+msgstr "Mudanças recentes nos textos da Bíblia"
 
 msgid "Please confirm this request by clicking this following link:"
-msgstr ""
+msgstr "Confirme esta solicitação clicando neste link:"
 
 msgid "User account change"
-msgstr ""
+msgstr "Mudança de conta de usuário"
 
 msgid "A user account was changed."
-msgstr ""
+msgstr "Uma conta de usuário foi alterada."
 
 msgid "Email address:"
-msgstr ""
+msgstr "Endereço de e-mail:"
 
 msgid "The following email was sent to this user:"
-msgstr ""
+msgstr "O seguinte e-mail foi enviado para este usuário:"
 
 msgid "Select chapter"
-msgstr ""
+msgstr "Selecione o capítulo"
 
 msgid "cancel"
-msgstr ""
+msgstr "cancelar"
 
 msgid "Select book"
-msgstr ""
+msgstr "Selecione o livro"
 
 msgid "Select verse"
-msgstr ""
+msgstr "Selecione o versículo"
 
 msgid "Enter passage to go to"
-msgstr ""
+msgstr "Coloque a passagem que quer acessar"
 
 msgid "Copying Bible from Bibledit to a Paratext project."
-msgstr ""
+msgstr "Copiar a Bíblia de Bibledit para um projeto Paratexto."
 
 msgid "Bibledit Bible:"
-msgstr ""
+msgstr "Bíblia Bibledit:"
 
 msgid "Paratext project:"
-msgstr ""
+msgstr "Projeto Paratexto:"
 
 msgid "Copying Paratext project to a Bible in Bibledit."
-msgstr ""
+msgstr "Copiando projeto Paratexto para uma Bíblia em Bibledit."
 
 msgid "Copy Bibledit to Paratext"
-msgstr ""
+msgstr "Copiar Bibledit para Paratexto."
 
 msgid "Copy Paratext to Bibledit"
-msgstr ""
+msgstr "Copiar Paratexto para Bibledit"
 
 msgid "Copy larger Bibledit chapter to smaller Paratext chapter"
 msgstr ""
+"Copie um capítulo maior da Bíblia para um capítulo menor do Paratexto"
 
 msgid "Chapter merged"
-msgstr ""
+msgstr "Capítulo mesclado"
 
 msgid "Cannot merge chapter due to missing parent data"
 msgstr ""
+"Não é possível mesclar o capítulo devido à falta de dados com certa "
+"semelhança"
 
 msgid "Paratext: Send/receive"
-msgstr ""
+msgstr "Paratexto: Enviar / receber"
 
 msgid "Paratext: Up to date"
-msgstr ""
+msgstr "Paratexto: atualizado"
 
 msgid "Paratext"
-msgstr ""
+msgstr "Paratexto"
 
 msgid "Please enter the name of the Paratext projects folder"
-msgstr ""
+msgstr "Digite o nome da pasta de projetos Paratexto"
 
 msgid "Paratext projects folder was set."
-msgstr ""
+msgstr "A pasta de projetos Paratexto foi definida."
 
 msgid "Paratext projects folder does not exist:"
-msgstr ""
+msgstr "A pasta de projetos Paratexto não existe:"
 
 msgid "not found"
-msgstr ""
+msgstr "não encontrado"
 
 msgid "Which Paratext project are you going to use?"
-msgstr ""
+msgstr "Qual projeto Paratexto você vai usar?"
 
 msgid "Where are you going to take the initial Bible data from?"
-msgstr ""
+msgstr "De onde você vai tirar os dados bíblicos iniciais?"
 
 msgid "The collaboration will be set up"
-msgstr ""
+msgstr "A colaboração será configurada"
 
 msgid "Merging and saving chapter."
-msgstr ""
+msgstr "Mesclando e salvando capítulo."
 
 msgid "Passage mismatch"
-msgstr ""
+msgstr "Incompatibilidade de passagem"
 
 msgid "Needs Unicode"
-msgstr ""
+msgstr "Necessita Unicode"
 
 msgid "Confusing data"
-msgstr ""
+msgstr "Dados confusos"
 
 msgid "Edit USFM"
-msgstr ""
+msgstr "Editar USFM"
 
 msgid "Search the Bible"
-msgstr ""
+msgstr "Pesquisar a Bíblia"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Notificações"
 
 msgid "You can set the notifications in Bibledit Cloud."
-msgstr ""
+msgstr "Você pode definir as notificações em Bibledit Cloud."
 
 msgid "Account"
-msgstr ""
+msgstr "Conta"
 
 msgid "Password should be at least four characters long"
-msgstr ""
+msgstr "A senha deve ter pelo menos quatro caracteres"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "As senhas não correspondem"
 
 msgid "Current password is not valid"
-msgstr ""
+msgstr "A senha atual não é válida"
 
 msgid "The new password was saved"
-msgstr ""
+msgstr "A nova senha foi salva"
 
 msgid "Email address is not valid"
-msgstr ""
+msgstr "O endereço de email não é valido"
 
 msgid "Email address verification"
-msgstr ""
+msgstr "Verificação de endereço de e-mail"
 
 msgid ""
 "Somebody requested to change the email address that belongs to your account."
 msgstr ""
+"Alguém solicitou a alteração do endereço de e-mail que pertence à sua conta."
 
 msgid "Email address change"
-msgstr ""
+msgstr "Mudança de endereço de e-mail"
 
 msgid ""
 "The email address that belongs to your account has been changed successfully."
 msgstr ""
+"O endereço de e-mail que pertence à sua conta foi alterado com sucesso."
 
 msgid "A verification email was sent to"
-msgstr ""
+msgstr "Um e-mail de verificação foi enviado para"
 
 msgid "No changes were made"
-msgstr ""
+msgstr "Não foram feitas alterações"
 
 msgid "Unknown passage"
-msgstr ""
+msgstr "Passagem desconhecida"
 
 msgid "Consistency"
-msgstr ""
+msgstr "Consistência"
 
 msgid "remove"
-msgstr ""
+msgstr "excluir"
 
 msgid "Search"
-msgstr ""
+msgstr "Pesquisa"
 
 msgid "Replace"
-msgstr ""
+msgstr "Substituir"
 
 msgid ""
 "This text could not be automatically replaced. Click the passage to do it "
 "manually."
 msgstr ""
+"Este texto não pôde ser substituído automaticamente. Clique na passagem para "
+"fazê-lo manualmente."
 
 msgid "Still indexing Bibles"
-msgstr ""
+msgstr "Ainda indexando Bíblias"
 
 msgid "Indexing Bible:"
-msgstr ""
+msgstr "indexando Bíblia:"
 
 msgid "Checking"
-msgstr ""
+msgstr "Verificando"
 
 msgid "Ready"
-msgstr ""
+msgstr "Pronto"
 
 msgid "Here are the various options:"
-msgstr ""
+msgstr "Aqui estão as várias opções:"
 
 msgid "Please pick one."
-msgstr ""
+msgstr "Escolha uma."
 
 msgid "The passage has been opened in the existing Bible editor"
-msgstr ""
+msgstr "A passagem foi aberta no editor da Bíblia existente"
 
 msgid "Open a Bible editor to edit the passage"
-msgstr ""
+msgstr "Abra um editor da Bíblia para editar a passagem"
 
 msgid "Insufficient information"
-msgstr ""
+msgstr "Informação insuficiente"
 
 msgid "There was no text."
-msgstr ""
+msgstr "Não havia texto."
 
 msgid "Nothing was saved."
-msgstr ""
+msgstr "Nada foi salvo."
 
 msgid "The original text of the chapter was reloaded."
-msgstr ""
+msgstr "O texto original do capítulo foi recarregado."
 
 msgid "Save failure"
-msgstr ""
+msgstr "Falha ao salvar"
 
 msgid "User tried to save something different from exactly one chapter."
-msgstr ""
+msgstr "O usuário tentou salvar algo diferente de exatamente um capítulo."
 
 msgid "Incorrect chapter"
-msgstr ""
+msgstr "Capítulo incorreto"
 
 msgid "Preview"
-msgstr ""
+msgstr "Pré-visualização"
 
 msgid "A user tried to save something different from exactly one chapter"
-msgstr ""
+msgstr "Um usuário tentou salvar algo diferente de exatamente um capítulo"
 
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 msgid "Stylesheet"
-msgstr ""
+msgstr "Folha de Estilo"
 
 msgid "This style already exists"
-msgstr ""
+msgstr "Este estilo já existe"
 
 msgid "The style has been created"
-msgstr ""
+msgstr "O estilo foi criado"
 
 msgid "Please enter the name for the new style"
-msgstr ""
+msgstr "Insira o nome para o novo estilo"
 
 msgid "delete"
-msgstr ""
+msgstr "deletar"
 
 msgid "Identification information"
 msgstr "Informações de identificação"
 
 msgid "Introduction titles and headings"
-msgstr ""
+msgstr "Títulos e cabeçalhos de introdução"
 
 msgid "Introduction paragraphs and poetry"
-msgstr ""
+msgstr "Parágrafos de introdução e poesia"
 
 msgid "Introduction other elements"
-msgstr ""
+msgstr "Introdução de outros elementos"
 
 msgid "Titles"
 msgstr "Títulos"
@@ -1365,7 +1377,7 @@ msgid "Lists"
 msgstr "Listas"
 
 msgid "Poetry elements"
-msgstr ""
+msgstr "Elementos de poesia"
 
 msgid "Table elements"
 msgstr "Tabela de elementos"
@@ -1386,37 +1398,37 @@ msgid "Spacings and breaks"
 msgstr "Espaços e quebras"
 
 msgid "Special features"
-msgstr ""
+msgstr "Características especiais"
 
 msgid "Peripheral materials"
-msgstr ""
+msgstr "Materiais periféricos"
 
 msgid "Extra styles"
 msgstr "Estilos extras"
 
 msgid "is an identifier"
-msgstr ""
+msgstr "é um identificador"
 
 msgid "starts a new paragraph"
 msgstr "inicie um novo parágrafo"
 
 msgid "is inline text with endmarker"
-msgstr ""
+msgstr "é um texto embutido com marcador final"
 
 msgid "is a chapter number"
-msgstr ""
+msgstr "é um número de capítulo"
 
 msgid "is a verse number"
-msgstr ""
+msgstr "é um número de versículo"
 
 msgid "is a footnote or endnote"
-msgstr ""
+msgstr "é uma nota de rodapé ou nota final"
 
 msgid "is a crossreference"
-msgstr ""
+msgstr "é uma referência cruzada"
 
 msgid "is a peripheral element"
-msgstr ""
+msgstr "é um elemento periférico"
 
 msgid "is a picture"
 msgstr "é uma imagem"
@@ -1425,43 +1437,43 @@ msgid "starts a new page"
 msgstr "inicie uma nova página"
 
 msgid "is a table element"
-msgstr ""
+msgstr "é um elemento de tabela"
 
 msgid "is a word list element"
-msgstr ""
+msgstr "é um elemento de lista de palavras"
 
 msgid "identifies the book"
 msgstr "identifique o livro"
 
 msgid "identifies the encoding"
-msgstr ""
+msgstr "identifica a codificação"
 
 msgid "is a comment"
 msgstr "é um comentário"
 
 msgid "is a running header"
-msgstr ""
+msgstr "é um cabeçalho em execução"
 
 msgid "is long table of contents text"
 msgstr ""
 
 msgid "is short table of contents text"
-msgstr ""
+msgstr "é tabela curta de conteúdos de texto"
 
 msgid "is the book abbreviation"
-msgstr ""
+msgstr "é a abreviatura do livro"
 
 msgid "is the chapter label"
-msgstr ""
+msgstr "é o rótulo do capítulo"
 
 msgid "is the published chapter marker"
-msgstr ""
+msgstr "é o marcador de capítulo publicado"
 
 msgid "is a comment with an endmarker"
-msgstr ""
+msgstr "é um comentário com um marcador de fim"
 
 msgid "is the published verse marker"
-msgstr ""
+msgstr "é o marcador de versículo publicado"
 
 msgid "is a main title"
 msgstr "é um título principal"
@@ -1470,7 +1482,7 @@ msgid "is a subtitle"
 msgstr "é um subtítulo"
 
 msgid "is a section heading"
-msgstr ""
+msgstr "é um título de seção"
 
 msgid "is a normal paragraph"
 msgstr "é um parágrafo normal"
@@ -1479,16 +1491,16 @@ msgid "starts a footnote"
 msgstr "inicie uma nota de rodapé"
 
 msgid "starts an endnote"
-msgstr ""
+msgstr "começa uma nota final"
 
 msgid "is standard content"
-msgstr ""
+msgstr "é o conteúdo padrão"
 
 msgid "is content"
-msgstr ""
+msgstr "é conteúdo"
 
 msgid "is content with endmarker"
-msgstr ""
+msgstr "é conteúdo com marcador final"
 
 msgid "starts another paragraph"
 msgstr "inicie outro parágrafo"
@@ -1497,245 +1509,262 @@ msgid "starts a crossreference"
 msgstr "inicie uma referência cruzada"
 
 msgid "starts publication data"
-msgstr ""
+msgstr "começa a publicação de dados"
 
 msgid "starts table of contents"
-msgstr ""
+msgstr "inicia o índice"
 
 msgid "starts preface"
 msgstr "inicie o prefácio"
 
 msgid "starts introduction"
-msgstr ""
+msgstr "começa a introdução"
 
 msgid "starts concordance"
-msgstr ""
+msgstr "começa a concordância"
 
 msgid "starts glossary"
-msgstr ""
+msgstr "começa o glossário"
 
 msgid "starts index"
-msgstr ""
+msgstr "começa o índice"
 
 msgid "starts map index"
-msgstr ""
+msgstr "começa o mapa de índice"
 
 msgid "starts cover"
-msgstr ""
+msgstr "começa a capa"
 
 msgid "starts spine"
-msgstr ""
+msgstr "começa a coluna"
 
 msgid "starts a new row"
-msgstr ""
+msgstr "começa uma nova linha"
 
 msgid "is a column heading"
-msgstr ""
+msgstr "é um título de coluna"
 
 msgid "is cell data"
-msgstr ""
+msgstr "são dados de célula"
 
 msgid "is a wordlist / glossary / dictionary entry"
-msgstr ""
+msgstr "é uma lista de palavras / glossário / entrada de dicionário"
 
 msgid "is a Hebrew wordlist entry"
-msgstr ""
+msgstr "é uma entrada da lista de palavras em hebraico"
 
 msgid "is a Greek wordlist entry"
-msgstr ""
+msgstr "é uma entrada da lista de palavras gregas"
 
 msgid "is a subject index entry"
-msgstr ""
+msgstr "é uma entrada de índice de assunto"
 
 msgid "Off"
-msgstr ""
+msgstr "Desligada"
 
 msgid "On"
-msgstr ""
+msgstr "Ligada"
 
 msgid "Inherit"
-msgstr ""
+msgstr "Herdar"
 
 msgid "Toggle"
-msgstr ""
+msgstr "Alternar"
 
 msgid "Left align"
-msgstr ""
+msgstr "Alinhar à esquerda"
 
 msgid "Center"
-msgstr ""
+msgstr "Centralizar"
 
 msgid "Right align"
-msgstr ""
+msgstr "Alinhar à direita"
 
 msgid "Justify"
-msgstr ""
+msgstr "Justificar"
 
 msgid "Print chapter number at first verse"
-msgstr ""
+msgstr "Imprime o número do capítulo no primeiro versículo"
 
 msgid "Start on a new page"
-msgstr ""
+msgstr "Começar em uma nova página"
 
 msgid "Refers to the Apocrypha"
 msgstr ""
 
 msgid "Restart paragraph"
-msgstr ""
+msgstr "Reiniciar parágrafo"
 
 msgid ""
 "New page starts with an odd number (not implemented due to limitations in "
 "OpenDocument)"
 msgstr ""
+"A nova página começa com um número ímpar (não implementado devido a "
+"limitações no OpenDocument)"
 
 msgid "Print chapter number in the running header of the left page"
 msgstr ""
+"Imprime o número do capítulo no cabeçalho corrente da página esquerda"
 
 msgid "Print this in the running header of the left page"
-msgstr ""
+msgstr "Imprima isso no cabeçalho da página esquerda"
 
 msgid "Print chapter number in the running header of the right page"
-msgstr ""
+msgstr "Imprime o número do capítulo no cabeçalho corrente da página direita"
 
 msgid "Print this in the running header of the right page"
-msgstr ""
+msgstr "Imprima isso no cabeçalho de execução da página direita"
 
 msgid "User defined sequence"
-msgstr ""
+msgstr "Sequência definida pelo usuário"
 
 msgid "Never"
-msgstr ""
+msgstr "Nunca"
 
 msgid "Every book"
-msgstr ""
+msgstr "Cada livro"
 
 msgid "Every chapter"
-msgstr ""
+msgstr "Cada capítulo"
 
 msgid "After each book"
-msgstr ""
+msgstr "Após cada livro"
 
 msgid "After everything else"
-msgstr ""
+msgstr "Depois de tudo"
 
 msgid "Upon encountering a certain marker"
-msgstr ""
+msgstr "Ao encontrar um certo marcador"
 
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 msgid "Please enter the name for the style"
-msgstr ""
+msgstr "Insira o nome do estilo"
 
 msgid "Please enter the description for the style"
-msgstr ""
+msgstr "Insira a descrição para o estilo"
 
 msgid "Would you like to change the category of this style?"
-msgstr ""
+msgstr "Gostaria de mudar a categoria desse estilo?"
 
 msgid "Here are the various categories:"
-msgstr ""
+msgstr "Aqui estão as várias categorias:"
 
 msgid "Would you like to change the type of this style?"
-msgstr ""
+msgstr "Gostaria de mudar o tipo desse estilo?"
 
 msgid "Here are the various types:"
-msgstr ""
+msgstr "Aqui estão os vários tipos:"
 
 msgid "Would you like to change the sub type of this style?"
-msgstr ""
+msgstr "Gostaria de mudar o subtipo deste estilo?"
 
 msgid "Please enter a fontsize between 5 and 60 points"
-msgstr ""
+msgstr "Insira um tamanho de fonte entre 5 e 60 pontos"
 
 msgid "The value to enter is just a number, e.g. 12."
-msgstr ""
+msgstr "O valor a ser inserido é apenas um número, por exemplo, 12"
 
 msgid "Would you like to change whether this style is in italics?"
-msgstr ""
+msgstr "Gostaria de mudar se este estilo está em itálico?"
 
 msgid "Would you like to change whether this style is in bold?"
-msgstr ""
+msgstr "Gostaria de mudar se este estilo fica em negrito?"
 
 msgid "Would you like to change whether this style is underlined?"
-msgstr ""
+msgstr "Gostaria de alterar se este estilo está sublinhado?"
 
 msgid "Would you like to change whether this style is in small caps?"
-msgstr ""
+msgstr "gostaria de alterar se este estilo está em versalete?"
 
 msgid "Would you like to change the text alignment of this style?"
-msgstr ""
+msgstr "Gostaria de alterar o alinhamento do texto deste estilo?"
 
 msgid "Please enter a space of between 0 and 100 mm before the paragraph"
-msgstr ""
+msgstr "Insira um espaço entre 0 e 100 mm antes do parágrafo"
 
 msgid ""
 "This is the space before, or in other words, above the paragraph. The value "
 "to enter is just a number, e.g. 0."
 msgstr ""
+"Este é o espaço antes ou em outras palavras, acima do parágrafo. O valor a "
+"ser inserido é apenas um número, por exemplo, 0."
 
 msgid "Please enter a space of between 0 and 100 mm after the paragraph"
-msgstr ""
+msgstr "Insira um espaço entre 0 e 100 mm após o parágrafo"
 
 msgid ""
 "This is the space after, or in other words, below the paragraph. The value "
 "to enter is just a number, e.g. 0."
 msgstr ""
+"Este é o espaço após ou em outras palavras, abaixo do parágrafo. O valor a "
+"ser inserido é apenas um número, por exemplo, 0."
 
 msgid "Please enter a left margin of between -100 and 100 mm"
-msgstr ""
+msgstr "Insira uma margem esquerda entre -100 e 100 mm"
 
 msgid ""
 "This is the left margin of the paragraph. The value to enter is just a "
 "number, e.g. 0."
 msgstr ""
+"Esta é a margem esquerda do parágrafo. O valor a ser inserido é apenas um "
+"número, por exemplo, 0."
 
 msgid "Please enter a right margin of between -100 and 100 mm"
-msgstr ""
+msgstr "Insira uma margem direita entre -100 e 100 mm"
 
 msgid ""
 "This is the right margin of the paragraph. The value to enter is just a "
 "number, e.g. 0."
 msgstr ""
+"Esta é a margem direita do parágrafo. O valor a ser inserido é apenas um "
+"número, por exemplo, 0."
 
 msgid "Please enter a first line indent of between -100 and 100 mm"
-msgstr ""
+msgstr "Insira um recuo na primeira linha entre -100 e 100 mm"
 
 msgid ""
 "This is the indent of the first line of the the paragraph. The value to "
 "enter is just a number, e.g. 0."
 msgstr ""
+"Este é o recuo da primeira linha do parágrafo. O valor a ser inserido é "
+"apenas um número, por exemplo, 0."
 
 msgid "Please specify a new color"
-msgstr ""
+msgstr "Especifique uma nova cor"
 
 msgid "Would you like to change the numbering of the note?"
-msgstr ""
+msgstr "Gostaria de alterar a numeração da nota?"
 
 msgid "Please enter a column number between 1 and 4"
-msgstr ""
+msgstr "Insira um número de coluna entre 1 e 4"
 
 msgid ""
 "This is the column number for the style. The first columm is number 1."
-msgstr ""
+msgstr "Este é o número da coluna do estilo. A primeira coluna é a número 1."
 
 msgid "Would you like to change when the note numbering restarts?"
-msgstr ""
+msgstr "Gostaria de mudar quando a numeração das notas for reiniciada?"
 
 msgid "Would you like to change the position where to dump the endnotes?"
-msgstr ""
+msgstr "Gostaria de mudar a posição onde despejar as notas finais?"
 
 msgid "Please enter a new note numbering sequence"
-msgstr ""
+msgstr "Insira uma nova sequência de numeração de notas"
 
 msgid ""
 "This gives a sequence for numbering the notes. When for example § † * is "
 "entered, the numbering goes like §, †, *, §, †, *, and so forth. Any "
 "sequence of characters can be used. Spaces should separate the characters."
 msgstr ""
+"Isso dá uma sequência para numerar as notas. Quando, por exemplo, § † * é "
+"inserido, a numeração é como §, †, *, §, †, * e assim por diante. Qualquer "
+"sequência de caracteres pode ser usada. Os espaços devem separar os "
+"caracteres."
 
 msgid "Please enter a new addition to the word list entry"
-msgstr ""
+msgstr "Insira uma nova adição à entrada da lista de palavras"
 
 msgid ""
 "This given an optional string to be added after each definition in the body "
@@ -1743,278 +1772,287 @@ msgid ""
 "then explained in a glossary. If you would enter the asterisk here, or "
 "indeed any string, Bibledit would include this in the exported documents."
 msgstr ""
+"Isso fornece uma string opcional a ser adicionada após cada definição no "
+"corpo do texto. Em algumas Bíblias, as palavras incomuns são marcadas com um "
+"asterisco e depois explicadas em um glossário. Se você inserir o asterisco "
+"aqui, ou qualquer string, a Bibledit o incluirá nos documentos exportados."
 
 msgid "Please enter a marker at which the endnotes should be dumped"
-msgstr ""
+msgstr "Insira um marcador no qual as notas finais devem ser despejadas"
 
 msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
+"O marcador deve ser fornecido sem a barra invertida, por exemplo, "
+"\"zendnotes\"."
 
 msgid "Styles"
 msgstr "Estilos"
 
 msgid "This stylesheet already exists"
-msgstr ""
+msgstr "Esta folha de estilo já existe"
 
 msgid "The stylesheet has been created"
-msgstr ""
+msgstr "A folha de estilo foi criada"
 
 msgid "Please enter the name for the new stylesheet"
-msgstr ""
+msgstr "Digite o nome da nova folha de estilo"
 
 msgid "The stylesheet has been deleted"
-msgstr ""
+msgstr "A folha de estilo foi deletada"
 
 msgid "Would you like to delete this stylesheet?"
-msgstr ""
+msgstr "Gostaria de deletar esta folha de estilo?"
 
 msgid "edit"
-msgstr ""
+msgstr "editar"
 
 msgid "Generating a file with the Bibles."
-msgstr ""
+msgstr "Gerando um arquivo com as Bíblias."
 
 msgid "In progress..."
-msgstr ""
+msgstr "Em andamento..."
 
 msgid "The file with Bibles is ready."
-msgstr ""
+msgstr "O arquivo com as Bíblias está pronto."
 
 msgid "Get it."
-msgstr ""
+msgstr "Pegue."
 
 msgid "The file can be imported in another Bibledit client."
-msgstr ""
+msgstr "O arquivo pode ser importado de outro cliente Bibledit."
 
 msgid "This will create the same Bibles in that other client."
-msgstr ""
+msgstr "Isso criará as mesmas Bíblias naquele outro cliente."
 
 msgid "It failed to create the file with Bibles."
-msgstr ""
+msgstr "Não conseguiu criar o arquivo com as Bíblias."
 
 msgid "Generating a file with the Consultation Notes."
-msgstr ""
+msgstr "Gerar um arquivo com as Notas de Consulta."
 
 msgid "The file with Consultation Notes is ready."
-msgstr ""
+msgstr "O arquivo com as Notas de Consulta está pronto."
 
 msgid "This will create the same Consultation Notes in that other client."
-msgstr ""
+msgstr "Isso criará as mesmas Notas de consulta nesse outro cliente."
 
 msgid "It failed to create the file with Consultation Notes."
-msgstr ""
+msgstr "Não foi possível criar o arquivo com as Notas de consulta."
 
 msgid "Generating a file with the resources."
-msgstr ""
+msgstr "Gerar um arquivo com os recursos."
 
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 msgid "The file with all of the installed resources is ready."
-msgstr ""
+msgstr "O arquivo com todos os recursos instalados está pronto."
 
 msgid "Amount of resources:"
-msgstr ""
+msgstr "Quantidade de recursos:"
 
 msgid "Download the archive with all installed resources."
-msgstr ""
+msgstr "Baixe o arquivo com todos os recursos instalados."
 
 msgid "This will create the same resources in that other client."
-msgstr ""
+msgstr "Isso criará os mesmos recursos nesse outro cliente."
 
 msgid ""
 "The above file may be huge in case there is lots of installed resources."
 msgstr ""
+"O arquivo acima pode ser enorme, caso haja muitos recursos instalados."
 
 msgid ""
 "For that reason there are alternative files with individual resources below."
 msgstr ""
+"Por esse motivo, existem arquivos alternativos com recursos individuais "
+"abaixo."
 
 msgid "These are smaller in size."
-msgstr ""
+msgstr "Estes são menores em tamanho."
 
 msgid "It failed to create the file with resources."
-msgstr ""
+msgstr "Não conseguiu criar o arquivo com recursos."
 
 msgid "There were no installed resources to make an archive from."
-msgstr ""
+msgstr "Não havia recursos instalados para fazer um arquivo."
 
 msgid "Install some resources on the device, and try again."
-msgstr ""
+msgstr "Instale alguns recursos no dispositivo e tente novamente."
 
 msgid "Inilah hasil terjemahan Saudara:"
-msgstr ""
+msgstr "Inilah hasil terjemahan Saudara:"
 
 msgid ": "
-msgstr ""
+msgstr ": "
 
 msgid "Set the language for Bibledit"
-msgstr ""
+msgstr "Defina o idioma do Bibledit"
 
 msgid "Incorrect font size in percents"
-msgstr ""
+msgstr "Tamanho de fonte incorreto em porcentagens"
 
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 msgid "Please enter a font size between 50 and 300 percent"
-msgstr ""
+msgstr "Insira um tamanho de fonte entre 50 e 300%"
 
 msgid "none"
-msgstr ""
+msgstr "nenhum"
 
 msgid "Nothing was imported"
-msgstr ""
+msgstr "Nada foi importado"
 
 msgid "Import a file with local Bibles"
-msgstr ""
+msgstr "Importar um arquivo com Bíblias locais"
 
 msgid "Import a file with local Consultation Notes"
-msgstr ""
+msgstr "Importar um arquivo com as Notas de consulta locais"
 
 msgid "Import a file with local Resources"
-msgstr ""
+msgstr "Importar um arquivo com recursos locais"
 
 msgid "The font could not be deleted because it is in use"
-msgstr ""
+msgstr "A fonte não pôde ser excluída porque está em uso"
 
 msgid "The font has been uploaded."
-msgstr ""
+msgstr "A fonte foi carregada."
 
 msgid "Delete font"
-msgstr ""
+msgstr "Deletar a fonte"
 
 msgid "New feedback"
-msgstr ""
+msgstr "Novo feedback"
 
 msgid "Feedback"
-msgstr ""
+msgstr "Feedback"
 
 msgid "Create note"
-msgstr ""
+msgstr "Criar nota"
 
 msgid "Public login"
-msgstr ""
+msgstr "Login público"
 
 msgid "The name should be at least two characters long"
-msgstr ""
+msgstr "O nome deve ter pelo menos dois caracteres"
 
 msgid "The email address is not valid"
-msgstr ""
+msgstr "Endereço de e-mail inválido"
 
 msgid "This account needs a password."
-msgstr ""
+msgstr "A conta necessita de uma senha."
 
 msgid "Please login the other way, through Menu / Login."
-msgstr ""
+msgstr "Faça o login da outra forma, através do Menu / Login."
 
 msgid "Select which Bible to display"
-msgstr ""
+msgstr "Selecione qual Bíblia mostrar"
 
 msgid "Public feedback"
-msgstr ""
+msgstr "Feedback público"
 
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 msgid "Note summary"
-msgstr ""
+msgstr "Resumo da nota"
 
 msgid "Edit Note Source"
-msgstr ""
+msgstr "Editar fonte da nota"
 
 msgid "Unassign notes"
-msgstr ""
+msgstr "Cancelar atribuição de notas"
 
 msgid "Select notes"
-msgstr ""
+msgstr "Selecione as notas"
 
 msgid "Search text saved"
-msgstr ""
+msgstr "Pesquisar texto salvo"
 
 msgid "Assigned"
-msgstr ""
+msgstr "Atribuído"
 
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 msgid "Comment"
-msgstr ""
+msgstr "Comentário"
 
 msgid "Deleted"
-msgstr ""
+msgstr "Excluido"
 
 msgid "Marked for deletion"
-msgstr ""
+msgstr "Marcado para exclusão"
 
 msgid "View or respond online"
-msgstr ""
+msgstr "Ver ou responder online"
 
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 msgid "open the workspace online"
-msgstr ""
+msgstr "abra a área de trabalho online"
 
 msgid "Your comment was posted"
-msgstr ""
+msgstr "Seu comentário foi postado"
 
 msgid "Unknown book"
-msgstr ""
+msgstr "Livro desconhecido"
 
 msgid "Unknown chapter"
-msgstr ""
+msgstr "Capítulo desconhecido"
 
 msgid "Unknown verse"
-msgstr ""
+msgstr "Versículo desconhecido"
 
 msgid "Unknown summary"
-msgstr ""
+msgstr "Resumo desconhecido"
 
 msgid "Your new note could not be posted"
-msgstr ""
+msgstr "Não foi possível postar sua nova nota"
 
 msgid "Your new note was posted"
-msgstr ""
+msgstr "Sua nova nota foi postada"
 
 msgid "no Bible"
-msgstr ""
+msgstr "sem Bíblia"
 
 msgid "Query about a change in the text"
-msgstr ""
+msgstr "Consulta sobre uma mudança no texto"
 
 msgid "Old text:"
-msgstr ""
+msgstr "Texto antigo:"
 
 msgid "Change:"
-msgstr ""
+msgstr "Mudança:"
 
 msgid "New text:"
-msgstr ""
+msgstr "Novo texto:"
 
 msgid "Passages"
-msgstr ""
+msgstr "Passagens"
 
 msgid "The note should have one or more passages assigned."
-msgstr ""
+msgstr "A nota deve ter uma ou mais passagens atribuídas."
 
 msgid "Severity"
-msgstr ""
+msgstr "Relevância"
 
 msgid "Bulk update"
-msgstr ""
+msgstr "Atualização em massa"
 
 msgid "You subscribed to these notes"
-msgstr ""
+msgstr "Você se inscreveu para essas notas"
 
 msgid "You unsubscribed from these notes"
-msgstr ""
+msgstr "Você cancelou a assinatura dessas notas"
 
 msgid "The notes were assigned to the user"
-msgstr ""
+msgstr "As notas foram atribuídas ao usuário"
 
 msgid "The notes are no longer assigned to the user"
-msgstr ""
+msgstr "As notas não são mais atribuídas ao usuário"
 
 msgid "The notes are no longer assigned to you"
 msgstr ""
@@ -2041,646 +2079,699 @@ msgid "Assign note"
 msgstr ""
 
 msgid "This selection does not display any notes."
-msgstr ""
+msgstr "Esta seleção não exibe nenhuma nota."
 
 msgid "Note status"
-msgstr ""
+msgstr "Status da nota"
 
 msgid "Assign notes"
-msgstr ""
+msgstr "Atribuir notas"
 
 msgid "Consultation Notes"
-msgstr ""
+msgstr "Notas de consulta"
 
 msgid "Actions"
-msgstr ""
+msgstr "Ações"
 
 msgid "The note will be deleted after a week."
-msgstr ""
+msgstr "A nota será excluída após uma semana."
 
 msgid "Adding a comment to the note cancels the deletion."
-msgstr ""
+msgstr "Adicionar um comentário à nota cancela a exclusão."
 
 msgid "unassign"
-msgstr ""
+msgstr "desatribuir"
 
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 msgid "Read"
-msgstr ""
+msgstr "Ler"
 
 msgid "User resources"
-msgstr ""
+msgstr "Recursos do usuário"
 
 msgid "Advanced search"
-msgstr ""
+msgstr "Pesquisa avançada"
 
 msgid "Advanced replace"
-msgstr ""
+msgstr "Substituição avançada"
 
 msgid "Search all Bibles and notes"
-msgstr ""
+msgstr "Pesquise todas as Bíblias e notas"
 
 msgid "Search Bible for similar verses"
-msgstr ""
+msgstr "Procure na Bíblia por versículos semelhantes"
 
 msgid "Search Bible for similar Strong's numbers"
-msgstr ""
+msgstr "Procure na Bíblia por números semelhantes de Strong"
 
 msgid "Search Bible for Strong's number"
-msgstr ""
+msgstr "Procure na Bíblia o número de Strong"
 
 msgid "Search Bible for similar Hebrew or Greek words"
-msgstr ""
+msgstr "Pesquise na Bíblia por palavras hebraicas ou gregas semelhantes"
 
 msgid "Print"
-msgstr ""
+msgstr "Imprimir"
 
 msgid "Planning"
-msgstr ""
+msgstr "Planejamento"
 
 msgid "Hyphenate"
-msgstr ""
+msgstr "Hifenizar"
 
 msgid "Develop"
-msgstr ""
+msgstr "Desenvolver"
 
 msgid "Export"
-msgstr ""
+msgstr "Exportar"
 
 msgid "Mail"
-msgstr ""
+msgstr "Correspondência"
 
 msgid "Cloud"
-msgstr ""
+msgstr "Nuvem"
 
 msgid "Basic mode"
-msgstr ""
+msgstr "Modo básico"
 
 msgid "USFM"
-msgstr ""
+msgstr "USFM"
 
 msgid "Images"
-msgstr ""
+msgstr "Imagens"
 
 msgid "SWORD"
-msgstr ""
+msgstr "SWORD"
 
 msgid "User-defined"
-msgstr ""
+msgstr "Definido pelo usuário"
 
 msgid "Comparative"
-msgstr ""
+msgstr "Comparativo"
 
 msgid "Help and About"
-msgstr ""
+msgstr "Ajuda e sobre"
 
 msgid "Translate"
-msgstr ""
+msgstr "Traduzir"
 
 msgid "Tools"
-msgstr ""
+msgstr "Ferramentas"
 
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 msgid "Logout"
-msgstr ""
+msgstr "Sair"
 
 msgid "Image resources"
-msgstr ""
+msgstr "Recursos de imagem"
 
 msgid "Users"
 msgstr "Usuários"
 
 msgid "Versifications"
-msgstr ""
+msgstr "Verificações"
 
 msgid "Select stylesheet"
-msgstr ""
+msgstr "Selecione a folha de estilo"
 
 msgid "Edit stylesheet"
-msgstr ""
+msgstr "Editar folha de estilo"
 
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 msgid "Both the visual chapter and visual verse editors"
-msgstr ""
+msgstr "Tanto o capítulo visual quanto os editores de verso visual"
 
 msgid "Only the visual chapter editor"
-msgstr ""
+msgstr "Apenas o editor visual de capítulos"
 
 msgid "Only the visual verse editor"
-msgstr ""
+msgstr "Apenas o editor visual de versículos"
 
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 msgid "Show"
-msgstr ""
+msgstr "Exibir"
 
 msgid "Chapter editor"
-msgstr ""
+msgstr "Editor de capítulos"
 
 msgid "Verse editor"
-msgstr ""
+msgstr "Editor de versículos"
 
 msgid "USFM editor"
-msgstr ""
+msgstr "Editor USFM"
 
 msgid "dot"
-msgstr ""
+msgstr "ponto"
 
 msgid "colon"
-msgstr ""
+msgstr "dois-pontos"
 
 msgid "Bible bible does not exist: Cannot create book"
-msgstr ""
+msgstr "A Bíblia não existe: não é possível criar um livro"
 
 msgid "Invalid book while creating a book template"
-msgstr ""
+msgstr "Livro inválido ao criar um modelo de livro"
 
 msgid "No chapters have been created"
-msgstr ""
+msgstr "Nenhum capítulo foi criado"
 
 msgid "The following chapters have been created:"
-msgstr ""
+msgstr "Os seguintes capítulos foram criados:"
 
 msgid "Comparing Bibles"
-msgstr ""
+msgstr "Comparando Bíblias"
 
 msgid "and"
-msgstr ""
+msgstr "e"
 
 msgid "The Bibles are being compared..."
-msgstr ""
+msgstr "As Bíblias estão sendo comparadas ..."
 
 msgid "has been compared with"
-msgstr ""
+msgstr "foi comparada com"
 
 msgid "Additions are in bold."
-msgstr ""
+msgstr "As adições estão em negrito."
 
 msgid "Removed words are in strikethrough."
-msgstr ""
+msgstr "As palavras removidas estão tachadas."
 
 msgid "does not contain"
-msgstr ""
+msgstr "não contém"
 
 msgid "Bible/Resource"
-msgstr ""
+msgstr "Bíblia / Recursos"
 
 msgid "The texts as they are in the Bible"
-msgstr ""
+msgstr "Os textos como estão na Bíblia"
 
 msgid "Comparison is ready"
-msgstr ""
+msgstr "A comparação está pronta"
 
 msgid "Compare"
-msgstr ""
+msgstr "Comparar"
 
 msgid "Clear the entire journal"
-msgstr ""
+msgstr "Limpe todo o diário"
 
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 msgid "To update the verse mappings, make changes above, and save them."
 msgstr ""
+"Para atualizar os mapeamentos dos versículos, faça as alterações acima e "
+"salve-as."
 
 msgid "Let's look at a sample mapping:"
-msgstr ""
+msgstr "Vejamos um exemplo de mapeamento:"
 
 msgid "At the left side of the equation sign is the passage in your Bible."
-msgstr ""
+msgstr "No lado esquerdo do sinal da equação está a passagem em sua Bíblia."
 
 msgid "And at the right side is the passage in the Hebrew or Greek Bible."
-msgstr ""
+msgstr "E no lado direito está a passagem na Bíblia Hebraica ou Grega."
 
 msgid "In other words:"
-msgstr ""
+msgstr "Em outras palavras:"
 
 msgid ""
 "Genesis 31:55 in this verse mapping matches with Genesis 32:1 in the "
 "original Bible text."
 msgstr ""
+"O mapeamento de Gênesis 31:55 neste versículo corresponde a Gênesis 32: 1 no "
+"texto bíblico original."
 
 msgid ""
 "If this is the English verse mapping, it means that Genesis 31:55 in Bibles "
 "with the English versification system matches with Genesis 32:1 in Hebrew "
 "Bibles."
 msgstr ""
+"Se este for o mapeamento do versículo em inglês, significa que Gênesis 31:55 "
+"nas Bíblias com o sistema de versificação em inglês combina com Gênesis 32: "
+"1 nas Bíblias hebraicas."
 
 msgid "The same applies to verse mappings for the New Testament."
 msgstr ""
+"O mesmo se aplica aos mapeamentos de versículos para o Novo Testamento."
 
 msgid "Delete this mapping"
-msgstr ""
+msgstr "Delete este mapeamento"
 
 msgid "This lists the available verse mappings."
-msgstr ""
+msgstr "Isso lista os mapeamentos de versículos disponíveis."
 
 msgid "Create new."
-msgstr ""
+msgstr "Crie um novo."
 
 msgid "Repository URL"
-msgstr ""
+msgstr "URL do repositório"
 
 msgid "Bibledit links to the remote repository."
-msgstr ""
+msgstr "Links do Bibledit para o repositório remoto."
 
 msgid "Bibledit will copy its own data to the remote repository."
-msgstr ""
+msgstr "O Bibledit irá copiar seus próprios dados para o repositório remoto."
 
 msgid "Bibledit will copy the data of the remote repository to itself."
-msgstr ""
+msgstr "O Bibledit irá copiar os dados do repositório remoto para si mesmo."
 
 msgid "The repository was linked successfully."
-msgstr ""
+msgstr "O repositório foi vinculado com sucesso."
 
 msgid ""
 "Regularly choose menu Tools - Send/receive to synchronize the Bible with the "
 "repository."
 msgstr ""
+"Escolha regularmente o menu Ferramentas - Enviar / receber para sincronizar "
+"a Bíblia com o repositório."
 
 msgid "It will do that automatically for you once a night."
-msgstr ""
+msgstr "Ele fará isso automaticamente para você uma vez por noite."
 
 msgid "Ready."
-msgstr ""
+msgstr "Pronto."
 
 msgid "Error: The repository could not be linked."
-msgstr ""
+msgstr "Erro: O repositório não pôde ser vinculado."
 
 msgid "Retry"
-msgstr ""
+msgstr "Repetir"
 
 msgid "Git repository"
-msgstr ""
+msgstr "Repositório Git"
 
 msgid ""
 "Bibledit Cloud can store the Bible text plus all changes in a git repository."
 msgstr ""
+"A Bibledit Cloud pode armazenar o texto da Bíblia e todas as alterações em "
+"um repositório git."
 
 msgid "This git repository helps with safekeeping the Bible text."
-msgstr ""
+msgstr "Este repositório git ajuda a manter o texto da Bíblia em segurança."
 
 msgid ""
 "It keeps track of all changes made to the Bible text, who made those "
 "changes, and when."
 msgstr ""
+"Ele mantém um registro de todas as mudanças feitas no texto da Bíblia, quem "
+"as fez e quando."
 
 msgid "Select Bible."
-msgstr ""
+msgstr "Selecione a Bíblia"
 
 msgid "clear"
-msgstr ""
+msgstr "limpar"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Modify it."
-msgstr ""
+msgstr "Modifique"
 
 msgid "Set it up."
-msgstr ""
+msgstr "Configure"
 
 msgid "Repository setup"
-msgstr ""
+msgstr "Configuração de repositório"
 
 msgid "Step 1"
-msgstr ""
+msgstr "1ª Etapa"
 
 msgid "URL for the git repository:"
-msgstr ""
+msgstr "URL para o repositório git:"
 
 msgid "Step 2"
-msgstr ""
+msgstr "2ª Etapa"
 
 msgid "The source for the data."
-msgstr ""
+msgstr "A fonte dos dados."
 
 msgid "Bibledit."
-msgstr ""
+msgstr "Bibledit."
 
 msgid "Take your own data in Bibledit as the source."
-msgstr ""
+msgstr "Use seus próprios dados no Bibledit como fonte."
 
 msgid ""
 "This means that your data is taken as it is, and that this is copied to the "
 "repository, overwriting whatever is there in the repository now."
 msgstr ""
+"Isso significa que seus dados são considerados como estão e que são copiados "
+"para o repositório, sobrescrevendo o que quer que esteja no repositório "
+"agora."
 
 msgid "Repository."
-msgstr ""
+msgstr "Repositório."
 
 msgid "Take the data in the repository as the source."
-msgstr ""
+msgstr "Pegue os dados do repositório como fonte."
 
 msgid ""
 "This means that the data in the repository is left as it is, and that a copy "
 "of that data overwrites your own data in Bibledit."
 msgstr ""
+"Isso significa que os dados no repositório são deixados como estão e que uma "
+"cópia desses dados sobrescreve seus próprios dados no Bibledit."
 
 msgid "Step 3"
-msgstr ""
+msgstr "3ª Etapa"
 
 msgid "Subsequent sending and/or receiving."
-msgstr ""
+msgstr "Envio e / ou recebimento subsequentes."
 
 msgid "Send data to repository only."
-msgstr ""
+msgstr "Envie dados apenas para o repositório."
 
 msgid ""
 "After the setup is complete, Bibledit will only send the data to the "
 "repository."
 msgstr ""
+"Depois que a configuração for concluída, o Bibledit enviará apenas os dados "
+"para o repositório."
 
 msgid "It won't receive any data from the repositoroy."
-msgstr ""
+msgstr "Ele não receberá nenhum dado do repositório."
 
 msgid "Send data to and receive it from the repository."
-msgstr ""
+msgstr "Envie e receba dados do repositório."
 
 msgid ""
 "After the setup is complete, Bibledit will send data to the repository, and "
 "receive data from the repository."
 msgstr ""
+"Depois que a configuração for concluída, o Bibledit enviará dados para o "
+"repositório e receberá dados do repositório."
 
 msgid "Step 4"
-msgstr ""
+msgstr "4ª Etapa"
 
 msgid "Submit"
-msgstr ""
+msgstr "Submeter"
 
 msgid "Example URLs:"
-msgstr ""
+msgstr "URLs de exemplo:"
 
 msgid "USB drive"
-msgstr ""
+msgstr "Unidade USB"
 
 msgid "Open network repository"
-msgstr ""
+msgstr "Repositório de rede aberto"
 
 msgid "Password protected network repository"
-msgstr ""
+msgstr "Repositório de rede protegido por senha"
 
 msgid "Personal access token protected network repository"
-msgstr ""
+msgstr "Repositório de rede protegido por token de acesso pessoal"
 
 msgid "Secured network repository"
-msgstr ""
+msgstr "Repositório de rede segura"
 
 msgid "General font size for the interface"
-msgstr ""
+msgstr "Tamanho de fonte geral para a interface"
 
 msgid "Size throughout the interface."
-msgstr ""
+msgstr "Tamanho em toda a interface."
 
 msgid "Relative font size for the menu"
-msgstr ""
+msgstr "Tamanho de fonte relativo para o menu"
 
 msgid "The size of the font for the menu, relative to the general font size."
-msgstr ""
+msgstr "O tamanho da fonte do menu em relação ao tamanho geral da fonte."
 
 msgid "Relative font size for the Bible editors"
-msgstr ""
+msgstr "Tamanho de fonte relativo para os editores da Bíblia"
 
 msgid ""
 "The size of the font for the Bible editors, relative to the general font "
 "size."
 msgstr ""
+"O tamanho da fonte para os editores da Bíblia em relação ao tamanho geral da "
+"fonte."
 
 msgid "Relative font size for the resources"
-msgstr ""
+msgstr "Tamanho de fonte relativo para os recursos"
 
 msgid ""
 "The size of the font for the resources, relative to the general font size."
 msgstr ""
+"O tamanho da fonte para os recursos em relação ao tamanho geral da fonte."
 
 msgid "Relative font size for Hebrew resources"
-msgstr ""
+msgstr "Tamanho de fonte relativo para recursos hebraicos"
 
 msgid ""
 "The size of Hebrew text within resources, relative to the resources font "
 "size."
 msgstr ""
+"O tamanho do texto hebraico nos recursos em relação ao tamanho da fonte dos "
+"recursos."
 
 msgid "Relative font size for Greek resources"
-msgstr ""
+msgstr "Tamanho de fonte relativo para recursos gregos"
 
 msgid ""
 "The size of Greek text within resources, relative to the resources font size."
 msgstr ""
+"O tamanho do texto grego dentro dos recursos em relação ao tamanho da fonte "
+"dos recursos."
 
 msgid "Initial vertical position of the editing cursor in the Bible editors"
-msgstr ""
+msgstr "Posição vertical inicial do cursor de edição nos editores da Bíblia"
 
 msgid "Please enter a caret position between 20 and 80 percent"
-msgstr ""
+msgstr "Insira uma posição circunflexa entre 20% e 80%"
 
 msgid "Choose theme"
-msgstr ""
+msgstr "Escolha o tema"
 
 msgid "Show breadcrumbs."
 msgstr ""
 
 msgid "Workspace menu fade-out delay"
-msgstr ""
+msgstr "Atraso no desaparecimento do menu da área de trabalho"
 
 msgid "Please enter a value between 1 and 100 seconds, or 0 to disable"
-msgstr ""
+msgstr "Insira um valor entre 1 e 100 segundos ou 0 para desabilitar"
 
 msgid "How long it takes for the workspace menu to start fading out."
 msgstr ""
+"Quanto tempo leva para o menu da área de trabalho começar a desaparecer."
 
 msgid ""
 "While editing the Bible text and saving it, Bibledit looks at how much the "
 "text of the chapter or verse to be saved differs from the existing chapter "
 "or verse text."
 msgstr ""
+"Ao editar o texto da Bíblia e salvá-lo, o Bibledit analisa o quanto o texto "
+"do capítulo ou versículo a ser salvo difere do capítulo ou versículo "
+"existente."
 
 msgid ""
 "If the text to be saved differs more than a certain percentage from the "
 "existing text, Bibledit will not save it."
 msgstr ""
+"Se o texto a ser salvo difere mais do que uma certa porcentagem do texto "
+"existente, o Bibledit não o salvará."
 
 msgid ""
 "This safety mechanism prevents accidental loss of Bible data in many cases."
 msgstr ""
+"Este mecanismo de segurança evita a perda acidental de dados da Bíblia em "
+"muitos casos."
 
 msgid "The permitted difference can be set below as a percentage."
-msgstr ""
+msgstr "A diferença permitida pode ser definida abaixo como uma porcentagem."
 
 msgid "Maximum difference for:"
-msgstr ""
+msgstr "Diferença máxima para:"
 
 msgid "Chapter editors:"
-msgstr ""
+msgstr "Editores de capítulo:"
 
 msgid "Verse editor:"
-msgstr ""
+msgstr "Editor de versículos:"
 
 msgid "Keep main menu always visible."
-msgstr ""
+msgstr "Mantenha o menu principal sempre visível."
 
 msgid "This works in both basic and advanced mode."
-msgstr ""
+msgstr "Isso funciona no modo básico e avançado."
 
 msgid "Enable swipe navigation actions."
-msgstr ""
+msgstr "Ative as ações de navegação deslizante."
 
 msgid "Show a link in the Bible editor to select another Bible editor."
 msgstr ""
+"Mostre um link no editor da Bíblia para selecionar outro editor da Bíblia."
 
 msgid "Available Bible editors in the Bible editor selector:"
-msgstr ""
+msgstr "Editores da Bíblia disponíveis no seletor do editor da Bíblia:"
 
 msgid "Text editors:"
-msgstr ""
+msgstr "Editores de texto:"
 
 msgid "Which visual Bible editors to enable?"
-msgstr ""
+msgstr "Quais editores visuais da Bíblia habilitar?"
 
 msgid "USFM editor:"
-msgstr ""
+msgstr "Editor USFM:"
 
 msgid "Enable the USFM Bible editor?"
-msgstr ""
+msgstr "Ativar o editor da Bíblia USFM?"
 
 msgid "Enable the Styles button in the visual Bible editors."
-msgstr ""
+msgstr "Ative o botão Estilos nos editores visuais da Bíblia."
 
 msgid "Select the Bible for editing:"
-msgstr ""
+msgstr "Selecione a Bíblia para editar:"
 
 msgid "Send and receive."
-msgstr ""
+msgstr "Envie e receba."
 
 msgid ""
 "This is for sending your changes to Bibledit Cloud, and receiving changes "
 "made by others."
 msgstr ""
+"Isso é para enviar suas alterações para a Bibledit Cloud e receber "
+"alterações feitas por outros."
 
 msgid "Connection to Bibledit Cloud."
-msgstr ""
+msgstr "Conexão com a Bibledit Cloud."
 
 msgid "This is for collaboration with fellow translators and for backup."
-msgstr ""
+msgstr "Isso é para colaboração com outros tradutores e para backup."
 
 msgid "Switch to advanced mode."
-msgstr ""
+msgstr "Mude para o modo avançado."
 
 msgid "Advanced mode offers more options than basic mode."
-msgstr ""
+msgstr "O modo avançado oferece mais opções do que o modo básico."
 
 msgid ""
 "Once in advanced mode, return to basic mode via menu Settings / Basic mode."
 msgstr ""
+"Uma vez no modo avançado, retorne ao modo básico por meio do menu "
+"Configurações / Modo Básico."
 
 msgid "Show the changes."
-msgstr ""
+msgstr "Mostrar as alterações."
 
 msgid "Whether to have a menu entry to go to the changes."
-msgstr ""
+msgstr "Se deve haver uma entrada de menu para ir para as alterações."
 
 msgid "Logout."
-msgstr ""
+msgstr "Sair"
 
 msgid ""
 "Controls for selecting and dismissing change notifications at the top."
 msgstr ""
+"Controles para selecionar e descartar notificações de alteração na parte "
+"superior."
 
 msgid "This applies to the page with the change notifications."
-msgstr ""
+msgstr "Isso se aplica à página com as notificações de mudanças."
 
 msgid "Normally the controls are at the bottom of the page."
-msgstr ""
+msgstr "Normalmente, os controles estão na parte inferior da página."
 
 msgid "Display main menu in tabbed view."
-msgstr ""
+msgstr "Exibe o menu principal na visualização com guias."
 
 msgid "Quickly edit consultation note contents."
-msgstr ""
+msgstr "Edite rapidamente o conteúdo da nota de consulta."
 
 msgid ""
 "This adds a control for editing the note contents right below the note "
 "contents."
 msgstr ""
+"Isso adiciona um controle para editar os conteúdos das notas logo abaixo dos "
+"conteúdos das notas."
 
 msgid "This is an extra control in addition to the normal one."
-msgstr ""
+msgstr "Este é um controle extra além do normal."
 
 msgid "The list of consultation notes shows the Bible the note refers to."
-msgstr ""
+msgstr "A lista de notas de consulta mostra a Bíblia a que a nota se refere."
 
 msgid "The consultation notes show the note status."
-msgstr ""
+msgstr "As notas de consulta mostram o status da nota."
 
 msgid "Show the status of the consultation notes in colour."
-msgstr ""
+msgstr "Mostra o estado das notas da consulta a cores."
 
 msgid "Show the current verse text while creating a new consultation note."
 msgstr ""
+"Mostre o texto do versículo atual ao criar uma nova nota de consulta."
 
 msgid "Disable the pop-up menu when text is selected."
-msgstr ""
+msgstr "Desative o menu pop-up quando o texto for selecionado."
 
 msgid "Verse separator for Bible notes entry"
-msgstr ""
+msgstr "Separador de versículos para entrada de notas bíblicas"
 
 msgid "Which verse separator to use for notes entry?"
-msgstr ""
+msgstr "Qual separador de versículo usar para a entrada de notas?"
 
 msgid "Receive focused verse reference from Paratext and Accordance."
-msgstr ""
+msgstr "Receba referência de versículo enfocada do Paratext e Accordance."
 
 msgid ""
 "In Accordance, enable this in Preferences / General / Synchronize text with "
 "other applications."
 msgstr ""
+"Em Accordance, habilite isso em Preferências / Geral / Sincronizar texto com "
+"outros aplicativos."
 
 msgid "Receive focused verse reference from Accordance."
-msgstr ""
+msgstr "Receba a referência do versículo em foco da Accordance."
 
 msgid "Bibledit always sends the focused verse reference to Accordance."
 msgstr ""
+"O Bibledit sempre envia a referência do versículo em foco para a Accordance."
 
 msgid "Send / Receive"
-msgstr ""
+msgstr "Enviar / receber"
 
 msgid "Send and receive:"
-msgstr ""
+msgstr "Enviar e receber:"
 
 msgid "now"
-msgstr ""
+msgstr "agora"
 
 msgid "every five minutes"
-msgstr ""
+msgstr "a cada cinco minutos"
 
 msgid "every hour"
-msgstr ""
+msgstr "a cada hora"
 
 msgid "manually"
-msgstr ""
+msgstr "manualmente"
 
 msgid "Not connected to Bibledit Cloud"
-msgstr ""
+msgstr "Não conectada à Bibledit Cloud"
 
 msgid "Connect to start sending and receiving."
-msgstr ""
+msgstr "Conecte para começar enviar e receber"
 
 msgid "It sends changes made here to Bibledit Cloud."
-msgstr ""
+msgstr "Ele envia as alterações feitas aqui para a Bibledit Cloud."
 
 msgid "It receives updates from Bibledit Cloud."
-msgstr ""
+msgstr "Ele recebe atualizações da Bibledit Cloud."
 
 msgid ""
 "The Paratext bridge sends changes from Bibledit to Paratext on this computer."
 msgstr ""
+"A ponte Paratext envia alterações do Bibledit para o Paratext neste "
+"computador."
 
 msgid "Bibledit receives updates from Paratext."
 msgstr ""
@@ -2713,683 +2804,761 @@ msgid "This Bible has not been linked to a git repository."
 msgstr ""
 
 msgid "Bibledit sends and receives this Bible every night."
-msgstr ""
+msgstr "O Bibledit envia e recebe esta Bíblia todas as noites."
 
 msgid "Bibledit sends this Bible every night."
-msgstr ""
+msgstr "O Bibledit envia esta Bíblia todas as noites."
 
 msgid "Send and receive it now."
-msgstr ""
+msgstr "Envie e receba agora."
 
 msgid "Send it now."
-msgstr ""
+msgstr "Envie agora."
 
 msgid "Send and receive it every five minutes."
-msgstr ""
+msgstr "Envie e receba a cada cinco minutos."
 
 msgid "Send it every five minutes."
-msgstr ""
+msgstr "Envie a cada cinco minutos."
 
 msgid ""
 "The git repository keeps the history of the Bible text with all the changes."
 msgstr ""
+"O repositório git mantém a história do texto da Bíblia com todas as "
+"alterações."
 
 msgid "View the history:"
-msgstr ""
+msgstr "Veja o histórico:"
 
 msgid "The Journal displays progress and diagnostic messages."
-msgstr ""
+msgstr "O Diário exibe mensagens de progresso e diagnóstico."
 
 msgid "Book order"
-msgstr ""
+msgstr "Pedido de livro"
 
 msgid "Update the order and put the deuterocanonical or apocryphal books:"
-msgstr ""
+msgstr "Atualize o pedido e coloque os livros deuterocanônicos ou apócrifos:"
 
 msgid "Interspersed among the books of the Hebrew Bible."
-msgstr ""
+msgstr "Intercalado entre os livros da Bíblia Hebraica."
 
 msgid "Between the Hebrew Bible and the New Testament."
-msgstr ""
+msgstr "Entre a Bíblia Hebraica e o Novo Testamento."
 
 msgid "At the very end of the entire Bible."
-msgstr ""
+msgstr "Bem no final de toda a Bíblia."
 
 msgid "Click the arrows below to put the books in a custom order:"
 msgstr ""
+"Clique nas setas abaixo para colocar os livros em uma ordem personalizada:"
 
 msgid "Font and text settings"
-msgstr ""
+msgstr "Configurações de fonte e texto"
 
 msgid "Make settings for font and text for the Bible editors."
-msgstr ""
+msgstr "Faça as configurações de fonte e texto para os editores da Bíblia."
 
 msgid "Font"
-msgstr ""
+msgstr "Fonte"
 
 msgid "Enter the name of a locally available font."
-msgstr ""
+msgstr "Digite o nome de uma fonte disponível localmente."
 
 msgid "Example:"
-msgstr ""
+msgstr "Exemplo:"
 
 msgid "Upload a font file."
-msgstr ""
+msgstr "Faça upload de um arquivo de fonte."
 
 msgid "Then enter its name."
-msgstr ""
+msgstr "Em seguida, digite seu nome."
 
 msgid "Enter the name of a font available on the Internet."
-msgstr ""
+msgstr "Digite o nome de uma fonte disponível na Internet."
 
 msgid "If the font is empty, it takes the font entered in Bibledit Cloud."
 msgstr ""
+"Se a fonte estiver vazia, ele usa a fonte inserida na Bibledit Cloud."
 
 msgid "Direction"
-msgstr ""
+msgstr "Direção"
 
 msgid "Unspecified"
-msgstr ""
+msgstr "Não especificada"
 
 msgid "Left-to-right"
-msgstr ""
+msgstr "Da esquerda para a direita"
 
 msgid "Right-to-left"
-msgstr ""
+msgstr "Da direita para a esquerda"
 
 msgid "Writing mode"
-msgstr ""
+msgstr "Modo de gravação"
 
 msgid "Top to bottom and left to right"
-msgstr ""
+msgstr "De cima para baixo e da esquerda para a direita"
 
 msgid "Top to bottom and right to left"
-msgstr ""
+msgstr "De cima para baixo e da direita para a esquerda"
 
 msgid "Bottom to top and left to right"
-msgstr ""
+msgstr "De baixo para cima e da esquerda para a direita"
 
 msgid "Bottom to top and right to left"
-msgstr ""
+msgstr "De baixo para cima e da direita para a esquerda"
 
 msgid "Line height"
-msgstr ""
+msgstr "Altura da linha"
 
 msgid "percent"
-msgstr ""
+msgstr "por cento"
 
 msgid "Letter spacing"
-msgstr ""
+msgstr "Espaçamento entre letras"
 
 msgid "pixels"
-msgstr ""
+msgstr "píxeis"
 
 msgid ""
 "After saving, the settings will be applied to the editable sample text below."
 msgstr ""
+"Depois de salvar, as configurações serão aplicadas ao texto de amostra "
+"editável abaixo."
 
 msgid "Available Bibles:"
-msgstr ""
+msgstr "Bíblias disponíveis:"
 
 msgid "Create a new empty Bible"
-msgstr ""
+msgstr "Crie uma nova Bíblia vazia"
 
 msgid "Chapters:"
-msgstr ""
+msgstr "Capítulos:"
 
 msgid "Create chapter"
-msgstr ""
+msgstr "Criar capítulos"
 
 msgid "Delete this book"
-msgstr ""
+msgstr "Deletar este livro"
 
 msgid "Import Bible text."
-msgstr ""
+msgstr "Importar o texto da Bíblia."
 
 msgid "Paste the text into the box below and submit it."
-msgstr ""
+msgstr "Cole o texto na caixa abaixo e envie-o."
 
 msgid "You can also upload a file with the text."
-msgstr ""
+msgstr "Você também pode fazer upload de um arquivo com o texto."
 
 msgid "Or a compressed archive of such files."
-msgstr ""
+msgstr "Ou um arquivo compactado de tais arquivos."
 
 msgid "Upload"
-msgstr ""
+msgstr "Fazer upload"
 
 msgid "The upload may take some time."
-msgstr ""
+msgstr "O upload pode levar algum tempo."
 
 msgid "This can be done in Bibledit Cloud."
-msgstr ""
+msgstr "Isso pode ser feito na Bibledit Cloud."
 
 msgid "This page helps with importing Bible text."
-msgstr ""
+msgstr "Esta página ajuda a importar texto da Bíblia."
 
 msgid "It recognizes two types of text."
-msgstr ""
+msgstr "Ela reconhece dois tipos de texto."
 
 msgid "It recognizes Unified Standard Format Markers text."
-msgstr ""
+msgstr "Ela reconhece o texto dos Marcadores de formato padrão unificado."
 
 msgid "More information about that."
-msgstr ""
+msgstr "Mais informações sobre isso."
 
 msgid ""
 "Bibledit recognizes books through the id markup and chapters through the c "
 "markup."
 msgstr ""
+"O Bibledit reconhece livros por meio da marcação id e capítulos por meio da "
+"marcação c."
 
 msgid "It also recognizes plain text."
-msgstr ""
+msgstr "Ele também reconhece texto simples."
 
 msgid "It does that one chapter at a time."
-msgstr ""
+msgstr "Isso acontece um capítulo de cada vez."
 
 msgid ""
 "It imports the text into the book and chapter indicated by the passage "
 "navigator at the top of the window."
 msgstr ""
+"Ele importa o texto para o livro e capítulo indicado pelo navegador de "
+"passagens no topo da janela."
 
 msgid ""
 "It considers numbers at the start of a line of text to be verse numbers."
 msgstr ""
+"Ele considera os números no início de uma linha de texto como números de "
+"versículos."
 
 msgid "It does not discover verse numbers somewhere else in the text."
-msgstr ""
+msgstr "Ele não descobre os números dos versículos em outro lugar do texto."
 
 msgid "After importing some text, it is recommended to run the checks on it."
 msgstr ""
+"Depois de importar algum texto, é recomendável fazer as verificações nele."
 
 msgid "An imported chapter overwrites the chapter already in the Bible."
-msgstr ""
+msgstr "Um capítulo importado substitui o capítulo que já está na Bíblia."
 
 msgid ""
 "If you import for example Genesis chapter 1, it will overwrite Genesis 1 if "
 "that chapter already was in the Bible."
 msgstr ""
+"Se você importar, por exemplo, Gênesis capítulo 1, ele substituirá Gênesis 1 "
+"se esse capítulo já estiver na Bíblia."
 
 msgid "It will not overwrite anything else."
-msgstr ""
+msgstr "Não substituirá mais nada."
 
 msgid "If Genesis 1 was not yet there, it will be created."
-msgstr ""
+msgstr "Se Gênesis 1 ainda não existia, ele será criado."
 
 msgid ""
 "You can import one chapter, or several chapters, or one book, or several "
 "books, all in one go."
 msgstr ""
+"Você pode importar um capítulo, ou vários capítulos, ou um livro, ou vários "
+"livros, tudo de uma vez."
 
 msgid "The text to be imported should be in Unicode UTF-8 format."
-msgstr ""
+msgstr "O texto a ser importado deve estar no formato Unicode UTF-8."
 
 msgid "Delete this chapter"
-msgstr ""
+msgstr "Deletar este capítulo"
 
 msgid "Available books"
-msgstr ""
+msgstr "Livros disponíveis"
 
 msgid "Versification system"
-msgstr ""
+msgstr "Sistema de versificação"
 
 msgid "Import text"
-msgstr ""
+msgstr "Texto de importação"
 
 msgid "Copy this Bible"
-msgstr ""
+msgstr "Copiar esta Bíblia"
 
 msgid "Delete this Bible"
-msgstr ""
+msgstr "Deletar esta Bíblia"
 
 msgid "Convert to USFM resource"
-msgstr ""
+msgstr "Converter para recurso USFM"
 
 msgid "Compare with ..."
-msgstr ""
+msgstr "Comparar com..."
 
 msgid "Editing settings"
-msgstr ""
+msgstr "Editar configurações"
 
 msgid "The public can give feedback"
-msgstr ""
+msgstr "O público pode dar feedback"
 
 msgid "Send the changes to the RSS feed"
-msgstr ""
+msgstr "Envie as alterações para o RSS feed"
 
 msgid "Import text from a resource"
-msgstr ""
+msgstr "Importar texto de um recurso"
 
 msgid "help"
-msgstr ""
+msgstr "ajuda"
 
 msgid "The page displays a list of results of running the checks."
-msgstr ""
+msgstr "A página exibe uma lista de resultados da execução das verificações."
 
 msgid "Click ✔ to suppress the entry."
-msgstr ""
+msgstr "Clique ✔ para suprimir a entrada."
 
 msgid "Click 🗑 to remove the entry for just now."
-msgstr ""
+msgstr "Clique 🗑 para remover a entrada agora."
 
 msgid ""
 "It will be back after running the checks again, unless the text of the Bible "
 "has been corrected."
 msgstr ""
+"Ele estará de volta depois de fazer as verificações novamente, a menos que o "
+"texto da Bíblia tenha sido corrigido."
 
 msgid "Click a passage to open it in the Bible text editor."
-msgstr ""
+msgstr "Clique em uma passagem para abri-la no editor de texto da Bíblia."
 
 msgid "The Manager can enable or disable checks."
-msgstr ""
+msgstr "O Manager pode ativar ou desativar as verificações."
 
 msgid "Manage the checks."
-msgstr ""
+msgstr "Gerenciar as verificações."
 
 msgid "Suppressed checking results."
-msgstr ""
+msgstr "Resultados de verificação suprimidos."
 
 msgid "back"
-msgstr ""
+msgstr "voltar"
 
 msgid "The page lists the suppressed results of the checks."
-msgstr ""
+msgstr "A página lista os resultados suprimidos das verificações."
 
 msgid "Click 🗑 to remove the items from the suppressed list."
-msgstr ""
+msgstr "Click 🗑 para remover os itens da lista suprimida."
 
 msgid "It will be visible again in the list of check results."
-msgstr ""
+msgstr "Ele ficará visível novamente na lista de resultados da verificação."
 
 msgid "Enter the patterns to search for."
-msgstr ""
+msgstr "Insira os padrões a serem pesquisados."
 
 msgid "One per line."
-msgstr ""
+msgstr "Um por linha."
 
 msgid ""
 "It will search the plain text of the Bible, without verse numbers, heading, "
 "and other additions."
 msgstr ""
+"Ele pesquisará o texto simples da Bíblia, sem números de versículos, "
+"cabeçalhos e outras adições."
 
 msgid "Go back"
-msgstr ""
+msgstr "Voltar"
 
 msgid "Enter all possible matching pairs in the text of the Bible."
-msgstr ""
+msgstr "Insira todos os pares possíveis no texto da Bíblia."
 
 msgid "Separate each pair by a space."
-msgstr ""
+msgstr "Separe cada par por um espaço."
 
 msgid "For example:"
-msgstr ""
+msgstr "Por exemplo:"
 
 msgid "It will be checked every night."
-msgstr ""
+msgstr "Será verificado todas as noites."
 
 msgid "Check it now."
-msgstr ""
+msgstr "Verifique agora."
 
 msgid "Enable the desired checks:"
-msgstr ""
+msgstr "Habilite as verificações desejadas:"
 
 msgid "double spaces in the raw USFM"
-msgstr ""
+msgstr "espaços duplos no USFM bruto"
 
 msgid "punctuation at the end of a heading"
-msgstr ""
+msgstr "pontuação no final de um título"
 
 msgid ""
 "a space before a comma, semicolon, colon, full stop, question mark, or "
 "exclamation mark"
 msgstr ""
+"um espaço antes de uma vírgula, ponto e vírgula, dois pontos, ponto final, "
+"ponto de interrogação ou ponto de exclamação"
 
 msgid "sentence structure"
-msgstr ""
+msgstr "estrutura de sentença"
 
 msgid "paragraph starts with a capital and ends with a correct end marker"
 msgstr ""
+"o parágrafo começa com maiúscula e termina com um marcador final correto"
 
 msgid "correct number of books according to the versification system"
-msgstr ""
+msgstr "número correto de livros de acordo com o sistema de versificação"
 
 msgid ""
 "correct number of chapters and verses in existing books, according to the "
 "versification system"
 msgstr ""
+"número correto de capítulos e versículos em livros existentes de acordo com "
+"o sistema de versificação"
 
 msgid "well formed USFM"
-msgstr ""
+msgstr "USFM bem formado"
 
 msgid "missing punctuation at the end of a verse"
-msgstr ""
+msgstr "falta de pontuação no final de um versículo"
 
 msgid "patterns in the text"
-msgstr ""
+msgstr "padrões no texto"
 
 msgid "settings"
-msgstr ""
+msgstr "configurações"
 
 msgid "matching pairs"
-msgstr ""
+msgstr "pares correspondentes"
 
 msgid "space at the end of a verse"
-msgstr ""
+msgstr "espaço no final de um versículo"
 
 msgid "no-break space at French punctuation"
-msgstr ""
+msgstr "espaço sem quebra na pontuação francesa"
 
 msgid "multiple « in French citation style"
-msgstr ""
+msgstr "múltiplo « no estilo de citação francês"
 
 msgid "transpose and fix double spaces in footnotes and cross references"
 msgstr ""
+"transpor e corrigir espaços duplos em notas de rodapé e referências cruzadas"
 
 msgid "valid UTF-8 Unicode text"
-msgstr ""
+msgstr "texto UTF-8 Unicode válido"
 
 msgid "Settings for the sentence structure"
-msgstr ""
+msgstr "Configurações para a estrutura da frase"
 
 msgid "The results of these checks will be viewable under Tools / Checks."
 msgstr ""
+"Os resultados destas verificações poderão ser visualizados em Ferramentas / "
+"Verificações."
 
 msgid ""
 "Bibledit Cloud can email the results to all users who have enabled this "
 "notification."
 msgstr ""
+"A Bibledit Cloud pode enviar os resultados por e-mail a todos os usuários "
+"que tenham ativado esta notificação."
 
 msgid ""
 "The results will also be emailed to all users who have enabled this "
 "notification."
 msgstr ""
+"Os resultados também serão enviados por e-mail a todos os usuários que "
+"ativaram esta notificação."
 
 msgid "Sentence structure"
-msgstr ""
+msgstr "Estrutura de sentença"
 
 msgid "The settings apply to different checks on the sentence structure."
 msgstr ""
+"As configurações se aplicam a diferentes verificações na estrutura de "
+"sentença."
 
 msgid "Enter all possible capitals in the text of the Bible."
-msgstr ""
+msgstr "Insira todas as letras maiúsculas possíveis no texto da Bíblia."
 
 msgid "Separate them by a space."
-msgstr ""
+msgstr "Separe-os por um espaço."
 
 msgid "Enter all possible small letters in the text of the Bible."
-msgstr ""
+msgstr "Digite todas as letras minúsculas possíveis no texto da Bíblia."
 
 msgid "Enter all possible punctuation marks at the end of a sentence."
 msgstr ""
+"Insira todos os sinais de pontuação possíveis no final de uma sentença."
 
 msgid "Enter all possible punctuation marks within a sentence."
-msgstr ""
+msgstr "Insira todos os sinais de pontuação possíveis em uma sentença."
 
 msgid ""
 "Enter all possible characters that should be allowed within a sentence."
 msgstr ""
+"Insira todos os caracteres possíveis que devem ser permitidos em uma "
+"sentença."
 
 msgid ""
 "The characters will be treated by the checks algorithm to be valid in any "
 "context."
 msgstr ""
+"Os caracteres serão tratados pelo algoritmo de verificações para serem "
+"válidos em qualquer contexto."
 
 msgid ""
 "Enter the names, starting with a capital, that may occur after mid-sentence "
 "punctuation."
 msgstr ""
+"Insira os nomes, começando com maiúscula, que podem ocorrer após a pontuação "
+"no meio da sentença."
 
 msgid ""
 "Enter all possible markers that start a new line but do not necessarily "
 "start a new sentence."
 msgstr ""
+"Insira todos os marcadores possíveis que iniciam uma nova linha, mas não "
+"necessariamente iniciam uma nova sentença."
 
 msgid "Old"
-msgstr ""
+msgstr "Antigo"
 
 msgid "Change"
-msgstr ""
+msgstr "Alterar"
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "Change Notifications"
-msgstr ""
+msgstr "Alterar as notificações"
 
 msgid "Dismiss the notifications of the changes of the following categories:"
-msgstr ""
+msgstr "Dispensar as notificações de alterações das seguintes categorias:"
 
 msgid "(if their changes and verses match)"
-msgstr ""
+msgstr "(se suas mudanças e versículos coincidirem)"
 
 msgid "(all of them)"
-msgstr ""
+msgstr "(todos eles)"
 
 msgid "Select Bible:"
-msgstr ""
+msgstr "Selecionar a Bíblia:"
 
 msgid "This page lists the notifications of the changes in the Bible text."
-msgstr ""
+msgstr "Esta página lista as notificações de mudanças no texto da Bíblia."
 
 msgid "Use the up and down arrow keys to navigate through the entries."
-msgstr ""
+msgstr "Use as setas para cima e para baixo para navegar pelas entradas."
 
 msgid "Press the delete key to remove the selected entry."
-msgstr ""
+msgstr "Pressione a tecla delete para remover a entrada selecionada."
 
 msgid "Or click the 🗑."
-msgstr ""
+msgstr "Ou clique no 🗑."
 
 msgid "Or swipe it to the left."
-msgstr ""
+msgstr "Ou deslize para a esquerda."
 
 msgid ""
 "Use the left and right arrow keys to expand or collapse the selected entry."
 msgstr ""
+"Use as teclas de seta esquerda e direita para expandir ou recolher a entrada "
+"selecionada."
 
 msgid "Or click the 📁."
-msgstr ""
+msgstr "Ou clique no 📁."
 
 msgid "Or swipe it to the right."
-msgstr ""
+msgstr "Ou deslize para a direita."
 
 msgid "The expanded entry provides more information and options."
-msgstr ""
+msgstr "A entrada expandida fornece mais informações e opções."
 
 msgid ""
 "It displays all the Consultation Notes that refer to the passage of the "
 "Change Notification."
 msgstr ""
+"Exibe todas as Notas de consulta que se referem à passagem da Notificação de "
+"mudança."
 
 msgid "If you are subscribed to a note, you can unsubscribe."
-msgstr ""
+msgstr "Se você assinou uma nota, pode cancelar."
 
 msgid "If a note is assigned to you, you can unassign it."
 msgstr ""
+"Se uma nota estiver atribuída a você, você pode cancelar a atribuição."
 
 msgid "When you have a Manager role, you can delete a note."
-msgstr ""
+msgstr "Quando você tem uma função de gerente, pode excluir uma nota."
 
 msgid ""
 "You can create a new Consultation Note with a query about the change in the "
 "text of the Bible."
 msgstr ""
+"Você pode criar uma nova Nota de consulta com uma consulta sobre a mudança "
+"no texto da Bíblia."
 
 msgid "This page with change notifications is for you."
-msgstr ""
+msgstr "Esta página com notificações de mudança é para você."
 
 msgid "Your colleagues have their own lists."
-msgstr ""
+msgstr "Seus colegas têm suas próprias listas."
 
 msgid ""
 "Changes in the text of the Bibles will be added to the list the next day."
 msgstr ""
+"Mudanças no texto das Bíblias serão adicionadas à lista no dia seguinte."
 
 msgid "The change notifications fall into several categories:"
-msgstr ""
+msgstr "As notificações de mudança se enquadram em várias categorias:"
 
 msgid "Changes marked with a smiley face are changes made by you."
-msgstr ""
+msgstr "As alterações marcadas com um rosto sorridente são feitas por você."
 
 msgid "user"
-msgstr ""
+msgstr "usuário"
 
 msgid "Changes marked with the name of a user are changes made by this user."
 msgstr ""
+"As alterações marcadas com o nome de um usuário são alterações feitas por "
+"este usuário."
 
 msgid "Changes marked with a book symbol are the changes in the Bible text."
 msgstr ""
+"As mudanças marcadas com um símbolo de livro são as mudanças no texto da "
+"Bíblia."
 
 msgid ""
 "They have been made either by yourself or by someone else working on this "
 "Bible."
 msgstr ""
+"Eles foram feitos por você ou por outra pessoa que está trabalhando nesta "
+"Bíblia."
 
 msgid ""
 "Each category can be enabled or disabled separately in your notifications."
 msgstr ""
+"Cada categoria pode ser ativada ou desativada separadamente em suas "
+"notificações."
 
 msgid "Bible translation is a collaborative effort."
-msgstr ""
+msgstr "A tradução da Bíblia é um esforço colaborativo."
 
 msgid ""
 "Changes you enter may be updated by others or merged with their changes."
 msgstr ""
+"As mudanças que você insere podem ser atualizadas por outras pessoas ou "
+"mescladas com suas mudanças."
 
 msgid ""
 "The different categories of change notifications enable you to find out "
 "whether a change is now in the Bible text."
 msgstr ""
+"As diferentes categorias de notificações de mudança permitem que você "
+"descubra se uma mudança está agora no texto da Bíblia."
 
 msgid "Bibledit tracks the changes in the text of the Bibles."
-msgstr ""
+msgstr "O Bibledit rastreia as mudanças no texto das Bíblias."
 
 msgid "It generates lists of them every day."
-msgstr ""
+msgstr "Ele gera listas deles todos os dias."
 
 msgid "Generate them now."
-msgstr ""
+msgstr "Gere-os agora."
 
 msgid "Lists with changes can be downloaded."
-msgstr ""
+msgstr "Listas com mudanças podem ser baixadas."
 
 msgid ""
 "Bibledit emails lists with the changes to users who have enabled that "
 "notification."
 msgstr ""
+"O Bibledit envia por e-mail as listas com as alterações para usuários que "
+"habilitaram essa notificação."
 
 msgid ""
 "It generates change notifications online for users who have enabled that "
 "notification."
 msgstr ""
+"Ele gera notificações de alteração online para usuários que ativaram essa "
+"notificação."
 
 msgid "Notifications."
-msgstr ""
+msgstr "Notificações."
 
 msgid ""
 "The users who have enabled change notification are listed below, with the "
 "number of changes waiting for their review."
 msgstr ""
+"Os usuários que ativaram a notificação de alteração estão listados abaixo "
+"com o número de alterações aguardando sua revisão."
 
 msgid "Changes are recorded in the journal."
-msgstr ""
+msgstr "As alterações são registradas no diário."
 
 msgid ""
 "When the Bible text gets pushed to an external git repository, the changes "
 "will be visible there."
 msgstr ""
+"Quando o texto da Bíblia é enviado para um repositório git externo, as "
+"alterações serão visíveis lá."
 
 msgid "User"
-msgstr ""
+msgstr "Usuário"
 
 msgid "Number of changes"
-msgstr ""
+msgstr "Número de alterações"
 
 msgid "editor"
-msgstr ""
+msgstr "editor"
 
 msgid "preview"
-msgstr ""
+msgstr "pré-visualização"
 
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 msgid "Drag the list of workspaces into the desired order."
-msgstr ""
+msgstr "Arraste a lista de áreas de trabalho na ordem desejada."
 
 msgid "Click 🗑 to remove the workspace."
-msgstr ""
+msgstr "Clique 🗑 para remover a área de trabalho."
 
 msgid "Click ✎ to edit the workspace."
-msgstr ""
+msgstr "Clique ✎ para editar a área de trabalho."
 
 msgid "Click ⎘ to copy the workspace to a new one."
-msgstr ""
+msgstr "Clique ⎘ para copiar a área de trabalho para uma nova."
 
 msgid "Click ✉ to send the workspace to all users."
-msgstr ""
+msgstr "Clique ✉ para enviar a área de trabalho para todos os usuários."
 
 msgid "Create a new workspace."
-msgstr ""
+msgstr "Crie uma área de trabalho nova."
 
 msgid "Create all default workspaces."
-msgstr ""
+msgstr "Crie todas as áreas de trabalho padrão."
 
 msgid "Top row"
-msgstr ""
+msgstr "Linha superior"
 
 msgid "height factor"
-msgstr ""
+msgstr "fator de altura"
 
 msgid "URLs"
-msgstr ""
+msgstr "URLs"
 
 msgid "Width factors"
-msgstr ""
+msgstr "Fatores de largura"
 
 msgid "Center row"
-msgstr ""
+msgstr "Linha central"
 
 msgid "Bottom row"
-msgstr ""
+msgstr "Linha inferior"
 
 msgid "width"
-msgstr ""
+msgstr "largura"
 
 msgid "Samples"
-msgstr ""
+msgstr "Amostras"
 
 msgid "Samples to load in the current workspace:"
-msgstr ""
+msgstr "Amostras para carregar na área de trabalho atual:"
 
 msgid "This page is for configuring the layout of a workspace."
-msgstr ""
+msgstr "Esta página é para configurar o layout de uma área de trabalho."
 
 msgid ""
 "A workspace enables you to display parts of Bibledit or websites side-by-"
 "side."
 msgstr ""
+"Uma área de trabalho permite que você exiba partes do Bibledit ou sites lado "
+"a lado."
 
 msgid "There are three rows:"
-msgstr ""
+msgstr "Há três linhas:"
 
 msgid "A top row, a center row, and a bottom row."
-msgstr ""
+msgstr "Uma linha superior, uma linha central e uma linha inferior."
 
 msgid "Each row has five columns."
-msgstr ""
+msgstr "Cada linha possui cinco colunas."
 
 msgid "Thus there are 15 possible positions."
-msgstr ""
+msgstr "Portanto, existem 15 posições possíveis."
 
 msgid ""
 "You can set the relative height of each of the three rows individually."
 msgstr ""
+"Você pode definir a altura relativa de cada uma das três linhas "
+"individualmente."
 
 msgid ""
 "The height is set as integer factor relative to the browser window height "
 "and other panes."
 msgstr ""
+"A altura é definida como fator inteiro em relação à altura da janela do "
+"navegador e outros painéis."
 
 msgid ""
 "For example use factors of 1 and 2 respectively on two panes to get a split "
@@ -3405,278 +3574,354 @@ msgid ""
 "You can enter the URLs of internal Bibledit pages or external pages to "
 "display."
 msgstr ""
+"Você pode inserir os URLs das páginas internas do Bibledit ou das páginas "
+"externas para exibição."
 
 msgid ""
 "Enter their relative widths as an integer factor relative to the overall "
 "width and other panes."
 msgstr ""
+"Insira suas larguras relativas como um fator inteiro em relação à largura "
+"geral e outros painéis."
 
 msgid "The factors for the widths work the same as for the heights."
 msgstr ""
+"Os fatores para as larguras funcionam da mesma forma que para as alturas."
 
 msgid ""
 "The internal URL of a Bibledit function can be found by opening that "
 "function in the web browser, and then copying the last two bits from the URL "
 "in the address bar."
 msgstr ""
+"O URL interno de uma função Bibledit pode ser encontrado abrindo essa função "
+"no navegador da web e, em seguida, copiando os dois últimos bits do URL na "
+"barra de endereço."
 
 msgid "The Edit page would have this URL:"
-msgstr ""
+msgstr "A página de edição teria este URL:"
 
 msgid "The Resources page is"
-msgstr ""
+msgstr "A página de recursos é"
 
 msgid "The Notes page is"
-msgstr ""
+msgstr "A página de notas é"
 
 msgid "Some useful websites with resources that can be embedded are"
-msgstr ""
+msgstr "Alguns sites úteis com recursos que podem ser incorporados são"
 
 msgid "There are many more of them."
-msgstr ""
+msgstr "Existem muitos mais deles."
 
 msgid "To edit two Bibles side-by side, add two editors to the workspace."
 msgstr ""
+"Para editar duas Bíblias lado a lado, adicione dois editores à área de "
+"trabalho."
 
 msgid "Add the following to each of them:"
-msgstr ""
+msgstr "Adicione o seguinte a cada um deles:"
 
 msgid ""
 "For example, if one of the Bibles would be a Bible called 'Ndebele Bible', "
 "then the URL would be:"
 msgstr ""
+"Por exemplo, se uma das Bíblias fosse uma Bíblia chamada 'Bíblia Ndebele', o "
+"URL seria:"
 
 msgid "The Notes editor has some preset selectors."
-msgstr ""
+msgstr "O editor de notas possui alguns seletores predefinidos."
 
 msgid ""
 "To display all the notes for a certain passage, enter the following URL:"
 msgstr ""
+"Para exibir todas as notas de uma determinada passagem, digite o seguinte "
+"URL:"
 
 msgid ""
 "When this workspace will be opened, it will display all the notes that refer "
 "to the focused passage."
 msgstr ""
+"Quando esta área de trabalho for aberta, ela exibirá todas as notas que se "
+"referem à passagem em foco."
 
 msgid "Other preset selectors for the Notes editor:"
-msgstr ""
+msgstr "Outros seletores predefinidos para o editor de notas:"
 
 msgid "Display all notes assigned to you."
-msgstr ""
+msgstr "Exibir todas as notas atribuídas a você."
 
 msgid "Display all notes you are subscribed to."
-msgstr ""
+msgstr "Exibe todas as notas que você assinou."
 
 msgid "Display subscribed notes that have been idle for a day."
-msgstr ""
+msgstr "Exibir notas assinadas que ficaram inativas por um dia."
 
 msgid "Display subscribed notes that have been idle for a week."
-msgstr ""
+msgstr "Exibir notas assinadas que ficaram inativas por uma semana."
 
 msgid "You can set the width of the entire workspace."
-msgstr ""
+msgstr "Você pode definir a largura de toda a área de trabalho."
 
 msgid ""
 "By setting the width wider than the screen, the workspace can be scrolled "
 "horizontally."
 msgstr ""
+"Definindo a largura mais larga do que a tela, a área de trabalho pode ser "
+"rolada horizontalmente."
 
 msgid "This may be useful on devices with smaller screens, such as phones."
 msgstr ""
+"Isso pode ser útil em dispositivos com telas menores como smartphones."
 
 msgid "You can set the width as a percentage."
-msgstr ""
+msgstr "Você pode definir a largura como uma porcentagem."
 
 msgid "You can set the width as as a number of pixels."
-msgstr ""
+msgstr "Você pode definir a largura como um número de pixels."
 
 msgid "Paratext bridge"
-msgstr ""
+msgstr "Ponte Paratext"
 
 msgid ""
 "Bibledit can synchronize its Bibles with projects in Paratext installed on "
 "the same computer."
 msgstr ""
+"O Bibledit pode sincronizar suas Bíblias com projetos em Paratext instalados "
+"no mesmo computador."
 
 msgid "The synchronization works in both directions."
-msgstr ""
+msgstr "A sincronização funciona em ambas as direções."
 
 msgid ""
 "Changes in the Bible text made in Bibledit will be transferred to Paratext."
 msgstr ""
+"As alterações no texto da Bíblia feitas no Bibledit serão transferidas para "
+"o Paratext."
 
 msgid "And changes made in Paratext will be transferred to Bibledit."
 msgstr ""
+"E as alterações feitas no Paratext serão transferidas para o Bibledit."
 
 msgid "Bible in Bibledit"
-msgstr ""
+msgstr "Bíblia no Bibledit"
 
 msgid "change"
-msgstr ""
+msgstr "modificar"
 
 msgid "disable"
-msgstr ""
+msgstr "desabilitar"
 
 msgid "Paratext Projects folder"
-msgstr ""
+msgstr "Pasta de projetos Paratext"
 
 msgid "Paratext project"
-msgstr ""
+msgstr "Projeto Paratext"
 
 msgid "Take initial data from"
-msgstr ""
+msgstr "Pegue os dados iniciais de"
 
 msgid ""
 "The first time to synchronize the Bible in Bibledit with the project in "
 "Paratext, the system needs to have an authoritative copy of Bible data that "
 "overwrites the other."
 msgstr ""
+"Na primeira vez em que sincronizar a Bíblia no Bibledit com o projeto no "
+"Paratext, o sistema precisa ter uma cópia autorizada dos dados da Bíblia que "
+"sobrescrevem os outros."
 
 msgid ""
 "Either the Bible books in the Paratext project overwrite the Bible books in "
 "Bibledit."
 msgstr ""
+"Os livros da Bíblia no projeto Paratext sobrescrevem os livros da Bíblia no "
+"Bibledit."
 
 msgid ""
 "Or the Bible books in Bibledit overwrite the Bible books in the Paratext "
 "project"
 msgstr ""
+"Ou os livros da Bíblia no Bibledit sobrescrevem os livros da Bíblia no "
+"projeto Paratext"
 
 msgid "This only occurs once during the setup phase."
-msgstr ""
+msgstr "Isso ocorre apenas uma vez durante a fase de configuração."
 
 msgid ""
 "While the Paratext bridge is active, Bibledit updates Paratext Scripture "
 "text."
 msgstr ""
+"Enquanto a ponte Paratext está ativa, o Bibledit atualiza o texto das "
+"Escrituras Paratext."
 
 msgid "The updates occur in the Paratext files."
-msgstr ""
+msgstr "As atualizações ocorrem nos arquivos Paratext."
 
 msgid ""
 "When Paratext is running, and displays a chapter, and the chapter would be "
 "updated in the files, then Paratext does not notice the updated files, and "
 "does not reload the updated Scripture text."
 msgstr ""
+"Quando o Paratext está sendo executado e exibe um capítulo, e o capítulo "
+"seria atualizado nos arquivos, o Paratext não percebe os arquivos "
+"atualizados e não recarrega o texto das Escrituras atualizado."
 
 msgid ""
 "Then when Paratext saves that chapter, it saves an older copy of the "
 "Scripture text, and so undoes the updates made by Bibledit."
 msgstr ""
+"Então, quando o Paratext salva aquele capítulo, ele salva uma cópia mais "
+"antiga do texto das Escrituras, e assim desfaz as atualizações feitas pelo "
+"Bibledit."
 
 msgid ""
 "Therefore it is important to take care that Bibledit does not update "
 "Paratext Scripture text while Paratext is running."
 msgstr ""
+"Portanto, é importante tomar cuidado para que o Bibledit não atualize o "
+"texto das Escrituras do Paratext enquanto o Paratext estiver em execução."
 
 msgid ""
 "The easiest way to achieve this is to not run Bibledit and Paratext "
 "simultaneously."
 msgstr ""
+"A maneira mais fácil de fazer isso é não executar o Bibledit e o Paratext "
+"simultaneamente."
 
 msgid "The collaboration is being set up."
-msgstr ""
+msgstr "A colaboração está sendo configurada."
 
 msgid ""
 "Subscribe to a consultation note I created or edited online or by email."
 msgstr ""
+"Assine uma nota de consulta que criei ou editei online ou por e-mail."
 
 msgid ""
 "Subscribe to a consultation note created or edited by anybody online or by "
 "email."
 msgstr ""
+"Assine uma nota de consulta criada ou editada por qualquer pessoa online ou "
+"por e-mail."
 
 msgid ""
 "Receive email confirmation of my posts to a consultation notes done by email."
 msgstr ""
+"Receber e-mail de confirmação de minhas postagens para notas de consulta "
+"feitas por e-mail."
 
 msgid ""
 "Receive email about changes in a consultation note I am subscribed to."
 msgstr ""
+"Receber e-mail sobre alterações em uma nota de consulta na qual estou "
+"inscrito."
 
 msgid "A consultation note that gets changed will be assigned to me."
-msgstr ""
+msgstr "Uma nota de consulta que for alterada será atribuída a mim."
 
 msgid "Receive email about changes in a consultation note assigned to me."
 msgstr ""
+"Receber e-mail sobre alterações em uma nota de consulta atribuída a mim."
 
 msgid ""
 "Suppress receiving email from an updated consultation note if the update was "
 "made by me."
 msgstr ""
+"Suprimir o recebimento de e-mail de uma nota de consulta atualizada se a "
+"atualização foi feita por mim."
 
 msgid ""
 "Receive daily mail with the number of consultation notes assigned to me."
 msgstr ""
+"Receber correspondência diária com o número de notas de consulta que me "
+"foram atribuídas."
 
 msgid ""
 "Receive daily mail with the number of consultation notes I am subscribed to."
 msgstr ""
+"Receber correspondência diária com o número de notas de consulta que "
+"subscrevi."
 
 msgid "Receive email about a deleted consultation note."
-msgstr ""
+msgstr "Receber e-mail sobre uma nota de consulta excluída."
 
 msgid ""
 "Emails that would normally be sent right after I have created a consultation "
 "note, delay them till the evening."
 msgstr ""
+"Emails que normalmente seriam enviados logo após eu ter criado uma nota de "
+"consulta, adie-os até a noite."
 
 msgid "This setting may be useful in the following scenario:"
-msgstr ""
+msgstr "Essa configuração pode ser útil no seguinte cenário:"
 
 msgid ""
 "Each time I create a new note, the other members of the team get interrupted "
 "by my email."
 msgstr ""
+"Cada vez que crio uma nova nota, os outros membros da equipe são "
+"interrompidos por meu e-mail."
 
 msgid "This happens many times a day."
-msgstr ""
+msgstr "Isso acontece muitas vezes ao dia."
 
 msgid ""
 "I don't want these interruptions, but the team members need to get my email "
 "eventually."
 msgstr ""
+"Não quero essas interrupções, mas os membros da equipe precisam receber meu "
+"e-mail eventualmente."
 
 msgid "Tick this setting, and I am done."
-msgstr ""
+msgstr "Marque esta configuração, e estou pronto."
 
 msgid "Assign notes I create to these users:"
-msgstr ""
+msgstr "Atribuir notas que eu crio a estes usuários:"
 
 msgid "Receive daily mail with the changes in the Bible made by me."
 msgstr ""
+"Receber correspondência diária com as mudanças na Bíblia feitas por mim."
 
 msgid "Receive daily mail with the changes in the Bible made by anyone."
 msgstr ""
+"Receber correspondência diária com as mudanças na Bíblia feitas por qualquer "
+"pessoa."
 
 msgid ""
 "Notifications about changes in the Bible made by anyone will be generated "
 "for me online."
 msgstr ""
+"Notificações sobre mudanças na Bíblia feitas por qualquer pessoa serão "
+"geradas para mim online."
 
 msgid ""
 "Notifications about changes in the Bible made by me will be generated for me "
 "online."
 msgstr ""
+"Notificações sobre mudanças na Bíblia feitas por mim serão geradas para mim "
+"online."
 
 msgid ""
 "Notifications about changes in the Bible made by the individual contributors "
 "will be generated for me online."
 msgstr ""
+"Notificações sobre mudanças na Bíblia feitas por colaboradores individuais "
+"serão geradas para mim online."
 
 msgid ""
 "Receive daily mail with the number of online change notifications awaiting "
 "my attention."
 msgstr ""
+"Receber correspondência diária com o número de notificações de alterações "
+"online que aguardam a minha atenção."
 
 msgid "Text Checks"
-msgstr ""
+msgstr "Verificações de texto"
 
 msgid "Receive daily mail with results of checks on the text of the Bibles."
 msgstr ""
+"Receba correspondência diária com resultados de verificações no texto das "
+"Bíblias."
 
 msgid "Team work"
-msgstr ""
+msgstr "Equipe de trabalho"
 
 msgid ""
 "Receive weekly mail about the team's progress during the course of the "
@@ -3687,341 +3932,358 @@ msgid ""
 "You can change your password or your email address. Your current email "
 "address is"
 msgstr ""
+"Você pode alterar sua senha ou endereço de e-mail. Seu endereço de e-mail "
+"atual é"
 
 msgid "Current password"
-msgstr ""
+msgstr "Senha atual"
 
 msgid "New password"
-msgstr ""
+msgstr "Nova Senha"
 
 msgid "Again new password"
-msgstr ""
+msgstr "Outra vez nova senha"
 
 msgid "New email address"
-msgstr ""
+msgstr "Novo endereço de e-mail"
 
 msgid "Passages:"
-msgstr ""
+msgstr "Passagens:"
 
 msgid "Translations:"
-msgstr ""
+msgstr "Traduções:"
 
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 msgid ""
 "This assists with checking how consistently words have been translated in "
 "the Bible."
 msgstr ""
+"Isso ajuda a verificar a consistência com que as palavras foram traduzidas "
+"na Bíblia."
 
 msgid "Instructions"
-msgstr ""
+msgstr "Instruções"
 
 msgid "Enter book, chapter and verse in the 'Passages:' box."
-msgstr ""
+msgstr "Digite o livro, o capítulo e o versículo na caixa 'Passagens:'"
 
 msgid ""
 "Enter key word text you want to search for in the 'Translations:' box."
 msgstr ""
+"Insira o texto da palavra-chave que deseja pesquisar na caixa 'Traduções:'."
 
 msgid "One word per line."
-msgstr ""
+msgstr "Uma palavra por linha."
 
 msgid "Examples"
-msgstr ""
+msgstr "Exemplos"
 
 msgid "salvation"
-msgstr ""
+msgstr "salvação"
 
 msgid "justification"
-msgstr ""
+msgstr "justificação"
 
 msgid "redemption"
-msgstr ""
+msgstr "redenção"
 
 msgid "Tips"
-msgstr ""
+msgstr "Dicas"
 
 msgid "Add resources as extra aids for comparison"
-msgstr ""
+msgstr "Adicione recursos como ajuda extra para comparação"
 
 msgid "Paste the entire text from search results into the passages window."
-msgstr ""
+msgstr "Cole todo o texto dos resultados da pesquisa na janela de passagens."
 
 msgid "Search all Bibles and consultation notes:"
-msgstr ""
+msgstr "Pesquise todas as Bíblias e notas de consulta:"
 
 msgid "Search for"
-msgstr ""
+msgstr "Pesquisar"
 
 msgid "notes"
-msgstr ""
+msgstr "notas"
 
 msgid "verses"
-msgstr ""
+msgstr "versículos"
 
 msgid "Search in active Bible."
-msgstr ""
+msgstr "Pesquisar na Bíblia ativa."
 
 msgid "Enter the search term."
-msgstr ""
+msgstr "Digite o termo de pesquisa."
 
 msgid "Press Enter."
-msgstr ""
+msgstr "Pressione Enter."
 
 msgid "Search for verses with a certain Strong's number in:"
-msgstr ""
+msgstr "Pesquise versículos com um determinado número de Strong em:"
 
 msgid "Load"
-msgstr ""
+msgstr "Carregar"
 
 msgid "Replace with"
-msgstr ""
+msgstr "Substituir com"
 
 msgid "Case sensitive"
-msgstr ""
+msgstr "Maiúsculas e Minúsculas"
 
 msgid "Apply all"
-msgstr ""
+msgstr "Aplicar tudo"
 
 msgid "Replace in active Bible."
-msgstr ""
+msgstr "Substituir na Bíblia ativa."
 
 msgid "Enter what to search for."
-msgstr ""
+msgstr "Digite o que pesquisar."
 
 msgid "Enter what to replace with."
-msgstr ""
+msgstr "Insira o que deseja substituir."
 
 msgid "Wait till the preview appears."
-msgstr ""
+msgstr "Espere até que a visualização apareça."
 
 msgid "Replace the text:"
-msgstr ""
+msgstr "Substitua o texto:"
 
 msgid "To replace in one passage, click ✔."
-msgstr ""
+msgstr "Para substituir em uma passagem, clique em ✔."
 
 msgid "To remove a passage, click 🗑"
-msgstr ""
+msgstr "Para remover uma passagem, clique 🗑"
 
 msgid "To open a passage for edit, click that passage."
-msgstr ""
+msgstr "Para abrir uma passagem para edição, clique nessa passagem."
 
 msgid "To replace all passages, click Apply all."
-msgstr ""
+msgstr "Para substituir todas as passagens, clique em Aplicar tudo."
 
 msgid ""
 "Search for verses with most Hebrew or Greek words similar to the focused "
 "verse in:"
 msgstr ""
+"Pesquise versículos com a maioria das palavras hebraicas ou gregas "
+"semelhantes ao versículo em foco em:"
 
 msgid "Search for words like this"
-msgstr ""
+msgstr "Procure por palavras como esta"
 
 msgid "Search for verses similar to the focused verse in:"
-msgstr ""
+msgstr "Pesquise versículos semelhantes ao versículo em foco em:"
 
 msgid "plain text"
-msgstr ""
+msgstr "texto simples"
 
 msgid "underlying USFM"
-msgstr ""
+msgstr "USFM subjacente"
 
 msgid ""
 "Search for verses with most Strong's numbers similar to the focused verse in:"
 msgstr ""
+"Pesquise por versículos com a maioria dos números de Strong semelhantes ao "
+"versículo em foco em:"
 
 msgid "Current book"
-msgstr ""
+msgstr "Livro atual"
 
 msgid "What to do with the search results"
-msgstr ""
+msgstr "O que fazer com os resultados da pesquisa"
 
 msgid "Display them on the page"
-msgstr ""
+msgstr "Exiba-os na página"
 
 msgid "Add them to the ones already on the page"
-msgstr ""
+msgstr "Adicione-os aos que já estão na página"
 
 msgid "Remove them from the ones already on the page"
-msgstr ""
+msgstr "Remova-os daqueles que já estão na página"
 
 msgid "Display the intersection of them and the ones already on the page"
-msgstr ""
+msgstr "Exibir a interseção deles e os que já estão na página"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 msgid "Add a style to the stylesheet."
-msgstr ""
+msgstr "Adicione um estilo à folha de estilo."
 
 msgid "Select this stylesheet."
-msgstr ""
+msgstr "Selecione esta folha de estilo."
 
 msgid "Delete the entire stylesheet."
-msgstr ""
+msgstr "Exclua a folha de estilo inteira."
 
 msgid "You can copy or backup this stylesheet."
-msgstr ""
+msgstr "Você pode copiar ou fazer backup desta folha de estilo."
 
 msgid "The stylesheet is kept in one folder."
-msgstr ""
+msgstr "A folha de estilo é mantida em uma pasta."
 
 msgid "The name of the folder is this:"
-msgstr ""
+msgstr "O nome da pasta é este:"
 
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 msgid "This style"
-msgstr ""
+msgstr "Este estilo"
 
 msgid "This one"
-msgstr ""
+msgstr "Este"
 
 msgid "Font size"
-msgstr ""
+msgstr "Tamanho da fonte"
 
 msgid "points"
-msgstr ""
+msgstr "pontos"
 
 msgid "Italic"
-msgstr ""
+msgstr "Itálico"
 
 msgid "Bold"
-msgstr ""
+msgstr "Negrito"
 
 msgid "Underline"
-msgstr ""
+msgstr "Sublinhado"
 
 msgid "Small caps"
-msgstr ""
+msgstr "Versalete"
 
 msgid "Superscript"
-msgstr ""
+msgstr "Sobrescrito"
 
 msgid "Text alignment"
-msgstr ""
+msgstr "Alinhamento de texto"
 
 msgid "Space before"
-msgstr ""
+msgstr "Espaço antes"
 
 msgid "mm"
-msgstr ""
+msgstr "milímetros"
 
 msgid "Space after"
-msgstr ""
+msgstr "Espaço depois"
 
 msgid "Left margin"
-msgstr ""
+msgstr "Margem esquerda"
 
 msgid "Right margin"
-msgstr ""
+msgstr "Margem direita"
 
 msgid "First line indent"
-msgstr ""
+msgstr "Recuo da primeira linha"
 
 msgid "Span columns"
 msgstr ""
 
 msgid "Color"
-msgstr ""
+msgstr "Cor"
 
 msgid "Background color"
-msgstr ""
+msgstr "Cor de fundo"
 
 msgid "Note numbering"
-msgstr ""
+msgstr "Numeração de notas"
 
 msgid "Column number"
-msgstr ""
+msgstr "Número da coluna"
 
 msgid "Restart the note numbering"
-msgstr ""
+msgstr "Recomeçar a numeração de notas"
 
 msgid "Position of endnote"
-msgstr ""
+msgstr "Posição da nota final"
 
 msgid "User-defined note numbering sequence"
-msgstr ""
+msgstr "Sequência de numeração de notas definida pelo usuário"
 
 msgid "Addition after word list entry"
-msgstr ""
+msgstr "Adição após entrada na lista de palavras"
 
 msgid "Place endnotes when encountering marker"
-msgstr ""
+msgstr "Coloque notas finais ao encontrar o marcador"
 
 msgid "Stylesheets"
-msgstr ""
+msgstr "Folhas de Estilo"
 
 msgid "Available stylesheets."
-msgstr ""
+msgstr "Folhas de estilos disponíveis."
 
 msgid "Create a new stylesheet."
-msgstr ""
+msgstr "Criar uma nova folha de estilo."
 
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 msgid "The language for Bibledit:"
-msgstr ""
+msgstr "O idioma para o Bibledit:"
 
 msgid "Your preferred language is not listed?"
-msgstr ""
+msgstr "Seu idioma preferido não está listado?"
 
 msgid ""
 "Use your translation skills to assist with bringing another language to "
 "Bibledit."
 msgstr ""
+"Use suas habilidades de tradução para ajudar a trazer outro idioma para o "
+"Bibledit."
 
 msgid "Start translating right away."
-msgstr ""
+msgstr "Comece a traduzir imediatamente."
 
 msgid ""
 "It is possible to translate only the most important phrases to get your "
 "translation team going in their own language."
 msgstr ""
+"É possível traduzir apenas as frases mais importantes para que sua equipe de "
+"tradução continue em seu próprio idioma."
 
 msgid "Your translation will be included with the next Bibledit release."
-msgstr ""
+msgstr "Sua tradução será incluída no próximo lançamento do Bibledit."
 
 msgid "Timezone"
-msgstr ""
+msgstr "Fuso horário"
 
 msgid ""
 "The timezone for Bibledit as an offset from Coordinated Universal Time in "
 "hours"
 msgstr ""
+"O fuso horário para o Bibledit como uma diferença do Tempo Universal "
+"Coordenado em horas"
 
 msgid "hours"
-msgstr ""
+msgstr "horas"
 
 msgid "Please enter a timezone between -12 and +14"
-msgstr ""
+msgstr "Insira um fuso horário entre -12 e +14"
 
 msgid "RSS feed"
-msgstr ""
+msgstr "Feed RSS"
 
 msgid "RSS feed for the recent changes in the text of the Bible."
-msgstr ""
+msgstr "Feed RSS para as mudanças recentes no texto da Bíblia."
 
 msgid "Include the author in the RSS feed."
-msgstr ""
+msgstr "Inclua o autor no feed RSS."
 
 msgid "The changes in the following Bibles will be visible in the RSS feed:"
-msgstr ""
+msgstr "As mudanças nas seguintes Bíblias serão visíveis no feed RSS:"
 
 msgid "Transfer resources and Bibles"
-msgstr ""
+msgstr "Transferir recursos e Bíblias"
 
 msgid ""
 "This helps with transferring Bibles and consultatation notes and resources "
 "from one Bibledit client to another one."
 msgstr ""
+"Isso ajuda a transferir Bíblias e notas de consulta e recursos de um cliente "
+"Bibledit para outro."
 
 msgid ""
 "This helps translators with slow Internet connections to quickly setup new "
@@ -4044,34 +4306,37 @@ msgid "Make an archive of all the Bibles available on this device."
 msgstr ""
 
 msgid "Import a Bibles archive into this device."
-msgstr ""
+msgstr "Importe um arquivo da Bíblia para este dispositivo."
 
 msgid ""
 "Make an archive of all the Consultation Notes available on this device."
 msgstr ""
+"Faça um arquivo de todas as Notas de consulta disponíveis neste dispositivo."
 
 msgid "Import a Consultation Notes archive into this device."
-msgstr ""
+msgstr "Importe um arquivo de notas de consulta para este dispositivo."
 
 msgid "Make an archive of all the Resources installed on this device."
-msgstr ""
+msgstr "Faça um arquivo de todos os recursos instalados neste dispositivo."
 
 msgid "Import a Resources archive into this device."
-msgstr ""
+msgstr "Importe um arquivo de Recursos para este dispositivo."
 
 msgid "Indexing"
-msgstr ""
+msgstr "Indexação"
 
 msgid "Bibledit uses indexes for fast lookup."
-msgstr ""
+msgstr "O Bibledit usa índices para pesquisa rápida."
 
 msgid "Normally the indexes are refreshed automatically."
-msgstr ""
+msgstr "Normalmente, os índices são atualizados automaticamente."
 
 msgid ""
 "When the Journal indicates unusual behaviour of an index, or errors, it "
 "needs to be recreated."
 msgstr ""
+"Quando o Diário indica um comportamento incomum de um índice, ou erros, ele "
+"precisa ser recriado."
 
 msgid "Recreate Bibles index."
 msgstr ""

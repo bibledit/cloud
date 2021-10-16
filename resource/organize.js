@@ -18,41 +18,41 @@
 
 
 $ (document).ready (function () {
-   function setupSlip (list) {
-      list.addEventListener ('slip:beforereorder', function (e)
+  function setupSlip (list) {
+    list.addEventListener ('slip:beforereorder', function (e)
       {
       }, false);
-
-      list.addEventListener('slip:beforeswipe', function(e)
+    
+    list.addEventListener('slip:beforeswipe', function(e)
       {
       }, false);
-
-      list.addEventListener('slip:beforewait', function(e)
+    
+    list.addEventListener('slip:beforewait', function(e)
       {
-         if (e.target.classList.contains('instant'))
-         {
-            e.preventDefault();
-         }
+        if (e.target.classList.contains('instant'))
+        {
+          e.preventDefault();
+        }
       }, false);
-
-      list.addEventListener('slip:afterswipe', function(e)
+    
+    list.addEventListener('slip:afterswipe', function(e)
       {
-         e.target.parentNode.appendChild(e.target);
+        e.target.parentNode.appendChild(e.target);
       }, false);
-
-      list.addEventListener('slip:reorder', function(e)
+    
+    list.addEventListener('slip:reorder', function(e)
       {
-         $.ajax ({
-            url :"organize",
-            type :"POST",
-            data :{ movefrom :e.detail.originalIndex, moveto :e.detail.spliceIndex }
-         });
-         e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
-         return(false);
+        $.ajax ({
+          url :"organize",
+          type :"POST",
+          data :{ movefrom :e.detail.originalIndex, moveto :e.detail.spliceIndex }
+          });
+        e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
+        return(false);
       }, false);
-
-      return(new Slip(list));
-   }
-
-   setupSlip(document.getElementById('list'));
+    
+    return(new Slip(list));
+  }
+  
+  setupSlip(document.getElementById('list'));
 });

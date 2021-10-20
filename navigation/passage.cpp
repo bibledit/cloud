@@ -28,6 +28,10 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <ipc/focus.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 /*
@@ -54,27 +58,33 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
   
   bool basic_mode = config_logic_basic_mode (webserver_request);
   
-  string fragment;
+  xml_document document;
   
   // Links to go back and forward are available only when there's available history to go to.
-  // In basic mode they are not there.
-  //if (!basic_mode) {
-  // It's now there in basic mode too.
-  // https://github.com/bibledit/cloud/issues/641
-  fragment.append ("<span>");
-  if (database_navigation.previousExists (user)) {
-    fragment.append (R"(<a id="navigateback" href="navigateback" title=")" + translate("Back") + R"(">↶</a>)");
+  // In basic mode they were not there initially.
+  // But later on it was decided to have them in basic mode too.
+  // See reasons here: https://github.com/bibledit/cloud/issues/641
+  {
+    xml_node span_node = document.append_child("span");
+    if (database_navigation.previousExists (user)) {
+      xml_node span_node_back = span_node.append_child("span");
+      span_node_back.append_attribute("id") = "navigateback";
+      span_node_back.append_attribute("title") = translate("Back").c_str();
+      span_node_back.text() = "↶";
+    }
   }
-  fragment.append ("</span>");
-  fragment.append ("<span>");
-  fragment.append (" ");
-  if (database_navigation.nextExists (user)) {
-    fragment.append (R"(<a id="navigateforward" href="navigateforward" title=")" + translate("Forward") + R"(">↷</a>)");
+  {
+    xml_node span_node = document.append_child("span");
+    xml_node pcdata = span_node.append_child (node_pcdata);
+    pcdata.set_value(" ");
+    if (database_navigation.nextExists (user)) {
+      xml_node span_node_back = span_node.append_child("span");
+      span_node_back.append_attribute("id") = "navigateforward";
+      span_node_back.append_attribute("title") = translate("Forward").c_str();
+      span_node_back.text() = "↷";
+    }
   }
-  fragment.append ("</span>");
-  fragment.append ("\n");
-  //}
-  
+
   int book = Ipc_Focus::getBook (request);
   
   // The book should exist in the Bible.
@@ -90,8 +100,15 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
   string bookName = Database_Books::getEnglishFromId (book);
   bookName = translate (bookName);
 
-  fragment.append (R"(<span><a id="selectbook" href="selectbook" title=")" + translate ("Select book") + R"(">)" + bookName + "</a></span>");
-  
+  {
+    xml_node span_node = document.append_child("span");
+    xml_node a_node = span_node.append_child("a");
+    a_node.append_attribute("id") = "selectbook";
+    a_node.append_attribute("href") = "selectbook";
+    a_node.append_attribute("title") = translate("Select book").c_str();
+    a_node.text() = bookName.c_str();
+  }
+
   int chapter = Ipc_Focus::getChapter (request);
   
   // The chapter should exist in the book.
@@ -104,7 +121,14 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
     }
   }
 
-  fragment.append (R"(<span><a id="selectchapter" href="selectchapter" title=\")" + translate ("Select chapter") + "\"> " + convert_to_string (chapter) +  " </a></span>");
+  {
+    xml_node span_node = document.append_child("span");
+    xml_node a_node = span_node.append_child("a");
+    a_node.append_attribute("id") = "selectchapter";
+    a_node.append_attribute("href") = "selectchapter";
+    a_node.append_attribute("title") = translate("Select chapter").c_str();
+    a_node.text() = convert_to_string (chapter).c_str();
+  }
   
   int verse = Ipc_Focus::getVerse (request);
   
@@ -125,34 +149,54 @@ string Navigation_Passage::getMouseNavigator (void * webserver_request, string b
       }
     }
   }
-  
-  fragment.append ("<span><a");
-  if (!basic_mode) {
-    fragment.append (R"( class="previousverse")");
+
+  {
+    xml_node span_node = document.append_child("span");
+    xml_node a_node = span_node.append_child("a");
+    if (!basic_mode) {
+      a_node.append_attribute("class") = "previousverse";
+    }
+    if (verse) {
+      a_node.append_attribute("id") = "previousverse";
+      a_node.append_attribute("href") = "previousverse";
+      a_node.append_attribute("title") = translate("Go to previous verse").c_str();
+    }
+    a_node.text() = " ᐊ ";
   }
-  if (verse) {
-    // A previous verse (0) is assumed to be available.
-    fragment.append (R"( id="previousverse" href="previousverse" title=")" + translate ("Go to previous verse") + R"(")");
+
+  {
+    xml_node span_node = document.append_child("span");
+    xml_node a_node = span_node.append_child("a");
+    if (!basic_mode) {
+      a_node.append_attribute("class") = "selectverse";
+    }
+    a_node.append_attribute("id") = "selectverse";
+    a_node.append_attribute("href") = "selectverse";
+    a_node.append_attribute("title") = translate("Select verse").c_str();
+    a_node.text() = string (" " + convert_to_string (verse) + " ").c_str();
   }
-  fragment.append ("> ᐊ </a></span>");
-  
-  fragment.append ("<span><a");
-  if (!basic_mode) fragment.append (R"( class="selectverse")");
-  fragment.append (R"( id="selectverse" href="selectverse" title=")" + translate ("Select verse") + R"("> )" + convert_to_string (verse) +  " </a></span>");
 
   if (next_verse_is_available) {
-    fragment.append ("<span><a");
-    if (!basic_mode) fragment.append (R"( class="nextverse")");
-    fragment.append (R"( id="nextverse" href="nextverse" title=")" + translate ("Go to next verse") + R"(")");
-    fragment.append ("> ᐅ </a></span>");
+    xml_node span_node = document.append_child("span");
+    xml_node a_node = span_node.append_child("a");
+    if (!basic_mode) {
+      a_node.append_attribute("class") = "nextverse";
+    }
+    a_node.append_attribute("id") = "nextverse";
+    a_node.append_attribute("href") = "nextverse";
+    a_node.append_attribute("title") = translate("Go to next verse").c_str();
+    a_node.text() = " ᐅ ";
   }
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
     Ipc_Focus::set (request, book, chapter, verse);
   }
-  
+
   // The result.
+  stringstream output;
+  document.print (output, "", format_raw);
+  string fragment = output.str ();
   return fragment;
 }
 

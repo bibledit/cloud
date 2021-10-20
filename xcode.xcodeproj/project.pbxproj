@@ -1328,31 +1328,12 @@
 		CADE3CC824F17470003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3CC924F17470003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE3CD024F17470003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CADE3CD224F17470003165BB /* lt.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = lt.po; sourceTree = "<group>"; };
-		CADE3CD324F17470003165BB /* uk.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = uk.po; sourceTree = "<group>"; };
-		CADE3CD424F17470003165BB /* cs.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = cs.po; sourceTree = "<group>"; };
-		CADE3CD524F17470003165BB /* fr.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = fr.po; sourceTree = "<group>"; };
-		CADE3CD624F17470003165BB /* nl.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = nl.po; sourceTree = "<group>"; };
-		CADE3CD724F17470003165BB /* kab.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = kab.po; sourceTree = "<group>"; };
-		CADE3CD824F17470003165BB /* ku.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ku.po; sourceTree = "<group>"; };
-		CADE3CD924F17470003165BB /* sv.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sv.po; sourceTree = "<group>"; };
-		CADE3CDA24F17470003165BB /* tr.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = tr.po; sourceTree = "<group>"; };
-		CADE3CDB24F17470003165BB /* zh_TW.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = zh_TW.po; sourceTree = "<group>"; };
-		CADE3CDC24F17470003165BB /* pt_BR.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pt_BR.po; sourceTree = "<group>"; };
-		CADE3CDD24F17470003165BB /* it.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = it.po; sourceTree = "<group>"; };
-		CADE3CDE24F17470003165BB /* es.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = es.po; sourceTree = "<group>"; };
 		CADE3CDF24F17470003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3CE124F17470003165BB /* translate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = translate.h; sourceTree = "<group>"; };
-		CADE3CE224F17470003165BB /* en_GB.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_GB.po; sourceTree = "<group>"; };
-		CADE3CE324F17470003165BB /* de.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = de.po; sourceTree = "<group>"; };
 		CADE3CE424F17470003165BB /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		CADE3CE524F17470003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CADE3CE624F17470003165BB /* ny.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ny.po; sourceTree = "<group>"; };
-		CADE3CE724F17470003165BB /* id.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = id.po; sourceTree = "<group>"; };
 		CADE3CE824F17470003165BB /* bibledit.pot */ = {isa = PBXFileReference; lastKnownFileType = text; path = bibledit.pot; sourceTree = "<group>"; };
 		CADE3CEA24F17470003165BB /* translate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = translate.cpp; sourceTree = "<group>"; };
-		CADE3CEB24F17470003165BB /* af.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = af.po; sourceTree = "<group>"; };
-		CADE3CF024F17470003165BB /* pt.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pt.po; sourceTree = "<group>"; };
 		CADE3CF324F17470003165BB /* passage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = passage.cpp; sourceTree = "<group>"; };
 		CADE3CF424F17470003165BB /* passage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passage.h; sourceTree = "<group>"; };
 		CADE3CF624F17470003165BB /* poll.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = poll.cpp; sourceTree = "<group>"; };
@@ -4157,31 +4138,12 @@
 		CADE3CD124F17470003165BB /* locale */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3CEB24F17470003165BB /* af.po */,
 				CADE3CE824F17470003165BB /* bibledit.pot */,
-				CADE3CD424F17470003165BB /* cs.po */,
-				CADE3CE324F17470003165BB /* de.po */,
-				CADE3CE224F17470003165BB /* en_GB.po */,
-				CADE3CDE24F17470003165BB /* es.po */,
-				CADE3CD524F17470003165BB /* fr.po */,
-				CADE3CE724F17470003165BB /* id.po */,
-				CADE3CDD24F17470003165BB /* it.po */,
-				CADE3CD724F17470003165BB /* kab.po */,
-				CADE3CD824F17470003165BB /* ku.po */,
 				CADE3CDF24F17470003165BB /* logic.cpp */,
 				CADE3CE524F17470003165BB /* logic.h */,
-				CADE3CD224F17470003165BB /* lt.po */,
-				CADE3CD624F17470003165BB /* nl.po */,
-				CADE3CE624F17470003165BB /* ny.po */,
-				CADE3CDC24F17470003165BB /* pt_BR.po */,
-				CADE3CF024F17470003165BB /* pt.po */,
 				CADE3CE424F17470003165BB /* README */,
-				CADE3CD924F17470003165BB /* sv.po */,
-				CADE3CDA24F17470003165BB /* tr.po */,
 				CADE3CEA24F17470003165BB /* translate.cpp */,
 				CADE3CE124F17470003165BB /* translate.h */,
-				CADE3CD324F17470003165BB /* uk.po */,
-				CADE3CDB24F17470003165BB /* zh_TW.po */,
 			);
 			path = locale;
 			sourceTree = "<group>";

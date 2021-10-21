@@ -145,10 +145,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_usfm ();
-  test_filter_text ();
-  test_export ();
-  test_odf ();
+  test_database_navigation ();
   refresh_sandbox (true);
   exit (0);
   

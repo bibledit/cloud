@@ -28,30 +28,32 @@
 class Navigation_Passage
 {
 public:
-  static string getMouseNavigator (void * webserver_request, string bible);
-  static string getBooksFragment (void * webserver_request, string bible);
-  static string getChaptersFragment (void * webserver_request, string bible, int book, int chapter);
-  static string getVersesFragment (void * webserver_request, string bible, int book, int chapter, int verse);
+  static string get_mouse_navigator (void * webserver_request, string bible);
+  static string get_books_fragment (void * webserver_request, string bible);
+  static string get_chapters_fragment (void * webserver_request, string bible, int book, int chapter);
+  static string get_verses_fragment (void * webserver_request, string bible, int book, int chapter, int verse);
   static string code (string bible);
-  static void setBook (void * webserver_request, int book);
-  static void setChapter (void * webserver_request, int chapter);
-  static void setVerse (void * webserver_request, int verse);
-  static void setPassage (void * webserver_request, string bible, string passage);
-  static void gotoNextChapter (void * webserver_request, string bible);
-  static void gotoPreviousChapter (void * webserver_request, string bible);
-  static void gotoNextVerse (void * webserver_request, string bible);
-  static void gotoPreviousVerse (void * webserver_request, string bible);
-  static void recordHistory (void * webserver_request, int book, int chapter, int verse);
-  static void goBack (void * webserver_request);
-  static void goForward (void * webserver_request);
-  static string getKeyboardNavigator (void * webserver_request, string bible);
-  static void interpretKeyboardNavigator (void * webserver_request, string bible, string passage);
+  static void set_book (void * webserver_request, int book);
+  static void set_chapter (void * webserver_request, int chapter);
+  static void set_verse (void * webserver_request, int verse);
+  static void set_passage (void * webserver_request, string bible, string passage);
+  static void goto_next_chapter (void * webserver_request, string bible);
+  static void goto_previous_chapter (void * webserver_request, string bible);
+  static void goto_next_verse (void * webserver_request, string bible);
+  static void goto_previous_verse (void * webserver_request, string bible);
+  static void record_history (void * webserver_request, int book, int chapter, int verse);
+  static void go_back (void * webserver_request);
+  static void go_forward (void * webserver_request);
+  static string get_keyboard_navigator (void * webserver_request, string bible);
+  static void interpret_keyboard_navigator (void * webserver_request, string bible, string passage);
+  static string history_back (void * webserver_request, string bible);
+  static string history_forward (void * webserver_request, string bible);
 private:
-  static void addSelectorLink (string& html, string id, string href, string text, bool selected, string extra_class);
-  static Passage getNextChapter (void * webserver_request, string bible, int book, int chapter);
-  static Passage getPreviousChapter (void * webserver_request, string bible, int book, int chapter);
-  static Passage getNextVerse (void * webserver_request, string bible, int book, int chapter, int verse);
-  static Passage getPreviousVerse (void * webserver_request, string bible, int book, int chapter, int verse);
+  static void add_selector_link (string& html, string id, string href, string text, bool selected, string extra_class);
+  static Passage get_next_chapter (void * webserver_request, string bible, int book, int chapter);
+  static Passage get_previous_chapter (void * webserver_request, string bible, int book, int chapter);
+  static Passage get_next_verse (void * webserver_request, string bible, int book, int chapter, int verse);
+  static Passage get_previous_verse (void * webserver_request, string bible, int book, int chapter, int verse);
 };
 
 

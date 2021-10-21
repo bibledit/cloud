@@ -67,7 +67,7 @@ string editusfm_index (void * webserver_request)
     int book = convert_to_int (switchbook);
     int chapter = convert_to_int (switchchapter);
     Ipc_Focus::set (request, book, chapter, 1);
-    Navigation_Passage::recordHistory (request, book, chapter, 1);
+    Navigation_Passage::record_history (request, book, chapter, 1);
   }
   
   

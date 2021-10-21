@@ -97,7 +97,7 @@ string changes_changes (void * webserver_request)
     Passage passage = database_modifications.getNotificationPassage (id);
     if (passage.book) {
       Ipc_Focus::set (request, passage.book, passage.chapter, convert_to_int (passage.verse));
-      Navigation_Passage::recordHistory (request, passage.book, passage.chapter, convert_to_int (passage.verse));
+      Navigation_Passage::record_history (request, passage.book, passage.chapter, convert_to_int (passage.verse));
     }
     // Set the correct default Bible for the user.
     string bible = database_modifications.getNotificationBible (id);

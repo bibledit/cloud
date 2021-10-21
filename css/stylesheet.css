@@ -1251,3 +1251,16 @@ table.interlinear.rtl {
     border-radius: 2.5px;
   }
 }
+
+#navigateforward {
+  cursor: pointer;
+}
+#navigateback {
+  cursor: pointer;
+}
+#navigateforward:hover {
+  text-decoration: underline;
+}
+#navigateback:hover {
+  text-decoration: underline;
+}

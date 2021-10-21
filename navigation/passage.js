@@ -95,8 +95,14 @@ function bindClickHandlers () {
   $("#navigateback").on ("click", function (event) {
     navigateBack (event);
   });
+  $("#navigateback").longpress (function (event) {
+    historyBack (event);
+  });
   $("#navigateforward").on ("click", function (event) {
     navigateForward (event);
+  });
+  $("#navigateforward").longpress (function (event) {
+    historyForward (event);
   });
   $("#selectbook").on ("click", function (event) {
     $ (".fadeout").hide ();
@@ -120,8 +126,14 @@ function bindClickHandlers () {
 }
 
 
+
+var navigateBackSkip = false;
+
 function navigateBack (event) {
-  event.preventDefault ();
+  if (navigateBackSkip) {
+    navigateBackSkip = false;
+    return;
+  }
   $.ajax ({
     url: "/navigation/update",
     type: "GET",
@@ -137,8 +149,13 @@ function navigateBack (event) {
 }
 
 
+var navigateForwardSkip = false;
+
 function navigateForward (event) {
-  event.preventDefault ();
+  if (navigateForwardSkip) {
+    navigateForwardSkip = false;
+    return;
+  }
   $.ajax ({
     url: "/navigation/update",
     type: "GET",
@@ -412,3 +429,42 @@ function navigationCallNewPassage () {
     }
   });
 }
+
+
+function historyForward (event) { // Todo
+  // After the long press event, if releasing the mouse, it will do a click event.
+  // Prevent the click event.
+  navigateForwardSkip = true;
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, historyforward: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
+}
+
+
+function historyBack (event) { // Todo
+  // After the long press event, if releasing the mouse, it will do a click event.
+  // Prevent the click event.
+  navigateBackSkip = true;
+  $.ajax ({
+    url: "/navigation/update",
+    type: "GET",
+    data: { bible: navigationBible, historyback: "" },
+    cache: false,
+    success: function (response) {
+      navigatorContainer.empty ();
+      navigatorContainer.append (response);
+      bindClickHandlers ();
+      navigationPollPassage ();
+    },
+  });
+}
+

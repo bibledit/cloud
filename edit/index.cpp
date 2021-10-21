@@ -70,7 +70,7 @@ string edit_index (void * webserver_request)
     int switchverse = 1;
     if (request->query.count ("switchverse")) switchverse = convert_to_int (request->query ["switchverse"]);
     Ipc_Focus::set (request, switchbook, switchchapter, switchverse);
-    Navigation_Passage::recordHistory (request, switchbook, switchchapter, switchverse);
+    Navigation_Passage::record_history (request, switchbook, switchchapter, switchverse);
   }
 
   

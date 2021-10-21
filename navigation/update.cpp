@@ -54,28 +54,28 @@ string navigation_update (void * webserver_request)
   
   // Build the keyboard navigation fragment.
   if (request->query.count ("keyboard")) {
-    return Navigation_Passage::getKeyboardNavigator (request, bible);
+    return Navigation_Passage::get_keyboard_navigator (request, bible);
   }
 
   
   else if (request->query.count ("passage")) {
     string passage = request->query["passage"];
-    Navigation_Passage::interpretKeyboardNavigator (request, bible, passage);
+    Navigation_Passage::interpret_keyboard_navigator (request, bible, passage);
   }
 
 
   else if (request->query.count ("goback")) {
-    Navigation_Passage::goBack (request);
+    Navigation_Passage::go_back (request);
   }
   
   
   else if (request->query.count ("goforward")) {
-    Navigation_Passage::goForward (request);
+    Navigation_Passage::go_forward (request);
   }
   
   
   else if (request->query.count ("getbooks")) {
-    return Navigation_Passage::getBooksFragment (request, bible);
+    return Navigation_Passage::get_books_fragment (request, bible);
   }
   
   
@@ -83,14 +83,14 @@ string navigation_update (void * webserver_request)
     string msg = request->query ["applybook"];
     if (msg.find ("cancel") == string::npos) {
       int book = convert_to_int (msg);
-      if (book) Navigation_Passage::setBook (request, book);
+      if (book) Navigation_Passage::set_book (request, book);
     }
   }
   
   
   // Get the list of available chapters in the current book.
   else if (request->query.count ("getchapters")) {
-    return Navigation_Passage::getChaptersFragment (request, bible, book, chapter);
+    return Navigation_Passage::get_chapters_fragment (request, bible, book, chapter);
   }
   
 
@@ -98,21 +98,21 @@ string navigation_update (void * webserver_request)
   else if (request->query.count ("applychapter")) {
     string msg = request->query ["applychapter"];
     if (msg.find ("previous") != string::npos) {
-      Navigation_Passage::gotoPreviousChapter (webserver_request, bible);
+      Navigation_Passage::goto_previous_chapter (webserver_request, bible);
     } else if (msg.find ("next") != string::npos) {
-      Navigation_Passage::gotoNextChapter (webserver_request, bible);
+      Navigation_Passage::goto_next_chapter (webserver_request, bible);
     }
     else if (msg.find ("cancel") != string::npos) {
     } else {
       int chapter = convert_to_int (msg);
-      Navigation_Passage::setChapter (request, chapter);
+      Navigation_Passage::set_chapter (request, chapter);
     }
   }
   
   
   // Get the list of available verses in the current chapter.
   else if (request->query.count ("getverses")) {
-    return Navigation_Passage::getVersesFragment (request, bible, convert_to_int (book), chapter, verse);
+    return Navigation_Passage::get_verses_fragment (request, bible, convert_to_int (book), chapter, verse);
   }
 
   
@@ -120,43 +120,55 @@ string navigation_update (void * webserver_request)
   else if (request->query.count ("applyverse")) {
     string msg = request->query ["applyverse"];
     if (msg.find ("previous") != string::npos) {
-      Navigation_Passage::gotoPreviousVerse (webserver_request, bible);
+      Navigation_Passage::goto_previous_verse (webserver_request, bible);
     } else if (msg.find ("next") != string::npos) {
-      Navigation_Passage::gotoNextVerse (webserver_request, bible);
+      Navigation_Passage::goto_next_verse (webserver_request, bible);
     }
     else if (msg.find ("cancel") != string::npos) {
     } else {
       int verse = convert_to_int (msg);
-      Navigation_Passage::setVerse (request, verse);
+      Navigation_Passage::set_verse (request, verse);
     }
   }
   
 
   // Go to the previous verse.
   else if (request->query.count ("previousverse")) {
-    Navigation_Passage::gotoPreviousVerse (webserver_request, bible);
+    Navigation_Passage::goto_previous_verse (webserver_request, bible);
   }
   
   
   // Go to the next verse.
   else if (request->query.count ("nextverse")) {
-    Navigation_Passage::gotoNextVerse (webserver_request, bible);
+    Navigation_Passage::goto_next_verse (webserver_request, bible);
   }
   
 
   // Go to the previous chapter.
   else if (request->query.count ("previouschapter")) {
-    Navigation_Passage::gotoPreviousChapter (webserver_request, bible);
+    Navigation_Passage::goto_previous_chapter (webserver_request, bible);
   }
   
   
   // Go to the next chapter.
   else if (request->query.count ("nextchapter")) {
-    Navigation_Passage::gotoNextChapter (webserver_request, bible);
+    Navigation_Passage::goto_next_chapter (webserver_request, bible);
   }
   
   
+  // History going back. Todo
+  else if (request->query.count ("historyback")) {
+    return Navigation_Passage::history_back (request, bible);
+  }
+
+  
+  // History going forward. Todo
+  else if (request->query.count ("historyforward")) {
+    return Navigation_Passage::history_forward (request, bible);
+  }
+
+  
   // Build the navigation fragment.
-  return Navigation_Passage::getMouseNavigator (request, bible);
+  return Navigation_Passage::get_mouse_navigator (request, bible);
 }
 

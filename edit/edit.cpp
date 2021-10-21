@@ -55,7 +55,7 @@ string edit_edit (void * webserver_request)
   string href = request->query ["href"];
   Passage passage = filter_integer_to_passage (convert_to_int (href));
   Ipc_Focus::set (request, passage.book, passage.chapter, convert_to_int (passage.verse));
-  Navigation_Passage::recordHistory (request, passage.book, passage.chapter, convert_to_int (passage.verse));
+  Navigation_Passage::record_history (request, passage.book, passage.chapter, convert_to_int (passage.verse));
   
   
   // Check whether a Bible editor is alive.

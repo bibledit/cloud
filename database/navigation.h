@@ -31,14 +31,14 @@ public:
   void create ();
   void trim ();
   void record (int time, string user, int book, int chapter, int verse);
-  bool previousExists (const string& user);
-  bool nextExists (const string& user);
-  Passage getPrevious (const string& user);
-  Passage getNext (const string& user);
+  bool previous_exists (const string& user);
+  bool next_exists (const string& user);
+  Passage get_previous (const string& user);
+  Passage get_next (const string& user);
 private:
   sqlite3 * connect ();
-  int getPreviousId (const string& user);
-  int getNextId (const string& user);
+  int get_previous_id (const string& user);
+  int get_next_id (const string& user);
 };
 
 

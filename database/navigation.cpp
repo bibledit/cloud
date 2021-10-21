@@ -97,21 +97,21 @@ void Database_Navigation::record (int time, string user, int book, int chapter, 
 }
 
 
-bool Database_Navigation::previousExists (const string& user)
+bool Database_Navigation::previous_exists (const string& user)
 {
-  return (getPreviousId (user) != 0);
+  return (get_previous_id (user) != 0);
 }
 
 
-bool Database_Navigation::nextExists (const string& user)
+bool Database_Navigation::next_exists (const string& user)
 {
-  return (getNextId (user) != 0);
+  return (get_next_id (user) != 0);
 }
 
 
-Passage Database_Navigation::getPrevious (const string& user)
+Passage Database_Navigation::get_previous (const string& user)
 {
-  int id = getPreviousId (user);
+  int id = get_previous_id (user);
   if (id == 0) return Passage ();
 
   // Update the 'active' flag.
@@ -152,9 +152,9 @@ Passage Database_Navigation::getPrevious (const string& user)
 }
 
 
-Passage Database_Navigation::getNext (const string& user)
+Passage Database_Navigation::get_next (const string& user)
 {
-  int id = getNextId (user);
+  int id = get_next_id (user);
   if (id == 0) return Passage ();
 
   // Update the 'active' flag.
@@ -195,9 +195,9 @@ Passage Database_Navigation::getNext (const string& user)
 }
 
 
-int Database_Navigation::getPreviousId (const string& user)
+int Database_Navigation::get_previous_id (const string& user)
 {
-  // Get the ID of the active entry for the user.
+  // Get the database row identifier of the active entry for the user.
   int id = 0;
   {
     SqliteSQL sql = SqliteSQL ();
@@ -211,10 +211,10 @@ int Database_Navigation::getPreviousId (const string& user)
     }
     database_sqlite_disconnect (db);
   }
-  // If no active ID was found, return NULL.
+  // If no active row identifier was found, return zero.
   if (id == 0) return 0;
 
-  // Get the ID of the entry just before the active entry.
+  // Get the database row identifier of the entry just before the active entry.
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM navigation WHERE rowid <");
   sql.add (id);
@@ -224,8 +224,8 @@ int Database_Navigation::getPreviousId (const string& user)
   sqlite3 * db = connect ();
   vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
-  for (auto & s : ids) {
-    return convert_to_int (s);
+  if (!ids.empty()) {
+    return convert_to_int (ids[0]);
   }
 
   // Nothing found.
@@ -233,9 +233,9 @@ int Database_Navigation::getPreviousId (const string& user)
 }
 
 
-int Database_Navigation::getNextId (const string& user)
+int Database_Navigation::get_next_id (const string& user)
 {
-  // Get the ID of the active entry for the user.
+  // Get the database row identifier of the active entry for the user.
   int id = 0;
   {
     SqliteSQL sql = SqliteSQL ();
@@ -249,10 +249,10 @@ int Database_Navigation::getNextId (const string& user)
     }
     database_sqlite_disconnect (db);
   }
-  // If no active ID was found, return NULL.
+  // If no active row identifier was found, return zero.
   if (id == 0) return 0;
 
-  // Get the ID of the entry just after the active entry.
+  // Get the database row identifier of the entry just after the active entry.
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM navigation WHERE rowid >");
   sql.add (id);
@@ -262,8 +262,8 @@ int Database_Navigation::getNextId (const string& user)
   sqlite3 * db = connect ();
   vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
-  for (auto & s : ids) {
-    return convert_to_int (s);
+  if (!ids.empty()) {
+    return convert_to_int (ids[0]);
   }
 
   // Nothing found.

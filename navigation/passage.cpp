@@ -66,7 +66,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
   // See reasons here: https://github.com/bibledit/cloud/issues/641
   {
     xml_node span_node = document.append_child("span");
-    if (database_navigation.previousExists (user)) {
+    if (database_navigation.previous_exists (user)) {
       xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateback";
       span_node_back.append_attribute("title") = translate("Back").c_str();
@@ -77,7 +77,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     xml_node span_node = document.append_child("span");
     xml_node pcdata = span_node.append_child (node_pcdata);
     pcdata.set_value(" ");
-    if (database_navigation.nextExists (user)) {
+    if (database_navigation.next_exists (user)) {
       xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateforward";
       span_node_back.append_attribute("title") = translate("Forward").c_str();
@@ -460,7 +460,7 @@ void Navigation_Passage::go_back (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
-  Passage passage = database_navigation.getPrevious (user);
+  Passage passage = database_navigation.get_previous (user);
   if (passage.book) {
     Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
@@ -472,7 +472,7 @@ void Navigation_Passage::go_forward (void * webserver_request)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
-  Passage passage = database_navigation.getNext (user);
+  Passage passage = database_navigation.get_next (user);
   if (passage.book) {
     Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
@@ -639,7 +639,7 @@ string Navigation_Passage::history_back (void * webserver_request, string bible)
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
-  Passage passage = database_navigation.getPrevious (user);
+  Passage passage = database_navigation.get_previous (user);
   if (passage.book) {
 //    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }
@@ -677,7 +677,7 @@ string Navigation_Passage::history_forward (void * webserver_request, string bib
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
-  Passage passage = database_navigation.getNext (user);
+  Passage passage = database_navigation.get_next (user);
   if (passage.book) {
 //    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
   }

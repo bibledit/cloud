@@ -43,14 +43,14 @@ void test_database_navigation ()
     
     // Record one entry. As a result there should be no previous entry.
     database.record (time, "phpunit", 1, 2, 3);
-    bool previous = database.previousExists ("phpunit");
+    bool previous = database.previous_exists ("phpunit");
     evaluate (__LINE__, __func__, false, previous);
     
     // Record another entry, with the same time.
     // This should remove the already existing entry.
     // As a result there should be no previous entry.
     database.record (time, "phpunit", 4, 5, 6);
-    previous = database.previousExists ("phpunit");
+    previous = database.previous_exists ("phpunit");
     evaluate (__LINE__, __func__, false, previous);
     
     // Record another entry 4 seconds later.
@@ -58,7 +58,7 @@ void test_database_navigation ()
     // As a result there should be no previous entry.
     time += 4;
     database.record (time, "phpunit", 4, 5, 6);
-    previous = database.previousExists ("phpunit");
+    previous = database.previous_exists ("phpunit");
     evaluate (__LINE__, __func__, false, previous);
     
     // Record another entry 5 seconds later.
@@ -66,7 +66,7 @@ void test_database_navigation ()
     // As a result there should be no previous entry.
     time += 5;
     database.record (time, "phpunit", 4, 5, 6);
-    previous = database.previousExists ("phpunit");
+    previous = database.previous_exists ("phpunit");
     evaluate (__LINE__, __func__, false, previous);
     
     // Record another entry 6 seconds later.
@@ -74,7 +74,7 @@ void test_database_navigation ()
     // As a result there should be a previous entry.
     time += 6;
     database.record (time, "phpunit", 4, 5, 6);
-    previous = database.previousExists ("phpunit");
+    previous = database.previous_exists ("phpunit");
     evaluate (__LINE__, __func__, true, previous);
   }
   {
@@ -88,7 +88,7 @@ void test_database_navigation ()
     time += 6;
     database.record (time, "phpunit", 4, 5, 6);
     // Get previous entry, which should be the first one entered.
-    Passage passage = database.getPrevious ("phpunit");
+    Passage passage = database.get_previous ("phpunit");
     evaluate (__LINE__, __func__, 1, passage.book);
     evaluate (__LINE__, __func__, 2, passage.chapter);
     evaluate (__LINE__, __func__, "3", passage.verse);
@@ -104,7 +104,7 @@ void test_database_navigation ()
     time += 6;
     database.record (time, "phpunit", 4, 5, 6);
     // Get previous entry for another user: It should not be there.
-    Passage passage = database.getPrevious ("phpunit2");
+    Passage passage = database.get_previous ("phpunit2");
     evaluate (__LINE__, __func__, 0, passage.book);
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
@@ -122,7 +122,7 @@ void test_database_navigation ()
     time += 6;
     database.record (time, "phpunit", 7, 8, 9);
     // Get previous entry, which should be the second one entered.
-    Passage passage = database.getPrevious ("phpunit");
+    Passage passage = database.get_previous ("phpunit");
     evaluate (__LINE__, __func__, 4, passage.book);
     evaluate (__LINE__, __func__, 5, passage.chapter);
     evaluate (__LINE__, __func__, "6", passage.verse);
@@ -144,7 +144,7 @@ void test_database_navigation ()
     time += 6;
     database.record (time, "phpunit", 13, 14, 15);
     // Get previous entry, which should be the last but one passage recorded.
-    Passage passage = database.getPrevious ("phpunit");
+    Passage passage = database.get_previous ("phpunit");
     evaluate (__LINE__, __func__, 10, passage.book);
     evaluate (__LINE__, __func__, 11, passage.chapter);
     evaluate (__LINE__, __func__, "12", passage.verse);
@@ -154,7 +154,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // There should be no next passage.
-    Passage passage = database.getNext ("phpunit");
+    Passage passage = database.get_next ("phpunit");
     evaluate (__LINE__, __func__, 0, passage.book);
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
@@ -175,7 +175,7 @@ void test_database_navigation ()
     database.record (time, "phpunit", 1, 2, 3);
     time += 6;
     database.record (time, "phpunit", 1, 2, 3);
-    Passage passage = database.getNext ("phpunit");
+    Passage passage = database.get_next ("phpunit");
     evaluate (__LINE__, __func__, 0, passage.book);
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
@@ -190,37 +190,37 @@ void test_database_navigation ()
     time += 6;
     database.record (time, "phpunit", 4, 5, 6);
     // Next entry is not there.
-    Passage passage = database.getNext ("phpunit");
+    Passage passage = database.get_next ("phpunit");
     evaluate (__LINE__, __func__, 0, passage.book);
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
     // Previous entry should be there.
-    passage = database.getPrevious ("phpunit");
+    passage = database.get_previous ("phpunit");
     evaluate (__LINE__, __func__, 1, passage.book);
     evaluate (__LINE__, __func__, 2, passage.chapter);
     evaluate (__LINE__, __func__, "3", passage.verse);
     // Next entry should be there since we moved to the previous one.
-    passage = database.getNext ("phpunit");
+    passage = database.get_next ("phpunit");
     evaluate (__LINE__, __func__, 4, passage.book);
     evaluate (__LINE__, __func__, 5, passage.chapter);
     evaluate (__LINE__, __func__, "6", passage.verse);
     // Previous entry should be there.
-    passage = database.getPrevious ("phpunit");
+    passage = database.get_previous ("phpunit");
     evaluate (__LINE__, __func__, 1, passage.book);
     evaluate (__LINE__, __func__, 2, passage.chapter);
     evaluate (__LINE__, __func__, "3", passage.verse);
     // Previous entry before previous entry should not be there.
-    passage = database.getPrevious ("phpunit");
+    passage = database.get_previous ("phpunit");
     evaluate (__LINE__, __func__, 0, passage.book);
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
     // Next entry should be there since we moved to the previous one.
-    passage = database.getNext ("phpunit");
+    passage = database.get_next ("phpunit");
     evaluate (__LINE__, __func__, 4, passage.book);
     evaluate (__LINE__, __func__, 5, passage.chapter);
     evaluate (__LINE__, __func__, "6", passage.verse);
     // The entry next to the next entry should not be there.
-    passage = database.getNext ("phpunit");
+    passage = database.get_next ("phpunit");
     evaluate (__LINE__, __func__, 0, passage.book);
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);

@@ -119,7 +119,7 @@ string filter_passage_display_inline (vector <Passage> passages)
 {
   string display;
   for (Passage & passage : passages) {
-    if (display != "") display.append (" | ");
+    if (!display.empty()) display.append (" | ");
     display.append (filter_passage_display (passage.book, passage.chapter, passage.verse));
   }
   return display;

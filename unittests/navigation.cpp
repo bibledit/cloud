@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 
 
-void test_database_navigation () // Todo
+void test_database_navigation ()
 {
   trace_unit_tests (__func__);
   
@@ -236,4 +236,82 @@ void test_database_navigation () // Todo
     evaluate (__LINE__, __func__, 0, passage.chapter);
     evaluate (__LINE__, __func__, "", passage.verse);
   }
+  
+  {
+    // Initialization.
+    refresh_sandbox (true);
+    Database_Navigation database;
+    database.create ();
+    int time = filter_date_seconds_since_epoch ();
+    vector<Passage> passages;
+
+    // Record three entries at an interval for this user.
+    // Record different entries for another user.
+    database.record (time, user,       1, 2, 3);
+    database.record (time, user + "1", 3, 2, 1);
+    time += 6;
+    database.record (time, user,       4, 5, 6);
+    database.record (time, user + "1", 6, 5, 4);
+    time += 6;
+    database.record (time, user,       7, 8, 9);
+    database.record (time, user + "1", 9, 8, 7);
+
+    // Check the first two entries are there in the backward history.
+    // They should be in reverse order of entry.
+    // The entries for the other user should not be in the retrieved history.
+    passages = database.get_history(user, -1);
+    evaluate (__LINE__, __func__, 2, passages.size());
+    if (passages.size() == 2) {
+      evaluate (__LINE__, __func__, 4, passages[0].book);
+      evaluate (__LINE__, __func__, 5, passages[0].chapter);
+      evaluate (__LINE__, __func__, "6", passages[0].verse);
+      evaluate (__LINE__, __func__, 1, passages[1].book);
+      evaluate (__LINE__, __func__, 2, passages[1].chapter);
+      evaluate (__LINE__, __func__, "3", passages[1].verse);
+    }
+    
+    // At this stage there should not yet be any forward history.
+    passages = database.get_history(user, 1);
+    evaluate (__LINE__, __func__, 0, passages.size());
+    
+    // Go backwards one step.
+    // As a result there should be one history item going back.
+    // And one history item going forward.
+    database.get_previous(user);
+    passages = database.get_history(user, -1);
+    evaluate (__LINE__, __func__, 1, passages.size());
+    if (passages.size() == 1) {
+      evaluate (__LINE__, __func__, 1, passages[0].book);
+      evaluate (__LINE__, __func__, 2, passages[0].chapter);
+      evaluate (__LINE__, __func__, "3", passages[0].verse);
+    }
+    passages = database.get_history(user, 1);
+    evaluate (__LINE__, __func__, 1, passages.size());
+    if (passages.size() == 1) {
+      evaluate (__LINE__, __func__, 7, passages[0].book);
+      evaluate (__LINE__, __func__, 8, passages[0].chapter);
+      evaluate (__LINE__, __func__, "9", passages[0].verse);
+    }
+
+    // Go backwards yet another step.
+    // After this there should not be any history going back left.
+    // There should now be two forward history items available.
+    database.get_previous(user);
+    passages = database.get_history(user, -1);
+    evaluate (__LINE__, __func__, 0, passages.size());
+    if (passages.size() == 1) {
+    }
+    passages = database.get_history(user, 1);
+    evaluate (__LINE__, __func__, 2, passages.size());
+    if (passages.size() == 2) {
+      evaluate (__LINE__, __func__, 4, passages[0].book);
+      evaluate (__LINE__, __func__, 5, passages[0].chapter);
+      evaluate (__LINE__, __func__, "6", passages[0].verse);
+      evaluate (__LINE__, __func__, 7, passages[1].book);
+      evaluate (__LINE__, __func__, 8, passages[1].chapter);
+      evaluate (__LINE__, __func__, "9", passages[1].verse);
+    }
+
+  }
+  
 }

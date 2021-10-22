@@ -35,6 +35,7 @@ public:
   bool next_exists (const string& user);
   Passage get_previous (const string& user);
   Passage get_next (const string& user);
+  vector <Passage> get_history (const string& user, int direction);
 private:
   sqlite3 * connect ();
   int get_previous_id (const string& user);

@@ -141,11 +141,11 @@ Passage Database_Navigation::get_previous (const string& user)
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
-  for (unsigned int i = 0; i < books.size(); i++) {
+  if (!books.empty()) {
     Passage passage;
-    passage.book = convert_to_int (books [i]);
-    passage.chapter = convert_to_int (chapters [i]);
-    passage.verse = verses [i];
+    passage.book = convert_to_int (books [0]);
+    passage.chapter = convert_to_int (chapters [0]);
+    passage.verse = verses [0];
     return passage;
   }
   return Passage ();
@@ -184,11 +184,11 @@ Passage Database_Navigation::get_next (const string& user)
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
-  for (unsigned int i = 0; i < books.size(); i++) {
+  if (!books.empty()) {
     Passage passage;
-    passage.book = convert_to_int (books [i]);
-    passage.chapter = convert_to_int (chapters [i]);
-    passage.verse = verses [i];
+    passage.book = convert_to_int (books [0]);
+    passage.chapter = convert_to_int (chapters [0]);
+    passage.verse = verses [0];
     return passage;
   }
   return Passage ();
@@ -270,3 +270,54 @@ int Database_Navigation::get_next_id (const string& user)
   return 0;
 }
 
+
+// The $user for whom to get the history.
+// The $direction into which to get the history:
+// * negative: Get the past history as if going back.
+// * positive: Get the future history as if going forward.
+vector <Passage> Database_Navigation::get_history (const string& user, int direction) // Todo
+{
+  vector <Passage> passages;
+  
+  int id = 0;
+  if (direction > 0) id = get_next_id(user);
+  if (direction < 0) id = get_previous_id (user);
+  if (id) {
+
+    // Read the passages history for this user.
+    map <string, vector <string> > result;
+    SqliteSQL sql = SqliteSQL ();
+    sql.add ("SELECT book, chapter, verse FROM navigation WHERE rowid");
+    if (direction > 0) sql.add (">=");
+    if (direction < 0) sql.add ("<=");
+    sql.add (id);
+    sql.add ("AND username =");
+    sql.add (user);
+
+    // Order the results depending on getting the history forward or backward.
+    sql.add ("ORDER BY rowid");
+    if (direction > 0) sql.add ("ASC");
+    if (direction < 0) sql.add ("DESC");
+    sql.add (";");
+
+    // Run the query on the database.
+    sqlite3 * db = connect ();
+    result = database_sqlite_query (db, sql.sql);
+    database_sqlite_disconnect (db);
+
+    // Assemble the results.
+    vector <string> books = result ["book"];
+    vector <string> chapters = result ["chapter"];
+    vector <string> verses = result ["verse"];
+    for (unsigned int i = 0; i < books.size(); i++) {
+      Passage passage;
+      passage.book = convert_to_int (books [i]);
+      passage.chapter = convert_to_int (chapters [i]);
+      passage.verse = verses [i];
+      passages.push_back(passage);
+    }
+  }
+  
+  // Done.
+  return passages;
+}

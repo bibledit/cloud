@@ -652,7 +652,7 @@ string Navigation_Passage::get_history_back (void * webserver_request) // Todo
   // Add a "cancel" link.
   add_selector_link (html, "cancel", "applyhistory", "[" + translate ("cancel") + "]", false, "");
   // Main html items.
-  html.insert (0, "<span id='applyhistory'>" + translate ("Select passage") + ": ");
+  html.insert (0, "<span id='applyhistory'>" + translate ("History back") + ": ");
   html.append ("</span>");
   // Done.
   return html;
@@ -677,7 +677,7 @@ string Navigation_Passage::get_history_forward (void * webserver_request) // Tod
   // Add a "cancel" link.
   add_selector_link (html, "cancel", "applyhistory", "[" + translate ("cancel") + "]", false, "");
   // Main html items.
-  html.insert (0, "<span id='applyhistory'>" + translate ("Select passage") + ": ");
+  html.insert (0, "<span id='applyhistory'>" + translate ("History forward") + ": ");
   html.append ("</span>");
   // Done.
   return html;

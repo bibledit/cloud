@@ -156,13 +156,13 @@ string navigation_update (void * webserver_request)
   }
   
   
-  // History going back. Todo
+  // History going back.
   else if (request->query.count ("historyback")) {
     return Navigation_Passage::get_history_back (request);
   }
 
   
-  // History going forward. Todo
+  // History going forward.
   else if (request->query.count ("historyforward")) {
     return Navigation_Passage::get_history_forward (request);
   }

@@ -91,7 +91,7 @@ function buildMouseNavigator () {
 }
 
 
-function bindClickHandlers () { // Todo
+function bindClickHandlers () {
   $("#navigateback").on ("click", function (event) {
     navigateBack (event);
   });
@@ -431,7 +431,7 @@ function navigationCallNewPassage () {
 }
 
 
-function historyForward (event) { // Todo
+function historyForward (event) {
   // After the long press event, if releasing the mouse, it will fire a click event.
   // Set a flag to not handle the click event.
   navigateForwardSkip = true;
@@ -451,7 +451,7 @@ function historyForward (event) { // Todo
 }
 
 
-function historyBack (event) { // Todo
+function historyBack (event) {
   // After the long press event, if releasing the mouse, it will fire a click event.
   // Set a flag to not handle the click event.
   navigateBackSkip = true;
@@ -471,7 +471,7 @@ function historyBack (event) { // Todo
 }
 
 
-function applyHistory (event) { // Todo
+function applyHistory (event) {
   event.preventDefault ();
   console.log("applyHistory");
   console.log (event);

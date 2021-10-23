@@ -275,7 +275,7 @@ int Database_Navigation::get_next_id (const string& user)
 // The $direction into which to get the history:
 // * negative: Get the past history as if going back.
 // * positive: Get the future history as if going forward.
-vector <Passage> Database_Navigation::get_history (const string& user, int direction) // Todo
+vector <Passage> Database_Navigation::get_history (const string& user, int direction)
 {
   vector <Passage> passages;
   

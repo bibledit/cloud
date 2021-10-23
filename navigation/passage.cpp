@@ -634,7 +634,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
 }
 
 
-string Navigation_Passage::get_history_back (void * webserver_request) // Todo
+string Navigation_Passage::get_history_back (void * webserver_request)
 {
   // Get the whole history from the database.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -659,7 +659,7 @@ string Navigation_Passage::get_history_back (void * webserver_request) // Todo
 }
 
 
-string Navigation_Passage::get_history_forward (void * webserver_request) // Todo
+string Navigation_Passage::get_history_forward (void * webserver_request)
 {
   // Get the whole history from the database.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
@@ -684,7 +684,7 @@ string Navigation_Passage::get_history_forward (void * webserver_request) // Tod
 }
 
 
-void Navigation_Passage::go_history (void * webserver_request, string message) // Todo
+void Navigation_Passage::go_history (void * webserver_request, string message)
 {
   // Example messages:
   // * f0apply: The "f" means "go forward". The "0" means item 0, that is, the first item.

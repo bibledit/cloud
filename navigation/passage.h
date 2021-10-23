@@ -46,8 +46,9 @@ public:
   static void go_forward (void * webserver_request);
   static string get_keyboard_navigator (void * webserver_request, string bible);
   static void interpret_keyboard_navigator (void * webserver_request, string bible, string passage);
-  static string history_back (void * webserver_request, string bible);
-  static string history_forward (void * webserver_request, string bible);
+  static string get_history_back (void * webserver_request);
+  static string get_history_forward (void * webserver_request);
+  static void go_history (void * webserver_request, string message);
 private:
   static void add_selector_link (string& html, string id, string href, string text, bool selected, string extra_class);
   static Passage get_next_chapter (void * webserver_request, string bible, int book, int chapter);

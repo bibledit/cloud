@@ -158,15 +158,21 @@ string navigation_update (void * webserver_request)
   
   // History going back. Todo
   else if (request->query.count ("historyback")) {
-    return Navigation_Passage::history_back (request, bible);
+    return Navigation_Passage::get_history_back (request);
   }
 
   
   // History going forward. Todo
   else if (request->query.count ("historyforward")) {
-    return Navigation_Passage::history_forward (request, bible);
+    return Navigation_Passage::get_history_forward (request);
   }
-
+  
+  else if (request->query.count ("applyhistory")) {
+    string message = request->query ["applyhistory"];
+    if (message.find ("cancel") == string::npos) {
+      Navigation_Passage::go_history(request, message);
+    }
+  }
   
   // Build the navigation fragment.
   return Navigation_Passage::get_mouse_navigator (request, bible);

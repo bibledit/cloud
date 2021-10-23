@@ -91,7 +91,7 @@ function buildMouseNavigator () {
 }
 
 
-function bindClickHandlers () {
+function bindClickHandlers () { // Todo
   $("#navigateback").on ("click", function (event) {
     navigateBack (event);
   });
@@ -432,8 +432,8 @@ function navigationCallNewPassage () {
 
 
 function historyForward (event) { // Todo
-  // After the long press event, if releasing the mouse, it will do a click event.
-  // Prevent the click event.
+  // After the long press event, if releasing the mouse, it will fire a click event.
+  // Set a flag to not handle the click event.
   navigateForwardSkip = true;
   $.ajax ({
     url: "/navigation/update",
@@ -443,16 +443,17 @@ function historyForward (event) { // Todo
     success: function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
+      $("#applyhistory").on ("click", function (event) {
+        applyHistory (event);
+      });
     },
   });
 }
 
 
 function historyBack (event) { // Todo
-  // After the long press event, if releasing the mouse, it will do a click event.
-  // Prevent the click event.
+  // After the long press event, if releasing the mouse, it will fire a click event.
+  // Set a flag to not handle the click event.
   navigateBackSkip = true;
   $.ajax ({
     url: "/navigation/update",
@@ -462,9 +463,31 @@ function historyBack (event) { // Todo
     success: function (response) {
       navigatorContainer.empty ();
       navigatorContainer.append (response);
-      bindClickHandlers ();
-      navigationPollPassage ();
+      $("#applyhistory").on ("click", function (event) {
+        applyHistory (event);
+      });
     },
   });
+}
+
+
+function applyHistory (event) { // Todo
+  event.preventDefault ();
+  console.log("applyHistory");
+  console.log (event);
+  if (event.target.localName == "a") {
+    $.ajax ({
+      url: "/navigation/update",
+      type: "GET",
+      data: { bible: navigationBible, applyhistory: event.target.id },
+      cache: false,
+      success: function (response) {
+        navigatorContainer.empty ();
+        navigatorContainer.append (response);
+        bindClickHandlers ();
+        navigationPollPassage ();
+      },
+    });
+  }
 }
 

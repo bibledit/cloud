@@ -634,78 +634,91 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
 }
 
 
-string Navigation_Passage::history_back (void * webserver_request, string bible) // Todo
+string Navigation_Passage::get_history_back (void * webserver_request) // Todo
 {
+  // Get the whole history from the database.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
-  Passage passage = database_navigation.get_previous (user);
-  if (passage.book) {
-//    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
-  }
-  
-  int activeBook = Ipc_Focus::getBook (request);
-  // Take standard books in case of no Bible.
-  vector <int> books;
-  if (bible == "") {
-    books = Database_Books::getIDs ();
-  } else {
-    books = filter_passage_get_ordered_books (bible);
-  }
+  vector<Passage> passages = database_navigation.get_history(user, -1);
+  // Take the most recent nnn history items and render them.
   string html;
-  for (auto book : books) {
-    string bookName = Database_Books::getEnglishFromId (book);
-    bookName = translate (bookName);
-    bool selected = (book == activeBook);
-    string bookType = Database_Books::getType (book);
-    add_selector_link (html, convert_to_string (book), "applybook", bookName, selected, bookType);
+  for (size_t i = 0; i < passages.size(); i++) {
+    if (i >= 10) continue;
+    string rendering = filter_passage_display(passages[i].book, passages[i].chapter, passages[i].verse);
+    string bookType = Database_Books::getType (passages[i].book);
+    add_selector_link (html, "b" + convert_to_string (i), "applyhistory", rendering, false, bookType);
   }
-  add_selector_link (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
-
-  html.insert (0, "<span id='applybook'>" + translate ("Select book") + ": ");
+  // Add a "cancel" link.
+  add_selector_link (html, "cancel", "applyhistory", "[" + translate ("cancel") + "]", false, "");
+  // Main html items.
+  html.insert (0, "<span id='applyhistory'>" + translate ("Select passage") + ": ");
   html.append ("</span>");
-
+  // Done.
   return html;
-
-  
-  
 }
 
 
-string Navigation_Passage::history_forward (void * webserver_request, string bible) // Todo
+string Navigation_Passage::get_history_forward (void * webserver_request) // Todo
 {
+  // Get the whole history from the database.
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
-  Passage passage = database_navigation.get_next (user);
-  if (passage.book) {
-//    Ipc_Focus::set (webserver_request, passage.book, passage.chapter, convert_to_int (passage.verse));
-  }
-  
-  
-  int activeBook = Ipc_Focus::getBook (request);
-  // Take standard books in case of no Bible.
-  vector <int> books;
-  if (bible == "") {
-    books = Database_Books::getIDs ();
-  } else {
-    books = filter_passage_get_ordered_books (bible);
-  }
+  vector<Passage> passages = database_navigation.get_history(user, 1);
+  // Take the most recent nnn history items and render them.
   string html;
-  for (auto book : books) {
-    string bookName = Database_Books::getEnglishFromId (book);
-    bookName = translate (bookName);
-    bool selected = (book == activeBook);
-    string bookType = Database_Books::getType (book);
-    add_selector_link (html, convert_to_string (book), "applybook", bookName, selected, bookType);
+  for (size_t i = 0; i < passages.size(); i++) {
+    if (i >= 10) continue;
+    string rendering = filter_passage_display(passages[i].book, passages[i].chapter, passages[i].verse);
+    string bookType = Database_Books::getType (passages[i].book);
+    add_selector_link (html, "f" + convert_to_string (i), "applyhistory", rendering, false, bookType);
   }
-  add_selector_link (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
-
-  html.insert (0, "<span id='applybook'>" + translate ("Select book") + ": ");
+  // Add a "cancel" link.
+  add_selector_link (html, "cancel", "applyhistory", "[" + translate ("cancel") + "]", false, "");
+  // Main html items.
+  html.insert (0, "<span id='applyhistory'>" + translate ("Select passage") + ": ");
   html.append ("</span>");
-
+  // Done.
   return html;
+}
 
+
+void Navigation_Passage::go_history (void * webserver_request, string message) // Todo
+{
+  // Example messages:
+  // * f0apply: The "f" means "go forward". The "0" means item 0, that is, the first item.
+  // * b1apply: See above. It means to go back two steps.
+
+  // Check that the fragment "apply" occurs in the message.
+  // If so, remove it. If not, do nothing.
+  size_t pos = message.find("apply");
+  if (pos == string::npos) return;
+  message.erase (pos);
+  
+  // Check that the length of the remaining message is at least 2.
+  // The remaining message could be "f1" or "b12" and so on.
+  if (message.length() < 2) return;
+
+  // Get the direction: forward or backward.
+  int direction = 0;
+  if (message[0] == 'f') direction = 1;
+  if (message[0] == 'b') direction = -1;
+  message.erase (0, 1);
+  if (!direction) return;
+  
+  // Get the offset of the history item.
+  int offset = convert_to_int(message);
+  
+  // Go n times forward or backward.
+  for (int i = 0; i <= offset; i++) {
+    if (direction > 0) {
+      go_forward(webserver_request);
+    }
+    if (direction < 0) {
+      go_back(webserver_request);
+    }
+  }
 }
 
 

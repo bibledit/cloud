@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <database/navigation.h>
 #include <filter/string.h>
+#include <filter/date.h>
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <filter/passage.h>
@@ -52,8 +53,15 @@ void Database_Navigation::create ()
 
 void Database_Navigation::trim ()
 {
+  // Delete items older than, say, several weeks.
+  int time = filter_date_seconds_since_epoch ();
+  time -= (3600 * 24 * 14);
+  SqliteSQL sql;
+  sql.add ("DELETE FROM navigation WHERE timestamp <=");
+  sql.add (time);
+  sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "DELETE FROM navigation;");
+  database_sqlite_exec (db, sql.sql);
   database_sqlite_disconnect (db);
 }
 
@@ -66,7 +74,7 @@ void Database_Navigation::record (int time, string user, int book, int chapter, 
   sql1.add (user);
   sql1.add (";");
 
-  // Remove too recent entries.
+  // Remove entries recorded less than several seconds ago.
   SqliteSQL sql2 = SqliteSQL ();
   int recent = time - 5;
   sql2.add ("DELETE FROM navigation WHERE timestamp >=");

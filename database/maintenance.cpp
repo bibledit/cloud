@@ -111,9 +111,9 @@ void database_maintenance ()
 #endif
   
   
-  filter_url_unlink (filter_url_create_root_path (database_logic_databases (), "navigation.sqlite"));
   Database_Navigation database_navigation = Database_Navigation ();
   database_navigation.create ();
+  database_navigation.trim();
   
   
   Database_Jobs database_jobs = Database_Jobs ();

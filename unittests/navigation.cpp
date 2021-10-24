@@ -311,7 +311,50 @@ void test_database_navigation ()
       evaluate (__LINE__, __func__, 8, passages[1].chapter);
       evaluate (__LINE__, __func__, "9", passages[1].verse);
     }
-
   }
-  
+
+  // Test trimming the navigation database.
+  {
+    refresh_sandbox (true);
+    Database_Navigation database;
+    database.create ();
+    int time = filter_date_seconds_since_epoch ();
+    vector<Passage> passages;
+    
+    // 1. Record several recent passages.
+    // 2. Trim the database.
+    // Check the passages are still there.
+    for (int i = 0; i < 5; i++) {
+      database.record(time + (10 * i), user, 1, 2, 3);
+    }
+    database.trim ();
+    passages = database.get_history(user, -1);
+    evaluate (__LINE__, __func__, 4, passages.size());
+  }
+  // Test trimming the navigation database.
+  {
+    refresh_sandbox (true);
+    Database_Navigation database;
+    database.create ();
+    int time = filter_date_seconds_since_epoch ();
+    vector<Passage> passages;
+    
+    // 1. Record several old passages.
+    // Check the passages are there.
+    for (int i = 0; i < 5; i++) {
+      database.record(time + (10 * i) - (15 * 24 * 3600), user, 1, 2, 3);
+    }
+    passages = database.get_history(user, -1);
+    evaluate (__LINE__, __func__, 4, passages.size());
+    // 2. Trim the database.
+    // 3. Add two new ones.
+    // Check the passages are gone now.
+    database.trim();
+    for (int i = 0; i < 2; i++) {
+      database.record(time + (10 * i), user, 1, 2, 3);
+    }
+    passages = database.get_history(user, -1);
+    evaluate (__LINE__, __func__, 1, passages.size());
+  }
+
 }

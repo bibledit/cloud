@@ -1254,10 +1254,16 @@ table.interlinear.rtl {
 
 #navigateforward {
   cursor: pointer;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
   user-select: none;
 }
 #navigateback {
   cursor: pointer;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
   user-select: none;
 }
 #navigateforward:hover {

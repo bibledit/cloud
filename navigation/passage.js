@@ -98,11 +98,17 @@ function bindClickHandlers () {
   $("#navigateback").longpress (function (event) {
     historyBack (event);
   });
+  $("#navigateback").on ("contextmenu", function (event) {
+    event.preventDefault();
+  });
   $("#navigateforward").on ("click", function (event) {
     navigateForward (event);
   });
   $("#navigateforward").longpress (function (event) {
     historyForward (event);
+  });
+  $("#navigateforward").on ("contextmenu", function (event) {
+    event.preventDefault();
   });
   $("#selectbook").on ("click", function (event) {
     $ (".fadeout").hide ();

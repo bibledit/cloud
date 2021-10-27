@@ -156,17 +156,18 @@ string navigation_update (void * webserver_request)
   }
   
   
-  // History going back.
+  // Provide html for history going back.
   else if (request->query.count ("historyback")) {
     return Navigation_Passage::get_history_back (request);
   }
 
   
-  // History going forward.
+  // Provide html for history going forward.
   else if (request->query.count ("historyforward")) {
     return Navigation_Passage::get_history_forward (request);
   }
-  
+
+  // Apply the selected history items to the navigation system.
   else if (request->query.count ("applyhistory")) {
     string message = request->query ["applyhistory"];
     if (message.find ("cancel") == string::npos) {
@@ -174,7 +175,7 @@ string navigation_update (void * webserver_request)
     }
   }
   
-  // Build the navigation fragment.
+  // Build the navigation html fragment.
   return Navigation_Passage::get_mouse_navigator (request, bible);
 }
 

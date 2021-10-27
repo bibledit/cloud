@@ -473,8 +473,6 @@ function historyBack (event) {
 
 function applyHistory (event) {
   event.preventDefault ();
-  console.log("applyHistory");
-  console.log (event);
   if (event.target.localName == "a") {
     $.ajax ({
       url: "/navigation/update",

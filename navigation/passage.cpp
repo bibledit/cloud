@@ -64,6 +64,11 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
   // In basic mode they were not there initially.
   // But later on it was decided to have them in basic mode too.
   // See reasons here: https://github.com/bibledit/cloud/issues/641
+  // Using the <span> for detecting long press works well with the mouse.
+  // But on Android the long press brings up the context menu.
+  // It does not fire the long press event in Javascript.
+  // It was tried whether changing the <span> to <button> would improve the situation on Android.
+  // But it did not make a difference.
   {
     xml_node span_node = document.append_child("span");
     if (database_navigation.previous_exists (user)) {

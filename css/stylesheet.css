@@ -1254,9 +1254,11 @@ table.interlinear.rtl {
 
 #navigateforward {
   cursor: pointer;
+  user-select: none;
 }
 #navigateback {
   cursor: pointer;
+  user-select: none;
 }
 #navigateforward:hover {
   text-decoration: underline;

@@ -2614,6 +2614,7 @@
 		CAECA50A25EFDE1E00650B41 /* divider.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = divider.html; sourceTree = "<group>"; };
 		CAECA50C25F24D0900650B41 /* indonesian.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indonesian.h; sourceTree = "<group>"; };
 		CAECA50D25F24D0900650B41 /* indonesian.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indonesian.cpp; sourceTree = "<group>"; };
+		CAF563462729364E0093614C /* jquery.longpress.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.longpress.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4008,16 +4009,17 @@
 		CADE3B8224F1742E003165BB /* jquery */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3B8324F1742E003165BB /* jquery.LICENSE.js */,
-				CADE3B8424F1742E003165BB /* jquery.touchSwipe.LICENSE */,
 				CADE3B8524F1742E003165BB /* jquery-3.5.1.js */,
 				CADE3B8624F1742E003165BB /* jquery-3.5.1.min.js */,
-				CADE3B8724F1742E003165BB /* jquery.touchSwipe.min.js */,
-				CADE3B8824F1742E003165BB /* jquery.stylesheet.README.md */,
-				CADE3B8924F1742E003165BB /* readme.txt */,
+				CADE3B8324F1742E003165BB /* jquery.LICENSE.js */,
+				CAF563462729364E0093614C /* jquery.longpress.js */,
 				CADE3B8A24F1742E003165BB /* jquery.stylesheet.js */,
+				CADE3B8824F1742E003165BB /* jquery.stylesheet.README.md */,
 				CADE3B8B24F1742E003165BB /* jquery.touchSwipe.js */,
+				CADE3B8424F1742E003165BB /* jquery.touchSwipe.LICENSE */,
+				CADE3B8724F1742E003165BB /* jquery.touchSwipe.min.js */,
 				CADE3B8C24F1742E003165BB /* jquery.touchSwipe.README.md */,
+				CADE3B8924F1742E003165BB /* readme.txt */,
 			);
 			path = jquery;
 			sourceTree = "<group>";

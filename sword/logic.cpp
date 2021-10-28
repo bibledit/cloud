@@ -314,8 +314,10 @@ void sword_logic_install_module (string source_name, string module_name)
   
 #else
   
-  string out_err;
-  filter_shell_run ("cd " + sword_path + "; installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"", out_err);
+  string out_err; // Todo add command and log it.
+  string command = "cd " + sword_path + "; installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"";
+  Database_Logs::log (command);
+  filter_shell_run (command, out_err);
   sword_logic_log (out_err);
   
 #endif

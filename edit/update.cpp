@@ -254,7 +254,7 @@ string edit_update (void * webserver_request)
   string message;
   if (good2go && bible_write_access && text_was_edited) {
     message = usfm_safely_store_chapter (request, bible, book, chapter, edited_chapter_usfm, explanation);
-    bible_logic_unsafe_save_mail (message, explanation, username, edited_chapter_usfm);
+    bible_logic_unsafe_save_mail (message, explanation, username, edited_chapter_usfm, book, chapter);
     if (!message.empty ()) messages.push_back (message);
   }
 

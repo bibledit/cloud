@@ -524,15 +524,21 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
 }
 
 
-void bible_logic_unsafe_save_mail (const string & message, const string & explanation, const string & user, const string & usfm)
+void bible_logic_unsafe_save_mail (string subject, const string & explanation,
+                                   const string & user,
+                                   const string & usfm,
+                                   int book, int chapter)
 {
-  if (message.empty ()) return;
-  
+  if (subject.empty ()) return;
+
+  // Add the passage to the subject for extra clarity.
+  subject.append (" | " + filter_passage_display (book, chapter, ""));
+
   // Create the body of the email.
   xml_document document;
   xml_node node;
   node = document.append_child ("h3");
-  node.text ().set (message.c_str());
+  node.text ().set (subject.c_str());
   
   // Add some information for the user.
   node = document.append_child ("p");
@@ -551,7 +557,7 @@ void bible_logic_unsafe_save_mail (const string & message, const string & explan
   string html = output.str ();
   
   // Schedule the mail for sending to the user.
-  email_schedule (user, message, html);
+  email_schedule (user, subject, html);
 }
 
 

@@ -159,7 +159,7 @@ string edit_save (void * webserver_request)
   // Safely store the chapter.
   string explanation;
   string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
-  bible_logic_unsafe_save_mail (message, explanation, username, user_usfm);
+  bible_logic_unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
   
   if (!message.empty ()) return message;
 

@@ -206,7 +206,7 @@ string editone2_update (void * webserver_request)
   string message;
   if (good2go && bible_write_access && text_was_edited) {
     message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
-    bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm);
+    bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm, book, chapter);
   }
 
   

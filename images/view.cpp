@@ -50,7 +50,6 @@ string images_view (void * webserver_request)
 {
   Webserver_Request * request = (Webserver_Request *) webserver_request;
   Database_BibleImages database_bibleimages;
-
   
   string page;
   Assets_Header header = Assets_Header (translate("Bible image"), request);
@@ -59,72 +58,8 @@ string images_view (void * webserver_request)
   page = header.run ();
   Assets_View view;
   string error, success;
-
   
   string image = request->query ["image"];
-
-  
-
-  /*
-  
-  
-  // Delete image.
-  string remove = request->query ["delete"];
-  if (remove != "") {
-    string confirm = request->query ["confirm"];
-    if (confirm == "") {
-      Dialog_Yes dialog_yes = Dialog_Yes ("image", translate("Would you like to delete this image?"));
-      dialog_yes.add_query ("name", name);
-      dialog_yes.add_query ("delete", remove);
-      page += dialog_yes.run ();
-      return page;
-    } if (confirm == "yes") {
-      database_imageresources.erase (name, remove);
-      success = translate("The image was deleted.");
-    }
-  }
-  
-  
-  vector <string> images = database_imageresources.get (name);
-  string imageblock;
-  for (auto & image : images) {
-    imageblock.append ("<tr>");
-    
-    // Image.
-    imageblock.append ("<td>");
-    imageblock.append ("<a href=\"img?name=" + name + "&image=" + image + "\" title=\"" + translate("Edit") + "\">");
-    imageblock.append (image);
-    imageblock.append ("</a>");
-    imageblock.append ("</td>");
-    
-    // Retrieve passage range for this image.
-    int book1, chapter1, verse1, book2, chapter2, verse2;
-    database_imageresources.get (name, image, book1, chapter1, verse1, book2, chapter2, verse2);
-
-    imageblock.append ("<td>:</td>");
-
-    // From passage ...
-    imageblock.append ("<td>");
-    if (book1) {
-      imageblock.append (filter_passage_display (book1, chapter1, convert_to_string (verse1)));
-    }
-    imageblock.append ("</td>");
-
-    imageblock.append ("<td>-</td>");
-
-    // ... to passage.
-    imageblock.append ("<td>");
-    if (book2) {
-      imageblock.append (filter_passage_display (book2, chapter2, convert_to_string (verse2)));
-    }
-    imageblock.append ("</td>");
-    
-    imageblock.append ("</tr>");
-  }
-  view.set_variable ("imageblock", imageblock);
-
-   */
-
 
   view.set_variable ("image", image);
   view.set_variable ("success", success);

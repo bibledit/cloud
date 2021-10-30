@@ -207,32 +207,31 @@ void http_assemble_response (void * webserver_request)
   // Assemble the HTTP response code fragment.
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
   
-  // Assemble the Content-Type.
+  // Assemble the Content-Type. // Todo
   string extension = filter_url_get_extension (request->get);
   extension = unicode_string_casefold (extension);
-  string content_type;
-       if (extension == "js")       content_type = "application/javascript";
-  else if (extension == "css")      content_type = "text/css";
-  else if (extension == "ico")      content_type = "image/vnd.microsoft.icon";
-  else if (extension == "gif")      content_type = "image/gif";
-  else if (extension == "jpe")      content_type = "image/jpeg";
-  else if (extension == "jpg")      content_type = "image/jpeg";
-  else if (extension == "jpeg")     content_type = "image/jpeg";
-  else if (extension == "png")      content_type = "image/png";
-  else if (extension == "svg")      content_type = "image/svg+xml";
-  else if (extension == "bmp")      content_type = "image/bmp";
-  else if (extension == "txt")      content_type = "text/plain";
-  else if (extension == "usfm")     content_type = "text/plain";
-  else if (extension == "otf")      content_type = "font/opentype";
-  else if (extension == "ttf")      content_type = "application/font-sfnt";
-  else if (extension == "woff")     content_type = "application/font-woff";
-  else if (extension == "sh")       content_type = "application/octet-stream";
-  else if (extension == "sqlite")   content_type = "application/octet-stream";
-  else if (extension == "htm")      content_type = "text/html";
-  else if (extension == "html")     content_type = "text/html";
-  else if (extension == "")         content_type = "text/html";
-  else if (extension == "download") content_type = "application/octet-stream";
-  else                              content_type = "application/octet-stream";
+  string content_type = filter_url_get_mime_type (extension);
+  //if (extension == "ico") content_type = filter_url_get_mime_type (extension);
+  if (extension == "gif") content_type = filter_url_get_mime_type (extension);
+  if (extension == "jpe") content_type = filter_url_get_mime_type (extension);
+  if (extension == "jpg") content_type = filter_url_get_mime_type (extension);
+  if (extension == "jpeg") content_type = filter_url_get_mime_type (extension);
+  if (extension == "png") content_type = filter_url_get_mime_type (extension);
+  if (extension == "svg") content_type = filter_url_get_mime_type (extension);
+  if (extension == "bmp") content_type = filter_url_get_mime_type (extension);
+  if (extension == "txt") content_type = filter_url_get_mime_type (extension);
+  if (extension == "usfm") content_type = "text/plain";
+  if (extension == "otf") content_type = filter_url_get_mime_type (extension);
+  if (extension == "ttf") content_type = filter_url_get_mime_type (extension);
+  if (extension == "woff") content_type = filter_url_get_mime_type (extension);
+  if (extension == "sh") content_type = "application/octet-stream";
+  if (extension == "sqlite") content_type = "application/octet-stream";
+  if (extension == "htm") content_type = filter_url_get_mime_type (extension);
+  if (extension == "html") content_type = filter_url_get_mime_type (extension);
+  if (extension == "") content_type = "text/html";
+  if (extension == "download") content_type = "application/octet-stream";
+  // If still empty, take the default binary content type.
+  if (content_type.empty()) content_type = "application/octet-stream";
   // If already defined, take that.
   if (!request->response_content_type.empty ()) content_type = request->response_content_type;
 

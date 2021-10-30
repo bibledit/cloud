@@ -1746,7 +1746,7 @@ bool filter_url_is_image (string extension)
 // https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 // See also:
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-string filter_url_get_mime_type (string extension)
+string filter_url_get_mime_type (string extension) // Todo
 {
   static map <string, string> mime_types = {
     {"jar", "application/java-archive"},

@@ -207,29 +207,15 @@ void http_assemble_response (void * webserver_request)
   // Assemble the HTTP response code fragment.
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
   
-  // Assemble the Content-Type. // Todo
+  // Assemble the Content-Type.
   string extension = filter_url_get_extension (request->get);
   extension = unicode_string_casefold (extension);
   string content_type = filter_url_get_mime_type (extension);
-  // Todo install and test if (extension == "ico") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "gif") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "jpe") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "jpg") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "jpeg") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "png") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "svg") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "bmp") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "txt") content_type = filter_url_get_mime_type (extension);
   if (extension == "usfm") content_type = "text/plain";
-//  if (extension == "otf") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "ttf") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "woff") content_type = filter_url_get_mime_type (extension);
+  if (extension.empty()) content_type = "text/html";
   if (extension == "sh") content_type = "application/octet-stream";
   if (extension == "sqlite") content_type = "application/octet-stream";
-//  if (extension == "htm") content_type = filter_url_get_mime_type (extension);
-//  if (extension == "html") content_type = filter_url_get_mime_type (extension);
   if (extension == "download") content_type = "application/octet-stream";
-  if (extension.empty()) content_type = "text/html";
   // If still empty, take the default binary content type.
   if (content_type.empty()) content_type = "application/octet-stream";
   // If already defined, take that.

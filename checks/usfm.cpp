@@ -24,6 +24,7 @@
 #include <database/styles.h>
 #include <database/books.h>
 #include <database/config/bible.h>
+#include <database/bibleimages.h>
 #include <styles/logic.h>
 #include <locale/translate.h>
 
@@ -110,7 +111,7 @@ void Checks_Usfm::check (string usfm)
   forwardSlash (usfm);
 
   toc (usfm);
-
+  
   usfm_markers_and_text = usfm_get_markers_and_text (usfm);
   for (usfm_markers_and_text_pointer = 0; usfm_markers_and_text_pointer < usfm_markers_and_text.size(); usfm_markers_and_text_pointer++) {
     usfm_item = usfm_markers_and_text [usfm_markers_and_text_pointer];
@@ -133,6 +134,9 @@ void Checks_Usfm::check (string usfm)
       matchingEndmarker ();
       
       embeddedMarker ();
+      
+      figure ();
+
     }
   }
 }
@@ -361,6 +365,29 @@ void Checks_Usfm::toc (string usfm)
       if (toc3_present) {
         addResult (msg + usfm_get_opening_usfm (abbrev_toc3_marker), display_nothing);
       }
+    }
+  }
+}
+
+
+void Checks_Usfm::figure ()
+{
+  if (usfm_item == R"(\fig )") {
+    string usfm = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+    string caption, alt, src, size, loc, copy, ref;
+    usfm_extract_fig (usfm, caption, alt, src, size, loc, copy, ref);
+    if (src.empty()) {
+      addResult (translate ("Empty figure source:") + " " + usfm, display_nothing);
+    } else {
+      Database_BibleImages database_bibleimages;
+      string image_contents = database_bibleimages.get (src);
+      if (image_contents.empty()) {
+        addResult (translate ("Could not find Bible image:") + " " + src, display_nothing);
+      }
+    }
+    size_t pos = usfm.find("“");
+    if (pos != string::npos) {
+      addResult (translate ("Unusual quotation mark found:") + " " + usfm, display_nothing);
     }
   }
 }

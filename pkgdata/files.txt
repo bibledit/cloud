@@ -471,8 +471,10 @@
 /pix/safari-pinned-tab.svg
 /pix/splash.jpg
 /pkgdata
+/pkgdata/.!58403!files.txt
 /pkgdata/create.sh
 /pkgdata/files.txt
+/pkgdata/files.txt.bak
 /pkgdata/install.sh
 /processes
 /processes/gitflag

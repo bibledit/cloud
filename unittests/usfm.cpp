@@ -1372,4 +1372,33 @@ void test_usfm ()
     evaluate (__LINE__, __func__, false, usfm_is_standard_q_poetry ("q4"));
     evaluate (__LINE__, __func__, false, usfm_is_standard_q_poetry ("q5"));
   }
+  
+  // Test checking valid USFM of the fig markup.
+  {
+    string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = {
+      make_pair (31,  "Could not find Bible image: avnt017.tif"),
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  {
+    string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31"\fig*.)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = {
+      make_pair (31,  R"(Empty figure source: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
+      make_pair (31,  R"(Unusual quotation mark found: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
+  
 }

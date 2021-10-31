@@ -74,6 +74,7 @@ private:
   void matchingEndmarker ();
   void embeddedMarker ();
   void toc (string usfm);
+  void figure ();
   void addResult (string text, int modifier);
 };
 

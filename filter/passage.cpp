@@ -26,6 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <locale/translate.h>
 #include <assets/view.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 Passage::Passage ()
@@ -431,7 +435,17 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
   string display = filter_passage_display (book, chapter, verse);
   Passage passage = Passage ("", book, chapter, verse);
   string numeric = convert_to_string (filter_passage_to_integer (passage));
-  string link = "<a class=\"starteditor\" href=\"" + numeric + "\">" + display + "</a> <span></span>";
+  xml_document document;
+  xml_node a_node = document.append_child ("a");
+  a_node.append_attribute("class") = "starteditor";
+  a_node.append_attribute("href") = "nothing";
+  a_node.append_attribute("passage") = numeric.c_str();
+  a_node.text().set(display.c_str());
+  xml_node span_node = document.append_child("span");
+  span_node.text().set(" ");
+  stringstream output;
+  document.print (output, "", format_raw);
+  string link = output.str ();
   return link;
 }
 

@@ -33,11 +33,11 @@ function passageConnectToLast () {
 function passageStartEditor (event) {
   event.preventDefault ();
   var a = $(this);
-  var href = a.attr ("href");
+  var passage = a.attr ("passage");
   $.ajax ({
     url: "/edit/edit",
     type: "GET",
-    data: { href: href },
+    data: { passage: passage },
     cache: false,
     success: function (response) {
       a.next ().html (response).fadeIn (100).delay (3000).fadeOut (1000);

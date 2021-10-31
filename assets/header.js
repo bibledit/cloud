@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+
+
 function topbarRemovalQueryAddition (elementsAttribute) {
   if (/topbar/.test(elementsAttribute) === false) {
     if (/\?/.test(elementsAttribute)) {
@@ -27,7 +29,8 @@ function topbarRemovalQueryAddition (elementsAttribute) {
     return elementsAttribute;
   }
 }
-let counterForBreadcrumbContainerDisplay = 0;
+
+
 $ (document).ready (function () {
   if (window.self === window.top) {
     // On main page: Enable menu on touch screen.

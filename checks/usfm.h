@@ -31,38 +31,38 @@ public:
   void initialize (int book, int chapter);
   void finalize ();
   void check (string usfm);
-  vector <pair<int, string>> getResults ();
+  vector <pair<int, string>> get_results ();
 private:
   // USFM and text.
-  vector <string> usfmMarkersAndText;
-  unsigned int usfmMarkersAndTextPointer;
-  string usfmItem;
-  int bookNumber;
-  int chapterNumber;
-  int verseNumber;
+  vector <string> usfm_markers_and_text;
+  unsigned int usfm_markers_and_text_pointer;
+  string usfm_item;
+  int book_number;
+  int chapter_number;
+  int verse_number;
   
   // Results of the checks.
-  vector <pair<int, string>> checkingResults;
-  static const int displayNothing = 0;
-  static const int displayCurrent = 1;
-  static const int displayNext = 2;
-  static const int displayFull = 3;
+  vector <pair<int, string>> checking_results;
+  static const int display_nothing = 0;
+  static const int display_current = 1;
+  static const int display_next = 2;
+  static const int display_full = 3;
   
   // Stylesheet.
-  vector <string> markersStylesheet;
+  vector <string> markers_stylesheet;
   
   // Matching markers.
-  vector <string> markersRequiringEndmarkers;
-  vector <string> openMatchingMarkers;
+  vector <string> markers_requiring_endmarkers;
+  vector <string> open_matching_markers;
   
   // Embedded markers.
-  vector <string> embeddableMarkers;
-  vector <string> openEmbeddableMarkers;
+  vector <string> embeddable_markers;
+  vector <string> open_embeddable_markers;
 
   // Table of contents markers and flags.
-  string longToc1Marker;
-  string shortToc2Marker;
-  string abbrevToc3Marker;
+  string long_toc1_marker;
+  string short_toc2_marker;
+  string abbrev_toc3_marker;
 
   // Methods.
   void malformedVerseNumber ();

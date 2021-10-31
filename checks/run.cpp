@@ -206,7 +206,7 @@ void checks_run (string bible)
         checks_usfm.initialize (book, chapter);
         checks_usfm.check (chapterUsfm);
         checks_usfm.finalize ();
-        vector <pair<int, string>>  results = checks_usfm.getResults ();
+        vector <pair<int, string>>  results = checks_usfm.get_results ();
         for (auto element : results) {
           int verse = element.first;
           string msg = element.second;

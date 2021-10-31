@@ -32,8 +32,8 @@ Checks_Usfm::Checks_Usfm (string bible)
 {
   Database_Styles database_styles;
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
-  markersStylesheet = database_styles.getMarkers (stylesheet);
-  for (auto marker : markersStylesheet) {
+  markers_stylesheet = database_styles.getMarkers (stylesheet);
+  for (auto marker : markers_stylesheet) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     int styleType = style.type;
     int styleSubtype = style.subtype;
@@ -66,17 +66,17 @@ Checks_Usfm::Checks_Usfm (string bible)
       embeddableMarker = true;
     }
     if (requiredEndmarker) {
-      markersRequiringEndmarkers.push_back (marker);
+      markers_requiring_endmarkers.push_back (marker);
     }
     if (embeddableMarker) {
-      embeddableMarkers.push_back (marker);
+      embeddable_markers.push_back (marker);
     }
     
     // Look for the \toc[1-3] markers.
     if (styleType == StyleTypeIdentifier) {
-      if (styleSubtype == IdentifierSubtypeLongTOC) longToc1Marker = marker;
-      if (styleSubtype == IdentifierSubtypeShortTOC) shortToc2Marker = marker;
-      if (styleSubtype == IdentifierSubtypeBookAbbrev) abbrevToc3Marker = marker;
+      if (styleSubtype == IdentifierSubtypeLongTOC) long_toc1_marker = marker;
+      if (styleSubtype == IdentifierSubtypeShortTOC) short_toc2_marker = marker;
+      if (styleSubtype == IdentifierSubtypeBookAbbrev) abbrev_toc3_marker = marker;
     }
   }
 }
@@ -84,21 +84,21 @@ Checks_Usfm::Checks_Usfm (string bible)
 
 void Checks_Usfm::initialize (int book, int chapter)
 {
-  checkingResults.clear ();
-  usfmMarkersAndText.clear ();
-  usfmMarkersAndTextPointer = 0;
-  bookNumber = book;
-  chapterNumber = chapter;
-  verseNumber = 0;
-  openMatchingMarkers.clear ();
+  checking_results.clear ();
+  usfm_markers_and_text.clear ();
+  usfm_markers_and_text_pointer = 0;
+  book_number = book;
+  chapter_number = chapter;
+  verse_number = 0;
+  open_matching_markers.clear ();
 }
 
 
 void Checks_Usfm::finalize ()
 {
   // Check on unclosed markers.
-  if (openMatchingMarkers.size () > 0) {
-    addResult (translate ("Unclosed markers:") + " " + filter_string_implode (openMatchingMarkers, " "), displayNothing);
+  if (open_matching_markers.size () > 0) {
+    addResult (translate ("Unclosed markers:") + " " + filter_string_implode (open_matching_markers, " "), display_nothing);
   }
 }
 
@@ -111,15 +111,15 @@ void Checks_Usfm::check (string usfm)
 
   toc (usfm);
 
-  usfmMarkersAndText = usfm_get_markers_and_text (usfm);
-  for (usfmMarkersAndTextPointer = 0; usfmMarkersAndTextPointer < usfmMarkersAndText.size(); usfmMarkersAndTextPointer++) {
-    usfmItem = usfmMarkersAndText [usfmMarkersAndTextPointer];
-    if (usfm_is_usfm_marker (usfmItem)) {
+  usfm_markers_and_text = usfm_get_markers_and_text (usfm);
+  for (usfm_markers_and_text_pointer = 0; usfm_markers_and_text_pointer < usfm_markers_and_text.size(); usfm_markers_and_text_pointer++) {
+    usfm_item = usfm_markers_and_text [usfm_markers_and_text_pointer];
+    if (usfm_is_usfm_marker (usfm_item)) {
       
       // Get the current verse number.
-      if (usfmItem == "\\v ") {
-        string verseCode = usfm_peek_text_following_marker (usfmMarkersAndText, usfmMarkersAndTextPointer);
-        verseNumber = convert_to_int (usfm_peek_verse_number (verseCode));
+      if (usfm_item == "\\v ") {
+        string verseCode = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+        verse_number = convert_to_int (usfm_peek_verse_number (verseCode));
       }
       
       malformedVerseNumber ();
@@ -140,14 +140,14 @@ void Checks_Usfm::check (string usfm)
 
 void Checks_Usfm::malformedVerseNumber ()
 {
-  if (usfmItem == "\\v ") {
-    string code = usfm_peek_text_following_marker (usfmMarkersAndText, usfmMarkersAndTextPointer);
+  if (usfm_item == "\\v ") {
+    string code = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string cleanVerseNumber = usfm_peek_verse_number (code);
     vector <string> v_dirtyVerseNumber = filter_string_explode (code, ' ');
     string dirtyVerseNumber;
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
-      addResult (translate ("Malformed verse number"), displayFull);
+      addResult (translate ("Malformed verse number"), display_full);
     }
   }
 }
@@ -168,14 +168,14 @@ void Checks_Usfm::newLineInUsfm (string usfm)
     if (position == 0) position = 1;
     string bit = usfm.substr (position - 1, 10);
     bit = filter_string_str_replace ("\n", " ", bit);
-    addResult (translate ("New line within USFM:") + " " + bit, displayNothing);
+    addResult (translate ("New line within USFM:") + " " + bit, display_nothing);
   }
 }
 
 
 void Checks_Usfm::markerInStylesheet ()
 {
-  string marker = usfmItem.substr (1);
+  string marker = usfm_item.substr (1);
   marker = filter_string_trim (marker);
   if (!usfm_is_opening_marker (marker)) {
     if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
@@ -184,28 +184,28 @@ void Checks_Usfm::markerInStylesheet ()
     if (!marker.empty ()) marker = marker.substr (1);
   }
   if (marker == "") return;
-  if (in_array (marker, markersStylesheet)) return;
-  addResult (translate ("Marker not in stylesheet"), Checks_Usfm::displayCurrent);
+  if (in_array (marker, markers_stylesheet)) return;
+  addResult (translate ("Marker not in stylesheet"), Checks_Usfm::display_current);
 }
 
 
 void Checks_Usfm::malformedId ()
 {
-  string item = usfmItem.substr (0, 3);
-  string ide = usfmItem.substr (0, 4);
+  string item = usfm_item.substr (0, 3);
+  string ide = usfm_item.substr (0, 4);
   if (ide == "\\ide") return;
   if (item == "\\id") {
-    string code = usfm_peek_text_following_marker (usfmMarkersAndText, usfmMarkersAndTextPointer);
+    string code = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string sid =  code.substr (0, 3);
     vector <string> vid = filter_string_explode (code, ' ');
     string id;
     if (!vid.empty ()) id = vid [0];
     int book = Database_Books::getIdFromUsfm (id);
     if (book == 0) {
-      addResult (translate ("Unknown ID"), displayFull);
+      addResult (translate ("Unknown ID"), display_full);
     } else {
       if (unicode_string_uppercase (id) != id) {
-        addResult (translate ("ID is not in uppercase"), displayFull);
+        addResult (translate ("ID is not in uppercase"), display_full);
       }
     }
   }
@@ -229,8 +229,8 @@ void Checks_Usfm::forwardSlash (string usfm)
       bit = bit.substr (0, pos2);
     }
     string marker = bit.substr (1, 100);
-    if (find (markersStylesheet.begin(), markersStylesheet.end(), marker) != markersStylesheet.end ()) {
-      addResult (translate ("Forward slash instead of backslash:") + " " + bit, displayNothing);
+    if (find (markers_stylesheet.begin(), markers_stylesheet.end(), marker) != markers_stylesheet.end ()) {
+      addResult (translate ("Forward slash instead of backslash:") + " " + bit, display_nothing);
     }
   }
 }
@@ -238,17 +238,17 @@ void Checks_Usfm::forwardSlash (string usfm)
 
 void Checks_Usfm::widowBackSlash ()
 {
-  string marker = usfmItem;
+  string marker = usfm_item;
   marker = filter_string_trim (marker);
   if (marker.length() == 1) {
-    addResult (translate ("Widow backslash"), displayCurrent);
+    addResult (translate ("Widow backslash"), display_current);
   }
 }
 
 
 void Checks_Usfm::matchingEndmarker ()
 {
-  string marker = usfmItem;
+  string marker = usfm_item;
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
   marker = marker.substr (1);
   marker = filter_string_trim (marker);
@@ -256,18 +256,18 @@ void Checks_Usfm::matchingEndmarker ()
   if (!isOpener) {
    if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
   }
-  if (!in_array (marker, markersRequiringEndmarkers)) return;
+  if (!in_array (marker, markers_requiring_endmarkers)) return;
   if (isOpener) {
-    if (in_array (marker, openMatchingMarkers)) {
-      addResult (translate ("Repeating opening marker"), Checks_Usfm::displayCurrent);
+    if (in_array (marker, open_matching_markers)) {
+      addResult (translate ("Repeating opening marker"), Checks_Usfm::display_current);
     } else {
-      openMatchingMarkers.push_back (marker);
+      open_matching_markers.push_back (marker);
     }
   } else {
-    if (in_array (marker, openMatchingMarkers)) {
-      openMatchingMarkers = filter_string_array_diff (openMatchingMarkers, {marker});
+    if (in_array (marker, open_matching_markers)) {
+      open_matching_markers = filter_string_array_diff (open_matching_markers, {marker});
     } else {
-      addResult (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (openMatchingMarkers, " "), displayCurrent);
+      addResult (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (open_matching_markers, " "), display_current);
     }
   }
 }
@@ -276,7 +276,7 @@ void Checks_Usfm::matchingEndmarker ()
 void Checks_Usfm::embeddedMarker ()
 {
   // The marker, e.g. '\add'.
-  string marker = usfmItem;
+  string marker = usfm_item;
 
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
   marker = marker.substr (1);
@@ -290,7 +290,7 @@ void Checks_Usfm::embeddedMarker ()
   }
   
   // If the marker is not relevant for this check, bail out.
-  if (!in_array (marker, embeddableMarkers)) return;
+  if (!in_array (marker, embeddable_markers)) return;
   
   // Checking method is as follows:
   // If there's no open embeddable markers, then the '+' sign is not needed.
@@ -303,16 +303,16 @@ void Checks_Usfm::embeddedMarker ()
   
   bool checkEmbedding = false;
   if (isOpener) {
-    if (!in_array (marker, openEmbeddableMarkers)) {
-      if (!openEmbeddableMarkers.empty ()) {
+    if (!in_array (marker, open_embeddable_markers)) {
+      if (!open_embeddable_markers.empty ()) {
         checkEmbedding = true;
       }
-      openEmbeddableMarkers.push_back (marker);
+      open_embeddable_markers.push_back (marker);
     }
   } else {
-    if (in_array (marker, openEmbeddableMarkers)) {
-      openEmbeddableMarkers = filter_string_array_diff (openEmbeddableMarkers, {marker});
-      if (!openEmbeddableMarkers.empty ()) {
+    if (in_array (marker, open_embeddable_markers)) {
+      open_embeddable_markers = filter_string_array_diff (open_embeddable_markers, {marker});
+      if (!open_embeddable_markers.empty ()) {
         checkEmbedding = true;
       }
     }
@@ -320,7 +320,7 @@ void Checks_Usfm::embeddedMarker ()
   
   if (checkEmbedding) {
     if (marker.substr (0, 1) != "+") {
-      addResult (translate ("Embedded marker requires a plus sign"), displayFull);
+      addResult (translate ("Embedded marker requires a plus sign"), display_full);
     }
   }
 }
@@ -330,67 +330,67 @@ void Checks_Usfm::toc (string usfm)
 {
   // Only check the 66 canonical books.
   // Skip any of the other books.
-  string type = Database_Books::getType (bookNumber);
+  string type = Database_Books::getType (book_number);
   if ((type == "ot") || (type == "nt")) {
 
     // Check on the presence of the table of contents markers in this chapter.
-    bool toc1_present = usfm.find (usfm_get_opening_usfm (longToc1Marker)) != string::npos;
-    bool toc2_present = usfm.find (usfm_get_opening_usfm (shortToc2Marker)) != string::npos;
-    bool toc3_present = usfm.find (usfm_get_opening_usfm (abbrevToc3Marker)) != string::npos;
+    bool toc1_present = usfm.find (usfm_get_opening_usfm (long_toc1_marker)) != string::npos;
+    bool toc2_present = usfm.find (usfm_get_opening_usfm (short_toc2_marker)) != string::npos;
+    bool toc3_present = usfm.find (usfm_get_opening_usfm (abbrev_toc3_marker)) != string::npos;
 
     // The markers should be on chapter 0 only.
-    if (chapterNumber == 0) {
+    if (chapter_number == 0) {
       // Required: \toc1
       if (!toc1_present) {
-        addResult (translate ("The book lacks the marker for the verbose book name:") + " " + usfm_get_opening_usfm (longToc1Marker), displayNothing);
+        addResult (translate ("The book lacks the marker for the verbose book name:") + " " + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
       }
       // Required: \toc2
       if (!toc2_present) {
-        addResult (translate ("The book lacks the marker for the short book name:") + " " + usfm_get_opening_usfm (shortToc2Marker), displayNothing);
+        addResult (translate ("The book lacks the marker for the short book name:") + " " + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
       }
     } else {
       string msg = translate ("The following marker belongs in chapter 0:") + " ";
       // Required markers.
       if (toc1_present) {
-        addResult (msg + usfm_get_opening_usfm (longToc1Marker), displayNothing);
+        addResult (msg + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
       }
       if (toc2_present) {
-        addResult (msg + usfm_get_opening_usfm (shortToc2Marker), displayNothing);
+        addResult (msg + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
       }
       // Optional markers, but should not be anywhere else except in chapter 0.
       if (toc3_present) {
-        addResult (msg + usfm_get_opening_usfm (abbrevToc3Marker), displayNothing);
+        addResult (msg + usfm_get_opening_usfm (abbrev_toc3_marker), display_nothing);
       }
     }
   }
 }
 
 
-vector <pair<int, string>> Checks_Usfm::getResults ()
+vector <pair<int, string>> Checks_Usfm::get_results ()
 {
-  return checkingResults;
+  return checking_results;
 }
 
 
 void Checks_Usfm::addResult (string text, int modifier)
 {
-  string current = usfmItem;
-  string next = usfm_peek_text_following_marker (usfmMarkersAndText, usfmMarkersAndTextPointer);
+  string current = usfm_item;
+  string next = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
   next = next.substr (0, 20);
   switch (modifier) {
-    case displayNothing:
+    case display_nothing:
       break;
-    case displayCurrent:
+    case display_current:
       text += ": " + current;
       break;
-    case displayNext:
+    case display_next:
       text += ": " + next;
       break;
-    case Checks_Usfm::displayFull:
+    case Checks_Usfm::display_full:
       text += ": " + current + next;
       break;
   }
-  checkingResults.push_back (make_pair (verseNumber, text));
+  checking_results.push_back (make_pair (verse_number, text));
 }
 
 

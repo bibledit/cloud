@@ -42,7 +42,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (2, "Malformed verse number: \\v 2,He said.")
     };
@@ -61,7 +61,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { };
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -79,7 +79,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "New line within USFM:  \\ \\p He s")
     };
@@ -99,7 +99,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "New line within USFM:  \\ \\p He s")
     };
@@ -118,7 +118,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (1, "Marker not in stylesheet: \\p,p ")
     };
@@ -137,7 +137,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "Marker not in stylesheet: \\pHe ")
     };
@@ -154,7 +154,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "Unknown ID: \\id GENN")
     };
@@ -171,7 +171,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "Unknown ID: \\id\\p ")
     };
@@ -188,7 +188,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "Unknown ID: \\id Gen")
     };
@@ -205,7 +205,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "Forward slash instead of backslash: /add")
     };
@@ -222,7 +222,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (0, "Forward slash instead of backslash: /v")
     };
@@ -277,7 +277,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -292,7 +292,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (1, "Widow backslash: \\ ")
     };
@@ -308,7 +308,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -322,7 +322,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (1, "Closing marker does not match opening marker : \\add*")
     };
@@ -338,7 +338,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (1, "Repeating opening marker: \\add "),
       make_pair (1, "Unclosed markers: add")
@@ -356,7 +356,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
     evaluate (__LINE__, __func__, standard, results);
   }
@@ -370,7 +370,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (8, "Embedded marker requires a plus sign: \\nd kosi"),
       make_pair (8, "Embedded marker requires a plus sign: \\nd*\\x*"),
@@ -390,8 +390,8 @@ void test_usfm ()
     check.initialize (1, 0);
     check.check (usfm);
     check.finalize ();
-    evaluate (__LINE__, __func__, 0, check.getResults ().size ());
-    vector <pair<int, string>> results = check.getResults ();
+    evaluate (__LINE__, __func__, 0, check.get_results ().size ());
+    vector <pair<int, string>> results = check.get_results ();
   }
 
   // The \toc[1-3] markers are the wrong chapter.
@@ -405,7 +405,7 @@ void test_usfm ()
     check.initialize (1, 2);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     evaluate (__LINE__, __func__, 3, results.size ());
     vector <pair<int, string>> standard = {
       make_pair (0, "The following marker belongs in chapter 0: \\toc1 "),
@@ -423,7 +423,7 @@ void test_usfm ()
     check.initialize (3, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     evaluate (__LINE__, __func__, 2, results.size ());
     vector <pair<int, string>> standard = {
       make_pair (0, "The book lacks the marker for the verbose book name: \\toc1 "),
@@ -1233,7 +1233,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (2, "Embedded marker requires a plus sign: \\add sen"),
       make_pair (2, "Embedded marker requires a plus sign: \\add*rd3"),
@@ -1258,7 +1258,7 @@ void test_usfm ()
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.getResults ();
+    vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {
       make_pair (3, "Unclosed markers: vp"),
     };

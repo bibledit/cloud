@@ -774,11 +774,21 @@ void Odf_Text::create_paragraph_style (string name,
   
   // For poetry styles like q, q1, and so on,
   // there's an additional definition of the tab settings.
+  // Later there were more tab stops added,
+  // each tab stop slightly deeper than the previous one.
+  // The reason for adding more tab stops is this:
+  // The chapter number at times is wider than the first tab stop,
+  // pushing the indent of the first line too deep.
+  // See issue https://github.com/bibledit/cloud/issues/671
   if (is_poetry_q_style) {
     xml_node style_tab_stops = style_paragraph_properties_node.append_child("style:tab-stops");
-    xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
-    string tab_stop = convert_to_string(firstlineindent) + "mm";
-    style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
+    int tab_indent = firstlineindent;
+    for (int i = 0; i < 10; i++) {
+      xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
+      string tab_stop = convert_to_string(tab_indent) + "mm";
+      style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
+      tab_indent++;
+    }
   }
 }
 

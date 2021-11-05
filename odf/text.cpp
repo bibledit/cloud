@@ -676,8 +676,9 @@ void Odf_Text::create_paragraph_style (string name,
   // Whether to align verse numbers in poetry to the left of the margin,
   // and if so, whether this is one of the defined poetry styles.
   bool is_poetry_q_style = false;
-  if (Database_Config_Bible::getOdtPoetryVersesLeft (bible))
+  if (Database_Config_Bible::getOdtPoetryVersesLeft (bible)) {
     is_poetry_q_style = usfm_is_standard_q_poetry (name);
+  }
   
   // It looks like this in styles.xml:
   // <style:style style:display-name="p_c1" style:family="paragraph" style:name="p_c1">

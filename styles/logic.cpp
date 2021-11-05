@@ -591,8 +591,8 @@ int styles_logic_get_userstring3_function (int type, int subtype)
 }
 
 
-// It returns true if the combination of type and subtype start a new line in well formed USFM.
-// Otherwise it returns false
+// It returns true if the combination of type and subtype start a new line in well-formed USFM.
+// Otherwise it returns false.
 bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
 {
   switch (type) {

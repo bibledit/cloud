@@ -1266,9 +1266,7 @@ void Odf_Text::add_tab ()
   if (!current_text_p_node_opened) new_paragraph ();
   
   // Write a text tab element.
-  xml_node dom_node = current_text_p_node;
-  //xml_node text_tab_node =
-  dom_node.append_child ("text:tab");
+  current_text_p_node.append_child ("text:tab");
 
   // Update public paragraph text.
   current_paragraph_content += "\t";

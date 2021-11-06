@@ -99,16 +99,16 @@ void Checks_Usfm::finalize ()
 {
   // Check on unclosed markers.
   if (open_matching_markers.size () > 0) {
-    addResult (translate ("Unclosed markers:") + " " + filter_string_implode (open_matching_markers, " "), display_nothing);
+    add_result (translate ("Unclosed markers:") + " " + filter_string_implode (open_matching_markers, " "), display_nothing);
   }
 }
 
 
 void Checks_Usfm::check (string usfm)
 {
-  newLineInUsfm (usfm);
+  newLine_in_usfm (usfm);
   
-  forwardSlash (usfm);
+  forward_slash (usfm);
 
   toc (usfm);
   
@@ -123,17 +123,17 @@ void Checks_Usfm::check (string usfm)
         verse_number = convert_to_int (usfm_peek_verse_number (verseCode));
       }
       
-      malformedVerseNumber ();
+      malformed_verse_number ();
       
-      markerInStylesheet ();
+      marker_in_stylesheet ();
       
-      malformedId ();
+      malformed_id ();
       
-      widowBackSlash ();
+      widow_back_slash ();
       
-      matchingEndmarker ();
+      matching_endmarker ();
       
-      embeddedMarker ();
+      embedded_marker ();
       
       figure ();
 
@@ -142,7 +142,7 @@ void Checks_Usfm::check (string usfm)
 }
 
 
-void Checks_Usfm::malformedVerseNumber ()
+void Checks_Usfm::malformed_verse_number ()
 {
   if (usfm_item == "\\v ") {
     string code = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
@@ -151,13 +151,13 @@ void Checks_Usfm::malformedVerseNumber ()
     string dirtyVerseNumber;
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
-      addResult (translate ("Malformed verse number"), display_full);
+      add_result (translate ("Malformed verse number"), display_full);
     }
   }
 }
 
 
-void Checks_Usfm::newLineInUsfm (string usfm)
+void Checks_Usfm::newLine_in_usfm (string usfm)
 {
   size_t position = string::npos;
   size_t pos = usfm.find ("\\\n");
@@ -172,12 +172,12 @@ void Checks_Usfm::newLineInUsfm (string usfm)
     if (position == 0) position = 1;
     string bit = usfm.substr (position - 1, 10);
     bit = filter_string_str_replace ("\n", " ", bit);
-    addResult (translate ("New line within USFM:") + " " + bit, display_nothing);
+    add_result (translate ("New line within USFM:") + " " + bit, display_nothing);
   }
 }
 
 
-void Checks_Usfm::markerInStylesheet ()
+void Checks_Usfm::marker_in_stylesheet ()
 {
   string marker = usfm_item.substr (1);
   marker = filter_string_trim (marker);
@@ -189,11 +189,11 @@ void Checks_Usfm::markerInStylesheet ()
   }
   if (marker == "") return;
   if (in_array (marker, markers_stylesheet)) return;
-  addResult (translate ("Marker not in stylesheet"), Checks_Usfm::display_current);
+  add_result (translate ("Marker not in stylesheet"), Checks_Usfm::display_current);
 }
 
 
-void Checks_Usfm::malformedId ()
+void Checks_Usfm::malformed_id ()
 {
   string item = usfm_item.substr (0, 3);
   string ide = usfm_item.substr (0, 4);
@@ -206,17 +206,17 @@ void Checks_Usfm::malformedId ()
     if (!vid.empty ()) id = vid [0];
     int book = Database_Books::getIdFromUsfm (id);
     if (book == 0) {
-      addResult (translate ("Unknown ID"), display_full);
+      add_result (translate ("Unknown ID"), display_full);
     } else {
       if (unicode_string_uppercase (id) != id) {
-        addResult (translate ("ID is not in uppercase"), display_full);
+        add_result (translate ("ID is not in uppercase"), display_full);
       }
     }
   }
 }
 
 
-void Checks_Usfm::forwardSlash (string usfm)
+void Checks_Usfm::forward_slash (string usfm)
 {
   string code = filter_string_str_replace ("\n", " ", usfm);
   size_t pos = code.find ("/");
@@ -234,23 +234,23 @@ void Checks_Usfm::forwardSlash (string usfm)
     }
     string marker = bit.substr (1, 100);
     if (find (markers_stylesheet.begin(), markers_stylesheet.end(), marker) != markers_stylesheet.end ()) {
-      addResult (translate ("Forward slash instead of backslash:") + " " + bit, display_nothing);
+      add_result (translate ("Forward slash instead of backslash:") + " " + bit, display_nothing);
     }
   }
 }
 
 
-void Checks_Usfm::widowBackSlash ()
+void Checks_Usfm::widow_back_slash ()
 {
   string marker = usfm_item;
   marker = filter_string_trim (marker);
   if (marker.length() == 1) {
-    addResult (translate ("Widow backslash"), display_current);
+    add_result (translate ("Widow backslash"), display_current);
   }
 }
 
 
-void Checks_Usfm::matchingEndmarker ()
+void Checks_Usfm::matching_endmarker ()
 {
   string marker = usfm_item;
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
@@ -263,7 +263,7 @@ void Checks_Usfm::matchingEndmarker ()
   if (!in_array (marker, markers_requiring_endmarkers)) return;
   if (isOpener) {
     if (in_array (marker, open_matching_markers)) {
-      addResult (translate ("Repeating opening marker"), Checks_Usfm::display_current);
+      add_result (translate ("Repeating opening marker"), Checks_Usfm::display_current);
     } else {
       open_matching_markers.push_back (marker);
     }
@@ -271,13 +271,13 @@ void Checks_Usfm::matchingEndmarker ()
     if (in_array (marker, open_matching_markers)) {
       open_matching_markers = filter_string_array_diff (open_matching_markers, {marker});
     } else {
-      addResult (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (open_matching_markers, " "), display_current);
+      add_result (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (open_matching_markers, " "), display_current);
     }
   }
 }
 
 
-void Checks_Usfm::embeddedMarker ()
+void Checks_Usfm::embedded_marker ()
 {
   // The marker, e.g. '\add'.
   string marker = usfm_item;
@@ -324,7 +324,7 @@ void Checks_Usfm::embeddedMarker ()
   
   if (checkEmbedding) {
     if (marker.substr (0, 1) != "+") {
-      addResult (translate ("Embedded marker requires a plus sign"), display_full);
+      add_result (translate ("Embedded marker requires a plus sign"), display_full);
     }
   }
 }
@@ -346,24 +346,24 @@ void Checks_Usfm::toc (string usfm)
     if (chapter_number == 0) {
       // Required: \toc1
       if (!toc1_present) {
-        addResult (translate ("The book lacks the marker for the verbose book name:") + " " + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
+        add_result (translate ("The book lacks the marker for the verbose book name:") + " " + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
       }
       // Required: \toc2
       if (!toc2_present) {
-        addResult (translate ("The book lacks the marker for the short book name:") + " " + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
+        add_result (translate ("The book lacks the marker for the short book name:") + " " + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
       }
     } else {
       string msg = translate ("The following marker belongs in chapter 0:") + " ";
       // Required markers.
       if (toc1_present) {
-        addResult (msg + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
+        add_result (msg + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
       }
       if (toc2_present) {
-        addResult (msg + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
+        add_result (msg + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
       }
       // Optional markers, but should not be anywhere else except in chapter 0.
       if (toc3_present) {
-        addResult (msg + usfm_get_opening_usfm (abbrev_toc3_marker), display_nothing);
+        add_result (msg + usfm_get_opening_usfm (abbrev_toc3_marker), display_nothing);
       }
     }
   }
@@ -377,17 +377,17 @@ void Checks_Usfm::figure ()
     string caption, alt, src, size, loc, copy, ref;
     usfm_extract_fig (usfm, caption, alt, src, size, loc, copy, ref);
     if (src.empty()) {
-      addResult (translate ("Empty figure source:") + " " + usfm, display_nothing);
+      add_result (translate ("Empty figure source:") + " " + usfm, display_nothing);
     } else {
       Database_BibleImages database_bibleimages;
       string image_contents = database_bibleimages.get (src);
       if (image_contents.empty()) {
-        addResult (translate ("Could not find Bible image:") + " " + src, display_nothing);
+        add_result (translate ("Could not find Bible image:") + " " + src, display_nothing);
       }
     }
     size_t pos = usfm.find("“");
     if (pos != string::npos) {
-      addResult (translate ("Unusual quotation mark found:") + " " + usfm, display_nothing);
+      add_result (translate ("Unusual quotation mark found:") + " " + usfm, display_nothing);
     }
   }
 }
@@ -399,7 +399,7 @@ vector <pair<int, string>> Checks_Usfm::get_results ()
 }
 
 
-void Checks_Usfm::addResult (string text, int modifier)
+void Checks_Usfm::add_result (string text, int modifier)
 {
   string current = usfm_item;
   string next = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);

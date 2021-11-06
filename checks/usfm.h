@@ -65,17 +65,17 @@ private:
   string abbrev_toc3_marker;
 
   // Methods.
-  void malformedVerseNumber ();
-  void newLineInUsfm (string usfm);
-  void markerInStylesheet ();
-  void malformedId ();
-  void forwardSlash (string usfm);
-  void widowBackSlash ();
-  void matchingEndmarker ();
-  void embeddedMarker ();
+  void malformed_verse_number ();
+  void newLine_in_usfm (string usfm);
+  void marker_in_stylesheet ();
+  void malformed_id ();
+  void forward_slash (string usfm);
+  void widow_back_slash ();
+  void matching_endmarker ();
+  void embedded_marker ();
   void toc (string usfm);
   void figure ();
-  void addResult (string text, int modifier);
+  void add_result (string text, int modifier);
 };
 
 

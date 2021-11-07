@@ -64,9 +64,12 @@ private:
   string short_toc2_marker;
   string abbrev_toc3_marker;
 
+  // Empty markup checking.
+  string empty_markup_previous_item;
+  
   // Methods.
   void malformed_verse_number ();
-  void newLine_in_usfm (string usfm);
+  void new_line_in_usfm (string usfm);
   void marker_in_stylesheet ();
   void malformed_id ();
   void forward_slash (string usfm);
@@ -76,6 +79,7 @@ private:
   void toc (string usfm);
   void figure ();
   void add_result (string text, int modifier);
+  void empty_markup ();
 };
 
 

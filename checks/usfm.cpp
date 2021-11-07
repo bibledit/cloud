@@ -41,35 +41,35 @@ Checks_Usfm::Checks_Usfm (string bible)
 
     // Find out which markers require an endmarker.
     // And which markers are embeddable.
-    bool requiredEndmarker = false;
-    bool embeddableMarker = false;
+    bool required_endmarker = false;
+    bool embeddable_marker = false;
     if (styleType == StyleTypeIdentifier) {
       if (styleSubtype == IdentifierSubtypePublishedVerseMarker) {
-        requiredEndmarker = true;
+        required_endmarker = true;
       }
     }
     if (styleType == StyleTypeFootEndNote) {
       if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
-        requiredEndmarker = true;
+        required_endmarker = true;
       }
     }
     if (styleType == StyleTypeCrossreference) {
       if (styleSubtype == CrossreferenceSubtypeCrossreference) {
-        requiredEndmarker = true;
+        required_endmarker = true;
       }
     }
     if (styleType == StyleTypeInlineText) {
-      requiredEndmarker = true;
-      embeddableMarker = true;
+      required_endmarker = true;
+      embeddable_marker = true;
     }
     if (styleType == StyleTypeWordlistElement) {
-      requiredEndmarker = true;
-      embeddableMarker = true;
+      required_endmarker = true;
+      embeddable_marker = true;
     }
-    if (requiredEndmarker) {
+    if (required_endmarker) {
       markers_requiring_endmarkers.push_back (marker);
     }
-    if (embeddableMarker) {
+    if (embeddable_marker) {
       embeddable_markers.push_back (marker);
     }
     
@@ -92,6 +92,7 @@ void Checks_Usfm::initialize (int book, int chapter)
   chapter_number = chapter;
   verse_number = 0;
   open_matching_markers.clear ();
+  empty_markup_previous_item.clear();
 }
 
 
@@ -106,7 +107,7 @@ void Checks_Usfm::finalize ()
 
 void Checks_Usfm::check (string usfm)
 {
-  newLine_in_usfm (usfm);
+  new_line_in_usfm (usfm);
   
   forward_slash (usfm);
 
@@ -118,7 +119,7 @@ void Checks_Usfm::check (string usfm)
     if (usfm_is_usfm_marker (usfm_item)) {
       
       // Get the current verse number.
-      if (usfm_item == "\\v ") {
+      if (usfm_item == R"(\v )") {
         string verseCode = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
         verse_number = convert_to_int (usfm_peek_verse_number (verseCode));
       }
@@ -138,6 +139,9 @@ void Checks_Usfm::check (string usfm)
       figure ();
 
     }
+    
+    empty_markup();
+
   }
 }
 
@@ -157,7 +161,7 @@ void Checks_Usfm::malformed_verse_number ()
 }
 
 
-void Checks_Usfm::newLine_in_usfm (string usfm)
+void Checks_Usfm::new_line_in_usfm (string usfm)
 {
   size_t position = string::npos;
   size_t pos = usfm.find ("\\\n");
@@ -418,6 +422,55 @@ void Checks_Usfm::add_result (string text, int modifier)
       break;
   }
   checking_results.push_back (make_pair (verse_number, text));
+}
+
+
+// Checks on markup without intervening text.
+void Checks_Usfm::empty_markup ()
+{
+  // Get the current item (markup or text).
+  string current_item = usfm_item;
+
+  // Flags that will describe the current item.
+  bool current_is_text = false;
+  bool current_is_usfm = false;
+  bool current_is_opener = false;
+  bool current_is_closer = false;
+  bool current_is_embedded = false;
+
+  // Flags that will describe the previous item.
+  bool previous_is_text = false;
+  bool previous_is_usfm = false;
+  bool previous_is_opener = false;
+  bool previous_is_closer = false;
+  bool previous_is_embedded = false;
+
+  // Set the above set of flags.
+  if (usfm_is_usfm_marker (current_item)) {
+    current_is_usfm = true;
+    if (usfm_is_opening_marker(current_item)) current_is_opener = true;
+    else current_is_closer = true;
+    if (usfm_is_embedded_marker(current_item)) current_is_embedded = true;
+  } else {
+    current_is_text = true;
+  }
+  if (usfm_is_usfm_marker (empty_markup_previous_item)) {
+    previous_is_usfm = true;
+    if (usfm_is_opening_marker(empty_markup_previous_item)) previous_is_opener = true;
+    else previous_is_closer = true;
+    if (usfm_is_embedded_marker(empty_markup_previous_item)) previous_is_embedded = true;
+  } else {
+    previous_is_text = true;
+  }
+
+  // Flag the following situation:
+  // An opener is followed by a closer without intervening text.
+  if (previous_is_opener && current_is_closer) {
+    add_result (translate ("Opening markup is followed by closing markup without intervening text:") + " " + empty_markup_previous_item + current_item, Checks_Usfm::display_nothing);
+  }
+
+  // Save the current item (markup or text) into the object for next iteration.
+  empty_markup_previous_item = current_item;
 }
 
 

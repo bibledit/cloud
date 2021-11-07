@@ -1400,5 +1400,19 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
+  // Text detecting markup sequence without intervening text. Todo
+  {
+    string usfm = R"(\p \v 1 One \add \add* \v 2 Two)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = {
+      make_pair (1,  R"(Opening markup is followed by closing markup without intervening text: \add \add*)")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+  
   
 }

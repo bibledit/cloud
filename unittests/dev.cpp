@@ -34,12 +34,13 @@
 #include <user/logic.h>
 #include <pugixml/pugixml.hpp>
 #include <html/text.h>
+#include <checks/usfm.h>
 
 
 using namespace pugi;
 
 
-void test_dev ()
+void test_dev () // Todo move tests into place.
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);

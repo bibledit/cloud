@@ -22,6 +22,7 @@
 
 
 #include <config/libraries.h>
+#include <database/styles.h>
 
 
 class Checks_Usfm
@@ -50,6 +51,7 @@ private:
   
   // Stylesheet.
   vector <string> markers_stylesheet;
+  map <string, Database_Styles_Item> style_items;
   
   // Matching markers.
   vector <string> markers_requiring_endmarkers;
@@ -67,6 +69,9 @@ private:
   // Empty markup checking.
   string empty_markup_previous_item;
   
+  // Empty note checking.
+  bool within_note = false;
+  
   // Methods.
   void malformed_verse_number ();
   void new_line_in_usfm (string usfm);
@@ -80,6 +85,7 @@ private:
   void figure ();
   void add_result (string text, int modifier);
   void empty_markup ();
+  void note ();
 };
 
 

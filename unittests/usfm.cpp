@@ -1400,7 +1400,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, standard, results);
   }
 
-  // Text detecting markup sequence without intervening text. Todo
+  // Text detecting markup sequence without intervening text.
   {
     string usfm = R"(\p \v 1 One \add \add* \v 2 Two)";
     Checks_Usfm check = Checks_Usfm (string());
@@ -1413,6 +1413,69 @@ void test_usfm ()
     };
     evaluate (__LINE__, __func__, standard, results);
   }
-  
+
+  // Test that a properly formatted note gives no checking results.
+  {
+    string usfm = R"(\v 1 \f + \ft text\f*)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = { };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
+  // Test a note consisting of opening markup without text.
+  // It should give a checking result.
+  {
+    string usfm = R"(\v 2 \fe + \ft \fe*)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = {
+      make_pair (2,  R"(Opening markup is followed by closing markup without intervening text: \ft \fe*)")
+    };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
+  // Test that a correctly formatted note,
+  // followed by incorrect markup, is still not flagged.
+  {
+    string usfm = R"(\v 3 \x + \xt xref \x* \q \q )";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = { };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
+  // Test that a a note e.g. \ft followed by e.g. \add, is not flagged.
+  {
+    string usfm = R"(\v 4 \f + \ft \add add\add* \f*)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = { };
+    evaluate (__LINE__, __func__, standard, results);
+  }
+
+  // Test a corect cross reference is not flagged.
+  {
+    string usfm = R"(\v 5 \x + \xt xref\x*)";
+    Checks_Usfm check = Checks_Usfm (string());
+    check.initialize (0, 0);
+    check.check (usfm);
+    check.finalize ();
+    vector <pair<int, string>> results = check.get_results ();
+    vector <pair<int, string>> standard = { };
+    evaluate (__LINE__, __func__, standard, results);
+  }
   
 }

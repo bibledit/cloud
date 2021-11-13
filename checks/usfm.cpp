@@ -36,6 +36,7 @@ Checks_Usfm::Checks_Usfm (string bible)
   markers_stylesheet = database_styles.getMarkers (stylesheet);
   for (auto marker : markers_stylesheet) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
+    style_items [marker] = style;
     int styleType = style.type;
     int styleSubtype = style.subtype;
 
@@ -141,6 +142,8 @@ void Checks_Usfm::check (string usfm)
     }
     
     empty_markup();
+    
+    note();
 
   }
 }
@@ -471,6 +474,93 @@ void Checks_Usfm::empty_markup ()
 
   // Save the current item (markup or text) into the object for next iteration.
   empty_markup_previous_item = current_item;
+}
+
+
+// Flags a otherwise correctly formed footnote or cross reference that is blank
+// Such a note has no content but has (all of) the markers.
+void Checks_Usfm::note () // Todo
+{
+  // Flags that describe the current item.
+  bool current_is_text = false;
+  bool current_is_usfm = false;
+  bool current_is_opener = false;
+  bool current_is_closer = false;
+  bool current_is_embedded = false;
+  if (usfm_is_usfm_marker (usfm_item)) {
+    current_is_usfm = true;
+    if (usfm_is_opening_marker(usfm_item)) current_is_opener = true;
+    else current_is_closer = true;
+    if (usfm_is_embedded_marker(usfm_item)) current_is_embedded = true;
+  } else {
+    current_is_text = true;
+  }
+
+  // If the current item is text, then do no further checks on that.
+  if (current_is_text) return;
+  // From here on it is assumed that the current item is USFM, not text.
+
+  // Get the plain marker, e.g. '\f ' becomes "f".
+  string current_marker = usfm_get_marker (usfm_item);
+  
+  // Get this style's properties.
+  Database_Styles_Item style = style_items [current_marker]; // Todo check what if no style.
+  
+  // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
+  // Clear this flag if it ends the note or xref.
+  bool note_border_marker = false;
+  if (style.type == StyleTypeFootEndNote) {
+    if (style.subtype == FootEndNoteSubtypeFootnote) note_border_marker = true;
+    if (style.subtype == FootEndNoteSubtypeEndnote) note_border_marker = true;
+  }
+  if (style.type == StyleTypeCrossreference) {
+    if (style.subtype == CrossreferenceSubtypeCrossreference) note_border_marker = true;
+  }
+  if (note_border_marker) {
+    if (current_is_opener) within_note = true;
+    if (current_is_closer) within_note = false;
+  }
+
+  // If the current location is not within a footnote / endnote / cross reference,
+  // then there is nothing to check for.
+  if (!within_note) return;
+
+  // Get the next item, that is the item following the current item.
+  string next_item = usfm_peek_text_following_marker (usfm_markers_and_text,
+                                                      usfm_markers_and_text_pointer);
+  
+  // Flags that describe the next item.
+  bool next_is_text = false;
+  bool next_is_usfm = false;
+  bool next_is_opener = false;
+  bool next_is_closer = false;
+  bool next_is_embedded = false;
+  if (usfm_is_usfm_marker (next_item)) {
+    next_is_usfm = true;
+    if (usfm_is_opening_marker(next_item)) next_is_opener = true;
+    else next_is_closer = true;
+    if (usfm_is_embedded_marker(next_item)) next_is_embedded = true;
+  } else {
+    next_is_text = true;
+  }
+
+  // Change, e.g. '\f ' to '\f'.
+  // Remove the initial backslash, e.g. '\f' becomes 'f'.
+  string next_marker = usfm_get_marker(next_item);
+
+  // If the current item is opening markup ...
+  if (!current_is_opener) return;
+  // ... and not requiring an endmarker ...
+  if (in_array(current_marker, markers_requiring_endmarkers)) return;
+  // then the following item should be one of these:
+  // - a text item
+  if (next_is_text) return;
+  // - a marker requiring an endmarker, like e.g. \add
+  if (in_array(next_marker, markers_requiring_endmarkers)) return;
+
+  // It has not passed the text for a correctly formatted note.
+  // So add a message.
+  add_result (translate ("This sequence in the note does not look right:") + " " + usfm_item + next_item, display_nothing);
 }
 
 

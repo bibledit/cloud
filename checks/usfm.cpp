@@ -479,7 +479,7 @@ void Checks_Usfm::empty_markup ()
 
 // Flags a otherwise correctly formed footnote or cross reference that is blank
 // Such a note has no content but has (all of) the markers.
-void Checks_Usfm::note () // Todo
+void Checks_Usfm::note ()
 {
   // Flags that describe the current item.
   bool current_is_text = false;
@@ -504,7 +504,7 @@ void Checks_Usfm::note () // Todo
   string current_marker = usfm_get_marker (usfm_item);
   
   // Get this style's properties.
-  Database_Styles_Item style = style_items [current_marker]; // Todo check what if no style.
+  Database_Styles_Item style = style_items [current_marker];
   
   // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
   // Clear this flag if it ends the note or xref.

@@ -40,7 +40,7 @@
 using namespace pugi;
 
 
-void test_dev () // Todo move tests into place.
+void test_dev ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);

@@ -503,7 +503,8 @@ string Database_Notes::assemble_contents (int identifier, string contents)
   string new_contents = get_contents (identifier);
   int time = filter_date_seconds_since_epoch ();
   string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
-  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string user = request->session_logic ()->currentUser ();
 
   // To make the notes more readable, add whitespace between the comments.
   bool is_initial_comment = new_contents.empty ();
@@ -619,7 +620,8 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
 // limit: If >= 0, it indicates the starting limit for the selection.
 vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
 {
-  string username = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string username = request->session_logic ()->currentUser ();
   vector <int> identifiers;
   // SQL SELECT statement.
   string query = notes_select_identifier ();
@@ -897,7 +899,8 @@ void Database_Notes::add_comment (int identifier, const string& comment)
 // Subscribe the current user to the note identified by identifier.
 void Database_Notes::subscribe (int identifier)
 {
-  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string user = request->session_logic ()->currentUser ();
   subscribe_user (identifier, user);
 }
 
@@ -979,7 +982,8 @@ bool Database_Notes::is_subscribed (int identifier, const string& user)
 // Unsubscribes the currently logged in user from the note identified by identifier.
 void Database_Notes::unsubscribe (int identifier)
 {
-  string user = ((Webserver_Request *) webserver_request)->session_logic ()->currentUser ();
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string user = request->session_logic ()->currentUser ();
   unsubscribe_user (identifier, user);
 }
 

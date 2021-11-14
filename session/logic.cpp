@@ -130,7 +130,8 @@ bool Session_Logic::openAccess ()
 // Returns IP blocks of remote address.
 string Session_Logic::remoteAddress ()
 {
-  vector <string> blocks = filter_string_explode (((Webserver_Request *) webserver_request)->remote_address, '.');
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  vector <string> blocks = filter_string_explode (request->remote_address, '.');
   string address = "";
   unsigned int num_blocks = abs (check_ip_blocks);
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
@@ -147,7 +148,8 @@ string Session_Logic::fingerprint ()
   string fingerprint = "";
   // fingerprint += $_SERVER ['HTTP_CONNECTION']; Unstable fingerprint. No use for persistent login.
   // fingerprint += $_SERVER ['HTTP_ACCEPT_ENCODING']; Unstable fingerprint. No use for persistent login.
-  fingerprint += ((Webserver_Request *) webserver_request)->accept_language;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  fingerprint += request->accept_language;
   return fingerprint;
 }
 
@@ -190,7 +192,8 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
     open ();
     setUsername (user_or_email);
     logged_in = true;
-    string cookie = ((Webserver_Request *) webserver_request)->session_identifier;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+    string cookie = request->session_identifier;
     Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled);
     currentLevel (true);
     return true;
@@ -256,7 +259,8 @@ int Session_Logic::currentLevel (bool force)
 void Session_Logic::logout ()
 {
   string username = currentUser ();
-  string cookie = ((Webserver_Request *) webserver_request)->session_identifier;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string cookie = request->session_identifier;
   Database_Login::removeTokens (username, cookie);
   setUsername ("");
   level = Filter_Roles::guest();
@@ -289,7 +293,8 @@ bool Session_Logic::clientAccess ()
 
 void Session_Logic::switchUser (string username)
 {
-  string cookie = ((Webserver_Request *) webserver_request)->session_identifier;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string cookie = request->session_identifier;
   Database_Login::removeTokens (username, cookie);
   Database_Login::renameTokens (currentUser (), username, cookie);
 }

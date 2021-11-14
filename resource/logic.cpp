@@ -506,11 +506,14 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
   string error;
   string content = filter_url_http_get (url, error, false);
   
-  if (error.empty ()) {
-    // No error: Cache content (if to be cached).
-    if (cache) Database_Cache::cache (resource, book, chapter, verse, content);
-  } else {
-    // Error: Log it, and return it.
+  // Cache the content under circumstances.
+  if (cache) {
+    if (database_cache_can_cache (error, content)) {
+      Database_Cache::cache (resource, book, chapter, verse, content);
+    }
+  }
+  if (!error.empty ()) {
+    // Error: Log it, and add it to the contents.
     Database_Logs::log (resource + ": " + error);
     content.append (error);
   }
@@ -692,17 +695,19 @@ string resource_logic_web_or_cache_get (string url, string & error)
     return database_filebased_cache_get (url);
   }
 #endif
+
   // Fetch the URL from the network.
-  // Do not cache the response in an error situation.
   error.clear ();
   string html = filter_url_http_get (url, error, false);
-  if (!error.empty ()) {
-    return html;
+
+#ifdef HAVE_CLOUD
+  // In the Cloud, cache the response based on certain criteria.
+  bool cache = database_cache_can_cache (error, html);
+  if (cache) {
+    database_filebased_cache_put (url, html);
   }
-#ifndef HAVE_CLIENT
-  // In the Cloud, cache the response.
-  database_filebased_cache_put (url, html);
 #endif
+
   // Done.
   return html;
 }

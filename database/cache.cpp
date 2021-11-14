@@ -406,3 +406,20 @@ void database_cache_trim (bool clear)
   
   if (clear) Database_Logs::log ("Ready clearing  cache");
 }
+
+
+// This returns true if the $html can be cached.
+bool database_cache_can_cache (const string & error, const string & html)
+{
+  // Normally if everything is fine, then caching is possible.
+  bool cache = true;
+  
+  // Do not cache the data in an error situation.
+  if (!error.empty()) cache = false;
+
+  // Do not cache the data if Cloudflare does DDoS protection.
+  // https://github.com/bibledit/cloud/issues/693.
+  if (html.find ("Cloudflare") != string::npos) cache = false;
+
+  return cache;
+}

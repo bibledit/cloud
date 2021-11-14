@@ -55,4 +55,7 @@ void database_filebased_cache_remove (string schema);
 void database_cache_trim (bool clear);
 
 
+bool database_cache_can_cache (const string & error, const string & html);
+
+
 #endif

@@ -49,7 +49,7 @@ bool notes_assign_1_acl (void * webserver_request)
 
 string notes_assign_1 (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   Database_NoteAssignment database_noteassignment;

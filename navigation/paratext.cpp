@@ -37,7 +37,7 @@ string navigation_paratext_url ()
 string navigation_paratext (void * webserver_request)
 {
   // The request from the client.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // Handle any reference received that was obtained from Paratext.
   static string previous_from;
   string from = request->query ["from"];

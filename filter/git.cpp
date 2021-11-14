@@ -153,7 +153,7 @@ void filter_git_sync_modifications_to_git (string bible, string repository)
 // This speeds up the filter.
 void filter_git_sync_bible_to_git (void * webserver_request, string bible, string repository)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // First stage.
   // Read the chapters in the git repository,
@@ -223,7 +223,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
 // This speeds up the filter.
 void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Stage one:
   // Read the chapters in the git repository,

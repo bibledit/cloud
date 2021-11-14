@@ -38,7 +38,7 @@ bool menu_index_acl (void * webserver_request)
 
 string menu_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string item = request->query ["item"];
   item = menu_logic_click (item);
   redirect_browser (request, item);

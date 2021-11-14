@@ -28,7 +28,7 @@
 
 string Editor_Styles::getRecentlyUsed (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
  
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
@@ -59,7 +59,7 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
 
 string Editor_Styles::getAll (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
@@ -99,7 +99,7 @@ string Editor_Styles::getAll (void * webserver_request)
 void Editor_Styles::recordUsage (void * webserver_request, string style)
 {
   if (style == "") return;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
   vector <string> styles = filter_string_explode (s_styles, ' ');
   // Erase the style.
@@ -117,7 +117,7 @@ void Editor_Styles::recordUsage (void * webserver_request, string style)
 
 string Editor_Styles::getAction (void * webserver_request, string style)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   Database_Styles_Item data = request->database_styles()->getMarkerData (stylesheet, style);

@@ -45,7 +45,7 @@ bool read_verse_acl (void * webserver_request)
 
 string read_verse (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Only act if a verse was found
   string sverse = request->query ["verse"];

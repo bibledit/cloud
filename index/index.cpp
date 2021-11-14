@@ -50,7 +50,7 @@ bool index_index_acl (void * webserver_request)
 
 string index_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   filter_webview_log_user_agent (request->user_agent);
   

@@ -51,7 +51,7 @@ bool search_similar_acl (void * webserver_request)
 
 string search_similar (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
  
   int myIdentifier = filter_string_user_identifier (request);

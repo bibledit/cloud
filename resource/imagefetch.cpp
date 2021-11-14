@@ -39,7 +39,7 @@ bool resource_imagefetch_acl (void * webserver_request)
 
 string resource_imagefetch (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Resource and image names.
   string name = request->query ["name"];

@@ -151,7 +151,7 @@ map <int, string> workspace_get_default_heights (int id)
 
 void workspace_create_defaults (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Save current active workspace.
   string workspace = request->database_config_user()->getActiveWorkspace ();
@@ -173,7 +173,7 @@ void workspace_create_defaults (void * webserver_request)
 
 string workspace_get_active_name (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string workspace = request->database_config_user()->getActiveWorkspace ();
   if (workspace.empty ()) {
     workspace = workspace_get_default_name ();
@@ -204,7 +204,7 @@ string workspace_process_units (string length)
 void workspace_set_values (void * webserver_request, int selector, const map <int, string> & values)
 {
   // Store values locally, and for a client, store them also for sending to the server.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string workspace = workspace_get_active_name (request);
   string rawvalue;
   if (selector == URLS) rawvalue = request->database_config_user()->getWorkspaceURLs ();
@@ -274,7 +274,7 @@ void workspace_set_entire_width (void * webserver_request, string value)
 
 map <int, string> workspace_get_values (void * webserver_request, int selector, bool use)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   map <int, string> values;
   
@@ -369,7 +369,7 @@ string workspace_get_entire_width (void * webserver_request)
 // If $add_default, if there's no workspaces, it adds a default one.
 vector <string> workspace_get_names (void * webserver_request, bool add_default)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> workspaces;
   // The names and the order of the workspaces is taken from the URLs.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
@@ -391,7 +391,7 @@ vector <string> workspace_get_names (void * webserver_request, bool add_default)
 
 void workspace_delete (void * webserver_request, string workspace)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string rawvalue;
   vector <string> currentlines;
@@ -438,7 +438,7 @@ void workspace_reorder (void * webserver_request, const vector <string> & worksp
   // The order of the workspaces is taken from the URLs.
   // Widths and heights are not considered for the order.
   
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Retrieve the old order of the workspaces, plus their details.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
@@ -474,7 +474,7 @@ void workspace_reorder (void * webserver_request, const vector <string> & worksp
 // Copy workspace $source to $destination
 void workspace_copy (void * webserver_request, string source, string destination)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Save current active workspace.
   string active_workspace = request->database_config_user()->getActiveWorkspace ();
@@ -501,7 +501,7 @@ void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths
 {
 #ifdef HAVE_CLIENT
   // For a client, store the setting for sending to the server.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (urls)
     request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_urls);
   if (widths)
@@ -526,7 +526,7 @@ string workspace_get_default_name ()
 // Send the named $workspace to a $user name.
 void workspace_send (void * webserver_request, string workspace, string user)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Save current active workspace.
   string active_workspace = request->database_config_user()->getActiveWorkspace ();

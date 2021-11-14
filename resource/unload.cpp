@@ -39,7 +39,7 @@ bool resource_unload_acl (void * webserver_request)
 
 string resource_unload (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // The scroll position of the resource window.
   int position = convert_to_int (request->post ["position"]);
   if (position < 0) position = 0;

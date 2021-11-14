@@ -45,7 +45,7 @@ bool edit_navigate_acl (void * webserver_request)
 
 string edit_navigate (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
   string bible = request->query ["bible"];

@@ -69,7 +69,7 @@ string Database_Config_User::mapkey (string user, const char * key)
 
 string Database_Config_User::getValue (const char * key, const char * default_value)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
@@ -279,7 +279,7 @@ string Database_Config_User::getBible ()
 {
   string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Bibles * database_bibles = request->database_bibles ();
   vector <string> bibles = database_bibles->getBibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
@@ -1180,7 +1180,7 @@ bool Database_Config_User::getBasicInterfaceModeDefault ()
   return true;
 #endif
   // The app running on a workspace or laptop have default to basic mode for a lower role.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   int level = request->session_logic ()->currentLevel ();
   if (level <= Filter_Roles::manager ()) return true;
   // Higher role: default to advanced mode.

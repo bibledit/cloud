@@ -52,7 +52,7 @@ bool notes_click_acl (void * webserver_request)
 // This function is called from click.js.
 string notes_click (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
   

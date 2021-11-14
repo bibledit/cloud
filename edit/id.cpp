@@ -45,7 +45,7 @@ bool edit_id_acl (void * webserver_request)
 
 string edit_id (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
   // Update the timestamp indicating that the Bible editor is alive.

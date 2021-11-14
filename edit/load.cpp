@@ -49,7 +49,7 @@ bool edit_load_acl (void * webserver_request)
 
 string edit_load (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);

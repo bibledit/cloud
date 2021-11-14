@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // If no $user is given, it takes the currently logged-in user.
 bool access_bible_read (void * webserver_request, const string & bible, string user)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Client: User has access to all Bibles.
 #ifdef HAVE_CLIENT
@@ -104,7 +104,7 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
   }
 
   int level = 0;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (user.empty ()) {
     user = request->session_logic ()->currentUser ();
     level = request->session_logic ()->currentLevel ();
@@ -156,7 +156,7 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
 
   // Get the user level (role).
   int level = 0;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (user.empty ()) {
     user = request->session_logic ()->currentUser ();
     level = request->session_logic ()->currentLevel ();
@@ -208,7 +208,7 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
 // If no user is given, it takes the currently logged-in user.
 vector <string> access_bible_bibles (void * webserver_request, string user)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> allbibles = request->database_bibles ()->getBibles ();
   vector <string> bibles;
   for (auto & bible : allbibles) {
@@ -229,7 +229,7 @@ string access_bible_clamp (void * webserver_request, string bible)
     bible = "";
     vector <string> bibles = access_bible_bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     request->database_config_user ()->setBible (bible);
   }
   return bible;
@@ -242,7 +242,7 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
 {
   read = false;
   write = false;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> bibles = request->database_bibles ()->getBibles ();
   for (auto & bible : bibles) {
     if (access_bible_read (webserver_request, bible)) read = true;

@@ -135,7 +135,7 @@ string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
                                 bool add_verse_numbers)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string html;
 
@@ -253,7 +253,7 @@ string resource_logic_get_html (void * webserver_request,
 // It uses the cache.
 string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string data;
 
@@ -716,7 +716,7 @@ string resource_logic_web_or_cache_get (string url, string & error)
 // Returns the page type for the resource selector.
 string resource_logic_selector_page (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string page = request->query["page"];
   return page;
 }

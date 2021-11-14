@@ -55,7 +55,7 @@ bool edit_preview_acl (void * webserver_request)
 
 string edit_preview (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   bool touch = request->session_logic ()->touchEnabled ();
   bool timeout = request->query.count ("timeout");

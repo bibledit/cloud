@@ -63,7 +63,7 @@ string Checksum_Logic::get (const vector <string>& data)
 // Returns a proper checksum for the USFM in the chapter.
 string Checksum_Logic::getChapter (void * webserver_request, string bible, int book, int chapter)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   string checksum = md5 (filter_string_trim (usfm));
   return checksum;
@@ -73,7 +73,7 @@ string Checksum_Logic::getChapter (void * webserver_request, string bible, int b
 // Returns a proper checksum for the USFM in the book.
 string Checksum_Logic::getBook (void * webserver_request, string bible, int book)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <int> chapters = request->database_bibles()->getChapters (bible, book);
   vector <string> checksums;
   for (auto & chapter : chapters) {
@@ -88,7 +88,7 @@ string Checksum_Logic::getBook (void * webserver_request, string bible, int book
 // Returns a proper checksum for the USFM in the $bible.
 string Checksum_Logic::getBible (void * webserver_request, string bible)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <int> books = request->database_bibles()->getBooks (bible);
   vector <string> checksums;
   for (auto & book : books) {

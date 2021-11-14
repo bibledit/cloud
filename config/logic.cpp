@@ -136,7 +136,7 @@ int my_stoi (const string& str, void * idx, int base)
 // Returns whether the interface is supposed to be in basic mode.
 bool config_logic_basic_mode (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   bool basic_mode = request->database_config_user ()->getBasicInterfaceMode ();
   return basic_mode;
 }
@@ -157,7 +157,7 @@ string config_logic_site_url (void * webserver_request)
   // Then team members that connected to 192.168.2.6 were forwarded to localhost (which of course failed).
   // This solution deals with that.
   if (webserver_request) {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     if (!request->host.empty ()) {
       url = get_base_url (request);
       return url;
@@ -258,7 +258,7 @@ bool config_logic_enforce_https_client ()
 
 void config_logic_swipe_enabled (void * webserver_request, string & script)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string true_false = "false";
   if (request->session_logic ()->touchEnabled ()) {

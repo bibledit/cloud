@@ -45,7 +45,7 @@ bool notes_poll_acl (void * webserver_request)
 
 string notes_poll (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string action = request->query ["action"];
   if (action == "alive") {
     Ipc_Notes::alive (webserver_request, true, true);

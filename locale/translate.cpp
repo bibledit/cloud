@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 //void check_user_localization_preference (void * webserver_request)
 //{
-//  Webserver_Request * request = (Webserver_Request *) webserver_request;
+//  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 //
 //  string system_settings = Database_Config_General::getSiteLanguage ();
 //

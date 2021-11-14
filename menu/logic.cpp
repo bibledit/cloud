@@ -172,7 +172,7 @@ string menu_logic_settings_resources_menu ()
 string menu_logic_main_categories (void * webserver_request, string & tooltip)
 {
   // Create the object from the void pointer.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // The sets of html that is going to form the menu.
   vector <string> html;
@@ -270,7 +270,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
 string menu_logic_basic_categories (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   vector <string> html;
 
@@ -359,7 +359,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     string activeWorkspace = request->database_config_user()->getActiveWorkspace ();
     vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
@@ -381,7 +381,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
 
 string menu_logic_translate_category (void * webserver_request, string * tooltip)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   vector <string> html;
   vector <string> labels;
@@ -648,7 +648,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
 
 string menu_logic_settings_category (void * webserver_request, string * tooltip)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   bool demo = config_logic_demo_enabled ();
   
@@ -971,7 +971,7 @@ string menu_logic_settings_resources_category (void * webserver_request)
 
 string menu_logic_help_category (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   vector <string> html;
 
@@ -991,7 +991,7 @@ string menu_logic_help_category (void * webserver_request)
 // or when the user has the role of Guest.
 bool menu_logic_public_or_guest (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (request->session_logic ()->currentUser ().empty ()) return true;
   if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) return true;
   return false;
@@ -1187,7 +1187,7 @@ string menu_logic_editor_settings_text (bool visual, int selection)
 
 bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Get the user's preference for the visual or USFM editors.
   int selection = 0;
@@ -1260,7 +1260,7 @@ void menu_logic_tabbed_mode_save_json (void * webserver_request)
     bool generate_json = Database_Config_General::getMenuInTabbedViewOn ();
     
     // Tabbed view not possible in advanced mode.
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     if (!request->database_config_user ()->getBasicInterfaceMode ()) {
       generate_json = false;
     }

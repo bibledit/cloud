@@ -60,7 +60,7 @@ void Styles_Css::generate ()
   if (editor_enabled) {
     add_editor_styles ();
   }
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> markers = request->database_styles ()->getMarkers (stylesheet);
   for (auto & marker : markers) {
     Database_Styles_Item style = request->database_styles ()->getMarkerData (stylesheet, marker);

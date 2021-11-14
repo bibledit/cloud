@@ -113,7 +113,7 @@ void Database_Mail::send (string to, string subject, string body, int time)
 // Get number of mails for the current user.
 int Database_Mail::getMailCount ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT count(*) FROM mail WHERE username =");
@@ -133,7 +133,7 @@ int Database_Mail::getMailCount ()
 vector <Database_Mail_User> Database_Mail::getMails ()
 {
   vector <Database_Mail_User> mails;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid, timestamp, subject FROM mail WHERE username =");

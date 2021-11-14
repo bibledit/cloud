@@ -629,7 +629,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   // Two texts are equal: safe.
   if (newtext == oldtext) return "";
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   const char * explanation1 = "The text was not saved for safety reasons.";
   const char * explanation2 = "Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.";
@@ -709,7 +709,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
 string usfm_safely_store_chapter (void * webserver_request,
                                   string bible, int book, int chapter, string usfm, string & explanation)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Existing chapter contents.
   string existing = request->database_bibles()->getChapter (bible, book, chapter);
@@ -744,7 +744,7 @@ string usfm_safely_store_verse (void * webserver_request,
                                 string bible, int book, int chapter, int verse, string usfm,
                                 string & explanation, bool quill)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   usfm = filter_string_trim (usfm);
 

@@ -57,7 +57,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     Database_NoteActions database_noteactions;
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_create_initiate, "");
     database_noteactions.record (request->session_logic()->currentUser (), note_id, Sync_Logic::notes_put_summary, "");
     // The contents to submit to the server, take it from the database, as it was updated in the logic above.
@@ -359,7 +359,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   if (client_logic_client_enabled ()) return;
 
   // Data objects.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Notes database_notes (webserver_request);
   
   // This note's Bible.
@@ -543,7 +543,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   if (pos == string::npos) return false;
   subject = subject.substr (0, pos);
   // Webserver request.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // At this stage, the subject contains an identifier.
   // Check that the identifier is an existing Consultation Note.
   int identifier = convert_to_int (subject);
@@ -594,7 +594,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
 bool Notes_Logic::handleEmailNew (string from, string subject, string body)
 {
   // Webserver request.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // Store the original subject.
   string originalSubject = subject;
   // Check that the subject indicates that a new consultation note is to be created.

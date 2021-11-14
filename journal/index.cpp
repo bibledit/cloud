@@ -120,7 +120,7 @@ string journal_index_ajax_next (Webserver_Request * request, string filename)
 
 string journal_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   int userLevel = request->session_logic()->currentLevel ();
 
   

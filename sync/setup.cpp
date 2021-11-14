@@ -35,7 +35,7 @@ string sync_setup_url ()
 
 string sync_setup (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
   
   if (!sync_logic.security_okay ()) {

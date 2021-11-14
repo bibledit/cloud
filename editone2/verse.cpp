@@ -45,7 +45,7 @@ bool editone2_verse_acl (void * webserver_request)
 
 string editone2_verse (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
 
   // Only act if a verse was found

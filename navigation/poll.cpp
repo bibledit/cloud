@@ -38,7 +38,7 @@ bool navigation_poll_acl (void * webserver_request)
 
 string navigation_poll (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   int book = Ipc_Focus::getBook (request);
   int chapter = Ipc_Focus::getChapter (request);
   int verse = Ipc_Focus::getVerse (request);

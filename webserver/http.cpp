@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It returns true if a header was (or could have been) parsed.
 bool http_parse_header (string header, void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Clean the header line.
   header = filter_string_trim (header);
@@ -148,7 +148,7 @@ bool http_parse_header (string header, void * webserver_request)
 // Takes data POSTed from the browser, and parses it.
 void http_parse_post (string content, void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Read and parse the POST data.
   try {
@@ -193,7 +193,7 @@ and creates the entire result to be sent back to the browser.
 */
 void http_assemble_response (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   ostringstream length;
   if (request->stream_file.empty()) {
@@ -293,7 +293,7 @@ void http_assemble_response (void * webserver_request)
 // $enable_cache: Whether to enable caching by the browser.
 void http_stream_file (void * webserver_request, bool enable_cache)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Full path to the file.
   string url = filter_url_urldecode (request->get);

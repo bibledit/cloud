@@ -62,7 +62,7 @@ string session_login (void * webserver_request)
   The script is called with a query for where to forward the user to.
   */
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string page;
 

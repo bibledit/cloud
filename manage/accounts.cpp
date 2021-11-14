@@ -57,7 +57,7 @@ bool manage_accounts_acl (void * webserver_request)
 
 string manage_accounts (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   bool user_updated = false;
   bool privileges_updated = false;

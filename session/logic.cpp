@@ -80,7 +80,7 @@ void Session_Logic::open ()
   if (openAccess ()) return;
   if (clientAccess ()) return;
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Work around a weird bug where the user_agent's size is 140735294083184 leading to a crash.
   if (request->user_agent.size () > 10000) return;

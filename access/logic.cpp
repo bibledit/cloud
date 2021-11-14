@@ -80,7 +80,7 @@ bool access_logic_privilege_delete_consultation_notes (void * webserver_request,
   int level = 0;
   access_logic_user_level (webserver_request, user, level);
   if (level >= access_logic_delete_consultation_notes_role ()) return true;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   return request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (user);
 }
 
@@ -96,14 +96,14 @@ bool access_logic_privilege_use_advanced_mode (void * webserver_request, string 
   int level = 0;
   access_logic_user_level (webserver_request, user, level);
   if (level >= access_logic_use_advanced_mode_role ()) return true;
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   return request->database_config_user ()->getPrivilegeUseAdvancedModeForUser (user);
 }
 
 
 void access_logic_user_level (void * webserver_request, string & user, int & level)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (user.empty ()) {
     // If no user is given, take the user from the session.
     user = request->session_logic ()->currentUser ();

@@ -92,7 +92,7 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
   }
   // An active ID was found: Execute the associated database query.
   string query = database_confirm.get_query (id);
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   request->database_users()->execute (query);
   // Send confirmation mail.
   string mailto = database_confirm.get_mail_to (id);
@@ -113,7 +113,7 @@ bool Confirm_Worker::handleEmail (string from, string subject, string body)
 bool Confirm_Worker::handleLink (string & email)
 {
   // Get the confirmation identifier from the link that was clicked.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string web_id = request->query["id"];
   
   // If the identifier was not given, the link was not handled successfully.

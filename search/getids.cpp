@@ -45,7 +45,7 @@ bool search_getids_acl (void * webserver_request)
 
 string search_getids (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Get search variables from the query.
   string bible = request->query ["b"];

@@ -50,7 +50,7 @@ bool public_index_acl (void * webserver_request)
 
 string public_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
 
   // If the person providing public feedback is not logged in, foward to the page for entering details.

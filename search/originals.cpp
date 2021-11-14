@@ -53,7 +53,7 @@ bool search_originals_acl (void * webserver_request)
 
 string search_originals (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
 
   Database_OsHb database_oshb = Database_OsHb ();

@@ -50,7 +50,7 @@ string user_account (void * webserver_request)
 
 #ifdef HAVE_CLOUD
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   Assets_Header header = Assets_Header (translate("Account"), webserver_request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());

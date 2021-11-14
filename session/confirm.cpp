@@ -55,7 +55,7 @@ bool session_confirm_acl (void * webserver_request)
   // Find the level of the user.
   // This confirmation page only allows access if the user is not yet logged in.
   // Such a situation produces level 1, that is the guest level.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   int level = request->session_logic ()->currentLevel ();
   return (level = Filter_Roles::guest());
 }
@@ -76,7 +76,7 @@ string session_confirm (void * webserver_request)
   // Handle a valid confirmation.
   if (is_valid_confirmation) {
 
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
     // Authenticate against local database, but skipping some checks.
     if (request->session_logic()->attemptLogin (email, "", true, true)) {

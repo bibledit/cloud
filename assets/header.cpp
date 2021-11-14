@@ -32,13 +32,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 
 
-Assets_Header::Assets_Header (string title, void * webserver_request_in)
+Assets_Header::Assets_Header (string title, void * webserver_request)
 {
   includeJQueryTouch = false;
   includeTouchCSS = false;
   includeNotifIt = false;
   displayNavigator = false;
-  webserver_request = webserver_request_in;
+  this->webserver_request = webserver_request;
   view = new Assets_View ();
   view->set_variable ("title", title);
 }
@@ -78,7 +78,7 @@ void Assets_Header::setNavigator ()
 // Display the user's basic stylesheet.css.
 void Assets_Header::setStylesheet ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   includedStylesheet = stylesheet;
@@ -88,7 +88,7 @@ void Assets_Header::setStylesheet ()
 // Display the user's editor stylesheet.css.
 void Assets_Header::setEditorStylesheet ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   includedEditorStylesheet = stylesheet;
@@ -98,7 +98,7 @@ void Assets_Header::setEditorStylesheet ()
 // Whether to display the topbar.
 bool Assets_Header::displayTopbar ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // If the topbar is in the query: Don't display the top bar.
   if (request->query.count ("topbar")) {
     return false;
@@ -135,7 +135,7 @@ void Assets_Header::addBreadCrumb (string item, string text)
 // Runs the header.
 string Assets_Header::run ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string page;
   

@@ -31,7 +31,7 @@ void trash_change_notification (void * webserver_request, int id)
   Passage passage = database_modifications.getNotificationPassage (id);
   string passageText = filter_passage_display_inline ({passage});
   string modification = database_modifications.getNotificationModification (id);
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   Database_Logs::log (username + " removed change notification " + passageText + " : " + modification);
 }
@@ -45,7 +45,7 @@ void trash_consultation_note (void * webserver_request, int id)
   string summary = database_notes.get_summary (id);
   string contents = database_notes.get_contents (id);
   contents = filter_string_html2text (contents);
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   if (username.empty ()) username = "This app";
   Database_Logs::log (username + " deleted or marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);

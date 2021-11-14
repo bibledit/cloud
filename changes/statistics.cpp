@@ -62,7 +62,7 @@ string changes_statistics (void * webserver_request)
 
 #ifdef HAVE_CLOUD
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
 
   string page;

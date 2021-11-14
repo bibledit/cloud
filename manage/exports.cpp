@@ -63,7 +63,7 @@ string space_href (string name)
 
 string manage_exports (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   
   string page;

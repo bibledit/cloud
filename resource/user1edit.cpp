@@ -52,7 +52,7 @@ bool resource_user1edit_acl (void * webserver_request)
 
 string resource_user1edit (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
   string page;

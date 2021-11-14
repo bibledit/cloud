@@ -245,7 +245,7 @@ void bootstrap_index (void * webserver_request)
     developer_logic_tracer = make_shared<Developer_Logic_Tracer>(webserver_request);
   }
 
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Record the POST request made to the web server.
   // This can be used for debugging.

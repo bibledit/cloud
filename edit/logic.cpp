@@ -42,7 +42,7 @@ void storeLoadedUsfm2 (void * webserver_request, string bible, int book, int cha
 {
   (void) message;
   
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   int userid = filter_string_user_identifier (webserver_request);
   

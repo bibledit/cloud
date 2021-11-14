@@ -51,7 +51,7 @@ bool client_index_acl (void * webserver_request)
 
 void client_index_remove_all_users (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> existingusers = request->database_users()->get_users ();
   for (auto existinguser : existingusers) {
     request->database_users()->removeUser (existinguser);
@@ -61,7 +61,7 @@ void client_index_remove_all_users (void * webserver_request)
 
 void client_index_enable_client (void * webserver_request, string username, string password, int level)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Enable client mode upon a successful connection.
   client_logic_enable_client (true);
@@ -104,7 +104,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
 
 string client_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   Assets_View view;
   

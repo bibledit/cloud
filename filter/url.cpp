@@ -108,7 +108,7 @@ vector <string> filter_url_scandir_internal (string folder)
 // Gets the base URL of current Bibledit installation.
 string get_base_url (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string scheme;
   string port;
   if (request->secure || config_globals_enforce_https_browser) {
@@ -127,7 +127,7 @@ string get_base_url (void * webserver_request)
 // "path" is an absolute value.
 void redirect_browser (void * webserver_request, string path)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // A location header should contain an absolute url, like http://localhost/some/path.
   // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.

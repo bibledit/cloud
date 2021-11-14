@@ -38,7 +38,7 @@ bool navigation_update_acl (void * webserver_request)
 
 string navigation_update (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
   // It used to take the Bible from the Bible variable stored in Javascript.

@@ -29,7 +29,7 @@
 
 void Ipc_Notes::open (void * webserver_request, int identifier)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic()->currentUser ();
   request->database_ipc()->storeMessage (user, "", "opennote", convert_to_string (identifier));
 }
@@ -37,7 +37,7 @@ void Ipc_Notes::open (void * webserver_request, int identifier)
 
 int Ipc_Notes::get (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Ipc_Message data = request->database_ipc()->getNote ();
   return convert_to_int (data.message);
 }
@@ -45,7 +45,7 @@ int Ipc_Notes::get (void * webserver_request)
 
 void Ipc_Notes::erase (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Ipc_Message data = request->database_ipc()->getNote ();
   int counter = 0;
   while (data.id && (counter < 100)) {
@@ -60,7 +60,7 @@ void Ipc_Notes::erase (void * webserver_request)
 // If $set is false, it returns the alive status.
 bool Ipc_Notes::alive (void * webserver_request, bool set, bool alive)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic()->currentUser ();
   if (set) {
     request->database_ipc()->storeMessage (user, "", "notesalive", convert_to_string (alive));

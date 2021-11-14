@@ -149,7 +149,7 @@ void Database_Ipc::deleteMessage (int id)
 
 string Database_Ipc::getFocus ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
 
   int highestId = 0;
@@ -177,7 +177,7 @@ string Database_Ipc::getFocus ()
 
 Database_Ipc_Message Database_Ipc::getNote ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
 
   int highestId = 0;
@@ -209,7 +209,7 @@ Database_Ipc_Message Database_Ipc::getNote ()
 
 bool Database_Ipc::getNotesAlive ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
 
   int highestId = 0;

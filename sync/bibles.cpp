@@ -157,7 +157,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
 
 string sync_bibles (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
   if (!sync_logic.security_okay ()) {

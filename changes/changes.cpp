@@ -52,7 +52,7 @@ bool changes_changes_acl (void * webserver_request)
 
 string changes_changes (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Modifications database_modifications;
   
   

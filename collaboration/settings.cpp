@@ -50,7 +50,7 @@ bool collaboration_settings_acl (void * webserver_request)
 
 string collaboration_settings (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   string page;
   Assets_Header header = Assets_Header (translate("Collaboration"), request);

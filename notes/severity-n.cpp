@@ -48,7 +48,7 @@ bool notes_severity_n_acl (void * webserver_request)
 
 string notes_severity_n (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Notes database_notes (webserver_request);
   
   

@@ -48,7 +48,7 @@ Sync_Logic::Sync_Logic (void * webserver_request_in)
 // Returns true if the request coming from the client is considered secure enough.
 bool Sync_Logic::security_okay ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // If the request is made via https, the security is OK.
   if (request->secure) return true;
@@ -64,7 +64,7 @@ bool Sync_Logic::security_okay ()
 
 bool Sync_Logic::credentials_okay ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Brute force attack mitigating?
   if (!user_logic_login_failure_check_okay ()) {
@@ -159,7 +159,7 @@ string Sync_Logic::post (map <string, string> & post, const string& url, string 
 // Calculates the checksum of all settings to be kept in sync between server and client.
 string Sync_Logic::settings_checksum (const vector <string> & bibles)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string checksum;
   checksum.append (request->database_config_user()->getWorkspaceURLs ());
   checksum.append (request->database_config_user()->getWorkspaceWidths ());
@@ -360,7 +360,7 @@ int Sync_Logic::files_get_file_checksum (string directory, string file)
 // Makes a global record of the IP address of a client that made a prioritized server call.
 void Sync_Logic::prioritized_ip_address_record ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   sync_logic_mutex.lock ();
   config_globals_prioritized_ip_addresses [request->remote_address] = filter_date_seconds_since_epoch ();
   sync_logic_mutex.unlock ();
@@ -370,7 +370,7 @@ void Sync_Logic::prioritized_ip_address_record ()
 // Checks whether the IP address of the current client has very recently made a prioritized server call.
 bool Sync_Logic::prioritized_ip_address_active ()
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string ip = request->remote_address;
   int time = filter_date_seconds_since_epoch ();
   bool active = false;

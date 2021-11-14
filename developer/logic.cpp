@@ -53,7 +53,7 @@ void developer_logic_log_network_write ()
 
 Developer_Logic_Tracer::Developer_Logic_Tracer(void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   seconds1 = filter_date_seconds_since_epoch ();
   microseconds1 = filter_date_numerical_microseconds();
   rfc822 = filter_date_rfc822 (seconds1);

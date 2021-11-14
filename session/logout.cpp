@@ -37,7 +37,7 @@ bool session_logout_acl (void * webserver_request)
 
 string session_logout (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   request->session_logic ()->logout ();
   redirect_browser (request, index_index_url ());
   return "";

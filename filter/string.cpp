@@ -1396,7 +1396,7 @@ vector <string> filter_string_search_needles (string search, string text)
 // Returns an integer identifier based on the name of the current user.
 int filter_string_user_identifier (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   string hash = md5 (username).substr (0, 5);
   int identifier = my_stoi (hash, NULL, 36);

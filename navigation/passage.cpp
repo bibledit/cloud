@@ -48,7 +48,7 @@ using namespace pugi;
 
 string Navigation_Passage::get_mouse_navigator (void * webserver_request, string bible)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   Database_Navigation database_navigation;
   
@@ -208,7 +208,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
 
 string Navigation_Passage::get_books_fragment (void * webserver_request, string bible)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   int activeBook = Ipc_Focus::getBook (request);
   // Take standard books in case of no Bible.
   vector <int> books;
@@ -236,7 +236,7 @@ string Navigation_Passage::get_books_fragment (void * webserver_request, string 
 
 string Navigation_Passage::get_chapters_fragment (void * webserver_request, string bible, int book, int chapter)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <int> chapters;
   if (bible.empty ()) {
     Database_Versifications database_versifications;
@@ -261,7 +261,7 @@ string Navigation_Passage::get_chapters_fragment (void * webserver_request, stri
 
 string Navigation_Passage::get_verses_fragment (void * webserver_request, string bible, int book, int chapter, int verse)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <int> verses;
   if (bible == "") {
     Database_Versifications database_versifications;
@@ -345,7 +345,7 @@ Passage Navigation_Passage::get_next_chapter (void * webserver_request, string b
 {
   chapter++;
   if (bible != "") {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters.back ();
@@ -360,7 +360,7 @@ Passage Navigation_Passage::get_previous_chapter (void * webserver_request, stri
 {
   chapter--;
   if (bible != "") {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty ()) chapter = chapters [0];
@@ -399,7 +399,7 @@ Passage Navigation_Passage::get_next_verse (void * webserver_request, string bib
 {
   verse++;
   if (bible != "") {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
     if (find (verses.begin(), verses.end(), verse) == verses.end()) {
       if (!verses.empty()) verse = verses.back ();
@@ -414,7 +414,7 @@ Passage Navigation_Passage::get_previous_verse (void * webserver_request, string
 {
   verse--;
   if (bible != "") {
-    Webserver_Request * request = (Webserver_Request *) webserver_request;
+    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
     if (find (verses.begin(), verses.end(), verse) == verses.end()) {
       if (!verses.empty ()) verse = verses [0];
@@ -453,7 +453,7 @@ void Navigation_Passage::goto_previous_verse (void * webserver_request, string b
 
 void Navigation_Passage::record_history (void * webserver_request, int book, int chapter, int verse)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic()->currentUser ();
   Database_Navigation database_navigation;
   database_navigation.record (filter_date_seconds_since_epoch (), user, book, chapter, verse);
@@ -462,7 +462,7 @@ void Navigation_Passage::record_history (void * webserver_request, int book, int
 
 void Navigation_Passage::go_back (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.get_previous (user);
@@ -474,7 +474,7 @@ void Navigation_Passage::go_back (void * webserver_request)
 
 void Navigation_Passage::go_forward (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.get_next (user);
@@ -515,7 +515,7 @@ void Navigation_Passage::add_selector_link (string& html, string id, string href
 
 string Navigation_Passage::get_keyboard_navigator (void * webserver_request, string bible)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string user = request->session_logic()->currentUser ();
   
@@ -586,7 +586,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
 
 void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request, string bible, string passage)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string user = request->session_logic()->currentUser ();
   
@@ -642,7 +642,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
 string Navigation_Passage::get_history_back (void * webserver_request)
 {
   // Get the whole history from the database.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   vector<Passage> passages = database_navigation.get_history(user, -1);
@@ -667,7 +667,7 @@ string Navigation_Passage::get_history_back (void * webserver_request)
 string Navigation_Passage::get_history_forward (void * webserver_request)
 {
   // Get the whole history from the database.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Navigation database_navigation;
   string user = request->session_logic()->currentUser ();
   vector<Passage> passages = database_navigation.get_history(user, 1);

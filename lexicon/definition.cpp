@@ -44,7 +44,7 @@ bool lexicon_definition_acl (void * webserver_request)
 string lexicon_definition (void * webserver_request)
 {
   // Retrieve the id: It may contain a Strong's number or a lemma.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string id = request->query["id"];
   
   vector <string> renderings;

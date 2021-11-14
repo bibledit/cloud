@@ -39,7 +39,7 @@ Consistency_Logic::Consistency_Logic (void * webserver_request_in, int id_in)
 string Consistency_Logic::response ()
 {
   // The request.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // The resources to display in the Consistency tool.
   vector <string> resources = request->database_config_user()->getConsistencyResources ();

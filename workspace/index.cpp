@@ -47,7 +47,7 @@ bool workspace_index_acl (void * webserver_request)
 
 string workspace_index (void * webserver_request)
 {
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> workspaces = workspace_get_names (request);
 
   

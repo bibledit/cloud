@@ -31,7 +31,7 @@ string assets_external_url ()
 string assets_external (void * webserver_request)
 {
   // The request from the client.
-  Webserver_Request * request = (Webserver_Request *) webserver_request;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Whether a URL was POSTed, that is, whether it was clicked by the user.
   string href = request->post ["href"];

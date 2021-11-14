@@ -44,7 +44,7 @@ void user_logic_optional_ldap_authentication (void * webserver_request, string u
     int role;
     ldap_logic_fetch (user, pass, ldap_okay, email, role, true);
     if (ldap_okay) {
-      Webserver_Request * request = (Webserver_Request *) webserver_request;
+      Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
       if (request->database_users ()->usernameExists (user)) {
         // Verify and/or update the fields for the user in the local database.
         if (request->database_users ()->get_md5 (user) != md5 (pass)) {

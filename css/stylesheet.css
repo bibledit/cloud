@@ -1140,7 +1140,6 @@ table.interlinear.rtl {
 }
 
 #toolbar-container,
-.ql-clipboard,
 .ql-tooltip
 {
   left: 150%;
@@ -1271,4 +1270,10 @@ table.interlinear.rtl {
 }
 #navigateback:hover {
   text-decoration: underline;
+}
+
+/* Make the quill clipboard invisible: https://github.com/bibledit/cloud/issues/692 */
+.ql-clipboard
+{
+  visibility: hidden;
 }

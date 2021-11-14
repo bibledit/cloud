@@ -35,7 +35,7 @@ Dialog_Color::Dialog_Color (string url, string question)
 
 Dialog_Color::~Dialog_Color ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   delete view;
 }
 
@@ -52,7 +52,7 @@ void Dialog_Color::add_query (string parameter, string value)
 
 string Dialog_Color::run ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   view->set_variable ("base_url", base_url);
   string page = view->render ("dialog", "color");
   page += Assets_Page::footer ();

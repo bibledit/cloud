@@ -47,7 +47,7 @@ Dialog_Entry::Dialog_Entry (string url, string question, string value, string su
 
 Dialog_Entry::~Dialog_Entry ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   delete view;
 }
 
@@ -60,7 +60,7 @@ void Dialog_Entry::add_query (string parameter, string value)
 
 string Dialog_Entry::run ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   view->set_variable ("base_url", base_url);
   string page = view->render ("dialog", "entry");
   page += Assets_Page::footer ();

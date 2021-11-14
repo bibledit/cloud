@@ -37,7 +37,7 @@ Dialog_Yes::Dialog_Yes (string url, string question)
 
 Dialog_Yes::~Dialog_Yes ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   delete view;
 }
 
@@ -51,7 +51,7 @@ void Dialog_Yes::add_query (string parameter, string value)
 
 string Dialog_Yes::run ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   string yes = filter_url_build_http_query (base_url, "confirm", "yes");
   string cancel = filter_url_build_http_query (base_url, "confirm", "cancel");
   view->set_variable ("yes", yes);

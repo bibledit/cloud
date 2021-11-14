@@ -37,7 +37,7 @@ Dialog_Upload::Dialog_Upload (string url, string question)
 
 Dialog_Upload::~Dialog_Upload ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   delete view;
 }
 
@@ -51,7 +51,7 @@ void Dialog_Upload::add_upload_query (string parameter, string value)
 
 string Dialog_Upload::run ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   string import;
   for (auto & element : upload_query) {
     import = filter_url_build_http_query (base_url, element.first, element.second);

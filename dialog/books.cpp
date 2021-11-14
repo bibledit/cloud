@@ -46,7 +46,7 @@ Dialog_Books::Dialog_Books (string url, string header, string info_top, string i
 
 Dialog_Books::~Dialog_Books ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   delete view;
 }
 
@@ -63,7 +63,7 @@ void Dialog_Books::add_query (string parameter, string value)
 
 string Dialog_Books::run ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   view->set_variable ("base_url", base_url);
 
   string book_block;

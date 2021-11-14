@@ -46,7 +46,7 @@ Dialog_List::Dialog_List (string url, string question, string info_top, string i
 
 Dialog_List::~Dialog_List ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   delete view;
 }
 
@@ -81,7 +81,7 @@ void Dialog_List::add_row (string text, string parameter, string value)
 
 string Dialog_List::run ()
 {
-  Assets_View * view = (Assets_View *) assets_view;
+  Assets_View * view = static_cast<Assets_View *>(assets_view);
   view->set_variable ("base_url", base_url);
   view->set_variable ("list_block", list_block);
   string page = view->render ("dialog", "list");

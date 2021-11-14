@@ -472,8 +472,8 @@ size_t unicode_string_length (string s)
 // If len = 0, the string from start till end is returned.
 string unicode_string_substr (string s, size_t pos, size_t len)
 {
-  char * input = (char *) s.c_str();
-  char * startiter = (char *) input;
+  char * input = const_cast<char *>(s.c_str());
+  char * startiter = input;
   size_t length = strlen (input);
   char * veryend = input + length + 1;
   // Iterate forward pos times.

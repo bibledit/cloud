@@ -276,7 +276,7 @@ SqliteReader::~SqliteReader ()
 }
 
 
-int SqliteReader::callback (void *userdata, int argc, char **argv, char **column_names) // Todo test it.
+int SqliteReader::callback (void *userdata, int argc, char **argv, char **column_names)
 {
   SqliteReader * sqlite_reader = static_cast<SqliteReader *> (userdata);
   for (int i = 0; i < argc; i++) {

@@ -122,7 +122,7 @@ int Database_Config_User::getIValueForUser (string user, const char * key, int d
 }
 
 
-void Database_Config_User::setValue (const char * key, string value) // Todo test it.
+void Database_Config_User::setValue (const char * key, string value)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
@@ -160,7 +160,7 @@ void Database_Config_User::setBValueForUser (string user, const char * key, bool
 }
 
 
-vector <string> Database_Config_User::getList (const char * key) // Todo test it.
+vector <string> Database_Config_User::getList (const char * key)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
@@ -190,7 +190,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
 }
 
 
-void Database_Config_User::setList (const char * key, vector <string> values) // Todo test.
+void Database_Config_User::setList (const char * key, vector <string> values)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
@@ -544,7 +544,7 @@ void Database_Config_User::setDeletedConsultationNoteNotification (bool value)
 }
 
 
-bool Database_Config_User::defaultBibleChecksNotification () // Todo test it.
+bool Database_Config_User::defaultBibleChecksNotification ()
 {
 #ifdef HAVE_CLIENT
   return false;

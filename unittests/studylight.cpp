@@ -35,16 +35,16 @@ void test_studylight ()
   book = 58; // Hebrews.
   text = resource_logic_study_light_get (resource, book, 10, 14);
   text = filter_string_html2text (text);
-  evaluate (__LINE__, __func__, 2973, text.find("τους ἁγιαζομενους"));
-  evaluate (__LINE__, __func__, 3750, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
+  evaluate (__LINE__, __func__, 2962, text.find("τους ἁγιαζομενους"));
+  evaluate (__LINE__, __func__, 3734, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
 
   resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
   book = 58; // Hebrews.
   text = resource_logic_study_light_get (resource, book, 10, 14);
   text = filter_string_html2text (text);
-  evaluate (__LINE__, __func__, 17, text.find("The accomplishment of our high priest"));
-  evaluate (__LINE__, __func__, 509, text.find("distinctive features of the high priestly office of the Son"));
-  evaluate (__LINE__, __func__, 1183, text.find("The one sacrifice of Christ"));
-  evaluate (__LINE__, __func__, 1490, text.find("the finality of Jesus Christ\"s offering"));
-  evaluate (__LINE__, __func__, 2254, text.find("those whom Jesus Christ has perfected"));
+  evaluate (__LINE__, __func__, 2013, text.find("The accomplishment of our high priest"));
+  evaluate (__LINE__, __func__, 2498, text.find("distinctive features of the high priestly office of the Son"));
+  evaluate (__LINE__, __func__, 3179, text.find("The one sacrifice of Christ"));
+  evaluate (__LINE__, __func__, 3484, text.find("the finality of Jesus Christ’s offering"));
+  evaluate (__LINE__, __func__, 4251, text.find("those whom Jesus Christ has perfected"));
 }

@@ -564,6 +564,8 @@
 		CA47B2CB25E9282B001370A4 /* indonesianfree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = indonesianfree.cpp; sourceTree = "<group>"; };
 		CA47B2CC25E9282B001370A4 /* indonesianfree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = indonesianfree.h; sourceTree = "<group>"; };
 		CA47B2CD25E9282B001370A4 /* indonesianfree.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = indonesianfree.html; sourceTree = "<group>"; };
+		CA4A54212742E621009A0343 /* easyenglishbible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = easyenglishbible.h; sourceTree = "<group>"; };
+		CA4A54222742E621009A0343 /* easyenglishbible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = easyenglishbible.cpp; sourceTree = "<group>"; };
 		CA60BF2925337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA60BF2B25337938004D6E06 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA60BF2C25337938004D6E06 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
@@ -5446,6 +5448,8 @@
 				CADE440624F174BE003165BB /* dev.h */,
 				CADE44C624F174BF003165BB /* diff.cpp */,
 				CADE441C24F174BE003165BB /* diff.h */,
+				CA4A54222742E621009A0343 /* easyenglishbible.cpp */,
+				CA4A54212742E621009A0343 /* easyenglishbible.h */,
 				CADE44BE24F174BF003165BB /* editone.cpp */,
 				CADE444124F174BE003165BB /* editone.h */,
 				CADE442224F174BE003165BB /* etcbc4.cpp */,

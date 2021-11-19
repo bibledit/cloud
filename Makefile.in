@@ -397,7 +397,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
 	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
 	unittests/studylight.$(OBJEXT) unittests/gbs.$(OBJEXT) \
-	unittests/bibleimages.$(OBJEXT) unittests/image.$(OBJEXT)
+	unittests/bibleimages.$(OBJEXT) unittests/image.$(OBJEXT) \
+	unittests/easyenglishbible.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -669,12 +670,13 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/checksum.Po unittests/$(DEPDIR)/client.Po \
 	unittests/$(DEPDIR)/config.Po unittests/$(DEPDIR)/confirm.Po \
 	unittests/$(DEPDIR)/date.Po unittests/$(DEPDIR)/dev.Po \
-	unittests/$(DEPDIR)/diff.Po unittests/$(DEPDIR)/editone.Po \
-	unittests/$(DEPDIR)/etcbc4.Po unittests/$(DEPDIR)/export.Po \
-	unittests/$(DEPDIR)/flate.Po unittests/$(DEPDIR)/folders.Po \
-	unittests/$(DEPDIR)/french.Po unittests/$(DEPDIR)/gbs.Po \
-	unittests/$(DEPDIR)/git.Po unittests/$(DEPDIR)/html.Po \
-	unittests/$(DEPDIR)/html2format.Po \
+	unittests/$(DEPDIR)/diff.Po \
+	unittests/$(DEPDIR)/easyenglishbible.Po \
+	unittests/$(DEPDIR)/editone.Po unittests/$(DEPDIR)/etcbc4.Po \
+	unittests/$(DEPDIR)/export.Po unittests/$(DEPDIR)/flate.Po \
+	unittests/$(DEPDIR)/folders.Po unittests/$(DEPDIR)/french.Po \
+	unittests/$(DEPDIR)/gbs.Po unittests/$(DEPDIR)/git.Po \
+	unittests/$(DEPDIR)/html.Po unittests/$(DEPDIR)/html2format.Po \
 	unittests/$(DEPDIR)/html2usfm.Po unittests/$(DEPDIR)/http.Po \
 	unittests/$(DEPDIR)/hyphenate.Po unittests/$(DEPDIR)/image.Po \
 	unittests/$(DEPDIR)/ipc.Po unittests/$(DEPDIR)/javascript.Po \
@@ -1499,7 +1501,8 @@ unittest_SOURCES = \
   unittests/studylight.cpp \
   unittests/gbs.cpp \
   unittests/bibleimages.cpp \
-  unittests/image.cpp
+  unittests/image.cpp \
+  unittests/easyenglishbible.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3252,6 +3255,8 @@ unittests/bibleimages.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/image.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
+unittests/easyenglishbible.$(OBJEXT): unittests/$(am__dirstamp) \
+	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
 	@rm -f unittest$(EXEEXT)
@@ -3815,6 +3820,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/date.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/dev.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/diff.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/easyenglishbible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editone.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/etcbc4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/export.Po@am__quote@ # am--include-marker
@@ -4904,6 +4910,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/date.Po
 	-rm -f unittests/$(DEPDIR)/dev.Po
 	-rm -f unittests/$(DEPDIR)/diff.Po
+	-rm -f unittests/$(DEPDIR)/easyenglishbible.Po
 	-rm -f unittests/$(DEPDIR)/editone.Po
 	-rm -f unittests/$(DEPDIR)/etcbc4.Po
 	-rm -f unittests/$(DEPDIR)/export.Po
@@ -5503,6 +5510,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/date.Po
 	-rm -f unittests/$(DEPDIR)/dev.Po
 	-rm -f unittests/$(DEPDIR)/diff.Po
+	-rm -f unittests/$(DEPDIR)/easyenglishbible.Po
 	-rm -f unittests/$(DEPDIR)/editone.Po
 	-rm -f unittests/$(DEPDIR)/etcbc4.Po
 	-rm -f unittests/$(DEPDIR)/export.Po

@@ -556,7 +556,8 @@ unittest_SOURCES = \
   unittests/studylight.cpp \
   unittests/gbs.cpp \
   unittests/bibleimages.cpp \
-  unittests/image.cpp
+  unittests/image.cpp \
+  unittests/easyenglishbible.cpp
 
 unittest_LDADD = libbibledit.a
 

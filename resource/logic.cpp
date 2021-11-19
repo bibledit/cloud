@@ -1336,6 +1336,350 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 }
 
 
+// Given a book number and a chapter,
+// this returns 0 to 2 parts of the URL that will contain the relevant text.
+vector <string> resource_logic_easy_english_bible_pages (int book, int chapter) // Todo
+{
+  switch (book) {
+    case 1: return { "genesis-lbw", "genesis-mwks-lbw" }; // Genesis.
+    case 2: // Exodus.
+      if (chapter <= 11) return { "exodus-1-13-im-lbw", "exodus-1-18-lbw" };
+      if (chapter <= 18) return { "exodus-14-18-im-lbw", "exodus-1-18-lbw" };
+      if (chapter <= 31) return { "exodus-19-31-im-lbw", "exodus-19-40-lbw" };
+      if (chapter <= 40) return { "exodus-32-40-im-lbw", "exodus-19-40-lbw" };
+      break;
+    case 3:  return { "leviticus-lbw" }; // Leviticus.
+    case 4:  return { "numbers-lbw" }; // Numbers.
+    case 5:  return { "deuteronomy-im-lbw", "deuteronomy-lbw" }; // Deuteronomy.
+    case 6:  return { "joshua-lbw" }; // Joshua.
+    case 7:  return { "judges-lbw" }; // Judges.
+    case 8:  return { "ruth-law", "ruth-lbw" }; // Ruth.
+    case 9:  return { "1sam-lbw" }; // 1 Samuel.
+    case 10: return { "2samuel-lbw" }; // 2 Samuel.
+    case 11: return { "1kings-lbw" }; // 1 Kings.
+    case 12: return { "2kings-lbw" }; // 2 Kings.
+    case 13: return { "1chronicles-lbw" }; // 1 Chronicles.
+    case 14: // 2 Chronicles.
+      if (chapter <= 9) return { "2chronicles-1-9-lbw" };
+      if (chapter <= 36) return { "2chronicles-10-36-lbw" };
+    case 15: return { "ezra-lbw" }; // Ezra.
+    case 16: return { "nehemiah-lbw" }; // Nehemiah.
+    case 17: return { "esther-lbw" }; // Esther.
+    case 18: return { "job-lbw" }; // Job.
+    case 19: // Psalms.
+      if (chapter <= 41)  return { "psalm001-041-taw" };
+      if (chapter <= 72)  return { "psalm042-072-taw" };
+      if (chapter <= 89)  return { "psalm073-089-taw" };
+      if (chapter <= 106) return { "psalm090-106-taw" };
+      if (chapter <= 150) return { "psalm107-150-taw" };
+    case 20: return { "proverbs-lbw" }; // Proverbs.
+    case 21: return { "ecclesiastes-lbw" }; // Ecclesiastes.
+    case 22: return {
+      "song-of-songs-lbw",
+      "songsolomon-lbw",
+      "songsolomon-mk-lbw",
+      "song-of-songs-sr-law"
+    }; // Song of Solomon.
+    case 23: // Isaiah.
+      if (chapter <= 6)  return { "isaiah1-6-gc-lbw",   "isaiah1-9-lbw-nh"   };
+      if (chapter <= 9)  return { "isaiah7-12-gc-lbw",  "isaiah1-9-lbw-nh"   };
+      if (chapter <= 12) return { "isaiah7-12-gc-lbw",  "isaiah10-20-lbw-nh" };
+      if (chapter <= 20) return { "isaiah13-23-gc-lbw", "isaiah10-20-lbw-nh" };
+      if (chapter <= 23) return { "isaiah13-23-gc-lbw", "isaiah21-30-lbw-nh" };
+      if (chapter <= 27) return { "isaiah24-27-gc-lbw", "isaiah21-30-lbw-nh" };
+      if (chapter <= 30) return { "isaiah28-33-gc-lbw", "isaiah21-30-lbw-nh" };
+      if (chapter <= 33) return { "isaiah28-33-gc-lbw", "isaiah31-39-lbw-nh" };
+      if (chapter <= 39) return { "isaiah34-40-gc-lbw", "isaiah31-39-lbw-nh" };
+      if (chapter <= 40) return { "isaiah34-40-gc-lbw", "isaiah40-48-lbw-nh" };
+      if (chapter <= 48) return { "isaiah41-55-gc-lbw", "isaiah40-48-lbw-nh" };
+      if (chapter <= 55) return { "isaiah41-55-gc-lbw", "isaiah49-57-lbw-nh" };
+      if (chapter <= 57) return { "isaiah56-66-gc-lbw", "isaiah49-57-lbw-nh" };
+      if (chapter <= 66) return { "isaiah56-66-gc-lbw", "isaiah58-66-lbw-nh" };
+    case 24: // Jeremiah.
+      if (chapter <= 10) return { "jeremiah1-10-lbw"  };
+      if (chapter <= 20) return { "jeremiah11-20-lbw" };
+      if (chapter <= 33) return { "jeremiah21-33-lbw" };
+      if (chapter <= 39) return { "jeremiah34-39-lbw" };
+      if (chapter <= 44) return { "jeremiah40-44-lbw" };
+      if (chapter <= 52) return { "jeremiah45-52-lbw" };
+    case 25: return { "lam-lbw" }; // Lamentations.
+    case 26: // Ezekiel.
+      if (chapter <= 24) return { "ezekiel1-24-lbw" };
+      if (chapter <= 39) return { "ezekiel25-39-lbw" };
+      if (chapter <= 48) return { "ezekiel40-48-lbw", "ezekiel40-48-ks-lbw" };
+    case 27: return { "dan-lbw" }; // Daniel.
+    case 28: return { "hosea-lbw" }; // Hosea.
+    case 29: return { "joel-lbw" }; // Joel.
+    case 30: return { "amos-lbw" }; // Amos.
+    case 31: return { "obad-lbw" }; // Obadiah.
+    case 32: return { "jonah-lbw" }; // Jonah.
+    case 33: return { "micah-lbw" }; // Micah.
+    case 34: return { "nahum-lbw" }; // Nahum.
+    case 35: return { "habakkuk-gc" }; // Habakkuk.
+    case 36: return { "zephaniah-gc" }; // Zephaniah.
+    case 37: return { "haggai-law" }; // Haggai.
+    case 38: return { "zechariah-lbw" }; // Zechariah.
+    case 39: return { "malachi-lbw" }; // Malachi.
+    case 40: // Matthew.
+      if (chapter <= 4)  return { "matthew1-4-im-lbw",   "matthew-lbw" };
+      if (chapter <= 13) return { "matthew4-13-im-lbw",  "matthew-lbw" };
+      if (chapter <= 20) return { "matthew14-20-im-lbw", "matthew-lbw" };
+      if (chapter <= 28) return { "matthew21-28-im-lbw", "matthew-lbw" };
+    case 41: return { "mark-ks", "mark-lbw" }; // Mark.
+    case 42: // Luke.
+      if (chapter <=  4) return { "luke1-4-im-lbw",   "luke4-9-im-lbw",   "luke-lbw" };
+      if (chapter <=  9) return { "luke4-9-im-lbw",   "luke9-19-im-lbw",  "luke-lbw" };
+      if (chapter <= 19) return { "luke9-19-im-lbw",  "luke19-21-im-lbw", "luke-lbw" };
+      if (chapter <= 21) return { "luke19-21-im-lbw", "luke-lbw" };
+      if (chapter <= 24) return { "luke22-24-im-lbw", "luke-lbw" };
+    case 43: return { "john-ma-lbw" }; // John.
+    case 44: return { "acts-lbw" }; // Acts.
+    case 45: return { "romans-lbw" }; // Romans.
+    case 46: return { "1-corinthians-lbw" }; // 1 Corinthians.
+    case 47: return { "2corinthians-lbw" }; // 2 Corinthians.
+    case 48: return { "galatians-rr-lbw", "galatians-lbw" }; // Galatians.
+    case 49: return { "eph-lbw" }; // Ephesians.
+    case 50: return { "philippians-lbw" }; // Philippians.
+    case 51: return { "col-lbw" }; // Colossians.
+    case 52: return { "1thess-lbw" }; // 1 Thessalonians.
+    case 53: return { "2thess-lbw" }; // 2 Thessalonians.
+    case 54: return { "1tim-lbw" }; // 1 Timothy.
+    case 55: return { "2tim-lbw" }; // 2 Timothy.
+    case 56: return { "titus-lbw" }; // Titus.
+    case 57: return { "phm-lbw" }; // Philemon.
+    case 58: return { "hebrews-lbw" }; // Hebrews.
+    case 59: return { "james-lbw" }; // James.
+    case 60: return { "1peter-lbw" }; // 1 Peter.
+    case 61: return { "2peter-lbw" }; // 2 Peter.
+    case 62: return { "1john-lbw" }; // 1 John.
+    case 63: return { "2john-lbw" }; // 2 John.
+    case 64: return { "3john-lbw" }; // 3 John.
+    case 65: return { "jude-lbw", "jude-nh-lbw" }; // Jude.
+    case 66: return { "revelation-lbw" }; // Revelation.
+  }
+  return {};
+}
+
+
+struct easy_english_bible_walker: xml_tree_walker
+{
+  string text;
+
+  virtual bool for_each (xml_node& node)
+  {
+    // Handle this node if it's a text node.
+    if (node.type() == pugi::node_pcdata) {
+      string fragment = node.value();
+      fragment = filter_string_str_replace ("\n", " ", fragment);
+      text.append (fragment);
+    }
+    // Continue parsing.
+    return true;
+  }
+};
+
+
+// Get the slightly formatted of a passage of a Easy English Bible Commentary.
+string resource_logic_easy_english_bible_get (int book, int chapter, int verse) // Todo
+{
+  // First handle the easier part:
+  // The client will fetch the data from the Cloud.
+#ifdef HAVE_CLIENT
+  result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
+#endif
+
+  // Now handle the Cloud part: Fetch and parse the text.
+#ifdef HAVE_CLOUD
+
+  // The combined text result taken from the commentary.
+  string result;
+
+  // This resource may have one or more commentaries per book.
+  // This means that the URLs may be one or more.
+  vector <string> urls;
+  {
+    vector <string> pages = resource_logic_easy_english_bible_pages (book, chapter);
+    for (auto page : pages) {
+      // Example URL: https://www.easyenglish.bible/bible-commentary/matthew-lbw.htm
+      string url = "https://www.easyenglish.bible/bible-commentary/";
+      url.append (page);
+      url.append (".htm");
+      urls.push_back(url);
+    }
+  }
+  
+  // Handle the possible URLs.
+  for (auto url : urls) {
+
+    // Storage for the lines of text extracted from the webpage.
+    vector<string> paragraphs;
+    
+    // Get the html from the server.
+    string error;
+    string html = resource_logic_web_or_cache_get (url, error);
+
+    // It appears that the html from this website is not well-formed.
+    // It cannot be loaded as an XML document without errors and missing text.
+    // Therefore the html is tidied first.
+    html = filter_string_tidy_invalid_html (html);
+
+    // Parse the html into a DOM.
+    string verse_s = convert_to_string (verse);
+    xml_document document;
+    document.load_string (html.c_str());
+
+    // The document has one main div like this:
+    // <div class="Section1">
+    // That secion has many children all containing one paragraph of text.
+    string selector = "//div[@class='Section1']";
+    xpath_node xnode = document.select_node(selector.c_str());
+    xml_node div_node = xnode.node();
+
+    // Iterate over the paragraphs of text and store them.
+    for (auto paragraph_node : div_node.children()) {
+      // Assemble the text by iterating over all text nodes.
+      easy_english_bible_walker tree_walker;
+      paragraph_node.traverse(tree_walker);
+      // Clean the text.
+      string paragraph = filter_string_trim (tree_walker.text);
+      if (!paragraph.empty()) {
+        paragraphs.push_back(paragraph);
+      }
+    }
+
+    // Flag for whether the current paragraph contains the desired passage.
+    bool contains_passage = false;
+    
+    // Go over all the extracted text to find markers for chapters and verses.
+    for (auto paragraph : paragraphs) {
+
+      bool keep_parsing_passage = true;
+      
+      // A heading contains information about chapter(s) and verses.
+      // Possible formats:
+      // 1 Jesus, son of God, greater than all 1:1-2:18
+      // The greatness of the son 1:1-3
+      // So look for the last complete word in the line.
+      // That last word consists of digits, one or two colons, and one hyphen.
+      // No other characters are in that last word.
+      size_t space_pos = paragraph.find_last_of(" ");
+      if (space_pos == string::npos) keep_parsing_passage = false;
+      string last_word;
+      if (keep_parsing_passage) last_word = paragraph.substr(space_pos + 1);
+      
+      // Look for the first colon and the first hyphen.
+      // This will obtain the starting chapter and verse numbers.
+      size_t colon_pos = string::npos;
+      if (keep_parsing_passage) {
+        colon_pos = last_word.find(":");
+        if (colon_pos == string::npos) keep_parsing_passage = false;
+      }
+      size_t hyphen_pos = string::npos;
+      if (keep_parsing_passage) {
+        hyphen_pos = last_word.find ("-");
+        if (hyphen_pos == string::npos) keep_parsing_passage = false;
+      }
+      string ch_fragment;
+      int starting_chapter = 0;
+      if (keep_parsing_passage) {
+        ch_fragment = last_word.substr(0, colon_pos);
+        starting_chapter = convert_to_int(ch_fragment);
+        string check = convert_to_string(starting_chapter);
+        if (ch_fragment != check) keep_parsing_passage = false;
+      }
+
+      // Look for the first hyphen.
+      // This will provide the starting verse number.
+      string vs_fragment;
+      int starting_verse = 0;
+      if (keep_parsing_passage) {
+        vs_fragment = last_word.substr(colon_pos + 1, hyphen_pos - colon_pos - 1);
+        starting_verse = convert_to_int(vs_fragment);
+        string check = convert_to_string(starting_verse);
+        if (vs_fragment != check) keep_parsing_passage = false;
+      }
+      if (keep_parsing_passage) last_word.erase (0, hyphen_pos + 1);
+      
+      // A second chapter number can be given, or can be omitted.
+      // In this example it is given:
+      // 1:1-2:18
+      // If a second colon can be found in the fragment,
+      // it means that the figure following the hyphen and before the colon,
+      // is that last chapter number.
+      int ending_chapter = starting_chapter;
+      if (keep_parsing_passage) {
+        colon_pos = last_word.find(":");
+        if (colon_pos != string::npos) {
+          string ch_fragment = last_word.substr(0, colon_pos);
+          ending_chapter = convert_to_int(ch_fragment);
+          string check = convert_to_string(ending_chapter);
+          if (ch_fragment != check) keep_parsing_passage = false;
+          if (keep_parsing_passage) last_word.erase(0, colon_pos + 1);
+        }
+      }
+
+      // The last bit of the fragment will now be the second verse number.
+      int ending_verse = 0;
+      if (keep_parsing_passage) {
+        ending_verse = convert_to_int(last_word);
+        string check = convert_to_string(ending_verse);
+        if (check != last_word) keep_parsing_passage = false;
+      }
+
+      if (keep_parsing_passage) {
+//        cout << starting_chapter << ":" << starting_verse << "-" << ending_chapter << ":" << ending_verse << " " << paragraph  << endl; // Todo
+        // Set a flag if the passage that is to be obtained is within the current lines of text.
+        contains_passage = ((chapter >= starting_chapter)
+                            && (chapter <= ending_chapter)
+                            && (verse >= starting_verse)
+                            && (verse <= ending_verse));
+        // If this paragraph contains a passage, it likely is a heading.
+        // Skip those, do not include them.
+        continue;
+      }
+
+      // Handle the situation that this paragraph contains the passage to be looked for.
+      if (contains_passage) {
+
+        // Look for e.g. "Verse 13 " at the start of the paragraph.
+        // The space at the end if to prevent it matching more verses.
+        // Like when looking for "Verse 1", it would be found in "Verse 10" too.
+        // Hence the space.
+        string tag = "Verse " + convert_to_string(verse) + " ";
+//        cout << paragraph << endl; // Todo
+        bool verse_found = paragraph.find(tag) == 0;
+//        cout << verse_found << endl;
+        // If no verse is found, then look for another way that verses can be marked up.
+        // Example: Verses 15-17 ...
+        if (!verse_found) {
+          tag = "Verses ";
+          if (paragraph.find(tag) == 0) {
+            string fragment = paragraph.substr(tag.size(), 10);
+            vector<string> bits = filter_string_explode(fragment, '-');
+            if (bits.size() >= 2) {
+              int begin = convert_to_int(bits[0]);
+              int end = convert_to_int(bits[1]);
+              verse_found = (verse >= begin) && (verse <= end);
+            }
+          }
+        }
+        //if (verse_found) cout << paragraph << endl; // Todo
+      }
+
+    }
+    
+    
+    
+    
+  }
+
+  // Done.
+  return result;
+
+#endif
+}
+
+
 bool resource_logic_is_bible (string resource)
 {
   Database_Bibles database_bibles;

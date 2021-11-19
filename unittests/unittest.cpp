@@ -116,6 +116,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/gbs.h>
 #include <unittests/bibleimages.h>
 #include <unittests/image.h>
+#include <unittests/easyenglishbible.h>
 
 
 int main (int argc, char **argv) 
@@ -145,9 +146,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_biblegateway ();
-  test_studylight ();
-  test_gbs ();
+  test_easy_english_bible ();
   refresh_sandbox (true);
   exit (0);
   

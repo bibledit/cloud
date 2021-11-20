@@ -83,6 +83,7 @@ resource_record resource_table [] =
   { resource_external_net_bible_name (), english (), english (), BIBLE, & resource_external_get_net_bible },
   { "Blue Letter Bible", english (), english (), ORIGINAL, & resource_external_get_blue_letter_bible },
   { "Elberfelder Bibel", english (), english (), BIBLE, & resource_external_get_elberfelder_bibel },
+  { "Easy English Bible Commentary", english (), english (), BIBLE, & resource_logic_easy_english_bible_get },
 };
 
 
@@ -247,6 +248,8 @@ struct gbs_annotation_walker: xml_tree_walker
 // This function displays the canonical text from bijbel-statenvertaling.com.
 string gbs_plus_processor (string url, int book, int chapter, int verse)
 {
+  (void) chapter;
+  
   string text;
   
   // Get the html from the server.
@@ -841,8 +844,8 @@ vector <string> resource_external_get_original_language_resources ()
 }
 
 
-// Get the names of the Web resources which are Bibles.
-vector <string> resource_external_get_bibles ()
+// Get the names of the Web resources which are Bibles and notes.
+vector <string> resource_external_get_bibles () // Todo
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {

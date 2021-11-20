@@ -29,21 +29,18 @@ void test_easy_english_bible ()
   
   int book;
   string text;
+  size_t pos;
   
   book = 58; // Hebrews.
   text = resource_logic_easy_english_bible_get (book, 10, 14);
   text = filter_string_html2text (text);
-  //cout << text << endl; // Todo
-//  evaluate (__LINE__, __func__, 2962, text.find("τους ἁγιαζομενους"));
-//  evaluate (__LINE__, __func__, 3734, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
-//
-//  resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
-//  book = 58; // Hebrews.
-//  text = resource_logic_study_light_get (resource, book, 10, 14);
-//  text = filter_string_html2text (text);
-//  evaluate (__LINE__, __func__, 2013, text.find("The accomplishment of our high priest"));
-//  evaluate (__LINE__, __func__, 2498, text.find("distinctive features of the high priestly office of the Son"));
-//  evaluate (__LINE__, __func__, 3179, text.find("The one sacrifice of Christ"));
-//  evaluate (__LINE__, __func__, 3484, text.find("the finality of Jesus Christ’s offering"));
-//  evaluate (__LINE__, __func__, 4251, text.find("those whom Jesus Christ has perfected"));
+  evaluate (__LINE__, __func__, "Verse 14 Again, the writer makes it clear that Jesus died once for all time and for all *sin. It is most important that we know and believe that this is true. All who trust in Jesus, God will make holy. Jesus makes them perfect, that is, all that God intended them to be in his plan. Jesus has done all that God said was necessary.", text);
+  
+  book = 58; // Hebrews.
+  text = resource_logic_easy_english_bible_get (book, 8, 8);
+  text = filter_string_html2text (text);
+  pos = text.find ("Verse 8 From verse 8 to the end of verse 12 the author copies words from Jeremiah 31:31-34. He uses these words to show that the old agreement is no longer in operation. The new agreement, that Jesus brought, has taken its place. It was not that there was a fault with the old agreement. The fault was with people, because nobody could obey the agreement.");
+  evaluate (__LINE__, __func__, 0, pos);
+  pos = text.find ("Most agreements are between two persons or groups. They both agree to do all that it requires of them. The new agreement is not like that. No mere *human can make an agreement with God. Here it says, I will make a new agreement. This means that God himself will arrange the new agreement. He will also make a way for it to achieve its purpose. The old agreement was with the peoples of *Israel and *Judah, and the new agreement will be for them. It will not only be for them, but for all who trust in Jesus.");
+  evaluate (__LINE__, __func__, 356, pos);
 }

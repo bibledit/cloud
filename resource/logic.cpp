@@ -1549,6 +1549,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
 
     // Flag for whether the current paragraph contains the desired passage.
     bool contains_passage = false;
+    // Flag for whether the current paragraph is for the exact verse number.
+    bool verse_found = false;
     
     // Go over all the extracted text to find markers for chapters and verses.
     for (auto paragraph : paragraphs) {
@@ -1627,7 +1629,6 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
       }
 
       if (keep_parsing_passage) {
-//        cout << starting_chapter << ":" << starting_verse << "-" << ending_chapter << ":" << ending_verse << " " << paragraph  << endl; // Todo
         // Set a flag if the passage that is to be obtained is within the current lines of text.
         contains_passage = ((chapter >= starting_chapter)
                             && (chapter <= ending_chapter)
@@ -1635,40 +1636,53 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
                             && (verse <= ending_verse));
         // If this paragraph contains a passage, it likely is a heading.
         // Skip those, do not include them.
+        // And clear any flag that the exact current verse is there.
+        verse_found = false;
         continue;
       }
 
       // Handle the situation that this paragraph contains the passage to be looked for.
       if (contains_passage) {
 
-        // Look for e.g. "Verse 13 " at the start of the paragraph.
-        // The space at the end if to prevent it matching more verses.
-        // Like when looking for "Verse 1", it would be found in "Verse 10" too.
-        // Hence the space.
-        string tag = "Verse " + convert_to_string(verse) + " ";
-//        cout << paragraph << endl; // Todo
-        bool verse_found = paragraph.find(tag) == 0;
-//        cout << verse_found << endl;
-        // If no verse is found, then look for another way that verses can be marked up.
-        // Example: Verses 15-17 ...
-        if (!verse_found) {
-          tag = "Verses ";
-          if (paragraph.find(tag) == 0) {
-            string fragment = paragraph.substr(tag.size(), 10);
-            vector<string> bits = filter_string_explode(fragment, '-');
-            if (bits.size() >= 2) {
-              int begin = convert_to_int(bits[0]);
-              int end = convert_to_int(bits[1]);
-              verse_found = (verse >= begin) && (verse <= end);
+        // If the paragraph starts with "Verse" or with "Verses",
+        // then investigate whether this paragraph belongs to the current verse,
+        // that it is now looking for.
+        // This way of working makes it possible to handle a situation
+        // where a verse contains multiple paragraphs.
+        // Because the flag for whether the current verse is found,
+        // will only be affected by paragraph starting with this "Verse" tag.
+        if (paragraph.find("Verse") == 0) {
+          // Look for e.g. "Verse 13 " at the start of the paragraph.
+          // The space at the end if to prevent it matching more verses.
+          // Like when looking for "Verse 1", it would be found in "Verse 10" too.
+          // Hence the space.
+          string tag = "Verse " + convert_to_string(verse) + " ";
+          verse_found = paragraph.find(tag) == 0;
+          // If no verse is found, then look for another way that verses can be marked up.
+          // Example: Verses 15-17 ...
+          if (!verse_found) {
+            tag = "Verses ";
+            if (paragraph.find(tag) == 0) {
+              string fragment = paragraph.substr(tag.size(), 10);
+              vector<string> bits = filter_string_explode(fragment, '-');
+              if (bits.size() >= 2) {
+                int begin = convert_to_int(bits[0]);
+                int end = convert_to_int(bits[1]);
+                verse_found = (verse >= begin) && (verse <= end);
+              }
             }
           }
         }
-        //if (verse_found) cout << paragraph << endl; // Todo
+        
+        // If at the correct verse, add the paragraph text.
+        if (verse_found) {
+          result.append ("<p>");
+          result.append (paragraph);
+          result.append ("</p>");
+        }
       }
 
     }
-    
-    
     
     
   }

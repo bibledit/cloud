@@ -845,7 +845,7 @@ vector <string> resource_external_get_original_language_resources ()
 
 
 // Get the names of the Web resources which are Bibles and notes.
-vector <string> resource_external_get_bibles () // Todo
+vector <string> resource_external_get_bibles ()
 {
   vector <string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {

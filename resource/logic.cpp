@@ -1511,8 +1511,13 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
   // Handle the possible URLs.
   for (auto url : urls) {
 
-    // Storage for the lines of text extracted from the webpage.
-    vector<string> paragraphs;
+//    cout << url << endl; // Todo
+//    if (url == "https://www.easyenglish.bible/bible-commentary/genesis-mwks-lbw.htm") continue;
+    
+    // Flag for whether the current paragraph contains the desired passage.
+    bool near_passage = false;
+    // Flag for whether the current paragraph is for the exact verse number.
+    bool at_passage = false;
     
     // Get the html from the server.
     string error;
@@ -1535,162 +1540,201 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
     xpath_node xnode = document.select_node(selector.c_str());
     xml_node div_node = xnode.node();
 
-    // Iterate over the paragraphs of text and store them.
+    // Iterate over the paragraphs of text and process them.
     for (auto paragraph_node : div_node.children()) {
-      // Assemble the text by iterating over all text nodes.
+
+      // Assemble the text by iterating over all child text nodes.
       easy_english_bible_walker tree_walker;
       paragraph_node.traverse(tree_walker);
-      // Clean the text.
+
+      // Clean the text and skip empty text.
       string paragraph = filter_string_trim (tree_walker.text);
-      if (!paragraph.empty()) {
-        paragraphs.push_back(paragraph);
-      }
-    }
+      if (paragraph.empty()) continue;
 
-    // Flag for whether the current paragraph contains the desired passage.
-    bool contains_passage = false;
-    // Flag for whether the current paragraph is for the exact verse number.
-    bool verse_found = false;
-    
-    // Go over all the extracted text to find markers for chapters and verses.
-    for (auto paragraph : paragraphs) {
-
-      bool keep_parsing_passage = true;
+      // Check for whether the chapter indicates that
+      // the parser is now at the chapter that may contain the passage to look for.
       
-      // A heading contains information about chapter(s) and verses.
-      // Possible formats:
-      // 1 Jesus, son of God, greater than all 1:1-2:18
-      // The greatness of the son 1:1-3
-      // So look for the last complete word in the line.
-      // That last word consists of digits, one or two colons, and one hyphen.
-      // No other characters are in that last word.
-      size_t space_pos = paragraph.find_last_of(" ");
-      if (space_pos == string::npos) keep_parsing_passage = false;
-      string last_word;
-      if (keep_parsing_passage) last_word = paragraph.substr(space_pos + 1);
+      // Handle e.g. "Chapter 1" all on one line.
+      if (resource_logic_easy_english_bible_handle_chapter_heading (paragraph, chapter, near_passage, at_passage)) {
+        // It was handled, skip any further processing of this line.
+        continue;
+      }
       
-      // Look for the first colon and the first hyphen.
-      // This will obtain the starting chapter and verse numbers.
-      size_t colon_pos = string::npos;
-      if (keep_parsing_passage) {
-        colon_pos = last_word.find(":");
-        if (colon_pos == string::npos) keep_parsing_passage = false;
-      }
-      size_t hyphen_pos = string::npos;
-      if (keep_parsing_passage) {
-        hyphen_pos = last_word.find ("-");
-        if (hyphen_pos == string::npos) keep_parsing_passage = false;
-      }
-      string ch_fragment;
-      int starting_chapter = 0;
-      if (keep_parsing_passage) {
-        ch_fragment = last_word.substr(0, colon_pos);
-        starting_chapter = convert_to_int(ch_fragment);
-        string check = convert_to_string(starting_chapter);
-        if (ch_fragment != check) keep_parsing_passage = false;
-      }
-
-      // Look for the first hyphen.
-      // This will provide the starting verse number.
-      string vs_fragment;
-      int starting_verse = 0;
-      if (keep_parsing_passage) {
-        vs_fragment = last_word.substr(colon_pos + 1, hyphen_pos - colon_pos - 1);
-        starting_verse = convert_to_int(vs_fragment);
-        string check = convert_to_string(starting_verse);
-        if (vs_fragment != check) keep_parsing_passage = false;
-      }
-      if (keep_parsing_passage) last_word.erase (0, hyphen_pos + 1);
-      
-      // A second chapter number can be given, or can be omitted.
-      // In this example it is given:
-      // 1:1-2:18
-      // If a second colon can be found in the fragment,
-      // it means that the figure following the hyphen and before the colon,
-      // is that last chapter number.
-      int ending_chapter = starting_chapter;
-      if (keep_parsing_passage) {
-        colon_pos = last_word.find(":");
-        if (colon_pos != string::npos) {
-          string ch_fragment = last_word.substr(0, colon_pos);
-          ending_chapter = convert_to_int(ch_fragment);
-          string check = convert_to_string(ending_chapter);
-          if (ch_fragment != check) keep_parsing_passage = false;
-          if (keep_parsing_passage) last_word.erase(0, colon_pos + 1);
-        }
-      }
-
-      // The last bit of the fragment will now be the second verse number.
-      int ending_verse = 0;
-      if (keep_parsing_passage) {
-        ending_verse = convert_to_int(last_word);
-        string check = convert_to_string(ending_verse);
-        if (check != last_word) keep_parsing_passage = false;
-      }
-
-      if (keep_parsing_passage) {
-        // Set a flag if the passage that is to be obtained is within the current lines of text.
-        contains_passage = ((chapter >= starting_chapter)
-                            && (chapter <= ending_chapter)
-                            && (verse >= starting_verse)
-                            && (verse <= ending_verse));
-        // If this paragraph contains a passage, it likely is a heading.
-        // Skip those, do not include them.
-        // And clear any flag that the exact current verse is there.
-        verse_found = false;
+      // Handle a heading that contains the passages it covers.
+      if (resource_logic_easy_english_bible_handle_passage_heading (paragraph, chapter, verse, near_passage, at_passage)) {
+        // It was handled, skip any further processing of this line.
         continue;
       }
 
       // Handle the situation that this paragraph contains the passage to be looked for.
-      if (contains_passage) {
+      if (near_passage) {
 
-        // If the paragraph starts with "Verse" or with "Verses",
-        // then investigate whether this paragraph belongs to the current verse,
-        // that it is now looking for.
-        // This way of working makes it possible to handle a situation
-        // where a verse contains multiple paragraphs.
-        // Because the flag for whether the current verse is found,
-        // will only be affected by paragraph starting with this "Verse" tag.
-        if (paragraph.find("Verse") == 0) {
-          // Look for e.g. "Verse 13 " at the start of the paragraph.
-          // The space at the end if to prevent it matching more verses.
-          // Like when looking for "Verse 1", it would be found in "Verse 10" too.
-          // Hence the space.
-          string tag = "Verse " + convert_to_string(verse) + " ";
-          verse_found = paragraph.find(tag) == 0;
-          // If no verse is found, then look for another way that verses can be marked up.
-          // Example: Verses 15-17 ...
-          if (!verse_found) {
-            tag = "Verses ";
-            if (paragraph.find(tag) == 0) {
-              string fragment = paragraph.substr(tag.size(), 10);
-              vector<string> bits = filter_string_explode(fragment, '-');
-              if (bits.size() >= 2) {
-                int begin = convert_to_int(bits[0]);
-                int end = convert_to_int(bits[1]);
-                verse_found = (verse >= begin) && (verse <= end);
-              }
-            }
-          }
+        // Check whether the parser is right at the desired passage.
+        resource_logic_easy_english_bible_handle_verse_marker (paragraph, verse, at_passage);
+        
+        // If at the correct verse, check whether the paragraph starts with "v".
+        // Like in "v20".
+        // Such text is canonical text, and is not part of the commentary.
+        if (at_passage) {
+          if (paragraph.find ("v") == 0) at_passage = false;
         }
         
         // If at the correct verse, add the paragraph text.
-        if (verse_found) {
+        if (at_passage) {
           result.append ("<p>");
           result.append (paragraph);
           result.append ("</p>");
         }
       }
-
     }
-    
-    
   }
 
   // Done.
   return result;
 
 #endif
+}
+
+
+
+bool resource_logic_easy_english_bible_handle_chapter_heading (const string & paragraph,
+                                                               int chapter,
+                                                               bool & near_passage,
+                                                               bool & at_passage)
+{
+  // Handle one type of commentary structure.
+  // An example is Genesis.
+  // That book is divided up into chapters.
+  // It has headings like "Chapter 1", and so on.
+  if (paragraph.find ("Chapter ") == 0) {
+    string tag = "Chapter " + convert_to_string(chapter);
+    near_passage = (paragraph == tag);
+    if (near_passage) {
+      // If this paragraph contains a passage, it likely is a heading.
+      // Skip those, do not include them.
+      // And clear any flag that the exact current verse is there.
+      at_passage = false;
+      // The heading was handled.
+      return true;
+    }
+  }
+  // The heading was not handled.
+  return false;
+}
+
+
+bool resource_logic_easy_english_bible_handle_passage_heading (const string & paragraph,
+                                                               int chapter, int verse,
+                                                               bool & near_passage,
+                                                               bool & at_passage)
+{
+  // A heading contains information about chapter(s) and verses.
+  // Possible formats:
+  // 1 Jesus, son of God, greater than all 1:1-2:18
+  // The greatness of the son 1:1-3
+  // So look for the last complete word in the line.
+  // That last word consists of digits, one or two colons, and one hyphen.
+  // No other characters are in that last word.
+  size_t space_pos = paragraph.find_last_of(" ");
+  if (space_pos == string::npos) return false;
+  string last_word = paragraph.substr(space_pos + 1);
+  
+  // Look for the first colon and the first hyphen.
+  // This will obtain the starting chapter and verse numbers.
+  size_t colon_pos = last_word.find(":");
+  if (colon_pos == string::npos) return false;
+  size_t hyphen_pos = last_word.find ("-");
+  if (hyphen_pos == string::npos) return false;
+  string ch_fragment = last_word.substr(0, colon_pos);
+  int starting_chapter = convert_to_int(ch_fragment);
+  string check = convert_to_string(starting_chapter);
+  if (ch_fragment != check) return false;
+
+  // Look for the first hyphen.
+  // This will provide the starting verse number.
+  string vs_fragment = last_word.substr(colon_pos + 1, hyphen_pos - colon_pos - 1);
+  int starting_verse = convert_to_int(vs_fragment);
+  check = convert_to_string(starting_verse);
+  if (vs_fragment != check) return false;
+  last_word.erase (0, hyphen_pos + 1);
+  
+  // A second chapter number can be given, or can be omitted.
+  // In this example it is given:
+  // 1:1-2:18
+  // If a second colon can be found in the fragment,
+  // it means that the figure following the hyphen and before the colon,
+  // is that last chapter number.
+  int ending_chapter = starting_chapter;
+  colon_pos = last_word.find(":");
+  if (colon_pos != string::npos) {
+    string ch_fragment = last_word.substr(0, colon_pos);
+    ending_chapter = convert_to_int(ch_fragment);
+    string check = convert_to_string(ending_chapter);
+    if (ch_fragment != check) return false;
+    last_word.erase(0, colon_pos + 1);
+  }
+
+  // The last bit of the fragment will now be the second verse number.
+  int ending_verse = convert_to_int(last_word);
+  check = convert_to_string(ending_verse);
+  if (check != last_word) return false;
+
+  // Set a flag if the passage that is to be obtained is within the current lines of text.
+  near_passage = ((chapter >= starting_chapter)
+                  && (chapter <= ending_chapter)
+                  && (verse >= starting_verse)
+                  && (verse <= ending_verse));
+
+  // If this paragraph contains a passage, it likely is a heading.
+  // Skip those, do not include them.
+  // Clear any flag that the exact current verse is there.
+  at_passage = false;
+
+  // Heading parsed.
+  return true;
+}
+
+
+void resource_logic_easy_english_bible_handle_verse_marker (const string & paragraph,
+                                                            int verse,
+                                                            bool & at_passage)
+{
+  // If the paragraph starts with "Verse" or with "Verses",
+  // then investigate whether this paragraph belongs to the current verse,
+  // that it is now looking for.
+  // This way of working makes it possible to handle a situation
+  // where a verse contains multiple paragraphs.
+  // Because the flag for whether the current verse is found,
+  // will only be affected by paragraph starting with this "Verse" tag.
+  if (paragraph.find("Verse") != 0) return;
+  
+  // Look for e.g. "Verse 13 " at the start of the paragraph.
+  // The space at the end is to prevent it from matching more verses.
+  // Like when looking for "Verse 1", it would be found in "Verse 10" too.
+  // Hence the space.
+  string tag = "Verse " + convert_to_string(verse) + " ";
+  at_passage = paragraph.find(tag) == 0;
+  //If it's at the passage, then it's done parsing.
+  if (at_passage) return;
+  
+  // If no verse is found yet, look for the same tag but without the space at the end.
+  // Then the entire paragraph should consist of this tag.
+  // This occurs in Genesis 1 for example.
+  tag = "Verse " + convert_to_string(verse);
+  at_passage = (paragraph == tag);
+  //If it's at the passage, then it's done parsing.
+  if (at_passage) return;
+
+  // If no verse is found, then look for another way that verses can be marked up.
+  // Example: Verses 15-17 ...
+  tag = "Verses ";
+  if (paragraph.find(tag) != 0) return;
+  string fragment = paragraph.substr(tag.size(), 10);
+  vector<string> bits = filter_string_explode(fragment, '-');
+  if (bits.size() > 2) return;
+  int begin = convert_to_int(bits[0]);
+  int end = convert_to_int(bits[1]);
+  at_passage = (verse >= begin) && (verse <= end);
 }
 
 

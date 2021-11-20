@@ -71,6 +71,18 @@ vector <string> resource_logic_study_light_module_list_get ();
 string resource_logic_study_light_get (string resource, int book, int chapter, int verse);
 
 string resource_logic_easy_english_bible_get (int book, int chapter, int verse);
+bool resource_logic_easy_english_bible_handle_chapter_heading (const string & paragraph,
+                                                               int chapter,
+                                                               bool & near_passage,
+                                                               bool & at_passage);
+bool resource_logic_easy_english_bible_handle_passage_heading (const string & paragraph,
+                                                               int chapter, int verse,
+                                                               bool & near_passage,
+                                                               bool & at_passage);
+void resource_logic_easy_english_bible_handle_verse_marker (const string & paragraph,
+                                                            int verse,
+                                                            bool & at_passage);
+
 
 bool resource_logic_is_bible (string resource);
 bool resource_logic_is_usfm (string resource);

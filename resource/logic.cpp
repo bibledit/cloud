@@ -1338,7 +1338,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 
 // Given a book number and a chapter,
 // this returns 0 to 2 parts of the URL that will contain the relevant text.
-vector <string> resource_logic_easy_english_bible_pages (int book, int chapter) // Todo
+vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
 {
   switch (book) {
     case 1: return { "genesis-lbw", "genesis-mwks-lbw" }; // Genesis.
@@ -1367,11 +1367,10 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter) 
     case 17: return { "esther-lbw" }; // Esther.
     case 18: return { "job-lbw" }; // Job.
     case 19: // Psalms.
-      if (chapter <= 41)  return { "psalm001-041-taw" };
-      if (chapter <= 72)  return { "psalm042-072-taw" };
-      if (chapter <= 89)  return { "psalm073-089-taw" };
-      if (chapter <= 106) return { "psalm090-106-taw" };
-      if (chapter <= 150) return { "psalm107-150-taw" };
+    {
+      string number = filter_string_fill (convert_to_string (chapter), 3, '0');
+      return { "psalm" + number + "-taw" };
+    }
     case 20: return { "proverbs-lbw" }; // Proverbs.
     case 21: return { "ecclesiastes-lbw" }; // Ecclesiastes.
     case 22: return {
@@ -1470,6 +1469,7 @@ struct easy_english_bible_walker: xml_tree_walker
     // Handle this node if it's a text node.
     if (node.type() == pugi::node_pcdata) {
       string fragment = node.value();
+//      cout << fragment << endl; // Todo
       fragment = filter_string_str_replace ("\n", " ", fragment);
       text.append (fragment);
     }
@@ -1480,7 +1480,7 @@ struct easy_english_bible_walker: xml_tree_walker
 
 
 // Get the slightly formatted of a passage of a Easy English Bible Commentary.
-string resource_logic_easy_english_bible_get (int book, int chapter, int verse) // Todo
+string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
 {
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
@@ -1502,6 +1502,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
     for (auto page : pages) {
       // Example URL: https://www.easyenglish.bible/bible-commentary/matthew-lbw.htm
       string url = "https://www.easyenglish.bible/bible-commentary/";
+      // Handle the special URL for the Psalms:
+      if (book == 19) url = "https://www.easyenglish.bible/psalms/";
       url.append (page);
       url.append (".htm");
       urls.push_back(url);
@@ -1535,8 +1537,9 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
 
     // The document has one main div like this:
     // <div class="Section1">
+    // Or: <div class="WordSection1"> like in Exodus.
     // That secion has many children all containing one paragraph of text.
-    string selector = "//div[@class='Section1']";
+    string selector = "//div[contains(@class, 'Section1')]";
     xpath_node xnode = document.select_node(selector.c_str());
     xml_node div_node = xnode.node();
 
@@ -1553,24 +1556,37 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
 
       // Check for whether the chapter indicates that
       // the parser is now at the chapter that may contain the passage to look for.
-      
-      // Handle e.g. "Chapter 1" all on one line.
-      if (resource_logic_easy_english_bible_handle_chapter_heading (paragraph, chapter, near_passage, at_passage)) {
-        // It was handled, skip any further processing of this line.
-        continue;
-      }
-      
-      // Handle a heading that contains the passages it covers.
-      if (resource_logic_easy_english_bible_handle_passage_heading (paragraph, chapter, verse, near_passage, at_passage)) {
-        // It was handled, skip any further processing of this line.
-        continue;
-      }
 
+      // Special case for the Psalms: There's one chapter per URL.
+      // So it's always "near the passage" so to say.
+      if (book == 19) {
+        near_passage = true;
+
+      } else {
+        
+        // Handle e.g. "Chapter 1" all on one line.
+        if (resource_logic_easy_english_bible_handle_chapter_heading (paragraph, chapter, near_passage, at_passage)) {
+          // It was handled, skip any further processing of this line.
+          continue;
+        }
+
+        // Handle a heading that contains the passages it covers.
+        if (resource_logic_easy_english_bible_handle_passage_heading (paragraph, chapter, verse, near_passage, at_passage)) {
+          // It was handled, skip any further processing of this line.
+          continue;
+        }
+
+      }
+      
       // Handle the situation that this paragraph contains the passage to be looked for.
       if (near_passage) {
 
+//        cout << paragraph << endl; // Todo
+
         // Check whether the parser is right at the desired passage.
         resource_logic_easy_english_bible_handle_verse_marker (paragraph, verse, at_passage);
+
+//        cout << "At passage: " << at_passage << endl; // Todo
         
         // If at the correct verse, check whether the paragraph starts with "v".
         // Like in "v20".
@@ -1579,7 +1595,21 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
           if (paragraph.find ("v") == 0) at_passage = false;
         }
         
-        // If at the correct verse, add the paragraph text.
+        // Another situation occurs in Judges and likely other books.
+        // That book does not have paragraphs starting with "Verse".
+        // In that case the verse is found if e.g. "v12" is in the text.
+        // But in Psalms this confuses things again.
+        if (!at_passage) {
+          if (book != 19) {
+            string tag = "v" + convert_to_string(verse);
+            if (paragraph.find(tag) != string::npos) {
+              at_passage = true;
+              continue;
+            }
+          }
+        }
+
+        // If still at the correct verse, add the paragraph text.
         if (at_passage) {
           result.append ("<p>");
           result.append (paragraph);
@@ -1606,16 +1636,20 @@ bool resource_logic_easy_english_bible_handle_chapter_heading (const string & pa
   // An example is Genesis.
   // That book is divided up into chapters.
   // It has headings like "Chapter 1", and so on.
-  if (paragraph.find ("Chapter ") == 0) {
-    string tag = "Chapter " + convert_to_string(chapter);
-    near_passage = (paragraph == tag);
-    if (near_passage) {
-      // If this paragraph contains a passage, it likely is a heading.
-      // Skip those, do not include them.
-      // And clear any flag that the exact current verse is there.
-      at_passage = false;
-      // The heading was handled.
-      return true;
+  // There may be paragraph with normal text that also have "Chapter " at the start.
+  // Skip those as these are not the desired markers.
+  if (paragraph.length() <= 11) {
+    if (paragraph.find ("Chapter ") == 0) {
+      string tag = "Chapter " + convert_to_string(chapter);
+      near_passage = (paragraph == tag);
+      if (near_passage) {
+        // If this paragraph contains a passage, it likely is a heading.
+        // Skip those, do not include them.
+        // And clear any flag that the exact current verse is there.
+        at_passage = false;
+        // The heading was handled.
+        return true;
+      }
     }
   }
   // The heading was not handled.
@@ -1638,6 +1672,11 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const string & pa
   size_t space_pos = paragraph.find_last_of(" ");
   if (space_pos == string::npos) return false;
   string last_word = paragraph.substr(space_pos + 1);
+  
+  // There's also situations that the last bit is surrounded by round bracket.
+  // Example: Greetings from Paul to Timothy (1:1-2)
+  last_word = filter_string_str_replace ("(", string(), last_word);
+  last_word = filter_string_str_replace (")", string(), last_word);
   
   // Look for the first colon and the first hyphen.
   // This will obtain the starting chapter and verse numbers.
@@ -1708,15 +1747,25 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   // will only be affected by paragraph starting with this "Verse" tag.
   if (paragraph.find("Verse") != 0) return;
   
+//  cout << __LINE__ << endl; // Todo
+  
   // Look for e.g. "Verse 13 " at the start of the paragraph.
   // The space at the end is to prevent it from matching more verses.
   // Like when looking for "Verse 1", it would be found in "Verse 10" too.
   // Hence the space.
   string tag = "Verse " + convert_to_string(verse) + " ";
   at_passage = paragraph.find(tag) == 0;
+  // If it's at the passage, then it's done parsing.
+  if (at_passage) return;
+//  cout << __LINE__ << endl; // Todo
+
+  // If no verse is found yet, look for e.g. "Verse 13:".
+  tag = "Verse " + convert_to_string(verse) + ":";
+  at_passage = paragraph.find(tag) == 0;
   //If it's at the passage, then it's done parsing.
   if (at_passage) return;
-  
+//  cout << __LINE__ << endl; // Todo
+
   // If no verse is found yet, look for the same tag but without the space at the end.
   // Then the entire paragraph should consist of this tag.
   // This occurs in Genesis 1 for example.
@@ -1724,17 +1773,56 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   at_passage = (paragraph == tag);
   //If it's at the passage, then it's done parsing.
   if (at_passage) return;
+//  cout << __LINE__ << endl; // Todo
 
   // If no verse is found, then look for another way that verses can be marked up.
   // Example: Verses 15-17 ...
   tag = "Verses ";
-  if (paragraph.find(tag) != 0) return;
-  string fragment = paragraph.substr(tag.size(), 10);
-  vector<string> bits = filter_string_explode(fragment, '-');
-  if (bits.size() > 2) return;
-  int begin = convert_to_int(bits[0]);
-  int end = convert_to_int(bits[1]);
-  at_passage = (verse >= begin) && (verse <= end);
+  if (paragraph.find(tag) == 0) {
+    string fragment = paragraph.substr(tag.size(), 10);
+    vector<string> bits = filter_string_explode(fragment, '-');
+    if (bits.size() >= 2) {
+      int begin = convert_to_int(bits[0]);
+      int end = convert_to_int(bits[1]);
+      at_passage = (verse >= begin) && (verse <= end);
+    }
+  }
+  if (at_passage) return;
+//  cout << __LINE__ << endl; // Todo
+
+  // If no verse is found yet, then look for a variation of the markup that occurs too.
+  // Example: Verse 8-11 ...
+  tag = "Verse ";
+  if (paragraph.find(tag) == 0) {
+    string fragment = paragraph.substr(tag.size(), 10);
+    vector<string> bits = filter_string_explode(fragment, '-');
+    if (bits.size() >= 2) {
+      int begin = convert_to_int(bits[0]);
+      int end = convert_to_int(bits[1]);
+      at_passage = (verse >= begin) && (verse <= end);
+    }
+  }
+//  cout << __LINE__ << endl; // Todo
+  
+  // If no verse is found yet, then look for the type of markup as used in some Psalms.
+  // Example: Verses 3 – 4: ...
+  tag = "Verses ";
+  if (paragraph.find(tag) == 0) {
+    string fragment = paragraph.substr(tag.size(), 10);
+    string special_hyphen = "–";
+    size_t pos = fragment.find (special_hyphen);
+    if (pos != string::npos) {
+      string bit1 = filter_string_trim (fragment.substr(0, pos));
+      string bit2 = filter_string_trim (fragment.substr (pos + special_hyphen.length()));
+      int begin = convert_to_int(bit1);
+      int end = convert_to_int(bit2);
+      at_passage = (verse >= begin) && (verse <= end);
+    }
+  }
+  if (at_passage) return;
+
+  
+  if (at_passage) return;
 }
 
 

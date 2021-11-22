@@ -1524,6 +1524,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // Get the html from the server.
     string error;
     string html = resource_logic_web_or_cache_get (url, error);
+//    filter_url_file_put_contents ("/Users/teus/Desktop/out.txt", html); // Todo
 
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
@@ -1747,8 +1748,6 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   // will only be affected by paragraph starting with this "Verse" tag.
   if (paragraph.find("Verse") != 0) return;
   
-//  cout << __LINE__ << endl; // Todo
-  
   // Look for e.g. "Verse 13 " at the start of the paragraph.
   // The space at the end is to prevent it from matching more verses.
   // Like when looking for "Verse 1", it would be found in "Verse 10" too.
@@ -1757,14 +1756,12 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   at_passage = paragraph.find(tag) == 0;
   // If it's at the passage, then it's done parsing.
   if (at_passage) return;
-//  cout << __LINE__ << endl; // Todo
 
   // If no verse is found yet, look for e.g. "Verse 13:".
   tag = "Verse " + convert_to_string(verse) + ":";
   at_passage = paragraph.find(tag) == 0;
   //If it's at the passage, then it's done parsing.
   if (at_passage) return;
-//  cout << __LINE__ << endl; // Todo
 
   // If no verse is found yet, look for the same tag but without the space at the end.
   // Then the entire paragraph should consist of this tag.
@@ -1773,22 +1770,6 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   at_passage = (paragraph == tag);
   //If it's at the passage, then it's done parsing.
   if (at_passage) return;
-//  cout << __LINE__ << endl; // Todo
-
-  // If no verse is found, then look for another way that verses can be marked up.
-  // Example: Verses 15-17 ...
-  tag = "Verses ";
-  if (paragraph.find(tag) == 0) {
-    string fragment = paragraph.substr(tag.size(), 10);
-    vector<string> bits = filter_string_explode(fragment, '-');
-    if (bits.size() >= 2) {
-      int begin = convert_to_int(bits[0]);
-      int end = convert_to_int(bits[1]);
-      at_passage = (verse >= begin) && (verse <= end);
-    }
-  }
-  if (at_passage) return;
-//  cout << __LINE__ << endl; // Todo
 
   // If no verse is found yet, then look for a variation of the markup that occurs too.
   // Example: Verse 8-11 ...
@@ -1802,26 +1783,36 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
       at_passage = (verse >= begin) && (verse <= end);
     }
   }
-//  cout << __LINE__ << endl; // Todo
   
-  // If no verse is found yet, then look for the type of markup as used in some Psalms.
+  // If no verse is found yet, then look for the type of markup as below.
+  // Example: Verses 15-17 ...
+  // Example: Verses 3 4: ...
   // Example: Verses 3 – 4: ...
+  // The above case is from content that is in an unknown encoding:
+  // $ file -bi out.txt
+  // text/html; charset=unknown-8bit
+  // So the special hyphen (–) is rendered as a space or another character.
+  // So use another technique: To iterate over the string to find numeric characters.
+  // And to dedice the starting and ending verse from that.
   tag = "Verses ";
   if (paragraph.find(tag) == 0) {
     string fragment = paragraph.substr(tag.size(), 10);
-    string special_hyphen = "–";
-    size_t pos = fragment.find (special_hyphen);
-    if (pos != string::npos) {
-      string bit1 = filter_string_trim (fragment.substr(0, pos));
-      string bit2 = filter_string_trim (fragment.substr (pos + special_hyphen.length()));
-      int begin = convert_to_int(bit1);
-      int end = convert_to_int(bit2);
-      at_passage = (verse >= begin) && (verse <= end);
+    vector <int> digits;
+    int digit = 0;
+    for (size_t i = 0; i < fragment.size(); i++) {
+      int d = convert_to_int(fragment.substr(i, 1));
+      if (d) {
+        digit *= 10;
+        digit += d;
+      } else {
+        if (digit) digits.push_back(digit);
+        digit = 0;
+      }
+    }
+    if (digits.size() >= 2) {
+      at_passage = (verse >= digits[0]) && (verse <= digits[1]);
     }
   }
-  if (at_passage) return;
-
-  
   if (at_passage) return;
 }
 

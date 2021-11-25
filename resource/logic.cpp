@@ -1469,7 +1469,6 @@ struct easy_english_bible_walker: xml_tree_walker
     // Handle this node if it's a text node.
     if (node.type() == pugi::node_pcdata) {
       string fragment = node.value();
-//      cout << fragment << endl; // Todo
       fragment = filter_string_str_replace ("\n", " ", fragment);
       text.append (fragment);
     }
@@ -1512,9 +1511,6 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
   
   // Handle the possible URLs.
   for (auto url : urls) {
-
-//    cout << url << endl; // Todo
-//    if (url == "https://www.easyenglish.bible/bible-commentary/genesis-mwks-lbw.htm") continue;
     
     // Flag for whether the current paragraph contains the desired passage.
     bool near_passage = false;
@@ -1524,7 +1520,6 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // Get the html from the server.
     string error;
     string html = resource_logic_web_or_cache_get (url, error);
-//    filter_url_file_put_contents ("/Users/teus/Desktop/out.txt", html); // Todo
 
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
@@ -1560,7 +1555,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
 
       // Special case for the Psalms: There's one chapter per URL.
       // So it's always "near the passage" so to say.
-      if (book == 19) {
+      // Same for the one-chapter books.
+      if ((book == 19) || (book == 57) || (book == 63) || (book == 64) || (book == 65)) {
         near_passage = true;
 
       } else {
@@ -1582,12 +1578,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
       // Handle the situation that this paragraph contains the passage to be looked for.
       if (near_passage) {
 
-//        cout << paragraph << endl; // Todo
-
         // Check whether the parser is right at the desired passage.
         resource_logic_easy_english_bible_handle_verse_marker (paragraph, verse, at_passage);
-
-//        cout << "At passage: " << at_passage << endl; // Todo
         
         // If at the correct verse, check whether the paragraph starts with "v".
         // Like in "v20".
@@ -1639,7 +1631,22 @@ bool resource_logic_easy_english_bible_handle_chapter_heading (const string & pa
   // It has headings like "Chapter 1", and so on.
   // There may be paragraph with normal text that also have "Chapter " at the start.
   // Skip those as these are not the desired markers.
-  if (paragraph.length() <= 11) {
+  // In the book of Proverbs, the chapters are marked like this:
+  // Proverbs chapter 30
+  // The above is 19 characters long, so set the limit slightly higher.
+  if (paragraph.length() <= 25) {
+    if (paragraph.find ("Proverbs chapter") == 0) {
+      string tag = "Proverbs chapter " + convert_to_string(chapter);
+      near_passage = (paragraph == tag);
+      if (near_passage) {
+        // If this paragraph contains a passage, it likely is a heading.
+        // Skip those, do not include them.
+        // And clear any flag that the exact current verse is there.
+        at_passage = false;
+        // The heading was handled.
+        return true;
+      }
+    }
     if (paragraph.find ("Chapter ") == 0) {
       string tag = "Chapter " + convert_to_string(chapter);
       near_passage = (paragraph == tag);

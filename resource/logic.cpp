@@ -1336,6 +1336,12 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 }
 
 
+string resource_logic_easy_english_bible_name () // Todo
+{
+  return "Easy English Bible Commentary";
+}
+
+
 // Given a book number and a chapter,
 // this returns 0 to 2 parts of the URL that will contain the relevant text.
 vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
@@ -1484,7 +1490,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
 #ifdef HAVE_CLIENT
-  result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
+  string resource = resource_logic_easy_english_bible_name ();
+  return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
 
   // Now handle the Cloud part: Fetch and parse the text.

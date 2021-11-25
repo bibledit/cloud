@@ -70,6 +70,7 @@ string resource_logic_study_light_module_list_refresh ();
 vector <string> resource_logic_study_light_module_list_get ();
 string resource_logic_study_light_get (string resource, int book, int chapter, int verse);
 
+string resource_logic_easy_english_bible_name ();
 string resource_logic_easy_english_bible_get (int book, int chapter, int verse);
 bool resource_logic_easy_english_bible_handle_chapter_heading (const string & paragraph,
                                                                int chapter,

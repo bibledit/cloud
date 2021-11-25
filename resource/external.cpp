@@ -55,7 +55,7 @@ string resource_external_convert_book_bibleserver (int book);
 
 typedef struct
 {
-  const char *name;
+  string name;
   const char *versification;
   const char *mapping;
   const char *type;
@@ -83,7 +83,7 @@ resource_record resource_table [] =
   { resource_external_net_bible_name (), english (), english (), BIBLE, & resource_external_get_net_bible },
   { "Blue Letter Bible", english (), english (), ORIGINAL, & resource_external_get_blue_letter_bible },
   { "Elberfelder Bibel", english (), english (), BIBLE, & resource_external_get_elberfelder_bibel },
-  { "Easy English Bible Commentary", english (), english (), BIBLE, & resource_logic_easy_english_bible_get },
+  { resource_logic_easy_english_bible_name (), english (), english (), BIBLE, & resource_logic_easy_english_bible_get }, // Todo
 };
 
 

@@ -2082,7 +2082,7 @@ OTHER DEALINGS IN THE SOFTWARE.
    * Use the <code>tap</code> event instead.
    * @name $.fn.swipe#click
    * @event
-   * @deprecated since version 1.6.2, please use {@link $.fn.swipe#tap} instead
+   * @disabled_deprecated since version 1.6.2, please use {@link $.fn.swipe#tap} instead
    * @default null
    * @param {EventObject} event The original event object
    * @param {DomObject} target The element clicked on.

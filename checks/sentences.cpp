@@ -99,8 +99,8 @@ void Checks_Sentences::check (map <int, string> texts)
       fullText += " ";
     }
     // Split the UTF-8 text into characters and add them to the arrays of verse_numbers / characters.
-    int count = unicode_string_length (text);
-    for (int i = 0; i < count; i++) {
+    size_t count = unicode_string_length (text);
+    for (size_t i = 0; i < count; i++) {
       character = unicode_string_substr (text, i, 1);
       // Skip characters to be disregarded.
       if (in_array (character, disregards)) continue;

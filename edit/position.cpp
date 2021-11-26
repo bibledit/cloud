@@ -87,7 +87,7 @@ string edit_position (void * webserver_request)
   if (endingOffset) {
     endingOffset--;
   } else {
-    endingOffset = editor_usfm2html.textLength;
+    endingOffset = static_cast<int>(editor_usfm2html.textLength);
   }
   
   string data = convert_to_string (startingOffset);

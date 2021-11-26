@@ -28,7 +28,7 @@ void Checks_Space::doubleSpaceUsfm (string bible, int book, int chapter, int ver
 {
   size_t pos = data.find ("  ");
   if (pos != string::npos) {
-    int start = pos - 10;
+    int start = static_cast<int>(pos) - 10;
     if (start < 0) start = 0;
     string fragment = data.substr (start, 20);
     Database_Check database_check;

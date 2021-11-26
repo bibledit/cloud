@@ -112,8 +112,9 @@ int filter_shell_run (string command, const char * parameter, string & output)
     execlp (command.c_str(), parameter, (char*)0);
     // The above only returns in case of an error.
     Database_Logs::log (strerror (errno));
+    // Use_exit instead of exit, so there's no flushing.
     _exit (1);
-    close (fd);
+    //close (fd);
     return -1;
   }
   

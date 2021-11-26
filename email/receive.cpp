@@ -173,7 +173,7 @@ int email_receive_count (string& error, bool verbose)
   if (res == CURLE_OK) {
     string response = (char *) s.ptr;
     response = filter_string_trim (response);
-    mailcount = filter_string_explode (response, '\n').size();
+    mailcount = static_cast<int>(filter_string_explode (response, '\n').size());
   } else {
     error = curl_easy_strerror (res);
   }

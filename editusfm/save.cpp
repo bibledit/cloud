@@ -74,7 +74,8 @@ string editusfm_save (void * webserver_request)
         if (unicode_string_is_valid (usfm)) {
           string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
           vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
-          for (BookChapterData & data : book_chapter_text) {
+          if (!book_chapter_text.empty()) {
+            BookChapterData data = book_chapter_text[0];
             int book_number = data.book;
             int chapter_number = data.chapter;
             string chapter_data_to_save = data.data;

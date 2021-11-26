@@ -125,7 +125,7 @@ string search_similar (void * webserver_request)
       ids.push_back (id);
       counts.push_back (count);
     }
-    quick_sort (counts, ids, 0, counts.size());
+    quick_sort (counts, ids, 0, static_cast<int>(counts.size()));
     reverse (ids.begin(), ids.end());
 
     // Output the passage identifiers to the browser.

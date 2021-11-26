@@ -32,7 +32,7 @@ void test_database_strong ()
   evaluate (__LINE__, __func__, "", result);
   
   result = database.definition ("G1");
-  int length_h = result.length ();
+  size_t length_h = result.length ();
   
   evaluate (__LINE__, __func__, true, length_h > 100);
   

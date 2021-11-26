@@ -217,7 +217,7 @@ void test_database_notes ()
 
     string value;
     vector <string> values;
-    int length = 0;
+    size_t length = 0;
     size_t pos = 0;
 
     // Test inserting data for both summary and contents.

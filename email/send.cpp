@@ -171,7 +171,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
-  int length = body.length ();
+  size_t length = body.length ();
   if (length > 100000) {
     body = "This email was " + convert_to_string (length) + " bytes long. It was too long, and could not be sent.";
   }

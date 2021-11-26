@@ -97,7 +97,7 @@ void sources_morphhb_parse ()
     string file = "sources/morphhb/" + books[bk] + ".xml";
     cout << file << endl;
 
-    size_t book = bk + 1;
+    int book = static_cast<int>(bk + 1);
 
     xml_document document;
     document.load_file (file.c_str());

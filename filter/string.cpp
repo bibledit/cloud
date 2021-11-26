@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <codecvt>
 #endif
 #ifdef HAVE_ICU
+#define U_HIDE_DEPRECATED_API
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>

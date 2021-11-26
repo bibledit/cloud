@@ -390,7 +390,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
   vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
-  int client_total = identifiers.size ();
+  size_t client_total = identifiers.size ();
   // Checksum cache to speed things up in case of thousands of notes.
   string client_checksum = Database_State::getNotesChecksum (lowId, highId);
   if (client_checksum.empty ()) {

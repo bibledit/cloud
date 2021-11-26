@@ -1336,7 +1336,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 }
 
 
-string resource_logic_easy_english_bible_name () // Todo
+string resource_logic_easy_english_bible_name ()
 {
   return "Easy English Bible Commentary";
 }

@@ -40,8 +40,9 @@ int filter_memory_percentage_available ()
   uint64_t speculative = stats.speculative_count;
   uint64_t free = stats.free_count;
   uint64_t total = active + inactive + wired + speculative + free;
-  return (inactive + speculative + free) * 100 / total;
-#endif
+  return (int)(inactive + speculative + free) * 100 / total;
+
+#elif
 
   // BSD:
   // https://forums.freebsd.org/threads/38754/
@@ -69,7 +70,8 @@ int filter_memory_percentage_available ()
     }
     return (memfree + cached) * 100 / memtotal;
   }
-  
+#endif
+
   // Failed to get available memory: Return something sensible.
   return 50;
 }

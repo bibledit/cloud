@@ -192,7 +192,7 @@ void mbedtls_md_free( mbedtls_md_context_t *ctx );
  *                  It should be called after mbedtls_md_init() or mbedtls_md_free().
  *                  Makes it necessary to call mbedtls_md_free() later.
  *
- * \deprecated      Superseded by mbedtls_md_setup() in 2.0.0
+ * \disabled_deprecated      Superseded by mbedtls_md_setup() in 2.0.0
  *
  * \param ctx       The context to set up.
  * \param md_info   The information structure of the message-digest algorithm

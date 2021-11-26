@@ -203,7 +203,7 @@ int mbedtls_internal_md2_process( mbedtls_md2_context *ctx );
 /**
  * \brief          MD2 context setup
  *
- * \deprecated     Superseded by mbedtls_md2_starts_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md2_starts_ret() in 2.7.0
  *
  * \param ctx      context to be initialized
  *
@@ -217,7 +217,7 @@ MBEDTLS_DEPRECATED void mbedtls_md2_starts( mbedtls_md2_context *ctx );
 /**
  * \brief          MD2 process buffer
  *
- * \deprecated     Superseded by mbedtls_md2_update_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md2_update_ret() in 2.7.0
  *
  * \param ctx      MD2 context
  * \param input    buffer holding the data
@@ -235,7 +235,7 @@ MBEDTLS_DEPRECATED void mbedtls_md2_update( mbedtls_md2_context *ctx,
 /**
  * \brief          MD2 final digest
  *
- * \deprecated     Superseded by mbedtls_md2_finish_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md2_finish_ret() in 2.7.0
  *
  * \param ctx      MD2 context
  * \param output   MD2 checksum result
@@ -251,7 +251,7 @@ MBEDTLS_DEPRECATED void mbedtls_md2_finish( mbedtls_md2_context *ctx,
 /**
  * \brief          MD2 process data block (internal use only)
  *
- * \deprecated     Superseded by mbedtls_internal_md2_process() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_internal_md2_process() in 2.7.0
  *
  * \param ctx      MD2 context
  *
@@ -290,7 +290,7 @@ int mbedtls_md2_ret( const unsigned char *input,
 /**
  * \brief          Output = MD2( input buffer )
  *
- * \deprecated     Superseded by mbedtls_md2_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md2_ret() in 2.7.0
  *
  * \param input    buffer holding the data
  * \param ilen     length of the input data

@@ -421,7 +421,7 @@ int mbedtls_dhm_self_test( int verbose );
  * \warning The origin of the primes in RFC 5114 is not documented and
  *          their use therefore constitutes a security risk!
  *
- * \deprecated The hex-encoded primes from RFC 5114 are deprecated and are
+ * \disabled_deprecated The hex-encoded primes from RFC 5114 are deprecated and are
  *             likely to be removed in a future version of the library without
  *             replacement.
  */
@@ -470,7 +470,7 @@ int mbedtls_dhm_self_test( int verbose );
  * Group, as defined in <em>RFC-3526: More Modular Exponential (MODP)
  * Diffie-Hellman groups for Internet Key Exchange (IKE)</em>.
  *
- * \deprecated The hex-encoded primes from RFC 3625 are deprecated and
+ * \disabled_deprecated The hex-encoded primes from RFC 3625 are deprecated and
  *             superseded by the corresponding macros providing them as
  *             binary constants. Their hex-encoded constants are likely
  *             to be removed in a future version of the library.

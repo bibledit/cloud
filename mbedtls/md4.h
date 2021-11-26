@@ -204,7 +204,7 @@ int mbedtls_internal_md4_process( mbedtls_md4_context *ctx,
 /**
  * \brief          MD4 context setup
  *
- * \deprecated     Superseded by mbedtls_md4_starts_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md4_starts_ret() in 2.7.0
  *
  * \param ctx      context to be initialized
  *
@@ -218,7 +218,7 @@ MBEDTLS_DEPRECATED void mbedtls_md4_starts( mbedtls_md4_context *ctx );
 /**
  * \brief          MD4 process buffer
  *
- * \deprecated     Superseded by mbedtls_md4_update_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md4_update_ret() in 2.7.0
  *
  * \param ctx      MD4 context
  * \param input    buffer holding the data
@@ -236,7 +236,7 @@ MBEDTLS_DEPRECATED void mbedtls_md4_update( mbedtls_md4_context *ctx,
 /**
  * \brief          MD4 final digest
  *
- * \deprecated     Superseded by mbedtls_md4_finish_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md4_finish_ret() in 2.7.0
  *
  * \param ctx      MD4 context
  * \param output   MD4 checksum result
@@ -252,7 +252,7 @@ MBEDTLS_DEPRECATED void mbedtls_md4_finish( mbedtls_md4_context *ctx,
 /**
  * \brief          MD4 process data block (internal use only)
  *
- * \deprecated     Superseded by mbedtls_internal_md4_process() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_internal_md4_process() in 2.7.0
  *
  * \param ctx      MD4 context
  * \param data     buffer holding one block of data
@@ -295,7 +295,7 @@ int mbedtls_md4_ret( const unsigned char *input,
 /**
  * \brief          Output = MD4( input buffer )
  *
- * \deprecated     Superseded by mbedtls_md4_ret() in 2.7.0
+ * \disabled_deprecated     Superseded by mbedtls_md4_ret() in 2.7.0
  *
  * \param input    buffer holding the data
  * \param ilen     length of the input data

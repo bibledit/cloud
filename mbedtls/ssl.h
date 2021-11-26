@@ -2182,7 +2182,7 @@ void mbedtls_ssl_conf_psk_cb( mbedtls_ssl_config *conf,
  * \param dhm_P    Diffie-Hellman-Merkle modulus
  * \param dhm_G    Diffie-Hellman-Merkle generator
  *
- * \deprecated     Superseded by \c mbedtls_ssl_conf_dh_param_bin.
+ * \disabled_deprecated     Superseded by \c mbedtls_ssl_conf_dh_param_bin.
  *
  * \return         0 if successful
  */

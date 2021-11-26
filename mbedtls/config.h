@@ -1737,7 +1737,7 @@
  *          bandwidth, and (2) the peer is an Mbed TLS stack that doesn't use
  *          the fixed implementation yet (pre-2.7).
  *
- * \deprecated This option is deprecated and will likely be removed in a
+ * \disabled_deprecated This option is deprecated and will likely be removed in a
  *             future version of Mbed TLS.
  *
  * Uncomment to fallback to old, non-compliant truncated HMAC implementation.
@@ -1869,7 +1869,7 @@
  *
  * \note Currently compression can't be used with DTLS.
  *
- * \deprecated This feature is deprecated and will be removed
+ * \disabled_deprecated This feature is deprecated and will be removed
  *             in the next major revision of the library.
  *
  * Used in: library/ssl_tls.c

@@ -160,7 +160,7 @@ void Database_Modifications::storeTeamDiffBible (const string& bible)
 void Database_Modifications::deleteTeamDiffBible (const string& bible)
 {
   string pattern = bible + ".";
-  int length = pattern.length ();
+  size_t length = pattern.length ();
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
@@ -181,7 +181,7 @@ void Database_Modifications::deleteTeamDiffChapter (const string& bible, int boo
 vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, int book)
 {
   string pattern = bible + "." + convert_to_string (book) + ".";
-  int length = pattern.length ();
+  size_t length = pattern.length ();
   vector <int> chapters;
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
@@ -211,7 +211,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
 int Database_Modifications::getTeamDiffCount (const string& bible)
 {
   string pattern = bible + ".";
-  int length = pattern.length ();
+  size_t length = pattern.length ();
   int count = 0;
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
@@ -228,7 +228,7 @@ vector <int> Database_Modifications::getTeamDiffBooks (const string& bible)
 {
   vector <int> books;
   string pattern = bible + ".";
-  int length = pattern.length ();
+  size_t length = pattern.length ();
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;

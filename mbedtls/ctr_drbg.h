@@ -510,7 +510,7 @@ int mbedtls_ctr_drbg_random( void *p_rng,
 /**
  * \brief              This function updates the state of the CTR_DRBG context.
  *
- * \deprecated         Superseded by mbedtls_ctr_drbg_update_ret()
+ * \disabled_deprecated         Superseded by mbedtls_ctr_drbg_update_ret()
  *                     in 2.16.0.
  *
  * \note               If \p add_len is greater than

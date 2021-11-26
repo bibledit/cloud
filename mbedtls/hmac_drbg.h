@@ -433,7 +433,7 @@ void mbedtls_hmac_drbg_free( mbedtls_hmac_drbg_context *ctx );
 /**
  * \brief               This function updates the state of the HMAC_DRBG context.
  *
- * \deprecated          Superseded by mbedtls_hmac_drbg_update_ret()
+ * \disabled_deprecated          Superseded by mbedtls_hmac_drbg_update_ret()
  *                      in 2.16.0.
  *
  * \param ctx           The HMAC_DRBG context.

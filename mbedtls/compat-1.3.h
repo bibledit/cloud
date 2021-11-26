@@ -4,7 +4,7 @@
  * \brief Compatibility definitions for using mbed TLS with client code written
  *  for the PolarSSL naming conventions.
  *
- * \deprecated Use the new names directly instead
+ * \disabled_deprecated Use the new names directly instead
  */
 /*
  *  Copyright The Mbed TLS Contributors

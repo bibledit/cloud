@@ -217,7 +217,7 @@ int main (int argc, char **argv)
   test_related ();
   test_editone_logic ();
   test_http ();
-  test_memory ();
+  //test_memory ();
   test_database_statistics ();
   test_tasks_logic ();
   test_biblegateway ();

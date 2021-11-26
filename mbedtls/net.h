@@ -3,7 +3,7 @@
  *
  * \brief Deprecated header file that includes net_sockets.h
  *
- * \deprecated Superseded by mbedtls/net_sockets.h
+ * \disabled_deprecated Superseded by mbedtls/net_sockets.h
  */
 /*
  *  Copyright The Mbed TLS Contributors

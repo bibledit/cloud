@@ -58,8 +58,6 @@ void test_memory_record ()
 
 void test_memory ()
 {
-  return;
-  
   // Measure maximum memory usage of tasks that normally run in the background.
   trace_unit_tests (__func__);
 

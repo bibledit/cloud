@@ -146,7 +146,9 @@ int main (int argc, char **argv)
   
   refresh_sandbox (true);
   test_dev ();
-  test_easy_english_bible ();
+  test_json ();
+  test_archive ();
+  test_sqlite ();
   refresh_sandbox (true);
   exit (0);
   

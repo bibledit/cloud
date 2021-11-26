@@ -118,7 +118,7 @@ void sprint_burndown (string bible, int manualyear, int manualmonth)
     for (auto id : ids) {
       percentages.push_back (database_sprint.getComplete (id));
     }
-    int tasks = ids.size ();
+    int tasks = static_cast<int>(ids.size ());
     int complete = 0;
     if (tasks != 0) {
       for (auto percentage : percentages) complete += percentage;
@@ -133,7 +133,7 @@ void sprint_burndown (string bible, int manualyear, int manualmonth)
         // Only mail if the current sprint contains tasks.
         string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
         vector <string> categories = filter_string_explode (scategories, '\n');
-        int category_count = categories.size();
+        size_t category_count = categories.size();
         int category_percentage = round (100 / category_count);
         vector <string> users = request.database_users ()->get_users ();
         for (auto user : users) {
@@ -250,7 +250,7 @@ string sprint_create_burndown_chart (string bible, int year, int month)
                                       
   // Write "days" below the X-axis.
   lines.push_back ("<tr>");
-  int columncount = data.size ();
+  int columncount = static_cast<int>(data.size ());
   string text = translate("days");
   lines.push_back ("<td colspan=\"" + convert_to_string (columncount) + "\">" + text + "</td>");
   lines.push_back ("</tr>");

@@ -25,8 +25,8 @@
 extern "C" {
 #endif
 
-  void thread_setup ();
-  void thread_cleanup ();
+  void thread_setup (void);
+  void thread_cleanup (void);
   
 #ifdef __cplusplus
 }

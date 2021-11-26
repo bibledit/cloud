@@ -42,7 +42,7 @@ int filter_memory_percentage_available ()
   uint64_t total = active + inactive + wired + speculative + free;
   return (int)(inactive + speculative + free) * 100 / total;
 
-#elif
+#else
 
   // BSD:
   // https://forums.freebsd.org/threads/38754/

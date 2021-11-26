@@ -1879,7 +1879,7 @@ vector <string> Database_Notes::set_bulk (string json)
   for (size_t i = 0; i < bulk.size (); i++) {
     
     // Get all the different fields for this note.
-    Object note = bulk.get<Object>(i);
+    Object note = bulk.get<Object>((int)i);
     string assigned = note.get<String> ("a");
     string bible = note.get<String> ("b");
     string contents = note.get<String> ("c");

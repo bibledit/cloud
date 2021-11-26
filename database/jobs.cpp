@@ -134,10 +134,10 @@ int Database_Jobs::getLevel (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["level"];
+  vector <string> levels = database_sqlite_query (db, sql.sql) ["level"];
   database_sqlite_disconnect (db);
-  for (auto & level : result) {
-    return convert_to_int (level);
+  if (!levels.empty()) {
+    return convert_to_int (levels[0]);
   }
   return 0;
 }
@@ -166,7 +166,8 @@ string Database_Jobs::getStart (int id)
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, sql.sql) ["start"];
   database_sqlite_disconnect (db);
-  for (auto & start : result) {
+  if (!result.empty()) {
+    auto start = result[0];
     return start;
   }
   return "";
@@ -194,10 +195,10 @@ string Database_Jobs::getPercentage (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["percentage"];
+  vector <string> percentages = database_sqlite_query (db, sql.sql) ["percentage"];
   database_sqlite_disconnect (db);
-  for (auto & percentage : result) {
-    return percentage;
+  if (!percentages.empty()) {
+    return percentages[0];
   }
   return "";
 }
@@ -224,10 +225,10 @@ string Database_Jobs::getProgress (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["progress"];
+  vector <string> progress = database_sqlite_query (db, sql.sql) ["progress"];
   database_sqlite_disconnect (db);
-  for (auto & progress : result) {
-    return progress;
+  if (!progress.empty()) {
+    return progress[0];
   }
   return "";
 }
@@ -256,10 +257,10 @@ string Database_Jobs::getResult (int id)
   sqlite3 * db = connect ();
   vector <string> result = database_sqlite_query (db, sql.sql) ["result"];
   database_sqlite_disconnect (db);
-  for (auto & s : result) {
-    return s;
+  if (!result.empty()) {
+    return result[0];
   }
-  return "";
+  return string();
 }
 
 

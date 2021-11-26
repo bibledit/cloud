@@ -57,7 +57,7 @@ static unsigned long id_function(void)
 #endif
 
 
-void thread_setup ()
+void thread_setup (void)
 {
 #ifndef HAVE_CLIENT
   mutex_buf = malloc (CRYPTO_num_locks () * sizeof(MUTEX_TYPE));
@@ -71,7 +71,7 @@ void thread_setup ()
 }
 
 
-void thread_cleanup ()
+void thread_cleanup (void)
 {
 #ifndef HAVE_CLIENT
   if (!mutex_buf) return;

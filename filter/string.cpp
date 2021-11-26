@@ -30,12 +30,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <codecvt>
 #endif
 #ifdef HAVE_ICU
-#define U_HIDE_DEPRECATED_API
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
+#pragma clang diagnostic pop
 #endif
 #ifdef HAVE_CLOUD
 #include <libxml/tree.h>

@@ -1695,7 +1695,7 @@ string Filter_Text::getNoteCitation (Database_Styles_Item style)
       pointer++;
       if (pointer >= sequence.size ()) pointer = 0;
     }
-    notecitations[marker].pointer = pointer;
+    notecitations[marker].pointer = static_cast<unsigned int>(pointer);
   } else if (citation == "-") {
     citation = "";
   }
@@ -1786,7 +1786,7 @@ void Filter_Text::notes_plain_text_handler ()
   int offset = 0;
   int iverse = convert_to_int (currentVerseNumber);
   if (verses_text.count (iverse)) {
-    offset = verses_text [iverse].size ();
+    offset = static_cast<int>(verses_text [iverse].size ());
   }
   verses_text_note_positions[iverse].push_back (offset);
 }

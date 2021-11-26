@@ -235,8 +235,8 @@ Passage Database_Check::getPassage (int id)
   vector <string> books = result ["book"];
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
-  for (unsigned int i = 0; i < books.size(); i++) {
-    Passage passage = Passage ("", convert_to_int (books[i]), convert_to_int (chapters[i]), verses[i]);
+  if (!books.empty()) {
+    Passage passage = Passage ("", convert_to_int (books[0]), convert_to_int (chapters[0]), verses[0]);
     return passage;
   }
   return Passage ("", 0, 0, "");

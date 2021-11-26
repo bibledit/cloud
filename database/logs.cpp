@@ -40,7 +40,7 @@ void Database_Logs::log (string description, int level)
   // Discard empty line.
   if (description.empty()) return;
   // Truncate very long entry.
-  int length = description.length ();
+  size_t length = description.length ();
   if (length > 50000) {
     description.erase (50000);
     description.append ("... This entry was too large and has been truncated: " + convert_to_string (length) + " bytes");

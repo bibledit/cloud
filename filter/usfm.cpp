@@ -300,7 +300,7 @@ vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
   unsigned int totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
-    int length = unicode_string_length (lines [i]);
+    size_t length = unicode_string_length (lines [i]);
     totalOffset += length;
     if (totalOffset >= offset) {
       return usfm_linenumber_to_versenumber (usfm, i);
@@ -329,7 +329,7 @@ int usfm_versenumber_to_offset (string usfm, int verse)
     // Add 1 for new line.
     totalOffset += 1;
   }
-  return unicode_string_length (usfm);
+  return static_cast<int>(unicode_string_length (usfm));
 }
 
 

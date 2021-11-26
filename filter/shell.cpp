@@ -241,7 +241,10 @@ int filter_shell_vfork (string & output, string directory, string command,
   // It seems that waiting very shortly before calling vfork ()
   // enables running threads to continue running.
   this_thread::sleep_for (chrono::milliseconds (1));
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   pid_t pid = vfork();
+#pragma clang diagnostic pop
   if (pid != 0) {
     if (pid < 0) {
       Database_Logs::log ("Failed to run " + command);
@@ -259,7 +262,7 @@ int filter_shell_vfork (string & output, string directory, string command,
     // The above only returns in case of an error.
     Database_Logs::log (command + ": " + strerror (errno));
     _exit (1);
-    close (fd);
+    //close (fd);
     return -1;
   }
   

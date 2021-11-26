@@ -98,7 +98,7 @@ void filter_git_sync_modifications_to_git (string bible, string repository)
     
     bool iteration_initialized = false;
     string overall_old_usfm, overall_new_usfm;
-    int overall_book, overall_chapter;
+    int overall_book = 0, overall_chapter = 0;
     
     // Go through all the rowids for the user and the Bible.
     vector <int> rowids = Database_Git::get_rowids (user, bible);

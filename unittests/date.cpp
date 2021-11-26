@@ -35,7 +35,7 @@ void test_date ()
     if ((year < 2014) || (year > 2050)) evaluate (__LINE__, __func__, "current year", convert_to_string (year));
     struct timeval tv;
     gettimeofday (&tv, NULL);
-    int reference_second = tv.tv_sec;
+    int reference_second = static_cast<int>(tv.tv_sec);
     int actual_second = filter_date_seconds_since_epoch ();
     if (abs (actual_second - reference_second) > 1) evaluate (__LINE__, __func__, reference_second, actual_second);
     int usecs = filter_date_numerical_microseconds ();

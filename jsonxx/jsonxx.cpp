@@ -306,13 +306,16 @@ bool Object::parse(std::istream& input, Object& object) {
     do {
         std::string key;
         if(UnquotedKeys == Enabled) {
-            if (!parse_identifier(input, key)) {
-                if (Parser == Permissive) {
-                    if (input.peek() == '}')
-                        break;
-                }
-                return false;
-            }
+          // This code will never be executed
+          // because of the default setting for unquoted keys.
+          // To disable the warning, the code will be disabled just now.
+          //if (!parse_identifier(input, key)) {
+          //  if (Parser == Permissive) {
+          //    if (input.peek() == '}')
+          //      break;
+          //  }
+          //  return false;
+          //}
         }
         else {
             if (!parse_string(input, key)) {

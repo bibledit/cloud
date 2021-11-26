@@ -180,7 +180,7 @@ bool Database_State::getExport (const string & bible, int book, int format)
   sqlite3 * db = connect ();
   vector <string> values = database_sqlite_query (db, sql.sql)["format"];
   database_sqlite_disconnect (db);
-  for (auto value : values) {
+  if (!values.empty()) {
     return true;
   }
   return false;

@@ -30,7 +30,7 @@ void pugixml_utils_error_logger (void * pugi_xml_parse_result, const string & xm
 {
   xml_parse_result * result = (xml_parse_result *) pugi_xml_parse_result;
   if (result->status == status_ok) return;
-  int start = result->offset - 10;
+  int start = static_cast<int>(result->offset - 10);
   if (start < 0) start = 0;
   string fragment = xml.substr (start, 20);
   fragment = filter_string_str_replace ("\n", "", fragment);

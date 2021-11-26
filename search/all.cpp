@@ -95,7 +95,7 @@ string search_all (void * webserver_request)
   vector <int> identifiers = database_notes.search_notes (queryString, bibles);
   
   
-  int noteCount = identifiers.size();
+  size_t noteCount = identifiers.size();
   view.set_variable ("noteCount", convert_to_string (noteCount));
   
   
@@ -146,7 +146,7 @@ string search_all (void * webserver_request)
   vector <Passage> passages = search_logic_search_text (queryString, bibles);
   
   
-  int textCount = passages.size ();
+  size_t textCount = passages.size ();
   view.set_variable ("textCount", convert_to_string (textCount));
   
   

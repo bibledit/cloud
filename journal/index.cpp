@@ -90,7 +90,7 @@ string render_journal_entry (string filename, int userlevel)
   }
     
   // Extract the seconds since the Unix epoch from the filename.
-  time_t seconds = convert_to_int (filename.substr (0, 10));
+  int seconds = convert_to_int (filename.substr (0, 10));
   // Localized date and time stamp.
   string timestamp = locale_logic_date_time (seconds);
 

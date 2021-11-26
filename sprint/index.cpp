@@ -116,7 +116,7 @@ string sprint_index (void * webserver_request)
         int box = convert_to_int (id);
         string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
         vector <string> categories = filter_string_explode (categorytext, '\n');
-        int category_count = categories.size ();
+        size_t category_count = categories.size ();
         float category_percentage = 100 / category_count;
         int percentage;
         bool on = (checked == "true");
@@ -230,7 +230,7 @@ string sprint_index (void * webserver_request)
     tasks.append ("<td></td>\n");
     tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");
-    int category_count = vcategories.size();
+    size_t category_count = vcategories.size();
     float category_percentage = 100 / category_count;
     for (size_t i2 = 0; i2 < vcategories.size (); i2++) {
       int high = round ((i2 + 1) * category_percentage);

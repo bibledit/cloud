@@ -6678,6 +6678,7 @@
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					.,
 					/opt/local/include,
+					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

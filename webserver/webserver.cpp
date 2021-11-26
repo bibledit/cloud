@@ -58,7 +58,7 @@ int get_line (int sock, char *buf, int size)
   char character = '\0';
   int n = 0;
   while ((i < size - 1) && (character != '\n')) {
-    n = recv (sock, &character, 1, 0);
+    n = (int) recv (sock, &character, 1, 0);
     if (n > 0) {
       if (character == '\r') {
         /*
@@ -67,7 +67,7 @@ int get_line (int sock, char *buf, int size)
         // So it's safe to throw the \r away, as we're sure the \n follows.
         continue;
         */
-        n = recv (sock, &character, 1, MSG_PEEK);
+        n = (int) recv (sock, &character, 1, MSG_PEEK);
         if ((n > 0) && (character == '\n')) {
           recv (sock, &character, 1, 0);
         } else {
@@ -135,7 +135,7 @@ void webserver_process_request (int connfd, string clientaddress)
           bool done_reading = false;
           int total_bytes_read = 0;
           do {
-            bytes_read = recv(connfd, buffer, BUFFERSIZE, 0);
+            bytes_read = (int)recv(connfd, buffer, BUFFERSIZE, 0);
             for (int i = 0; i < bytes_read; i++) {
               postdata += buffer [i];
             }
@@ -181,7 +181,7 @@ void webserver_process_request (int connfd, string clientaddress)
             unsigned char buffer [1024];
             int bytecount;
             do {
-              bytecount =
+              bytecount = (int)
 #ifdef HAVE_WINDOWS
               _read
 #else
@@ -189,7 +189,7 @@ void webserver_process_request (int connfd, string clientaddress)
 #endif
               (filefd, buffer, 1024);
               if (bytecount > 0) {
-                int sendbytes = send (connfd, (const char *)buffer, bytecount, 0);
+                int sendbytes = (int)send (connfd, (const char *)buffer, bytecount, 0);
                 (void) sendbytes;
               }
             }
@@ -651,7 +651,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         unsigned char buffer [1024];
         int bytecount;
         do {
-          bytecount =
+          bytecount = (int)
 #ifdef HAVE_WINDOWS
           _read
 #else

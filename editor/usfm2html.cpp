@@ -220,7 +220,7 @@ void Editor_Usfm2Html::process ()
             openTextStyle (style, false);
             string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
             string number = usfm_peek_verse_number (textFollowingMarker);
-            verseStartOffsets [convert_to_int (number)] = textLength;
+            verseStartOffsets [convert_to_int (number)] = static_cast<int>(textLength);
             addText (number);
             closeTextStyle (false);
             addText (" ");
@@ -624,7 +624,7 @@ bool Editor_Usfm2Html::roadIsClear ()
   bool end_chapter_reached = false;
   {
     bool done = false;
-    unsigned int markersAndTextCount = markersAndText.size();
+    size_t markersAndTextCount = markersAndText.size();
     for (size_t pointer = markersAndTextPointer + 1; pointer < markersAndTextCount; pointer++) {
       if (done) continue;
       string currentItem = markersAndText[pointer];

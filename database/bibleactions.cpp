@@ -125,8 +125,11 @@ string Database_BibleActions::getUsfm (string bible, int book, int chapter)
   sql.add (chapter);
   sql.add (";");
   vector <string> result = sql.query ()["usfm"];
-  for (auto usfm : result) return usfm;
-  return "";
+  if (!result.empty()) {
+    string usfm = result[0];
+    return usfm;
+  };
+  return string();
 }
 
 

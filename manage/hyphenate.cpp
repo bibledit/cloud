@@ -175,7 +175,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
 bool hyphenate_is_near_white_space (const vector <string> & characters, int offset)
 {
   int start = offset - 2; // The constant for the nearness to the start of the word.
-  unsigned int end = offset + 2; // The constant for the nearness to the end of the word.
+  size_t end = offset + 2; // The constant for the nearness to the end of the word.
   if (start < 0) start = 0;
   if (end > characters.size()) end = characters.size();
   for (unsigned int i = start; i < end; i++) {

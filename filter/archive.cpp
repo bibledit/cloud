@@ -384,10 +384,10 @@ string filter_archive_microtar_pack (string tarpath, string directory, vector <s
     // Read the file's data.
     string data = filter_url_file_get_contents (path);
     // Write the file's name to the tarball.
-    res = mtar_write_file_header(&tar, file.c_str(), data.length ());
+    res = mtar_write_file_header(&tar, file.c_str(), (unsigned)data.length ());
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
     // Write the file's data to the tarball.
-    res = mtar_write_data(&tar, data.c_str(), data.length ());
+    res = mtar_write_data(&tar, data.c_str(), (unsigned)data.length ());
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
   }
   

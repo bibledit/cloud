@@ -63,7 +63,7 @@ void sigsegv_handler (int sig)
   cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
 
   void *array[20];
-  size_t size;
+  int size;
   
   // Get void*'s for all entries on the stack
   size = backtrace (array, 20);

@@ -176,7 +176,8 @@ int Database_Versifications::getID (const string& name)
   sqlite3 * db = connect ();
   vector <string> systems = database_sqlite_query (db, sql.sql) ["system"];
   database_sqlite_disconnect (db);
-  for (auto & id : systems) {
+  if (!systems.empty()) {
+    auto id = systems[0];
     return convert_to_int (id);
   }
   return 0;

@@ -221,7 +221,8 @@ bool Database_Cache::ready (string resource, int book)
   SqliteDatabase sql = SqliteDatabase (filename (resource, book));
   sql.add ("SELECT ready FROM ready;");
   vector <string> result = sql.query () ["ready"];
-  for (auto ready : result) {
+  if (!result.empty()) {
+    auto ready = result[0];
     return convert_to_bool (ready);
   }
   return false;

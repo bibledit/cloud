@@ -135,7 +135,7 @@ vector <int> Database_Bibles::getBooks (string bible)
   for (auto & book : books) {
     order.push_back (Database_Books::getOrderFromId (book));
   }
-  quick_sort (order, books, 0, order.size());
+  quick_sort (order, books, 0, static_cast<int>(order.size()));
 
   // Result.
   return books;

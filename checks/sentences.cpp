@@ -114,7 +114,7 @@ void Checks_Sentences::check (map <int, string> texts)
   }
   
   // Go through the characters.
-  int characterCount = characters.size ();
+  int characterCount = static_cast<int>(characters.size ());
   for (int i = 0; i < characterCount; i++) {
     // Store current verse number in the object.
     verseNumber = verse_numbers [i];
@@ -241,7 +241,7 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
       }
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
         string context = verses_paragraph.rbegin()->second;
-        int length = unicode_string_length (character);
+        size_t length = unicode_string_length (character);
         if (length >= 15) {
           context = unicode_string_substr (context, length - 15, 15);
         }

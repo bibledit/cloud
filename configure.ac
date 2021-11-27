@@ -1,4 +1,4 @@
-AC_INIT([bibledit],[5.0.966],[http://bibledit.org])
+AC_INIT([bibledit],[5.0.967],[http://bibledit.org])
 AM_INIT_AUTOMAKE([tar-ustar subdir-objects])
 AC_CANONICAL_BUILD
 ac_default_prefix=/usr
@@ -190,7 +190,7 @@ AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
 echo "
-Bibledit $VERSION2222 configuration summary:
+Bibledit $VERSION configuration summary:
 
 Installation prefix                                  : ${prefix}
 Windows               (--enable-windows)             : ${ENABLEWINDOWS}

@@ -190,7 +190,7 @@ AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
 echo "
-Bibledit $VERSION222 configuration summary:
+Bibledit $VERSION2222 configuration summary:
 
 Installation prefix                                  : ${prefix}
 Windows               (--enable-windows)             : ${ENABLEWINDOWS}

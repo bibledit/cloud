@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -6027,7 +6027,7 @@
 		CA18ADB724F169DA00FF603C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = NO;
+				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Bibledit;
 				TargetAttributes = {

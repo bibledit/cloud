@@ -342,7 +342,7 @@ void system_logic_produce_resources_file (int jobid)
 
   
   // Progress bar data: How many tarballs to create.
-  int tarball_count = 1 + single_resources.size ();
+  size_t tarball_count = 1 + single_resources.size ();
   int tarball_counter = 0;
 
   

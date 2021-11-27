@@ -133,7 +133,7 @@ string Session_Logic::remoteAddress ()
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> blocks = filter_string_explode (request->remote_address, '.');
   string address = "";
-  unsigned int num_blocks = abs (check_ip_blocks);
+  size_t num_blocks = abs (check_ip_blocks);
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
   for (unsigned int i = 0; i < num_blocks; i++) {
     address += blocks [i] + ".";

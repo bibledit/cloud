@@ -10,6 +10,38 @@
 		CA10382925279F940021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382725279F940021AF25 /* html2format.cpp */; };
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
 		CA47750F260FC720001F50DD /* accounts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47750E260FC720001F50DD /* accounts.cpp */; };
+		CA77112627523B94003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50525EED7B500650B41 /* index.cpp */; };
+		CA77112727523C07003ADD67 /* verse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50425EED7B500650B41 /* verse.cpp */; };
+		CA77112827523C15003ADD67 /* update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADD5A392630A3F5003AAB27 /* update.cpp */; };
+		CA77112927523C21003ADD67 /* view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD8B11626E4E18C00639404 /* view.cpp */; };
+		CA77112A27523C2C003ADD67 /* style.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAA0019625699DC400BCA329 /* style.cpp */; };
+		CA77112B27523C35003ADD67 /* fetch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAAB4B326EBE803000C8254 /* fetch.cpp */; };
+		CA77112C27523C49003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA60BF4325337938004D6E06 /* index.cpp */; };
+		CA77112D27523C49003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CABDBAD526E3E00200BE27F8 /* index.cpp */; };
+		CA77112E27523C49003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAA001A12569B59A00BCA329 /* index.cpp */; };
+		CA77112F27523C58003ADD67 /* load.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA60BF3625337938004D6E06 /* load.cpp */; };
+		CA77113027523C58003ADD67 /* load.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50225EED7B500650B41 /* load.cpp */; };
+		CA77113127523D8B003ADD67 /* delay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA314CD22662298D00EF8CE3 /* delay.cpp */; };
+		CA77113227523D8B003ADD67 /* list2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA6BEA0326456C08009A0416 /* list2.cpp */; };
+		CA77113327523D8B003ADD67 /* logic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA60BF2D25337938004D6E06 /* logic.cpp */; };
+		CA77113427523D8B003ADD67 /* save.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA60BF2C25337938004D6E06 /* save.cpp */; };
+		CA77113527523D8B003ADD67 /* update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA60BF3525337938004D6E06 /* update.cpp */; };
+		CA77113627523D8B003ADD67 /* verse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA60BF4225337938004D6E06 /* verse.cpp */; };
+		CA77113727523D8B003ADD67 /* id.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAA001932569986E00BCA329 /* id.cpp */; };
+		CA77113827523D8B003ADD67 /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA6A12CD26F782C600CDB5DB /* image.cpp */; };
+		CA77113927523D8B003ADD67 /* indonesian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50D25F24D0900650B41 /* indonesian.cpp */; };
+		CA77113C27523D8B003ADD67 /* logic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAAB4B626ECE062000C8254 /* logic.cpp */; };
+		CA77113D27523D8B003ADD67 /* comparative9edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD55EAF260140360021FED0 /* comparative9edit.cpp */; };
+		CA77113E27523D8B003ADD67 /* comparative1edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD55EB0260140370021FED0 /* comparative1edit.cpp */; };
+		CA77113F27523D8B003ADD67 /* divider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50825EFDE1E00650B41 /* divider.cpp */; };
+		CA77114027523D8B003ADD67 /* confirm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA1B741A25F54DC90030846D /* confirm.cpp */; };
+		CA77114127523D8B003ADD67 /* indonesianfree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47B2CB25E9282B001370A4 /* indonesianfree.cpp */; };
+		CA77114227523D8B003ADD67 /* text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA6F68B3257CDF21008D51F5 /* text.cpp */; };
+		CA77114327524235003ADD67 /* abbottsmith.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAA323FA25FBC70A00F5A99E /* abbottsmith.cpp */; };
+		CA77114427524240003ADD67 /* bibleimages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CABDBAD726E3F82000BE27F8 /* bibleimages.cpp */; };
+		CA77114627524B8B003ADD67 /* libicui18n.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */; };
+		CA77114827524BC8003ADD67 /* libicuuc.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */; };
+		CA77114A27524BFF003ADD67 /* libicudata.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */; };
 		CAAA5DBA256555E5003249CA /* paratext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAA5DB9256555E5003249CA /* paratext.cpp */; };
 		CADE454624F174DF003165BB /* bible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FE24F1737A003165BB /* bible.cpp */; };
 		CADE454724F174DF003165BB /* logic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FF24F1737A003165BB /* logic.cpp */; };
@@ -590,6 +622,9 @@
 		CA6BEA0426456C08009A0416 /* list2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list2.h; sourceTree = "<group>"; };
 		CA6F68B3257CDF21008D51F5 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CA6F68B4257CDF21008D51F5 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.67.1.dylib; path = ../../../../opt/local/lib/libicui18n.67.1.dylib; sourceTree = "<group>"; };
+		CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.67.1.dylib; path = ../../../../opt/local/lib/libicuuc.67.1.dylib; sourceTree = "<group>"; };
+		CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.67.1.dylib; path = ../../../../opt/local/lib/libicudata.67.1.dylib; sourceTree = "<group>"; };
 		CA772E29262F58580097D5C7 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
 		CA772E2A262F58580097D5C7 /* studylight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = studylight.h; sourceTree = "<group>"; };
 		CAA001932569986E00BCA329 /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
@@ -2624,6 +2659,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA77114A27524BFF003ADD67 /* libicudata.67.1.dylib in Frameworks */,
+				CA77114827524BC8003ADD67 /* libicuuc.67.1.dylib in Frameworks */,
+				CA77114627524B8B003ADD67 /* libicui18n.67.1.dylib in Frameworks */,
 				CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */,
 				CADE475A24F17CF0003165BB /* libmimetic.0.dylib in Frameworks */,
 				CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */,
@@ -5953,6 +5991,9 @@
 		CADE475524F1786C003165BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */,
+				CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */,
+				CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */,
 				CADE475B24F17D04003165BB /* libcurl.dylib */,
 				CADE475924F17CF0003165BB /* libmimetic.0.dylib */,
 				CADE475624F1786C003165BB /* libxml2.tbd */,
@@ -6032,6 +6073,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA77114427524240003ADD67 /* bibleimages.cpp in Sources */,
+				CA77114327524235003ADD67 /* abbottsmith.cpp in Sources */,
+				CA77113127523D8B003ADD67 /* delay.cpp in Sources */,
+				CA77113227523D8B003ADD67 /* list2.cpp in Sources */,
+				CA77113327523D8B003ADD67 /* logic.cpp in Sources */,
+				CA77113427523D8B003ADD67 /* save.cpp in Sources */,
+				CA77113527523D8B003ADD67 /* update.cpp in Sources */,
+				CA77113627523D8B003ADD67 /* verse.cpp in Sources */,
+				CA77113727523D8B003ADD67 /* id.cpp in Sources */,
+				CA77113827523D8B003ADD67 /* image.cpp in Sources */,
+				CA77113927523D8B003ADD67 /* indonesian.cpp in Sources */,
+				CA77113C27523D8B003ADD67 /* logic.cpp in Sources */,
+				CA77113D27523D8B003ADD67 /* comparative9edit.cpp in Sources */,
+				CA77113E27523D8B003ADD67 /* comparative1edit.cpp in Sources */,
+				CA77113F27523D8B003ADD67 /* divider.cpp in Sources */,
+				CA77114027523D8B003ADD67 /* confirm.cpp in Sources */,
+				CA77114127523D8B003ADD67 /* indonesianfree.cpp in Sources */,
+				CA77114227523D8B003ADD67 /* text.cpp in Sources */,
+				CA77112F27523C58003ADD67 /* load.cpp in Sources */,
+				CA77113027523C58003ADD67 /* load.cpp in Sources */,
+				CA77112C27523C49003ADD67 /* index.cpp in Sources */,
+				CA77112D27523C49003ADD67 /* index.cpp in Sources */,
+				CA77112E27523C49003ADD67 /* index.cpp in Sources */,
+				CA77112B27523C35003ADD67 /* fetch.cpp in Sources */,
+				CA77112A27523C2C003ADD67 /* style.cpp in Sources */,
+				CA77112927523C21003ADD67 /* view.cpp in Sources */,
+				CA77112827523C15003ADD67 /* update.cpp in Sources */,
+				CA77112727523C07003ADD67 /* verse.cpp in Sources */,
+				CA77112627523B94003ADD67 /* index.cpp in Sources */,
 				CADE475124F17537003165BB /* sqlite3.c in Sources */,
 				CADE475224F17537003165BB /* utf8proc.c in Sources */,
 				CADE475424F17537003165BB /* io.c in Sources */,
@@ -6607,7 +6677,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -6660,7 +6730,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -6683,6 +6753,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
+					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SYSTEM_HEADER_SEARCH_PATHS[arch=*]" = "";
@@ -6700,6 +6771,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
+					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SYSTEM_HEADER_SEARCH_PATHS[arch=*]" = "";

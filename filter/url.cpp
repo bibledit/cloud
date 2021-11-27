@@ -536,7 +536,7 @@ int filter_url_filesize (string filename)
   struct stat buf;
   int rc = stat (filename.c_str (), &buf);
 #endif
-  return rc == 0 ? buf.st_size : 0;
+  return rc == 0 ? (int)(buf.st_size) : 0;
 }
 
 
@@ -769,7 +769,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        error.append ("Server response " + filter_url_http_response_code_text (http_code));
+        error.append ("Server response " + filter_url_http_response_code_text (static_cast<int>(http_code)));
       }
     } else {
       error = curl_easy_strerror (res);
@@ -839,7 +839,7 @@ string filter_url_http_upload (string url, map <string, string> values, string f
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        error.append ("Server response " + filter_url_http_response_code_text (http_code));
+        error.append ("Server response " + filter_url_http_response_code_text (static_cast<int>(http_code)));
       }
     } else {
       error = curl_easy_strerror (res);
@@ -1439,9 +1439,9 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         cur = buffer [0];
       } else {
 #ifdef HAVE_WINDOWS
-        ret = recv(sock, &cur, 1, 0);
+        ret = (int)recv(sock, &cur, 1, 0);
 #else
-        ret = read(sock, &cur, 1);
+        ret = (int)read(sock, &cur, 1);
 #endif
       }
       if (ret > 0) {

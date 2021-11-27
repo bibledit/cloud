@@ -206,7 +206,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
     document_updated = true;
   }
   int rss_size = 100;
-  int count = distance (channel.children ().begin (), channel.children ().end ());
+  int count = static_cast<int>(distance (channel.children ().begin (), channel.children ().end ()));
   count -= 3;
   count -= rss_size;
   while (count > 0) {

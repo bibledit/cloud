@@ -360,8 +360,11 @@ map <int, string> workspace_get_heights (void * webserver_request)
 string workspace_get_entire_width (void * webserver_request)
 {
   map <int, string> values = workspace_get_values (webserver_request, ENTIREWIDTH, false);
-  for (auto & element : values) return element.second;
-  return "";
+  string width;
+  for (auto & element : values) {
+    width = element.second;
+  }
+  return width;;
 }
 
 

@@ -102,7 +102,7 @@ void Database_Logs::rotate ()
 #ifdef HAVE_TINY_JOURNAL
   int limitfilecount = files.size () - 200;
 #else
-  int limitfilecount = files.size () - 2000;
+  int limitfilecount = static_cast<int>(files.size () - 2000);
 #endif
 
   

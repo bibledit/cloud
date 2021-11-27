@@ -49,7 +49,6 @@ bool images_view_acl (void * webserver_request)
 string images_view (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_BibleImages database_bibleimages;
   
   string page;
   Assets_Header header = Assets_Header (translate("Bible image"), request);

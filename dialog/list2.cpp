@@ -37,7 +37,7 @@ string Options_To_Select::add_selection (string text, string value, string html)
 string Options_To_Select::mark_selected (string value, string html)
 {
     string new_value = "value='" + value + "'";
-    int new_pos = html.find (new_value) + new_value.length ();
+    size_t new_pos = html.find (new_value) + new_value.length ();
     string mark = " selected";
 
     if (html.find (mark) != string::npos) {

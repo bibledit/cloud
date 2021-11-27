@@ -560,21 +560,7 @@
 		CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475624F1786C003165BB /* libxml2.tbd */; };
 		CADE475A24F17CF0003165BB /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475924F17CF0003165BB /* libmimetic.0.dylib */; };
 		CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475B24F17D04003165BB /* libcurl.dylib */; };
-		CADE475E24F1996D003165BB /* server in CopyFiles */ = {isa = PBXBuildFile; fileRef = CA18ADBF24F169DA00FF603C /* server */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		CA18ADBD24F169DA00FF603C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "/tmp/bibledit-dev";
-			dstSubfolderSpec = 0;
-			files = (
-				CADE475E24F1996D003165BB /* server in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CA05A59826878ACA000D0737 /* gbs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gbs.cpp; sourceTree = "<group>"; };
@@ -6025,7 +6011,6 @@
 			buildPhases = (
 				CA18ADBB24F169DA00FF603C /* Sources */,
 				CA18ADBC24F169DA00FF603C /* Frameworks */,
-				CA18ADBD24F169DA00FF603C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -6042,6 +6027,7 @@
 		CA18ADB724F169DA00FF603C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = NO;
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = Bibledit;
 				TargetAttributes = {

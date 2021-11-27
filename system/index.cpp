@@ -173,8 +173,8 @@ string system_index (void * webserver_request)
   bool produceresources = request->query.count ("produceresources");
   if (producebibles || producenotes || produceresources) {
     Database_Jobs database_jobs;
-    int jobId = database_jobs.getNewId ();
-    database_jobs.setLevel (jobId, Filter_Roles::member ());
+    int jobId = database_jobs.get_new_id ();
+    database_jobs.set_level (jobId, Filter_Roles::member ());
     string task;
     if (producebibles) task = PRODUCEBIBLESTRANSFERFILE;
     if (producenotes) task = PRODUCERENOTESTRANSFERFILE;

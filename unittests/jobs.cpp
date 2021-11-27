@@ -35,48 +35,48 @@ void test_database_jobs ()
     database_jobs.optimize ();
     
     // Test Identifiers
-    int id = database_jobs.getNewId ();
-    bool exists = database_jobs.idExists (id);
+    int id = database_jobs.get_new_id ();
+    bool exists = database_jobs.id_exists (id);
     evaluate (__LINE__, __func__, true, exists);
     
     // Test Level.
-    id = database_jobs.getNewId ();
-    int level = database_jobs.getLevel (id);
+    id = database_jobs.get_new_id ();
+    int level = database_jobs.get_level (id);
     evaluate (__LINE__, __func__, 0, level);
-    database_jobs.setLevel (id, 123);
-    level = database_jobs.getLevel (id);
+    database_jobs.set_level (id, 123);
+    level = database_jobs.get_level (id);
     evaluate (__LINE__, __func__, 123, level);
     
     // Test Start
-    id = database_jobs.getNewId ();
-    string start = database_jobs.getStart (id);
+    id = database_jobs.get_new_id ();
+    string start = database_jobs.get_start (id);
     evaluate (__LINE__, __func__, "", start);
-    database_jobs.setStart (id, "start");
-    start = database_jobs.getStart (id);
+    database_jobs.set_start (id, "start");
+    start = database_jobs.get_start (id);
     evaluate (__LINE__, __func__, "start", start);
     
     // Test Progress
-    id = database_jobs.getNewId ();
-    string progress = database_jobs.getProgress (id);
+    id = database_jobs.get_new_id ();
+    string progress = database_jobs.get_progress (id);
     evaluate (__LINE__, __func__, "", progress);
-    database_jobs.setProgress (id, "progress");
-    progress = database_jobs.getProgress (id);
+    database_jobs.set_progress (id, "progress");
+    progress = database_jobs.get_progress (id);
     evaluate (__LINE__, __func__, "progress", progress);
     
     // Test Percentage
-    id = database_jobs.getNewId ();
-    string percentage = database_jobs.getPercentage (id);
+    id = database_jobs.get_new_id ();
+    string percentage = database_jobs.get_percentage (id);
     evaluate (__LINE__, __func__, "", percentage);
-    database_jobs.setPercentage (id, 55);
-    percentage = database_jobs.getPercentage (id);
+    database_jobs.set_percentage (id, 55);
+    percentage = database_jobs.get_percentage (id);
     evaluate (__LINE__, __func__, "55", percentage);
     
     // Test Result.
-    id = database_jobs.getNewId ();
-    string result = database_jobs.getResult (id);
+    id = database_jobs.get_new_id ();
+    string result = database_jobs.get_result (id);
     evaluate (__LINE__, __func__, "", result);
-    database_jobs.setResult (id, "result");
-    result = database_jobs.getResult (id);
+    database_jobs.set_result (id, "result");
+    result = database_jobs.get_result (id);
     evaluate (__LINE__, __func__, "result", result);
   }
 }

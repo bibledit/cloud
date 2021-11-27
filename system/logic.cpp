@@ -65,7 +65,7 @@ void system_logic_produce_bibles_file (int jobid)
     html_text.add_text (translate ("Generating a file with the Bibles."));
     html_text.new_paragraph ();
     html_text.add_text (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.get_inner_html ());
+    database_jobs.set_start (jobid, html_text.get_inner_html ());
   }
 
   
@@ -123,7 +123,7 @@ void system_logic_produce_bibles_file (int jobid)
       html_text.new_paragraph ();
       html_text.add_text (error);
     }
-    database_jobs.setResult (jobid, html_text.get_inner_html ());
+    database_jobs.set_result (jobid, html_text.get_inner_html ());
   }
 }
 
@@ -208,7 +208,7 @@ void system_logic_produce_notes_file (int jobid)
     html_text.add_text (translate ("Generating a file with the Consultation Notes."));
     html_text.new_paragraph ();
     html_text.add_text (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.get_inner_html ());
+    database_jobs.set_start (jobid, html_text.get_inner_html ());
   }
   
   
@@ -249,7 +249,7 @@ void system_logic_produce_notes_file (int jobid)
       html_text.new_paragraph ();
       html_text.add_text (error);
     }
-    database_jobs.setResult (jobid, html_text.get_inner_html ());
+    database_jobs.set_result (jobid, html_text.get_inner_html ());
   }
 }
 
@@ -300,7 +300,7 @@ void system_logic_produce_resources_file (int jobid)
     html_text.add_text (translate ("Generating a file with the resources."));
     html_text.new_paragraph ();
     html_text.add_text (translate ("In progress..."));
-    database_jobs.setStart (jobid, html_text.get_inner_html ());
+    database_jobs.set_start (jobid, html_text.get_inner_html ());
   }
   
   // The location of the single tarball to generate.
@@ -353,8 +353,8 @@ void system_logic_produce_resources_file (int jobid)
   // so the size of the file is not very important.
   // Not compressing speeds things up a great lot.
   tarball_counter++;
-  database_jobs.setPercentage (jobid, 100 * tarball_counter / tarball_count);
-  database_jobs.setProgress (jobid, translate ("All"));
+  database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
+  database_jobs.set_progress (jobid, translate ("All"));
   string error = filter_archive_microtar_pack (tarball, directory, resources);
 
   
@@ -363,8 +363,8 @@ void system_logic_produce_resources_file (int jobid)
     tarball_counter++;
     string resource_name = element.first;
     vector <string> resources = element.second;
-    database_jobs.setPercentage (jobid, 100 * tarball_counter / tarball_count);
-    database_jobs.setProgress (jobid, resource_name);
+    database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
+    database_jobs.set_progress (jobid, resource_name);
     string tarball = filter_url_create_root_path (system_logic_resources_file_name (resource_name));
     string error = filter_archive_microtar_pack (tarball, directory, resources);
   }
@@ -410,7 +410,7 @@ void system_logic_produce_resources_file (int jobid)
       html_text.add_text (" ");
       html_text.add_text (translate ("Install some resources on the device, and try again."));
     }
-    database_jobs.setResult (jobid, html_text.get_inner_html ());
+    database_jobs.set_result (jobid, html_text.get_inner_html ());
   }
 }
 

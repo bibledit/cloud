@@ -78,8 +78,8 @@ string resource_print (void * webserver_request)
   
   
   if (request->query.count ("generate")) {
-    int jobId = database_jobs.getNewId ();
-    database_jobs.setLevel (jobId, Filter_Roles::consultant ());
+    int jobId = database_jobs.get_new_id ();
+    database_jobs.set_level (jobId, Filter_Roles::consultant ());
     string username = request->session_logic()->currentUser ();
     tasks_logic_queue (PRINTRESOURCES, {convert_to_string (jobId), username, bible});
     redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
@@ -329,7 +329,7 @@ void resource_print_job (string jobId, string user, string bible)
   
   
   Database_Jobs database_jobs = Database_Jobs ();
-  database_jobs.setProgress (convert_to_int (jobId), translate("The document is being created..."));
+  database_jobs.set_progress (convert_to_int (jobId), translate("The document is being created..."));
   
   
   vector <string> resources = request.database_config_user()->getPrintResourcesForUser (user);
@@ -356,7 +356,7 @@ void resource_print_job (string jobId, string user, string bible)
         int passage = filter_passage_to_integer (Passage ("", book, chapter, convert_to_string (verse)));
         if ((passage >= ifrom) && (passage <= ito)) {
           string passageText = filter_passage_display (book, chapter, convert_to_string (verse));
-          database_jobs.setProgress (convert_to_int (jobId), passageText);
+          database_jobs.set_progress (convert_to_int (jobId), passageText);
           result.push_back ("<div class=\"nextresource\">");
           result.push_back ("<p>" + passageText + "</p>");
           for (auto & resource : resources) {
@@ -374,5 +374,5 @@ void resource_print_job (string jobId, string user, string bible)
   }
   
   
-  database_jobs.setResult (convert_to_int (jobId), filter_string_implode (result, "\n"));
+  database_jobs.set_result (convert_to_int (jobId), filter_string_implode (result, "\n"));
 }

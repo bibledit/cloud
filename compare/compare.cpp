@@ -50,7 +50,7 @@ void compare_compare (string bible, string compare, int jobId)
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
 
-  database_jobs.setProgress (jobId, translate("The Bibles are being compared..."));
+  database_jobs.set_progress (jobId, translate("The Bibles are being compared..."));
   
 
   // The results of the comparison. Will be displayed to the user.
@@ -91,7 +91,7 @@ void compare_compare (string bible, string compare, int jobId)
 
     
     string bookName = Database_Books::getEnglishFromId (book);
-    database_jobs.setProgress (jobId, bookName);
+    database_jobs.set_progress (jobId, bookName);
     
     
     if (find (bibleBooks.begin(), bibleBooks.end(), book) == bibleBooks.end()) {
@@ -229,7 +229,7 @@ void compare_compare (string bible, string compare, int jobId)
       line.append ("</p>");
     }
   }
-  database_jobs.setResult (jobId, filter_string_implode (result, "\n"));
+  database_jobs.set_result (jobId, filter_string_implode (result, "\n"));
   
   
   Database_Logs::log (translate("Comparison is ready"), Filter_Roles::consultant ());

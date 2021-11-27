@@ -76,7 +76,7 @@ void Database_Jobs::trim ()
 }
 
 
-bool Database_Jobs::idExists (int id)
+bool Database_Jobs::id_exists (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT id FROM jobs WHERE id =");
@@ -90,13 +90,13 @@ bool Database_Jobs::idExists (int id)
 
 
 // Gets a new unique identifier.
-int Database_Jobs::getNewId ()
+int Database_Jobs::get_new_id ()
 {
   // Iterate till a non-existing identifier is found.
   int id;
   do {
     id = filter_string_rand (100000000, 999999999);
-  } while (idExists (id));
+  } while (id_exists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.
   int timestamp = filter_date_seconds_since_epoch ();
@@ -113,7 +113,7 @@ int Database_Jobs::getNewId ()
 }
 
 
-void Database_Jobs::setLevel (int id, int level)
+void Database_Jobs::set_level (int id, int level)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET level =");
@@ -127,7 +127,7 @@ void Database_Jobs::setLevel (int id, int level)
 }
 
 
-int Database_Jobs::getLevel (int id)
+int Database_Jobs::get_level (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT level FROM jobs WHERE id =");
@@ -143,7 +143,7 @@ int Database_Jobs::getLevel (int id)
 }
 
 
-void Database_Jobs::setStart (int id, string start)
+void Database_Jobs::set_start (int id, string start)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET start =");
@@ -157,7 +157,7 @@ void Database_Jobs::setStart (int id, string start)
 }
 
 
-string Database_Jobs::getStart (int id)
+string Database_Jobs::get_start (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT start FROM jobs WHERE id =");
@@ -174,7 +174,7 @@ string Database_Jobs::getStart (int id)
 }
 
 
-void Database_Jobs::setPercentage (int id, int percentage)
+void Database_Jobs::set_percentage (int id, int percentage)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET percentage =");
@@ -188,7 +188,7 @@ void Database_Jobs::setPercentage (int id, int percentage)
 }
 
 
-string Database_Jobs::getPercentage (int id)
+string Database_Jobs::get_percentage (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT percentage FROM jobs WHERE id =");
@@ -204,7 +204,7 @@ string Database_Jobs::getPercentage (int id)
 }
 
 
-void Database_Jobs::setProgress (int id, string progress)
+void Database_Jobs::set_progress (int id, string progress)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET progress =");
@@ -218,7 +218,7 @@ void Database_Jobs::setProgress (int id, string progress)
 }
 
 
-string Database_Jobs::getProgress (int id)
+string Database_Jobs::get_progress (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT progress FROM jobs WHERE id =");
@@ -234,7 +234,7 @@ string Database_Jobs::getProgress (int id)
 }
 
 
-void Database_Jobs::setResult (int id, string result)
+void Database_Jobs::set_result (int id, string result)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET result =");
@@ -248,7 +248,7 @@ void Database_Jobs::setResult (int id, string result)
 }
 
 
-string Database_Jobs::getResult (int id)
+string Database_Jobs::get_result (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT result FROM jobs WHERE id =");

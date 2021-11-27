@@ -57,12 +57,12 @@ string jobs_index (void * webserver_request)
 
   // Get information about this job.
   Database_Jobs database_jobs = Database_Jobs ();
-  bool exists = database_jobs.idExists (id);
-  int level = database_jobs.getLevel (id);
-  string start = database_jobs.getStart (id);
-  string percentage = database_jobs.getPercentage (id);
-  string progress = database_jobs.getProgress (id);
-  string result = database_jobs.getResult (id);
+  bool exists = database_jobs.id_exists (id);
+  int level = database_jobs.get_level (id);
+  string start = database_jobs.get_start (id);
+  string percentage = database_jobs.get_percentage (id);
+  string progress = database_jobs.get_progress (id);
+  string result = database_jobs.get_result (id);
 
   // Access control for the user.
   int userlevel = request->session_logic()->currentLevel ();

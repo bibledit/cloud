@@ -66,8 +66,8 @@ string compare_index (void * webserver_request)
   if (request->query.count ("compare")) {
     string compare = request->query ["compare"];
     Database_Jobs database_jobs = Database_Jobs ();
-    int jobId = database_jobs.getNewId ();
-    database_jobs.setLevel (jobId, Filter_Roles::consultant ());
+    int jobId = database_jobs.get_new_id ();
+    database_jobs.set_level (jobId, Filter_Roles::consultant ());
     tasks_logic_queue (COMPAREUSFM, {bible, compare, convert_to_string (jobId)});
     redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
     return "";

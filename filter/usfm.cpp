@@ -627,7 +627,7 @@ string usfm_get_closing_usfm (string text, bool embedded)
 string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation)
 {
   // Two texts are equal: safe.
-  if (newtext == oldtext) return "";
+  if (newtext == oldtext) return string();
 
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
@@ -649,11 +649,11 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   } else {
     if (oldtext.length () < 10) allowed_percentage = 100;
   }
-  
+
   // When the new text is longer than the old text, it means the user is typing extra text in the verse.
   // Allow that in all cases.
   if (newtext.length() > oldtext.length()) allowed_percentage = 100;
-  
+
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
   float newLength = newtext.length ();

@@ -234,6 +234,7 @@ float convert_to_float (string s)
 
 bool convert_to_bool (string s)
 {
+  if (s.empty()) return false;
   if (s == "true") return true;
   if (s == "TRUE") return true;
   bool b;

@@ -320,7 +320,10 @@ bool Database_Users::get_ldap (string user)
   sql.add (user);
   sql.add (";");
   vector <string> result = sql.query () ["ldap"];
-  if (!result.empty()) return convert_to_bool (result [0]);
+  if (!result.empty()) {
+    bool ldap_is_on = convert_to_bool (result [0]);
+    return ldap_is_on;
+  }
   return false;
 }
 

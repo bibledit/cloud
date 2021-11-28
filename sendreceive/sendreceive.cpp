@@ -90,7 +90,7 @@ void sendreceive_sendreceive (string bible)
   // Set a flag indicating whether there are local changes available.
   bool localchanges = false;
   if (success) {
-    vector <string> lines = filter_git_status (directory);
+    vector <string> lines = filter_git_status (directory, true);
     for (auto & line : lines) {
       Passage passage = filter_git_get_passage (line);
       if (passage.book) {

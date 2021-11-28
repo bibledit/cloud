@@ -146,7 +146,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_git ();
+  test_database_users ();
   refresh_sandbox (false);
   exit (0);
   

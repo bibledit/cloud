@@ -32,8 +32,8 @@ void test_javascript ()
   // This unit test check on regressions in this area.
   {
     string out_err;
-    int exitcode = filter_shell_run ("grep sourceMappingURL `find . -name '*.js'`", out_err);
-    evaluate (__LINE__, __func__, 256, exitcode);
-    evaluate (__LINE__, __func__, "", out_err);
+    int exitcode = filter_shell_run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
+    evaluate (__LINE__, __func__, 0, exitcode);
+    evaluate (__LINE__, __func__, 124, out_err.size());
   }
 }

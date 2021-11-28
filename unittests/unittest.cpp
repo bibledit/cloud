@@ -144,12 +144,10 @@ int main (int argc, char **argv)
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests Start Removing Code Here.
   
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   test_dev ();
-  test_json ();
-  test_archive ();
-  test_sqlite ();
-  refresh_sandbox (true);
+  test_git ();
+  refresh_sandbox (false);
   exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
@@ -258,7 +256,7 @@ int main (int argc, char **argv)
 
 
   // Output possible journal entries.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
 
   // Test results.
   if (error_count == 0) cout << "All tests passed" << endl;

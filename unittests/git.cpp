@@ -492,15 +492,19 @@ void test_git ()
   {
     // Refresh the repository, and store three chapters in it.
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    
+
     vector <string> paths;
-    
+    int size = 0;
+
     // There should be three modified paths.
     paths = filter_git_status (repository);
-    for (auto & path : paths) path = filter_string_trim (path);
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "Psalms/") != paths.end());
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "Song of Solomon/") != paths.end());
-    
+    size = 10;
+    evaluate (__LINE__, __func__, size, paths.size());
+    if ((int)paths.size() == size) {
+      evaluate (__LINE__, __func__, 6, (paths[6].find ("Psalms/")));
+      evaluate (__LINE__, __func__, 6, (paths[7].find ("Song of Solomon/")));
+    }
+
     // Add the files to the index.
     string error;
     vector <string> messages;
@@ -509,37 +513,46 @@ void test_git ()
     
     // There should still be three paths.
     paths = filter_git_status (repository);
-    for (auto & path : paths) path = filter_string_trim (path);
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Psalms/0/data") != paths.end());
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Psalms/11/data") != paths.end());
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "new file:   Song of Solomon/2/data") != paths.end());
+    size = 10;
+    evaluate (__LINE__, __func__, size, paths.size());
+    if ((int)paths.size() == size) {
+      evaluate (__LINE__, __func__, 6, (paths[6].find ("new file:   Psalms/0/data")));
+      evaluate (__LINE__, __func__, 6, (paths[7].find ("new file:   Psalms/11/data")));
+      evaluate (__LINE__, __func__, 6, (paths[8].find ("new file:   Song of Solomon/2/data")));
+    }
     
     // Commit the index.
     filter_git_commit (repository, "user", "unittest", messages, error);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
     evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
-    
+
     // Remove both Psalms chapters.
     filter_url_rmdir (filter_url_create_path (repository, "Psalms"));
     
     // There should be two modified paths now.
     paths = filter_git_status (repository);
-    for (auto & path : paths) path = filter_string_trim (path);
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/0/data") != paths.end());
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
+    size = 8;
+    evaluate (__LINE__, __func__, size, paths.size());
+    if ((int)paths.size() == size) {
+      evaluate (__LINE__, __func__, 6, (paths[4].find ("deleted:    Psalms/0/data")));
+      evaluate (__LINE__, __func__, 6, (paths[5].find ("deleted:    Psalms/11/data")));
+    }
     
     // Add / remove the files to the index.
     filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     
     // There should still be two paths now.
     paths = filter_git_status (repository);
-    for (auto & path : paths) path = filter_string_trim (path);
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/0/data") != paths.end());
-    evaluate (__LINE__, __func__, true, find (paths.begin(), paths.end (), "deleted:    Psalms/11/data") != paths.end());
+    size = 6;
+    evaluate (__LINE__, __func__, size, paths.size());
+    if ((int)paths.size() == size) {
+      evaluate (__LINE__, __func__, 6, (paths[3].find ("deleted:    Psalms/0/data")));
+      evaluate (__LINE__, __func__, 6, (paths[4].find ("deleted:    Psalms/11/data")));
+    }
     
     // Commit the index.
     filter_git_commit (repository, "user", "unittest", messages, error);
@@ -548,11 +561,11 @@ void test_git ()
     // There should be no modified paths now.
     paths = filter_git_status (repository);
     evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
-    
+
     // Remove journal entries.
     refresh_sandbox (false);
   }
-  
+
   // Test git's internal conflict resolution.
   {
     refresh_sandbox (true);
@@ -570,6 +583,9 @@ void test_git ()
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     
+    // Configure the local repository for being able to fast forward.
+    filter_git_config (repository);
+    
     // Store three chapters in the local repository and push it to the remote repository.
     filter_url_mkdir (filter_url_create_path (repository, "Psalms", "0"));
     filter_url_mkdir (filter_url_create_path (repository, "Psalms", "11"));
@@ -579,18 +595,18 @@ void test_git ()
     filter_url_file_put_contents (filter_url_create_path (repository, "Song of Solomon", "2", "data"), song_of_solomon_2_data);
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     success = filter_git_push (repository, messages, true);
     evaluate (__LINE__, __func__, true, success);
     
     // Clone the remote repository to a new local repository.
     success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
-    
+    evaluate (__LINE__, __func__, string(), error);
+
     // Set the stage for a conflict that git itself cannot merge:
     // Change something in the new repository, push it to the remote.
     string newcontents =
@@ -602,7 +618,7 @@ void test_git ()
     filter_url_file_put_contents (filter_url_create_path (newrepository, "Psalms", "0", "data"), newcontents);
     success = filter_git_add_remove_all (newrepository, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     success = filter_git_commit (newrepository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
@@ -619,10 +635,10 @@ void test_git ()
     evaluate (__LINE__, __func__, true, success);
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     success = filter_git_commit (repository, "test", "test", messages, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     success = filter_git_pull (repository, messages);
     evaluate (__LINE__, __func__, false, success);
     success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
@@ -633,7 +649,7 @@ void test_git ()
     evaluate (__LINE__, __func__, false, success);
     vector <string> paths = { "Psalms/0/data" };
     success = filter_git_resolve_conflicts (repository, paths, error);
-    evaluate (__LINE__, __func__, "", error);
+    evaluate (__LINE__, __func__, string(), error);
     // Check the merge result.
     string standard =
     "\\id PSALM\n"
@@ -647,7 +663,7 @@ void test_git ()
     // Remove journal entries.
     refresh_sandbox (false);
   }
-  
+
   {
     refresh_sandbox (true);
     string error;
@@ -663,7 +679,10 @@ void test_git ()
     success = filter_git_remote_clone (remoteurl, repository, 0, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
-    
+
+    // Configure the local repository for being able to fast forward.
+    filter_git_config (repository);
+
     // Store three chapters in the local repository and push it to the remote repository.
     psalms_0_data =
     "Line one one one\n"
@@ -726,7 +745,7 @@ void test_git ()
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
     evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
-    
+
     // Verify the resolved contents on correctness.
     contents = filter_url_file_get_contents (filter_url_create_path (repository, "Psalms", "0", "data"));
     string standard =
@@ -755,7 +774,8 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Test one user saving Bible data in an uninterrupted sequence, that it leads to correct records in git.
+  // Test one user saving Bible data in an uninterrupted sequence.
+  // Check that it leads to correct records in git.
   {
     refresh_sandbox (true);
     
@@ -763,7 +783,8 @@ void test_git ()
     bool success;
     vector <string> messages;
     
-    test_filter_git_setup (&request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
+    test_filter_git_setup (&request, bible, newbible,
+                           "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
     
     string repository = filter_git_directory (bible);
     
@@ -791,8 +812,9 @@ void test_git ()
     Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
     
-    // Check the diff.
-    filter_shell_run ("cd " + repository + " && git log -p", out_err);
+    // Check the elaborate log.
+    // Disable color codes in the output for easier parsing.
+    filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
     evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
     evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
     evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
@@ -801,7 +823,8 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Test one user saving Bible data, but this time the sequence is interrupted by undefined other users.
+  // Test one user saving Bible data,
+  // but this time the sequence is interrupted by undefined other users.
   {
     refresh_sandbox (true);
     
@@ -837,7 +860,7 @@ void test_git ()
     newusfm1.append (" forever.\n");
     Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
-    filter_shell_run ("cd " + repository + " && git log -p", out_err);
+    filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
     evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
     evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
     evaluate (__LINE__, __func__, true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != string::npos);

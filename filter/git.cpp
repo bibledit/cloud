@@ -474,12 +474,15 @@ Passage filter_git_get_passage (string line)
 
 // Reports information comparable to "git status".
 // Repository: "repository".
+// If $porcelain is given, it adds the --porcelain flag.
 // All changed files will be returned.
-vector <string> filter_git_status (string repository)
+vector <string> filter_git_status (string repository, bool porcelain)
 {
   vector <string> paths;
   string output, error;
-  filter_shell_run (repository, "git", {"status"}, &output, &error);
+  vector <string> parameters = {"status"};
+  if (porcelain) parameters.push_back("--porcelain");
+  filter_shell_run (repository, "git", parameters, &output, &error);
   filter_git_check_error (error);
   paths = filter_string_explode (output, '\n');
   return paths;
@@ -528,29 +531,30 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   paths.clear();
 
   // Get the unmerged paths.
+  // Use the --porcelain parameter for a better API for scripting.
   vector <string> unmerged_paths;
-  vector <string> lines = filter_git_status (repository);
-  for (auto & line : lines) {
-    if (line.find ("both modified:") != string::npos) {
-      line = filter_string_trim (line);
-      line.erase (0, 15);
+  vector <string> lines = filter_git_status (repository, true);
+  for (auto line : lines) {
+    size_t pos = line.find ("UU ");
+    if (pos != string::npos) {
+      line.erase (0, 3);
       line = filter_string_trim (line);
       unmerged_paths.push_back (line);
     }
   }
-  
+
   // Deal with each unmerged path.
   for (auto & unmerged_path : unmerged_paths) {
-
+    
     string common_ancestor;
     filter_shell_run (repository, "git", {"show", ":1:" + unmerged_path}, &common_ancestor, &error);
 
     string head_version;
     filter_shell_run (repository, "git", {"show", ":2:" + unmerged_path}, &head_version, &error);
-    
+
     string merge_head_version;
     filter_shell_run (repository, "git", {"show", ":3:" + unmerged_path}, &merge_head_version, &error);
-    
+
     string mergeBase (common_ancestor);
     string userData (head_version);
     string serverData (merge_head_version);
@@ -601,6 +605,10 @@ void filter_git_config (string repository)
 
   // Current versions of git ask the user to set the default push method.
   filter_git_config_set_string (repository, "push.default", "matching");
+  
+  // Newer version of git do not automatically fast-forward, so set that here.
+  filter_git_config_set_string (repository, "pull.ff", "yes");
+
 }
 
 

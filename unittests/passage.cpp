@@ -106,7 +106,7 @@ void test_passage ()
   // Interpret book USFM.
   {
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("GEN"));
-    evaluate (__LINE__, __func__, 67, filter_passage_interpret_book ("FRT"));
+    evaluate (__LINE__, __func__, 8, filter_passage_interpret_book ("FRT"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1CO"));
   }
   
@@ -140,7 +140,7 @@ void test_passage ()
     evaluate (__LINE__, __func__, 19, filter_passage_interpret_book ("Ps"));
     evaluate (__LINE__, __func__, 20, filter_passage_interpret_book ("Prov"));
     evaluate (__LINE__, __func__, 21, filter_passage_interpret_book ("Eccl"));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book ("Cant"));
+    evaluate (__LINE__, __func__, 27, filter_passage_interpret_book ("Cant"));
     evaluate (__LINE__, __func__, 22, filter_passage_interpret_book ("Sol"));
     evaluate (__LINE__, __func__, 23, filter_passage_interpret_book ("Isa"));
     evaluate (__LINE__, __func__, 24, filter_passage_interpret_book ("Jer"));
@@ -162,7 +162,7 @@ void test_passage ()
     evaluate (__LINE__, __func__, 40, filter_passage_interpret_book ("Matt"));
     evaluate (__LINE__, __func__, 41, filter_passage_interpret_book ("Mk"));
     evaluate (__LINE__, __func__, 42, filter_passage_interpret_book ("Lk"));
-    evaluate (__LINE__, __func__, 43, filter_passage_interpret_book ("Jn"));
+    evaluate (__LINE__, __func__, 32, filter_passage_interpret_book ("Jn"));
     evaluate (__LINE__, __func__, 44, filter_passage_interpret_book ("Acts"));
     evaluate (__LINE__, __func__, 45, filter_passage_interpret_book ("Rom"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 Co"));
@@ -199,8 +199,8 @@ void test_passage ()
   // Interpret book partial names.
   {
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("G"));
-    evaluate (__LINE__, __func__, 37, filter_passage_interpret_book ("g"));
-    evaluate (__LINE__, __func__, 3, filter_passage_interpret_book ("ge"));
+    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("g"));
+    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("ge"));
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book ("gene"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 Cori"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book ("1 cori"));

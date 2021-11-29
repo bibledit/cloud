@@ -185,9 +185,9 @@ void test_url ()
   // Test low-level http(s) client error for closed port.
   {
     string result, error;
-    result = filter_url_http_request_mbed ("http://bibledit.org:8082/non-existing", error, {}, "", false);
+    result = filter_url_http_request_mbed ("http://bibledit.org:8084/non-existing", error, {}, "", false);
     evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "bibledit.org:8082: Connection refused", error);
+    evaluate (__LINE__, __func__, "bibledit.org:8084: Connection refused | bibledit.org:8084: Connection refused", error);
   }
   
   // Test low-level http(s) client result.
@@ -254,7 +254,7 @@ void test_url ()
     evaluate (__LINE__, __func__, true, result.find ("background") != string::npos);
     evaluate (__LINE__, __func__, "", error);
     
-    result = filter_url_http_request_mbed ("https://bibledit.org:8081", error, {}, "", false);
+    result = filter_url_http_request_mbed ("https://bibledit.org:8091", error, {}, "", false);
     evaluate (__LINE__, __func__, "", result);
     evaluate (__LINE__, __func__, "Response code: 302 Found", error);
     

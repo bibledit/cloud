@@ -2236,8 +2236,6 @@
 		CADE430C24F174BD003165BB /* users.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = users.h; sourceTree = "<group>"; };
 		CADE430F24F174BD003165BB /* merge_1_server.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_1_server.usfm; sourceTree = "<group>"; };
 		CADE431024F174BD003165BB /* onlinebible1.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = onlinebible1.exp; sourceTree = "<group>"; };
-		CADE431124F174BD003165BB /* editone05suffix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone05suffix2.html; sourceTree = "<group>"; };
-		CADE431224F174BD003165BB /* editone02suffix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone02suffix1.html; sourceTree = "<group>"; };
 		CADE431324F174BD003165BB /* editone01.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone01.usfm; sourceTree = "<group>"; };
 		CADE431424F174BD003165BB /* editone06verse4prefix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse4prefix.html; sourceTree = "<group>"; };
 		CADE431524F174BD003165BB /* editone06verse0prefix.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse0prefix.usfm; sourceTree = "<group>"; };
@@ -2258,11 +2256,6 @@
 		CADE432424F174BD003165BB /* Genesis-1-1-18.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Genesis-1-1-18.gif"; sourceTree = "<group>"; };
 		CADE432524F174BD003165BB /* merge_2_base.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_2_base.usfm; sourceTree = "<group>"; };
 		CADE432624F174BD003165BB /* editone06verse1prefix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse1prefix.html; sourceTree = "<group>"; };
-		CADE432724F174BD003165BB /* editone02prefix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone02prefix1.html; sourceTree = "<group>"; };
-		CADE432824F174BD003165BB /* editone05prefix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone05prefix2.html; sourceTree = "<group>"; };
-		CADE432924F174BD003165BB /* editone03suffix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone03suffix2.html; sourceTree = "<group>"; };
-		CADE432A24F174BD003165BB /* editone04suffix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone04suffix1.html; sourceTree = "<group>"; };
-		CADE432B24F174BD003165BB /* editone01prefix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone01prefix1.html; sourceTree = "<group>"; };
 		CADE432C24F174BD003165BB /* editone06verse2prefix.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse2prefix.usfm; sourceTree = "<group>"; };
 		CADE432D24F174BD003165BB /* ShonaNumbers23.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = ShonaNumbers23.usfm; sourceTree = "<group>"; };
 		CADE432E24F174BD003165BB /* editone06verse3edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse3edit.html; sourceTree = "<group>"; };
@@ -2403,16 +2396,10 @@
 		CADE43B624F174BE003165BB /* exports.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = exports.css; sourceTree = "<group>"; };
 		CADE43B724F174BE003165BB /* editone06verse3prefix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse3prefix.html; sourceTree = "<group>"; };
 		CADE43B824F174BE003165BB /* chapters_new.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = chapters_new.usfm; sourceTree = "<group>"; };
-		CADE43B924F174BE003165BB /* editone04prefix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone04prefix1.html; sourceTree = "<group>"; };
-		CADE43BA24F174BE003165BB /* editone03prefix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone03prefix2.html; sourceTree = "<group>"; };
-		CADE43BB24F174BE003165BB /* editone01suffix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone01suffix1.html; sourceTree = "<group>"; };
 		CADE43BC24F174BE003165BB /* merge_3_base.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_3_base.usfm; sourceTree = "<group>"; };
 		CADE43BD24F174BE003165BB /* merge_2_server.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_2_server.usfm; sourceTree = "<group>"; };
 		CADE43BE24F174BE003165BB /* usfm01.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = usfm01.usfm; sourceTree = "<group>"; };
 		CADE43BF24F174BE003165BB /* 01GEN-50.SFM */ = {isa = PBXFileReference; lastKnownFileType = text; path = "01GEN-50.SFM"; sourceTree = "<group>"; };
-		CADE43C024F174BE003165BB /* editone04prefix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone04prefix2.html; sourceTree = "<group>"; };
-		CADE43C124F174BE003165BB /* editone03prefix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone03prefix1.html; sourceTree = "<group>"; };
-		CADE43C224F174BE003165BB /* editone01suffix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone01suffix2.html; sourceTree = "<group>"; };
 		CADE43C324F174BE003165BB /* editone06verse3suffix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse3suffix.html; sourceTree = "<group>"; };
 		CADE43C424F174BE003165BB /* merge_2_modification.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_2_modification.usfm; sourceTree = "<group>"; };
 		CADE43C524F174BE003165BB /* editone01.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone01.html; sourceTree = "<group>"; };
@@ -2423,10 +2410,7 @@
 		CADE43CA24F174BE003165BB /* merge_3_modification.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_3_modification.usfm; sourceTree = "<group>"; };
 		CADE43CB24F174BE003165BB /* editone06verse1prefix.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse1prefix.usfm; sourceTree = "<group>"; };
 		CADE43CC24F174BE003165BB /* basic.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = basic.css; sourceTree = "<group>"; };
-		CADE43CD24F174BE003165BB /* editone03suffix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone03suffix1.html; sourceTree = "<group>"; };
-		CADE43CE24F174BE003165BB /* editone04suffix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone04suffix2.html; sourceTree = "<group>"; };
 		CADE43CF24F174BE003165BB /* biblehub-john-1-1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "biblehub-john-1-1.html"; sourceTree = "<group>"; };
-		CADE43D024F174BE003165BB /* editone01prefix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone01prefix2.html; sourceTree = "<group>"; };
 		CADE43D124F174BE003165BB /* verses_old.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = verses_old.txt; sourceTree = "<group>"; };
 		CADE43D224F174BE003165BB /* editone06verse4edit.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse4edit.usfm; sourceTree = "<group>"; };
 		CADE43D324F174BE003165BB /* 01GEN-0.SFM */ = {isa = PBXFileReference; lastKnownFileType = text; path = "01GEN-0.SFM"; sourceTree = "<group>"; };
@@ -2434,8 +2418,6 @@
 		CADE43D524F174BE003165BB /* editone06verse1suffix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse1suffix.html; sourceTree = "<group>"; };
 		CADE43D624F174BE003165BB /* editone03.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone03.usfm; sourceTree = "<group>"; };
 		CADE43D724F174BE003165BB /* merge_3_server.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = merge_3_server.usfm; sourceTree = "<group>"; };
-		CADE43D824F174BE003165BB /* editone02prefix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone02prefix2.html; sourceTree = "<group>"; };
-		CADE43D924F174BE003165BB /* editone05prefix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone05prefix1.html; sourceTree = "<group>"; };
 		CADE43DA24F174BE003165BB /* changed_verses.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = changed_verses.html; sourceTree = "<group>"; };
 		CADE43DB24F174BE003165BB /* editone06verse2prefix.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse2prefix.html; sourceTree = "<group>"; };
 		CADE43DC24F174BE003165BB /* 01GEN.SFM */ = {isa = PBXFileReference; lastKnownFileType = text; path = 01GEN.SFM; sourceTree = "<group>"; };
@@ -2456,8 +2438,6 @@
 		CADE43EB24F174BE003165BB /* editone06verse0suffix.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = editone06verse0suffix.usfm; sourceTree = "<group>"; };
 		CADE43EC24F174BE003165BB /* editone06verse0edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse0edit.html; sourceTree = "<group>"; };
 		CADE43ED24F174BE003165BB /* editone06verse1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone06verse1edit.html; sourceTree = "<group>"; };
-		CADE43EE24F174BE003165BB /* editone05suffix1.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone05suffix1.html; sourceTree = "<group>"; };
-		CADE43EF24F174BE003165BB /* editone02suffix2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editone02suffix2.html; sourceTree = "<group>"; };
 		CADE43F024F174BE003165BB /* 08-Ruth.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "08-Ruth.usfm"; sourceTree = "<group>"; };
 		CADE43F124F174BE003165BB /* versification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = versification.h; sourceTree = "<group>"; };
 		CADE43F224F174BE003165BB /* localization.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = localization.cpp; sourceTree = "<group>"; };
@@ -5646,28 +5626,8 @@
 				CADE43AE24F174BE003165BB /* diff.txt */,
 				CADE43C524F174BE003165BB /* editone01.html */,
 				CADE431324F174BD003165BB /* editone01.usfm */,
-				CADE432B24F174BD003165BB /* editone01prefix1.html */,
-				CADE43D024F174BE003165BB /* editone01prefix2.html */,
-				CADE43BB24F174BE003165BB /* editone01suffix1.html */,
-				CADE43C224F174BE003165BB /* editone01suffix2.html */,
-				CADE432724F174BD003165BB /* editone02prefix1.html */,
-				CADE43D824F174BE003165BB /* editone02prefix2.html */,
-				CADE431224F174BD003165BB /* editone02suffix1.html */,
-				CADE43EF24F174BE003165BB /* editone02suffix2.html */,
 				CADE43AD24F174BE003165BB /* editone03.html */,
 				CADE43D624F174BE003165BB /* editone03.usfm */,
-				CADE43C124F174BE003165BB /* editone03prefix1.html */,
-				CADE43BA24F174BE003165BB /* editone03prefix2.html */,
-				CADE43CD24F174BE003165BB /* editone03suffix1.html */,
-				CADE432924F174BD003165BB /* editone03suffix2.html */,
-				CADE43B924F174BE003165BB /* editone04prefix1.html */,
-				CADE43C024F174BE003165BB /* editone04prefix2.html */,
-				CADE432A24F174BD003165BB /* editone04suffix1.html */,
-				CADE43CE24F174BE003165BB /* editone04suffix2.html */,
-				CADE43D924F174BE003165BB /* editone05prefix1.html */,
-				CADE432824F174BD003165BB /* editone05prefix2.html */,
-				CADE43EE24F174BE003165BB /* editone05suffix1.html */,
-				CADE431124F174BD003165BB /* editone05suffix2.html */,
 				CADE43B024F174BE003165BB /* editone06.usfm */,
 				CADE43EC24F174BE003165BB /* editone06verse0edit.html */,
 				CADE43B324F174BE003165BB /* editone06verse0edit.usfm */,

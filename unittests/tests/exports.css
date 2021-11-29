@@ -9,6 +9,8 @@ a:active { color: #faa700; }
 a:hover { text-decoration: underline; }
 .breadcrumbs { font-size: normal; }
 .navigationbar { font-size: normal; }
+.popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }
+a:hover .popup { display:block; }
 .add, .i-add {
 font-style: italic;
 }

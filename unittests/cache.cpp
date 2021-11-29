@@ -141,5 +141,6 @@ void test_database_cache ()
     evaluate (__LINE__, __func__, "databases/cache_resource_download_23.sqlite", Database_Cache::path ("download", 23));
   }
   
-  refresh_sandbox (true);
+  // Remove some logs.
+  refresh_sandbox (false);
 }

@@ -146,9 +146,8 @@ int main (int argc, char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_bibles ();
-  refresh_sandbox (false);
-  exit (0);
+//  refresh_sandbox (false);
+//  exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.

@@ -146,6 +146,7 @@ int main (int argc, char **argv)
   
   refresh_sandbox (false);
   test_dev ();
+  test_sqlite ();
   refresh_sandbox (false);
   exit (0);
   

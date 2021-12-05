@@ -1958,9 +1958,6 @@
 		CADE411024F174A3003165BB /* sqlite3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		CADE411124F174A3003165BB /* sqlite3ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		CADE411224F174A3003165BB /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		CADE411424F174A3003165BB /* sqlite3.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sqlite3.Po; sourceTree = "<group>"; };
-		CADE411524F174A3003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE411624F174A3003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE414B24F174A4003165BB /* etcbc4.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = etcbc4.txt; sourceTree = "<group>"; };
 		CADE414C24F174A4003165BB /* oshb.xml.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = oshb.xml.gz; sourceTree = "<group>"; };
 		CADE414D24F174A4003165BB /* oshb.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = oshb.txt; sourceTree = "<group>"; };
@@ -5030,25 +5027,14 @@
 		CADE410C24F174A3003165BB /* sqlite */ = {
 			isa = PBXGroup;
 			children = (
-				CADE410D24F174A3003165BB /* sqlite3.c */,
-				CADE410E24F174A3003165BB /* shell.c */,
-				CADE410F24F174A3003165BB /* sqlite3.o */,
-				CADE411024F174A3003165BB /* sqlite3.h */,
-				CADE411124F174A3003165BB /* sqlite3ext.h */,
 				CADE411224F174A3003165BB /* readme.txt */,
-				CADE411324F174A3003165BB /* .deps */,
-				CADE411624F174A3003165BB /* .dirstamp */,
+				CADE410E24F174A3003165BB /* shell.c */,
+				CADE410D24F174A3003165BB /* sqlite3.c */,
+				CADE411024F174A3003165BB /* sqlite3.h */,
+				CADE410F24F174A3003165BB /* sqlite3.o */,
+				CADE411124F174A3003165BB /* sqlite3ext.h */,
 			);
 			path = sqlite;
-			sourceTree = "<group>";
-		};
-		CADE411324F174A3003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE411424F174A3003165BB /* sqlite3.Po */,
-				CADE411524F174A3003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE411724F174A3003165BB /* sources */ = {

@@ -569,5 +569,31 @@ void test_string ()
     string result = filter_string_tidy_invalid_html ("");
     evaluate (__LINE__, __func__, "", result);
   }
+  
+  // Test collapsing double spaces.
+  {
+    string standard;
+    string result;
+
+    standard = "ABC abc";
+    result = filter_string_collapse_whitespace ("ABC abc");
+    evaluate (__LINE__, __func__, standard, result);
+
+    standard = "ABC abc";
+    result = filter_string_collapse_whitespace ("ABC  abc");
+    evaluate (__LINE__, __func__, standard, result);
+
+    standard = "ABC abc";
+    result = filter_string_collapse_whitespace ("ABC   abc");
+    evaluate (__LINE__, __func__, standard, result);
+
+    standard = "ABC abc";
+    result = filter_string_collapse_whitespace ("ABC      abc");
+    evaluate (__LINE__, __func__, standard, result);
+
+    standard = "ABC abc";
+    result = filter_string_collapse_whitespace ("ABC               abc");
+    evaluate (__LINE__, __func__, standard, result);
+  }
 
 }

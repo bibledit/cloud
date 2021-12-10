@@ -125,6 +125,7 @@ string lf2crlf (string str);
 string crlf2lf (string str);
 string filter_text_html_get_element (string html, string element);
 string filter_string_tidy_invalid_html (string html);
+string filter_string_collapse_whitespace (string s);
 
 
 #endif

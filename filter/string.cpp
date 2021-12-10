@@ -1757,3 +1757,16 @@ string filter_string_tidy_invalid_html (string html)
 
   return html;
 }
+
+
+string filter_string_collapse_whitespace (string s)
+{
+  int count;
+  int iterator = 0;
+  do {
+    count = 0;
+    s = filter_string_str_replace ("  ", " ", s, &count);
+    iterator++;
+  } while ((count > 0) && iterator < 5);
+  return s;
+}

@@ -102,7 +102,7 @@ string edit_save (void * webserver_request)
   editor_export.stylesheet (stylesheet);
   editor_export.run ();
   string user_usfm = editor_export.get ();
-
+  
   string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
@@ -160,11 +160,12 @@ string edit_save (void * webserver_request)
   string explanation;
   string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
   bible_logic_unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
-  
+
+  // If an error message was given, then return that message to the browser.
   if (!message.empty ()) return message;
 
   // In server configuration, store details for the user's changes.
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   int newID = request->database_bibles()->getChapterId (bible, book, chapter);
   Database_Modifications database_modifications;
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
@@ -178,7 +179,7 @@ string edit_save (void * webserver_request)
 
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
-  
+
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.
   // If it differs, signal the browser to reload the chapter.
@@ -189,7 +190,8 @@ string edit_save (void * webserver_request)
   editor_usfm2html.run ();
   string converted_html = editor_usfm2html.get ();
   // Convert to XML for comparison.
-  // Remove spaces before comparing, so that entering a space in the editor does not cause a reload.
+  // Remove spaces before comparing.
+  // Goal: Entering a space in the editor does not cause a reload.
   html = html2xml (html);
   html = filter_string_str_replace (" ", "", html);
   html = filter_string_str_replace (unicode_non_breaking_space_entity (), "", html);

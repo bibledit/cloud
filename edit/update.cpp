@@ -143,22 +143,28 @@ string edit_update (void * webserver_request)
 
   bool bible_write_access = false;
   if (good2go) {
-    bible_write_access = access_bible_book_write (request, "", bible, book);
+    bible_write_access = access_bible_book_write (request, string(), bible, book);
   }
 
 
   string stylesheet;
-  if (good2go) stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  if (good2go) {
+    stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  }
 
   
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
-  if (good2go) oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+  if (good2go) {
+    oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+  }
 #endif
   string old_chapter_usfm;
-  if (good2go) old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  if (good2go) {
+    old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  }
 
   
   // Determine what version of USFM to save to the chapter.
@@ -185,7 +191,7 @@ string edit_update (void * webserver_request)
   string existing_chapter_usfm = filter_string_trim (old_chapter_usfm);
 
 
-  // Check that the edited USFM contains no more than, and exactly like,
+  // Check that the edited USFM contains no more than, and exactly the same as,
   // the book and chapter that was loaded in the editor.
   if (good2go && bible_write_access) {
     vector <BookChapterData> book_chapter_text = usfm_import (edited_chapter_usfm, stylesheet);
@@ -248,6 +254,14 @@ string edit_update (void * webserver_request)
     //}
   //}
 
+  
+  // Collapse any double spaces in the USFM to save.
+  // https://github.com/bibledit/cloud/issues/711
+  // If there's double spaces removed here,
+  // then later in this code, the editor will load that text.
+  if (good2go && bible_write_access && text_was_edited) {
+    edited_chapter_usfm = filter_string_collapse_whitespace(edited_chapter_usfm);
+  }
   
   // Safely store the chapter.
   string explanation;

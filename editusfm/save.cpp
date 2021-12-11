@@ -72,7 +72,7 @@ string editusfm_save (void * webserver_request)
       usfm = filter_string_trim (usfm);
       // Collapse multiple spaces in the USFM into one space.
       // https://github.com/bibledit/cloud/issues/711
-      usfm = filter_string_collapse_whitespace(usfm); // Todo
+      usfm = filter_string_collapse_whitespace(usfm);
       if (!usfm.empty ()) {
         if (unicode_string_is_valid (usfm)) {
           string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);

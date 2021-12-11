@@ -37,13 +37,6 @@ void Editor_Html2Usfm::load (string html)
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = html2xml (html);
   
-  // The user may add several spaces in sequence. Convert them to single spaces.
-  // But keep two spaces in sequence if there're there.
-  // These are needed for footnotes and cross references at times.
-  // https://github.com/bibledit/cloud/issues/460
-  html = filter_string_str_replace ("   ", "  ", html);
-  html = filter_string_str_replace ("   ", "  ", html);
-  
   string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See http://pugixml.org/docs/manual.html for more information.
@@ -66,7 +59,7 @@ void Editor_Html2Usfm::stylesheet (string stylesheet)
   for (string & marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
-    // Get markers with should not have endmarkers.
+    // Get markers that should not have endmarkers.
     bool suppress = false;
     int type = style.type;
     int subtype = style.subtype;

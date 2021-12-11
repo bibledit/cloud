@@ -37,14 +37,6 @@ void Editor_Html2Format::load (string html)
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = html2xml (html);
   
-  // The user may add several spaces in sequence. Convert them to single spaces.
-  // But the way the footnotes are entered cause at times two spaces in sequence.
-  // Those spaces are important.
-  // See issue https://github.com/bibledit/cloud/issues/460.
-  // So now only change three subsequent spaces to two.
-  html = filter_string_str_replace ("   ", "  ", html);
-  html = filter_string_str_replace ("   ", "  ", html);
-
   string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See http://pugixml.org/docs/manual.html for more information.

@@ -1197,7 +1197,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
   }
   result = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", result);
   result = filter_string_str_replace (" ", " ", result); // Make special space visible.
-  while (result.find ("  ") != string::npos) result = filter_string_str_replace ("  ", " ", result);
+  result = filter_string_collapse_whitespace (result);
   result = filter_string_trim (result);
 #endif
 #ifdef HAVE_CLIENT

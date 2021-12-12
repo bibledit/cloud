@@ -620,8 +620,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   subject = filter_string_trim (subject);
   subject = filter_string_str_replace (".", " ", subject);
   subject = filter_string_str_replace (":", " ", subject);
-  subject = filter_string_str_replace ("   ", " ", subject);
-  subject = filter_string_str_replace ("  ", " ", subject);
+  subject = filter_string_collapse_whitespace (subject);
   // Check that the from address of the email belongs to an existing user.
   from = filter_string_extract_email (from);
   if (!request->database_users()->emailExists (from)) return false;

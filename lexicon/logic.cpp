@@ -292,7 +292,7 @@ string lexicon_logic_render_strongs_definition (string strong)
   vector <string> lines = filter_string_explode (definition, '\n');
   for (auto & line : lines) {
     line = filter_string_trim (line);
-    line = filter_string_str_replace ("  ", " ", line);
+    line = filter_string_collapse_whitespace (line);
     size_t position;
     // The first <w> element describes it.
     position = line.find ("<w");

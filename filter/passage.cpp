@@ -270,8 +270,7 @@ string filter_passage_clean_passage (string text)
   text = filter_string_str_replace (".", " ", text);
   text = filter_string_str_replace (":", " ", text);
   // Change double spaces into single ones.
-  text = filter_string_str_replace ("  ", " ", text);
-  text = filter_string_str_replace ("  ", " ", text);
+  text = filter_string_collapse_whitespace (text);
   // Trim again.
   text = filter_string_trim (text);
   // Result.

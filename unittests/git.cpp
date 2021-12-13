@@ -159,7 +159,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Bible To Git 2
+  // Sync a Bible to git.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
@@ -183,7 +183,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Bible To Git 3
+  // Sync a Bible to git.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
@@ -216,7 +216,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Git To Bible Add Chapters
+  // Test synchronizing git to Bible and adding chapters.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
@@ -236,7 +236,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Git To Bible Delete Chapters
+  // Test synchronizing git to Bible ad deleting chapters.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
@@ -260,7 +260,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Git To Bible Update Chapters
+  // Test synchronizing git to Bible and updating chapters.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
@@ -281,7 +281,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Git Chapter To Bible Add Chapters ()
+  // Test synchronizing git chapter to Bible and adding chapters.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
@@ -315,7 +315,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Git Chapter To Bible Delete Chapters
+  // Test synchronizing git chapter to Bible and deleting chapters.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
@@ -348,7 +348,7 @@ void test_git ()
     refresh_sandbox (false);
   }
   
-  // Sync Git Chapter To Bible Update Chapters
+  // Test synchronizing git chapter to Bible and updating chapters.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     

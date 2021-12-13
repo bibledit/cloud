@@ -64,11 +64,14 @@ void sendreceive_sendreceive (string bible)
   }
   
   
+  // Log what this is going to do.
   if (read_from_git) {
     Database_Logs::log (sendreceive_tag () + sendreceive_sendreceive_sendreceive_text () + bible, Filter_Roles::translator ());
   } else {
     Database_Logs::log (sendreceive_tag () + sendreceive_sendreceive_send_text () + bible, Filter_Roles::translator ());
   }
+  
+  
   Webserver_Request request;
   bool success = true;
   string error;
@@ -101,7 +104,7 @@ void sendreceive_sendreceive (string bible)
   }
   
   
-  // In case of local changes, add / remove the updated data to the index.
+  // In case of local changes, add/remove the updated data to/from the index.
   if (success && localchanges) {
     success = filter_git_add_remove_all (directory, error);
     if (!success) {

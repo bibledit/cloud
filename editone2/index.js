@@ -1278,7 +1278,7 @@ function verseEditorHasFocus ()
 
 //
 //
-// Clipboard past handling.
+// Clipboard paste handling.
 //
 //
 

@@ -58,6 +58,8 @@ $ (document).ready (function ()
 
   setTimeout (edit2CoordinatingTimeout, 500);
 
+  document.body.addEventListener('paste', ChapterEditorHandlePaste);
+
 });
 
 
@@ -1419,3 +1421,52 @@ function oneverseUpdateIntermediateEdits (position, size, ins_op, del_op)
   return position
 }
 
+
+//
+//
+// Clipboard paste handling.
+//
+//
+
+
+// Pasting text into Quill has a few problems:
+// https://github.com/bibledit/cloud/issues/717
+// This paste handler aims to fix those.
+function ChapterEditorHandlePaste (e)
+{
+  // Stop data from actually being pasted.
+  e.stopPropagation();
+  e.preventDefault();
+
+  // Get the selected range, if any.
+  // If the editor was not focused, the range is not defined:
+  // Nothing more to do so bail out.
+  var range = quill.getSelection();
+  if (!range) return;
+  
+  // Unselect any selected text.
+  if (range.length != 0) {
+    quill.setSelection (range.index, range.length);
+  }
+
+  // Get pasted data via clipboard API.
+  var clipboardData = e.clipboardData || window.clipboardData;
+  var pastedData = clipboardData.getData('Text');
+
+  // Inserting the text from the clipboard immediately into the editor does not work.
+  // The work-around is to store data about where and what to paste.
+  // And then to do the actual insert after a very short delay.
+  pasteIndex = range.index;
+  pasteText = pastedData;
+  setTimeout (HandlePasteInsert, 10);
+}
+
+var pasteIndex = 0;
+var pasteText = "";
+
+
+function HandlePasteInsert()
+{
+  // Insert the text from the clipboard into the editor.
+  quill.insertText(pasteIndex, pasteText);
+}

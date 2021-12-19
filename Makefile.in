@@ -1511,7 +1511,7 @@ generate_SOURCES = \
 
 generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g $(OPENSSL_CFLAGS)
-AM_CXXFLAGS = -Wall -Wextra -pedantic -std=c++11 -fno-var-tracking -g \
+AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS)
 

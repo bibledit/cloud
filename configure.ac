@@ -6,7 +6,7 @@ ac_default_prefix=/usr
 AC_PROG_CC
 AC_PROG_CXX
 AC_LANG([C++])
-AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
+AX_CXX_COMPILE_STDCXX(11,[noext],[mandatory])
 AC_PROG_RANLIB
 AC_CONFIG_HEADERS([config.h])
 

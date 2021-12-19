@@ -421,7 +421,7 @@ void filter_url_set_write_permission (string path)
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents(string filename)
 {
-  if (!file_or_dir_exists(filename)) return "";
+  if (!file_or_dir_exists(filename)) return string();
   try {
 #ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring(filename);
@@ -430,14 +430,14 @@ string filter_url_file_get_contents(string filename)
     ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
 #endif
     streamoff filesize = ifs.tellg();
-    if (filesize == 0) return "";
+    if (filesize == 0) return string();
     ifs.seekg(0, ios::beg);
     vector <char> bytes((int)filesize);
     ifs.read(&bytes[0], (int)filesize);
     return string(&bytes[0], (int)filesize);
   }
   catch (...) {
-    return "";
+    return string();
   }
 }
 

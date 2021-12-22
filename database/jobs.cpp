@@ -95,7 +95,7 @@ int Database_Jobs::get_new_id ()
   // Iterate till a non-existing identifier is found.
   int id;
   do {
-    id = filter_string_rand (100000000, 999999999);
+    id = filter_string_rand (100'000'000, 999'999'999);
   } while (id_exists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.

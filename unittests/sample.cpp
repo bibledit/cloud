@@ -32,7 +32,7 @@ void test_database_sample ()
   // Store samples.
   for (unsigned int i = 1; i <= 5; i++) {
     int file = (1000 * i);
-    int data = (10000 * i);
+    int data = (10'000 * i);
     Database_Sample::store (convert_to_string (file), convert_to_string (data));
   }
 
@@ -43,7 +43,7 @@ void test_database_sample ()
   // Retrieve and check the samples.
   for (unsigned int i = 1; i <= 5; i++) {
     string standard_file = convert_to_string (int (1000 * i));
-    string standard_data = convert_to_string (int (10000 * i));
+    string standard_data = convert_to_string (int (10'000 * i));
     string file, data;
     Database_Sample::get (i, file, data);
     evaluate (__LINE__, __func__, standard_file, file);

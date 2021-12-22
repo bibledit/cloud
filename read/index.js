@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 var quill = undefined;
 var Delta = Quill.import ("delta");
-var verseReaderUniqueID = Math.floor (Math.random() * 100000000);
+var verseReaderUniqueID = Math.floor (Math.random() * 100'000'000);
 
 
 $ (document).ready (function ()

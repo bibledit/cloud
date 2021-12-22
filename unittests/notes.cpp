@@ -184,13 +184,13 @@ void test_database_notes ()
     database_notes.create ();
     
     int identifier = Notes_Logic::lowNoteIdentifier;
-    evaluate (__LINE__, __func__, 100000000, identifier);
+    evaluate (__LINE__, __func__, 100'000'000, identifier);
     
     identifier = Notes_Logic::highNoteIdentifier;
-    evaluate (__LINE__, __func__, 999999999, identifier);
+    evaluate (__LINE__, __func__, 999'999'999, identifier);
     
     identifier = database_notes.get_new_unique_identifier ();
-    if ((identifier < 100000000) || (identifier > 999999999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
+    if ((identifier < 100'000'000) || (identifier > 999'999'999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
     
     identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
@@ -1126,30 +1126,30 @@ void test_database_notes ()
     
     // Create a couple of notes to work with.
     int identifier = database_notes.store_new_note ("bible1", 1, 2, 3, "summary", "contents", false);
-    int identifier1 = 100000000;
+    int identifier1 = 100'000'000;
     database_notes.set_identifier (identifier, identifier1);
     
     identifier = database_notes.store_new_note ("bible2", 1, 2, 3, "summary", "contents", false);
-    int identifier2 = 500000000;
+    int identifier2 = 500'000'000;
     database_notes.set_identifier (identifier, identifier2);
     
     identifier = database_notes.store_new_note ("", 1, 2, 3, "summary", "contents", false);
-    int identifier3 = 999999999;
+    int identifier3 = 999'999'999;
     database_notes.set_identifier (identifier, identifier3);
     
     // Test selection mechanism for certain Bibles.
-    vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {"bible1", "bible2"}, false);
-    evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
+    vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible2"}, false);
+    evaluate (__LINE__, __func__, {100'000'000, 50'0000'000, 99'9999'999}, identifiers);
     
-    identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {"bible1", "bible3"}, false);
-    evaluate (__LINE__, __func__, {100000000, 999999999}, identifiers);
+    identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible3"}, false);
+    evaluate (__LINE__, __func__, {100'000'000, 999'999'999}, identifiers);
     
-    identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {}, false);
-    evaluate (__LINE__, __func__, {999999999}, identifiers);
+    identifiers = database_notes.get_notes_in_range_for_bibles (10'0000'000, 999'999'999, {}, false);
+    evaluate (__LINE__, __func__, {99'9999'999}, identifiers);
     
     // Test selection mechanism for any Bible.
-    identifiers = database_notes.get_notes_in_range_for_bibles (100000000, 999999999, {}, true);
-    evaluate (__LINE__, __func__, {100000000, 500000000, 999999999}, identifiers);
+    identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {}, true);
+    evaluate (__LINE__, __func__, {100'000'000, 500'000'000, 999'999'999}, identifiers);
   }
 
   // Test creating a range of identifiers.
@@ -1157,51 +1157,51 @@ void test_database_notes ()
     Webserver_Request request;
     Sync_Logic sync_logic = Sync_Logic (&request);
     
-    vector <Sync_Logic_Range> ranges = sync_logic.create_range (100000000, 999999999);
+    vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
     evaluate (__LINE__, __func__, 10, (int)ranges.size());
-    evaluate (__LINE__, __func__, 100000000, ranges[0].low);
-    evaluate (__LINE__, __func__, 189999998, ranges[0].high);
-    evaluate (__LINE__, __func__, 189999999, ranges[1].low);
-    evaluate (__LINE__, __func__, 279999997, ranges[1].high);
-    evaluate (__LINE__, __func__, 279999998, ranges[2].low);
-    evaluate (__LINE__, __func__, 369999996, ranges[2].high);
-    evaluate (__LINE__, __func__, 369999997, ranges[3].low);
-    evaluate (__LINE__, __func__, 459999995, ranges[3].high);
-    evaluate (__LINE__, __func__, 459999996, ranges[4].low);
-    evaluate (__LINE__, __func__, 549999994, ranges[4].high);
-    evaluate (__LINE__, __func__, 549999995, ranges[5].low);
-    evaluate (__LINE__, __func__, 639999993, ranges[5].high);
-    evaluate (__LINE__, __func__, 639999994, ranges[6].low);
-    evaluate (__LINE__, __func__, 729999992, ranges[6].high);
-    evaluate (__LINE__, __func__, 729999993, ranges[7].low);
-    evaluate (__LINE__, __func__, 819999991, ranges[7].high);
-    evaluate (__LINE__, __func__, 819999992, ranges[8].low);
-    evaluate (__LINE__, __func__, 909999990, ranges[8].high);
-    evaluate (__LINE__, __func__, 909999991, ranges[9].low);
-    evaluate (__LINE__, __func__, 999999999, ranges[9].high);
+    evaluate (__LINE__, __func__, 100'000'000, ranges[0].low);
+    evaluate (__LINE__, __func__, 189'999'998, ranges[0].high);
+    evaluate (__LINE__, __func__, 189'999'999, ranges[1].low);
+    evaluate (__LINE__, __func__, 279'999'997, ranges[1].high);
+    evaluate (__LINE__, __func__, 279'999'998, ranges[2].low);
+    evaluate (__LINE__, __func__, 369'999'996, ranges[2].high);
+    evaluate (__LINE__, __func__, 369'999'997, ranges[3].low);
+    evaluate (__LINE__, __func__, 459'999'995, ranges[3].high);
+    evaluate (__LINE__, __func__, 459'999'996, ranges[4].low);
+    evaluate (__LINE__, __func__, 549'999'994, ranges[4].high);
+    evaluate (__LINE__, __func__, 549'999'995, ranges[5].low);
+    evaluate (__LINE__, __func__, 639'999'993, ranges[5].high);
+    evaluate (__LINE__, __func__, 639'999'994, ranges[6].low);
+    evaluate (__LINE__, __func__, 729'999'992, ranges[6].high);
+    evaluate (__LINE__, __func__, 729'999'993, ranges[7].low);
+    evaluate (__LINE__, __func__, 819'999'991, ranges[7].high);
+    evaluate (__LINE__, __func__, 819'999'992, ranges[8].low);
+    evaluate (__LINE__, __func__, 909'999'990, ranges[8].high);
+    evaluate (__LINE__, __func__, 909'999'991, ranges[9].low);
+    evaluate (__LINE__, __func__, 999'999'999, ranges[9].high);
     
-    ranges = sync_logic.create_range (100000000, 100000100);
+    ranges = sync_logic.create_range (100'000'000, 100'000'100);
     evaluate (__LINE__, __func__, 10, (int)ranges.size());
-    evaluate (__LINE__, __func__, 100000000, ranges[0].low);
-    evaluate (__LINE__, __func__, 100000009, ranges[0].high);
-    evaluate (__LINE__, __func__, 100000010, ranges[1].low);
-    evaluate (__LINE__, __func__, 100000019, ranges[1].high);
-    evaluate (__LINE__, __func__, 100000020, ranges[2].low);
-    evaluate (__LINE__, __func__, 100000029, ranges[2].high);
-    evaluate (__LINE__, __func__, 100000030, ranges[3].low);
-    evaluate (__LINE__, __func__, 100000039, ranges[3].high);
-    evaluate (__LINE__, __func__, 100000040, ranges[4].low);
-    evaluate (__LINE__, __func__, 100000049, ranges[4].high);
-    evaluate (__LINE__, __func__, 100000050, ranges[5].low);
-    evaluate (__LINE__, __func__, 100000059, ranges[5].high);
-    evaluate (__LINE__, __func__, 100000060, ranges[6].low);
-    evaluate (__LINE__, __func__, 100000069, ranges[6].high);
-    evaluate (__LINE__, __func__, 100000070, ranges[7].low);
-    evaluate (__LINE__, __func__, 100000079, ranges[7].high);
-    evaluate (__LINE__, __func__, 100000080, ranges[8].low);
-    evaluate (__LINE__, __func__, 100000089, ranges[8].high);
-    evaluate (__LINE__, __func__, 100000090, ranges[9].low);
-    evaluate (__LINE__, __func__, 100000100, ranges[9].high);
+    evaluate (__LINE__, __func__, 100'000'000, ranges[0].low);
+    evaluate (__LINE__, __func__, 100'000'009, ranges[0].high);
+    evaluate (__LINE__, __func__, 100'000'010, ranges[1].low);
+    evaluate (__LINE__, __func__, 100'000'019, ranges[1].high);
+    evaluate (__LINE__, __func__, 100'000'020, ranges[2].low);
+    evaluate (__LINE__, __func__, 100'000'029, ranges[2].high);
+    evaluate (__LINE__, __func__, 100'000'030, ranges[3].low);
+    evaluate (__LINE__, __func__, 100'000'039, ranges[3].high);
+    evaluate (__LINE__, __func__, 100'000'040, ranges[4].low);
+    evaluate (__LINE__, __func__, 100'000'049, ranges[4].high);
+    evaluate (__LINE__, __func__, 100'000'050, ranges[5].low);
+    evaluate (__LINE__, __func__, 100'000'059, ranges[5].high);
+    evaluate (__LINE__, __func__, 100'000'060, ranges[6].low);
+    evaluate (__LINE__, __func__, 100'000'069, ranges[6].high);
+    evaluate (__LINE__, __func__, 100'000'070, ranges[7].low);
+    evaluate (__LINE__, __func__, 100'000'079, ranges[7].high);
+    evaluate (__LINE__, __func__, 100'000'080, ranges[8].low);
+    evaluate (__LINE__, __func__, 100'000'089, ranges[8].high);
+    evaluate (__LINE__, __func__, 100'000'090, ranges[9].low);
+    evaluate (__LINE__, __func__, 100'000'100, ranges[9].high);
   }
 
   // Test selecting based on a given Bible.

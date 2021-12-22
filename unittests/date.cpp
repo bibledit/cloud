@@ -39,7 +39,7 @@ void test_date ()
     int actual_second = filter_date_seconds_since_epoch ();
     if (abs (actual_second - reference_second) > 1) evaluate (__LINE__, __func__, reference_second, actual_second);
     int usecs = filter_date_numerical_microseconds ();
-    if ((usecs < 0) || (usecs > 1000000)) evaluate (__LINE__, __func__, "0-1000000", convert_to_string (usecs));
+    if ((usecs < 0) || (usecs > 1'000'000)) evaluate (__LINE__, __func__, "0-1000000", convert_to_string (usecs));
   }
   
   // First business day of month.

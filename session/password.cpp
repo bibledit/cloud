@@ -78,7 +78,7 @@ string session_password (void * webserver_request)
     }
     if (form_is_valid) {
       // Generate and store a new password.
-      string generated_password = md5 (convert_to_string (filter_string_rand (0, 1000000)));
+      string generated_password = md5 (convert_to_string (filter_string_rand (0, 1'000'000)));
       generated_password = generated_password.substr (0, 15);
       string username = database_users.getEmailToUser (email);
       database_users.set_password (username, generated_password);

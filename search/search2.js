@@ -29,7 +29,7 @@ $(document).ready (function () {
   $ ("#searchbutton").on ("click", function (event) {
     startSearch ();
   });
-  identifier = Math.floor ((Math.random () * 1000000) + 1000000);
+  identifier = Math.floor ((Math.random () * 1'000'000) + 1'000'000);
 });
 
 

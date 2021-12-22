@@ -47,7 +47,7 @@ void test_database_logs ()
   {
     // Test huge journal entry.
     refresh_sandbox (true);
-    string huge (60000, 'x');
+    string huge (60'000, 'x');
     Database_Logs::log (huge);
     Database_Logs::rotate ();
     string s = "0";
@@ -56,7 +56,7 @@ void test_database_logs ()
       s = result [0];
       string path = filter_url_create_path (Database_Logs::folder (), s);
       string contents = filter_url_file_get_contents (path);
-      evaluate (__LINE__, __func__, 50006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
+      evaluate (__LINE__, __func__, 50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
     } else {
       evaluate (__LINE__, __func__, 1, (int)result.size ());
     }

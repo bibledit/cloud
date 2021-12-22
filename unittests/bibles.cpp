@@ -916,20 +916,20 @@ void test_database_bibles ()
     database_bibles.createBible (testbible);
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     int id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100000001, id);
+    evaluate (__LINE__, __func__, 100'000'001, id);
     
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100000002, id);
+    evaluate (__LINE__, __func__, 100'000'002, id);
     
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100000004, id);
+    evaluate (__LINE__, __func__, 100'000'004, id);
     
     database_bibles.storeChapter (testbible, 2, 3, "\\c 1");
     id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100000004, id);
+    evaluate (__LINE__, __func__, 100'000'004, id);
   }
   
   // Test the age of the newest chapter.
@@ -940,7 +940,7 @@ void test_database_bibles ()
     
     database_bibles.createBible (testbible);
     int age = database_bibles.getChapterAge (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100000000, age);
+    evaluate (__LINE__, __func__, 100'000'000, age);
 
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     age = database_bibles.getChapterAge (testbible, 1, 2);

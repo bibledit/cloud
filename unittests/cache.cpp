@@ -127,7 +127,7 @@ void test_database_cache ()
     Database_Cache::create (bible, book);
     
     int size = Database_Cache::size (bible, book);
-    if ((size < 10000) || (size > 15000)) {
+    if ((size < 10'000) || (size > 15'000)) {
       evaluate (__LINE__, __func__, "between 3072 and 5120", convert_to_string (size));
     }
     

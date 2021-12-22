@@ -38,7 +38,7 @@ void test_database_confirm ()
   
   // New ID generation test.
   int id = database_confirm.get_new_id ();
-  if (id < 10000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
+  if (id < 10'000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
   
   // Store data for the ID.
   database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");

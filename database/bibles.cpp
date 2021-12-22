@@ -198,7 +198,7 @@ int Database_Bibles::getChapterId (string bible, int book, int chapter)
     string file = files [files.size() - 1];
     return convert_to_int (file);
   }
-  return 100000000;
+  return 100'000'000;
 }
 
 
@@ -214,7 +214,7 @@ int Database_Bibles::getChapterAge (string bible, int book, int chapter)
     int now = filter_date_seconds_since_epoch ();
     return now - time;
   }
-  return 100000000;
+  return 100'000'000;
 }
 
 

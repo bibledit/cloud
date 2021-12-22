@@ -221,8 +221,8 @@ void test_string ()
 
   // Test random number generator.
   {
-    int floor = 100000;
-    int ceiling = 999999;
+    int floor = 100'000;
+    int ceiling = 999'999;
     int r1 = filter_string_rand (floor, ceiling);
     if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r1));
     int r2 = filter_string_rand (floor, ceiling);

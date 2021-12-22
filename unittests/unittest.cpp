@@ -145,8 +145,8 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (false);
+  test_html2format ();
   test_dev ();
-  test_git ();
   refresh_sandbox (false);
   exit (0);
   

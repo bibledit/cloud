@@ -59,7 +59,7 @@ void test_html2format ()
   // Non-breaking spaces.
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    vector<string> texts = {"\n", "The earth  brought  forth."};
+    vector<string> texts = {"\n", "The earth   brought  forth."};
     vector<string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
@@ -308,7 +308,7 @@ void test_html2format ()
   // Test that it changes three or more spaces in sequence to two spaces.
   {
     string html = "<p class=\"p\"><span>The   earth    brought forth.</span></p>";
-    vector<string> texts = {"\n", "The  earth  brought forth."};
+    vector<string> texts = {"\n", "The   earth    brought forth."};
     vector<string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;

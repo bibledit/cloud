@@ -60,7 +60,7 @@ void test_html2usfm ()
   // Non-breaking spaces
   {
     string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    string standard = "\\p The earth  brought  forth.";
+    string standard = "\\p The earth   brought  forth.";
     // Test Quill-based editor.
     html = filter_string_str_replace ("<span>", "", html);
     html = filter_string_str_replace ("</span>", "", html);
@@ -233,7 +233,7 @@ void test_html2usfm ()
   // And that it does not collapse two spaces into one.
   {
     string html = "<p class=\"p\"><span>The   earth  brought    forth.</span></p>";
-    string standard = "\\p The  earth  brought  forth.";
+    string standard = "\\p The   earth  brought    forth.";
     {
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);

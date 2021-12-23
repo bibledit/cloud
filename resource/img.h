@@ -17,6 +17,7 @@
  */
 
 
+// Todo
 #ifndef INCLUDED_RESOURCE_IMG_H
 #define INCLUDED_RESOURCE_IMG_H
 

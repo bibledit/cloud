@@ -17,6 +17,7 @@
  */
 
 
+// Todo
 #ifndef INCLUDED_DIALOG_COLOR_H
 #define INCLUDED_DIALOG_COLOR_H
 

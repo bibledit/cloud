@@ -17,6 +17,7 @@
  */
 
 
+// Todo
 #ifndef INCLUDED_CHECKS_SETTINGS_H
 #define INCLUDED_CHECKS_SETTINGS_H
 

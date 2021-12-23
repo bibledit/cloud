@@ -17,6 +17,7 @@
  */
 
 
+// Todo
 #ifndef INCLUDED_CHECKSUM_LOGIC_H
 #define INCLUDED_CHECKSUM_LOGIC_H
 

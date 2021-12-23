@@ -17,6 +17,7 @@
  */
 
 
+// Todo
 #ifndef INCLUDED_SENDRECEIVE_NOTES_H
 #define INCLUDED_SENDRECEIVE_NOTES_H
 

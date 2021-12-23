@@ -17,6 +17,7 @@
  */
 
 
+// Todo
 #ifndef INCLUDED_COMPARE_COMPARE_H
 #define INCLUDED_COMPARE_COMPARE_H
 

@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SYNC_BIBLES_H
 #define INCLUDED_SYNC_BIBLES_H
 

@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CHECKS_SETTINGS_PAIRS_H
 #define INCLUDED_CHECKS_SETTINGS_PAIRS_H
 

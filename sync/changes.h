@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SYNC_CHANGES_H
 #define INCLUDED_SYNC_CHANGES_H
 

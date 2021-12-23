@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_MENU_INDEX_H
 #define INCLUDED_MENU_INDEX_H
 

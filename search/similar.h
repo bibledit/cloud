@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SEARCH_SIMILAR_H
 #define INCLUDED_SEARCH_SIMILAR_H
 

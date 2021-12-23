@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_MAPPING_MAP_H
 #define INCLUDED_MAPPING_MAP_H
 

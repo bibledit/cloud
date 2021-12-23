@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_BIBLE_ORDER_H
 #define INCLUDED_BIBLE_ORDER_H
 

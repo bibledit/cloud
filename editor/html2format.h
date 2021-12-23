@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_EDITOR_HTML2FORMAT_H
 #define INCLUDED_EDITOR_HTML2FORMAT_H
 

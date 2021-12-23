@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_PUGIXML_UTILS_H
 #define INCLUDED_PUGIXML_UTILS_H
 

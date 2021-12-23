@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_EXPORT_ONLINEBIBLE_H
 #define INCLUDED_EXPORT_ONLINEBIBLE_H
 

@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_IPC_FOCUS_H
 #define INCLUDED_IPC_FOCUS_H
 

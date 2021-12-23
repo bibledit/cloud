@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_PUBLIC_INDEX_H
 #define INCLUDED_PUBLIC_INDEX_H
 

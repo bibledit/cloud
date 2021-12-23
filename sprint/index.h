@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SPRINT_INDEX_H
 #define INCLUDED_SPRINT_INDEX_H
 

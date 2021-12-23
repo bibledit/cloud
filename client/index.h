@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CLIENT_INDEX_H
 #define INCLUDED_CLIENT_INDEX_H
 

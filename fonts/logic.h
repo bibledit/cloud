@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_FONTS_LOGIC_H
 #define INCLUDED_FONTS_LOGIC_H
 

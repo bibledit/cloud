@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_EDITONE2_UPDATE_H
 #define INCLUDED_EDITONE2_UPDATE_H
 

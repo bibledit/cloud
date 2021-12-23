@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CHECK_SPACE_H
 #define INCLUDED_CHECK_SPACE_H
 

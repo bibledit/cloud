@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_NOTES_SUMMARY_H
 #define INCLUDED_NOTES_SUMMARY_H
 

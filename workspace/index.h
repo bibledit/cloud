@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_WORKBENCH_INDEX_H
 #define INCLUDED_WORKBENCH_INDEX_H
 

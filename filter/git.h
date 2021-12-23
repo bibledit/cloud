@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_FILTER_GIT_H
 #define INCLUDED_FILTER_GIT_H
 

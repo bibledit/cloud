@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_COLLABORATION_INDEX_H
 #define INCLUDED_COLLABORATION_INDEX_H
 

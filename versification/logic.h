@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_VERSIFICATION_LOGIC
 #define INCLUDED_VERSIFICATION_LOGIC
 

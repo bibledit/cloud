@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_JOURNAL_LOGIC_H
 #define INCLUDED_JOURNAL_LOGIC_H
 

@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_NOTES_SEVERITY_1_H
 #define INCLUDED_NOTES_SEVERITY_1_H
 

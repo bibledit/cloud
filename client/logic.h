@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CLIENT_LOGIC_H
 #define INCLUDED_CLIENT_LOGIC_H
 

@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_PARATEXT_LOGIC_H
 #define INCLUDED_PARATEXT_LOGIC_H
 

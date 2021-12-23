@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SENDRECEIVE_RESOURCES_H
 #define INCLUDED_SENDRECEIVE_RESOURCES_H
 

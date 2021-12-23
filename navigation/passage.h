@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_NAVIGATION_PASSAGE_H
 #define INCLUDED_NAVIGATION_PASSAGE_H
 

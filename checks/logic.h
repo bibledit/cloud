@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CHECKS_LOGIC_H
 #define INCLUDED_CHECKS_LOGIC_H
 

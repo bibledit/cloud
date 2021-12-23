@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_EDITONE_INDEX_H
 #define INCLUDED_EDITONE_INDEX_H
 

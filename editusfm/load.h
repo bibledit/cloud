@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_EDITUSFM_LOAD_H
 #define INCLUDED_EDITUSFM_LOAD_H
 

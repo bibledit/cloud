@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_LEXICON_DEFINITION_H
 #define INCLUDED_LEXICON_DEFINITION_H
 

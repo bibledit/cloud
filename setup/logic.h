@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SETUP_LOGIC_H
 #define INCLUDED_SETUP_LOGIC_H
 

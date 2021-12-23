@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_COMPARE_INDEX_H
 #define INCLUDED_COMPARE_INDEX_H
 

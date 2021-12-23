@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_DIALOG_COLOR_H
 #define INCLUDED_DIALOG_COLOR_H
 

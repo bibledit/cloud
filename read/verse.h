@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_READ_VERSE_H
 #define INCLUDED_READ_VERSE_H
 

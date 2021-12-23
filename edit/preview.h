@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_EDIT_PREVIEW_H
 #define INCLUDED_EDIT_PREVIEW_H
 

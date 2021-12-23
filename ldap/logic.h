@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_LDAP_LOGIC_H
 #define INCLUDED_LDAP_LOGIC_H
 

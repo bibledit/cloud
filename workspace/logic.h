@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_WORKSPACE_LOGIC_H
 #define INCLUDED_WORKSPACE_LOGIC_H
 

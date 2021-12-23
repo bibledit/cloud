@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_RESOURCE_COMPARATIVE_VIEW_H
 #define INCLUDED_RESOURCE_COMPARATIVE_VIEW_H
 

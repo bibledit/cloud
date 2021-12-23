@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_NOTES_EDITSOURCE_H
 #define INCLUDED_NOTES_EDITSOURCE_H
 

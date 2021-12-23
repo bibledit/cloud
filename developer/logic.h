@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_DEBUG_LOGIC_H
 #define INCLUDED_DEBUG_LOGIC_H
 

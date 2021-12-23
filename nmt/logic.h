@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_NMT_LOGIC_H
 #define INCLUDED_NMT_LOGIC_H
 

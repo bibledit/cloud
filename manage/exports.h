@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_MANAGE_EXPORTS_H
 #define INCLUDED_MANAGE_EXPORTS_H
 

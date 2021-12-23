@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_IMAGES_LOGIC_H
 #define INCLUDED_IMAGES_LOGIC_H
 

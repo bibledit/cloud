@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_FILTER_STRING_HPP
 #define INCLUDED_FILTER_STRING_HPP
 

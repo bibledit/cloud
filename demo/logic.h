@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_DEMO_LOGIC_H
 #define INCLUDED_DEMO_LOGIC_H
 

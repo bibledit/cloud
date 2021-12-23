@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CLASSES_MERGE_H
 #define INCLUDED_CLASSES_MERGE_H
 

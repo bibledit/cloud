@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CONSISTENCY_INPUT_H
 #define INCLUDED_CONSISTENCY_INPUT_H
 

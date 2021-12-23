@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_VERSIFICATION_INDEX_H
 #define INCLUDED_VERSIFICATION_INDEX_H
 

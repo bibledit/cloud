@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_JOBS_INDEX_H
 #define INCLUDED_JOBS_INDEX_H
 

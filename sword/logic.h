@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_SWORD_LOGIC_H
 #define INCLUDED_SWORD_LOGIC_H
 

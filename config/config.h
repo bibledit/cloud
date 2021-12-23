@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CONFIG_CONFIG_H
 #define INCLUDED_CONFIG_CONFIG_H
 

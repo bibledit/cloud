@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_CHANGES_STATISTICS_H
 #define INCLUDED_CHANGES_STATISTICS_H
 

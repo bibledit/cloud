@@ -17,7 +17,7 @@
  */
 
 
-// Todo
+// Todo #pragma once
 #ifndef INCLUDED_WORKBENCH_SETTINGS_H
 #define INCLUDED_WORKBENCH_SETTINGS_H
 

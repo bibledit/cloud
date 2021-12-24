@@ -113,8 +113,9 @@ void Assets_Header::refresh (int seconds, string url)
 {
   string content = convert_to_string (seconds);
   if (!url.empty ()) content.append (";URL=" + url);
-  string headline = "<META HTTP-EQUIV=\"refresh\" CONTENT=\"" + content + "\">";
-  headLines.push_back (headline);
+  stringstream ss;
+  ss << "<META HTTP-EQUIV=" << quoted("refresh") << " CONTENT=" << quoted(content) << ">";
+  headLines.push_back (ss.str());
 }
 
 
@@ -304,26 +305,21 @@ string Assets_Header::run ()
       // No bread crumbs in basic mode.
       // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
       if (!config_logic_basic_mode (webserver_request)) {
-        string track;
-        track.append ("<a href=\"/");
-        track.append (index_index_url ());
-        track.append ("\">");
-        track.append (menu_logic_menu_text (""));
-        track.append ("</a>");
+        stringstream track;
+        track << "<a href=" << quoted(index_index_url ()) << ">";
+        track << menu_logic_menu_text ("") << "</a>";
         for (auto & crumb : breadcrumbs) {
-          track.append (" » ");
+          track << " » ";
           if (!crumb.first.empty ()) {
-            track.append ("<a href=\"/");
-            track.append (menu_logic_menu_url (crumb.first));
-            track.append ("\">");
+            track << "<a href=" << quoted("/" + menu_logic_menu_url (crumb.first)) << ">";
           }
-          track.append (crumb.second);
+          track << crumb.second;
           if (!crumb.first.empty ()) {
-            track.append ("</a>");
+            track << "</a>";
           }
         }
         view->enable_zone("breadcrumbs");
-        view->set_variable ("breadcrumbs", track);
+        view->set_variable ("breadcrumbs", track.str());
       }
     }
   }

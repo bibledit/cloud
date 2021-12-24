@@ -127,13 +127,13 @@ string bible_book (void * webserver_request)
   vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
   string chapterblock;
   for (auto & chapter : chapters) {
-    chapterblock.append ("<a href=\"chapter?bible=");
+    chapterblock.append (R"(<a href="chapter?bible=)");
     chapterblock.append (bible);
     chapterblock.append ("&book=");
     chapterblock.append (convert_to_string (book));
     chapterblock.append ("&chapter=");
     chapterblock.append (convert_to_string (chapter));
-    chapterblock.append ("\">");
+    chapterblock.append (R"(">)");
     chapterblock.append (convert_to_string (chapter));
     chapterblock.append ("</a>\n");
   }

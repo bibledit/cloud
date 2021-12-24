@@ -66,8 +66,8 @@ string assets_external_logic_link_addon ()
   newtab = true;
 #endif
   string addon;
-  if (newtab) addon = "target=\"_blank\"";
-  else addon = "class=\"external\"";
+  if (newtab) addon = R"(target="_blank")";
+  else addon = R"(class="external")";
   // Done.
   return addon;
 }

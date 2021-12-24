@@ -124,7 +124,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
     }
     
     // Skip line starting with a backslash. The rationale is that this line already has markup.
-    if (lines[i].substr(0, 1) == "\\")
+    if (lines[i].substr(0, 1) == R"(\)")
       continue;
     
     // If the line is a number on its own, and the number agrees with the chapter number

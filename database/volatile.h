@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_VOLATILE_H
-#define INCLUDED_DATABASE_VOLATILE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_Volatile
 {
@@ -33,6 +29,3 @@ public:
 private:
   static string filename (int id, string key);
 };
-
-
-#endif

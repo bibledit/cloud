@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_OSHB_H
-#define INCLUDED_DATABASE_OSHB_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 class Database_OsHb
 {
@@ -43,6 +39,3 @@ private:
   int get_id (const char * table_row, string item);
   string get_item (const char * item, int rowid);
 };
-
-
-#endif

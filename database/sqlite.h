@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_SQLITE_H
-#define INCLUDED_DATABASE_SQLITE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 sqlite3 * database_sqlite_connect_file (string filename);
 string database_sqlite_file (string database);
@@ -35,7 +31,6 @@ map <string, vector <string> > database_sqlite_query (sqlite3 * db, string sql);
 void database_sqlite_disconnect (sqlite3 * database);
 bool database_sqlite_healthy (string database);
 void database_sqlite_error (sqlite3 * database, const string & prefix, char * error);
-
 
 // Creates a database SQL query.
 class SqliteSQL
@@ -49,7 +44,6 @@ public:
 private:
 };
 
-
 // Stores values collected during a reading session of sqlite3.
 class SqliteReader
 {
@@ -60,7 +54,6 @@ public:
   static int callback (void *userdata, int argc, char **argv, char **column_names);
 private:
 };
-
 
 class SqliteDatabase
 {
@@ -77,6 +70,3 @@ public:
 private:
   sqlite3 * db;
 };
-
-
-#endif

@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DEMO_LOGIC_H
-#define INCLUDED_DEMO_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 bool demo_acl (string user, string pass);
 string demo_address ();
@@ -39,6 +35,3 @@ void demo_create_sample_notes (void * webserver_request);
 string demo_workspace ();
 void demo_create_sample_workspaces (void * webserver_request);
 vector <string> demo_logic_default_resources ();
-
-
-#endif

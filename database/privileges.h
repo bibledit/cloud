@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_PRIVILEGES_H
-#define INCLUDED_DATABASE_PRIVILEGES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_Privileges
 {
@@ -55,12 +51,8 @@ private:
   static const char * off ();
 };
 
-
 string database_privileges_directory (const string & user);
 string database_privileges_file ();
 string database_privileges_client_path (const string & user);
 void database_privileges_client_create (const string & user, bool force);
 void database_privileges_client_remove (const string & user);
-
-
-#endif

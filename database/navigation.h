@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_NAVIGATION_H
-#define INCLUDED_DATABASE_NAVIGATION_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 class Database_Navigation
 {
@@ -42,6 +38,3 @@ private:
   int get_previous_id (const string& user);
   int get_next_id (const string& user);
 };
-
-
-#endif

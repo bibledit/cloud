@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDIT_EDIT_H
-#define INCLUDED_EDIT_EDIT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string edit_edit_url ();
 bool edit_edit_acl (void * webserver_request);
 string edit_edit (void * webserver_request);
-
-
-#endif

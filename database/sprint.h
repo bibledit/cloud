@@ -17,17 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_SPRINT_H
-#define INCLUDED_DATABASE_SPRINT_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
 
-
 #ifdef HAVE_CLOUD
-
 
 class Database_Sprint_Item
 {
@@ -36,7 +31,6 @@ public:
   int tasks;
   int complete;
 };
-
 
 class Database_Sprint
 {
@@ -56,9 +50,5 @@ public:
 private:
   sqlite3 * connect ();
 };
-
-
-#endif
-
 
 #endif

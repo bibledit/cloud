@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_MODIFICATIONS_H
-#define INCLUDED_DATABASE_MODIFICATIONS_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 class Database_Modifications_Id
 {
@@ -33,14 +29,12 @@ public:
   int newid;
 };
 
-
 class Database_Modifications_Text
 {
 public:
   string oldtext;
   string newtext;
 };
-
 
 class Database_Modifications
 {
@@ -109,6 +103,3 @@ private:
   const char * createNotificationsDbSql ();
   void deleteNotificationFile (int identifier);
 };
-
-
-#endif

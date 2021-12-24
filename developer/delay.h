@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DEBUG_DELAY_H
-#define INCLUDED_DEBUG_DELAY_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 const char * developer_delay_url ();
 bool developer_delay_acl (void * webserver_request);
 string developer_delay (void * webserver_request);
-
-
-#endif

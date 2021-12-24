@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_MORPHOLOGY_H
-#define INCLUDED_DATABASE_MORPHOLOGY_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_MorphGnt
 {
@@ -43,5 +39,3 @@ private:
   string get_item (const char * item, int rowid);
 };
 
-
-#endif

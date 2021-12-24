@@ -17,9 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_NOTES_H
-#define INCLUDED_DATABASE_NOTES_H
+#pragma once
 
 
 #include <config/libraries.h>
@@ -224,5 +222,3 @@ private:
 
 };
 
-
-#endif

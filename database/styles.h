@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_STYLES_H
-#define INCLUDED_DATABASE_STYLES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_Styles_Item
 {
@@ -116,6 +112,3 @@ private:
   void write_item (string sheet, Database_Styles_Item & item);
   void cache_defaults ();
 };
-
-
-#endif

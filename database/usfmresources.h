@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_USFMRESOURCES_H
-#define INCLUDED_DATABASE_USFMRESOURCES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_UsfmResources
 {
@@ -43,6 +39,3 @@ private:
   string bookFolder (const string& name, int book);
   string chapterFile (const string& name, int book, int chapter);
 };
-
-
-#endif

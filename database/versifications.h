@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_VERSIFICATIONS_H
-#define INCLUDED_DATABASE_VERSIFICATIONS_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 class Database_Versifications
 {
@@ -49,6 +45,3 @@ private:
   sqlite3 * connect ();
   bool creating_defaults = false;
 };
-
-
-#endif

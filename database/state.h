@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_STATE_H
-#define INCLUDED_DATABASE_STATE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_State
 {
@@ -39,6 +35,3 @@ private:
   static sqlite3 * connect ();
   static const char * name ();
 };
-
-
-#endif

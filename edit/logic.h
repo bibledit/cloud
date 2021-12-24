@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDIT_LOGIC_H
-#define INCLUDED_EDIT_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void storeLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor, const char * message = "");
 string getLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor);
-
-
-#endif

@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DIALOG_BOOKS_H
-#define INCLUDED_DIALOG_BOOKS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Dialog_Books
 {
@@ -39,6 +35,3 @@ private:
   vector <int> include;
   vector <int> exclude;
 };
-
-
-#endif

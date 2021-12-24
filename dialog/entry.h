@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DIALOG_ENTRY_H
-#define INCLUDED_DIALOG_ENTRY_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Dialog_Entry
 {
@@ -36,6 +32,3 @@ private:
   void * assets_view = NULL;
   string base_url;
 };
-
-
-#endif

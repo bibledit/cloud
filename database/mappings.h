@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_MAPPINGS_H
-#define INCLUDED_DATABASE_MAPPINGS_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 class Database_Mappings
 {
@@ -45,6 +41,3 @@ public:
 private:
   sqlite3 * connect ();
 };
-
-
-#endif

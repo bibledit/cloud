@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDIT_POSITION_H
-#define INCLUDED_EDIT_POSITION_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string edit_position_url ();
 bool edit_position_acl (void * webserver_request);
 string edit_position (void * webserver_request);
-
-
-#endif

@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DIALOG_LIST_H
-#define INCLUDED_DIALOG_LIST_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Dialog_List
 {
@@ -39,6 +35,3 @@ private:
   string list_block;
   bool post_result = false;
 };
-
-
-#endif

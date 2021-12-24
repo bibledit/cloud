@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DIALOG_UPLOAD_H
-#define INCLUDED_DIALOG_UPLOAD_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Dialog_Upload
 {
@@ -37,6 +33,3 @@ private:
   string base_url;
   map <string, string> upload_query;
 };
-
-
-#endif

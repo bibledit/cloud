@@ -17,18 +17,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_HTML_TEXT_H
-#define INCLUDED_HTML_TEXT_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <database/styles.h>
 #include <pugixml/pugixml.hpp>
 
-
 using namespace pugi;
-
 
 class Html_Text
 {
@@ -75,6 +70,3 @@ private:
   bool add_popup_notes = false;
   xml_node popup_node;
 };
-
-
-#endif

@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_URL_H
-#define INCLUDED_FILTER_URL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string get_base_url (void * webserver_request);
 void redirect_browser (void * webserver_request, string url);
@@ -83,6 +79,3 @@ string filter_url_update_directory_separator_if_windows (string filename);
 bool filter_url_port_can_connect (string hostname, int port);
 bool filter_url_is_image (string extension);
 string filter_url_get_mime_type (string extension);
-
-
-#endif

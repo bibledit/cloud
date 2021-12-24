@@ -17,15 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_TIMER_INDEX_H
-#define INCLUDED_TIMER_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void timer_index ();
-
-
-#endif

@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WORKSPACE_LOGIC_H
-#define INCLUDED_WORKSPACE_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 vector <string> workspace_get_default_names ();
 map <int, string> workspace_get_default_urls (int id);
@@ -50,6 +46,3 @@ void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths
 string workspace_get_default_name ();
 void workspace_send (void * webserver_request, string workspace, string user);
 map <int, int> workspace_add_bible_editor_number (map <int, string> & urls);
-
-
-#endif

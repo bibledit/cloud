@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_MANAGE_PRIVILEGES_H
-#define INCLUDED_MANAGE_PRIVILEGES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string manage_privileges_url ();
 bool manage_privileges_acl (void * webserver_request);
 string manage_privileges (void * webserver_request);
-
-
-#endif

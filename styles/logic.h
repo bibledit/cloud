@@ -17,9 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_STYLES_LOGIC_H
-#define INCLUDED_STYLES_LOGIC_H
+#pragma once
 
 
 #include <config/libraries.h>
@@ -197,6 +195,3 @@ int styles_logic_get_userstring1_function (int type, int subtype);
 int styles_logic_get_userstring2_function (int type, int subtype);
 int styles_logic_get_userstring3_function (int type, int subtype);
 bool styles_logic_starts_new_line_in_usfm (int type, int subtype);
-
-
-#endif

@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SESSION_LOGOUT_H
-#define INCLUDED_SESSION_LOGOUT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 const char * session_logout_url ();
 bool session_logout_acl (void * webserver_request);
 string session_logout (void * webserver_request);
-
-
-#endif

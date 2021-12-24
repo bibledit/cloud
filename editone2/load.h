@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITONE2_LOAD_H
-#define INCLUDED_EDITONE2_LOAD_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editone2_load_url ();
 bool editone2_load_acl (void * webserver_request);
 string editone2_load (void * webserver_request);
-
-
-#endif

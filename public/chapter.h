@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_PUBLIC_CHAPTER_H
-#define INCLUDED_PUBLIC_CHAPTER_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string public_chapter_url ();
 bool public_chapter_acl (void * webserver_request);
 string public_chapter (void * webserver_request);
-
-
-#endif

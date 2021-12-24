@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SEARCH_REPLACEPRE2_H
-#define INCLUDED_SEARCH_REPLACEPRE2_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string search_replacepre2_url ();
 bool search_replacepre2_acl (void * webserver_request);
 string search_replacepre2 (void * webserver_request);
-
-
-#endif

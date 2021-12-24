@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_USER_ACCOUNT_H
-#define INCLUDED_USER_ACCOUNT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string user_account_url ();
 bool user_account_acl (void * webserver_request);
 string user_account (void * webserver_request);
-
-
-#endif

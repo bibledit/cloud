@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SEARCH_SIMILAR_H
-#define INCLUDED_SEARCH_SIMILAR_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string search_similar_url ();
 bool search_similar_acl (void * webserver_request);
 string search_similar (void * webserver_request);
-
-
-#endif

@@ -17,18 +17,13 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITOR_HTML2FORMAT_H
-#define INCLUDED_EDITOR_HTML2FORMAT_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <database/styles.h>
 #include <pugixml/pugixml.hpp>
 
-
 using namespace pugi;
-
 
 class Editor_Html2Format
 {
@@ -49,6 +44,3 @@ private:
   string update_quill_class (string classname);
   string current_character_format;
 };
-
-
-#endif

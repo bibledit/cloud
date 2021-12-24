@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_EXTERNAL_H
-#define INCLUDED_RESOURCE_EXTERNAL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 vector <string> resource_external_names ();
 vector <string> resource_external_get_original_language_resources ();
@@ -34,6 +30,3 @@ string resource_external_type (string name);
 string resource_external_cloud_fetch_cache_extract (string name, int book, int chapter, int verse);
 const char * resource_external_net_bible_name ();
 const char * resource_external_biblehub_interlinear_name ();
-
-
-#endif

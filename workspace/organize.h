@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WORKBENCH_ORGANIZE_H
-#define INCLUDED_WORKBENCH_ORGANIZE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string workspace_organize_url ();
 bool workspace_organize_acl (void * webserver_request);
 string workspace_organize (void * webserver_request);
-
-
-#endif

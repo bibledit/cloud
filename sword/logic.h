@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SWORD_LOGIC_H
-#define INCLUDED_SWORD_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string sword_logic_get_path ();
 void sword_logic_refresh_module_list ();
@@ -55,6 +51,3 @@ string sword_logic_diatheke (const string & module_name, const string& osis, int
 void sword_logic_log (string message);
 string sword_logic_clean_verse (const string & module, int chapter, int verse, string text);
 string sword_logic_get_resource_name (const string & source, const string & module);
-
-
-#endif

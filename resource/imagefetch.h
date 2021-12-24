@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_IMAGEFETCH_H
-#define INCLUDED_RESOURCE_IMAGEFETCH_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_imagefetch_url ();
 bool resource_imagefetch_acl (void * webserver_request);
 string resource_imagefetch (void * webserver_request);
-
-
-#endif

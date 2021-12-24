@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_JOURNAL_LOGIC_H
-#define INCLUDED_JOURNAL_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 bool journal_logic_filter_entry (const string& entry);
 string journal_logic_filtered_message ();
 string journal_logic_see_journal_for_progress ();
-
-
-#endif

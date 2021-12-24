@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SYSTEM_INDONESIAN_H
-#define INCLUDED_SYSTEM_INDONESIAN_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string system_indonesianfree_url ();
 bool system_indonesianfree_acl (void * webserver_request);
 string system_indonesianfree (void * webserver_request);
-
-
-#endif

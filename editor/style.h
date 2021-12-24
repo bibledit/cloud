@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITOR_STYLE_H
-#define INCLUDED_EDITOR_STYLE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editor_style_url ();
 bool editor_style_acl (void * webserver_request);
 string editor_style (void * webserver_request);
-
-
-#endif

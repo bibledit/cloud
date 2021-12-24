@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FONTS_LOGIC_H
-#define INCLUDED_FONTS_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Fonts_Logic
 {
@@ -37,6 +33,3 @@ public:
 private:
   static string folder ();
 };
-
-
-#endif

@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_DATE_H
-#define INCLUDED_FILTER_DATE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 int filter_date_numerical_second (int seconds);
 int filter_date_numerical_minute (int seconds);
@@ -45,6 +41,3 @@ string filter_date_day_rfc822 (int day);
 string filter_date_month_rfc822 (int month);
 string filter_date_rfc822 (int seconds);
 long filter_date_elapsed_microseconds (long start);
-
-
-#endif

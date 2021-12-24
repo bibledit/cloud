@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SYNC_SETTINGS_H
-#define INCLUDED_SYNC_SETTINGS_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/string.hpp>
 
-
 string sync_settings_url ();
 string sync_settings (void * webserver_request);
-
-
-#endif

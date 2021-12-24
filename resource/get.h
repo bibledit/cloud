@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_GET_H
-#define INCLUDED_RESOURCE_GET_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_get_url ();
 bool resource_get_acl (void * webserver_request);
 string resource_get (void * webserver_request);
-
-
-#endif

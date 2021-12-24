@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_COMPARATIVE_VIEW_H
-#define INCLUDED_RESOURCE_COMPARATIVE_VIEW_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_comparative1edit_url ();
 bool resource_comparative1edit_acl (void * webserver_request);
 string resource_comparative1edit (void * webserver_request);
-
-
-#endif

@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ESWORD_TEXT_H
-#define INCLUDED_ESWORD_TEXT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Esword_Text
 {
@@ -44,7 +40,3 @@ private:
   string currentText;
   vector <string> sql; // Contains the generated SQL.
 };
-
-
-#endif
-

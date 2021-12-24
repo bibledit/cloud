@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ONLINEBIBLE_TEXT_H
-#define INCLUDED_ONLINEBIBLE_TEXT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class OnlineBible_Text
 {
@@ -40,7 +36,3 @@ private:
   bool lineLoaded = false;
   vector <string> output;
 };
-
-
-#endif
-

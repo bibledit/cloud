@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_STUDYLIGHT_H
-#define INCLUDED_RESOURCE_STUDYLIGHT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_studylight_url ();
 bool resource_studylight_acl (void * webserver_request);
 string resource_studylight (void * webserver_request);
-
-
-#endif

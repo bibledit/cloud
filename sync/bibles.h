@@ -17,16 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SYNC_BIBLES_H
-#define INCLUDED_SYNC_BIBLES_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string sync_bibles_url ();
 string sync_bibles (void * webserver_request);
-
-
-#endif

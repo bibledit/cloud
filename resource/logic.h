@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_LOGIC_H
-#define INCLUDED_RESOURCE_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,
@@ -115,6 +111,3 @@ string resource_logic_assemble_comparative_resource (string title,
                                                      bool diacritics = false,
                                                      bool casefold = false,
                                                      bool cache = false);
-
-
-#endif

@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITONE2_INDEX_H
-#define INCLUDED_EDITONE2_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editone2_index_url ();
 bool editone2_index_acl (void * webserver_request);
 string editone2_index (void * webserver_request);
-
-
-#endif

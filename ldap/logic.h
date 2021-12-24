@@ -17,18 +17,11 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_LDAP_LOGIC_H
-#define INCLUDED_LDAP_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 void ldap_logic_initialize ();
 void ldap_logic_clear ();
 bool ldap_logic_is_on (bool log = false);
 bool ldap_logic_fetch (string user, string password, bool & access, string & email, int & role, bool log);
-
-
-#endif

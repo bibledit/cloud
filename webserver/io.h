@@ -17,9 +17,7 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WEBSERVER_IO_H
-#define INCLUDED_WEBSERVER_IO_H
+#pragma once
 
 #include <config.h>
 #ifdef HAVE_WINDOWS
@@ -27,7 +25,6 @@
 #else
 #include <sys/socket.h>
 #endif
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,7 +34,4 @@ int mybind (int socket, const struct sockaddr *address, unsigned int address_len
 
 #ifdef __cplusplus
 }
-#endif
-
-
 #endif

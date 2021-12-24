@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NOTES_POLL_H
-#define INCLUDED_NOTES_POLL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string notes_poll_url ();
 bool notes_poll_acl (void * webserver_request);
 string notes_poll (void * webserver_request);
-
-
-#endif

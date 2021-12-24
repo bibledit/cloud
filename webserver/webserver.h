@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WEBSERVER_WEBSERVER_H
-#define INCLUDED_WEBSERVER_WEBSERVER_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void http_server ();
 void https_server ();
-
-
-#endif

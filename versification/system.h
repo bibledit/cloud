@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_VERSIFICATION_SYSTEM_H
-#define INCLUDED_VERSIFICATION_SYSTEM_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string versification_system_url ();
 bool versification_system_acl (void * webserver_request);
 string versification_system (void * webserver_request);
-
-
-#endif

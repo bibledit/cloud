@@ -17,9 +17,7 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_LEXICON_LOGIC_H
-#define INCLUDED_LEXICON_LOGIC_H
+#pragma once
 
 
 #include <config/libraries.h>
@@ -74,5 +72,3 @@ string lexicon_logic_hebrew_morphology_render_state (string & value);
 
 string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong);
 
-
-#endif

@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_USER9VIEW_H
-#define INCLUDED_RESOURCE_USER9VIEW_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_user9view_url ();
 bool resource_user9view_acl (void * webserver_request);
 string resource_user9view (void * webserver_request);
-
-
-#endif

@@ -17,16 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SYNC_USFMRESOURCES_H
-#define INCLUDED_SYNC_USFMRESOURCES_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string sync_usfmresources_url ();
 string sync_usfmresources (void * webserver_request);
-
-
-#endif

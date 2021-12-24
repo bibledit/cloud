@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RELATED_LOGIC_H
-#define INCLUDED_RELATED_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
 
-
 vector <Passage> related_logic_get_verses (const vector <Passage> & input);
-
-
-#endif

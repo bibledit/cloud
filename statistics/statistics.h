@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NOTES_STATISTICS_H
-#define INCLUDED_NOTES_STATISTICS_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void statistics_statistics ();
-
-
-#endif

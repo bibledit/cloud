@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_PUBLIC_INDEX_H
-#define INCLUDED_PUBLIC_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string public_index_url ();
 bool public_index_acl (void * webserver_request);
 string public_index (void * webserver_request);
-
-
-#endif

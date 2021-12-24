@@ -17,18 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_MD5_H
-#define INCLUDED_FILTER_MD5_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string md5 (const string str);
-
-
-#endif
-
-
-

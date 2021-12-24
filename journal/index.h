@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_JOURNAL_INDEX_H
-#define INCLUDED_JOURNAL_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 const char * journal_index_url ();
 bool journal_index_acl (void * webserver_request);
 string journal_index (void * webserver_request);
-
-
-#endif

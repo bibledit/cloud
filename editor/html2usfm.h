@@ -17,18 +17,13 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITOR_EXPORT_H
-#define INCLUDED_EDITOR_EXPORT_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <database/styles.h>
 #include <pugixml/pugixml.hpp>
 
-
 using namespace pugi;
-
 
 class Editor_Html2Usfm
 {
@@ -62,8 +57,4 @@ private:
   string update_quill_class (string classname);
 };
 
-
 string editor_export_verse_quill (string stylesheet, string html);
-
-
-#endif

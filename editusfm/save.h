@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITUSFM_SAVE_H
-#define INCLUDED_EDITUSFM_SAVE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editusfm_save_url ();
 bool editusfm_save_acl (void * webserver_request);
 string editusfm_save (void * webserver_request);
-
-
-#endif

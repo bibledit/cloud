@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_PARATEXT_INDEX_H
-#define INCLUDED_PARATEXT_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string paratext_index_url ();
 bool paratext_index_acl (void * webserver_request);
 string paratext_index (void * webserver_request);
-
-
-#endif

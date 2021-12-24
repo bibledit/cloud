@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITOR_SELECT_H
-#define INCLUDED_EDITOR_SELECT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editor_select_url ();
 bool editor_select_acl (void * webserver_request);
 string editor_select (void * webserver_request);
-
-
-#endif

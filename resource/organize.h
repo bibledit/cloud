@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_ORGANIZE_H
-#define INCLUDED_RESOURCE_ORGANIZE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_organize_url ();
 bool resource_organize_acl (void * webserver_request);
 string resource_organize (void * webserver_request);
-
-
-#endif

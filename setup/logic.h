@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SETUP_LOGIC_H
-#define INCLUDED_SETUP_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 void setup_conditionally (const char * package);
 void setup_copy_library (const char * package);
@@ -35,6 +31,3 @@ void setup_complete_gui ();
 void setup_generate_locale_databases (bool progress);
 void setup_generate_verse_mapping_databases ();
 void setup_generate_versification_databases ();
-
-
-#endif

@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_UNITTESTS_UTILITIES_H
-#define INCLUDED_UNITTESTS_UTILITIES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 extern string testing_directory;
 extern int error_count;
@@ -44,6 +40,3 @@ void evaluate (int line, string func, map <string, string> desired, map <string,
 void evaluate (int line, string func, vector <pair<int, string>> desired, vector <pair<int, string>> actual);
 void trace_unit_tests (string func);
 int odf2txt (string odf, string txt);
-
-
-#endif

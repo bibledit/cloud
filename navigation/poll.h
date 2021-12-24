@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NAVIGATION_POLL_H
-#define INCLUDED_NAVIGATION_POLL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string navigation_poll_url ();
 bool navigation_poll_acl (void * webserver_request);
 string navigation_poll (void * webserver_request);
-
-
-#endif

@@ -17,15 +17,11 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_PARATEXT_LOGIC_H
-#define INCLUDED_PARATEXT_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <classes/merge.h>
 #include <filter/passage.h>
-
 
 class Paratext_Logic
 {
@@ -51,6 +47,3 @@ private:
   static string ancestor (string bible, int book);
   static string journalTag (string bible, int book, int chapter);
 };
-
-
-#endif

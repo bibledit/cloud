@@ -17,14 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SENDRECEIVE_LOGIC_H
-#define INCLUDED_SENDRECEIVE_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/string.hpp>
-
 
 void sendreceive_queue_bible (string bible);
 
@@ -39,6 +35,3 @@ void sendreceive_queue_startup ();
 bool sendreceive_logic_prioritized_task_is_active ();
 
 bool sendreceive_git_repository_linked (string bible);
-
-
-#endif

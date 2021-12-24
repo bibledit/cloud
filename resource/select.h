@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_SELECT_H
-#define INCLUDED_RESOURCE_SELECT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_select_url ();
 bool resource_select_acl (void * webserver_request);
 string resource_select (void * webserver_request);
-
-
-#endif

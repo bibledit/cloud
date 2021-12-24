@@ -17,15 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_IMAGE_H
-#define INCLUDED_FILTER_IMAGE_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void filter_image_get_sizes (string image_path, int & width, int & height);
-
-
-#endif

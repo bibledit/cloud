@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NOTES_COMMENT_H
-#define INCLUDED_NOTES_COMMENT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string notes_comment_url ();
 bool notes_comment_acl (void * webserver_request);
 string notes_comment (void * webserver_request);
-
-
-#endif

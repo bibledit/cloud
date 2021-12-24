@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITONE2_SAVE_H
-#define INCLUDED_EDITONE2_SAVE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editone2_save_url ();
 bool editone2_save_acl (void * webserver_request);
 string editone2_save (void * webserver_request);
-
-
-#endif

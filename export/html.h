@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EXPORT_HTML_H
-#define INCLUDED_EXPORT_HTML_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void export_html_book (string bible, int book, bool log);
-
-
-#endif

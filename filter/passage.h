@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_PASSAGE_H
-#define INCLUDED_FILTER_PASSAGE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Passage
 {
@@ -39,7 +35,6 @@ public:
   static Passage decode (const string& encoded);
 };
 
-
 string filter_passage_display (int book, int chapter, string verse);
 string filter_passage_display_inline (vector <Passage> passages);
 string filter_passage_display_multiline (vector <Passage> passages);
@@ -52,6 +47,3 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
 vector <string> filter_passage_handle_sequences_ranges (const string& passage);
 string filter_passage_link_for_opening_editor_at (int book, int chapter, string verse);
 vector <int> filter_passage_get_ordered_books (const string& bible);
-
-
-#endif

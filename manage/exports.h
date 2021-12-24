@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_MANAGE_EXPORTS_H
-#define INCLUDED_MANAGE_EXPORTS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 const char * manage_exports_url ();
 bool manage_exports_acl (void * webserver_request);
 string manage_exports (void * webserver_request);
-
-
-#endif

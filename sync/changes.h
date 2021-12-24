@@ -17,16 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SYNC_CHANGES_H
-#define INCLUDED_SYNC_CHANGES_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string sync_changes_url ();
 string sync_changes (void * webserver_request);
-
-
-#endif

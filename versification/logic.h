@@ -17,16 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_VERSIFICATION_LOGIC
-#define INCLUDED_VERSIFICATION_LOGIC
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 vector <string> versification_logic_names ();
 string versification_logic_data (string name);
-
-
-#endif

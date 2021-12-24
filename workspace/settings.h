@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WORKBENCH_SETTINGS_H
-#define INCLUDED_WORKBENCH_SETTINGS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string workspace_settings_url ();
 bool workspace_settings_acl (void * webserver_request);
 string workspace_settings (void * webserver_request);
-
-
-#endif

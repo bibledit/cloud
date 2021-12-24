@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_STRING_H
-#define INCLUDED_FILTER_STRING_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/string.hpp>
-
 
 vector <string> filter_string_explode (string value, char delimiter);
 vector <string> filter_string_explode (string value, string delimiters);
@@ -127,6 +123,3 @@ string crlf2lf (string str);
 string filter_text_html_get_element (string html, string element);
 string filter_string_tidy_invalid_html (string html);
 string filter_string_collapse_whitespace (string s);
-
-
-#endif

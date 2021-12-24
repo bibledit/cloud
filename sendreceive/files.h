@@ -17,18 +17,11 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SENDRECEIVE_FILES_H
-#define INCLUDED_SENDRECEIVE_FILES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string sendreceive_files_sendreceive_text ();
 string sendreceive_files_up_to_date_text ();
 void sendreceive_files ();
 void sendreceive_files_kick_watchdog ();
-
-
-#endif

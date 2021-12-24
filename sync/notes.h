@@ -17,16 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SYNC_NOTES_H
-#define INCLUDED_SYNC_NOTES_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string sync_notes_url ();
 string sync_notes (void * webserver_request);
-
-
-#endif

@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_DIVIDER_H
-#define INCLUDED_RESOURCE_DIVIDER_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_divider_url ();
 bool resource_divider_acl (void * webserver_request);
 string resource_divider (void * webserver_request);
-
-
-#endif

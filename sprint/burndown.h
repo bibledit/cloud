@@ -17,16 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SPRINT_LOGIC_H
-#define INCLUDED_SPRINT_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void sprint_burndown (string bible, int manualyear, int manualmonth);
 string sprint_create_burndown_chart (string bible, int year, int month);
-
-
-#endif

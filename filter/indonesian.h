@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_INDONESIAN_H
-#define INCLUDED_FILTER_INDONESIAN_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string filter_indonesian_alkitabkita_ourtranslation_name ();
 string filter_indonesian_terjemahanku_mytranslation_name (const string & user);
-
-
-#endif

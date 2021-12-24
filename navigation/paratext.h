@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NAVIGATION_PARATEXT_H
-#define INCLUDED_NAVIGATION_PARATEXT_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string navigation_paratext_url ();
 string navigation_paratext (void * webserver_request);
-
-
-#endif

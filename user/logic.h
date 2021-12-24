@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_USER_LOGIC_H
-#define INCLUDED_USER_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 void user_logic_optional_ldap_authentication (void * webserver_request, string user, string pass);
 
@@ -32,6 +28,3 @@ void user_logic_login_failure_register ();
 void user_logic_login_failure_clear ();
 void user_logic_store_account_creation (string username);
 void user_logic_delete_account (string user, string role, string email, string & feedback);
-
-
-#endif

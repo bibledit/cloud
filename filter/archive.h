@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_ARCHIVE_H
-#define INCLUDED_FILTER_ARCHIVE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string filter_archive_zip_folder (string folder);
 string filter_archive_zip_folder_shell_internal (string folder);
@@ -38,6 +34,3 @@ string filter_archive_uncompress (string file);
 int filter_archive_is_archive (string file);
 string filter_archive_microtar_pack (string tarball, string directory, vector <string> files);
 string filter_archive_microtar_unpack (string tarball, string directory);
-
-
-#endif

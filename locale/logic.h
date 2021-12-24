@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_LOCALE_LOGIC_H
-#define INCLUDED_LOCALE_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string locale_logic_month (int month);
 string locale_logic_date (int seconds);
@@ -46,6 +42,3 @@ string locale_logic_space_get_name (string space, bool english);
 
 string locale_logic_deobfuscate (string value);
 void locale_logic_obfuscate_initialize ();
-
-
-#endif

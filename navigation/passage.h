@@ -17,14 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NAVIGATION_PASSAGE_H
-#define INCLUDED_NAVIGATION_PASSAGE_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 class Navigation_Passage
 {
@@ -57,6 +53,3 @@ private:
   static Passage get_next_verse (void * webserver_request, string bible, int book, int chapter, int verse);
   static Passage get_previous_verse (void * webserver_request, string bible, int book, int chapter, int verse);
 };
-
-
-#endif

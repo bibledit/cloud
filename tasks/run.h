@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_TASKS_RUN_H
-#define INCLUDED_TASKS_RUN_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void tasks_run_check ();
 int tasks_run_active_count ();
-
-
-#endif

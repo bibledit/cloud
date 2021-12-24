@@ -17,14 +17,10 @@
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SEARCH_LOGIC_H
-#define INCLUDED_SEARCH_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/passage.h>
-
 
 string search_logic_index_folder ();
 string search_logic_bible_fragment (string bible);
@@ -44,6 +40,3 @@ void search_logic_delete_chapter (string bible, int book, int chapter);
 int search_logic_get_verse_count (string bible);
 void search_logic_copy_bible (string original, string destination);
 string search_logic_plain_replace_verse_text (string usfm);
-
-
-#endif

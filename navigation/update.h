@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NAVIGATION_UPDATE_H
-#define INCLUDED_NAVIGATION_UPDATE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string navigation_update_url ();
 bool navigation_update_acl (void * webserver_request);
 string navigation_update (void * webserver_request);
-
-
-#endif

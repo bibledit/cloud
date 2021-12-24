@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_BIBLE2RESOURCE_H
-#define INCLUDED_RESOURCE_BIBLE2RESOURCE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_bible2resource_url ();
 bool resource_bible2resource_acl (void * webserver_request);
 string resource_bible2resource (void * webserver_request);
-
-
-#endif

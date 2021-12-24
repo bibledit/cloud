@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITOR_ID_H
-#define INCLUDED_EDITOR_ID_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editor_id_url ();
 bool editor_id_acl (void * webserver_request);
 string editor_id (void * webserver_request);
-
-
-#endif

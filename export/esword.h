@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EXPORT_ESWORD_H
-#define INCLUDED_EXPORT_ESWORD_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void export_esword (string bible, bool log);
-
-
-#endif

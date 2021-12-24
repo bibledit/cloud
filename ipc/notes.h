@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_IPC_NOTES_H
-#define INCLUDED_IPC_NOTES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Ipc_Notes
 {
@@ -34,6 +30,3 @@ public:
   static bool alive (void * webserver_request, bool set, bool alive = false);
 private:
 };
-
-
-#endif

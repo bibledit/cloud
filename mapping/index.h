@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_MAPPING_INDEX_H
-#define INCLUDED_MAPPING_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string mapping_index_url ();
 bool mapping_index_acl (void * webserver_request);
 string mapping_index (void * webserver_request);
-
-
-#endif

@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_USER_NOTIFICATIONS_H
-#define INCLUDED_USER_NOTIFICATIONS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string user_notifications_url ();
 bool user_notifications_acl (void * webserver_request);
 string user_notifications (void * webserver_request);
-
-
-#endif

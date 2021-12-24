@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_MANAGE_HYPHENATE_H
-#define INCLUDED_MANAGE_HYPHENATE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 void manage_hyphenate (string bible, string user);
 string hyphenate_at_transition (vector <string>& firstset, vector <string>& secondset, string text);
 bool hyphenate_is_near_white_space (const vector <string> & characters, int offset);
-
-
-#endif

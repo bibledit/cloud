@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SENDRECEIVE_NOTES_H
-#define INCLUDED_SENDRECEIVE_NOTES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string sendreceive_notes_sendreceive_text ();
 string sendreceive_notes_up_to_date_text ();
@@ -31,6 +27,3 @@ void sendreceive_notes ();
 bool sendreceive_notes_upload ();
 bool sendreceive_notes_download (int lowId, int highId);
 void sendreceive_notes_kick_watchdog ();
-
-
-#endif

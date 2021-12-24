@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SEARCH_SEARCH_H
-#define INCLUDED_SEARCH_SEARCH_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string search_all_url ();
 bool search_all_acl (void * webserver_request);
 string search_all (void * webserver_request);
-
-
-#endif

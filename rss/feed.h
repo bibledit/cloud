@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RSS_FEED_H
-#define INCLUDED_RSS_FEED_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string rss_feed_url ();
 bool rss_feed_acl (void * webserver_request);
 string rss_feed (void * webserver_request);
-
-
-#endif

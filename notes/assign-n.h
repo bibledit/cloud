@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NOTES_ASSIGN_N_H
-#define INCLUDED_NOTES_ASSIGN_N_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string notes_assign_n_url ();
 bool notes_assign_n_acl (void * webserver_request);
 string notes_assign_n (void * webserver_request);
-
-
-#endif

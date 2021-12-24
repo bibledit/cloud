@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_TBSX_TEXT_H
-#define INCLUDED_TBSX_TEXT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Tbsx_Text
 {
@@ -47,6 +43,3 @@ private:
   bool in_note;
   vector <string> output;
 };
-
-
-#endif

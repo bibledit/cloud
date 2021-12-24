@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_USER1EDIT_H
-#define INCLUDED_RESOURCE_USER1EDIT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_user1edit_url ();
 bool resource_user1edit_acl (void * webserver_request);
 string resource_user1edit (void * webserver_request);
-
-
-#endif

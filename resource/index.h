@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_INDEX_H
-#define INCLUDED_RESOURCE_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_index_url ();
 bool resource_index_acl (void * webserver_request);
 string resource_index (void * webserver_request);
-
-
-#endif

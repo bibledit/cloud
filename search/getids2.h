@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SEARCH_GETIDS2_H
-#define INCLUDED_SEARCH_GETIDS2_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string search_getids2_url ();
 bool search_getids2_acl (void * webserver_request);
 string search_getids2 (void * webserver_request);
-
-
-#endif

@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_STYLES_VIEW_H
-#define INCLUDED_STYLES_VIEW_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string styles_view_url ();
 bool styles_view_acl (void * webserver_request);
 string styles_view (void * webserver_request);
-
-
-#endif

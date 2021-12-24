@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EXPORT_ONLINEBIBLE_H
-#define INCLUDED_EXPORT_ONLINEBIBLE_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void export_onlinebible (string bible, bool log);
-
-
-#endif

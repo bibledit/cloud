@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_PUGIXML_UTILS_H
-#define INCLUDED_PUGIXML_UTILS_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void pugixml_utils_error_logger (void * pugi_xml_parse_result, const string & xml);
-
-
-#endif

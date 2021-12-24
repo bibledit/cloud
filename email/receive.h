@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EMAIL_RECEIVE
-#define INCLUDED_EMAIL_RECEIVE
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 void email_receive ();
 int email_receive_count (string& error, bool verbose = false);
 string email_receive_message (string& error);
-
-
-#endif

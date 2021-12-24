@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NOTES_SEVERITY_1_H
-#define INCLUDED_NOTES_SEVERITY_1_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string notes_severity_1_url ();
 bool notes_severity_1_acl (void * webserver_request);
 string notes_severity_1 (void * webserver_request);
-
-
-#endif

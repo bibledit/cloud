@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_read_LOAD_H
-#define INCLUDED_read_LOAD_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string read_load_url ();
 bool read_load_acl (void * webserver_request);
 string read_load (void * webserver_request);
-
-
-#endif

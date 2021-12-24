@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_UNLOAD_H
-#define INCLUDED_RESOURCE_UNLOAD_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_unload_url ();
 bool resource_unload_acl (void * webserver_request);
 string resource_unload (void * webserver_request);
-
-
-#endif

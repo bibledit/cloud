@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WEBBIBLE_SEARCH_H
-#define INCLUDED_WEBBIBLE_SEARCH_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string webbible_search_url ();
 bool webbible_search_acl (void * webserver_request);
 string webbible_search (void * webserver_request);
-
-
-#endif

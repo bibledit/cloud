@@ -17,17 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_INDEX_LISTING_H
-#define INCLUDED_INDEX_LISTING_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string index_listing_url (string url);
 bool index_listing_acl (void * webserver_request, string url);
 string index_listing (void * webserver_request, string url);
-
-
-#endif

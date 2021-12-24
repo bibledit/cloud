@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EXPORT_USFM_H
-#define INCLUDED_EXPORT_USFM_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void export_usfm (string bible, bool log);
-
-
-#endif

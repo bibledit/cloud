@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_USFM_H
-#define INCLUDED_FILTER_USFM_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class BookChapterData
 {
@@ -33,7 +29,6 @@ public:
   int chapter;
   string data;
 };
-
 
 string usfm_one_string (string usfm);
 vector <string> usfm_get_markers_and_text (string code);
@@ -72,6 +67,3 @@ const char * usfm_marker_vp ();
 string usfm_remove_w_attributes (string usfm);
 string usfm_extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref);
 bool usfm_is_standard_q_poetry (const string & marker);
-
-
-#endif

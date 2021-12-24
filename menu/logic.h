@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_MENU_LOGIC_H
-#define INCLUDED_MENU_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string menu_logic_href (string href);
 string menu_logic_click (string item);
@@ -83,5 +79,3 @@ bool menu_logic_can_do_tabbed_mode ();
 void menu_logic_tabbed_mode_save_json (void * webserver_request);
 
 string menu_logic_verse_separator (string separator);
-
-#endif

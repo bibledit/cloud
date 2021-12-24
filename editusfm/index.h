@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_EDITUSFM_INDEX_H
-#define INCLUDED_EDITUSFM_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string editusfm_index_url ();
 bool editusfm_index_acl (void * webserver_request);
 string editusfm_index (void * webserver_request);
-
-
-#endif

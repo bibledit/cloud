@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_PUBLIC_CREATE_H
-#define INCLUDED_PUBLIC_CREATE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string public_create_url ();
 bool public_create_acl (void * webserver_request);
 string public_create (void * webserver_request);
-
-
-#endif

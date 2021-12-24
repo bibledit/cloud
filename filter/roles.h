@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_ROLES_H
-#define INCLUDED_FILTER_ROLES_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <webserver/request.h>
-
 
 class Filter_Roles
 {
@@ -42,6 +38,3 @@ public:
   static bool access_control (void * webserver_request, int role);
 private:
 };
-
-
-#endif

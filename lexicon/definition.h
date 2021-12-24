@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_LEXICON_DEFINITION_H
-#define INCLUDED_LEXICON_DEFINITION_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string lexicon_definition_url ();
 bool lexicon_definition_acl (void * webserver_request);
 string lexicon_definition (void * webserver_request);
-
-
-#endif

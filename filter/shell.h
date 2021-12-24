@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_FILTER_SHELL_H
-#define INCLUDED_FILTER_SHELL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 int filter_shell_run (string directory, string command, const vector <string> parameters,
                       string * output, string * error);
@@ -45,6 +41,3 @@ int filter_shell_vfork (string & output, string directory, string command,
                         const char * p11 = NULL,
                         const char * p12 = NULL,
                         const char * p13 = NULL);
-
-
-#endif

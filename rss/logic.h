@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RSS_LOGIC_H
-#define INCLUDED_RSS_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 #ifdef HAVE_CLOUD
 void rss_logic_feed_on_off ();
@@ -33,7 +29,4 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
                                string oldusfm, string newusfm);
 string rss_logic_xml_path ();
 void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions);
-#endif
-
-
 #endif

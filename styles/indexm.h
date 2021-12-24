@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_STYLES_INDEXM_H
-#define INCLUDED_STYLES_INDEXM_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string styles_indexm_url ();
 bool styles_indexm_acl (void * webserver_request);
 string styles_indexm (void * webserver_request);
-
-
-#endif

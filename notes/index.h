@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_NOTES_INDEX_H
-#define INCLUDED_NOTES_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string notes_index_url ();
 bool notes_index_acl (void * webserver_request);
 string notes_index (void * webserver_request);
-
-
-#endif

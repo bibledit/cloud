@@ -17,20 +17,13 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_SENDRECEIVE_SENDRECEIVE_H
-#define INCLUDED_SENDRECEIVE_SENDRECEIVE_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <filter/string.hpp>
-
 
 void sendreceive_sendreceive (string bible);
 string sendreceive_sendreceive_sendreceive_text ();
 string sendreceive_sendreceive_send_text ();
 string sendreceive_sendreceive_sendreceive_ready_text ();
 string sendreceive_sendreceive_send_ready_text ();
-
-
-#endif

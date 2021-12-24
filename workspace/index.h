@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_WORKBENCH_INDEX_H
-#define INCLUDED_WORKBENCH_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string workspace_index_url ();
 bool workspace_index_acl (void * webserver_request);
 string workspace_index (void * webserver_request);
-
-
-#endif

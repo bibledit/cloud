@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_RESOURCE_SWORD_H
-#define INCLUDED_RESOURCE_SWORD_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string resource_sword_url ();
 bool resource_sword_acl (void * webserver_request);
 string resource_sword (void * webserver_request);
-
-
-#endif

@@ -17,16 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_QUILL_LOGIC_H
-#define INCLUDED_QUILL_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 string quill_logic_class_prefix_block ();
 string quill_logic_class_prefix_inline ();
-
-
-#endif

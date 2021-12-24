@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_IMAGES_VIEW_H
-#define INCLUDED_IMAGES_VIEW_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string images_view_url ();
 bool images_view_acl (void * webserver_request);
 string images_view (void * webserver_request);
-
-
-#endif

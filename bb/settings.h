@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_BIBLE_SETTINGS_H
-#define INCLUDED_BIBLE_SETTINGS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string bible_settings_url ();
 bool bible_settings_acl (void * webserver_request);
 string bible_settings (void * webserver_request);
-
-
-#endif

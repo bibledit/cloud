@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_JOBS_H
-#define INCLUDED_DATABASE_JOBS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_Jobs
 {
@@ -46,6 +42,3 @@ public:
 private:
   sqlite3 * connect ();
 };
-
-
-#endif

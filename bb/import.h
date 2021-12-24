@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_BIBLE_IMPORT_H
-#define INCLUDED_BIBLE_IMPORT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string bible_import_url ();
 bool bible_import_acl (void * webserver_request);
 string bible_import (void * webserver_request);
-
-
-#endif

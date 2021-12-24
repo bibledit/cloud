@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_BIBLE_CSS_H
-#define INCLUDED_BIBLE_CSS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string bible_css_url ();
 bool bible_css_acl (void * webserver_request);
 string bible_css (void * webserver_request);
-
-
-#endif

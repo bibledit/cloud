@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_BOOK_CREATE_H
-#define INCLUDED_BOOK_CREATE_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 bool book_create (string bible, int book, int chapter, vector <string> & feedback);
-
-
-#endif

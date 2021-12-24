@@ -17,19 +17,12 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHANGES_LOGIC_H
-#define INCLUDED_CHANGES_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 void changes_logic_start ();
 const char * changes_personal_category ();
 const char * changes_bible_category ();
 string changes_interlinks (void * webserver_request, string my_url);
 void changes_clear_notifications_user (string jobid, string username);
-
-
-#endif

@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ACCESS_LOGIC_H
-#define INCLUDED_ACCESS_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 #define PRIVILEGE_VIEW_RESOURCES 1
 int access_logic_view_resources_role ();
@@ -46,4 +42,3 @@ bool access_logic_privilege_use_advanced_mode (void * webserver_request, string 
 void access_logic_user_level (void * webserver_request, string & user, int & level);
 void access_logic_create_client_files ();
 
-#endif

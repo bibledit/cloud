@@ -17,9 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_GIT_H
-#define INCLUDED_DATABASE_GIT_H
+#pragma once
 
 
 #include <config/libraries.h>
@@ -45,9 +43,6 @@ public:
 private:
   static const char * name ();
 };
-
-
-#endif
 
 
 #endif

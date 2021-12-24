@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_COLLABORATION_INDEX_H
-#define INCLUDED_COLLABORATION_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string collaboration_index_url ();
 bool collaboration_index_acl (void * webserver_request);
 string collaboration_index (void * webserver_request);
-
-
-#endif

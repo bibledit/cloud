@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHANGES_STATISTICS_H
-#define INCLUDED_CHANGES_STATISTICS_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string changes_statistics_url ();
 bool changes_statistics_acl (void * webserver_request);
 string changes_statistics (void * webserver_request);
-
-
-#endif

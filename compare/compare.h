@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_COMPARE_COMPARE_H
-#define INCLUDED_COMPARE_COMPARE_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void compare_compare (string bible, string compare, int jobId);
-
-
-#endif

@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_CONFIG_BIBLE_H
-#define INCLUDED_DATABASE_CONFIG_BIBLE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_Config_Bible
 {
@@ -178,6 +174,3 @@ private:
   static int getIValue (string bible, const char * key, int default_value);
   static void setIValue (string bible, const char * key, int value);
 };
-
-
-#endif

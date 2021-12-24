@@ -17,9 +17,7 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONFIG_CONFIG_H
-#define INCLUDED_CONFIG_CONFIG_H
+#pragma once
 
 
 // Whether file upload works in the browser on the platform.
@@ -95,4 +93,3 @@
 #endif
 
 
-#endif

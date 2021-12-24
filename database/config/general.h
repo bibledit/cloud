@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_CONFIG_GENERAL_H
-#define INCLUDED_DATABASE_CONFIG_GENERAL_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <webserver/request.h>
-
 
 class Database_Config_General
 {
@@ -162,6 +158,3 @@ private:
   static vector <string> getList (const char * key);
   static void setList (const char * key, vector <string> values);
 };
-
-
-#endif

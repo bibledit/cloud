@@ -17,15 +17,8 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHANGES_MODIFICATIONS_H
-#define INCLUDED_CHANGES_MODIFICATIONS_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 void changes_modifications ();
-
-
-#endif

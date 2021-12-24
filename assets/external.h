@@ -17,18 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ASSETS_EXTERNAL_H
-#define INCLUDED_ASSETS_EXTERNAL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string assets_external_url ();
 string assets_external (void * webserver_request);
 
 string assets_external_logic_link_addon ();
-
-
-#endif

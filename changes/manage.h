@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHANGES_MANAGE_H
-#define INCLUDED_CHANGES_MANAGE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string changes_manage_url ();
 bool changes_manage_acl (void * webserver_request);
 string changes_manage (void * webserver_request);
-
-
-#endif

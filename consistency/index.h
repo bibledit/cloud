@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONSISTENCY_INDEX_H
-#define INCLUDED_CONSISTENCY_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string consistency_index_url ();
 bool consistency_index_acl (void * webserver_request);
 string consistency_index (void * webserver_request);
-
-
-#endif

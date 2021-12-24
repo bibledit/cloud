@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_BIBLE_LOGIC_H
-#define INCLUDED_BIBLE_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <classes/merge.h>
-
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm);
 void bible_logic_delete_chapter (const string& bible, int book, int chapter);
@@ -79,6 +75,3 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
                                          vector <string> & operators,
                                          vector <string> & content);
 void bible_logic_create_empty_bible (const string & name);
-
-
-#endif

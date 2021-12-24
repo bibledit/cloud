@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_COMPARE_INDEX_H
-#define INCLUDED_COMPARE_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string compare_index_url ();
 bool compare_index_acl (void * webserver_request);
 string compare_index (void * webserver_request);
-
-
-#endif

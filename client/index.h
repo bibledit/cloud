@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CLIENT_INDEX_H
-#define INCLUDED_CLIENT_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string client_index_url ();
 bool client_index_acl (void * webserver_request);
 string client_index (void * webserver_request);
-
-
-#endif

@@ -17,16 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONFIRM_WORKER_H
-#define INCLUDED_CONFIRM_WORKER_H
-
+#pragma once
 
 #include <config/libraries.h>
 
-
 #ifdef HAVE_CLOUD
-
 
 class Confirm_Worker
 {
@@ -42,9 +37,5 @@ private:
   void * webserver_request;
   void informManagers (string email, string body);
 };
-
-
-#endif
-
 
 #endif

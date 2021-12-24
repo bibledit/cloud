@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHECKS_INDEX_H
-#define INCLUDED_CHECKS_INDEX_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string checks_index_url ();
 bool checks_index_acl (void * webserver_request);
 string checks_index (void * webserver_request);
-
-
-#endif

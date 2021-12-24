@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONSISTENCY_LOGIC_H
-#define INCLUDED_CONSISTENCY_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Consistency_Logic
 {
@@ -36,6 +32,3 @@ private:
   string verseText (string resource, int book, int chapter, int verse);
   string omit_verse_text (string input);
 };
-
-
-#endif

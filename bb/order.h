@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_BIBLE_ORDER_H
-#define INCLUDED_BIBLE_ORDER_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string bible_order_url ();
 bool bible_order_acl (void * webserver_request);
 string bible_order (void * webserver_request);
-
-
-#endif

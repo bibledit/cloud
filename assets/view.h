@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ASSETS_VIEW_H
-#define INCLUDED_ASSETS_VIEW_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Assets_View
 {
@@ -39,6 +35,3 @@ private:
   map <string, bool> zones;
   map <string, vector < map <string, string> > > iterations;
 };
-
-
-#endif

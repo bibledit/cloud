@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONSISTENCY_POLL_H
-#define INCLUDED_CONSISTENCY_POLL_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string consistency_poll_url ();
 bool consistency_poll_acl (void * webserver_request);
 string consistency_poll (void * webserver_request);
-
-
-#endif

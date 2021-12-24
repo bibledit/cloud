@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CLIENT_LOGIC_H
-#define INCLUDED_CLIENT_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 bool client_logic_client_enabled ();
 void client_logic_enable_client (bool enable);
@@ -43,6 +39,3 @@ string client_logic_no_cache_resources_path ();
 void client_logic_no_cache_resource_add (string name);
 void client_logic_no_cache_resource_remove (string name);
 vector <string> client_logic_no_cache_resources_get ();
-
-
-#endif

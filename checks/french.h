@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHECK_FRENCH_H
-#define INCLUDED_CHECK_FRENCH_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Checks_French
 {
@@ -36,6 +32,3 @@ public:
   static string right_guillemet ();
 private:
 };
-
-
-#endif

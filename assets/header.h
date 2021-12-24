@@ -17,14 +17,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ASSETS_HEADER_H
-#define INCLUDED_ASSETS_HEADER_H
-
+#pragma once
 
 #include <config/libraries.h>
 #include <assets/view.h>
-
 
 class Assets_Header
 {
@@ -57,5 +53,3 @@ private:
   vector <pair <string, string> > breadcrumbs;
 };
 
-
-#endif

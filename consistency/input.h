@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONSISTENCY_INPUT_H
-#define INCLUDED_CONSISTENCY_INPUT_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string consistency_input_url ();
 bool consistency_input_acl (void * webserver_request);
 string consistency_input (void * webserver_request);
-
-
-#endif

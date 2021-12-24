@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ASSETS_PAGE_H
-#define INCLUDED_ASSETS_PAGE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Assets_Page
 {
@@ -35,6 +31,3 @@ public:
   static string footer ();
 private:
 };
-
-
-#endif

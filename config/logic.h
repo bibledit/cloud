@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CONFIG_LOGIC_H
-#define INCLUDED_CONFIG_LOGIC_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 const char * config_logic_config_folder ();
 const char * config_logic_version ();
@@ -46,6 +42,3 @@ bool config_logic_enforce_https_client ();
 void config_logic_swipe_enabled (void * webserver_request, string & script);
 bool config_logic_indonesian_cloud_free ();
 bool config_logic_default_bibledit_configuration ();
-
-
-#endif

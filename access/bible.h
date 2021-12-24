@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_ACCESS_BIBLE_H
-#define INCLUDED_ACCESS_BIBLE_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 bool access_bible_read (void * webserver_request, const string & bible, string user = "");
 bool access_bible_write (void * webserver_request, const string & bible, string user = "");
@@ -31,6 +27,3 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
 vector <string> access_bible_bibles (void * webserver_request, string user = "");
 string access_bible_clamp (void * webserver_request, string bible);
 void access_a_bible (void * webserver_request, bool & read, bool & write);
-
-
-#endif

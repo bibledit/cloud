@@ -17,13 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_DATABASE_ABBOTHSMITH_H
-#define INCLUDED_DATABASE_ABBOTHSMITH_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Database_AbbottSmith
 {
@@ -35,6 +31,3 @@ public:
 private:
   const char * filename ();
 };
-
-
-#endif

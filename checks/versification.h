@@ -17,13 +17,9 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHECK_VERSIFICATION_H
-#define INCLUDED_CHECK_VERSIFICATION_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 class Checks_Versification
 {
@@ -33,6 +29,3 @@ public:
   static void verses (string bible, int book, int chapter, vector <int> verses);
 private:
 };
-
-
-#endif

@@ -17,17 +17,10 @@
  */
 
 
-// Todo #pragma once
-#ifndef INCLUDED_CHECKS_SETTINGS_SENTENCES_H
-#define INCLUDED_CHECKS_SETTINGS_SENTENCES_H
-
+#pragma once
 
 #include <config/libraries.h>
-
 
 string checks_settingssentences_url ();
 bool checks_settingssentences_acl (void * webserver_request);
 string checks_settingssentences (void * webserver_request);
-
-
-#endif

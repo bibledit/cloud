@@ -38,6 +38,10 @@
 #include <menu/logic.h>
 #include <demo/logic.h>
 #include <search/logic.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string bible_manage_url ()
@@ -161,11 +165,17 @@ string bible_manage (void * webserver_request)
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
   vector <string> bibles = access_bible_bibles (request);
-  string bibleblock;
+  xml_document document;
   for (auto & bible : bibles) {
-    bibleblock.append ("<li><a href=\"settings?bible=" + bible + "\">" + bible + "</a></li>\n");
+    xml_node li_node = document.append_child ("li");
+    xml_node a_node = li_node.append_child("a");
+    string href = filter_url_build_http_query ("settings", "bible", bible);
+    a_node.append_attribute("href") = href.c_str();
+    a_node.text().set(bible.c_str());
   }
-  view.set_variable ("bibleblock", bibleblock);
+  stringstream bibleblock;
+  document.print(bibleblock, "", format_raw);
+  view.set_variable ("bibleblock", bibleblock.str());
 
   if (!client_logic_client_enabled ()) view.enable_zone ("server");
 

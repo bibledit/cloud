@@ -22,6 +22,7 @@
 #include <assets/page.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/url.h>
 #include <webserver/request.h>
 #include <database/versifications.h>
 #include <database/books.h>
@@ -44,6 +45,10 @@
 #include <tasks/logic.h>
 #include <system/index.h>
 #include <rss/logic.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string bible_settings_url ()
@@ -181,17 +186,27 @@ string bible_settings (void * webserver_request)
 
   
   // Available books.
-  string bookblock;
+  xml_document book_document;
   vector <int> book_ids = filter_passage_get_ordered_books (bible);
   for (auto & book: book_ids) {
     string book_name = Database_Books::getEnglishFromId (book);
     book_name = translate(book_name);
-    if (manager_level) bookblock.append ("<a href=\"book?bible=" + bible + "&book=" + convert_to_string (book) + "\">");
-    bookblock.append (book_name);
-    if (manager_level) bookblock.append ("</a>");
-    bookblock.append ("\n");
+    xml_node a_or_span_node;
+    if (manager_level) {
+      a_or_span_node = book_document.append_child("a");
+      string href = filter_url_build_http_query ("book", "bible", bible);
+      href = filter_url_build_http_query (href, "book", convert_to_string (book));
+      a_or_span_node.append_attribute("href") = href.c_str();
+    } else {
+      a_or_span_node = book_document.append_child("span");
+    }
+    a_or_span_node.text().set(book_name.c_str());
+    xml_node space_node = book_document.append_child("span");
+    space_node.text().set(" ");
   }
-  view.set_variable ("bookblock", bookblock);
+  stringstream bookblock2;
+  book_document.print (bookblock2, "", format_raw);
+  view.set_variable ("bookblock", bookblock2.str());
   view.set_variable ("book_count", convert_to_string ((int)book_ids.size()));
 
 

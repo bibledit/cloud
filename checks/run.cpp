@@ -258,9 +258,13 @@ void checks_run (string bible)
   
   // Add a link to the online checking results.
   if (!emailBody.empty ()) {
-    string siteUrl = config_logic_site_url (NULL);
-    emailBody.push_back ("<p><a href=\"" + siteUrl + checks_index_url () + "\">" + translate("Checking results online") + "</a></p>");
-    emailBody.push_back ("<p><a href=\"" + siteUrl + checks_settings_url () + "\">" + translate ("Settings") + "</a></p>");
+    string siteUrl = config_logic_site_url (nullptr);
+    stringstream body1;
+    body1 << "<p><a href=" << quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";
+    emailBody.push_back (body1.str());
+    stringstream body2;
+    body2 << "<p><a href=" << quoted(siteUrl + checks_settings_url ()) << ">" << translate ("Settings") << "</a></p>";
+    emailBody.push_back (body2.str());
   }
   
   

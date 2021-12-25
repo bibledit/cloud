@@ -86,11 +86,11 @@ string checks_suppress (void * webserver_request)
       string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, convert_to_string (suppression.verse))});
       string result = escape_special_xml_characters (suppression.data);
       result.insert (0, bible + " " + passage + " ");
-      block.append ("<p style=\"color:grey;\">\n");
-      block.append ("<a href=\"suppress?release=" + convert_to_string (id) + "\">\n");
-      block.append (emoji_wastebasket () + "\n");
-      block.append ("</a>\n");
-      block.append (result + "\n");
+      block.append (R"(<p style="color:grey;">)");
+      block.append (R"(<a href="suppress?release=)" + convert_to_string (id) + R"(">)");
+      block.append (emoji_wastebasket ());
+      block.append ("</a>");
+      block.append (result);
       block.append ("</p>\n");
     }
   }

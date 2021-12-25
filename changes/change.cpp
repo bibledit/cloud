@@ -35,6 +35,10 @@
 #include <access/bible.h>
 #include <ipc/notes.h>
 #include <locale/logic.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string changes_change_url ()
@@ -153,38 +157,46 @@ string changes_change (void * webserver_request)
 
 
   // Details for the notes.
-  string notesblock;
+  xml_document notes_document;
   for (auto & note : notes) {
     string summary = database_notes.get_summary (note);
     summary = escape_special_xml_characters (summary);
     bool subscription = database_notes.is_subscribed (note, username);
     bool assignment = database_notes.is_assigned (note, username);
-    notesblock.append ("<tr>\n");
-    notesblock.append ("<td>\n");
+    xml_node tr_node = notes_document.append_child("tr");
+    xml_node td_node = tr_node.append_child("td");
+    xml_node a_node = td_node.append_child("a");
+    string href;
     if (live_notes_editor) {
-      notesblock.append ("<a class=\"opennote\" href=\"" + convert_to_string (note) + "\">" + summary + "</a>\n");
+      a_node.append_attribute("class") = "opennote";
+      href = convert_to_string (note);
     } else {
-      notesblock.append ("<a href=\"/notes/note?id=" + convert_to_string (note) + "\">" + summary + "</a>\n");
+      href = "/notes/note?id=" + convert_to_string (note);
     }
-    notesblock.append ("</td>\n");
-    notesblock.append ("<td>");
+    a_node.append_attribute("href") = href.c_str();
+    a_node.text().set(summary.c_str());
+    td_node = tr_node.append_child("td");
     if (subscription) {
-      notesblock.append ("<a href=\"unsubscribe" + convert_to_string (note) + "\">[" + translate("unsubscribe") + "]</a>");
+      xml_node a_node = td_node.append_child("a");
+      a_node.append_attribute("href") = string("unsubscribe" + convert_to_string (note)).c_str();
+      a_node.text().set(string("[" + translate("unsubscribe") + "]").c_str());
     }
-    notesblock.append ("</td>\n");
-    notesblock.append ("<td>");
+    td_node = tr_node.append_child("td");
     if (assignment) {
-      notesblock.append ("<a href=\"unassign" + convert_to_string (note) + "\">[" + translate("I have done my part on it") + "]</a>");
+      xml_node a_node = td_node.append_child("a");
+      a_node.append_attribute("href") = string("unassign" + convert_to_string (note)).c_str();
+      a_node.text().set(string("[" + translate("I have done my part on it") + "]").c_str());
     }
-    notesblock.append ("</td>\n");
-    notesblock.append ("<td>");
+    td_node = tr_node.append_child("td");
     if (level >= Filter_Roles::manager ()) {
-      notesblock.append ("<a href=\"delete" + convert_to_string (note) + "\">[" + translate("mark for deletion") + "]</a>");
+      xml_node a_node = td_node.append_child("a");
+      a_node.append_attribute("href") = string("delete" + convert_to_string (note)).c_str();
+      a_node.text().set(string("[" + translate("mark for deletion") + "]").c_str());
     }
-    notesblock.append ("</td>\n");
-    notesblock.append ("</tr>\n");
   }
-  view.set_variable ("notesblock", notesblock);
+  stringstream notesblock;
+  notes_document.print(notesblock, "", format_raw);
+  view.set_variable ("notesblock", notesblock.str());
 
   
   // Display page.

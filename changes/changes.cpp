@@ -36,6 +36,10 @@
 #include <navigation/passage.h>
 #include <changes/logic.h>
 #include <menu/logic.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string changes_changes_url ()
@@ -59,21 +63,21 @@ string changes_changes (void * webserver_request)
   // Handle AJAX call to load the summary of a change notification.
   if (request->query.count ("load")) {
     int identifier = convert_to_int (request->query["load"]);
-    string block;
+    stringstream block;
     Passage passage = database_modifications.getNotificationPassage (identifier);
     string link = filter_passage_link_for_opening_editor_at (passage.book, passage.chapter, passage.verse);
     string category = database_modifications.getNotificationCategory (identifier);
     if (category == changes_personal_category ()) category = emoji_smiling_face_with_smiling_eyes ();
     if (category == changes_bible_category ()) category = emoji_open_book ();
     string modification = database_modifications.getNotificationModification (identifier);
-    block.append ("<div id=\"entry" + convert_to_string (identifier) + "\">\n");
-    block.append ("<a href=\"expand\">" + emoji_file_folder () + "</a>\n");
-    block.append ("<a href=\"remove\">" + emoji_wastebasket () + "</a>\n");
-    block.append (link + "\n");
-    block.append (category + "\n");
-    block.append (modification + "\n");
-    block.append ("</div>\n");
-    return block;
+    block << "<div id=" << quoted("entry" + convert_to_string (identifier)) << + ">\n";
+    block << "<a href=" << quoted ("expand") << ">" << emoji_file_folder () << "</a>\n";
+    block << "<a href=" << quoted("remove") << ">" << emoji_wastebasket () << "</a>\n";
+    block << link << "\n";
+    block << category << "\n";
+    block << modification << "\n";
+    block << "</div>\n";
+    return block.str();
   }
   
   
@@ -207,8 +211,9 @@ string changes_changes (void * webserver_request)
   view.set_variable ("pendingidentifiers", pendingidentifiers);
   
   
-  string loading = "\"" + translate("Loading ...") + "\"";
-  string script = "var loading = " + loading + ";";
+  stringstream loading;
+  loading << quoted(translate("Loading ..."));
+  string script = "var loading = " + loading.str() + ";";
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 

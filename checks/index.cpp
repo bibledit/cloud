@@ -87,7 +87,7 @@ string checks_index (void * webserver_request)
   }
   
   
-  string resultblock;
+  stringstream resultblock;
   vector <Database_Check_Hit> hits = database_check.getHits ();
   for (auto hit : hits) {
     string bible = hit.bible;
@@ -99,18 +99,18 @@ string checks_index (void * webserver_request)
       int verse = hit.verse;
       string link = filter_passage_link_for_opening_editor_at (book, chapter, convert_to_string (verse));
       string information = escape_special_xml_characters (hit.data);
-      resultblock.append ("<p>\n");
-      resultblock.append ("<a href=\"index?approve=" + convert_to_string (id) + "\"> ✔ </a>\n");
-      resultblock.append ("<a href=\"index?delete=" + convert_to_string (id) + "\">" + emoji_wastebasket () + "</a>\n");
-      resultblock.append (bible);
-      resultblock.append (" ");
-      resultblock.append (link);
-      resultblock.append (" ");
-      resultblock.append (information);
-      resultblock.append ("</p>\n");
+      resultblock << "<p>\n";
+      resultblock << "<a href=" << quoted("index?approve=" + convert_to_string (id)) << "> ✔ </a>\n";
+      resultblock << "<a href=" << quoted ("index?delete=" + convert_to_string (id)) << ">" << emoji_wastebasket () << "</a>\n";
+      resultblock << bible;
+      resultblock << " ";
+      resultblock << link;
+      resultblock << " ";
+      resultblock << information;
+      resultblock << "</p>\n";
     }
   }
-  view.set_variable ("resultblock", resultblock);
+  view.set_variable ("resultblock", resultblock.str());
 
   
   if (checks_settings_acl (webserver_request)) {

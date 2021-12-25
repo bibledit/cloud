@@ -33,6 +33,10 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string compare_index_url ()
@@ -85,11 +89,16 @@ string compare_index (void * webserver_request)
   sort (names.begin (), names.end ());
   
   names = filter_string_array_diff (names, {bible});
-  string bibleblock;
+  xml_document document;
   for (auto & name : names) {
-    bibleblock.append ("<li><a href=\"index?bible=" + bible + "&compare=" + name + "\">" + name + "</a></li>\n");
+    xml_node li_node = document.append_child("li");
+    xml_node a_node = li_node.append_child("a");
+    a_node.append_attribute("href") = string("index?bible=" + bible + "&compare=" + name).c_str();
+    a_node.text().set(name.c_str());
   }
-  view.set_variable ("bibleblock", bibleblock);
+  stringstream ss;
+  document.print(ss, "", format_raw);
+  view.set_variable ("bibleblock", ss.str());
 
   page += view.render ("compare", "index");
   

@@ -107,7 +107,7 @@ string Consistency_Logic::response ()
             }
             size_t length2 = text.size ();
             if (length2 == length1) {
-              text.insert (0, "<div style=\"background-color: yellow;\">");
+              text.insert (0, R"(<div style="background-color: yellow;">)");
               text.append ("</div>");
             }
             Database_Volatile::setValue (id, passageKey + "." + resource, text);
@@ -124,7 +124,7 @@ string Consistency_Logic::response ()
         response.push_back (line);
         previousPassage = passage;
       } else {
-        response.push_back ("<span class=\"error\">" + translate("Unknown passage") + " " + line + "</span>");
+        response.push_back (R"(<span class="error">)" + translate("Unknown passage") + " " + line + "</span>");
       }
     }
   }

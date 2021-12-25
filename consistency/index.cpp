@@ -77,15 +77,15 @@ string consistency_index (void * webserver_request)
   }
   
   
-  string resourceblock;
+  stringstream resourceblock;
   vector <string> resources = request->database_config_user()->getConsistencyResources ();
   for (auto resource : resources) {
-    resourceblock.append (resource);
-    resourceblock.append ("\n");
-    resourceblock.append ("<a href=\"?remove=" + resource + "\">[" + translate("remove") + "]</a>");
-    resourceblock.append (" | ");
+    resourceblock << resource;
+    resourceblock << "\n";
+    resourceblock << "<a href=" << quoted("?remove=" + resource) << ">[" << translate("remove") << "]</a>";
+    resourceblock << " | ";
   }
-  view.set_variable ("resourceblock", resourceblock);
+  view.set_variable ("resourceblock", resourceblock.str());
 
   
   page += view.render ("consistency", "index");

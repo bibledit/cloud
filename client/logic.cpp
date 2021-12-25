@@ -180,8 +180,9 @@ string client_logic_link_to_cloud (string path, string linktext)
     linktext = url;
   }
   
-  string link = "<a href=\"" + url + "\"" + external + ">" + linktext + "</a>";
-  return link;
+  stringstream link;
+  link << "<a href=" << quoted(url) << external << ">" << linktext << "</a>";
+  return link.str();
 }
 
 

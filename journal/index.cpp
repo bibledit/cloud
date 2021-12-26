@@ -96,7 +96,7 @@ string render_journal_entry (string filename, int userlevel)
 
   string a_open, a_close;
   if (limit || lines.size () > 1) {
-    a_open = "<a href=\"" + filename + "\">"; // Todo use of \" can be made more elegant.
+    a_open = R"(<a href=")" + filename + R"(">)";
     a_close = "</a>";
   }
   
@@ -189,8 +189,9 @@ string journal_index (void * webserver_request)
   // It should be passed as a String object in JavaScript.
   // Because when it were passed as an Int, JavaScript would round the value off.
   // And rounding it off often led to double journal entries.
-  string script = "var filename = \"" + lastfilename + "\";";
-  view.set_variable ("script", script);
+  stringstream script;
+  script << "var filename = " << quoted(lastfilename) << ";";
+  view.set_variable ("script", script.str());
 
 
   page += view.render ("journal", "index");

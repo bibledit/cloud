@@ -119,9 +119,9 @@ int main ()
     // Clean up the "translate" (gettext) calls.
     contents = str_replace ("translate (", "translate(", contents);
 
-    // Gettext markup. // Todo use of \" can be made more elegant.
-    string gettextopen = "translate(\"";
-    string gettextclose = "\")";
+    // Gettext markup.
+    string gettextopen = R"(translate(")";
+    string gettextclose = R"("))";
     
     // Limit gettext iterations.
     int iterations = 0;

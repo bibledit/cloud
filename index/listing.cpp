@@ -35,7 +35,7 @@ bool index_listing_match (string url)
 }
 
 
-string index_listing_url (string url) // Todo use of \" can be made more elegant.
+string index_listing_url (string url)
 {
   if (index_listing_match (url)) return url;
   return "\\";
@@ -76,7 +76,7 @@ string index_listing (void * webserver_request, string url)
       string line;
       line.append ("<tr>");
       line.append ("<td>");
-      line.append ("<a href=\"" + filter_url_create_path (url, file) + "\">");
+      line.append (R"(<a href=")" + filter_url_create_path (url, file) + R"(">)");
       line.append (file);
       line.append ("</a>");
       line.append ("</td>");

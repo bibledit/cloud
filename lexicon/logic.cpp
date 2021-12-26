@@ -68,30 +68,31 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
     vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
+    stringstream ss;
     if (!rowids.empty ()) {
       string id = "lexicontxt" + prefix;
-      html.append ("<div id=\"" + id + "\">\n");
+      ss << "<div id=" << quoted(id) << ">" << endl;
       for (auto rowid : rowids) {
-        html.append ("<table class='interlinear rtl'>");
-        html.append ("<tr>");
-        html.append ("<td class=\"hebrew\">");
+        ss << "<table class='interlinear rtl'>";
+        ss << "<tr>";
+        ss << "<td class=" << quoted ("hebrew") << ">";
         string word = database_etcbc4.word (rowid);
-        string link = "<a href=\"" HEBREW_ETCBC4_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
-        html.append (link);
-        html.append ("</td>");
-        html.append ("</tr>");
-        html.append ("<tr>");
-        html.append ("<td>");
+        ss << "<a href=" << quoted(HEBREW_ETCBC4_PREFIX + convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "</td>";
+        ss << "</tr>";
+        ss << "<tr>";
+        ss << "<td>";
         string gloss = database_etcbc4.gloss (rowid);
         gloss = escape_special_xml_characters (gloss);
-        html.append (gloss);
-        html.append ("</td>");
-        html.append ("</tr>");
-        html.append ("</table>");
+        ss << gloss;
+        ss << "</td>";
+        ss << "</tr>";
+        ss << "</table>";
       }
-      html.append ("</div>");
-      html.append (lexicon_logic_get_script (prefix));
+      ss << "</div>";
+      ss << lexicon_logic_get_script (prefix);
     }
+    html.append(ss.str());
   }
 
   if (lexicon == KJV_LEXICON_NAME) {

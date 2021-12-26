@@ -67,13 +67,13 @@ void Dialog_List::add_row (string text, string parameter, string value)
   list_block.append ("<li>");
   if (post_result) {
     list_block.append ("\n");
-    list_block.append ("<form action=\"" + base_url + "\" method=\"post\">\n");
-    list_block.append ("<a href=\"javascript:;\" onclick=\"parentNode.submit();\">" + text + "</a>\n");
-    list_block.append ("<input type=\"hidden\" name=\"add\" value=\"" + value + "\" />\n");
+    list_block.append (R"(<form action=")" + base_url + R"(" method="post">)" + "\n");
+    list_block.append (R"(<a href="javascript:;" onclick="parentNode.submit();">)" + text + "</a>\n");
+    list_block.append (R"(<input type="hidden" name="add" value=")" + value + R"(" />)" + "\n");
     list_block.append ("</form>\n");
   } else {
     string href = filter_url_build_http_query (base_url, parameter, value);
-    list_block.append ("<a href=\"" + href + "\">" + text + "</a>");
+    list_block.append (R"(<a href=")" + href + R"(">)" + text + "</a>");
   }
   list_block.append ("</li>");
 }

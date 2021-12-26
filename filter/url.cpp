@@ -1614,7 +1614,7 @@ string filter_url_set_scheme (string url, bool secure)
 }
 
 
-// Replace invalid characters in Windows filenames with valid abbreviations.
+// Replace invalid characters in Windows filenames with valid abbreviations. // Todo use of \" can be made more elegant.
 string filter_url_clean_filename (string name)
 {
   name = filter_string_str_replace ("\\", "b2", name);

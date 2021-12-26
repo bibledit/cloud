@@ -57,7 +57,7 @@ void statistics_statistics ()
     vector <string> body;
     
   
-    size_t change_notificatons_count = 0;
+    size_t change_notificatons_count = 0; // Todo use of \" can be made more elegant.
     if (request.database_config_user()->getUserPendingChangesNotification (user)) {
       string any_bible = "";
       vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);

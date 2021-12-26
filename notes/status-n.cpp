@@ -58,7 +58,7 @@ string notes_status_n (void * webserver_request)
   Assets_View view;
   
   
-  string statusblock;
+  string statusblock; // Todo use of \" can be made more elegant.
   vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (auto & status : statuses) {
     statusblock.append ("<li><a href=\"bulk?status=" + status.raw + "\">" + status.raw + "</a></li>\n");

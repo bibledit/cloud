@@ -126,7 +126,7 @@ string styles_indexm (void * webserver_request)
     if (editable) {
       sheetblock.push_back ("<a href=\"sheetm?name=" + sheet + "\">[" + translate("edit") + "]</a>");
     }
-    sheetblock.push_back ("</p>");
+    sheetblock.push_back ("</p>"); // Todo use of \" can be made more elegant.
   }
   
   view.set_variable ("sheetblock", filter_string_implode (sheetblock, "\n"));

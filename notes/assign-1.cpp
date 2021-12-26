@@ -79,7 +79,7 @@ string notes_assign_1 (void * webserver_request)
   }
 
 
-  // Note assignees.
+  // Note assignees. // Todo use of \" can be made more elegant.
   string userblock;
   vector <string> assignees = database_noteassignment.assignees (user);
   for (auto & assignee : assignees) {

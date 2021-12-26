@@ -80,7 +80,7 @@ string versification_index (void * webserver_request)
     }
   }
 
-  string systemblock;
+  string systemblock; // Todo use of \" can be made more elegant.
   vector <string> systems = database_versifications.getSystems();
   for (auto & system : systems) {
     systemblock.append ("<p><a href=\"system?name=" + system + "\">" + system + "</a></p>\n");

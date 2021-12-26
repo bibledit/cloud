@@ -81,7 +81,7 @@ string lexicon_definition (void * webserver_request)
       for (size_t i = 0; i < strongs.size (); i++) {
         string rendering = lexicon_logic_render_strongs_definition (strongs[i]);
         if (!rendering.empty ()) renderings.push_back (rendering);
-        rendering = "<a href=\"" BDB_PREFIX + bdbs[i] + "\">Brown Driver Briggs</a>";
+        rendering = "<a href=\"" BDB_PREFIX + bdbs[i] + "\">Brown Driver Briggs</a>"; // Todo use of \" can be made more elegant.
         renderings.push_back (rendering);
       }
     }

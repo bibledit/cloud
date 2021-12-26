@@ -133,7 +133,7 @@ string workspace_settings (void * webserver_request)
   
   
   vector <string> samples = workspace_get_default_names ();
-  for (size_t i = 0; i < samples.size (); i++) {
+  for (size_t i = 0; i < samples.size (); i++) { // Todo use of \" can be made more elegant.
     string sample = "<a href=\"settings?name=##name##&preset=" + convert_to_string (i + 1) + "\">" + samples[i] + "</a>";
     samples [i] = sample;
   }

@@ -59,7 +59,7 @@ string notes_bible_n (void * webserver_request)
   Assets_View view;
   
   
-  string bibleblock;
+  string bibleblock; // Todo use of \" can be made more elegant.
   vector <string> bibles = access_bible_bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {

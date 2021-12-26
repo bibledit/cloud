@@ -60,7 +60,7 @@ string notes_unassign_n (void * webserver_request)
 
   // Notes can be unassigned from users who have access to the Bibles
   // the currently logged-in user has access to, and who have notes assigned.
-  string userblock;
+  string userblock; // Todo use of \" can be made more elegant.
   vector <string> bibles = access_bible_bibles (webserver_request);
   vector <string> users = database_notes.get_all_assignees (bibles);
   for (auto & user : users) {

@@ -58,7 +58,7 @@ string notes_severity_n (void * webserver_request)
   Assets_View view;
   
   
-  string severityblock;
+  string severityblock; // Todo use of \" can be made more elegant.
   vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
   for (auto & severity : severities) {
     severityblock.append ("<li><a href=\"bulk?severity=" + severity.raw + "\">" + severity.localized + "</a></li>\n");

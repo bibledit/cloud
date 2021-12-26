@@ -139,7 +139,7 @@ string notes_actions (void * webserver_request)
   for (auto & assignee : assignees) {
     assigneeblock.append (assignee);
     if (level >= Filter_Roles::manager ()) {
-      assigneeblock.append ("<a href=\"?id=" + convert_to_string (id) + "&unassign=" + assignee + "\"> [" + translate("unassign") + "]</a>");
+      assigneeblock.append ("<a href=\"?id=" + convert_to_string (id) + "&unassign=" + assignee + "\"> [" + translate("unassign") + "]</a>"); // Todo use of \" can be made more elegant.
       assigneeblock.append (" | ");
     }
   }

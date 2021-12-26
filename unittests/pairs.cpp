@@ -86,7 +86,7 @@ void test_pairs ()
       hit = results[1];
       evaluate (__LINE__, __func__, "Opening character \"(\" without its matching closing character \")\"", hit.data);
     }
-    database_check.truncateOutput ("");
+    database_check.truncateOutput (""); // Todo use of \" can be made more elegant.
   }
 
   {

@@ -152,7 +152,7 @@ void export_bibledropbox (string user, string bible)
     Database_Logs::log (tag + error, Filter_Roles::translator ());
     email_schedule (user, "Error submitting to the Bible Drop Box", error);
   }
-  size_t pos = response.find ("<head>");
+  size_t pos = response.find ("<head>"); // Todo use of \" can be made more elegant.
   if (pos != string::npos) {
     response.insert (pos + 6, "<base href=\"http://freely-given.org/Software/BibleDropBox/\">");
   }

@@ -107,7 +107,7 @@ string styles_sheetm (void * webserver_request)
     markerblock.push_back ("<td><a href=\"view?sheet=" + name + "&style=" + marker + "\">" + marker + "</a></td>");
     markerblock.push_back ("<td>" + marker_name + "</td>");
     markerblock.push_back ("<td>[<a href=\"?name=" + name + "&delete=" + marker + "\">" + translate("delete") + "]</a></td>");
-    markerblock.push_back ("</tr>");
+    markerblock.push_back ("</tr>"); // Todo use of \" can be made more elegant.
   }
   view.set_variable ("markerblock", filter_string_implode (markerblock, "\n"));
   

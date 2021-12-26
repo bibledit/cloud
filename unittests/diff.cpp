@@ -34,7 +34,7 @@ void test_diff ()
 {
   trace_unit_tests (__func__);
   
-  // Difference.
+  // Difference. // Todo use of \" can be made more elegant.
   {
     vector <string> removals, additions;
     string output = filter_diff_diff ("Old text", "New text", &removals, &additions);

@@ -146,6 +146,9 @@ int main (int argc, char **argv)
   
   refresh_sandbox (false);
   test_html2format ();
+  test_html2usfm ();
+  test_usfm2html ();
+  test_usfm2html2usfm ();
   test_dev ();
   refresh_sandbox (false);
   exit (0);

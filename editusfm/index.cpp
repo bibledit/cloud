@@ -111,15 +111,16 @@ string editusfm_index (void * webserver_request)
   
   
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
-  string script =
-  "var usfmEditorChapterLoaded = \"" + locale_logic_text_loaded () + "\";\n"
-  "var usfmEditorWillSave = \"" + locale_logic_text_will_save () + "\";\n"
-  "var usfmEditorChapterSaving = \"" + locale_logic_text_saving () + "\";\n"
-  "var usfmEditorChapterSaved = \"" + locale_logic_text_saved () + "\";\n"
-  "var usfmEditorChapterRetrying = \"" + locale_logic_text_retrying () + "\";\n"
-  "var usfmEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var usfmEditorWriteAccess = true;\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n";
+  stringstream ss;
+  ss << "var usfmEditorChapterLoaded = " << quoted(locale_logic_text_loaded ()) << ";" << endl;
+  ss << "var usfmEditorWillSave = " << quoted(locale_logic_text_will_save ()) << ";" << endl;
+  ss << "var usfmEditorChapterSaving = " << quoted(locale_logic_text_saving ()) << ";" << endl;
+  ss << "var usfmEditorChapterSaved = " << quoted(locale_logic_text_saved ()) << ";" << endl;
+  ss << "var usfmEditorChapterRetrying = " << quoted(locale_logic_text_retrying ()) << ";" << endl;
+  ss << "var usfmEditorVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";" << endl;
+  ss << "var usfmEditorWriteAccess = true;" << endl;
+  ss << "var verticalCaretPosition = " << verticalCaretPosition << ";" << endl;
+  string script = ss.str();
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

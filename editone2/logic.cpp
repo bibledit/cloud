@@ -33,7 +33,7 @@ void editone_logic_prefix_html (string usfm, string stylesheet, string & html, s
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id's in the same DOM.
-    html = filter_string_str_replace (" id=\"notes\"", " id=\"prefixnotes\"", html);
+    html = filter_string_str_replace (R"( id="notes")", R"( id="prefixnotes")", html);
     // The last paragraph style in this USFM fragment, the prefix to the editable fragment.
     // If the last paragraph has any content in it,
     // for correct visual representation of the editable fragment, that follows this,
@@ -65,7 +65,7 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id in the same DOM.
-    html = filter_string_str_replace (" id=\"notes\"", " id=\"suffixnotes\"", html);
+    html = filter_string_str_replace (R"( id="notes")", R"( id="suffixnotes")", html);
   }
   
   // If the first paragraph of the suffix does not have a paragraph style applied,

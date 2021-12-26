@@ -96,7 +96,7 @@ string render_journal_entry (string filename, int userlevel)
 
   string a_open, a_close;
   if (limit || lines.size () > 1) {
-    a_open = "<a href=\"" + filename + "\">";
+    a_open = "<a href=\"" + filename + "\">"; // Todo use of \" can be made more elegant.
     a_close = "</a>";
   }
   

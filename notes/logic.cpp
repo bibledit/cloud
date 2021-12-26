@@ -490,7 +490,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   // Include links to the Cloud: One to the note, and one to the active workspace.
   contents.append ("<br>\n");
   contents.append ("<p>");
-  contents.append ("<a href=\"");
+  contents.append ("<a href=\""); // Todo use of \" can be made more elegant.
   string notelink = config_logic_site_url (webserver_request) + notes_note_url () + "?id=" + convert_to_string (identifier);
   contents.append (notelink);
   contents.append ("\">");

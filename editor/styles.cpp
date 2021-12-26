@@ -24,6 +24,10 @@
 #include <locale/translate.h>
 #include <styles/logic.h>
 #include <database/config/bible.h>
+#include <pugixml/pugixml.hpp>
+
+
+using namespace pugi;
 
 
 string Editor_Styles::getRecentlyUsed (void * webserver_request)
@@ -44,14 +48,24 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
     if (data.marker.empty ()) continue;
     string name = data.name + " (" + marker + ")";
     string info = data.info;
-    fragment += "<a href=\"" + marker + "\" title=\"" + info + "\" unselectable=\"on\" class=\"unselectable\" tabindex=\"-1\">" + name + "</a>";
+    xml_document document;
+    xml_node a_node = document.append_child("a");
+    a_node.append_attribute("href") = marker.c_str();
+    a_node.append_attribute("title") = info.c_str();
+    a_node.append_attribute("unselectable") = "on";
+    a_node.append_attribute("class") = "unselectable";
+    a_node.append_attribute("tabindex") = "-1";
+    a_node.text().set(name.c_str());
+    stringstream ss;
+    document.print(ss, "", format_raw);
+    fragment.append (ss.str());
   }
   
   // Links for cancelling and for all styles.
   fragment += " ";
-  fragment += "<a href=\"cancel\">[" + translate("cancel") + "]</a>";
+  fragment += R"(<a href="cancel">[)" + translate("cancel") + "]</a>";
   fragment += " ";
-  fragment += "<a href=\"all\" >[" + translate("all") + "]</a>";
+  fragment += R"(<a href="all">[)" + translate("all") + "]</a>";
   
   return fragment;
 }
@@ -68,7 +82,7 @@ string Editor_Styles::getAll (void * webserver_request)
   
   vector <string> lines;
   
-  lines.push_back ("<select id=\"styleslist\">");
+  lines.push_back (R"(<select id="styleslist">)");
   
   string line = translate("Select style");
   lines.push_back ("<option>" + line + "</option>");
@@ -88,7 +102,7 @@ string Editor_Styles::getAll (void * webserver_request)
   
   // Link for cancelling.
   lines.push_back (" ");
-  lines.push_back ("<a href=\"cancel\">[" + translate("cancel") + "]</a>");
+  lines.push_back (R"(<a href="cancel">[)" + translate("cancel") + "]</a>");
   
   string html = filter_string_implode (lines, "\n");
   

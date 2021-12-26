@@ -378,7 +378,7 @@ bool filter_git_commit (string repository, string user, string message,
 {
   user = filter_git_user (user);
   string email = filter_git_email (user);
-  string out, err;
+  string out, err; // Todo use of \" can be made more elegant.
   int result = filter_shell_run (repository, "git",
                                 {"commit",
                                  "--author=\"" + user + " <" + email + ">\"",

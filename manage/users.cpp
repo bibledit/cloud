@@ -242,7 +242,7 @@ string manage_users (void * webserver_request)
     // New row in table.
     tbody.push_back ("<tr>");
     
-    // Display emoji to delete this account.
+    // Display emoji to delete this account. // Todo use of \" can be made more elegant.
     tbody.push_back ("<td>");
     tbody.push_back ("<a href=\"?user=" + username + "&delete\">" + emoji_wastebasket () + "</a> " + username);
     tbody.push_back ("</td>");

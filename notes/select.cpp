@@ -141,7 +141,7 @@ string notes_select (void * webserver_request)
   }
   
   
-  string active_class = "class=\"active\"";
+  string active_class = "class=\"active\""; // Todo use of \" can be made more elegant.
   
   
   int passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();

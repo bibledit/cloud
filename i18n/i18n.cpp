@@ -119,7 +119,7 @@ int main ()
     // Clean up the "translate" (gettext) calls.
     contents = str_replace ("translate (", "translate(", contents);
 
-    // Gettext markup.
+    // Gettext markup. // Todo use of \" can be made more elegant.
     string gettextopen = "translate(\"";
     string gettextclose = "\")";
     

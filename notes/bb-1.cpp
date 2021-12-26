@@ -73,7 +73,7 @@ string notes_bible_1 (void * webserver_request)
   }
   
   
-  string bibleblock;
+  string bibleblock; // Todo use of \" can be made more elegant.
   vector <string> bibles = access_bible_bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {

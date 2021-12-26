@@ -106,7 +106,7 @@ string email_index (void * webserver_request)
   view.set_variable ("storagehost", Database_Config_General::getMailStorageHost ());
   view.set_variable ("storageusername", Database_Config_General::getMailStorageUsername ());
   view.set_variable ("storagepassword", Database_Config_General::getMailStoragePassword ());
-  if (Database_Config_General::getMailStorageProtocol () == "POP3S") view.set_variable ("storagepop3s", "selected=\"selected\"");
+  if (Database_Config_General::getMailStorageProtocol () == "POP3S") view.set_variable ("storagepop3s", R"(selected="selected")");
   view.set_variable ("storageport", Database_Config_General::getMailStoragePort ());
   
   // Sending email.

@@ -35,7 +35,7 @@ bool index_listing_match (string url)
 }
 
 
-string index_listing_url (string url)
+string index_listing_url (string url) // Todo use of \" can be made more elegant.
 {
   if (index_listing_match (url)) return url;
   return "\\";

@@ -63,7 +63,7 @@ string notes_assign_n (void * webserver_request)
   string user = request->session_logic ()->currentUser ();
  
   
-  // Notes can be assigned to the assignees.
+  // Notes can be assigned to the assignees. // Todo use of \" can be made more elegant.
   string userblock;
   vector <string> assignees = database_noteassignment.assignees (user);
   for (auto & assignee : assignees) {

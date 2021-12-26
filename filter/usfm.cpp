@@ -56,7 +56,7 @@ string usfm_one_string (string usfm)
     if (line != "") {
       // The line will be appended to the output line.
       // If it does not start with a backslash (\), a space is inserted first.
-      size_t pos = line.find ("\\");
+      size_t pos = line.find ("\\"); // Todo use of \" can be made more elegant.
       if (pos != 0) {
         if (long_string != "") long_string += " ";
       }

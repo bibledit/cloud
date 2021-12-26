@@ -86,7 +86,7 @@ string filter_diff_diff (string oldstring, string newstring,
       line.insert (0, "<span style=\"font-weight: bold;\"> ");
       line.append (" </span>");
     }
-    if (indicator == '-') {
+    if (indicator == '-') { // Todo use of \" can be made more elegant.
       if (removals) removals->push_back(line);
       line.insert (0, "<span style=\"text-decoration: line-through;\"> ");
       line.append (" </span>");

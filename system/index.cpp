@@ -308,7 +308,7 @@ string system_index (void * webserver_request)
   vector <string> fonts = Fonts_Logic::getFonts ();
   vector <string> fontsblock;
   for (auto & font : fonts) {
-    fontsblock.push_back ("<p>");
+    fontsblock.push_back ("<p>"); // Todo use of \" can be made more elegant.
 #ifndef HAVE_CLIENT
     fontsblock.push_back ("<a href=\"?deletefont=" + font+ "\" title=\"" + translate("Delete font") + "\">" + emoji_wastebasket () + "</a>");
 #endif

@@ -53,7 +53,7 @@ string public_notes (void * webserver_request)
   vector <int> identifiers = database_notes.select_notes ({bible}, book, chapter, 0, 1, 0, 0, "", "", "", false, -1, 0, "", -1);
 
   
-  string notesblock;
+  string notesblock; // Todo use of \" can be made more elegant.
   for (auto & identifier : identifiers) {
     // Display only public notes.
     if (database_notes.get_public (identifier)) {

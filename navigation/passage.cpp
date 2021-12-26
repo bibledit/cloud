@@ -255,7 +255,7 @@ string Navigation_Passage::get_chapters_fragment (void * webserver_request, stri
   html.insert (0, "<span id=\"applychapter\">" + translate ("Select chapter"));
   html.append ("</span>");
 
-  return html;
+  return html; // Todo use of \" can be made more elegant.
 }
 
 

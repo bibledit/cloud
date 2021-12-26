@@ -53,7 +53,7 @@ void test_usfm2html2usfm ()
 
   // Two unknown opening markers.
   {
-    string standard_usfm =
+    string standard_usfm = // Todo use of \" can be made more elegant.
     "\\abc\n"
     "\\abc";
     string standard_html =

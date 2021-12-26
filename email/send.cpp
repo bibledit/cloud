@@ -94,7 +94,7 @@ void email_send ()
       continue;
     }
     
-    // Send the email.
+    // Send the email. // Todo use of \" can be made more elegant.
     string result = email_send (email, username, subject, body);
     if (result.empty ()) {
       database_mail.erase (id);

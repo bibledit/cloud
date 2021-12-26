@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace jsonxx;
 
 
-// Test included JSON libraries.
+// Test included JSON libraries. // Todo use of \" can be made more elegant.
 void test_json ()
 {
   trace_unit_tests (__func__);

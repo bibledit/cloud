@@ -106,7 +106,7 @@ string webbible_search (void * webserver_request)
     string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible ("", book, chapter);
     
     
-    // Output title and URL.
+    // Output title and URL. // Todo use of \" can be made more elegant.
     hitsblock.append ("<p style=\"margin-top: 0.75em; margin-bottom: 0em\"><a href=\"" + url + "\">" + title + "</a></p>\n");
     
     

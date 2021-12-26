@@ -147,7 +147,7 @@ string workspace_organize (void * webserver_request)
   vector <string> workspaceblock;
   vector <string> workspaces = workspace_get_names (request, false);
   for (size_t i = 0; i < workspaces.size (); i++) {
-    string workspace = workspaces [i];
+    string workspace = workspaces [i]; // Todo use of \" can be made more elegant.
     workspaceblock.push_back ("<p>");
     workspaceblock.push_back ("<a href=\"?remove=" + workspace + "\" title=\"" + translate("Delete workspace") + "\">" + emoji_wastebasket () + "</a>");
     workspaceblock.push_back ("|");

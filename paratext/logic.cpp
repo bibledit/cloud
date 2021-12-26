@@ -58,7 +58,7 @@ string Paratext_Logic::searchProjectsFolder ()
   }
   
 #ifdef HAVE_WINDOWS
-  // Try Windows.
+  // Try Windows. // Todo use of \" can be made more elegant.
   homedir = "C:\\";
   vector <string> files = filter_url_scandir (homedir);
   for (auto file : files) {

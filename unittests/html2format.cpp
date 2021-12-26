@@ -32,7 +32,7 @@ void test_html2format ()
   refresh_sandbox (true);
   Database_State::create ();
 
-  // Basic test.
+  // Basic test. // Todo use of \" can be made more elegant.
   {
     string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
     vector<string> texts = {"\n", "The earth brought forth."};

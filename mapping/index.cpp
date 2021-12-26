@@ -92,7 +92,7 @@ string mapping_index (void * webserver_request)
   view.set_variable ("error", error);
   view.set_variable ("success", success);
   
-  string mappingsblock;
+  string mappingsblock; // Todo use of \" can be made more elegant.
   vector <string> mappings = database_mappings.names ();
   for (auto & mapping : mappings) {
     mappingsblock.append ("<p>");

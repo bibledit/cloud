@@ -792,7 +792,7 @@ string styles_view (void * webserver_request)
       }
       break;
   }
-  if (request->query.count ("userstring2")) {
+  if (request->query.count ("userstring2")) { // Todo use of \" can be made more elegant.
     Dialog_Entry dialog_entry = Dialog_Entry ("view", userstring2_question, userstring2, "userstring2", userstring2_info);
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);

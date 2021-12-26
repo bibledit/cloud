@@ -301,7 +301,7 @@ void http_stream_file (void * webserver_request, bool enable_cache)
   
   // File size for browser caching.
   if (enable_cache) {
-    int size = filter_url_filesize (filename);
+    int size = filter_url_filesize (filename); // Todo use of \" can be made more elegant.
     request->etag = "\"" + convert_to_string (size) + "\"";
   }
   

@@ -174,7 +174,7 @@ void Filter_Text::getUsfmNextChapter ()
     }
   }
 
-  // Load the USFM code till the next chapter marker.
+  // Load the USFM code till the next chapter marker. // Todo use of \" can be made more elegant.
   while (unprocessedUsfmCodeAvailable ()) {
     string item = usfmMarkersAndText [usfmMarkersAndTextPointer];
     if (!firstLine) {

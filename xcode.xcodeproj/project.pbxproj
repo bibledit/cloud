@@ -1285,15 +1285,10 @@
 		CADE3B6F24F1742D003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3B7124F1742D003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE3B7624F1742D003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CADE3B7824F1742D003165BB /* jsonxx_test.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx_test.cc; sourceTree = "<group>"; };
 		CADE3B7924F1742D003165BB /* jsonxx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsonxx.cpp; sourceTree = "<group>"; };
 		CADE3B7A24F1742D003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CADE3B7B24F1742D003165BB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CADE3B7C24F1742D003165BB /* jsonxx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsonxx.h; sourceTree = "<group>"; };
-		CADE3B7D24F1742D003165BB /* jsonxx.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = jsonxx.o; sourceTree = "<group>"; };
-		CADE3B7F24F1742D003165BB /* jsonxx.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = jsonxx.Po; sourceTree = "<group>"; };
-		CADE3B8024F1742D003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3B8124F1742D003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3B8324F1742E003165BB /* jquery.LICENSE.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.LICENSE.js; sourceTree = "<group>"; };
 		CADE3B8424F1742E003165BB /* jquery.touchSwipe.LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = jquery.touchSwipe.LICENSE; sourceTree = "<group>"; };
 		CADE3B8524F1742E003165BB /* jquery-3.5.1.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "jquery-3.5.1.js"; sourceTree = "<group>"; };
@@ -3976,25 +3971,12 @@
 		CADE3B7724F1742D003165BB /* jsonxx */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3B7824F1742D003165BB /* jsonxx_test.cc */,
 				CADE3B7924F1742D003165BB /* jsonxx.cpp */,
+				CADE3B7C24F1742D003165BB /* jsonxx.h */,
 				CADE3B7A24F1742D003165BB /* LICENSE */,
 				CADE3B7B24F1742D003165BB /* README.md */,
-				CADE3B7C24F1742D003165BB /* jsonxx.h */,
-				CADE3B7D24F1742D003165BB /* jsonxx.o */,
-				CADE3B7E24F1742D003165BB /* .deps */,
-				CADE3B8124F1742D003165BB /* .dirstamp */,
 			);
 			path = jsonxx;
-			sourceTree = "<group>";
-		};
-		CADE3B7E24F1742D003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3B7F24F1742D003165BB /* jsonxx.Po */,
-				CADE3B8024F1742D003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3B8224F1742E003165BB /* jquery */ = {

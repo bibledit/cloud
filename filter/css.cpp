@@ -308,7 +308,7 @@ string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
 }
 
 
-string filter_css_grey_background ()
+string filter_css_grey_background () // Todo use of \" can be made more elegant.
 {
   return "style=\"background-color: #CCCCCC\"";
 }

@@ -63,7 +63,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
 
   string html;
   
-  if (lexicon == HEBREW_ETCBC4_NAME) {
+  if (lexicon == HEBREW_ETCBC4_NAME) { // Todo use of \" can be made more elegant.
     string prefix = HEBREW_ETCBC4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.

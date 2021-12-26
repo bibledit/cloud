@@ -142,7 +142,7 @@ string notes_edit (void * webserver_request)
         if (!username.empty () && (username != myusername)) editable = false;
         
         if (editable) {
-          lines[i].insert (0, "<div contenteditable=\"true\">");
+          lines[i].insert (0, "<div contenteditable=\"true\">"); // Todo use of \" can be made more elegant.
         } else {
           lines[i].insert (0, "<div " + filter_css_grey_background () + ">");
         }

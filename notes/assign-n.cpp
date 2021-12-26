@@ -63,13 +63,13 @@ string notes_assign_n (void * webserver_request)
   string user = request->session_logic ()->currentUser ();
  
   
-  // Notes can be assigned to the assignees. // Todo use of \" can be made more elegant.
-  string userblock;
+  // Notes can be assigned to the assignees.
+  stringstream userblock;
   vector <string> assignees = database_noteassignment.assignees (user);
   for (auto & assignee : assignees) {
-    userblock.append ("<li><a href=\"bulk?assign=" + assignee + "\">" + assignee + "</a></li>\n");
+    userblock << "<li><a href=" << quoted ("bulk?assign=" + assignee) << ">" << assignee << "</a></li>" << endl;
   }
-  view.set_variable ("userblock", userblock);
+  view.set_variable ("userblock", userblock.str());
   
   
   page += view.render ("notes", "assign-n");

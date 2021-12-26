@@ -226,7 +226,7 @@ string manage_users (void * webserver_request)
   
   
   // User accounts to display.
-  vector <string> tbody;
+  stringstream tbody;
   bool ldap_on = ldap_logic_is_on ();
   // Retrieve assigned users.
   vector <string> users = access_user_assignees (webserver_request);
@@ -240,45 +240,45 @@ string manage_users (void * webserver_request)
     bool enabled = request->database_users ()->get_enabled (username);
     
     // New row in table.
-    tbody.push_back ("<tr>");
+    tbody << "<tr>";
     
-    // Display emoji to delete this account. // Todo use of \" can be made more elegant.
-    tbody.push_back ("<td>");
-    tbody.push_back ("<a href=\"?user=" + username + "&delete\">" + emoji_wastebasket () + "</a> " + username);
-    tbody.push_back ("</td>");
+    // Display emoji to delete this account.
+    tbody << "<td>";
+    tbody << "<a href=" << quoted("?user=" + username + "&delete") << ">" << emoji_wastebasket () << "</a> " << username;
+    tbody << "</td>";
 
     // Divider.
-    tbody.push_back ("<td>│</td>");
+    tbody << "<td>│</td>";
     
     // The user's role is displayed when the account is enabled.
     // Normally the role can be changed, but when an LDAP server is enabled, it cannot be changed here.
-    tbody.push_back ("<td>");
+    tbody << "<td>";
     if (enabled) {
-      if (!ldap_on) tbody.push_back ("<a href=\"?user=" + username + "&level\">");
-      tbody.push_back (namedrole + "</a>");
-      if (!ldap_on) tbody.push_back ("</a>");
+      if (!ldap_on) tbody << "<a href=" << quoted ("?user=" + username + "&level") << ">";
+      tbody << namedrole << "</a>";
+      if (!ldap_on) tbody << "</a>";
     }
-    tbody.push_back ("</td>");
+    tbody << "</td>";
     
     // Divider.
-    tbody.push_back ("<td>│</td>");
+    tbody << "<td>│</td>";
     
     // The user's email address will be displayed when the account is enabled.
     // Normally the email address can be changed here,
     // but in case of authentication via an LDAP server, it cannot be changed here.
-    tbody.push_back ("<td>");
+    tbody << "<td>";
     if (enabled) {
-      if (!ldap_on) tbody.push_back ("<a href=\"?user=" + username + "&email\">");
-      tbody.push_back (email);
-      if (!ldap_on) tbody.push_back ("</a>");
+      if (!ldap_on) tbody << "<a href=" << quoted ("?user=" + username + "&email") << ">";
+      tbody << email;
+      if (!ldap_on) tbody << "</a>";
     }
-    tbody.push_back ("</td>");
+    tbody << "</td>";
     
     // Divider.
-    tbody.push_back ("<td>│</td>");
+    tbody << "<td>│</td>";
     
     // Assigned Bibles.
-    tbody.push_back ("<td>");
+    tbody << "<td>";
     if (enabled) {
       if (objectUserLevel < Filter_Roles::manager ()) {
         for (auto & bible : allbibles) {
@@ -287,75 +287,75 @@ string manage_users (void * webserver_request)
             bool read, write;
             Database_Privileges::getBible (username, bible, read, write);
             if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
-            tbody.push_back ("<a href=\"?user=" + username + "&removebible=" + bible + "\">" + emoji_wastebasket () + "</a>");
-            tbody.push_back ("<a href=\"/bible/settings?bible=" + bible + "\">" + bible + "</a>");
-            tbody.push_back ("<a href=\"write?user=" + username + "&bible=" + bible + "\">");
+            tbody << "<a href=" << quoted ("?user=" + username + "&removebible=" + bible) << ">" << emoji_wastebasket () << "</a>";
+            tbody << "<a href=" << quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
+            tbody << "<a href=" << quoted("write?user=" + username + "&bible=" + bible) << ">";
             int readwritebooks = 0;
             vector <int> books = request->database_bibles ()->getBooks (bible);
             for (auto book : books) {
               Database_Privileges::getBibleBook (username, bible, book, read, write);
               if (write) readwritebooks++;
             }
-            tbody.push_back ("(" + convert_to_string (readwritebooks) + "/" + convert_to_string (books.size ()) + ")");
-            tbody.push_back ("</a>");
-            tbody.push_back ("|");
+            tbody << "(" << readwritebooks << "/" << books.size () << ")";
+            tbody << "</a>";
+            tbody << "|";
           }
         }
       }
       if (objectUserLevel >= Filter_Roles::manager ()) {
         // Managers and higher roles have access to all Bibles.
-        tbody.push_back ("(" + translate ("all") + ")");
+        tbody << "(" << translate ("all") << ")";
       } else {
-        tbody.push_back ("<a href=\"?user=" + username + "&addbible=\">" + emoji_heavy_plus_sign () + "</a>");
+        tbody << "<a href=" << quoted("?user=" + username + "&addbible=") << ">" << emoji_heavy_plus_sign () << "</a>";
       }
     }
-    tbody.push_back ("</td>");
+    tbody << "</td>";
 
     // Divider.
-    tbody.push_back ("<td>│</td>");
+    tbody << "<td>│</td>";
 
     // Assigned privileges to the user.
-    tbody.push_back ("<td>");
+    tbody << "<td>";
     if (enabled) {
       if (objectUserLevel >= Filter_Roles::manager ()) {
         // Managers and higher roles have all privileges.
-        tbody.push_back ("(" + translate ("all") + ")");
+        tbody << "(" << translate ("all") << ")";
       } else {
-        tbody.push_back ("<a href=\"privileges?user=" + username + "\">" + translate ("edit") + "</a>");
+        tbody << "<a href=" << quoted("privileges?user=" + username) << ">" << translate ("edit") << "</a>";
       }
     }
-    tbody.push_back ("</td>");
+    tbody << "</td>";
     
     // Disable or enable the account.
     if (myLevel >= Filter_Roles::manager ()) {
       if (myLevel > objectUserLevel) {
-        tbody.push_back ("<td>│</td>");
-        tbody.push_back ("<td>");
+        tbody << "<td>│</td>";
+        tbody << "<td>";
         bool enabled = request->database_users ()->get_enabled (username);
         if (enabled) {
-          tbody.push_back ("<a href=\"?user=" + username + "&disable\">" + translate ("Disable") + "</a>");
+          tbody << "<a href=" << quoted("?user=" + username + "&disable") << ">" << translate ("Disable") << "</a>";
         } else {
-          tbody.push_back ("<a href=\"?user=" + username + "&enable\">" + translate ("Enable") + "</a>");
+          tbody << "<a href=" << quoted("?user=" + username + "&enable") << ">" << translate ("Enable") << "</a>";
         }
-        tbody.push_back ("</td>");
+        tbody << "</td>";
       }
     }
 
     // Login on behalf of another user.
     if (enabled) {
       if (myLevel > objectUserLevel) {
-        tbody.push_back ("<td>│</td>");
-        tbody.push_back ("<td>");
-        tbody.push_back ("<a href=\"?user=" + username + "&login\">" + translate ("Login") + "</a>");
-        tbody.push_back ("</td>");
+        tbody << "<td>│</td>";
+        tbody << "<td>";
+        tbody << "<a href=" << quoted ("?user=" + username + "&login") << ">" << translate ("Login") << "</a>";
+        tbody << "</td>";
       }
     }
     
     // Done with the row.
-    tbody.push_back ("</tr>");
+    tbody << "</tr>";
   }
 
-  view.set_variable ("tbody", filter_string_implode (tbody, "\n"));
+  view.set_variable ("tbody", tbody.str());
 
   if (!ldap_on) {
     view.enable_zone ("local");

@@ -135,15 +135,15 @@ string notes_actions (void * webserver_request)
   
 
   vector <string> assignees = database_notes.get_assignees (id);
-  string assigneeblock;
+  stringstream assigneeblock;
   for (auto & assignee : assignees) {
-    assigneeblock.append (assignee);
+    assigneeblock << assignee;
     if (level >= Filter_Roles::manager ()) {
-      assigneeblock.append ("<a href=\"?id=" + convert_to_string (id) + "&unassign=" + assignee + "\"> [" + translate("unassign") + "]</a>"); // Todo use of \" can be made more elegant.
-      assigneeblock.append (" | ");
+      assigneeblock << "<a href=" << quoted ("?id=" + convert_to_string (id) + "&unassign=" + assignee) << "> [" << translate("unassign") << "]</a>";
+      assigneeblock << " | ";
     }
   }
-  view.set_variable ("assigneeblock", assigneeblock);
+  view.set_variable ("assigneeblock", assigneeblock.str());
   if (level >= Filter_Roles::manager ()) view.enable_zone ("assign");
 
   

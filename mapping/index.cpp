@@ -92,16 +92,16 @@ string mapping_index (void * webserver_request)
   view.set_variable ("error", error);
   view.set_variable ("success", success);
   
-  string mappingsblock; // Todo use of \" can be made more elegant.
+  stringstream mappingsblock;
   vector <string> mappings = database_mappings.names ();
   for (auto & mapping : mappings) {
-    mappingsblock.append ("<p>");
-    mappingsblock.append (mapping);
-    mappingsblock.append (" ");
-    mappingsblock.append ("<a href=\"map?name=" + mapping + "\">[translate(\"edit\")]</a>");
-    mappingsblock.append ("</p>\n");
+    mappingsblock << "<p>";
+    mappingsblock << mapping;
+    mappingsblock << " ";
+    mappingsblock << "<a href=" << quoted("map?name=" + mapping) << ">[translate(" << quoted("edit") << "]</a>";
+    mappingsblock << "</p>" << endl;
   }
-  view.set_variable ("mappingsblock", mappingsblock);
+  view.set_variable ("mappingsblock", mappingsblock.str());
   
   page += view.render ("mapping", "index");
   

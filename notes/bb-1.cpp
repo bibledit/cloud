@@ -73,16 +73,15 @@ string notes_bible_1 (void * webserver_request)
   }
   
   
-  string bibleblock; // Todo use of \" can be made more elegant.
+  stringstream bibleblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {
-    bibleblock.append ("<li><a href=\"bb-1?id=" + convert_to_string (id) + "&bible=" + bible + "\">" + bible + "</a></li>\n");
+    bibleblock << "<li><a href=" << quoted("bb-1?id=" + convert_to_string (id) + "&bible=" + bible) << ">" << bible << "</a></li>" << endl;
   }
-  view.set_variable ("bibleblock", bibleblock);
-  
+  view.set_variable ("bibleblock", bibleblock.str());
 
-  
+
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("notes", "bb-1");

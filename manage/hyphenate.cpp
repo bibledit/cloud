@@ -133,7 +133,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
       string character = characters [i];
       
       // Skip USFM marker.
-      if (character == "\\") isUsfm = true; // Todo use of \" can be made more elegant.
+      if (character == "\\") isUsfm = true;
       
       if (!isUsfm) {
         

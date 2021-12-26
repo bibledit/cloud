@@ -30,9 +30,9 @@
 #include <database/mappings.h>
 
 
-void nmt_logic_export (string referencebible, string translatingbible) // Todo use of \" can be made more elegant.
+void nmt_logic_export (string referencebible, string translatingbible)
 {
-  Database_Logs::log ("Exporting reference Bible \"" + referencebible + "\" plus translated Bible \"" + translatingbible + "\" for a neural machine translation training job");
+  Database_Logs::log (R"(Exporting reference Bible ")" + referencebible + R"(" plus translated Bible ")" + translatingbible + R"(" for a neural machine translation training job)");
   
   Database_Bibles database_bibles;
   Database_Versifications database_versifications;

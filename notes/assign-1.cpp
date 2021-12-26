@@ -79,13 +79,13 @@ string notes_assign_1 (void * webserver_request)
   }
 
 
-  // Note assignees. // Todo use of \" can be made more elegant.
-  string userblock;
+  // Note assignees.
+  stringstream userblock;
   vector <string> assignees = database_noteassignment.assignees (user);
   for (auto & assignee : assignees) {
-    userblock.append ("<li><a href=\"assign-1?id=" + convert_to_string (id) + "&assign=" + assignee + "\">" + assignee + "</a></li>\n");
+    userblock << "<li><a href=" << quoted ("assign-1?id=" + convert_to_string (id) + "&assign=" + assignee) << ">" << assignee << "</a></li>" << endl;
   }
-  view.set_variable ("userblock", userblock);
+  view.set_variable ("userblock", userblock.str());
   
   
   view.set_variable ("success", success);

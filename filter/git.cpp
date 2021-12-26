@@ -378,10 +378,12 @@ bool filter_git_commit (string repository, string user, string message,
 {
   user = filter_git_user (user);
   string email = filter_git_email (user);
-  string out, err; // Todo use of \" can be made more elegant.
+  stringstream author;
+  author << "--author=" << quoted(user + " <" + email + ">");
+  string out, err;
   int result = filter_shell_run (repository, "git",
                                 {"commit",
-                                 "--author=\"" + user + " <" + email + ">\"",
+                                 author.str(),
                                  "-a",
                                  "-m",
                                  message

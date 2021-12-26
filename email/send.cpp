@@ -94,11 +94,13 @@ void email_send ()
       continue;
     }
     
-    // Send the email. // Todo use of \" can be made more elegant.
+    // Send the email.
     string result = email_send (email, username, subject, body);
     if (result.empty ()) {
       database_mail.erase (id);
-      result = "Email to " + email + " with subject \"" + subject + "\" was ";
+      stringstream ss;
+      ss << "Email to " << email << " with subject " << quoted(subject) << " was ";
+      result = ss.str();
 #ifdef HAVE_CLOUD
       result.append ("sent successfully");
 #endif
@@ -238,7 +240,7 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);
   payload_text.push_back ("Mime-version: 1.0\n");
-  payload_text.push_back ("Content-Type: multipart/alternative; boundary=\"------------010001060501040600060905\"");
+  payload_text.push_back (R"(Content-Type: multipart/alternative; boundary="------------010001060501040600060905")");
   // Empty line to divide headers from body, see RFC5322.
   payload_text.push_back ("\n");
   // Plain text part.
@@ -390,8 +392,8 @@ string email_setup_information (bool require_send, bool require_receive)
   if (incomplete) {
     string msg1 = translate ("Cannot send email yet.");
     string msg2 = translate ("The emailer is not yet set up.");
-    return msg1 + " <a href=\"../" + email_index_url () + + "\">" + msg2 + "</a>";
+    return msg1 + R"( <a href="../)" + email_index_url () + + R"(">)" + msg2 + "</a>";
   }
 #endif
-  return "";
+  return string();
 }

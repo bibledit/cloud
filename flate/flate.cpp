@@ -205,8 +205,8 @@ void Flate::process_translate (string& rendering)
   // Clean up the "translate" (gettext) calls.
   rendering = filter_string_str_replace ("translate (", "translate(", rendering);
   // Gettext markup.
-  string gettextopen = "translate(\""; // Todo use of \" can be made more elegant.
-  string gettextclose = "\")";
+  string gettextopen = R"(translate(")";
+  string gettextclose = R"("))";
   // Limit gettext iterations.
   int iterations = 0;
   // Start processing variables by locating the first one.

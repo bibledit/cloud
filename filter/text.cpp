@@ -174,11 +174,11 @@ void Filter_Text::getUsfmNextChapter ()
     }
   }
 
-  // Load the USFM code till the next chapter marker. // Todo use of \" can be made more elegant.
+  // Load the USFM code till the next chapter marker.
   while (unprocessedUsfmCodeAvailable ()) {
     string item = usfmMarkersAndText [usfmMarkersAndTextPointer];
     if (!firstLine) {
-      if (filter_string_trim (item) == ("\\" + chapterMarker)) {
+      if (filter_string_trim (item) == (R"(\)" + chapterMarker)) {
         return;
       }
     }
@@ -448,12 +448,12 @@ void Filter_Text::process_usfm ()
                 }
                 case IdentifierSubtypeEncoding:
                 {
-                  addToInfo ("Text encoding: \\" + marker, true);
+                  addToInfo (R"(Text encoding: \)" + marker, true);
                   break;
                 }
                 case IdentifierSubtypeComment:
                 {
-                  addToInfo ("Comment: \\" + marker, true);
+                  addToInfo (R"(Comment: \)" + marker, true);
                   break;
                 }
                 case IdentifierSubtypeRunningHeader:
@@ -500,7 +500,7 @@ void Filter_Text::process_usfm ()
                 case IdentifierSubtypeCommentWithEndmarker:
                 {
                   if (isOpeningMarker) {
-                    addToInfo ("Comment: \\" + marker, true);
+                    addToInfo (R"(Comment: \)" + marker, true);
                   }
                   break;
                 }
@@ -526,7 +526,7 @@ void Filter_Text::process_usfm ()
                 }
                 default:
                 {
-                  addToFallout ("Unknown markup: \\" + marker, true);
+                  addToFallout (R"(Unknown markup: \)" + marker, true);
                   break;
                 }
               }
@@ -534,12 +534,12 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypeNotUsedComment:
             {
-              addToFallout ("Unknown markup: \\" + marker, true);
+              addToFallout (R"(Unknown markup: \)" + marker, true);
               break;
             }
             case StyleTypeNotUsedRunningHeader:
             {
-              addToFallout ("Unknown markup: \\" + marker, true);
+              addToFallout (R"(Unknown markup: \)" + marker, true);
               break;
             }
             case StyleTypeStartsParagraph: 
@@ -928,7 +928,7 @@ void Filter_Text::process_usfm ()
                 case PeripheralSubtypeSpine:
                 default:
                 {
-                  addToFallout ("Unknown pheripheral marker \\" + marker, false);
+                  addToFallout (R"(Unknown pheripheral marker \)" + marker, false);
                   break;
                 }
               }
@@ -1033,7 +1033,7 @@ void Filter_Text::process_usfm ()
                 default:
                 {
                   if (isOpeningMarker) {
-                    addToFallout ("Unknown word list marker \\" + marker, false);
+                    addToFallout (R"(Unknown word list marker \)" + marker, false);
                   }
                   break;
                 }
@@ -1045,14 +1045,14 @@ void Filter_Text::process_usfm ()
             {
               // This marker is not yet implemented.
               // Add it to the fallout, plus any text that follows the marker.
-              addToFallout ("Marker not yet implemented \\" + marker + ", possible formatting error:", true);
+              addToFallout (R"(Marker not yet implemented \)" + marker + ", possible formatting error:", true);
               break;
             }
           }
         } else {
           // Here is an unknown marker.
           // Add it to the fallout, plus any text that follows the marker.
-          addToFallout ("Unknown marker \\" + marker + ", formatting error:", true);
+          addToFallout (R"(Unknown marker \)" + marker + ", formatting error:", true);
         }
       } else {
         // Here is no marker, just text.
@@ -1345,13 +1345,13 @@ void Filter_Text::processNote ()
           }
           default:
           {
-            addToFallout ("Marker not suitable in note context \\" + marker, false);
+            addToFallout (R"(Marker not suitable in note context \)" + marker, false);
             break;
           }
         }
       } else {
         // Here is an unknown marker. Add the marker to fallout, plus any text that follows.
-        addToFallout ("Unknown marker \\" + marker, true);
+        addToFallout (R"(Unknown marker \)" + marker, true);
       }
     } else {
       // Here is no marker. Treat it as text.

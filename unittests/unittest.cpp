@@ -145,13 +145,9 @@ int main (int argc, char **argv)
   // Automated Unit Tests Start Removing Code Here.
   
   refresh_sandbox (false);
-  test_html2format ();
-  test_html2usfm ();
-  test_usfm2html ();
-  test_usfm2html2usfm ();
   test_dev ();
   refresh_sandbox (false);
-  exit (0);
+  //exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.

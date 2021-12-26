@@ -596,4 +596,16 @@ void test_string ()
     evaluate (__LINE__, __func__, standard, result);
   }
 
+  // Test escaping and unescaping special XML characters. Todo
+  {
+    string standard, result;
+
+    standard = "&quot; &quot;";
+    result = escape_special_xml_characters (R"(" ")");
+    evaluate (__LINE__, __func__, standard, result);
+
+    standard = R"(" ")";
+    result = unescape_special_xml_characters ("&quot; &quot;");
+    evaluate (__LINE__, __func__, standard, result);
+  }
 }

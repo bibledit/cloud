@@ -331,7 +331,6 @@
 /jquery/jquery.touchSwipe.min.js
 /jquery/readme.txt
 /jsonxx
-/jsonxx/jsonxx_test.cc
 /jsonxx/LICENSE
 /ldap
 /lexicon

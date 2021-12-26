@@ -372,7 +372,7 @@ bool filter_string_is_numeric (string s)
 string escape_special_xml_characters (string s)
 {
   s = filter_string_str_replace ("&", "&amp;", s);
-  s = filter_string_str_replace ("\"", "&quot;", s); // Todo use of \" can be made more elegant.
+  s = filter_string_str_replace (R"(")", "&quot;", s);
   s = filter_string_str_replace ("'", "&apos;", s);
   s = filter_string_str_replace ("<", "&lt;", s);
   s = filter_string_str_replace (">", "&gt;", s);
@@ -383,7 +383,7 @@ string escape_special_xml_characters (string s)
 // This unescapes the five special XML characters.
 string unescape_special_xml_characters (string s)
 {
-  s = filter_string_str_replace ("&quot;", """", s);
+  s = filter_string_str_replace ("&quot;", R"(")", s);
   s = filter_string_str_replace ("&amp;", "&", s);
   s = filter_string_str_replace ("&apos;", "'", s);
   s = filter_string_str_replace ("&lt;", "<", s);

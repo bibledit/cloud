@@ -63,7 +63,7 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
 
   string html;
   
-  if (lexicon == HEBREW_ETCBC4_NAME) { // Todo use of \" can be made more elegant.
+  if (lexicon == HEBREW_ETCBC4_NAME) {
     string prefix = HEBREW_ETCBC4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
@@ -100,16 +100,17 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
     Database_Kjv database_kjv;
     vector <int> rowids = database_kjv.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
+      stringstream ss;
       string id = "lexicontxt" + prefix;
-      html.append ("<div id=\"" + id + "\">\n");
+      ss << "<div id=" << quoted(id) << ">" << endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         string english = database_kjv.english (rowid);
-        string link = "<a href=\"" KJV_LEXICON_PREFIX + convert_to_string (rowid) + "\">" + english + "</a>";
-        html.append (link);
+        ss << "<a href=" << quoted(KJV_LEXICON_PREFIX + convert_to_string (rowid)) << ">" << english << "</a>";
       }
-      html.append ("</div>");
-      html.append (lexicon_logic_get_script (prefix));
+      ss << "</div>";
+      ss << lexicon_logic_get_script (prefix);
+      html.append(ss.str());
     }
   }
 
@@ -118,18 +119,19 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
     Database_OsHb database_oshb;
     vector <int> rowids = database_oshb.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
+      stringstream ss;
       string id = "lexicontxt" + prefix;
-      html.append ("<div id=\"" + id + "\" class=\"hebrew\">\n");
+      ss << "<div id=" << quoted(id) << " class=" << quoted("hebrew") << ">" << endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         string word = database_oshb.word (rowid);
         // Give more spacing where needed.
         if (word == "׀") word = " ׀ ";
-        string link = "<a href=\"" OSHB_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
-        html.append (link);
+        ss << "<a href=" << quoted(OSHB_PREFIX + convert_to_string (rowid)) << ">" << word << "</a>";
       }
-      html.append ("</div>");
-      html.append (lexicon_logic_get_script (prefix));
+      ss << "</div>";
+      ss << lexicon_logic_get_script (prefix);
+      html.append(ss.str());
     }
   }
   
@@ -138,17 +140,18 @@ string lexicon_logic_get_html (void * webserver_request, string lexicon, int boo
     Database_MorphGnt database_morphgnt;
     vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
+      stringstream ss;
       string id = "lexicontxt" + prefix;
-      html.append ("<div id=\"" + id + "\" class=\"greek\">\n");
+      ss << "<div id=" << quoted(id) << " class=" << quoted("greek") << ">" << endl;
       for (size_t i = 0; i < rowids.size (); i++) {
-        if (i) html.append (" ");
+        if (i) ss << " ";
         int rowid = rowids[i];
         string word = database_morphgnt.word (rowid);
-        string link = "<a href=\"" SBLGNT_PREFIX + convert_to_string (rowid) + "\">" + word + "</a>";
-        html.append (link);
+        ss << "<a href=" << quoted(SBLGNT_PREFIX + convert_to_string (rowid)) << ">" << word << "</a>";
       }
-      html.append ("</div>");
-      html.append (lexicon_logic_get_script (prefix));
+      ss << "</div>";
+      ss << lexicon_logic_get_script (prefix);
+      html.append (ss.str());
     }
   }
   
@@ -394,7 +397,7 @@ string lexicon_logic_render_strongs_definition (string strong)
             // Put the updated fragment back, with a link.
             string replacement;
             if (i) {
-              replacement = "<a href=\"" + language.substr (0, 1) + strongs + "\">" + strongs + "</a>";
+              replacement = R"(<a href=")" + language.substr (0, 1) + strongs + R"(">)" + strongs + "</a>";
             }
             line = filter_string_str_replace (see_strongsref, replacement, line);
           }
@@ -1530,24 +1533,6 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
   abbott_smith_walker tree_walker;
   document.traverse (tree_walker);
   renderings.push_back (tree_walker.text);
-  
-//      // Transform link to a source Strong's number.
-//      line = filter_string_str_replace ("<w ", "<a ", line);
-//      line = filter_string_str_replace ("src=", "href=", line);
-//      line = filter_string_str_replace ("</w>", "</a>", line);
-
-//      // Clarify Strong's number.
-//      line = filter_string_str_replace ("<strongs>", "Strong's ", line);
-//      line = filter_string_str_replace ("</strongs>", "", line);
-//      // Get the <greek /> line to extract information from it.
-//            string xml = see_strongsref;
-//            // Strong's reference.
-//            string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
-//            if (i) {
-//              replacement = "<a href=\"" + language.substr (0, 1) + strongs + "\">" + strongs + "</a>";
-//            }
-//    }
-//  }
 
   string rendering = filter_string_implode (renderings, " ");
   rendering = filter_string_trim (rendering);

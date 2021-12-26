@@ -141,7 +141,7 @@ string notes_select (void * webserver_request)
   }
   
   
-  string active_class = "class=\"active\""; // Todo use of \" can be made more elegant.
+  string active_class = R"(class="active")";
   
   
   int passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
@@ -159,16 +159,16 @@ string notes_select (void * webserver_request)
   string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
   if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
   vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses ();
-  string statusblock;
+  stringstream statusblock;
   for (Database_Notes_Text possible_status : possible_statuses) {
-    statusblock.append (" | ");
-    statusblock.append ("<a ");
-    if (status_selector == possible_status.raw) statusblock.append (active_class);
-    statusblock.append (" href=\"select?statusselector=" + possible_status.raw + "\">");
-    statusblock.append (possible_status.localized);
-    statusblock.append ("</a>");
+    statusblock << " | ";
+    statusblock << "<a ";
+    if (status_selector == possible_status.raw) statusblock << active_class;
+    statusblock << " href=" << quoted ("select?statusselector=" + possible_status.raw) << ">";
+    statusblock << possible_status.localized;
+    statusblock << "</a>";
   }
-  view.set_variable ("statusblock", statusblock);
+  view.set_variable ("statusblock", statusblock.str());
   
 
   // The information about available Bibles could be gathered from the notes database.
@@ -176,7 +176,7 @@ string notes_select (void * webserver_request)
   // is gathered from the Bibles the user has access to.
   string bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
-  string bibleblock;
+  stringstream bibleblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) {
@@ -185,25 +185,25 @@ string notes_select (void * webserver_request)
     bibles = array_unique (bibles);
   }
   for (auto bible : bibles) {
-    bibleblock.append (" | ");
-    bibleblock.append ("<a ");
-    if (bible_selector == bible) bibleblock.append (active_class);
-    bibleblock.append (" href=\"select?bibleselector=" + bible + "\">" + bible + "</a>");
+    bibleblock << " | ";
+    bibleblock << "<a ";
+    if (bible_selector == bible) bibleblock << active_class;
+    bibleblock << " href=" << quoted ("select?bibleselector=" + bible) << ">" << bible << "</a>";
   }
-  view.set_variable ("bibleblock", bibleblock);
+  view.set_variable ("bibleblock", bibleblock.str());
   
 
   string assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
   if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
-  string assigneeblock;
+  stringstream assigneeblock;
   vector <string> assignees = database_notes.get_all_assignees (bibles);
   for (auto assignee : assignees) {
-    assigneeblock.append (" | ");
-    assigneeblock.append ("<a ");
-    if (assignment_selector == assignee) assigneeblock.append (active_class);
-    assigneeblock.append (" href=\"select?assignmentselector=" + assignee + "\">" + assignee + "</a>");
+    assigneeblock << " | ";
+    assigneeblock << "<a ";
+    if (assignment_selector == assignee) assigneeblock << active_class;
+    assigneeblock << " href=" << quoted ("select?assignmentselector=" + assignee) << ">" << assignee << "</a>";
   }
-  view.set_variable ("assigneeblock", assigneeblock);
+  view.set_variable ("assigneeblock", assigneeblock.str());
   if (assignment_selector != "") {
     if (find (assignees.begin(), assignees.end (), assignment_selector) == bibles.end ()) {
       view.enable_zone ("nonexistingassignee");
@@ -218,15 +218,15 @@ string notes_select (void * webserver_request)
 
   int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector ();
   if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
-  string severityblock;
+  stringstream severityblock;
   vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
   for (int i = 0; i < (int)severities.size (); i++) {
-    severityblock.append (" | ");
-    severityblock.append ("<a ");
-    if (severity_selector == i) severityblock.append (active_class);
-    severityblock.append ("href=\"select?severityselector=" + convert_to_string (i) + "\">" + severities[i].localized + "</a>");
+    severityblock << " | ";
+    severityblock << "<a ";
+    if (severity_selector == i) severityblock << active_class;
+    severityblock << "href=" << quoted ("select?severityselector=" + convert_to_string (i)) << ">" << severities[i].localized << "</a>";
   }
-  view.set_variable ("severityblock", severityblock);
+  view.set_variable ("severityblock", severityblock.str());
 
   
   int text_selector = request->database_config_user()->getConsultationNotesTextSelector();

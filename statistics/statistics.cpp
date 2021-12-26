@@ -54,15 +54,15 @@ void statistics_statistics ()
     
     
     string subject = "Bibledit " + translate("statistics");
-    vector <string> body;
+    stringstream body;
     
   
-    size_t change_notificatons_count = 0; // Todo use of \" can be made more elegant.
+    size_t change_notificatons_count = 0;
     if (request.database_config_user()->getUserPendingChangesNotification (user)) {
-      string any_bible = "";
+      string any_bible = string();
       vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
-      body.push_back ("<p><a href=\"" + siteUrl + changes_changes_url () + "\">" + translate("Number of change notifications") + "</a>: " + convert_to_string (ids.size()) + "</p>\n");
+      body << "<p><a href=" << quoted (siteUrl + changes_changes_url ()) << ">" << translate("Number of change notifications") << "</a>: " << ids.size() << "</p>" << endl;
     }
     
 
@@ -85,14 +85,14 @@ void statistics_statistics ()
                                                      "",     // Search text.
                                                      -1);     // Limit.
       assigned_notes_count = ids.size();
-      body.push_back ("<p><a href=\"" + siteUrl + notes_index_url () + "?presetselection=assigned\">" + translate("Number of consultation notes assigned to you awaiting your response") + "</a>: " + convert_to_string (ids.size ()) + "</p>\n");
+      body << "<p><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=assigned") << ">" << translate("Number of consultation notes assigned to you awaiting your response") << "</a>: " << ids.size() << "</p>" << endl;
     }
     
 
     size_t subscribed_notes_count = 0;
     if (request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
-      body.push_back ("<p>" + translate("Number of consultation notes you are subscribed to") + ":</p>\n");
-      body.push_back ("<ul>\n");
+      body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << endl;
+      body << "<ul>" << endl;
       request.session_logic ()->setUsername (user);
       
       vector <int> ids = database_notes.select_notes (
@@ -112,7 +112,7 @@ void statistics_statistics ()
                                                      "",     // Search text.
                                                      -1);     // Limit.
       subscribed_notes_count = ids.size();
-      body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribed\">" + translate("Total") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
+      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribed") << ">" << translate("Total") << "</a>: " << ids.size () << "</li>" << endl;
       ids = database_notes.select_notes (
                                                      bibles, // Bible.
                                                      0,      // Book
@@ -129,7 +129,7 @@ void statistics_statistics ()
                                                      0,      // Text selector.
                                                      "",     // Search text.
                                                      -1);     // Limit.
-      body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribeddayidle\">" + translate("Inactive for a day") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
+      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribeddayidle") << ">" << translate("Inactive for a day") << "</a>: " << ids.size() << "</li>" << endl;
       ids = database_notes.select_notes (
                                                      bibles, // Bible.
                                                      0,      // Book
@@ -146,15 +146,14 @@ void statistics_statistics ()
                                                      0,      // Text selector.
                                                      "",     // Search text.
                                                      -1);     // Limit.
-      body.push_back ("<li><a href=\"" + siteUrl + notes_index_url () + "?presetselection=subscribedweekidle\">" + translate("Inactive for a week") + "</a>: " + convert_to_string (ids.size ()) + "</li>\n");
-      body.push_back ("</ul>\n");
+      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << endl;
+      body << "</ul>" << endl;
       request.session_logic ()->setUsername ("");
     }
 
     
     if (change_notificatons_count || assigned_notes_count || subscribed_notes_count) {
-      string mailbody = filter_string_implode (body, "\n");
-      email_schedule (user, subject, mailbody);
+      email_schedule (user, subject, body.str());
     }
   }
 }

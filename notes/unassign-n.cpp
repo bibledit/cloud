@@ -60,13 +60,13 @@ string notes_unassign_n (void * webserver_request)
 
   // Notes can be unassigned from users who have access to the Bibles
   // the currently logged-in user has access to, and who have notes assigned.
-  string userblock; // Todo use of \" can be made more elegant.
+  stringstream userblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
   vector <string> users = database_notes.get_all_assignees (bibles);
   for (auto & user : users) {
-    userblock.append ("<li><a href=\"bulk?unassign=" + user + "\">" + user + "</a></li>\n");
+    userblock << "<li><a href=" << quoted ("bulk?unassign=" + user) << ">" << user << "</a></li>" << endl;
   }
-  view.set_variable ("userblock", userblock);
+  view.set_variable ("userblock", userblock.str());
   
   
   page += view.render ("notes", "unassign-n");

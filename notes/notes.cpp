@@ -106,7 +106,7 @@ string notes_notes (void * webserver_request)
   bool show_bible_in_notes_list = request->database_config_user ()->getShowBibleInNotesList ();
   bool show_note_status = request->database_config_user ()->getShowNoteStatus ();
   bool color_note_status = request->database_config_user ()->getUseColoredNoteStatusLabels ();
-  string notesblock;
+  stringstream notesblock;
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.get_summary (identifier);
@@ -156,16 +156,16 @@ string notes_notes (void * webserver_request)
     if (text_inclusion_selector) {
       content = database_notes.get_contents (identifier);
     }
-    // Todo use of \" can be made more elegant.
-    notesblock.append ("<a name=\"note" + convert_to_string (identifier) + "\"></a>\n");
-    notesblock.append ("<p><a href=\"note?id=" + convert_to_string (identifier) + "\">" + summary + "</a></p>\n");
-    if (!verse_text.empty ()) notesblock.append ("<p>" + verse_text + "</p>\n");
-    if (!content.empty ()) notesblock.append ("<p>" + content + "</p>\n");
+
+    notesblock << "<a name=" << quoted ("note" + convert_to_string (identifier)) << "></a>" << endl;
+    notesblock << "<p><a href=" << quoted ("note?id=" + convert_to_string (identifier)) << ">" << summary << "</a></p>" << endl;
+    if (!verse_text.empty ()) notesblock << "<p>" << verse_text << "</p>" << endl;
+    if (!content.empty ()) notesblock << "<p>" << content << "</p>" << endl;
   }
 
   
   if (identifiers.empty ()) {
     return translate("This selection does not display any notes.");
   }
-  return notesblock;
+  return notesblock.str();
 }

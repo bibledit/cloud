@@ -53,12 +53,12 @@ string public_notes (void * webserver_request)
   vector <int> identifiers = database_notes.select_notes ({bible}, book, chapter, 0, 1, 0, 0, "", "", "", false, -1, 0, "", -1);
 
   
-  string notesblock; // Todo use of \" can be made more elegant.
+  stringstream notesblock;
   for (auto & identifier : identifiers) {
     // Display only public notes.
     if (database_notes.get_public (identifier)) {
-      notesblock.append ("<p class=\"nowrap\">");
-      notesblock.append ("<a href=\"note?id=" + convert_to_string (identifier) + "\">");
+      notesblock << "<p class=" << quoted ("nowrap") << ">";
+      notesblock << "<a href=" << quoted ("note?id=" + convert_to_string (identifier)) << ">";
       vector <Passage> passages = database_notes.get_passages (identifier);
       string verses;
       for (auto & passage : passages) {
@@ -67,15 +67,15 @@ string public_notes (void * webserver_request)
         if (!verses.empty ()) verses.append (" ");
         verses.append (passage.verse);
       }
-      notesblock.append (verses);
-      notesblock.append (" | ");
+      notesblock << verses;
+      notesblock << " | ";
       string summary = database_notes.get_summary (identifier);
-      notesblock.append (summary);
-      notesblock.append ("</a>");
-      notesblock.append ("</p>");
+      notesblock << summary;
+      notesblock << "</a>";
+      notesblock << "</p>";
     }
   }
   
   
-  return notesblock;
+  return notesblock.str();
 }

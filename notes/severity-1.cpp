@@ -72,12 +72,12 @@ string notes_severity_1 (void * webserver_request)
   }
   
   
-  string severityblock; // Todo use of \" can be made more elegant.
+  stringstream severityblock;
   vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
   for (auto & severity : severities) {
-    severityblock.append ("<li><a href=\"severity-1?id=" + convert_to_string (id) + "&severity=" + severity.raw + "\">" + severity.localized + "</a></li>\n");
+    severityblock << "<li><a href=" << quoted ("severity-1?id=" + convert_to_string (id) + "&severity=" + severity.raw) << ">" << severity.localized << "</a></li>" << endl;
   }
-  view.set_variable ("severityblock", severityblock);
+  view.set_variable ("severityblock", severityblock.str());
   
   
   view.set_variable ("success", success);

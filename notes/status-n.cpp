@@ -58,12 +58,12 @@ string notes_status_n (void * webserver_request)
   Assets_View view;
   
   
-  string statusblock; // Todo use of \" can be made more elegant.
+  stringstream statusblock;
   vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (auto & status : statuses) {
-    statusblock.append ("<li><a href=\"bulk?status=" + status.raw + "\">" + status.raw + "</a></li>\n");
+    statusblock << "<li><a href=" << quoted ("bulk?status=" + status.raw) << ">" << status.raw << "</a></li>" << endl;
   }
-  view.set_variable ("statusblock", statusblock);
+  view.set_variable ("statusblock", statusblock.str());
   
   
   page += view.render ("notes", "status-n");

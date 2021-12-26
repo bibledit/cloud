@@ -59,13 +59,13 @@ string notes_bible_n (void * webserver_request)
   Assets_View view;
   
   
-  string bibleblock; // Todo use of \" can be made more elegant.
+  stringstream bibleblock;
   vector <string> bibles = access_bible_bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {
-    bibleblock.append ("<li><a href=\"bulk?bible=" + bible + "\">" + bible + "</a></li>\n");
+    bibleblock << "<li><a href=" << quoted("bulk?bible=" + bible) << ">" << bible << "</a></li>" << endl;
   }
-  view.set_variable ("bibleblock", bibleblock);
+  view.set_variable ("bibleblock", bibleblock.str());
   
   
   page += view.render ("notes", "bb-n");

@@ -485,31 +485,32 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   // Send mail to all users.
   string summary = database_notes.get_summary (identifier);
   string passages = filter_passage_display_inline (database_notes.get_passages (identifier));
-  string contents = database_notes.get_contents (identifier);
+  stringstream contents;
+  contents << database_notes.get_contents (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.
-  contents.append ("<br>\n");
-  contents.append ("<p>");
-  contents.append ("<a href=\""); // Todo use of \" can be made more elegant.
+  contents << "<br>" << endl;
+  contents << "<p>";
+  contents << "<a href=";
   string notelink = config_logic_site_url (webserver_request) + notes_note_url () + "?id=" + convert_to_string (identifier);
-  contents.append (notelink);
-  contents.append ("\">");
-  contents.append (translate ("View or respond online"));
-  contents.append ("</a>");
-  contents.append (" " + translate ("or") + " ");
+  contents << quoted (notelink);
+  contents << ">";
+  contents << translate ("View or respond online");
+  contents << "</a>";
+  contents << " " << translate ("or") << " ";
 
-  contents.append ("<a href=\"");
+  contents << "<a href=";
   string workspacelink = config_logic_site_url (webserver_request) + workspace_index_url () + "?note=" + convert_to_string (identifier);
-  contents.append (workspacelink);
-  contents.append ("\">");
-  contents.append (translate ("open the workspace online"));
-  contents.append ("</a>");
+  contents << quoted (workspacelink);
+  contents << ">";
+  contents << translate ("open the workspace online");
+  contents << "</a>";
 
-  contents.append ("</p>\n");
+  contents << "</p>" << endl;
   string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + convert_to_string (identifier) + ")";
-  contents.append ("<p><a href=\"");
-  contents.append (mailto);
-  contents.append ("\">Respond by email</a></p>\n");
+  contents << "<p><a href=";
+  contents << quoted (mailto);
+  contents << ">Respond by email</a></p>" << endl;
 
   // Deal with possible postponing email till 9 PM.
   int timestamp = filter_date_seconds_since_epoch ();
@@ -537,7 +538,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
       subject.append (" | (CNID");
       subject.append (convert_to_string (identifier));
       subject.append (")");
-      email_schedule (user, subject, contents, timestamp);
+      email_schedule (user, subject, contents.str(), timestamp);
     }
   }
 }

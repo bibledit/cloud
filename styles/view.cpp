@@ -788,11 +788,11 @@ string styles_view (void * webserver_request)
       if (userint2 == EndNotePositionAtMarker) {
         view.enable_zone ("userstring2_dumpendnotes");
         userstring2_question = translate("Please enter a marker at which the endnotes should be dumped");
-        userstring2_info = translate("The marker is to be given without the backslash, e.g. \"zendnotes\".");
+        userstring2_info = translate(R"(The marker is to be given without the backslash, e.g. "zendnotes".)");
       }
       break;
   }
-  if (request->query.count ("userstring2")) { // Todo use of \" can be made more elegant.
+  if (request->query.count ("userstring2")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", userstring2_question, userstring2, "userstring2", userstring2_info);
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);

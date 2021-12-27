@@ -82,7 +82,7 @@ string webbible_search (void * webserver_request)
   view.set_variable ("hitCount", convert_to_string (passages.size ()));
   
   
-  string hitsblock;
+  stringstream hitsblock;
   
   
   // Go through the search hits.
@@ -103,11 +103,11 @@ string webbible_search (void * webserver_request)
     
     
     // The URL.
-    string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible ("", book, chapter);
+    string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible (string(), book, chapter);
     
     
-    // Output title and URL. // Todo use of \" can be made more elegant.
-    hitsblock.append ("<p style=\"margin-top: 0.75em; margin-bottom: 0em\"><a href=\"" + url + "\">" + title + "</a></p>\n");
+    // Output title and URL.
+    hitsblock << "<p style=" << quoted ("margin-top: 0.75em; margin-bottom: 0em") << "><a href=" << quoted (url) << ">" << title << "</a></p>" << endl;
     
     
     // The excerpt.
@@ -118,12 +118,12 @@ string webbible_search (void * webserver_request)
       string markedLine = filter_string_markup_words (queryWords, line);
       if (markedLine != line) {
         // Store this bit of the excerpt.
-        hitsblock.append ("<p style=\"margin-top: 0em; margin-bottom: 0em\">" + markedLine + "</p>\n");
+        hitsblock << "<p style=" << quoted ("margin-top: 0em; margin-bottom: 0em") << ">" << markedLine << "</p>" << endl;
       }
     }
   }
   
-  view.set_variable ("hitsblock", hitsblock);
+  view.set_variable ("hitsblock", hitsblock.str());
   
   return view.render ("webbb", "search");
 }

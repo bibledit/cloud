@@ -97,19 +97,19 @@ string styles_sheetm (void * webserver_request)
     if (write) database_styles.deleteMarker (name, del);
   }
 
-  vector <string> markerblock;
+  stringstream markerblock;
   map <string, string> markers_names = database_styles.getMarkersAndNames (name);
   for (auto & item : markers_names) {
     string marker = item.first;
     string marker_name = item.second;
     marker_name = translate (marker_name);
-    markerblock.push_back ("<tr>");
-    markerblock.push_back ("<td><a href=\"view?sheet=" + name + "&style=" + marker + "\">" + marker + "</a></td>");
-    markerblock.push_back ("<td>" + marker_name + "</td>");
-    markerblock.push_back ("<td>[<a href=\"?name=" + name + "&delete=" + marker + "\">" + translate("delete") + "]</a></td>");
-    markerblock.push_back ("</tr>"); // Todo use of \" can be made more elegant.
+    markerblock << "<tr>";
+    markerblock << "<td><a href=" << quoted ("view?sheet=" + name + "&style=" + marker) << ">" << marker << "</a></td>";
+    markerblock << "<td>" << marker_name << "</td>";
+    markerblock << "<td>[<a href=" << quoted ("?name=" + name + "&delete=" + marker) << "\">" << translate("delete") << "]</a></td>";
+    markerblock << "</tr>";
   }
-  view.set_variable ("markerblock", filter_string_implode (markerblock, "\n"));
+  view.set_variable ("markerblock", markerblock.str());
   
   string folder = filter_url_create_root_path (database_logic_databases (), "styles", name);
   view.set_variable ("folder", folder);

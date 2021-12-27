@@ -94,8 +94,8 @@ void test_lexicons ()
   }
   
   {
-    string result = lexicon_logic_render_strongs_definition ("G5590"); // Todo use of \" can be made more elegant.
-    string standard = "Strong's 5590 ψυχή psychḗ psoo-khay' from <a href=\"G5594\">5594</a> ; breath, i.e. (by implication) spirit, abstractly or concretely (the animal sentient principle only; thus distinguished on the one hand from <a href=\"G4151\">4151</a> , which is the rational and immortal soul; and on the other from <a href=\"G2222\">2222</a> , which is mere vitality, even of plants: these terms thus exactly correspond respectively to the Hebrew <a href=\"H05315\">05315</a> , <a href=\"H07307\">07307</a> and <a href=\"H02416\">02416</a> ); usage in King James Bible:--heart (+ -ily), life, mind, soul, + us, + you.";
+    string result = lexicon_logic_render_strongs_definition ("G5590");
+    string standard = R"(Strong's 5590 ψυχή psychḗ psoo-khay' from <a href="G5594">5594</a> ; breath, i.e. (by implication) spirit, abstractly or concretely (the animal sentient principle only; thus distinguished on the one hand from <a href="G4151">4151</a> , which is the rational and immortal soul; and on the other from <a href="G2222">2222</a> , which is mere vitality, even of plants: these terms thus exactly correspond respectively to the Hebrew <a href="H05315">05315</a> , <a href="H07307">07307</a> and <a href="H02416">02416</a> ); usage in King James Bible:--heart (+ -ily), life, mind, soul, + us, + you.)";
     evaluate (__LINE__, __func__, standard, result);
   }
 }

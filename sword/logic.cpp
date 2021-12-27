@@ -134,7 +134,7 @@ void sword_logic_refresh_module_list ()
 #else
     filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
     filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
-    sword_logic_log (out_err); // Todo use of \" can be made more elegant.
+    sword_logic_log (out_err);
 #endif
 
     vector <string> modules;

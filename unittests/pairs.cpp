@@ -82,11 +82,11 @@ void test_pairs ()
       evaluate (__LINE__, __func__, book, hit.book);
       evaluate (__LINE__, __func__, chapter, hit.chapter);
       evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, "Opening character \"[\" without its matching closing character \"]\"", hit.data);
+      evaluate (__LINE__, __func__, R"(Opening character "[" without its matching closing character "]")", hit.data);
       hit = results[1];
       evaluate (__LINE__, __func__, "Opening character \"(\" without its matching closing character \")\"", hit.data);
     }
-    database_check.truncateOutput (""); // Todo use of \" can be made more elegant.
+    database_check.truncateOutput ("");
   }
 
   {
@@ -108,7 +108,7 @@ void test_pairs ()
       evaluate (__LINE__, __func__, "Closing character \")\" without its matching opening character \"(\"", hit.data);
       hit = results[1];
       evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, "Opening character \"[\" without its matching closing character \"]\"", hit.data);
+      evaluate (__LINE__, __func__, R"(Opening character "[" without its matching closing character "]")", hit.data);
     }
     database_check.truncateOutput ("");
   }

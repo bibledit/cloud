@@ -144,31 +144,31 @@ string workspace_organize (void * webserver_request)
   Assets_View view;
   
   
-  vector <string> workspaceblock;
+  stringstream workspaceblock;
   vector <string> workspaces = workspace_get_names (request, false);
   for (size_t i = 0; i < workspaces.size (); i++) {
-    string workspace = workspaces [i]; // Todo use of \" can be made more elegant.
-    workspaceblock.push_back ("<p>");
-    workspaceblock.push_back ("<a href=\"?remove=" + workspace + "\" title=\"" + translate("Delete workspace") + "\">" + emoji_wastebasket () + "</a>");
-    workspaceblock.push_back ("|");
-    workspaceblock.push_back ("<a href=\"?up=" + convert_to_string (i) + "\" title=\"" + translate("Move workspace up") + "\"> " + unicode_black_up_pointing_triangle () + " </a>");
-    workspaceblock.push_back ("|");
-    workspaceblock.push_back ("<a href=\"?down=" + convert_to_string (i) + "\" title=\"" + translate("Move workspace down") + "\"> " + unicode_black_down_pointing_triangle () + " </a>");
-    workspaceblock.push_back ("|");
-    workspaceblock.push_back ("<a href=\"settings?name=" + workspace + "\" title=\"" + translate("Edit workspace") + "\"> ✎ </a>");
-    workspaceblock.push_back ("|");
-    workspaceblock.push_back ("<a href=\"?copy=" + workspace + "\" title=\"" + translate("Copy workspace") + "\"> ⎘ </a>");
+    string workspace = workspaces [i];
+    workspaceblock << "<p>" << endl;
+    workspaceblock << "<a href=" << quoted ("?remove=" + workspace) << " title=" << quoted (translate("Delete workspace")) << ">" << emoji_wastebasket () << "</a>" << endl;
+    workspaceblock << "|" << endl;
+    workspaceblock << "<a href=" << quoted ("?up=" + convert_to_string (i)) << " title=" << quoted (translate("Move workspace up")) << "> " << unicode_black_up_pointing_triangle () << " </a>" << endl;
+    workspaceblock << "|" << endl;
+    workspaceblock << "<a href=" << quoted ("?down=" + convert_to_string (i)) << " title=" << quoted (translate("Move workspace down")) << "> " << unicode_black_down_pointing_triangle () << " </a>" << endl;
+    workspaceblock << "|" << endl;
+    workspaceblock << "<a href=" << quoted ("settings?name=" + workspace) << " title=" << quoted (translate("Edit workspace")) << "> ✎ </a>" << endl;
+    workspaceblock << "|";
+    workspaceblock << "<a href=" << quoted ("?copy=" + workspace) << " title=" << quoted (translate("Copy workspace")) << "> ⎘ </a>" << endl;
 #ifndef HAVE_CLIENT
     // In the Cloud, one can send the workspace configuration to other users.
     // On a client, sending a workspace to other users does not work.
-    workspaceblock.push_back ("|");
-    workspaceblock.push_back ("<a href=\"?send=" + workspace + "\" title=\"" + translate("Send workspace to all users") + "\"> ✉ </a>");
+    workspaceblock << "|" << endl;
+    workspaceblock << "<a href=" << quoted ("?send=" + workspace) << " title=" << quoted (translate("Send workspace to all users")) << "> ✉ </a>" << endl;
 #endif
-    workspaceblock.push_back ("|");
-    workspaceblock.push_back ("<span>" + workspace + "</span>");
-    workspaceblock.push_back ("</p>");
+    workspaceblock << "|" << endl;
+    workspaceblock << "<span>" << workspace << "</span>" << endl;
+    workspaceblock << "</p>" << endl;
   }
-  view.set_variable ("workspaceblock", filter_string_implode (workspaceblock, "\n"));
+  view.set_variable ("workspaceblock", workspaceblock.str());
 
   
 #ifndef HAVE_CLIENT

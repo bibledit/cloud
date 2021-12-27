@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-void test_html2usfm () // Todo use of \" can be made more elegant.
+void test_html2usfm ()
 {
   trace_unit_tests (__func__);
   
@@ -59,8 +59,8 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
 
   // Non-breaking spaces
   {
-    string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
-    string standard = "\\p The earth   brought  forth.";
+    string html = R"(<p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>)";
+    string standard = R"(\p The earth   brought  forth.)";
     // Test Quill-based editor.
     html = filter_string_str_replace ("<span>", "", html);
     html = filter_string_str_replace ("</span>", "", html);
@@ -74,8 +74,8 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
 
   // Test embedded <span> elements.
   {
-    string standard = "\\p The \\add \\+nd Lord God\\+nd* is calling\\add* you.";
-    string html = "<p class=\"p\">The <span class=\"add\"><span class=\"nd\">Lord God</span> is calling</span> you.</p>";
+    string standard = R"(\p The \add \+nd Lord God\+nd* is calling\add* you.)";
+    string html = R"(<p class="p">The <span class="add"><span class="nd">Lord God</span> is calling</span> you.</p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -86,13 +86,13 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
 
   // Basic note
   {
-    string standard = "\\p The earth brought forth\\x + 2 Joh. 1.1\\x*.";
+    string standard = R"(\p The earth brought forth\x + 2 Joh. 1.1\x*.)";
     string html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">x</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     "<br/>"
     "</p>"
-    "<p class=\"b-x\"><span class=\"i-notebody1\">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
+    R"(<p class="b-x"><span class="i-notebody1">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -103,12 +103,12 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
 
   // Footnote with its body deleted.
   {
-    string standard = "\\p The earth brought forth.";
+    string standard = R"(\p The earth brought forth.)";
     string html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">f</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
-    "<p class=\"b-f\"></p>"
+    R"(<p class="b-f"></p>)"
     " "
     "</p>";
 
@@ -125,13 +125,13 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
 
   // Footnote with a deleted citation.
   {
-    string standard = "\\p The earth brought forth.";
+    string standard = R"(\p The earth brought forth.)";
     string html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-f\"><span class=\"i-notebody1\">f</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
+    R"(<p class="b-f"><span class="i-notebody1">f</span><span> </span><span>+ </span><span class="i-fk">brought: </span><span class="i-fl">Heb. </span><span class="i-fq">explanation.</span></p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -144,8 +144,8 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
   // The converter used to take out the space between the two words.
   // This tests that it does not do that.
   {
-    string standard = "\\p Praise \\add Yahweh\\add* \\add all\\add* you nations!";
-    string html = "<p class=\"b-p\"><span>Praise </span><span class=\"i-add\">Yahweh</span><span> <span class=\"i-add\">all</span> you nations!</span></p>";
+    string standard = R"(\p Praise \add Yahweh\add* \add all\add* you nations!)";
+    string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you nations!</span></p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -232,8 +232,8 @@ void test_html2usfm () // Todo use of \" can be made more elegant.
   // Check that it collapses only three spaces into two.
   // And that it does not collapse two spaces into one.
   {
-    string html = "<p class=\"p\"><span>The   earth  brought    forth.</span></p>";
-    string standard = "\\p The   earth  brought    forth.";
+    string html = R"(<p class="p"><span>The   earth  brought    forth.</span></p>)";
+    string standard = R"(\p The   earth  brought    forth.)";
     {
       Editor_Html2Usfm editor_html2usfm;
       editor_html2usfm.load (html);

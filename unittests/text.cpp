@@ -733,13 +733,13 @@ A Verse text.
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
-    string standard = // Todo use of \" can be made more elegant.
-    "<p class=\"p\">"
-    "<span class=\"v\">1</span>"
+    string standard =
+    R"(<p class="p">)"
+    R"(<span class="v">1</span>)"
     "<span> </span>"
     "<span>I will sing </span>"
-    "<span class=\"add\">to the </span>"
-    "<span class=\"add nd\">Lord</span>"
+    R"(<span class="add">to the </span>)"
+    R"(<span class="add nd">Lord</span>)"
     "<span>.</span>"
     "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
@@ -758,13 +758,13 @@ A Verse text.
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
-    "<p class=\"p\">"
-    "<span class=\"v\">1</span>"
+    R"(<p class="p">)"
+    R"(<span class="v">1</span>)"
     "<span> </span>"
     "<span>I will sing </span>"
-    "<span class=\"add\">to the </span>"
-    "<span class=\"add nd\">Lord</span>"
-    "<span class=\"add\"> God</span>"
+    R"(<span class="add">to the </span>)"
+    R"(<span class="add nd">Lord</span>)"
+    R"(<span class="add"> God</span>)"
     "<span>.</span>"
     "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
@@ -784,12 +784,12 @@ A Verse text.
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
     string standard =
-    "<p class=\"p\">"
-    "<span class=\"v\">1</span>"
+    R"(<p class="p">)"
+    R"(<span class="v">1</span>)"
     "<span> </span>"
     "<span>I will sing </span>"
-    "<span class=\"add\">to the </span>"
-    "<span class=\"add nd\">Lord</span>"
+    R"(<span class="add">to the </span>)"
+    R"(<span class="add nd">Lord</span>)"
     "<span>.</span>"
     "</p>\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));

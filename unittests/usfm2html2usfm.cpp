@@ -53,12 +53,12 @@ void test_usfm2html2usfm ()
 
   // Two unknown opening markers.
   {
-    string standard_usfm = // Todo use of \" can be made more elegant.
-    "\\abc\n"
-    "\\abc";
+    string standard_usfm =
+    R"(\abc)" "\n"
+    R"(\abc)";
     string standard_html =
-    "<p class=\"b-mono\"><span>\\abc </span></p>"
-    "<p class=\"b-mono\"><span>\\abc </span></p>";
+    R"(<p class="b-mono"><span>\abc </span></p>)"
+    R"(<p class="b-mono"><span>\abc </span></p>)";
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -76,8 +76,8 @@ void test_usfm2html2usfm ()
 
   // One unknown closing marker.
   {
-    string standard_usfm = "\\abc text\\abc*.";
-    string standard_html = "<p class=\"b-mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
+    string standard_usfm = R"(\abc text\abc*.)";
+    string standard_html = R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)";
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -96,11 +96,11 @@ void test_usfm2html2usfm ()
   // Two unknown closing markers.
   {
     string standard_usfm =
-    "\\abc text\\abc*.\n"
-    "\\abc text\\abc*.";
+    R"(\abc text\abc*.)" "\n"
+    R"(\abc text\abc*.)";
     string standard_html =
-    "<p class=\"b-mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>"
-    "<p class=\"b-mono\"><span>\\abc </span><span>text</span><span>\\abc*</span><span>.</span></p>";
+    R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)"
+    R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -120,19 +120,19 @@ void test_usfm2html2usfm ()
   // Identifiers.
   {
     string standard_usfm =
-    "\\id GEN\n"
-    "\\h Header\n"
-    "\\toc1 The Book of Genesis\n"
-    "\\cl Chapter\n"
-    "\\cp ②\n"
-    "\\cp Ⅰ";
+    R"(\id GEN)" "\n"
+    R"(\h Header)" "\n"
+    R"(\toc1 The Book of Genesis)" "\n"
+    R"(\cl Chapter)" "\n"
+    R"(\cp ②)" "\n"
+    R"(\cp Ⅰ)";
     string standard_html =
-    "<p class=\"b-mono\"><span>\\id </span><span>GEN</span></p>"
-    "<p class=\"b-mono\"><span>\\h </span><span>Header</span></p>"
-    "<p class=\"b-mono\"><span>\\toc1 </span><span>The Book of Genesis</span></p>"
-    "<p class=\"b-mono\"><span>\\cl </span><span>Chapter</span></p>"
-    "<p class=\"b-mono\"><span>\\cp </span><span>②</span></p>"
-    "<p class=\"b-mono\"><span>\\cp </span><span>Ⅰ</span></p>";
+    R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
+    R"(<p class="b-mono"><span>\h </span><span>Header</span></p>)"
+    R"(<p class="b-mono"><span>\toc1 </span><span>The Book of Genesis</span></p>)"
+    R"(<p class="b-mono"><span>\cl </span><span>Chapter</span></p>)"
+    R"(<p class="b-mono"><span>\cp </span><span>②</span></p>)"
+    R"(<p class="b-mono"><span>\cp </span><span>Ⅰ</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -151,8 +151,8 @@ void test_usfm2html2usfm ()
 
   // One paragraph.
   {
-    string standard_usfm = "\\p Paragraph text.";
-    string standard_html = "<p class=\"b-p\"><span>Paragraph text.</span></p>";
+    string standard_usfm = R"(\p Paragraph text.)";
+    string standard_html = R"(<p class="b-p"><span>Paragraph text.</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -172,11 +172,11 @@ void test_usfm2html2usfm ()
   // Two paragraphs.
   {
     string standard_usfm =
-    "\\p Paragraph text.\n"
-    "\\p Paragraph txt.";
+    R"(\p Paragraph text.)" "\n"
+    R"(\p Paragraph txt.)";
     string standard_html =
-    "<p class=\"b-p\"><span>Paragraph text.</span></p>"
-    "<p class=\"b-p\"><span>Paragraph txt.</span></p>";
+    R"(<p class="b-p"><span>Paragraph text.</span></p>)"
+    R"(<p class="b-p"><span>Paragraph txt.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -195,8 +195,8 @@ void test_usfm2html2usfm ()
 
   // Inline text
   {
-    string standard_usfm = "\\p Paragraph text plus \\add added\\add* text.";
-    string standard_html = "<p class=\"b-p\"><span>Paragraph text plus </span><span class=\"i-add\">added</span><span> text.</span></p>";
+    string standard_usfm = R"(\p Paragraph text plus \add added\add* text.)";
+    string standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -215,8 +215,8 @@ void test_usfm2html2usfm ()
 
   // Inline texts.
   {
-    string standard_usfm = "\\p Paragraph text plus \\add added\\add* text plus \\add added\\add* text.";
-    string standard_html = "<p class=\"b-p\"><span>Paragraph text plus </span><span class=\"i-add\">added</span><span> text plus </span><span class=\"i-add\">added</span><span> text.</span></p>";
+    string standard_usfm = R"(\p Paragraph text plus \add added\add* text plus \add added\add* text.)";
+    string standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text plus </span><span class="i-add">added</span><span> text.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -236,12 +236,12 @@ void test_usfm2html2usfm ()
   // Chapter.
   {
     string standard_usfm =
-    "\\c 1\n"
-    "\\p Paragraph.";
+    R"(\c 1)" "\n"
+    R"(\p Paragraph.)";
 
     string standard_html =
-      "<p class=\"b-c\"><span>1</span></p>"
-      "<p class=\"b-p\"><span>Paragraph.</span></p>";
+      R"(<p class="b-c"><span>1</span></p>)"
+      R"(<p class="b-p"><span>Paragraph.</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -261,11 +261,11 @@ void test_usfm2html2usfm ()
   // Verses.
   {
     string standard_usfm =
-    "\\p\n"
-    "\\v 1 One.\n"
-    "\\v 2 Two.";
+    R"(\p)" "\n"
+    R"(\v 1 One.)" "\n"
+    R"(\v 2 Two.)";
     string standard_html =
-    "<p class=\"b-p\"><span class=\"i-v\">1</span><span> </span><span>One.</span><span> </span><span class=\"i-v\">2</span><span> </span><span>Two.</span></p>";
+    R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>One.</span><span> </span><span class="i-v">2</span><span> </span><span>Two.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -315,8 +315,8 @@ void test_usfm2html2usfm ()
     "\\periph Title Page\n"
     "\\periph Publication Data";
     string standard_html =
-    "<p class=\"b-mono\"><span>\\periph </span><span>Title Page</span></p>"
-    "<p class=\"b-mono\"><span>\\periph </span><span>Publication Data</span></p>";
+    R"(<p class="b-mono"><span>\periph </span><span>Title Page</span></p>)"
+    R"(<p class="b-mono"><span>\periph </span><span>Publication Data</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -340,9 +340,9 @@ void test_usfm2html2usfm ()
     "\\fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\\fig*\n"
     "\\p Text";
     string standard_html =
-    "<p class=\"b-p\"><span>Text</span></p>"
-    "<p class=\"b-mono\"><span>\\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\\fig*</span></p>"
-    "<p class=\"b-p\"><span>Text</span></p>";
+    R"(<p class="b-p"><span>Text</span></p>)"
+    R"(<p class="b-mono"><span>\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\fig*</span></p>)"
+    R"(<p class="b-p"><span>Text</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -368,11 +368,11 @@ void test_usfm2html2usfm ()
     "\\tr \\tc1 Gad \\tc2 Eliasaph son of Reuel \\tcr3 45650\n"
     "\\tr \\tc1 \\tcr2 Total: \\tcr3 151450";
     string standard_html =
-    "<p class=\"b-mono\"><span>\\tr </span><span class=\"i-th1\">Tribe </span><span class=\"i-th2\">Leader </span><span class=\"i-thr3\">Number</span></p>"
-    "<p class=\"b-mono\"><span>\\tr </span><span class=\"i-tc1\">Reuben </span><span class=\"i-tc2\">Elizur son of Shedeur </span><span class=\"i-tcr3\">46500</span></p>"
-    "<p class=\"b-mono\"><span>\\tr </span><span class=\"i-tc1\">Simeon </span><span class=\"i-tc2\">Shelumiel son of Zurishaddai </span><span class=\"i-tcr3\">59300</span></p>"
-    "<p class=\"b-mono\"><span>\\tr </span><span class=\"i-tc1\">Gad </span><span class=\"i-tc2\">Eliasaph son of Reuel </span><span class=\"i-tcr3\">45650</span></p>"
-    "<p class=\"b-mono\"><span>\\tr </span><span class=\"i-tcr2\">Total: </span><span class=\"i-tcr3\">151450</span></p>";
+    R"(<p class="b-mono"><span>\tr </span><span class="i-th1">Tribe </span><span class="i-th2">Leader </span><span class="i-thr3">Number</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Reuben </span><span class="i-tc2">Elizur son of Shedeur </span><span class="i-tcr3">46500</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Simeon </span><span class="i-tc2">Shelumiel son of Zurishaddai </span><span class="i-tcr3">59300</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Gad </span><span class="i-tc2">Eliasaph son of Reuel </span><span class="i-tcr3">45650</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tcr2">Total: </span><span class="i-tcr3">151450</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -392,9 +392,9 @@ void test_usfm2html2usfm ()
 
   // Word list entry.
   {
-    string standard_usfm = "\\p A \\ndx index\\ndx* b \\wh Hebrew\\wh* c.";
+    string standard_usfm = R"(\p A \ndx index\ndx* b \wh Hebrew\wh* c.)";
     string standard_html =
-    "<p class=\"b-p\"><span>A </span><span class=\"i-ndx\">index</span><span> b </span><span class=\"i-wh\">Hebrew</span><span> c.</span></p>";
+    R"(<p class="b-p"><span>A </span><span class="i-ndx">index</span><span> b </span><span class="i-wh">Hebrew</span><span> c.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -413,13 +413,13 @@ void test_usfm2html2usfm ()
 
   // Crossreference.
   {
-    string standard_usfm = "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.";
+    string standard_usfm = R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)";
     string standard_html =
-    "<p class=\"b-p\"><span>The elder</span><span class=\"i-notecall1\">1</span><span> to the beloved Gaius.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">1</span><span> to the beloved Gaius.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
+    R"(<p class="b-x"><span class="i-notebody1">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -439,15 +439,15 @@ void test_usfm2html2usfm ()
   // Crossreferences.
   {
     string standard_usfm =
-    "\\p The elder\\x + 2 Joh. 1.1\\x* to the beloved Gaius.\n"
-    "\\v 1 The elders\\x + 2 Joh. 2.2\\x* to the beloved.";
+    R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)" "\n"
+    R"(\v 1 The elders\x + 2 Joh. 2.2\x* to the beloved.)";
     string standard_html =
-    "<p class=\"b-p\"><span>The elder</span><span class=\"i-notecall1\">1</span><span> to the beloved Gaius.</span><span> </span><span class=\"i-v\">1</span><span> </span><span>The elders</span><span class=\"i-notecall2\">2</span><span> to the beloved.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">1</span><span> to the beloved Gaius.</span><span> </span><span class="i-v">1</span><span> </span><span>The elders</span><span class="i-notecall2">2</span><span> to the beloved.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>"
-    "<p class=\"b-x\"><span class=\"i-notebody2\">2</span><span> </span><span>+ 2 Joh. 2.2</span></p>";
+    R"(<p class="b-x"><span class="i-notebody1">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>)"
+    R"(<p class="b-x"><span class="i-notebody2">2</span><span> </span><span>+ 2 Joh. 2.2</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -467,13 +467,13 @@ void test_usfm2html2usfm ()
   // Footnote.
   {
     string standard_usfm =
-    "\\p The earth brought forth\\f + \\fk brought: \\fl Heb. \\fq explanation.\\f*.";
+    R"(\p The earth brought forth\f + \fk brought: \fl Heb. \fq explanation.\f*.)";
     string standard_html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">1</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
+    R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fk">brought: </span><span class="i-fl">Heb. </span><span class="i-fq">explanation.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -534,13 +534,13 @@ void test_usfm2html2usfm ()
   // Endnote.
   {
     string standard_usfm =
-    "\\p The earth brought forth\\fe + \\fk brought: \\fl Heb. \\fq explanation.\\fe*.";
+    R"(\p The earth brought forth\fe + \fk brought: \fl Heb. \fq explanation.\fe*.)";
     string standard_html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">1</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-fe\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
+    R"(<p class="b-fe"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fk">brought: </span><span class="i-fl">Heb. </span><span class="i-fq">explanation.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -655,13 +655,13 @@ void test_usfm2html2usfm ()
   // Nested text markup.
   {
     string input_usfm =
-    "\\p\n"
-    "\\v 2 \\add add\\+nd addnd\\+nd*\\add*.";
+    R"(\p)" "\n"
+    R"(\v 2 \add add\+nd addnd\+nd*\add*.)";
     string output_usfm =
-    "\\p\n"
-    "\\v 2 \\add add\\add*\\add \\+nd addnd\\+nd*\\add*.";
+    R"(\p)" "\n"
+    R"(\v 2 \add add\add*\add \+nd addnd\+nd*\add*.)";
     string html =
-      "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add0nd\">addnd</span><span>.</span></p>";
+      R"(<p class="b-p"><span class="i-v">2</span><span> </span><span class="i-add">add</span><span class="i-add0nd">addnd</span><span>.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
@@ -681,13 +681,13 @@ void test_usfm2html2usfm ()
   // Nested text markup.
   {
     string input_usfm =
-    "\\p\n"
-    "\\v 2 \\add add\\+nd addnd\\add*.";
+    R"(\p)" "\n"
+    R"(\v 2 \add add\+nd addnd\add*.)";
     string output_usfm =
-    "\\p\n"
-    "\\v 2 \\add add\\add*\\add \\+nd addnd\\+nd*\\add*.";
+    R"(\p)" "\n"
+    R"(\v 2 \add add\add*\add \+nd addnd\+nd*\add*.)";
     string html =
-    "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span class=\"i-add\">add</span><span class=\"i-add0nd\">addnd</span><span>.</span></p>";
+    R"(<p class="b-p"><span class="i-v">2</span><span> </span><span class="i-add">add</span><span class="i-add0nd">addnd</span><span>.</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
@@ -706,10 +706,10 @@ void test_usfm2html2usfm ()
 
   // Nested text markup.
   {
-    string input_usfm  = "\\p The \\add \\+nd Lord God\\+nd* is\\add* calling you";
-    string output_usfm = "\\p The \\add \\+nd Lord God\\+nd*\\add*\\add  is\\add* calling you";
+    string input_usfm  = R"(\p The \add \+nd Lord God\+nd* is\add* calling you)";
+    string output_usfm = R"(\p The \add \+nd Lord God\+nd*\add*\add  is\add* calling you)";
     string html =
-    "<p class=\"b-p\"><span>The </span><span class=\"i-add0nd\">Lord God</span><span class=\"i-add\"> is</span><span> calling you</span></p>";
+    R"(<p class="b-p"><span>The </span><span class="i-add0nd">Lord God</span><span class="i-add"> is</span><span> calling you</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
@@ -729,14 +729,14 @@ void test_usfm2html2usfm ()
   // Nested note markup.
   {
     string standard_usfm =
-    "\\p\n"
-    "\\v 2 text\\f + \\fk fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
+    R"(\p)" "\n"
+    R"(\v 2 text\f + \fk fk \+fdc key-fdc\+fdc*\fk* normal\f*.)";
     string html =
-    "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>text</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>text</span><span class="i-notecall1">1</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
+    R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fk">fk </span><span class="i-fk0fdc">key-fdc</span><span> normal</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -756,17 +756,17 @@ void test_usfm2html2usfm ()
   // Nested note markup.
   {
     string input_usfm =
-    "\\p"
-    "\\v 2 text\\f + \\fk fk \\+fdc key-fdc\\fk* normal\\f*.";
+    R"(\p)"
+    R"(\v 2 text\f + \fk fk \+fdc key-fdc\fk* normal\f*.)";
     string output_usfm =
-    "\\p\n"
-    "\\v 2 text\\f + \\fk fk \\+fdc key-fdc\\+fdc*\\fk* normal\\f*.";
+    R"(\p)" "\n"
+    R"(\v 2 text\f + \fk fk \+fdc key-fdc\+fdc*\fk* normal\f*.)";
     string html =
-    "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>text</span><span class=\"i-notecall1\">1</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>text</span><span class="i-notecall1">1</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fk\">fk </span><span class=\"i-fk0fdc\">key-fdc</span><span> normal</span></p>";
+    R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fk">fk </span><span class="i-fk0fdc">key-fdc</span><span> normal</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (input_usfm);
@@ -789,14 +789,14 @@ void test_usfm2html2usfm ()
     // The bug was fixed.
     // This test would catch any regression.
     string usfm =
-    "\\c 1\n"
-    "\\v 1 Canonical text\\f + \\fr 1:1 \\fk Footnote fk style \\ft Footnote ft style\\f* canonical text.";
+    R"(\c 1)" "\n"
+    R"(\v 1 Canonical text\f + \fr 1:1 \fk Footnote fk style \ft Footnote ft style\f* canonical text.)";
     string html =
-    "<p class=\"b-c\"><span>1</span><span> </span><span class=\"i-v\">1</span><span> </span><span>Canonical text</span><span class=\"i-notecall1\">1</span><span> canonical text.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-c"><span>1</span><span> </span><span class="i-v">1</span><span> </span><span>Canonical text</span><span class="i-notecall1">1</span><span> canonical text.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fr\">1:1 </span><span class=\"i-fk\">Footnote fk style </span><span class=\"i-ft\">Footnote ft style</span></p>";
+    R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">1:1 </span><span class="i-fk">Footnote fk style </span><span class="i-ft">Footnote ft style</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
@@ -848,7 +848,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    string standard_html = "<p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd\"><br /></p><p class=\"b-p\"><span>paragraph</span></p><p class=\"b-sd2\"><br /></p>";
+    string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-sd"><br /></p><p class="b-p"><span>paragraph</span></p><p class="b-sd2"><br /></p>)";
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
@@ -864,7 +864,7 @@ void test_usfm2html2usfm ()
     string standardusfm =
     "\\p\n\\v 1 The text\\x + \\xo 1 \\xt Passage\\x*.";
     string standardhtml =
-    "<p class=\"b-p\"><span class=\"i-v\">1</span><span> </span><span>The text</span><span class=\"i-notecall1\">1</span><span>.</span></p><p class=\"b-notes\"> </p><p class=\"b-x\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-xo\">1 </span><span class=\"i-xt\">Passage</span></p>";
+    R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>The text</span><span class="i-notecall1">1</span><span>.</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-xo">1 </span><span class="i-xt">Passage</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standardusfm);
@@ -884,12 +884,12 @@ void test_usfm2html2usfm ()
   // Unmatched note opener and xref opener.
   {
     string standard_usfm =
-    "\\c 117\n"
-    "\\p\n"
-    "\\v 1 Praise Yahweh\\f all you nations!\n"
-    "\\v 2 For his loving kindness\\x is great toward us.\n";
+    R"(\c 117)" "\n"
+    R"(\p)" "\n"
+    R"(\v 1 Praise Yahweh\f all you nations!)" "\n"
+    R"(\v 2 For his loving kindness\x is great toward us.)" "\n";
     string standard_html =
-    "<p class=\"b-c\"><span>117</span></p><p class=\"b-p\"><span class=\"i-v\">1</span><span> </span><span>Praise Yahweh</span><span>\\f </span><span>all you nations!</span><span> </span><span class=\"i-v\">2</span><span> </span><span>For his loving kindness</span><span>\\x </span><span>is great toward us.</span></p>";
+    R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span>\f </span><span>all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>For his loving kindness</span><span>\x </span><span>is great toward us.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -909,9 +909,9 @@ void test_usfm2html2usfm ()
   // Inline opener without matching inline closer.
   {
     string standard_usfm =
-    "\\p The \\add Lord God is calling you";
+    R"(\p The \add Lord God is calling you)";
     string standard_html =
-    "<p class=\"b-p\"><span>The </span><span>\\add </span><span>Lord God is calling you</span></p>";
+    R"(<p class="b-p"><span>The </span><span>\add </span><span>Lord God is calling you</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -931,10 +931,10 @@ void test_usfm2html2usfm ()
   // Inline opener without matching inline closer but with other inline markup.
   {
     string standard_usfm =
-    "\\p The \\add Lord \\nd God\\nd* is calling you\n"
-    "\\v 2 Verse text";
+    R"(\p The \add Lord \nd God\nd* is calling you)" "\n"
+    R"(\v 2 Verse text)";
     string standard_html =
-    "<p class=\"b-p\"><span>The </span><span>\\add </span><span>Lord </span><span class=\"i-nd\">God</span><span> is calling you</span><span> </span><span class=\"i-v\">2</span><span> </span><span>Verse text</span></p>";
+    R"(<p class="b-p"><span>The </span><span>\add </span><span>Lord </span><span class="i-nd">God</span><span> is calling you</span><span> </span><span class="i-v">2</span><span> </span><span>Verse text</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -954,10 +954,10 @@ void test_usfm2html2usfm ()
   // Inline opener without matching inline closer and with a paragraph after that.
   {
     string standard_usfm =
-    "\\p The \\add Lord God is calling you\n"
-    "\\p Paragraph";
+    R"(\p The \add Lord God is calling you)" "\n"
+    R"(\p Paragraph)";
     string standard_html =
-    "<p class=\"b-p\"><span>The </span><span>\\add </span><span>Lord God is calling you</span></p><p class=\"b-p\"><span>Paragraph</span></p>";
+    R"(<p class="b-p"><span>The </span><span>\add </span><span>Lord God is calling you</span></p><p class="b-p"><span>Paragraph</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -977,7 +977,7 @@ void test_usfm2html2usfm ()
   // Testing editing one verse, which does not have a starting paragraph.
   {
     string usfm = "\\v 1 God created";
-    string html = "<p><span class=\"i-v\">1</span><span> </span><span>God created</span></p>";
+    string html = R"(<p><span class="i-v">1</span><span> </span><span>God created</span></p>)";
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
@@ -1019,7 +1019,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     
-    string html = "<p class=\"b-mono\"><span>\\id </span><span>GEN Genesis</span></p><p class=\"b-mono\"><span>\\h </span><span>Genesis</span></p><p class=\"b-mono\"><span>\\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class=\"b-mt1\"><span>The First Book of Moses, called Genesis</span></p>";
+    string html = R"(<p class="b-mono"><span>\id </span><span>GEN Genesis</span></p><p class="b-mono"><span>\h </span><span>Genesis</span></p><p class="b-mono"><span>\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class="b-mt1"><span>The First Book of Moses, called Genesis</span></p>)";
     evaluate (__LINE__, __func__, html, output);
     
     output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
@@ -1044,8 +1044,8 @@ void test_usfm2html2usfm ()
   
   // Testing \add ..\add* markup in a footnote.
   {
-    string standard_usfm = "\\p Praise Yahweh\\f \\add I\\add* am\\f*, all you nations!";
-    string standard_html = "<p class=\"b-p\"><span>Praise Yahweh</span><span class=\"i-notecall1\">1</span><span>, all you nations!</span></p><p class=\"b-notes\"> </p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span class=\"i-add\">I</span><span> am</span></p>";
+    string standard_usfm = R"(\p Praise Yahweh\f \add I\add* am\f*, all you nations!)";
+    string standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span class="i-add">I</span><span> am</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -1064,8 +1064,8 @@ void test_usfm2html2usfm ()
 
   // Testing \xt in a footnote.
   {
-    string standard_usfm = "\\p Praise Yahweh\\f I am, see \\xt Exod.6.3.\\f*, all you nations!";
-    string standard_html = "<p class=\"b-p\"><span>Praise Yahweh</span><span class=\"i-notecall1\">1</span><span>, all you nations!</span></p><p class=\"b-notes\"> </p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>I am, see </span><span class=\"i-xt\">Exod.6.3.</span></p>";
+    string standard_usfm = R"(\p Praise Yahweh\f I am, see \xt Exod.6.3.\f*, all you nations!)";
+    string standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>I am, see </span><span class="i-xt">Exod.6.3.</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -1084,8 +1084,8 @@ void test_usfm2html2usfm ()
 
   // Testing \xt and \add markup in a footnote, in Romans 2.15, received from a user.
   {
-    string standard_usfm = "\\p \\f + \\fr 2:15 \\ft „tokie“ – t. „kurie“\\f*tokie parodo savo širdyse įrašytą įstatymo \\f + \\fr 2:15 \\ft „darbą“ – arba „poveikį“\\f*darbą, jų sąžinei kartu \\add tiems dalykams\\add* paliudijant, ir \\add jų\\add* mintims \\f + \\fr 2:15 \\ft „tuo tarpu \\add juos\\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \\add juos\\add* kaltindamos arba net gindamos“; žr. - \\xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\\f*tuo tarpu \\add juos\\add* kaltinant arba net ginant) –";
-    string standard_html = "<p class=\"b-p\"><span class=\"i-notecall1\">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class=\"i-notecall2\">2</span><span>darbą, jų sąžinei kartu </span><span class=\"i-add\">tiems dalykams</span><span> paliudijant, ir </span><span class=\"i-add\">jų</span><span> mintims </span><span class=\"i-notecall3\">3</span><span>tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant) –</span></p><p class=\"b-notes\"> </p><p class=\"b-f\"><span class=\"i-notebody1\">1</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tokie“ – t. „kurie“</span></p><p class=\"b-f\"><span class=\"i-notebody2\">2</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„darbą“ – arba „poveikį“</span></p><p class=\"b-f\"><span class=\"i-notebody3\">3</span><span> </span><span>+ </span><span class=\"i-fr\">2:15 </span><span class=\"i-ft\">„tuo tarpu </span><span class=\"i-add\">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class=\"i-add\">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class=\"i-xt\">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>";
+    string standard_usfm = R"(\p \f + \fr 2:15 \ft „tokie“ – t. „kurie“\f*tokie parodo savo širdyse įrašytą įstatymo \f + \fr 2:15 \ft „darbą“ – arba „poveikį“\f*darbą, jų sąžinei kartu \add tiems dalykams\add* paliudijant, ir \add jų\add* mintims \f + \fr 2:15 \ft „tuo tarpu \add juos\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \add juos\add* kaltindamos arba net gindamos“; žr. - \xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\f*tuo tarpu \add juos\add* kaltinant arba net ginant) –)";
+    string standard_html = R"(<p class="b-p"><span class="i-notecall1">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class="i-notecall2">2</span><span>darbą, jų sąžinei kartu </span><span class="i-add">tiems dalykams</span><span> paliudijant, ir </span><span class="i-add">jų</span><span> mintims </span><span class="i-notecall3">3</span><span>tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant) –</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tokie“ – t. „kurie“</span></p><p class="b-f"><span class="i-notebody2">2</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„darbą“ – arba „poveikį“</span></p><p class="b-f"><span class="i-notebody3">3</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class="i-add">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class="i-xt">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>)";
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());

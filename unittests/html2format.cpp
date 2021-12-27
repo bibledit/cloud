@@ -32,9 +32,9 @@ void test_html2format ()
   refresh_sandbox (true);
   Database_State::create ();
 
-  // Basic test. // Todo use of \" can be made more elegant.
+  // Basic test.
   {
-    string html = "<p class=\"p\"><span>The earth brought forth.</span></p>";
+    string html = R"(<p class="p"><span>The earth brought forth.</span></p>)";
     vector<string> texts = {"\n", "The earth brought forth."};
     vector<string> formats = {"p", ""};
     {
@@ -58,7 +58,7 @@ void test_html2format ()
 
   // Non-breaking spaces.
   {
-    string html = "<p class=\"p\"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>";
+    string html = R"(<p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>)";
     vector<string> texts = {"\n", "The earth   brought  forth."};
     vector<string> formats = {"p", ""};
     {
@@ -82,7 +82,7 @@ void test_html2format ()
 
   // Test embedded <span> elements.
   {
-    string html = "<p class=\"p\"><span>The </span><span class=\"add0nd\">Lord God</span> is calling you<span>.</span></p>";
+    string html = R"(<p class="p"><span>The </span><span class="add0nd">Lord God</span> is calling you<span>.</span></p>)";
     vector<string> texts = {"\n", "The ", "Lord God", " is calling you", "."};
     vector<string> formats = {"p", "", "add0nd", "", ""};
     {
@@ -92,7 +92,7 @@ void test_html2format ()
       evaluate (__LINE__, __func__, texts, editor_html2format.texts);
       evaluate (__LINE__, __func__, formats, editor_html2format.formats);
     }
-    html = "<p class=\"p\">The <span class=\"add\"><span class=\"add0nd\">Lord God</span> is calling you</span>.</p>";
+    html = R"(<p class="p">The <span class="add"><span class="add0nd">Lord God</span> is calling you</span>.</p>)";
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -105,11 +105,11 @@ void test_html2format ()
   // Basic note.
   {
     string html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">x</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">x</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
     "</p>"
-    "<p class=\"b-x\"><span class=\"i-notebody1\">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>";
+    R"(<p class="b-x"><span class="i-notebody1">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>)";
     vector<string> texts = {
       "\n",
       "The earth brought forth",
@@ -146,10 +146,10 @@ void test_html2format ()
   // Footnote with its body deleted.
   {
     string html =
-    "<p class=\"b-p\"><span>The earth brought forth</span><span class=\"i-notecall1\">f</span><span>.</span></p>"
-    "<p class=\"b-notes\">"
+    R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">f</span><span>.</span></p>)"
+    R"(<p class="b-notes">)"
     " "
-    "<p class=\"b-f\"></p>"
+    R"(<p class="b-f"></p>)"
     "</p>";
     vector<string> texts = {
       "\n",
@@ -182,11 +182,11 @@ void test_html2format ()
   {
     {
       string html =
-      "<p class=\"b-p\"><span>The earth brought forth</span><span>.</span></p>"
-      "<p class=\"b-notes\">"
+      R"(<p class="b-p"><span>The earth brought forth</span><span>.</span></p>)"
+      R"(<p class="b-notes">)"
       " "
       "</p>"
-      "<p class=\"b-f\"><span class=\"i-notebody1\">f</span><span> </span><span>+ </span><span class=\"i-fk\">brought: </span><span class=\"i-fl\">Heb. </span><span class=\"i-fq\">explanation.</span></p>";
+      R"(<p class="b-f"><span class="i-notebody1">f</span><span> </span><span>+ </span><span class="i-fk">brought: </span><span class="i-fl">Heb. </span><span class="i-fq">explanation.</span></p>)";
       vector<string> texts = {
         "\n",
         "The earth brought forth",
@@ -228,7 +228,7 @@ void test_html2format ()
   // This tests that it does not do that.
   {
     {
-      string html = "<p class=\"p\"><span>Praise </span><span class=\"add\">Yahweh</span><span> <span class=\"add\">all</span> you nations!</span></p>";
+      string html = R"(<p class="p"><span>Praise </span><span class="add">Yahweh</span><span> <span class="add">all</span> you nations!</span></p>)";
       vector<string> texts = {
         "\n",
         "Praise ",
@@ -252,7 +252,7 @@ void test_html2format ()
       evaluate (__LINE__, __func__, formats, editor_html2format.formats);
     }
     {
-      string html = "<p class=\"b-p\"><span>Praise </span><span class=\"i-add\">Yahweh</span><span> <span class=\"i-add\">all</span> you nations!</span></p>";
+      string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you nations!</span></p>)";
       vector<string> texts = {
         "\n",
         "Praise ",
@@ -307,7 +307,7 @@ void test_html2format ()
 
   // Test that it changes three or more spaces in sequence to two spaces.
   {
-    string html = "<p class=\"p\"><span>The   earth    brought forth.</span></p>";
+    string html = R"(<p class="p"><span>The   earth    brought forth.</span></p>)";
     vector<string> texts = {"\n", "The   earth    brought forth."};
     vector<string> formats = {"p", ""};
     {

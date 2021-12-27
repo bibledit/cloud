@@ -160,9 +160,9 @@ void test_usfm2html ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    string standard = // Todo use of \" can be made more elegant.
-    "<p class=\"b-c\"><span>1</span></p>"
-    "<p class=\"b-p\"><span class=\"i-v\">2</span><span> </span><span>Text </span><span class=\"i-add\">of the </span><span>1st </span><span class=\"i-add\">second verse</span><span>.</span></p>";
+    string standard =
+    R"(<p class="b-c"><span>1</span></p>)"
+    R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st </span><span class="i-add">second verse</span><span>.</span></p>)";
     evaluate (__LINE__, __func__, standard, html);
   }
 

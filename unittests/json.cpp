@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace jsonxx;
 
 
-// Test included JSON libraries. // Todo use of \" can be made more elegant.
+// Test included JSON libraries.
 void test_json ()
 {
   trace_unit_tests (__func__);
@@ -34,10 +34,10 @@ void test_json ()
   // Convert JSON to xml.
   {
     string json ("{"
-                 "  \"foo\" : 1,"
-                 "  \"bar\" : false,"
-                 "  \"person\" : {\"name\" : \"GWB\", \"age\" : 60,},"
-                 "  \"data\": [\"abcd\", 42],"
+                 R"(  "foo" : 1,)"
+                 R"(  "bar" : false,)"
+                 R"(  "person" : {"name" : "GWB", "age" : 60,},)"
+                 R"(  "data": ["abcd", 42],)"
                  "}");
     Object object;
     object.parse (json);
@@ -49,10 +49,10 @@ void test_json ()
   // Test malformed JSON.
   {
     string json ("{"
-                 "  \"foo\" 1,"
-                 "  \"bar : false,"
-                 "  \"person\" : me\" : \"GWB\", \"age\" : 60,},"
-                 "  \"data\": \"abcd\", 42],"
+                 R"(  "foo" 1,)"
+                 R"(  "bar : false,)"
+                 R"(  "person" : me" : "GWB", "age" : 60,},)"
+                 R"(  "data": "abcd", 42],)"
                  );
     Object object;
     object.parse (json);

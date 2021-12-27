@@ -146,8 +146,14 @@ int main (int argc, char **argv)
   
   refresh_sandbox (false);
   test_dev ();
+  test_json ();
+  test_lexicons ();
+  test_pairs ();
+  test_string ();
+  test_usfm2html ();
+  test_usfm2html2usfm ();
   refresh_sandbox (false);
-  //exit (0);
+  exit (0);
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.

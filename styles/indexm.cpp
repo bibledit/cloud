@@ -115,21 +115,21 @@ string styles_indexm (void * webserver_request)
   database_styles.deleteSheet ("");
 
   vector <string> sheets = database_styles.getSheets();
-  vector <string> sheetblock;
+  stringstream sheetblock;
   for (auto & sheet : sheets) {
-    sheetblock.push_back ("<p>");
-    sheetblock.push_back (sheet);
+    sheetblock << "<p>";
+    sheetblock << sheet;
     bool editable = database_styles.hasWriteAccess (username, sheet);
     if (userlevel >= Filter_Roles::admin ()) editable = true;
     // Cannot edit the Standard stylesheet.
     if (sheet == styles_logic_standard_sheet ()) editable = false;
     if (editable) {
-      sheetblock.push_back ("<a href=\"sheetm?name=" + sheet + "\">[" + translate("edit") + "]</a>");
+      sheetblock << "<a href=" << quoted ("sheetm?name=" + sheet) << ">[" << translate("edit") << "]</a>";
     }
-    sheetblock.push_back ("</p>"); // Todo use of \" can be made more elegant.
+    sheetblock << "</p>";
   }
   
-  view.set_variable ("sheetblock", filter_string_implode (sheetblock, "\n"));
+  view.set_variable ("sheetblock", sheetblock.str());
 
   page += view.render ("styles", "indexm");
   

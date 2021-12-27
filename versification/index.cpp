@@ -80,12 +80,12 @@ string versification_index (void * webserver_request)
     }
   }
 
-  string systemblock; // Todo use of \" can be made more elegant.
+  stringstream systemblock;
   vector <string> systems = database_versifications.getSystems();
   for (auto & system : systems) {
-    systemblock.append ("<p><a href=\"system?name=" + system + "\">" + system + "</a></p>\n");
+    systemblock << "<p><a href=" << quoted ("system?name=" + system) << ">" << system << "</a></p>" << endl;
   }
-  view.set_variable ("systemblock", systemblock);
+  view.set_variable ("systemblock", systemblock.str());
   
   page += view.render ("versification", "index");
   

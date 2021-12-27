@@ -34,11 +34,11 @@ void test_diff ()
 {
   trace_unit_tests (__func__);
   
-  // Difference. // Todo use of \" can be made more elegant.
+  // Difference.
   {
     vector <string> removals, additions;
     string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
-    string standard = "<span style=\"text-decoration: line-through;\"> Old </span> <span style=\"font-weight: bold;\"> New </span> text";
+    string standard = R"(<span style="text-decoration: line-through;"> Old </span> <span style="font-weight: bold;"> New </span> text)";
     evaluate (__LINE__, __func__, standard, output);
     evaluate (__LINE__, __func__, {"Old"}, removals);
     evaluate (__LINE__, __func__, {"New"}, additions);
@@ -49,7 +49,7 @@ void test_diff ()
     vector <string> removals, additions;
     string output = filter_diff_diff ("this is really old text", "and this is new text",
                                       &removals, &additions);
-    string standard = "<span style=\"font-weight: bold;\"> and </span> this is <span style=\"text-decoration: line-through;\"> really </span> <span style=\"text-decoration: line-through;\"> old </span> <span style=\"font-weight: bold;\"> new </span> text";
+    string standard = R"(<span style="font-weight: bold;"> and </span> this is <span style="text-decoration: line-through;"> really </span> <span style="text-decoration: line-through;"> old </span> <span style="font-weight: bold;"> new </span> text)";
     evaluate (__LINE__, __func__, standard, output);
     evaluate (__LINE__, __func__, {"really", "old"}, removals);
     evaluate (__LINE__, __func__, {"and", "new"}, additions);
@@ -64,10 +64,11 @@ void test_diff ()
     "Genesis 1.3 3 And God said, Let there be light: and there was light.\n";
     
     string newtext =
-    "Genesis 1.1 1 In the beginning God created the heaven and the earth.\n"
-    "Genesis 1.2 2 And the earth was without form and void and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
-    "Genesis 1.3 3 And God said: \"Let there be light\". And there was light.\n";
-    
+R"(Genesis 1.1 1 In the beginning God created the heaven and the earth.
+Genesis 1.2 2 And the earth was without form and void and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.
+Genesis 1.3 3 And God said: "Let there be light". And there was light.
+)";
+   
     string output = filter_diff_diff (oldtext, newtext, &removals, &additions);
     
     string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "diff.txt"));
@@ -75,7 +76,7 @@ void test_diff ()
     
     evaluate (__LINE__, __func__, {"heavens", "form,", "void;", "said,", "Let", "light:", "and"},
               removals);
-    evaluate (__LINE__, __func__, {"heaven", "form", "void", "said:", "\"Let", "light\".", "And"},
+    evaluate (__LINE__, __func__, {"heaven", "form", "void", "said:", R"("Let)", R"(light".)", "And"},
               additions);
   }
 

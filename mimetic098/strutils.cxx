@@ -25,14 +25,16 @@ string canonical(const string& s, bool no_ws)
     if(idx)
         input.erase(0, idx);
     // removes trailing spaces
-    idx = input.length() - 1;
+    idx = (int)input.length() - 1;
     while(input[idx] == ' ')
         idx--;
-    input.erase(idx, input.length() - ++idx);
+    int idx1 = idx;
+    int idx2 = ++idx;
+    input.erase(idx1, input.length() - idx2);
     // removes rfc822 comments and non-required spaces
     bool in_dquote = false, has_brack = false;
-    int in_par = 0, in_brack = 0, par_last;
-    for(int t =input.length() - 1; t >= 0; --t)
+    int in_par = 0, in_brack = 0, par_last = 0;
+    for(int t = (int)input.length() - 1; t >= 0; --t)
     {
         if(input[t] == '"') {
             in_dquote = !in_dquote;

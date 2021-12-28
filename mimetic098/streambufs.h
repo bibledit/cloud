@@ -102,7 +102,7 @@ struct transform_streambuf: public std::streambuf
     }
     int sync()
     {
-        int toSend = pptr() - pbase();
+        int toSend = (int)(pptr() - pbase());
         if(toSend)
         {
             write(pbase(), pbase() + toSend);
@@ -129,7 +129,7 @@ struct count_streambuf: public transform_streambuf
     }
     void write(const char_type* beg, const char_type* end)
     {
-        int toSend = end - beg;
+        long toSend = end - beg;
         if(toSend)
             m_count += toSend;
     }
@@ -186,7 +186,7 @@ struct crlftolf_streambuf: public transform_streambuf
     void write(const char_type* beg, const char_type* end)
     {
         enum { cr = 0xD, lf = 0xA };
-        char_type c;
+        char_type c = 0;
         bool got_cr = 0;
         for(; beg != end; ++beg)
         {

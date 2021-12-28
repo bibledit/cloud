@@ -355,7 +355,7 @@ class Decoder: public buffered_codec, public chainable_codec<Encoder>
                     m_nl = c;
                     return;
                 } else {
-                    int len = m_prev.length();
+                    int len = (int)m_prev.length();
                     if(!len || m_prev[0] != '=')
                         hardLineBrk(out);
                     m_prev.clear();
@@ -463,7 +463,7 @@ public:
               malformed, just print '=' and ignore trailing
               blanks (rfc2045 6.7 (3) )
         */
-        int len = m_prev.length();
+        int len = (int)m_prev.length();
         if(len)
         {
             if(len == 1)

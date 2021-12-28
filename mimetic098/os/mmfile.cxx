@@ -99,12 +99,12 @@ MMFile::const_iterator MMFile::end() const
 
 uint MMFile::read(char* buf, int bufsz)
 {
-    int r;
+    long r;
     do
     {
         r = ::read(m_fd, buf, bufsz);
     } while(r < 0 && errno == EINTR);
-    return r;
+    return (uint)r;
 }
 
 MMFile::operator bool() const

@@ -38,7 +38,7 @@ Field::Field(const string& line)
     if(colon != string::npos)
     {
         m_name.assign(line.begin(), line.begin() + colon);
-        unsigned int i;
+        size_t i;
         for(i = 1 + colon; i < line.length() - 1 && line[i] == ' '; ++i)
             ; // skip spaces before field-body
         string val(line.begin() +i, line.end());
@@ -158,7 +158,7 @@ ostream& Field::write(ostream& os, unsigned int fold) const
         string ostr = name() + ": " + value();
 
         // skip the "fieldname: " part just on the first inner iteration 
-        skip = name().length() + 2; 
+        skip = (int)name().length() + 2; 
 
         while(ostr.length() > fold)
         {

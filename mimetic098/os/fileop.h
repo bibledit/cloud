@@ -8,9 +8,6 @@
 #define _MIMETIC_OS_FILEOP_H
 #include <string>
 
-/**
-  *@author 
-  */
 namespace mimetic
 {
 

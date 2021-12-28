@@ -59,7 +59,8 @@ ostream& MimeEntity::write(ostream& os, const char* eol) const
         if(body().parts().size() == 0)
             os << crlf << boundary << crlf;
         MimeEntityList::const_iterator bit, eit;
-        bit = body().parts().begin(), eit = body().parts().end();
+        bit = body().parts().begin();
+        eit = body().parts().end();
         for(; bit != eit; ++bit)
         {
             os << crlf << boundary << crlf;
@@ -72,7 +73,8 @@ ostream& MimeEntity::write(ostream& os, const char* eol) const
             os << body().epilogue();
     } else if(ct.type() == "message" && ct.subtype() == "rfc822") {
         MimeEntityList::const_iterator bit, eit;
-        bit = body().parts().begin(), eit = body().parts().end();
+        bit = body().parts().begin();
+        eit = body().parts().end();
         for(; bit != eit; ++bit)
         {
             os << crlf; 

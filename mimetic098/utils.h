@@ -47,7 +47,7 @@ std::string int2hex(unsigned int n);
 template<typename Iterator>
 Iterator find_bm(Iterator bit, Iterator eit, const std::string& word, const std::random_access_iterator_tag&)
 {
-    int bLen = word.length();
+    int bLen = (int)word.length();
     const char* pWord = word.c_str();
     int i, t, shift[256];
     unsigned char c;

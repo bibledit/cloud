@@ -36,7 +36,7 @@
 #pragma clang diagnostic ignored "-Wconversion"
 #pragma clang diagnostic ignored "-Wdocumentation"
 #pragma clang diagnostic ignored "-Wconditional-uninitialized"
-#include <mimetic/mimetic.h>
+#include <mimetic098/mimetic.h>
 #pragma clang diagnostic pop
 
 

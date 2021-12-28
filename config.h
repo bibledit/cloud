@@ -34,9 +34,6 @@
 /* Define whether mach/mach.h is present */
 #define HAVE_MACH_MACH 1
 
-/* Define whether mimetic/mimetic.h is present */
-#define HAVE_MIMETIC 1
-
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1
 

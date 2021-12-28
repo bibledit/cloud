@@ -344,7 +344,31 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	resource/comparative1edit.$(OBJEXT) developer/delay.$(OBJEXT) \
 	images/index.$(OBJEXT) images/view.$(OBJEXT) \
 	images/fetch.$(OBJEXT) images/logic.$(OBJEXT) \
-	database/bibleimages.$(OBJEXT) filter/image.$(OBJEXT)
+	database/bibleimages.$(OBJEXT) filter/image.$(OBJEXT) \
+	mimetic098/header.$(OBJEXT) mimetic098/contentid.$(OBJEXT) \
+	mimetic098/contenttransferencoding.$(OBJEXT) \
+	mimetic098/contentdisposition.$(OBJEXT) \
+	mimetic098/contentdescription.$(OBJEXT) \
+	mimetic098/mimeversion.$(OBJEXT) \
+	mimetic098/contenttype.$(OBJEXT) mimetic098/version.$(OBJEXT) \
+	mimetic098/fieldparam.$(OBJEXT) \
+	mimetic098/mimeentity.$(OBJEXT) mimetic098/strutils.$(OBJEXT) \
+	mimetic098/body.$(OBJEXT) mimetic098/utils.$(OBJEXT) \
+	mimetic098/rfc822/field.$(OBJEXT) \
+	mimetic098/rfc822/header.$(OBJEXT) \
+	mimetic098/rfc822/message.$(OBJEXT) \
+	mimetic098/rfc822/addresslist.$(OBJEXT) \
+	mimetic098/rfc822/fieldvalue.$(OBJEXT) \
+	mimetic098/rfc822/mailbox.$(OBJEXT) \
+	mimetic098/rfc822/messageid.$(OBJEXT) \
+	mimetic098/rfc822/datetime.$(OBJEXT) \
+	mimetic098/rfc822/group.$(OBJEXT) \
+	mimetic098/rfc822/mailboxlist.$(OBJEXT) \
+	mimetic098/rfc822/address.$(OBJEXT) \
+	mimetic098/os/utils.$(OBJEXT) \
+	mimetic098/os/file_iterator.$(OBJEXT) \
+	mimetic098/os/mmfile.$(OBJEXT) \
+	mimetic098/codec/base64.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -576,8 +600,34 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	mbedtls/$(DEPDIR)/x509write_crt.Po \
 	mbedtls/$(DEPDIR)/x509write_csr.Po mbedtls/$(DEPDIR)/xtea.Po \
 	menu/$(DEPDIR)/index.Po menu/$(DEPDIR)/logic.Po \
-	microtar/$(DEPDIR)/microtar.Po miniz/$(DEPDIR)/miniz.Po \
-	navigation/$(DEPDIR)/paratext.Po \
+	microtar/$(DEPDIR)/microtar.Po mimetic098/$(DEPDIR)/body.Po \
+	mimetic098/$(DEPDIR)/contentdescription.Po \
+	mimetic098/$(DEPDIR)/contentdisposition.Po \
+	mimetic098/$(DEPDIR)/contentid.Po \
+	mimetic098/$(DEPDIR)/contenttransferencoding.Po \
+	mimetic098/$(DEPDIR)/contenttype.Po \
+	mimetic098/$(DEPDIR)/fieldparam.Po \
+	mimetic098/$(DEPDIR)/header.Po \
+	mimetic098/$(DEPDIR)/mimeentity.Po \
+	mimetic098/$(DEPDIR)/mimeversion.Po \
+	mimetic098/$(DEPDIR)/strutils.Po mimetic098/$(DEPDIR)/utils.Po \
+	mimetic098/$(DEPDIR)/version.Po \
+	mimetic098/codec/$(DEPDIR)/base64.Po \
+	mimetic098/os/$(DEPDIR)/file_iterator.Po \
+	mimetic098/os/$(DEPDIR)/mmfile.Po \
+	mimetic098/os/$(DEPDIR)/utils.Po \
+	mimetic098/rfc822/$(DEPDIR)/address.Po \
+	mimetic098/rfc822/$(DEPDIR)/addresslist.Po \
+	mimetic098/rfc822/$(DEPDIR)/datetime.Po \
+	mimetic098/rfc822/$(DEPDIR)/field.Po \
+	mimetic098/rfc822/$(DEPDIR)/fieldvalue.Po \
+	mimetic098/rfc822/$(DEPDIR)/group.Po \
+	mimetic098/rfc822/$(DEPDIR)/header.Po \
+	mimetic098/rfc822/$(DEPDIR)/mailbox.Po \
+	mimetic098/rfc822/$(DEPDIR)/mailboxlist.Po \
+	mimetic098/rfc822/$(DEPDIR)/message.Po \
+	mimetic098/rfc822/$(DEPDIR)/messageid.Po \
+	miniz/$(DEPDIR)/miniz.Po navigation/$(DEPDIR)/paratext.Po \
 	navigation/$(DEPDIR)/passage.Po navigation/$(DEPDIR)/poll.Po \
 	navigation/$(DEPDIR)/update.Po nmt/$(DEPDIR)/index.Po \
 	nmt/$(DEPDIR)/logic.Po notes/$(DEPDIR)/actions.Po \
@@ -871,9 +921,10 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
+# Todo LIBS += -L/usr/local/lib -lmimetic
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
-	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) \
-	-L/usr/local/lib -lmimetic $(ICU_LIBS) $(XML2_LIBS)
+	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) $(ICU_LIBS) \
+	$(XML2_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -1411,7 +1462,35 @@ libbibledit_a_SOURCES = \
   images/fetch.cpp \
   images/logic.cpp \
   database/bibleimages.cpp \
-  filter/image.cpp
+  filter/image.cpp \
+  mimetic098/header.cxx \
+  mimetic098/contentid.cxx \
+  mimetic098/contenttransferencoding.cxx \
+  mimetic098/contentdisposition.cxx \
+  mimetic098/contentdescription.cxx \
+  mimetic098/mimeversion.cxx \
+  mimetic098/contenttype.cxx \
+  mimetic098/version.cxx \
+  mimetic098/fieldparam.cxx \
+  mimetic098/mimeentity.cxx \
+  mimetic098/strutils.cxx \
+  mimetic098/body.cxx \
+  mimetic098/utils.cxx \
+  mimetic098/rfc822/field.cxx \
+  mimetic098/rfc822/header.cxx \
+  mimetic098/rfc822/message.cxx \
+  mimetic098/rfc822/addresslist.cxx \
+  mimetic098/rfc822/fieldvalue.cxx \
+  mimetic098/rfc822/mailbox.cxx \
+  mimetic098/rfc822/messageid.cxx \
+  mimetic098/rfc822/datetime.cxx \
+  mimetic098/rfc822/group.cxx \
+  mimetic098/rfc822/mailboxlist.cxx \
+  mimetic098/rfc822/address.cxx \
+  mimetic098/os/utils.cxx \
+  mimetic098/os/file_iterator.cxx \
+  mimetic098/os/mmfile.cxx \
+  mimetic098/codec/base64.cxx
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1529,7 +1608,7 @@ all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .cpp .o .obj
+.SUFFIXES: .c .cpp .cxx .o .obj
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
@@ -3052,6 +3131,95 @@ database/bibleimages.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 filter/image.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
+mimetic098/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098
+	@: > mimetic098/$(am__dirstamp)
+mimetic098/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/$(DEPDIR)
+	@: > mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/header.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/contentid.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/contenttransferencoding.$(OBJEXT):  \
+	mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/contentdisposition.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/contentdescription.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/mimeversion.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/contenttype.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/version.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/fieldparam.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/mimeentity.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/strutils.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/body.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/utils.$(OBJEXT): mimetic098/$(am__dirstamp) \
+	mimetic098/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/rfc822
+	@: > mimetic098/rfc822/$(am__dirstamp)
+mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/rfc822/$(DEPDIR)
+	@: > mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/field.$(OBJEXT): mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/header.$(OBJEXT): mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/message.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/addresslist.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/fieldvalue.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/mailbox.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/messageid.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/datetime.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/group.$(OBJEXT): mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/mailboxlist.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/rfc822/address.$(OBJEXT):  \
+	mimetic098/rfc822/$(am__dirstamp) \
+	mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+mimetic098/os/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/os
+	@: > mimetic098/os/$(am__dirstamp)
+mimetic098/os/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/os/$(DEPDIR)
+	@: > mimetic098/os/$(DEPDIR)/$(am__dirstamp)
+mimetic098/os/utils.$(OBJEXT): mimetic098/os/$(am__dirstamp) \
+	mimetic098/os/$(DEPDIR)/$(am__dirstamp)
+mimetic098/os/file_iterator.$(OBJEXT): mimetic098/os/$(am__dirstamp) \
+	mimetic098/os/$(DEPDIR)/$(am__dirstamp)
+mimetic098/os/mmfile.$(OBJEXT): mimetic098/os/$(am__dirstamp) \
+	mimetic098/os/$(DEPDIR)/$(am__dirstamp)
+mimetic098/codec/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/codec
+	@: > mimetic098/codec/$(am__dirstamp)
+mimetic098/codec/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) mimetic098/codec/$(DEPDIR)
+	@: > mimetic098/codec/$(DEPDIR)/$(am__dirstamp)
+mimetic098/codec/base64.$(OBJEXT): mimetic098/codec/$(am__dirstamp) \
+	mimetic098/codec/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3311,6 +3479,10 @@ mostlyclean-compile:
 	-rm -f mbedtls/*.$(OBJEXT)
 	-rm -f menu/*.$(OBJEXT)
 	-rm -f microtar/*.$(OBJEXT)
+	-rm -f mimetic098/*.$(OBJEXT)
+	-rm -f mimetic098/codec/*.$(OBJEXT)
+	-rm -f mimetic098/os/*.$(OBJEXT)
+	-rm -f mimetic098/rfc822/*.$(OBJEXT)
 	-rm -f miniz/*.$(OBJEXT)
 	-rm -f navigation/*.$(OBJEXT)
 	-rm -f nmt/*.$(OBJEXT)
@@ -3647,6 +3819,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@microtar/$(DEPDIR)/microtar.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/body.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/contentdescription.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/contentdisposition.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/contentid.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/contenttransferencoding.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/contenttype.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/fieldparam.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/header.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/mimeentity.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/mimeversion.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/strutils.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/utils.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/$(DEPDIR)/version.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/codec/$(DEPDIR)/base64.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/os/$(DEPDIR)/file_iterator.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/os/$(DEPDIR)/mmfile.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/os/$(DEPDIR)/utils.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/address.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/addresslist.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/datetime.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/field.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/fieldvalue.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/group.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/header.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/mailbox.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/mailboxlist.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/message.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mimetic098/rfc822/$(DEPDIR)/messageid.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@miniz/$(DEPDIR)/miniz.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/paratext.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
@@ -3941,6 +4141,22 @@ am--depfiles: $(am__depfiles_remade)
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cxx.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cxx.obj:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
 @am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
@@ -4352,6 +4568,14 @@ distclean-generic:
 	-rm -f menu/$(am__dirstamp)
 	-rm -f microtar/$(DEPDIR)/$(am__dirstamp)
 	-rm -f microtar/$(am__dirstamp)
+	-rm -f mimetic098/$(DEPDIR)/$(am__dirstamp)
+	-rm -f mimetic098/$(am__dirstamp)
+	-rm -f mimetic098/codec/$(DEPDIR)/$(am__dirstamp)
+	-rm -f mimetic098/codec/$(am__dirstamp)
+	-rm -f mimetic098/os/$(DEPDIR)/$(am__dirstamp)
+	-rm -f mimetic098/os/$(am__dirstamp)
+	-rm -f mimetic098/rfc822/$(DEPDIR)/$(am__dirstamp)
+	-rm -f mimetic098/rfc822/$(am__dirstamp)
 	-rm -f miniz/$(DEPDIR)/$(am__dirstamp)
 	-rm -f miniz/$(am__dirstamp)
 	-rm -f navigation/$(DEPDIR)/$(am__dirstamp)
@@ -4737,6 +4961,34 @@ distclean: distclean-am
 	-rm -f menu/$(DEPDIR)/index.Po
 	-rm -f menu/$(DEPDIR)/logic.Po
 	-rm -f microtar/$(DEPDIR)/microtar.Po
+	-rm -f mimetic098/$(DEPDIR)/body.Po
+	-rm -f mimetic098/$(DEPDIR)/contentdescription.Po
+	-rm -f mimetic098/$(DEPDIR)/contentdisposition.Po
+	-rm -f mimetic098/$(DEPDIR)/contentid.Po
+	-rm -f mimetic098/$(DEPDIR)/contenttransferencoding.Po
+	-rm -f mimetic098/$(DEPDIR)/contenttype.Po
+	-rm -f mimetic098/$(DEPDIR)/fieldparam.Po
+	-rm -f mimetic098/$(DEPDIR)/header.Po
+	-rm -f mimetic098/$(DEPDIR)/mimeentity.Po
+	-rm -f mimetic098/$(DEPDIR)/mimeversion.Po
+	-rm -f mimetic098/$(DEPDIR)/strutils.Po
+	-rm -f mimetic098/$(DEPDIR)/utils.Po
+	-rm -f mimetic098/$(DEPDIR)/version.Po
+	-rm -f mimetic098/codec/$(DEPDIR)/base64.Po
+	-rm -f mimetic098/os/$(DEPDIR)/file_iterator.Po
+	-rm -f mimetic098/os/$(DEPDIR)/mmfile.Po
+	-rm -f mimetic098/os/$(DEPDIR)/utils.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/address.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/addresslist.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/datetime.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/field.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/fieldvalue.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/group.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/header.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/mailbox.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/mailboxlist.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/message.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/messageid.Po
 	-rm -f miniz/$(DEPDIR)/miniz.Po
 	-rm -f navigation/$(DEPDIR)/paratext.Po
 	-rm -f navigation/$(DEPDIR)/passage.Po
@@ -5337,6 +5589,34 @@ maintainer-clean: maintainer-clean-am
 	-rm -f menu/$(DEPDIR)/index.Po
 	-rm -f menu/$(DEPDIR)/logic.Po
 	-rm -f microtar/$(DEPDIR)/microtar.Po
+	-rm -f mimetic098/$(DEPDIR)/body.Po
+	-rm -f mimetic098/$(DEPDIR)/contentdescription.Po
+	-rm -f mimetic098/$(DEPDIR)/contentdisposition.Po
+	-rm -f mimetic098/$(DEPDIR)/contentid.Po
+	-rm -f mimetic098/$(DEPDIR)/contenttransferencoding.Po
+	-rm -f mimetic098/$(DEPDIR)/contenttype.Po
+	-rm -f mimetic098/$(DEPDIR)/fieldparam.Po
+	-rm -f mimetic098/$(DEPDIR)/header.Po
+	-rm -f mimetic098/$(DEPDIR)/mimeentity.Po
+	-rm -f mimetic098/$(DEPDIR)/mimeversion.Po
+	-rm -f mimetic098/$(DEPDIR)/strutils.Po
+	-rm -f mimetic098/$(DEPDIR)/utils.Po
+	-rm -f mimetic098/$(DEPDIR)/version.Po
+	-rm -f mimetic098/codec/$(DEPDIR)/base64.Po
+	-rm -f mimetic098/os/$(DEPDIR)/file_iterator.Po
+	-rm -f mimetic098/os/$(DEPDIR)/mmfile.Po
+	-rm -f mimetic098/os/$(DEPDIR)/utils.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/address.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/addresslist.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/datetime.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/field.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/fieldvalue.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/group.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/header.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/mailbox.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/mailboxlist.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/message.Po
+	-rm -f mimetic098/rfc822/$(DEPDIR)/messageid.Po
 	-rm -f miniz/$(DEPDIR)/miniz.Po
 	-rm -f navigation/$(DEPDIR)/paratext.Po
 	-rm -f navigation/$(DEPDIR)/passage.Po

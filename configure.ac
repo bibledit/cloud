@@ -113,10 +113,6 @@ fi
 
 AC_DEFINE_UNQUOTED(PACKAGE_PREFIX_DIR, "${prefix}", [Package prefix directory])
 
-# With macports the mimetic library is in a non-standard location:
-CPPFLAGS+=" -I/usr/local/include "
-AC_CHECK_HEADER(mimetic/mimetic.h,AC_DEFINE([HAVE_MIMETIC],[1],[Define whether mimetic/mimetic.h is present]),AC_MSG_ERROR(Library "mimetic" is needed. Install this first.))
-
 # Check whether function 'stoi' is available
 AC_MSG_CHECKING([whether stoi is available])
 AC_COMPILE_IFELSE(

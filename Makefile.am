@@ -462,7 +462,35 @@ libbibledit_a_SOURCES = \
   images/fetch.cpp \
   images/logic.cpp \
   database/bibleimages.cpp \
-  filter/image.cpp
+  filter/image.cpp \
+  mimetic098/header.cxx \
+  mimetic098/contentid.cxx \
+  mimetic098/contenttransferencoding.cxx \
+  mimetic098/contentdisposition.cxx \
+  mimetic098/contentdescription.cxx \
+  mimetic098/mimeversion.cxx \
+  mimetic098/contenttype.cxx \
+  mimetic098/version.cxx \
+  mimetic098/fieldparam.cxx \
+  mimetic098/mimeentity.cxx \
+  mimetic098/strutils.cxx \
+  mimetic098/body.cxx \
+  mimetic098/utils.cxx \
+  mimetic098/rfc822/field.cxx \
+  mimetic098/rfc822/header.cxx \
+  mimetic098/rfc822/message.cxx \
+  mimetic098/rfc822/addresslist.cxx \
+  mimetic098/rfc822/fieldvalue.cxx \
+  mimetic098/rfc822/mailbox.cxx \
+  mimetic098/rfc822/messageid.cxx \
+  mimetic098/rfc822/datetime.cxx \
+  mimetic098/rfc822/group.cxx \
+  mimetic098/rfc822/mailboxlist.cxx \
+  mimetic098/rfc822/address.cxx \
+  mimetic098/os/utils.cxx \
+  mimetic098/os/file_iterator.cxx \
+  mimetic098/os/mmfile.cxx \
+  mimetic098/codec/base64.cxx
 
 bin_PROGRAMS = server unittest generate
 
@@ -583,7 +611,6 @@ LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)
 LIBS += $(GTK_LIBS)
 LIBS += $(WEBKIT2GTK_LIBS)
-LIBS += -L/usr/local/lib -lmimetic
 LIBS += $(ICU_LIBS)
 LIBS += $(XML2_LIBS)
 

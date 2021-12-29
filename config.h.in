@@ -3,8 +3,8 @@
 /* Define whether to compile for Android */
 #undef HAVE_ANDROID
 
-/* define if the compiler supports basic C++14 syntax */
-#undef HAVE_CXX14
+/* define if the compiler supports basic C++17 syntax */
+#undef HAVE_CXX17
 
 /* Define whether execinfo.h is present */
 #undef HAVE_EXECINFO

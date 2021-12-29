@@ -6707,10 +6707,6 @@ fi
 printf "%s\n" "#define PACKAGE_PREFIX_DIR \"${prefix}\"" >>confdefs.h
 
 
-# With macports the mimetic library is in a non-standard location:
-# CPPFLAGS+=" -I/usr/local/include " Todo
-# AC_CHECK_HEADER(mimetic/mimetic.h,AC_DEFINE([HAVE_MIMETIC],[1],[Define whether mimetic/mimetic.h is present]),AC_MSG_ERROR(Library "mimetic" is needed. Install this first.))
-
 # Check whether function 'stoi' is available
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5
 printf %s "checking whether stoi is available... " >&6; }

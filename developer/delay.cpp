@@ -31,6 +31,7 @@ const char * developer_delay_url ()
 
 bool developer_delay_acl (void * webserver_request)
 {
+  (void) webserver_request;
   return true;
 }
 

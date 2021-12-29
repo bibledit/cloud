@@ -271,33 +271,44 @@ private:
 
 struct null_node
 {
-    enum { idx = 1 };
-    enum { count = 0 };
-    struct null_content
-    {};
-    typedef null_node self_type;
-    typedef null_content content_type;
-    null_node()
-    {
-    }
-    template<typename C1, typename N1>
-    null_node(const codec_chain<C1, N1>& node)
-    {
-    }
-    const char* name() const
-    {    return "null_node";    }
-    self_type& operator*()
-    {    return *this;    }
-    self_type& operator=(char c)
-    {    return *this;    }
-    self_type& operator++()
-    {    return *this;    }
-    self_type& operator++(int)
-    {    return *this;    }
-    void flush()
-    {
-    }
-    null_content m_c;
+  enum { idx = 1 };
+  enum { count = 0 };
+  struct null_content
+  {};
+  typedef null_node self_type;
+  typedef null_content content_type;
+  null_node()
+  {
+  }
+  template<typename C1, typename N1>
+  null_node(const codec_chain<C1, N1>& node)
+  {
+  }
+  const char* name() const
+  {
+    return "null_node";
+  }
+  self_type& operator*()
+  {
+    return *this;
+  }
+  self_type& operator=(char c)
+  {
+    (void) c;
+    return *this;
+  }
+  self_type& operator++()
+  {
+    return *this;
+  }
+  self_type& operator++(int)
+  {
+    return *this;
+  }
+  void flush()
+  {
+  }
+  null_content m_c;
 };
 
 

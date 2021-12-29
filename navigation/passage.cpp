@@ -590,8 +590,6 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
 
   string user = request->session_logic()->currentUser ();
   
-  bool passage_clipped = false;
-
   int book = Ipc_Focus::getBook (request);
   
   // The book should exist in the Bible.
@@ -600,7 +598,6 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;
-      passage_clipped = true;
     }
   }
   
@@ -612,7 +609,6 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters [0];
       else chapter = 1;
-      passage_clipped = true;
     }
   }
 
@@ -625,7 +621,6 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];
       else verse = 1;
-      passage_clipped = true;
     }
   }
 

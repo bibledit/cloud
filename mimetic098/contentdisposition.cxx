@@ -31,7 +31,7 @@ ContentDisposition::ContentDisposition(const string& val)
 
 void ContentDisposition::type(const string& stype)
 {
-    m_type = stype;
+    m_type.assign(stype);
 }
 
 const istring& ContentDisposition::type() const
@@ -80,7 +80,7 @@ void ContentDisposition::set(const string& val)
     StringTokenizer stok(&val, ";");
     if(!stok.next(type))
         return;
-    m_type = type;
+    m_type.assign(type);
 
     string sparam;
     while(stok.next(sparam))

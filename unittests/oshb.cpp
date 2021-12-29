@@ -32,8 +32,8 @@ void test_database_oshb ()
   // Job 3:2.
   vector <string> data = database_oshb.getVerse (18, 3, 2);
   size = 7;
-  evaluate (__LINE__, __func__, size, (int)data.size());
-  if (data.size () == size) {
+  evaluate (__LINE__, __func__, size, data.size());
+  if ((int)data.size () == size) {
     evaluate (__LINE__, __func__, "וַיַּ֥עַן", data [0]);
     evaluate (__LINE__, __func__, " ", data [1]);
     evaluate (__LINE__, __func__, "אִיּ֗וֹב", data [2]);

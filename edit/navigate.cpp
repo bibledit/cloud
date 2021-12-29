@@ -80,7 +80,7 @@ string edit_navigate (void * webserver_request)
   // This covers combined verses also.
   int last_offset = 0;
   vector <int> verses = usfm_get_verse_numbers (usfm);
-  for (int i = 0; i < verses.size (); i++) {
+  for (int i = 0; i < (int)verses.size (); i++) {
     if (editor_usfm2html.verseStartOffsets.count (i)) {
       last_offset = editor_usfm2html.verseStartOffsets [i];
     } else {
@@ -91,7 +91,7 @@ string edit_navigate (void * webserver_request)
   
   // Get the starting offsets for each verse.
   vector <size_t> starting_offsets;
-  for (int i = 0; i < verses.size (); i++) {
+  for (int i = 0; i < (int)verses.size (); i++) {
     starting_offsets.push_back (editor_usfm2html.verseStartOffsets [i]);
   }
   starting_offsets.push_back (editor_usfm2html.textLength);

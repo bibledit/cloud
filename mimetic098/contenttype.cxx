@@ -107,14 +107,14 @@ const string& ContentType::param(const string& field) const
 
 void ContentType::type(const string& v)
 {    
-    m_type = v;
+    m_type.assign(v);
 //    if(isMultipart())
 //        m_paramList.push_back(ContentType::Param("boundary", Boundary()));            
 }
 
 void ContentType::subtype(const string& v)
 {    
-    m_subtype = v;
+    m_subtype.assign(v);
 }
 
 const istring& ContentType::type() const

@@ -1367,7 +1367,7 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
     case 13: return { "1chronicles-lbw" }; // 1 Chronicles.
     case 14: // 2 Chronicles.
       if (chapter <= 9) return { "2chronicles-1-9-lbw" };
-      if (chapter <= 36) return { "2chronicles-10-36-lbw" };
+      return { "2chronicles-10-36-lbw" };
     case 15: return { "ezra-lbw" }; // Ezra.
     case 16: return { "nehemiah-lbw" }; // Nehemiah.
     case 17: return { "esther-lbw" }; // Esther.
@@ -1399,19 +1399,19 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
       if (chapter <= 48) return { "isaiah41-55-gc-lbw", "isaiah40-48-lbw-nh" };
       if (chapter <= 55) return { "isaiah41-55-gc-lbw", "isaiah49-57-lbw-nh" };
       if (chapter <= 57) return { "isaiah56-66-gc-lbw", "isaiah49-57-lbw-nh" };
-      if (chapter <= 66) return { "isaiah56-66-gc-lbw", "isaiah58-66-lbw-nh" };
+      return { "isaiah56-66-gc-lbw", "isaiah58-66-lbw-nh" };
     case 24: // Jeremiah.
       if (chapter <= 10) return { "jeremiah1-10-lbw"  };
       if (chapter <= 20) return { "jeremiah11-20-lbw" };
       if (chapter <= 33) return { "jeremiah21-33-lbw" };
       if (chapter <= 39) return { "jeremiah34-39-lbw" };
       if (chapter <= 44) return { "jeremiah40-44-lbw" };
-      if (chapter <= 52) return { "jeremiah45-52-lbw" };
+      return { "jeremiah45-52-lbw" };
     case 25: return { "lam-lbw" }; // Lamentations.
     case 26: // Ezekiel.
       if (chapter <= 24) return { "ezekiel1-24-lbw" };
       if (chapter <= 39) return { "ezekiel25-39-lbw" };
-      if (chapter <= 48) return { "ezekiel40-48-lbw", "ezekiel40-48-ks-lbw" };
+      return { "ezekiel40-48-lbw", "ezekiel40-48-ks-lbw" };
     case 27: return { "dan-lbw" }; // Daniel.
     case 28: return { "hosea-lbw" }; // Hosea.
     case 29: return { "joel-lbw" }; // Joel.
@@ -1429,14 +1429,14 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
       if (chapter <= 4)  return { "matthew1-4-im-lbw",   "matthew-lbw" };
       if (chapter <= 13) return { "matthew4-13-im-lbw",  "matthew-lbw" };
       if (chapter <= 20) return { "matthew14-20-im-lbw", "matthew-lbw" };
-      if (chapter <= 28) return { "matthew21-28-im-lbw", "matthew-lbw" };
+      return { "matthew21-28-im-lbw", "matthew-lbw" };
     case 41: return { "mark-ks", "mark-lbw" }; // Mark.
     case 42: // Luke.
       if (chapter <=  4) return { "luke1-4-im-lbw",   "luke4-9-im-lbw",   "luke-lbw" };
       if (chapter <=  9) return { "luke4-9-im-lbw",   "luke9-19-im-lbw",  "luke-lbw" };
       if (chapter <= 19) return { "luke9-19-im-lbw",  "luke19-21-im-lbw", "luke-lbw" };
       if (chapter <= 21) return { "luke19-21-im-lbw", "luke-lbw" };
-      if (chapter <= 24) return { "luke22-24-im-lbw", "luke-lbw" };
+      return { "luke22-24-im-lbw", "luke-lbw" };
     case 43: return { "john-ma-lbw" }; // John.
     case 44: return { "acts-lbw" }; // Acts.
     case 45: return { "romans-lbw" }; // Romans.

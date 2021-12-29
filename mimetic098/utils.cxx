@@ -90,33 +90,32 @@ string extractFilename(const string& fqn)
 }
 
 
-
 string int2hex(unsigned int n)
 {
-    if(n == 0)
-        return "0";
-    static char tb[] = { 
-        '0', '1', '2', '3', 
-        '4', '5', '6', '7', 
-        '8', '9', 'a', 'b', 
-        'c', 'd', 'e', 'f'
-    };
-    size_t sz = sizeof(n), zeros = 0; 
-    string r;
-    char cp;
-    for(size_t i = 0; i < sz*2; ++i)
-    {
-        cp = (n >> (i*4)) & 0xF;
-        if(cp == 0)
-            zeros++;
-        else {
-            if(zeros)
-                r.insert((string::size_type)0, zeros, '0');
-            zeros = 0;
-            r.insert((string::size_type)0, 1, tb[cp]);
-        }
+  if(n == 0)
+    return "0";
+  static char tb[] = {
+    '0', '1', '2', '3',
+    '4', '5', '6', '7',
+    '8', '9', 'a', 'b',
+    'c', 'd', 'e', 'f'
+  };
+  size_t sz = sizeof(n), zeros = 0;
+  string r;
+  char cp;
+  for(size_t i = 0; i < sz*2; ++i)
+  {
+    cp = (n >> (i*4)) & 0xF;
+    if(cp == 0)
+      zeros++;
+    else {
+      if(zeros)
+        r.insert((string::size_type)0, zeros, '0');
+      zeros = 0;
+      r.insert((string::size_type)0, 1, (char)(tb[cp]));
     }
-    return r;
+  }
+  return r;
 }
 
 

@@ -55,7 +55,7 @@ Field::Field(const string& line)
 Field::Field(const string& n , const string& v)
 :m_pValue(0)
 {
-    m_name = n;
+    m_name.assign(n);
     m_pValue = new StringFieldValue(v);
 }
 
@@ -71,7 +71,7 @@ Field::Field(const Field& r)
 
 Field& Field::operator=(const Field& r)
 {
-    m_name = r.m_name;
+    m_name.assign(r.m_name);
     if(m_pValue)
     {
         delete m_pValue;
@@ -100,7 +100,7 @@ Field::~Field()
 */
 void Field::name(const string& name)
 {
-    m_name = name;
+    m_name.assign(name);
     if(m_pValue != 0)
     {
         delete m_pValue;
@@ -148,52 +148,53 @@ std::ostream& operator<<(std::ostream& os, const Field& f)
 
 ostream& Field::write(ostream& os, unsigned int fold) const
 {
-    int in_quote, prev, skip;
-
-    // default folding idiot-algorithm
-    // override to customize
-    if(fold)
+  int in_quote, prev, skip;
+  
+  // default folding idiot-algorithm
+  // override to customize
+  if(fold)
+  {
+    int i;
+    int sp;
+    string ostr = name() + ": " + value();
+    
+    // skip the "fieldname: " part just on the first inner iteration
+    skip = (int)name().length() + 2;
+    
+    while(ostr.length() > fold)
     {
-        int i, sp;
-        string ostr = name() + ": " + value();
-
-        // skip the "fieldname: " part just on the first inner iteration 
-        skip = (int)name().length() + 2; 
-
-        while(ostr.length() > fold)
+      prev = 0; // prev char processed
+      in_quote = 0;
+      sp = 0;
+      
+      for(i = skip; i < (int)(ostr.length()); ++i)
+      {
+        if(ostr[i] == '"' && prev != '\\')
+          in_quote = !in_quote;
+        
+        if(!in_quote && isblank(ostr[i]))
+          sp = i; // last blank found
+        
+        if(i >= (int)fold && sp)
         {
-            prev = 0; // prev char processed 
-            in_quote = 0;
-            sp = 0;
-
-            for(i = skip; i < ostr.length(); ++i)
-            {
-                if(ostr[i] == '"' && prev != '\\')
-                    in_quote = !in_quote;
-
-                if(!in_quote && isblank(ostr[i]))
-                    sp = i; // last blank found
-
-                if(i >= fold && sp)
-                {
-                    os.write(ostr.c_str(), sp);
-                    ostr.erase(0, 1+sp);
-                    if(ostr.length() && !utils::string_is_blank(ostr))
-                        os << crlf << "\t"; // keep folding
-                    break;
-                }
-
-                prev = ostr[i];
-            }
-            if(sp == 0)
-                break; // can't fold anymore
-            skip = 0; 
+          os.write(ostr.c_str(), sp);
+          ostr.erase(0, 1+sp);
+          if(ostr.length() && !utils::string_is_blank(ostr))
+            os << crlf << "\t"; // keep folding
+          break;
         }
-
-        os << ostr;
-        return os;
-    } else
-        return os << name() << ": " << value();
+        
+        prev = ostr[i];
+      }
+      if(sp == 0)
+        break; // can't fold anymore
+      skip = 0;
+    }
+    
+    os << ostr;
+    return os;
+  } else
+    return os << name() << ": " << value();
 }
 
 

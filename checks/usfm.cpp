@@ -474,6 +474,16 @@ void Checks_Usfm::empty_markup ()
 
   // Save the current item (markup or text) into the object for next iteration.
   empty_markup_previous_item = current_item;
+  
+  // Unused variable(s).
+  (void) current_is_text;
+  (void) current_is_usfm;
+  (void) current_is_opener;
+  (void) current_is_embedded;
+  (void) previous_is_text;
+  (void) previous_is_usfm;
+  (void) previous_is_closer;
+  (void) previous_is_embedded;
 }
 
 
@@ -561,6 +571,14 @@ void Checks_Usfm::note ()
   // It has not passed the text for a correctly formatted note.
   // So add a message.
   add_result (translate ("This sequence in the note does not look right:") + " " + usfm_item + next_item, display_nothing);
+  
+  // Handle unused variables.
+  (void) current_is_usfm;
+  (void) current_is_embedded;
+  (void) next_is_usfm;
+  (void) next_is_opener;
+  (void) next_is_closer;
+  (void) next_is_embedded;
 }
 
 

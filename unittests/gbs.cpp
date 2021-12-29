@@ -29,7 +29,7 @@ void test_gbs ()
   trace_unit_tests (__func__);
 
   string resource;
-  int book, chapter, verse;
+  int book;
   string text;
 
   resource = "Statenbijbel GBS";

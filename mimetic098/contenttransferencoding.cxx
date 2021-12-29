@@ -39,7 +39,7 @@ const istring& ContentTransferEncoding::mechanism() const
 
 void ContentTransferEncoding::mechanism(const string& mechanism)
 {    
-    m_mechanism = mechanism;
+    m_mechanism.assign (mechanism);
 }
 
 void ContentTransferEncoding::set(const string& val)

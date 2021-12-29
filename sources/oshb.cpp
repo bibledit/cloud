@@ -42,7 +42,8 @@ void sources_oshb_parse ()
 
   string command = "gunzip sources/oshb.xml.gz";
 #ifndef HAVE_IOS
-  system (command.c_str ());
+  int result = system (command.c_str ());
+  (void) result;
 #endif
   
   map <int, int> mapping = {

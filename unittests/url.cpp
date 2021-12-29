@@ -138,8 +138,8 @@ void test_url ()
   
   // Test char values used in encoding and decoding.
   {
-    const char one = (const char)-1;
-    const char two = (const char)255;
+    char one = -1;
+    char two = (char)255;
     evaluate (__LINE__, __func__, one, two);
   }
     

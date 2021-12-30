@@ -119,11 +119,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/easyenglishbible.h>
 
 
-int main (int argc, char **argv) 
+int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
-  (void) argc;
-  (void) argv;
-
   cout << "Running unittests" << endl;
 
   // Directory where the unit tests will run.

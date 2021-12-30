@@ -42,15 +42,14 @@ string filter_shell_escape_argument (string argument)
 // Runs shell $command in folder $directory, with $parameters.
 // If $output and $error are non-NULL, that is where the output of the shell command goes.
 // If they are NULL, the output of the shell command goes to the Journal.
-int filter_shell_run (string directory, string command, const vector <string> parameters,
-                      string * output, string * error)
+int filter_shell_run ([[maybe_unused]] string directory,
+                      string command,
+                      [[maybe_unused]] const vector <string> parameters,
+                      [[maybe_unused]] string * output,
+                      [[maybe_unused]] string * error)
 {
 #ifdef HAVE_CLIENT
-  (void) directory;
   Database_Logs::log ("Did not run on client: " + command);
-  (void) parameters;
-  (void) output;
-  (void) error;
   return 0;
 #else
   command = filter_shell_escape_argument (command);
@@ -89,12 +88,12 @@ int filter_shell_run (string directory, string command, const vector <string> pa
 
 // Runs $command with $parameters.
 // It does not run $command through the shell, but executes it straight.
-int filter_shell_run (string command, const char * parameter, string & output)
+int filter_shell_run (string command,
+                      [[maybe_unused]] const char * parameter,
+                      [[maybe_unused]] string & output)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
-  (void) parameter;
-  (void) output;
   return 0;
 #else
   // File descriptor for file to write child's stdout to.
@@ -198,40 +197,26 @@ vector <string> filter_shell_active_processes ()
 // If $directory is given, the process changes the working directory to that.
 // It does not run $command through the shell, but executes it through vfork,
 // which is the fastest possibble way to run a child process.
-int filter_shell_vfork (string & output, string directory, string command,
-                        const char * p01,
-                        const char * p02,
-                        const char * p03,
-                        const char * p04,
-                        const char * p05,
-                        const char * p06,
-                        const char * p07,
-                        const char * p08,
-                        const char * p09,
-                        const char * p10,
-                        const char * p11,
-                        const char * p12,
-                        const char * p13)
+int filter_shell_vfork ([[maybe_unused]] string & output,
+                        [[maybe_unused]] string directory,
+                        [[maybe_unused]] string command,
+                        [[maybe_unused]] const char * p01,
+                        [[maybe_unused]] const char * p02,
+                        [[maybe_unused]] const char * p03,
+                        [[maybe_unused]] const char * p04,
+                        [[maybe_unused]] const char * p05,
+                        [[maybe_unused]] const char * p06,
+                        [[maybe_unused]] const char * p07,
+                        [[maybe_unused]] const char * p08,
+                        [[maybe_unused]] const char * p09,
+                        [[maybe_unused]] const char * p10,
+                        [[maybe_unused]] const char * p11,
+                        [[maybe_unused]] const char * p12,
+                        [[maybe_unused]] const char * p13)
 {
   int status = 0;
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
-  (void) command;
-  (void) p01;
-  (void) p02;
-  (void) p03;
-  (void) p04;
-  (void) p05;
-  (void) p06;
-  (void) p07;
-  (void) p08;
-  (void) p09;
-  (void) p10;
-  (void) p11;
-  (void) p12;
-  (void) p13;
-  (void) output;
-  (void) directory;
 #else
 
   // File descriptors for files to write child's stdout and stderr to.
@@ -258,8 +243,7 @@ int filter_shell_vfork (string & output, string directory, string command,
     dup2 (fd, 2);
     close (fd);
     if (!directory.empty ()) {
-      int result = chdir (directory.c_str());
-      (void) result;
+      [[maybe_unused]] int result = chdir (directory.c_str());
     }
     execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, (char *) 0);
     // The above only returns in case of an error.

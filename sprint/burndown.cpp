@@ -37,11 +37,10 @@
 // It may be passed a manual year and manual month.
 // In those cases it will mail the burndown chart to the subscribed users.
 // Else it decides on its own whether to mail the chart to the users.
-void sprint_burndown (string bible, int manualyear, int manualmonth)
+void sprint_burndown ([[maybe_unused]] string bible,
+                      [[maybe_unused]] int manualyear,
+                      [[maybe_unused]] int manualmonth)
 {
-  (void) bible;
-  (void) manualyear;
-  (void) manualmonth;
 #ifdef HAVE_CLOUD
   int localseconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
   int year = filter_date_numerical_year (localseconds);
@@ -187,13 +186,12 @@ void sprint_burndown (string bible, int manualyear, int manualmonth)
 
 
 // This function creates a text-based burndown chart for sprint $bible / $year / $month.
-string sprint_create_burndown_chart (string bible, int year, int month)
+string sprint_create_burndown_chart ([[maybe_unused]] string bible,
+                                     [[maybe_unused]] int year,
+                                     [[maybe_unused]] int month)
 {
 #ifdef HAVE_CLIENT
-  (void) bible;
-  (void) year;
-  (void) month;
-  return "";
+  return string();
 #endif
   
 #ifdef HAVE_CLOUD

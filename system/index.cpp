@@ -55,10 +55,9 @@ string system_index_url ()
 }
 
 
-bool system_index_acl (void * webserver_request)
+bool system_index_acl ([[maybe_unused]] void * webserver_request)
 {
 #ifdef HAVE_CLIENT
-  (void) webserver_request;
   // Client: Anyone can make system settings.
   return true;
 #else
@@ -97,10 +96,7 @@ string system_index (void * webserver_request)
 
   // Get values for setting checkboxes.
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
-#ifdef HAVE_CLIENT
-  (void) checked;
-#endif
+  [[maybe_unused]] bool checked = convert_to_bool (request->post ["checked"]);
 
 
   // The available localizations.

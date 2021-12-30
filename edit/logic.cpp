@@ -38,10 +38,8 @@ string edit2_logic_volatile_key (string bible, int book, int chapter, string edi
 }
 
 
-void storeLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor, const char * message)
+void storeLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor, [[maybe_unused]] const char * message)
 {
-  (void) message;
-  
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   int userid = filter_string_user_identifier (webserver_request);

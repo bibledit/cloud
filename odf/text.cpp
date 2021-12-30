@@ -1183,10 +1183,8 @@ void Odf_Text::save (string name)
 //     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
 //   </draw:frame>
 // </text:p>
-void Odf_Text::add_image (string alt, string src, string caption)
+void Odf_Text::add_image ([[maybe_unused]] string alt, string src, string caption)
 {
-  (void) alt;
-  
   // The parent paragraph for the image has the "p" style.
   const char * style = "p";
   current_text_p_node = office_text_node.append_child ("text:p");

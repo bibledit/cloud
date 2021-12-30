@@ -34,9 +34,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-void sigint_handler (int s)
+void sigint_handler ([[maybe_unused]] int s)
 {
-  (void) s;
   // When pressing Ctrl-C, the system outputs a "^C".
   // It is cleaner to write a new line after that.
   cout << endl;
@@ -55,10 +54,8 @@ string backtrace_path ()
 #ifdef HAVE_EXECINFO
 // http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
 // To add linker flag -rdynamic is essential.
-void sigsegv_handler (int sig)
+void sigsegv_handler ([[maybe_unused]] int sig)
 {
-  (void) sig;
-
   // Information.
   cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
 
@@ -91,12 +88,8 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
 #endif
 
 
-int main (int argc, char **argv)
+int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
-  (void) argc;
-  (void) argv;
-
-  
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   signal (SIGINT, sigint_handler);
 
@@ -122,8 +115,7 @@ int main (int argc, char **argv)
     // The following works on Linux but not on macOS:
     char *linkname = (char *) malloc (256);
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
-    ssize_t r = readlink ("/proc/self/exe", linkname, 256);
-    (void) r;
+    [[maybe_unused]] ssize_t result = readlink ("/proc/self/exe", linkname, 256);
     webroot = filter_url_dirname (linkname);
     free (linkname);
   }

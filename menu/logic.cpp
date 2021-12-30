@@ -381,7 +381,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
 
 string menu_logic_translate_category (void * webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   vector <string> html;
   vector <string> labels;
@@ -444,7 +444,6 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     }
   }
 #endif
-  (void) request;
   
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_translate_text () + ": ");
@@ -648,9 +647,9 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
 
 string menu_logic_settings_category (void * webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
-  bool demo = config_logic_demo_enabled ();
+  [[maybe_unused]] bool demo = config_logic_demo_enabled ();
   
   // The labels that may end up in the menu.
   string bibles = menu_logic_bible_manage_text ();
@@ -892,9 +891,6 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
 
   }
-
-  (void) request;
-  (void) demo;
   
   if (!html.empty ()) {
     string user = request->session_logic ()->currentUser ();
@@ -906,7 +902,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 }
 
 
-string menu_logic_settings_resources_category (void * webserver_request)
+string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver_request)
 {
   vector <string> html;
   
@@ -957,9 +953,6 @@ string menu_logic_settings_resources_category (void * webserver_request)
     html.push_back (menu_logic_create_item (resource_comparative9edit_url (), translate ("Comparative"), true, "", ""));
   }
 #endif
-
-
-  (void) webserver_request;
   
   if (!html.empty ()) {
     html.insert (html.begin (), menu_logic_resources_text () + ": ");

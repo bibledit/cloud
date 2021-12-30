@@ -346,10 +346,8 @@ bool filter_git_remote_read (string url, string & error)
 }
 
 
-bool filter_git_remote_clone (string url, string path, int jobid, string & error)
+bool filter_git_remote_clone (string url, string path, [[maybe_unused]] int jobid, string & error)
 {
-  (void) jobid;
-
   // Clear a possible existing git repository directory.
   filter_url_rmdir (path);
 

@@ -57,10 +57,8 @@ vector <string> lexicon_logic_resource_names ()
 
 
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
-string lexicon_logic_get_html (void * webserver_request, string lexicon, int book, int chapter, int verse)
+string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string lexicon, int book, int chapter, int verse)
 {
-  (void) webserver_request;
-
   string html;
   
   if (lexicon == HEBREW_ETCBC4_NAME) {

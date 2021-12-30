@@ -80,9 +80,8 @@ void Confirm_Worker::setup (string mailto, string username,
 
 // Handles a confirmation email received "from" with "subject" and "body".
 // Returns true if the mail was handled, else false.
-bool Confirm_Worker::handleEmail (string from, string subject, string body)
+bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, string body)
 {
-  (void) from;
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
   Database_Confirm database_confirm;

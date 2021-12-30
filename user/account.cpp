@@ -42,10 +42,8 @@ bool user_account_acl (void * webserver_request)
 }
 
 
-string user_account (void * webserver_request)
+string user_account ([[maybe_unused]] void * webserver_request)
 {
-  (void) webserver_request;
-  
   string page;
 
 #ifdef HAVE_CLOUD

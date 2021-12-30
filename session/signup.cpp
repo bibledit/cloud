@@ -57,10 +57,8 @@ bool session_signup_acl (void * webserver_request)
 }
 
 
-string session_signup (void * webserver_request)
+string session_signup ([[maybe_unused]] void * webserver_request)
 {
-  (void) webserver_request;
-  
   string page;
 
 #ifdef HAVE_CLOUD

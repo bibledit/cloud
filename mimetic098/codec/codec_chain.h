@@ -292,9 +292,8 @@ struct null_node
   {
     return *this;
   }
-  self_type& operator=(char c)
+  self_type& operator=([[maybe_unused]] char c)
   {
-    (void) c;
     return *this;
   }
   self_type& operator++()

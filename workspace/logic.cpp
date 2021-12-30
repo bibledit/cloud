@@ -500,7 +500,10 @@ void workspace_copy (void * webserver_request, string source, string destination
 
 
 // Store updated workspace settings for sending to the cloud.
-void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights)
+void workspace_cache_for_cloud ([[maybe_unused]] void * webserver_request,
+                                [[maybe_unused]] bool urls,
+                                [[maybe_unused]] bool widths,
+                                [[maybe_unused]] bool heights)
 {
 #ifdef HAVE_CLIENT
   // For a client, store the setting for sending to the server.
@@ -511,11 +514,6 @@ void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths
     request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_widths);
   if (heights)
     request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_heights);
-#else
-  (void) webserver_request;
-  (void) urls;
-  (void) widths;
-  (void) heights;
 #endif
 }
 

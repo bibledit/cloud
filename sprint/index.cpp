@@ -50,11 +50,10 @@ bool sprint_index_acl (void * webserver_request)
 }
 
 
-string sprint_index (void * webserver_request)
+string sprint_index ([[maybe_unused]] void * webserver_request)
 {
 #ifdef HAVE_CLIENT
-  (void) webserver_request;
-  return "";
+  return string();
 #endif
 
 #ifdef HAVE_CLOUD

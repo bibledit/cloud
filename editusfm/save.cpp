@@ -87,7 +87,7 @@ string editusfm_save (void * webserver_request)
               string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
               string username = request->session_logic()->currentUser ();
-              int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+              [[maybe_unused]] int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
               string oldText = ancestor_usfm;
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
@@ -135,8 +135,6 @@ string editusfm_save (void * webserver_request)
                     Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
                   }
                   rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
-#else
-                  (void) oldID;
 #endif
                   // Store a copy of the USFM loaded in the editor for later reference.
                   storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);

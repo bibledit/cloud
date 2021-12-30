@@ -34,11 +34,8 @@ string sendreceive_tag ()
 }
 
 
-void sendreceive_sendreceive (string bible)
+void sendreceive_sendreceive ([[maybe_unused]] string bible)
 {
-#ifdef HAVE_CLIENT
-  (void) bible;
-#endif
 #ifdef HAVE_CLOUD
   // Check on Bible.
   if (bible.empty ()) {

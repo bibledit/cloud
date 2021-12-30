@@ -51,7 +51,7 @@ static void locking_function(int mode, int n, const char * file, int line)
 }
 
 
-static unsigned long id_function(void)
+static unsigned long id_function()
 {
   return ((unsigned long)THREAD_ID);
 }
@@ -62,7 +62,7 @@ static unsigned long id_function(void)
 #endif
 
 
-void thread_setup (void)
+void thread_setup ()
 {
 #ifndef HAVE_CLIENT
   mutex_buf = malloc (CRYPTO_num_locks () * sizeof(MUTEX_TYPE));
@@ -76,7 +76,7 @@ void thread_setup (void)
 }
 
 
-void thread_cleanup (void)
+void thread_cleanup ()
 {
 #ifndef HAVE_CLIENT
   if (!mutex_buf) return;

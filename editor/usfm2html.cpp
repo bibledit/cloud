@@ -505,7 +505,7 @@ void Editor_Usfm2Html::addText (string text)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
+void Editor_Usfm2Html::addNote (string citation, string style, [[maybe_unused]] bool endnote)
 {
   // Be sure the road ahead is clear.
   if (!roadIsClear ()) {
@@ -517,9 +517,6 @@ void Editor_Usfm2Html::addNote (string citation, string style, bool endnote)
   if (!current_p_open) {
     newParagraph ();
   }
-  
-  // Not used:
-  (void) endnote;
   
   noteCount++;
   noteOpened = true;

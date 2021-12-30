@@ -268,8 +268,7 @@ void test_memory ()
     cout << max_memory_usage - basic_usage << " sword_logic_refresh_module_list" << endl;
   }
   
-  int available = filter_memory_percentage_available ();
-  (void) available;
+  [[maybe_unused]] auto available = filter_memory_percentage_available ();
 
   // Done.
   refresh_sandbox (false);

@@ -331,11 +331,10 @@ void demo_prepare_sample_bible ()
   search_logic_delete_bible (demo_sample_bible_name ());
   // Clean up the remaining artifacts that were created along the way.
 #ifdef HAVE_CLOUD
-  int result;
+  [[maybe_unused]] int result;
   result = system ("find . -path '*logbook/15*' -delete");
   result = system ("find . -name state.sqlite -delete");
   result = system ("find . -name 'Sample.*' -delete");
-  (void) result;
 #endif
 }
 

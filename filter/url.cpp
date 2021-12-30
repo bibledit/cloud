@@ -688,13 +688,12 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 // Sends a http GET request to the $url.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_get (string url, string& error, bool check_certificate)
+string filter_url_http_get (string url, string& error, [[maybe_unused]] bool check_certificate)
 {
   string response;
 #ifdef HAVE_CLIENT
   response = filter_url_http_request_mbed (url, error, {}, "", check_certificate);
 #else
-  (void) check_certificate;
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
@@ -729,14 +728,12 @@ string filter_url_http_get (string url, string& error, bool check_certificate)
 // It posts the $values.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error, bool burst, bool check_certificate)
+string filter_url_http_post (string url, map <string, string> values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate)
 {
   string response;
 #ifdef HAVE_CLIENT
-  (void) burst;
   response = filter_url_http_request_mbed (url, error, values, "", check_certificate);
 #else
-  (void) check_certificate;
   // Get a curl handle.
   CURL *curl = curl_easy_init ();
   if (curl) {
@@ -787,14 +784,14 @@ string filter_url_http_post (string url, map <string, string> values, string& er
 // It uploads $filename.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_upload (string url, map <string, string> values, string filename, string& error)
+string filter_url_http_upload ([[maybe_unused]] string url,
+                               [[maybe_unused]] map <string, string> values,
+                               [[maybe_unused]] string filename,
+                               string& error)
 {
   string response;
 
 #ifdef HAVE_CLIENT
-  (void) url;
-  (void) values;
-  (void) filename;
   error = "Not implemented in client configuration";
 #else
 
@@ -913,12 +910,12 @@ string filter_url_http_response_code_text (int code)
 
 
 // Downloads the file at $url, and stores it at $filename.
-void filter_url_download_file (string url, string filename, string& error, bool check_certificate)
+void filter_url_download_file (string url, string filename, string& error,
+                               [[maybe_unused]] bool check_certificate)
 {
 #ifdef HAVE_CLIENT
   filter_url_http_request_mbed (url, error, {}, filename, check_certificate);
 #else
-  (void) check_certificate;
   CURL *curl = curl_easy_init ();
   if (curl) {
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());

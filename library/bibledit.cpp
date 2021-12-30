@@ -127,8 +127,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   int hours = 0;
 #ifdef HAVE_WINDOWS
   TIME_ZONE_INFORMATION tzi;
-  DWORD dwRet = GetTimeZoneInformation (&tzi);
-  (void)dwRet;
+  [[maybe_unused]] auto dwRet = GetTimeZoneInformation (&tzi);
   hours = 0 - (tzi.Bias / 60);
 #else
   // Set local timezone offset in the library on Linux.

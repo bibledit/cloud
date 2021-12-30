@@ -119,7 +119,7 @@ string filter_archive_unzip (string file)
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_unzip_shell_internal (string file)
+string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
 {
   string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD
@@ -128,14 +128,8 @@ string filter_archive_unzip_shell_internal (string file)
   string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
   string command = "unzip -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
-  int return_var;
-#ifdef HAVE_IOS
-  // Crashes on iOS.
-  return_var = 1;
-#else
   // Run the command.
-  return_var = system (command.c_str());
-#endif
+  int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_rmdir (folder);
     folder.clear();
@@ -144,11 +138,9 @@ string filter_archive_unzip_shell_internal (string file)
   } else {
     // Set free permissions after unzipping.
     command = "chmod -R 0777 " + folder;
-    int result = system (command.c_str ());
-    (void) result;
+    [[maybe_unused]] int result = system (command.c_str ());
   }
 #endif
-  (void) file;
   return folder;
 }
 

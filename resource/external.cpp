@@ -246,10 +246,8 @@ struct gbs_annotation_walker: xml_tree_walker
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_plus_processor (string url, int book, int chapter, int verse)
+string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, int verse)
 {
-  (void) chapter;
-  
   string text;
   
   // Get the html from the server.

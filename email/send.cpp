@@ -170,7 +170,11 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send (string to_mail, string to_name, string subject, string body, bool verbose)
+string email_send ([[maybe_unused]] string to_mail,
+                   string to_name,
+                   string subject,
+                   string body,
+                   [[maybe_unused]] bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
   size_t length = body.length ();
@@ -186,9 +190,6 @@ string email_send (string to_mail, string to_name, string subject, string body, 
   if (!client_logic_client_enabled ()) {
     return "";
   }
-  
-  (void) verbose;
-  (void) to_mail;
 
   Webserver_Request request;
   Sync_Logic sync_logic = Sync_Logic (&request);

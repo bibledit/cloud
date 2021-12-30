@@ -61,10 +61,8 @@ bool session_confirm_acl (void * webserver_request)
 }
 
 
-string session_confirm (void * webserver_request)
+string session_confirm ([[maybe_unused]] void * webserver_request)
 {
-  (void) webserver_request;
-  
   string page;
 
 #ifdef HAVE_CLOUD

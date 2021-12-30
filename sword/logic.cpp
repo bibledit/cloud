@@ -706,9 +706,8 @@ bool sword_logic_installmgr_synchronize_configuration_with_master ()
 }
 
 
-void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
+void sword_logic_installmgr_list_remote_sources ([[maybe_unused]] vector <string> & sources)
 {
-  (void) sources;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
   
@@ -736,9 +735,8 @@ void sword_logic_installmgr_list_remote_sources (vector <string> & sources)
 }
 
 
-bool sword_logic_installmgr_refresh_remote_source (string name)
+bool sword_logic_installmgr_refresh_remote_source ([[maybe_unused]] string name)
 {
-  (void) name;
   bool success = true;
 #ifdef HAVE_SWORD
   sword::SWBuf baseDir = sword_logic_get_path ().c_str ();
@@ -761,10 +759,9 @@ bool sword_logic_installmgr_refresh_remote_source (string name)
 }
 
 
-void sword_logic_installmgr_list_remote_modules (string source_name, vector <string> & modules)
+void sword_logic_installmgr_list_remote_modules ([[maybe_unused]] string source_name,
+                                                 [[maybe_unused]] vector <string> & modules)
 {
-  (void) source_name;
-  (void) modules;
 #ifdef HAVE_SWORD
   sword::SWMgr *mgr = new sword::SWMgr();
   
@@ -822,13 +819,12 @@ void sword_logic_installmgr_list_remote_modules (string source_name, vector <str
 
  And this crash takes down the whole Bibledit Cloud instance.
  */
-string sword_logic_diatheke (const string & module_name, const string& osis, int chapter, int verse, bool & available)
+string sword_logic_diatheke ([[maybe_unused]] const string & module_name,
+                             [[maybe_unused]] const string& osis,
+                             [[maybe_unused]] int chapter,
+                             [[maybe_unused]] int verse,
+                             [[maybe_unused]] bool & available)
 {
-  (void) module_name;
-  (void) osis;
-  (void) chapter;
-  (void) verse;
-  (void) available;
   string rendering;
 #ifdef HAVE_SWORD
   // When accessing the SWORD library from multiple threads simultaneously, the library often crashes.

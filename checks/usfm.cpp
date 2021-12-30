@@ -435,35 +435,37 @@ void Checks_Usfm::empty_markup ()
   string current_item = usfm_item;
 
   // Flags that will describe the current item.
-  bool current_is_text = false;
-  bool current_is_usfm = false;
-  bool current_is_opener = false;
+  // bool current_is_text = false;
+  // bool current_is_usfm = false;
+  // bool current_is_opener = false;
   bool current_is_closer = false;
-  bool current_is_embedded = false;
+  // bool current_is_embedded = false;
 
   // Flags that will describe the previous item.
-  bool previous_is_text = false;
-  bool previous_is_usfm = false;
+  // bool previous_is_text = false;
+  // bool previous_is_usfm = false;
   bool previous_is_opener = false;
-  bool previous_is_closer = false;
-  bool previous_is_embedded = false;
+  // bool previous_is_closer = false;
+  // bool previous_is_embedded = false;
 
   // Set the above set of flags.
   if (usfm_is_usfm_marker (current_item)) {
-    current_is_usfm = true;
-    if (usfm_is_opening_marker(current_item)) current_is_opener = true;
+    //current_is_usfm = true;
+    if (usfm_is_opening_marker(current_item)) {
+      //current_is_opener = true;
+    }
     else current_is_closer = true;
-    if (usfm_is_embedded_marker(current_item)) current_is_embedded = true;
+    //if (usfm_is_embedded_marker(current_item)) current_is_embedded = true;
   } else {
-    current_is_text = true;
+    //current_is_text = true;
   }
   if (usfm_is_usfm_marker (empty_markup_previous_item)) {
-    previous_is_usfm = true;
+    //previous_is_usfm = true;
     if (usfm_is_opening_marker(empty_markup_previous_item)) previous_is_opener = true;
-    else previous_is_closer = true;
-    if (usfm_is_embedded_marker(empty_markup_previous_item)) previous_is_embedded = true;
+    //else previous_is_closer = true;
+    //if (usfm_is_embedded_marker(empty_markup_previous_item)) previous_is_embedded = true;
   } else {
-    previous_is_text = true;
+    //previous_is_text = true;
   }
 
   // Flag the following situation:
@@ -474,16 +476,6 @@ void Checks_Usfm::empty_markup ()
 
   // Save the current item (markup or text) into the object for next iteration.
   empty_markup_previous_item = current_item;
-  
-  // Unused variable(s).
-  (void) current_is_text;
-  (void) current_is_usfm;
-  (void) current_is_opener;
-  (void) current_is_embedded;
-  (void) previous_is_text;
-  (void) previous_is_usfm;
-  (void) previous_is_closer;
-  (void) previous_is_embedded;
 }
 
 
@@ -493,15 +485,15 @@ void Checks_Usfm::note ()
 {
   // Flags that describe the current item.
   bool current_is_text = false;
-  bool current_is_usfm = false;
+  //bool current_is_usfm = false;
   bool current_is_opener = false;
   bool current_is_closer = false;
-  bool current_is_embedded = false;
+  //bool current_is_embedded = false;
   if (usfm_is_usfm_marker (usfm_item)) {
-    current_is_usfm = true;
+    //current_is_usfm = true;
     if (usfm_is_opening_marker(usfm_item)) current_is_opener = true;
     else current_is_closer = true;
-    if (usfm_is_embedded_marker(usfm_item)) current_is_embedded = true;
+    //if (usfm_is_embedded_marker(usfm_item)) current_is_embedded = true;
   } else {
     current_is_text = true;
   }
@@ -541,15 +533,15 @@ void Checks_Usfm::note ()
   
   // Flags that describe the next item.
   bool next_is_text = false;
-  bool next_is_usfm = false;
-  bool next_is_opener = false;
-  bool next_is_closer = false;
-  bool next_is_embedded = false;
+  //bool next_is_usfm = false;
+  //bool next_is_opener = false;
+  //bool next_is_closer = false;
+  //bool next_is_embedded = false;
   if (usfm_is_usfm_marker (next_item)) {
-    next_is_usfm = true;
-    if (usfm_is_opening_marker(next_item)) next_is_opener = true;
-    else next_is_closer = true;
-    if (usfm_is_embedded_marker(next_item)) next_is_embedded = true;
+    //next_is_usfm = true;
+    //if (usfm_is_opening_marker(next_item)) next_is_opener = true;
+    //else next_is_closer = true;
+    //if (usfm_is_embedded_marker(next_item)) next_is_embedded = true;
   } else {
     next_is_text = true;
   }
@@ -571,14 +563,6 @@ void Checks_Usfm::note ()
   // It has not passed the text for a correctly formatted note.
   // So add a message.
   add_result (translate ("This sequence in the note does not look right:") + " " + usfm_item + next_item, display_nothing);
-  
-  // Handle unused variables.
-  (void) current_is_usfm;
-  (void) current_is_embedded;
-  (void) next_is_usfm;
-  (void) next_is_opener;
-  (void) next_is_closer;
-  (void) next_is_embedded;
 }
 
 

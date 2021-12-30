@@ -53,11 +53,10 @@ void changes_statistics_add (Assets_View & view, const string & date, int count)
 }
 
 
-string changes_statistics (void * webserver_request)
+string changes_statistics ([[maybe_unused]] void * webserver_request)
 {
 #ifdef HAVE_CLIENT
-  (void) webserver_request;
-  return "";
+  return string();
 #endif
 
 #ifdef HAVE_CLOUD

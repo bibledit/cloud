@@ -36,6 +36,7 @@
 #include <html/text.h>
 #include <checks/usfm.h>
 #include <resource/logic.h>
+#include <type_traits>
 
 
 using namespace pugi;
@@ -47,6 +48,19 @@ void test_dev ()
   refresh_sandbox (true);
   vector <string> payload;
   payload.push_back ("Content-Type: multipart/alternative; boundary=\"------------010001060501040600060905\"");
+
+  static_assert(true);
+  
+  [[maybe_unused]] auto x1 = { 1, 2 }; // decltype(x1) is std::initializer_list<int>
+  auto x2 = { 1.0, 2.0 }; // error: cannot deduce element type
+  (void) x2;
+  auto x3 { 2 }; // error: not a single element
+  (void) x3;
+  auto x4 = { 3 }; // decltype(x4) is std::initializer_list<int>
+  (void) x4;
+  auto x5 { 3 }; // decltype(x5) is int
+  (void) x5;
+  
   //for (auto s : payload) cout << s << endl;
   refresh_sandbox (true);
 }

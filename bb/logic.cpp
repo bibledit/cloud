@@ -261,12 +261,16 @@ void bible_logic_import_resource (string bible, string resource)
 
 // This logs the change in the Bible text.
 // When $force is given, it records the change on clients also.
-void bible_logic_log_change (const string& bible, int book, int chapter, const string& usfm, string user, const string & summary, bool force)
+void bible_logic_log_change (const string& bible,
+                             int book, int chapter,
+                             const string& usfm,
+                             string user,
+                             const string & summary,
+                             [[maybe_unused]] bool force)
 {
 #ifdef HAVE_CLIENT
   if (!force) return;
 #endif
-  (void) force;
   
   Database_Bibles database_bibles;
   string existing_usfm = database_bibles.getChapter (bible, book, chapter);
@@ -789,12 +793,11 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
 }
 
 
-void bible_logic_recent_save_email (const string & bible, int book, int chapter, int verse,
+void bible_logic_recent_save_email (const string & bible,
+                                    int book, int chapter, [[maybe_unused]] int verse,
                                     const string & user,
                                     const string & old_usfm, const string & new_usfm)
 {
-  (void) verse;
-  
   vector <string> old_verses;
   vector <string> new_verses;
 

@@ -43,10 +43,9 @@ string checks_settingspairs_url ()
 }
 
 
-bool checks_settingspairs_acl (void * webserver_request)
+bool checks_settingspairs_acl ([[maybe_unused]] void * webserver_request)
 {
 #ifdef HAVE_CLIENT
-  (void) webserver_request;
   return true;
 #else
   return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());

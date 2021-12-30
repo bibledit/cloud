@@ -122,6 +122,12 @@ void evaluate (int line, string func, bool desired, bool actual)
 }
 
 
+void evaluate (int line, string func, float desired, float actual)
+{
+  if (desired != actual) error_message (line, func, convert_to_string (desired), convert_to_string (actual));
+}
+
+
 void evaluate (int line, string func, vector <string> desired, vector <string> actual)
 {
   if (desired.size() != actual.size ()) {

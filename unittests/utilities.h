@@ -30,6 +30,7 @@ void evaluate (int line, string func, int desired, int actual);
 void evaluate (int line, string func, int desired, size_t actual);
 void evaluate (int line, string func, unsigned int desired, unsigned int actual);
 void evaluate (int line, string func, bool desired, bool actual);
+void evaluate (int line, string func, float desired, float actual);
 void evaluate (int line, string func, vector <string> desired, vector <string> actual);
 void evaluate (int line, string func, vector <int> desired, vector <int> actual);
 void evaluate (int line, string func, vector <bool> desired, vector <bool> actual);

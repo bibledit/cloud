@@ -46,17 +46,5 @@ void test_dev ()
 {
   trace_unit_tests (__func__);
   refresh_sandbox (true);
-  vector <string> payload;
-  payload.push_back ("Content-Type: multipart/alternative; boundary=\"------------010001060501040600060905\"");
-
-  static_assert(true);
-  
-  [[maybe_unused]] auto x1 = { 1, 2 }; // decltype(x1) is std::initializer_list<int>
-  [[maybe_unused]] auto x2 = { 1.0, 2.0 }; // error: cannot deduce element type
-  [[maybe_unused]] auto x3 { 2 }; // error: not a single element
-  [[maybe_unused]] auto x4 = { 3 }; // decltype(x4) is std::initializer_list<int>
-  [[maybe_unused]] auto x5 { 3 }; // decltype(x5) is int
-  
-  //for (auto s : payload) cout << s << endl;
   refresh_sandbox (true);
 }

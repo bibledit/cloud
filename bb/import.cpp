@@ -73,8 +73,9 @@ string bible_import (void * webserver_request)
   int chapter = Ipc_Focus::getChapter (webserver_request);
 
   // Whether the user has write access to this Bible.
-  bool write_access = access_bible_write (request, bible);
-  if (write_access) view.enable_zone ("write_access");
+  if (bool write_access = access_bible_write (request, bible); write_access) {
+    view.enable_zone ("write_access");
+  }
 
   // USFM data submission.
   if (request->post.count ("submit")) {
@@ -82,7 +83,7 @@ string bible_import (void * webserver_request)
     string data = request->post ["data"];
     data = filter_url_tag_to_plus (data);
     data = filter_string_trim (data);
-    if (data != "") {
+    if (!data.empty()) {
       if (unicode_string_is_valid (data)) {
         string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);

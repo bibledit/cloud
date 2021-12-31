@@ -85,9 +85,9 @@ string bible_book (void * webserver_request)
   
   // Delete chapter.
   string deletechapter = request->query ["deletechapter"];
-  if (deletechapter != "") {
+  if (!deletechapter.empty()) {
     string confirm = request->query ["confirm"];
-    if (confirm == "") {
+    if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("book", translate("Would you like to delete this chapter?"));
       dialog_yes.add_query ("bible", bible);
       dialog_yes.add_query ("book", convert_to_string (book));

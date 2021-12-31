@@ -76,8 +76,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 
   // No Bibles assigned: Consultant can view any Bible.
   if (role_level >= Filter_Roles::consultant ()) {
-    int privileges_count = Database_Privileges::getBibleBookCount ();
-    if (privileges_count == 0) {
+    if (int privileges_count = Database_Privileges::getBibleBookCount (); privileges_count == 0) {
       return true;
     }
   }
@@ -128,8 +127,7 @@ bool access_bible_write (void * webserver_request, const string & bible, string 
   
   // No Bibles assigned: Translator can write to any bible.
   if (level >= Filter_Roles::translator ()) {
-    int privileges_count = Database_Privileges::getBibleBookCount ();
-    if (privileges_count == 0) {
+    if (int privileges_count = Database_Privileges::getBibleBookCount (); privileges_count == 0) {
       return true;
     }
   }
@@ -193,8 +191,7 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
 
   // No Bibles assigned: Translator can write to any bible.
   if (level >= Filter_Roles::translator ()) {
-    int privileges_count = Database_Privileges::getBibleBookCount ();
-    if (privileges_count == 0) {
+    if (int privileges_count = Database_Privileges::getBibleBookCount (); privileges_count == 0) {
       return true;
     }
   }
@@ -226,7 +223,7 @@ vector <string> access_bible_bibles (void * webserver_request, string user)
 string access_bible_clamp (void * webserver_request, string bible)
 {
   if (!access_bible_read (webserver_request, bible)) {
-    bible = "";
+    bible = string();
     vector <string> bibles = access_bible_bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
@@ -249,8 +246,7 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
     if (access_bible_write (webserver_request, bible)) write = true;
   }
   if (config_logic_indonesian_cloud_free ()) {
-    int level = request->session_logic ()->currentLevel ();
-    if (level >= Filter_Roles::consultant()) {
+    if (int level = request->session_logic ()->currentLevel (); level >= Filter_Roles::consultant()) {
       read = true;
       write = true;
     } else {

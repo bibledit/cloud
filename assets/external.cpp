@@ -37,7 +37,7 @@ string assets_external (void * webserver_request)
   string href = request->post ["href"];
   if (!href.empty ()) {
     config_globals_external_url = request->post ["href"];
-    return "";
+    return string();
   }
 
   // Wait for some time till a URL is available.

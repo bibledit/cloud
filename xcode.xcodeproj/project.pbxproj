@@ -10,7 +10,6 @@
 		CA10382925279F940021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382725279F940021AF25 /* html2format.cpp */; };
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
 		CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */; };
-		CA36549C277E4337002AB247 /* c++17.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA36549B277E4258002AB247 /* c++17.cpp */; };
 		CA47750F260FC720001F50DD /* accounts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47750E260FC720001F50DD /* accounts.cpp */; };
 		CA55F184277B916100673C9E /* header.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D240277B6D74000EC1CA /* header.cxx */; };
 		CA55F185277B917600673C9E /* contentid.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D236277B6D74000EC1CA /* contentid.cxx */; };
@@ -605,8 +604,6 @@
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
 		CA314CD22662298D00EF8CE3 /* delay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
-		CA36549A277E4258002AB247 /* c++17.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "c++17.h"; sourceTree = "<group>"; };
-		CA36549B277E4258002AB247 /* c++17.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "c++17.cpp"; sourceTree = "<group>"; };
 		CA47750C260FC71F001F50DD /* accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accounts.h; sourceTree = "<group>"; };
 		CA47750D260FC720001F50DD /* accounts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = accounts.html; sourceTree = "<group>"; };
 		CA47750E260FC720001F50DD /* accounts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = accounts.cpp; sourceTree = "<group>"; };
@@ -5650,8 +5647,6 @@
 				CADE440524F174BE003165BB /* bibles.h */,
 				CADE441A24F174BE003165BB /* books.cpp */,
 				CADE44BF24F174BF003165BB /* books.h */,
-				CA36549B277E4258002AB247 /* c++17.cpp */,
-				CA36549A277E4258002AB247 /* c++17.h */,
 				CADE441E24F174BE003165BB /* cache.cpp */,
 				CADE430824F174BD003165BB /* cache.h */,
 				CADE445724F174BE003165BB /* check.cpp */,
@@ -6238,7 +6233,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA36549C277E4337002AB247 /* c++17.cpp in Sources */,
 				CA55F19F277B943E00673C9E /* base64.cxx in Sources */,
 				CA55F19E277B941D00673C9E /* mmfile.cxx in Sources */,
 				CA55F19D277B941100673C9E /* file_iterator.cxx in Sources */,

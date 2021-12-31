@@ -117,7 +117,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/bibleimages.h>
 #include <unittests/image.h>
 #include <unittests/easyenglishbible.h>
-#include <unittests/c++17.h>
 
 
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
@@ -144,7 +143,6 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_cpp17 ();
   refresh_sandbox (false);
   exit (0);
   

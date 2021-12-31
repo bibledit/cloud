@@ -49,7 +49,7 @@ void bible_import_run (string location, string bible, int book, int chapter)
     string success_message = "";
     string error_message = "";
     string data = filter_url_file_get_contents (file);
-    if (data != "") {
+    if (!data.empty()) {
       if (unicode_string_is_valid (data)) {
         
         // Check whether this is USFM data.

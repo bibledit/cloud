@@ -248,7 +248,7 @@ void changes_modifications ()
     vector <string> changeNotificationUsers;
     vector <string> users = request.database_users ()->get_users ();
     for (auto user : users) {
-      if (access_bible_read (&request, bible, user)) {
+      if (AccessBible::Read (&request, bible, user)) {
         if (request.database_config_user()->getUserGenerateChangeNotifications (user)) {
           changeNotificationUsers.push_back (user);
         }
@@ -382,7 +382,7 @@ void changes_modifications ()
         vector <string> users = request.database_users ()->get_users ();
         for (auto & user : users) {
           if (request.database_config_user()->getUserBibleChangesNotification (user)) {
-            if (access_bible_read (&request, bible, user)) {
+            if (AccessBible::Read (&request, bible, user)) {
               if (!client_logic_client_enabled ()) {
                 email_schedule (user, subject, bodies[b]);
               }

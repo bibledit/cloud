@@ -87,7 +87,7 @@ string bible_settings (void * webserver_request)
 
   
   // Whether the user has write access to this Bible.
-  bool write_access = access_bible_write (request, bible);
+  bool write_access = AccessBible::Write (request, bible);
   if (write_access) view.enable_zone ("write_access");
 
   

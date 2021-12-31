@@ -95,7 +95,7 @@ string sendreceive_index (void * webserver_request)
       vector <string> bibles = access_bible_bibles (request);
       for (auto & bible : bibles) {
         // Select Bibles the user has write access to.
-        if (access_bible_write (request, bible)) {
+        if (AccessBible::Write (request, bible)) {
           dialog_list.add_row (bible, "bible", bible);
         }
       }

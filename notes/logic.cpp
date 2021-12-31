@@ -391,7 +391,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     // Users to get subscribed to the note, or to whom the note is to be assigned.
     vector <string> users = request->database_users ()->get_users ();
     for (const string & user : users) {
-      if (access_bible_read (webserver_request, bible, user)) {
+      if (AccessBible::Read (webserver_request, bible, user)) {
         if (request->database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
           database_notes.subscribe_user (identifier, user);
         }
@@ -432,7 +432,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     vector <string> users = request->database_users ()->get_users ();
     for (const auto & user : users) {
       if (request->database_config_user ()->getUserDeletedConsultationNoteNotification (user)) {
-        if (access_bible_read (webserver_request, bible, user)) {
+        if (AccessBible::Read (webserver_request, bible, user)) {
           recipients.push_back (user);
         }
       }
@@ -722,10 +722,10 @@ void notes_logic_maintain_note_assignees (bool force)
     for (auto & bible : bibles) {
       
       // Continue with this Bible if the user has access to it.
-      if (access_bible_read (&webserver_request, bible, user)) {
+      if (AccessBible::Read (&webserver_request, bible, user)) {
 
         for (auto & assignee : users) {
-          if (access_bible_read (&webserver_request, bible, assignee)) {
+          if (AccessBible::Read (&webserver_request, bible, assignee)) {
             assignees.push_back (assignee);
           }
         }

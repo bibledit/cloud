@@ -73,7 +73,7 @@ string bible_import (void * webserver_request)
   int chapter = Ipc_Focus::getChapter (webserver_request);
 
   // Whether the user has write access to this Bible.
-  if (bool write_access = access_bible_write (request, bible); write_access) {
+  if (bool write_access = AccessBible::Write (request, bible); write_access) {
     view.enable_zone ("write_access");
   }
 

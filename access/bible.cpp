@@ -26,9 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/indonesian.h>
 
 
+// Todo structured binding and simplify code.
+
+
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool access_bible_read (void * webserver_request, const string & bible, string user)
+bool AccessBible::Read (void * webserver_request, const string & bible, string user)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
@@ -38,7 +41,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 #endif
 
   // Get the level, that is the role, of the given user.
-  int role_level = 0;
+  int role_level { 0 };
   if (user.empty ()) {
     // Current user.
     user = request->session_logic ()->currentUser ();
@@ -87,7 +90,7 @@ bool access_bible_read (void * webserver_request, const string & bible, string u
 
 
 // Returns true if the user has write access to the $bible.
-bool access_bible_write (void * webserver_request, const string & bible, string user)
+bool AccessBible::Write (void * webserver_request, const string & bible, string user)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to all Bibles.
@@ -209,7 +212,7 @@ vector <string> access_bible_bibles (void * webserver_request, string user)
   vector <string> allbibles = request->database_bibles ()->getBibles ();
   vector <string> bibles;
   for (auto & bible : allbibles) {
-    if (access_bible_read (webserver_request, bible, user)) {
+    if (AccessBible::Read (webserver_request, bible, user)) {
       bibles.push_back (bible);
     }
   }
@@ -222,7 +225,7 @@ vector <string> access_bible_bibles (void * webserver_request, string user)
 // Else it returns another accessible bible or nothing.
 string access_bible_clamp (void * webserver_request, string bible)
 {
-  if (!access_bible_read (webserver_request, bible)) {
+  if (!AccessBible::Read (webserver_request, bible)) {
     bible = string();
     vector <string> bibles = access_bible_bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
@@ -242,8 +245,8 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> bibles = request->database_bibles ()->getBibles ();
   for (auto & bible : bibles) {
-    if (access_bible_read (webserver_request, bible)) read = true;
-    if (access_bible_write (webserver_request, bible)) write = true;
+    if (AccessBible::Read (webserver_request, bible)) read = true;
+    if (AccessBible::Write (webserver_request, bible)) write = true;
   }
   if (config_logic_indonesian_cloud_free ()) {
     if (int level = request->session_logic ()->currentLevel (); level >= Filter_Roles::consultant()) {

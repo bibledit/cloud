@@ -104,7 +104,7 @@ void checks_run (string bible)
       if (length == 2) {
         string opener = unicode_string_substr (pair, 0, 1);
         string closer = unicode_string_substr (pair, 1, 1);
-        matching_pairs.push_back (make_pair (opener, closer));
+        matching_pairs.push_back ({opener, closer});
       }
     }
   }

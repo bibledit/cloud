@@ -12,7 +12,7 @@
  * http://github.com/vaidik/jquery-longpress/
  *
  * Copyright (c) 2008-2013, Vaidik Kapoor (kapoor [*dot*] vaidik -[at]- gmail [*dot*] com)
- * Copyright (c) 2021-2021, Teus Benschop
+ * Copyright (c) 2021-2022 Teus Benschop
  */
 
 (function($) {

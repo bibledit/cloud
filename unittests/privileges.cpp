@@ -47,8 +47,7 @@ void test_database_privileges ()
   string bible = "bible";
   
   // Initially there's no privileges for a Bible book.
-  bool read;
-  bool write;
+  bool read, write;
   Database_Privileges::getBibleBook (username, bible, 2, read, write);
   evaluate (__LINE__, __func__, false, read);
   evaluate (__LINE__, __func__, false, write);
@@ -114,25 +113,33 @@ void test_database_privileges ()
   Database_Privileges::create ();
   
   // Test no read access to entire Bible.
-  Database_Privileges::getBible (username, bible, read, write);
-  evaluate (__LINE__, __func__, false, read);
-  evaluate (__LINE__, __func__, false, write);
+  {
+    auto [read, write] = Database_Privileges::getBible (username, bible);
+    evaluate (__LINE__, __func__, false, read);
+    evaluate (__LINE__, __func__, false, write);
+  }
   // Set Bible read-only and test it.
   Database_Privileges::setBible (username, bible, false);
-  Database_Privileges::getBible (username, bible, read, write);
-  evaluate (__LINE__, __func__, true, read);
-  evaluate (__LINE__, __func__, false, write);
+  {
+    auto [read, write] = Database_Privileges::getBible (username, bible);
+    evaluate (__LINE__, __func__, true, read);
+    evaluate (__LINE__, __func__, false, write);
+  }
   // Set Bible read-write, and test it.
   Database_Privileges::setBible (username, bible, true);
-  Database_Privileges::getBible (username, bible, read, write);
-  evaluate (__LINE__, __func__, true, read);
-  evaluate (__LINE__, __func__, true, write);
+  {
+    auto [read, write] = Database_Privileges::getBible (username, bible);
+    evaluate (__LINE__, __func__, true, read);
+    evaluate (__LINE__, __func__, true, write);
+  }
   // Set one book read-write and test that this applies to entire Bible.
   Database_Privileges::setBible (username, bible, false);
   Database_Privileges::setBibleBook (username, bible, 1, true);
-  Database_Privileges::getBible (username, bible, read, write);
-  evaluate (__LINE__, __func__, true, read);
-  evaluate (__LINE__, __func__, true, write);
+  {
+    auto [read, write] = Database_Privileges::getBible (username, bible);
+    evaluate (__LINE__, __func__, true, read);
+    evaluate (__LINE__, __func__, true, write);
+  }
   
   // A feature is off by default.
   bool enabled = Database_Privileges::getFeature (username, 123);
@@ -195,9 +202,11 @@ void test_database_privileges ()
   string clientuser = username + "client";
   Database_Privileges::load (clientuser, privileges);
   // Check the privileges for that other user.
-  Database_Privileges::getBible (clientuser, bible, read, write);
-  evaluate (__LINE__, __func__, true, read);
-  evaluate (__LINE__, __func__, true, write);
+  {
+    auto [read, write] = Database_Privileges::getBible (clientuser, bible);
+    evaluate (__LINE__, __func__, true, read);
+    evaluate (__LINE__, __func__, true, write);
+  }
   enabled = Database_Privileges::getFeature (username, 1234);
   evaluate (__LINE__, __func__, true, enabled);
 }

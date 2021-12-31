@@ -259,7 +259,8 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
 }
 
 
-void Database_Privileges::getBible (string username, string bible, bool & read, bool & write) // Todo return tuple.
+// Returns a tuple with <read, write> whether the $username has access to the given $bible.
+tuple <bool, bool> Database_Privileges::getBible (string username, string bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
@@ -268,7 +269,7 @@ void Database_Privileges::getBible (string username, string bible, bool & read, 
   sql.add (bible);
   sql.add (";");
   vector <string> result = sql.query () ["write"];
-  read = (!result.empty());
+  bool read = (!result.empty());
   sql.clear ();
   sql.add ("SELECT write FROM bibles WHERE username =");
   sql.add (username);
@@ -276,7 +277,8 @@ void Database_Privileges::getBible (string username, string bible, bool & read, 
   sql.add (bible);
   sql.add ("AND write;");
   result = sql.query () ["write"];
-  write = (!result.empty());
+  bool write = (!result.empty());
+  return make_tuple(read, write);
 }
 
 

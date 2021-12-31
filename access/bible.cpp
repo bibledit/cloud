@@ -26,9 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/indonesian.h>
 
 
-// Todo structured binding and simplify code.
-
-
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
 bool AccessBible::Read (void * webserver_request, const string & bible, string user)
@@ -71,8 +68,7 @@ bool AccessBible::Read (void * webserver_request, const string & bible, string u
   }
 
   // Read privileges for the user.
-  bool read, write;
-  Database_Privileges::getBible (user, bible, read, write);
+  auto [ read, write ] = Database_Privileges::getBible (user, bible);
   if (read) {
     return true;
   }
@@ -122,8 +118,7 @@ bool AccessBible::Write (void * webserver_request, const string & bible, string 
   }
   
   // Read the privileges for the user.
-  bool read, write;
-  Database_Privileges::getBible (user, bible, read, write);
+  auto [ read, write ] = Database_Privileges::getBible (user, bible);
   if (write) {
     return true;
   }

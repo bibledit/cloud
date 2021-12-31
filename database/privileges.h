@@ -34,7 +34,7 @@ public:
   static void setBibleBook (string username, string bible, int book, bool write);
   static void setBible (string username, string bible, bool write);
   static void getBibleBook (string username, string bible, int book, bool & read, bool & write);
-  static void getBible (string username, string bible, bool & read, bool & write);
+  static tuple <bool, bool> getBible (string username, string bible);
   static int getBibleBookCount ();
   static bool getBibleBookExists (string username, string bible, int book);
   static void removeBibleBook (string username, string bible, int book);

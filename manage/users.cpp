@@ -284,8 +284,7 @@ string manage_users (void * webserver_request)
         for (auto & bible : allbibles) {
           bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
           if (exists) {
-            bool read, write;
-            Database_Privileges::getBible (username, bible, read, write);
+            auto [ read, write ] = Database_Privileges::getBible (username, bible);
             if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
             tbody << "<a href=" << quoted ("?user=" + username + "&removebible=" + bible) << ">" << emoji_wastebasket () << "</a>";
             tbody << "<a href=" << quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";

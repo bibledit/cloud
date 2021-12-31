@@ -76,8 +76,7 @@ string manage_write (void * webserver_request)
   bible = Database_Volatile::getValue (userid, "manage_write_bible");
   view.set_variable ("bible", bible);
 
-  bool bible_read_access, bible_write_access;
-  Database_Privileges::getBible (user, bible, bible_read_access, bible_write_access);
+  auto [ bible_read_access, bible_write_access ] = Database_Privileges::getBible (user, bible);
 
   // Toggle write access to Bible book.
   if (!request->post.empty ()) {

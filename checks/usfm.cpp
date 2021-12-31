@@ -424,7 +424,7 @@ void Checks_Usfm::add_result (string text, int modifier)
       text += ": " + current + next;
       break;
   }
-  checking_results.push_back (make_pair (verse_number, text));
+  checking_results.push_back (pair (verse_number, text));
 }
 
 

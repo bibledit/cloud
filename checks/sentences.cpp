@@ -208,7 +208,7 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         string context = verses_paragraph.begin()->second;
         context = unicode_string_substr (context, 0, 15);
-        checkingResults.push_back (make_pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
+        checkingResults.push_back (pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
       }
     }
     
@@ -245,7 +245,7 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
         if (length >= 15) {
           context = unicode_string_substr (context, length - 15, 15);
         }
-        checkingResults.push_back (make_pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
+        checkingResults.push_back (pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
       }
     }
     
@@ -296,7 +296,7 @@ void Checks_Sentences::addResult (string text, int modifier)
     text += ": " + previousFragment + character + nextFragment;
   }
   // Store checking result.
-  checkingResults.push_back (make_pair (verseNumber, text));
+  checkingResults.push_back (pair (verseNumber, text));
 }
 
 

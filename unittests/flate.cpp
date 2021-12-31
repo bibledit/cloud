@@ -96,8 +96,8 @@ void test_flate ()
   // Test iterations.
   {
     Flate flate;
-    flate.add_iteration ("users", { make_pair ("one", "RenderingOne"), make_pair ("two", "RenderingTwo") });
-    flate.add_iteration ("users", { make_pair ("one", "Translation1"), make_pair ("two", "Translation2") });
+    flate.add_iteration ("users", { pair ("one", "RenderingOne"), pair ("two", "RenderingTwo") });
+    flate.add_iteration ("users", { pair ("one", "Translation1"), pair ("two", "Translation2") });
     string actual = flate.render (tpl3);
     string desired =
     "line 1\n"

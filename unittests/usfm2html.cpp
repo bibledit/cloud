@@ -42,7 +42,7 @@ void test_usfm2html ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     evaluate (__LINE__, __func__, 61, (int)editor_usfm2html.textLength);
-    evaluate (__LINE__, __func__,  { make_pair (0, 0), make_pair (1, 2) }, editor_usfm2html.verseStartOffsets);
+    evaluate (__LINE__, __func__,  { pair (0, 0), pair (1, 2) }, editor_usfm2html.verseStartOffsets);
     evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
   }
 
@@ -65,14 +65,14 @@ void test_usfm2html ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     evaluate (__LINE__, __func__, 913, (int)editor_usfm2html.textLength);
-    evaluate (__LINE__, __func__, { make_pair (0, 0),
-      make_pair (1, 2),
-      make_pair (2, 62),
-      make_pair (3, 202),
-      make_pair (4, 359),
-      make_pair (5, 469),
-      make_pair (6, 676),
-      make_pair (7, 758) },
+    evaluate (__LINE__, __func__, { pair (0, 0),
+      pair (1, 2),
+      pair (2, 62),
+      pair (3, 202),
+      pair (4, 359),
+      pair (5, 469),
+      pair (6, 676),
+      pair (7, 758) },
               editor_usfm2html.verseStartOffsets);
     evaluate (__LINE__, __func__, 550, (int)editor_usfm2html.currentParagraphContent.size ());
   }

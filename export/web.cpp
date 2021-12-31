@@ -78,8 +78,8 @@ void export_web_book (string bible, int book, bool log)
   Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
   htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({
-    make_pair (bible, filter_url_html_file_name_bible ()),
-    make_pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ())
+    pair (bible, filter_url_html_file_name_bible ()),
+    pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ())
   });
   html_text_rich_book_index.new_paragraph ("navigationbar");
   html_text_rich_book_index.add_text ("|");
@@ -112,22 +112,22 @@ void export_web_book (string bible, int book, bool log)
     Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
     htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
     vector <pair <string, string> > breadcrumbs_navigator;
-    breadcrumbs_navigator.push_back (make_pair (bible, filter_url_html_file_name_bible ()));
-    breadcrumbs_navigator.push_back (make_pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ()));
+    breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
+    breadcrumbs_navigator.push_back (pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ()));
     if (!is_first_chapter) {
-      breadcrumbs_navigator.push_back (make_pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
+      breadcrumbs_navigator.push_back (pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
     }
-    breadcrumbs_navigator.push_back (make_pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
+    breadcrumbs_navigator.push_back (pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
     if (!is_last_chapter) {
-      breadcrumbs_navigator.push_back (make_pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
+      breadcrumbs_navigator.push_back (pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
     }
     // Optionally add a link for giving feedback by email.
     if (!feedback_email.empty ()) {
-      breadcrumbs_navigator.push_back (make_pair ("|", ""));
+      breadcrumbs_navigator.push_back (pair ("|", ""));
       string subject = translate ("Comment on") + " " + bible + " " + Database_Books::getEnglishFromId (book) + " " + convert_to_string (chapter);
       subject = filter_string_str_replace (" ", "%20", subject);
       string link = "mailto:" + feedback_email + "?Subject=" + subject;
-      breadcrumbs_navigator.push_back (make_pair (translate ("Feedback"), link));
+      breadcrumbs_navigator.push_back (pair (translate ("Feedback"), link));
     }
     htmlHeader.create (breadcrumbs_navigator);
     
@@ -191,7 +191,7 @@ void export_web_index (string bible, bool log)
   // On top are the breadcrumbs, starting with a clickable Bible name.
   Html_Header htmlHeader = Html_Header (&html_text_rich_bible_index);
   htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
-  htmlHeader.create ({ make_pair (bible, filter_url_html_file_name_bible ())});
+  htmlHeader.create ({ pair (bible, filter_url_html_file_name_bible ())});
   
   
   // Prepare for the list of books in de html index file.

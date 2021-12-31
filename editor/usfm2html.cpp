@@ -119,7 +119,7 @@ void Editor_Usfm2Html::preprocess ()
   noteCount = 0;
   currentNoteTextStyles.clear();
   textLength = 0;
-  verseStartOffsets = { make_pair (0, 0) };
+  verseStartOffsets = { pair (0, 0) };
   current_p_open = false;
   note_p_open = false;
 

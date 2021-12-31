@@ -36,17 +36,17 @@ void test_pairs ()
   int chapter = 3;
   map <int, string> verses;
   vector <pair <string, string> > pairs = {
-    make_pair ("[", "]"),
-    make_pair ("(", ")"),
-    make_pair ("“", "”"),
+    pair ("[", "]"),
+    pair ("(", ")"),
+    pair ("“", "”"),
   };
   vector <Database_Check_Hit> results;
   
   {
     verses = {
-      make_pair (2, "Verse two."),
-      make_pair (3, "Verse three."),
-      make_pair (4, "Verse four.")
+      pair (2, "Verse two."),
+      pair (3, "Verse three."),
+      pair (4, "Verse four.")
     };
     Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
@@ -56,9 +56,9 @@ void test_pairs ()
 
   {
     verses = {
-      make_pair (2, "Verse [two."),
-      make_pair (3, "Verse three]."),
-      make_pair (4, "Verse four.")
+      pair (2, "Verse [two."),
+      pair (3, "Verse three]."),
+      pair (4, "Verse four.")
     };
     Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
@@ -68,9 +68,9 @@ void test_pairs ()
 
   {
     verses = {
-      make_pair (2, "Verse [two."),
-      make_pair (3, "Verse (three."),
-      make_pair (4, "Verse four.")
+      pair (2, "Verse [two."),
+      pair (3, "Verse (three."),
+      pair (4, "Verse four.")
     };
     Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
@@ -91,9 +91,9 @@ void test_pairs ()
 
   {
     verses = {
-      make_pair (2, "Verse [two."),
-      make_pair (3, "Verse three."),
-      make_pair (4, "Verse four).")
+      pair (2, "Verse [two."),
+      pair (3, "Verse three."),
+      pair (4, "Verse four).")
     };
     Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();

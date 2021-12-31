@@ -128,10 +128,10 @@ string manage_accounts (void * webserver_request)
 
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {
-      make_pair ("user", username),
-      make_pair ("days", days),
-      make_pair ("role", role),
-      make_pair ("email", email),
+      pair ("user", username),
+      pair ("days", days),
+      pair ("role", role),
+      pair ("email", email),
     });
   }
   

@@ -106,7 +106,7 @@ string images_index (void * webserver_request)
   vector <string> images = database_bibleimages.get();
   for (auto image : images) {
     view.add_iteration ("images", {
-      make_pair ("image", image),
+      pair ("image", image),
     } );
   }
   

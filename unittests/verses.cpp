@@ -33,10 +33,10 @@ void test_verses ()
   // Test Missing Punctuation At End
   {
     map <int, string> verses = {
-      make_pair (2, "He said."),
-      make_pair (3, "He didn't say"),
-      make_pair (4, "He said."),
-      make_pair (5, "He said: “Jesus.”")
+      pair (2, "He said."),
+      pair (3, "He didn't say"),
+      pair (4, "He said."),
+      pair (5, "He said: “Jesus.”")
     };
     Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
     vector <Database_Check_Hit> results = database_check.getHits ();
@@ -55,9 +55,9 @@ void test_verses ()
   // Test Pattern
   {
     map <int, string> verses = {
-      make_pair (2, "He said."),
-      make_pair (3, "He didn't say"),
-      make_pair (4, "He said.")
+      pair (2, "He said."),
+      pair (3, "He didn't say"),
+      pair (4, "He said.")
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
@@ -76,9 +76,9 @@ void test_verses ()
   // Test Pattern
   {
     map <int, string> verses = {
-      make_pair (2, "He said."),
-      make_pair (3, "He didn't say"),
-      make_pair (4, "He said.")
+      pair (2, "He said."),
+      pair (3, "He didn't say"),
+      pair (4, "He said.")
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"Did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
@@ -88,9 +88,9 @@ void test_verses ()
   // Test Pattern
   {
     map <int, string> verses = {
-      make_pair (2, "He said."),
-      make_pair (3, "He didn't say"),
-      make_pair (4, "He said.")
+      pair (2, "He said."),
+      pair (3, "He didn't say"),
+      pair (4, "He said.")
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"said"});
     vector <Database_Check_Hit> results = database_check.getHits ();

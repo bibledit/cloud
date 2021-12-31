@@ -130,7 +130,7 @@ string manage_write (void * webserver_request)
     bool read, write;
     Database_Privileges::getBibleBook (user, bible, book, read, write);
     string checked = get_checkbox_status (write);
-    view.add_iteration ("write", { make_pair ("bookname", bookname), make_pair ("checkboxname", checkboxname), make_pair ("checked", checked) } );
+    view.add_iteration ("write", { pair ("bookname", bookname), pair ("checkboxname", checkboxname), pair ("checked", checked) } );
   }
   
   page += view.render ("manage", "write");

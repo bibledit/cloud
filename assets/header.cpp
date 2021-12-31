@@ -129,7 +129,7 @@ void Assets_Header::setFadingMenu (string html)
 // Add one breadcrumb $item with $text.
 void Assets_Header::addBreadCrumb (string item, string text)
 {
-  breadcrumbs.push_back (make_pair (item, text));
+  breadcrumbs.push_back (pair (item, text));
 }
 
 

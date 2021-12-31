@@ -1376,7 +1376,7 @@ void Filter_Text::processNote ()
   if (html_text_linked) html_text_linked->close_current_note ();
   //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
   if (!notes_plain_text_buffer.empty ()) {
-    notes_plain_text.push_back (make_pair (currentVerseNumber, notes_plain_text_buffer));
+    notes_plain_text.push_back (pair (currentVerseNumber, notes_plain_text_buffer));
   }
   note_open_now = false;
   notes_plain_text_buffer.clear ();

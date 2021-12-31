@@ -267,7 +267,7 @@ void workspace_set_heights (void * webserver_request, const map <int, string> & 
 
 void workspace_set_entire_width (void * webserver_request, string value)
 {
-  map <int, string> values = {make_pair (0, value)};
+  map <int, string> values = {pair (0, value)};
   workspace_set_values (webserver_request, ENTIREWIDTH, values);
 }
 

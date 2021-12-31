@@ -298,7 +298,7 @@ string resource_print (void * webserver_request)
   for (size_t i = 0; i < resources.size (); i++) {
     string offset = convert_to_string (i);
     string name = resources[i];
-    view.add_iteration ("resources", { make_pair ("offset", offset), make_pair ("name", name) } );
+    view.add_iteration ("resources", { pair ("offset", offset), pair ("name", name) } );
   }
   view.set_variable ("trash", emoji_wastebasket ());
   view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());

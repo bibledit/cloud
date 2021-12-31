@@ -163,12 +163,12 @@ void demo_clean_data ()
   
   // Ensure the default users are there.
   map <string, int> users = {
-    make_pair ("guest", Filter_Roles::guest ()),
-    make_pair ("member", Filter_Roles::member ()),
-    make_pair ("consultant", Filter_Roles::consultant ()),
-    make_pair ("translator", Filter_Roles::translator ()),
-    make_pair ("manager", Filter_Roles::manager ()),
-    make_pair (session_admin_credentials (), Filter_Roles::admin ())
+    pair ("guest", Filter_Roles::guest ()),
+    pair ("member", Filter_Roles::member ()),
+    pair ("consultant", Filter_Roles::consultant ()),
+    pair ("translator", Filter_Roles::translator ()),
+    pair ("manager", Filter_Roles::manager ()),
+    pair (session_admin_credentials (), Filter_Roles::admin ())
   };
   for (auto & element : users) {
     if (!request.database_users ()->usernameExists (element.first)) {
@@ -379,9 +379,9 @@ void demo_create_sample_workspaces (void * webserver_request)
     widths [i] = width;
   }
   map <int, string> row_heights = {
-    make_pair (0, "90%"),
-    make_pair (1, ""),
-    make_pair (2, "")
+    pair (0, "90%"),
+    pair (1, ""),
+    pair (2, "")
   };
   
   request->database_config_user()->setActiveWorkspace ("USFM");

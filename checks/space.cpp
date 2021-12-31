@@ -100,9 +100,9 @@ bool Checks_Space::transposeNoteSpace (string & usfm)
   size_t pos = usfm.find("  ");
   if (pos != string::npos) {
     map <string, string> data = {
-      make_pair (R"(\fk  )", R"( \fk )"),
-      make_pair (R"(\ft  )", R"( \ft )"),
-      make_pair (R"(\xt  )", R"( \xt )")
+      pair (R"(\fk  )", R"( \fk )"),
+      pair (R"(\ft  )", R"( \ft )"),
+      pair (R"(\xt  )", R"( \xt )")
     };
     for (auto search_replace : data) {
       int count = 0;

@@ -237,7 +237,7 @@ string changes_changes (void * webserver_request)
       if (selectedbible == bible) cssclass = "active";
       string name (bible);
       if (name.empty ()) name = translate ("All Bibles");
-      view.add_iteration ("bibleselector", { make_pair ("selectbible", bible), make_pair ("biblename", name), make_pair ("class", cssclass) } );
+      view.add_iteration ("bibleselector", { pair ("selectbible", bible), pair ("biblename", name), pair ("class", cssclass) } );
     }
   }
 
@@ -265,9 +265,9 @@ string changes_changes (void * webserver_request)
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     if (!ids.empty ()) {
       view.add_iteration ("individual", {
-        make_pair ("user", user),
-        make_pair ("selectedbible", selectedbible),
-        make_pair ("count", convert_to_string(ids.size()))
+        pair ("user", user),
+        pair ("selectedbible", selectedbible),
+        pair ("count", convert_to_string(ids.size()))
       } );
     }
   }
@@ -283,7 +283,7 @@ string changes_changes (void * webserver_request)
       user_and_icon = translate ("me") + " " + emoji_smiling_face_with_smiling_eyes ();
     }
     if (!personal_ids.empty () && !bible_ids.empty ()) {
-      view.add_iteration ("matching", { make_pair ("user", user), make_pair ("icon", user_and_icon) } );
+      view.add_iteration ("matching", { pair ("user", user), pair ("icon", user_and_icon) } );
     }
   }
   

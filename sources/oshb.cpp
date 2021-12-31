@@ -50,89 +50,89 @@ void sources_oshb_parse ()
     // Torah
     
     // Bereshit Genesis
-    make_pair (1, Database_Books::getIdFromEnglish ("Genesis")),
+    pair (1, Database_Books::getIdFromEnglish ("Genesis")),
     // Shemot Exodus
-    make_pair (2, Database_Books::getIdFromEnglish ("Exodus")),
+    pair (2, Database_Books::getIdFromEnglish ("Exodus")),
     // Vayikra Leviticus
-    make_pair (3, Database_Books::getIdFromEnglish ("Leviticus")),
+    pair (3, Database_Books::getIdFromEnglish ("Leviticus")),
     // Bəmidbar Numbers
-    make_pair (4, Database_Books::getIdFromEnglish ("Numbers")),
+    pair (4, Database_Books::getIdFromEnglish ("Numbers")),
     // Devarim Deuteronomy
-    make_pair (5, Database_Books::getIdFromEnglish ("Deuteronomy")),
+    pair (5, Database_Books::getIdFromEnglish ("Deuteronomy")),
     
     // Nevi'im
 
     // Yĕhôshúa‘ Joshua
-    make_pair (6, Database_Books::getIdFromEnglish ("Joshua")),
+    pair (6, Database_Books::getIdFromEnglish ("Joshua")),
     // Shophtim Judges
-    make_pair (7, Database_Books::getIdFromEnglish ("Judges")),
+    pair (7, Database_Books::getIdFromEnglish ("Judges")),
     // 1 Shmû’ēl 1 Samuel
-    make_pair (8, Database_Books::getIdFromEnglish ("1 Samuel")),
+    pair (8, Database_Books::getIdFromEnglish ("1 Samuel")),
     // 2 Shmû’ēl 2 Samuel
-    make_pair (9, Database_Books::getIdFromEnglish ("2 Samuel")),
+    pair (9, Database_Books::getIdFromEnglish ("2 Samuel")),
     // 1 M'lakhim 1 Kings
-    make_pair (10, Database_Books::getIdFromEnglish ("1 Kings")),
+    pair (10, Database_Books::getIdFromEnglish ("1 Kings")),
     // 2 M'lakhim 2 Kings
-    make_pair (11, Database_Books::getIdFromEnglish ("2 Kings")),
+    pair (11, Database_Books::getIdFromEnglish ("2 Kings")),
     // Yĕsha‘ăyāhû Isaiah
-    make_pair (12, Database_Books::getIdFromEnglish ("Isaiah")),
+    pair (12, Database_Books::getIdFromEnglish ("Isaiah")),
     // Yirmyāhû Jeremiah
-    make_pair (13, Database_Books::getIdFromEnglish ("Jeremiah")),
+    pair (13, Database_Books::getIdFromEnglish ("Jeremiah")),
     // Yĕkhezqiēl Ezekiel
-    make_pair (14, Database_Books::getIdFromEnglish ("Ezekiel")),
+    pair (14, Database_Books::getIdFromEnglish ("Ezekiel")),
     // Hôshēa‘ Hosea
-    make_pair (15, Database_Books::getIdFromEnglish ("Hosea")),
+    pair (15, Database_Books::getIdFromEnglish ("Hosea")),
     // Yô’ēl Joel
-    make_pair (16, Database_Books::getIdFromEnglish ("Joel")),
+    pair (16, Database_Books::getIdFromEnglish ("Joel")),
     // Āmôs Amos
-    make_pair (17, Database_Books::getIdFromEnglish ("Amos")),
+    pair (17, Database_Books::getIdFromEnglish ("Amos")),
     // Ōvadhyāh Obadiah
-    make_pair (18, Database_Books::getIdFromEnglish ("Obadiah")),
+    pair (18, Database_Books::getIdFromEnglish ("Obadiah")),
     // Yônāh Jonah
-    make_pair (19, Database_Books::getIdFromEnglish ("Jonah")),
+    pair (19, Database_Books::getIdFromEnglish ("Jonah")),
     // Mîkhāh Micah
-    make_pair (20, Database_Books::getIdFromEnglish ("Micah")),
+    pair (20, Database_Books::getIdFromEnglish ("Micah")),
     // Nakḥûm Nahum
-    make_pair (21, Database_Books::getIdFromEnglish ("Nahum")),
+    pair (21, Database_Books::getIdFromEnglish ("Nahum")),
     // Khăvhakûk Habakkuk
-    make_pair (22, Database_Books::getIdFromEnglish ("Habakkuk")),
+    pair (22, Database_Books::getIdFromEnglish ("Habakkuk")),
     // Tsĕphanyāh Zephaniah
-    make_pair (23, Database_Books::getIdFromEnglish ("Zephaniah")),
+    pair (23, Database_Books::getIdFromEnglish ("Zephaniah")),
     // Khaggai Haggai
-    make_pair (24, Database_Books::getIdFromEnglish ("Haggai")),
+    pair (24, Database_Books::getIdFromEnglish ("Haggai")),
     // Zkharyāh Zechariah
-    make_pair (25, Database_Books::getIdFromEnglish ("Zechariah")),
+    pair (25, Database_Books::getIdFromEnglish ("Zechariah")),
     // Mal’ākhî Malachi
-    make_pair (26, Database_Books::getIdFromEnglish ("Malachi")),
+    pair (26, Database_Books::getIdFromEnglish ("Malachi")),
 
     // Ketuvim
     
     // Tehillim (Psalms)
-    make_pair (27, Database_Books::getIdFromEnglish ("Psalms")),
+    pair (27, Database_Books::getIdFromEnglish ("Psalms")),
     // Mishlei (Book of Proverbs)
-    make_pair (28, Database_Books::getIdFromEnglish ("Proverbs")),
+    pair (28, Database_Books::getIdFromEnglish ("Proverbs")),
     // Iyyôbh (Book of Job)
-    make_pair (29, Database_Books::getIdFromEnglish ("Job")),
+    pair (29, Database_Books::getIdFromEnglish ("Job")),
     // Shīr Hashīrīm (Song of Songs) or (Song of Solomon)
-    make_pair (30, Database_Books::getIdFromEnglish ("Song of Solomon")),
+    pair (30, Database_Books::getIdFromEnglish ("Song of Solomon")),
     // Rūth (Book of Ruth)
-    make_pair (31, Database_Books::getIdFromEnglish ("Ruth")),
+    pair (31, Database_Books::getIdFromEnglish ("Ruth")),
     // Eikhah (Lamentations)
-    make_pair (32, Database_Books::getIdFromEnglish ("Lamentations")),
+    pair (32, Database_Books::getIdFromEnglish ("Lamentations")),
     // Qōheleth (Ecclesiastes)
-    make_pair (33, Database_Books::getIdFromEnglish ("Ecclesiastes")),
+    pair (33, Database_Books::getIdFromEnglish ("Ecclesiastes")),
     // Estēr (Book of Esther)
-    make_pair (34, Database_Books::getIdFromEnglish ("Esther")),
+    pair (34, Database_Books::getIdFromEnglish ("Esther")),
     // Dānî’ēl (Book of Daniel)
-    make_pair (35, Database_Books::getIdFromEnglish ("Daniel")),
+    pair (35, Database_Books::getIdFromEnglish ("Daniel")),
     // 1 Ezrā (Book of Ezra)
-    make_pair (36, Database_Books::getIdFromEnglish ("Ezra")),
+    pair (36, Database_Books::getIdFromEnglish ("Ezra")),
     // 2 Ezrā (Book of Nehemiah)
-    make_pair (37, Database_Books::getIdFromEnglish ("Nehemiah")),
+    pair (37, Database_Books::getIdFromEnglish ("Nehemiah")),
     // 1 Divrei ha-Yamim (1 Chronicles)
-    make_pair (38, Database_Books::getIdFromEnglish ("1 Chronicles")),
+    pair (38, Database_Books::getIdFromEnglish ("1 Chronicles")),
     // 2 Divrei ha-Yamim (2 Chronicles)
-    make_pair (39, Database_Books::getIdFromEnglish ("2 Chronicles"))
+    pair (39, Database_Books::getIdFromEnglish ("2 Chronicles"))
     
   };
   

@@ -334,7 +334,7 @@ string manage_exports (void * webserver_request)
       cssclass = "active";
     }
     name = locale_logic_space_get_name (space, false);
-    view.add_iteration ("spaces", { make_pair ("space", href), make_pair ("class", cssclass), make_pair ("name", name) } );
+    view.add_iteration ("spaces", { pair ("space", href), pair ("class", cssclass), pair ("name", name) } );
   }
 
   

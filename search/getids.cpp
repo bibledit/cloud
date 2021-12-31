@@ -37,8 +37,7 @@ string search_getids_url ()
 bool search_getids_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return write;
 }
 

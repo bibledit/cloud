@@ -164,7 +164,7 @@ string bible_manage (void * webserver_request)
 
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
-  vector <string> bibles = access_bible_bibles (request);
+  vector <string> bibles = AccessBible::Bibles (request);
   xml_document document;
   for (auto & bible : bibles) {
     xml_node li_node = document.append_child ("li");

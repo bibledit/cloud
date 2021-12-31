@@ -43,8 +43,7 @@ string search_replacego2_url ()
 bool search_replacego2_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return write;
 }
 
@@ -75,7 +74,7 @@ string search_replacego2 (void * webserver_request)
   
   // Check whether the user has write access to the book.
   string user = request->session_logic ()->currentUser ();
-  bool write = access_bible_book_write (webserver_request, user, bible, book);
+  bool write = AccessBible::BookWrite (webserver_request, user, bible, book);
 
   
   // Get the old chapter and verse USFM.

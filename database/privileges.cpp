@@ -259,7 +259,7 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
 }
 
 
-void Database_Privileges::getBible (string username, string bible, bool & read, bool & write)
+void Database_Privileges::getBible (string username, string bible, bool & read, bool & write) // Todo return tuple.
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");

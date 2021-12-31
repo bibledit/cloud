@@ -77,7 +77,7 @@ string manage_exports (void * webserver_request)
     string bible = request->query["bible"];
     if (bible == "") {
       Dialog_List dialog_list = Dialog_List ("exports", translate("Select a Bible"), "", "");
-      vector <string> bibles = access_bible_bibles (webserver_request);
+      vector <string> bibles = AccessBible::Bibles (webserver_request);
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "bible", bible);
       }
@@ -89,7 +89,7 @@ string manage_exports (void * webserver_request)
   }
   
   
-  string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());
   view.set_variable ("bible", bible);
   
   

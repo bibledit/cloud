@@ -60,7 +60,7 @@ string bible_css (void * webserver_request)
   Assets_View view;
   
   // The name of the Bible.
-  string bible = access_bible_clamp (request, request->query ["bible"]);
+  string bible = AccessBible::Clamp (request, request->query ["bible"]);
   view.set_variable ("bible", escape_special_xml_characters (bible));
   
   // Data submission.

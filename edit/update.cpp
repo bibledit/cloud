@@ -53,8 +53,7 @@ string edit_update_url ()
 bool edit_update_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return read;
 }
 
@@ -143,7 +142,7 @@ string edit_update (void * webserver_request)
 
   bool bible_write_access = false;
   if (good2go) {
-    bible_write_access = access_bible_book_write (request, string(), bible, book);
+    bible_write_access = AccessBible::BookWrite (request, string(), bible, book);
   }
 
 
@@ -402,7 +401,7 @@ string edit_update (void * webserver_request)
 
   // Test using the Cloud together with client devices with send and receive.
   
-  bool write = access_bible_book_write (webserver_request, username, bible, book);
+  bool write = AccessBible::BookWrite (webserver_request, username, bible, book);
   response = Checksum_Logic::send (response, write);
 
   // Ready.

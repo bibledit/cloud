@@ -71,7 +71,7 @@ string notes_create (void * webserver_request)
   // If no Bible is passed, it takes the user's active Bible.
   string bible = request->post ["bible"];
   if (bible.empty ()) {
-    bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+    bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());
   }
   
   

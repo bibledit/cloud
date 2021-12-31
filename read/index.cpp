@@ -55,8 +55,7 @@ bool read_index_acl (void * webserver_request)
     role = Filter_Roles::consultant ();
   }
   if (Filter_Roles::access_control (webserver_request, role)) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return read;
 }
 
@@ -98,7 +97,7 @@ string read_index (void * webserver_request)
     string changebible = request->query ["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to read"), "", "");
-      vector <string> bibles = access_bible_bibles (request);
+      vector <string> bibles = AccessBible::Bibles (request);
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
       }
@@ -111,8 +110,8 @@ string read_index (void * webserver_request)
   
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
+  string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
   
   // Store the active Bible in the page's javascript.

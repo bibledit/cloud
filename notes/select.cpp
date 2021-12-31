@@ -177,7 +177,7 @@ string notes_select (void * webserver_request)
   string bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
   stringstream bibleblock;
-  vector <string> bibles = access_bible_bibles (webserver_request);
+  vector <string> bibles = AccessBible::Bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) {
     vector <string> notesbibles = database_notes.get_all_bibles ();

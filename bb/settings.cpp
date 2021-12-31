@@ -82,7 +82,7 @@ string bible_settings (void * webserver_request)
   // The Bible.
   string bible = request->query["bible"];
   if (bible.empty()) bible = request->post ["val1"];
-  bible = access_bible_clamp (request, bible);
+  bible = AccessBible::Clamp (request, bible);
   view.set_variable ("bible", escape_special_xml_characters (bible));
 
   

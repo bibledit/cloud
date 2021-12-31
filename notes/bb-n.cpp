@@ -60,7 +60,7 @@ string notes_bible_n (void * webserver_request)
   
   
   stringstream bibleblock;
-  vector <string> bibles = access_bible_bibles (webserver_request);
+  vector <string> bibles = AccessBible::Bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (auto & bible : bibles) {
     bibleblock << "<li><a href=" << quoted("bulk?bible=" + bible) << ">" << bible << "</a></li>" << endl;

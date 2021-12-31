@@ -57,8 +57,7 @@ bool editone2_index_acl (void * webserver_request)
     minimum_role = Filter_Roles::consultant ();
   }
   if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return read;
 }
 
@@ -83,7 +82,7 @@ string editone2_index (void * webserver_request)
     // Standard it will be Terjemahanku (My Translation).
     // When the user changed that to another name, the editor will load that other name.
     {
-      vector <string> bibles = access_bible_bibles (request);
+      vector <string> bibles = AccessBible::Bibles (request);
       string selected_bible;
       for (auto bible : bibles) {
         if (bible != filter_indonesian_alkitabkita_ourtranslation_name ()) selected_bible = bible;
@@ -114,7 +113,7 @@ string editone2_index (void * webserver_request)
     string changebible = request->query ["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
-      vector <string> bibles = access_bible_bibles (request);
+      vector <string> bibles = AccessBible::Bibles (request);
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
       }
@@ -127,8 +126,8 @@ string editone2_index (void * webserver_request)
   
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
+  string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
   
   // Store the active Bible in the page's javascript.

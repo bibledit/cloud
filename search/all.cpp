@@ -43,8 +43,7 @@ string search_all_url ()
 bool search_all_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] =  AccessBible::Any (webserver_request);
   return read;
 }
 
@@ -88,7 +87,7 @@ string search_all (void * webserver_request)
   string siteUrl = config_logic_site_url (webserver_request);
 
   
-  vector <string> bibles = access_bible_bibles (request);
+  vector <string> bibles = AccessBible::Bibles (request);
 
 
   // Search the notes.

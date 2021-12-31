@@ -47,8 +47,7 @@ string editusfm_index_url ()
 bool editusfm_index_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return write;
 }
 
@@ -84,7 +83,7 @@ string editusfm_index (void * webserver_request)
     string changebible = request->query["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
-      vector <string> bibles = access_bible_bibles (request);
+      vector <string> bibles = AccessBible::Bibles (request);
       for (auto & bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
       }
@@ -101,8 +100,8 @@ string editusfm_index (void * webserver_request)
 
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  string bible = access_bible_clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible_clamp (request, request->query ["bible"]);
+  string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
   view.set_variable ("bible", bible);
   
   

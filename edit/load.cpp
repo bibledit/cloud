@@ -41,8 +41,7 @@ string edit_load_url ()
 bool edit_load_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return write;
 }
 
@@ -78,7 +77,7 @@ string edit_load (void * webserver_request)
   }
   
   string user = request->session_logic ()->currentUser ();
-  bool write = access_bible_book_write (webserver_request, user, bible, book);
+  bool write = AccessBible::BookWrite (webserver_request, user, bible, book);
   
   return Checksum_Logic::send (html, write);
 }

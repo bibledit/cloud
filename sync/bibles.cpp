@@ -62,7 +62,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   
   
   // Check whether the user has write-access to the Bible book.
-  if (!access_bible_book_write (request, username, bible, book)) {
+  if (!AccessBible::BookWrite (request, username, bible, book)) {
     string message = "User " + username + " does not have write access to Bible " + bible;
     Database_Logs::log (message, Filter_Roles::manager ());
     // The Cloud will email the user with details about the issue.
@@ -176,7 +176,7 @@ string sync_bibles (void * webserver_request)
       // calculate the checksum of all chapters in those Bibles,
       // and returns this checksum to the client.
       string username = request->session_logic ()->currentUser ();
-      vector <string> bibles = access_bible_bibles (request, username);
+      vector <string> bibles = AccessBible::Bibles (request, username);
       string server_checksum = Checksum_Logic::getBibles (request, bibles);
       return server_checksum;
     }
@@ -185,7 +185,7 @@ string sync_bibles (void * webserver_request)
       // The server reads the credentials from the client's user,
       // and responds with a list of Bibles this user has access to.
       string username = request->session_logic ()->currentUser ();
-      vector <string> bibles = access_bible_bibles (request, username);
+      vector <string> bibles = AccessBible::Bibles (request, username);
       string checksum = Checksum_Logic::get (bibles);
       string s_bibles = filter_string_implode (bibles, "\n");
       return checksum + "\n" + s_bibles;

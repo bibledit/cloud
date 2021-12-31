@@ -70,7 +70,7 @@ string bible_book (void * webserver_request)
   string error_message;
   
   // The name of the Bible.
-  string bible = access_bible_clamp (request, request->query["bible"]);
+  string bible = AccessBible::Clamp (request, request->query["bible"]);
   view.set_variable ("bible", escape_special_xml_characters (bible));
   
   // The book.
@@ -80,7 +80,7 @@ string bible_book (void * webserver_request)
   view.set_variable ("book_name", escape_special_xml_characters (book_name));
   
   // Whether the user has write access to this Bible book.
-  bool write_access = access_bible_book_write (request, "", bible, book);
+  bool write_access = AccessBible::BookWrite (request, string(), bible, book);
   if (write_access) view.enable_zone ("write_access");
   
   // Delete chapter.

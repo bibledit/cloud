@@ -144,7 +144,7 @@ bool AccessBible::Write (void * webserver_request, const string & bible, string 
 // If no user is given, it takes the currently logged-in user.
 // If the user has read-only access to even one book of the $bible,
 // then the user is considered not to have write access to the entire $bible.
-bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book)
+bool AccessBible::BookWrite (void * webserver_request, string user, const string & bible, int book)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to the book.
@@ -206,7 +206,7 @@ bool access_bible_book_write (void * webserver_request, string user, const strin
 
 // Returns an array of Bibles the user has read access to.
 // If no user is given, it takes the currently logged-in user.
-vector <string> access_bible_bibles (void * webserver_request, string user)
+vector <string> AccessBible::Bibles (void * webserver_request, string user)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> allbibles = request->database_bibles ()->getBibles ();
@@ -223,11 +223,11 @@ vector <string> access_bible_bibles (void * webserver_request, string user)
 // This function clamps bible.
 // It returns the $bible if the currently logged-in user has access to it.
 // Else it returns another accessible bible or nothing.
-string access_bible_clamp (void * webserver_request, string bible)
+string AccessBible::Clamp (void * webserver_request, string bible)
 {
   if (!AccessBible::Read (webserver_request, bible)) {
     bible = string();
-    vector <string> bibles = access_bible_bibles (webserver_request);
+    vector <string> bibles = AccessBible::Bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     request->database_config_user ()->setBible (bible);
@@ -238,10 +238,11 @@ string access_bible_clamp (void * webserver_request, string bible)
 
 // This function checks whether the user in the $webserver_request
 // has $read or $write access to one or more Bibles.
-void access_a_bible (void * webserver_request, bool & read, bool & write)
+// It returns a tuple <read, write>.
+tuple<bool, bool> AccessBible::Any (void * webserver_request)
 {
-  read = false;
-  write = false;
+  bool read = false;
+  bool write = false;
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> bibles = request->database_bibles ()->getBibles ();
   for (auto & bible : bibles) {
@@ -249,7 +250,9 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
     if (AccessBible::Write (webserver_request, bible)) write = true;
   }
   if (config_logic_indonesian_cloud_free ()) {
-    if (int level = request->session_logic ()->currentLevel (); level >= Filter_Roles::consultant()) {
+    if (int level = request->session_logic ()->currentLevel ();
+        level >= Filter_Roles::consultant())
+    {
       read = true;
       write = true;
     } else {
@@ -257,4 +260,8 @@ void access_a_bible (void * webserver_request, bool & read, bool & write)
       write = false;
     }
   }
+  // The results consists of <read, write>.
+  return make_tuple(read, write);
 }
+
+

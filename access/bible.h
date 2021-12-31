@@ -25,9 +25,8 @@ class AccessBible {
 public:
   static bool Read (void * webserver_request, const string & bible, string user = string());
   static bool Write (void * webserver_request, const string & bible, string user = string());
-
+  static bool BookWrite (void * webserver_request, string user, const string & bible, int book);
+  static vector <string> Bibles (void * webserver_request, string user = string());
+  static string Clamp (void * webserver_request, string bible);
+  static tuple<bool, bool> Any (void * webserver_request);
 };
-bool access_bible_book_write (void * webserver_request, string user, const string & bible, int book);
-vector <string> access_bible_bibles (void * webserver_request, string user = "");
-string access_bible_clamp (void * webserver_request, string bible);
-void access_a_bible (void * webserver_request, bool & read, bool & write);

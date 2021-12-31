@@ -51,8 +51,7 @@ string edit_save_url ()
 bool edit_save_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  bool read, write;
-  access_a_bible (webserver_request, read, write);
+  auto [ read, write ] = AccessBible::Any (webserver_request);
   return read;
 }
 
@@ -91,7 +90,7 @@ string edit_save (void * webserver_request)
     return translate("Save failure");
   }
   
-  if (!access_bible_book_write (request, "", bible, book)) {
+  if (!AccessBible::BookWrite (request, string(), bible, book)) {
     return translate("No write access");
   }
 

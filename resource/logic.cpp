@@ -96,7 +96,7 @@ vector <string> resource_logic_get_names (void * webserver_request, bool bibles_
   vector <string> names;
   
   // Bibles the user has read access to.
-  vector <string> bibles = access_bible_bibles (webserver_request);
+  vector <string> bibles = AccessBible::Bibles (webserver_request);
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // USFM resources.

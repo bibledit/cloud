@@ -57,7 +57,7 @@ string manage_hyphenation (void * webserver_request)
   Assets_View view;
   
   
-  string bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());
   
   
   string success;
@@ -78,7 +78,7 @@ string manage_hyphenation (void * webserver_request)
     string bible = request->query ["bible"];
     if (bible == "") {
       Dialog_List dialog_list = Dialog_List ("", translate("Which Bible would you like to take the data from?"), "", "");
-      vector <string> bibles = access_bible_bibles (webserver_request);
+      vector <string> bibles = AccessBible::Bibles (webserver_request);
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "bible", bible);
       }
@@ -88,7 +88,7 @@ string manage_hyphenation (void * webserver_request)
       request->database_config_user()->setBible (bible);
     }
   }
-  bible = access_bible_clamp (webserver_request, request->database_config_user()->getBible ());
+  bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());
   
   
   string firstset = Database_Config_Bible::getHyphenationFirstSet (bible);

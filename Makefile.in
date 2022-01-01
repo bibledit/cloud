@@ -293,29 +293,24 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	public/new.$(OBJEXT) public/create.$(OBJEXT) \
 	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
 	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
-	mbedtls/aes.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
-	mbedtls/arc4.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
-	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
-	mbedtls/bignum.$(OBJEXT) mbedtls/blowfish.$(OBJEXT) \
-	mbedtls/camellia.$(OBJEXT) mbedtls/ccm.$(OBJEXT) \
-	mbedtls/certs.$(OBJEXT) mbedtls/chacha20.$(OBJEXT) \
-	mbedtls/chachapoly.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
-	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
-	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
-	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
-	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
+	mbedtls/aes.$(OBJEXT) mbedtls/arc4.$(OBJEXT) \
+	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
+	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
+	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
+	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
+	mbedtls/chacha20.$(OBJEXT) mbedtls/chachapoly.$(OBJEXT) \
+	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
+	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
+	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
+	mbedtls/ecdh.$(OBJEXT) mbedtls/ecdsa.$(OBJEXT) \
 	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
 	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
 	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
-	mbedtls/havege.$(OBJEXT) mbedtls/hmac_drbg.$(OBJEXT) \
-	mbedtls/md.$(OBJEXT) mbedtls/md2.$(OBJEXT) \
-	mbedtls/md4.$(OBJEXT) mbedtls/md5.$(OBJEXT) \
-	mbedtls/md_wrap.$(OBJEXT) \
-	mbedtls/memory_buffer_alloc.$(OBJEXT) \
+	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
+	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
 	mbedtls/net_sockets.$(OBJEXT) mbedtls/oid.$(OBJEXT) \
-	mbedtls/padlock.$(OBJEXT) mbedtls/pem.$(OBJEXT) \
-	mbedtls/pk.$(OBJEXT) mbedtls/pk_wrap.$(OBJEXT) \
-	mbedtls/pkcs11.$(OBJEXT) mbedtls/pkcs12.$(OBJEXT) \
+	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
+	mbedtls/pk_wrap.$(OBJEXT) mbedtls/pkcs12.$(OBJEXT) \
 	mbedtls/pkcs5.$(OBJEXT) mbedtls/pkparse.$(OBJEXT) \
 	mbedtls/pkwrite.$(OBJEXT) mbedtls/platform_util.$(OBJEXT) \
 	mbedtls/platform.$(OBJEXT) mbedtls/poly1305.$(OBJEXT) \
@@ -559,30 +554,26 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
 	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
 	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
-	mbedtls/$(DEPDIR)/aesni.Po mbedtls/$(DEPDIR)/arc4.Po \
-	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
-	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
-	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
-	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
-	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
-	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
-	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
-	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
-	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
-	mbedtls/$(DEPDIR)/ecjpake.Po mbedtls/$(DEPDIR)/ecp.Po \
+	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
+	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
+	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
+	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
+	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
+	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
+	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
+	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
+	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
+	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecp.Po \
 	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
 	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
-	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/havege.Po \
-	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
-	mbedtls/$(DEPDIR)/md2.Po mbedtls/$(DEPDIR)/md4.Po \
-	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
-	mbedtls/$(DEPDIR)/memory_buffer_alloc.Po \
-	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
-	mbedtls/$(DEPDIR)/padlock.Po mbedtls/$(DEPDIR)/pem.Po \
+	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
+	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md5.Po \
+	mbedtls/$(DEPDIR)/md_wrap.Po mbedtls/$(DEPDIR)/net_sockets.Po \
+	mbedtls/$(DEPDIR)/oid.Po mbedtls/$(DEPDIR)/pem.Po \
 	mbedtls/$(DEPDIR)/pk.Po mbedtls/$(DEPDIR)/pk_wrap.Po \
-	mbedtls/$(DEPDIR)/pkcs11.Po mbedtls/$(DEPDIR)/pkcs12.Po \
-	mbedtls/$(DEPDIR)/pkcs5.Po mbedtls/$(DEPDIR)/pkparse.Po \
-	mbedtls/$(DEPDIR)/pkwrite.Po mbedtls/$(DEPDIR)/platform.Po \
+	mbedtls/$(DEPDIR)/pkcs12.Po mbedtls/$(DEPDIR)/pkcs5.Po \
+	mbedtls/$(DEPDIR)/pkparse.Po mbedtls/$(DEPDIR)/pkwrite.Po \
+	mbedtls/$(DEPDIR)/platform.Po \
 	mbedtls/$(DEPDIR)/platform_util.Po \
 	mbedtls/$(DEPDIR)/poly1305.Po mbedtls/$(DEPDIR)/ripemd160.Po \
 	mbedtls/$(DEPDIR)/rsa.Po mbedtls/$(DEPDIR)/rsa_internal.Po \
@@ -1360,7 +1351,6 @@ libbibledit_a_SOURCES = \
 	utf8proc/utf8proc.c \
 	search/logic.cpp \
 	mbedtls/aes.c \
-	mbedtls/aesni.c \
 	mbedtls/arc4.c \
 	mbedtls/asn1parse.c \
 	mbedtls/asn1write.c \
@@ -1380,28 +1370,21 @@ libbibledit_a_SOURCES = \
 	mbedtls/dhm.c \
 	mbedtls/ecdh.c \
 	mbedtls/ecdsa.c \
-	mbedtls/ecjpake.c \
 	mbedtls/ecp.c \
 	mbedtls/ecp_curves.c \
 	mbedtls/entropy.c \
 	mbedtls/entropy_poll.c \
 	mbedtls/error.c \
 	mbedtls/gcm.c \
-	mbedtls/havege.c \
 	mbedtls/hmac_drbg.c \
 	mbedtls/md.c \
-	mbedtls/md2.c \
-	mbedtls/md4.c \
 	mbedtls/md5.c \
 	mbedtls/md_wrap.c \
-	mbedtls/memory_buffer_alloc.c \
 	mbedtls/net_sockets.c \
 	mbedtls/oid.c \
-	mbedtls/padlock.c \
 	mbedtls/pem.c \
 	mbedtls/pk.c \
 	mbedtls/pk_wrap.c \
-	mbedtls/pkcs11.c \
 	mbedtls/pkcs12.c \
 	mbedtls/pkcs5.c \
 	mbedtls/pkparse.c \
@@ -2864,8 +2847,6 @@ mbedtls/$(DEPDIR)/$(am__dirstamp):
 	@: > mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/aes.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/aesni.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/arc4.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/asn1parse.$(OBJEXT): mbedtls/$(am__dirstamp) \
@@ -2904,8 +2885,6 @@ mbedtls/ecdh.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ecdsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/ecjpake.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ecp.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ecp_curves.$(OBJEXT): mbedtls/$(am__dirstamp) \
@@ -2918,35 +2897,23 @@ mbedtls/error.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/gcm.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/havege.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/hmac_drbg.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/md.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/md2.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/md4.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/md5.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/md_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/memory_buffer_alloc.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/net_sockets.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/oid.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/padlock.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pem.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pk.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pk_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/pkcs11.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pkcs12.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -3741,7 +3708,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aes.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aesni.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/arc4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/asn1parse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/asn1write.Po@am__quote@ # am--include-marker
@@ -3761,28 +3727,21 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/dhm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecdh.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecdsa.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecjpake.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp_curves.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/entropy.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/entropy_poll.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/error.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/gcm.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/havege.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/hmac_drbg.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md2.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md5.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md_wrap.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/memory_buffer_alloc.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/net_sockets.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/oid.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/padlock.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pem.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk_wrap.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs11.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs12.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs5.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkparse.Po@am__quote@ # am--include-marker
@@ -4883,7 +4842,6 @@ distclean: distclean-am
 	-rm -f mapping/$(DEPDIR)/index.Po
 	-rm -f mapping/$(DEPDIR)/map.Po
 	-rm -f mbedtls/$(DEPDIR)/aes.Po
-	-rm -f mbedtls/$(DEPDIR)/aesni.Po
 	-rm -f mbedtls/$(DEPDIR)/arc4.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1parse.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1write.Po
@@ -4903,28 +4861,21 @@ distclean: distclean-am
 	-rm -f mbedtls/$(DEPDIR)/dhm.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdh.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdsa.Po
-	-rm -f mbedtls/$(DEPDIR)/ecjpake.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp_curves.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy_poll.Po
 	-rm -f mbedtls/$(DEPDIR)/error.Po
 	-rm -f mbedtls/$(DEPDIR)/gcm.Po
-	-rm -f mbedtls/$(DEPDIR)/havege.Po
 	-rm -f mbedtls/$(DEPDIR)/hmac_drbg.Po
 	-rm -f mbedtls/$(DEPDIR)/md.Po
-	-rm -f mbedtls/$(DEPDIR)/md2.Po
-	-rm -f mbedtls/$(DEPDIR)/md4.Po
 	-rm -f mbedtls/$(DEPDIR)/md5.Po
 	-rm -f mbedtls/$(DEPDIR)/md_wrap.Po
-	-rm -f mbedtls/$(DEPDIR)/memory_buffer_alloc.Po
 	-rm -f mbedtls/$(DEPDIR)/net_sockets.Po
 	-rm -f mbedtls/$(DEPDIR)/oid.Po
-	-rm -f mbedtls/$(DEPDIR)/padlock.Po
 	-rm -f mbedtls/$(DEPDIR)/pem.Po
 	-rm -f mbedtls/$(DEPDIR)/pk.Po
 	-rm -f mbedtls/$(DEPDIR)/pk_wrap.Po
-	-rm -f mbedtls/$(DEPDIR)/pkcs11.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs12.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs5.Po
 	-rm -f mbedtls/$(DEPDIR)/pkparse.Po
@@ -5511,7 +5462,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f mapping/$(DEPDIR)/index.Po
 	-rm -f mapping/$(DEPDIR)/map.Po
 	-rm -f mbedtls/$(DEPDIR)/aes.Po
-	-rm -f mbedtls/$(DEPDIR)/aesni.Po
 	-rm -f mbedtls/$(DEPDIR)/arc4.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1parse.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1write.Po
@@ -5531,28 +5481,21 @@ maintainer-clean: maintainer-clean-am
 	-rm -f mbedtls/$(DEPDIR)/dhm.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdh.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdsa.Po
-	-rm -f mbedtls/$(DEPDIR)/ecjpake.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp_curves.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy_poll.Po
 	-rm -f mbedtls/$(DEPDIR)/error.Po
 	-rm -f mbedtls/$(DEPDIR)/gcm.Po
-	-rm -f mbedtls/$(DEPDIR)/havege.Po
 	-rm -f mbedtls/$(DEPDIR)/hmac_drbg.Po
 	-rm -f mbedtls/$(DEPDIR)/md.Po
-	-rm -f mbedtls/$(DEPDIR)/md2.Po
-	-rm -f mbedtls/$(DEPDIR)/md4.Po
 	-rm -f mbedtls/$(DEPDIR)/md5.Po
 	-rm -f mbedtls/$(DEPDIR)/md_wrap.Po
-	-rm -f mbedtls/$(DEPDIR)/memory_buffer_alloc.Po
 	-rm -f mbedtls/$(DEPDIR)/net_sockets.Po
 	-rm -f mbedtls/$(DEPDIR)/oid.Po
-	-rm -f mbedtls/$(DEPDIR)/padlock.Po
 	-rm -f mbedtls/$(DEPDIR)/pem.Po
 	-rm -f mbedtls/$(DEPDIR)/pk.Po
 	-rm -f mbedtls/$(DEPDIR)/pk_wrap.Po
-	-rm -f mbedtls/$(DEPDIR)/pkcs11.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs12.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs5.Po
 	-rm -f mbedtls/$(DEPDIR)/pkparse.Po

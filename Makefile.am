@@ -361,7 +361,6 @@ libbibledit_a_SOURCES = \
 	utf8proc/utf8proc.c \
 	search/logic.cpp \
 	mbedtls/aes.c \
-	mbedtls/aesni.c \
 	mbedtls/arc4.c \
 	mbedtls/asn1parse.c \
 	mbedtls/asn1write.c \
@@ -381,28 +380,21 @@ libbibledit_a_SOURCES = \
 	mbedtls/dhm.c \
 	mbedtls/ecdh.c \
 	mbedtls/ecdsa.c \
-	mbedtls/ecjpake.c \
 	mbedtls/ecp.c \
 	mbedtls/ecp_curves.c \
 	mbedtls/entropy.c \
 	mbedtls/entropy_poll.c \
 	mbedtls/error.c \
 	mbedtls/gcm.c \
-	mbedtls/havege.c \
 	mbedtls/hmac_drbg.c \
 	mbedtls/md.c \
-	mbedtls/md2.c \
-	mbedtls/md4.c \
 	mbedtls/md5.c \
 	mbedtls/md_wrap.c \
-	mbedtls/memory_buffer_alloc.c \
 	mbedtls/net_sockets.c \
 	mbedtls/oid.c \
-	mbedtls/padlock.c \
 	mbedtls/pem.c \
 	mbedtls/pk.c \
 	mbedtls/pk_wrap.c \
-	mbedtls/pkcs11.c \
 	mbedtls/pkcs12.c \
 	mbedtls/pkcs5.c \
 	mbedtls/pkparse.c \

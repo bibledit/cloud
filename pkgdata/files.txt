@@ -1108,10 +1108,6 @@
 /user/account.html
 /user/notifications.html
 /utf8
-/utf8.old
-/utf8.old/readme.txt
-/utf8.old/ReleaseNotes
-/utf8.old/utf8cpp.html
 /utf8proc
 /utf8proc/LICENSE
 /utf8/readme.txt

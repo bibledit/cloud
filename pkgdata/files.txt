@@ -264,6 +264,7 @@
 /fonts/Montserrat-SemiBold.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
+/generate
 /git
 /git/gitflag
 /help
@@ -626,6 +627,7 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
+/server
 /session
 /session/login.html
 /session/login.js
@@ -865,6 +867,7 @@
 /tmp/holder
 /trash
 /trash/holder
+/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py
@@ -1105,10 +1108,13 @@
 /user/account.html
 /user/notifications.html
 /utf8
+/utf8.old
+/utf8.old/readme.txt
+/utf8.old/ReleaseNotes
+/utf8.old/utf8cpp.html
 /utf8proc
 /utf8proc/LICENSE
-/utf8/ReleaseNotes
-/utf8/utf8cpp.html
+/utf8/readme.txt
 /valgrind
 /versification
 /versification/Catholic1.txt

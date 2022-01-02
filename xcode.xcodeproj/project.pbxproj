@@ -602,6 +602,8 @@
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1B741925F54DC90030846D /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
+		CA23A6F92781ED8E00A7A23B /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		CA23A6FA2781EE5500A7A23B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CA314CD22662298D00EF8CE3 /* delay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
 		CA47750C260FC71F001F50DD /* accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accounts.h; sourceTree = "<group>"; };
@@ -2651,11 +2653,9 @@
 		CADE44E124F174BF003165BB /* account.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = account.html; sourceTree = "<group>"; };
 		CADE44E224F174BF003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE44E424F174BF003165BB /* account.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = account.cpp; sourceTree = "<group>"; };
-		CADE44EC24F174BF003165BB /* utf8cpp.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = utf8cpp.html; sourceTree = "<group>"; };
 		CADE44ED24F174BF003165BB /* core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
 		CADE44EE24F174BF003165BB /* unchecked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unchecked.h; sourceTree = "<group>"; };
 		CADE44EF24F174BF003165BB /* checked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = checked.h; sourceTree = "<group>"; };
-		CADE44F024F174BF003165BB /* ReleaseNotes */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReleaseNotes; sourceTree = "<group>"; };
 		CADE44F124F174BF003165BB /* utf8.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
 		CADE44F224F174C0003165BB /* valgrind */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = valgrind; sourceTree = "<group>"; };
 		CADE44F424F174C0003165BB /* lens.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lens.png; sourceTree = "<group>"; };
@@ -6042,11 +6042,11 @@
 		CADE44EB24F174BF003165BB /* utf8 */ = {
 			isa = PBXGroup;
 			children = (
-				CADE44EC24F174BF003165BB /* utf8cpp.html */,
-				CADE44ED24F174BF003165BB /* core.h */,
-				CADE44EE24F174BF003165BB /* unchecked.h */,
 				CADE44EF24F174BF003165BB /* checked.h */,
-				CADE44F024F174BF003165BB /* ReleaseNotes */,
+				CADE44ED24F174BF003165BB /* core.h */,
+				CA23A6F92781ED8E00A7A23B /* readme.txt */,
+				CA23A6FA2781EE5500A7A23B /* README.md */,
+				CADE44EE24F174BF003165BB /* unchecked.h */,
 				CADE44F124F174BF003165BB /* utf8.h */,
 			);
 			path = utf8;

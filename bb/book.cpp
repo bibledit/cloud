@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <bb/book.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -101,7 +106,7 @@ string bible_book (void * webserver_request)
   
   // Add chapter.
   if (request->query.count ("createchapter")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("book", translate("Please enter the number for the new chapter"), "", "createchapter", "");
+    Dialog_Entry dialog_entry = Dialog_Entry ("book", translate("Please enter the number for the new chapter"), string(), "createchapter", string());
     dialog_entry.add_query ("bible", bible);
     dialog_entry.add_query ("book", convert_to_string (book));
     page += dialog_entry.run ();

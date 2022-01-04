@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string bible_chapter_url ();
 bool bible_chapter_acl (void * webserver_request);

@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 #define PRIVILEGE_VIEW_RESOURCES 1
 int access_logic_view_resources_role ();

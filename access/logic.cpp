@@ -17,6 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/logic.h>
+// Specific includes.
 #include <access/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>

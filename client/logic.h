@@ -20,6 +20,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 using namespace std;
 
 bool client_logic_client_enabled ();

@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void collaboration_link (string object, int jobid, string direction);
 string collaboration_link_header ();

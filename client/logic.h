@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 bool client_logic_client_enabled ();
 void client_logic_enable_client (bool enable);

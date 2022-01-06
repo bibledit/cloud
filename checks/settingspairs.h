@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string checks_settingspairs_url ();
 bool checks_settingspairs_acl (void * webserver_request);

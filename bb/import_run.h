@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void bible_import_run (string location, string bible, int book, int chapter);
 void bible_import_usfm (string data, string bible, int book, int chapter);

@@ -839,7 +839,6 @@
 		CADE376A24F17394003165BB /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CADE376B24F17394003165BB /* bibledit */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bibledit; sourceTree = "<group>"; };
 		CADE376D24F17394003165BB /* bootstrap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bootstrap.h; sourceTree = "<group>"; };
-		CADE376E24F17394003165BB /* bootstrap.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = bootstrap.o; sourceTree = "<group>"; };
 		CADE376F24F17394003165BB /* bootstrap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bootstrap.cpp; sourceTree = "<group>"; };
 		CADE377524F173D4003165BB /* merge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = merge.h; sourceTree = "<group>"; };
 		CADE377724F173D4003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -3165,7 +3164,6 @@
 			children = (
 				CADE376F24F17394003165BB /* bootstrap.cpp */,
 				CADE376D24F17394003165BB /* bootstrap.h */,
-				CADE376E24F17394003165BB /* bootstrap.o */,
 			);
 			path = bootstrap;
 			sourceTree = "<group>";

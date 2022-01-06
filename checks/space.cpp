@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <checks/space.h>
 #include <filter/string.h>
 #include <filter/usfm.h>

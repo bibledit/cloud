@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string changes_change_url ();
 bool changes_change_acl (void * webserver_request);

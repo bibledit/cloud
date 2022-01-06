@@ -19,6 +19,4 @@
 
 #pragma once
 
-#include <config/libraries.h>
-
 void changes_modifications ();

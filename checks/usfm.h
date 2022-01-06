@@ -19,7 +19,10 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
 #include <database/styles.h>
 
 class Checks_Usfm

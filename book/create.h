@@ -19,6 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 bool book_create (string bible, int book, int chapter, vector <string> & feedback);

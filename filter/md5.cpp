@@ -24,8 +24,7 @@
 // Specific includes.
 #include <filter/md5.h>
 #include <mbedtls/md5.h>
-#include <cstdlib>
-
+#include <string.h>
 
 string md5 (const string str)
 {

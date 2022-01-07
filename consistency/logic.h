@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 class Consistency_Logic
 {

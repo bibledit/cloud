@@ -19,7 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+#include <tuple>
+#include <map>
+using namespace std;
+#include <sqlite/sqlite3.h>
 
 class Database_Styles_Item
 {

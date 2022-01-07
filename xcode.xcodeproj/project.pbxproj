@@ -940,7 +940,6 @@
 		CADE383624F17422003165BB /* volatile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = volatile.cpp; sourceTree = "<group>"; };
 		CADE383824F17422003165BB /* privileges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = privileges.h; sourceTree = "<group>"; };
 		CADE383924F17422003165BB /* morphgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = morphgnt.h; sourceTree = "<group>"; };
-		CADE383C24F17422003165BB /* navigation.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = navigation.o; sourceTree = "<group>"; };
 		CADE383D24F17422003165BB /* navigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = navigation.h; sourceTree = "<group>"; };
 		CADE383E24F17422003165BB /* sblgnt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sblgnt.h; sourceTree = "<group>"; };
 		CADE383F24F17422003165BB /* sprint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprint.h; sourceTree = "<group>"; };
@@ -3370,7 +3369,6 @@
 				CADE383924F17422003165BB /* morphgnt.h */,
 				CADE384224F17422003165BB /* navigation.cpp */,
 				CADE383D24F17422003165BB /* navigation.h */,
-				CADE383C24F17422003165BB /* navigation.o */,
 				CADE388B24F17422003165BB /* noteactions.cpp */,
 				CADE383424F17422003165BB /* noteactions.h */,
 				CADE384324F17422003165BB /* noteassignment.cpp */,

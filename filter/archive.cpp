@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <microtar/microtar.h>
 #include <miniz/miniz.h>
+#include <vector>
 
 
 // Work around old Microsoft macro definitions.

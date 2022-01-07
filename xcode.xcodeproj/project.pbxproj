@@ -1251,12 +1251,8 @@
 		CADE3AAA24F17424003165BB /* i18n.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = i18n.cpp; sourceTree = "<group>"; };
 		CADE3AAD24F17424003165BB /* flate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flate.h; sourceTree = "<group>"; };
 		CADE3AAE24F17424003165BB /* flate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = flate.cpp; sourceTree = "<group>"; };
-		CADE3AB424F17424003165BB /* text.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = text.o; sourceTree = "<group>"; };
 		CADE3AB524F17424003165BB /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CADE3AB624F17424003165BB /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
-		CADE3AB824F17424003165BB /* text.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = text.Po; sourceTree = "<group>"; };
-		CADE3AB924F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3ABA24F17424003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3ABC24F17425003165BB /* dtl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = dtl.hpp; sourceTree = "<group>"; };
 		CADE3ABD24F17425003165BB /* Diff3.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Diff3.hpp; sourceTree = "<group>"; };
 		CADE3ABE24F17425003165BB /* Diff.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Diff.hpp; sourceTree = "<group>"; };
@@ -3816,22 +3812,10 @@
 		CADE3AB324F17424003165BB /* esword */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3AB424F17424003165BB /* text.o */,
 				CADE3AB524F17424003165BB /* text.cpp */,
 				CADE3AB624F17424003165BB /* text.h */,
-				CADE3AB724F17424003165BB /* .deps */,
-				CADE3ABA24F17424003165BB /* .dirstamp */,
 			);
 			path = esword;
-			sourceTree = "<group>";
-		};
-		CADE3AB724F17424003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3AB824F17424003165BB /* text.Po */,
-				CADE3AB924F17424003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3ABB24F17425003165BB /* dtl */ = {

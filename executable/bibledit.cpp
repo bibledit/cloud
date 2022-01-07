@@ -17,8 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <library/bibledit.h>
-#include <config/libraries.h>
 #include <filter/url.h>
 #include <filter/string.h>
 #ifdef HAVE_LIBPROC
@@ -32,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <windows.h>
 #endif
 #include <config/globals.h>
+using namespace std;
 
 
 void sigint_handler ([[maybe_unused]] int s)

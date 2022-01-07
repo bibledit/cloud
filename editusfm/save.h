@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string editusfm_save_url ();
 bool editusfm_save_acl (void * webserver_request);

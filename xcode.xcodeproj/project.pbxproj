@@ -1373,10 +1373,6 @@
 		CADE3B5224F17425003165BB /* worker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = worker.h; sourceTree = "<group>"; };
 		CADE3B5924F1742D003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3B5A24F1742D003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CADE3B5B24F1742D003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
-		CADE3B5D24F1742D003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3B5E24F1742D003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
-		CADE3B5F24F1742D003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3B6124F1742D003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE3B6324F1742D003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE3B6424F1742D003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
@@ -4106,20 +4102,8 @@
 			children = (
 				CADE3B5924F1742D003165BB /* logic.cpp */,
 				CADE3B5A24F1742D003165BB /* logic.h */,
-				CADE3B5B24F1742D003165BB /* logic.o */,
-				CADE3B5C24F1742D003165BB /* .deps */,
-				CADE3B5F24F1742D003165BB /* .dirstamp */,
 			);
 			path = ldap;
-			sourceTree = "<group>";
-		};
-		CADE3B5C24F1742D003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3B5D24F1742D003165BB /* .dirstamp */,
-				CADE3B5E24F1742D003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3B6024F1742D003165BB /* journal */ = {

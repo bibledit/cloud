@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <journal/logic.h>
 #include <locale/translate.h>
 #include <sendreceive/notes.h>

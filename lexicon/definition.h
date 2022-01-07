@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string lexicon_definition_url ();
 bool lexicon_definition_acl (void * webserver_request);

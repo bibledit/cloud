@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void ldap_logic_initialize ();
 void ldap_logic_clear ();

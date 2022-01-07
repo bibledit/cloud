@@ -20,7 +20,9 @@
 #pragma once
 
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 
 #define HEBREW_ETCBC4_NAME "Hebrew (University of Amsterdam)"

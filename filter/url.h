@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
 
 string get_base_url (void * webserver_request);
 void redirect_browser (void * webserver_request, string url);

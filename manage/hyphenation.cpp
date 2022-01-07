@@ -31,6 +31,7 @@
 #include <database/config/bible.h>
 #include <menu/logic.h>
 #include <journal/index.h>
+#include <webserver/request.h>
 
 
 const char * manage_hyphenation_url ()

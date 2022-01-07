@@ -19,6 +19,7 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void export_onlinebible (string bible, bool log);

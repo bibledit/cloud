@@ -1170,16 +1170,10 @@
 		CADE39F024F17423003165BB /* stylesheet.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = stylesheet.css; sourceTree = "<group>"; };
 		CADE39F124F17423003165BB /* mouse.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = mouse.css; sourceTree = "<group>"; };
 		CADE39F324F17423003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
-		CADE39F424F17423003165BB /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CADE39F524F17423003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CADE39F624F17423003165BB /* listing.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listing.html; sourceTree = "<group>"; };
 		CADE39F724F17423003165BB /* listing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = listing.cpp; sourceTree = "<group>"; };
 		CADE39F824F17423003165BB /* listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = listing.h; sourceTree = "<group>"; };
-		CADE39FA24F17423003165BB /* index.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.Po; sourceTree = "<group>"; };
-		CADE39FB24F17423003165BB /* listing.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = listing.Po; sourceTree = "<group>"; };
-		CADE39FC24F17423003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE39FD24F17423003165BB /* listing.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = listing.o; sourceTree = "<group>"; };
-		CADE39FE24F17423003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE39FF24F17423003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE3A0124F17423003165BB /* gitflag */ = {isa = PBXFileReference; lastKnownFileType = text; path = gitflag; sourceTree = "<group>"; };
 		CADE3A0324F17423003165BB /* select.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = select.html; sourceTree = "<group>"; };
@@ -3622,28 +3616,14 @@
 		CADE39F224F17423003165BB /* index */ = {
 			isa = PBXGroup;
 			children = (
+				CADE39FF24F17423003165BB /* index.cpp */,
 				CADE39F324F17423003165BB /* index.h */,
-				CADE39F424F17423003165BB /* index.o */,
 				CADE39F524F17423003165BB /* index.html */,
-				CADE39F624F17423003165BB /* listing.html */,
 				CADE39F724F17423003165BB /* listing.cpp */,
 				CADE39F824F17423003165BB /* listing.h */,
-				CADE39F924F17423003165BB /* .deps */,
-				CADE39FD24F17423003165BB /* listing.o */,
-				CADE39FE24F17423003165BB /* .dirstamp */,
-				CADE39FF24F17423003165BB /* index.cpp */,
+				CADE39F624F17423003165BB /* listing.html */,
 			);
 			path = index;
-			sourceTree = "<group>";
-		};
-		CADE39F924F17423003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE39FA24F17423003165BB /* index.Po */,
-				CADE39FB24F17423003165BB /* listing.Po */,
-				CADE39FC24F17423003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3A0024F17423003165BB /* exports */ = {

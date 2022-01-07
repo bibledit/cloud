@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <filter/md5.h>
 #include <mbedtls/md5.h>
 

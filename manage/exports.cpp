@@ -39,6 +39,7 @@
 #include <assets/external.h>
 #include <locale/logic.h>
 #include <styles/logic.h>
+#include <webserver/request.h>
 
 
 const char * manage_exports_url ()

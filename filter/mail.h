@@ -19,7 +19,12 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
 
 #ifdef HAVE_CLOUD
 void filter_mail_dissect (string message, string & from, string & subject, string & plaintext);

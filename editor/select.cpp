@@ -35,6 +35,7 @@
 #include <edit/index.h>
 #include <editone2/index.h>
 #include <editusfm/index.h>
+#include <webserver/request.h>
 
 
 string editor_select_url ()

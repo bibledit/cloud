@@ -38,6 +38,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/external.h>
 #include <config/globals.h>
 #include <library/bibledit.h>
+#include <database/privileges.h>
+#include <webserver/request.h>
 #include <developer/logic.h>
 
 

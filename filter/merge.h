@@ -19,7 +19,9 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 #include <classes/merge.h>
 
 string filter_merge_run (string base, string change, string prioritized_change,

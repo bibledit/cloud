@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void export_web_book (string bible, int book, bool log);
 void export_web_index (string bible, bool log);

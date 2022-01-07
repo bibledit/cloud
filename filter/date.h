@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 int filter_date_numerical_second (int seconds);
 int filter_date_numerical_minute (int seconds);

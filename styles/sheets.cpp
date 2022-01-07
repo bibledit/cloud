@@ -25,6 +25,7 @@
 #include <database/styles.h>
 #include <database/logs.h>
 #include <styles/css.h>
+#include <webserver/request.h>
 
 
 // Recreates all stylesheet.css files through a background process.

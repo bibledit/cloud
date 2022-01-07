@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string images_fetch_url ();
 bool images_fetch_acl (void * webserver_request);

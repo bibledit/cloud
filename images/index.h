@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string images_index_url ();
 bool images_index_acl (void * webserver_request);

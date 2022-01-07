@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string editone2_save_url ();
 bool editone2_save_acl (void * webserver_request);

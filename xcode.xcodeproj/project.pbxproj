@@ -1325,7 +1325,6 @@
 		CADE3AFE24F17425003165BB /* 11-2SAeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "11-2SAeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3AFF24F17425003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE3B0024F17425003165BB /* 24-ISAeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "24-ISAeng-web.usfm"; sourceTree = "<group>"; };
-		CADE3B0124F17425003165BB /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CADE3B0224F17425003165BB /* 23-SNGeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "23-SNGeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B0324F17425003165BB /* 15-2CHeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "15-2CHeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B0424F17425003165BB /* copyright.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = copyright.sh; sourceTree = "<group>"; };
@@ -1342,8 +1341,6 @@
 		CADE3B0F24F17425003165BB /* 43-ESGeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "43-ESGeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B1024F17425003165BB /* 34-MICeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "34-MICeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B1124F17425003165BB /* 29-HOSeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "29-HOSeng-web.usfm"; sourceTree = "<group>"; };
-		CADE3B1324F17425003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE3B1424F17425003165BB /* logic.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = logic.Po; sourceTree = "<group>"; };
 		CADE3B1524F17425003165BB /* 41-TOBeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "41-TOBeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B1624F17425003165BB /* 56-PS2eng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "56-PS2eng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B1724F17425003165BB /* 80-PHPeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "80-PHPeng-web.usfm"; sourceTree = "<group>"; };
@@ -1353,7 +1350,6 @@
 		CADE3B1B24F17425003165BB /* 78-GALeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "78-GALeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B1C24F17425003165BB /* 89-JASeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "89-JASeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B1D24F17425003165BB /* 35-NAMeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "35-NAMeng-web.usfm"; sourceTree = "<group>"; };
-		CADE3B1E24F17425003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE3B1F24F17425003165BB /* 10-1SAeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "10-1SAeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B2024F17425003165BB /* 95-JUDeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "95-JUDeng-web.usfm"; sourceTree = "<group>"; };
 		CADE3B2124F17425003165BB /* 83-2THeng-web.usfm */ = {isa = PBXFileReference; lastKnownFileType = text; path = "83-2THeng-web.usfm"; sourceTree = "<group>"; };
@@ -3841,15 +3837,15 @@
 		CADE3ABB24F17425003165BB /* dtl */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3ABC24F17425003165BB /* dtl.hpp */,
-				CADE3ABD24F17425003165BB /* Diff3.hpp */,
-				CADE3ABE24F17425003165BB /* Diff.hpp */,
-				CADE3ABF24F17425003165BB /* functors.hpp */,
-				CADE3AC024F17425003165BB /* Sequence.hpp */,
-				CADE3AC124F17425003165BB /* variables.hpp */,
 				CADE3AC224F17425003165BB /* COPYING */,
-				CADE3AC324F17425003165BB /* Ses.hpp */,
+				CADE3ABE24F17425003165BB /* Diff.hpp */,
+				CADE3ABD24F17425003165BB /* Diff3.hpp */,
+				CADE3ABC24F17425003165BB /* dtl.hpp */,
+				CADE3ABF24F17425003165BB /* functors.hpp */,
 				CADE3AC424F17425003165BB /* Lcs.hpp */,
+				CADE3AC024F17425003165BB /* Sequence.hpp */,
+				CADE3AC324F17425003165BB /* Ses.hpp */,
+				CADE3AC124F17425003165BB /* variables.hpp */,
 			);
 			path = dtl;
 			sourceTree = "<group>";
@@ -3857,108 +3853,96 @@
 		CADE3AC524F17425003165BB /* demo */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3AC624F17425003165BB /* 30-JOLeng-web.usfm */,
-				CADE3AC724F17425003165BB /* 18-ESTeng-web.usfm */,
-				CADE3AC824F17425003165BB /* 22-ECCeng-web.usfm */,
-				CADE3AC924F17425003165BB /* 86-TITeng-web.usfm */,
+				CADE3AEE24F17425003165BB /* 00-FRTeng-web.usfm */,
+				CADE3B1924F17425003165BB /* 02-GENeng-web.usfm */,
 				CADE3ACA24F17425003165BB /* 03-EXOeng-web.usfm */,
-				CADE3ACB24F17425003165BB /* 85-2TIeng-web.usfm */,
-				CADE3ACC24F17425003165BB /* 87-PHMeng-web.usfm */,
-				CADE3ACD24F17425003165BB /* 57-3MAeng-web.usfm */,
-				CADE3ACE24F17425003165BB /* 55-MANeng-web.usfm */,
-				CADE3ACF24F17425003165BB /* 96-REVeng-web.usfm */,
-				CADE3AD024F17425003165BB /* 94-3JNeng-web.usfm */,
-				CADE3AD124F17425003165BB /* 21-PROeng-web.usfm */,
-				CADE3AD224F17425003165BB /* 91-2PEeng-web.usfm */,
-				CADE3AD324F17425003165BB /* 72-LUKeng-web.usfm */,
-				CADE3AD424F17425003165BB /* 75-ROMeng-web.usfm */,
-				CADE3AD524F17425003165BB /* 77-2COeng-web.usfm */,
-				CADE3AD624F17425003165BB /* 81-COLeng-web.usfm */,
-				CADE3AD724F17425003165BB /* 19-JOBeng-web.usfm */,
-				CADE3AD824F17425003165BB /* 52-1MAeng-web.usfm */,
-				CADE3AD924F17425003165BB /* 66-DAGeng-web.usfm */,
-				CADE3ADA24F17425003165BB /* logic.cpp */,
-				CADE3ADB24F17425003165BB /* 84-1TIeng-web.usfm */,
-				CADE3ADC24F17425003165BB /* 106-GLOeng-web.usfm */,
-				CADE3ADD24F17425003165BB /* 70-MATeng-web.usfm */,
-				CADE3ADE24F17425003165BB /* 59-4MAeng-web.usfm */,
-				CADE3ADF24F17425003165BB /* 73-JHNeng-web.usfm */,
-				CADE3AE024F17425003165BB /* 17-NEHeng-web.usfm */,
-				CADE3AE124F17425003165BB /* 71-MRKeng-web.usfm */,
-				CADE3AE224F17425003165BB /* 76-1COeng-web.usfm */,
+				CADE3B0D24F17425003165BB /* 04-LEVeng-web.usfm */,
 				CADE3AE324F17425003165BB /* 05-NUMeng-web.usfm */,
-				CADE3AE424F17425003165BB /* 40-MALeng-web.usfm */,
-				CADE3AE524F17425003165BB /* 31-AMOeng-web.usfm */,
-				CADE3AE624F17425003165BB /* 33-JONeng-web.usfm */,
+				CADE3B0724F17425003165BB /* 06-DEUeng-web.usfm */,
+				CADE3B1824F17425003165BB /* 07-JOSeng-web.usfm */,
+				CADE3AEB24F17425003165BB /* 08-JDGeng-web.usfm */,
+				CADE3B0624F17425003165BB /* 09-RUTeng-web.usfm */,
+				CADE3B1F24F17425003165BB /* 10-1SAeng-web.usfm */,
+				CADE3AFE24F17425003165BB /* 11-2SAeng-web.usfm */,
+				CADE3AF424F17425003165BB /* 12-1KIeng-web.usfm */,
+				CADE3B0C24F17425003165BB /* 13-2KIeng-web.usfm */,
+				CADE3B2224F17425003165BB /* 14-1CHeng-web.usfm */,
+				CADE3B0324F17425003165BB /* 15-2CHeng-web.usfm */,
+				CADE3AF324F17425003165BB /* 16-EZReng-web.usfm */,
+				CADE3AE024F17425003165BB /* 17-NEHeng-web.usfm */,
+				CADE3AC724F17425003165BB /* 18-ESTeng-web.usfm */,
+				CADE3AD724F17425003165BB /* 19-JOBeng-web.usfm */,
+				CADE3AF624F17425003165BB /* 20-PSAeng-web.usfm */,
+				CADE3AD124F17425003165BB /* 21-PROeng-web.usfm */,
+				CADE3AC824F17425003165BB /* 22-ECCeng-web.usfm */,
+				CADE3B0224F17425003165BB /* 23-SNGeng-web.usfm */,
+				CADE3B0024F17425003165BB /* 24-ISAeng-web.usfm */,
+				CADE3AEC24F17425003165BB /* 25-JEReng-web.usfm */,
+				CADE3B0A24F17425003165BB /* 26-LAMeng-web.usfm */,
+				CADE3AEA24F17425003165BB /* 27-EZKeng-web.usfm */,
 				CADE3AE724F17425003165BB /* 28-DANeng-web.usfm */,
+				CADE3B1124F17425003165BB /* 29-HOSeng-web.usfm */,
+				CADE3AC624F17425003165BB /* 30-JOLeng-web.usfm */,
+				CADE3AE524F17425003165BB /* 31-AMOeng-web.usfm */,
+				CADE3B0824F17425003165BB /* 32-OBAeng-web.usfm */,
+				CADE3AE624F17425003165BB /* 33-JONeng-web.usfm */,
+				CADE3B1024F17425003165BB /* 34-MICeng-web.usfm */,
+				CADE3B1D24F17425003165BB /* 35-NAMeng-web.usfm */,
+				CADE3B0E24F17425003165BB /* 36-HABeng-web.usfm */,
+				CADE3B0B24F17425003165BB /* 37-ZEPeng-web.usfm */,
+				CADE3AF924F17425003165BB /* 38-HAGeng-web.usfm */,
+				CADE3AFB24F17425003165BB /* 39-ZECeng-web.usfm */,
+				CADE3AE424F17425003165BB /* 40-MALeng-web.usfm */,
+				CADE3B1524F17425003165BB /* 41-TOBeng-web.usfm */,
+				CADE3AF524F17425003165BB /* 42-JDTeng-web.usfm */,
+				CADE3B0F24F17425003165BB /* 43-ESGeng-web.usfm */,
+				CADE3AF224F17425003165BB /* 45-WISeng-web.usfm */,
+				CADE3AFC24F17425003165BB /* 46-SIReng-web.usfm */,
+				CADE3AEF24F17425003165BB /* 47-BAReng-web.usfm */,
+				CADE3AD824F17425003165BB /* 52-1MAeng-web.usfm */,
 				CADE3AE824F17425003165BB /* 53-2MAeng-web.usfm */,
 				CADE3AE924F17425003165BB /* 54-1ESeng-web.usfm */,
-				CADE3AEA24F17425003165BB /* 27-EZKeng-web.usfm */,
-				CADE3AEB24F17425003165BB /* 08-JDGeng-web.usfm */,
-				CADE3AEC24F17425003165BB /* 25-JEReng-web.usfm */,
-				CADE3AED24F17425003165BB /* 90-1PEeng-web.usfm */,
-				CADE3AEE24F17425003165BB /* 00-FRTeng-web.usfm */,
-				CADE3AEF24F17425003165BB /* 47-BAReng-web.usfm */,
-				CADE3AF024F17425003165BB /* 88-HEBeng-web.usfm */,
-				CADE3AF124F17425003165BB /* 79-EPHeng-web.usfm */,
-				CADE3AF224F17425003165BB /* 45-WISeng-web.usfm */,
-				CADE3AF324F17425003165BB /* 16-EZReng-web.usfm */,
-				CADE3AF424F17425003165BB /* 12-1KIeng-web.usfm */,
-				CADE3AF524F17425003165BB /* 42-JDTeng-web.usfm */,
-				CADE3AF624F17425003165BB /* 20-PSAeng-web.usfm */,
-				CADE3AF724F17425003165BB /* COPYING */,
-				CADE3AF824F17425003165BB /* 74-ACTeng-web.usfm */,
-				CADE3AF924F17425003165BB /* 38-HAGeng-web.usfm */,
-				CADE3AFA24F17425003165BB /* 92-1JNeng-web.usfm */,
-				CADE3AFB24F17425003165BB /* 39-ZECeng-web.usfm */,
-				CADE3AFC24F17425003165BB /* 46-SIReng-web.usfm */,
-				CADE3AFD24F17425003165BB /* 82-1THeng-web.usfm */,
-				CADE3AFE24F17425003165BB /* 11-2SAeng-web.usfm */,
-				CADE3AFF24F17425003165BB /* logic.h */,
-				CADE3B0024F17425003165BB /* 24-ISAeng-web.usfm */,
-				CADE3B0124F17425003165BB /* logic.o */,
-				CADE3B0224F17425003165BB /* 23-SNGeng-web.usfm */,
-				CADE3B0324F17425003165BB /* 15-2CHeng-web.usfm */,
-				CADE3B0424F17425003165BB /* copyright.sh */,
-				CADE3B0524F17425003165BB /* readme.txt */,
-				CADE3B0624F17425003165BB /* 09-RUTeng-web.usfm */,
-				CADE3B0724F17425003165BB /* 06-DEUeng-web.usfm */,
-				CADE3B0824F17425003165BB /* 32-OBAeng-web.usfm */,
-				CADE3B0924F17425003165BB /* 93-2JNeng-web.usfm */,
-				CADE3B0A24F17425003165BB /* 26-LAMeng-web.usfm */,
-				CADE3B0B24F17425003165BB /* 37-ZEPeng-web.usfm */,
-				CADE3B0C24F17425003165BB /* 13-2KIeng-web.usfm */,
-				CADE3B0D24F17425003165BB /* 04-LEVeng-web.usfm */,
-				CADE3B0E24F17425003165BB /* 36-HABeng-web.usfm */,
-				CADE3B0F24F17425003165BB /* 43-ESGeng-web.usfm */,
-				CADE3B1024F17425003165BB /* 34-MICeng-web.usfm */,
-				CADE3B1124F17425003165BB /* 29-HOSeng-web.usfm */,
-				CADE3B1224F17425003165BB /* .deps */,
-				CADE3B1524F17425003165BB /* 41-TOBeng-web.usfm */,
+				CADE3ACE24F17425003165BB /* 55-MANeng-web.usfm */,
 				CADE3B1624F17425003165BB /* 56-PS2eng-web.usfm */,
-				CADE3B1724F17425003165BB /* 80-PHPeng-web.usfm */,
-				CADE3B1824F17425003165BB /* 07-JOSeng-web.usfm */,
-				CADE3B1924F17425003165BB /* 02-GENeng-web.usfm */,
+				CADE3ACD24F17425003165BB /* 57-3MAeng-web.usfm */,
 				CADE3B1A24F17425003165BB /* 58-2ESeng-web.usfm */,
+				CADE3ADE24F17425003165BB /* 59-4MAeng-web.usfm */,
+				CADE3AD924F17425003165BB /* 66-DAGeng-web.usfm */,
+				CADE3ADD24F17425003165BB /* 70-MATeng-web.usfm */,
+				CADE3AE124F17425003165BB /* 71-MRKeng-web.usfm */,
+				CADE3AD324F17425003165BB /* 72-LUKeng-web.usfm */,
+				CADE3ADF24F17425003165BB /* 73-JHNeng-web.usfm */,
+				CADE3AF824F17425003165BB /* 74-ACTeng-web.usfm */,
+				CADE3AD424F17425003165BB /* 75-ROMeng-web.usfm */,
+				CADE3AE224F17425003165BB /* 76-1COeng-web.usfm */,
+				CADE3AD524F17425003165BB /* 77-2COeng-web.usfm */,
 				CADE3B1B24F17425003165BB /* 78-GALeng-web.usfm */,
-				CADE3B1C24F17425003165BB /* 89-JASeng-web.usfm */,
-				CADE3B1D24F17425003165BB /* 35-NAMeng-web.usfm */,
-				CADE3B1E24F17425003165BB /* .dirstamp */,
-				CADE3B1F24F17425003165BB /* 10-1SAeng-web.usfm */,
-				CADE3B2024F17425003165BB /* 95-JUDeng-web.usfm */,
+				CADE3AF124F17425003165BB /* 79-EPHeng-web.usfm */,
+				CADE3B1724F17425003165BB /* 80-PHPeng-web.usfm */,
+				CADE3AD624F17425003165BB /* 81-COLeng-web.usfm */,
+				CADE3AFD24F17425003165BB /* 82-1THeng-web.usfm */,
 				CADE3B2124F17425003165BB /* 83-2THeng-web.usfm */,
-				CADE3B2224F17425003165BB /* 14-1CHeng-web.usfm */,
+				CADE3ADB24F17425003165BB /* 84-1TIeng-web.usfm */,
+				CADE3ACB24F17425003165BB /* 85-2TIeng-web.usfm */,
+				CADE3AC924F17425003165BB /* 86-TITeng-web.usfm */,
+				CADE3ACC24F17425003165BB /* 87-PHMeng-web.usfm */,
+				CADE3AF024F17425003165BB /* 88-HEBeng-web.usfm */,
+				CADE3B1C24F17425003165BB /* 89-JASeng-web.usfm */,
+				CADE3AED24F17425003165BB /* 90-1PEeng-web.usfm */,
+				CADE3AD224F17425003165BB /* 91-2PEeng-web.usfm */,
+				CADE3AFA24F17425003165BB /* 92-1JNeng-web.usfm */,
+				CADE3B0924F17425003165BB /* 93-2JNeng-web.usfm */,
+				CADE3AD024F17425003165BB /* 94-3JNeng-web.usfm */,
+				CADE3B2024F17425003165BB /* 95-JUDeng-web.usfm */,
+				CADE3ACF24F17425003165BB /* 96-REVeng-web.usfm */,
+				CADE3ADC24F17425003165BB /* 106-GLOeng-web.usfm */,
+				CADE3AF724F17425003165BB /* COPYING */,
+				CADE3B0424F17425003165BB /* copyright.sh */,
+				CADE3ADA24F17425003165BB /* logic.cpp */,
+				CADE3AFF24F17425003165BB /* logic.h */,
+				CADE3B0524F17425003165BB /* readme.txt */,
 			);
 			path = demo;
-			sourceTree = "<group>";
-		};
-		CADE3B1224F17425003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3B1324F17425003165BB /* .dirstamp */,
-				CADE3B1424F17425003165BB /* logic.Po */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE3B2324F17425003165BB /* databases */ = {

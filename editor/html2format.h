@@ -19,10 +19,12 @@
 
 #pragma once
 
-#include <config/libraries.h>
-#include <database/styles.h>
+#include <string>
+#include <vector>
+#include <tuple>
+#include <map>
+using namespace std;
 #include <pugixml/pugixml.hpp>
-
 using namespace pugi;
 
 class Editor_Html2Format

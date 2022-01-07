@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void storeLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor, const char * message = "");
 string getLoadedUsfm2 (void * webserver_request, string bible, int book, int chapter, string editor);

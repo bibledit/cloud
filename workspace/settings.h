@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string workspace_settings_url ();
 bool workspace_settings_acl (void * webserver_request);

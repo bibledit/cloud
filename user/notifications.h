@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string user_notifications_url ();
 bool user_notifications_acl (void * webserver_request);

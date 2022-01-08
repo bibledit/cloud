@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string webbible_search_url ();
 bool webbible_search_acl (void * webserver_request);

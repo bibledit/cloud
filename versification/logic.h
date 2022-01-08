@@ -19,7 +19,9 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 vector <string> versification_logic_names ();
 string versification_logic_data (string name);

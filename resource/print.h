@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string resource_print_url ();
 bool resource_print_acl (void * webserver_request);

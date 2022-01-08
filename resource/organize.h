@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string resource_organize_url ();
 bool resource_organize_acl (void * webserver_request);

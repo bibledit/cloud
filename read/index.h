@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string read_index_url ();
 bool read_index_acl (void * webserver_request);

@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string public_note_url ();
 bool public_note_acl (void * webserver_request);

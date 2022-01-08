@@ -19,7 +19,9 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 vector <string> resource_external_names ();
 vector <string> resource_external_get_original_language_resources ();

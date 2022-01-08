@@ -19,6 +19,7 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void convert_bible_to_resource (string bible);

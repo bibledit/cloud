@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string paratext_index_url ();
 bool paratext_index_acl (void * webserver_request);

@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string read_verse_url ();
 bool read_verse_acl (void * webserver_request);

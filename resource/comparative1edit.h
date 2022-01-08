@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string resource_comparative1edit_url ();
 bool resource_comparative1edit_acl (void * webserver_request);

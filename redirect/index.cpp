@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <redirect/index.h>
 #include <filter/url.h>
 #include <webserver/request.h>

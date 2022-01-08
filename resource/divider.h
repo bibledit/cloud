@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string resource_divider_url ();
 bool resource_divider_acl (void * webserver_request);

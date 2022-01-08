@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string read_load_url ();
 bool read_load_acl (void * webserver_request);

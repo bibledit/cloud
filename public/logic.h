@@ -19,6 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 vector <string> public_logic_bibles (void * webserver_request);

@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string sync_resources_url ();
 string sync_resources (void * webserver_request);

@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string styles_indexm_url ();
 bool styles_indexm_acl (void * webserver_request);

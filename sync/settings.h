@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
-#include <filter/string.hpp>
+#include <string>
+using namespace std;
 
 string sync_settings_url ();
 string sync_settings (void * webserver_request);

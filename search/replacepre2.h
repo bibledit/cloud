@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string search_replacepre2_url ();
 bool search_replacepre2_acl (void * webserver_request);

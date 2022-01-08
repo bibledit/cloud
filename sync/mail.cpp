@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <sync/mail.h>
 #include <filter/string.h>
 #include <database/mail.h>

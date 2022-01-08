@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <sources/hebrewlexicon.h>
 #include <database/logs.h>
 #include <database/hebrewlexicon.h>

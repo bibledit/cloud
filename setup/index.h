@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 const char * setup_initialization_notice ();
 string setup_index (void * webserver_request);

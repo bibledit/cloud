@@ -19,7 +19,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
+#include <string>
+#include <vector>
+using namespace std;
 
 #ifdef HAVE_CLOUD
 void rss_logic_feed_on_off ();

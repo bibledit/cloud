@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string search_originals_url ();
 bool search_originals_acl (void * webserver_request);

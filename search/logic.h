@@ -19,7 +19,9 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 #include <filter/passage.h>
 
 string search_logic_index_folder ();

@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string rss_feed_url ();
 bool rss_feed_acl (void * webserver_request);

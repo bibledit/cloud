@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 void styles_sheets_create_all ();
 void styles_sheets_create_all_run ();

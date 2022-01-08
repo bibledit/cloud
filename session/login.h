@@ -19,7 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 const char * session_login_url ();
 bool session_login_acl (void * webserver_request);

@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <sources/etcbc4.h>
 #include <database/logs.h>
 #include <database/etcbc4.h>

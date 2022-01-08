@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <sources/morphgnt.h>
 #include <database/logs.h>
 #include <database/morphgnt.h>

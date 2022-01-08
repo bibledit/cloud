@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string sendreceive_changes_sendreceive_text ();
 string sendreceive_changes_up_to_date_text ();

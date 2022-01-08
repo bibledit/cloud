@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string sendreceive_index_url ();
 bool sendreceive_index_acl (void * webserver_request);

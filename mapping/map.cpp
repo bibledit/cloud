@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <mapping/map.h>
 #include <mapping/index.h>
 #include <assets/view.h>

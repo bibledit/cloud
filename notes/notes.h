@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string notes_notes_url ();
 bool notes_notes_acl (void * webserver_request);

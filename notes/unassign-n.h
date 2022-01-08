@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string notes_unassign_n_url ();
 bool notes_unassign_n_acl (void * webserver_request);

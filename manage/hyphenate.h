@@ -19,7 +19,9 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 void manage_hyphenate (string bible, string user);
 string hyphenate_at_transition (vector <string>& firstset, vector <string>& secondset, string text);

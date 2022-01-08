@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 const char * manage_exports_url ();
 bool manage_exports_acl (void * webserver_request);

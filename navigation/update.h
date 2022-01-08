@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string navigation_update_url ();
 bool navigation_update_acl (void * webserver_request);

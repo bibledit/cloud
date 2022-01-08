@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string notes_severity_1_url ();
 bool notes_severity_1_acl (void * webserver_request);

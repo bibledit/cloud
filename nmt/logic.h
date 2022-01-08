@@ -19,7 +19,9 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+#include <vector>
+using namespace std;
 
 void nmt_logic_export (string referencebible, string translatingbible);
 void nmt_logic_split (string reference_text, string translating_text,

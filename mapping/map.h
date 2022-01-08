@@ -19,7 +19,8 @@
 
 #pragma once
 
-#include <config/libraries.h>
+#include <string>
+using namespace std;
 
 string mapping_map_url ();
 bool mapping_map_acl (void * webserver_request);

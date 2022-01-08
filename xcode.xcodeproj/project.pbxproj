@@ -2051,20 +2051,12 @@
 		CADE41BC24F174B0003165BB /* css.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = css.h; sourceTree = "<group>"; };
 		CADE41BD24F174B0003165BB /* sheets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheets.h; sourceTree = "<group>"; };
 		CADE41C724F174B0003165BB /* sheets.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sheets.cpp; sourceTree = "<group>"; };
-		CADE41CA24F174B0003165BB /* tmp.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = tmp.o; sourceTree = "<group>"; };
 		CADE41CB24F174B0003165BB /* tmp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tmp.h; sourceTree = "<group>"; };
 		CADE41CC24F174B0003165BB /* holder */ = {isa = PBXFileReference; lastKnownFileType = text; path = holder; sourceTree = "<group>"; };
 		CADE41CD24F174B0003165BB /* tmp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tmp.cpp; sourceTree = "<group>"; };
-		CADE41CF24F174B0003165BB /* tmp.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = tmp.Po; sourceTree = "<group>"; };
-		CADE41D024F174B0003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
-		CADE41D124F174B0003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE41D324F174B0003165BB /* holder */ = {isa = PBXFileReference; lastKnownFileType = text; path = holder; sourceTree = "<group>"; };
 		CADE41D424F174B0003165BB /* handler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = handler.h; sourceTree = "<group>"; };
-		CADE41D524F174B0003165BB /* handler.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = handler.o; sourceTree = "<group>"; };
-		CADE41D724F174B0003165BB /* handler.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = handler.Po; sourceTree = "<group>"; };
-		CADE41D824F174B0003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE41D924F174B0003165BB /* handler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = handler.cpp; sourceTree = "<group>"; };
-		CADE41DA24F174B0003165BB /* .dirstamp */ = {isa = PBXFileReference; lastKnownFileType = text; path = .dirstamp; sourceTree = "<group>"; };
 		CADE41DC24F174B0003165BB /* changes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = changes.cpp; sourceTree = "<group>"; };
 		CADE41DE24F174B0003165BB /* setup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = setup.h; sourceTree = "<group>"; };
 		CADE41E024F174B0003165BB /* resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resources.h; sourceTree = "<group>"; };
@@ -5098,45 +5090,21 @@
 		CADE41C924F174B0003165BB /* tmp */ = {
 			isa = PBXGroup;
 			children = (
-				CADE41CA24F174B0003165BB /* tmp.o */,
-				CADE41CB24F174B0003165BB /* tmp.h */,
 				CADE41CC24F174B0003165BB /* holder */,
 				CADE41CD24F174B0003165BB /* tmp.cpp */,
-				CADE41CE24F174B0003165BB /* .deps */,
-				CADE41D124F174B0003165BB /* .dirstamp */,
+				CADE41CB24F174B0003165BB /* tmp.h */,
 			);
 			path = tmp;
-			sourceTree = "<group>";
-		};
-		CADE41CE24F174B0003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE41CF24F174B0003165BB /* tmp.Po */,
-				CADE41D024F174B0003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE41D224F174B0003165BB /* trash */ = {
 			isa = PBXGroup;
 			children = (
-				CADE41D324F174B0003165BB /* holder */,
-				CADE41D424F174B0003165BB /* handler.h */,
-				CADE41D524F174B0003165BB /* handler.o */,
-				CADE41D624F174B0003165BB /* .deps */,
 				CADE41D924F174B0003165BB /* handler.cpp */,
-				CADE41DA24F174B0003165BB /* .dirstamp */,
+				CADE41D424F174B0003165BB /* handler.h */,
+				CADE41D324F174B0003165BB /* holder */,
 			);
 			path = trash;
-			sourceTree = "<group>";
-		};
-		CADE41D624F174B0003165BB /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				CADE41D724F174B0003165BB /* handler.Po */,
-				CADE41D824F174B0003165BB /* .dirstamp */,
-			);
-			path = .deps;
 			sourceTree = "<group>";
 		};
 		CADE41DB24F174B0003165BB /* sync */ = {

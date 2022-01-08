@@ -17,6 +17,11 @@
  */
 
 
+// System configuration.
+#include <config.h>
+// Bibledit configuration.
+#include <config/config.h>
+// Specific includes.
 #include <tmp/tmp.h>
 #include <filter/roles.h>
 #include <filter/url.h>

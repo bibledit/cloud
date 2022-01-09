@@ -76,6 +76,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/logic.h>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 
 // SSL/TLS globals.

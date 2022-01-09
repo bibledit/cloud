@@ -59,6 +59,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <iostream>
 #include <fstream>
 #include <config/logic.h>
+#include <string.h>
+#include <iostream>
+#include <codecvt>
+#include <algorithm>
 
 
 #ifdef HAVE_ICU

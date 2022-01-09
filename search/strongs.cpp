@@ -38,6 +38,7 @@
 #include <menu/logic.h>
 #include <access/bible.h>
 #include <cmath>
+#include <algorithm>
 
 
 string search_strongs_url ()

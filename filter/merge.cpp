@@ -29,6 +29,7 @@ using dtl::Diff3;
 #include <pugixml/pugixml.hpp>
 #include <email/send.h>
 #include <filter/usfm.h>
+#include <mutex>
 
 
 using namespace pugi;

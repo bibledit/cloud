@@ -38,6 +38,7 @@
 #include <developer/logic.h>
 #include <sstream>
 #include <cmath>
+#include <mutex>
 
 
 using dtl::Diff;

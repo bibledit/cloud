@@ -37,6 +37,7 @@
 #include <rss/logic.h>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 
 #ifdef HAVE_CLOUD

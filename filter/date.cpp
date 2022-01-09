@@ -25,6 +25,7 @@
 #include <filter/date.h>
 #include <filter/string.h>
 #include <database/config/general.h>
+#include <chrono>
 
 
 // Gets the second within the minute from the seconds since the Unix epoch.

@@ -38,6 +38,7 @@
 #include <access/logic.h>
 #include <database/userresources.h>
 #include <database/books.h>
+#include <config/logic.h>
 
 
 string resource_user1view_url ()

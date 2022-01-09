@@ -53,6 +53,8 @@
 #include <locale/logic.h>
 #include <tasks/logic.h>
 #include <database/logic.h>
+#include <config/logic.h>
+#include <iostream>
 
 
 void setup_conditionally (const char * package)

@@ -27,6 +27,7 @@
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <pugixml/pugixml.hpp>
+#include <iostream>
 
 
 using namespace pugi;

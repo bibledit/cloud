@@ -33,6 +33,8 @@
 #include <dialog/yes.h>
 #include <assets/header.h>
 #include <menu/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string mapping_index_url ()

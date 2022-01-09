@@ -36,6 +36,8 @@
 #include <locale/translate.h>
 #include <assets/external.h>
 #include <database/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 // Returns whether Client mode is enabled.

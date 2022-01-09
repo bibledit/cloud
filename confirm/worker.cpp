@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/send.h>
 #include <session/confirm.h>
 #include <pugixml/pugixml.hpp>
+#include <config/logic.h>
+#include <sstream>
 using namespace pugi;
 
 

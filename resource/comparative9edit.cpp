@@ -38,6 +38,7 @@
 #include <pugixml/pugixml.hpp>
 #include <resource/comparative1edit.h>
 #include <client/logic.h>
+#include <sstream>
 
 
 using namespace pugi;

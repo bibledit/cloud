@@ -39,6 +39,7 @@
 #include <menu/logic.h>
 #include <bb/manage.h>
 #include <pugixml/pugixml.hpp>
+#include <sstream>
 
 
 using namespace pugi;

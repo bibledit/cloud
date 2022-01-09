@@ -41,6 +41,8 @@
 #include <database/logs.h>
 #include <styles/logic.h>
 #include <access/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string notes_actions_url ()

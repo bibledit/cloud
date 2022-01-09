@@ -36,6 +36,9 @@
 #include <client/logic.h>
 #include <changes/changes.h>
 #include <email/send.h>
+#include <config/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 void statistics_statistics ()

@@ -35,6 +35,8 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string workspace_organize_url ()

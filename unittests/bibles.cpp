@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/string.h>
 #include <bb/logic.h>
+#include <thread>
 
 
 void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)

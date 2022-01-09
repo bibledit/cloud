@@ -43,6 +43,7 @@
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <notes/logic.h>
+#include <thread>
 
 
 string sync_notes_url ()
@@ -324,7 +325,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client unmarked a note on server for deletion: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_delete:
     {
@@ -335,7 +336,7 @@ string sync_notes (void * webserver_request)
       // Delete note on server.
       notes_logic.erase (identifier);
       // Done.
-      return "";
+      return string();
     }
     // This method of bulk download was implemented as of September 2016.
     // After a year or so, the logic for the replaced download methods can probably be removed from the Cloud.

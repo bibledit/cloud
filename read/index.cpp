@@ -45,6 +45,7 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
+#include <config/logic.h>
 
 
 string read_index_url ()

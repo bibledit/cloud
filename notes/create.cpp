@@ -41,6 +41,7 @@
 #include <database/modifications.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <config/logic.h>
 
 
 string notes_create_url ()

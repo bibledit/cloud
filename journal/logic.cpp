@@ -36,6 +36,7 @@
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <database/logs.h>
+#include <sstream>
 
 
 using namespace pugi;

@@ -32,6 +32,7 @@
 #include <webserver/request.h>
 #include <sync/logic.h>
 #include <checksum/logic.h>
+#include <thread>
 
 
 string sync_files_url ()

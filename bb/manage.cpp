@@ -44,6 +44,8 @@
 #include <demo/logic.h>
 #include <search/logic.h>
 #include <pugixml/pugixml.hpp>
+#include <config/logic.h>
+#include <sstream>
 
 
 using namespace pugi;

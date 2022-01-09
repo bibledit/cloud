@@ -32,6 +32,7 @@
 #include <database/notes.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <config/logic.h>
 
 
 string notes_index_url ()

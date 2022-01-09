@@ -40,6 +40,7 @@
 #include <sendreceive/logic.h>
 #include <assets/external.h>
 #include <bb/logic.h>
+#include <config/logic.h>
 
 
 string client_index_url ()

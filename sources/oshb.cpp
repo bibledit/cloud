@@ -28,6 +28,9 @@
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <pugixml/pugixml.hpp>
+#include <iostream>
+#include <unistd.h>
+#include <map>
 
 
 using namespace pugi;

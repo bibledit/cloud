@@ -48,6 +48,7 @@
 #include <email/send.h>
 #include <search/logic.h>
 #include <user/logic.h>
+#include <sstream>
 
 
 string system_logic_bibles_file_name ()

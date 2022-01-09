@@ -37,6 +37,7 @@
 #include <filter/url.h>
 #include <menu/logic.h>
 #include <workspace/organize.h>
+#include <cmath>
 
 
 string workspace_settings_url ()

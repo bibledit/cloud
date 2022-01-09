@@ -32,6 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <assets/view.h>
 #include <pugixml/pugixml.hpp>
+#include <cmath>
+#include <sstream>
 
 
 using namespace pugi;

@@ -51,6 +51,9 @@
 #include <email/send.h>
 #include <sendreceive/logic.h>
 #include <rss/logic.h>
+#include <config/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 void checks_run (string bible)

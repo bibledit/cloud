@@ -102,6 +102,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/css.h>
 #include <resource/comparative9edit.h>
 #include <images/index.h>
+#include <config/logic.h>
 
 
 string menu_logic_href (string href)

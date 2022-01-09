@@ -36,6 +36,8 @@
 #include <text/text.h>
 #include <locale/translate.h>
 #include <developer/logic.h>
+#include <sstream>
+#include <cmath>
 
 
 using dtl::Diff;

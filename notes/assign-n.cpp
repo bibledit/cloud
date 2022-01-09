@@ -38,6 +38,8 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/actions.h>
+#include <sstream>
+#include <iomanip>
 
 
 string notes_assign_n_url ()

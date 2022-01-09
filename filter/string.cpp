@@ -54,6 +54,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/tree.h>
 #include <libxml/HTMLparser.h>
 #endif
+#include <sstream>
+#include <codecvt>
+#include <iostream>
+#include <fstream>
+#include <config/logic.h>
 
 
 #ifdef HAVE_ICU

@@ -42,6 +42,9 @@
 #include <changes/logic.h>
 #include <menu/logic.h>
 #include <pugixml/pugixml.hpp>
+#include <sstream>
+#include <iomanip>
+#include <config/logic.h>
 
 
 using namespace pugi;

@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstdlib>
 #include <webserver/request.h>
 #include <config/globals.h>
+#include <config/logic.h>
 
 
 const char * config_logic_config_folder ()

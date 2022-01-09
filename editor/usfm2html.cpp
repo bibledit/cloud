@@ -30,6 +30,7 @@
 #include <styles/logic.h>
 #include <database/logs.h>
 #include <quill/logic.h>
+#include <sstream>
 
 
 void Editor_Usfm2Html::load (string usfm)

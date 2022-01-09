@@ -34,6 +34,8 @@
 #include <locale/translate.h>
 #include <ipc/focus.h>
 #include <pugixml/pugixml.hpp>
+#include <config/logic.h>
+#include <sstream>
 
 
 using namespace pugi;

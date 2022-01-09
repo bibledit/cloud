@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/logic.h>
 #include <setup/logic.h>
 #include <journal/logic.h>
+#include <config/logic.h>
 
 
 // CPU-intensive actions run at night.

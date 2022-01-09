@@ -39,6 +39,9 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
+#include <sstream>
+#include <iostream>
+#include <iomanip>
 
 
 string checks_index_url ()

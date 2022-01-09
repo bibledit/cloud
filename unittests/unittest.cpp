@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
-#include <config/libraries.h>
 #include <library/bibledit.h>
 #include <library/locks.h>
 #include <database/config/user.h>
@@ -117,6 +116,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/bibleimages.h>
 #include <unittests/image.h>
 #include <unittests/easyenglishbible.h>
+#include <iostream>
 
 
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)

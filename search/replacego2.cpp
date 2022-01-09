@@ -37,6 +37,7 @@
 #include <bb/logic.h>
 #include <search/logic.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string search_replacego2_url ()

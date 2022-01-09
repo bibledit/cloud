@@ -35,6 +35,7 @@
 #include <locale/translate.h>
 #include <webserver/request.h>
 #include <sync/logic.h>
+#include <thread>
 
 
 string sync_settings_url ()

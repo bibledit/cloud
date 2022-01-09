@@ -39,6 +39,7 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
+#include <cmath>
 
 
 string search_originals_url ()

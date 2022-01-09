@@ -41,6 +41,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/privileges.h>
 #include <webserver/request.h>
 #include <developer/logic.h>
+#include <iostream>
+#include <config/logic.h>
 
 
 const char * developer_index_url ()

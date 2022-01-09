@@ -30,6 +30,8 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <filter/usfm.h>
+#include <mutex>
+#include <iostream>
 
 
 mutex log_network_mutex;

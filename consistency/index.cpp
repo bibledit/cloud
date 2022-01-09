@@ -40,6 +40,8 @@
 #include <dialog/list.h>
 #include <resource/logic.h>
 #include <menu/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string consistency_index_url ()

@@ -37,6 +37,8 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/actions.h>
+#include <sstream>
+#include <iomanip>
 
 
 string notes_status_n_url ()

@@ -46,6 +46,7 @@
 #include <config/globals.h>
 #include <workspace/logic.h>
 #include <demo/logic.h>
+#include <config/logic.h>
 
 
 string editone2_index_url ()

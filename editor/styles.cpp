@@ -30,6 +30,7 @@
 #include <styles/logic.h>
 #include <database/config/bible.h>
 #include <pugixml/pugixml.hpp>
+#include <sstream>
 
 
 using namespace pugi;

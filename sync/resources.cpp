@@ -31,6 +31,7 @@
 #include <database/cache.h>
 #include <database/config/general.h>
 #include <tasks/logic.h>
+#include <thread>
 
 
 string sync_resources_url ()

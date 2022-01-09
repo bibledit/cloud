@@ -30,6 +30,8 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <database/notes.h>
+#include <sstream>
+#include <iomanip>
 
 
 string public_notes_url ()

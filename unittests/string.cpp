@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <thread>
 
 
 void test_string ()

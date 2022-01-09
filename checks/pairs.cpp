@@ -28,6 +28,8 @@
 #include <database/check.h>
 #include <locale/translate.h>
 #include <checks/french.h>
+#include <sstream>
+#include <iomanip>
 
 
 void Checks_Pairs::run (const string & bible, int book, int chapter,

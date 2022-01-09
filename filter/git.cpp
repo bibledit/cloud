@@ -35,6 +35,8 @@
 #include <bb/logic.h>
 #include <locale/translate.h>
 #include <rss/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 #ifdef HAVE_CLOUD

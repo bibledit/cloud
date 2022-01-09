@@ -38,6 +38,8 @@
 #include <notes/index.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string notes_select_url ()

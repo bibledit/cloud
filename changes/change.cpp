@@ -41,6 +41,7 @@
 #include <ipc/notes.h>
 #include <locale/logic.h>
 #include <pugixml/pugixml.hpp>
+#include <sstream>
 
 
 using namespace pugi;

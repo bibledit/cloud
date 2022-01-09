@@ -42,6 +42,8 @@
 #include <menu/logic.h>
 #include <styles/indexm.h>
 #include <database/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string styles_sheetm_url ()

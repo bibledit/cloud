@@ -28,6 +28,7 @@
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <access/bible.h>
+#include <config/logic.h>
 
 
 string read_verse_url ()

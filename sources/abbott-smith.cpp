@@ -34,6 +34,8 @@
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
 #endif
+#include <iostream>
+#include <sstream>
 
 
 using namespace pugi;

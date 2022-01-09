@@ -35,9 +35,8 @@
 #include <database/jobs.h>
 #include <filter/string.h>
 #include <webserver/request.h>
-
-
 using namespace pugi;
+#include <sstream>
 
 
 void changes_logic_start ()

@@ -47,6 +47,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/logic.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
+#include <config/logic.h>
+#include <iostream>
 
 
 bool bibledit_started = false;

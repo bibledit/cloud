@@ -41,6 +41,7 @@
 #include <sprint/burndown.h>
 #include <menu/logic.h>
 #include <email/send.h>
+#include <cmath>
 
 
 string sprint_index_url ()

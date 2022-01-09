@@ -51,6 +51,8 @@
 #include <lexicon/logic.h>
 #include <search/logic.h>
 #include <book/create.h>
+#include <config/logic.h>
+#include <iostream>
 
 
 /*

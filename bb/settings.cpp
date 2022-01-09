@@ -51,6 +51,7 @@
 #include <system/index.h>
 #include <rss/logic.h>
 #include <pugixml/pugixml.hpp>
+#include <sstream>
 
 
 using namespace pugi;

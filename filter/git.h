@@ -22,7 +22,6 @@
 #include <string>
 #include <vector>
 using namespace std;
-#include <config/libraries.h>
 #include <filter/passage.h>
 
 #ifdef HAVE_CLOUD

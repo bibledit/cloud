@@ -42,6 +42,8 @@
 #include <styles/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
+#include <sstream>
+#include <iomanip>
 
 
 string styles_indexm_url ()

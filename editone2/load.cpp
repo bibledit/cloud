@@ -34,6 +34,7 @@
 #include <editone2/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
+#include <config/logic.h>
 
 
 using namespace pugi;

@@ -41,6 +41,10 @@
 #include <locale/translate.h>
 #include <bb/logic.h>
 #include <client/logic.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <iostream>
+#include <fstream>
 
 
 string Paratext_Logic::searchProjectsFolder ()

@@ -32,6 +32,8 @@
 #include <database/oshb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
+#include <sstream>
+#include <iomanip>
 
 
 string lexicon_definition_url ()

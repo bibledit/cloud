@@ -45,6 +45,7 @@
 #include <bb/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
+#include <thread>
 
 
 string sync_bibles_url ()

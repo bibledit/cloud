@@ -29,6 +29,8 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/books.h>
+#include <sstream>
+#include <iomanip>
 
 
 // Constructs a Bible books selection dialog

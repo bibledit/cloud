@@ -34,6 +34,8 @@
 #include <database/abbottsmith.h>
 #include <pugixml/pugixml.hpp>
 #include <webserver/request.h>
+#include <sstream>
+#include <iomanip>
 
 
 using namespace pugi;

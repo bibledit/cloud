@@ -39,6 +39,7 @@
 #include <numeric>
 #include <sstream>
 #include <iomanip>
+#include <cmath>
 
 
 string notes_notes_url ()

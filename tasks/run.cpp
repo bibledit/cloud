@@ -79,6 +79,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <nmt/logic.h>
 #include <images/logic.h>
 #include <thread>
+#include <atomic>
 
 
 atomic <int> running_tasks (0);

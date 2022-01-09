@@ -55,6 +55,7 @@
 #include <database/logic.h>
 #include <config/logic.h>
 #include <iostream>
+#include <string.h>
 
 
 void setup_conditionally (const char * package)

@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <confirm/worker.h>
 #include <notes/logic.h>
 #include <filter/url.h>
+#include <string.h>
 
 
 void email_receive ()

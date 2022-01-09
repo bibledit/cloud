@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <filter/roles.h>
+#include <algorithm>
 
 
 // This function returns users assigned to the logged-in user.

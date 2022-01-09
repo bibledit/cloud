@@ -60,6 +60,7 @@
 /config
 /config/config.txt
 /config/ldap.txt
+/config/libraries.h.txt
 /config/local.cert.pem
 /config/local.chain.pem
 /config/local.privkey.pem

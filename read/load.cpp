@@ -31,9 +31,10 @@
 #include <editor/usfm2html.h>
 #include <config/globals.h>
 #include <access/bible.h>
-#include <read/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
+#include <config/logic.h>
+#include <editone2/logic.h>
 
 
 using namespace pugi;

@@ -909,7 +909,6 @@
 		CADE37FA24F173EB003165BB /* config.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.txt; sourceTree = "<group>"; };
 		CADE37FB24F173EB003165BB /* local.chain.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.chain.pem; sourceTree = "<group>"; };
 		CADE37FC24F173EB003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
-		CADE37FD24F173EB003165BB /* libraries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libraries.h; sourceTree = "<group>"; };
 		CADE37FE24F173EB003165BB /* local.privkey.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.privkey.pem; sourceTree = "<group>"; };
 		CADE37FF24F173EB003165BB /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
 		CADE380124F173EB003165BB /* globals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = globals.cpp; sourceTree = "<group>"; };
@@ -3194,7 +3193,6 @@
 				CADE380124F173EB003165BB /* globals.cpp */,
 				CADE37FF24F173EB003165BB /* globals.h */,
 				CADE380524F173EB003165BB /* ldap.txt */,
-				CADE37FD24F173EB003165BB /* libraries.h */,
 				CADE380624F173EB003165BB /* local.cert.pem */,
 				CADE37FB24F173EB003165BB /* local.chain.pem */,
 				CADE37FE24F173EB003165BB /* local.privkey.pem */,

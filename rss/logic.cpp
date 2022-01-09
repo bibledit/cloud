@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tasks/logic.h>
 #include <rss/feed.h>
 #include <sstream>
+#include <string.h>
 
 
 using namespace pugi;

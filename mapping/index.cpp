@@ -35,6 +35,7 @@
 #include <menu/logic.h>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 
 string mapping_index_url ()

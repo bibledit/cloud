@@ -30,6 +30,7 @@
 #include "resource/logic.h"
 #include <jsonxx/jsonxx.h>
 #include <pugixml/pugixml.hpp>
+#include <string.h>
 
 
 using namespace jsonxx;

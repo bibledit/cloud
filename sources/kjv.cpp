@@ -29,6 +29,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <pugixml/pugixml.hpp>
+#include <string.h>
 
 
 using namespace pugi;

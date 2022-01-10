@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <unittests/sqlite.h>
 #include <unittests/session.h>
-#include <unittests/folders.h>
+#include <unittests/source.h>
 #include <unittests/flate.h>
 #include <unittests/checksum.h>
 #include <unittests/bibles.h>
@@ -143,7 +143,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_string ();
+  test_source ();
   refresh_sandbox (false);
   exit (0);
   
@@ -158,7 +158,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_database_logs ();
   test_database_users ();
   test_session ();
-  test_folders ();
+  test_source ();
   test_flate ();
   test_database_bibles ();
   test_database_books ();

@@ -60,7 +60,6 @@
 /config
 /config/config.txt
 /config/ldap.txt
-/config/libraries.h.txt
 /config/local.cert.pem
 /config/local.chain.pem
 /config/local.privkey.pem
@@ -265,6 +264,7 @@
 /fonts/Montserrat-SemiBold.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
+/generate
 /git
 /git/gitflag
 /help
@@ -305,7 +305,6 @@
 /html
 /i18n
 /i18n/i18n.sh
-/.idea
 /images
 /images/gitflag
 /images/index.html
@@ -627,6 +626,7 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
+/server
 /session
 /session/login.html
 /session/login.js
@@ -866,6 +866,7 @@
 /tmp/holder
 /trash
 /trash/holder
+/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py

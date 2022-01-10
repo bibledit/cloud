@@ -495,7 +495,7 @@ unittest_SOURCES = \
 	unittests/utilities.cpp \
 	unittests/sqlite.cpp \
 	unittests/session.cpp \
-	unittests/folders.cpp \
+	unittests/source.cpp \
 	unittests/flate.cpp \
 	unittests/checksum.cpp \
 	unittests/bibles.cpp \

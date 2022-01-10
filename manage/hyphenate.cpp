@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <manage/hyphenate.h>
 #include <filter/string.h>
 #include <access/bible.h>

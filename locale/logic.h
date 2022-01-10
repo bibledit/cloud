@@ -19,9 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-#include <map>
-using namespace std;
+#include <config/libraries.h>
 
 string locale_logic_month (int month);
 string locale_logic_date (int seconds);

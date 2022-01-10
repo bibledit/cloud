@@ -19,5 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
+#include <config/libraries.h>
+
 void trash_change_notification (void * webserver_request, int id);
 void trash_consultation_note (void * webserver_request, int id);

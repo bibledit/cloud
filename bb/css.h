@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string bible_css_url ();
 bool bible_css_acl (void * webserver_request);

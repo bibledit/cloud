@@ -19,10 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <map>
-using namespace std;
+#include <config/libraries.h>
 
 vector <string> workspace_get_default_names ();
 map <int, string> workspace_get_default_urls (int id);

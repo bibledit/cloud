@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void setup_conditionally (const char * package);
 void setup_copy_library (const char * package);

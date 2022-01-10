@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <system/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -48,7 +43,6 @@
 #include <email/send.h>
 #include <search/logic.h>
 #include <user/logic.h>
-#include <sstream>
 
 
 string system_logic_bibles_file_name ()

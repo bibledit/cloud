@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sources/abbott-smith.h>
 #include <database/abbottsmith.h>
 #include <filter/string.h>
@@ -34,8 +29,6 @@
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
 #endif
-#include <iostream>
-#include <sstream>
 
 
 using namespace pugi;

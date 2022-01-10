@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void checks_logic_start_all ();
 void checks_logic_start (string bible);

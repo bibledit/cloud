@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string editone_index_url ();
 bool editone_index_acl ();

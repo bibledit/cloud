@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string public_new_url ();
 bool public_new_acl (void * webserver_request);

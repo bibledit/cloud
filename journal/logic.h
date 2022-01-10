@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 bool journal_logic_filter_entry (const string& entry);
 string journal_logic_filtered_message ();

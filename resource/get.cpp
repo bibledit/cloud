@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <resource/get.h>
 #include <filter/roles.h>
 #include <filter/string.h>

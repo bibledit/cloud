@@ -17,14 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
+#include <cstdlib>
+#include <iostream>
 #include <assets/page.h>
 #include <assets/header.h>
-#include <assets/view.h>
+#include <filter/url.h>
+#include <config/globals.h>
 
 
 string Assets_Page::header (string title, void * webserver_request)

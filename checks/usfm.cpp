@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <checks/usfm.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -32,7 +27,6 @@
 #include <database/bibleimages.h>
 #include <styles/logic.h>
 #include <locale/translate.h>
-#include <database/styles.h>
 
 
 Checks_Usfm::Checks_Usfm (string bible)

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string public_chapter_url ();
 bool public_chapter_acl (void * webserver_request);

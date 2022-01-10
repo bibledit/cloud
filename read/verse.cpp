@@ -17,18 +17,12 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <read/verse.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <access/bible.h>
-#include <config/logic.h>
 
 
 string read_verse_url ()

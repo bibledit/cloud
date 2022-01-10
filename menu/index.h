@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string menu_index_url ();
 bool menu_index_acl (void * webserver_request);

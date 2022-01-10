@@ -17,18 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <locale/logic.h>
 #include <locale/translate.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/date.h>
 #include <config/globals.h>
-#include <algorithm>
 
 
 // Takes a month from 1 to 12, and returns its localized name.

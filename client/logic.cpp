@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <client/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -36,8 +31,6 @@
 #include <locale/translate.h>
 #include <assets/external.h>
 #include <database/logic.h>
-#include <sstream>
-#include <iomanip>
 
 
 // Returns whether Client mode is enabled.

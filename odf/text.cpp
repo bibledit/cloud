@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <odf/text.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -32,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/bibleimages.h>
 #include <styles/logic.h>
-#include <sstream>
 
 
 // Class for creating OpenDocument text documents.

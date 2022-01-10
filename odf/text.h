@@ -19,12 +19,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-#include <vector>
-using namespace std;
+#include <config/libraries.h>
 #include <database/styles.h>
 #include <styles/logic.h>
 #include <pugixml/pugixml.hpp>
+
 using namespace pugi;
 
 class Odf_Text

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string styles_view_url ();
 bool styles_view_acl (void * webserver_request);

@@ -17,18 +17,12 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <ldap/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/shell.h>
 #include <filter/roles.h>
 #include <database/logs.h>
-#include <config/logic.h>
 
 
 /*

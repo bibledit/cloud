@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string bible_order_url ();
 bool bible_order_acl (void * webserver_request);

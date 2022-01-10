@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string public_create_url ();
 bool public_create_acl (void * webserver_request);

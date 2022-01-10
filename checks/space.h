@@ -19,9 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <map>
-using namespace std;
+#include <config/libraries.h>
 
 class Checks_Space
 {

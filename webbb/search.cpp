@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <webbb/search.h>
 #include <assets/view.h>
 #include <filter/roles.h>
@@ -30,8 +25,6 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <search/logic.h>
-#include <sstream>
-#include <iomanip>
 
 
 string webbible_search_url ()

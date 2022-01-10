@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string editusfm_offset_url ();
 bool editusfm_offset_acl (void * webserver_request);

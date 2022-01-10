@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <filter/merge.h>
 #include <dtl/dtl.hpp>
 using dtl::Diff3;
@@ -29,7 +24,6 @@ using dtl::Diff3;
 #include <pugixml/pugixml.hpp>
 #include <email/send.h>
 #include <filter/usfm.h>
-#include <mutex>
 
 
 using namespace pugi;

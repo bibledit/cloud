@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string sync_mail_url ();
 string sync_mail (void * webserver_request);

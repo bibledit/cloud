@@ -19,9 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-using namespace std;
+#include <config/libraries.h>
 
 string filter_diff_diff (string oldstring, string newstring,
                          vector <string> * removals = nullptr,

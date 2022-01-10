@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void export_info (string bible, bool log);

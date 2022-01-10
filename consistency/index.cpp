@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <consistency/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -40,8 +35,6 @@
 #include <dialog/list.h>
 #include <resource/logic.h>
 #include <menu/logic.h>
-#include <sstream>
-#include <iomanip>
 
 
 string consistency_index_url ()

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string workspace_organize_url ();
 bool workspace_organize_acl (void * webserver_request);

@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 const char * nmt_index_url ();
 bool nmt_index_acl (void * webserver_request);

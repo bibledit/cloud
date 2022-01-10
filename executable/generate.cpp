@@ -17,12 +17,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <library/bibledit.h>
+#include <config/libraries.h>
 #include <config/globals.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -32,9 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/oshb.h>
 #include <sources/styles.h>
 #include <sources/abbott-smith.h>
-using namespace std;
-#include <iostream>
-#include <config/logic.h>
 
 
 int main (int argc, char **argv)

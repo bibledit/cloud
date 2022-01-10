@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void email_send ();
 string email_send (string to_mail, string to_name, string subject, string body, bool verbose = false);

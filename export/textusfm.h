@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void export_text_usfm_book (string bible, int book, bool log);

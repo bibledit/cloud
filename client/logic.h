@@ -19,9 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-using namespace std;
+#include <config/libraries.h>
 
 bool client_logic_client_enabled ();
 void client_logic_enable_client (bool enable);

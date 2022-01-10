@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string resource_index_url ();
 bool resource_index_acl (void * webserver_request);

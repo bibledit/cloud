@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string resource_user1view_url ();
 bool resource_user1view_acl (void * webserver_request);

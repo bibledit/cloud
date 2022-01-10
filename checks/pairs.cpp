@@ -17,19 +17,12 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <checks/pairs.h>
 #include <filter/string.h>
 #include <database/bibles.h>
 #include <database/check.h>
 #include <locale/translate.h>
 #include <checks/french.h>
-#include <sstream>
-#include <iomanip>
 
 
 void Checks_Pairs::run (const string & bible, int book, int chapter,

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string versification_index_url ();
 bool versification_index_acl (void * webserver_request);

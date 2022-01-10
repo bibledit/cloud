@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <workspace/settings.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -37,7 +32,6 @@
 #include <filter/url.h>
 #include <menu/logic.h>
 #include <workspace/organize.h>
-#include <cmath>
 
 
 string workspace_settings_url ()

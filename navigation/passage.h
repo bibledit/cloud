@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 #include <filter/passage.h>
 
 class Navigation_Passage

@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <editor/html2format.h>
 #include <filter/string.h>
 #include <filter/url.h>

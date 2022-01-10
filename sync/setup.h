@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string sync_setup_url ();
 string sync_setup (void * webserver_request);

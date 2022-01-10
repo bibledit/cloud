@@ -19,10 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-#include <vector>
-using namespace std;
-class Merge_Conflict;
+#include <config/libraries.h>
+#include <classes/merge.h>
 
 void bible_logic_store_chapter (const string& bible, int book, int chapter, const string& usfm);
 void bible_logic_delete_chapter (const string& bible, int book, int chapter);

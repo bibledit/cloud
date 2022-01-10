@@ -19,5 +19,7 @@
 
 #pragma once
 
+#include <config/libraries.h>
+
 void sendreceive_resources ();
 void sendreceive_resources_clear_all ();

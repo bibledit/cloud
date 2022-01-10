@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 bool http_parse_header (string header, void * webserver_request);
 void http_parse_post (string content, void * webserver_request);

@@ -19,10 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <map>
-using namespace std;
+#include <config/libraries.h>
 
 string sword_logic_get_path ();
 void sword_logic_refresh_module_list ();

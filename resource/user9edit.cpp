@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <resource/user9edit.h>
 #include <assets/view.h>
 #include <assets/page.h>

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string changes_statistics_url ();
 bool changes_statistics_acl (void * webserver_request);

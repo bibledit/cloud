@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string navigation_poll_url ();
 bool navigation_poll_acl (void * webserver_request);

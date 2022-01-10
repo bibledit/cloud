@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string bible_manage_url ();
 bool bible_manage_acl (void * webserver_request);

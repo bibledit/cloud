@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2003-2022 Teus Benschop.
+Copyright (©) 2003-2021 Teus Benschop.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,4 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-void test_source ();
+#ifndef INCLUDED_EDITONE2_LOGIC_H
+#define INCLUDED_EDITONE2_LOGIC_H
+
+
+#include <config/libraries.h>
+
+
+void editone_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style);
+void editone_logic_editable_html (string usfm, string stylesheet, string & html);
+void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html);
+string editone_logic_html_to_usfm (string stylesheet, string html);
+void editone_logic_move_notes_v2 (string & prefix, string & suffix);
+
+
+#endif

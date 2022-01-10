@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string editusfm_load_url ();
 bool editusfm_load_acl (void * webserver_request);

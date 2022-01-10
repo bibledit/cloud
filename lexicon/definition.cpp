@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <lexicon/definition.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -32,8 +27,6 @@
 #include <database/oshb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
-#include <sstream>
-#include <iomanip>
 
 
 string lexicon_definition_url ()

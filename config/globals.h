@@ -17,13 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#pragma once
-
-#include <string>
-#include <random>
-#include <map>
-#include <thread>
-using namespace std;
+#include <config/libraries.h>
 
 
 extern string config_globals_document_root;

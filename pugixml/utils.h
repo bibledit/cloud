@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void pugixml_utils_error_logger (void * pugi_xml_parse_result, const string & xml);

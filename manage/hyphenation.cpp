@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <manage/hyphenation.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -36,7 +31,6 @@
 #include <database/config/bible.h>
 #include <menu/logic.h>
 #include <journal/index.h>
-#include <webserver/request.h>
 
 
 const char * manage_hyphenation_url ()

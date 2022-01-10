@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
    
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <bootstrap/bootstrap.h>
 #include <webserver/request.h>
 #include <webserver/http.h>
@@ -218,7 +213,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <images/index.h>
 #include <images/view.h>
 #include <images/fetch.h>
-#include <config/logic.h>
 
 
 // Internal function to check whether a request coming from the browser is considered secure enough.

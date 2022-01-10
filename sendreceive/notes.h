@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string sendreceive_notes_sendreceive_text ();
 string sendreceive_notes_up_to_date_text ();

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string sync_usfmresources_url ();
 string sync_usfmresources (void * webserver_request);

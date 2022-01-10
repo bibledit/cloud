@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <checks/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -39,9 +34,6 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
-#include <sstream>
-#include <iostream>
-#include <iomanip>
 
 
 string checks_index_url ()

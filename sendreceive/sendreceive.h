@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
+#include <filter/string.hpp>
 
 void sendreceive_sendreceive (string bible);
 string sendreceive_sendreceive_sendreceive_text ();

@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <filter/shell.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -33,35 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tlhelp32.h>
 #endif
 #include <developer/logic.h>
-#include <cstdlib>
-#ifndef HAVE_WINDOWS
-#include <unistd.h>
-#include <utime.h>
-#include <dirent.h>
-#endif
-#include <stdio.h>
-#include <signal.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#ifndef HAVE_WINDOWS
-#include <sys/time.h>
-#endif
-#ifdef HAVE_WINDOWS
-#include <ws2tcpip.h>
-#else
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netdb.h>
-#include <sys/param.h>
-#endif
-#include <sys/types.h>
-#include <thread>
 
 
 string filter_shell_escape_argument (string argument)

@@ -19,4 +19,6 @@
 
 #pragma once
 
+#include <config/libraries.h>
+
 void tmp_tmp ();

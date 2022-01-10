@@ -22,11 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING 1
 // #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING 1
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <filter/string.h>
 #include <utf8/utf8.h>
 #include <filter/url.h>
@@ -54,15 +49,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/tree.h>
 #include <libxml/HTMLparser.h>
 #endif
-#include <sstream>
-#include <codecvt>
-#include <iostream>
-#include <fstream>
-#include <config/logic.h>
-#include <string.h>
-#include <algorithm>
-#include <locale>
-#include <iomanip>
 
 
 #ifdef HAVE_ICU

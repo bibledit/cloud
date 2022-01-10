@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string sync_bibles_url ();
 string sync_bibles (void * webserver_request);

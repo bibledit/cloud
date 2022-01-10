@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <database/config/user.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -36,8 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logic.h>
 #include <database/config/general.h>
 #include <locale/logic.h>
-#include <config/logic.h>
-#include <algorithm>
 
 
 Database_Config_User::Database_Config_User (void * webserver_request_in)

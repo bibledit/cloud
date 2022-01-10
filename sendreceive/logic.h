@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
+#include <filter/string.hpp>
 
 void sendreceive_queue_bible (string bible);
 

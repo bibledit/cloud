@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string checks_settingssentences_url ();
 bool checks_settingssentences_acl (void * webserver_request);

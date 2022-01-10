@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sync/bibles.h>
 #include <filter/url.h>
 #include <filter/roles.h>
@@ -45,7 +40,6 @@
 #include <bb/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-#include <thread>
 
 
 string sync_bibles_url ()

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string search_strongs_url ();
 bool search_strongs_acl (void * webserver_request);

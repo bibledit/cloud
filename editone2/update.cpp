@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <editone2/update.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -45,7 +40,6 @@
 #include <edit/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-#include <config/logic.h>
 
 
 string editone2_update_url ()

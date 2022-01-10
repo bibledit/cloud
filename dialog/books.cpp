@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <dialog/books.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -29,8 +24,6 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/books.h>
-#include <sstream>
-#include <iomanip>
 
 
 // Constructs a Bible books selection dialog

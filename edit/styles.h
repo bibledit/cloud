@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string edit_styles_url ();
 bool edit_styles_acl (void * webserver_request);

@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <filter/usfm.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -36,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <developer/logic.h>
 #include <pugixml/pugixml.hpp>
-#include <algorithm>
 
 
 using namespace pugi;

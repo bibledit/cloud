@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string search_replacepre2_url ();
 bool search_replacepre2_acl (void * webserver_request);

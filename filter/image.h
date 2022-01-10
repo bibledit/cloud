@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void filter_image_get_sizes (string image_path, int & width, int & height);

@@ -27,26 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <database/login.h>
 #include <demo/logic.h>
-#include <cstdlib>
-#include <unistd.h>
-#include <utime.h>
-#include <dirent.h>
-#include <stdio.h>
-#include <signal.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netdb.h>
-#include <sys/param.h>
-#include <sys/types.h>
 
 
 void test_database_config_general ()

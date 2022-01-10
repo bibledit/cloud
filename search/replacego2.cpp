@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <search/replacego2.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -37,7 +32,6 @@
 #include <bb/logic.h>
 #include <search/logic.h>
 #include <access/bible.h>
-#include <config/logic.h>
 
 
 string search_replacego2_url ()

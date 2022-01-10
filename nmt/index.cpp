@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <nmt/index.h>
 #include <assets/view.h>
 #include <assets/header.h>
@@ -34,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/list.h>
 #include <journal/index.h>
 #include <tasks/logic.h>
-#include <webserver/request.h>
 
 
 const char * nmt_index_url ()

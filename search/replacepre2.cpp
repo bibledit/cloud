@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <search/replacepre2.h>
 #include <filter/roles.h>
 #include <filter/string.h>
@@ -32,7 +27,6 @@
 #include <database/config/general.h>
 #include <search/logic.h>
 #include <access/bible.h>
-#include <config/logic.h>
 
 
 string search_replacepre2_url ()

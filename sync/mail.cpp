@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sync/mail.h>
 #include <filter/string.h>
 #include <database/mail.h>
@@ -30,9 +25,9 @@
 #include <webserver/request.h>
 #include <email/send.h>
 #include <pugixml/pugixml.hpp>
-#include <sstream>
+
+
 using namespace pugi;
-#include <thread>
 
 
 string sync_mail_url ()

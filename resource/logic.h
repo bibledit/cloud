@@ -19,9 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-using namespace std;
+#include <config/libraries.h>
 
 string resource_logic_get_html (void * webserver_request,
                                 string resource, int book, int chapter, int verse,

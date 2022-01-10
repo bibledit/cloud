@@ -17,37 +17,11 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sources/morphgnt.h>
 #include <database/logs.h>
 #include <database/morphgnt.h>
 #include <filter/string.h>
 #include <filter/url.h>
-// Basic C headers.
-#include <cstdlib>
-#include <unistd.h>
-#include <utime.h>
-#include <dirent.h>
-#include <stdio.h>
-#include <signal.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/time.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netdb.h>
-#include <sys/param.h>
-#include <sys/types.h>
 
 
 void sources_morphgnt_parse ()

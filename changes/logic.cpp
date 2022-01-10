@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <changes/logic.h>
 #include <changes/changes.h>
 #include <changes/statistics.h>
@@ -35,8 +30,9 @@
 #include <database/jobs.h>
 #include <filter/string.h>
 #include <webserver/request.h>
+
+
 using namespace pugi;
-#include <sstream>
 
 
 void changes_logic_start ()

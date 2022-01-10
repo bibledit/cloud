@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <editor/usfm2html.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -30,7 +25,6 @@
 #include <styles/logic.h>
 #include <database/logs.h>
 #include <quill/logic.h>
-#include <sstream>
 
 
 void Editor_Usfm2Html::load (string usfm)

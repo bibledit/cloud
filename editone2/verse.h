@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string editone2_verse_url ();
 bool editone2_verse_acl (void * webserver_request);

@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <notes/select.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -38,8 +33,6 @@
 #include <notes/index.h>
 #include <menu/logic.h>
 #include <access/logic.h>
-#include <sstream>
-#include <iomanip>
 
 
 string notes_select_url ()

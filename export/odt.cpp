@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <export/odt.h>
 #include <export/logic.h>
 #include <tasks/logic.h>
@@ -38,7 +33,6 @@
 #include <filter/archive.h>
 #include <filter/shell.h>
 #include <filter/usfm.h>
-#include <filter/passage.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
 

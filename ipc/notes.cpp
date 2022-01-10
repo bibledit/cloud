@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <ipc/notes.h>
 #include <filter/string.h>
 #include <filter/usfm.h>

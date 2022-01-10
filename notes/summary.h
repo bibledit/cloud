@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string notes_summary_url ();
 bool notes_summary_acl (void * webserver_request);

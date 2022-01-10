@@ -19,10 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <map>
-using namespace std;
+#include <config/libraries.h>
 
 class Checks_French
 {

@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <manage/users.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -47,9 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/switch.h>
 #include <ldap/logic.h>
 #include <user/logic.h>
-#include <config/logic.h>
-#include <sstream>
-#include <iomanip>
 
 
 string manage_users_url ()

@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <book/create.h>
 #include <database/bibles.h>
 #include <database/versifications.h>

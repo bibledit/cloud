@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string resource_unload_url ();
 bool resource_unload_acl (void * webserver_request);

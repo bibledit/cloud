@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 const char * manage_hyphenation_url ();
 bool manage_hyphenation_acl (void * webserver_request);

@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <resource/user1view.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -38,7 +33,6 @@
 #include <access/logic.h>
 #include <database/userresources.h>
 #include <database/books.h>
-#include <config/logic.h>
 
 
 string resource_user1view_url ()

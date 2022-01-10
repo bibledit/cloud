@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <tasks/run.h>
 #include <tasks/logic.h>
 #include <database/logs.h>
@@ -78,8 +73,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/cache.h>
 #include <nmt/logic.h>
 #include <images/logic.h>
-#include <thread>
-#include <atomic>
 
 
 atomic <int> running_tasks (0);

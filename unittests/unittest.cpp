@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/unittest.h>
 #include <unittests/utilities.h>
+#include <config/libraries.h>
 #include <library/bibledit.h>
 #include <library/locks.h>
 #include <database/config/user.h>
@@ -34,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/logic.h>
 #include <unittests/sqlite.h>
 #include <unittests/session.h>
-#include <unittests/source.h>
+#include <unittests/folders.h>
 #include <unittests/flate.h>
 #include <unittests/checksum.h>
 #include <unittests/bibles.h>
@@ -116,7 +117,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/bibleimages.h>
 #include <unittests/image.h>
 #include <unittests/easyenglishbible.h>
-#include <iostream>
 
 
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
@@ -143,7 +143,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_source ();
+  test_string ();
   refresh_sandbox (false);
   exit (0);
   
@@ -158,7 +158,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_database_logs ();
   test_database_users ();
   test_session ();
-  test_source ();
+  test_folders ();
   test_flate ();
   test_database_bibles ();
   test_database_books ();

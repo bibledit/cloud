@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <filter/text.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -32,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <locale/translate.h>
-#include <algorithm>
 
 
 Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in)

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string consistency_poll_url ();
 bool consistency_poll_acl (void * webserver_request);

@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <checksum/logic.h>
 #include <filter/string.h>
 #include <filter/md5.h>

@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string editor_select_url ();
 bool editor_select_acl (void * webserver_request);

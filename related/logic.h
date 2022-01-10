@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <vector>
-using namespace std;
+#include <config/libraries.h>
 #include <filter/passage.h>
 
 vector <Passage> related_logic_get_verses (const vector <Passage> & input);

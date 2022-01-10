@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void sprint_burndown (string bible, int manualyear, int manualmonth);
 string sprint_create_burndown_chart (string bible, int year, int month);

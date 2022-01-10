@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <client/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -40,7 +35,6 @@
 #include <sendreceive/logic.h>
 #include <assets/external.h>
 #include <bb/logic.h>
-#include <config/logic.h>
 
 
 string client_index_url ()

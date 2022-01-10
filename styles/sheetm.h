@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string styles_sheetm_url ();
 bool styles_sheetm_acl (void * webserver_request);

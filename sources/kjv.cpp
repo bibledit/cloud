@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sources/kjv.h>
 #include <database/logs.h>
 #include <database/kjv.h>
@@ -29,7 +24,6 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <pugixml/pugixml.hpp>
-#include <string.h>
 
 
 using namespace pugi;

@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <developer/logic.h>
 #include <filter/date.h>
 #include <filter/url.h>
@@ -30,8 +25,6 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <filter/usfm.h>
-#include <mutex>
-#include <iostream>
 
 
 mutex log_network_mutex;

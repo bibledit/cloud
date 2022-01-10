@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string consistency_input_url ();
 bool consistency_input_acl (void * webserver_request);

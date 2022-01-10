@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string collaboration_settings_url ();
 bool collaboration_settings_acl (void * webserver_request);

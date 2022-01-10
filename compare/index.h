@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string compare_index_url ();
 bool compare_index_acl (void * webserver_request);

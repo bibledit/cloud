@@ -17,20 +17,12 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sources/oshb.h>
 #include <database/oshb.h>
 #include <database/books.h>
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <pugixml/pugixml.hpp>
-#include <iostream>
-#include <unistd.h>
-#include <map>
 
 
 using namespace pugi;

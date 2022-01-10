@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string system_logic_bibles_file_name ();
 void system_logic_produce_bibles_file (int jobid);
@@ -28,7 +27,7 @@ void system_logic_import_bibles_file (string tarball);
 string system_logic_notes_file_name ();
 void system_logic_produce_notes_file (int jobid);
 void system_logic_import_notes_file (string tarball);
-string system_logic_resources_file_name (string resourcename = string());
+string system_logic_resources_file_name (string resourcename = "");
 void system_logic_produce_resources_file (int jobid);
 void system_logic_import_resources_file (string tarball);
 void system_logic_indonesian_free_deletion (string username, string email);

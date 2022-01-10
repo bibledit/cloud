@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <workspace/organize.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -35,8 +30,6 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
-#include <sstream>
-#include <iomanip>
 
 
 string workspace_organize_url ()

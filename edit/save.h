@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string edit_save_url ();
 bool edit_save_acl (void * webserver_request);

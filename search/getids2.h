@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string search_getids2_url ();
 bool search_getids2_acl (void * webserver_request);

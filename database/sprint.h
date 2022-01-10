@@ -19,15 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <string>
-#include <vector>
-using namespace std;
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
-#include <sqlite/sqlite3.h>
+#include <config/libraries.h>
 #include <filter/passage.h>
 
 #ifdef HAVE_CLOUD

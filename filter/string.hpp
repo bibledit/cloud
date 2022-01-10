@@ -19,11 +19,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <set>
-#include <algorithm>
-using namespace std;
+#include <config/libraries.h>
 
 
 // A C++ equivalent for PHP's function.

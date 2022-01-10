@@ -17,17 +17,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <editone2/logic.h>
 #include <editor/usfm2html.h>
 #include <editor/html2usfm.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <sstream>
 
 
 void editone_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style)

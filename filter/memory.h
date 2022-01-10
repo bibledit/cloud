@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-#include <stdint.h>
+#include <config/libraries.h>
 
 int filter_memory_percentage_available ();
 uint64_t filter_memory_total_usage ();

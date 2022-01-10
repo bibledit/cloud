@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <notes/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -39,9 +34,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/index.h>
 #include <access/bible.h>
 #include <email/send.h>
-#include <sstream>
-#include <config/logic.h>
-#include <iomanip>
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)

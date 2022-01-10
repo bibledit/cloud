@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 void ldap_logic_initialize ();
 void ldap_logic_clear ();

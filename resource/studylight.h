@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string resource_studylight_url ();
 bool resource_studylight_acl (void * webserver_request);

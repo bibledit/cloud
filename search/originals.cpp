@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <search/originals.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -39,7 +34,6 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
-#include <cmath>
 
 
 string search_originals_url ()

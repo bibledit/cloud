@@ -20,8 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 
 #define StyleTypeIdentifier            0 

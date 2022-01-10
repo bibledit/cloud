@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string notes_comment_url ();
 bool notes_comment_acl (void * webserver_request);

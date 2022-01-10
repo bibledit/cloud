@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string checks_settingspatterns_url ();
 bool checks_settingspatterns_acl (void * webserver_request);

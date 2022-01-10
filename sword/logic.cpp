@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <sword/logic.h>
 #include <webserver/request.h>
 #include <filter/string.h>
@@ -46,7 +41,6 @@
 #endif
 #include <developer/logic.h>
 #include <database/logic.h>
-#include <mutex>
 
 
 mutex sword_logic_installer_mutex;

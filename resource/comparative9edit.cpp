@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <resource/comparative9edit.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -38,7 +33,6 @@
 #include <pugixml/pugixml.hpp>
 #include <resource/comparative1edit.h>
 #include <client/logic.h>
-#include <sstream>
 
 
 using namespace pugi;

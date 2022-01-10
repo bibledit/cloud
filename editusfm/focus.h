@@ -19,8 +19,7 @@
 
 #pragma once
 
-#include <string>
-using namespace std;
+#include <config/libraries.h>
 
 string editusfm_focus_url ();
 bool editusfm_focus_acl (void * webserver_request);

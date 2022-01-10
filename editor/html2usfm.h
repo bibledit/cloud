@@ -19,13 +19,10 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <set>
-#include <map>
-using namespace std;
+#include <config/libraries.h>
 #include <database/styles.h>
 #include <pugixml/pugixml.hpp>
+
 using namespace pugi;
 
 class Editor_Html2Usfm

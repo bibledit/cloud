@@ -17,11 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <email/send.h>
 #include <email/index.h>
 #include <webserver/request.h>
@@ -43,9 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/logic.h>
 #include <client/logic.h>
 #include <locale/translate.h>
-#include <sstream>
-#include <iomanip>
-#include <string.h>
 
 
 void email_send ()

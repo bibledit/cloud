@@ -17,11 +17,6 @@
  */
 
 
-// System configuration.
-#include <config.h>
-// Bibledit configuration.
-#include <config/config.h>
-// Specific includes.
 #include <collaboration/link.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -36,7 +31,6 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <database/jobs.h>
-#include <unistd.h>
 
 
 void collaboration_link ([[maybe_unused]] string object,

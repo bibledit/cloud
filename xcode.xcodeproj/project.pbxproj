@@ -466,7 +466,6 @@
 		CADE46D824F174E0003165BB /* morphgnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE444924F174BE003165BB /* morphgnt.cpp */; };
 		CADE46D924F174E0003165BB /* dev.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE444A24F174BE003165BB /* dev.cpp */; };
 		CADE46DA24F174E0003165BB /* login.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE444D24F174BE003165BB /* login.cpp */; };
-		CADE46DB24F174E0003165BB /* source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE444E24F174BE003165BB /* source.cpp */; };
 		CADE46DC24F174E0003165BB /* paratext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE445124F174BE003165BB /* paratext.cpp */; };
 		CADE46DD24F174E0003165BB /* workspaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE445424F174BE003165BB /* workspaces.cpp */; };
 		CADE46DE24F174E0003165BB /* bibles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE445524F174BE003165BB /* bibles.cpp */; };
@@ -6453,7 +6452,6 @@
 				CADE46D824F174E0003165BB /* morphgnt.cpp in Sources */,
 				CADE46D924F174E0003165BB /* dev.cpp in Sources */,
 				CADE46DA24F174E0003165BB /* login.cpp in Sources */,
-				CADE46DB24F174E0003165BB /* source.cpp in Sources */,
 				CADE46DC24F174E0003165BB /* paratext.cpp in Sources */,
 				CADE46DD24F174E0003165BB /* workspaces.cpp in Sources */,
 				CADE46DE24F174E0003165BB /* bibles.cpp in Sources */,

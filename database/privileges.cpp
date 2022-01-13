@@ -456,7 +456,7 @@ void database_privileges_client_create (const string & user, bool force)
   }
   
   // If needed, create the folder.
-  string folder = filter_url_dirname (path);
+  string folder = filter_url_dirname_cpp17 (path);
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   
   // The bits of privileges in human-readable form.
@@ -470,6 +470,6 @@ void database_privileges_client_create (const string & user, bool force)
 void database_privileges_client_remove (const string & user)
 {
   string path = database_privileges_client_path (user);
-  path = filter_url_dirname (path);
+  path = filter_url_dirname_cpp17 (path);
   filter_url_rmdir (path);
 }

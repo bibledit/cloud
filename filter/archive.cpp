@@ -204,7 +204,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
            */
           
           // Ensure this file's folder exists.
-          string dirname = filter_url_dirname (fixed_filename);
+          string dirname = filter_url_dirname_cpp17 (fixed_filename);
           if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
@@ -241,7 +241,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
 string filter_archive_tar_gzip_file (string filename)
 {
   string tarball = filter_url_tempfile () + ".tar.gz";
-  string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  string dirname = filter_url_escape_shell_argument (filter_url_dirname_cpp17 (filename));
   string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
@@ -429,7 +429,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
     string data (p, h.size);
     free(p);
     // If the file contains a directory, ensure that directory exists.
-    string dirname = filter_url_dirname (file);
+    string dirname = filter_url_dirname_cpp17 (file);
     if (dirname != ".") {
       dirname = filter_url_create_path (directory, dirname);
       if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);

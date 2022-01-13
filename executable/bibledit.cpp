@@ -116,7 +116,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     char *linkname = (char *) malloc (256);
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     [[maybe_unused]] ssize_t result = readlink ("/proc/self/exe", linkname, 256);
-    webroot = filter_url_dirname (linkname);
+    webroot = filter_url_dirname_cpp17 (linkname);
     free (linkname);
   }
 #endif
@@ -129,7 +129,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     pid = getpid ();
     ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
     if (ret > 0 ) {
-      webroot = filter_url_dirname (pathbuf);
+      webroot = filter_url_dirname_cpp17 (pathbuf);
     }
   }
 #endif

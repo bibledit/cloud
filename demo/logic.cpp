@@ -257,7 +257,7 @@ void demo_create_sample_bible ()
     }
     // Proceed with the path.
     file = filter_url_create_root_path (file);
-    string path = filter_url_dirname (file);
+    string path = filter_url_dirname_cpp17 (file);
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);
   }

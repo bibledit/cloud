@@ -112,7 +112,7 @@ sqlite3 * database_sqlite_connect_file (string filename)
 // If it has a path, then it returns the path as given.
 string database_sqlite_file (string database)
 {
-  if (filter_url_dirname (database) == ".") {
+  if (filter_url_dirname_cpp17 (database) == ".") {
     return filter_url_create_root_path (database_logic_databases (), database + database_sqlite_suffix ());
   }
   return database;

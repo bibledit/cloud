@@ -957,7 +957,7 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   if (extension == "sqlite") {
-    if (filter_url_dirname (url) == filter_url_temp_dir ()) {
+    if (filter_url_dirname_cpp17 (url) == filter_url_temp_dir ()) {
       http_stream_file (request, false);
       return;
     }

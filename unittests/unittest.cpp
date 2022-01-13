@@ -143,7 +143,11 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_string ();
+  test_url ();
+  test_database_config_general ();
+  test_database_config_bible ();
+  test_database_config_user ();
+  test_database_notes ();
   refresh_sandbox (false);
   exit (0);
   

@@ -188,6 +188,21 @@ string filter_url_dirname (string url)
 }
 
 
+string filter_url_dirname_cpp17 (string url)
+{
+  if (!url.empty ()) {
+    // Remove trailing path slash.
+    const char separator = filesystem::path::preferred_separator;
+    if (url.find_last_of (separator) == url.length () - 1) {
+      url = url.substr (0, url.length () - 1);
+    }
+  }
+  url = filesystem::path(url).parent_path().string();
+  if (url.empty ()) url = ".";
+  return url;
+}
+
+
 // Dirname routine for the web.
 // It uses the forward slash as the separator.
 string filter_url_dirname_web (string url)
@@ -331,10 +346,10 @@ void filter_url_mkdir (string directory)
   if (status != 0) {
     vector <string> paths;
     paths.push_back (directory);
-    directory = filter_url_dirname (directory);
+    directory = filter_url_dirname_cpp17 (directory);
     while (directory.length () > 2) {
       paths.push_back (directory);
-      directory = filter_url_dirname (directory);
+      directory = filter_url_dirname_cpp17 (directory);
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {

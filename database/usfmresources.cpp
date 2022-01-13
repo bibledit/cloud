@@ -87,7 +87,7 @@ void Database_UsfmResources::deleteChapter (const string& name, int book, int ch
 void Database_UsfmResources::storeChapter (const string& name, int book, int chapter, const string& usfm)
 {
   string file = chapterFile (name, book, chapter);
-  string folder = filter_url_dirname (file);
+  string folder = filter_url_dirname_cpp17 (file);
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   filter_url_file_put_contents (file, usfm);
 }

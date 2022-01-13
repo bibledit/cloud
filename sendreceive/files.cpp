@@ -192,7 +192,7 @@ void sendreceive_files ()
       string path = filter_url_create_root_path (directory, file);
       filter_url_unlink (path);
       // Attempt to delete the directory, which will only succeed if it is empty.
-      path = filter_url_dirname (path);
+      path = filter_url_dirname_cpp17 (path);
       filter_url_unlink (path);
     }
     
@@ -227,7 +227,7 @@ void sendreceive_files ()
       // Local file path where to save resource.
       string fullpath = filter_url_create_root_path (directory, file);
       // Create directory if it does not yet exist.
-      string dirpath = filter_url_dirname (fullpath);
+      string dirpath = filter_url_dirname_cpp17 (fullpath);
       if (!file_or_dir_exists (dirpath)) {
         filter_url_mkdir (dirpath);
       }

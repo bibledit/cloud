@@ -439,7 +439,7 @@ void Database_Notes::set_identifier (int identifier, int new_identifier)
   string path = note_file (identifier);
   string json = filter_url_file_get_contents (path);
   path = note_file (new_identifier);
-  string folder = filter_url_dirname (path);
+  string folder = filter_url_dirname_cpp17 (path);
   filter_url_mkdir (folder);
   filter_url_file_put_contents (path, json);
   
@@ -563,7 +563,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   
   // Store the JSON representation of the note in the file system.
   string path = note_file (identifier);
-  string folder = filter_url_dirname (path);
+  string folder = filter_url_dirname_cpp17 (path);
   filter_url_mkdir (folder);
   Object note;
   note << bible_key () << bible;
@@ -1896,7 +1896,7 @@ vector <string> Database_Notes::set_bulk (string json)
     
     // Store the note in the filesystem.
     string path = note_file (identifier);
-    string folder = filter_url_dirname (path);
+    string folder = filter_url_dirname_cpp17 (path);
     filter_url_mkdir (folder);
     Object note2;
     note2 << assigned_key () << assigned;

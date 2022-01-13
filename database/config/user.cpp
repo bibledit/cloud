@@ -148,7 +148,7 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
   database_config_user_cache [mapkey (user, key)] = value;
   // Store on disk.
   string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
+  string directory = filter_url_dirname_cpp17(filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
@@ -202,7 +202,7 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
 {
   // Store it on disk.
   string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
+  string directory = filter_url_dirname_cpp17 (filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   string value = filter_string_implode (values, "\n");
   filter_url_file_put_contents (filename, value);

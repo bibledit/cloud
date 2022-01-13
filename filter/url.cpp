@@ -180,14 +180,8 @@ string filter_url_dirname_internal (string url, const char * separator)
 }
 
 
-// Dirname routine for the operating system.
-// It uses the defined slash as the separator.
-string filter_url_dirname (string url)
-{
-  return filter_url_dirname_internal (url, DIRECTORY_SEPARATOR);
-}
-
-
+// Dirname routine for the filesystem.
+// It uses the automatically defined separator as the directory separator.
 string filter_url_dirname_cpp17 (string url)
 {
   if (!url.empty ()) {

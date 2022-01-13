@@ -145,15 +145,7 @@ void test_url ()
     
   // Test dirname and basename functions.
   {
-    evaluate (__LINE__, __func__, ".", filter_url_dirname (""));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/dir"));
-    evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
-
-    evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 (""));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 (string()));
     evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 ("/"));
     evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 ("dir/"));
     evaluate (__LINE__, __func__, "/", filter_url_dirname_cpp17 ("/dir"));

@@ -160,7 +160,7 @@ void collaboration_link ([[maybe_unused]] string object,
   
   // Remove the temporal file from the cloned repository.
   database_jobs.set_progress (jobid, translate ("Cleaning"));
-  filter_url_unlink (temporal_file_name);
+  filter_url_unlink_cpp17 (temporal_file_name);
   if (result) {
     result = filter_git_add_remove_all (path, error);
     if (result) {

@@ -383,7 +383,7 @@ void filter_url_rmdir (string directory)
 	wstring wpath = string2wstring(path);
 	_wrmdir(wpath.c_str());
 	// Remove file.
-	filter_url_unlink (path);
+	filter_url_unlink_cpp17 (path);
 #else
 	// On Linux remove the directory or the file.
     remove(path.c_str());
@@ -392,7 +392,7 @@ void filter_url_rmdir (string directory)
 #ifdef HAVE_WINDOWS
   wstring wdirectory = string2wstring(directory);
   _wrmdir(wdirectory.c_str());
-  filter_url_unlink (directory);
+  filter_url_unlink_cpp17 (directory);
 #else
   remove(directory.c_str());
 #endif

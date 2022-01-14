@@ -443,7 +443,7 @@ void search_logic_delete_bible (string bible)
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
       string path = filter_url_create_path (search_logic_index_folder (), file);
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
     }
   }
 }
@@ -457,7 +457,7 @@ void search_logic_delete_book (string bible, int book)
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
       string path = filter_url_create_path (search_logic_index_folder (), file);
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
     }
   }
 }
@@ -471,7 +471,7 @@ void search_logic_delete_chapter (string bible, int book, int chapter)
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
       string path = filter_url_create_path (search_logic_index_folder (), file);
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
     }
   }
 }

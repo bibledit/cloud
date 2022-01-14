@@ -190,10 +190,10 @@ void sendreceive_files ()
     for (auto file : files) {
       Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path (directory, file), Filter_Roles::translator ());
       string path = filter_url_create_root_path (directory, file);
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
       // Attempt to delete the directory, which will only succeed if it is empty.
       path = filter_url_dirname_cpp17 (path);
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
     }
     
 

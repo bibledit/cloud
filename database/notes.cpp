@@ -166,7 +166,7 @@ bool Database_Notes::checksums_healthy ()
 bool Database_Notes::checkup ()
 {
   if (healthy ()) return false;
-  filter_url_unlink (database_path ());
+  filter_url_unlink_cpp17 (database_path ());
   create ();
   return true;
 }
@@ -178,7 +178,7 @@ bool Database_Notes::checkup ()
 bool Database_Notes::checkup_checksums ()
 {
   if (checksums_healthy ()) return false;
-  filter_url_unlink (checksums_database_path ());
+  filter_url_unlink_cpp17 (checksums_database_path ());
   create ();
   return true;
 }
@@ -858,7 +858,7 @@ void Database_Notes::erase (int identifier)
 {
   // Delete new storage from filesystem.
   string path = note_file (identifier);
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
   // Update databases as well.
   delete_checksum (identifier);
   SqliteSQL sql;
@@ -1774,7 +1774,7 @@ string Database_Notes::availability_flag ()
 void Database_Notes::set_availability (bool available)
 {
   if (available) {
-    filter_url_unlink (availability_flag ());
+    filter_url_unlink_cpp17 (availability_flag ());
   } else {
    filter_url_file_put_contents (availability_flag (), "");
   }

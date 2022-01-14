@@ -246,9 +246,9 @@ void Database_Config_User::trim ()
     if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
         // Remove from disk.
-        filter_url_unlink (filename);
+        filter_url_unlink_cpp17 (filename);
         filename = file (users[i], keySprintYear ());
-        filter_url_unlink (filename);
+        filter_url_unlink_cpp17 (filename);
         // Clear cache.
         database_config_user_cache.clear ();
       }

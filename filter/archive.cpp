@@ -58,7 +58,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
   // Run the command.
   return_var = system (command.c_str());
   if (return_var != 0) {
-    filter_url_unlink (zippedfile);
+    filter_url_unlink_cpp17 (zippedfile);
     zippedfile.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -254,7 +254,7 @@ string filter_archive_tar_gzip_file (string filename)
   return_var = system (command.c_str());
 #endif
   if (return_var != 0) {
-    filter_url_unlink (tarball);
+    filter_url_unlink_cpp17 (tarball);
     tarball.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -280,7 +280,7 @@ string filter_archive_tar_gzip_folder (string folder)
   return_var = system (command.c_str());
 #endif
   if (return_var != 0) {
-    filter_url_unlink (tarball);
+    filter_url_unlink_cpp17 (tarball);
     tarball.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);

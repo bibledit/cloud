@@ -64,7 +64,7 @@ void Database_UsfmResources::deleteResource (const string& name)
   // If a folder: Delete it.
   filter_url_rmdir (path);
   // If a file: Delete it.
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
 }
 
 
@@ -74,13 +74,13 @@ void Database_UsfmResources::deleteBook (const string& name, int book)
   // If a folder: Delete it.
   filter_url_rmdir (path);
   // If a file: Delete it.
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
 }
 
 
 void Database_UsfmResources::deleteChapter (const string& name, int book, int chapter)
 {
-  filter_url_unlink (chapterFile (name, book, chapter));
+  filter_url_unlink_cpp17 (chapterFile (name, book, chapter));
 }
 
 

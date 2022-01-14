@@ -1217,8 +1217,8 @@ caption
     }
   }
 
-  filter_url_unlink (TextTestOdt);
-  filter_url_unlink (TextTestHtml);
-  filter_url_unlink (TextTestTxt);
+  filter_url_unlink_cpp17 (TextTestOdt);
+  filter_url_unlink_cpp17 (TextTestHtml);
+  filter_url_unlink_cpp17 (TextTestTxt);
   refresh_sandbox (true);
 }

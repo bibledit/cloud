@@ -1173,7 +1173,7 @@ void Odf_Text::save (string name)
   // Save the OpenDocument file.
   string zippedfile = filter_archive_zip_folder (unpackedOdtFolder);
   filter_url_file_put_contents (name, filter_url_file_get_contents (zippedfile));
-  filter_url_unlink (zippedfile);
+  filter_url_unlink_cpp17 (zippedfile);
 }
 
 

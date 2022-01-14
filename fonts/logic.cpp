@@ -76,7 +76,7 @@ string Fonts_Logic::getFontPath (string font)
 void Fonts_Logic::erase (string font)
 {
   string path = filter_url_create_path (folder (), font);
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
 }
 
 

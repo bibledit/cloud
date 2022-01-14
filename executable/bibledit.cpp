@@ -199,7 +199,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   // Log possible backtrace from a previous crash.
   string backtrace = filter_url_file_get_contents (backtrace_path ());
-  filter_url_unlink (backtrace_path ());
+  filter_url_unlink_cpp17 (backtrace_path ());
   if (!backtrace.empty ()) {
     Database_Logs::log ("Backtrace of the last segmentation fault:");
     vector <string> lines = filter_string_explode (backtrace, '\n');

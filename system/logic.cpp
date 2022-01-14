@@ -178,7 +178,7 @@ void system_logic_import_bibles_file (string tarball)
   
   // Clean up.
   filter_url_rmdir (directory);
-  filter_url_unlink (tarball);
+  filter_url_unlink_cpp17 (tarball);
 
   // Since new Bibles may have been imported, index them all.
   Database_Config_General::setIndexBibles (true);
@@ -269,7 +269,7 @@ void system_logic_import_notes_file (string tarball)
   }
   
   // Clean up.
-  filter_url_unlink (tarball);
+  filter_url_unlink_cpp17 (tarball);
 
   // Since notes may have been imported or updated, index them all.
   Database_Config_General::setIndexNotes (true);
@@ -444,7 +444,7 @@ void system_logic_import_resources_file (string tarball)
 
   // Clean up.
   filter_url_rmdir (directory);
-  filter_url_unlink (tarball);
+  filter_url_unlink_cpp17 (tarball);
 
   // Ready, hallelujah!
   Database_Logs::log ("Importing Resources ready");

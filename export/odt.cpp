@@ -115,28 +115,28 @@ void export_odt_book (string bible, int book, bool log)
   bool secure = Database_Config_Bible::getSecureOdtExport (bible);
   string password = Database_Config_Bible::getExportPassword (bible);
   string basefile = filter_url_basename_cpp17 (standardFilename);
-  filter_url_unlink (standardFilename + ".zip");
+  filter_url_unlink_cpp17 (standardFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink (standardFilename);
+    filter_url_unlink_cpp17 (standardFilename);
   }
   basefile = filter_url_basename_cpp17 (textOnlyFilename);
-  filter_url_unlink (textOnlyFilename + ".zip");
+  filter_url_unlink_cpp17 (textOnlyFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink (textOnlyFilename);
+    filter_url_unlink_cpp17 (textOnlyFilename);
   }
   basefile = filter_url_basename_cpp17 (textAndCitationsFilename);
-  filter_url_unlink (textAndCitationsFilename + ".zip");
+  filter_url_unlink_cpp17 (textAndCitationsFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink (textAndCitationsFilename);
+    filter_url_unlink_cpp17 (textAndCitationsFilename);
   }
   basefile = filter_url_basename_cpp17 (notesFilename);
-  filter_url_unlink (notesFilename + ".zip");
+  filter_url_unlink_cpp17 (notesFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink (notesFilename);
+    filter_url_unlink_cpp17 (notesFilename);
   }
   
   

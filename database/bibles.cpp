@@ -82,7 +82,7 @@ void Database_Bibles::deleteBible (string name)
   // Delete directory.
   filter_url_rmdir (path);
   // Just in case it was a regular file: Delete it.
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
   Database_State::setExport (name, 0, Export_Logic::export_needed);
 }
 
@@ -236,7 +236,7 @@ void Database_Bibles::optimize ()
         for (string file : files) {
           string path = filter_url_create_path (folder, file);
           if (filter_url_filesize (path) == 0) {
-            filter_url_unlink (path);
+            filter_url_unlink_cpp17 (path);
             Database_State::setExport (bible, 0, Export_Logic::export_needed);
           }
           else files2.push_back (file);
@@ -249,7 +249,7 @@ void Database_Bibles::optimize ()
         // Remove the remaining files. These are the older versions.
         for (string file : files2) {
           string path = filter_url_create_path (folder, file);
-          filter_url_unlink (path);
+          filter_url_unlink_cpp17 (path);
         }
       }
     }

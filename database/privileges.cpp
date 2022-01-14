@@ -66,7 +66,7 @@ void Database_Privileges::optimize ()
 {
   // Recreate damaged database.
   if (!healthy ()) {
-    filter_url_unlink (database_sqlite_file (database ()));
+    filter_url_unlink_cpp17 (database_sqlite_file (database ()));
     create ();
   }
   // Vacuum it.

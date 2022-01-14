@@ -71,7 +71,7 @@ void Database_ImageResources::create (string name)
 {
   // Create folder to store the images.
   string path = resourceFolder (name);
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
   filter_url_mkdir (path);
 
   // Create the passages database.
@@ -93,13 +93,13 @@ void Database_ImageResources::erase (string name)
   // If a folder: Delete it.
   filter_url_rmdir (path);
   // If a file: Delete it.
-  filter_url_unlink (path);
+  filter_url_unlink_cpp17 (path);
 }
 
 
 void Database_ImageResources::erase (string name, string image)
 {
-  filter_url_unlink (imagePath (name, image));
+  filter_url_unlink_cpp17 (imagePath (name, image));
   sqlite3 * db = connect (name);
   {
     SqliteSQL sql = SqliteSQL ();

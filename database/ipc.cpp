@@ -57,7 +57,7 @@ void Database_Ipc::trim ()
     int time = filter_url_file_modification_time (path);
     int age_seconds = now - time;
     if (age_seconds > 3600) {
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
     }
   }
 }
@@ -141,7 +141,7 @@ void Database_Ipc::deleteMessage (int id)
   vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     if (record.rowid == id) {
-      filter_url_unlink (file (record.file));
+      filter_url_unlink_cpp17 (file (record.file));
     }
   }
 }

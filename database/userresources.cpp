@@ -48,7 +48,7 @@ vector <string> Database_UserResources::names ()
 // Removes a user-defined resource from disk.
 void Database_UserResources::remove (const string& name)
 {
-  filter_url_unlink (file (name));
+  filter_url_unlink_cpp17 (file (name));
 }
 
 

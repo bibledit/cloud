@@ -112,14 +112,14 @@ void Database_Logs::rotate ()
 
     // Limit the number of journal entries.
     if ((int)i < limitfilecount) {
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
       continue;
     }
     
     // Remove expired entries.
     int timestamp = convert_to_int (files [i].substr (0, 10));
     if (timestamp < oldtimestamp) {
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
       continue;
     }
 
@@ -127,7 +127,7 @@ void Database_Logs::rotate ()
     string entry = filter_url_file_get_contents (path);
     if (journal_logic_filter_entry (entry)) {
       filtered_entries = true;
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
       continue;
     }
 

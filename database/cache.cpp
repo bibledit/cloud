@@ -84,7 +84,7 @@ void Database_Cache::remove (string resource, int book)
 {
   string file = database_sqlite_file (filename (resource, book));
   if (file_or_dir_exists (file)) {
-    filter_url_unlink (file);
+    filter_url_unlink_cpp17 (file);
   }
 }
 
@@ -306,7 +306,7 @@ void database_filebased_cache_remove (string schema)
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
-  filter_url_unlink (schema);
+  filter_url_unlink_cpp17 (schema);
 }
 
 

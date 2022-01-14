@@ -37,7 +37,7 @@ void tmp_tmp ()
     int mtime = filter_url_file_modification_time (filename);
     if (mtime < expired) {
       filter_url_rmdir (filename);
-      filter_url_unlink (filename);
+      filter_url_unlink_cpp17 (filename);
     }
   }
 }

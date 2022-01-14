@@ -34,18 +34,6 @@ void test_url ()
     filter_url_file_put_contents (filename, contents);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (filename));
-    filter_url_unlink (filename);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
-  }
-
-  // Test writing to and reading from files, and whether a file exists.
-  {
-    string filename = "/tmp/בוקר טוב";
-    string contents = "בוקר טוב בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
-    filter_url_file_put_contents (filename, contents);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
-    evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (filename));
     filter_url_unlink_cpp17 (filename);
     evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
   }
@@ -70,9 +58,9 @@ void test_url ()
     string filename2 = filter_url_unique_path (filename);
     filter_url_file_put_contents (filename2, "");
     evaluate (__LINE__, __func__, "/tmp/unique.2", filename2);
-    filter_url_unlink (filename);
-    filter_url_unlink (filename1);
-    filter_url_unlink (filename2);
+    filter_url_unlink_cpp17 (filename);
+    filter_url_unlink_cpp17 (filename1);
+    filter_url_unlink_cpp17 (filename2);
   }
   
   // Html export filenames.

@@ -62,5 +62,5 @@ bool Database_NoteAssignment::exists (string user, string assignee)
 
 void Database_NoteAssignment::remove (string user)
 {
-  filter_url_unlink (path (user));
+  filter_url_unlink_cpp17 (path (user));
 }

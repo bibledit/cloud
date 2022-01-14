@@ -45,7 +45,7 @@ void export_esword (string bible, bool log)
   string filename = filter_url_create_path (directory, "bible.bblx");
 
   
-  if (file_or_dir_exists (filename)) filter_url_unlink (filename);
+  if (file_or_dir_exists (filename)) filter_url_unlink_cpp17 (filename);
   
   
   Database_Bibles database_bibles;

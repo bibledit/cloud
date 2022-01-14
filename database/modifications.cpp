@@ -48,7 +48,7 @@ sqlite3 * Database_Modifications::connect ()
 void Database_Modifications::erase ()
 {
   string file = database_sqlite_file ("modifications");
-  filter_url_unlink (file);
+  filter_url_unlink_cpp17 (file);
 }
 
 
@@ -164,7 +164,7 @@ void Database_Modifications::deleteTeamDiffBible (const string& bible)
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
-    filter_url_unlink (filter_url_create_path (teamFolder (), file));
+    filter_url_unlink_cpp17 (filter_url_create_path (teamFolder (), file));
   }
 }
 
@@ -173,7 +173,7 @@ void Database_Modifications::deleteTeamDiffBible (const string& bible)
 void Database_Modifications::deleteTeamDiffChapter (const string& bible, int book, int chapter)
 {
   string file = teamFile (bible, book, chapter);
-  filter_url_unlink (file);
+  filter_url_unlink_cpp17 (file);
 }
 
 
@@ -196,7 +196,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
       // Perhaps the server crashed so it never could process them.
       // Cases like this have been seen on servers with limited memory.
       // Therefore just remove this change, without processing it.
-      filter_url_unlink (path);
+      filter_url_unlink_cpp17 (path);
     } else {
       chapters.push_back (convert_to_int (bits [2]));
     }
@@ -265,7 +265,7 @@ void Database_Modifications::truncateTeams ()
 {
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto file : files) {
-    filter_url_unlink (filter_url_create_path (teamFolder (), file));
+    filter_url_unlink_cpp17 (filter_url_create_path (teamFolder (), file));
   }
 }
 
@@ -1103,7 +1103,7 @@ void Database_Modifications::deleteNotificationFile (int identifier)
   // Delete the old folder from the file system (used till Februari 2016).
   if (filter_url_is_dir (path)) filter_url_rmdir (path);
   // Delete the new database file from the file system.
-  if (file_or_dir_exists (path)) filter_url_unlink (path);
+  if (file_or_dir_exists (path)) filter_url_unlink_cpp17 (path);
 }
 
 

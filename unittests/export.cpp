@@ -165,7 +165,7 @@ void test_export ()
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
     evaluate (__LINE__, __func__, 16384, filesize);
-    filter_url_unlink (filename);
+    filter_url_unlink_cpp17 (filename);
   }
   
   // Test tool to export Online Bible.
@@ -181,7 +181,7 @@ void test_export ()
     string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "onlinebible1.exp"));
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
-    filter_url_unlink (filename);
+    filter_url_unlink_cpp17 (filename);
   }
   
   {
@@ -198,7 +198,7 @@ void test_export ()
     string standard = filter_url_file_get_contents (filter_url_create_root_path ("unittests", "tests", "onlinebible2.exp"));
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
-    filter_url_unlink (filename);
+    filter_url_unlink_cpp17 (filename);
   }
 
   // TBS export book ID and book name.

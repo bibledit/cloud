@@ -62,7 +62,7 @@ string Database_BibleImages::get (string image)
 void Database_BibleImages::erase (string image)
 {
   string filepath = path(image);
-  filter_url_unlink (filepath);
+  filter_url_unlink_cpp17 (filepath);
 }
 
 

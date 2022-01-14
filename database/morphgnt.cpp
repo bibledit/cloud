@@ -36,7 +36,7 @@ const char * Database_MorphGnt::filename ()
 
 void Database_MorphGnt::create ()
 {
-  filter_url_unlink (database_sqlite_file (filename ()));
+  filter_url_unlink_cpp17 (database_sqlite_file (filename ()));
 
   SqliteDatabase sql = SqliteDatabase (filename ());
   

@@ -586,7 +586,7 @@ void filter_git_config (string repository)
   string index_lock = filter_url_create_path (repository, ".git", "index.lock");
   if (file_or_dir_exists (index_lock)) {
     Database_Logs::log ("Cleaning out index lock " + index_lock);
-    filter_url_unlink (index_lock);
+    filter_url_unlink_cpp17 (index_lock);
   }
 
   // On some machines the mail name and address are not set properly; therefore these are set here.

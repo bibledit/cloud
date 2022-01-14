@@ -116,7 +116,7 @@ void Database_Styles::addMarker (string sheet, string marker)
 // Deletes a marker from a stylesheet.
 void Database_Styles::deleteMarker (string sheet, string marker)
 {
-  filter_url_unlink (stylefile (sheet, marker));
+  filter_url_unlink_cpp17 (stylefile (sheet, marker));
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();

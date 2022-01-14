@@ -175,7 +175,7 @@ string filter_url_dirname_cpp17 (string url)
   }
   // Standard library call for getting parrent path.
   url = filesystem::path(url).parent_path().string();
-  // The . is important in a few cases so was added here.
+  // The . is important in a few cases rather than an empty string.
   if (url.empty ()) url = ".";
   // Done.
   return url;
@@ -188,14 +188,16 @@ string filter_url_dirname_web (string url)
 {
   const char * separator = "/";
   if (!url.empty ()) {
+    // Remove trailing slash.
     if (url.find_last_of (separator) == url.length () - 1) {
-      // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
+    // Get dirname or empty string.
     size_t pos = url.find_last_of (separator);
     if (pos != string::npos) url = url.substr (0, pos);
-    else url = string();
+    else url.clear();
   }
+  // Done.
   return url;
 }
 

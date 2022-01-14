@@ -80,7 +80,7 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
   database_config_bible_cache [mapkey (bible, key)] = value;
   // Store on disk.
   string filename = file (bible, key);
-  string dirname = filter_url_dirname_cpp17(filename);
+  string dirname = filter_url_dirname_cpp17 (filename);
   if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }

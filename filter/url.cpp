@@ -162,37 +162,22 @@ void redirect_browser (void * webserver_request, string path)
 }
 
 
-// C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
-// The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname.
-string filter_url_dirname_internal (string url, const char * separator)
-{
-  if (!url.empty ()) {
-    if (url.find_last_of (separator) == url.length () - 1) {
-      // Remove trailing slash.
-      url = url.substr (0, url.length () - 1);
-    }
-    size_t pos = url.find_last_of (separator);
-    if (pos != string::npos) url = url.substr (0, pos);
-    else url = "";
-  }
-  if (url.empty ()) url = ".";
-  return url;
-}
-
-
 // Dirname routine for the filesystem.
 // It uses the automatically defined separator as the directory separator.
 string filter_url_dirname_cpp17 (string url)
 {
+  // Remove possible trailing path slash.
   if (!url.empty ()) {
-    // Remove trailing path slash.
     const char separator = filesystem::path::preferred_separator;
     if (url.find_last_of (separator) == url.length () - 1) {
       url = url.substr (0, url.length () - 1);
     }
   }
+  // Standard library call for getting parrent path.
   url = filesystem::path(url).parent_path().string();
+  // The . is important in a few cases so was added here.
   if (url.empty ()) url = ".";
+  // Done.
   return url;
 }
 
@@ -201,7 +186,17 @@ string filter_url_dirname_cpp17 (string url)
 // It uses the forward slash as the separator.
 string filter_url_dirname_web (string url)
 {
-  return filter_url_dirname_internal (url, "/");
+  const char * separator = "/";
+  if (!url.empty ()) {
+    if (url.find_last_of (separator) == url.length () - 1) {
+      // Remove trailing slash.
+      url = url.substr (0, url.length () - 1);
+    }
+    size_t pos = url.find_last_of (separator);
+    if (pos != string::npos) url = url.substr (0, pos);
+    else url = string();
+  }
+  return url;
 }
 
 

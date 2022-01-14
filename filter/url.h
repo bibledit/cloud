@@ -28,6 +28,7 @@ string filter_url_dirname_web (string url);
 string filter_url_basename_cpp17 (string url);
 string filter_url_basename_web (string url);
 void filter_url_unlink (string filename);
+void filter_url_unlink_cpp17 (string filename);
 void filter_url_rename (const string& oldfilename, const string& newfilename);
 string filter_url_create_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "", string part6 = "");
 string filter_url_create_root_path (string part1 = "", string part2 = "", string part3 = "", string part4 = "", string part5 = "");

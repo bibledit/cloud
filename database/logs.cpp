@@ -178,7 +178,7 @@ void Database_Logs::clear ()
   string directory = folder ();
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
-    filter_url_unlink (filter_url_create_path (directory, file));
+    filter_url_unlink_cpp17 (filter_url_create_path (directory, file));
   }
   log ("The journal was cleared");
 }

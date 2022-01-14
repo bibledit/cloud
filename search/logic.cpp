@@ -438,7 +438,7 @@ string search_logic_get_bible_verse_usfm (string bible, int book, int chapter, i
 void search_logic_delete_bible (string bible)
 {
   string fragment = search_logic_bible_fragment (bible);
-  fragment = filter_url_basename (fragment);
+  fragment = filter_url_basename_cpp17 (fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
@@ -452,7 +452,7 @@ void search_logic_delete_bible (string bible)
 void search_logic_delete_book (string bible, int book)
 {
   string fragment = search_logic_book_fragment (bible, book);
-  fragment = filter_url_basename (fragment);
+  fragment = filter_url_basename_cpp17 (fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
@@ -466,7 +466,7 @@ void search_logic_delete_book (string bible, int book)
 void search_logic_delete_chapter (string bible, int book, int chapter)
 {
   string fragment = search_logic_chapter_file (bible, book, chapter);
-  fragment = filter_url_basename (fragment);
+  fragment = filter_url_basename_cpp17 (fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
@@ -504,9 +504,9 @@ int search_logic_get_verse_count (string bible)
 void search_logic_copy_bible (string original, string destination)
 {
   string original_fragment = search_logic_bible_fragment (original);
-  original_fragment = filter_url_basename (original_fragment);
+  original_fragment = filter_url_basename_cpp17 (original_fragment);
   string destination_fragment = search_logic_bible_fragment (destination);
-  destination_fragment = filter_url_basename (destination_fragment);
+  destination_fragment = filter_url_basename_cpp17 (destination_fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (original_fragment) == 0) {

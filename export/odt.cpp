@@ -114,25 +114,25 @@ void export_odt_book (string bible, int book, bool log)
   // It uses the external zip binary.
   bool secure = Database_Config_Bible::getSecureOdtExport (bible);
   string password = Database_Config_Bible::getExportPassword (bible);
-  string basefile = filter_url_basename (standardFilename);
+  string basefile = filter_url_basename_cpp17 (standardFilename);
   filter_url_unlink (standardFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
     filter_url_unlink (standardFilename);
   }
-  basefile = filter_url_basename (textOnlyFilename);
+  basefile = filter_url_basename_cpp17 (textOnlyFilename);
   filter_url_unlink (textOnlyFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
     filter_url_unlink (textOnlyFilename);
   }
-  basefile = filter_url_basename (textAndCitationsFilename);
+  basefile = filter_url_basename_cpp17 (textAndCitationsFilename);
   filter_url_unlink (textAndCitationsFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
     filter_url_unlink (textAndCitationsFilename);
   }
-  basefile = filter_url_basename (notesFilename);
+  basefile = filter_url_basename_cpp17 (notesFilename);
   filter_url_unlink (notesFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);

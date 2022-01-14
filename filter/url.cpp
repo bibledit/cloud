@@ -173,7 +173,7 @@ string filter_url_dirname_cpp17 (string url)
       url = url.substr (0, url.length () - 1);
     }
   }
-  // Standard library call for getting parrent path.
+  // Standard library call for getting parent path.
   url = filesystem::path(url).parent_path().string();
   // The . is important in a few cases rather than an empty string.
   if (url.empty ()) url = ".";
@@ -202,27 +202,21 @@ string filter_url_dirname_web (string url)
 }
 
 
-// C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
-// The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
-string filter_url_basename_internal (string url, const char * separator)
+// Basename routine for the filesystem.
+// It uses the automatically defined separator as the directory separator.
+string filter_url_basename_cpp17 (string url)
 {
+  // Remove possible trailing path slash.
   if (!url.empty ()) {
+    const char separator = filesystem::path::preferred_separator;
     if (url.find_last_of (separator) == url.length () - 1) {
-      // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
-    size_t pos = url.find_last_of (separator);
-    if (pos != string::npos) url = url.substr (pos + 1);
   }
+  // Standard library call for getting base name path.
+  url = filesystem::path(url).filename().string();
+  // Done.
   return url;
-}
-
-
-// Basename routine for the operating system.
-// It uses the defined slash as the separator.
-string filter_url_basename (string url)
-{
-  return filter_url_basename_internal (url, DIRECTORY_SEPARATOR);
 }
 
 
@@ -230,7 +224,18 @@ string filter_url_basename (string url)
 // It uses the forward slash as the separator.
 string filter_url_basename_web (string url)
 {
-  return filter_url_basename_internal (url, "/");
+  if (!url.empty ()) {
+    // Remove trailing slash.
+    const char * separator = "/";
+    if (url.find_last_of (separator) == url.length () - 1) {
+      url = url.substr (0, url.length () - 1);
+    }
+    // Keep last element: the base name.
+    size_t pos = url.find_last_of (separator);
+    if (pos != string::npos) url = url.substr (pos + 1);
+  }
+  // Done.
+  return url;
 }
 
 

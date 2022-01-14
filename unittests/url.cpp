@@ -152,11 +152,10 @@ void test_url ()
     evaluate (__LINE__, __func__, "foo", filter_url_dirname_cpp17 ("foo/bar"));
     evaluate (__LINE__, __func__, "/foo", filter_url_dirname_cpp17 ("/foo/bar"));
     evaluate (__LINE__, __func__, "/foo", filter_url_dirname_cpp17 ("/foo/bar/"));
-
-    evaluate (__LINE__, __func__, "a.txt", filter_url_basename ("/a.txt"));
-    evaluate (__LINE__, __func__, "txt", filter_url_basename ("/txt/"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("/path/to/foo.bar"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("foo.bar"));
+    evaluate (__LINE__, __func__, "a.txt", filter_url_basename_cpp17 ("/a.txt"));
+    evaluate (__LINE__, __func__, "txt", filter_url_basename_cpp17 ("/txt/"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename_cpp17 ("/path/to/foo.bar"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename_cpp17 ("foo.bar"));
   }
   
   // Test http GET and POST

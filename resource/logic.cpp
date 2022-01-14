@@ -528,7 +528,7 @@ void resource_logic_import_images (string resource, string path)
 {
   Database_ImageResources database_imageresources;
   
-  Database_Logs::log ("Importing: " + filter_url_basename (path));
+  Database_Logs::log ("Importing: " + filter_url_basename_cpp17 (path));
   
   // To begin with, add the path to the main file to the list of paths to be processed.
   vector <string> paths = {path};
@@ -538,7 +538,7 @@ void resource_logic_import_images (string resource, string path)
     // Take and remove the first path from the container.
     path = paths[0];
     paths.erase (paths.begin());
-    string basename = filter_url_basename (path);
+    string basename = filter_url_basename_cpp17 (path);
     string extension = filter_url_get_extension (path);
     extension = unicode_string_casefold (extension);
 

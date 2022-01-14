@@ -25,7 +25,7 @@ string get_base_url (void * webserver_request);
 void redirect_browser (void * webserver_request, string url);
 string filter_url_dirname_cpp17 (string url);
 string filter_url_dirname_web (string url);
-string filter_url_basename (string url);
+string filter_url_basename_cpp17 (string url);
 string filter_url_basename_web (string url);
 void filter_url_unlink (string filename);
 void filter_url_rename (const string& oldfilename, const string& newfilename);

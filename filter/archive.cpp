@@ -242,7 +242,7 @@ string filter_archive_tar_gzip_file (string filename)
 {
   string tarball = filter_url_tempfile () + ".tar.gz";
   string dirname = filter_url_escape_shell_argument (filter_url_dirname_cpp17 (filename));
-  string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
+  string basename = filter_url_escape_shell_argument (filter_url_basename_cpp17 (filename));
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
   int return_var;

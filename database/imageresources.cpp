@@ -116,7 +116,7 @@ void Database_ImageResources::erase (string name, string image)
 string Database_ImageResources::store (string name, string file)
 {
   string folder = resourceFolder (name);
-  string image = filter_url_basename (file);
+  string image = filter_url_basename_cpp17 (file);
   string path;
   bool exists = false;
   do {

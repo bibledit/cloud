@@ -64,7 +64,7 @@ string Fonts_Logic::getFontPath (string font)
   }
   
   // Case when the font is avaiable from the browser independent of Bibledit.
-  if (filter_url_basename (font) == font) {
+  if (filter_url_basename_cpp17 (font) == font) {
     return font;
   }
   

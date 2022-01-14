@@ -47,7 +47,7 @@ vector <string> Database_BibleImages::get ()
 
 void Database_BibleImages::store (string file)
 {
-  string image = filter_url_basename (file);
+  string image = filter_url_basename_cpp17 (file);
   filter_url_file_cp (file, path (image));
 }
 

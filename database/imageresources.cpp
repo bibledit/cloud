@@ -124,7 +124,7 @@ string Database_ImageResources::store (string name, string file)
     exists = file_or_dir_exists (path);
     if (exists) image = filter_string_str_replace (".", "0.", image);
   } while (exists);
-  filter_url_rename (file, path);
+  filter_url_rename_cpp17 (file, path);
   return image;
 }
 

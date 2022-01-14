@@ -239,17 +239,6 @@ string filter_url_basename_web (string url)
 }
 
 
-void filter_url_unlink (string filename)
-{
-#ifdef HAVE_WINDOWS
-  wstring wfilename = string2wstring (filename);
-  _wunlink (wfilename.c_str ());
-#else
-  unlink (filename.c_str ());
-#endif
-}
-
-
 void filter_url_unlink_cpp17 (string filename)
 {
   try {
@@ -268,6 +257,16 @@ void filter_url_rename (const string& oldfilename, const string& newfilename)
 #else
   rename (oldfilename.c_str (), newfilename.c_str ());
 #endif
+}
+
+
+void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilename)
+{
+  try {
+    filesystem::path oldpath (oldfilename);
+    filesystem::path newpath (newfilename);
+    filesystem::rename(oldpath, newpath);
+  } catch (...) { }
 }
 
 

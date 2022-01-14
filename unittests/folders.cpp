@@ -34,6 +34,6 @@ void test_folders ()
   evaluate (__LINE__, __func__, 0, result);
   string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
   evaluate (__LINE__, __func__, "", contents);
-  filter_url_unlink ("/tmp/bibledittest.txt");
+  filter_url_unlink_cpp17 ("/tmp/bibledittest.txt");
 }
 

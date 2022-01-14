@@ -85,7 +85,7 @@ void export_bibledropbox (string user, string bible)
   string zipfile = filter_url_create_path (directory, Export_Logic::baseBookFileName (0) + ".zip");
   
   string archive = filter_archive_zip_folder (directory);
-  filter_url_rename (archive, zipfile);
+  filter_url_rename_cpp17 (archive, zipfile);
   
   // Here is the submission form as of July 2018:
   /*

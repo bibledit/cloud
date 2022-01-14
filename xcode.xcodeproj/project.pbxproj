@@ -72,6 +72,7 @@
 		CA77114827524BC8003ADD67 /* libicuuc.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */; };
 		CA77114A27524BFF003ADD67 /* libicudata.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */; };
 		CAAA5DBA256555E5003249CA /* paratext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAA5DB9256555E5003249CA /* paratext.cpp */; };
+		CAD5E3952791E77700AE0A28 /* folders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD5E3942791E72F00AE0A28 /* folders.cpp */; };
 		CADE454624F174DF003165BB /* bible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FE24F1737A003165BB /* bible.cpp */; };
 		CADE454724F174DF003165BB /* logic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FF24F1737A003165BB /* logic.cpp */; };
 		CADE454824F174DF003165BB /* user.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE370624F1737A003165BB /* user.cpp */; };
@@ -768,6 +769,8 @@
 		CAD55EB1260140370021FED0 /* comparative1edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comparative1edit.h; sourceTree = "<group>"; };
 		CAD55EB2260140370021FED0 /* comparative9edit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = comparative9edit.h; sourceTree = "<group>"; };
 		CAD55EB3260140370021FED0 /* comparative9edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative9edit.html; sourceTree = "<group>"; };
+		CAD5E3932791E72E00AE0A28 /* folders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = folders.h; sourceTree = "<group>"; };
+		CAD5E3942791E72F00AE0A28 /* folders.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = folders.cpp; sourceTree = "<group>"; };
 		CAD8B11326E4B87600639404 /* bibleimages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibleimages.cpp; sourceTree = "<group>"; };
 		CAD8B11426E4B87600639404 /* bibleimages.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibleimages.h; sourceTree = "<group>"; };
 		CAD8B11526E4E18C00639404 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
@@ -5356,6 +5359,8 @@
 				CADE42CB24F174BD003165BB /* export.h */,
 				CADE42FA24F174BD003165BB /* flate.cpp */,
 				CADE42C224F174BD003165BB /* flate.h */,
+				CAD5E3942791E72F00AE0A28 /* folders.cpp */,
+				CAD5E3932791E72E00AE0A28 /* folders.h */,
 				CADE44C124F174BF003165BB /* french.cpp */,
 				CADE445324F174BE003165BB /* french.h */,
 				CA05A59826878ACA000D0737 /* gbs.cpp */,
@@ -5914,6 +5919,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAD5E3952791E77700AE0A28 /* folders.cpp in Sources */,
 				CA55F19F277B943E00673C9E /* base64.cxx in Sources */,
 				CA55F19E277B941D00673C9E /* mmfile.cxx in Sources */,
 				CA55F19D277B941100673C9E /* file_iterator.cxx in Sources */,

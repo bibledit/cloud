@@ -36,11 +36,11 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed)
   // Display any old journal entries.
   if (displayjournal) {
     bool output = false;
-    string directory = filter_url_create_path (testing_directory, "logbook");
+    string directory = filter_url_create_path_cpp17 ({testing_directory, "logbook"});
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size (); i++) {
       if (files [i] == "gitflag") continue;
-      string contents = filter_url_file_get_contents (filter_url_create_path (directory, files [i]));
+      string contents = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, files [i]}));
       bool display = true;
       for (auto & allow : allowed) {
         if (contents.find (allow) != string::npos) display = false;

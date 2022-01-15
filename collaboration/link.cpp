@@ -101,7 +101,7 @@ void collaboration_link ([[maybe_unused]] string object,
   
   // Store a temporal file for trying whether Bibledit has write access.
   database_jobs.set_progress (jobid, translate ("Writing"));
-  string temporal_file_name = filter_url_create_path (path, "test_repository_writable");
+  string temporal_file_name = filter_url_create_path_cpp17 ({path, "test_repository_writable"});
   if (result) {
     filter_url_file_put_contents (temporal_file_name, "contents");
   }

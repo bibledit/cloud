@@ -166,8 +166,8 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     // It now splits the strings up into just bytes.
     // So the similarity is now more realistic.
     string path = filter_url_create_root_path ("unittests", "tests");
-    string oldtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-old.txt"));
-    string newtext = filter_url_file_get_contents (filter_url_create_path (path, "invalid-utf8-new.txt"));
+    string oldtext = filter_url_file_get_contents (filter_url_create_path_cpp17 ({path, "invalid-utf8-old.txt"}));
+    string newtext = filter_url_file_get_contents (filter_url_create_path_cpp17 ({path, "invalid-utf8-new.txt"}));
     int similarity = filter_diff_character_similarity (oldtext, newtext);
     evaluate (__LINE__, __func__, 99, similarity);
   }
@@ -318,38 +318,38 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     
     string path, standard, output;
     
-    path = filter_url_create_path ("unittests", "tests", "verses_old.usfm");
+    path = filter_url_create_path_cpp17 ({"unittests", "tests", "verses_old.usfm"});
     standard = filter_url_file_get_contents (path);
-    path = filter_url_create_path (temporary_folder, "verses_old.usfm");
+    path = filter_url_create_path_cpp17 ({temporary_folder, "verses_old.usfm"});
     output = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, standard, output);
     
-    path = filter_url_create_path ("unittests", "tests", "verses_new.usfm");
+    path = filter_url_create_path_cpp17 ({"unittests", "tests", "verses_new.usfm"});
     standard = filter_url_file_get_contents (path);
-    path = filter_url_create_path (temporary_folder, "verses_new.usfm");
+    path = filter_url_create_path_cpp17 ({temporary_folder, "verses_new.usfm"});
     output = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, standard, output);
     
-    path = filter_url_create_path ("unittests", "tests", "verses_old.txt");
+    path = filter_url_create_path_cpp17 ({"unittests", "tests", "verses_old.txt"});
     standard = filter_url_file_get_contents (path);
-    path = filter_url_create_path (temporary_folder, "verses_old.txt");
+    path = filter_url_create_path_cpp17 ({temporary_folder, "verses_old.txt"});
     output = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, standard, output);
     
-    path = filter_url_create_path ("unittests", "tests", "verses_new.txt");
+    path = filter_url_create_path_cpp17 ({"unittests", "tests", "verses_new.txt"});
     standard = filter_url_file_get_contents (path);
-    path = filter_url_create_path (temporary_folder, "verses_new.txt");
+    path = filter_url_create_path_cpp17 ({temporary_folder, "verses_new.txt"});
     output = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, standard, output);
     
-    string oldfile = filter_url_create_path (temporary_folder, "verses_old.usfm");
-    string newfile = filter_url_create_path (temporary_folder, "verses_new.usfm");
-    string outputfile = filter_url_create_path (temporary_folder, "changed_verses.html");
+    string oldfile = filter_url_create_path_cpp17 ({temporary_folder, "verses_old.usfm"});
+    string newfile = filter_url_create_path_cpp17 ({temporary_folder, "verses_new.usfm"});
+    string outputfile = filter_url_create_path_cpp17 ({temporary_folder, "changed_verses.html"});
     filter_diff_run_file (oldfile, newfile, outputfile);
     
-    path = filter_url_create_path ("unittests", "tests", "changed_verses.html");
+    path = filter_url_create_path_cpp17 ({"unittests", "tests", "changed_verses.html"});
     standard = filter_url_file_get_contents (path);
-    path = filter_url_create_path (temporary_folder, "changed_verses.html");
+    path = filter_url_create_path_cpp17 ({temporary_folder, "changed_verses.html"});
     output = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, standard, output);
   }

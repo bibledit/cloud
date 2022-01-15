@@ -287,7 +287,7 @@ void demo_prepare_sample_bible ()
     if (filter_url_get_extension (file) == "usfm") {
       cout << file << endl;
       // Read the USFM and clean it up.
-      file = filter_url_create_path (directory, file);
+      file = filter_url_create_path_cpp17 ({directory, file});
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_collapse_whitespace (usfm);
       // Import the USFM into the sample Bible.

@@ -36,19 +36,19 @@ string Database_UsfmResources::mainFolder ()
 
 string Database_UsfmResources::resourceFolder (const string& name)
 {
-  return filter_url_create_path (mainFolder (), name);
+  return filter_url_create_path_cpp17 ({mainFolder (), name});
 }
 
 
 string Database_UsfmResources::bookFolder (const string& name, int book)
 {
-  return filter_url_create_path (resourceFolder (name), convert_to_string (book));
+  return filter_url_create_path_cpp17 ({resourceFolder (name), convert_to_string (book)});
 }
 
 
 string Database_UsfmResources::chapterFile (const string& name, int book, int chapter)
 {
-  return filter_url_create_path (bookFolder (name, book), convert_to_string (chapter));
+  return filter_url_create_path_cpp17 ({bookFolder (name, book), convert_to_string (chapter)});
 }
 
 

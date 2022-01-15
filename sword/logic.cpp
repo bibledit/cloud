@@ -72,7 +72,7 @@ void sword_logic_refresh_module_list ()
   filter_url_mkdir (sword_path);
   string swordconf = "[Install]\n"
                      "DataPath=" + sword_path + "/\n";
-  filter_url_file_put_contents (filter_url_create_path (sword_path, "sword.conf"), swordconf);
+  filter_url_file_put_contents (filter_url_create_path_cpp17 ({sword_path, "sword.conf"}), swordconf);
   string config_files_path = filter_url_create_root_path ("sword");
   filter_shell_run ("cp -r " + config_files_path + "/locales.d " + sword_path, out_err);
   sword_logic_log (out_err);

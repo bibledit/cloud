@@ -60,7 +60,7 @@ string index_listing (void * webserver_request, string url)
   // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
-  url = filter_url_create_path ("", url);
+  url = filter_url_create_path_cpp17 ({"", url}); // Todo test this separately.
   url = filter_string_str_replace ("\\", "/", url);
   view.set_variable ("url", url);
   string parent = filter_url_dirname_web (url);
@@ -72,11 +72,11 @@ string index_listing (void * webserver_request, string url)
   if (!file_or_dir_exists (directory) || filter_url_is_dir (directory)) {
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
-      string path = filter_url_create_path (directory, file);
+      string path = filter_url_create_path_cpp17 ({directory, file});
       string line;
       line.append ("<tr>");
       line.append ("<td>");
-      line.append (R"(<a href=")" + filter_url_create_path (url, file) + R"(">)");
+      line.append (R"(<a href=")" + filter_url_create_path_cpp17 ({url, file}) + R"(">)");
       line.append (file);
       line.append ("</a>");
       line.append ("</td>");

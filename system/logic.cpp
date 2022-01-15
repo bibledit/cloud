@@ -47,7 +47,7 @@
 
 string system_logic_bibles_file_name ()
 {
-  return filter_url_create_path (filter_url_temp_dir (), "bibles.tar");
+  return filter_url_create_path_cpp17 ({filter_url_temp_dir (), "bibles.tar"});
 }
 
 
@@ -95,7 +95,7 @@ void system_logic_produce_bibles_file (int jobid)
         book_usfm.append ("\n");
       }
       string file = bible + "_" + convert_to_string (book) + ".usfm";
-      string path = filter_url_create_path (directory, file);
+      string path = filter_url_create_path_cpp17 ({directory, file});
       filter_url_file_put_contents (path, book_usfm);
       files.push_back (file);
     }
@@ -149,7 +149,7 @@ void system_logic_import_bibles_file (string tarball)
     
     // Get the file's contents for import.
     Database_Logs::log ("Importing from file " + file);
-    string path = filter_url_create_path (directory, file);
+    string path = filter_url_create_path_cpp17 ({directory, file});
     string data = filter_url_file_get_contents (path);
     
     // The name of the Bible this file is to be imported into.
@@ -191,7 +191,7 @@ void system_logic_import_bibles_file (string tarball)
 
 string system_logic_notes_file_name ()
 {
-  return filter_url_create_path (filter_url_temp_dir (), "notes.tar");
+  return filter_url_create_path_cpp17 ({filter_url_temp_dir (), "notes.tar"});
 }
 
 
@@ -283,7 +283,7 @@ void system_logic_import_notes_file (string tarball)
 string system_logic_resources_file_name (string resourcename)
 {
   if (!resourcename.empty ()) resourcename.append ("_");
-  return filter_url_create_path (filter_url_temp_dir (), resourcename + "resources.tar");
+  return filter_url_create_path_cpp17 ({filter_url_temp_dir (), resourcename + "resources.tar"});
 }
 
 
@@ -434,7 +434,7 @@ void system_logic_import_resources_file (string tarball)
 
     // Get the file's contents for import.
     Database_Logs::log ("Importing " + file);
-    string path = filter_url_create_path (directory, file);
+    string path = filter_url_create_path_cpp17 ({directory, file});
     string data = filter_url_file_get_contents (path);
 
     // Store the resource into place.

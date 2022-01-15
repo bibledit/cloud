@@ -37,8 +37,8 @@ void test_archive ()
 
   string file1 = "testarchive1";
   string file2 = "testarchive2";
-  string path1 = filter_url_create_path (directory, file1);
-  string path2 = filter_url_create_path (directory, file2);
+  string path1 = filter_url_create_path_cpp17 ({directory, file1});
+  string path2 = filter_url_create_path_cpp17 ({directory, file2});
   string data1;
   string data2;
   for (unsigned int i = 0; i < 1000; i++) {
@@ -50,13 +50,13 @@ void test_archive ()
   vector <string> files12 = { file1, file2 };
 
   for (int i = 0; i < 5; i++) {
-    string path = filter_url_create_path (directory, "testdata" + convert_to_string (i));
+    string path = filter_url_create_path_cpp17 ({directory, "testdata" + convert_to_string (i)});
     string data = convert_to_string (filter_string_rand (1000000, 2000000));
     for (int i2 = 0; i2 <= i; i2++) data.append (data);
     filter_url_file_put_contents (path, data);
-    path = filter_url_create_path (directory, convert_to_string (i), convert_to_string (i));
+    path = filter_url_create_path_cpp17 ({directory, convert_to_string (i), convert_to_string (i)});
     filter_url_mkdir (path);
-    path = filter_url_create_path (path, "data");
+    path = filter_url_create_path_cpp17 ({path, "data"});
     filter_url_file_put_contents (path, data);
   }
   
@@ -194,8 +194,8 @@ void test_archive ()
     // Check the untarred files.
     for (size_t i = 0; i < files12.size (); i++) {
       string file = files12 [i];
-      string content = filter_url_file_get_contents (filter_url_create_path (directory, file));
-      string data = filter_url_file_get_contents (filter_url_create_path (folder, file));
+      string content = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, file}));
+      string data = filter_url_file_get_contents (filter_url_create_path_cpp17 ({folder, file}));
       evaluate (__LINE__, __func__, content, data);
     }
     

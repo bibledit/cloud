@@ -103,7 +103,7 @@ void developer_logic_import_changes ()
   string home_path = ".";
   char * home = getenv ("HOME");
   if (home) home_path = home;
-  string file_path = filter_url_create_path (home_path, "Desktop", "changes.usfm");
+  string file_path = filter_url_create_path_cpp17 ({home_path, "Desktop", "changes.usfm"});
   string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
   Database_Bibles database_bibles;

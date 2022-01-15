@@ -43,7 +43,7 @@ string Database_Config_Bible::file (string bible)
 // The path to the file that contains this setting.
 string Database_Config_Bible::file (string bible, const char * key)
 {
-  return filter_url_create_path (file (bible), key);
+  return filter_url_create_path_cpp17 ({file (bible), key});
 }
 
 

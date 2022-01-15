@@ -248,18 +248,6 @@ void filter_url_unlink_cpp17 (string filename)
 }
 
 
-void filter_url_rename (const string& oldfilename, const string& newfilename)
-{
-#ifdef HAVE_WINDOWS
-  wstring woldfilename = string2wstring (oldfilename);
-  wstring wnewfilename = string2wstring (newfilename);
-  _wrename (woldfilename.c_str (), wnewfilename.c_str ());
-#else
-  rename (oldfilename.c_str (), newfilename.c_str ());
-#endif
-}
-
-
 void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilename)
 {
   try {
@@ -271,7 +259,7 @@ void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilena
 
 
 // Creates a file path out of the components.
-string filter_url_create_path (string part1, string part2, string part3, string part4, string part5, string part6)
+string filter_url_create_path (string part1, string part2, string part3, string part4, string part5, string part6) // Todo out.
 {
   string path (part1);
   if (part2.length()) path += DIRECTORY_SEPARATOR + part2;
@@ -280,6 +268,20 @@ string filter_url_create_path (string part1, string part2, string part3, string 
   if (part5.length()) path += DIRECTORY_SEPARATOR + part5;
   if (part6.length()) path += DIRECTORY_SEPARATOR + part6;
   return path;
+}
+
+
+// Creates a file path out of the parts.
+string filter_url_create_path_cpp17 (const vector<string>& parts)
+{
+  // Empty path.
+  filesystem::path path;
+  for (int i = 0; i < parts.size(); i++) {
+    if (i == 0) path += parts[i]; // Append the part without directory separator.
+    else path /= parts[i]; // Append the directory separator and then the part.
+  }
+  // Done.
+  return path.string();
 }
 
 
@@ -373,7 +375,7 @@ void filter_url_rmdir (string directory)
 {
   vector <string> files = filter_url_scandir_internal (directory);
   for (auto path : files) {
-    path = filter_url_create_path (directory, path);
+    path = filter_url_create_path_cpp17 ({directory, path});
     if (filter_url_is_dir(path)) {
       filter_url_rmdir(path);
     }
@@ -529,8 +531,8 @@ void filter_url_dir_cp (const string & input, const string & output)
   // Check on all files in the input directory.
   vector <string> files = filter_url_scandir (input);
   for (auto & file : files) {
-    string input_path = filter_url_create_path (input, file);
-    string output_path = filter_url_create_path (output, file);
+    string input_path = filter_url_create_path_cpp17 ({input, file});
+    string output_path = filter_url_create_path_cpp17 ({output, file});
     if (filter_url_is_dir (input_path)) {
       // Create output directory.
       filter_url_mkdir (output_path);
@@ -573,7 +575,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 {
   vector <string> files = filter_url_scandir (folder);
   for (auto & file : files) {
-    string path = filter_url_create_path (folder, file);
+    string path = filter_url_create_path_cpp17 ({folder, file});
     paths.push_back (path);
     if (filter_url_is_dir (path)) {
       filter_url_recursive_scandir (path, paths);
@@ -626,7 +628,7 @@ string filter_url_tempfile (const char * directory)
 {
   string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
-    filename = filter_url_create_path (directory, filename);
+    filename = filter_url_create_path_cpp17 ({directory, filename});
   } else {
     filename = filter_url_create_root_path (filter_url_temp_dir (), filename);
   }

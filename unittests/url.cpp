@@ -78,14 +78,14 @@ void test_url ()
   // Testing mkdir and rmdir including parents.
   {
     // Do test a folder name that starts with a dot.
-    string directory = filter_url_create_path (testing_directory, "a", ".git");
+    string directory = filter_url_create_path_cpp17 ({testing_directory, "a", ".git"});
     filter_url_mkdir (directory);
-    string path = filter_url_create_path (directory, "c");
+    string path = filter_url_create_path_cpp17 ({directory, "c"});
     string contents = "unittest";
     filter_url_file_put_contents (path, contents);
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
     
-    path = filter_url_create_path (testing_directory, "a");
+    path = filter_url_create_path_cpp17 ({testing_directory, "a"});
     evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
     evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
     
@@ -223,7 +223,7 @@ void test_url ()
     string output = "/tmp/test_copy_directory";
     filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
-    string path = filter_url_create_path (output, "tests", "basic.css");
+    string path = filter_url_create_path_cpp17 ({output, "tests", "basic.css"});
     evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
   }
   
@@ -272,8 +272,8 @@ void test_url ()
   // Testing checking for and setting write permissions.
   {
     string directory = filter_url_create_root_path (filter_url_temp_dir ());
-    string file1 = filter_url_create_path (directory, "1");
-    string file2 = filter_url_create_path (directory, "2");
+    string file1 = filter_url_create_path_cpp17 ({directory, "1"});
+    string file2 = filter_url_create_path_cpp17 ({directory, "2"});
     filter_url_file_put_contents (file1, "x");
     filter_url_file_put_contents (file2, "x");
     

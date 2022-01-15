@@ -42,7 +42,7 @@ string Database_Cache::fragment ()
 
 string Database_Cache::path (string resource, int book)
 {
-  return filter_url_create_path (database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ());
+  return filter_url_create_path_cpp17 ({database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ()});
 }
 
 

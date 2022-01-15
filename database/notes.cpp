@@ -192,7 +192,7 @@ void Database_Notes::trim ()
   vector <string> bits1 = filter_url_scandir (main_folder);
   for (auto bit1 : bits1) {
     if (bit1.length () == 3) {
-      string folder = filter_url_create_path (main_folder, bit1);
+      string folder = filter_url_create_path_cpp17 ({main_folder, bit1});
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
         Database_Logs::log (message + folder);
@@ -200,7 +200,7 @@ void Database_Notes::trim ()
       }
       for (auto bit2 : bits2) {
         if (bit2.length () == 3) {
-          string folder = filter_url_create_path (main_folder, bit1, bit2);
+          string folder = filter_url_create_path_cpp17 ({main_folder, bit1, bit2});
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
             Database_Logs::log (message + folder);
@@ -249,11 +249,11 @@ void Database_Notes::sync ()
     // It used conversion to int before to determine it was a real note,
     // with the result that it missed 10% of the notes, which subsequently got deleted, oops!
     if (bit1.length () == 3) {
-      vector <string> bits2 = filter_url_scandir (filter_url_create_path (main_folder, bit1));
+      vector <string> bits2 = filter_url_scandir (filter_url_create_path_cpp17 ({main_folder, bit1}));
       for (auto & bit2 : bits2) {
         // Old storage mechanism, e.g. folder "425".
         if (bit2.length () == 3) {
-          vector <string> bits3 = filter_url_scandir (filter_url_create_path (main_folder, bit1, bit2));
+          vector <string> bits3 = filter_url_scandir (filter_url_create_path_cpp17 ({main_folder, bit1, bit2}));
           for (auto & bit3 : bits3) {
             if (bit3.length () == 3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
@@ -416,7 +416,7 @@ string Database_Notes::note_file (int identifier)
   string sidentifier = convert_to_string (identifier);
   string folder = sidentifier.substr (0, 3);
   string file = sidentifier.substr (3, 6) + ".json";
-  return filter_url_create_path (main_folder_path (), folder, file);
+  return filter_url_create_path_cpp17 ({main_folder_path (), folder, file});
 }
 
 

@@ -284,8 +284,8 @@ void changes_modifications ()
     
     
     // Create online page with changed verses.
-    string versesoutputfile = filter_url_create_path (directory, "changed_verses.html");
-    filter_diff_run_file (filter_url_create_path (directory, "verses_old.txt"), filter_url_create_path (directory, "verses_new.txt"), versesoutputfile);
+    string versesoutputfile = filter_url_create_path_cpp17 ({directory, "changed_verses.html"});
+    filter_diff_run_file (filter_url_create_path_cpp17 ({directory, "verses_old.txt"}), filter_url_create_path_cpp17 ({directory, "verses_new.txt"}), versesoutputfile);
     
     
     // Storage for body of the email with the changes.
@@ -406,7 +406,7 @@ void changes_modifications ()
   int now = filter_date_seconds_since_epoch ();
   bibles = filter_url_scandir (directory);
   for (auto &bible : bibles) {
-    string folder = filter_url_create_path (directory, bible);
+    string folder = filter_url_create_path_cpp17 ({directory, bible});
     int time = filter_url_file_modification_time (folder);
     int days = (now - time) / 86400;
     if (days > 31) {
@@ -414,7 +414,7 @@ void changes_modifications ()
     } else {
       vector <string> revisions = filter_url_scandir (folder);
       for (auto & revision : revisions) {
-        string path = filter_url_create_path (folder, revision);
+        string path = filter_url_create_path_cpp17 ({folder, revision});
         int time = filter_url_file_modification_time (path);
         int days = (now - time) / 86400;
         if (days > 31) {

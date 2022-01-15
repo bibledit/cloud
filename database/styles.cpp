@@ -463,13 +463,13 @@ string Database_Styles::databasefolder ()
 
 string Database_Styles::sheetfolder (string sheet)
 {
-  return filter_url_create_path (databasefolder (), sheet);
+  return filter_url_create_path_cpp17 ({databasefolder (), sheet});
 }
 
 
 string Database_Styles::stylefile (string sheet, string marker)
 {
-  return filter_url_create_path (sheetfolder (sheet), marker);
+  return filter_url_create_path_cpp17 ({sheetfolder (sheet), marker});
 }
 
 

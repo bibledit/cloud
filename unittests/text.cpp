@@ -233,8 +233,8 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
   // The headers of each new book should be correct.
   {
     string directory = filter_url_create_root_path ("unittests", "tests");
-    string usfm_ruth = filter_url_file_get_contents (filter_url_create_path (directory, "08-Ruth.usfm"));
-    string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path (directory, "60-1Peter.usfm"));
+    string usfm_ruth = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "08-Ruth.usfm"}));
+    string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "60-1Peter.usfm"}));
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
     filter_text.add_usfm_code (usfm_ruth);

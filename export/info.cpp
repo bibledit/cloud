@@ -38,13 +38,13 @@
 void export_info (string bible, bool log)
 {
   // Create folders for the information.
-  string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "info");
+  string directory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "info"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.
-  string informationdFilename = filter_url_create_path (directory, "information.html");
-  string falloutFilename = filter_url_create_path (directory, "fallout.html");
+  string informationdFilename = filter_url_create_path_cpp17 ({directory, "information.html"});
+  string falloutFilename = filter_url_create_path_cpp17 ({directory, "fallout.html"});
   
   
   Database_Bibles database_bibles;

@@ -429,7 +429,7 @@ const char * Database_Privileges::off ()
 
 string database_privileges_directory (const string & user)
 {
-  return filter_url_create_path (database_logic_databases (), "clients", user);
+  return filter_url_create_path_cpp17 ({database_logic_databases (), "clients", user});
 }
 
 

@@ -169,7 +169,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
       // because it now runs the binary installed in /usr/bin.
       if ((webroot == homefolder) || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
         // Update web root to ~/bibledit or ~/bibledit-cloud.
-        webroot = filter_url_create_path (homefolder, filter_url_basename_cpp17 (PACKAGE_DATA_DIR));
+        webroot = filter_url_create_path_cpp17 ({homefolder, filter_url_basename_cpp17 (PACKAGE_DATA_DIR)});
       }
     }
   }

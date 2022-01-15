@@ -89,7 +89,7 @@ void Database_Mappings::defaults ()
     if (extension != "txt") continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
     name = filter_string_str_replace ("_", " ", name);
-    string path = filter_url_create_path (folder, file);
+    string path = filter_url_create_path_cpp17 ({folder, file});
     string data = filter_url_file_get_contents (path);
     import (name, data);
   }

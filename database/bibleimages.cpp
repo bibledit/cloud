@@ -74,7 +74,7 @@ string Database_BibleImages::folder ()
 
 string Database_BibleImages::path (string image)
 {
-  return filter_url_create_path (folder (), image);
+  return filter_url_create_path_cpp17 ({folder (), image});
 }
 
 

@@ -52,7 +52,7 @@ string Paratext_Logic::searchProjectsFolder ()
     vector <string> files = filter_url_scandir (homedir);
     for (auto file : files) {
       if (file.find ("Paratext") != string::npos) {
-        return filter_url_create_path (homedir, file);
+        return filter_url_create_path_cpp17 ({homedir, file});
       }
     }
   }
@@ -63,7 +63,7 @@ string Paratext_Logic::searchProjectsFolder ()
   vector <string> files = filter_url_scandir (homedir);
   for (auto file : files) {
     if (file.find ("Paratext") != string::npos) {
-      string path = filter_url_create_path (homedir, file);
+      string path = filter_url_create_path_cpp17 (homedir, file);
       path = filter_string_str_replace ("\\\\", "\\", path);
       return path;
     }
@@ -80,7 +80,7 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
   vector <string> projects;
   vector <string> folders = filter_url_scandir (projects_folder);
   for (auto folder : folders) {
-    string path = filter_url_create_path (projects_folder, folder);
+    string path = filter_url_create_path_cpp17 ({projects_folder, folder});
     if (filter_url_is_dir (path)) {
       map <int, string> books = searchBooks (path);
       if (!books.empty ()) projects.push_back (folder);
@@ -97,7 +97,7 @@ map <int, string> Paratext_Logic::searchBooks (string project_path)
   for (auto file : files) {
     if (file.find (".BAK") != string::npos) continue;
     if (file.find ("~") != string::npos) continue;
-    string path = filter_url_create_path (project_path, file);
+    string path = filter_url_create_path_cpp17 ({project_path, file});
     int id = getBook (path);
     if (id) books [id] = file;
   }
@@ -178,7 +178,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
     
     if (!paratext_book.empty ()) {
 
-      string path = filter_url_create_path (paratext_project_folder, paratext_book);
+      string path = filter_url_create_path_cpp17 ({paratext_project_folder, paratext_book});
       Database_Logs::log (bookname + ": " "Saving to:" " " + path);
       // Paratext on Windows and on Linux store the line ending with carriage return and line feed.
       filter_url_file_put_contents (path, lf2crlf (usfm));
@@ -223,7 +223,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
     string bookname = Database_Books::getEnglishFromId (book);
 
     string paratext_book = element.second;
-    string path = filter_url_create_path (projectFolder (bible), paratext_book);
+    string path = filter_url_create_path_cpp17 ({projectFolder (bible), paratext_book});
 
     Database_Logs::log (bookname + ": " "Scheduling import from:" " " + path);
 
@@ -241,7 +241,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
 
 string Paratext_Logic::projectFolder (string bible)
 {
-  return filter_url_create_path (Database_Config_General::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible));
+  return filter_url_create_path_cpp17 ({Database_Config_General::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible)});
 }
 
 
@@ -263,7 +263,7 @@ string Paratext_Logic::ancestorPath (string bible, int book)
 {
   string path = filter_url_create_root_path ("paratext", "ancestors", bible);
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
-  if (book) path = filter_url_create_path (path, convert_to_string (book));
+  if (book) path = filter_url_create_path_cpp17 ({path, convert_to_string (book)});
   return path;
 }
 
@@ -358,7 +358,7 @@ void Paratext_Logic::synchronize ()
       // Remove the carriage return that Paratext stores on both Windows and Linux.
       map <int, string> paratext_usfm;
       {
-        string path = filter_url_create_path (projectFolder (bible), paratext_book);
+        string path = filter_url_create_path_cpp17 ({projectFolder (bible), paratext_book});
         string book_usfm = crlf2lf (filter_url_file_get_contents (path));
         // Paratext on Linux has been seen adding empty lines right after \c (chapter).
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
@@ -458,7 +458,7 @@ void Paratext_Logic::synchronize ()
             usfm.append (filter_string_trim (data));
           }
         }
-        string path = filter_url_create_path (projectFolder (bible), paratext_book);
+        string path = filter_url_create_path_cpp17 ({projectFolder (bible), paratext_book});
         filter_url_file_put_contents (path, lf2crlf (usfm));
       }
     }

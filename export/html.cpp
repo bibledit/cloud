@@ -42,14 +42,14 @@
 void export_html_book (string bible, int book, bool log)
 {
   // Create folders for the html export.
-  string directory = filter_url_create_path (Export_Logic::bibleDirectory (bible), "html");
+  string directory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "html"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filename for the html file.
   string basename = Export_Logic::baseBookFileName (book);
-  string filename_html = filter_url_create_path (directory, basename + ".html");
-  string stylesheet_css = filter_url_create_path (directory, "stylesheet.css");
+  string filename_html = filter_url_create_path_cpp17 ({directory, basename + ".html"});
+  string stylesheet_css = filter_url_create_path_cpp17 ({directory, "stylesheet.css"});
   
   
   Database_Bibles database_bibles;
@@ -70,7 +70,7 @@ void export_html_book (string bible, int book, bool log)
     if (Fonts_Logic::fontExists (font)) {
       string fontpath = Fonts_Logic::getFontPath (font);
       string contents = filter_url_file_get_contents (fontpath);
-      fontpath = filter_url_create_path (directory, font);
+      fontpath = filter_url_create_path_cpp17 ({directory, font});
       filter_url_file_put_contents (fontpath, contents);
     }
   }
@@ -109,7 +109,7 @@ void export_html_book (string bible, int book, bool log)
   // Save any images that were included.
   for (auto src : filter_text.image_sources) {
     string contents = database_bibleimages.get(src);
-    string filename = filter_url_create_path (directory, src);
+    string filename = filter_url_create_path_cpp17 ({directory, src});
     filter_url_file_put_contents(filename, contents);
   }
 

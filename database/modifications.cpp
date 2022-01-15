@@ -97,7 +97,7 @@ string Database_Modifications::teamFolder ()
 
 string Database_Modifications::teamFile (const string& bible, int book, int chapter)
 {
-  return filter_url_create_path (teamFolder (), bible + "." + convert_to_string (book) + "." + convert_to_string (chapter));
+  return filter_url_create_path_cpp17 ({teamFolder (), bible + "." + convert_to_string (book) + "." + convert_to_string (chapter)});
 }
 
 
@@ -164,7 +164,7 @@ void Database_Modifications::deleteTeamDiffBible (const string& bible)
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
-    filter_url_unlink_cpp17 (filter_url_create_path (teamFolder (), file));
+    filter_url_unlink_cpp17 (filter_url_create_path_cpp17 ({teamFolder (), file}));
   }
 }
 
@@ -188,7 +188,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
     if (file.substr (0, length) != pattern) continue;
     vector <string> bits = filter_string_explode (file, '.');
     if (bits.size() != 3) continue;
-    string path = filter_url_create_path (teamFolder (), file);
+    string path = filter_url_create_path_cpp17 ({teamFolder (), file});
     int time = filter_url_file_modification_time (path);
     int days = (filter_date_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
@@ -265,7 +265,7 @@ void Database_Modifications::truncateTeams ()
 {
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto file : files) {
-    filter_url_unlink_cpp17 (filter_url_create_path (teamFolder (), file));
+    filter_url_unlink_cpp17 (filter_url_create_path_cpp17 ({teamFolder (), file}));
   }
 }
 
@@ -281,55 +281,55 @@ string Database_Modifications::userMainFolder ()
 
 string Database_Modifications::userUserFolder (const string& username)
 {
-  return filter_url_create_path (userMainFolder (), username);
+  return filter_url_create_path_cpp17 ({userMainFolder (), username});
 }
 
 
 string Database_Modifications::userBibleFolder (const string& username, const string& bible)
 {
-  return filter_url_create_path (userUserFolder (username), bible);
+  return filter_url_create_path_cpp17 ({userUserFolder (username), bible});
 }
 
 
 string Database_Modifications::userBookFolder (const string& username, const string& bible, int book)
 {
-  return filter_url_create_path (userBibleFolder (username, bible), convert_to_string (book));
+  return filter_url_create_path_cpp17 ({userBibleFolder (username, bible), convert_to_string (book)});
 }
 
 
 string Database_Modifications::userChapterFolder (const string& username, const string& bible, int book, int chapter)
 {
-  return filter_url_create_path (userBookFolder (username, bible, book), convert_to_string (chapter));
+  return filter_url_create_path_cpp17 ({userBookFolder (username, bible, book), convert_to_string (chapter)});
 }
 
 
 string Database_Modifications::userNewIDFolder (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path (userChapterFolder (username, bible, book, chapter), convert_to_string (newID));
+  return filter_url_create_path_cpp17 ({userChapterFolder (username, bible, book, chapter), convert_to_string (newID)});
 }
 
 
 string Database_Modifications::userTimeFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path (userNewIDFolder (username, bible, book, chapter, newID), "time");
+  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "time"});
 }
 
 
 string Database_Modifications::userOldIDFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path (userNewIDFolder (username, bible, book, chapter, newID), "oldid");
+  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "oldid"});
 }
 
 
 string Database_Modifications::userOldTextFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path (userNewIDFolder (username, bible, book, chapter, newID), "oldtext");
+  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "oldtext"});
 }
 
 
 string Database_Modifications::userNewTextFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path (userNewIDFolder (username, bible, book, chapter, newID), "newtext");
+  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "newtext"});
 }
 
 
@@ -391,7 +391,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
   vector <string> files = filter_url_scandir (folder);
   vector <int> chapters;
   for (auto & file : files) {
-    string path = filter_url_create_path (folder, file);
+    string path = filter_url_create_path_cpp17 ({folder, file});
     int time = filter_url_file_modification_time (path);
     int days = (filter_date_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
@@ -460,7 +460,7 @@ string Database_Modifications::notificationsMainFolder ()
 
 string Database_Modifications::notificationIdentifierDatabase (int identifier)
 {
-  return filter_url_create_path (notificationsMainFolder (), convert_to_string (identifier));
+  return filter_url_create_path_cpp17 ({notificationsMainFolder (), convert_to_string (identifier)});
 }
 
 

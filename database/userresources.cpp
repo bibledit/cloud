@@ -96,7 +96,7 @@ string Database_UserResources::fragment ()
 // The full path of the definition file.
 string Database_UserResources::file (const string& name)
 {
-  return filter_url_create_path (folder (), fragment () + filter_url_filename_clean (name));
+  return filter_url_create_path_cpp17 ({folder (), fragment () + filter_url_filename_clean (name)});
 }
 
 

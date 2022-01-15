@@ -36,7 +36,7 @@ string search_logic_index_folder ()
 
 string search_logic_bible_fragment (string bible)
 {
-  return filter_url_create_path (search_logic_index_folder (), bible + "_");
+  return filter_url_create_path_cpp17 ({search_logic_index_folder (), bible + "_"});
 }
 
 
@@ -442,7 +442,7 @@ void search_logic_delete_bible (string bible)
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
-      string path = filter_url_create_path (search_logic_index_folder (), file);
+      string path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
       filter_url_unlink_cpp17 (path);
     }
   }
@@ -456,7 +456,7 @@ void search_logic_delete_book (string bible, int book)
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
-      string path = filter_url_create_path (search_logic_index_folder (), file);
+      string path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
       filter_url_unlink_cpp17 (path);
     }
   }
@@ -470,7 +470,7 @@ void search_logic_delete_chapter (string bible, int book, int chapter)
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
-      string path = filter_url_create_path (search_logic_index_folder (), file);
+      string path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
       filter_url_unlink_cpp17 (path);
     }
   }
@@ -510,9 +510,9 @@ void search_logic_copy_bible (string original, string destination)
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (original_fragment) == 0) {
-      string original_path = filter_url_create_path (search_logic_index_folder (), file);
+      string original_path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
       string destination_file = destination_fragment + file.substr (original_fragment.length ());
-      string destination_path = filter_url_create_path (search_logic_index_folder (), destination_file);
+      string destination_path = filter_url_create_path_cpp17 ({search_logic_index_folder (), destination_file});
       filter_url_file_cp (original_path, destination_path);
     }
   }

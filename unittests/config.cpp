@@ -126,7 +126,7 @@ void test_database_config_user ()
     evaluate (__LINE__, __func__, newmonth, request.database_config_user ()->getSprintMonth ());
     // Set the modification time of the sprint month record to more than two days ago:
     // Trimming resets the sprint month to the current month.
-    string filename = filter_url_create_path (testing_directory, "databases", "config", "user", "username", "sprint-month");
+    string filename = filter_url_create_path_cpp17 ({testing_directory, "databases", "config", "user", "username", "sprint-month"});
     struct stat foo;
     struct utimbuf new_times;
     stat (filename.c_str(), &foo);

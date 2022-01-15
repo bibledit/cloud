@@ -73,7 +73,7 @@ void export_bibledropbox (string user, string bible)
     
     // The filename for the USFM for this book.
     string filename = Export_Logic::baseBookFileName (book);
-    string path = filter_url_create_path (directory, filename + ".usfm");
+    string path = filter_url_create_path_cpp17 ({directory, filename + ".usfm"});
     
     
     // Save.
@@ -82,7 +82,7 @@ void export_bibledropbox (string user, string bible)
   
   
   // Compress USFM files into one zip file.
-  string zipfile = filter_url_create_path (directory, Export_Logic::baseBookFileName (0) + ".zip");
+  string zipfile = filter_url_create_path_cpp17 ({directory, Export_Logic::baseBookFileName (0) + ".zip"});
   
   string archive = filter_archive_zip_folder (directory);
   filter_url_rename_cpp17 (archive, zipfile);

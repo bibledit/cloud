@@ -74,7 +74,7 @@ string resource_image (void * webserver_request)
   if (request->post.count ("upload")) {
     string folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    string file =  filter_url_create_path (folder, request->post ["filename"]);
+    string file =  filter_url_create_path_cpp17 ({folder, request->post ["filename"]});
     string data = request->post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);

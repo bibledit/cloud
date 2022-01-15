@@ -355,7 +355,7 @@ void test_string ()
   // Test tidying html.
   {
     string folder = filter_url_create_root_path ("unittests", "tests");
-    string html = filter_url_file_get_contents (filter_url_create_path (folder, "/biblehub-john-1-1.html"));
+    string html = filter_url_file_get_contents (filter_url_create_path_cpp17 ({folder, "biblehub-john-1-1.html"}));
     vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
     evaluate (__LINE__, __func__, 747, (int)tidy.size());
   }

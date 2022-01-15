@@ -38,13 +38,13 @@ string Database_ImageResources::mainFolder ()
 
 string Database_ImageResources::resourceFolder (const string& name)
 {
-  return filter_url_create_path (mainFolder (), name);
+  return filter_url_create_path_cpp17 ({mainFolder (), name});
 }
 
 
 string Database_ImageResources::imagePath (string name, string image)
 {
-  return filter_url_create_path (resourceFolder (name), image);
+  return filter_url_create_path_cpp17 ({resourceFolder (name), image});
 }
 
 
@@ -56,7 +56,7 @@ string Database_ImageResources::databaseFile ()
 
 sqlite3 * Database_ImageResources::connect (string name)
 {
-  string path = filter_url_create_path (resourceFolder (name), databaseFile ());
+  string path = filter_url_create_path_cpp17 ({resourceFolder (name), databaseFile ()});
   return database_sqlite_connect (path);
 }
 
@@ -120,7 +120,7 @@ string Database_ImageResources::store (string name, string file)
   string path;
   bool exists = false;
   do {
-    path = filter_url_create_path (folder, image);
+    path = filter_url_create_path_cpp17 ({folder, image});
     exists = file_or_dir_exists (path);
     if (exists) image = filter_string_str_replace (".", "0.", image);
   } while (exists);

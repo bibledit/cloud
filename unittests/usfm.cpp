@@ -939,7 +939,7 @@ void test_usfm ()
   // Test on Genesis USFM.
   {
     string directory = filter_url_create_root_path ("unittests", "tests");
-    string bookusfm = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN.SFM"));
+    string bookusfm = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "01GEN.SFM"}));
     
     // Test getting all chapter number from USFM.
     vector <int> chapters = usfm_get_chapter_numbers (bookusfm);
@@ -949,7 +949,7 @@ void test_usfm ()
     
     // Test getting contents for chapter 0.
     string usfm = usfm_get_chapter_text (bookusfm, 0);
-    string standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-0.SFM"));
+    string standard = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "01GEN-0.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
     chapters = usfm_get_chapter_numbers (usfm);
@@ -957,7 +957,7 @@ void test_usfm ()
     
     // Test getting contents for last chapter in USFM.
     usfm = usfm_get_chapter_text (bookusfm, 50);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-50.SFM"));
+    standard = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "01GEN-50.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
     chapters = usfm_get_chapter_numbers (usfm);
@@ -965,7 +965,7 @@ void test_usfm ()
     
     // Test getting the text of a chapter somewhere within a block of USFM.
     usfm = usfm_get_chapter_text (bookusfm, 25);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-25.SFM"));
+    standard = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "01GEN-25.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
     chapters = usfm_get_chapter_numbers (usfm);
@@ -981,7 +981,7 @@ void test_usfm ()
     // Test getting text for chapter that has a space after chapter number.
     string modified_book_usfm = filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm);
     usfm = usfm_get_chapter_text (modified_book_usfm, 10);
-    standard = filter_url_file_get_contents (filter_url_create_path (directory, "01GEN-10.SFM"));
+    standard = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "01GEN-10.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
     chapters = usfm_get_chapter_numbers (modified_book_usfm);
@@ -991,7 +991,7 @@ void test_usfm ()
   // Regression text on instance of Nehemia 12 in combination with the Paratext bridge.
   {
     string directory = filter_url_create_root_path ("unittests", "tests");
-    string book_usfm = filter_url_file_get_contents (filter_url_create_path (directory, "16NEHTSIC.SFM"));
+    string book_usfm = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "16NEHTSIC.SFM"}));
     string chapter_usfm = usfm_get_chapter_text (book_usfm, 12);
     evaluate (__LINE__, __func__, 7355, chapter_usfm.size());
   }

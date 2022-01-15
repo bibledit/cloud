@@ -61,7 +61,7 @@ void export_web_book (string bible, int book, bool log)
     if (Fonts_Logic::fontExists (font)) {
       string fontpath = Fonts_Logic::getFontPath (font);
       string contents = filter_url_file_get_contents (fontpath);
-      fontpath = filter_url_create_path (directory, font);
+      fontpath = filter_url_create_path_cpp17 ({directory, font});
       filter_url_file_put_contents (fontpath, contents);
     }
   }
@@ -141,7 +141,7 @@ void export_web_book (string bible, int book, bool log)
     // Save any images that were included.
     for (auto src : filter_text_chapter.image_sources) {
       string contents = database_bibleimages.get(src);
-      string filename = filter_url_create_path (directory, src);
+      string filename = filter_url_create_path_cpp17 ({directory, src});
       filter_url_file_put_contents(filename, contents);
     }
   }
@@ -167,9 +167,9 @@ void export_web_index (string bible, bool log)
   
   
   // Filenames for the web file and stylesheet.
-  string indexFile = filter_url_create_path (directory, "index.html");
-  string index00 = filter_url_create_path (directory, "00_index.html");
-  string filecss = filter_url_create_path (directory, "stylesheet.css");
+  string indexFile = filter_url_create_path_cpp17 ({directory, "index.html"});
+  string index00 = filter_url_create_path_cpp17 ({directory, "00_index.html"});
+  string filecss = filter_url_create_path_cpp17 ({directory, "stylesheet.css"});
   
   
   Database_Bibles database_bibles;
@@ -216,7 +216,7 @@ void export_web_index (string bible, bool log)
   // Lens image supporting search.
   string lenspath = filter_url_create_root_path ("webbb", "lens.png");
   string contents = filter_url_file_get_contents (lenspath);
-  lenspath = filter_url_create_path (directory, "lens.png");
+  lenspath = filter_url_create_path_cpp17 ({directory, "lens.png"});
   filter_url_file_put_contents (lenspath, contents);
 
   

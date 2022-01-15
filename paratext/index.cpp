@@ -124,7 +124,7 @@ string paratext_index (void * webserver_request)
   
   // Paratext Project.
   string paratext_project = Database_Config_Bible::getParatextProject (bible);
-  if (!file_or_dir_exists (filter_url_create_path (paratext_folder, paratext_project))) paratext_project.clear ();
+  if (!file_or_dir_exists (filter_url_create_path_cpp17 ({paratext_folder, paratext_project}))) paratext_project.clear ();
   
   if (request->query.count ("paratextproject")) {
     string project = request->query["paratextproject"];

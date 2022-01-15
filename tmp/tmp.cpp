@@ -33,7 +33,7 @@ void tmp_tmp ()
   vector <string> names = filter_url_scandir (directory);
   for (auto & name : names) {
     if (name.find ("tmp.") == 0) continue;
-    string filename = filter_url_create_path (directory, name);
+    string filename = filter_url_create_path_cpp17 ({directory, name});
     int mtime = filter_url_file_modification_time (filename);
     if (mtime < expired) {
       filter_url_rmdir (filename);

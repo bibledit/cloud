@@ -63,7 +63,7 @@ string Paratext_Logic::searchProjectsFolder ()
   vector <string> files = filter_url_scandir (homedir);
   for (auto file : files) {
     if (file.find ("Paratext") != string::npos) {
-      string path = filter_url_create_path_cpp17 (homedir, file);
+      string path = filter_url_create_path_cpp17 ({homedir, file});
       path = filter_string_str_replace ("\\\\", "\\", path);
       return path;
     }

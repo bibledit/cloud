@@ -834,7 +834,7 @@ void test_usfm ()
   // It used to get mixed up on those cases.
   // This regression test notices whether it keeps behaving as it should.
   {
-    string path = filter_url_create_root_path ("unittests", "tests", "usfm01.usfm");
+    string path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "usfm01.usfm"});
     string chapter_usfm = filter_url_file_get_contents (path);
     string usfm;
     
@@ -938,7 +938,7 @@ void test_usfm ()
 
   // Test on Genesis USFM.
   {
-    string directory = filter_url_create_root_path ("unittests", "tests");
+    string directory = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
     string bookusfm = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "01GEN.SFM"}));
     
     // Test getting all chapter number from USFM.
@@ -990,7 +990,7 @@ void test_usfm ()
   
   // Regression text on instance of Nehemia 12 in combination with the Paratext bridge.
   {
-    string directory = filter_url_create_root_path ("unittests", "tests");
+    string directory = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
     string book_usfm = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "16NEHTSIC.SFM"}));
     string chapter_usfm = usfm_get_chapter_text (book_usfm, 12);
     evaluate (__LINE__, __func__, 7355, chapter_usfm.size());
@@ -1084,7 +1084,7 @@ void test_usfm ()
 
   // Test importing USFM demo chapter.
   {
-    string usfm = filter_url_file_get_contents (filter_url_create_root_path ("demo", "92-1JNeng-web.usfm"));
+    string usfm = filter_url_file_get_contents (filter_url_create_root_path_cpp17_Todo ({"demo", "92-1JNeng-web.usfm"}));
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     evaluate (__LINE__, __func__, 7, (int)import.size());

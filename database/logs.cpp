@@ -187,5 +187,5 @@ void Database_Logs::clear ()
 // The folder where to store the records.
 string Database_Logs::folder ()
 {
-  return filter_url_create_root_path ("logbook");
+  return filter_url_create_root_path_cpp17_Todo ({"logbook"});
 }

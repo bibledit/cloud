@@ -46,7 +46,7 @@ void config_logic_load_settings ()
 {
   string path;
   // Read the setting whether to log network connections.
-  path = filter_url_create_root_path (config_logic_config_folder (), "log-network");
+  path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "log-network"});
   config_globals_log_network = file_or_dir_exists (path);
 }
 
@@ -57,7 +57,7 @@ string config_logic_http_network_port ()
   // If a port number is known already, take that.
   if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number;
   // Read the port number from file.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "network-port");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "network-port"});
   config_globals_negotiated_port_number = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
   config_globals_negotiated_port_number = filter_string_trim (config_globals_negotiated_port_number);
@@ -72,7 +72,7 @@ string config_logic_http_network_port ()
 string config_logic_https_network_port ()
 {
   // Read the port number from file.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "network-port-secure");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "network-port-secure"});
   string port = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
   port = filter_string_trim (port);
@@ -90,7 +90,7 @@ string config_logic_https_network_port ()
 // Returns whether demo mode is enabled during configure.
 bool config_logic_demo_enabled ()
 {
-  string path = filter_url_create_root_path (config_logic_config_folder (), "demo");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "demo"});
   return file_or_dir_exists (path);
 }
 
@@ -98,7 +98,7 @@ bool config_logic_demo_enabled ()
 // The configured admin's username.
 string config_logic_admin_username ()
 {
-  string path = filter_url_create_root_path (config_logic_config_folder (), "admin-username");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "admin-username"});
   return filter_string_trim (filter_url_file_get_contents (path));
 }
 
@@ -106,7 +106,7 @@ string config_logic_admin_username ()
 // The configured admin's password.
 string config_logic_admin_password ()
 {
-  string path = filter_url_create_root_path (config_logic_config_folder (), "admin-password");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "admin-password"});
   return filter_string_trim (filter_url_file_get_contents (path));
 }
 
@@ -114,7 +114,7 @@ string config_logic_admin_password ()
 // The configured admin's email.
 string config_logic_admin_email ()
 {
-  string path = filter_url_create_root_path (config_logic_config_folder (), "admin-email");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "admin-email"});
   return filter_string_trim (filter_url_file_get_contents (path));
 }
 
@@ -179,7 +179,7 @@ string config_logic_manual_user_facing_url ()
   return "";
 #else
   // Read the configuration file.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "userfacingurl.conf");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "userfacingurl.conf"});
   string url = filter_url_file_get_contents (path);
   // Remove white space.
   url = filter_string_trim (url);
@@ -198,10 +198,10 @@ string config_logic_manual_user_facing_url ()
 string config_logic_server_key_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "privkey.pem");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "privkey.pem"});
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path (config_logic_config_folder (), "local.privkey.pem");
+  path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "local.privkey.pem"});
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
@@ -213,10 +213,10 @@ string config_logic_server_key_path ()
 string config_logic_server_certificate_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "cert.pem");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "cert.pem"});
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path (config_logic_config_folder (), "local.cert.pem");
+  path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "local.cert.pem"});
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
@@ -232,10 +232,10 @@ string config_logic_server_certificate_path ()
 string config_logic_authorities_certificates_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "chain.pem");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "chain.pem"});
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path (config_logic_config_folder (), "local.chain.pem");
+  path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "local.chain.pem"});
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
   return "";
@@ -245,14 +245,14 @@ string config_logic_authorities_certificates_path ()
 // Whether to enforce https traffic for browser communications.
 bool config_logic_enforce_https_browser ()
 {
-  return file_or_dir_exists (filter_url_create_root_path (config_logic_config_folder (), "browser.https"));
+  return file_or_dir_exists (filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "browser.https"}));
 }
 
 
 // Whether to enforce https traffic for client communications.
 bool config_logic_enforce_https_client ()
 {
-  return file_or_dir_exists (filter_url_create_root_path (config_logic_config_folder (), "client.https"));
+  return file_or_dir_exists (filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "client.https"}));
 }
 
 
@@ -284,7 +284,7 @@ bool config_logic_indonesian_cloud_free ()
   if (read) return status;
 
   // Read the status from disk and cache it.
-  string path = filter_url_create_root_path (config_logic_config_folder (), "indonesiancloudfree");
+  string path = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "indonesiancloudfree"});
   status = file_or_dir_exists (path);
   read = true;
  

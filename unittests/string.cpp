@@ -354,7 +354,7 @@ void test_string ()
 
   // Test tidying html.
   {
-    string folder = filter_url_create_root_path ("unittests", "tests");
+    string folder = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
     string html = filter_url_file_get_contents (filter_url_create_path_cpp17 ({folder, "biblehub-john-1-1.html"}));
     vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
     evaluate (__LINE__, __func__, 747, (int)tidy.size());
@@ -556,10 +556,10 @@ void test_string ()
   
   // Test tidying invalid html.
   {
-    string path_invalid = filter_url_create_root_path ("unittests", "tests", "html-invalid-1.html");
+    string path_invalid = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "html-invalid-1.html"});
     string html_invalid = filter_url_file_get_contents(path_invalid);
     string html_tidied = filter_string_tidy_invalid_html (html_invalid);
-    string path_valid = filter_url_create_root_path ("unittests", "tests", "html-fixed-1.html");
+    string path_valid = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "html-fixed-1.html"});
     string html_valid = filter_url_file_get_contents(path_valid);
     evaluate (__LINE__, __func__, html_valid, html_tidied);
   }

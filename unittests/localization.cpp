@@ -28,7 +28,7 @@ void test_database_localization ()
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
-  string file_po = filter_url_create_root_path ("unittests", "tests", "nl.po");
+  string file_po = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "nl.po"});
   Database_Localization database_localization = Database_Localization ("nl");
   database_localization.create (file_po);
   

@@ -269,7 +269,7 @@ void trace_unit_tests (string func)
 // https://github.com/mwoehlke/odf2txt
 int odf2txt (string odf, string txt)
 {
-  string script_path = filter_url_create_root_path ("unittests", "tests", "odf2txt", "odf2txt.py");
+  string script_path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "odf2txt", "odf2txt.py"});
   string command = "python2 " + script_path + " " + odf + " > " + txt + " 2>&1";
   int ret = system (command.c_str());
   return ret;

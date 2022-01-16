@@ -118,7 +118,7 @@ void test_filter_mail ()
 {
   trace_unit_tests (__func__);
   
-  string datafolder = filter_url_create_root_path ("unittests", "tests", "emails");
+  string datafolder = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "emails"});
   
   // Standard mimetic library's test message.
   {

@@ -145,8 +145,8 @@ void nmt_logic_export (string referencebible, string translatingbible)
 
   string reference_text = filter_string_implode (reference_lines, "\n");
   string translation_text = filter_string_implode (translation_lines, "\n");
-  string reference_path = filter_url_create_root_path (filter_url_temp_dir (), "reference_bible_nmt_training_text.txt");
-  string translation_path = filter_url_create_root_path (filter_url_temp_dir (), "translation_bible_nmt_training_text.txt");
+  string reference_path = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir (), "reference_bible_nmt_training_text.txt"});
+  string translation_path = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir (), "translation_bible_nmt_training_text.txt"});
   filter_url_file_put_contents (reference_path, reference_text);
   filter_url_file_put_contents (translation_path, translation_text);
   Database_Logs::log ("The text of the reference Bible was exported to ", reference_path);

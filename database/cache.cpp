@@ -255,7 +255,7 @@ int Database_Cache::size (string resource, int book)
 
 string database_cache_full_path (string file)
 {
-  return filter_url_create_root_path (database_logic_databases (), "cache", file);
+  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "cache", file});
 }
 
 
@@ -377,7 +377,7 @@ void database_cache_trim (bool clear)
   if (!error.empty ()) Database_Logs::log (error);
   
   // The directory that contains the database-based cache files.
-  path = filter_url_create_root_path (database_logic_databases ());
+  path = filter_url_create_root_path_cpp17_Todo ({database_logic_databases ()});
 
   // The number of days to keep cached data depends on the percentage of the disk in use.
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.

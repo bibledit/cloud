@@ -258,19 +258,6 @@ void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilena
 }
 
 
-// Creates a file path out of the components.
-string filter_url_create_path (string part1, string part2, string part3, string part4, string part5, string part6) // Todo out.
-{
-  string path (part1);
-  if (part2.length()) path += DIRECTORY_SEPARATOR + part2;
-  if (part3.length()) path += DIRECTORY_SEPARATOR + part3;
-  if (part4.length()) path += DIRECTORY_SEPARATOR + part4;
-  if (part5.length()) path += DIRECTORY_SEPARATOR + part5;
-  if (part6.length()) path += DIRECTORY_SEPARATOR + part6;
-  return path;
-}
-
-
 // Creates a file path out of the parts.
 string filter_url_create_path_cpp17 (const vector<string>& parts)
 {
@@ -285,16 +272,35 @@ string filter_url_create_path_cpp17 (const vector<string>& parts)
 }
 
 
-// Creates a file path out of the variable list of components, relative to the server's document root.
-string filter_url_create_root_path (string part1, string part2, string part3, string part4, string part5)
+string filter_url_create_root_path_cpp17_Todo (const vector<string>& parts)
 {
-  string path = config_globals_document_root;
-  if (part1.length()) path += DIRECTORY_SEPARATOR + part1;
-  if (part2.length()) path += DIRECTORY_SEPARATOR + part2;
-  if (part3.length()) path += DIRECTORY_SEPARATOR + part3;
-  if (part4.length()) path += DIRECTORY_SEPARATOR + part4;
-  if (part5.length()) path += DIRECTORY_SEPARATOR + part5;
-  return path;
+  // Construct path from the document root.
+  filesystem::path path (config_globals_document_root);
+  // Add the bits.
+  for (size_t i = 0; i < parts.size(); i++) {
+    path += DIRECTORY_SEPARATOR + parts[i];
+  }
+  // Done.
+  return path.string();
+}
+
+
+// Creates a file path out of the variable list of components,
+// relative to the server's document root.
+string filter_url_create_root_path_cpp17 (const vector<string>& parts)
+{
+  // Construct path from the document root.
+  filesystem::path path (config_globals_document_root);
+  // Add the bits.
+  for (int i = 0; i < parts.size(); i++) {
+    path /= parts[i];
+  }
+  if (path.string() != filter_url_create_root_path_cpp17_Todo (parts)) {
+    cout << "old: " << filter_url_create_root_path_cpp17_Todo (parts) << " new: " << path.string() << endl; // Todo
+  }
+  // Done.
+  return path.string();
+
 }
 
 
@@ -630,7 +636,7 @@ string filter_url_tempfile (const char * directory)
   if (directory) {
     filename = filter_url_create_path_cpp17 ({directory, filename});
   } else {
-    filename = filter_url_create_root_path (filter_url_temp_dir (), filename);
+    filename = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir (), filename});
   }
   return filename;
 }
@@ -1552,7 +1558,7 @@ void filter_url_ssl_tls_initialize ()
   filter_url_display_mbed_tls_error (ret, NULL, false);
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.
-  string path = filter_url_create_root_path ("filter", "cas.crt");
+  string path = filter_url_create_root_path_cpp17_Todo ({"filter", "cas.crt"});
   while (!file_or_dir_exists (path)) this_thread::sleep_for (chrono::milliseconds (100));
   // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());

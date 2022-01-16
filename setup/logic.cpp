@@ -181,7 +181,7 @@ void setup_write_access ()
 {
   vector <string> folders = {"exports", "git", "revisions", "dyncss", database_logic_databases (), "bibles", "fonts", "logbook", filter_url_temp_dir ()};
   for (auto folder : folders) {
-    string path = filter_url_create_root_path (folder);
+    string path = filter_url_create_root_path_cpp17_Todo ({folder});
     if (!filter_url_get_write_permission (path)) {
       filter_url_set_write_permission (path);
     }
@@ -197,7 +197,7 @@ void setup_wait_till_main_folders_present ()
     present = true;
     vector <string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
-      string path = filter_url_create_root_path (folder);
+      string path = filter_url_create_root_path_cpp17_Todo ({folder});
       if (!file_or_dir_exists (path)) {
         present = false;
       }
@@ -341,7 +341,7 @@ void setup_generate_locale_databases (bool progress)
     config_globals_setup_message = "locale " + localization;
     if (progress) cout << config_globals_setup_message << endl;
     Database_Localization database_localization = Database_Localization (localization);
-    string path = filter_url_create_root_path ("locale", localization + ".po");
+    string path = filter_url_create_root_path_cpp17_Todo ({"locale", localization + ".po"});
     database_localization.create (path);
   }
 }

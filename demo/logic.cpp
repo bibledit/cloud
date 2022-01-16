@@ -256,7 +256,7 @@ void demo_create_sample_bible ()
       file = filter_string_str_replace("Sample", demo_sample_bible_name(), file);
     }
     // Proceed with the path.
-    file = filter_url_create_root_path (file);
+    file = filter_url_create_root_path_cpp17_Todo ({file});
     string path = filter_url_dirname_cpp17 (file);
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);
@@ -280,7 +280,7 @@ void demo_prepare_sample_bible ()
   // Create a new sample Bible.
   database_bibles.createBible (demo_sample_bible_name ());
   // Location of the source USFM files for the sample Bible.
-  string directory = filter_url_create_root_path ("demo");
+  string directory = filter_url_create_root_path_cpp17_Todo ({"demo"});
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
     // Process only USFM files, skipping others.

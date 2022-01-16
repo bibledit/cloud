@@ -40,8 +40,8 @@ void test_database_cache ()
   // Copy an old cache database in place.
   // It contains cached data in the old layout.
   // Test that it now exists and contains data.
-  string testdatapath = filter_url_create_root_path ("unittests", "tests", "cache_resource_test.sqlite");
-  string databasepath = filter_url_create_root_path ("databases",  "cache_resource_unittests.sqlite");
+  string testdatapath = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "cache_resource_test.sqlite"});
+  string databasepath = filter_url_create_root_path_cpp17_Todo ({"databases",  "cache_resource_unittests.sqlite"});
   string out_err;
   filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
   size_t count = Database_Cache::count ("unittests");

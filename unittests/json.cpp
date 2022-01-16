@@ -41,7 +41,7 @@ void test_json ()
                  "}");
     Object object;
     object.parse (json);
-    string path = filter_url_create_root_path ("unittests", "tests", "json1.txt");
+    string path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "json1.txt"});
     string xml = filter_url_file_get_contents (path);
     evaluate (__LINE__, __func__, xml, object.xml (JSONx));
   }
@@ -77,7 +77,7 @@ void test_json ()
         array << object;
       }
       json = array.json ();
-      string path = filter_url_create_root_path ("unittests", "tests", "json2.txt");
+      string path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "json2.txt"});
       string standard = filter_url_file_get_contents (path);
       evaluate (__LINE__, __func__, standard, json);
     }

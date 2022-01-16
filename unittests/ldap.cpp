@@ -32,8 +32,8 @@ void test_ldap ()
   refresh_sandbox (true);
   
   // Copy the default LDAP server configuration into place.
-  string ldap_txt = filter_url_create_root_path (config_logic_config_folder (), "ldap.txt");
-  string ldap_conf = filter_url_create_root_path (config_logic_config_folder (), "ldap.conf");
+  string ldap_txt = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "ldap.txt"});
+  string ldap_conf = filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder (), "ldap.conf"});
   filter_url_file_cp (ldap_txt, ldap_conf);
   // Initialize LDAP configuration.
   ldap_logic_initialize ();

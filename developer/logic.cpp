@@ -42,7 +42,7 @@ void developer_logic_log_network_write ()
     }
     log_network_cache.clear ();
     log_network_mutex.unlock ();
-    string path = filter_url_create_root_path (filter_url_temp_dir(), "log-network.csv");
+    string path = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir(), "log-network.csv"});
     if (!file_or_dir_exists(path)) {
       filter_url_file_put_contents_append (path, "date,IPaddress,URL,query,username\n");
     }

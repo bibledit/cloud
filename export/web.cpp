@@ -214,7 +214,7 @@ void export_web_index (string bible, bool log)
   
   
   // Lens image supporting search.
-  string lenspath = filter_url_create_root_path ("webbb", "lens.png");
+  string lenspath = filter_url_create_root_path_cpp17_Todo ({"webbb", "lens.png"});
   string contents = filter_url_file_get_contents (lenspath);
   lenspath = filter_url_create_path_cpp17 ({directory, "lens.png"});
   filter_url_file_put_contents (lenspath, contents);

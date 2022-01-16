@@ -38,7 +38,7 @@
 // This function returns the directory of the git repository belonging to $object.
 string filter_git_directory (string object)
 {
-  return filter_url_create_root_path ("git", object);
+  return filter_url_create_root_path_cpp17_Todo ({"git", object});
 }
 
 

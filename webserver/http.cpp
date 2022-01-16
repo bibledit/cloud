@@ -297,7 +297,14 @@ void http_stream_file (void * webserver_request, bool enable_cache)
   
   // Full path to the file.
   string url = filter_url_urldecode (request->get);
-  string filename = filter_url_create_root_path (url);
+  // The URL likely starts with a slash, like this: /css/mouse.css
+  // When creating a path out of that, the path will become this: /css/mouse.css
+  // Such a path does not exist.
+  // The path that is wanted is something like this:
+  // /home/foo/bar/bibledit/css/mouse.css
+  // So remove that starting slash.
+  if (!url.empty()) if (url[0] == '/') url = url.erase(0, 1);
+  string filename = filter_url_create_root_path_cpp17 ({url});
   
   // File size for browser caching.
   if (enable_cache) {

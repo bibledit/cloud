@@ -82,7 +82,7 @@ void Database_UserResources::book (const string& name, int id, const string & fr
 // The folder for storing the user-defined resource definition files.
 string Database_UserResources::folder ()
 {
-  return filter_url_create_root_path (database_logic_databases (), "client");
+  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "client"});
 }
 
 

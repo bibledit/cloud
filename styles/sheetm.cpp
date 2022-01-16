@@ -111,7 +111,7 @@ string styles_sheetm (void * webserver_request)
   }
   view.set_variable ("markerblock", markerblock.str());
   
-  string folder = filter_url_create_root_path (database_logic_databases (), "styles", name);
+  string folder = filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "styles", name});
   view.set_variable ("folder", folder);
 
   page += view.render ("styles", "sheetm");

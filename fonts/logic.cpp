@@ -25,7 +25,7 @@
 
 string Fonts_Logic::folder ()
 {
-  return filter_url_create_root_path ("fonts");
+  return filter_url_create_root_path_cpp17_Todo ({"fonts"});
 }
 
 

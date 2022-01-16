@@ -131,7 +131,7 @@ void test_database_imageresources ()
   trace_unit_tests (__func__);
   
   Database_ImageResources database_imageresources;
-  string image = filter_url_create_root_path ("unittests", "tests", "Genesis-1-1-18.gif");
+  string image = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "Genesis-1-1-18.gif"});
   
   // Empty
   {

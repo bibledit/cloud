@@ -68,7 +68,7 @@ string index_listing (void * webserver_request, string url)
     view.enable_zone ("parent");
     view.set_variable ("parent", parent);
   }
-  string directory = filter_url_create_root_path (url);
+  string directory = filter_url_create_root_path_cpp17_Todo ({url});
   if (!file_or_dir_exists (directory) || filter_url_is_dir (directory)) {
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
@@ -96,7 +96,7 @@ string index_listing (void * webserver_request, string url)
     }
     view.set_variable ("listing", listing);
   } else {
-    string filename = filter_url_create_root_path (url);
+    string filename = filter_url_create_root_path_cpp17_Todo ({url});
     return filter_url_file_get_contents (filename);
   }
   page += view.render ("index", "listing");

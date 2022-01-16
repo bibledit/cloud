@@ -289,13 +289,13 @@ void test_merge ()
   {
     vector <Merge_Conflict> conflicts;
     string path;
-    path = filter_url_create_root_path ("unittests", "tests", "merge_1_base.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_1_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_1_modification.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_1_modification.usfm"});
     string userModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_1_server.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_1_server.usfm"});
     string serverModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_1_result.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_1_result.usfm"});
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
@@ -423,13 +423,13 @@ void test_merge ()
   {
     vector <Merge_Conflict> conflicts;
     string path;
-    path = filter_url_create_root_path ("unittests", "tests", "merge_2_base.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_2_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_2_modification.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_2_modification.usfm"});
     string userModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_2_server.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_2_server.usfm"});
     string serverModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_2_result.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_2_result.usfm"});
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
@@ -446,13 +446,13 @@ void test_merge ()
   {
     vector <Merge_Conflict> conflicts;
     string path;
-    path = filter_url_create_root_path ("unittests", "tests", "merge_3_base.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_3_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_3_modification.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_3_modification.usfm"});
     string userModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_3_server.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_3_server.usfm"});
     string serverModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_3_result.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_3_result.usfm"});
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
@@ -469,13 +469,13 @@ void test_merge ()
   {
     vector <Merge_Conflict> conflicts;
     string path;
-    path = filter_url_create_root_path ("unittests", "tests", "merge_4_base.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_4_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_4_modification.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_4_modification.usfm"});
     string userModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_4_server.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_4_server.usfm"});
     string serverModificationData = filter_url_file_get_contents (path);
-    path = filter_url_create_root_path ("unittests", "tests", "merge_4_result.usfm");
+    path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "merge_4_result.usfm"});
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);

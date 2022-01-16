@@ -136,13 +136,13 @@ void Database_Notes::create ()
 
 string Database_Notes::database_path ()
 {
-  return filter_url_create_root_path (database_logic_databases (), "notes.sqlite");
+  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "notes.sqlite"});
 }
 
 
 string Database_Notes::checksums_database_path ()
 {
-  return filter_url_create_root_path (database_logic_databases (), "notes_checksums.sqlite");
+  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "notes_checksums.sqlite"});
 }
 
 
@@ -405,7 +405,7 @@ void Database_Notes::update_database_internal (int identifier, int modified, str
 
 string Database_Notes::main_folder_path ()
 {
-  return filter_url_create_root_path ("consultations");
+  return filter_url_create_root_path_cpp17_Todo ({"consultations"});
 }
 
 
@@ -1766,7 +1766,7 @@ vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highI
 
 string Database_Notes::availability_flag ()
 {
-  return filter_url_create_root_path (database_logic_databases (), "notes.busy");
+  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "notes.busy"});
 }
 
 

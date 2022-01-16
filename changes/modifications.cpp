@@ -275,7 +275,7 @@ void changes_modifications ()
     timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
     timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
-    string directory = filter_url_create_root_path ("revisions", bible, timepath);
+    string directory = filter_url_create_root_path_cpp17_Todo ({"revisions", bible, timepath});
     filter_url_mkdir (directory);
     
     
@@ -402,7 +402,7 @@ void changes_modifications ()
 
   
   // Remove expired downloadable revisions.
-  string directory = filter_url_create_root_path ("revisions");
+  string directory = filter_url_create_root_path_cpp17_Todo ({"revisions"});
   int now = filter_date_seconds_since_epoch ();
   bibles = filter_url_scandir (directory);
   for (auto &bible : bibles) {

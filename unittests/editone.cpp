@@ -38,7 +38,7 @@ void test_editone_logic ()
   trace_unit_tests (__func__);
 
   string stylesheet = styles_logic_standard_sheet ();
-  string directory = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
+  string directory = filter_url_create_root_path_cpp17 ({"unittests", "tests"});
   
   // Prefix.
   {

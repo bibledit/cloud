@@ -219,7 +219,7 @@ void test_url ()
   
   // Test recursively copying a directory.
   {
-    string input = filter_url_create_root_path_cpp17_Todo ({"unittests"});
+    string input = filter_url_create_root_path_cpp17 ({"unittests"});
     string output = "/tmp/test_copy_directory";
     filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
@@ -263,15 +263,15 @@ void test_url ()
   
   // Testing is_dir.
   {
-    string path = filter_url_create_root_path_cpp17_Todo ({"git"});
+    string path = filter_url_create_root_path_cpp17 ({"git"});
     evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
-    path = filter_url_create_root_path_cpp17_Todo ({"setup", "index.html"});
+    path = filter_url_create_root_path_cpp17 ({"setup", "index.html"});
     evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
   }
   
   // Testing checking for and setting write permissions.
   {
-    string directory = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir ()});
+    string directory = filter_url_create_root_path_cpp17 ({filter_url_temp_dir ()});
     string file1 = filter_url_create_path_cpp17 ({directory, "1"});
     string file2 = filter_url_create_path_cpp17 ({directory, "2"});
     filter_url_file_put_contents (file1, "x");

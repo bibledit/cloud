@@ -365,10 +365,9 @@ void system_logic_produce_resources_file (int jobid)
     vector <string> resources = element.second;
     database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
     database_jobs.set_progress (jobid, resource_name);
-    string tarball = filter_url_create_root_path_cpp17_Todo ({system_logic_resources_file_name (resource_name)});
+    string tarball = filter_url_create_root_path_cpp17 ({system_logic_resources_file_name (resource_name)});
     string error = filter_archive_microtar_pack (tarball, directory, resources);
   }
-  
   
   
   // Ready, provide info about how to download the file or about the error.
@@ -438,7 +437,7 @@ void system_logic_import_resources_file (string tarball)
     string data = filter_url_file_get_contents (path);
 
     // Store the resource into place.
-    path = filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), file});
+    path = filter_url_create_root_path_cpp17 ({database_logic_databases (), file});
     filter_url_file_put_contents (path, data);
   }
 

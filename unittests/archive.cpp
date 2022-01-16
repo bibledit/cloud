@@ -118,7 +118,7 @@ void test_archive ()
   
   // Test unzipping OpenDocument file through the miniz library.
   {
-    string zipfile = filter_url_create_root_path_cpp17_Todo ({"odf", "template.odt"});
+    string zipfile = filter_url_create_root_path_cpp17 ({"odf", "template.odt"});
     string folder = filter_archive_unzip_miniz_internal (zipfile);
     evaluate (__LINE__, __func__, false, folder.empty ());
   }

@@ -71,7 +71,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
    
     string output = filter_diff_diff (oldtext, newtext, &removals, &additions);
     
-    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "diff.txt"}));
+    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17 ({"unittests", "tests", "diff.txt"}));
     evaluate (__LINE__, __func__, standard, output);
     
     evaluate (__LINE__, __func__, {"heavens", "form,", "void;", "said,", "Let", "light:", "and"},
@@ -165,7 +165,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     // After the update it no longer does that.
     // It now splits the strings up into just bytes.
     // So the similarity is now more realistic.
-    string path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
+    string path = filter_url_create_root_path_cpp17 ({"unittests", "tests"});
     string oldtext = filter_url_file_get_contents (filter_url_create_path_cpp17 ({path, "invalid-utf8-old.txt"}));
     string newtext = filter_url_file_get_contents (filter_url_create_path_cpp17 ({path, "invalid-utf8-new.txt"}));
     int similarity = filter_diff_character_similarity (oldtext, newtext);

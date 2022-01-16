@@ -140,9 +140,9 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     string path = database_notes.database_path ();
-    evaluate (__LINE__, __func__, filter_url_create_root_path_cpp17_Todo ({"databases", "notes.sqlite"}), path);
+    evaluate (__LINE__, __func__, filter_url_create_root_path_cpp17 ({"databases", "notes.sqlite"}), path);
     path = database_notes.checksums_database_path ();
-    evaluate (__LINE__, __func__, filter_url_create_root_path_cpp17_Todo ({"databases", "notes_checksums.sqlite"}), path);
+    evaluate (__LINE__, __func__, filter_url_create_root_path_cpp17 ({"databases", "notes_checksums.sqlite"}), path);
   }
   
   // Test the note file routine.
@@ -150,7 +150,7 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     string file = database_notes.note_file (123456789);
-    evaluate (__LINE__, __func__, filter_url_create_root_path_cpp17_Todo ({"consultations", "123", "456789.json"}), file);
+    evaluate (__LINE__, __func__, filter_url_create_root_path_cpp17 ({"consultations", "123", "456789.json"}), file);
   }
 
   // Trim and optimize note.
@@ -1256,7 +1256,7 @@ void test_database_notes ()
     bool healthy = database_notes.healthy ();
     evaluate (__LINE__, __func__, true, healthy);
     
-    string corrupted_database = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "notes.sqlite.damaged"});
+    string corrupted_database = filter_url_create_root_path_cpp17 ({"unittests", "tests", "notes.sqlite.damaged"});
     string path = database_notes.database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
     
@@ -1284,7 +1284,7 @@ void test_database_notes ()
     bool healthy = database_notes.checksums_healthy ();
     evaluate (__LINE__, __func__, true, healthy);
     
-    string corrupted_database = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "notes.sqlite.damaged"});
+    string corrupted_database = filter_url_create_root_path_cpp17 ({"unittests", "tests", "notes.sqlite.damaged"});
     string path = database_notes.checksums_database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
 

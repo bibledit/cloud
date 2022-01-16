@@ -178,7 +178,7 @@ void test_export ()
     onlinebible_text.addText ("Verse was stored, no new verse given, so discard this.");
     string filename = "/tmp/OLBTextTest1.exp";
     onlinebible_text.save (filename);
-    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "onlinebible1.exp"}));
+    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17 ({"unittests", "tests", "onlinebible1.exp"}));
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
     filter_url_unlink_cpp17 (filename);
@@ -195,7 +195,7 @@ void test_export ()
     onlinebible_text.closeCurrentNote ();
     string filename = "/tmp/OLBTextTest2.exp";
     onlinebible_text.save (filename);
-    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "onlinebible2.exp"}));
+    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17 ({"unittests", "tests", "onlinebible2.exp"}));
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
     filter_url_unlink_cpp17 (filename);

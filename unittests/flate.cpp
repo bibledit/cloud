@@ -28,7 +28,7 @@ void test_flate ()
   trace_unit_tests (__func__);
   
   // Test for the flate2 template engine.
-  string folder = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
+  string folder = filter_url_create_root_path_cpp17 ({"unittests", "tests"});
   string tpl1 = filter_url_create_path_cpp17 ({folder, "flate1.html"});
   string tpl2 = filter_url_create_path_cpp17 ({folder, "flate2.html"});
   string tpl3 = filter_url_create_path_cpp17 ({folder, "flate3.html"});

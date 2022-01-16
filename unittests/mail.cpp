@@ -120,7 +120,7 @@ void test_filter_mail ()
 #ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
-  string datafolder = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "emails"});
+  string datafolder = filter_url_create_root_path_cpp17 ({"unittests", "tests", "emails"});
   
   // Standard mimetic library's test message.
   {

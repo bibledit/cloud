@@ -232,7 +232,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
   // Test multiple books in one OpenDocument file.
   // The headers of each new book should be correct.
   {
-    string directory = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests"});
+    string directory = filter_url_create_root_path_cpp17 ({"unittests", "tests"});
     string usfm_ruth = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "08-Ruth.usfm"}));
     string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, "60-1Peter.usfm"}));
     Filter_Text filter_text = Filter_Text (bible);
@@ -642,7 +642,7 @@ A Verse text.
   
   // Test improved paragraph detection.
   {
-    string path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "ShonaNumbers23.usfm"});
+    string path = filter_url_create_root_path_cpp17 ({"unittests", "tests", "ShonaNumbers23.usfm"});
     string usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text ("");
     filter_text.initializeHeadingsAndTextPerVerse (false);
@@ -1142,7 +1142,7 @@ A Jesus is King.  B Jesus is the son of God.
 
   // Test invalid UTF8 input text.
   {
-    string path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "invalid-utf8-2.usfm"});
+    string path = filter_url_create_root_path_cpp17 ({"unittests", "tests", "invalid-utf8-2.usfm"});
     string invalid_utf8_usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new Odf_Text (bible);
@@ -1164,8 +1164,8 @@ A Jesus is King.  B Jesus is the son of God.
     // Store images in the database that keeps the Bible images.
     string image_2_name = "bibleimage2.png";
     string image_3_name = "bibleimage3.png";
-    string image_2_path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", image_2_name});
-    string image_3_path = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", image_3_name});
+    string image_2_path = filter_url_create_root_path_cpp17 ({"unittests", "tests", image_2_name});
+    string image_3_path = filter_url_create_root_path_cpp17 ({"unittests", "tests", image_3_name});
     Database_BibleImages database_bibleimages;
     database_bibleimages.store(image_2_path);
     database_bibleimages.store(image_3_path);

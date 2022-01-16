@@ -70,7 +70,7 @@ void system_logic_produce_bibles_file (int jobid)
 
   
   // The location of the tarball to generate.
-  string tarball = filter_url_create_root_path_cpp17_Todo ({system_logic_bibles_file_name ()});
+  string tarball = filter_url_create_root_path_cpp17 ({system_logic_bibles_file_name ()});
   
   
   // The directory where the exported Bibles will be put.
@@ -213,11 +213,11 @@ void system_logic_produce_notes_file (int jobid)
   
   
   // The location of the tarball to generate.
-  string tarball = filter_url_create_root_path_cpp17_Todo ({system_logic_notes_file_name ()});
+  string tarball = filter_url_create_root_path_cpp17 ({system_logic_notes_file_name ()});
   
   
   // The database directory where the consultation notes reside.
-  string directory = filter_url_create_root_path_cpp17_Todo ({"consultations"});
+  string directory = filter_url_create_root_path_cpp17 ({"consultations"});
 
   
   // The files to include in the tarball.
@@ -259,7 +259,7 @@ void system_logic_import_notes_file (string tarball)
   Database_Logs::log ("Importing Consultation Notes from " + tarball);
   
   // The database directory where the consultation notes reside.
-  string directory = filter_url_create_root_path_cpp17_Todo ({"consultations"});
+  string directory = filter_url_create_root_path_cpp17 ({"consultations"});
   
   // Unpack the tarball into the directory.
   string error= filter_archive_microtar_unpack (tarball, directory);
@@ -304,11 +304,11 @@ void system_logic_produce_resources_file (int jobid)
   }
   
   // The location of the single tarball to generate.
-  string tarball = filter_url_create_root_path_cpp17_Todo ({system_logic_resources_file_name ()});
+  string tarball = filter_url_create_root_path_cpp17 ({system_logic_resources_file_name ()});
   
   
   // The database directory where the cached resources reside.
-  string directory = filter_url_create_root_path_cpp17_Todo ({database_logic_databases ()});
+  string directory = filter_url_create_root_path_cpp17 ({database_logic_databases ()});
   
   
   // The filenames of the cached resources.

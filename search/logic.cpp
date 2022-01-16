@@ -30,7 +30,7 @@
 
 string search_logic_index_folder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "search"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "search"});
 }
 
 

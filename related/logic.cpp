@@ -109,9 +109,9 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
     xml_document parallel_document;
     xml_document quotation_document;
     if (is_ot || is_nt) {
-      string path = filter_url_create_root_path_cpp17_Todo ({"related", "parallel-passages-" + booktype + ".xml"});
+      string path = filter_url_create_root_path_cpp17 ({"related", "parallel-passages-" + booktype + ".xml"});
       parallel_document.load_file (path.c_str());
-      path = filter_url_create_root_path_cpp17_Todo ({"related", "ot-quotations-in-nt.xml"});
+      path = filter_url_create_root_path_cpp17 ({"related", "ot-quotations-in-nt.xml"});
       quotation_document.load_file (path.c_str());
     }
 

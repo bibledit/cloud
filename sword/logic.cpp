@@ -73,7 +73,7 @@ void sword_logic_refresh_module_list ()
   string swordconf = "[Install]\n"
                      "DataPath=" + sword_path + "/\n";
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({sword_path, "sword.conf"}), swordconf);
-  string config_files_path = filter_url_create_root_path_cpp17_Todo ({"sword"});
+  string config_files_path = filter_url_create_root_path_cpp17 ({"sword"});
   filter_shell_run ("cp -r " + config_files_path + "/locales.d " + sword_path, out_err);
   sword_logic_log (out_err);
   filter_shell_run ("cp -r " + config_files_path + "/mods.d " + sword_path, out_err);
@@ -172,7 +172,7 @@ void sword_logic_refresh_module_list ()
 
 string sword_logic_module_list_path ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "client", "sword_modules.txt"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "client", "sword_modules.txt"});
 }
 
 
@@ -610,7 +610,7 @@ string sword_logic_fetch_failure_text ()
 // Tracker for accessing the SWORD module.
 string sword_logic_access_tracker (const string & module)
 {
-  string path = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir (), "sword_access_tracker_" + module});
+  string path = filter_url_create_root_path_cpp17 ({filter_url_temp_dir (), "sword_access_tracker_" + module});
   return path;
 }
 

@@ -874,7 +874,7 @@ bool resource_logic_can_cache (string resource)
 // Clients will download it from there.
 string resource_logic_bible_gateway_module_list_path ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "client", "bible_gateway_modules.txt"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "client", "bible_gateway_modules.txt"});
 }
 
 
@@ -1212,7 +1212,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
 // Clients will download it from there.
 string resource_logic_study_light_module_list_path ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "client", "study_light_modules.txt"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "client", "study_light_modules.txt"});
 }
 
 

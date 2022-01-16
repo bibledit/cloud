@@ -189,7 +189,7 @@ void sendreceive_files ()
     vector <string> files = filter_string_array_diff (client_files, server_files);
     for (auto file : files) {
       Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path_cpp17 ({directory, file}), Filter_Roles::translator ());
-      string path = filter_url_create_root_path_cpp17_Todo ({directory, file});
+      string path = filter_url_create_root_path_cpp17 ({directory, file});
       filter_url_unlink_cpp17 (path);
       // Attempt to delete the directory, which will only succeed if it is empty.
       path = filter_url_dirname_cpp17 (path);
@@ -225,7 +225,7 @@ void sendreceive_files ()
       // Download the file from the server, and store it locally on the client.
       Database_Logs::log (sendreceive_files_text () + "Downloading " + filter_url_create_path_cpp17 ({directory, file}), Filter_Roles::translator ());
       // Local file path where to save resource.
-      string fullpath = filter_url_create_root_path_cpp17_Todo ({directory, file});
+      string fullpath = filter_url_create_root_path_cpp17 ({directory, file});
       // Create directory if it does not yet exist.
       string dirpath = filter_url_dirname_cpp17 (fullpath);
       if (!file_or_dir_exists (dirpath)) {

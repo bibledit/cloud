@@ -49,7 +49,7 @@ Odf_Text::Odf_Text (string bible_in)
   image_counter = 0;
 
   // Unpack the .odt template.
-  string templateOdf = filter_url_create_root_path_cpp17_Todo ({"odf", "template.odt"});
+  string templateOdf = filter_url_create_root_path_cpp17 ({"odf", "template.odt"});
   unpackedOdtFolder = filter_archive_unzip (templateOdf);
   filter_url_rmdir (filter_url_create_path_cpp17 ({unpackedOdtFolder, "Configurations2"}));
   // Create the Pictures folder.
@@ -1197,7 +1197,7 @@ void Odf_Text::add_image ([[maybe_unused]] string alt, string src, string captio
   int image_width_pixels = 0, image_height_pixels = 0;
   {
     Database_BibleImages database_bibleimages;
-    string path = filter_url_create_root_path_cpp17_Todo ({filter_url_temp_dir (), "image_contents"});
+    string path = filter_url_create_root_path_cpp17 ({filter_url_temp_dir (), "image_contents"});
     string contents = database_bibleimages.get(src);
     filter_url_file_put_contents(path, contents);
     filter_image_get_sizes (path, image_width_pixels, image_height_pixels);

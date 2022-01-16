@@ -261,7 +261,7 @@ string Paratext_Logic::ancestor (string bible, int book)
 
 string Paratext_Logic::ancestorPath (string bible, int book)
 {
-  string path = filter_url_create_root_path_cpp17_Todo ({"paratext", "ancestors", bible});
+  string path = filter_url_create_root_path_cpp17 ({"paratext", "ancestors", bible});
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
   if (book) path = filter_url_create_path_cpp17 ({path, convert_to_string (book)});
   return path;

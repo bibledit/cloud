@@ -150,7 +150,7 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
 
 string rss_logic_xml_path ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({"rss", "feed.xml"});
+  return filter_url_create_root_path_cpp17 ({"rss", "feed.xml"});
 }
 
 

@@ -34,7 +34,7 @@ string help_index_html (const string& url)
   size_t pos = url.find ("/");
   if (pos != string::npos) path.erase (0, ++pos);
   path.append (".html");
-  path = filter_url_create_root_path_cpp17_Todo ({"help", path});
+  path = filter_url_create_root_path_cpp17 ({"help", path});
   return path;
 }
 
@@ -66,7 +66,7 @@ string help_index (void * webserver_request, const string& url)
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 
-  view.set_variable ("config", filter_url_create_root_path_cpp17_Todo ({config_logic_config_folder ()}));
+  view.set_variable ("config", filter_url_create_root_path_cpp17 ({config_logic_config_folder ()}));
   
   string filename (url);
   size_t pos = url.find ("/");

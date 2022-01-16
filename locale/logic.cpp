@@ -77,7 +77,7 @@ string locale_logic_date_time (int seconds)
 // Return the available localizations.
 map <string, string> locale_logic_localizations ()
 {
-  string directory = filter_url_create_root_path_cpp17_Todo ({"locale"});
+  string directory = filter_url_create_root_path_cpp17 ({"locale"});
   vector <string> files = filter_url_scandir (directory);
   map <string, string> localizations = {pair ("", english ())};
   for (auto file : files) {
@@ -274,7 +274,7 @@ bool locale_logic_obfuscate_compare_internal (const string& a, const string& b)
 void locale_logic_obfuscate_initialize ()
 {
   // Load the contents of the obfuscation configuration file
-  string filename = filter_url_create_root_path_cpp17_Todo ({"obfuscate", "texts.txt"});
+  string filename = filter_url_create_root_path_cpp17 ({"obfuscate", "texts.txt"});
   string contents = filter_url_file_get_contents (filename);
   vector <string> lines = filter_string_explode (contents, '\n');
   

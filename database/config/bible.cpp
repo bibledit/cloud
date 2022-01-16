@@ -36,7 +36,7 @@ map <string, string> database_config_bible_cache;
 // The path to the folder for storing the settings for the $bible.
 string Database_Config_Bible::file (string bible)
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "config", "bible", bible});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "config", "bible", bible});
 }
 
 

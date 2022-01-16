@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_Bibles::mainFolder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({"bibles"});
+  return filter_url_create_root_path_cpp17 ({"bibles"});
 }
 
 

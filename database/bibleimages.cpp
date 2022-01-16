@@ -68,7 +68,7 @@ void Database_BibleImages::erase (string image)
 
 string Database_BibleImages::folder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({"images"});
+  return filter_url_create_root_path_cpp17 ({"images"});
 }
 
 

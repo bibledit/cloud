@@ -111,11 +111,13 @@ void test_database_mail ()
     mails = database_mail.getMailsToSend ();
     evaluate (__LINE__, __func__, 0, (int)mails.size ());
   }
+#endif
 }
 
 
 void test_filter_mail ()
 {
+#ifdef HAVE_CLOUD
   trace_unit_tests (__func__);
   
   string datafolder = filter_url_create_root_path_cpp17_Todo ({"unittests", "tests", "emails"});
@@ -187,6 +189,5 @@ void test_filter_mail ()
       evaluate (__LINE__, string (__func__) + " " + messagefile, contents, plaintext);
     }
   }
-
 #endif
 }

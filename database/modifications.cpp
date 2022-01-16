@@ -91,7 +91,7 @@ void Database_Modifications::vacuum ()
 
 string Database_Modifications::teamFolder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "modifications", "team"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "modifications", "team"});
 }
 
 
@@ -275,7 +275,7 @@ void Database_Modifications::truncateTeams ()
 
 string Database_Modifications::userMainFolder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "modifications", "users"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "modifications", "users"});
 }
 
 
@@ -454,7 +454,7 @@ int Database_Modifications::getUserTimestamp (const string& username, const stri
 
 string Database_Modifications::notificationsMainFolder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "modifications", "notifications"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "modifications", "notifications"});
 }
 
 

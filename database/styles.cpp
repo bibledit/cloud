@@ -457,7 +457,7 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
 
 string Database_Styles::databasefolder ()
 {
-  return filter_url_create_root_path_cpp17_Todo ({database_logic_databases (), "styles"});
+  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "styles"});
 }
 
 

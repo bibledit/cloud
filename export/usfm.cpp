@@ -43,7 +43,7 @@ void export_usfm (string bible, bool log)
   // Root USFM directory, plus info file.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 2);
   if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
-  string infopath = filter_url_create_root_path_cpp17_Todo ({"export", "usfm.html"});
+  string infopath = filter_url_create_root_path_cpp17 ({"export", "usfm.html"});
   string infocontents = filter_url_file_get_contents (infopath);
   infopath = filter_url_create_path_cpp17 ({usfmDirectory, "readme.html"});
   filter_url_file_put_contents (infopath, infocontents);

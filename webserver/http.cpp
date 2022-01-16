@@ -303,7 +303,6 @@ void http_stream_file (void * webserver_request, bool enable_cache)
   // The path that is wanted is something like this:
   // /home/foo/bar/bibledit/css/mouse.css
   // So remove that starting slash.
-  if (!url.empty()) if (url[0] == '/') url = url.erase(0, 1);
   string filename = filter_url_create_root_path_cpp17 ({url});
   
   // File size for browser caching.

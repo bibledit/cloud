@@ -60,7 +60,7 @@ string Fonts_Logic::getFontPath (string font)
   
   // Case when the font exists within Bibledit.
   if (fontExists (font)) {
-    return filter_url_create_path_cpp17 ({"", "fonts", font}); // Todo test this.
+    return filter_url_create_path_cpp17 ({"fonts", font});
   }
   
   // Case when the font is available from the browser independent of Bibledit.

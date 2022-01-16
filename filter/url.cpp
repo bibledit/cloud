@@ -263,7 +263,7 @@ string filter_url_create_path_cpp17 (const vector<string>& parts)
 {
   // Empty path.
   filesystem::path path;
-  for (int i = 0; i < parts.size(); i++) {
+  for (size_t i = 0; i < parts.size(); i++) {
     if (i == 0) path += parts[i]; // Append the part without directory separator.
     else path /= parts[i]; // Append the directory separator and then the part.
   }
@@ -292,11 +292,18 @@ string filter_url_create_root_path_cpp17 (const vector<string>& parts)
   // Construct path from the document root.
   filesystem::path path (config_globals_document_root);
   // Add the bits.
-  for (int i = 0; i < parts.size(); i++) {
-    path /= parts[i];
-  }
-  if (path.string() != filter_url_create_root_path_cpp17_Todo (parts)) {
-    cout << "old: " << filter_url_create_root_path_cpp17_Todo (parts) << " new: " << path.string() << endl; // Todo
+  for (size_t i = 0; i < parts.size(); i++) {
+    string part = parts[i];
+    // At times a path is created from a URL.
+    // The URL likely starts with a slash, like this: /css/mouse.css
+    // When creating a path out of that, the path will become this: /css/mouse.css
+    // Such a path does not exist.
+    // The path that is wanted is something like this:
+    // /home/foo/bar/bibledit/css/mouse.css
+    // So remove that starting slash.
+    if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
+    // Add the part, with a preceding path separator.
+    path /= part;
   }
   // Done.
   return path.string();

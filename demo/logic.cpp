@@ -258,7 +258,7 @@ void demo_create_sample_bible ()
     // Proceed with the path.
     file = filter_url_create_root_path_cpp17 ({file});
     string path = filter_url_dirname_cpp17 (file);
-    if (!file_or_dir_exists (path)) filter_url_mkdir (path);
+    if (!file_or_dir_exists/*_cpp17*/ (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);
   }
   
@@ -284,7 +284,7 @@ void demo_prepare_sample_bible ()
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
     // Process only USFM files, skipping others.
-    if (filter_url_get_extension (file) == "usfm") {
+    if (filter_url_get_extension_cpp17 (file) == "usfm") {
       cout << file << endl;
       // Read the USFM and clean it up.
       file = filter_url_create_path_cpp17 ({directory, file});

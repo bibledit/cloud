@@ -50,7 +50,7 @@ int filter_memory_percentage_available ()
   
   // Linux.
   string path = "/proc/meminfo";
-  if (file_or_dir_exists (path)) {
+  if (file_or_dir_exists/*_cpp17*/ (path)) {
     string meminfo = filter_url_file_get_contents (path);
     size_t pos;
     int memtotal = 0;

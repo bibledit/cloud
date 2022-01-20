@@ -34,7 +34,7 @@ vector <string> Database_BibleImages::get ()
   vector <string> files = filter_url_scandir (folder ());
   vector <string> images;
   for (auto file : files) {
-    string extension = filter_url_get_extension (file);
+    string extension = filter_url_get_extension_cpp17 (file);
     if (extension == "o") continue;
     if (extension == "h") continue;
     if (extension == "cpp") continue;

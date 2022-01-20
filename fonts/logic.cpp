@@ -34,7 +34,7 @@ vector <string> Fonts_Logic::getFonts ()
   vector <string> files = filter_url_scandir (folder());
   vector <string> fonts;
   for (auto & file : files) {
-    string suffix = filter_url_get_extension (file);
+    string suffix = filter_url_get_extension_cpp17 (file);
     if (suffix == "txt") continue;
     if (suffix == "html") continue;
     if (suffix == "h") continue;
@@ -49,7 +49,7 @@ vector <string> Fonts_Logic::getFonts ()
 bool Fonts_Logic::fontExists (string font)
 {
   string path = filter_url_create_path_cpp17 ({folder (), font});
-  return file_or_dir_exists (path);
+  return file_or_dir_exists/*_cpp17*/ (path);
 }
 
 

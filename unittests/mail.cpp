@@ -179,7 +179,7 @@ void test_filter_mail ()
     vector <string> files = filter_url_scandir (datafolder);
     for (auto messagefile : files) {
       if (messagefile.find ("m") != 0) continue;
-      if (filter_url_get_extension (messagefile) != "msg") continue;
+      if (filter_url_get_extension_cpp17 (messagefile) != "msg") continue;
       string path = filter_url_create_path_cpp17 ({datafolder, messagefile});
       string contents = filter_url_file_get_contents (path);
       string from, subject, plaintext;

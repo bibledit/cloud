@@ -52,7 +52,7 @@ string Flate::render (string html)
 {
   string rendering;
   try {
-    if (file_or_dir_exists (html)) {
+    if (file_or_dir_exists/*_cpp17*/ (html)) {
       rendering = filter_url_file_get_contents (html);
       process_iterations (rendering);
       process_zones (rendering);

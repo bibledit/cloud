@@ -539,7 +539,7 @@ void resource_logic_import_images (string resource, string path)
     path = paths[0];
     paths.erase (paths.begin());
     string basename = filter_url_basename_cpp17 (path);
-    string extension = filter_url_get_extension (path);
+    string extension = filter_url_get_extension_cpp17 (path);
     extension = unicode_string_casefold (extension);
 
     if (extension == "pdf") {

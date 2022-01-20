@@ -48,7 +48,7 @@ string filter_archive_zip_folder (string folder)
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder_shell_internal (string folder)
 {
-  if (!file_or_dir_exists (folder)) return "";
+  if (!file_or_dir_exists/*_cpp17*/ (folder)) return "";
   string zippedfile = filter_url_tempfile () + ".zip";
 #ifdef HAVE_CLOUD
   string logfile = filter_url_tempfile () + ".log";
@@ -72,7 +72,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder_miniz_internal (string folder)
 {
-  if (!file_or_dir_exists (folder)) {
+  if (!file_or_dir_exists/*_cpp17*/ (folder)) {
     return "";
   }
   string zippedfile = filter_url_tempfile () + ".zip";
@@ -182,7 +182,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
         
         if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
           // Create this directory.
-          if (!file_or_dir_exists (fixed_filename)) filter_url_mkdir (fixed_filename);
+          if (!file_or_dir_exists/*_cpp17*/ (fixed_filename)) filter_url_mkdir (fixed_filename);
         } else {
           /* Code that extracts file contents memory, if needed.
           size_t filesize = file_stat.m_uncomp_size;
@@ -205,7 +205,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
           
           // Ensure this file's folder exists.
           string dirname = filter_url_dirname_cpp17 (fixed_filename);
-          if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
+          if (!file_or_dir_exists/*_cpp17*/ (dirname)) filter_url_mkdir (dirname);
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
           if (!status) {
@@ -343,7 +343,7 @@ int filter_archive_is_archive (string file)
   // iso9660 CD images (.iso)
   // Lha archives (.lzh)
   // Single files compressed with gzip (.gz), bzip (.bz), bzip2 (.bz2), compress (.Z), lzop (.lzo) and lzma (.lzma)
-  string suffix = filter_url_get_extension (file);
+  string suffix = filter_url_get_extension_cpp17 (file);
   if ((suffix == "tar.gz") || (suffix == "gz") || (suffix == "tgz")) {
     return 1;
   }
@@ -415,7 +415,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
   }
   
   // Create directory if needed.
-  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists/*_cpp17*/ (directory)) filter_url_mkdir (directory);
 
   // Unpack all files and save them.
   for (auto file : files) {
@@ -432,7 +432,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
     string dirname = filter_url_dirname_cpp17 (file);
     if (dirname != ".") {
       dirname = filter_url_create_path_cpp17 ({directory, dirname});
-      if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
+      if (!file_or_dir_exists/*_cpp17*/ (dirname)) filter_url_mkdir (dirname);
     }
     // Write the file's data.
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({directory, file}), data);

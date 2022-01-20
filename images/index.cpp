@@ -71,7 +71,7 @@ string images_index (void * webserver_request)
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       bool background_import = filter_archive_is_archive (file);
-      string extension = filter_url_get_extension (file);
+      string extension = filter_url_get_extension_cpp17 (file);
       extension = unicode_string_casefold (extension);
       if (background_import) {
         tasks_logic_queue (IMPORTBIBLEIMAGES, { file });

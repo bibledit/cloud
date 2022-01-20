@@ -85,7 +85,7 @@ void Database_Mappings::defaults ()
   vector <string> files = filter_url_scandir (folder);
   for (auto & file : files) {
     string name (file);
-    string extension = filter_url_get_extension (name);
+    string extension = filter_url_get_extension_cpp17 (name);
     if (extension != "txt") continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
     name = filter_string_str_replace ("_", " ", name);

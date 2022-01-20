@@ -49,7 +49,7 @@ string Database_Config_General::getValue (const char * key, const char * default
   // Get value from disk.
   string value;
   string filename = file (key);
-  if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
+  if (file_or_dir_exists_cpp17 (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
   database_config_general_cache [key] = value;

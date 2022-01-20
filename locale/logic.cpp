@@ -81,7 +81,7 @@ map <string, string> locale_logic_localizations ()
   vector <string> files = filter_url_scandir (directory);
   map <string, string> localizations = {pair ("", english ())};
   for (auto file : files) {
-    string suffix = filter_url_get_extension (file);
+    string suffix = filter_url_get_extension_cpp17 (file);
     if (suffix == "po") {
       string basename = filter_string_str_replace ("." + suffix, "", file);
       string path = filter_url_create_path_cpp17 ({directory, file});

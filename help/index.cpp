@@ -43,7 +43,7 @@ bool help_index_url (const string& url)
 {
   size_t pos = url.find ("help/");
   if (pos != 0) return false;
-  return file_or_dir_exists (help_index_html (url));
+  return file_or_dir_exists/*_cpp17*/ (help_index_html (url));
 }
 
 

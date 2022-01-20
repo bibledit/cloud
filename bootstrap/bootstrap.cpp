@@ -272,7 +272,7 @@ void bootstrap_index (void * webserver_request)
   }
   */
   
-  string extension = filter_url_get_extension (request->get);
+  string extension = filter_url_get_extension_cpp17 (request->get);
   string url = request->get.substr (1);
   
   // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.

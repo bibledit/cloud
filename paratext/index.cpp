@@ -92,7 +92,7 @@ string paratext_index (void * webserver_request)
   
   // Paratext Projects folder.
   string paratext_folder = Database_Config_General::getParatextProjectsFolder ();
-  if (!file_or_dir_exists (paratext_folder)) paratext_folder.clear ();
+  if (!file_or_dir_exists/*_cpp17*/ (paratext_folder)) paratext_folder.clear ();
   
   if (request->query.count ("paratextfolder")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("index", translate("Please enter the name of the Paratext projects folder"), paratext_folder, "paratextfolder", "");
@@ -102,7 +102,7 @@ string paratext_index (void * webserver_request)
   }
   if (request->post.count ("paratextfolder")) {
     string folder = request->post ["entry"];
-    if (file_or_dir_exists (folder)) {
+    if (file_or_dir_exists/*_cpp17*/ (folder)) {
       paratext_folder = folder;
       success = translate ("Paratext projects folder was set.");
     } else {
@@ -124,7 +124,7 @@ string paratext_index (void * webserver_request)
   
   // Paratext Project.
   string paratext_project = Database_Config_Bible::getParatextProject (bible);
-  if (!file_or_dir_exists (filter_url_create_path_cpp17 ({paratext_folder, paratext_project}))) paratext_project.clear ();
+  if (!file_or_dir_exists/*_cpp17*/ (filter_url_create_path_cpp17 ({paratext_folder, paratext_project}))) paratext_project.clear ();
   
   if (request->query.count ("paratextproject")) {
     string project = request->query["paratextproject"];

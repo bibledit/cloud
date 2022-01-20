@@ -208,7 +208,7 @@ void http_assemble_response (void * webserver_request)
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
   
   // Assemble the Content-Type.
-  string extension = filter_url_get_extension (request->get);
+  string extension = filter_url_get_extension_cpp17 (request->get);
   extension = unicode_string_casefold (extension);
   string content_type = filter_url_get_mime_type (extension);
   if (extension == "usfm") content_type = "text/plain";

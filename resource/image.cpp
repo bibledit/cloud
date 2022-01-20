@@ -80,7 +80,7 @@ string resource_image (void * webserver_request)
       filter_url_file_put_contents (file, data);
       bool background_import = false;
       if (filter_archive_is_archive (file)) background_import = true;
-      string extension = filter_url_get_extension (file);
+      string extension = filter_url_get_extension_cpp17 (file);
       extension = unicode_string_casefold (extension);
       if (extension == "pdf") background_import = true;
       if (background_import) {

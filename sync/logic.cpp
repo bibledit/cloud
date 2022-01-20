@@ -337,7 +337,7 @@ vector <string> Sync_Logic::files_get_files (string directory)
   filter_url_recursive_scandir (directory, paths);
   for (string path : paths) {
     if (filter_url_is_dir (path)) continue;
-    string extension = filter_url_get_extension (path);
+    string extension = filter_url_get_extension_cpp17 (path);
     if (extension == "o") continue;
     if (extension == "h") continue;
     if (extension == "cpp") continue;

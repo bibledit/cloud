@@ -272,19 +272,6 @@ string filter_url_create_path_cpp17 (const vector<string>& parts)
 }
 
 
-string filter_url_create_root_path_cpp17_Todo (const vector<string>& parts)
-{
-  // Construct path from the document root.
-  filesystem::path path (config_globals_document_root);
-  // Add the bits.
-  for (size_t i = 0; i < parts.size(); i++) {
-    path += DIRECTORY_SEPARATOR + parts[i];
-  }
-  // Done.
-  return path.string();
-}
-
-
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
 string filter_url_create_root_path_cpp17 (const vector<string>& parts)
@@ -311,24 +298,16 @@ string filter_url_create_root_path_cpp17 (const vector<string>& parts)
 }
 
 
-// If $path contains the global document root,
-// then this function removes it, and returns the result.
-string filter_url_remove_root_path (string path)
-{
-  size_t pos = path.find (config_globals_document_root);
-  if (pos != string::npos) path.erase (0, config_globals_document_root.length ());
-  if (!path.empty ()) if (path.substr (0, 1) == DIRECTORY_SEPARATOR) path.erase (0, 1);
-  return path;
-}
-
-
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-string filter_url_get_extension (string url)
+string filter_url_get_extension_cpp17 (string url) // Todo
 {
+  std::filesystem::path path (url);
   string extension;
-  size_t pos = url.find_last_of (".");
-  if (pos != string::npos) {
-    extension = url.substr (pos + 1);
+  if (path.has_extension()) {
+    // Get the extension with the dot, e.g. ".txt".
+    extension = path.extension().string();
+    // Wanted is the extension without the dot, e.g. "txt".
+    extension.erase (0, 1);
   }
   return extension;
 }
@@ -348,6 +327,15 @@ bool file_or_dir_exists (string url)
   struct stat buffer;
   return (stat (url.c_str(), &buffer) == 0);
 #endif
+}
+
+
+// Returns true if the file or directory at $url exists.
+bool file_or_dir_exists_cpp17 (string url)
+{
+  filesystem::path path (url);
+  bool exists = filesystem::exists (path);
+  return exists;
 }
 
 
@@ -455,7 +443,7 @@ void filter_url_set_write_permission (string path)
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents(string filename)
 {
-  if (!file_or_dir_exists(filename)) return string();
+  if (!file_or_dir_exists/*_cpp17*/ (filename)) return string();
   try {
 #ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring(filename);
@@ -664,10 +652,10 @@ string filter_url_escape_shell_argument (string argument)
 // to ensure that the $path does not yet exist in the filesystem.
 string filter_url_unique_path (string path)
 {
-  if (!file_or_dir_exists (path)) return path;
+  if (!file_or_dir_exists/*_cpp17*/ (path)) return path;
   for (size_t i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
-    if (!file_or_dir_exists (uniquepath)) return uniquepath;
+    if (!file_or_dir_exists/*_cpp17*/ (uniquepath)) return uniquepath;
   }
   return path + "." + convert_to_string (filter_string_rand (100, 1000));
 }
@@ -1566,7 +1554,7 @@ void filter_url_ssl_tls_initialize ()
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.
   string path = filter_url_create_root_path_cpp17 ({"filter", "cas.crt"});
-  while (!file_or_dir_exists (path)) this_thread::sleep_for (chrono::milliseconds (100));
+  while (!file_or_dir_exists/*_cpp17*/ (path)) this_thread::sleep_for (chrono::milliseconds (100));
   // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
   filter_url_display_mbed_tls_error (ret, NULL, false);

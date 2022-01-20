@@ -40,7 +40,7 @@ int main (int argc, char **argv)
   }
   config_globals_document_root = argv [1];
   cout << "Document root folder: " << config_globals_document_root << endl;
-  if (!file_or_dir_exists (config_globals_document_root)) {
+  if (!file_or_dir_exists/*_cpp17*/ (config_globals_document_root)) {
     cerr << "Please pass an existing document root folder" << endl;
     return EXIT_FAILURE;
   }

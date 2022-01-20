@@ -91,7 +91,7 @@ void Database_Bibles::deleteBible (string name)
 void Database_Bibles::storeChapter (string name, int book, int chapter_number, string chapter_text)
 {
   string folder = chapterFolder (name, book, chapter_number);
-  if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir (folder);
 
   // Ensure that the data to be stored ends with a new line.
   if (!chapter_text.empty ()) {

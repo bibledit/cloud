@@ -74,9 +74,9 @@ string Assets_View::render (string tpl1, string tpl2)
   string tpl = filter_url_create_root_path_cpp17 ({tpl1, tpl2 + ".html"});
 
   // The flate engine crashes if the template does not exist, so be sure it exists.  
-  if (!file_or_dir_exists (tpl)) {
+  if (!file_or_dir_exists_cpp17 (tpl)) {
     Database_Logs::log ("Cannot find template file " + tpl);
-    return "";
+    return string();
   }
 
   // Instantiate and fill the template engine. 

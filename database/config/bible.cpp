@@ -64,7 +64,7 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
   // Get the setting from file.
   string value;
   string filename = file (bible, key);
-  if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
+  if (file_or_dir_exists_cpp17 (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
   database_config_bible_cache [cachekey] = value;
@@ -81,7 +81,7 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
   // Store on disk.
   string filename = file (bible, key);
   string dirname = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
+  if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }
 

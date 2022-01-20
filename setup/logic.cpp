@@ -198,7 +198,7 @@ void setup_wait_till_main_folders_present ()
     vector <string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
       string path = filter_url_create_root_path_cpp17 ({folder});
-      if (!file_or_dir_exists (path)) {
+      if (!file_or_dir_exists/*_cpp17*/ (path)) {
         present = false;
       }
     }

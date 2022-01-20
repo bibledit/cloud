@@ -146,20 +146,20 @@ void test_git ()
   // Test sync Bible to git.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, ".git"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
     
     request.database_bibles()->storeChapter (bible, 2, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, ".git"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, ".git"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
     
     // Remove generated journal entries.
     refresh_sandbox (false);
@@ -169,18 +169,18 @@ void test_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, ".git"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
     
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, ".git"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "1", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, ".git"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "1", "data"})));
     
     string data = filter_url_file_get_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "1", "data"}));
     evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
@@ -193,21 +193,21 @@ void test_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, ".git"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Exodus", "1", "data"})));
     
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     request.database_bibles()->storeChapter (bible, 22, 2, psalms_11_data);
     request.database_bibles()->storeChapter (bible, 19, 11, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "1", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, ".git"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "1", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"})));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"})));
     
     string data = filter_url_file_get_contents (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"}));
     evaluate (__LINE__, __func__, psalms_11_data, data);

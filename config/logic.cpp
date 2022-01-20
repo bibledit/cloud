@@ -47,7 +47,7 @@ void config_logic_load_settings ()
   string path;
   // Read the setting whether to log network connections.
   path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "log-network"});
-  config_globals_log_network = file_or_dir_exists (path);
+  config_globals_log_network = file_or_dir_exists_cpp17 (path);
 }
 
 
@@ -91,7 +91,7 @@ string config_logic_https_network_port ()
 bool config_logic_demo_enabled ()
 {
   string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "demo"});
-  return file_or_dir_exists (path);
+  return file_or_dir_exists_cpp17 (path);
 }
 
 
@@ -199,10 +199,10 @@ string config_logic_server_key_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "privkey.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (file_or_dir_exists_cpp17 (path)) return path;
   // Try the file for localhost next.
   path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "local.privkey.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (file_or_dir_exists_cpp17 (path)) return path;
   // Nothing found.
   return "";
 }
@@ -214,10 +214,10 @@ string config_logic_server_certificate_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "cert.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (file_or_dir_exists_cpp17 (path)) return path;
   // Try the file for localhost next.
   path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "local.cert.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (file_or_dir_exists_cpp17 (path)) return path;
   // Nothing found.
   return "";
 }
@@ -233,10 +233,10 @@ string config_logic_authorities_certificates_path ()
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "chain.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (file_or_dir_exists_cpp17 (path)) return path;
   // Try the file for localhost next.
   path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "local.chain.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (file_or_dir_exists_cpp17 (path)) return path;
   // Nothing found.
   return "";
 }
@@ -245,14 +245,14 @@ string config_logic_authorities_certificates_path ()
 // Whether to enforce https traffic for browser communications.
 bool config_logic_enforce_https_browser ()
 {
-  return file_or_dir_exists (filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "browser.https"}));
+  return file_or_dir_exists_cpp17 (filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "browser.https"}));
 }
 
 
 // Whether to enforce https traffic for client communications.
 bool config_logic_enforce_https_client ()
 {
-  return file_or_dir_exists (filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "client.https"}));
+  return file_or_dir_exists_cpp17 (filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "client.https"}));
 }
 
 
@@ -285,7 +285,7 @@ bool config_logic_indonesian_cloud_free ()
 
   // Read the status from disk and cache it.
   string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "indonesiancloudfree"});
-  status = file_or_dir_exists (path);
+  status = file_or_dir_exists_cpp17 (path);
   read = true;
  
   return status;

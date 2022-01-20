@@ -83,7 +83,7 @@ void Database_Cache::remove (string resource)
 void Database_Cache::remove (string resource, int book)
 {
   string file = database_sqlite_file (filename (resource, book));
-  if (file_or_dir_exists (file)) {
+  if (file_or_dir_exists_cpp17 (file)) {
     filter_url_unlink_cpp17 (file);
   }
 }
@@ -103,7 +103,7 @@ bool Database_Cache::exists (string resource)
 bool Database_Cache::exists (string resource, int book)
 {
   string file = database_sqlite_file (filename (resource, book));
-  return file_or_dir_exists (file);
+  return file_or_dir_exists_cpp17 (file);
 }
 
 
@@ -277,7 +277,7 @@ bool database_filebased_cache_exists (string schema)
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
-  return file_or_dir_exists (schema);
+  return file_or_dir_exists_cpp17 (schema);
 }
 
 
@@ -287,7 +287,7 @@ void database_filebased_cache_put (string schema, string contents)
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   string path = filter_url_dirname_cpp17 (schema);
-  if (!file_or_dir_exists (path)) filter_url_mkdir (path);
+  if (!file_or_dir_exists_cpp17 (path)) filter_url_mkdir (path);
   filter_url_file_put_contents (schema, contents);
 }
 

@@ -64,7 +64,7 @@ void test_archive ()
   {
     // Zip existing folder through the shell.
     string zipfile = filter_archive_zip_folder_shell_internal (directory);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (zipfile));
     int size = filter_url_filesize (zipfile);
     int min = 3328;
     if (size < min) evaluate (__LINE__, __func__, "Should be at least " + convert_to_string (min) + " bytes", convert_to_string (size));
@@ -73,7 +73,7 @@ void test_archive ()
 
     // Zip existing folder through the miniz library.
     zipfile = filter_archive_zip_folder_miniz_internal (directory);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (zipfile));
     size = filter_url_filesize (zipfile);
     if (size < 2437) evaluate (__LINE__, __func__, "Should be at least 2437 bytes", "");
     if (size > 2445) evaluate (__LINE__, __func__, "Should be no larger than 2445 bytes", "");
@@ -93,7 +93,7 @@ void test_archive ()
     string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Test unzip through shell.
     string folder = filter_archive_unzip_shell_internal (zipfile);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (zipfile));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping a non-existing zipfile returns nothing.
     folder = filter_archive_unzip_shell_internal ("xxxxx");
@@ -127,7 +127,7 @@ void test_archive ()
   {
     // Test gzipped tarball compression.
     string tarball = filter_archive_tar_gzip_file (path1);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (tarball));
     size_t size = filter_url_filesize (tarball);
     size_t min = 155;
     size_t max = 181;
@@ -141,7 +141,7 @@ void test_archive ()
   {
     // Test compress.
     string tarball = filter_archive_tar_gzip_folder (directory);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (tarball));
     int size = filter_url_filesize (tarball);
     int min = 618;
     int max = 634;
@@ -157,9 +157,9 @@ void test_archive ()
     string tarball = filter_archive_tar_gzip_file (path1);
     // Test decompression.
     string folder = filter_archive_untar_gzip (tarball);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (folder));
     folder = filter_archive_uncompress (tarball);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists/*_cpp17*/ (folder));
     evaluate (__LINE__, __func__, 9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping garbage returns NULL.
     folder = filter_archive_untar_gzip ("xxxxx");

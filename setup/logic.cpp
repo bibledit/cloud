@@ -147,7 +147,7 @@ void setup_copy_library (const char * package)
     path = config_globals_document_root + path.substr (package_length);
     if (path.empty ()) continue;
     config_globals_setup_message = path;
-    filter_url_mkdir (path);
+    filter_url_mkdir_cpp17 (path);
   }
   // Read all files and copy them from the package to the persistent webroot.
   path = filter_url_create_path_cpp17 (package, "package_files.txt");
@@ -161,7 +161,7 @@ void setup_copy_library (const char * package)
   }
    */
   size_t package_length = strlen (package);
-  filter_url_mkdir (config_globals_document_root);
+  filter_url_mkdir_cpp17 (config_globals_document_root);
   config_globals_setup_message = "scanning";
   vector <string> package_paths;
   filter_url_recursive_scandir (package, package_paths);
@@ -169,7 +169,7 @@ void setup_copy_library (const char * package)
     string dest_path = config_globals_document_root + package_path.substr (package_length);
     config_globals_setup_message = dest_path;
     if (filter_url_is_dir (package_path)) {
-      filter_url_mkdir (dest_path);
+      filter_url_mkdir_cpp17 (dest_path);
     } else {
       filter_url_file_cp (package_path, dest_path);
     }
@@ -198,7 +198,7 @@ void setup_wait_till_main_folders_present ()
     vector <string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
       string path = filter_url_create_root_path_cpp17 ({folder});
-      if (!file_or_dir_exists/*_cpp17*/ (path)) {
+      if (!file_or_dir_exists_cpp17 (path)) {
         present = false;
       }
     }

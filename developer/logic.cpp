@@ -43,7 +43,7 @@ void developer_logic_log_network_write ()
     log_network_cache.clear ();
     log_network_mutex.unlock ();
     string path = filter_url_create_root_path_cpp17 ({filter_url_temp_dir(), "log-network.csv"});
-    if (!file_or_dir_exists/*_cpp17*/ (path)) {
+    if (!file_or_dir_exists_cpp17 (path)) {
       filter_url_file_put_contents_append (path, "date,IPaddress,URL,query,username\n");
     }
     filter_url_file_put_contents_append (path, lines);
@@ -112,7 +112,7 @@ void developer_logic_import_changes ()
     Database_Logs::log ("Cannot locate Bible " + bible);
     return;
   }
-  if (!file_or_dir_exists/*_cpp17*/ (file_path)) {
+  if (!file_or_dir_exists_cpp17 (file_path)) {
     Database_Logs::log ("Cannot locate " + file_path);
     return;
   }

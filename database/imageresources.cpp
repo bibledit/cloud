@@ -72,7 +72,7 @@ void Database_ImageResources::create (string name)
   // Create folder to store the images.
   string path = resourceFolder (name);
   filter_url_unlink_cpp17 (path);
-  filter_url_mkdir (path);
+  filter_url_mkdir_cpp17 (path);
 
   // Create the passages database.
   sqlite3 * db = connect (name);
@@ -91,7 +91,7 @@ void Database_ImageResources::erase (string name)
 {
   string path = resourceFolder (name);
   // If a folder: Delete it.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
   // If a file: Delete it.
   filter_url_unlink_cpp17 (path);
 }
@@ -121,7 +121,7 @@ string Database_ImageResources::store (string name, string file)
   bool exists = false;
   do {
     path = filter_url_create_path_cpp17 ({folder, image});
-    exists = file_or_dir_exists/*_cpp17*/ (path);
+    exists = file_or_dir_exists_cpp17 (path);
     if (exists) image = filter_string_str_replace (".", "0.", image);
   } while (exists);
   filter_url_rename_cpp17 (file, path);

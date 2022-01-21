@@ -72,7 +72,7 @@ void Database_Styles::create ()
 void Database_Styles::createSheet (string sheet)
 {
   // Folder for storing the stylesheet.
-  filter_url_mkdir (sheetfolder (sheet));
+  filter_url_mkdir_cpp17 (sheetfolder (sheet));
   // Check and/or load defaults.
   if (default_styles_cache.empty ()) cache_defaults ();
   // Write all style items to file.
@@ -98,7 +98,7 @@ vector <string> Database_Styles::getSheets ()
 // Deletes a stylesheet.
 void Database_Styles::deleteSheet (string sheet)
 {
-  if (!sheet.empty ()) filter_url_rmdir (sheetfolder (sheet));
+  if (!sheet.empty ()) filter_url_rmdir_cpp17 (sheetfolder (sheet));
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();
@@ -498,7 +498,7 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
   string filename;
   if (!take_default) {
     filename = stylefile (sheet, marker);
-    if (!file_or_dir_exists/*_cpp17*/ (filename)) take_default = true;
+    if (!file_or_dir_exists_cpp17 (filename)) take_default = true;
   }
   if (take_default) {
     // Check and/or load defaults.

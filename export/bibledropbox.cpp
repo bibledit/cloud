@@ -46,7 +46,7 @@ void export_bibledropbox (string user, string bible)
   
   // Temporal USFM directory.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
+  filter_url_mkdir_cpp17 (directory);
   
 
   // Take the USFM from the Bible database.

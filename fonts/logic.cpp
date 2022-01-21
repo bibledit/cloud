@@ -49,7 +49,7 @@ vector <string> Fonts_Logic::getFonts ()
 bool Fonts_Logic::fontExists (string font)
 {
   string path = filter_url_create_path_cpp17 ({folder (), font});
-  return file_or_dir_exists/*_cpp17*/ (path);
+  return file_or_dir_exists_cpp17 (path);
 }
 
 

@@ -287,7 +287,7 @@ void database_filebased_cache_put (string schema, string contents)
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
   string path = filter_url_dirname_cpp17 (schema);
-  if (!file_or_dir_exists_cpp17 (path)) filter_url_mkdir (path);
+  if (!file_or_dir_exists_cpp17 (path)) filter_url_mkdir_cpp17 (path);
   filter_url_file_put_contents (schema, contents);
 }
 

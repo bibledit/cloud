@@ -59,7 +59,7 @@ void search_reindex_bibles (bool force)
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto chapter : chapters) {
         string index = search_logic_chapter_file (bible, book, chapter);
-        if (!file_or_dir_exists/*_cpp17*/ (index) || force) {
+        if (!file_or_dir_exists_cpp17 (index) || force) {
           string msg = indexing_bible + " " + bible + " " + filter_passage_display (book, chapter, "");
           Database_Logs::log (msg, Filter_Roles::manager ());
           search_logic_index_chapter (bible, book, chapter);

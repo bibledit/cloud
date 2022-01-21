@@ -52,7 +52,7 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
   
 
   // Check that the repository directory is there.
-  if (!file_or_dir_exists/*_cpp17*/ (directory)) {
+  if (!file_or_dir_exists_cpp17 (directory)) {
     string msg = "Cannot send ";
     if (read_from_git) msg.append ("and receive ");
     msg.append ("because the local git repository was not found.");

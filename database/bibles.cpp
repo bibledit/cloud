@@ -69,7 +69,7 @@ void Database_Bibles::createBible (string name)
 {
   // Create the empty system.
   string folder = bibleFolder (name);
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
   
   Database_State::setExport (name, 0, Export_Logic::export_needed);
 }
@@ -80,7 +80,7 @@ void Database_Bibles::deleteBible (string name)
 {
   string path = bibleFolder (name);
   // Delete directory.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
   // Just in case it was a regular file: Delete it.
   filter_url_unlink_cpp17 (path);
   Database_State::setExport (name, 0, Export_Logic::export_needed);
@@ -91,7 +91,7 @@ void Database_Bibles::deleteBible (string name)
 void Database_Bibles::storeChapter (string name, int book, int chapter_number, string chapter_text)
 {
   string folder = chapterFolder (name, book, chapter_number);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
 
   // Ensure that the data to be stored ends with a new line.
   if (!chapter_text.empty ()) {
@@ -145,7 +145,7 @@ vector <int> Database_Bibles::getBooks (string bible)
 void Database_Bibles::deleteBook (string bible, int book)
 {
   string folder = bookFolder (bible, book);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   Database_State::setExport (bible, 0, Export_Logic::export_needed);
 }
 
@@ -168,7 +168,7 @@ vector <int> Database_Bibles::getChapters (string bible, int book)
 void Database_Bibles::deleteChapter (string bible, int book, int chapter)
 {
   string folder = chapterFolder (bible, book, chapter);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   Database_State::setExport (bible, 0, Export_Logic::export_needed);
 }
 

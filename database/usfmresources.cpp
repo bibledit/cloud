@@ -62,7 +62,7 @@ void Database_UsfmResources::deleteResource (const string& name)
 {
   string path = resourceFolder (name);
   // If a folder: Delete it.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
   // If a file: Delete it.
   filter_url_unlink_cpp17 (path);
 }
@@ -72,7 +72,7 @@ void Database_UsfmResources::deleteBook (const string& name, int book)
 {
   string path = bookFolder (name, book);
   // If a folder: Delete it.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
   // If a file: Delete it.
   filter_url_unlink_cpp17 (path);
 }
@@ -88,7 +88,7 @@ void Database_UsfmResources::storeChapter (const string& name, int book, int cha
 {
   string file = chapterFile (name, book, chapter);
   string folder = filter_url_dirname_cpp17 (file);
-  if (!file_or_dir_exists/*_cpp17*/ (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
   filter_url_file_put_contents (file, usfm);
 }
 

@@ -149,7 +149,7 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
   // Store on disk.
   string filename = file (user, key);
   string directory = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
   filter_url_file_put_contents (filename, value);
 }
 
@@ -203,7 +203,7 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
   // Store it on disk.
   string filename = file (user, key);
   string directory = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists/*_cpp17*/ (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
   string value = filter_string_implode (values, "\n");
   filter_url_file_put_contents (filename, value);
   // Put it in the memory cache.
@@ -243,7 +243,7 @@ void Database_Config_User::trim ()
   vector <string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());
-    if (file_or_dir_exists/*_cpp17*/ (filename)) {
+    if (file_or_dir_exists_cpp17 (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
         // Remove from disk.
         filter_url_unlink_cpp17 (filename);
@@ -262,7 +262,7 @@ void Database_Config_User::remove (string username)
 {
   // Remove from disk.
   string folder = file (username);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   // Clear cache.
   database_config_user_cache.clear ();
 }

@@ -65,7 +65,7 @@ string images_index (void * webserver_request)
   // File upload.
   if (request->post.count ("upload")) {
     string folder = filter_url_tempfile ();
-    filter_url_mkdir (folder);
+    filter_url_mkdir_cpp17 (folder);
     string file = filter_url_create_path_cpp17 ({folder, request->post ["filename"]});
     string data = request->post ["data"];
     if (!data.empty ()) {

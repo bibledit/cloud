@@ -81,7 +81,7 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
   // Store on disk.
   string filename = file (bible, key);
   string dirname = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir (dirname);
+  if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir_cpp17 (dirname);
   filter_url_file_put_contents (filename, value);
 }
 
@@ -114,7 +114,7 @@ void Database_Config_Bible::remove (string bible)
 {
   // Remove from disk.
   string folder = file (bible);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   // Clear cache.
   database_config_bible_cache.clear ();
 }

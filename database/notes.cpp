@@ -425,7 +425,7 @@ string Database_Notes::note_file (int identifier)
 // and for the new way of storing notes in JSON.
 bool Database_Notes::identifier_exists (int identifier)
 {
-  if (file_or_dir_exists/*_cpp17*/ (note_file (identifier))) return true;
+  if (file_or_dir_exists_cpp17 (note_file (identifier))) return true;
   return false;
 }
 
@@ -440,7 +440,7 @@ void Database_Notes::set_identifier (int identifier, int new_identifier)
   string json = filter_url_file_get_contents (path);
   path = note_file (new_identifier);
   string folder = filter_url_dirname_cpp17 (path);
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
   filter_url_file_put_contents (path, json);
   
   // Update main notes database.
@@ -564,7 +564,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   // Store the JSON representation of the note in the file system.
   string path = note_file (identifier);
   string folder = filter_url_dirname_cpp17 (path);
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
   Object note;
   note << bible_key () << bible;
   note << passage_key () << passage;
@@ -1784,7 +1784,7 @@ void Database_Notes::set_availability (bool available)
 // Returns whether the notes databases are available, as a boolean.
 bool Database_Notes::available ()
 {
-  return !file_or_dir_exists/*_cpp17*/ (availability_flag ());
+  return !file_or_dir_exists_cpp17 (availability_flag ());
 }
 
 
@@ -1897,7 +1897,7 @@ vector <string> Database_Notes::set_bulk (string json)
     // Store the note in the filesystem.
     string path = note_file (identifier);
     string folder = filter_url_dirname_cpp17 (path);
-    filter_url_mkdir (folder);
+    filter_url_mkdir_cpp17 (folder);
     Object note2;
     note2 << assigned_key () << assigned;
     note2 << bible_key () << bible;

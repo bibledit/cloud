@@ -292,6 +292,48 @@ bool config_logic_indonesian_cloud_free ()
 }
 
 
+// Whether the free Indonesian Cloud Free Simple is enabled.
+// It is just like the regular demo setup with less feature:
+// 1. It only has an account with Consultant access level registered.
+// 2. It gives no access to account creation from menu
+// 3. It has different workspace defaults.
+bool config_logic_indonesian_cloud_free_simple ()
+{
+  // Keep status in memory once it has been read from disk.
+  // This is to speed up things.
+  static bool read = false;
+  static bool status = false;
+  if (read) return status;
+
+  // Read the status from disk and cache it.
+  string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "indonesiancloudfreesimple"});
+  status = file_or_dir_exists_cpp17 (path);
+  read = true;
+ 
+  return status;
+}
+
+
+// Whether the free Indonesian Cloud Free Individual is enabled.
+// It is just like the default Indonesian Cloud Free,
+// but with no access to the consultation notes feature.
+bool config_logic_indonesian_cloud_free_individual ()
+{
+  // Keep status in memory once it has been read from disk.
+  // This is to speed up things.
+  static bool read = false;
+  static bool status = false;
+  if (read) return status;
+
+  // Read the status from disk and cache it.
+  string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "indonesiancloudfreeindividual"});
+  status = file_or_dir_exists_cpp17 (path);
+  read = true;
+ 
+  return status;
+}
+
+
 // Whether the default Bibledit configuration is enabled.
 bool config_logic_default_bibledit_configuration ()
 {
@@ -302,7 +344,9 @@ bool config_logic_default_bibledit_configuration ()
   if (read) return status;
 
   // If any of the special configurations is enabled, the default configuration is disabled.
-  if (config_logic_indonesian_cloud_free()) status = false;
+  if (config_logic_indonesian_cloud_free ()) status = false;
+  if (config_logic_indonesian_cloud_free_simple ()) status = false;
+  if (config_logic_indonesian_cloud_free_individual ()) status = false;
   read = true;
   
   return status;

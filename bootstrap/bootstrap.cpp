@@ -44,7 +44,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <manage/write.h>
 #include <manage/privileges.h>
 #include <system/index.h>
-#include <system/indonesianfree.h>
 #include <collaboration/index.h>
 #include <collaboration/settings.h>
 #include <styles/indexm.h>
@@ -702,10 +701,6 @@ void bootstrap_index (void * webserver_request)
     return;
   }
 
-  if ((url == system_indonesianfree_url ()) && browser_request_security_okay (request) && system_indonesianfree_acl (request)) {
-    request->reply = system_indonesianfree (request);
-    return;
-  }
 
   if ((url == email_index_url ()) && browser_request_security_okay (request) && email_index_acl (request)) {
     request->reply = email_index (request);

@@ -92,7 +92,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <ldap/logic.h>
 #include <jsonxx/jsonxx.h>
-#include <system/indonesianfree.h>
 #include <read/index.h>
 #include <filter/css.h>
 #include <resource/comparative9edit.h>

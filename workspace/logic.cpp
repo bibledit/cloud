@@ -33,6 +33,7 @@
 #include <sync/logic.h>
 #include <locale/translate.h>
 #include <database/logs.h>
+#include <read/index.h>
 
 
 vector <string> workspace_get_default_names ()
@@ -40,6 +41,13 @@ vector <string> workspace_get_default_names ()
   // Any of the names below should not contain commas,
   // because the sorting mechanism takes the comma as a separator,
   // so if commas are in a name, the sorting no longer works.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    return {
+      "Baca",
+      "Teliti",
+      "Baca dan Teliti"
+    };
+  };
   return {
     translate ("Editor and Resources"),
     translate ("Editor and Notes"),
@@ -83,6 +91,31 @@ map <int, string> workspace_get_default_urls (int id)
       urls [3] = search_index_url ();
       break;
   }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    urls [2] = "";
+    urls [3] = "";
+    urls [4] = "";
+    urls [5] = "";
+    switch (id) {
+    case 1:
+      urls [0] = read_index_url ();
+      break;
+    case 2:
+      urls [0] = resource_index_url ();
+      urls [1] = "";
+      break;
+    case 3:
+      urls [0] = read_index_url ();
+      urls [1] = resource_index_url ();
+      break;
+    default:
+      urls [0] = read_index_url ();
+      urls [1] = "";
+      urls [2] = "";
+      urls [3] = "";
+      break;
+    }
+  }
   return urls;
 }
 
@@ -120,6 +153,28 @@ map <int, string> workspace_get_default_widths (int id)
       widths [3] = "1";
       break;
   }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    switch (id) {
+      case 1:
+        widths [0] = "1";
+        break;
+      case 2:
+        widths [0] = "1";
+        widths [1] = "0";
+        break;
+      case 3:
+        widths [0] = "1";
+        widths [1] = "1";
+        widths [2] = "0";
+        break;
+      default:
+        widths [0] = "1";
+        widths [1] = "0";
+        widths [2] = "0";
+        widths [3] = "0";
+        break;
+    }
+  }
   return widths;
 }
 
@@ -144,6 +199,18 @@ map <int, string> workspace_get_default_heights (int id)
     default:
       heights [0] = "1";
       break;
+  }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    switch (id) {
+      case 1:
+        heights [1] = "0";
+        break;
+      case 2:
+      case 3:
+      default:
+        heights [0] = "1";
+        break;
+    }
   }
   return heights;
 }

@@ -193,7 +193,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	manage/hyphenation.$(OBJEXT) manage/hyphenate.$(OBJEXT) \
 	manage/write.$(OBJEXT) manage/privileges.$(OBJEXT) \
 	system/index.$(OBJEXT) system/logic.$(OBJEXT) \
-	system/indonesianfree.$(OBJEXT) collaboration/index.$(OBJEXT) \
+	collaboration/index.$(OBJEXT) \
 	collaboration/link.$(OBJEXT) collaboration/settings.$(OBJEXT) \
 	search/rebibles.$(OBJEXT) search/renotes.$(OBJEXT) \
 	access/user.$(OBJEXT) access/bible.$(OBJEXT) \
@@ -2191,8 +2191,6 @@ system/$(DEPDIR)/$(am__dirstamp):
 system/index.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 system/logic.$(OBJEXT): system/$(am__dirstamp) \
-	system/$(DEPDIR)/$(am__dirstamp)
-system/indonesianfree.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 collaboration/$(am__dirstamp):
 	@$(MKDIR_P) collaboration

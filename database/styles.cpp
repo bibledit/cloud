@@ -72,7 +72,7 @@ void Database_Styles::create ()
 void Database_Styles::createSheet (string sheet)
 {
   // Folder for storing the stylesheet.
-  filter_url_mkdir (sheetfolder (sheet));
+  filter_url_mkdir_cpp17 (sheetfolder (sheet));
   // Check and/or load defaults.
   if (default_styles_cache.empty ()) cache_defaults ();
   // Write all style items to file.

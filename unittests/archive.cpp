@@ -33,7 +33,7 @@ void test_archive ()
   // Prepare data structure for testing.
   
   string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
+  filter_url_mkdir_cpp17 (directory);
 
   string file1 = "testarchive1";
   string file2 = "testarchive2";
@@ -55,7 +55,7 @@ void test_archive ()
     for (int i2 = 0; i2 <= i; i2++) data.append (data);
     filter_url_file_put_contents (path, data);
     path = filter_url_create_path_cpp17 ({directory, convert_to_string (i), convert_to_string (i)});
-    filter_url_mkdir (path);
+    filter_url_mkdir_cpp17 (path);
     path = filter_url_create_path_cpp17 ({path, "data"});
     filter_url_file_put_contents (path, data);
   }

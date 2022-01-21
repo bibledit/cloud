@@ -69,7 +69,7 @@ void filter_git_commit_modification_to_git (string repository, string user, int 
   string bookname = Database_Books::getEnglishFromId (book);
   string bookdir = filter_url_create_path_cpp17 ({repository, bookname});
   string chapterdir = filter_url_create_path_cpp17 ({bookdir, convert_to_string (chapter)});
-  if (!file_or_dir_exists_cpp17 (chapterdir)) filter_url_mkdir (chapterdir);
+  if (!file_or_dir_exists_cpp17 (chapterdir)) filter_url_mkdir_cpp17 (chapterdir);
   string datafile = filter_url_create_path_cpp17 ({chapterdir, "data"});
   string contents = filter_url_file_get_contents (datafile);
   if (contents != oldusfm) {
@@ -201,11 +201,11 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   for (auto & book : books) {
     string bookname = Database_Books::getEnglishFromId (book);
     string bookdir = filter_url_create_path_cpp17 ({repository, bookname});
-    if (!file_or_dir_exists_cpp17 (bookdir)) filter_url_mkdir (bookdir);
+    if (!file_or_dir_exists_cpp17 (bookdir)) filter_url_mkdir_cpp17 (bookdir);
     vector <int> chapters = request->database_bibles()->getChapters (bible, book);
     for (auto & chapter : chapters) {
       string chapterdir = filter_url_create_path_cpp17 ({bookdir, convert_to_string (chapter)});
-      if (!file_or_dir_exists_cpp17 (chapterdir)) filter_url_mkdir (chapterdir);
+      if (!file_or_dir_exists_cpp17 (chapterdir)) filter_url_mkdir_cpp17 (chapterdir);
       string datafile = filter_url_create_path_cpp17 ({chapterdir, "data"});
       string contents = filter_url_file_get_contents (datafile);
       string usfm = request->database_bibles()->getChapter (bible, book, chapter);

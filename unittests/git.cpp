@@ -50,8 +50,8 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request * request,
   string repository = filter_git_directory (bible);
   string newrepository = filter_git_directory (newbible);
   
-  filter_url_mkdir (repository);
-  filter_url_mkdir (newrepository);
+  filter_url_mkdir_cpp17 (repository);
+  filter_url_mkdir_cpp17 (newrepository);
   
   request->remote_address = "127.0.0.1";
   request->user_agent = "unittest";
@@ -65,17 +65,17 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request * request,
   result = filter_git_init (newrepository);
   evaluate (__LINE__, __func__, true, result);
   
-  filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Psalms", "0"}));
-  filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Psalms", "11"}));
-  filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2"}));
+  filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0"}));
+  filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11"}));
+  filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2"}));
   
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"}), psalms_0_data);
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"}), psalms_11_data);
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);
   
-  filter_url_mkdir (filter_url_create_path_cpp17 ({newrepository, "Psalms", "0"}));
-  filter_url_mkdir (filter_url_create_path_cpp17 ({newrepository, "Psalms", "11"}));
-  filter_url_mkdir (filter_url_create_path_cpp17 ({newrepository, "Song of Solomon", "2"}));
+  filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({newrepository, "Psalms", "0"}));
+  filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({newrepository, "Psalms", "11"}));
+  filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({newrepository, "Song of Solomon", "2"}));
   
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({newrepository, "Psalms", "0", "data"}), psalms_0_data);
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({newrepository, "Psalms", "11", "data"}), psalms_11_data);
@@ -405,7 +405,7 @@ void test_git ()
     vector <string> messages;
     
     // Create bare remote reository.
-    filter_url_mkdir (remoterepository);
+    filter_url_mkdir_cpp17 (remoterepository);
     filter_git_init (remoterepository, true);
     
     // Test read access to the remote repository.
@@ -419,11 +419,11 @@ void test_git ()
     evaluate (__LINE__, __func__, "", error);
     
     // Store some Bible data in the cloned repository.
-    filter_url_mkdir (filter_url_create_path_cpp17 ({clonedrepository, "Psalms", "0"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({clonedrepository, "Psalms", "0"}));
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({clonedrepository, "Psalms", "0", "data"}), psalms_0_data);
-    filter_url_mkdir (filter_url_create_path_cpp17 ({clonedrepository, "Psalms", "11"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({clonedrepository, "Psalms", "11"}));
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({clonedrepository, "Psalms", "11", "data"}), psalms_11_data);
-    filter_url_mkdir (filter_url_create_path_cpp17 ({clonedrepository, "Song of Solomon", "2"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({clonedrepository, "Song of Solomon", "2"}));
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({clonedrepository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);
     
     // Add the Bible data to the git index.
@@ -580,7 +580,7 @@ void test_git ()
     vector <string> messages;
     
     // Create remote repository.
-    filter_url_mkdir (remoterepository);
+    filter_url_mkdir_cpp17 (remoterepository);
     filter_git_init (remoterepository, true);
     string remoteurl = "file://" + remoterepository;
     
@@ -593,9 +593,9 @@ void test_git ()
     filter_git_config (repository);
     
     // Store three chapters in the local repository and push it to the remote repository.
-    filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Psalms", "0"}));
-    filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Psalms", "11"}));
-    filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2"}));
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"}), psalms_0_data);
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"}), psalms_11_data);
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);
@@ -677,7 +677,7 @@ void test_git ()
     vector <string> messages;
     
     // Create remote repository.
-    filter_url_mkdir (remoterepository);
+    filter_url_mkdir_cpp17 (remoterepository);
     filter_git_init (remoterepository, true);
     string remoteurl = "file://" + remoterepository;
     
@@ -694,9 +694,9 @@ void test_git ()
     "Line one one one\n"
     "Line two two two\n"
     "Line three three three\n";
-    filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Psalms", "0"}));
-    filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Psalms", "11"}));
-    filter_url_mkdir (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "0"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms", "11"}));
+    filter_url_mkdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2"}));
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "0", "data"}), psalms_0_data);
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Psalms", "11", "data"}), psalms_11_data);
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);

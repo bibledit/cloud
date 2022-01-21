@@ -45,7 +45,7 @@ void test_url ()
   {
     string folder = "/tmp/בוקר טוב";
     evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (folder));
-    filter_url_mkdir (folder);
+    filter_url_mkdir_cpp17 (folder);
     evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (folder));
     filter_url_rmdir (folder);
     evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (folder));
@@ -82,7 +82,7 @@ void test_url ()
   {
     // Do test a folder name that starts with a dot.
     string directory = filter_url_create_path_cpp17 ({testing_directory, "a", ".git"});
-    filter_url_mkdir (directory);
+    filter_url_mkdir_cpp17 (directory);
     string path = filter_url_create_path_cpp17 ({directory, "c"});
     string contents = "unittest";
     filter_url_file_put_contents (path, contents);

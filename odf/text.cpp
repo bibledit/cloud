@@ -54,7 +54,7 @@ Odf_Text::Odf_Text (string bible_in)
   filter_url_rmdir (filter_url_create_path_cpp17 ({unpackedOdtFolder, "Configurations2"}));
   // Create the Pictures folder.
   // pictures_folder = filter_url_create_path_cpp17 (unpackedOdtFolder, "Pictures");
-  //filter_url_mkdir(pictures_folder);
+  //filter_url_mkdir_cpp17 (pictures_folder);
   
   initialize_content_xml ();
   initialize_styles_xml ();

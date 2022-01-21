@@ -299,7 +299,7 @@ string filter_url_create_root_path_cpp17 (const vector<string>& parts)
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-string filter_url_get_extension_cpp17 (string url) // Todo
+string filter_url_get_extension_cpp17 (string url)
 {
   std::filesystem::path path (url);
   string extension;
@@ -310,23 +310,6 @@ string filter_url_get_extension_cpp17 (string url) // Todo
     extension.erase (0, 1);
   }
   return extension;
-}
-
-
-// Returns true if the file at $url exists.
-bool file_or_dir_exists (string url)
-{
-#ifdef HAVE_WINDOWS
-  // Function '_wstat' works with wide characters.
-  wstring wurl = string2wstring(url);
-  struct _stat buffer;
-  int result = _wstat (wurl.c_str (), &buffer);
-  return (result == 0);
-#else
-  // The 'stat' function works as expected on Linux.
-  struct stat buffer;
-  return (stat (url.c_str(), &buffer) == 0);
-#endif
 }
 
 
@@ -341,33 +324,12 @@ bool file_or_dir_exists_cpp17 (string url)
 
 // Makes a directory.
 // Creates parents where needed.
-void filter_url_mkdir (string directory)
+void filter_url_mkdir_cpp17 (string directory)
 {
-  int status;
-#ifdef HAVE_WINDOWS
-  wstring wdirectory = string2wstring(directory);
-  status = _wmkdir (wdirectory.c_str());
-#else
-  status = mkdir (directory.c_str(), 0777);
-#endif
-  if (status != 0) {
-    vector <string> paths;
-    paths.push_back (directory);
-    directory = filter_url_dirname_cpp17 (directory);
-    while (directory.length () > 2) {
-      paths.push_back (directory);
-      directory = filter_url_dirname_cpp17 (directory);
-    }
-    reverse (paths.begin (), paths.end ());
-    for (unsigned int i = 0; i < paths.size (); i++) {
-#ifdef HAVE_WINDOWS
-      wstring wpathsi = string2wstring(paths[i]);
-      _wmkdir (wpathsi.c_str ());
-#else
-      mkdir (paths[i].c_str (), 0777);
-#endif
-    }
-  }
+  try {
+    std::filesystem::path path (directory);
+    std::filesystem::create_directories(path);
+  } catch (...) { }
 }
 
 
@@ -528,7 +490,7 @@ bool filter_url_file_cp (string input, string output)
 void filter_url_dir_cp (const string & input, const string & output)
 {
   // Create the output directory.
-  filter_url_mkdir (output);
+  filter_url_mkdir_cpp17 (output);
   // Check on all files in the input directory.
   vector <string> files = filter_url_scandir (input);
   for (auto & file : files) {
@@ -536,7 +498,7 @@ void filter_url_dir_cp (const string & input, const string & output)
     string output_path = filter_url_create_path_cpp17 ({output, file});
     if (filter_url_is_dir (input_path)) {
       // Create output directory.
-      filter_url_mkdir (output_path);
+      filter_url_mkdir_cpp17 (output_path);
       // Handle the new input directory.
       filter_url_dir_cp (input_path, output_path);
     } else {

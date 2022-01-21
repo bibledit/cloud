@@ -72,7 +72,7 @@ void Database_ImageResources::create (string name)
   // Create folder to store the images.
   string path = resourceFolder (name);
   filter_url_unlink_cpp17 (path);
-  filter_url_mkdir (path);
+  filter_url_mkdir_cpp17 (path);
 
   // Create the passages database.
   sqlite3 * db = connect (name);

@@ -69,7 +69,7 @@ void sword_logic_refresh_module_list ()
   
   // Initialize SWORD directory structure and configuration.
   string sword_path = sword_logic_get_path ();
-  filter_url_mkdir (sword_path);
+  filter_url_mkdir_cpp17 (sword_path);
   string swordconf = "[Install]\n"
                      "DataPath=" + sword_path + "/\n";
   filter_url_file_put_contents (filter_url_create_path_cpp17 ({sword_path, "sword.conf"}), swordconf);

@@ -276,7 +276,7 @@ void changes_modifications ()
     timepath.append (":");
     timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
     string directory = filter_url_create_root_path_cpp17 ({"revisions", bible, timepath});
-    filter_url_mkdir (directory);
+    filter_url_mkdir_cpp17 (directory);
     
     
     // Produce the USFM and html files.

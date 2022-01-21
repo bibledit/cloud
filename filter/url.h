@@ -32,9 +32,8 @@ void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilena
 string filter_url_create_path_cpp17 (const vector<string>& parts);
 string filter_url_create_root_path_cpp17 (const vector<string>& parts);
 string filter_url_get_extension_cpp17 (string url);
-bool file_or_dir_exists (string url);
 bool file_or_dir_exists_cpp17 (string url);
-void filter_url_mkdir (string directory);
+void filter_url_mkdir_cpp17 (string directory);
 void filter_url_rmdir (string directory);
 bool filter_url_is_dir (string path);
 bool filter_url_get_write_permission (string path);

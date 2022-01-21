@@ -337,7 +337,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
 {
   // This entry is saved in a deep folder structure with the new ID in it.
   string folder = userNewIDFolder (username, bible, book, chapter, newID);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (timeFile, convert_to_string (filter_date_seconds_since_epoch ()));

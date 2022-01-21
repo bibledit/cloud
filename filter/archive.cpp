@@ -123,7 +123,7 @@ string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
 {
   string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
@@ -151,7 +151,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
 {
   // Directory where to unzip the archive.
   string folder = filter_url_tempfile ();
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
 
   // Covers the entire process.
   bool error = false;
@@ -182,7 +182,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
         
         if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
           // Create this directory.
-          if (!file_or_dir_exists_cpp17 (fixed_filename)) filter_url_mkdir (fixed_filename);
+          if (!file_or_dir_exists_cpp17 (fixed_filename)) filter_url_mkdir_cpp17 (fixed_filename);
         } else {
           /* Code that extracts file contents memory, if needed.
           size_t filesize = file_stat.m_uncomp_size;
@@ -205,7 +205,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
           
           // Ensure this file's folder exists.
           string dirname = filter_url_dirname_cpp17 (fixed_filename);
-          if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir (dirname);
+          if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir_cpp17 (dirname);
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
           if (!status) {
@@ -295,7 +295,7 @@ string filter_archive_untar_gzip (string file)
 {
   file = filter_url_escape_shell_argument (file);
   string folder = filter_url_tempfile ();
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
@@ -415,7 +415,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
   }
   
   // Create directory if needed.
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
 
   // Unpack all files and save them.
   for (auto file : files) {
@@ -432,7 +432,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
     string dirname = filter_url_dirname_cpp17 (file);
     if (dirname != ".") {
       dirname = filter_url_create_path_cpp17 ({directory, dirname});
-      if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir (dirname);
+      if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir_cpp17 (dirname);
     }
     // Write the file's data.
     filter_url_file_put_contents (filter_url_create_path_cpp17 ({directory, file}), data);

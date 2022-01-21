@@ -40,9 +40,9 @@ void export_text_usfm_book (string bible, int book, bool log)
 {
   // Create folders for the clear text and the basic USFM exports.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);
-  if (!file_or_dir_exists_cpp17 (usfmDirectory)) filter_url_mkdir (usfmDirectory);
+  if (!file_or_dir_exists_cpp17 (usfmDirectory)) filter_url_mkdir_cpp17 (usfmDirectory);
   string textDirectory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "text"});
-  if (!file_or_dir_exists_cpp17 (textDirectory)) filter_url_mkdir (textDirectory);
+  if (!file_or_dir_exists_cpp17 (textDirectory)) filter_url_mkdir_cpp17 (textDirectory);
   
   
   // Filenames for text and usfm.

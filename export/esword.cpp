@@ -39,7 +39,7 @@
 void export_esword (string bible, bool log)
 {
   string directory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "esword"});
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
   
   
   string filename = filter_url_create_path_cpp17 ({directory, "bible.bblx"});

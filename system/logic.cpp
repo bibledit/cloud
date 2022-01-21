@@ -75,7 +75,7 @@ void system_logic_produce_bibles_file (int jobid)
   
   // The directory where the exported Bibles will be put.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
+  filter_url_mkdir_cpp17 (directory);
 
   
   // The files in the tarball.
@@ -136,7 +136,7 @@ void system_logic_import_bibles_file (string tarball)
   
   // Unpack the tarball into a directory.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
+  filter_url_mkdir_cpp17 (directory);
   string error= filter_archive_microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Bibles failure: " + error);
@@ -420,7 +420,7 @@ void system_logic_import_resources_file (string tarball)
   
   // Unpack the tarball into a directory.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir (directory);
+  filter_url_mkdir_cpp17 (directory);
   string error= filter_archive_microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Resources failure: " + error);

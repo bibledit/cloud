@@ -69,7 +69,7 @@ void Database_Bibles::createBible (string name)
 {
   // Create the empty system.
   string folder = bibleFolder (name);
-  filter_url_mkdir (folder);
+  filter_url_mkdir_cpp17 (folder);
   
   Database_State::setExport (name, 0, Export_Logic::export_needed);
 }
@@ -91,7 +91,7 @@ void Database_Bibles::deleteBible (string name)
 void Database_Bibles::storeChapter (string name, int book, int chapter_number, string chapter_text)
 {
   string folder = chapterFolder (name, book, chapter_number);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
 
   // Ensure that the data to be stored ends with a new line.
   if (!chapter_text.empty ()) {

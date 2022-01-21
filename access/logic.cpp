@@ -41,6 +41,11 @@ bool access_logic_privilege_view_resources (void * webserver_request, string use
 
 int access_logic_view_notes_role ()
 {
+  // Indonesian Cloud Free
+  // The normal user of the Individual version doesn't have access to notes.
+  if (config_logic_indonesian_cloud_free_individual ()) {
+    return Filter_Roles::translator ();
+  }
   return Filter_Roles::consultant ();
 }
 

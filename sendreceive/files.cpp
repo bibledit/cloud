@@ -228,7 +228,7 @@ void sendreceive_files ()
       string fullpath = filter_url_create_root_path_cpp17 ({directory, file});
       // Create directory if it does not yet exist.
       string dirpath = filter_url_dirname_cpp17 (fullpath);
-      if (!file_or_dir_exists/*_cpp17*/ (dirpath)) {
+      if (!file_or_dir_exists_cpp17 (dirpath)) {
         filter_url_mkdir (dirpath);
       }
       string download_url = filter_url_build_http_query (url, "a", convert_to_string (Sync_Logic::files_file_download));

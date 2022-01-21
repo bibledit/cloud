@@ -64,7 +64,6 @@
 		CA77113E27523D8B003ADD67 /* comparative1edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD55EB0260140370021FED0 /* comparative1edit.cpp */; };
 		CA77113F27523D8B003ADD67 /* divider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50825EFDE1E00650B41 /* divider.cpp */; };
 		CA77114027523D8B003ADD67 /* confirm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA1B741A25F54DC90030846D /* confirm.cpp */; };
-		CA77114127523D8B003ADD67 /* indonesianfree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47B2CB25E9282B001370A4 /* indonesianfree.cpp */; };
 		CA77114227523D8B003ADD67 /* text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA6F68B3257CDF21008D51F5 /* text.cpp */; };
 		CA77114327524235003ADD67 /* abbottsmith.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAA323FA25FBC70A00F5A99E /* abbottsmith.cpp */; };
 		CA77114427524240003ADD67 /* bibleimages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CABDBAD726E3F82000BE27F8 /* bibleimages.cpp */; };
@@ -5960,7 +5959,6 @@
 				CA77113E27523D8B003ADD67 /* comparative1edit.cpp in Sources */,
 				CA77113F27523D8B003ADD67 /* divider.cpp in Sources */,
 				CA77114027523D8B003ADD67 /* confirm.cpp in Sources */,
-				CA77114127523D8B003ADD67 /* indonesianfree.cpp in Sources */,
 				CA77114227523D8B003ADD67 /* text.cpp in Sources */,
 				CA77112F27523C58003ADD67 /* load.cpp in Sources */,
 				CA77113027523C58003ADD67 /* load.cpp in Sources */,

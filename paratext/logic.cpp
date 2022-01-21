@@ -262,7 +262,7 @@ string Paratext_Logic::ancestor (string bible, int book)
 string Paratext_Logic::ancestorPath (string bible, int book)
 {
   string path = filter_url_create_root_path_cpp17 ({"paratext", "ancestors", bible});
-  if (!file_or_dir_exists/*_cpp17*/ (path)) filter_url_mkdir (path);
+  if (!file_or_dir_exists_cpp17 (path)) filter_url_mkdir (path);
   if (book) path = filter_url_create_path_cpp17 ({path, convert_to_string (book)});
   return path;
 }
@@ -320,7 +320,7 @@ void Paratext_Logic::synchronize ()
     
     // The Paratext project folder for the current Bible.
     string project_folder = projectFolder (bible);
-    if (!file_or_dir_exists/*_cpp17*/ (project_folder)) {
+    if (!file_or_dir_exists_cpp17 (project_folder)) {
       Database_Logs::log ("Cannot find Paratext project folder:" " " + project_folder, Filter_Roles::translator ());
       continue;
     }

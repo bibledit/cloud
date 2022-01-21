@@ -582,7 +582,7 @@ void sword_logic_trim_modules ()
   for (auto module : modules) {
     module = sword_logic_get_installed_module (module);
     string path = sword_logic_access_tracker (module);
-    if (!file_or_dir_exists/*_cpp17*/ (path)) {
+    if (!file_or_dir_exists_cpp17 (path)) {
       sword_logic_uninstall_module (module);
     }
   }

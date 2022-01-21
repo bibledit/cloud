@@ -161,7 +161,6 @@ libbibledit_a_SOURCES = \
 	manage/privileges.cpp \
 	system/index.cpp \
 	system/logic.cpp \
-  system/indonesianfree.cpp \
 	collaboration/index.cpp \
 	collaboration/link.cpp \
 	collaboration/settings.cpp \

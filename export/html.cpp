@@ -43,7 +43,7 @@ void export_html_book (string bible, int book, bool log)
 {
   // Create folders for the html export.
   string directory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "html"});
-  if (!file_or_dir_exists/*_cpp17*/ (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
   
   
   // Filename for the html file.

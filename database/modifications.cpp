@@ -106,7 +106,7 @@ string Database_Modifications::teamFile (const string& bible, int book, int chap
 bool Database_Modifications::teamDiffExists (const string& bible, int book, int chapter)
 {
   string file = teamFile (bible, book, chapter);
-  return file_or_dir_exists/*_cpp17*/ (file);
+  return file_or_dir_exists_cpp17 (file);
 }
 
 
@@ -337,7 +337,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
 {
   // This entry is saved in a deep folder structure with the new ID in it.
   string folder = userNewIDFolder (username, bible, book, chapter, newID);
-  if (!file_or_dir_exists/*_cpp17*/ (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (timeFile, convert_to_string (filter_date_seconds_since_epoch ()));
@@ -857,7 +857,7 @@ Passage Database_Modifications::getNotificationPassage (int id)
 string Database_Modifications::getNotificationOldText (int id)
 {
   string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists/*_cpp17*/ (path)) return "";
+  if (!file_or_dir_exists_cpp17 (path)) return "";
   SqliteDatabase sql (path);
   sql.add ("SELECT oldtext FROM notification;");
   vector <string> result = sql.query () ["oldtext"];
@@ -869,7 +869,7 @@ string Database_Modifications::getNotificationOldText (int id)
 string Database_Modifications::getNotificationModification (int id)
 {
   string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists/*_cpp17*/ (path)) return "";
+  if (!file_or_dir_exists_cpp17 (path)) return "";
   SqliteDatabase sql (path);
   sql.add ("SELECT modification FROM notification;");
   vector <string> result = sql.query () ["modification"];
@@ -881,7 +881,7 @@ string Database_Modifications::getNotificationModification (int id)
 string Database_Modifications::getNotificationNewText (int id)
 {
   string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists/*_cpp17*/ (path)) return "";
+  if (!file_or_dir_exists_cpp17 (path)) return "";
   SqliteDatabase sql (path);
   sql.add ("SELECT newtext FROM notification;");
   vector <string> result = sql.query () ["newtext"];
@@ -1103,7 +1103,7 @@ void Database_Modifications::deleteNotificationFile (int identifier)
   // Delete the old folder from the file system (used till Februari 2016).
   if (filter_url_is_dir (path)) filter_url_rmdir (path);
   // Delete the new database file from the file system.
-  if (file_or_dir_exists/*_cpp17*/ (path)) filter_url_unlink_cpp17 (path);
+  if (file_or_dir_exists_cpp17 (path)) filter_url_unlink_cpp17 (path);
 }
 
 

@@ -69,7 +69,7 @@ string index_listing (void * webserver_request, string url)
     view.set_variable ("parent", parent);
   }
   string directory = filter_url_create_root_path_cpp17 ({url});
-  if (!file_or_dir_exists/*_cpp17*/ (directory) || filter_url_is_dir (directory)) {
+  if (!file_or_dir_exists_cpp17 (directory) || filter_url_is_dir (directory)) {
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
       string path = filter_url_create_path_cpp17 ({directory, file});

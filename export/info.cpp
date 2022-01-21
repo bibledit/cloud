@@ -39,7 +39,7 @@ void export_info (string bible, bool log)
 {
   // Create folders for the information.
   string directory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "info"});
-  if (!file_or_dir_exists/*_cpp17*/ (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.

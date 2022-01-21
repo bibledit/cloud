@@ -53,7 +53,7 @@ void Database_Logs::log (string description, int level)
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
   // Append the data so it won't overwrite an earlier entry.
-  if (file_or_dir_exists/*_cpp17*/ (file)) {
+  if (file_or_dir_exists_cpp17 (file)) {
     description.insert (0, " | ");
   } else {
     description.insert (0, convert_to_string (level) + " ");

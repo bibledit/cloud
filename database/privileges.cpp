@@ -452,12 +452,12 @@ void database_privileges_client_create (const string & user, bool force)
   
   // Without $force, if the file exists, we're done.
   if (!force) {
-    if (file_or_dir_exists/*_cpp17*/ (path)) return;
+    if (file_or_dir_exists_cpp17 (path)) return;
   }
   
   // If needed, create the folder.
   string folder = filter_url_dirname_cpp17 (path);
-  if (!file_or_dir_exists/*_cpp17*/ (folder)) filter_url_mkdir (folder);
+  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir (folder);
   
   // The bits of privileges in human-readable form.
   string privileges = Database_Privileges::save (user);

@@ -443,7 +443,7 @@ void filter_url_set_write_permission (string path)
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents(string filename)
 {
-  if (!file_or_dir_exists/*_cpp17*/ (filename)) return string();
+  if (!file_or_dir_exists_cpp17 (filename)) return string();
   try {
 #ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring(filename);
@@ -652,10 +652,10 @@ string filter_url_escape_shell_argument (string argument)
 // to ensure that the $path does not yet exist in the filesystem.
 string filter_url_unique_path (string path)
 {
-  if (!file_or_dir_exists/*_cpp17*/ (path)) return path;
+  if (!file_or_dir_exists_cpp17 (path)) return path;
   for (size_t i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
-    if (!file_or_dir_exists/*_cpp17*/ (uniquepath)) return uniquepath;
+    if (!file_or_dir_exists_cpp17 (uniquepath)) return uniquepath;
   }
   return path + "." + convert_to_string (filter_string_rand (100, 1000));
 }
@@ -1554,7 +1554,7 @@ void filter_url_ssl_tls_initialize ()
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.
   string path = filter_url_create_root_path_cpp17 ({"filter", "cas.crt"});
-  while (!file_or_dir_exists/*_cpp17*/ (path)) this_thread::sleep_for (chrono::milliseconds (100));
+  while (!file_or_dir_exists_cpp17 (path)) this_thread::sleep_for (chrono::milliseconds (100));
   // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
   filter_url_display_mbed_tls_error (ret, NULL, false);

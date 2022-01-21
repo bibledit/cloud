@@ -425,7 +425,7 @@ string Database_Notes::note_file (int identifier)
 // and for the new way of storing notes in JSON.
 bool Database_Notes::identifier_exists (int identifier)
 {
-  if (file_or_dir_exists/*_cpp17*/ (note_file (identifier))) return true;
+  if (file_or_dir_exists_cpp17 (note_file (identifier))) return true;
   return false;
 }
 
@@ -1784,7 +1784,7 @@ void Database_Notes::set_availability (bool available)
 // Returns whether the notes databases are available, as a boolean.
 bool Database_Notes::available ()
 {
-  return !file_or_dir_exists/*_cpp17*/ (availability_flag ());
+  return !file_or_dir_exists_cpp17 (availability_flag ());
 }
 
 

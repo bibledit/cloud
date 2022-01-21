@@ -42,7 +42,7 @@
 void export_web_book (string bible, int book, bool log)
 {
   string directory = Export_Logic::webDirectory (bible);
-  if (!file_or_dir_exists/*_cpp17*/ (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
   
   
   Database_Bibles database_bibles;
@@ -163,7 +163,7 @@ void export_web_index (string bible, bool log)
 {
   // Create folders for the web export.
   string directory = Export_Logic::webDirectory (bible);
-  if (!file_or_dir_exists/*_cpp17*/ (directory)) filter_url_mkdir (directory);
+  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the web file and stylesheet.

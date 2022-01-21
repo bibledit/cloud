@@ -430,14 +430,16 @@ string personalize_index (void * webserver_request)
     }
   } else {
     view.enable_zone ("advancedmode");
+    view.enable_zone ("indonesiancloudfreesimple_disable");
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      view.disable_zone ("bibles");
+      view.disable_zone ("notestatuson");
+      view.disable_zone ("indonesiancloudfreesimple_disable");
+    }
   }
 
   if (config_logic_indonesian_cloud_free ()) {
     view.enable_zone ("indonesiancloudfree");
-  }
-
-  if (config_logic_indonesian_cloud_free_simple ()) {
-    view.disable_zone ("indonesiancloudfreesimple_disable");
   }
   
   

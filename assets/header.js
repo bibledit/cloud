@@ -63,7 +63,7 @@ $ (document).ready (function () {
     })
     $ ('#topbar').empty ();
   };
-  if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0) {
+  if (typeof (fadingMenuDelay) != 'undefined' && fadingMenuDelay != 0 && fadingMenuDelay !== 'false') {
     $ (".fadeout").delay (parseInt (fadingMenuDelay)).hide (2000);
   };
 

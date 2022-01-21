@@ -250,6 +250,7 @@ string Assets_Header::run ()
       view->enable_zone ("fading_menu");
       view->set_variable ("fadingmenu", fadingmenu);
       string delay = convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
+      if (config_logic_indonesian_cloud_free_simple ()) delay = "false";
       view->set_variable ("fadingmenudelay", delay);
       fadingmenu.clear ();
     }

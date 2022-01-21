@@ -471,5 +471,5 @@ void database_privileges_client_remove (const string & user)
 {
   string path = database_privileges_client_path (user);
   path = filter_url_dirname_cpp17 (path);
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
 }

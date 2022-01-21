@@ -85,7 +85,7 @@ string collaboration_index (void * webserver_request)
   
   if (request->query.count ("disable")) {
     Database_Config_Bible::setRemoteRepositoryUrl (object, "");
-    filter_url_rmdir (repositoryfolder);
+    filter_url_rmdir_cpp17 (repositoryfolder);
   }
   string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);

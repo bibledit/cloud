@@ -98,7 +98,7 @@ vector <string> Database_Styles::getSheets ()
 // Deletes a stylesheet.
 void Database_Styles::deleteSheet (string sheet)
 {
-  if (!sheet.empty ()) filter_url_rmdir (sheetfolder (sheet));
+  if (!sheet.empty ()) filter_url_rmdir_cpp17 (sheetfolder (sheet));
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();

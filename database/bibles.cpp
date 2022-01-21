@@ -80,7 +80,7 @@ void Database_Bibles::deleteBible (string name)
 {
   string path = bibleFolder (name);
   // Delete directory.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
   // Just in case it was a regular file: Delete it.
   filter_url_unlink_cpp17 (path);
   Database_State::setExport (name, 0, Export_Logic::export_needed);
@@ -145,7 +145,7 @@ vector <int> Database_Bibles::getBooks (string bible)
 void Database_Bibles::deleteBook (string bible, int book)
 {
   string folder = bookFolder (bible, book);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   Database_State::setExport (bible, 0, Export_Logic::export_needed);
 }
 
@@ -168,7 +168,7 @@ vector <int> Database_Bibles::getChapters (string bible, int book)
 void Database_Bibles::deleteChapter (string bible, int book, int chapter)
 {
   string folder = chapterFolder (bible, book, chapter);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   Database_State::setExport (bible, 0, Export_Logic::export_needed);
 }
 

@@ -47,7 +47,7 @@ void test_url ()
     evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (folder));
     filter_url_mkdir_cpp17 (folder);
     evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (folder));
-    filter_url_rmdir (folder);
+    filter_url_rmdir_cpp17 (folder);
     evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (folder));
   }
   
@@ -92,7 +92,7 @@ void test_url ()
     evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (path));
     evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
     
-    filter_url_rmdir (path);
+    filter_url_rmdir_cpp17 (path);
     evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (path));
     evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
   }
@@ -224,7 +224,7 @@ void test_url ()
   {
     string input = filter_url_create_root_path_cpp17 ({"unittests"});
     string output = "/tmp/test_copy_directory";
-    filter_url_rmdir (output);
+    filter_url_rmdir_cpp17 (output);
     filter_url_dir_cp (input, output);
     string path = filter_url_create_path_cpp17 ({output, "tests", "basic.css"});
     evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (path));

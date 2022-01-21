@@ -262,7 +262,7 @@ void Database_Config_User::remove (string username)
 {
   // Remove from disk.
   string folder = file (username);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   // Clear cache.
   database_config_user_cache.clear ();
 }

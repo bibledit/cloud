@@ -179,7 +179,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
                 if (file_or_dir_exists_cpp17 (filename)) {
                   if (!in_array (chapter, chapters)) {
                     // Chapter does not exist in the database.
-                    filter_url_rmdir (filter_url_create_path_cpp17 ({repository, bookname, chaptername}));
+                    filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({repository, bookname, chaptername}));
                   }
                 }
               }
@@ -187,7 +187,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
           }
         } else {
           // Book does not exist in the database: Remove it from $git.
-          filter_url_rmdir (filter_url_create_path_cpp17 ({repository, bookname}));
+          filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({repository, bookname}));
         }
       }
     }
@@ -349,7 +349,7 @@ bool filter_git_remote_read (string url, string & error)
 bool filter_git_remote_clone (string url, string path, [[maybe_unused]] int jobid, string & error)
 {
   // Clear a possible existing git repository directory.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
 
   string output;
   int result = filter_shell_run ("", "git", {"clone", url, path}, &output, &error);

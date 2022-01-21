@@ -36,7 +36,7 @@ void tmp_tmp ()
     string filename = filter_url_create_path_cpp17 ({directory, name});
     int mtime = filter_url_file_modification_time (filename);
     if (mtime < expired) {
-      filter_url_rmdir (filename);
+      filter_url_rmdir_cpp17 (filename);
       filter_url_unlink_cpp17 (filename);
     }
   }

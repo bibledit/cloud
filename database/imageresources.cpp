@@ -91,7 +91,7 @@ void Database_ImageResources::erase (string name)
 {
   string path = resourceFolder (name);
   // If a folder: Delete it.
-  filter_url_rmdir (path);
+  filter_url_rmdir_cpp17 (path);
   // If a file: Delete it.
   filter_url_unlink_cpp17 (path);
 }

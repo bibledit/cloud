@@ -81,7 +81,7 @@ string paratext_index (void * webserver_request)
   if (request->query.count ("disable")) {
     Database_Config_Bible::setParatextProject (bible, "");
     Database_Config_Bible::setParatextCollaborationEnabled (bible, false);
-    filter_url_rmdir (Paratext_Logic::ancestorPath (bible, 0));
+    filter_url_rmdir_cpp17 (Paratext_Logic::ancestorPath (bible, 0));
     bible.clear ();
   }
 

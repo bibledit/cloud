@@ -353,7 +353,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
 void Database_Modifications::clearUserUser (const string& username)
 {
   string folder = userUserFolder (username);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
 }
 
 
@@ -399,7 +399,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
       // Perhaps the server crashed so it never could process them.
       // Cases like this have been seen on servers with limited memory.
       // Therefore just remove this change, without processing it.
-      filter_url_rmdir (path);
+      filter_url_rmdir_cpp17 (path);
     } else {
       chapters.push_back (convert_to_int (file));
     }
@@ -1101,7 +1101,7 @@ void Database_Modifications::deleteNotificationFile (int identifier)
 {
   string path = notificationIdentifierDatabase (identifier);
   // Delete the old folder from the file system (used till Februari 2016).
-  if (filter_url_is_dir (path)) filter_url_rmdir (path);
+  if (filter_url_is_dir (path)) filter_url_rmdir_cpp17 (path);
   // Delete the new database file from the file system.
   if (file_or_dir_exists_cpp17 (path)) filter_url_unlink_cpp17 (path);
 }

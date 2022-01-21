@@ -250,8 +250,8 @@ void test_git ()
     filter_git_sync_git_to_bible (&request, repository, bible);
     // Remove one book and one chapter from the git repository,
     // and check that after running the filter, the database is updated accordingly.
-    filter_url_rmdir (repository + "/Song of Solomon");
-    filter_url_rmdir (repository + "/Psalms/0");
+    filter_url_rmdir_cpp17 (repository + "/Song of Solomon");
+    filter_url_rmdir_cpp17 (repository + "/Psalms/0");
     filter_git_sync_git_to_bible (&request, repository, bible);
     vector <int> books = request.database_bibles()->getBooks (bible);
     evaluate (__LINE__, __func__, {19}, books);
@@ -330,8 +330,8 @@ void test_git ()
     filter_git_sync_git_to_bible (&request, repository, bible);
     
     // Remove one book and one chapter from the git repository,
-    filter_url_rmdir (repository + "/Song of Solomon");
-    filter_url_rmdir (repository + "/Psalms/0");
+    filter_url_rmdir_cpp17 (repository + "/Song of Solomon");
+    filter_url_rmdir_cpp17 (repository + "/Psalms/0");
     
     // Run updates on the three chapters.
     filter_git_sync_git_chapter_to_bible (repository, bible, 19, 0);
@@ -437,7 +437,7 @@ void test_git ()
     evaluate (__LINE__, __func__, "", error);
     
     // Remove some Bible data from the cloned repository.
-    filter_url_rmdir (filter_url_create_path_cpp17 ({clonedrepository, "Psalms"}));
+    filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({clonedrepository, "Psalms"}));
     success = filter_git_add_remove_all (clonedrepository, error);
     evaluate (__LINE__, __func__, true, success);
     evaluate (__LINE__, __func__, "", error);
@@ -536,7 +536,7 @@ void test_git ()
     evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
 
     // Remove both Psalms chapters.
-    filter_url_rmdir (filter_url_create_path_cpp17 ({repository, "Psalms"}));
+    filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({repository, "Psalms"}));
     
     // There should be two modified paths now.
     paths = filter_git_status (repository);

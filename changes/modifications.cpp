@@ -410,7 +410,7 @@ void changes_modifications ()
     int time = filter_url_file_modification_time (folder);
     int days = (now - time) / 86400;
     if (days > 31) {
-      filter_url_rmdir (folder);
+      filter_url_rmdir_cpp17 (folder);
     } else {
       vector <string> revisions = filter_url_scandir (folder);
       for (auto & revision : revisions) {
@@ -418,7 +418,7 @@ void changes_modifications ()
         int time = filter_url_file_modification_time (path);
         int days = (now - time) / 86400;
         if (days > 31) {
-          filter_url_rmdir (path);
+          filter_url_rmdir_cpp17 (path);
           Database_Logs::log ("Removing expired downloadable revision notification: " + bible + " " + revision, Filter_Roles::translator ());
         }
       }

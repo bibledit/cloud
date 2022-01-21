@@ -51,7 +51,7 @@ Odf_Text::Odf_Text (string bible_in)
   // Unpack the .odt template.
   string templateOdf = filter_url_create_root_path_cpp17 ({"odf", "template.odt"});
   unpackedOdtFolder = filter_archive_unzip (templateOdf);
-  filter_url_rmdir (filter_url_create_path_cpp17 ({unpackedOdtFolder, "Configurations2"}));
+  filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({unpackedOdtFolder, "Configurations2"}));
   // Create the Pictures folder.
   // pictures_folder = filter_url_create_path_cpp17 (unpackedOdtFolder, "Pictures");
   //filter_url_mkdir_cpp17 (pictures_folder);
@@ -63,7 +63,7 @@ Odf_Text::Odf_Text (string bible_in)
 
 Odf_Text::~Odf_Text ()
 {
-  filter_url_rmdir (unpackedOdtFolder);
+  filter_url_rmdir_cpp17 (unpackedOdtFolder);
 }
 
 

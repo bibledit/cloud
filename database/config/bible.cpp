@@ -114,7 +114,7 @@ void Database_Config_Bible::remove (string bible)
 {
   // Remove from disk.
   string folder = file (bible);
-  filter_url_rmdir (folder);
+  filter_url_rmdir_cpp17 (folder);
   // Clear cache.
   database_config_bible_cache.clear ();
 }

@@ -177,7 +177,7 @@ void system_logic_import_bibles_file (string tarball)
   }
   
   // Clean up.
-  filter_url_rmdir (directory);
+  filter_url_rmdir_cpp17 (directory);
   filter_url_unlink_cpp17 (tarball);
 
   // Since new Bibles may have been imported, index them all.
@@ -442,7 +442,7 @@ void system_logic_import_resources_file (string tarball)
   }
 
   // Clean up.
-  filter_url_rmdir (directory);
+  filter_url_rmdir_cpp17 (directory);
   filter_url_unlink_cpp17 (tarball);
 
   // Ready, hallelujah!

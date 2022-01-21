@@ -334,32 +334,12 @@ void filter_url_mkdir_cpp17 (string directory)
 
 
 // Removes directory recursively.
-void filter_url_rmdir (string directory)
+void filter_url_rmdir_cpp17 (string directory)
 {
-  vector <string> files = filter_url_scandir_internal (directory);
-  for (auto path : files) {
-    path = filter_url_create_path_cpp17 ({directory, path});
-    if (filter_url_is_dir(path)) {
-      filter_url_rmdir(path);
-    }
-#ifdef HAVE_WINDOWS
-	// Remove directory.
-	wstring wpath = string2wstring(path);
-	_wrmdir(wpath.c_str());
-	// Remove file.
-	filter_url_unlink_cpp17 (path);
-#else
-	// On Linux remove the directory or the file.
-    remove(path.c_str());
-#endif
-  }
-#ifdef HAVE_WINDOWS
-  wstring wdirectory = string2wstring(directory);
-  _wrmdir(wdirectory.c_str());
-  filter_url_unlink_cpp17 (directory);
-#else
-  remove(directory.c_str());
-#endif
+  try {
+    filesystem::path path (directory);
+    filesystem::remove_all(path);
+  } catch (...) { }
 }
 
 

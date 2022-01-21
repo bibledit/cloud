@@ -131,7 +131,7 @@ string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
   // Run the command.
   int return_var = system (command.c_str());
   if (return_var != 0) {
-    filter_url_rmdir (folder);
+    filter_url_rmdir_cpp17 (folder);
     folder.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -308,7 +308,7 @@ string filter_archive_untar_gzip (string file)
   return_var = system (command.c_str());
 #endif
   if (return_var != 0) {
-    filter_url_rmdir (folder);
+    filter_url_rmdir_cpp17 (folder);
     folder.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);

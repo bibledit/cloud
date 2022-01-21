@@ -182,6 +182,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   // Deal with a situation the user has access to the workspaces.
   if (workspace_index_acl (webserver_request)) {
     string label = translate ("Workspace");
+    if (config_logic_indonesian_cloud_free_simple ()) label = "Belajar";
     string tooltip;
     menu_logic_workspace_category (webserver_request, &tooltip);
     html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip, ""));
@@ -227,7 +228,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   if (!menu_logic_settings_category (webserver_request, &menutooltip).empty ()) {
     if (config_logic_indonesian_cloud_free_simple ()) {
-      html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
+      html.push_back (menu_logic_create_item (personalize_index_url (), "Pengaturan", true, "", color));
     }
 
 
@@ -254,7 +255,9 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 #ifndef HAVE_CLIENT
   if (menu_logic_public_or_guest (webserver_request) || config_logic_indonesian_cloud_free_simple ()) {
     if (!public_logic_bibles (webserver_request).empty ()) {
-      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
+      string label = menu_logic_public_feedback_text ();
+      if (config_logic_indonesian_cloud_free_simple ()) label = "Masukan";
+      html.push_back (menu_logic_create_item (public_index_url (), label, true, "", ""));
       tooltipbits.push_back (menu_logic_public_feedback_text ());
     }
   }

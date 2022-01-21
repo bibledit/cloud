@@ -194,34 +194,66 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   string color = Filter_Css::theme_picker (current_theme_index[0], current_theme_index[1]);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false, menutooltip, color));
-    tooltipbits.push_back (menu_logic_translate_text ());
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      html.push_back("");
+    }
+
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false, menutooltip, color));
+      tooltipbits.push_back (menu_logic_translate_text ());
+    }
   }
   
   if (!menu_logic_search_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false, menutooltip, color));
-    tooltipbits.push_back (menu_logic_search_text ());
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      html.push_back("");
+    }
+
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false, menutooltip, color));
+      tooltipbits.push_back (menu_logic_search_text ());
+    }
   }
 
   if (!menu_logic_tools_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false, menutooltip, color));
-    tooltipbits.push_back (menu_logic_tools_text ());
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      html.push_back("");
+    }
+
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false, menutooltip, color));
+      tooltipbits.push_back (menu_logic_tools_text ());
+    }
   }
 
   if (!menu_logic_settings_category (webserver_request, &menutooltip).empty ()) {
-    html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false, menutooltip, color));
-    tooltipbits.push_back (menu_logic_settings_text ());
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
+    }
+
+
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false, menutooltip, color));
+      tooltipbits.push_back (menu_logic_settings_text ());
+    }
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
-    html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true, menu_logic_help_text (), color));
-    tooltipbits.push_back (menu_logic_help_text ());
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      html.push_back("");
+    }
+
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true, menu_logic_help_text (), color));
+      tooltipbits.push_back (menu_logic_help_text ());
+    }
   }
 
-  // When a user is not logged in, or a guest,
+  // When a user is not logged in, or a guest, or if the Indonesian
+  // Cloud Free Simple version is enabled,
   // put the public feedback into the main menu, rather than in a sub menu.
 #ifndef HAVE_CLIENT
-  if (menu_logic_public_or_guest (webserver_request)) {
+  if (menu_logic_public_or_guest (webserver_request) || config_logic_indonesian_cloud_free_simple ()) {
     if (!public_logic_bibles (webserver_request).empty ()) {
       html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
       tooltipbits.push_back (menu_logic_public_feedback_text ());
@@ -300,20 +332,16 @@ string menu_logic_basic_categories (void * webserver_request)
   }
   
   if (personalize_index_acl (webserver_request)) {
-    if (config_logic_default_bibledit_configuration ()) {
-      html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
-    }
-    if (config_logic_indonesian_cloud_free ()) {
-      html.push_back (menu_logic_create_item (system_indonesianfree_url (), "⋮", true, "", color));
-    }
+    html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
   }
 
   // When a user is not logged in, or a guest,
   // put the public feedback into the main menu, rather than in a sub menu.
   // This is the default configuration.
   bool public_feedback_possible = true;
-  // In the Indonesian free Cloud, there's no public feedback possible,
+  // In the Indonesian Cloud Free, there's no public feedback possible,
   // since the aim is to keep things easy to understand for beginners.
+  // Except when it's the Indonesian Cloud Free Simple.
   if (config_logic_indonesian_cloud_free ()) {
     public_feedback_possible = false;
   }

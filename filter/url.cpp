@@ -367,14 +367,10 @@ bool filter_url_get_write_permission (string path)
 }
 
 
-void filter_url_set_write_permission (string path)
+void filter_url_set_write_permission (string path) // Todo
 {
-#ifdef HAVE_WINDOWS
-  wstring wpath = string2wstring (path);
-  _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
-#else
-  chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-#endif
+  filesystem::path p (path);
+  filesystem::permissions(p, filesystem::perms::owner_all | filesystem::perms::group_all | filesystem::perms::others_all);
 }
 
 

@@ -73,14 +73,14 @@ string resource_image (void * webserver_request)
   // File upload.
   if (request->post.count ("upload")) {
     string folder = filter_url_tempfile ();
-    filter_url_mkdir_cpp17 (folder);
-    string file =  filter_url_create_path_cpp17 ({folder, request->post ["filename"]});
+    filter_url_mkdir (folder);
+    string file =  filter_url_create_path ({folder, request->post ["filename"]});
     string data = request->post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       bool background_import = false;
       if (filter_archive_is_archive (file)) background_import = true;
-      string extension = filter_url_get_extension_cpp17 (file);
+      string extension = filter_url_get_extension (file);
       extension = unicode_string_casefold (extension);
       if (extension == "pdf") background_import = true;
       if (background_import) {

@@ -30,25 +30,25 @@ void test_url ()
   {
     string filename = "/tmp/בוקר טוב";
     string contents = "בוקר טוב בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filename));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filename));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
     filter_url_file_put_contents (filename, contents);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filename));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (filename));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (filename));
-    filter_url_unlink_cpp17 (filename);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filename));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (filename));
+    filter_url_unlink (filename);
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
   }
 
   // Test function to check existence of directory.
   {
     string folder = "/tmp/בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (folder));
-    filter_url_mkdir_cpp17 (folder);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (folder));
-    filter_url_rmdir_cpp17 (folder);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (folder));
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (folder));
+    filter_url_mkdir (folder);
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
+    filter_url_rmdir (folder);
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (folder));
   }
   
   // Test unique filename.
@@ -61,9 +61,9 @@ void test_url ()
     string filename2 = filter_url_unique_path (filename);
     filter_url_file_put_contents (filename2, "");
     evaluate (__LINE__, __func__, "/tmp/unique.2", filename2);
-    filter_url_unlink_cpp17 (filename);
-    filter_url_unlink_cpp17 (filename1);
-    filter_url_unlink_cpp17 (filename2);
+    filter_url_unlink (filename);
+    filter_url_unlink (filename1);
+    filter_url_unlink (filename2);
   }
   
   // Html export filenames.
@@ -81,20 +81,20 @@ void test_url ()
   // Testing mkdir and rmdir including parents.
   {
     // Do test a folder name that starts with a dot.
-    string directory = filter_url_create_path_cpp17 ({testing_directory, "a", ".git"});
-    filter_url_mkdir_cpp17 (directory);
-    string path = filter_url_create_path_cpp17 ({directory, "c"});
+    string directory = filter_url_create_path ({testing_directory, "a", ".git"});
+    filter_url_mkdir (directory);
+    string path = filter_url_create_path ({directory, "c"});
     string contents = "unittest";
     filter_url_file_put_contents (path, contents);
     evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
     
-    path = filter_url_create_path_cpp17 ({testing_directory, "a"});
-    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (path));
-    evaluate (__LINE__, __func__, true, filter_url_is_dir_cpp17 (path));
+    path = filter_url_create_path ({testing_directory, "a"});
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
+    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
     
-    filter_url_rmdir_cpp17 (path);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (path));
-    evaluate (__LINE__, __func__, false, filter_url_is_dir_cpp17 (path));
+    filter_url_rmdir (path);
+    evaluate (__LINE__, __func__, false, file_or_dir_exists (path));
+    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
   }
   
   // Test filter_url_escape_shell_argument.
@@ -148,17 +148,17 @@ void test_url ()
     
   // Test dirname and basename functions.
   {
-    evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 (string()));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 ("/"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname_cpp17 ("dir/"));
-    evaluate (__LINE__, __func__, "/", filter_url_dirname_cpp17 ("/dir"));
-    evaluate (__LINE__, __func__, "foo", filter_url_dirname_cpp17 ("foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname_cpp17 ("/foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname_cpp17 ("/foo/bar/"));
-    evaluate (__LINE__, __func__, "a.txt", filter_url_basename_cpp17 ("/a.txt"));
-    evaluate (__LINE__, __func__, "txt", filter_url_basename_cpp17 ("/txt/"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename_cpp17 ("/path/to/foo.bar"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename_cpp17 ("foo.bar"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname (string()));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
+    evaluate (__LINE__, __func__, "/", filter_url_dirname ("/dir"));
+    evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
+    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
+    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
+    evaluate (__LINE__, __func__, "a.txt", filter_url_basename ("/a.txt"));
+    evaluate (__LINE__, __func__, "txt", filter_url_basename ("/txt/"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("/path/to/foo.bar"));
+    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("foo.bar"));
   }
   
   // Test http GET and POST
@@ -222,12 +222,12 @@ void test_url ()
   
   // Test recursively copying a directory.
   {
-    string input = filter_url_create_root_path_cpp17 ({"unittests"});
+    string input = filter_url_create_root_path ({"unittests"});
     string output = "/tmp/test_copy_directory";
-    filter_url_rmdir_cpp17 (output);
+    filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
-    string path = filter_url_create_path_cpp17 ({output, "tests", "basic.css"});
-    evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (path));
+    string path = filter_url_create_path ({output, "tests", "basic.css"});
+    evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
   }
   
   // Secure communications.
@@ -266,24 +266,24 @@ void test_url ()
   
   // Testing is_dir.
   {
-    string path = filter_url_create_root_path_cpp17 ({"git"});
-    evaluate (__LINE__, __func__, true, filter_url_is_dir_cpp17 (path));
-    path = filter_url_create_root_path_cpp17 ({"setup", "index.html"});
-    evaluate (__LINE__, __func__, false, filter_url_is_dir_cpp17 (path));
+    string path = filter_url_create_root_path ({"git"});
+    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    path = filter_url_create_root_path ({"setup", "index.html"});
+    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
   }
   
   // Testing checking for and setting write permissions.
   {
-    string directory = filter_url_create_root_path_cpp17 ({filter_url_temp_dir ()});
-    string file1 = filter_url_create_path_cpp17 ({directory, "1"});
-    string file2 = filter_url_create_path_cpp17 ({directory, "2"});
+    string directory = filter_url_create_root_path ({filter_url_temp_dir ()});
+    string file1 = filter_url_create_path ({directory, "1"});
+    string file2 = filter_url_create_path ({directory, "2"});
     filter_url_file_put_contents (file1, "x");
     filter_url_file_put_contents (file2, "x");
     
     evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
     evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
     evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
-    
+
     chmod (directory.c_str(), S_IRUSR);
     chmod (file1.c_str(), S_IRUSR);
     chmod (file2.c_str(), S_IRUSR);
@@ -311,9 +311,9 @@ void test_url ()
   
   // Getting the file extension.
   {
-    evaluate (__LINE__, __func__, "txt", filter_url_get_extension_cpp17 ("foo/bar.txt"));
-    evaluate (__LINE__, __func__, "", filter_url_get_extension_cpp17 (".hidden"));
-    evaluate (__LINE__, __func__, "", filter_url_get_extension_cpp17 (""));
+    evaluate (__LINE__, __func__, "txt", filter_url_get_extension ("foo/bar.txt"));
+    evaluate (__LINE__, __func__, "", filter_url_get_extension (".hidden"));
+    evaluate (__LINE__, __func__, "", filter_url_get_extension (""));
   }
   
   refresh_sandbox (true);

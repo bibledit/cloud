@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void Database_Sample::create ()
 {
   string path = database_sqlite_file (name ());
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("CREATE TABLE IF NOT EXISTS sample (file text, data text);");
   sql.execute ();

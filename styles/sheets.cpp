@@ -81,7 +81,7 @@ string Styles_Sheets::get_location (string sheet, bool editor)
   else path = "basic";
   path.append (sheet);
   path.append (".css");
-  path = filter_url_create_root_path_cpp17 ({"dyncss", path});
+  path = filter_url_create_root_path ({"dyncss", path});
   return path;
 }
 

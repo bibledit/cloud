@@ -61,7 +61,7 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   // followed by the number of microseconds within the current second.
 
   // Get the contents of the file.
-  string path = filter_url_create_path_cpp17 ({Database_Logs::folder (), filename});
+  string path = filter_url_create_path ({Database_Logs::folder (), filename});
   string entry = filter_url_file_get_contents (path);
   
   // Deal with the user-level of the entry.
@@ -132,7 +132,7 @@ string journal_index (void * webserver_request)
   if (!expansion.empty ()) {
     // Get file path.
     expansion = filter_url_basename_web (expansion);
-    string path = filter_url_create_path_cpp17 ({Database_Logs::folder (), expansion});
+    string path = filter_url_create_path ({Database_Logs::folder (), expansion});
     // Get contents of the record.
     expansion = filter_url_file_get_contents (path);
     // Remove the user's level.

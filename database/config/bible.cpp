@@ -36,14 +36,14 @@ map <string, string> database_config_bible_cache;
 // The path to the folder for storing the settings for the $bible.
 string Database_Config_Bible::file (string bible)
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "config", "bible", bible});
+  return filter_url_create_root_path ({database_logic_databases (), "config", "bible", bible});
 }
 
 
 // The path to the file that contains this setting.
 string Database_Config_Bible::file (string bible, const char * key)
 {
-  return filter_url_create_path_cpp17 ({file (bible), key});
+  return filter_url_create_path ({file (bible), key});
 }
 
 
@@ -64,7 +64,7 @@ string Database_Config_Bible::getValue (string bible, const char * key, const ch
   // Get the setting from file.
   string value;
   string filename = file (bible, key);
-  if (file_or_dir_exists_cpp17 (filename)) value = filter_url_file_get_contents (filename);
+  if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
   database_config_bible_cache [cachekey] = value;
@@ -80,8 +80,8 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
   database_config_bible_cache [mapkey (bible, key)] = value;
   // Store on disk.
   string filename = file (bible, key);
-  string dirname = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir_cpp17 (dirname);
+  string dirname = filter_url_dirname (filename);
+  if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }
 
@@ -114,7 +114,7 @@ void Database_Config_Bible::remove (string bible)
 {
   // Remove from disk.
   string folder = file (bible);
-  filter_url_rmdir_cpp17 (folder);
+  filter_url_rmdir (folder);
   // Clear cache.
   database_config_bible_cache.clear ();
 }

@@ -528,7 +528,7 @@ void resource_logic_import_images (string resource, string path)
 {
   Database_ImageResources database_imageresources;
   
-  Database_Logs::log ("Importing: " + filter_url_basename_cpp17 (path));
+  Database_Logs::log ("Importing: " + filter_url_basename (path));
   
   // To begin with, add the path to the main file to the list of paths to be processed.
   vector <string> paths = {path};
@@ -538,8 +538,8 @@ void resource_logic_import_images (string resource, string path)
     // Take and remove the first path from the container.
     path = paths[0];
     paths.erase (paths.begin());
-    string basename = filter_url_basename_cpp17 (path);
-    string extension = filter_url_get_extension_cpp17 (path);
+    string basename = filter_url_basename (path);
+    string extension = filter_url_get_extension (path);
     extension = unicode_string_casefold (extension);
 
     if (extension == "pdf") {
@@ -551,7 +551,7 @@ void resource_logic_import_images (string resource, string path)
 
       // Convert the PDF file to separate images.
       string folder = filter_url_tempfile ();
-      filter_url_mkdir_cpp17 (folder);
+      filter_url_mkdir (folder);
       filter_shell_run (folder, "pdftocairo", {"-jpeg", path}, NULL, NULL);
       // Add the images to the ones to be processed.
       filter_url_recursive_scandir (folder, paths);
@@ -874,7 +874,7 @@ bool resource_logic_can_cache (string resource)
 // Clients will download it from there.
 string resource_logic_bible_gateway_module_list_path ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "client", "bible_gateway_modules.txt"});
+  return filter_url_create_root_path ({database_logic_databases (), "client", "bible_gateway_modules.txt"});
 }
 
 
@@ -1212,7 +1212,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
 // Clients will download it from there.
 string resource_logic_study_light_module_list_path ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "client", "study_light_modules.txt"});
+  return filter_url_create_root_path ({database_logic_databases (), "client", "study_light_modules.txt"});
 }
 
 

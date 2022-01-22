@@ -331,13 +331,13 @@ int Sync_Logic::files_get_directory_checksum (string directory)
 // It does a recursive scan for the files.
 vector <string> Sync_Logic::files_get_files (string directory)
 {
-  directory = filter_url_create_root_path_cpp17 ({directory});
+  directory = filter_url_create_root_path ({directory});
   vector <string> result;
   vector <string> paths;
   filter_url_recursive_scandir (directory, paths);
   for (string path : paths) {
-    if (filter_url_is_dir_cpp17 (path)) continue;
-    string extension = filter_url_get_extension_cpp17 (path);
+    if (filter_url_is_dir (path)) continue;
+    string extension = filter_url_get_extension (path);
     if (extension == "o") continue;
     if (extension == "h") continue;
     if (extension == "cpp") continue;
@@ -351,7 +351,7 @@ vector <string> Sync_Logic::files_get_files (string directory)
 // This returns the checksum of a $file in $directory.
 int Sync_Logic::files_get_file_checksum (string directory, string file)
 {
-  string path = filter_url_create_root_path_cpp17 ({directory, file});
+  string path = filter_url_create_root_path ({directory, file});
   int checksum = filter_url_filesize (path);
   return checksum;
 }

@@ -30,13 +30,13 @@
 
 string search_logic_index_folder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "search"});
+  return filter_url_create_root_path ({database_logic_databases (), "search"});
 }
 
 
 string search_logic_bible_fragment (string bible)
 {
-  return filter_url_create_path_cpp17 ({search_logic_index_folder (), bible + "_"});
+  return filter_url_create_path ({search_logic_index_folder (), bible + "_"});
 }
 
 
@@ -438,12 +438,12 @@ string search_logic_get_bible_verse_usfm (string bible, int book, int chapter, i
 void search_logic_delete_bible (string bible)
 {
   string fragment = search_logic_bible_fragment (bible);
-  fragment = filter_url_basename_cpp17 (fragment);
+  fragment = filter_url_basename (fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
-      string path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
-      filter_url_unlink_cpp17 (path);
+      string path = filter_url_create_path ({search_logic_index_folder (), file});
+      filter_url_unlink (path);
     }
   }
 }
@@ -452,12 +452,12 @@ void search_logic_delete_bible (string bible)
 void search_logic_delete_book (string bible, int book)
 {
   string fragment = search_logic_book_fragment (bible, book);
-  fragment = filter_url_basename_cpp17 (fragment);
+  fragment = filter_url_basename (fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
-      string path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
-      filter_url_unlink_cpp17 (path);
+      string path = filter_url_create_path ({search_logic_index_folder (), file});
+      filter_url_unlink (path);
     }
   }
 }
@@ -466,12 +466,12 @@ void search_logic_delete_book (string bible, int book)
 void search_logic_delete_chapter (string bible, int book, int chapter)
 {
   string fragment = search_logic_chapter_file (bible, book, chapter);
-  fragment = filter_url_basename_cpp17 (fragment);
+  fragment = filter_url_basename (fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
-      string path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
-      filter_url_unlink_cpp17 (path);
+      string path = filter_url_create_path ({search_logic_index_folder (), file});
+      filter_url_unlink (path);
     }
   }
 }
@@ -504,15 +504,15 @@ int search_logic_get_verse_count (string bible)
 void search_logic_copy_bible (string original, string destination)
 {
   string original_fragment = search_logic_bible_fragment (original);
-  original_fragment = filter_url_basename_cpp17 (original_fragment);
+  original_fragment = filter_url_basename (original_fragment);
   string destination_fragment = search_logic_bible_fragment (destination);
-  destination_fragment = filter_url_basename_cpp17 (destination_fragment);
+  destination_fragment = filter_url_basename (destination_fragment);
   vector <string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (original_fragment) == 0) {
-      string original_path = filter_url_create_path_cpp17 ({search_logic_index_folder (), file});
+      string original_path = filter_url_create_path ({search_logic_index_folder (), file});
       string destination_file = destination_fragment + file.substr (original_fragment.length ());
-      string destination_path = filter_url_create_path_cpp17 ({search_logic_index_folder (), destination_file});
+      string destination_path = filter_url_create_path ({search_logic_index_folder (), destination_file});
       filter_url_file_cp (original_path, destination_path);
     }
   }

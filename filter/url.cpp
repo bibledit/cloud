@@ -164,7 +164,7 @@ void redirect_browser (void * webserver_request, string path)
 
 // Dirname routine for the filesystem.
 // It uses the automatically defined separator as the directory separator.
-string filter_url_dirname_cpp17 (string url)
+string filter_url_dirname (string url)
 {
   // Remove possible trailing path slash.
   if (!url.empty ()) {
@@ -204,7 +204,7 @@ string filter_url_dirname_web (string url)
 
 // Basename routine for the filesystem.
 // It uses the automatically defined separator as the directory separator.
-string filter_url_basename_cpp17 (string url)
+string filter_url_basename (string url)
 {
   // Remove possible trailing path slash.
   if (!url.empty ()) {
@@ -239,7 +239,7 @@ string filter_url_basename_web (string url)
 }
 
 
-void filter_url_unlink_cpp17 (string filename)
+void filter_url_unlink (string filename)
 {
   try {
     filesystem::path path (filename);
@@ -248,7 +248,7 @@ void filter_url_unlink_cpp17 (string filename)
 }
 
 
-void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilename)
+void filter_url_rename (const string& oldfilename, const string& newfilename)
 {
   try {
     filesystem::path oldpath (oldfilename);
@@ -259,7 +259,7 @@ void filter_url_rename_cpp17 (const string& oldfilename, const string& newfilena
 
 
 // Creates a file path out of the parts.
-string filter_url_create_path_cpp17 (const vector<string>& parts)
+string filter_url_create_path (const vector<string>& parts)
 {
   // Empty path.
   filesystem::path path;
@@ -274,7 +274,7 @@ string filter_url_create_path_cpp17 (const vector<string>& parts)
 
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
-string filter_url_create_root_path_cpp17 (const vector<string>& parts)
+string filter_url_create_root_path (const vector<string>& parts)
 {
   // Construct path from the document root.
   filesystem::path path (config_globals_document_root);
@@ -299,7 +299,7 @@ string filter_url_create_root_path_cpp17 (const vector<string>& parts)
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-string filter_url_get_extension_cpp17 (string url)
+string filter_url_get_extension (string url)
 {
   std::filesystem::path path (url);
   string extension;
@@ -314,7 +314,7 @@ string filter_url_get_extension_cpp17 (string url)
 
 
 // Returns true if the file or directory at $url exists.
-bool file_or_dir_exists_cpp17 (string url)
+bool file_or_dir_exists (string url)
 {
   filesystem::path path (url);
   bool exists = filesystem::exists (path);
@@ -324,7 +324,7 @@ bool file_or_dir_exists_cpp17 (string url)
 
 // Makes a directory.
 // Creates parents where needed.
-void filter_url_mkdir_cpp17 (string directory)
+void filter_url_mkdir (string directory)
 {
   try {
     std::filesystem::path path (directory);
@@ -334,7 +334,7 @@ void filter_url_mkdir_cpp17 (string directory)
 
 
 // Removes directory recursively.
-void filter_url_rmdir_cpp17 (string directory)
+void filter_url_rmdir (string directory)
 {
   try {
     filesystem::path path (directory);
@@ -344,7 +344,7 @@ void filter_url_rmdir_cpp17 (string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir_cpp17 (string path)
+bool filter_url_is_dir (string path)
 {
   bool is_dir = false;
   try {
@@ -381,7 +381,7 @@ void filter_url_set_write_permission (string path)
 // C++ rough equivalent for PHP's file_get_contents.
 string filter_url_file_get_contents(string filename)
 {
-  if (!file_or_dir_exists_cpp17 (filename)) return string();
+  if (!file_or_dir_exists (filename)) return string();
   try {
 #ifdef HAVE_WINDOWS
     wstring wfilename = string2wstring(filename);
@@ -466,15 +466,15 @@ bool filter_url_file_cp (string input, string output)
 void filter_url_dir_cp (const string & input, const string & output)
 {
   // Create the output directory.
-  filter_url_mkdir_cpp17 (output);
+  filter_url_mkdir (output);
   // Check on all files in the input directory.
   vector <string> files = filter_url_scandir (input);
   for (auto & file : files) {
-    string input_path = filter_url_create_path_cpp17 ({input, file});
-    string output_path = filter_url_create_path_cpp17 ({output, file});
-    if (filter_url_is_dir_cpp17 (input_path)) {
+    string input_path = filter_url_create_path ({input, file});
+    string output_path = filter_url_create_path ({output, file});
+    if (filter_url_is_dir (input_path)) {
       // Create output directory.
-      filter_url_mkdir_cpp17 (output_path);
+      filter_url_mkdir (output_path);
       // Handle the new input directory.
       filter_url_dir_cp (input_path, output_path);
     } else {
@@ -514,9 +514,9 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 {
   vector <string> files = filter_url_scandir (folder);
   for (auto & file : files) {
-    string path = filter_url_create_path_cpp17 ({folder, file});
+    string path = filter_url_create_path ({folder, file});
     paths.push_back (path);
-    if (filter_url_is_dir_cpp17 (path)) {
+    if (filter_url_is_dir (path)) {
       filter_url_recursive_scandir (path, paths);
     }
   }
@@ -567,9 +567,9 @@ string filter_url_tempfile (const char * directory)
 {
   string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
-    filename = filter_url_create_path_cpp17 ({directory, filename});
+    filename = filter_url_create_path ({directory, filename});
   } else {
-    filename = filter_url_create_root_path_cpp17 ({filter_url_temp_dir (), filename});
+    filename = filter_url_create_root_path ({filter_url_temp_dir (), filename});
   }
   return filename;
 }
@@ -590,10 +590,10 @@ string filter_url_escape_shell_argument (string argument)
 // to ensure that the $path does not yet exist in the filesystem.
 string filter_url_unique_path (string path)
 {
-  if (!file_or_dir_exists_cpp17 (path)) return path;
+  if (!file_or_dir_exists (path)) return path;
   for (size_t i = 1; i < 100; i++) {
     string uniquepath = path + "." + convert_to_string (i);
-    if (!file_or_dir_exists_cpp17 (uniquepath)) return uniquepath;
+    if (!file_or_dir_exists (uniquepath)) return uniquepath;
   }
   return path + "." + convert_to_string (filter_string_rand (100, 1000));
 }
@@ -1491,8 +1491,8 @@ void filter_url_ssl_tls_initialize ()
   filter_url_display_mbed_tls_error (ret, NULL, false);
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.
-  string path = filter_url_create_root_path_cpp17 ({"filter", "cas.crt"});
-  while (!file_or_dir_exists_cpp17 (path)) this_thread::sleep_for (chrono::milliseconds (100));
+  string path = filter_url_create_root_path ({"filter", "cas.crt"});
+  while (!file_or_dir_exists (path)) this_thread::sleep_for (chrono::milliseconds (100));
   // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
   filter_url_display_mbed_tls_error (ret, NULL, false);

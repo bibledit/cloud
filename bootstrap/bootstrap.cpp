@@ -266,12 +266,12 @@ void bootstrap_index (void * webserver_request)
     contents.append ("query: " + query + "\n");
     contents.append ("post: " + post + "\n");
     string filename;
-    filename = filter_url_create_root_path_cpp17 (filter_url_temp_dir (), "http-post-trace.txt");
+    filename = filter_url_create_root_path (filter_url_temp_dir (), "http-post-trace.txt");
     filter_url_file_put_contents_append (filename, contents);
   }
   */
   
-  string extension = filter_url_get_extension_cpp17 (request->get);
+  string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
   
   // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.
@@ -952,7 +952,7 @@ void bootstrap_index (void * webserver_request)
     return;
   }
   if (extension == "sqlite") {
-    if (filter_url_dirname_cpp17 (url) == filter_url_temp_dir ()) {
+    if (filter_url_dirname (url) == filter_url_temp_dir ()) {
       http_stream_file (request, false);
       return;
     }

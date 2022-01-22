@@ -208,7 +208,7 @@ void http_assemble_response (void * webserver_request)
   string http_response_code_fragment = filter_url_http_response_code_text (request->response_code);
   
   // Assemble the Content-Type.
-  string extension = filter_url_get_extension_cpp17 (request->get);
+  string extension = filter_url_get_extension (request->get);
   extension = unicode_string_casefold (extension);
   string content_type = filter_url_get_mime_type (extension);
   if (extension == "usfm") content_type = "text/plain";
@@ -303,7 +303,7 @@ void http_stream_file (void * webserver_request, bool enable_cache)
   // The path that is wanted is something like this:
   // /home/foo/bar/bibledit/css/mouse.css
   // So remove that starting slash.
-  string filename = filter_url_create_root_path_cpp17 ({url});
+  string filename = filter_url_create_root_path ({url});
   
   // File size for browser caching.
   if (enable_cache) {

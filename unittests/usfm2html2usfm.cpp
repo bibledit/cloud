@@ -514,7 +514,7 @@ void test_usfm2html2usfm ()
     "\\p Text\\f + note\\f*.\n"
     "\\p Text\\fe + note\\fe*.\n"
     "\\p Text\\x + note\\x*.";
-    string standard_html = filter_url_file_get_contents (filter_url_create_root_path_cpp17 ({"unittests", "tests", "editor_roundtrip_1.txt"}));
+    string standard_html = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "editor_roundtrip_1.txt"}));
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);

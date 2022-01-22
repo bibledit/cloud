@@ -68,8 +68,8 @@ void test_odf ()
     "Paragraph Three\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test automatic paragraph.
   {
@@ -83,8 +83,8 @@ void test_odf ()
     "Should create new paragraph automatically\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test basic note.
   {
@@ -104,8 +104,8 @@ void test_odf ()
     ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test basic formatted text.
   {
@@ -127,8 +127,8 @@ void test_odf ()
     string standard = "textaddnormal.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test basic formatted note.
   {
@@ -154,8 +154,8 @@ void test_odf ()
     ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test embedded formatted text.
   {
@@ -192,8 +192,8 @@ void test_odf ()
     string standard = "textaddndnormal.";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test embedded formatted note.
   {
@@ -234,8 +234,8 @@ void test_odf ()
     ".\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
 
   // Test paragraph formatting.
   {
@@ -260,8 +260,8 @@ void test_odf ()
     "";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
   }
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
   
   // Test converting apostrophy.
   {
@@ -290,8 +290,8 @@ void test_odf ()
     evaluate (__LINE__, __func__, standard, odt);
   }
 
-  filter_url_unlink_cpp17 (odf_text_test_odt);
-  filter_url_unlink_cpp17 (Odt2TxtOutput);
+  filter_url_unlink (odf_text_test_odt);
+  filter_url_unlink (Odt2TxtOutput);
   
   refresh_sandbox (true);
 }

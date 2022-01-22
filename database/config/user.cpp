@@ -50,13 +50,13 @@ map <string, string> database_config_user_cache;
 
 string Database_Config_User::file (string user)
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "config", "user", user});
+  return filter_url_create_root_path ({database_logic_databases (), "config", "user", user});
 }
 
 
 string Database_Config_User::file (string user, const char * key)
 {
-  return filter_url_create_path_cpp17 ({file (user), key});
+  return filter_url_create_path ({file (user), key});
 }
 
 
@@ -99,7 +99,7 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
   // Read from file.
   string value;
   string filename = file (user, key);
-  if (file_or_dir_exists_cpp17 (filename)) value = filter_url_file_get_contents (filename);
+  if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
   database_config_user_cache [cachekey] = value;
@@ -148,8 +148,8 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
   database_config_user_cache [mapkey (user, key)] = value;
   // Store on disk.
   string filename = file (user, key);
-  string directory = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
+  string directory = filter_url_dirname (filename);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
 
@@ -178,7 +178,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
   }
   // Read setting from disk.
   string filename = file (user, key);
-  if (file_or_dir_exists_cpp17 (filename)) {
+  if (file_or_dir_exists (filename)) {
     string value = filter_url_file_get_contents (filename);
     // Cache it in memory.
     database_config_user_cache [cachekey] = value;
@@ -202,8 +202,8 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
 {
   // Store it on disk.
   string filename = file (user, key);
-  string directory = filter_url_dirname_cpp17 (filename);
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
+  string directory = filter_url_dirname (filename);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   string value = filter_string_implode (values, "\n");
   filter_url_file_put_contents (filename, value);
   // Put it in the memory cache.
@@ -243,12 +243,12 @@ void Database_Config_User::trim ()
   vector <string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());
-    if (file_or_dir_exists_cpp17 (filename)) {
+    if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
         // Remove from disk.
-        filter_url_unlink_cpp17 (filename);
+        filter_url_unlink (filename);
         filename = file (users[i], keySprintYear ());
-        filter_url_unlink_cpp17 (filename);
+        filter_url_unlink (filename);
         // Clear cache.
         database_config_user_cache.clear ();
       }
@@ -262,7 +262,7 @@ void Database_Config_User::remove (string username)
 {
   // Remove from disk.
   string folder = file (username);
-  filter_url_rmdir_cpp17 (folder);
+  filter_url_rmdir (folder);
   // Clear cache.
   database_config_user_cache.clear ();
 }

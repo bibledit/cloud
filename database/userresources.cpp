@@ -48,7 +48,7 @@ vector <string> Database_UserResources::names ()
 // Removes a user-defined resource from disk.
 void Database_UserResources::remove (const string& name)
 {
-  filter_url_unlink_cpp17 (file (name));
+  filter_url_unlink (file (name));
 }
 
 
@@ -82,7 +82,7 @@ void Database_UserResources::book (const string& name, int id, const string & fr
 // The folder for storing the user-defined resource definition files.
 string Database_UserResources::folder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "client"});
+  return filter_url_create_root_path ({database_logic_databases (), "client"});
 }
 
 
@@ -96,7 +96,7 @@ string Database_UserResources::fragment ()
 // The full path of the definition file.
 string Database_UserResources::file (const string& name)
 {
-  return filter_url_create_path_cpp17 ({folder (), fragment () + filter_url_filename_clean (name)});
+  return filter_url_create_path ({folder (), fragment () + filter_url_filename_clean (name)});
 }
 
 

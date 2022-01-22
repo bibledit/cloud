@@ -27,10 +27,10 @@ vector <string> versification_logic_names ()
 {
   vector <string> names;
 
-  string directory = filter_url_create_root_path_cpp17 ({"versification"});
+  string directory = filter_url_create_root_path ({"versification"});
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
-    if (filter_url_get_extension_cpp17 (file) == "txt") {
+    if (filter_url_get_extension (file) == "txt") {
       // Remove the dot and extension.
       file = file.substr (0, file.length () - 4);
       // Change underscores to spaces for the names.
@@ -48,6 +48,6 @@ string versification_logic_data (string name)
 {
   name = filter_string_str_replace (" ", "_", name);
   name.append (".txt");
-  string file = filter_url_create_root_path_cpp17 ({"versification", name});
+  string file = filter_url_create_root_path ({"versification", name});
   return filter_url_file_get_contents (file);
 }

@@ -42,7 +42,7 @@ string Database_Cache::fragment ()
 
 string Database_Cache::path (string resource, int book)
 {
-  return filter_url_create_path_cpp17 ({database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ()});
+  return filter_url_create_path ({database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ()});
 }
 
 
@@ -83,8 +83,8 @@ void Database_Cache::remove (string resource)
 void Database_Cache::remove (string resource, int book)
 {
   string file = database_sqlite_file (filename (resource, book));
-  if (file_or_dir_exists_cpp17 (file)) {
-    filter_url_unlink_cpp17 (file);
+  if (file_or_dir_exists (file)) {
+    filter_url_unlink (file);
   }
 }
 
@@ -103,7 +103,7 @@ bool Database_Cache::exists (string resource)
 bool Database_Cache::exists (string resource, int book)
 {
   string file = database_sqlite_file (filename (resource, book));
-  return file_or_dir_exists_cpp17 (file);
+  return file_or_dir_exists (file);
 }
 
 
@@ -255,7 +255,7 @@ int Database_Cache::size (string resource, int book)
 
 string database_cache_full_path (string file)
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "cache", file});
+  return filter_url_create_root_path ({database_logic_databases (), "cache", file});
 }
 
 
@@ -277,7 +277,7 @@ bool database_filebased_cache_exists (string schema)
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
-  return file_or_dir_exists_cpp17 (schema);
+  return file_or_dir_exists (schema);
 }
 
 
@@ -286,8 +286,8 @@ void database_filebased_cache_put (string schema, string contents)
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
-  string path = filter_url_dirname_cpp17 (schema);
-  if (!file_or_dir_exists_cpp17 (path)) filter_url_mkdir_cpp17 (path);
+  string path = filter_url_dirname (schema);
+  if (!file_or_dir_exists (path)) filter_url_mkdir (path);
   filter_url_file_put_contents (schema, contents);
 }
 
@@ -306,7 +306,7 @@ void database_filebased_cache_remove (string schema)
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
-  filter_url_unlink_cpp17 (schema);
+  filter_url_unlink (schema);
 }
 
 
@@ -377,7 +377,7 @@ void database_cache_trim (bool clear)
   if (!error.empty ()) Database_Logs::log (error);
   
   // The directory that contains the database-based cache files.
-  path = filter_url_create_root_path_cpp17 ({database_logic_databases ()});
+  path = filter_url_create_root_path ({database_logic_databases ()});
 
   // The number of days to keep cached data depends on the percentage of the disk in use.
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.

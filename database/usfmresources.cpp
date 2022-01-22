@@ -30,25 +30,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_UsfmResources::mainFolder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "usfmresources"});
+  return filter_url_create_root_path ({database_logic_databases (), "usfmresources"});
 }
 
 
 string Database_UsfmResources::resourceFolder (const string& name)
 {
-  return filter_url_create_path_cpp17 ({mainFolder (), name});
+  return filter_url_create_path ({mainFolder (), name});
 }
 
 
 string Database_UsfmResources::bookFolder (const string& name, int book)
 {
-  return filter_url_create_path_cpp17 ({resourceFolder (name), convert_to_string (book)});
+  return filter_url_create_path ({resourceFolder (name), convert_to_string (book)});
 }
 
 
 string Database_UsfmResources::chapterFile (const string& name, int book, int chapter)
 {
-  return filter_url_create_path_cpp17 ({bookFolder (name, book), convert_to_string (chapter)});
+  return filter_url_create_path ({bookFolder (name, book), convert_to_string (chapter)});
 }
 
 
@@ -62,9 +62,9 @@ void Database_UsfmResources::deleteResource (const string& name)
 {
   string path = resourceFolder (name);
   // If a folder: Delete it.
-  filter_url_rmdir_cpp17 (path);
+  filter_url_rmdir (path);
   // If a file: Delete it.
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
 }
 
 
@@ -72,23 +72,23 @@ void Database_UsfmResources::deleteBook (const string& name, int book)
 {
   string path = bookFolder (name, book);
   // If a folder: Delete it.
-  filter_url_rmdir_cpp17 (path);
+  filter_url_rmdir (path);
   // If a file: Delete it.
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
 }
 
 
 void Database_UsfmResources::deleteChapter (const string& name, int book, int chapter)
 {
-  filter_url_unlink_cpp17 (chapterFile (name, book, chapter));
+  filter_url_unlink (chapterFile (name, book, chapter));
 }
 
 
 void Database_UsfmResources::storeChapter (const string& name, int book, int chapter, const string& usfm)
 {
   string file = chapterFile (name, book, chapter);
-  string folder = filter_url_dirname_cpp17 (file);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
+  string folder = filter_url_dirname (file);
+  if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   filter_url_file_put_contents (file, usfm);
 }
 

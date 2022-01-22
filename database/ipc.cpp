@@ -57,7 +57,7 @@ void Database_Ipc::trim ()
     int time = filter_url_file_modification_time (path);
     int age_seconds = now - time;
     if (age_seconds > 3600) {
-      filter_url_unlink_cpp17 (path);
+      filter_url_unlink (path);
     }
   }
 }
@@ -141,7 +141,7 @@ void Database_Ipc::deleteMessage (int id)
   vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     if (record.rowid == id) {
-      filter_url_unlink_cpp17 (file (record.file));
+      filter_url_unlink (file (record.file));
     }
   }
 }
@@ -237,13 +237,13 @@ bool Database_Ipc::getNotesAlive ()
 
 string Database_Ipc::folder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "ipc"});
+  return filter_url_create_root_path ({database_logic_databases (), "ipc"});
 }
 
 
 string Database_Ipc::file (string file)
 {
-  return filter_url_create_path_cpp17 ({folder (), file});
+  return filter_url_create_path ({folder (), file});
 }
 
 

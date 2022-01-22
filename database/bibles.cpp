@@ -34,25 +34,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_Bibles::mainFolder ()
 {
-  return filter_url_create_root_path_cpp17 ({"bibles"});
+  return filter_url_create_root_path ({"bibles"});
 }
 
 
 string Database_Bibles::bibleFolder (string bible)
 {
-  return filter_url_create_path_cpp17 ({mainFolder (), bible});
+  return filter_url_create_path ({mainFolder (), bible});
 }
 
 
 string Database_Bibles::bookFolder (string bible, int book)
 {
-  return filter_url_create_path_cpp17 ({bibleFolder (bible), convert_to_string (book)});
+  return filter_url_create_path ({bibleFolder (bible), convert_to_string (book)});
 }
 
 
 string Database_Bibles::chapterFolder (string bible, int book, int chapter)
 {
-  return filter_url_create_path_cpp17 ({bookFolder (bible, book), convert_to_string (chapter)});
+  return filter_url_create_path ({bookFolder (bible, book), convert_to_string (chapter)});
 }
 
 
@@ -69,7 +69,7 @@ void Database_Bibles::createBible (string name)
 {
   // Create the empty system.
   string folder = bibleFolder (name);
-  filter_url_mkdir_cpp17 (folder);
+  filter_url_mkdir (folder);
   
   Database_State::setExport (name, 0, Export_Logic::export_needed);
 }
@@ -80,9 +80,9 @@ void Database_Bibles::deleteBible (string name)
 {
   string path = bibleFolder (name);
   // Delete directory.
-  filter_url_rmdir_cpp17 (path);
+  filter_url_rmdir (path);
   // Just in case it was a regular file: Delete it.
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
   Database_State::setExport (name, 0, Export_Logic::export_needed);
 }
 
@@ -91,7 +91,7 @@ void Database_Bibles::deleteBible (string name)
 void Database_Bibles::storeChapter (string name, int book, int chapter_number, string chapter_text)
 {
   string folder = chapterFolder (name, book, chapter_number);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
+  if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
 
   // Ensure that the data to be stored ends with a new line.
   if (!chapter_text.empty ()) {
@@ -103,7 +103,7 @@ void Database_Bibles::storeChapter (string name, int book, int chapter_number, s
   // Increase the chapter identifier, and store the chapter data.
   int id = getChapterId (name, book, chapter_number);
   id++;
-  string file = filter_url_create_path_cpp17 ({folder, convert_to_string (id)});
+  string file = filter_url_create_path ({folder, convert_to_string (id)});
   filter_url_file_put_contents (file, chapter_text);
 
   // Update search fields.
@@ -145,7 +145,7 @@ vector <int> Database_Bibles::getBooks (string bible)
 void Database_Bibles::deleteBook (string bible, int book)
 {
   string folder = bookFolder (bible, book);
-  filter_url_rmdir_cpp17 (folder);
+  filter_url_rmdir (folder);
   Database_State::setExport (bible, 0, Export_Logic::export_needed);
 }
 
@@ -168,7 +168,7 @@ vector <int> Database_Bibles::getChapters (string bible, int book)
 void Database_Bibles::deleteChapter (string bible, int book, int chapter)
 {
   string folder = chapterFolder (bible, book, chapter);
-  filter_url_rmdir_cpp17 (folder);
+  filter_url_rmdir (folder);
   Database_State::setExport (bible, 0, Export_Logic::export_needed);
 }
 
@@ -180,7 +180,7 @@ string Database_Bibles::getChapter (string bible, int book, int chapter)
   vector <string> files = filter_url_scandir (folder);
   if (!files.empty ()) {
     string file = files [files.size () - 1];
-    string data = filter_url_file_get_contents (filter_url_create_path_cpp17 ({folder, file}));
+    string data = filter_url_file_get_contents (filter_url_create_path ({folder, file}));
     // Remove trailing new line.
     data = filter_string_trim (data);
     return data;
@@ -209,7 +209,7 @@ int Database_Bibles::getChapterAge (string bible, int book, int chapter)
   vector <string> files = filter_url_scandir (folder);
   if (!files.empty ()) {
     string file = files [files.size() - 1];
-    string path = filter_url_create_path_cpp17 ({folder, file});
+    string path = filter_url_create_path ({folder, file});
     int time = filter_url_file_modification_time (path);
     int now = filter_date_seconds_since_epoch ();
     return now - time;
@@ -234,9 +234,9 @@ void Database_Bibles::optimize ()
         // it is removed now, effectually reverting the chapter to an earlier version.
         vector <string> files2;
         for (string file : files) {
-          string path = filter_url_create_path_cpp17 ({folder, file});
+          string path = filter_url_create_path ({folder, file});
           if (filter_url_filesize (path) == 0) {
-            filter_url_unlink_cpp17 (path);
+            filter_url_unlink (path);
             Database_State::setExport (bible, 0, Export_Logic::export_needed);
           }
           else files2.push_back (file);
@@ -248,8 +248,8 @@ void Database_Bibles::optimize ()
         if (!files2.empty()) files2.pop_back ();
         // Remove the remaining files. These are the older versions.
         for (string file : files2) {
-          string path = filter_url_create_path_cpp17 ({folder, file});
-          filter_url_unlink_cpp17 (path);
+          string path = filter_url_create_path ({folder, file});
+          filter_url_unlink (path);
         }
       }
     }

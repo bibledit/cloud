@@ -81,15 +81,15 @@ void Database_Mappings::create2 ()
 // Import the default mappings that come with Bibledit.
 void Database_Mappings::defaults ()
 {
-  string folder = filter_url_create_root_path_cpp17 ({"mapping"});
+  string folder = filter_url_create_root_path ({"mapping"});
   vector <string> files = filter_url_scandir (folder);
   for (auto & file : files) {
     string name (file);
-    string extension = filter_url_get_extension_cpp17 (name);
+    string extension = filter_url_get_extension (name);
     if (extension != "txt") continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
     name = filter_string_str_replace ("_", " ", name);
-    string path = filter_url_create_path_cpp17 ({folder, file});
+    string path = filter_url_create_path ({folder, file});
     string data = filter_url_file_get_contents (path);
     import (name, data);
   }

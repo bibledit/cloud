@@ -79,8 +79,8 @@ int filter_shell_run ([[maybe_unused]] string directory,
   } else {
     Database_Logs::log (contents);
   }
-  filter_url_unlink_cpp17 (standardout);
-  filter_url_unlink_cpp17 (standarderr);
+  filter_url_unlink (standardout);
+  filter_url_unlink (standarderr);
   return result;
 #endif
 }
@@ -256,7 +256,7 @@ int filter_shell_vfork ([[maybe_unused]] string & output,
   // Read the child's output.
   close (fd);
   output = filter_url_file_get_contents (path);
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
   
 #endif
   

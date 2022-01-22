@@ -80,7 +80,7 @@ void test_client ()
   // Testing logic for resources not to cache.
   {
     string path = client_logic_no_cache_resources_path ();
-    string standard = filter_url_create_root_path_cpp17 ({"databases", "client", "no_cache_resources.txt"});
+    string standard = filter_url_create_root_path ({"databases", "client", "no_cache_resources.txt"});
     evaluate (__LINE__, __func__, standard, path);
     
     vector <string> resources = client_logic_no_cache_resources_get ();

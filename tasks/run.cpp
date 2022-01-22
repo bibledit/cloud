@@ -84,9 +84,9 @@ void tasks_run_one (string filename)
   running_tasks++;
 
   // Read the task from disk and erase the file.
-  string path = filter_url_create_path_cpp17 ({tasks_logic_folder (), filename});
+  string path = filter_url_create_path ({tasks_logic_folder (), filename});
   vector <string> lines = filter_string_explode (filter_url_file_get_contents (path), '\n');
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
   
   // Interpret the task's command and its parameters, if any.
   string command = "";

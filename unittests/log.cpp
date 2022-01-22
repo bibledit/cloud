@@ -54,7 +54,7 @@ void test_database_logs ()
     vector <string> result = Database_Logs::get (s);
     if (result.size () == 1) {
       s = result [0];
-      string path = filter_url_create_path_cpp17 ({Database_Logs::folder (), s});
+      string path = filter_url_create_path ({Database_Logs::folder (), s});
       string contents = filter_url_file_get_contents (path);
       evaluate (__LINE__, __func__, 50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
     } else {

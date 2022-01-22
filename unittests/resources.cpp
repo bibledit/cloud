@@ -131,7 +131,7 @@ void test_database_imageresources ()
   trace_unit_tests (__func__);
   
   Database_ImageResources database_imageresources;
-  string image = filter_url_create_root_path_cpp17 ({"unittests", "tests", "Genesis-1-1-18.gif"});
+  string image = filter_url_create_root_path ({"unittests", "tests", "Genesis-1-1-18.gif"});
   
   // Empty
   {
@@ -171,7 +171,7 @@ void test_database_imageresources ()
     database_imageresources.store ("unittest", path);
     filter_url_file_cp (image, path);
     database_imageresources.store ("unittest", path);
-    filter_url_unlink_cpp17 (path);
+    filter_url_unlink (path);
     
     vector <string> images = database_imageresources.get ("unittest");
     evaluate (__LINE__, __func__, images, {"unittest.jpg", "unittest0.jpg"});
@@ -192,7 +192,7 @@ void test_database_imageresources ()
       string path = "/tmp/" + image;
       filter_url_file_cp (image, path);
       database_imageresources.store ("unittest", path);
-      filter_url_unlink_cpp17 (path);
+      filter_url_unlink (path);
       database_imageresources.assign ("unittest", image, i, i, i, i, i, i+10);
     }
     
@@ -212,7 +212,7 @@ void test_database_imageresources ()
     string path = "/tmp/" + image;
     filter_url_file_cp (image, path);
     database_imageresources.store ("unittest", path);
-    filter_url_unlink_cpp17 (path);
+    filter_url_unlink (path);
     database_imageresources.assign ("unittest", image, 1, 2, 0, 1, 2, 10);
     
     int book1, chapter1, verse1, book2, chapter2, verse2;

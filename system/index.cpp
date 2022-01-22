@@ -293,7 +293,7 @@ string system_index (void * webserver_request)
   // Upload a font.
   if (request->post.count ("uploadfont")) {
     string filename = request->post ["filename"];
-    string path = filter_url_create_root_path_cpp17 ({"fonts", filename});
+    string path = filter_url_create_root_path ({"fonts", filename});
     string fontdata = request->post ["fontdata"];
     filter_url_file_put_contents (path, fontdata);
     success = translate("The font has been uploaded.");

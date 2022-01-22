@@ -188,12 +188,12 @@ void sendreceive_files ()
     vector <string> client_files = Sync_Logic::files_get_files (directory);
     vector <string> files = filter_string_array_diff (client_files, server_files);
     for (auto file : files) {
-      Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path_cpp17 ({directory, file}), Filter_Roles::translator ());
-      string path = filter_url_create_root_path_cpp17 ({directory, file});
-      filter_url_unlink_cpp17 (path);
+      Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path ({directory, file}), Filter_Roles::translator ());
+      string path = filter_url_create_root_path ({directory, file});
+      filter_url_unlink (path);
       // Attempt to delete the directory, which will only succeed if it is empty.
-      path = filter_url_dirname_cpp17 (path);
-      filter_url_unlink_cpp17 (path);
+      path = filter_url_dirname (path);
+      filter_url_unlink (path);
     }
     
 
@@ -223,13 +223,13 @@ void sendreceive_files ()
       
       
       // Download the file from the server, and store it locally on the client.
-      Database_Logs::log (sendreceive_files_text () + "Downloading " + filter_url_create_path_cpp17 ({directory, file}), Filter_Roles::translator ());
+      Database_Logs::log (sendreceive_files_text () + "Downloading " + filter_url_create_path ({directory, file}), Filter_Roles::translator ());
       // Local file path where to save resource.
-      string fullpath = filter_url_create_root_path_cpp17 ({directory, file});
+      string fullpath = filter_url_create_root_path ({directory, file});
       // Create directory if it does not yet exist.
-      string dirpath = filter_url_dirname_cpp17 (fullpath);
-      if (!file_or_dir_exists_cpp17 (dirpath)) {
-        filter_url_mkdir_cpp17 (dirpath);
+      string dirpath = filter_url_dirname (fullpath);
+      if (!file_or_dir_exists (dirpath)) {
+        filter_url_mkdir (dirpath);
       }
       string download_url = filter_url_build_http_query (url, "a", convert_to_string (Sync_Logic::files_file_download));
       download_url = filter_url_build_http_query (download_url, "v", convert_to_string (version));

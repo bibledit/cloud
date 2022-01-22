@@ -29,15 +29,15 @@ void tmp_tmp ()
 {
   Database_Logs::log ("Removing expired temporal files", Filter_Roles::manager ());
   int expired = filter_date_seconds_since_epoch () - (3600 * 24 * 3);
-  string directory = filter_url_create_root_path_cpp17 ({filter_url_temp_dir ()});
+  string directory = filter_url_create_root_path ({filter_url_temp_dir ()});
   vector <string> names = filter_url_scandir (directory);
   for (auto & name : names) {
     if (name.find ("tmp.") == 0) continue;
-    string filename = filter_url_create_path_cpp17 ({directory, name});
+    string filename = filter_url_create_path ({directory, name});
     int mtime = filter_url_file_modification_time (filename);
     if (mtime < expired) {
-      filter_url_rmdir_cpp17 (filename);
-      filter_url_unlink_cpp17 (filename);
+      filter_url_rmdir (filename);
+      filter_url_unlink (filename);
     }
   }
 }

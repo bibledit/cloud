@@ -42,8 +42,8 @@ void developer_logic_log_network_write ()
     }
     log_network_cache.clear ();
     log_network_mutex.unlock ();
-    string path = filter_url_create_root_path_cpp17 ({filter_url_temp_dir(), "log-network.csv"});
-    if (!file_or_dir_exists_cpp17 (path)) {
+    string path = filter_url_create_root_path ({filter_url_temp_dir(), "log-network.csv"});
+    if (!file_or_dir_exists (path)) {
       filter_url_file_put_contents_append (path, "date,IPaddress,URL,query,username\n");
     }
     filter_url_file_put_contents_append (path, lines);
@@ -103,7 +103,7 @@ void developer_logic_import_changes ()
   string home_path = ".";
   char * home = getenv ("HOME");
   if (home) home_path = home;
-  string file_path = filter_url_create_path_cpp17 ({home_path, "Desktop", "changes.usfm"});
+  string file_path = filter_url_create_path ({home_path, "Desktop", "changes.usfm"});
   string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
   Database_Bibles database_bibles;
@@ -112,7 +112,7 @@ void developer_logic_import_changes ()
     Database_Logs::log ("Cannot locate Bible " + bible);
     return;
   }
-  if (!file_or_dir_exists_cpp17 (file_path)) {
+  if (!file_or_dir_exists (file_path)) {
     Database_Logs::log ("Cannot locate " + file_path);
     return;
   }

@@ -63,8 +63,8 @@ string ldap_logic_role;
 void ldap_logic_initialize ()
 {
   // Check if the OpenLDAP configuration file exists.
-  string path = filter_url_create_root_path_cpp17 ({config_logic_config_folder (), "ldap.conf"});
-  if (file_or_dir_exists_cpp17 (path)) {
+  string path = filter_url_create_root_path ({config_logic_config_folder (), "ldap.conf"});
+  if (file_or_dir_exists (path)) {
     // Parse the configuration file.
     string contents = filter_url_file_get_contents (path);
     vector <string> lines = filter_string_explode (contents, '\n');

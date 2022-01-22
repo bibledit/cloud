@@ -38,7 +38,7 @@
 // This function returns the directory of the git repository belonging to $object.
 string filter_git_directory (string object)
 {
-  return filter_url_create_root_path_cpp17 ({"git", object});
+  return filter_url_create_root_path ({"git", object});
 }
 
 
@@ -67,10 +67,10 @@ void filter_git_commit_modification_to_git (string repository, string user, int 
                                             string & oldusfm, string & newusfm)
 {
   string bookname = Database_Books::getEnglishFromId (book);
-  string bookdir = filter_url_create_path_cpp17 ({repository, bookname});
-  string chapterdir = filter_url_create_path_cpp17 ({bookdir, convert_to_string (chapter)});
-  if (!file_or_dir_exists_cpp17 (chapterdir)) filter_url_mkdir_cpp17 (chapterdir);
-  string datafile = filter_url_create_path_cpp17 ({chapterdir, "data"});
+  string bookdir = filter_url_create_path ({repository, bookname});
+  string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
+  if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
+  string datafile = filter_url_create_path ({chapterdir, "data"});
   string contents = filter_url_file_get_contents (datafile);
   if (contents != oldusfm) {
     filter_url_file_put_contents (datafile, oldusfm);
@@ -162,24 +162,24 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   vector <int> books = request->database_bibles()->getBooks (bible);
   vector <string> bookfiles = filter_url_scandir (repository);
   for (auto & bookname : bookfiles) {
-    string path = filter_url_create_path_cpp17 ({repository, bookname});
-    if (filter_url_is_dir_cpp17 (path)) {
+    string path = filter_url_create_path ({repository, bookname});
+    if (filter_url_is_dir (path)) {
       int book = Database_Books::getIdFromEnglish (bookname);
       if (book) {
         if (in_array (book, books)) {
           // Book exists in the database: Check the chapters.
           vector <int> chapters = request->database_bibles()->getChapters (bible, book);
-          vector <string> chapterfiles = filter_url_scandir (filter_url_create_path_cpp17 ({repository, bookname}));
+          vector <string> chapterfiles = filter_url_scandir (filter_url_create_path ({repository, bookname}));
           for (auto & chaptername : chapterfiles) {
-            string path = filter_url_create_path_cpp17 ({repository, bookname, chaptername});
-            if (filter_url_is_dir_cpp17 (path)) {
+            string path = filter_url_create_path ({repository, bookname, chaptername});
+            if (filter_url_is_dir (path)) {
               if (filter_string_is_numeric (chaptername)) {
                 int chapter = convert_to_int (chaptername);
-                string filename = filter_url_create_path_cpp17 ({repository, bookname, chaptername, "data"});
-                if (file_or_dir_exists_cpp17 (filename)) {
+                string filename = filter_url_create_path ({repository, bookname, chaptername, "data"});
+                if (file_or_dir_exists (filename)) {
                   if (!in_array (chapter, chapters)) {
                     // Chapter does not exist in the database.
-                    filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({repository, bookname, chaptername}));
+                    filter_url_rmdir (filter_url_create_path ({repository, bookname, chaptername}));
                   }
                 }
               }
@@ -187,7 +187,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
           }
         } else {
           // Book does not exist in the database: Remove it from $git.
-          filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({repository, bookname}));
+          filter_url_rmdir (filter_url_create_path ({repository, bookname}));
         }
       }
     }
@@ -200,13 +200,13 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   books = request->database_bibles()->getBooks (bible);
   for (auto & book : books) {
     string bookname = Database_Books::getEnglishFromId (book);
-    string bookdir = filter_url_create_path_cpp17 ({repository, bookname});
-    if (!file_or_dir_exists_cpp17 (bookdir)) filter_url_mkdir_cpp17 (bookdir);
+    string bookdir = filter_url_create_path ({repository, bookname});
+    if (!file_or_dir_exists (bookdir)) filter_url_mkdir (bookdir);
     vector <int> chapters = request->database_bibles()->getChapters (bible, book);
     for (auto & chapter : chapters) {
-      string chapterdir = filter_url_create_path_cpp17 ({bookdir, convert_to_string (chapter)});
-      if (!file_or_dir_exists_cpp17 (chapterdir)) filter_url_mkdir_cpp17 (chapterdir);
-      string datafile = filter_url_create_path_cpp17 ({chapterdir, "data"});
+      string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
+      if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
+      string datafile = filter_url_create_path ({chapterdir, "data"});
       string contents = filter_url_file_get_contents (datafile);
       string usfm = request->database_bibles()->getChapter (bible, book, chapter);
       if (contents != usfm) filter_url_file_put_contents (datafile, usfm);
@@ -232,20 +232,20 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
   // This stage does not check the contents of the chapters.
   vector <string> bookfiles = filter_url_scandir (repository);
   for (auto & bookname : bookfiles) {
-    string bookpath = filter_url_create_path_cpp17 ({repository, bookname});
-    if (filter_url_is_dir_cpp17 (bookpath)) {
+    string bookpath = filter_url_create_path ({repository, bookname});
+    if (filter_url_is_dir (bookpath)) {
       int book = Database_Books::getIdFromEnglish (bookname);
       if (book) {
         // Check the chapters.
         vector <int> chapters = request->database_bibles()->getChapters (bible, book);
         vector <string> chapterfiles = filter_url_scandir (bookpath);
         for (auto & chapterfile : chapterfiles) {
-          string chapterpath = filter_url_create_path_cpp17 ({bookpath, chapterfile});
-          if (filter_url_is_dir_cpp17 (chapterpath)) {
+          string chapterpath = filter_url_create_path ({bookpath, chapterfile});
+          if (filter_url_is_dir (chapterpath)) {
             if (filter_string_is_numeric (chapterfile)) {
               int chapter = convert_to_int (chapterfile);
-              string filename = filter_url_create_path_cpp17 ({chapterpath, "data"});
-              if (file_or_dir_exists_cpp17 (filename)) {
+              string filename = filter_url_create_path ({chapterpath, "data"});
+              if (file_or_dir_exists (filename)) {
                 if (!in_array (chapter, chapters)) {
                   // Chapter does not exist in the database: Add it.
                   string usfm = filter_url_file_get_contents (filename);
@@ -273,13 +273,13 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
   vector <int> books = request->database_bibles()->getBooks (bible);
   for (auto & book : books) {
     string bookname = Database_Books::getEnglishFromId (book);
-    string bookdir = filter_url_create_path_cpp17 ({repository, bookname});
-    if (file_or_dir_exists_cpp17 (bookdir)) {
+    string bookdir = filter_url_create_path ({repository, bookname});
+    if (file_or_dir_exists (bookdir)) {
       vector <int> chapters = request->database_bibles()->getChapters (bible, book);
       for (auto & chapter : chapters) {
-        string chapterdir = filter_url_create_path_cpp17 ({bookdir, convert_to_string (chapter)});
-        if (file_or_dir_exists_cpp17 (chapterdir)) {
-          string datafile = filter_url_create_path_cpp17 ({chapterdir, "data"});
+        string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
+        if (file_or_dir_exists (chapterdir)) {
+          string datafile = filter_url_create_path ({chapterdir, "data"});
           string contents = filter_url_file_get_contents (datafile);
           string usfm = request->database_bibles()->getChapter (bible, book, chapter);
           if (contents != usfm) {
@@ -313,9 +313,9 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 {
   // Filename for the chapter.
   string bookname = Database_Books::getEnglishFromId (book);
-  string filename = filter_url_create_path_cpp17 ({repository, bookname, convert_to_string (chapter), "data"});
+  string filename = filter_url_create_path ({repository, bookname, convert_to_string (chapter), "data"});
   
-  if (file_or_dir_exists_cpp17 (filename)) {
+  if (file_or_dir_exists (filename)) {
     
     // Store chapter in database and log it.
     Database_Bibles database_bibles;
@@ -349,7 +349,7 @@ bool filter_git_remote_read (string url, string & error)
 bool filter_git_remote_clone (string url, string path, [[maybe_unused]] int jobid, string & error)
 {
   // Clear a possible existing git repository directory.
-  filter_url_rmdir_cpp17 (path);
+  filter_url_rmdir (path);
 
   string output;
   int result = filter_shell_run ("", "git", {"clone", url, path}, &output, &error);
@@ -562,7 +562,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
     vector <Merge_Conflict> conflicts;
     string mergedData = filter_merge_run (mergeBase, userData, serverData, true, conflicts);
     mergedData = filter_string_trim (mergedData);
-    filter_url_file_put_contents (filter_url_create_path_cpp17 ({repository, unmerged_path}), mergedData);
+    filter_url_file_put_contents (filter_url_create_path ({repository, unmerged_path}), mergedData);
     
     paths.push_back (unmerged_path);
   }
@@ -583,10 +583,10 @@ void filter_git_config (string repository)
 {
   // At times there's a stale index.lock file that prevents any collaboration.
   // This is to be removed.
-  string index_lock = filter_url_create_path_cpp17 ({repository, ".git", "index.lock"});
-  if (file_or_dir_exists_cpp17 (index_lock)) {
+  string index_lock = filter_url_create_path ({repository, ".git", "index.lock"});
+  if (file_or_dir_exists (index_lock)) {
     Database_Logs::log ("Cleaning out index lock " + index_lock);
-    filter_url_unlink_cpp17 (index_lock);
+    filter_url_unlink (index_lock);
   }
 
   // On some machines the mail name and address are not set properly; therefore these are set here.

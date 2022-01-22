@@ -136,13 +136,13 @@ void Database_Notes::create ()
 
 string Database_Notes::database_path ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "notes.sqlite"});
+  return filter_url_create_root_path ({database_logic_databases (), "notes.sqlite"});
 }
 
 
 string Database_Notes::checksums_database_path ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "notes_checksums.sqlite"});
+  return filter_url_create_root_path ({database_logic_databases (), "notes_checksums.sqlite"});
 }
 
 
@@ -166,7 +166,7 @@ bool Database_Notes::checksums_healthy ()
 bool Database_Notes::checkup ()
 {
   if (healthy ()) return false;
-  filter_url_unlink_cpp17 (database_path ());
+  filter_url_unlink (database_path ());
   create ();
   return true;
 }
@@ -178,7 +178,7 @@ bool Database_Notes::checkup ()
 bool Database_Notes::checkup_checksums ()
 {
   if (checksums_healthy ()) return false;
-  filter_url_unlink_cpp17 (checksums_database_path ());
+  filter_url_unlink (checksums_database_path ());
   create ();
   return true;
 }
@@ -192,7 +192,7 @@ void Database_Notes::trim ()
   vector <string> bits1 = filter_url_scandir (main_folder);
   for (auto bit1 : bits1) {
     if (bit1.length () == 3) {
-      string folder = filter_url_create_path_cpp17 ({main_folder, bit1});
+      string folder = filter_url_create_path ({main_folder, bit1});
       vector <string> bits2 = filter_url_scandir (folder);
       if (bits2.empty ()) {
         Database_Logs::log (message + folder);
@@ -200,7 +200,7 @@ void Database_Notes::trim ()
       }
       for (auto bit2 : bits2) {
         if (bit2.length () == 3) {
-          string folder = filter_url_create_path_cpp17 ({main_folder, bit1, bit2});
+          string folder = filter_url_create_path ({main_folder, bit1, bit2});
           vector <string> bits3 = filter_url_scandir (folder);
           if (bits3.empty ()) {
             Database_Logs::log (message + folder);
@@ -249,11 +249,11 @@ void Database_Notes::sync ()
     // It used conversion to int before to determine it was a real note,
     // with the result that it missed 10% of the notes, which subsequently got deleted, oops!
     if (bit1.length () == 3) {
-      vector <string> bits2 = filter_url_scandir (filter_url_create_path_cpp17 ({main_folder, bit1}));
+      vector <string> bits2 = filter_url_scandir (filter_url_create_path ({main_folder, bit1}));
       for (auto & bit2 : bits2) {
         // Old storage mechanism, e.g. folder "425".
         if (bit2.length () == 3) {
-          vector <string> bits3 = filter_url_scandir (filter_url_create_path_cpp17 ({main_folder, bit1, bit2}));
+          vector <string> bits3 = filter_url_scandir (filter_url_create_path ({main_folder, bit1, bit2}));
           for (auto & bit3 : bits3) {
             if (bit3.length () == 3) {
               int identifier = convert_to_int (bit1 + bit2 + bit3);
@@ -405,7 +405,7 @@ void Database_Notes::update_database_internal (int identifier, int modified, str
 
 string Database_Notes::main_folder_path ()
 {
-  return filter_url_create_root_path_cpp17 ({"consultations"});
+  return filter_url_create_root_path ({"consultations"});
 }
 
 
@@ -416,7 +416,7 @@ string Database_Notes::note_file (int identifier)
   string sidentifier = convert_to_string (identifier);
   string folder = sidentifier.substr (0, 3);
   string file = sidentifier.substr (3, 6) + ".json";
-  return filter_url_create_path_cpp17 ({main_folder_path (), folder, file});
+  return filter_url_create_path ({main_folder_path (), folder, file});
 }
 
 
@@ -425,7 +425,7 @@ string Database_Notes::note_file (int identifier)
 // and for the new way of storing notes in JSON.
 bool Database_Notes::identifier_exists (int identifier)
 {
-  if (file_or_dir_exists_cpp17 (note_file (identifier))) return true;
+  if (file_or_dir_exists (note_file (identifier))) return true;
   return false;
 }
 
@@ -439,8 +439,8 @@ void Database_Notes::set_identifier (int identifier, int new_identifier)
   string path = note_file (identifier);
   string json = filter_url_file_get_contents (path);
   path = note_file (new_identifier);
-  string folder = filter_url_dirname_cpp17 (path);
-  filter_url_mkdir_cpp17 (folder);
+  string folder = filter_url_dirname (path);
+  filter_url_mkdir (folder);
   filter_url_file_put_contents (path, json);
   
   // Update main notes database.
@@ -563,8 +563,8 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   
   // Store the JSON representation of the note in the file system.
   string path = note_file (identifier);
-  string folder = filter_url_dirname_cpp17 (path);
-  filter_url_mkdir_cpp17 (folder);
+  string folder = filter_url_dirname (path);
+  filter_url_mkdir (folder);
   Object note;
   note << bible_key () << bible;
   note << passage_key () << passage;
@@ -858,7 +858,7 @@ void Database_Notes::erase (int identifier)
 {
   // Delete new storage from filesystem.
   string path = note_file (identifier);
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
   // Update databases as well.
   delete_checksum (identifier);
   SqliteSQL sql;
@@ -1766,7 +1766,7 @@ vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highI
 
 string Database_Notes::availability_flag ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "notes.busy"});
+  return filter_url_create_root_path ({database_logic_databases (), "notes.busy"});
 }
 
 
@@ -1774,7 +1774,7 @@ string Database_Notes::availability_flag ()
 void Database_Notes::set_availability (bool available)
 {
   if (available) {
-    filter_url_unlink_cpp17 (availability_flag ());
+    filter_url_unlink (availability_flag ());
   } else {
    filter_url_file_put_contents (availability_flag (), "");
   }
@@ -1784,7 +1784,7 @@ void Database_Notes::set_availability (bool available)
 // Returns whether the notes databases are available, as a boolean.
 bool Database_Notes::available ()
 {
-  return !file_or_dir_exists_cpp17 (availability_flag ());
+  return !file_or_dir_exists (availability_flag ());
 }
 
 
@@ -1896,8 +1896,8 @@ vector <string> Database_Notes::set_bulk (string json)
     
     // Store the note in the filesystem.
     string path = note_file (identifier);
-    string folder = filter_url_dirname_cpp17 (path);
-    filter_url_mkdir_cpp17 (folder);
+    string folder = filter_url_dirname (path);
+    filter_url_mkdir (folder);
     Object note2;
     note2 << assigned_key () << assigned;
     note2 << bible_key () << bible;

@@ -48,7 +48,7 @@ string filter_archive_zip_folder (string folder)
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder_shell_internal (string folder)
 {
-  if (!file_or_dir_exists_cpp17 (folder)) return string();
+  if (!file_or_dir_exists (folder)) return string();
   string zippedfile = filter_url_tempfile () + ".zip";
 #ifdef HAVE_CLOUD
   string logfile = filter_url_tempfile () + ".log";
@@ -58,7 +58,7 @@ string filter_archive_zip_folder_shell_internal (string folder)
   // Run the command.
   return_var = system (command.c_str());
   if (return_var != 0) {
-    filter_url_unlink_cpp17 (zippedfile);
+    filter_url_unlink (zippedfile);
     zippedfile.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -72,14 +72,14 @@ string filter_archive_zip_folder_shell_internal (string folder)
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder_miniz_internal (string folder)
 {
-  if (!file_or_dir_exists_cpp17 (folder)) {
+  if (!file_or_dir_exists (folder)) {
     return "";
   }
   string zippedfile = filter_url_tempfile () + ".zip";
   vector <string> paths;
   filter_url_recursive_scandir (folder, paths);
   for (auto path : paths) {
-    bool is_dir = filter_url_is_dir_cpp17 (path);
+    bool is_dir = filter_url_is_dir (path);
     string file = path.substr (folder.size () + 1);
 #ifdef HAVE_WINDOWS
     // The file names in Windows will be backslashes (\) at this point.
@@ -123,7 +123,7 @@ string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
 {
   string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD
-  filter_url_mkdir_cpp17 (folder);
+  filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
@@ -131,7 +131,7 @@ string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
   // Run the command.
   int return_var = system (command.c_str());
   if (return_var != 0) {
-    filter_url_rmdir_cpp17 (folder);
+    filter_url_rmdir (folder);
     folder.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -151,7 +151,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
 {
   // Directory where to unzip the archive.
   string folder = filter_url_tempfile ();
-  filter_url_mkdir_cpp17 (folder);
+  filter_url_mkdir (folder);
 
   // Covers the entire process.
   bool error = false;
@@ -175,14 +175,14 @@ string filter_archive_unzip_miniz_internal (string zipfile)
       status = mz_zip_reader_file_stat (&zip_archive, i, &file_stat);
       if (status) {
 
-        string filename = filter_url_create_path_cpp17 ({folder, file_stat.m_filename});
+        string filename = filter_url_create_path ({folder, file_stat.m_filename});
         // The miniz library returns Unix directory separators above.
         // So in case of Windows, convert them to Windows ones.
         string fixed_filename = filter_url_update_directory_separator_if_windows (filename);
         
         if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
           // Create this directory.
-          if (!file_or_dir_exists_cpp17 (fixed_filename)) filter_url_mkdir_cpp17 (fixed_filename);
+          if (!file_or_dir_exists (fixed_filename)) filter_url_mkdir (fixed_filename);
         } else {
           /* Code that extracts file contents memory, if needed.
           size_t filesize = file_stat.m_uncomp_size;
@@ -204,8 +204,8 @@ string filter_archive_unzip_miniz_internal (string zipfile)
            */
           
           // Ensure this file's folder exists.
-          string dirname = filter_url_dirname_cpp17 (fixed_filename);
-          if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir_cpp17 (dirname);
+          string dirname = filter_url_dirname (fixed_filename);
+          if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
           if (!status) {
@@ -241,8 +241,8 @@ string filter_archive_unzip_miniz_internal (string zipfile)
 string filter_archive_tar_gzip_file (string filename)
 {
   string tarball = filter_url_tempfile () + ".tar.gz";
-  string dirname = filter_url_escape_shell_argument (filter_url_dirname_cpp17 (filename));
-  string basename = filter_url_escape_shell_argument (filter_url_basename_cpp17 (filename));
+  string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
   int return_var;
@@ -254,7 +254,7 @@ string filter_archive_tar_gzip_file (string filename)
   return_var = system (command.c_str());
 #endif
   if (return_var != 0) {
-    filter_url_unlink_cpp17 (tarball);
+    filter_url_unlink (tarball);
     tarball.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -280,7 +280,7 @@ string filter_archive_tar_gzip_folder (string folder)
   return_var = system (command.c_str());
 #endif
   if (return_var != 0) {
-    filter_url_unlink_cpp17 (tarball);
+    filter_url_unlink (tarball);
     tarball.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -295,7 +295,7 @@ string filter_archive_untar_gzip (string file)
 {
   file = filter_url_escape_shell_argument (file);
   string folder = filter_url_tempfile ();
-  filter_url_mkdir_cpp17 (folder);
+  filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
   string logfile = filter_url_tempfile () + ".log";
   string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
@@ -308,7 +308,7 @@ string filter_archive_untar_gzip (string file)
   return_var = system (command.c_str());
 #endif
   if (return_var != 0) {
-    filter_url_rmdir_cpp17 (folder);
+    filter_url_rmdir (folder);
     folder.clear();
     string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
@@ -343,7 +343,7 @@ int filter_archive_is_archive (string file)
   // iso9660 CD images (.iso)
   // Lha archives (.lzh)
   // Single files compressed with gzip (.gz), bzip (.bz), bzip2 (.bz2), compress (.Z), lzop (.lzo) and lzma (.lzma)
-  string suffix = filter_url_get_extension_cpp17 (file);
+  string suffix = filter_url_get_extension (file);
   if ((suffix == "tar.gz") || (suffix == "gz") || (suffix == "tgz")) {
     return 1;
   }
@@ -370,9 +370,9 @@ string filter_archive_microtar_pack (string tarpath, string directory, vector <s
   // Iterate over the files.
   for (auto file : files) {
     // Full path.
-    string path = filter_url_create_path_cpp17 ({directory, file});
+    string path = filter_url_create_path ({directory, file});
     // Skip directories.
-    if (filter_url_is_dir_cpp17 (path)) continue;
+    if (filter_url_is_dir (path)) continue;
     // Read the file's data.
     string data = filter_url_file_get_contents (path);
     // Write the file's name to the tarball.
@@ -415,7 +415,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
   }
   
   // Create directory if needed.
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
 
   // Unpack all files and save them.
   for (auto file : files) {
@@ -429,13 +429,13 @@ string filter_archive_microtar_unpack (string tarball, string directory)
     string data (p, h.size);
     free(p);
     // If the file contains a directory, ensure that directory exists.
-    string dirname = filter_url_dirname_cpp17 (file);
+    string dirname = filter_url_dirname (file);
     if (dirname != ".") {
-      dirname = filter_url_create_path_cpp17 ({directory, dirname});
-      if (!file_or_dir_exists_cpp17 (dirname)) filter_url_mkdir_cpp17 (dirname);
+      dirname = filter_url_create_path ({directory, dirname});
+      if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
     }
     // Write the file's data.
-    filter_url_file_put_contents (filter_url_create_path_cpp17 ({directory, file}), data);
+    filter_url_file_put_contents (filter_url_create_path ({directory, file}), data);
   }
   
   // Close archive.

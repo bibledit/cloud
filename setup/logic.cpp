@@ -140,17 +140,17 @@ void setup_copy_library (const char * package)
   // Therefore there is a list of directories and another one of files in the httpfs.
   size_t package_length = 1;
   // Read all directories and create them in the persistent webroot.
-  string path = filter_url_create_path_cpp17 (package, "package_directories.txt");
+  string path = filter_url_create_path (package, "package_directories.txt");
   string contents = filter_url_file_get_contents (path);
   vector <string> paths = filter_string_explode (contents, '\n');
   for (auto path : paths) {
     path = config_globals_document_root + path.substr (package_length);
     if (path.empty ()) continue;
     config_globals_setup_message = path;
-    filter_url_mkdir_cpp17 (path);
+    filter_url_mkdir (path);
   }
   // Read all files and copy them from the package to the persistent webroot.
-  path = filter_url_create_path_cpp17 (package, "package_files.txt");
+  path = filter_url_create_path (package, "package_files.txt");
   contents = filter_url_file_get_contents (path);
   paths = filter_string_explode (contents, '\n');
   for (auto path : paths) {
@@ -161,15 +161,15 @@ void setup_copy_library (const char * package)
   }
    */
   size_t package_length = strlen (package);
-  filter_url_mkdir_cpp17 (config_globals_document_root);
+  filter_url_mkdir (config_globals_document_root);
   config_globals_setup_message = "scanning";
   vector <string> package_paths;
   filter_url_recursive_scandir (package, package_paths);
   for (auto package_path : package_paths) {
     string dest_path = config_globals_document_root + package_path.substr (package_length);
     config_globals_setup_message = dest_path;
-    if (filter_url_is_dir_cpp17 (package_path)) {
-      filter_url_mkdir_cpp17 (dest_path);
+    if (filter_url_is_dir (package_path)) {
+      filter_url_mkdir (dest_path);
     } else {
       filter_url_file_cp (package_path, dest_path);
     }
@@ -181,7 +181,7 @@ void setup_write_access ()
 {
   vector <string> folders = {"exports", "git", "revisions", "dyncss", database_logic_databases (), "bibles", "fonts", "logbook", filter_url_temp_dir ()};
   for (auto folder : folders) {
-    string path = filter_url_create_root_path_cpp17 ({folder});
+    string path = filter_url_create_root_path ({folder});
     if (!filter_url_get_write_permission (path)) {
       filter_url_set_write_permission (path);
     }
@@ -197,8 +197,8 @@ void setup_wait_till_main_folders_present ()
     present = true;
     vector <string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
     for (auto folder : folders) {
-      string path = filter_url_create_root_path_cpp17 ({folder});
-      if (!file_or_dir_exists_cpp17 (path)) {
+      string path = filter_url_create_root_path ({folder});
+      if (!file_or_dir_exists (path)) {
         present = false;
       }
     }
@@ -341,7 +341,7 @@ void setup_generate_locale_databases (bool progress)
     config_globals_setup_message = "locale " + localization;
     if (progress) cout << config_globals_setup_message << endl;
     Database_Localization database_localization = Database_Localization (localization);
-    string path = filter_url_create_root_path_cpp17 ({"locale", localization + ".po"});
+    string path = filter_url_create_root_path ({"locale", localization + ".po"});
     database_localization.create (path);
   }
 }

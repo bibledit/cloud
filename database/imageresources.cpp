@@ -32,19 +32,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 string Database_ImageResources::mainFolder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "imageresources"});
+  return filter_url_create_root_path ({database_logic_databases (), "imageresources"});
 }
 
 
 string Database_ImageResources::resourceFolder (const string& name)
 {
-  return filter_url_create_path_cpp17 ({mainFolder (), name});
+  return filter_url_create_path ({mainFolder (), name});
 }
 
 
 string Database_ImageResources::imagePath (string name, string image)
 {
-  return filter_url_create_path_cpp17 ({resourceFolder (name), image});
+  return filter_url_create_path ({resourceFolder (name), image});
 }
 
 
@@ -56,7 +56,7 @@ string Database_ImageResources::databaseFile ()
 
 sqlite3 * Database_ImageResources::connect (string name)
 {
-  string path = filter_url_create_path_cpp17 ({resourceFolder (name), databaseFile ()});
+  string path = filter_url_create_path ({resourceFolder (name), databaseFile ()});
   return database_sqlite_connect (path);
 }
 
@@ -71,8 +71,8 @@ void Database_ImageResources::create (string name)
 {
   // Create folder to store the images.
   string path = resourceFolder (name);
-  filter_url_unlink_cpp17 (path);
-  filter_url_mkdir_cpp17 (path);
+  filter_url_unlink (path);
+  filter_url_mkdir (path);
 
   // Create the passages database.
   sqlite3 * db = connect (name);
@@ -91,15 +91,15 @@ void Database_ImageResources::erase (string name)
 {
   string path = resourceFolder (name);
   // If a folder: Delete it.
-  filter_url_rmdir_cpp17 (path);
+  filter_url_rmdir (path);
   // If a file: Delete it.
-  filter_url_unlink_cpp17 (path);
+  filter_url_unlink (path);
 }
 
 
 void Database_ImageResources::erase (string name, string image)
 {
-  filter_url_unlink_cpp17 (imagePath (name, image));
+  filter_url_unlink (imagePath (name, image));
   sqlite3 * db = connect (name);
   {
     SqliteSQL sql = SqliteSQL ();
@@ -116,15 +116,15 @@ void Database_ImageResources::erase (string name, string image)
 string Database_ImageResources::store (string name, string file)
 {
   string folder = resourceFolder (name);
-  string image = filter_url_basename_cpp17 (file);
+  string image = filter_url_basename (file);
   string path;
   bool exists = false;
   do {
-    path = filter_url_create_path_cpp17 ({folder, image});
-    exists = file_or_dir_exists_cpp17 (path);
+    path = filter_url_create_path ({folder, image});
+    exists = file_or_dir_exists (path);
     if (exists) image = filter_string_str_replace (".", "0.", image);
   } while (exists);
-  filter_url_rename_cpp17 (file, path);
+  filter_url_rename (file, path);
   return image;
 }
 

@@ -34,7 +34,7 @@ string help_index_html (const string& url)
   size_t pos = url.find ("/");
   if (pos != string::npos) path.erase (0, ++pos);
   path.append (".html");
-  path = filter_url_create_root_path_cpp17 ({"help", path});
+  path = filter_url_create_root_path ({"help", path});
   return path;
 }
 
@@ -43,7 +43,7 @@ bool help_index_url (const string& url)
 {
   size_t pos = url.find ("help/");
   if (pos != 0) return false;
-  return file_or_dir_exists_cpp17 (help_index_html (url));
+  return file_or_dir_exists (help_index_html (url));
 }
 
 
@@ -66,7 +66,7 @@ string help_index (void * webserver_request, const string& url)
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 
-  view.set_variable ("config", filter_url_create_root_path_cpp17 ({config_logic_config_folder ()}));
+  view.set_variable ("config", filter_url_create_root_path ({config_logic_config_folder ()}));
   
   string filename (url);
   size_t pos = url.find ("/");

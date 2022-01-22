@@ -125,14 +125,14 @@ void Export_Logic::scheduleESword (string bible, bool log)
 // The main exports directory.
 string Export_Logic::mainDirectory ()
 {
-  return filter_url_create_root_path_cpp17 ({"exports"});
+  return filter_url_create_root_path ({"exports"});
 }
 
 
 // A Bible's export directory.
 string Export_Logic::bibleDirectory (string bible)
 {
-  return filter_url_create_path_cpp17 ({mainDirectory (), bible});
+  return filter_url_create_path ({mainDirectory (), bible});
 }
 
 
@@ -143,10 +143,10 @@ string Export_Logic::bibleDirectory (string bible)
 // 2: root USFM directory.
 string Export_Logic::USFMdirectory (string bible, int type)
 {
-  string directory = filter_url_create_path_cpp17 ({bibleDirectory (bible), "usfm"});
+  string directory = filter_url_create_path ({bibleDirectory (bible), "usfm"});
   switch (type) {
-    case 0: directory = filter_url_create_path_cpp17 ({directory, "full"}); break;
-    case 1: directory = filter_url_create_path_cpp17 ({directory, "basic"}); break;
+    case 0: directory = filter_url_create_path ({directory, "full"}); break;
+    case 1: directory = filter_url_create_path ({directory, "basic"}); break;
     default: break;
   }
   return directory;
@@ -155,7 +155,7 @@ string Export_Logic::USFMdirectory (string bible, int type)
 
 string Export_Logic::webDirectory (string bible)
 {
-  return filter_url_create_path_cpp17 ({bibleDirectory (bible), "web"});
+  return filter_url_create_path ({bibleDirectory (bible), "web"});
 }
 
 

@@ -275,8 +275,8 @@ void changes_modifications ()
     timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
     timepath.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
-    string directory = filter_url_create_root_path_cpp17 ({"revisions", bible, timepath});
-    filter_url_mkdir_cpp17 (directory);
+    string directory = filter_url_create_root_path ({"revisions", bible, timepath});
+    filter_url_mkdir (directory);
     
     
     // Produce the USFM and html files.
@@ -284,8 +284,8 @@ void changes_modifications ()
     
     
     // Create online page with changed verses.
-    string versesoutputfile = filter_url_create_path_cpp17 ({directory, "changed_verses.html"});
-    filter_diff_run_file (filter_url_create_path_cpp17 ({directory, "verses_old.txt"}), filter_url_create_path_cpp17 ({directory, "verses_new.txt"}), versesoutputfile);
+    string versesoutputfile = filter_url_create_path ({directory, "changed_verses.html"});
+    filter_diff_run_file (filter_url_create_path ({directory, "verses_old.txt"}), filter_url_create_path ({directory, "verses_new.txt"}), versesoutputfile);
     
     
     // Storage for body of the email with the changes.
@@ -402,23 +402,23 @@ void changes_modifications ()
 
   
   // Remove expired downloadable revisions.
-  string directory = filter_url_create_root_path_cpp17 ({"revisions"});
+  string directory = filter_url_create_root_path ({"revisions"});
   int now = filter_date_seconds_since_epoch ();
   bibles = filter_url_scandir (directory);
   for (auto &bible : bibles) {
-    string folder = filter_url_create_path_cpp17 ({directory, bible});
+    string folder = filter_url_create_path ({directory, bible});
     int time = filter_url_file_modification_time (folder);
     int days = (now - time) / 86400;
     if (days > 31) {
-      filter_url_rmdir_cpp17 (folder);
+      filter_url_rmdir (folder);
     } else {
       vector <string> revisions = filter_url_scandir (folder);
       for (auto & revision : revisions) {
-        string path = filter_url_create_path_cpp17 ({folder, revision});
+        string path = filter_url_create_path ({folder, revision});
         int time = filter_url_file_modification_time (path);
         int days = (now - time) / 86400;
         if (days > 31) {
-          filter_url_rmdir_cpp17 (path);
+          filter_url_rmdir (path);
           Database_Logs::log ("Removing expired downloadable revision notification: " + bible + " " + revision, Filter_Roles::translator ());
         }
       }

@@ -165,7 +165,7 @@ void test_export ()
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
     evaluate (__LINE__, __func__, 16384, filesize);
-    filter_url_unlink_cpp17 (filename);
+    filter_url_unlink (filename);
   }
   
   // Test tool to export Online Bible.
@@ -178,10 +178,10 @@ void test_export ()
     onlinebible_text.addText ("Verse was stored, no new verse given, so discard this.");
     string filename = "/tmp/OLBTextTest1.exp";
     onlinebible_text.save (filename);
-    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17 ({"unittests", "tests", "onlinebible1.exp"}));
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible1.exp"}));
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
-    filter_url_unlink_cpp17 (filename);
+    filter_url_unlink (filename);
   }
   
   {
@@ -195,10 +195,10 @@ void test_export ()
     onlinebible_text.closeCurrentNote ();
     string filename = "/tmp/OLBTextTest2.exp";
     onlinebible_text.save (filename);
-    string standard = filter_url_file_get_contents (filter_url_create_root_path_cpp17 ({"unittests", "tests", "onlinebible2.exp"}));
+    string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible2.exp"}));
     string result = filter_url_file_get_contents (filename);
     evaluate (__LINE__, __func__, standard, result);
-    filter_url_unlink_cpp17 (filename);
+    filter_url_unlink (filename);
   }
 
   // TBS export book ID and book name.

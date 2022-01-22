@@ -46,7 +46,7 @@ void sigint_handler ([[maybe_unused]] int s)
 
 string backtrace_path ()
 {
-  string path = filter_url_create_root_path_cpp17 ({filter_url_temp_dir (), "backtrace.txt"});
+  string path = filter_url_create_root_path ({filter_url_temp_dir (), "backtrace.txt"});
   return path;
 }
 
@@ -116,7 +116,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     char *linkname = (char *) malloc (256);
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     [[maybe_unused]] ssize_t result = readlink ("/proc/self/exe", linkname, 256);
-    webroot = filter_url_dirname_cpp17 (linkname);
+    webroot = filter_url_dirname (linkname);
     free (linkname);
   }
 #endif
@@ -129,7 +129,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     pid = getpid ();
     ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
     if (ret > 0 ) {
-      webroot = filter_url_dirname_cpp17 (pathbuf);
+      webroot = filter_url_dirname (pathbuf);
     }
   }
 #endif
@@ -169,7 +169,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
       // because it now runs the binary installed in /usr/bin.
       if ((webroot == homefolder) || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
         // Update web root to ~/bibledit or ~/bibledit-cloud.
-        webroot = filter_url_create_path_cpp17 ({homefolder, filter_url_basename_cpp17 (PACKAGE_DATA_DIR)});
+        webroot = filter_url_create_path ({homefolder, filter_url_basename (PACKAGE_DATA_DIR)});
       }
     }
   }
@@ -199,7 +199,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   // Log possible backtrace from a previous crash.
   string backtrace = filter_url_file_get_contents (backtrace_path ());
-  filter_url_unlink_cpp17 (backtrace_path ());
+  filter_url_unlink (backtrace_path ());
   if (!backtrace.empty ()) {
     Database_Logs::log ("Backtrace of the last segmentation fault:");
     vector <string> lines = filter_string_explode (backtrace, '\n');

@@ -31,8 +31,8 @@ void test_image ()
   {
     string image_2_name = "bibleimage2.png";
     string image_3_name = "bibleimage3.png";
-    string image_2_path = filter_url_create_root_path_cpp17 ({"unittests", "tests", image_2_name});
-    string image_3_path = filter_url_create_root_path_cpp17 ({"unittests", "tests", image_3_name});
+    string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
+    string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
     int width = 0, height = 0;
     filter_image_get_sizes (image_2_path, width, height);
     evaluate (__LINE__, __func__, 860, width);

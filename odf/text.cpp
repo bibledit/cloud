@@ -49,12 +49,12 @@ Odf_Text::Odf_Text (string bible_in)
   image_counter = 0;
 
   // Unpack the .odt template.
-  string templateOdf = filter_url_create_root_path_cpp17 ({"odf", "template.odt"});
+  string templateOdf = filter_url_create_root_path ({"odf", "template.odt"});
   unpackedOdtFolder = filter_archive_unzip (templateOdf);
-  filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({unpackedOdtFolder, "Configurations2"}));
+  filter_url_rmdir (filter_url_create_path ({unpackedOdtFolder, "Configurations2"}));
   // Create the Pictures folder.
-  // pictures_folder = filter_url_create_path_cpp17 (unpackedOdtFolder, "Pictures");
-  //filter_url_mkdir_cpp17 (pictures_folder);
+  // pictures_folder = filter_url_create_path (unpackedOdtFolder, "Pictures");
+  //filter_url_mkdir (pictures_folder);
   
   initialize_content_xml ();
   initialize_styles_xml ();
@@ -63,7 +63,7 @@ Odf_Text::Odf_Text (string bible_in)
 
 Odf_Text::~Odf_Text ()
 {
-  filter_url_rmdir_cpp17 (unpackedOdtFolder);
+  filter_url_rmdir (unpackedOdtFolder);
 }
 
 
@@ -1158,14 +1158,14 @@ void Odf_Text::save (string name)
 {
   // Create the content.xml file.
   // No formatting because some white space is processed.
-  string contentXmlPath = filter_url_create_path_cpp17 ({unpackedOdtFolder, "content.xml"});
+  string contentXmlPath = filter_url_create_path ({unpackedOdtFolder, "content.xml"});
   stringstream contentXml;
   contentDom.print (contentXml, "", format_raw);
   filter_url_file_put_contents (contentXmlPath, contentXml.str ());
 
   // Create the styles.xml file.
   // No formatting because some white space is processed.
-  string stylesXmlPath = filter_url_create_path_cpp17 ({unpackedOdtFolder, "styles.xml"});
+  string stylesXmlPath = filter_url_create_path ({unpackedOdtFolder, "styles.xml"});
   stringstream stylesXml;
   stylesDom.print (stylesXml, "", format_raw);
   filter_url_file_put_contents (stylesXmlPath, stylesXml.str ());
@@ -1173,7 +1173,7 @@ void Odf_Text::save (string name)
   // Save the OpenDocument file.
   string zippedfile = filter_archive_zip_folder (unpackedOdtFolder);
   filter_url_file_put_contents (name, filter_url_file_get_contents (zippedfile));
-  filter_url_unlink_cpp17 (zippedfile);
+  filter_url_unlink (zippedfile);
 }
 
 
@@ -1197,7 +1197,7 @@ void Odf_Text::add_image ([[maybe_unused]] string alt, string src, string captio
   int image_width_pixels = 0, image_height_pixels = 0;
   {
     Database_BibleImages database_bibleimages;
-    string path = filter_url_create_root_path_cpp17 ({filter_url_temp_dir (), "image_contents"});
+    string path = filter_url_create_root_path ({filter_url_temp_dir (), "image_contents"});
     string contents = database_bibleimages.get(src);
     filter_url_file_put_contents(path, contents);
     filter_image_get_sizes (path, image_width_pixels, image_height_pixels);
@@ -1256,7 +1256,7 @@ void Odf_Text::add_image ([[maybe_unused]] string alt, string src, string captio
   {
     //Database_BibleImages database_bibleimages;
     //string contents = database_bibleimages.get(src);
-    //string path = filter_url_create_path_cpp17(pictures_folder, src);
+    //string path = filter_url_create_path(pictures_folder, src);
     //filter_url_file_put_contents(path, contents);
   }
 

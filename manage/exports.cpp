@@ -99,7 +99,7 @@ string manage_exports (void * webserver_request)
   
   if (request->query.count ("remove")) {
     string directory = Export_Logic::bibleDirectory (bible);
-    filter_url_rmdir_cpp17 (directory);
+    filter_url_rmdir (directory);
     Database_State::setExport (bible, 0, Export_Logic::export_needed);
     view.set_variable ("success", translate("The export has been removed."));
   }

@@ -55,8 +55,8 @@ void rss_logic_feed_on_off ()
   } else {
     // The RSS feed is disabled: Remove the last trace of it entirely.
     string path = rss_logic_xml_path ();
-    if (file_or_dir_exists_cpp17 (path)) {
-      filter_url_unlink_cpp17 (path);
+    if (file_or_dir_exists (path)) {
+      filter_url_unlink (path);
     }
   }
 }
@@ -150,7 +150,7 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
 
 string rss_logic_xml_path ()
 {
-  return filter_url_create_root_path_cpp17 ({"rss", "feed.xml"});
+  return filter_url_create_root_path ({"rss", "feed.xml"});
 }
 
 

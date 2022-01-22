@@ -60,7 +60,7 @@ string index_listing (void * webserver_request, string url)
   // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
-  url = filter_url_create_path_cpp17 ({"/", url});
+  url = filter_url_create_path ({"/", url});
   url = filter_string_str_replace ("\\", "/", url);
   view.set_variable ("url", url);
   string parent = filter_url_dirname_web (url);
@@ -68,20 +68,20 @@ string index_listing (void * webserver_request, string url)
     view.enable_zone ("parent");
     view.set_variable ("parent", parent);
   }
-  string directory = filter_url_create_root_path_cpp17 ({url});
-  if (!file_or_dir_exists_cpp17 (directory) || filter_url_is_dir_cpp17 (directory)) {
+  string directory = filter_url_create_root_path ({url});
+  if (!file_or_dir_exists (directory) || filter_url_is_dir (directory)) {
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
-      string path = filter_url_create_path_cpp17 ({directory, file});
+      string path = filter_url_create_path ({directory, file});
       string line;
       line.append ("<tr>");
       line.append ("<td>");
-      line.append (R"(<a href=")" + filter_url_create_path_cpp17 ({url, file}) + R"(">)");
+      line.append (R"(<a href=")" + filter_url_create_path ({url, file}) + R"(">)");
       line.append (file);
       line.append ("</a>");
       line.append ("</td>");
       line.append ("<td>");
-      if (!filter_url_is_dir_cpp17 (path)) {
+      if (!filter_url_is_dir (path)) {
         line.append (convert_to_string (filter_url_filesize (path)));
       }
       line.append ("</td>");
@@ -96,7 +96,7 @@ string index_listing (void * webserver_request, string url)
     }
     view.set_variable ("listing", listing);
   } else {
-    string filename = filter_url_create_root_path_cpp17 ({url});
+    string filename = filter_url_create_root_path ({url});
     return filter_url_file_get_contents (filename);
   }
   page += view.render ("index", "listing");

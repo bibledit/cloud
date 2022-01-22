@@ -72,7 +72,7 @@ void Database_Styles::create ()
 void Database_Styles::createSheet (string sheet)
 {
   // Folder for storing the stylesheet.
-  filter_url_mkdir_cpp17 (sheetfolder (sheet));
+  filter_url_mkdir (sheetfolder (sheet));
   // Check and/or load defaults.
   if (default_styles_cache.empty ()) cache_defaults ();
   // Write all style items to file.
@@ -98,7 +98,7 @@ vector <string> Database_Styles::getSheets ()
 // Deletes a stylesheet.
 void Database_Styles::deleteSheet (string sheet)
 {
-  if (!sheet.empty ()) filter_url_rmdir_cpp17 (sheetfolder (sheet));
+  if (!sheet.empty ()) filter_url_rmdir (sheetfolder (sheet));
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();
@@ -116,7 +116,7 @@ void Database_Styles::addMarker (string sheet, string marker)
 // Deletes a marker from a stylesheet.
 void Database_Styles::deleteMarker (string sheet, string marker)
 {
-  filter_url_unlink_cpp17 (stylefile (sheet, marker));
+  filter_url_unlink (stylefile (sheet, marker));
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();
@@ -457,19 +457,19 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
 
 string Database_Styles::databasefolder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "styles"});
+  return filter_url_create_root_path ({database_logic_databases (), "styles"});
 }
 
 
 string Database_Styles::sheetfolder (string sheet)
 {
-  return filter_url_create_path_cpp17 ({databasefolder (), sheet});
+  return filter_url_create_path ({databasefolder (), sheet});
 }
 
 
 string Database_Styles::stylefile (string sheet, string marker)
 {
-  return filter_url_create_path_cpp17 ({sheetfolder (sheet), marker});
+  return filter_url_create_path ({sheetfolder (sheet), marker});
 }
 
 
@@ -498,7 +498,7 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
   string filename;
   if (!take_default) {
     filename = stylefile (sheet, marker);
-    if (!file_or_dir_exists_cpp17 (filename)) take_default = true;
+    if (!file_or_dir_exists (filename)) take_default = true;
   }
   if (take_default) {
     // Check and/or load defaults.

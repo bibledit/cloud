@@ -48,7 +48,7 @@ sqlite3 * Database_Modifications::connect ()
 void Database_Modifications::erase ()
 {
   string file = database_sqlite_file ("modifications");
-  filter_url_unlink_cpp17 (file);
+  filter_url_unlink (file);
 }
 
 
@@ -91,13 +91,13 @@ void Database_Modifications::vacuum ()
 
 string Database_Modifications::teamFolder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "modifications", "team"});
+  return filter_url_create_root_path ({database_logic_databases (), "modifications", "team"});
 }
 
 
 string Database_Modifications::teamFile (const string& bible, int book, int chapter)
 {
-  return filter_url_create_path_cpp17 ({teamFolder (), bible + "." + convert_to_string (book) + "." + convert_to_string (chapter)});
+  return filter_url_create_path ({teamFolder (), bible + "." + convert_to_string (book) + "." + convert_to_string (chapter)});
 }
 
 
@@ -106,7 +106,7 @@ string Database_Modifications::teamFile (const string& bible, int book, int chap
 bool Database_Modifications::teamDiffExists (const string& bible, int book, int chapter)
 {
   string file = teamFile (bible, book, chapter);
-  return file_or_dir_exists_cpp17 (file);
+  return file_or_dir_exists (file);
 }
 
 
@@ -164,7 +164,7 @@ void Database_Modifications::deleteTeamDiffBible (const string& bible)
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
-    filter_url_unlink_cpp17 (filter_url_create_path_cpp17 ({teamFolder (), file}));
+    filter_url_unlink (filter_url_create_path ({teamFolder (), file}));
   }
 }
 
@@ -173,7 +173,7 @@ void Database_Modifications::deleteTeamDiffBible (const string& bible)
 void Database_Modifications::deleteTeamDiffChapter (const string& bible, int book, int chapter)
 {
   string file = teamFile (bible, book, chapter);
-  filter_url_unlink_cpp17 (file);
+  filter_url_unlink (file);
 }
 
 
@@ -188,7 +188,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
     if (file.substr (0, length) != pattern) continue;
     vector <string> bits = filter_string_explode (file, '.');
     if (bits.size() != 3) continue;
-    string path = filter_url_create_path_cpp17 ({teamFolder (), file});
+    string path = filter_url_create_path ({teamFolder (), file});
     int time = filter_url_file_modification_time (path);
     int days = (filter_date_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
@@ -196,7 +196,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
       // Perhaps the server crashed so it never could process them.
       // Cases like this have been seen on servers with limited memory.
       // Therefore just remove this change, without processing it.
-      filter_url_unlink_cpp17 (path);
+      filter_url_unlink (path);
     } else {
       chapters.push_back (convert_to_int (bits [2]));
     }
@@ -265,7 +265,7 @@ void Database_Modifications::truncateTeams ()
 {
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto file : files) {
-    filter_url_unlink_cpp17 (filter_url_create_path_cpp17 ({teamFolder (), file}));
+    filter_url_unlink (filter_url_create_path ({teamFolder (), file}));
   }
 }
 
@@ -275,61 +275,61 @@ void Database_Modifications::truncateTeams ()
 
 string Database_Modifications::userMainFolder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "modifications", "users"});
+  return filter_url_create_root_path ({database_logic_databases (), "modifications", "users"});
 }
 
 
 string Database_Modifications::userUserFolder (const string& username)
 {
-  return filter_url_create_path_cpp17 ({userMainFolder (), username});
+  return filter_url_create_path ({userMainFolder (), username});
 }
 
 
 string Database_Modifications::userBibleFolder (const string& username, const string& bible)
 {
-  return filter_url_create_path_cpp17 ({userUserFolder (username), bible});
+  return filter_url_create_path ({userUserFolder (username), bible});
 }
 
 
 string Database_Modifications::userBookFolder (const string& username, const string& bible, int book)
 {
-  return filter_url_create_path_cpp17 ({userBibleFolder (username, bible), convert_to_string (book)});
+  return filter_url_create_path ({userBibleFolder (username, bible), convert_to_string (book)});
 }
 
 
 string Database_Modifications::userChapterFolder (const string& username, const string& bible, int book, int chapter)
 {
-  return filter_url_create_path_cpp17 ({userBookFolder (username, bible, book), convert_to_string (chapter)});
+  return filter_url_create_path ({userBookFolder (username, bible, book), convert_to_string (chapter)});
 }
 
 
 string Database_Modifications::userNewIDFolder (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path_cpp17 ({userChapterFolder (username, bible, book, chapter), convert_to_string (newID)});
+  return filter_url_create_path ({userChapterFolder (username, bible, book, chapter), convert_to_string (newID)});
 }
 
 
 string Database_Modifications::userTimeFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "time"});
+  return filter_url_create_path ({userNewIDFolder (username, bible, book, chapter, newID), "time"});
 }
 
 
 string Database_Modifications::userOldIDFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "oldid"});
+  return filter_url_create_path ({userNewIDFolder (username, bible, book, chapter, newID), "oldid"});
 }
 
 
 string Database_Modifications::userOldTextFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "oldtext"});
+  return filter_url_create_path ({userNewIDFolder (username, bible, book, chapter, newID), "oldtext"});
 }
 
 
 string Database_Modifications::userNewTextFile (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path_cpp17 ({userNewIDFolder (username, bible, book, chapter, newID), "newtext"});
+  return filter_url_create_path ({userNewIDFolder (username, bible, book, chapter, newID), "newtext"});
 }
 
 
@@ -337,7 +337,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
 {
   // This entry is saved in a deep folder structure with the new ID in it.
   string folder = userNewIDFolder (username, bible, book, chapter, newID);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
+  if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (timeFile, convert_to_string (filter_date_seconds_since_epoch ()));
@@ -353,7 +353,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
 void Database_Modifications::clearUserUser (const string& username)
 {
   string folder = userUserFolder (username);
-  filter_url_rmdir_cpp17 (folder);
+  filter_url_rmdir (folder);
 }
 
 
@@ -391,7 +391,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
   vector <string> files = filter_url_scandir (folder);
   vector <int> chapters;
   for (auto & file : files) {
-    string path = filter_url_create_path_cpp17 ({folder, file});
+    string path = filter_url_create_path ({folder, file});
     int time = filter_url_file_modification_time (path);
     int days = (filter_date_seconds_since_epoch () - time) / 86400;
     if (days > 5) {
@@ -399,7 +399,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
       // Perhaps the server crashed so it never could process them.
       // Cases like this have been seen on servers with limited memory.
       // Therefore just remove this change, without processing it.
-      filter_url_rmdir_cpp17 (path);
+      filter_url_rmdir (path);
     } else {
       chapters.push_back (convert_to_int (file));
     }
@@ -454,13 +454,13 @@ int Database_Modifications::getUserTimestamp (const string& username, const stri
 
 string Database_Modifications::notificationsMainFolder ()
 {
-  return filter_url_create_root_path_cpp17 ({database_logic_databases (), "modifications", "notifications"});
+  return filter_url_create_root_path ({database_logic_databases (), "modifications", "notifications"});
 }
 
 
 string Database_Modifications::notificationIdentifierDatabase (int identifier)
 {
-  return filter_url_create_path_cpp17 ({notificationsMainFolder (), convert_to_string (identifier)});
+  return filter_url_create_path ({notificationsMainFolder (), convert_to_string (identifier)});
 }
 
 
@@ -566,7 +566,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     // Fetch the data from the database and validate it.
 
     string path = notificationIdentifierDatabase (identifier);
-    bool valid = !filter_url_is_dir_cpp17 (path);
+    bool valid = !filter_url_is_dir (path);
 
     map <string, vector <string> > result;
     if (valid) {
@@ -857,7 +857,7 @@ Passage Database_Modifications::getNotificationPassage (int id)
 string Database_Modifications::getNotificationOldText (int id)
 {
   string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists_cpp17 (path)) return "";
+  if (!file_or_dir_exists (path)) return "";
   SqliteDatabase sql (path);
   sql.add ("SELECT oldtext FROM notification;");
   vector <string> result = sql.query () ["oldtext"];
@@ -869,7 +869,7 @@ string Database_Modifications::getNotificationOldText (int id)
 string Database_Modifications::getNotificationModification (int id)
 {
   string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists_cpp17 (path)) return "";
+  if (!file_or_dir_exists (path)) return "";
   SqliteDatabase sql (path);
   sql.add ("SELECT modification FROM notification;");
   vector <string> result = sql.query () ["modification"];
@@ -881,7 +881,7 @@ string Database_Modifications::getNotificationModification (int id)
 string Database_Modifications::getNotificationNewText (int id)
 {
   string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists_cpp17 (path)) return "";
+  if (!file_or_dir_exists (path)) return "";
   SqliteDatabase sql (path);
   sql.add ("SELECT newtext FROM notification;");
   vector <string> result = sql.query () ["newtext"];
@@ -1101,9 +1101,9 @@ void Database_Modifications::deleteNotificationFile (int identifier)
 {
   string path = notificationIdentifierDatabase (identifier);
   // Delete the old folder from the file system (used till Februari 2016).
-  if (filter_url_is_dir_cpp17 (path)) filter_url_rmdir_cpp17 (path);
+  if (filter_url_is_dir (path)) filter_url_rmdir (path);
   // Delete the new database file from the file system.
-  if (file_or_dir_exists_cpp17 (path)) filter_url_unlink_cpp17 (path);
+  if (file_or_dir_exists (path)) filter_url_unlink (path);
 }
 
 

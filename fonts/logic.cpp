@@ -25,7 +25,7 @@
 
 string Fonts_Logic::folder ()
 {
-  return filter_url_create_root_path_cpp17 ({"fonts"});
+  return filter_url_create_root_path ({"fonts"});
 }
 
 
@@ -34,7 +34,7 @@ vector <string> Fonts_Logic::getFonts ()
   vector <string> files = filter_url_scandir (folder());
   vector <string> fonts;
   for (auto & file : files) {
-    string suffix = filter_url_get_extension_cpp17 (file);
+    string suffix = filter_url_get_extension (file);
     if (suffix == "txt") continue;
     if (suffix == "html") continue;
     if (suffix == "h") continue;
@@ -48,8 +48,8 @@ vector <string> Fonts_Logic::getFonts ()
 
 bool Fonts_Logic::fontExists (string font)
 {
-  string path = filter_url_create_path_cpp17 ({folder (), font});
-  return file_or_dir_exists_cpp17 (path);
+  string path = filter_url_create_path ({folder (), font});
+  return file_or_dir_exists (path);
 }
 
 
@@ -60,11 +60,11 @@ string Fonts_Logic::getFontPath (string font)
   
   // Case when the font exists within Bibledit.
   if (fontExists (font)) {
-    return filter_url_create_path_cpp17 ({"fonts", font});
+    return filter_url_create_path ({"fonts", font});
   }
   
   // Case when the font is available from the browser independent of Bibledit.
-  if (filter_url_basename_cpp17 (font) == font) {
+  if (filter_url_basename (font) == font) {
     return font;
   }
   
@@ -75,8 +75,8 @@ string Fonts_Logic::getFontPath (string font)
 
 void Fonts_Logic::erase (string font)
 {
-  string path = filter_url_create_path_cpp17 ({folder (), font});
-  filter_url_unlink_cpp17 (path);
+  string path = filter_url_create_path ({folder (), font});
+  filter_url_unlink (path);
 }
 
 

@@ -31,7 +31,7 @@ void images_logic_import_images (string path)
 {
   Database_BibleImages database_bibleimages;
 
-  Database_Logs::log ("Importing: " + filter_url_basename_cpp17 (path));
+  Database_Logs::log ("Importing: " + filter_url_basename (path));
 
   // To begin with, add the path of the zip file to the main file to the list of paths to be processed.
   vector <string> paths = {path};
@@ -41,8 +41,8 @@ void images_logic_import_images (string path)
     // Take the first path and remove it from the container.
     path = paths[0];
     paths.erase (paths.begin());
-    string basename = filter_url_basename_cpp17 (path);
-    string extension = filter_url_get_extension_cpp17 (path);
+    string basename = filter_url_basename (path);
+    string extension = filter_url_get_extension (path);
     extension = unicode_string_casefold (extension);
 
     // Store images.

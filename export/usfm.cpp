@@ -42,16 +42,16 @@ void export_usfm (string bible, bool log)
   
   // Root USFM directory, plus info file.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 2);
-  if (!file_or_dir_exists_cpp17 (usfmDirectory)) filter_url_mkdir_cpp17 (usfmDirectory);
-  string infopath = filter_url_create_root_path_cpp17 ({"export", "usfm.html"});
+  if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
+  string infopath = filter_url_create_root_path ({"export", "usfm.html"});
   string infocontents = filter_url_file_get_contents (infopath);
-  infopath = filter_url_create_path_cpp17 ({usfmDirectory, "readme.html"});
+  infopath = filter_url_create_path ({usfmDirectory, "readme.html"});
   filter_url_file_put_contents (infopath, infocontents);
   
   
   // USFM directories
   string usfmDirectoryFull = Export_Logic::USFMdirectory (bible, 0);
-  if (!file_or_dir_exists_cpp17 (usfmDirectoryFull)) filter_url_mkdir_cpp17 (usfmDirectoryFull);
+  if (!file_or_dir_exists (usfmDirectoryFull)) filter_url_mkdir (usfmDirectoryFull);
   
   
   // Take the USFM from the Bible database.
@@ -84,7 +84,7 @@ void export_usfm (string bible, bool log)
     
     // Save the USFM of this book to a file with a localized name.
     string base_book_filename = Export_Logic::baseBookFileName (book);
-    string path = filter_url_create_path_cpp17 ({usfmDirectoryFull, base_book_filename + ".usfm"});
+    string path = filter_url_create_path ({usfmDirectoryFull, base_book_filename + ".usfm"});
     filter_url_file_put_contents (path, bookUsfmDataFull);
 
     
@@ -98,13 +98,13 @@ void export_usfm (string bible, bool log)
   
   // Base name of the zip file.
   string zipfile = Export_Logic::baseBookFileName (0) + ".zip";
-  string zippath = filter_url_create_path_cpp17 ({usfmDirectoryFull, zipfile});
+  string zippath = filter_url_create_path ({usfmDirectoryFull, zipfile});
   
   
   // Compress USFM files into one zip file.
-  filter_url_unlink_cpp17 (zippath);
+  filter_url_unlink (zippath);
   string archive = filter_archive_zip_folder (usfmDirectoryFull);
-  filter_url_rename_cpp17 (archive, zippath);
+  filter_url_rename (archive, zippath);
   
   
   if (Database_Config_Bible::getSecureUsfmExport (bible)) {
@@ -114,13 +114,13 @@ void export_usfm (string bible, bool log)
     // It uses the external zip binary.
     vector <string> files = filter_url_scandir (usfmDirectoryFull);
     for (auto file : files) {
-      if (file != zipfile) filter_url_unlink_cpp17 (filter_url_create_path_cpp17 ({usfmDirectoryFull, file}));
+      if (file != zipfile) filter_url_unlink (filter_url_create_path ({usfmDirectoryFull, file}));
     }
     string password = Database_Config_Bible::getExportPassword (bible);
     string output, error;
     filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", zipfile}, &output, &error);
-    filter_url_unlink_cpp17 (zippath);
-    filter_url_rename_cpp17 (filter_url_create_path_cpp17 ({usfmDirectoryFull, "bible.zip"}), zippath);
+    filter_url_unlink (zippath);
+    filter_url_rename (filter_url_create_path ({usfmDirectoryFull, "bible.zip"}), zippath);
   }
   
   

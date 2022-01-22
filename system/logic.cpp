@@ -47,7 +47,7 @@
 
 string system_logic_bibles_file_name ()
 {
-  return filter_url_create_path_cpp17 ({filter_url_temp_dir (), "bibles.tar"});
+  return filter_url_create_path ({filter_url_temp_dir (), "bibles.tar"});
 }
 
 
@@ -70,12 +70,12 @@ void system_logic_produce_bibles_file (int jobid)
 
   
   // The location of the tarball to generate.
-  string tarball = filter_url_create_root_path_cpp17 ({system_logic_bibles_file_name ()});
+  string tarball = filter_url_create_root_path ({system_logic_bibles_file_name ()});
   
   
   // The directory where the exported Bibles will be put.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir_cpp17 (directory);
+  filter_url_mkdir (directory);
 
   
   // The files in the tarball.
@@ -95,7 +95,7 @@ void system_logic_produce_bibles_file (int jobid)
         book_usfm.append ("\n");
       }
       string file = bible + "_" + convert_to_string (book) + ".usfm";
-      string path = filter_url_create_path_cpp17 ({directory, file});
+      string path = filter_url_create_path ({directory, file});
       filter_url_file_put_contents (path, book_usfm);
       files.push_back (file);
     }
@@ -136,7 +136,7 @@ void system_logic_import_bibles_file (string tarball)
   
   // Unpack the tarball into a directory.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir_cpp17 (directory);
+  filter_url_mkdir (directory);
   string error= filter_archive_microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Bibles failure: " + error);
@@ -149,7 +149,7 @@ void system_logic_import_bibles_file (string tarball)
     
     // Get the file's contents for import.
     Database_Logs::log ("Importing from file " + file);
-    string path = filter_url_create_path_cpp17 ({directory, file});
+    string path = filter_url_create_path ({directory, file});
     string data = filter_url_file_get_contents (path);
     
     // The name of the Bible this file is to be imported into.
@@ -177,8 +177,8 @@ void system_logic_import_bibles_file (string tarball)
   }
   
   // Clean up.
-  filter_url_rmdir_cpp17 (directory);
-  filter_url_unlink_cpp17 (tarball);
+  filter_url_rmdir (directory);
+  filter_url_unlink (tarball);
 
   // Since new Bibles may have been imported, index them all.
   Database_Config_General::setIndexBibles (true);
@@ -191,7 +191,7 @@ void system_logic_import_bibles_file (string tarball)
 
 string system_logic_notes_file_name ()
 {
-  return filter_url_create_path_cpp17 ({filter_url_temp_dir (), "notes.tar"});
+  return filter_url_create_path ({filter_url_temp_dir (), "notes.tar"});
 }
 
 
@@ -213,11 +213,11 @@ void system_logic_produce_notes_file (int jobid)
   
   
   // The location of the tarball to generate.
-  string tarball = filter_url_create_root_path_cpp17 ({system_logic_notes_file_name ()});
+  string tarball = filter_url_create_root_path ({system_logic_notes_file_name ()});
   
   
   // The database directory where the consultation notes reside.
-  string directory = filter_url_create_root_path_cpp17 ({"consultations"});
+  string directory = filter_url_create_root_path ({"consultations"});
 
   
   // The files to include in the tarball.
@@ -259,7 +259,7 @@ void system_logic_import_notes_file (string tarball)
   Database_Logs::log ("Importing Consultation Notes from " + tarball);
   
   // The database directory where the consultation notes reside.
-  string directory = filter_url_create_root_path_cpp17 ({"consultations"});
+  string directory = filter_url_create_root_path ({"consultations"});
   
   // Unpack the tarball into the directory.
   string error= filter_archive_microtar_unpack (tarball, directory);
@@ -269,7 +269,7 @@ void system_logic_import_notes_file (string tarball)
   }
   
   // Clean up.
-  filter_url_unlink_cpp17 (tarball);
+  filter_url_unlink (tarball);
 
   // Since notes may have been imported or updated, index them all.
   Database_Config_General::setIndexNotes (true);
@@ -283,7 +283,7 @@ void system_logic_import_notes_file (string tarball)
 string system_logic_resources_file_name (string resourcename)
 {
   if (!resourcename.empty ()) resourcename.append ("_");
-  return filter_url_create_path_cpp17 ({filter_url_temp_dir (), resourcename + "resources.tar"});
+  return filter_url_create_path ({filter_url_temp_dir (), resourcename + "resources.tar"});
 }
 
 
@@ -304,11 +304,11 @@ void system_logic_produce_resources_file (int jobid)
   }
   
   // The location of the single tarball to generate.
-  string tarball = filter_url_create_root_path_cpp17 ({system_logic_resources_file_name ()});
+  string tarball = filter_url_create_root_path ({system_logic_resources_file_name ()});
   
   
   // The database directory where the cached resources reside.
-  string directory = filter_url_create_root_path_cpp17 ({database_logic_databases ()});
+  string directory = filter_url_create_root_path ({database_logic_databases ()});
   
   
   // The filenames of the cached resources.
@@ -365,7 +365,7 @@ void system_logic_produce_resources_file (int jobid)
     vector <string> resources = element.second;
     database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
     database_jobs.set_progress (jobid, resource_name);
-    string tarball = filter_url_create_root_path_cpp17 ({system_logic_resources_file_name (resource_name)});
+    string tarball = filter_url_create_root_path ({system_logic_resources_file_name (resource_name)});
     string error = filter_archive_microtar_pack (tarball, directory, resources);
   }
   
@@ -420,7 +420,7 @@ void system_logic_import_resources_file (string tarball)
   
   // Unpack the tarball into a directory.
   string directory = filter_url_tempfile ();
-  filter_url_mkdir_cpp17 (directory);
+  filter_url_mkdir (directory);
   string error= filter_archive_microtar_unpack (tarball, directory);
   if (!error.empty ()) {
     Database_Logs::log ("Importing Resources failure: " + error);
@@ -433,17 +433,17 @@ void system_logic_import_resources_file (string tarball)
 
     // Get the file's contents for import.
     Database_Logs::log ("Importing " + file);
-    string path = filter_url_create_path_cpp17 ({directory, file});
+    string path = filter_url_create_path ({directory, file});
     string data = filter_url_file_get_contents (path);
 
     // Store the resource into place.
-    path = filter_url_create_root_path_cpp17 ({database_logic_databases (), file});
+    path = filter_url_create_root_path ({database_logic_databases (), file});
     filter_url_file_put_contents (path, data);
   }
 
   // Clean up.
-  filter_url_rmdir_cpp17 (directory);
-  filter_url_unlink_cpp17 (tarball);
+  filter_url_rmdir (directory);
+  filter_url_unlink (tarball);
 
   // Ready, hallelujah!
   Database_Logs::log ("Importing Resources ready");

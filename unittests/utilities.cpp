@@ -36,11 +36,11 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed)
   // Display any old journal entries.
   if (displayjournal) {
     bool output = false;
-    string directory = filter_url_create_path_cpp17 ({testing_directory, "logbook"});
+    string directory = filter_url_create_path ({testing_directory, "logbook"});
     vector <string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size (); i++) {
       if (files [i] == "gitflag") continue;
-      string contents = filter_url_file_get_contents (filter_url_create_path_cpp17 ({directory, files [i]}));
+      string contents = filter_url_file_get_contents (filter_url_create_path ({directory, files [i]}));
       bool display = true;
       for (auto & allow : allowed) {
         if (contents.find (allow) != string::npos) display = false;
@@ -269,7 +269,7 @@ void trace_unit_tests (string func)
 // https://github.com/mwoehlke/odf2txt
 int odf2txt (string odf, string txt)
 {
-  string script_path = filter_url_create_root_path_cpp17 ({"unittests", "tests", "odf2txt", "odf2txt.py"});
+  string script_path = filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"});
   string command = "python2 " + script_path + " " + odf + " > " + txt + " 2>&1";
   int ret = system (command.c_str());
   return ret;

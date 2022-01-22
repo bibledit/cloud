@@ -37,14 +37,14 @@ void bible_import_run (string location, string bible, int book, int chapter)
   string folder = filter_archive_uncompress (location);
   if (!folder.empty ()) location = folder;
   vector <string> files;
-  if (filter_url_is_dir_cpp17 (location)) {
+  if (filter_url_is_dir (location)) {
     filter_url_recursive_scandir (location, files);
   } else {
     files.push_back (location);
   }
   
   for (auto & file : files) {
-    if (filter_url_is_dir_cpp17 (file)) continue;
+    if (filter_url_is_dir (file)) continue;
     Database_Logs::log ("Examining file for import: " + file);
     string success_message = "";
     string error_message = "";

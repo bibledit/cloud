@@ -40,7 +40,7 @@ void export_index ()
   vector <string> files = filter_url_scandir (directory);
   for (auto & file : files) {
     if (in_array (file, bibles)) continue;
-    filter_url_rmdir_cpp17 (filter_url_create_path_cpp17 ({directory, file}));
+    filter_url_rmdir (filter_url_create_path ({directory, file}));
     Database_Logs::log ("Removing exported Bible " + file, Filter_Roles::translator ());
   }
   

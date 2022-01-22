@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Folder where the tasks are stored.
 string tasks_logic_folder ()
 {
-  return filter_url_create_root_path_cpp17 ({"processes"});
+  return filter_url_create_root_path ({"processes"});
 }
 
 
@@ -42,7 +42,7 @@ void tasks_logic_queue (string command, vector <string> parameters)
   // The filename to write to contains seconds and microseconds.
   string seconds = convert_to_string (filter_date_seconds_since_epoch ());
   string time = seconds + filter_string_fill (convert_to_string (filter_date_numerical_microseconds ()), 8, '0');
-  string file = filter_url_create_path_cpp17 ({tasks_logic_folder (), time});
+  string file = filter_url_create_path ({tasks_logic_folder (), time});
   // On Windows the microtime is not fine enough.
   // This leads to one task overwriting a previous one in case it is queued immediately after.
   // Deal with that problem here: Ensure the filename is unique.
@@ -66,7 +66,7 @@ bool tasks_logic_queued (string command, vector <string> parameters)
   vector <string> files = filter_url_scandir (tasks_logic_folder ());
   for (auto & file : files) {
     // Read the task's contents.
-    string contents = filter_url_file_get_contents (filter_url_create_path_cpp17 ({tasks_logic_folder (), file}));
+    string contents = filter_url_file_get_contents (filter_url_create_path ({tasks_logic_folder (), file}));
     vector <string> lines = filter_string_explode (contents, '\n');
     if (lines.empty ()) return false;
     // Look for a match.

@@ -43,7 +43,7 @@ void test_styles ()
     Styles_Css styles_css = Styles_Css (&request, "phpunit");
     styles_css.generate ();
     string css = styles_css.css ();
-    string standard = filter_url_file_get_contents (filter_url_create_path_cpp17 ({"unittests", "tests", "basic.css"}));
+    string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
     evaluate (__LINE__, __func__, standard, css);
   }
   
@@ -56,7 +56,7 @@ void test_styles ()
     styles_css.exports ();
     styles_css.generate ();
     string css = styles_css.css ();
-    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path_cpp17 ({"unittests", "tests", "exports.css"})));
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
     evaluate (__LINE__, __func__, standard, css);
   }
   
@@ -69,7 +69,7 @@ void test_styles ()
     styles_css.editor ();
     styles_css.generate ();
     string css = styles_css.css ();
-    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path_cpp17 ({"unittests", "tests", "editor.css"})));
+    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
     //filter_url_file_put_contents ("editor.css", css);
     evaluate (__LINE__, __func__, standard, css);
   }

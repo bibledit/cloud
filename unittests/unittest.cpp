@@ -125,7 +125,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
   // Directory where the unit tests will run.
   testing_directory = "/tmp/bibledit-unittests";  
-  filter_url_mkdir_cpp17 (testing_directory);
+  filter_url_mkdir (testing_directory);
   refresh_sandbox (true);
   config_globals_document_root = testing_directory;
 

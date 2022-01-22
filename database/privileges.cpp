@@ -66,7 +66,7 @@ void Database_Privileges::optimize ()
 {
   // Recreate damaged database.
   if (!healthy ()) {
-    filter_url_unlink_cpp17 (database_sqlite_file (database ()));
+    filter_url_unlink (database_sqlite_file (database ()));
     create ();
   }
   // Vacuum it.
@@ -429,7 +429,7 @@ const char * Database_Privileges::off ()
 
 string database_privileges_directory (const string & user)
 {
-  return filter_url_create_path_cpp17 ({database_logic_databases (), "clients", user});
+  return filter_url_create_path ({database_logic_databases (), "clients", user});
 }
 
 
@@ -441,7 +441,7 @@ string database_privileges_file ()
 
 string database_privileges_client_path (const string & user)
 {
-  return filter_url_create_root_path_cpp17 ({database_privileges_directory (user), database_privileges_file ()});
+  return filter_url_create_root_path ({database_privileges_directory (user), database_privileges_file ()});
 }
 
 
@@ -452,12 +452,12 @@ void database_privileges_client_create (const string & user, bool force)
   
   // Without $force, if the file exists, we're done.
   if (!force) {
-    if (file_or_dir_exists_cpp17 (path)) return;
+    if (file_or_dir_exists (path)) return;
   }
   
   // If needed, create the folder.
-  string folder = filter_url_dirname_cpp17 (path);
-  if (!file_or_dir_exists_cpp17 (folder)) filter_url_mkdir_cpp17 (folder);
+  string folder = filter_url_dirname (path);
+  if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   
   // The bits of privileges in human-readable form.
   string privileges = Database_Privileges::save (user);
@@ -470,6 +470,6 @@ void database_privileges_client_create (const string & user, bool force)
 void database_privileges_client_remove (const string & user)
 {
   string path = database_privileges_client_path (user);
-  path = filter_url_dirname_cpp17 (path);
-  filter_url_rmdir_cpp17 (path);
+  path = filter_url_dirname (path);
+  filter_url_rmdir (path);
 }

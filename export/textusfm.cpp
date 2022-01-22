@@ -40,14 +40,14 @@ void export_text_usfm_book (string bible, int book, bool log)
 {
   // Create folders for the clear text and the basic USFM exports.
   string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);
-  if (!file_or_dir_exists_cpp17 (usfmDirectory)) filter_url_mkdir_cpp17 (usfmDirectory);
-  string textDirectory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "text"});
-  if (!file_or_dir_exists_cpp17 (textDirectory)) filter_url_mkdir_cpp17 (textDirectory);
+  if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
+  string textDirectory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "text"});
+  if (!file_or_dir_exists (textDirectory)) filter_url_mkdir (textDirectory);
   
   
   // Filenames for text and usfm.
-  string usfmFilename = filter_url_create_path_cpp17 ({usfmDirectory, Export_Logic::baseBookFileName (book) + ".usfm"});
-  string textFilename = filter_url_create_path_cpp17 ({textDirectory, Export_Logic::baseBookFileName (book) + ".txt"});
+  string usfmFilename = filter_url_create_path ({usfmDirectory, Export_Logic::baseBookFileName (book) + ".usfm"});
+  string textFilename = filter_url_create_path ({textDirectory, Export_Logic::baseBookFileName (book) + ".txt"});
   
   
   Database_Bibles database_bibles;
@@ -61,7 +61,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   
   
   // Basic USFM.
-  if (file_or_dir_exists_cpp17 (usfmFilename)) filter_url_unlink_cpp17 (usfmFilename);
+  if (file_or_dir_exists (usfmFilename)) filter_url_unlink (usfmFilename);
   string basicUsfm = "\\id " + Database_Books::getUsfmFromId (book) + "\n";
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   

@@ -40,16 +40,16 @@
 void export_odt_book (string bible, int book, bool log)
 {
   // Create folders for the OpenDocument export.
-  string directory = filter_url_create_path_cpp17 ({Export_Logic::bibleDirectory (bible), "opendocument"});
-  if (!file_or_dir_exists_cpp17 (directory)) filter_url_mkdir_cpp17 (directory);
+  string directory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "opendocument"});
+  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.
   string basename = Export_Logic::baseBookFileName (book);
-  string standardFilename = filter_url_create_path_cpp17 ({directory, basename + "_standard.odt"});
-  string textOnlyFilename = filter_url_create_path_cpp17 ({directory, basename + "_text_only.odt"});
-  string textAndCitationsFilename = filter_url_create_path_cpp17 ({directory, basename + "_text_and_note_citations.odt"});
-  string notesFilename = filter_url_create_path_cpp17 ({directory, basename + "_notes.odt"});
+  string standardFilename = filter_url_create_path ({directory, basename + "_standard.odt"});
+  string textOnlyFilename = filter_url_create_path ({directory, basename + "_text_only.odt"});
+  string textAndCitationsFilename = filter_url_create_path ({directory, basename + "_text_and_note_citations.odt"});
+  string notesFilename = filter_url_create_path ({directory, basename + "_notes.odt"});
 
   
   Database_Bibles database_bibles;
@@ -105,7 +105,7 @@ void export_odt_book (string bible, int book, bool log)
   filter_text.odf_text_notes->save (notesFilename);
   for (auto src : filter_text.image_sources) {
     string contents = database_bibleimages.get(src);
-    string path = filter_url_create_path_cpp17 ({directory, src});
+    string path = filter_url_create_path ({directory, src});
     filter_url_file_put_contents(path, contents);
   }
 
@@ -114,29 +114,29 @@ void export_odt_book (string bible, int book, bool log)
   // It uses the external zip binary.
   bool secure = Database_Config_Bible::getSecureOdtExport (bible);
   string password = Database_Config_Bible::getExportPassword (bible);
-  string basefile = filter_url_basename_cpp17 (standardFilename);
-  filter_url_unlink_cpp17 (standardFilename + ".zip");
+  string basefile = filter_url_basename (standardFilename);
+  filter_url_unlink (standardFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink_cpp17 (standardFilename);
+    filter_url_unlink (standardFilename);
   }
-  basefile = filter_url_basename_cpp17 (textOnlyFilename);
-  filter_url_unlink_cpp17 (textOnlyFilename + ".zip");
+  basefile = filter_url_basename (textOnlyFilename);
+  filter_url_unlink (textOnlyFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink_cpp17 (textOnlyFilename);
+    filter_url_unlink (textOnlyFilename);
   }
-  basefile = filter_url_basename_cpp17 (textAndCitationsFilename);
-  filter_url_unlink_cpp17 (textAndCitationsFilename + ".zip");
+  basefile = filter_url_basename (textAndCitationsFilename);
+  filter_url_unlink (textAndCitationsFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink_cpp17 (textAndCitationsFilename);
+    filter_url_unlink (textAndCitationsFilename);
   }
-  basefile = filter_url_basename_cpp17 (notesFilename);
-  filter_url_unlink_cpp17 (notesFilename + ".zip");
+  basefile = filter_url_basename (notesFilename);
+  filter_url_unlink (notesFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
-    filter_url_unlink_cpp17 (notesFilename);
+    filter_url_unlink (notesFilename);
   }
   
   

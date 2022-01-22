@@ -566,7 +566,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     // Fetch the data from the database and validate it.
 
     string path = notificationIdentifierDatabase (identifier);
-    bool valid = !filter_url_is_dir (path);
+    bool valid = !filter_url_is_dir_cpp17 (path);
 
     map <string, vector <string> > result;
     if (valid) {
@@ -1101,7 +1101,7 @@ void Database_Modifications::deleteNotificationFile (int identifier)
 {
   string path = notificationIdentifierDatabase (identifier);
   // Delete the old folder from the file system (used till Februari 2016).
-  if (filter_url_is_dir (path)) filter_url_rmdir_cpp17 (path);
+  if (filter_url_is_dir_cpp17 (path)) filter_url_rmdir_cpp17 (path);
   // Delete the new database file from the file system.
   if (file_or_dir_exists_cpp17 (path)) filter_url_unlink_cpp17 (path);
 }

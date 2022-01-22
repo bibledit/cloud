@@ -69,7 +69,7 @@ string index_listing (void * webserver_request, string url)
     view.set_variable ("parent", parent);
   }
   string directory = filter_url_create_root_path_cpp17 ({url});
-  if (!file_or_dir_exists_cpp17 (directory) || filter_url_is_dir (directory)) {
+  if (!file_or_dir_exists_cpp17 (directory) || filter_url_is_dir_cpp17 (directory)) {
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
       string path = filter_url_create_path_cpp17 ({directory, file});
@@ -81,7 +81,7 @@ string index_listing (void * webserver_request, string url)
       line.append ("</a>");
       line.append ("</td>");
       line.append ("<td>");
-      if (!filter_url_is_dir (path)) {
+      if (!filter_url_is_dir_cpp17 (path)) {
         line.append (convert_to_string (filter_url_filesize (path)));
       }
       line.append ("</td>");

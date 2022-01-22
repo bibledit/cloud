@@ -81,7 +81,7 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
   vector <string> folders = filter_url_scandir (projects_folder);
   for (auto folder : folders) {
     string path = filter_url_create_path_cpp17 ({projects_folder, folder});
-    if (filter_url_is_dir (path)) {
+    if (filter_url_is_dir_cpp17 (path)) {
       map <int, string> books = searchBooks (path);
       if (!books.empty ()) projects.push_back (folder);
     }

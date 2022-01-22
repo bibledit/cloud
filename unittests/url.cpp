@@ -90,11 +90,11 @@ void test_url ()
     
     path = filter_url_create_path_cpp17 ({testing_directory, "a"});
     evaluate (__LINE__, __func__, true, file_or_dir_exists_cpp17 (path));
-    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    evaluate (__LINE__, __func__, true, filter_url_is_dir_cpp17 (path));
     
     filter_url_rmdir_cpp17 (path);
     evaluate (__LINE__, __func__, false, file_or_dir_exists_cpp17 (path));
-    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
+    evaluate (__LINE__, __func__, false, filter_url_is_dir_cpp17 (path));
   }
   
   // Test filter_url_escape_shell_argument.
@@ -267,9 +267,9 @@ void test_url ()
   // Testing is_dir.
   {
     string path = filter_url_create_root_path_cpp17 ({"git"});
-    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    evaluate (__LINE__, __func__, true, filter_url_is_dir_cpp17 (path));
     path = filter_url_create_root_path_cpp17 ({"setup", "index.html"});
-    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
+    evaluate (__LINE__, __func__, false, filter_url_is_dir_cpp17 (path));
   }
   
   // Testing checking for and setting write permissions.

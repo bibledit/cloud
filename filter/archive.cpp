@@ -79,7 +79,7 @@ string filter_archive_zip_folder_miniz_internal (string folder)
   vector <string> paths;
   filter_url_recursive_scandir (folder, paths);
   for (auto path : paths) {
-    bool is_dir = filter_url_is_dir (path);
+    bool is_dir = filter_url_is_dir_cpp17 (path);
     string file = path.substr (folder.size () + 1);
 #ifdef HAVE_WINDOWS
     // The file names in Windows will be backslashes (\) at this point.
@@ -372,7 +372,7 @@ string filter_archive_microtar_pack (string tarpath, string directory, vector <s
     // Full path.
     string path = filter_url_create_path_cpp17 ({directory, file});
     // Skip directories.
-    if (filter_url_is_dir (path)) continue;
+    if (filter_url_is_dir_cpp17 (path)) continue;
     // Read the file's data.
     string data = filter_url_file_get_contents (path);
     // Write the file's name to the tarball.

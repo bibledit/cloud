@@ -338,7 +338,7 @@ void demo_prepare_sample_bible ()
   files.clear ();
   filter_url_recursive_scandir (directory, files);
   for (auto file : files) {
-    if (!filter_url_is_dir (file)) {
+    if (!filter_url_is_dir_cpp17 (file)) {
       string data = filter_url_file_get_contents (file);
       Database_Sample::store (file, data);
     }

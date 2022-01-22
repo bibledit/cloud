@@ -168,7 +168,7 @@ void setup_copy_library (const char * package)
   for (auto package_path : package_paths) {
     string dest_path = config_globals_document_root + package_path.substr (package_length);
     config_globals_setup_message = dest_path;
-    if (filter_url_is_dir (package_path)) {
+    if (filter_url_is_dir_cpp17 (package_path)) {
       filter_url_mkdir_cpp17 (dest_path);
     } else {
       filter_url_file_cp (package_path, dest_path);

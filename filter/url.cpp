@@ -344,18 +344,14 @@ void filter_url_rmdir_cpp17 (string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path)
+bool filter_url_is_dir_cpp17 (string path)
 {
-#ifdef HAVE_WINDOWS
-  // Function '_wstat', on Windows, works with wide characters.
-  wstring wpath = string2wstring (path);
-  struct _stat sb;
-  _wstat (wpath.c_str (), &sb);
-#else
-  struct stat sb;
-  stat (path.c_str (), &sb);
-#endif
-  return (sb.st_mode & S_IFMT) == S_IFDIR;
+  bool is_dir = false;
+  try {
+    filesystem::path p (path);
+    is_dir = filesystem::is_directory(p);
+  } catch (...) { }
+  return is_dir;
 }
 
 
@@ -476,7 +472,7 @@ void filter_url_dir_cp (const string & input, const string & output)
   for (auto & file : files) {
     string input_path = filter_url_create_path_cpp17 ({input, file});
     string output_path = filter_url_create_path_cpp17 ({output, file});
-    if (filter_url_is_dir (input_path)) {
+    if (filter_url_is_dir_cpp17 (input_path)) {
       // Create output directory.
       filter_url_mkdir_cpp17 (output_path);
       // Handle the new input directory.
@@ -520,7 +516,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
   for (auto & file : files) {
     string path = filter_url_create_path_cpp17 ({folder, file});
     paths.push_back (path);
-    if (filter_url_is_dir (path)) {
+    if (filter_url_is_dir_cpp17 (path)) {
       filter_url_recursive_scandir (path, paths);
     }
   }

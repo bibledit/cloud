@@ -163,7 +163,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   vector <string> bookfiles = filter_url_scandir (repository);
   for (auto & bookname : bookfiles) {
     string path = filter_url_create_path_cpp17 ({repository, bookname});
-    if (filter_url_is_dir (path)) {
+    if (filter_url_is_dir_cpp17 (path)) {
       int book = Database_Books::getIdFromEnglish (bookname);
       if (book) {
         if (in_array (book, books)) {
@@ -172,7 +172,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
           vector <string> chapterfiles = filter_url_scandir (filter_url_create_path_cpp17 ({repository, bookname}));
           for (auto & chaptername : chapterfiles) {
             string path = filter_url_create_path_cpp17 ({repository, bookname, chaptername});
-            if (filter_url_is_dir (path)) {
+            if (filter_url_is_dir_cpp17 (path)) {
               if (filter_string_is_numeric (chaptername)) {
                 int chapter = convert_to_int (chaptername);
                 string filename = filter_url_create_path_cpp17 ({repository, bookname, chaptername, "data"});
@@ -233,7 +233,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
   vector <string> bookfiles = filter_url_scandir (repository);
   for (auto & bookname : bookfiles) {
     string bookpath = filter_url_create_path_cpp17 ({repository, bookname});
-    if (filter_url_is_dir (bookpath)) {
+    if (filter_url_is_dir_cpp17 (bookpath)) {
       int book = Database_Books::getIdFromEnglish (bookname);
       if (book) {
         // Check the chapters.
@@ -241,7 +241,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
         vector <string> chapterfiles = filter_url_scandir (bookpath);
         for (auto & chapterfile : chapterfiles) {
           string chapterpath = filter_url_create_path_cpp17 ({bookpath, chapterfile});
-          if (filter_url_is_dir (chapterpath)) {
+          if (filter_url_is_dir_cpp17 (chapterpath)) {
             if (filter_string_is_numeric (chapterfile)) {
               int chapter = convert_to_int (chapterfile);
               string filename = filter_url_create_path_cpp17 ({chapterpath, "data"});

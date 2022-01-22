@@ -179,19 +179,39 @@ void demo_clean_data ()
   
   
   // Create / update sample Bible.
-  demo_create_sample_bible ();
+  if (config_logic_default_bibledit_configuration ()) {
+    demo_create_sample_bible ();
+  }
+
+
+  // Indonesian Cloud Free
+  // Prepare the TSI Bible.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    demo_prepare_sample_bible ();
+  }
   
   
   // Create sample notes.
   demo_create_sample_notes (&request);
   
   
-  // Create samples for the workspaces.
-  demo_create_sample_workspaces (&request);
+  // Create samples for the workspaces, only for default configuration.
+  if (config_logic_default_bibledit_configuration ()) {
+    demo_create_sample_workspaces (&request);
+  }
   
   
   // Set navigator to John 3:16.
-  Ipc_Focus::set (&request, 43, 3, 16);
+  if (config_logic_default_bibledit_configuration ()) {
+    Ipc_Focus::set (&request, 43, 3, 16);
+  }
+
+
+  // Indonesian Cloud Free
+  // Set navigator to John 1:1.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    Ipc_Focus::set (&request, 43, 1, 1);
+  }
   
   
   // Set and/or trim resources to display.
@@ -217,6 +237,9 @@ void demo_clean_data ()
 // The name of the sample Bible.
 string demo_sample_bible_name ()
 {
+  // Indonesian Cloud Free
+  // The name of the sample Bible is Alkitab Kita (Our Bible).
+  if (config_logic_indonesian_cloud_free_simple ()) return "Alkitab Kita";
   return "Sample";
 }
 
@@ -253,7 +276,11 @@ void demo_create_sample_bible ()
     // * and the file needs an update.
     size_t pos = file.find(demo_sample_bible_name());
     if (pos == string::npos) {
-      file = filter_string_str_replace("Sample", demo_sample_bible_name(), file);
+      string filename = "Sample";
+      // Indonesian Cloud Free
+      // The name of the Sample Bible is Alkitab Kita (Our Bible).
+      if (config_logic_indonesian_cloud_free_simple ()) filename = "Alkitab Kita";
+      file = filter_string_str_replace(filename, demo_sample_bible_name(), file);
     }
     // Proceed with the path.
     file = filter_url_create_root_path_cpp17 ({file});
@@ -281,6 +308,7 @@ void demo_prepare_sample_bible ()
   database_bibles.createBible (demo_sample_bible_name ());
   // Location of the source USFM files for the sample Bible.
   string directory = filter_url_create_root_path_cpp17 ({"demo"});
+  if (config_logic_indonesian_cloud_free_simple ()) directory = filter_url_create_root_path_cpp17 ({"demo", "tsi"});
   vector <string> files = filter_url_scandir (directory);
   for (auto file : files) {
     // Process only USFM files, skipping others.

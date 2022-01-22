@@ -25,13 +25,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Database resilience: It is only read from.
 
+// Indonesian Cloud Free
+// Has its own sqlite filename, alkitabkita (ourbible).
+
 
 void Database_Sample::create ()
 {
   string path = database_sqlite_file (name ());
   filter_url_unlink_cpp17 (path);
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("CREATE TABLE IF NOT EXISTS sample (file text, data text);");
+  if (config_logic_default_bibledit_configuration ()) {
+    sql.add ("CREATE TABLE IF NOT EXISTS sample (file text, data text);");
+  }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    sql.add ("CREATE TABLE IF NOT EXISTS alkitabkita (file text, data text);");
+  }
   sql.execute ();
 }
 
@@ -40,7 +48,12 @@ void Database_Sample::create ()
 void Database_Sample::store (string file, string data)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("INSERT INTO sample VALUES (");
+  if (config_logic_default_bibledit_configuration ()) {
+    sql.add ("INSERT INTO sample VALUES (");
+  }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    sql.add ("INSERT INTO alkitabkita VALUES (");
+  }
   sql.add (file);
   sql.add (",");
   sql.add (data);
@@ -53,7 +66,12 @@ void Database_Sample::store (string file, string data)
 vector <int> Database_Sample::get ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("SELECT rowid FROM sample;");
+  if (config_logic_default_bibledit_configuration ()) {
+    sql.add ("SELECT rowid FROM sample;");
+  }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    sql.add ("SELECT rowid FROM alkitabkita;");
+  }
   vector <string> rowids = sql.query () ["rowid"];
   vector <int> ids;
   for (auto rowid : rowids) ids.push_back (convert_to_int (rowid));
@@ -65,7 +83,12 @@ vector <int> Database_Sample::get ()
 void Database_Sample::get (int rowid, string & file, string & data)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
-  sql.add ("SELECT file, data FROM sample WHERE rowid =");
+  if (config_logic_default_bibledit_configuration ()) {
+    sql.add ("SELECT file, data FROM sample WHERE rowid =");
+  }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    sql.add ("SELECT file, data FROM alkitabkita WHERE rowid =");
+  }
   sql.add (rowid);
   sql.add (";");
   map <string, vector <string> > sample = sql.query ();
@@ -80,5 +103,6 @@ void Database_Sample::get (int rowid, string & file, string & data)
 
 const char * Database_Sample::name ()
 {
+  if (config_logic_indonesian_cloud_free_simple ()) return "alkitabkita";
   return "sample";
 }

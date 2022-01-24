@@ -180,7 +180,6 @@ void changes_modifications ()
           
           // Get the sets of identifiers for that chapter, and set some variables.
           vector <Database_Modifications_Id> IdSets = database_modifications.getUserIdentifiers (user, bible, book, chapter);
-          //int referenceOldId = 0;
           int referenceNewId = 0;
           int newId = 0;
           int lastNewId = 0;
@@ -194,7 +193,6 @@ void changes_modifications ()
             
             if (restart) {
               changes_process_identifiers (&request, user, recipients, bible, book, chapter, referenceNewId, newId, email, change_count, modification_time_total, modification_time_count);
-              //referenceOldId = oldId;
               referenceNewId = newId;
               lastNewId = newId;
               restart = false;
@@ -359,6 +357,8 @@ void changes_modifications ()
       // Split large emails up into parts.
       // The size of the parts has been found by checking the maximum size that the emailer will send,
       // then each part should remain well below that maximum size.
+      // The size was reduced even more later on:
+      // https://github.com/bibledit/cloud/issues/727
       vector <string> bodies;
       int counter = 0;
       string body;
@@ -367,7 +367,7 @@ void changes_modifications ()
         body.append (line);
         body.append ("</div>\n");
         counter++;
-        if (counter >= 200) {
+        if (counter >= 150) {
           bodies.push_back (body);
           body.clear ();
           counter = 0;

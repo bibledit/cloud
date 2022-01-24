@@ -70,9 +70,9 @@ void email_send ()
 
     // In the Cloud, if this username was not found, it could be that the email was addressed to a non-user,
     // and that the To: address was actually contained in the username.
-    if (email == "") {
+    if (email.empty()) {
       email = username;
-      username = "";
+      username.clear();
     }
     
     // In the Cloud, if the email address validates, ok, else remove this mail from the queue and log the action.

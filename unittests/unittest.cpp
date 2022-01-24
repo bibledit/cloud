@@ -145,6 +145,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_dev ();
   test_url ();
   test_git ();
+  test_archive ();
   refresh_sandbox (false);
   exit (0);
   

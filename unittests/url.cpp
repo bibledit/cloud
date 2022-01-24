@@ -20,6 +20,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/url.h>
 #include <unittests/utilities.h>
 #include <filter/url.h>
+#include <filter/date.h>
+#include <chrono>
+#include <filesystem>
+using namespace std::chrono_literals;
 
 
 void test_url ()
@@ -314,6 +318,30 @@ void test_url ()
     evaluate (__LINE__, __func__, "txt", filter_url_get_extension ("foo/bar.txt"));
     evaluate (__LINE__, __func__, "", filter_url_get_extension (".hidden"));
     evaluate (__LINE__, __func__, "", filter_url_get_extension (""));
+  }
+  
+  // Reading the directory content.
+  {
+    string directory = filter_url_create_root_path ({filter_url_temp_dir (), "dirtest"});
+    filter_url_mkdir(directory);
+    string file1 = filter_url_create_path ({directory, "1"});
+    string file2 = filter_url_create_path ({directory, "2"});
+    filter_url_file_put_contents (file1, "1");
+    filter_url_file_put_contents (file2, "2");
+    vector <string> files = filter_url_scandir (directory);
+    evaluate (__LINE__, __func__, {"1", "2"}, files);
+  }
+  
+  // Testing the file modification time.
+  {
+    string directory = filter_url_create_root_path ({filter_url_temp_dir (), "timetest"});
+    filter_url_mkdir(directory);
+    string file = filter_url_create_path ({directory, "file.txt"});
+    filter_url_file_put_contents (file, "file.txt");
+    int mod_time = filter_url_file_modification_time (file);
+    int ref_time = filter_date_seconds_since_epoch ();
+    bool check = (mod_time < ref_time - 1) || (mod_time > ref_time + 1);
+    if (check) evaluate (__LINE__, __func__, ref_time, mod_time);
   }
   
   refresh_sandbox (true);

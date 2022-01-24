@@ -48,63 +48,6 @@ mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
 mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
-vector <string> filter_url_scandir_internal (string folder)
-{
-  vector <string> files;
-  
-#ifdef HAVE_WINDOWS
-  
-  if (!folder.empty()) {
-    if (folder[folder.size() - 1] == '\\') {
-      folder = folder.substr(0, folder.size() - 1);
-    }
-    folder.append("\\*");
-    wstring wfolder = string2wstring(folder);
-    WIN32_FIND_DATA fdata;
-    HANDLE hFind = FindFirstFileW(wfolder.c_str(), &fdata);
-    if (hFind != INVALID_HANDLE_VALUE) {
-      do {
-        wstring wfilename(fdata.cFileName);
-        string name = wstring2string (wfilename);
-        if (name.substr(0, 1) != ".") {
-          files.push_back(name);
-        }
-      } while (FindNextFileW(hFind, &fdata) != 0);
-    }
-    FindClose(hFind);
-  }
-  
-#else
-  
-  DIR * dir = opendir (folder.c_str());
-  if (dir) {
-    struct dirent * direntry;
-    while ((direntry = readdir (dir)) != NULL) {
-      string name = direntry->d_name;
-      // Exclude short-hand directory names.
-      if (name == ".") continue;
-      if (name == "..") continue;
-      // Exclude developer temporal files.
-      if (name == ".deps") continue;
-      if (name == ".dirstamp") continue;
-      // Exclude macOS files.
-      if (name == ".DS_Store") continue;
-      // Store the name.
-      files.push_back (name);
-    }
-    closedir (dir);
-  }
-  sort (files.begin(), files.end());
-  
-#endif
-  
-  // Remove . and ..
-  files = filter_string_array_diff (files, {".", ".."});
-  
-  return files;
-}
-
-
 // Gets the base URL of current Bibledit installation.
 string get_base_url (void * webserver_request)
 {
@@ -367,14 +310,14 @@ bool filter_url_get_write_permission (string path)
 }
 
 
-void filter_url_set_write_permission (string path) // Todo
+void filter_url_set_write_permission (string path)
 {
   filesystem::path p (path);
   filesystem::permissions(p, filesystem::perms::owner_all | filesystem::perms::group_all | filesystem::perms::others_all);
 }
 
 
-// C++ rough equivalent for PHP's file_get_contents.
+// Get and returns the contents of $filename.
 string filter_url_file_get_contents(string filename)
 {
   if (!file_or_dir_exists (filename)) return string();
@@ -398,7 +341,7 @@ string filter_url_file_get_contents(string filename)
 }
 
 
-// C++ rough equivalent for PHP's file_put_contents.
+// Puts the $contents into $filename.
 void filter_url_file_put_contents (string filename, string contents)
 {
   try {
@@ -481,26 +424,44 @@ void filter_url_dir_cp (const string & input, const string & output)
 }
 
 
-// A C++ equivalent for PHP's filesize function.
+// Returns the size of the file at $filename.
 int filter_url_filesize (string filename)
 {
-#ifdef HAVE_WINDOWS
-  wstring wfilename = string2wstring (filename);
-  struct _stat buf;
-  int rc = _wstat (wfilename.c_str (), &buf);
-#else
-  struct stat buf;
-  int rc = stat (filename.c_str (), &buf);
-#endif
-  return rc == 0 ? (int)(buf.st_size) : 0;
+  uintmax_t filesize = 0;
+  try {
+    filesystem::path p (filename);
+    filesize = filesystem::file_size(p);
+  } catch (...) { }
+  return static_cast<int>(filesize);
 }
 
 
 // Scans the directory for files it contains.
 vector <string> filter_url_scandir (string folder)
 {
-  vector <string> files = filter_url_scandir_internal (folder);
-  files = filter_string_array_diff (files, {"gitflag"});
+  vector <string> files;
+  try {
+    filesystem::path dir_path (folder);
+    for (auto const & directory_entry : filesystem::directory_iterator {dir_path})
+    {
+      // The full path.
+      filesystem::path entry_path = directory_entry.path();
+      // Get the path as relative to the directory.
+      filesystem::path relative_path = filesystem::relative(entry_path, dir_path);
+      // Get the name of the relative path.
+      string name = relative_path.string();
+      // Exclude developer temporal files.
+      if (name == ".deps") continue;
+      if (name == ".dirstamp") continue;
+      // Exclude macOS files.
+      if (name == ".DS_Store") continue;
+      // Exclude non-interesting files.
+      if (name == "gitflag") continue;
+      // Store the name.
+      files.push_back (name);
+    }
+  } catch (...) { }
+  sort (files.begin(), files.end());
   return files;
 }
 

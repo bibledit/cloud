@@ -23,6 +23,7 @@ var quill = null;
 
 var arrayOfAdditionalAddresses = ["", ""];
 
+
 $(document).ready (function () {
   noteLoadQuill();
   if ($ ("#create").length) $ ("#create").on ("click", noteCreate);
@@ -38,11 +39,13 @@ $(document).ready (function () {
   if ($("#summary").length) $("#summary").focus();
   // Upon adding a comment to a note, focus the text area.
   else $(".ql-editor").focus();
+  document.body.addEventListener('paste', NoteHandlePaste);
 });
+
 
 function noteLoadQuill ()
 {
-  var quill = new Quill('#body', {
+  quill = new Quill('#body', {
     modules: {
       toolbar: [
         [{ header: [1, 2, false] }],
@@ -58,6 +61,7 @@ function noteLoadQuill ()
 //    return new Delta().insert (plaintext);
 //  });
 }
+
 
 function noteCreate ()
 {
@@ -80,10 +84,12 @@ function noteCreate ()
   });
 }
 
+
 function noteCancel ()
 {
   window.location.assign ("index" + arrayOfAdditionalAddresses[0]);
 }
+
 
 function noteCreate2 ()
 {
@@ -100,7 +106,51 @@ function noteCreate2 ()
   });
 }
 
+
 function noteCancel2 ()
 {
   window.location.assign ("note?id=" + noteId + arrayOfAdditionalAddresses[1]);
+}
+
+
+// Pasting text into Quill has a few problems:
+// https://github.com/bibledit/cloud/issues/717
+// This paste handler aims to fix those.
+function NoteHandlePaste (e)
+{
+  // Stop data from actually being pasted.
+  e.stopPropagation();
+  e.preventDefault();
+
+  // Get the selected range, if any.
+  // If the editor was not focused, the range is not defined:
+  // Nothing more to do so bail out.
+  var range = quill.getSelection();
+  if (!range) return;
+  
+  // Unselect any selected text.
+  if (range.length != 0) {
+    quill.setSelection (range.index, range.length);
+  }
+
+  // Get pasted data via clipboard API.
+  var clipboardData = e.clipboardData || window.clipboardData;
+  var pastedData = clipboardData.getData('Text');
+
+  // Inserting the text from the clipboard immediately into the editor does not work.
+  // The work-around is to store data about where and what to paste.
+  // And then to do the actual insert after a very short delay.
+  notePasteIndex = range.index;
+  notePasteText = pastedData;
+  setTimeout (NoteHandlePasteInsert, 10);
+}
+
+var notePasteIndex = 0;
+var notePasteText = "";
+
+
+function NoteHandlePasteInsert()
+{
+  // Insert the text from the clipboard into the editor.
+  quill.insertText(notePasteIndex, notePasteText);
 }

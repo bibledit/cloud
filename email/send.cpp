@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/date.h>
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
 #include <config/globals.h>
@@ -274,8 +274,10 @@ string email_send ([[maybe_unused]] string to_mail,
 
   curl = curl_easy_init();
   /* Set username and password */
-  curl_easy_setopt(curl, CURLOPT_USERNAME, Database_Config_General::getMailSendUsername().c_str());
-  curl_easy_setopt(curl, CURLOPT_PASSWORD, Database_Config_General::getMailSendPassword().c_str());
+  string username = Database_Config_General::getMailSendUsername();
+  string password = Database_Config_General::getMailSendPassword();
+  curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
+  curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
 
   /* This is the URL for your mailserver. Note the use of port 587 here,
    * instead of the normal SMTP port (25). Port 587 is commonly used for

@@ -278,6 +278,11 @@ const char * general_site_language_key ()
 }
 string Database_Config_General::getSiteLanguage ()
 {
+  // Indonesian Cloud Free
+  // The default language for the interface will be Indonesian.
+  if (config_logic_indonesian_cloud_free ()) {
+    return getValue (general_site_language_key (), "id");
+  }
   // The default site language is an empty string.
   // It means not to localize the interface.
   // Since the default messages are all in English,

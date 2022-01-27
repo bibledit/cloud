@@ -65,6 +65,14 @@ string resource_index (void * webserver_request)
   
   
   vector <string> resources = request->database_config_user()->getActiveResources ();
+
+
+  // Indonesian Cloud Free
+  // Always set the default selection of resources for Indonesian Cloud Free
+  // Simple/Demo version.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    resources = demo_logic_default_resources ();
+  }
   
   
   // If no resources are displayed, set a default selection of them.

@@ -159,8 +159,8 @@ void demo_clean_data ()
   
   // Set the site language to "Default"
   Database_Config_General::setSiteLanguage ("");
-  
-  
+
+
   // Ensure the default users are there.
   map <string, int> users = {
     pair ("guest", Filter_Roles::guest ()),
@@ -183,12 +183,14 @@ void demo_clean_data ()
     demo_create_sample_bible ();
   }
 
-  
+
   // Create sample notes.
-  demo_create_sample_notes (&request);
+  if (config_logic_default_bibledit_configuration ()) {
+    demo_create_sample_notes (&request);
+  }
+
   
-  
-  // Create samples for the workspaces, only for default configuration.
+  // Create samples for the workspaces.
   if (config_logic_default_bibledit_configuration ()) {
     demo_create_sample_workspaces (&request);
   }
@@ -416,16 +418,31 @@ void demo_create_sample_workspaces (void * webserver_request)
 vector <string> demo_logic_default_resources ()
 {
   vector <string> resources;
-  // Add a few resources that are also safe in an obfuscated version.
-  resources = {
-    demo_sample_bible_name (),
-    resource_logic_violet_divider ()
-  };
-  // For demo purposes, add some more resources to show-case some of the capabilities.
-  if (config_logic_demo_enabled ()) {
-    resources.push_back (resource_external_biblehub_interlinear_name ());
-    resources.push_back (resource_external_net_bible_name ());
-    resources.push_back (SBLGNT_NAME);
+  if (config_logic_default_bibledit_configuration ()) {
+    // Add a few resources that are also safe in an obfuscated version.
+    resources = {
+      demo_sample_bible_name (),
+      resource_logic_violet_divider ()
+    };
+    // For demo purposes, add some more resources to show-case some of the capabilities.
+    if (config_logic_demo_enabled ()) {
+      resources.push_back (resource_external_biblehub_interlinear_name ());
+      resources.push_back (resource_external_net_bible_name ());
+      resources.push_back (SBLGNT_NAME);
+    }
+  }
+  // Add specific resources for Indonesian Cloud Free Simple/Demo version.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    resources.clear ();
+    resources = {
+      "AlkitabKita",
+      resource_logic_orange_divider (),
+      resource_external_biblehub_interlinear_name (),
+      HEBREW_ETCBC4_NAME,
+      OSHB_NAME,
+      resource_logic_orange_divider (),
+      SBLGNT_NAME
+    };
   }
   // Done.
   return resources;

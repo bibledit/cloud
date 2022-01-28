@@ -56,7 +56,9 @@ $ (document).ready (function () {
     // so that it can be called from other JavaScript files.
     // (2) By emptying the actual topbar.
     document.querySelectorAll('a').forEach((element) => {
-      element.href = topbarRemovalQueryAddition (element.href);
+      if (element.id !== "public-feedback") {
+        element.href = topbarRemovalQueryAddition (element.href);
+      }
     })
     document.querySelectorAll('form').forEach((element) => {
       element.action = topbarRemovalQueryAddition (element.action);

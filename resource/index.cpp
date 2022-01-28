@@ -115,6 +115,10 @@ string resource_index (void * webserver_request)
     int level = request->session_logic()->currentLevel();
     can_organize_active_resources = (level >= Filter_Roles::manager());
   }
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    // In the Indonesian Cloud Free Simple version, the organize zone is not enabled.
+    can_organize_active_resources = false;
+  }
   if (can_organize_active_resources) view.enable_zone("organize");
   
   

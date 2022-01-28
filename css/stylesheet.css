@@ -833,6 +833,20 @@ input#cancel,
   z-index: 1 !important;
 }
 
+/* END OF GLOBAL STYLING: Preference page */
+
+/* II. d. GLOBAL STYLING: Read page */
+
+#publicnotesinread {
+  display: flex;
+}
+
+#publicnotesinread > p {
+  margin: 0 .25rem; 
+}
+
+/* END OF GLOBAL STYLING: Read page */
+
 /* END OF GLOBAL STYLING */
 
 

@@ -253,11 +253,9 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   // Cloud Free Simple version is enabled,
   // put the public feedback into the main menu, rather than in a sub menu.
 #ifndef HAVE_CLIENT
-  if (menu_logic_public_or_guest (webserver_request) || config_logic_indonesian_cloud_free_simple ()) {
+  if (menu_logic_public_or_guest (webserver_request)) {
     if (!public_logic_bibles (webserver_request).empty ()) {
-      string label = menu_logic_public_feedback_text ();
-      if (config_logic_indonesian_cloud_free_simple ()) label = "Masukan";
-      html.push_back (menu_logic_create_item (public_index_url (), label, true, "", ""));
+      html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
       tooltipbits.push_back (menu_logic_public_feedback_text ());
     }
   }

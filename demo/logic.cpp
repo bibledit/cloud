@@ -437,11 +437,42 @@ vector <string> demo_logic_default_resources ()
     resources = {
       "AlkitabKita",
       resource_logic_orange_divider (),
+      // Hebrew original language resources.
       resource_external_biblehub_interlinear_name (),
       HEBREW_ETCBC4_NAME,
       OSHB_NAME,
       resource_logic_orange_divider (),
-      SBLGNT_NAME
+      // Greek original language resources.
+      // BYZ 2018 - not yet available
+      SBLGNT_NAME,
+      resource_logic_orange_divider (),
+      // Literal translations resources.
+      "MILT2008",
+      "TB1974",
+      "KitabSuciInjil2011",
+      "AYT Maret2021",
+      "ESV2001",
+      KJV_LEXICON_NAME,
+      // World English Bible - not yet available
+      resource_logic_orange_divider (),
+      // Modified literal translations resources.
+      "NET Bible",
+      // New International Version - not yet available
+      // Expanded Bible - not yet available
+      // Amplified Bible - not yet available
+      // Worldwide English New Testament - not yet available
+      // Dynamic equivalence translations resources.
+      // Good News Translation - not yet available
+      "BIS1985",
+      "TMV1987",
+      "NLT1996",
+      // Contemporary English Version - not yet available
+      // God's Word for the Nations - not yet available
+      "FreeBibleVersion2021",
+      // Parafrase translations resources.
+      // J.B. Phillips NT - not yet available
+      // The Living Bible - not yet available
+      "FAYH1989"
     };
   }
   // Done.

@@ -45,8 +45,11 @@
 <!-- #ENDZONE cloud -->
 <a href="?usfmnow=">translate("Export now.")</a>
 </p>
+<!-- #BEGINZONE cloud -->
+<!--Cannot do zipped export on client-->
 <br>
 <p><input type="checkbox" name="usfmsecure" onchange="checkbox_v2(this)" ##usfmsecure## /> translate("Secure the export with the password.")</p>
+<!-- #ENDZONE cloud -->
 
 <h3>translate("Basic USFM and Text")</h3>
 <p>
@@ -83,11 +86,14 @@ translate("Use frames for OpenDocument format in case the chapter number gets pu
 <input type="checkbox" name="dateinheader" onchange="checkbox_v2(this)" ##dateinheader## />
 translate("Display the current date in the running headers.")
 </p>
+<!-- #BEGINZONE cloud -->
+<!--Cannot do zipped export on client-->
 <br>
 <p>
   <input type="checkbox" name="odtsecure" onchange="checkbox_v2(this)" ##odtsecure## />
   translate("Secure the export with the password.")
 </p>
+<!-- #ENDZONE cloud -->
 <br>
 <p>
 translate("The type of space to insert after a verse number")
@@ -143,6 +149,7 @@ translate("The help within the Online Bible provides more information about crea
 
 <hr>
 
+<!-- #BEGINZONE cloud -->
 <form action="exports" name="passwordform" method="post">
   <p>
     translate("Password to secure the exports:")
@@ -152,6 +159,7 @@ translate("The help within the Online Bible provides more information about crea
 </form>
 
 <hr>
+<!-- #ENDZONE cloud -->
 
 <p>translate("The Bible Drop Box provides many additional export formats.")</p>
 <p>

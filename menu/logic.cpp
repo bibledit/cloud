@@ -249,10 +249,9 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
     }
   }
 
-  // When a user is not logged in, or a guest, or if the Indonesian
-  // Cloud Free Simple version is enabled,
+#ifdef HAVE_CLOUD
+  // When a user is not logged in, or if a guest is logged in,
   // put the public feedback into the main menu, rather than in a sub menu.
-#ifndef HAVE_CLIENT
   if (menu_logic_public_or_guest (webserver_request)) {
     if (!public_logic_bibles (webserver_request).empty ()) {
       html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));

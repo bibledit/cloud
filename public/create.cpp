@@ -34,6 +34,7 @@
 #include <ipc/focus.h>
 #include <public/index.h>
 #include <database/config/bible.h>
+#include <read/index.h>
 
 
 string public_create_url ()
@@ -88,14 +89,26 @@ string public_create (void * webserver_request)
     // Subscribe the user to the note.
     // Then the user receives email about any updates made on this note.
     database_notes.subscribe (identifier);
+    // Indonesian Cloud Free
+    // Go to the main read Bible page.
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      redirect_browser (request, read_index_url ());
+    }
     // Go to the main public notes page.
-    redirect_browser (request, public_index_url ());
+    if (config_logic_default_bibledit_configuration ()) {
+      redirect_browser (request, public_index_url ());
+    }
     return "";
   }
 
   
   if (request->post.count ("cancel")) {
-    redirect_browser (request, public_index_url ());
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      redirect_browser (request, read_index_url ());
+    }
+    if (config_logic_default_bibledit_configuration ()) {
+      redirect_browser (request, public_index_url ());
+    }
     return "";
   }
   

@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <database/notes.h>
 #include <public/index.h>
+#include <read/index.h>
 
 
 string public_note_url ()
@@ -74,6 +75,14 @@ string public_note (void * webserver_request)
 
     string content = database_notes.get_contents (id);
     view.set_variable ("content", content);
+  }
+
+
+  string url_to_index = "index";
+  view.set_variable ("url_to_index", url_to_index);
+
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    view.set_variable ("url_to_index", get_base_url (request) + read_index_url ());
   }
 
   

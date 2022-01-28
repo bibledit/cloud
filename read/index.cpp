@@ -40,6 +40,8 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
+#include <public/new.h>
+#include <public/notes.h>
 
 
 string read_index_url ()
@@ -158,6 +160,18 @@ string read_index (void * webserver_request)
   // Whether to enable the styles button.
   if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
     view.enable_zone ("stylesbutton");
+  }
+
+  // Enable one status by default.
+  view.enable_zone ("onestatus");
+
+  // Indonesian Cloud Free.
+  // Whether to enable public feedback access.
+  // Whether to disable onestatus.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    view.disable_zone ("onestatus");
+    view.enable_zone ("public_feedback");
+    view.set_variable ("public_new_feedback_url", get_base_url (request) + public_new_url ());
   }
   
   page += view.render ("read", "index");

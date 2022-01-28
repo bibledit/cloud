@@ -125,6 +125,7 @@ function navigationNewPassage ()
 function readchooseEditorLoadVerse ()
 {
   if ((readchooseNavigationBook != readchooseBook) || (readchooseNavigationChapter != readchooseChapter) || (readchooseNavigationVerse != readchooseVerse) ) {
+    publicFeedbackLoadNotesInRead ();
     readchooseBible = navigationBible;
     readchooseBook = readchooseNavigationBook;
     readchooseChapter = readchooseNavigationChapter;
@@ -230,8 +231,10 @@ function readchooseEditorLoadNonEditable ()
 
 function readchooseEditorStatus (text)
 {
-  $ ("#onestatus").empty ();
-  $ ("#onestatus").append (text);
+  if (document.body.contains(document.getElementById("onestatus"))) {
+    $ ("#onestatus").empty ();
+    $ ("#onestatus").append (text);
+  }
 }
 
 
@@ -445,3 +448,24 @@ function readverseCoordinatingTimeout ()
 }
 
 
+//
+//
+// Indonesian Cloud Free
+// Section for handling public feedbacks.
+//
+//
+
+
+function publicFeedbackLoadNotesInRead ()
+{
+  $.ajax ({
+    url: "/public/notes",
+    type: "GET",
+    data: { bible: readchooseBible, book: readchooseBook, chapter: readchooseChapter },
+    success: function (response) {
+      console.log(response);
+      $ ("#publicnotesinread").empty ();
+      $ ("#publicnotesinread").append (response);
+    },
+  });
+}

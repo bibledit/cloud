@@ -58,7 +58,9 @@ string public_notes (void * webserver_request)
     // Display only public notes.
     if (database_notes.get_public (identifier)) {
       notesblock << "<p class=" << quoted ("nowrap") << ">";
-      notesblock << "<a href=" << quoted ("note?id=" + convert_to_string (identifier)) << ">";
+      string url_to_note = "note?id=" + convert_to_string (identifier);
+      if (config_logic_indonesian_cloud_free_simple ()) url_to_note = "../public/" + url_to_note;
+      notesblock << "<a href=" << quoted (url_to_note) << ">";
       vector <Passage> passages = database_notes.get_passages (identifier);
       string verses;
       for (auto & passage : passages) {

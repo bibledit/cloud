@@ -394,8 +394,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
     // Indonesian Cloud Free
     // The same method explained in ./ipc/focus.cpp line 37 to 44.
     if (config_logic_indonesian_cloud_free_simple ()) {
-      string filename = request->remote_address;
-      if (filename.find("::ffff:") != string::npos) filename.erase(0,7).append("_aw");
+      string filename = database_filebased_cache_name_by_ip (request->remote_address, "aw");
       if (database_filebased_cache_exists (filename)) {
         activeWorkspace = database_filebased_cache_get (filename);
       }

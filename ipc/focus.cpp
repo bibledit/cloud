@@ -43,24 +43,14 @@ void Ipc_Focus::set (void * webserver_request, int book, int chapter, int verse)
     // cache database with the user's IP as plus a unique string of
     // characters based on the data name's initial as the file name.
     if (config_logic_indonesian_cloud_free_simple ()) {
-      // Get the requesting machine's IPv4.
-      string filename = request->remote_address;
-      // Clean the string.
-      if (filename.find("::ffff:") != string::npos) {
-        filename.erase(0,7);
-      }
-      // Copy the cleaned up IPv4 into separate file names.
-      string book_filename = filename;
-      string chapter_filename = filename;
-      string verse_filename = filename;
-
-      // Complete the file name if its not yet completed, and cache
-      // the Bible book, chapter, and verse index.
-      if (book_filename.find("_fb") == string::npos) book_filename.append("_fb");
+      // Use the client's IP and unique string to identify the data
+      // as the file name.
+      // Cache the Bible book, chapter, and verse index.
+      string book_filename = database_filebased_cache_name_by_ip (request->remote_address, "fb");
       database_filebased_cache_put (book_filename, convert_to_string (book));
-      if (chapter_filename.find("_fc") == string::npos) chapter_filename.append("_fc");
+      string chapter_filename = database_filebased_cache_name_by_ip (request->remote_address, "fc");
       database_filebased_cache_put (chapter_filename, convert_to_string (chapter));
-      if (verse_filename.find("_fv") == string::npos) verse_filename.append("_fv");
+      string verse_filename = database_filebased_cache_name_by_ip (request->remote_address, "fv");
       database_filebased_cache_put (verse_filename, convert_to_string (verse));
     }
 
@@ -79,9 +69,7 @@ int Ipc_Focus::getBook (void * webserver_request)
   // Indonesian Cloud Free
   // Gets the Bible book index from a file based cache database.
   if (config_logic_indonesian_cloud_free_simple ()) {
-    string filename = request->remote_address;
-    if (filename.find("::ffff:") != string::npos) filename.erase(0,7);
-    if (filename.find("_fb") == string::npos) filename.append("_fb");
+    string filename = database_filebased_cache_name_by_ip (request->remote_address, "fb");
     if (database_filebased_cache_exists (filename)) {
       book = convert_to_int (database_filebased_cache_get (filename));
     }
@@ -98,9 +86,7 @@ int Ipc_Focus::getChapter (void * webserver_request)
   // Indonesian Cloud Free
   // Gets the chapter index from a file based cache database.
   if (config_logic_indonesian_cloud_free_simple ()) {
-    string filename = request->remote_address;
-    if (filename.find("::ffff:") != string::npos) filename.erase(0,7);
-    if (filename.find("_fc") == string::npos) filename.append("_fc");
+    string filename = database_filebased_cache_name_by_ip (request->remote_address, "fc");
     if (database_filebased_cache_exists (filename)) {
       chapter = convert_to_int (database_filebased_cache_get (filename));
     }
@@ -117,9 +103,7 @@ int Ipc_Focus::getVerse (void * webserver_request)
   // Indonesian Cloud Free
   // Gets the verse index from a file based cache database.
   if (config_logic_indonesian_cloud_free_simple ()) {
-    string filename = request->remote_address;
-    if (filename.find("::ffff:") != string::npos) filename.erase(0,7);
-    if (filename.find("_fv") == string::npos) filename.append("_fv");
+    string filename = database_filebased_cache_name_by_ip (request->remote_address, "fv");
     if (database_filebased_cache_exists (filename)) {
       verse = convert_to_int (database_filebased_cache_get (filename));
     }

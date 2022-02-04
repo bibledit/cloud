@@ -33,6 +33,7 @@
 #include <sync/logic.h>
 #include <locale/translate.h>
 #include <database/logs.h>
+#include <database/cache.h>
 #include <read/index.h>
 
 
@@ -241,7 +242,19 @@ void workspace_create_defaults (void * webserver_request)
 string workspace_get_active_name (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
   string workspace = request->database_config_user()->getActiveWorkspace ();
+
+  // Indonesian Cloud Free
+  // The same method explained in ./ipc/focus.cpp line 37 to 44.
+  string filename = request->remote_address;
+  if (filename.find("::ffff:") != string::npos) filename.erase(0,7).append("_aw");
+
+  // Get data from file based database cache.
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    workspace = database_filebased_cache_get (filename);
+  }
+
   if (workspace.empty ()) {
     workspace = workspace_get_default_name ();
   }

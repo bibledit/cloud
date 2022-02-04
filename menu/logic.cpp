@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <consistency/index.h>
 #include <database/config/general.h>
 #include <database/userresources.h>
+#include <database/cache.h>
 #include <developer/index.h>
 #include <edit/index.h>
 #include <edit/index.h>
@@ -387,7 +388,19 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
     string activeWorkspace = request->database_config_user()->getActiveWorkspace ();
+
+    // Indonesian Cloud Free
+    // The same method explained in ./ipc/focus.cpp line 37 to 44.
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = request->remote_address;
+      if (filename.find("::ffff:") != string::npos) filename.erase(0,7).append("_aw");
+      if (database_filebased_cache_exists (filename)) {
+        activeWorkspace = database_filebased_cache_get (filename);
+      }
+    }
+
     vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspaces[i], true, "", "");

@@ -27,6 +27,7 @@
 #include <locale/translate.h>
 #include <database/config/general.h>
 #include <database/notes.h>
+#include <database/cache.h>
 #include <workspace/logic.h>
 #include <menu/logic.h>
 #include <ipc/focus.h>
@@ -50,13 +51,27 @@ string workspace_index (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> workspaces = workspace_get_names (request);
 
+  // Indonesian Cloud Free
+  // The same method explained in ./ipc/focus.cpp line 37 to 44.
+  string filename = request->remote_address;
+  if (filename.find("::ffff:") != string::npos) filename.erase(0,7).append("_aw");
   
   // Set the requested workspace as the active one.
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
     if (bench < workspaces.size ()) {
       string workspace = workspaces [bench];
-      request->database_config_user()->setActiveWorkspace (workspace);
+
+      // Indonesian Cloud Free
+      // Store into file based database cache.
+      if (config_logic_indonesian_cloud_free_simple ()) {
+        database_filebased_cache_put (filename, workspace);
+      }
+
+      // Default configuration or default Indonesian Cloud Free.
+      if (config_logic_default_bibledit_configuration () || (config_logic_indonesian_cloud_free () && ! config_logic_indonesian_cloud_free_simple ())) {
+        request->database_config_user()->setActiveWorkspace (workspace);
+      }
     }
   }
   
@@ -64,9 +79,24 @@ string workspace_index (void * webserver_request)
   // Check that the active workspace exists, else set the first available workspace as the active one.
   {
     string workspace = request->database_config_user ()->getActiveWorkspace ();
+    // Indonesian Cloud Free
+    // Get data from file based database cache.
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      workspace = database_filebased_cache_get (filename);
+    }
     if (!in_array (workspace, workspaces)) {
       if (!workspaces.empty ()) {
-        request->database_config_user ()->setActiveWorkspace (workspaces [0]);
+
+        // Indonesian Cloud Free
+        // Store into file based database cache.
+        if (config_logic_indonesian_cloud_free_simple ()) {
+          database_filebased_cache_put (filename, workspaces [0]);
+        }
+
+        // Default configuration or default Indonesian Cloud Free.
+        if (config_logic_default_bibledit_configuration () || (config_logic_indonesian_cloud_free () && ! config_logic_indonesian_cloud_free_simple ())) {
+          request->database_config_user ()->setActiveWorkspace (workspaces [0]);
+        }
       }
     }
   }

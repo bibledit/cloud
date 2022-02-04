@@ -143,6 +143,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
+  test_url ();
   test_database_bibles ();
   test_database_bibleactions ();
   refresh_sandbox (false);

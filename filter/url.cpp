@@ -48,6 +48,63 @@ mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
 mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
+vector <string> filter_url_scandir_internal (string folder)
+{
+  vector <string> files;
+  
+#ifdef HAVE_WINDOWS
+  
+  if (!folder.empty()) {
+    if (folder[folder.size() - 1] == '\\') {
+      folder = folder.substr(0, folder.size() - 1);
+    }
+    folder.append("\\*");
+    wstring wfolder = string2wstring(folder);
+    WIN32_FIND_DATA fdata;
+    HANDLE hFind = FindFirstFileW(wfolder.c_str(), &fdata);
+    if (hFind != INVALID_HANDLE_VALUE) {
+      do {
+        wstring wfilename(fdata.cFileName);
+        string name = wstring2string (wfilename);
+        if (name.substr(0, 1) != ".") {
+          files.push_back(name);
+        }
+      } while (FindNextFileW(hFind, &fdata) != 0);
+    }
+    FindClose(hFind);
+  }
+  
+#else
+  
+  DIR * dir = opendir (folder.c_str());
+  if (dir) {
+    struct dirent * direntry;
+    while ((direntry = readdir (dir)) != NULL) {
+      string name = direntry->d_name;
+      // Exclude short-hand directory names.
+      if (name == ".") continue;
+      if (name == "..") continue;
+      // Exclude developer temporal files.
+      if (name == ".deps") continue;
+      if (name == ".dirstamp") continue;
+      // Exclude macOS files.
+      if (name == ".DS_Store") continue;
+      // Store the name.
+      files.push_back (name);
+    }
+    closedir (dir);
+  }
+  sort (files.begin(), files.end());
+  
+#endif
+  
+  // Remove . and ..
+  files = filter_string_array_diff (files, {".", ".."});
+  
+  return files;
+}
+
+
 // Gets the base URL of current Bibledit installation.
 string get_base_url (void * webserver_request)
 {
@@ -105,24 +162,51 @@ void redirect_browser (void * webserver_request, string path)
 }
 
 
-// Dirname routine for the filesystem.
-// It uses the automatically defined separator as the directory separator.
-string filter_url_dirname (string url)
+// C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
+// The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname.
+string filter_url_dirname_internal (string url, const char * separator)
 {
-  // Remove possible trailing path slash.
   if (!url.empty ()) {
-    const char separator = filesystem::path::preferred_separator;
     if (url.find_last_of (separator) == url.length () - 1) {
+      // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
+    size_t pos = url.find_last_of (separator);
+    if (pos != string::npos) url = url.substr (0, pos);
+    else url = string();
   }
-  // Standard library call for getting parent path.
-  url = filesystem::path(url).parent_path().string();
-  // The . is important in a few cases rather than an empty string.
   if (url.empty ()) url = ".";
-  // Done.
   return url;
 }
+
+
+// Dirname routine for the operating system.
+// It uses the defined slash as the separator.
+string filter_url_dirname (string url)
+{
+  return filter_url_dirname_internal (url, DIRECTORY_SEPARATOR);
+}
+
+
+// Dirname routine for the filesystem.
+// It uses the automatically defined separator as the directory separator.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//string filter_url_dirname (string url)
+//{
+//  // Remove possible trailing path slash.
+//  if (!url.empty ()) {
+//    const char separator = filesystem::path::preferred_separator;
+//    if (url.find_last_of (separator) == url.length () - 1) {
+//      url = url.substr (0, url.length () - 1);
+//    }
+//  }
+//  // Standard library call for getting parent path.
+//  url = filesystem::path(url).parent_path().string();
+//  // The . is important in a few cases rather than an empty string.
+//  if (url.empty ()) url = ".";
+//  // Done.
+//  return url;
+//}
 
 
 // Dirname routine for the web.
@@ -145,22 +229,47 @@ string filter_url_dirname_web (string url)
 }
 
 
-// Basename routine for the filesystem.
-// It uses the automatically defined separator as the directory separator.
-string filter_url_basename (string url)
+// C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
+// The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
+string filter_url_basename_internal (string url, const char * separator)
 {
-  // Remove possible trailing path slash.
   if (!url.empty ()) {
-    const char separator = filesystem::path::preferred_separator;
     if (url.find_last_of (separator) == url.length () - 1) {
+      // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
+    size_t pos = url.find_last_of (separator);
+    if (pos != string::npos) url = url.substr (pos + 1);
   }
-  // Standard library call for getting base name path.
-  url = filesystem::path(url).filename().string();
-  // Done.
   return url;
 }
+
+
+// Basename routine for the operating system.
+// It uses the defined slash as the separator.
+string filter_url_basename (string url)
+{
+  return filter_url_basename_internal (url, DIRECTORY_SEPARATOR);
+}
+
+
+// Basename routine for the filesystem.
+// It uses the automatically defined separator as the directory separator.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//string filter_url_basename (string url)
+//{
+//  // Remove possible trailing path slash.
+//  if (!url.empty ()) {
+//    const char separator = filesystem::path::preferred_separator;
+//    if (url.find_last_of (separator) == url.length () - 1) {
+//      url = url.substr (0, url.length () - 1);
+//    }
+//  }
+//  // Standard library call for getting base name path.
+//  url = filesystem::path(url).filename().string();
+//  // Done.
+//  return url;
+//}
 
 
 // Basename routine for the web.
@@ -184,35 +293,80 @@ string filter_url_basename_web (string url)
 
 void filter_url_unlink (string filename)
 {
-  try {
-    filesystem::path path (filename);
-    filesystem::remove (path);
-  } catch (...) { }
+#ifdef HAVE_WINDOWS
+  wstring wfilename = string2wstring (filename);
+  _wunlink (wfilename.c_str ());
+#else
+  unlink (filename.c_str ());
+#endif
 }
+
+
+// As of February 2022 the std::filesystem does not yet work on Android.
+//void filter_url_unlink (string filename)
+//{
+//  try {
+//    filesystem::path path (filename);
+//    filesystem::remove (path);
+//  } catch (...) { }
+//}
 
 
 void filter_url_rename (const string& oldfilename, const string& newfilename)
 {
-  try {
-    filesystem::path oldpath (oldfilename);
-    filesystem::path newpath (newfilename);
-    filesystem::rename(oldpath, newpath);
-  } catch (...) { }
+#ifdef HAVE_WINDOWS
+  wstring woldfilename = string2wstring (oldfilename);
+  wstring wnewfilename = string2wstring (newfilename);
+  _wrename (woldfilename.c_str (), wnewfilename.c_str ());
+#else
+  rename (oldfilename.c_str (), newfilename.c_str ());
+#endif
+}
+
+
+// As of February 2022 the std::filesystem does not yet work on Android.
+//void filter_url_rename (const string& oldfilename, const string& newfilename)
+//{
+//  try {
+//    filesystem::path oldpath (oldfilename);
+//    filesystem::path newpath (newfilename);
+//    filesystem::rename(oldpath, newpath);
+//  } catch (...) { }
+//}
+
+
+// Creates a file path out of the components.
+string filter_url_create_path (const vector<string>& parts)
+{
+    // Empty path.
+    string path;
+    for (size_t i = 0; i < parts.size(); i++) {
+      // Initially append the first part without directory separator.
+      if (i == 0) path += parts[i];
+      else {
+        // Other parts: Append the directory separator and then the part.
+        path += DIRECTORY_SEPARATOR;
+        path += parts[i];
+      }
+    }
+    // Done.
+    return path;
 }
 
 
 // Creates a file path out of the parts.
-string filter_url_create_path (const vector<string>& parts)
-{
-  // Empty path.
-  filesystem::path path;
-  for (size_t i = 0; i < parts.size(); i++) {
-    if (i == 0) path += parts[i]; // Append the part without directory separator.
-    else path /= parts[i]; // Append the directory separator and then the part.
-  }
-  // Done.
-  return path.string();
-}
+// As of February 2022 the std::filesystem does not yet work on Android.
+//string filter_url_create_path (const vector<string>& parts)
+//{
+//  // Empty path.
+//  filesystem::path path;
+//  for (size_t i = 0; i < parts.size(); i++) {
+//    if (i == 0) path += parts[i]; // Append the part without directory separator.
+//    else path /= parts[i]; // Append the directory separator and then the part.
+//  }
+//  // Done.
+//  return path.string();
+//}
 
 
 // Creates a file path out of the variable list of components,
@@ -220,7 +374,7 @@ string filter_url_create_path (const vector<string>& parts)
 string filter_url_create_root_path (const vector<string>& parts)
 {
   // Construct path from the document root.
-  filesystem::path path (config_globals_document_root);
+  string path (config_globals_document_root);
   // Add the bits.
   for (size_t i = 0; i < parts.size(); i++) {
     string part = parts[i];
@@ -233,69 +387,207 @@ string filter_url_create_root_path (const vector<string>& parts)
     // So remove that starting slash.
     if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
     // Add the part, with a preceding path separator.
-    path /= part;
+    path += DIRECTORY_SEPARATOR;
+    path += part;
   }
   // Done.
-  return path.string();
-
+  return path;
 }
+
+
+// Creates a file path out of the variable list of components,
+// relative to the server's document root.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//string filter_url_create_root_path (const vector<string>& parts)
+//{
+//  // Construct path from the document root.
+//  filesystem::path path (config_globals_document_root);
+//  // Add the bits.
+//  for (size_t i = 0; i < parts.size(); i++) {
+//    string part = parts[i];
+//    // At times a path is created from a URL.
+//    // The URL likely starts with a slash, like this: /css/mouse.css
+//    // When creating a path out of that, the path will become this: /css/mouse.css
+//    // Such a path does not exist.
+//    // The path that is wanted is something like this:
+//    // /home/foo/bar/bibledit/css/mouse.css
+//    // So remove that starting slash.
+//    if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
+//    // Add the part, with a preceding path separator.
+//    path /= part;
+//  }
+//  // Done.
+//  return path.string();
+//}
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
 string filter_url_get_extension (string url)
 {
-  std::filesystem::path path (url);
   string extension;
-  if (path.has_extension()) {
-    // Get the extension with the dot, e.g. ".txt".
-    extension = path.extension().string();
-    // Wanted is the extension without the dot, e.g. "txt".
-    extension.erase (0, 1);
+  size_t pos = url.find_last_of (".");
+  if (pos != string::npos) {
+    extension = url.substr (pos + 1);
   }
   return extension;
 }
 
 
-// Returns true if the file or directory at $url exists.
+// Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
+// As of February 2022 the std::filesystem does not yet work on Android.
+//string filter_url_get_extension (string url)
+//{
+//  std::filesystem::path path (url);
+//  string extension;
+//  if (path.has_extension()) {
+//    // Get the extension with the dot, e.g. ".txt".
+//    extension = path.extension().string();
+//    // Wanted is the extension without the dot, e.g. "txt".
+//    extension.erase (0, 1);
+//  }
+//  return extension;
+//}
+
+
+// Returns true if the file at $url exists.
 bool file_or_dir_exists (string url)
 {
-  filesystem::path path (url);
-  bool exists = filesystem::exists (path);
-  return exists;
+#ifdef HAVE_WINDOWS
+  // Function '_wstat' works with wide characters.
+  wstring wurl = string2wstring(url);
+  struct _stat buffer;
+  int result = _wstat (wurl.c_str (), &buffer);
+  return (result == 0);
+#else
+  // The 'stat' function works as expected on Linux.
+  struct stat buffer;
+  return (stat (url.c_str(), &buffer) == 0);
+#endif
 }
+
+
+// Returns true if the file or directory at $url exists.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//bool file_or_dir_exists (string url)
+//{
+//  filesystem::path path (url);
+//  bool exists = filesystem::exists (path);
+//  return exists;
+//}
 
 
 // Makes a directory.
 // Creates parents where needed.
 void filter_url_mkdir (string directory)
 {
-  try {
-    std::filesystem::path path (directory);
-    std::filesystem::create_directories(path);
-  } catch (...) { }
+  int status;
+#ifdef HAVE_WINDOWS
+  wstring wdirectory = string2wstring(directory);
+  status = _wmkdir (wdirectory.c_str());
+#else
+  status = mkdir (directory.c_str(), 0777);
+#endif
+  if (status != 0) {
+    vector <string> paths;
+    paths.push_back (directory);
+    directory = filter_url_dirname (directory);
+    while (directory.length () > 2) {
+      paths.push_back (directory);
+      directory = filter_url_dirname (directory);
+    }
+    reverse (paths.begin (), paths.end ());
+    for (unsigned int i = 0; i < paths.size (); i++) {
+#ifdef HAVE_WINDOWS
+      wstring wpathsi = string2wstring(paths[i]);
+      _wmkdir (wpathsi.c_str ());
+#else
+      mkdir (paths[i].c_str (), 0777);
+#endif
+    }
+  }
 }
+
+
+// Makes a directory.
+// Creates parents where needed.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//void filter_url_mkdir (string directory)
+//{
+//  try {
+//    std::filesystem::path path (directory);
+//    std::filesystem::create_directories(path);
+//  } catch (...) { }
+//}
 
 
 // Removes directory recursively.
 void filter_url_rmdir (string directory)
 {
-  try {
-    filesystem::path path (directory);
-    filesystem::remove_all(path);
-  } catch (...) { }
+  vector <string> files = filter_url_scandir_internal (directory);
+  for (auto path : files) {
+    path = filter_url_create_path ({directory, path});
+    if (filter_url_is_dir(path)) {
+      filter_url_rmdir(path);
+    }
+#ifdef HAVE_WINDOWS
+  // Remove directory.
+  wstring wpath = string2wstring(path);
+  _wrmdir(wpath.c_str());
+  // Remove file.
+  filter_url_unlink(path);
+#else
+  // On Linux remove the directory or the file.
+    remove(path.c_str());
+#endif
+  }
+#ifdef HAVE_WINDOWS
+  wstring wdirectory = string2wstring(directory);
+  _wrmdir(wdirectory.c_str());
+  filter_url_unlink(directory);
+#else
+  remove(directory.c_str());
+#endif
 }
+
+
+// Removes directory recursively.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//void filter_url_rmdir (string directory)
+//{
+//  try {
+//    filesystem::path path (directory);
+//    filesystem::remove_all(path);
+//  } catch (...) { }
+//}
 
 
 // Returns true is $path points to a directory.
 bool filter_url_is_dir (string path)
 {
-  bool is_dir = false;
-  try {
-    filesystem::path p (path);
-    is_dir = filesystem::is_directory(p);
-  } catch (...) { }
-  return is_dir;
+#ifdef HAVE_WINDOWS
+  // Function '_wstat', on Windows, works with wide characters.
+  wstring wpath = string2wstring (path);
+  struct _stat sb;
+  _wstat (wpath.c_str (), &sb);
+#else
+  struct stat sb;
+  stat (path.c_str (), &sb);
+#endif
+  return (sb.st_mode & S_IFMT) == S_IFDIR;
 }
+
+
+// Returns true is $path points to a directory.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//bool filter_url_is_dir (string path)
+//{
+//  bool is_dir = false;
+//  try {
+//    filesystem::path p (path);
+//    is_dir = filesystem::is_directory(p);
+//  } catch (...) { }
+//  return is_dir;
+//}
 
 
 bool filter_url_get_write_permission (string path)
@@ -312,9 +604,21 @@ bool filter_url_get_write_permission (string path)
 
 void filter_url_set_write_permission (string path)
 {
-  filesystem::path p (path);
-  filesystem::permissions(p, filesystem::perms::owner_all | filesystem::perms::group_all | filesystem::perms::others_all);
+#ifdef HAVE_WINDOWS
+  wstring wpath = string2wstring (path);
+  _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
+#else
+  chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
+#endif
 }
+
+
+// As of February 2022 the std::filesystem does not yet work on Android.
+//void filter_url_set_write_permission (string path)
+//{
+//  filesystem::path p (path);
+//  filesystem::permissions(p, filesystem::perms::owner_all | filesystem::perms::group_all | filesystem::perms::others_all);
+//}
 
 
 // Get and returns the contents of $filename.
@@ -424,46 +728,72 @@ void filter_url_dir_cp (const string & input, const string & output)
 }
 
 
-// Returns the size of the file at $filename.
+// A C++ equivalent for PHP's filesize function.
 int filter_url_filesize (string filename)
 {
-  uintmax_t filesize = 0;
-  try {
-    filesystem::path p (filename);
-    filesize = filesystem::file_size(p);
-  } catch (...) { }
-  return static_cast<int>(filesize);
+#ifdef HAVE_WINDOWS
+  wstring wfilename = string2wstring (filename);
+  struct _stat buf;
+  int rc = _wstat (wfilename.c_str (), &buf);
+#else
+  struct stat buf;
+  int rc = stat (filename.c_str (), &buf);
+#endif
+  return rc == 0 ? (int)(buf.st_size) : 0;
 }
+
+
+// Returns the size of the file at $filename.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//int filter_url_filesize (string filename)
+//{
+//  uintmax_t filesize = 0;
+//  try {
+//    filesystem::path p (filename);
+//    filesize = filesystem::file_size(p);
+//  } catch (...) { }
+//  return static_cast<int>(filesize);
+//}
 
 
 // Scans the directory for files it contains.
 vector <string> filter_url_scandir (string folder)
 {
-  vector <string> files;
-  try {
-    filesystem::path dir_path (folder);
-    for (auto const & directory_entry : filesystem::directory_iterator {dir_path})
-    {
-      // The full path.
-      filesystem::path entry_path = directory_entry.path();
-      // Get the path as relative to the directory.
-      filesystem::path relative_path = filesystem::relative(entry_path, dir_path);
-      // Get the name of the relative path.
-      string name = relative_path.string();
-      // Exclude developer temporal files.
-      if (name == ".deps") continue;
-      if (name == ".dirstamp") continue;
-      // Exclude macOS files.
-      if (name == ".DS_Store") continue;
-      // Exclude non-interesting files.
-      if (name == "gitflag") continue;
-      // Store the name.
-      files.push_back (name);
-    }
-  } catch (...) { }
-  sort (files.begin(), files.end());
+  vector <string> files = filter_url_scandir_internal (folder);
+  files = filter_string_array_diff (files, {"gitflag"});
   return files;
 }
+
+
+// Scans the directory for files it contains.
+// As of February 2022 the std::filesystem does not yet work on Android.
+//vector <string> filter_url_scandir (string folder)
+//{
+//  vector <string> files;
+//  try {
+//    filesystem::path dir_path (folder);
+//    for (auto const & directory_entry : filesystem::directory_iterator {dir_path})
+//    {
+//      // The full path.
+//      filesystem::path entry_path = directory_entry.path();
+//      // Get the path as relative to the directory.
+//      filesystem::path relative_path = filesystem::relative(entry_path, dir_path);
+//      // Get the name of the relative path.
+//      string name = relative_path.string();
+//      // Exclude developer temporal files.
+//      if (name == ".deps") continue;
+//      if (name == ".dirstamp") continue;
+//      // Exclude macOS files.
+//      if (name == ".DS_Store") continue;
+//      // Exclude non-interesting files.
+//      if (name == "gitflag") continue;
+//      // Store the name.
+//      files.push_back (name);
+//    }
+//  } catch (...) { }
+//  sort (files.begin(), files.end());
+//  return files;
+//}
 
 
 // Recursively scans a directory for directories and files.

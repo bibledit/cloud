@@ -155,7 +155,8 @@ void test_url ()
     evaluate (__LINE__, __func__, ".", filter_url_dirname (string()));
     evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
     evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
-    evaluate (__LINE__, __func__, "/", filter_url_dirname ("/dir"));
+    // C++17 version: evaluate (__LINE__, __func__, "/", filter_url_dirname ("/dir"));
+    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/dir"));
     evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
     evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
     evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
@@ -316,8 +317,9 @@ void test_url ()
   // Getting the file extension.
   {
     evaluate (__LINE__, __func__, "txt", filter_url_get_extension ("foo/bar.txt"));
-    evaluate (__LINE__, __func__, "", filter_url_get_extension (".hidden"));
-    evaluate (__LINE__, __func__, "", filter_url_get_extension (""));
+    // C++17 version: evaluate (__LINE__, __func__, string(), filter_url_get_extension (".hidden"));
+    evaluate (__LINE__, __func__, "hidden", filter_url_get_extension (".hidden"));
+    evaluate (__LINE__, __func__, string(), filter_url_get_extension (""));
   }
   
   // Reading the directory content.

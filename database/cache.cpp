@@ -310,6 +310,16 @@ void database_filebased_cache_remove (string schema)
 }
 
 
+// Create a file name based on the client's IPv4 and a unique data identifier.
+string database_filebased_cache_name_by_ip (string address, string id)
+{
+  id = "_" + id;
+  if (address.find("::ffff:") != string::npos) address.erase(0,7);
+  if (address.find(id) == string::npos) address.append(id);
+  return address;
+}
+
+
 // Deletes expired cached items.
 void database_cache_trim (bool clear)
 {

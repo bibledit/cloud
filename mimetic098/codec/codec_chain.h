@@ -292,7 +292,7 @@ struct null_node
   {
     return *this;
   }
-  self_type& operator=([[maybe_unused]] char c)
+  self_type& operator=(char c)
   {
     return *this;
   }

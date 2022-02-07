@@ -214,7 +214,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <images/fetch.h>
 
 
-// Internal function to check whether a request coming from the browser is considered secure enough.
+// Check whether a request coming from the browser is considered secure enough.
 // It returns true if the security is okay.
 bool browser_request_security_okay (Webserver_Request * request)
 {

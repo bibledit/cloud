@@ -60,8 +60,8 @@ string index_listing (void * webserver_request, string url)
   // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
-  url = filter_url_create_path ({"/", url});
-  url = filter_string_str_replace ("\\", "/", url);
+  url = filter_url_create_path ({string(), url});
+  url = filter_string_str_replace (R"(\)", "/", url);
   view.set_variable ("url", url);
   string parent = filter_url_dirname_web (url);
   if (parent.length () > 1) {

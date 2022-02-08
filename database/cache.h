@@ -51,6 +51,18 @@ string database_filebased_cache_name_by_ip (string address, string id);
 string database_filebased_cache_name_by_session_id (string sid, string id);
 
 
+string focused_book_filebased_cache_filename (string sid);
+string focused_chapter_filebased_cache_filename (string sid);
+string focused_verse_filebased_cache_filename (string sid);
+string general_font_size_filebased_cache_filename (string sid);
+string menu_font_size_filebased_cache_filename (string sid);
+string resource_font_size_filebased_cache_filename (string sid);
+string hebrew_font_size_filebased_cache_filename (string sid);
+string greek_font_size_filebased_cache_filename (string sid);
+string greek_font_size_filebased_cache_filename (string sid);
+string current_theme_filebased_cache_filename (string sid);
+
+
 void database_cache_trim (bool clear);
 
 

@@ -332,6 +332,78 @@ string database_filebased_cache_name_by_session_id (string sid, string id)
 }
 
 
+// File name for focused book file based database cache by session id
+// plus abbreviation.
+string focused_book_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "focbo");
+}
+
+
+// File name for focused chapter file based database cache by session
+// id plus abbreviation.
+string focused_chapter_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "focch");
+}
+
+
+// File name for focused verse file based database cache by session id
+// plus abbreviation.
+string focused_verse_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "focve");
+}
+
+
+// File name for general font size file based database cache by
+// session id plus abbreviation.
+string general_font_size_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "genfs");
+}
+
+
+// File name for menu font size file based database cache by session
+// id plus abbreviation.
+string menu_font_size_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "menfs");
+}
+
+
+// File name for resource font size file based database cache by
+// session id plus abbreviation.
+string resource_font_size_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "resfs");
+}
+
+
+// File name for hebrew font size file based database cache by
+// session id plus abbreviation.
+string hebrew_font_size_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "hebfs");
+}
+
+
+// File name for greek font size file based database cache by session
+// id plus abbreviation.
+string greek_font_size_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "grefs");
+}
+
+
+// File name for current theme file based database cache by session
+// id plus abbreviation.
+string current_theme_filebased_cache_filename (string sid)
+{
+  return database_filebased_cache_name_by_session_id (sid, "curth");
+}
+
+
 // Deletes expired cached items.
 void database_cache_trim (bool clear)
 {

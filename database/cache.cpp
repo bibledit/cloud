@@ -314,9 +314,21 @@ void database_filebased_cache_remove (string schema)
 string database_filebased_cache_name_by_ip (string address, string id)
 {
   id = "_" + id;
-  if (address.find("::ffff:") != string::npos) address.erase(0,7);
-  if (address.find(id) == string::npos) address.append(id);
+  string ipv4_sp = "::ffff:";
+  const unsigned long pos = address.find (ipv4_sp);
+  if (address.find (ipv4_sp) != string::npos) address.erase (pos, ipv4_sp.length ());
+  if (address.find (id) == string::npos) address.append (id);
   return address;
+}
+
+
+// Create a file name based on the client's session id and a unique
+// data identifier.
+string database_filebased_cache_name_by_session_id (string sid, string id)
+{
+  id = "_" + id;
+  if (sid.find (id) == string::npos) sid.append (id);
+  return sid;
 }
 
 

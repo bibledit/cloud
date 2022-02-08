@@ -48,6 +48,7 @@ void database_filebased_cache_put (string schema, string contents);
 string database_filebased_cache_get (string schema);
 void database_filebased_cache_remove (string schema);
 string database_filebased_cache_name_by_ip (string address, string id);
+string database_filebased_cache_name_by_session_id (string sid, string id);
 
 
 void database_cache_trim (bool clear);

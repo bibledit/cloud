@@ -32,6 +32,7 @@
 #include <access/bible.h>
 #include <database/config/bible.h>
 #include <database/config/general.h>
+#include <database/cache.h>
 #include <fonts/logic.h>
 #include <navigation/passage.h>
 #include <dialog/list.h>
@@ -137,6 +138,15 @@ string read_index (void * webserver_request)
   string cls = Filter_Css::getClass (bible);
   string font = Fonts_Logic::getTextFont (bible);
   int current_theme_index = convert_to_int(request->database_config_user ()->getCurrentTheme ());
+  string filename = current_theme_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      current_theme_index = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "1");
+      current_theme_index = 1;
+    }
+  }
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);

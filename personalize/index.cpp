@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/user.h>
 #include <database/logs.h>
+#include <database/cache.h>
 #include <locale/logic.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
@@ -42,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <ipc/focus.h>
 #include <client/logic.h>
 #include <config/globals.h>
+#include <config/logic.h>
 
 
 string personalize_index_url ()
@@ -83,7 +85,13 @@ string personalize_index (void * webserver_request)
   // Set the user chosen theme as the current theme.
   if (request->post.count ("themepicker")) {
     int themepicker = convert_to_int (request->post ["themepicker"]);
-    request->database_config_user ()->setCurrentTheme (themepicker);
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      database_filebased_cache_put (filename, convert_to_string (themepicker));
+    }
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      request->database_config_user ()->setCurrentTheme (themepicker);
+    }
   }
 
   
@@ -95,15 +103,31 @@ string personalize_index (void * webserver_request)
   // Store new font sizes before displaying the header,
   // so that the page displays the new font sizes immediately.
   if (request->post.count ("fontsizegeneral")) {
-   int fontsizegeneral = convert_to_int (request->post["fontsizegeneral"]);
+    int fontsizegeneral = convert_to_int (request->post["fontsizegeneral"]);
     fontsizegeneral = clip (fontsizegeneral, 50, 300);
-    request->database_config_user ()->setGeneralFontSize (fontsizegeneral);
+    // Indonesian Cloud Free
+    // All of the accessible user defined variable in Indonesian Cloud Free
+    // Simple version uses filebased database as explained in ./ipc/focus.cpp
+    // line 37 to 44. 
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      database_filebased_cache_put (filename, convert_to_string (fontsizegeneral));
+    }
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      request->database_config_user ()->setGeneralFontSize (fontsizegeneral);
+    }
     return "";
   }
   if (request->post.count ("fontsizemenu")) {
     int fontsizemenu = convert_to_int (request->post["fontsizemenu"]);
     fontsizemenu = clip (fontsizemenu, 50, 300);
-    request->database_config_user ()->setMenuFontSize (fontsizemenu);
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      database_filebased_cache_put (filename, convert_to_string (fontsizemenu));
+    }
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      request->database_config_user ()->setMenuFontSize (fontsizemenu);
+    }
     return "";
   }
   
@@ -117,11 +141,23 @@ string personalize_index (void * webserver_request)
 
   
   // Font size for everything.
-  view.set_variable ("fontsizegeneral", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    string filename = general_font_size_filebased_cache_filename (request->session_identifier);
+    view.set_variable ("fontsizegeneral", database_filebased_cache_get (filename));
+  }
+  if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    view.set_variable ("fontsizegeneral", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
+  }
 
   
   // Font size for the menu.
-  view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
+    view.set_variable ("fontsizemenu", database_filebased_cache_get (filename));
+  }
+  if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+  }
   
   
   // Font size for the Bible editors.
@@ -139,7 +175,13 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizeresources")) {
     int fontsizeresources = convert_to_int (request->post["fontsizeresources"]);
     fontsizeresources = clip (fontsizeresources, 50, 300);
-    request->database_config_user ()->setResourcesFontSize (fontsizeresources);
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      database_filebased_cache_put (filename, convert_to_string (fontsizeresources));
+    }
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      request->database_config_user ()->setResourcesFontSize (fontsizeresources);
+    }
     return "";
   }
   view.set_variable ("fontsizeresources", convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
@@ -149,7 +191,13 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizehebrew")) {
     int fontsizehebrew = convert_to_int (request->post["fontsizehebrew"]);
     fontsizehebrew = clip (fontsizehebrew, 50, 300);
-    request->database_config_user ()->setHebrewFontSize (fontsizehebrew);
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      database_filebased_cache_put (filename, convert_to_string (fontsizehebrew));
+    }
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      request->database_config_user ()->setHebrewFontSize (fontsizehebrew);
+    }
     return "";
   }
   view.set_variable ("fontsizehebrew", convert_to_string (request->database_config_user ()->getHebrewFontSize ()));
@@ -159,7 +207,13 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizegreek")) {
     int fontsizegreek = convert_to_int (request->post["fontsizegreek"]);
     fontsizegreek = clip (fontsizegreek, 50, 300);
-    request->database_config_user ()->setGreekFontSize (fontsizegreek);
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      database_filebased_cache_put (filename, convert_to_string (fontsizegreek));
+    }
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      request->database_config_user ()->setGreekFontSize (fontsizegreek);
+    }
     return "";
   }
   view.set_variable ("fontsizegreek", convert_to_string (request->database_config_user ()->getGreekFontSize ()));
@@ -185,6 +239,12 @@ string personalize_index (void * webserver_request)
   
   // Set the chosen theme on the option HTML tag.
   string theme_key = convert_to_string (request->database_config_user ()->getCurrentTheme ());
+  string filename = current_theme_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      theme_key = convert_to_string (database_filebased_cache_get (filename));
+    }
+  }
   string theme_html;
   theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
   theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);

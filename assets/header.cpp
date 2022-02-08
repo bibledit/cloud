@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
+#include <database/cache.h>
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request)
@@ -270,10 +271,32 @@ string Assets_Header::run ()
 
   vector <string> embedded_css;
   int fontsize = request->database_config_user ()->getGeneralFontSize ();
+  // Indonesian Cloud Free
+  // All of the accessible user defined variable in Indonesian Cloud Free
+  // Simple version uses filebased database as explained in ./ipc/focus.cpp
+  // line 37 to 44. 
+  string filename = general_font_size_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      fontsize = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "100");
+      fontsize = 100;
+    }
+  }
   if (fontsize != 100) {
     embedded_css.push_back ("body { font-size: " + convert_to_string (fontsize) + "%; }");
   }
   fontsize = request->database_config_user ()->getMenuFontSize ();
+  filename = menu_font_size_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      fontsize = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "100");
+      fontsize = 100;
+    }
+  }
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + convert_to_string (fontsize) + "%; }");
   }
@@ -282,14 +305,40 @@ string Assets_Header::run ()
     embedded_css.push_back (".bibleeditor { font-size: " + convert_to_string (fontsize) + "% !important; }");
   }
   fontsize = request->database_config_user ()->getResourcesFontSize ();
+  filename = resource_font_size_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      fontsize = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "100");
+      fontsize = 100;
+    }
+  }
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + convert_to_string (fontsize) + "% !important; }");
   }
   fontsize = request->database_config_user ()->getHebrewFontSize ();
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      fontsize = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "100");
+      fontsize = 100;
+    }
+  }
   if (fontsize != 100) {
     embedded_css.push_back (".hebrew { font-size: " + convert_to_string (fontsize) + "%!important; }");
   }
   fontsize = request->database_config_user ()->getGreekFontSize ();
+  filename = greek_font_size_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      fontsize = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "100");
+      fontsize = 100;
+    }
+  }
   if (fontsize != 100) {
     embedded_css.push_back (".greek { font-size: " + convert_to_string (fontsize) + "%!important; }");
   }
@@ -298,6 +347,15 @@ string Assets_Header::run ()
   }
 
   int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
+  filename = current_theme_filebased_cache_filename (request->session_identifier);
+  if (config_logic_indonesian_cloud_free_simple ()) {
+    if (database_filebased_cache_exists (filename)) {
+      current_theme_index = convert_to_int (database_filebased_cache_get (filename));
+    } else {
+      database_filebased_cache_put (filename, "1");
+      current_theme_index = 1;
+    }
+  }
   // Add the theme color css class selector name on the body element,..
   view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
   // ..workspacewrapper div element..

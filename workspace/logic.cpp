@@ -202,13 +202,6 @@ string workspace_get_active_name (void * webserver_request)
 
   string workspace = request->database_config_user()->getActiveWorkspace ();
 
-  // Indonesian Cloud Free
-  // Get data from file based database cache.
-  if (config_logic_indonesian_cloud_free_simple ()) {
-    string filename = database_filebased_cache_name_by_ip (request->remote_address, "aw");
-    workspace = database_filebased_cache_get (filename);
-  }
-
   if (workspace.empty ()) {
     workspace = workspace_get_default_name ();
   }

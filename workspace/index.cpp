@@ -51,26 +51,12 @@ string workspace_index (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> workspaces = workspace_get_names (request);
 
-  // Indonesian Cloud Free
-  // The same method explained in ./ipc/focus.cpp line 37 to 44.
-  string filename = database_filebased_cache_name_by_ip (request->remote_address, "aw");
-  
   // Set the requested workspace as the active one.
   if (request->query.count ("bench")) {
     unsigned int bench = convert_to_int (request->query ["bench"]);
     if (bench < workspaces.size ()) {
       string workspace = workspaces [bench];
-
-      // Indonesian Cloud Free
-      // Store into file based database cache.
-      if (config_logic_indonesian_cloud_free_simple ()) {
-        database_filebased_cache_put (filename, workspace);
-      }
-
-      // Default configuration or default Indonesian Cloud Free.
-      if (config_logic_default_bibledit_configuration () || (config_logic_indonesian_cloud_free () && ! config_logic_indonesian_cloud_free_simple ())) {
-        request->database_config_user()->setActiveWorkspace (workspace);
-      }
+      request->database_config_user()->setActiveWorkspace (workspace);
     }
   }
   
@@ -78,24 +64,9 @@ string workspace_index (void * webserver_request)
   // Check that the active workspace exists, else set the first available workspace as the active one.
   {
     string workspace = request->database_config_user ()->getActiveWorkspace ();
-    // Indonesian Cloud Free
-    // Get data from file based database cache.
-    if (config_logic_indonesian_cloud_free_simple ()) {
-      workspace = database_filebased_cache_get (filename);
-    }
     if (!in_array (workspace, workspaces)) {
       if (!workspaces.empty ()) {
-
-        // Indonesian Cloud Free
-        // Store into file based database cache.
-        if (config_logic_indonesian_cloud_free_simple ()) {
-          database_filebased_cache_put (filename, workspaces [0]);
-        }
-
-        // Default configuration or default Indonesian Cloud Free.
-        if (config_logic_default_bibledit_configuration () || (config_logic_indonesian_cloud_free () && ! config_logic_indonesian_cloud_free_simple ())) {
-          request->database_config_user ()->setActiveWorkspace (workspaces [0]);
-        }
+        request->database_config_user ()->setActiveWorkspace (workspaces [0]);
       }
     }
   }

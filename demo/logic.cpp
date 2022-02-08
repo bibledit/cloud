@@ -442,11 +442,11 @@ vector <string> demo_logic_default_resources ()
       HEBREW_ETCBC4_NAME,
       OSHB_NAME,
       // Greek original language resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Ibrani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Yunani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
       // BYZ 2018 - not yet available
       SBLGNT_NAME,
       // Literal translations resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Ibrani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Harfiah", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "orange"),
       "MILT2008",
       "TB1974",
       "KitabSuciInjil2011",
@@ -455,14 +455,14 @@ vector <string> demo_logic_default_resources ()
       KJV_LEXICON_NAME,
       // World English Bible - not yet available
       // Modified literal translations resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Ibrani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-modified-literal/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Literal Dimodifikasi", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-modified-literal/", "black", "orange"),
       "NET Bible",
       // New International Version - not yet available
       // Expanded Bible - not yet available
       // Amplified Bible - not yet available
       // Worldwide English New Testament - not yet available
       // Dynamic equivalence translations resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Ibrani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "orange"),
       // Good News Translation - not yet available
       "BIS1985",
       "TMV1987",
@@ -471,7 +471,7 @@ vector <string> demo_logic_default_resources ()
       // God's Word for the Nations - not yet available
       "FreeBibleVersion2021",
       // Parafrase translations resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Ibrani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
       // J.B. Phillips NT - not yet available
       // The Living Bible - not yet available
       "FAYH1989"

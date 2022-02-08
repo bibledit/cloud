@@ -138,6 +138,12 @@ string Assets_Header::run ()
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
+  cout << "user agent: " + request->user_agent << endl;
+  cout << "session id: " + request->session_identifier << endl;
+  cout << "host: " + request->host << endl;
+  cout << "header: " + request->header << endl;
+  cout << "etag: " + request->etag << endl;
+
   string page;
   
   // Include the software version number in the stylesheet and javascript URL
@@ -203,6 +209,10 @@ string Assets_Header::run ()
     string menublock;
     string item = request->query ["item"];
     bool main_menu_always_on = false;
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      main_menu_always_on = true;
+      view->set_variable ("mainmenualwayson", convert_to_string (main_menu_always_on));
+    }
     if (item.empty ())
       if (request->database_config_user ()->getMainMenuAlwaysVisible ()) {
         main_menu_always_on = true;

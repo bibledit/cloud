@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <filter/webview.h>
 #include <menu/logic.h>
+#include <read/index.h>
 
 
 const char * index_index_url ()
@@ -60,6 +61,13 @@ string index_index (void * webserver_request)
     // The demo, when there's no active menu, forwards to the active workspace.
     if (request->query.empty ()) {
       header.refresh (5, "/" + workspace_index_url ());
+    }
+    // Indonesian Cloud Free
+    // Forwards to read/index instead.
+    if (config_logic_indonesian_cloud_free_simple ()) {
+      if (request->query.empty ()) {
+        header.refresh (5, "/" + read_index_url ());
+      }
     }
   }
   

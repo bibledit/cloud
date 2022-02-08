@@ -182,12 +182,13 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   // Deal with a situation the user has access to the workspaces.
   if (workspace_index_acl (webserver_request)) {
-    string label = translate ("Workspace");
-    if (config_logic_indonesian_cloud_free_simple ()) label = "Belajar";
-    string tooltip;
-    menu_logic_workspace_category (webserver_request, &tooltip);
-    html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip, ""));
-    tooltipbits.push_back (label);
+    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+      string label = translate ("Workspace");
+      string tooltip;
+      menu_logic_workspace_category (webserver_request, &tooltip);
+      html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip, ""));
+      tooltipbits.push_back (label);
+    }
   }
 
   string menutooltip;
@@ -196,7 +197,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
     if (config_logic_indonesian_cloud_free_simple ()) {
-      html.push_back("");
+      html.push_back (menu_logic_create_item (read_index_url (), "Baca", true, "", color));
     }
 
     if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
@@ -207,7 +208,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   
   if (!menu_logic_search_category (webserver_request, &menutooltip).empty ()) {
     if (config_logic_indonesian_cloud_free_simple ()) {
-      html.push_back("");
+      html.push_back (menu_logic_create_item (resource_index_url (), "Teliti", true, "", color));
     }
 
     if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
@@ -218,7 +219,8 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   if (!menu_logic_tools_category (webserver_request, &menutooltip).empty ()) {
     if (config_logic_indonesian_cloud_free_simple ()) {
-      html.push_back("");
+      menu_logic_workspace_category (webserver_request, &tooltip);
+      html.push_back (menu_logic_create_item (workspace_index_url (), "Baca dan Teliti", true, "", color));
     }
 
     if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
@@ -229,7 +231,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   if (!menu_logic_settings_category (webserver_request, &menutooltip).empty ()) {
     if (config_logic_indonesian_cloud_free_simple ()) {
-      html.push_back (menu_logic_create_item (personalize_index_url (), "Pengaturan", true, "", color));
+      html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
     }
 
 
@@ -391,15 +393,6 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
 
     string activeWorkspace = request->database_config_user()->getActiveWorkspace ();
 
-    // Indonesian Cloud Free
-    // The same method explained in ./ipc/focus.cpp line 37 to 44.
-    if (config_logic_indonesian_cloud_free_simple ()) {
-      string filename = database_filebased_cache_name_by_ip (request->remote_address, "aw");
-      if (database_filebased_cache_exists (filename)) {
-        activeWorkspace = database_filebased_cache_get (filename);
-      }
-    }
-
     vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspaces[i], true, "", "");
@@ -414,6 +407,9 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
   }
 
   if (tooltip) tooltip->assign (filter_string_implode (labels, " | "));
+  // Indonesian Cloud Free
+  // The default setting only has one workspace.
+  if (config_logic_indonesian_cloud_free_simple ()) return "";
   return filter_string_implode (html, "\n");
 }
 

@@ -95,7 +95,6 @@ map <int, string> workspace_get_default_urls (int id)
     urls [1] = resource_index_url ();
     urls [2] = "";
     urls [3] = "";
-    urls [4] = "";
     urls [5] = "";
   }
   return urls;
@@ -140,6 +139,7 @@ map <int, string> workspace_get_default_widths (int id)
     widths [1] = "1";
     widths [2] = "0";
     widths [3] = "0";
+    widths [5] = "0";
   }
   return widths;
 }
@@ -167,7 +167,7 @@ map <int, string> workspace_get_default_heights (int id)
       break;
   }
   if (config_logic_indonesian_cloud_free_simple ()) {
-    heights [0] = "0";
+    heights [0] = "1";
     heights [1] = "0";
   }
   return heights;

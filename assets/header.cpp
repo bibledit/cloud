@@ -138,12 +138,6 @@ string Assets_Header::run ()
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
-  cout << "user agent: " + request->user_agent << endl;
-  cout << "session id: " + request->session_identifier << endl;
-  cout << "host: " + request->host << endl;
-  cout << "header: " + request->header << endl;
-  cout << "etag: " + request->etag << endl;
-
   string page;
   
   // Include the software version number in the stylesheet and javascript URL

@@ -24,11 +24,9 @@ var verseReaderUniqueID = Math.floor (Math.random() * 100000000);
 
 $ (document).ready (function ()
 {
-  // Listens for bibleselect option tags value change to update the
-  // loaded Bible.
+  // Listens for bibleselect option tags value change to update the loaded Bible.
   var bibleSelectionElement = document.querySelector ("#bibleselect");
   bibleSelectionElement.addEventListener ('change', () => {
-    console.log("Alkitab berubah!");
     var value = bibleSelectionElement.value;
     var postData = '{"bibleselect":"'+value+'"}';
     postData = JSON.parse(postData);

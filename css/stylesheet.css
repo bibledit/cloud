@@ -662,6 +662,7 @@ input#cancel,
   -o-text-overflow: unset !important;
   text-overflow: unset !important;
   max-width: 87.5vw;
+  min-width: 87.5vw;
 }
 
 #versepickerwrapper span {

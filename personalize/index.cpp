@@ -110,7 +110,7 @@ string personalize_index (void * webserver_request)
     // Simple version uses filebased database as explained in ./ipc/focus.cpp
     // line 37 to 44. 
     if (config_logic_indonesian_cloud_free_simple ()) {
-      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      string filename = general_font_size_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizegeneral));
     }
     if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
@@ -122,7 +122,7 @@ string personalize_index (void * webserver_request)
     int fontsizemenu = convert_to_int (request->post["fontsizemenu"]);
     fontsizemenu = clip (fontsizemenu, 50, 300);
     if (config_logic_indonesian_cloud_free_simple ()) {
-      string filename = current_theme_filebased_cache_filename (request->session_identifier);
+      string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizemenu));
     }
     if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {

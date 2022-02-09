@@ -34,6 +34,7 @@
 #include <fonts/logic.h>
 #include <navigation/passage.h>
 #include <dialog/list.h>
+#include <dialog/list2.h>
 #include <ipc/focus.h>
 #include <menu/logic.h>
 #include <bb/logic.h>
@@ -72,6 +73,21 @@ string edit_index (void * webserver_request)
     Navigation_Passage::record_history (request, switchbook, switchchapter, switchverse);
   }
 
+
+  // Set the user chosen Bible as the current Bible.
+  if (request->post.count ("bibleselect")) {
+    string bibleselect = request->post ["bibleselect"];
+    request->database_config_user ()->setBible (bibleselect);
+    // Going to another Bible, ensure that the focused book exists there.
+    int book = Ipc_Focus::getBook (request);
+    vector <int> books = request->database_bibles()->getBooks (bibleselect);
+    if (find (books.begin(), books.end(), book) == books.end()) {
+      if (!books.empty ()) book = books [0];
+      else book = 0;
+      Ipc_Focus::set (request, book, 1, 1);
+    }
+  }
+
   
   string page;
   
@@ -85,36 +101,18 @@ string edit_index (void * webserver_request)
   page = header.run ();
   
   
-  if (request->query.count ("changebible")) {
-    string changebible = request->query ["changebible"];
-    if (changebible == "") {
-      Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to open in the editor"), "", "");
-      vector <string> bibles = AccessBible::Bibles (request);
-      for (auto & bible : bibles) {
-        dialog_list.add_row (bible, "changebible", bible);
-      }
-      page += dialog_list.run ();
-      return page;
-    } else {
-      request->database_config_user()->setBible (changebible);
-      // Going to another Bible, ensure that the focused book exists there.
-      int book = Ipc_Focus::getBook (request);
-      vector <int> books = request->database_bibles()->getBooks (changebible);
-      if (find (books.begin(), books.end(), book) == books.end()) {
-        if (!books.empty ()) book = books [0];
-        else book = 0;
-        Ipc_Focus::set (request, book, 1, 1);
-      }
-    }
-  }
-  
-  
   Assets_View view;
   
   
   // Active Bible, and check access.
+  // Set the chosen Bible on the option HTML tag.
   string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
+  string bible_html;
+  vector <string> bibles = AccessBible::Bibles (request);
+  for (auto bible : bibles) {
+    bible_html = Options_To_Select::add_selection (bible, bible, bible_html);
+  }
+  view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
   view.set_variable ("bible", bible);
   
   

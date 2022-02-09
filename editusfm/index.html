@@ -2,7 +2,10 @@
   ##custom_css##
 </style>
 <div id="editorheader" class="##editor_theme_color##">
-  <a href="index?changebible=">##bible##</a>
+  <label for="bibleselect">translate("Bible"): </label>
+  <select id="bibleselect" name="bibleselect" value="##bible##">
+    ##bibleoptags##
+  </select>
   |
   <span id="usfmstatus"></span>
   <!-- #BEGINZONE fastswitcheditor -->

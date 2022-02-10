@@ -435,46 +435,58 @@ vector <string> demo_logic_default_resources ()
   if (config_logic_indonesian_cloud_free_simple ()) {
     resources.clear ();
     resources = {
-      "AlkitabKita",
-      // Hebrew original language resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Ibrani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
+      // Original language resources.
+      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Asli", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
       resource_external_biblehub_interlinear_name (),
       HEBREW_ETCBC4_NAME,
       OSHB_NAME,
-      // Greek original language resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Yunani", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
-      // BYZ 2018 - not yet available
+      "[CrossWire] *[LXX] (2.5) - Septuagint, Morphologically Tagged Rahlfs'",
+      "BYZ",
       SBLGNT_NAME,
+      "Comparative Byz",
       // Literal translations resources.
       resource_logic_assemble_rich_divider ("Terjemahan Harfiah", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "orange"),
-      "MILT2008",
-      "TB1974",
-      "KitabSuciInjil2011",
-      "AYT Maret2021",
-      "ESV2001",
+      "MILT",
+      "TB74",
+      "KSI",
+      "AYT",
+      resource_logic_assemble_rich_divider ("", "", "black", "darkseagreen"),
+      "Majority TCENT",
+      "1599 Geneva Bible (GNV)",
       KJV_LEXICON_NAME,
-      // World English Bible - not yet available
+      "ESV",
+      "HCSB 2003",
       // Modified literal translations resources.
       resource_logic_assemble_rich_divider ("Terjemahan Literal Dimodifikasi", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-modified-literal/", "black", "orange"),
       "NET Bible",
-      // New International Version - not yet available
-      // Expanded Bible - not yet available
-      // Amplified Bible - not yet available
-      // Worldwide English New Testament - not yet available
+      "New International Version (NIV)",
+      "Expanded Bible (EXB)",
+      "International Standard Version (ISV)",
+      "FBV",
+      "Complete Jewish Bible (CJB)",
+      "GOD’S WORD Translation (GW)",
       // Dynamic equivalence translations resources.
       resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "orange"),
-      // Good News Translation - not yet available
-      "BIS1985",
-      "TMV1987",
-      "NLT1996",
-      // Contemporary English Version - not yet available
-      // God's Word for the Nations - not yet available
-      "FreeBibleVersion2021",
+      "AlkitabKita",
+      "BIS85",
+      "TMV87",
+      resource_logic_assemble_rich_divider ("", "", "black", "darkseagreen"),
+      "NLT",
+      "UDB",
+      "GNT",
+      "FBV-Feb2022",
       // Parafrase translations resources.
       resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
-      // J.B. Phillips NT - not yet available
-      // The Living Bible - not yet available
-      "FAYH1989"
+      "FAYH",
+      resource_logic_assemble_rich_divider ("", "", "black", "darkseagreen"),
+      "J.B. Phillips New Testament (PHILLIPS)",
+      "Living Bible (TLB)",
+      // Commentaries.
+      resource_logic_assemble_rich_divider ("Tafsiran", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/tafsiran/", "black", "orange"),
+      "T4T",
+      "Barnes' Notes on the Whole Bible (studylight-eng/bnb)",
+      "Dr. Constable's Expository Notes (studylight-eng/dcc)",
+      resource_logic_assemble_rich_divider ("Komentar Alkitab Gratis oleh Dr. Bob Utley", "https://www.freebiblecommentary.org/indonesian_bible_study.htm", "black", "darkseagreen"),
     };
   }
   // Done.

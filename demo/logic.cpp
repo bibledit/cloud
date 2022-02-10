@@ -436,7 +436,7 @@ vector <string> demo_logic_default_resources ()
     resources.clear ();
     resources = {
       // Original language resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Asli", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Asli", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
       resource_external_biblehub_interlinear_name (),
       HEBREW_ETCBC4_NAME,
       OSHB_NAME,
@@ -445,7 +445,7 @@ vector <string> demo_logic_default_resources ()
       SBLGNT_NAME,
       "Comparative Byz",
       // Literal translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Harfiah", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Harfiah", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "orange"),
       "MILT",
       "TB74",
       "KSI",
@@ -457,7 +457,7 @@ vector <string> demo_logic_default_resources ()
       "ESV",
       "HCSB 2003",
       // Modified literal translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Literal Dimodifikasi", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-modified-literal/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Literal Dimodifikasi", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-modified-literal/", "black", "orange"),
       "NET Bible",
       "New International Version (NIV)",
       "Expanded Bible (EXB)",
@@ -466,7 +466,7 @@ vector <string> demo_logic_default_resources ()
       "Complete Jewish Bible (CJB)",
       "GOD’S WORD Translation (GW)",
       // Dynamic equivalence translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "orange"),
       "AlkitabKita",
       "BIS85",
       "TMV87",
@@ -476,13 +476,13 @@ vector <string> demo_logic_default_resources ()
       "GNT",
       "FBV-Feb2022",
       // Parafrase translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
       "FAYH",
       resource_logic_assemble_rich_divider ("", "", "black", "darkseagreen"),
       "J.B. Phillips New Testament (PHILLIPS)",
       "Living Bible (TLB)",
       // Commentaries.
-      resource_logic_assemble_rich_divider ("Tafsiran", "https://alkitabkita.info/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/tafsiran/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Tafsiran", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/tafsiran/", "black", "orange"),
       "T4T",
       "Barnes' Notes on the Whole Bible (studylight-eng/bnb)",
       "Dr. Constable's Expository Notes (studylight-eng/dcc)",

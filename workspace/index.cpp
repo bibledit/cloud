@@ -146,3 +146,9 @@ string workspace_index (void * webserver_request)
   page += Assets_Page::footer ();
   return page;
 }
+
+
+// It used to use a sandbox restriction in the iframe.
+// sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals"
+// But that led to issues:
+// https://github.com/bibledit/cloud/issues/744

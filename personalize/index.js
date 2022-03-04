@@ -41,8 +41,8 @@ $ (document).ready (function ()
         postData = JSON.parse(postData);
 
         if (submissionTechnique == "post+reload") {
-          $.post ("index", postData);
-          setTimeout(()=>{ window.location.reload() }, 150);
+          $.post ("index", postData)
+            .done (function() { window.location.reload () });
         }
 
         if (submissionTechnique == "post" || submissionTechnique == "post+") {

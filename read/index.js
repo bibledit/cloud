@@ -30,8 +30,8 @@ $ (document).ready (function ()
     var value = bibleSelectionElement.value;
     var postData = '{"bibleselect":"'+value+'"}';
     postData = JSON.parse(postData);
-    $.post ("index", postData);
-    setTimeout(()=>{ window.location.reload() }, 150);
+    $.post ("index", postData)
+      .done (function() { window.location.reload () });
   });
 
   // Make the editor's menu to never scroll out of view.

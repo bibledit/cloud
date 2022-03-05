@@ -62,7 +62,7 @@ string Database_Bibles::chapterFolder (string bible, int book, int chapter)
 // It mimics Bibledit's native filesystem database directory structure.
 string Database_Bibles::icfURL ()
 {
-  return "https://alkitabkita.info/pengolah-usfm-tsi-untuk-bibledit/usfm-hasil/";
+  return "https://raw.githubusercontent.com/aranggitoar/pengolah-usfm-tsi-untuk-bibledit/main/usfm-hasil/";
 }
 
 

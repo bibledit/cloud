@@ -10,8 +10,18 @@
   <progress value="0" max="100"></progress>
 </p>
 <p><input type="checkbox" id="casesensitive">translate("Case sensitive")</p>
-<p>translate("Search") <input type="radio" id="searchplain" name="where" checked="checked">translate ("plain text") <input type="radio" name="where">translate("underlying USFM")</p>
-<p><input type="checkbox" id="currentbook">translate("Current book")</p>
+<p>
+translate("Search")
+<input type="radio" id="searchplain" name="where" checked="checked">translate ("plain text")
+<input type="radio" name="where">translate("underlying USFM")
+</p>
+<p>
+translate("Search")
+<input type="radio" id="allbooks" name="books" checked="checked">translate ("all books")
+<input type="radio" id="currentbook" name="books">translate ("current book")
+<input type="radio" id="otbooks" name="books">translate ("Old Testament")
+<input type="radio" id="ntbooks" name="books">translate ("New Testament")
+</p>
 <p>translate("What to do with the search results"):</p>
 <p><input type="radio" id="load" name="share" checked="checked">translate("Display them on the page")</p>
 <p><input type="radio" id="add" name="share">translate("Add them to the ones already on the page")</p>

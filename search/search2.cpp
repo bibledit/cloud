@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <database/volatile.h>
 #include <database/config/general.h>
+#include <database/books.h>
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <search/logic.h>
@@ -112,7 +113,7 @@ string search_search2 (void * webserver_request)
     // Get extra search parameters and store them all in the volatile database.
     bool casesensitive = (request->query ["c"] == "true");
     bool plaintext = (request->query ["p"] == "true");
-    bool currentbook = (request->query ["b"] == "true");
+    string books = request->query ["b"];
     string sharing = request->query ["s"];
     Database_Volatile::setValue (identifier, "query", query);
     Database_Volatile::setValue (identifier, "casesensitive", convert_to_string (casesensitive));
@@ -139,13 +140,28 @@ string search_search2 (void * webserver_request)
     
     
     // Deal with possible searching in the current book only.
-    if (currentbook) {
+    if (books == "currentbook") {
       int book = Ipc_Focus::getBook (request);
       vector <Passage> bookpassages;
       for (auto & passage : passages) {
         if (book == passage.book) {
           bookpassages.push_back (passage);
         }
+      }
+      passages = bookpassages;
+    }
+    
+    
+    // Deal with possible searching in Old or New Testament only.
+    bool otbooks = (books == "otbooks");
+    bool ntbooks = (books == "ntbooks");
+    if (otbooks || ntbooks) {
+      vector <Passage> bookpassages;
+      for (auto & passage : passages) {
+        string type = Database_Books::getType (passage.book);
+        if (otbooks) if (type != "ot") continue;
+        if (ntbooks) if (type != "nt") continue;
+        bookpassages.push_back (passage);
       }
       passages = bookpassages;
     }

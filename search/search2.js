@@ -41,15 +41,17 @@ var ajaxRequest;
 
 function startSearch ()
 {
-  try {
-    ajaxRequest.abort ();
-  } catch (err) {
-  }
+  try { ajaxRequest.abort (); }
+  catch (err) { }
   var query = $ ("#searchentry").val ();
   if (query == "") return;
   var casesensitive = $ ("#casesensitive").prop ("checked");
   var searchplain = $ ("#searchplain").prop ("checked");
   var currentbook = $ ("#currentbook").prop ("checked");
+  var books = "allbooks";
+  if ($ ("#currentbook").prop ("checked")) books = "currentbook";
+  if ($ ("#otbooks").prop ("checked")) books = "otbooks";
+  if ($ ("#ntbooks").prop ("checked")) books = "ntbooks";
   var sharing = "load";
   if ($ ("#add").prop ("checked")) sharing = "add";
   if ($ ("#remove").prop ("checked")) sharing = "remove";
@@ -63,7 +65,7 @@ function startSearch ()
   ajaxRequest = $.ajax ({
     url: "search2",
     type: "GET",
-    data: { bible: searchBible, i: identifier, q: query, c: casesensitive, p: searchplain, b: currentbook, s: sharing },
+    data: { bible: searchBible, i: identifier, q: query, c: casesensitive, p: searchplain, b: books, s: sharing },
     success: function (response) {
       var ids = response.split ("\n");
       for (var i = 0; i < ids.length; i++) {

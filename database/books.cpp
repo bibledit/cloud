@@ -195,7 +195,7 @@ string Database_Books::getType (int id)
       return books_table[i].type;
     }
   }
-  return "";
+  return string();
 }
 
 

@@ -169,6 +169,20 @@ void Database_Config_Bible::setCheckSpaceBeforePunctuation (string bible, bool v
 }
 
 
+const char * space_before_final_note_marker_key ()
+{
+  return "space-before-final-note-marker";
+}
+bool Database_Config_Bible::getCheckSpaceBeforeFinalNoteMarker (string bible)
+{
+  return getBValue (bible, space_before_final_note_marker_key (), false);
+}
+void Database_Config_Bible::setCheckSpaceBeforeFinalNoteMarker (string bible, bool value)
+{
+  setBValue (bible, space_before_final_note_marker_key (), value);
+}
+
+
 bool Database_Config_Bible::getCheckSentenceStructure (string bible)
 {
   return getBValue (bible, "sentence-structure", false);

@@ -105,17 +105,30 @@ void test_space ()
     evaluate (__LINE__, __func__, standard, usfm);
   }
   
-  // Check on a space before final note and cross reference markup. Todo
+  // Check on a space before final note and cross reference markup.
   {
     database_check.truncateOutput (bible);
-    map <int, string> verses = {
-      {4, R"(\v 1 Note \f ... \f*.)"},
-      {5, R"(\v 2 Endnote \fe ... \fe*.)"},
-      {6, R"(\v 3 Cross reference \x ... \x*.)"},
-    };
-    checks::space::space_before_final_note_markup (bible, 2, 3, verses);
+    int verse = 4;
+    string usfm = R"(\v 1 Note \f ... \f*.)";
+    checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 3, hits.size ());
+    evaluate (__LINE__, __func__, 1, hits.size ());
+  }
+  {
+    database_check.truncateOutput (bible);
+    int verse = 5;
+    string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
+    checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 1, hits.size ());
+  }
+  {
+    database_check.truncateOutput (bible);
+    int verse = 6;
+    string usfm = R"(\v 3 Cross reference \x ... \x*.)";
+    checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 1, hits.size ());
   }
 
 }

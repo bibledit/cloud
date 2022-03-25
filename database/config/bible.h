@@ -33,6 +33,8 @@ public:
   static void setCheckFullStopInHeadings (string bible, bool value);
   static bool getCheckSpaceBeforePunctuation (string bible);
   static void setCheckSpaceBeforePunctuation (string bible, bool value);
+  static bool getCheckSpaceBeforeFinalNoteMarker (string bible);
+  static void setCheckSpaceBeforeFinalNoteMarker (string bible, bool value);
   static bool getCheckSentenceStructure (string bible);
   static void setCheckSentenceStructure (string bible, bool value);
   static bool getCheckParagraphStructure (string bible);

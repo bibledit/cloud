@@ -72,6 +72,7 @@ void checks_run (string bible)
   bool check_double_spaces_usfm = Database_Config_Bible::getCheckDoubleSpacesUsfm (bible);
   bool check_full_stop_in_headings = Database_Config_Bible::getCheckFullStopInHeadings (bible);
   bool check_space_before_punctuation = Database_Config_Bible::getCheckSpaceBeforePunctuation (bible);
+  bool check_space_before_final_note_marker = Database_Config_Bible::getCheckSpaceBeforeFinalNoteMarker (bible);
   bool check_sentence_structure = Database_Config_Bible::getCheckSentenceStructure (bible);
   bool check_paragraph_structure = Database_Config_Bible::getCheckParagraphStructure (bible);
   Checks_Sentences checks_sentences;
@@ -167,6 +168,9 @@ void checks_run (string bible)
             string msg = "Invalid UTF-8 Unicode in verse text";
             database_check.recordOutput (bible, book, chapter, verse, msg);
           }
+        }
+        if (check_space_before_final_note_marker) {
+          checks::space::space_before_final_note_markup(bible, book, chapter, verse, verseUsfm);
         }
       }
       

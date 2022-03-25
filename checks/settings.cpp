@@ -111,7 +111,13 @@ string checks_settings (void * webserver_request)
     Database_Config_Bible::setCheckSpaceBeforePunctuation (bible, checked);
   }
   view.set_variable ("spacebeforepunctuation", get_checkbox_status (Database_Config_Bible::getCheckSpaceBeforePunctuation (bible)));
-                      
+
+  
+  if (checkbox == "spacebeforefinalnotemarkup") {
+    Database_Config_Bible::setCheckSpaceBeforeFinalNoteMarker (bible, checked);
+  }
+  view.set_variable ("spacebeforefinalnotemarkup", get_checkbox_status (Database_Config_Bible::getCheckSpaceBeforeFinalNoteMarker (bible)));
+
                       
   if (checkbox == "sentencestructure") {
     Database_Config_Bible::setCheckSentenceStructure (bible, checked);

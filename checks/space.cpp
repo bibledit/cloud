@@ -117,21 +117,17 @@ bool transpose_note_space (string & usfm)
 }
 
 
-void space_before_final_note_markup (string bible, int book, int chapter, map <int, string> texts)
+void space_before_final_note_markup (string bible, int book, int chapter, int verse, string data)
 {
   Database_Check database_check;
-  for (auto element : texts) {
-    int verse = element.first;
-    string text = element.second;
-    if (text.find (R"( \f*)") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
-    }
-    if (text.find (R"( \fe*)") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
-    }
-    if (text.find (R"( \x*)") != string::npos) {
-      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final cross reference markup"));
-    }
+  if (data.find (R"( \f*)") != string::npos) {
+    database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
+  }
+  if (data.find (R"( \fe*)") != string::npos) {
+    database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
+  }
+  if (data.find (R"( \x*)") != string::npos) {
+    database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final cross reference markup"));
   }
 }
 

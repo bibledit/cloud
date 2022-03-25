@@ -24,7 +24,10 @@
 #include <locale/translate.h>
 
 
-void Checks_Space::doubleSpaceUsfm (string bible, int book, int chapter, int verse, string data)
+namespace checks::space {
+
+
+void double_space_usfm (string bible, int book, int chapter, int verse, string data)
 {
   size_t pos = data.find ("  ");
   if (pos != string::npos) {
@@ -37,7 +40,7 @@ void Checks_Space::doubleSpaceUsfm (string bible, int book, int chapter, int ver
 }
 
 
-void Checks_Space::spaceBeforePunctuation (string bible, int book, int chapter, map <int, string> texts)
+void space_before_punctuation (string bible, int book, int chapter, map <int, string> texts)
 {
   Database_Check database_check;
   for (auto element : texts) {
@@ -65,7 +68,7 @@ void Checks_Space::spaceBeforePunctuation (string bible, int book, int chapter, 
 }
 
 
-void Checks_Space::spaceEndVerse (string bible, int book, int chapter, string usfm)
+void space_end_verse (string bible, int book, int chapter, string usfm)
 {
   Database_Check database_check;
   vector <int> verses = usfm_get_verse_numbers (usfm);
@@ -90,7 +93,7 @@ void Checks_Space::spaceEndVerse (string bible, int book, int chapter, string us
 }
 
 
-bool Checks_Space::transposeNoteSpace (string & usfm)
+bool transpose_note_space (string & usfm)
 {
   // Samples of footnote and cross reference markers that have spacing to be transposed.
   // \v 1 Verse\f + \fr 3.1\fk  keyword\ft  Text.\f* one.
@@ -111,4 +114,26 @@ bool Checks_Space::transposeNoteSpace (string & usfm)
     }
   }
   return transposed;
+}
+
+
+void space_before_final_note_markup (string bible, int book, int chapter, map <int, string> texts)
+{
+  Database_Check database_check;
+  for (auto element : texts) {
+    int verse = element.first;
+    string text = element.second;
+    if (text.find (R"( \f*)") != string::npos) {
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
+    }
+    if (text.find (R"( \fe*)") != string::npos) {
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
+    }
+    if (text.find (R"( \x*)") != string::npos) {
+      database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final cross reference markup"));
+    }
+  }
+}
+
+
 }

@@ -38,7 +38,7 @@ void test_space ()
     "\\v 2 This is verse 2.\n"
     "\\v 3 This is verse 3.\n"
     ;
-    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
+    checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, hits.size ());
   }
@@ -49,7 +49,7 @@ void test_space ()
     string usfm =
     "\\v 4 This is verse 4. \n"
     ;
-    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
+    checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, hits.size ());
   }
@@ -64,7 +64,7 @@ void test_space ()
     string usfm =
     "\\v 5 This is verse \\add 5. \\add*\n"
     ;
-    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
+    checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, hits.size ());
   }
@@ -75,7 +75,7 @@ void test_space ()
     string usfm =
     "\\v 6 This is verse \\add 6.\\add*\n"
     ;
-    Checks_Space::spaceEndVerse (bible, 2, 3, usfm);
+    checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, hits.size ());
   }
@@ -84,7 +84,7 @@ void test_space ()
   {
     database_check.truncateOutput (bible);
     string usfm = R"(\v 1 This contains  a double space.)";
-    Checks_Space::doubleSpaceUsfm (bible, 2, 3, 4, usfm);
+    checks::space::double_space_usfm (bible, 2, 3, 4, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, hits.size ());
   }
@@ -93,16 +93,29 @@ void test_space ()
   {
     string usfm = R"(\v 1 Verse\f + \fr 3.1\fk  keyword\ft  Text.\f* one.)";
     string standard = R"(\v 1 Verse\f + \fr 3.1 \fk keyword \ft Text.\f* one.)";
-    bool transposed = Checks_Space::transposeNoteSpace (usfm);
+    bool transposed = checks::space::transpose_note_space (usfm);
     evaluate (__LINE__, __func__, true, transposed);
     evaluate (__LINE__, __func__, standard, usfm);
   }
   {
     string usfm = R"(\v 2 Verse\x + \xo 3.2\xt  Text.\x* two.)";
     string standard = R"(\v 2 Verse\x + \xo 3.2 \xt Text.\x* two.)";
-    bool transposed = Checks_Space::transposeNoteSpace (usfm);
+    bool transposed = checks::space::transpose_note_space (usfm);
     evaluate (__LINE__, __func__, true, transposed);
     evaluate (__LINE__, __func__, standard, usfm);
+  }
+  
+  // Check on a space before final note and cross reference markup. Todo
+  {
+    database_check.truncateOutput (bible);
+    map <int, string> verses = {
+      {4, R"(\v 1 Note \f ... \f*.)"},
+      {5, R"(\v 2 Endnote \fe ... \fe*.)"},
+      {6, R"(\v 3 Cross reference \x ... \x*.)"},
+    };
+    checks::space::space_before_final_note_markup (bible, 2, 3, verses);
+    vector <Database_Check_Hit> hits = database_check.getHits ();
+    evaluate (__LINE__, __func__, 3, hits.size ());
   }
 
 }

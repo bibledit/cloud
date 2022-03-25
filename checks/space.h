@@ -21,12 +21,13 @@
 
 #include <config/libraries.h>
 
-class Checks_Space
-{
-public:
-  static void doubleSpaceUsfm (string bible, int book, int chapter, int verse, string data);
-  static void spaceBeforePunctuation (string bible, int book, int chapter, map <int, string> texts);
-  static void spaceEndVerse (string bible, int book, int chapter, string usfm);
-  static bool transposeNoteSpace (string & usfm);
-private:
-};
+namespace checks::space {
+
+void double_space_usfm (string bible, int book, int chapter, int verse, string data);
+void space_before_punctuation (string bible, int book, int chapter, map <int, string> texts);
+void space_end_verse (string bible, int book, int chapter, string usfm);
+bool transpose_note_space (string & usfm);
+void space_before_final_note_markup (string bible, int book, int chapter, map <int, string> texts);
+
+}
+

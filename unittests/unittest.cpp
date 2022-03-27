@@ -144,6 +144,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   refresh_sandbox (false);
   test_dev ();
   test_space ();
+  test_filter_text ();
   refresh_sandbox (false);
   exit (0);
   

@@ -42,15 +42,23 @@ public:
 };
 
 
-class Filter_Text_Note_Citation
+namespace filter::text {
+
+class note_citation
 {
 public:
-  Filter_Text_Note_Citation ();
-  Filter_Text_Note_Citation (vector <string> sequence_in, string restart_in);
-  vector <string> sequence;
+  note_citation ();
+  void set_sequence (int numbering, const string & usersequence);
+  void set_restart (int setting);
+  string get (string citation);
+  void run_restart (const string & moment);
+private:
   string restart;
   unsigned int pointer;
+  vector <string> sequence;
 };
+
+}
 
 
 class Filter_Text
@@ -103,13 +111,13 @@ private:
   void process_usfm ();
   void processNote ();
   // Opening a new paragraph.
-  void new_paragraph (Database_Styles_Item style, bool keepWithNext);
+  void new_paragraph (const Database_Styles_Item & style, bool keepWithNext);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (string chapterText);
-  void createNoteCitation (Database_Styles_Item style);
-  string getNoteCitation (Database_Styles_Item style);
+  void createNoteCitation (const Database_Styles_Item & style);
+  string getNoteCitation (const Database_Styles_Item & style);
   void resetNoteCitations (string moment);
-  void ensureNoteParagraphStyle (string marker, Database_Styles_Item style);
+  void ensureNoteParagraphStyle (string marker, const Database_Styles_Item & style);
 
 public:
   // Container with objects (book, chapter, verse, marker, header value).
@@ -150,14 +158,16 @@ public:
 private:
   void addToInfo (string text, bool next = false);
   void addToFallout (string text, bool next = false);
-  void addToWordList (vector <string>  & list);
+  void addToWordList (vector <string> & list);
   vector <string> wordListGlossaryDictionary;
   vector <string> hebrewWordList;
   vector <string> greekWordList;
   vector <string> subjectIndex;
 
 private:
-  map <string, Filter_Text_Note_Citation> notecitations; // Information for the citations for the notes.
+  // Information for the citations for the notes.
+  map <string, filter::text::note_citation> notecitations;
+
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
 

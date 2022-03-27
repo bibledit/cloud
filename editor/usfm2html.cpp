@@ -246,7 +246,7 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false);
                 if (isOpeningMarker) {
-                  int caller = noteCount % 9 + 1;
+                  int caller = noteCount % 9 + 1; // Todo
                   addNote (convert_to_string (caller), marker, false);
                 } else {
                   closeCurrentNote ();
@@ -281,7 +281,7 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false);
                 if (isOpeningMarker) {
-                  int caller = (noteCount) % 9 + 1;
+                  int caller = (noteCount) % 9 + 1; // Todo
                   addNote (convert_to_string (caller), marker, false);
                 } else {
                   closeCurrentNote ();

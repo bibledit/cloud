@@ -39,17 +39,76 @@ Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in,
 }
 
 
-Filter_Text_Note_Citation::Filter_Text_Note_Citation ()
+namespace filter::text {
+
+note_citation::note_citation ()
 {
   pointer = 0;
 }
 
-
-Filter_Text_Note_Citation::Filter_Text_Note_Citation (vector <string> sequence_in, string restart_in)
+void note_citation::set_sequence (int numbering, const string & usersequence)
 {
-  sequence = sequence_in;
-  restart = restart_in;
-  pointer = 0;
+  if (numbering == NoteNumbering123) {
+    this->sequence.clear();
+  }
+  else if (numbering == NoteNumberingAbc) {
+    this->sequence = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+  }
+  else if (numbering == NoteNumberingUser) {
+    if (!usersequence.empty()) this->sequence = filter_string_explode (usersequence, ' ');
+  }
+  else {
+    this->sequence = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // Fallback sequence.
+  }
+  // How the above works:
+  // The note will be numbered as follows:
+  // If a sequence is given, then this sequence is followed for the citations.
+  // If no sequence is given, then the note gets numerical citations.
+}
+
+void note_citation::set_restart (int setting)
+{
+  if (setting == NoteRestartNumberingNever) this->restart = "never";
+  else if (setting == NoteRestartNumberingEveryBook) this->restart = "book";
+  else if (setting == NoteRestartNumberingEveryChapter) this->restart = "chapter";
+  else this->restart = "chapter";
+}
+
+string note_citation::get (string citation) // Todo
+{
+  // Handle USFM automatic note citation.
+  if (citation == "+") {
+    // If the sequence is empty, then the note citation starts at 1 and increases each time.
+    if (sequence.empty()) {
+      pointer++;
+      citation = to_string (pointer);
+    }
+    // The sequence of note callers is not empty.
+    // So take the note citaton from the sequence,
+    // and then iterate to the next one.
+    else {
+      citation = sequence [pointer];
+      pointer++;
+      if (pointer >= sequence.size ()) pointer = 0;
+    }
+  }
+
+  // Handle situation in USFM that no note citation is to be displayed.
+  else if (citation == "-") {
+    citation.clear();
+  }
+  
+  // Done.
+  return citation;
+}
+
+void note_citation::run_restart (const string & moment)
+{
+  if (restart == moment) {
+    pointer = 0;
+  }
+}
+
 }
 
 
@@ -1550,7 +1609,7 @@ void Filter_Text::produceFalloutDocument (string path)
 // and then opens a paragraph with that style.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::new_paragraph (Database_Styles_Item style, bool keepWithNext)
+void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWithNext)
 {
   string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
@@ -1638,28 +1697,17 @@ void Filter_Text::putChapterNumberInFrame (string chapterText)
 
 // This creates an entry in the $this->notecitations array.
 // $style: the style: an object with values.
-void Filter_Text::createNoteCitation (Database_Styles_Item style)
+void Filter_Text::createNoteCitation (const Database_Styles_Item & style) // Todo
 {
   // Create an entry in the notecitations array in this object, if it does not yet exist.
   if (notecitations.find (style.marker) == notecitations.end()) {
-    int numbering = style.userint1;
-    string sequence = "1 2 3 4 5 6 7 8 9"; // Fallback sequence.
-    if (numbering == NoteNumbering123) sequence = "";
-    if (numbering == NoteNumberingAbc) sequence = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
-    if (numbering == NoteNumberingUser) sequence = style.userstring1;
-    vector <string> sequencevector;
-    if (!sequence.empty ()) sequencevector = filter_string_explode (sequence, ' ');
-    // Use of the above information:
-    // The note will be numbered as follows:
-    // If a sequence is given, then this sequence is followed for the citations.
-    // If no sequence is given, then the note gets numerical citations.
-    string restart = "chapter";
-    int userint2 = style.userint2;
-    if (userint2 == NoteRestartNumberingNever) restart = "never";
-    if (userint2 == NoteRestartNumberingEveryBook) restart = "book";
-    if (userint2 == NoteRestartNumberingEveryChapter) restart = "chapter";
-    // /Store the citation for later use.
-    notecitations [style.marker] = Filter_Text_Note_Citation (sequencevector, restart);
+    filter::text::note_citation notecitation;
+    // Handle caller sequence.
+    notecitation.set_sequence(style.userint1, style.userstring1);
+    // Handle note caller restart moment.
+    notecitation.set_restart(style.userint2);
+    // Store the citation for later use.
+    notecitations [style.marker] = notecitation;
   }
 }
 
@@ -1672,33 +1720,21 @@ void Filter_Text::createNoteCitation (Database_Styles_Item style)
 // The note citation is the character that is put in superscript in the main body of Bible text.
 // $style: array with values for the note opening marker.
 // Returns: The character for the note citation.
-string Filter_Text::getNoteCitation (Database_Styles_Item style)
+string Filter_Text::getNoteCitation (const Database_Styles_Item & style) // Todo
 {
   bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
-  if (end_of_text_reached) return "";
+  if (end_of_text_reached) return string();
 
-  // Get the raw note citation from the USFM. This could be, e.g. '+'.
+  // Extract the raw note citation from the USFM. This could be, e.g. '+'.
   string nextText = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1];
   string citation = nextText.substr (0, 1);
   nextText = filter_string_ltrim (nextText.substr (1));
   chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = nextText;
   citation = filter_string_trim (citation);
-  if (citation == "+") {
-    string marker = style.marker;
-    vector <string> sequence = notecitations[marker].sequence;
-    size_t pointer = notecitations[marker].pointer;
-    if (sequence.empty()) {
-      pointer++;
-      citation = convert_to_string (pointer);
-    } else {
-      citation = sequence [pointer];
-      pointer++;
-      if (pointer >= sequence.size ()) pointer = 0;
-    }
-    notecitations[marker].pointer = static_cast<unsigned int>(pointer);
-  } else if (citation == "-") {
-    citation = "";
-  }
+  
+  // Get the rendered note citation.
+  string marker = style.marker;
+  citation = notecitations[marker].get(citation);
   return citation;
 }
 
@@ -1710,9 +1746,7 @@ string Filter_Text::getNoteCitation (Database_Styles_Item style)
 void Filter_Text::resetNoteCitations (string moment)
 {
   for (auto & notecitation : notecitations) {
-    if (notecitation.second.restart == moment) {
-      notecitation.second.pointer = 0;
-    }
+    notecitation.second.run_restart (moment); // Todo
   }
 }
 
@@ -1721,7 +1755,7 @@ void Filter_Text::resetNoteCitations (string moment)
 // This function ensures that a certain paragraph style for a note is present in the OpenDocument.
 // $marker: Which note, e.g. 'f' or 'x' or 'fe'.
 // $style: The style to use.
-void Filter_Text::ensureNoteParagraphStyle (string marker, Database_Styles_Item style)
+void Filter_Text::ensureNoteParagraphStyle (string marker, const Database_Styles_Item & style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
     string fontname = Database_Config_Bible::getExportFont (bible);

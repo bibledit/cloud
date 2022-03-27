@@ -415,11 +415,11 @@ void test_usfm2html2usfm ()
   {
     string standard_usfm = R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)";
     string standard_html =
-    R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">1</span><span> to the beloved Gaius.</span></p>)"
+    R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">a</span><span> to the beloved Gaius.</span></p>)"
     R"(<p class="b-notes">)"
     " "
     "</p>"
-    R"(<p class="b-x"><span class="i-notebody1">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>)";
+    R"(<p class="b-x"><span class="i-notebody1">a</span><span> </span><span>+ 2 Joh. 1.1</span></p>)";
     
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -442,12 +442,12 @@ void test_usfm2html2usfm ()
     R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)" "\n"
     R"(\v 1 The elders\x + 2 Joh. 2.2\x* to the beloved.)";
     string standard_html =
-    R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">1</span><span> to the beloved Gaius.</span><span> </span><span class="i-v">1</span><span> </span><span>The elders</span><span class="i-notecall2">2</span><span> to the beloved.</span></p>)"
+    R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">a</span><span> to the beloved Gaius.</span><span> </span><span class="i-v">1</span><span> </span><span>The elders</span><span class="i-notecall2">b</span><span> to the beloved.</span></p>)"
     R"(<p class="b-notes">)"
     " "
     "</p>"
-    R"(<p class="b-x"><span class="i-notebody1">1</span><span> </span><span>+ 2 Joh. 1.1</span></p>)"
-    R"(<p class="b-x"><span class="i-notebody2">2</span><span> </span><span>+ 2 Joh. 2.2</span></p>)";
+    R"(<p class="b-x"><span class="i-notebody1">a</span><span> </span><span>+ 2 Joh. 1.1</span></p>)"
+    R"(<p class="b-x"><span class="i-notebody2">b</span><span> </span><span>+ 2 Joh. 2.2</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);
@@ -864,7 +864,7 @@ void test_usfm2html2usfm ()
     string standardusfm =
     "\\p\n\\v 1 The text\\x + \\xo 1 \\xt Passage\\x*.";
     string standardhtml =
-    R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>The text</span><span class="i-notecall1">1</span><span>.</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-xo">1 </span><span class="i-xt">Passage</span></p>)";
+    R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>The text</span><span class="i-notecall1">a</span><span>.</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">a</span><span> </span><span>+ </span><span class="i-xo">1 </span><span class="i-xt">Passage</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standardusfm);

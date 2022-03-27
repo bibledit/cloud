@@ -1695,7 +1695,7 @@ void Filter_Text::putChapterNumberInFrame (string chapterText)
 
 
 
-// This creates an entry in the $this->notecitations array.
+// This creates an entry in the $this->notecitations map.
 // $style: the style: an object with values.
 void Filter_Text::createNoteCitation (const Database_Styles_Item & style) // Todo
 {

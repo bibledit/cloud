@@ -22,6 +22,7 @@
 #include <config/libraries.h>
 #include <database/styles.h>
 #include <pugixml/pugixml.hpp>
+#include <filter/text.h>
 
 using namespace pugi;
 
@@ -40,7 +41,8 @@ private:
   vector <string> markersAndText; // Strings alternating between USFM and text.
   unsigned int markersAndTextPointer = 0;
   
-  map <string, Database_Styles_Item> styles; // All the style information.
+  // All the style information.
+  map <string, Database_Styles_Item> styles;
   
   // XML nodes.
   xml_document document;
@@ -51,6 +53,10 @@ private:
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
   
+  // Note citations. Todo
+  map <string, filter::text::note_citation> notecitations;
+  void createNoteCitation (const Database_Styles_Item & style); // Todo
+
   xml_node current_p_node; // The current p node.
   bool current_p_open = false;
   vector <string> currentTextStyles;

@@ -145,6 +145,9 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_dev ();
   test_space ();
   test_filter_text ();
+  test_html2usfm ();
+  test_usfm2html ();
+  test_usfm2html2usfm ();
   refresh_sandbox (false);
   exit (0);
   

@@ -49,11 +49,20 @@ void Editor_Usfm2Html::stylesheet (string stylesheet)
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
+      if (style.subtype == FootEndNoteSubtypeFootnote) {
+        createNoteCitation (style);
+      }
+      if (style.subtype == FootEndNoteSubtypeEndnote) {
+        createNoteCitation (style);
+      }
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
         standardContentMarkerFootEndNote = style.marker;
       }
     }
     if (style.type == StyleTypeCrossreference) {
+      if (style.subtype == CrossreferenceSubtypeCrossreference) {
+        createNoteCitation (style);
+      }
       if (style.subtype == CrossreferenceSubtypeStandardContent) {
         standardContentMarkerCrossReference = style.marker;
       }
@@ -246,8 +255,10 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false);
                 if (isOpeningMarker) {
-                  int caller = noteCount % 9 + 1; // Todo
-                  addNote (convert_to_string (caller), marker, false);
+//                  int caller = noteCount % 9 + 1; // Todo
+                  string caller = notecitations[style.marker].get("+");
+//                  addNote (convert_to_string (caller), marker, false);
+                  addNote (caller, marker, false);
                 } else {
                   closeCurrentNote ();
                 }
@@ -281,8 +292,10 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false);
                 if (isOpeningMarker) {
-                  int caller = (noteCount) % 9 + 1; // Todo
-                  addNote (convert_to_string (caller), marker, false);
+//                  int caller = (noteCount) % 9 + 1; // Todo
+                  string caller = notecitations[style.marker].get("+");
+//                  addNote (convert_to_string (caller), marker, false);
+                  addNote (caller, marker, false);
                 } else {
                   closeCurrentNote ();
                 }
@@ -738,3 +751,18 @@ bool Editor_Usfm2Html::roadIsClear ()
   // No blockers found: The road is clear.
   return true;
 }
+
+
+// This creates an entry in the $this->notecitations map.
+// $style: the style: an object with values.
+void Editor_Usfm2Html::createNoteCitation (const Database_Styles_Item & style) // Todo still to test and call it.
+{
+  filter::text::note_citation notecitation;
+  // Handle caller sequence.
+  notecitation.set_sequence(style.userint1, style.userstring1);
+  // Handle note caller restart moment.
+  notecitation.set_restart(style.userint2);
+  // Store the citation for later use.
+  notecitations [style.marker] = notecitation;
+}
+

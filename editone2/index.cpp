@@ -117,9 +117,11 @@ string editone2_index (void * webserver_request)
   Assets_View view;
   
   // Get active Bible, and check read access to it.
+  // Or if the user have used query to preset the active Bible, get the preset Bible.
   // If needed, change Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
   string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
   string bible_html;
   vector <string> bibles = AccessBible::Bibles (request);
   for (auto bible : bibles) {

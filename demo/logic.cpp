@@ -450,7 +450,7 @@ vector <string> demo_logic_default_resources ()
       "TB74",
       "KSI",
       "AYT",
-      resource_logic_assemble_rich_divider ("filler", "https://bibledit.org:8083/resource/index", "darkseagreen", "darkseagreen"),
+      resource_logic_assemble_rich_divider (" ", "https://bibledit.org:8083/resource/index", "darkseagreen", "darkseagreen"),
       "Majority TCENT",
       "1599 Geneva Bible (GNV)",
       KJV_LEXICON_NAME,
@@ -470,7 +470,7 @@ vector <string> demo_logic_default_resources ()
       "AlkitabKita",
       "BIS85",
       "TMV87",
-      resource_logic_assemble_rich_divider ("filler", "https://bibledit.org:8083/resource/index", "darkseagreen", "darkseagreen"),
+      resource_logic_assemble_rich_divider (" ", "https://bibledit.org:8083/resource/index", "darkseagreen", "darkseagreen"),
       "New Living Translation (NLT)",
       "UDB",
       "GNT",
@@ -478,7 +478,7 @@ vector <string> demo_logic_default_resources ()
       // Parafrase translations resources.
       resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
       "FAYH",
-      resource_logic_assemble_rich_divider ("filler", "https://bibledit.org:8083/resource/index", "darkseagreen", "darkseagreen"),
+      resource_logic_assemble_rich_divider (" ", "https://bibledit.org:8083/resource/index", "darkseagreen", "darkseagreen"),
       "J.B. Phillips New Testament (PHILLIPS)",
       "Living Bible (TLB)",
       // Commentaries.

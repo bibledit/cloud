@@ -100,6 +100,9 @@ string notes_note (void * webserver_request)
   
   
   view.set_variable ("id", convert_to_string (id));
+
+
+  view.set_variable ("passage", filter_passage_display_inline (passages));
   
 
   string summary = database_notes.get_summary (id);

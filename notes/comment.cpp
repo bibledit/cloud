@@ -86,6 +86,9 @@ string notes_comment (void * webserver_request)
   "var noteId = '" + convert_to_string (id) + "';\n";
   view.set_variable ("script", script);
 
+
+  vector <Passage> passages = database_notes.get_passages (id);
+  view.set_variable ("passage", filter_passage_display_inline (passages));
   
   
   string summary = database_notes.get_summary (id);

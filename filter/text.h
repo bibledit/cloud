@@ -30,16 +30,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tbsx/text.h>
 
 
-class Filter_Text_Passage_Marker_Value
+namespace filter::text {
+
+class PassageMarkerValue
 {
 public:
-  Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in);
+  PassageMarkerValue (int book_in, int chapter_in, string verse_in, string marker_in, string value_in);
   int book;
   int chapter;
   string verse;
   string marker;
   string value;
 };
+
+}
 
 
 namespace filter::text {
@@ -121,21 +125,21 @@ private:
 
 public:
   // Container with objects (book, chapter, verse, marker, header value).
-  vector <Filter_Text_Passage_Marker_Value> runningHeaders;
+  vector <filter::text::PassageMarkerValue> runningHeaders;
   // Container with objects (book, chapter, verse, marker, TOC value).
-  vector <Filter_Text_Passage_Marker_Value> longTOCs;
+  vector <filter::text::PassageMarkerValue> longTOCs;
   // Container with objects (book, chapter, verse, marker, TOC value).
-  vector <Filter_Text_Passage_Marker_Value> shortTOCs;
+  vector <filter::text::PassageMarkerValue> shortTOCs;
   // Container with objects (book, chapter, verse, marker, abbreviation value).
-  vector <Filter_Text_Passage_Marker_Value> bookAbbreviations;
+  vector <filter::text::PassageMarkerValue> bookAbbreviations;
 
 public:
   // Vector with objects (book, chapter, verse, marker, label value).
-  vector <Filter_Text_Passage_Marker_Value> chapterLabels;
+  vector <filter::text::PassageMarkerValue> chapterLabels;
   // Vector with object (book, chapter, verse, marker, marker value).
-  vector <Filter_Text_Passage_Marker_Value> publishedChapterMarkers;
+  vector <filter::text::PassageMarkerValue> publishedChapterMarkers;
   // Vector with object (book, chapter, verse, marker, marker value).
-  vector <Filter_Text_Passage_Marker_Value> publishedVerseMarkers;
+  vector <filter::text::PassageMarkerValue> publishedVerseMarkers;
 private:
   // String holding the chapter number or text to output at the first verse.
   string output_chapter_text_at_first_verse;

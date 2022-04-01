@@ -29,13 +29,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 
 
-Filter_Text_Passage_Marker_Value::Filter_Text_Passage_Marker_Value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in)
+namespace filter::text {
+
+PassageMarkerValue::PassageMarkerValue (int book, int chapter, string verse, string marker, string value)
 {
-  book = book_in;
-  chapter = chapter_in;
-  verse = verse_in;
-  marker = marker_in;
-  value = value_in;
+  this->book = book;
+  this->chapter = chapter;
+  this->verse = verse;
+  this->marker = marker;
+  this->value = value;
+}
+
 }
 
 
@@ -251,7 +255,7 @@ void Filter_Text::getUsfmNextChapter ()
 
 // This function gets the styles from the database,
 // and stores them in the object for quicker access.
-void Filter_Text::getStyles (string stylesheet)
+void Filter_Text::getStyles (string stylesheet) // Todo set the note citations here?
 {
   styles.clear();
   // Get the relevant styles information included.
@@ -314,32 +318,32 @@ void Filter_Text::pre_process_usfm ()
                   case IdentifierSubtypeRunningHeader:
                   {
                     string runningHeader = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    runningHeaders.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
+                    runningHeaders.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
                   {
                     string longTOC = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    longTOCs.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, longTOC));
+                    longTOCs.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, longTOC));
                     break;
                   }
                   case IdentifierSubtypeShortTOC:
                   {
                     string shortTOC = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    shortTOCs.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, shortTOC));
+                    shortTOCs.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, shortTOC));
                     break;
                   }
                   case IdentifierSubtypeBookAbbrev:
                   {
                     string bookAbbreviation = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    bookAbbreviations.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, bookAbbreviation));
+                    bookAbbreviations.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, bookAbbreviation));
                     break;
                   }
                   case IdentifierSubtypeChapterLabel:
                   {
                     // Store the chapter label for this book and chapter.
                     string chapterLabel = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    chapterLabels.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
+                    chapterLabels.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
                     // If a chapter label is in the book, there's no drop caps output of the chapter number.
                     book_has_chapter_label [currentBookIdentifier] = true;
                     // Done.
@@ -348,7 +352,7 @@ void Filter_Text::pre_process_usfm ()
                   case IdentifierSubtypePublishedChapterMarker:
                   {
                     string publishedChapterMarker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    publishedChapterMarkers.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
+                    publishedChapterMarkers.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
                     break;
                   }
                   case IdentifierSubtypePublishedVerseMarker:
@@ -357,7 +361,7 @@ void Filter_Text::pre_process_usfm ()
                     // The marker looks like: ... \vp ၁။\vp* ...
                     // It stores this markup in the object for later reference.
                     string publishedVerseMarker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    publishedVerseMarkers.push_back (Filter_Text_Passage_Marker_Value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
+                    publishedVerseMarkers.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
                     break;
                   }
                 }
@@ -384,7 +388,7 @@ void Filter_Text::pre_process_usfm ()
                   case FootEndNoteSubtypeFootnote:
                   case FootEndNoteSubtypeEndnote:
                   {
-                    createNoteCitation (style);
+                    createNoteCitation (style); // Todo update this?
                     break;
                   }
                   case FootEndNoteSubtypeStandardContent:
@@ -403,7 +407,7 @@ void Filter_Text::pre_process_usfm ()
                 {
                   case CrossreferenceSubtypeCrossreference:
                   {
-                    createNoteCitation (style);
+                    createNoteCitation (style); // Todo update this?
                     break;
                   }
                   case CrossreferenceSubtypeStandardContent:

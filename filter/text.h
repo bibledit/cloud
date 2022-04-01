@@ -32,10 +32,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::text {
 
-class PassageMarkerValue
+class passage_marker_value
 {
 public:
-  PassageMarkerValue (int book_in, int chapter_in, string verse_in, string marker_in, string value_in);
+  passage_marker_value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in);
   int book;
   int chapter;
   string verse;
@@ -125,21 +125,21 @@ private:
 
 public:
   // Container with objects (book, chapter, verse, marker, header value).
-  vector <filter::text::PassageMarkerValue> runningHeaders;
+  vector <filter::text::passage_marker_value> runningHeaders;
   // Container with objects (book, chapter, verse, marker, TOC value).
-  vector <filter::text::PassageMarkerValue> longTOCs;
+  vector <filter::text::passage_marker_value> longTOCs;
   // Container with objects (book, chapter, verse, marker, TOC value).
-  vector <filter::text::PassageMarkerValue> shortTOCs;
+  vector <filter::text::passage_marker_value> shortTOCs;
   // Container with objects (book, chapter, verse, marker, abbreviation value).
-  vector <filter::text::PassageMarkerValue> bookAbbreviations;
+  vector <filter::text::passage_marker_value> bookAbbreviations;
 
 public:
   // Vector with objects (book, chapter, verse, marker, label value).
-  vector <filter::text::PassageMarkerValue> chapterLabels;
+  vector <filter::text::passage_marker_value> chapterLabels;
   // Vector with object (book, chapter, verse, marker, marker value).
-  vector <filter::text::PassageMarkerValue> publishedChapterMarkers;
+  vector <filter::text::passage_marker_value> publishedChapterMarkers;
   // Vector with object (book, chapter, verse, marker, marker value).
-  vector <filter::text::PassageMarkerValue> publishedVerseMarkers;
+  vector <filter::text::passage_marker_value> publishedVerseMarkers;
 private:
   // String holding the chapter number or text to output at the first verse.
   string output_chapter_text_at_first_verse;

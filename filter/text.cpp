@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::text {
 
-PassageMarkerValue::PassageMarkerValue (int book, int chapter, string verse, string marker, string value)
+passage_marker_value::passage_marker_value (int book, int chapter, string verse, string marker, string value)
 {
   this->book = book;
   this->chapter = chapter;
@@ -318,32 +318,32 @@ void Filter_Text::pre_process_usfm ()
                   case IdentifierSubtypeRunningHeader:
                   {
                     string runningHeader = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    runningHeaders.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
+                    runningHeaders.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
                   {
                     string longTOC = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    longTOCs.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, longTOC));
+                    longTOCs.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, longTOC));
                     break;
                   }
                   case IdentifierSubtypeShortTOC:
                   {
                     string shortTOC = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    shortTOCs.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, shortTOC));
+                    shortTOCs.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, shortTOC));
                     break;
                   }
                   case IdentifierSubtypeBookAbbrev:
                   {
                     string bookAbbreviation = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    bookAbbreviations.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, bookAbbreviation));
+                    bookAbbreviations.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, bookAbbreviation));
                     break;
                   }
                   case IdentifierSubtypeChapterLabel:
                   {
                     // Store the chapter label for this book and chapter.
                     string chapterLabel = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    chapterLabels.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
+                    chapterLabels.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
                     // If a chapter label is in the book, there's no drop caps output of the chapter number.
                     book_has_chapter_label [currentBookIdentifier] = true;
                     // Done.
@@ -352,7 +352,7 @@ void Filter_Text::pre_process_usfm ()
                   case IdentifierSubtypePublishedChapterMarker:
                   {
                     string publishedChapterMarker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    publishedChapterMarkers.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
+                    publishedChapterMarkers.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
                     break;
                   }
                   case IdentifierSubtypePublishedVerseMarker:
@@ -361,7 +361,7 @@ void Filter_Text::pre_process_usfm ()
                     // The marker looks like: ... \vp ၁။\vp* ...
                     // It stores this markup in the object for later reference.
                     string publishedVerseMarker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    publishedVerseMarkers.push_back (filter::text::PassageMarkerValue (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
+                    publishedVerseMarkers.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
                     break;
                   }
                 }

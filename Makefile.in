@@ -127,13 +127,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
 	filter/date.$(OBJEXT) filter/memory.$(OBJEXT) \
 	filter/webview.$(OBJEXT) filter/mail.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	assets/external.$(OBJEXT) index/index.$(OBJEXT) \
-	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
-	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
-	database/config/general.$(OBJEXT) \
+	filter/note.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) assets/external.$(OBJEXT) \
+	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
+	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -532,48 +532,48 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	filter/$(DEPDIR)/html.Po filter/$(DEPDIR)/image.Po \
 	filter/$(DEPDIR)/indonesian.Po filter/$(DEPDIR)/mail.Po \
 	filter/$(DEPDIR)/md5.Po filter/$(DEPDIR)/memory.Po \
-	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/passage.Po \
-	filter/$(DEPDIR)/roles.Po filter/$(DEPDIR)/shell.Po \
-	filter/$(DEPDIR)/string.Po filter/$(DEPDIR)/text.Po \
-	filter/$(DEPDIR)/url.Po filter/$(DEPDIR)/usfm.Po \
-	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
-	fonts/$(DEPDIR)/logic.Po help/$(DEPDIR)/index.Po \
-	html/$(DEPDIR)/header.Po html/$(DEPDIR)/text.Po \
-	images/$(DEPDIR)/fetch.Po images/$(DEPDIR)/index.Po \
-	images/$(DEPDIR)/logic.Po images/$(DEPDIR)/view.Po \
-	index/$(DEPDIR)/index.Po index/$(DEPDIR)/listing.Po \
-	ipc/$(DEPDIR)/focus.Po ipc/$(DEPDIR)/notes.Po \
-	jobs/$(DEPDIR)/index.Po journal/$(DEPDIR)/index.Po \
-	journal/$(DEPDIR)/logic.Po jsonxx/$(DEPDIR)/jsonxx.Po \
-	ldap/$(DEPDIR)/logic.Po lexicon/$(DEPDIR)/definition.Po \
-	lexicon/$(DEPDIR)/logic.Po library/$(DEPDIR)/bibledit.Po \
-	library/$(DEPDIR)/locks.Po locale/$(DEPDIR)/logic.Po \
-	locale/$(DEPDIR)/translate.Po manage/$(DEPDIR)/accounts.Po \
-	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/hyphenate.Po \
-	manage/$(DEPDIR)/hyphenation.Po manage/$(DEPDIR)/index.Po \
-	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
-	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
-	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
-	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
-	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
-	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
-	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
-	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
-	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
-	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
-	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
-	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecp.Po \
-	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
-	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
-	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
-	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md5.Po \
-	mbedtls/$(DEPDIR)/md_wrap.Po mbedtls/$(DEPDIR)/net_sockets.Po \
-	mbedtls/$(DEPDIR)/oid.Po mbedtls/$(DEPDIR)/pem.Po \
-	mbedtls/$(DEPDIR)/pk.Po mbedtls/$(DEPDIR)/pk_wrap.Po \
-	mbedtls/$(DEPDIR)/pkcs12.Po mbedtls/$(DEPDIR)/pkcs5.Po \
-	mbedtls/$(DEPDIR)/pkparse.Po mbedtls/$(DEPDIR)/pkwrite.Po \
-	mbedtls/$(DEPDIR)/platform.Po \
+	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/note.Po \
+	filter/$(DEPDIR)/passage.Po filter/$(DEPDIR)/roles.Po \
+	filter/$(DEPDIR)/shell.Po filter/$(DEPDIR)/string.Po \
+	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
+	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
+	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
+	help/$(DEPDIR)/index.Po html/$(DEPDIR)/header.Po \
+	html/$(DEPDIR)/text.Po images/$(DEPDIR)/fetch.Po \
+	images/$(DEPDIR)/index.Po images/$(DEPDIR)/logic.Po \
+	images/$(DEPDIR)/view.Po index/$(DEPDIR)/index.Po \
+	index/$(DEPDIR)/listing.Po ipc/$(DEPDIR)/focus.Po \
+	ipc/$(DEPDIR)/notes.Po jobs/$(DEPDIR)/index.Po \
+	journal/$(DEPDIR)/index.Po journal/$(DEPDIR)/logic.Po \
+	jsonxx/$(DEPDIR)/jsonxx.Po ldap/$(DEPDIR)/logic.Po \
+	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
+	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
+	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
+	manage/$(DEPDIR)/accounts.Po manage/$(DEPDIR)/exports.Po \
+	manage/$(DEPDIR)/hyphenate.Po manage/$(DEPDIR)/hyphenation.Po \
+	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
+	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
+	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
+	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/arc4.Po \
+	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
+	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
+	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
+	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
+	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
+	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
+	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
+	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
+	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
+	mbedtls/$(DEPDIR)/ecp.Po mbedtls/$(DEPDIR)/ecp_curves.Po \
+	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
+	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
+	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
+	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
+	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
+	mbedtls/$(DEPDIR)/pem.Po mbedtls/$(DEPDIR)/pk.Po \
+	mbedtls/$(DEPDIR)/pk_wrap.Po mbedtls/$(DEPDIR)/pkcs12.Po \
+	mbedtls/$(DEPDIR)/pkcs5.Po mbedtls/$(DEPDIR)/pkparse.Po \
+	mbedtls/$(DEPDIR)/pkwrite.Po mbedtls/$(DEPDIR)/platform.Po \
 	mbedtls/$(DEPDIR)/platform_util.Po \
 	mbedtls/$(DEPDIR)/poly1305.Po mbedtls/$(DEPDIR)/ripemd160.Po \
 	mbedtls/$(DEPDIR)/rsa.Po mbedtls/$(DEPDIR)/rsa_internal.Po \
@@ -1016,6 +1016,7 @@ libbibledit_a_SOURCES = \
 	filter/memory.cpp \
 	filter/webview.cpp \
 	filter/mail.cpp \
+  filter/note.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -1756,6 +1757,8 @@ filter/memory.$(OBJEXT): filter/$(am__dirstamp) \
 filter/webview.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/mail.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/note.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -3662,6 +3665,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/md5.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/memory.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/merge.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/note.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/shell.Po@am__quote@ # am--include-marker
@@ -4795,6 +4799,7 @@ distclean: distclean-am
 	-rm -f filter/$(DEPDIR)/md5.Po
 	-rm -f filter/$(DEPDIR)/memory.Po
 	-rm -f filter/$(DEPDIR)/merge.Po
+	-rm -f filter/$(DEPDIR)/note.Po
 	-rm -f filter/$(DEPDIR)/passage.Po
 	-rm -f filter/$(DEPDIR)/roles.Po
 	-rm -f filter/$(DEPDIR)/shell.Po
@@ -5414,6 +5419,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f filter/$(DEPDIR)/md5.Po
 	-rm -f filter/$(DEPDIR)/memory.Po
 	-rm -f filter/$(DEPDIR)/merge.Po
+	-rm -f filter/$(DEPDIR)/note.Po
 	-rm -f filter/$(DEPDIR)/passage.Po
 	-rm -f filter/$(DEPDIR)/roles.Po
 	-rm -f filter/$(DEPDIR)/shell.Po

@@ -39,6 +39,7 @@
 		CA55F19D277B941100673C9E /* file_iterator.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D24F277B6D74000EC1CA /* file_iterator.cxx */; };
 		CA55F19E277B941D00673C9E /* mmfile.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D24D277B6D74000EC1CA /* mmfile.cxx */; };
 		CA55F19F277B943E00673C9E /* base64.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D22B277B6D74000EC1CA /* base64.cxx */; };
+		CA74778827F7516F00192B66 /* note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA74778627F7376700192B66 /* note.cpp */; };
 		CA77112627523B94003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50525EED7B500650B41 /* index.cpp */; };
 		CA77112727523C07003ADD67 /* verse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50425EED7B500650B41 /* verse.cpp */; };
 		CA77112827523C15003ADD67 /* update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADD5A392630A3F5003AAB27 /* update.cpp */; };
@@ -638,6 +639,8 @@
 		CA6BEA0426456C08009A0416 /* list2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list2.h; sourceTree = "<group>"; };
 		CA6F68B3257CDF21008D51F5 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CA6F68B4257CDF21008D51F5 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		CA74778627F7376700192B66 /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
+		CA74778727F7376700192B66 /* note.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = note.h; sourceTree = "<group>"; };
 		CA74D1F9277B6D74000EC1CA /* strutils.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = strutils.cxx; sourceTree = "<group>"; };
 		CA74D1FA277B6D74000EC1CA /* mimeentity.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mimeentity.cxx; sourceTree = "<group>"; };
 		CA74D1FB277B6D74000EC1CA /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
@@ -3430,6 +3433,8 @@
 				CADE397024F17422003165BB /* memory.h */,
 				CADE395624F17422003165BB /* merge.cpp */,
 				CADE395C24F17422003165BB /* merge.h */,
+				CA74778627F7376700192B66 /* note.cpp */,
+				CA74778727F7376700192B66 /* note.h */,
 				CADE394624F17422003165BB /* passage.cpp */,
 				CADE394F24F17422003165BB /* passage.h */,
 				CADE396124F17422003165BB /* passage.js */,
@@ -5914,6 +5919,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA74778827F7516F00192B66 /* note.cpp in Sources */,
 				CAD5E3952791E77700AE0A28 /* folders.cpp in Sources */,
 				CA55F19F277B943E00673C9E /* base64.cxx in Sources */,
 				CA55F19E277B941D00673C9E /* mmfile.cxx in Sources */,

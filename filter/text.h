@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <text/text.h>
 #include <esword/text.h>
 #include <tbsx/text.h>
+#include <filter/note.h>
 
 
 namespace filter::text {
@@ -41,25 +42,6 @@ public:
   string verse;
   string marker;
   string value;
-};
-
-}
-
-
-namespace filter::text {
-
-class note_citation
-{
-public:
-  note_citation ();
-  void set_sequence (int numbering, const string & usersequence);
-  void set_restart (int setting);
-  string get (string citation);
-  void run_restart (const string & moment);
-private:
-  string restart;
-  unsigned int pointer;
-  vector <string> sequence;
 };
 
 }
@@ -170,7 +152,8 @@ private:
 
 private:
   // Information for the citations for the notes.
-  map <string, filter::text::note_citation> notecitations;
+  map <string, filter::note::citation> notecitations;
+  filter::note::citations citations;
 
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;

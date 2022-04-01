@@ -52,10 +52,6 @@ private:
   // Standard content markers for notes.
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;
-  
-  // Note citations. Todo
-  map <string, filter::text::note_citation> notecitations;
-  void createNoteCitation (const Database_Styles_Item & style); // Todo
 
   xml_node current_p_node; // The current p node.
   bool current_p_open = false;
@@ -66,6 +62,9 @@ private:
   bool note_p_open = false;
   vector <string> currentNoteTextStyles;
   
+  // The note citations.
+  filter::note::citations note_citations;
+
   // Whether note is open.
   bool noteOpened = false;
   
@@ -81,7 +80,7 @@ private:
   void openTextStyle (Database_Styles_Item & style, bool embed);
   void closeTextStyle (bool embed);
   void addText (string text);
-  void addNote (string citation, string style, bool endnote = false);
+  void add_note (string citation, string style, bool endnote = false);
   void addNoteText (string text);
   void closeCurrentNote ();
   void addNotelLink (xml_node domNode, int identifier, string style, string text);

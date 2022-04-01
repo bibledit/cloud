@@ -49,24 +49,16 @@ void Editor_Usfm2Html::stylesheet (string stylesheet)
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
-      if (style.subtype == FootEndNoteSubtypeFootnote) {
-        createNoteCitation (style);
-      }
-      if (style.subtype == FootEndNoteSubtypeEndnote) {
-        createNoteCitation (style);
-      }
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
         standardContentMarkerFootEndNote = style.marker;
       }
     }
     if (style.type == StyleTypeCrossreference) {
-      if (style.subtype == CrossreferenceSubtypeCrossreference) {
-        createNoteCitation (style);
-      }
       if (style.subtype == CrossreferenceSubtypeStandardContent) {
         standardContentMarkerCrossReference = style.marker;
       }
     }
+    note_citations.evaluate_style(style);
   }
 }
 
@@ -255,10 +247,8 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false);
                 if (isOpeningMarker) {
-//                  int caller = noteCount % 9 + 1; // Todo
-                  string caller = notecitations[style.marker].get("+");
-//                  addNote (convert_to_string (caller), marker, false);
-                  addNote (caller, marker, false);
+                  string caller = note_citations.get (style.marker, "+");
+                  add_note (caller, marker, false);
                 } else {
                   closeCurrentNote ();
                 }
@@ -292,10 +282,8 @@ void Editor_Usfm2Html::process ()
               {
                 closeTextStyle (false);
                 if (isOpeningMarker) {
-//                  int caller = (noteCount) % 9 + 1; // Todo
-                  string caller = notecitations[style.marker].get("+");
-//                  addNote (convert_to_string (caller), marker, false);
-                  addNote (caller, marker, false);
+                  string caller = note_citations.get (style.marker, "+");
+                  add_note (caller, marker, false);
                 } else {
                   closeCurrentNote ();
                 }
@@ -518,7 +506,7 @@ void Editor_Usfm2Html::addText (string text)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Editor_Usfm2Html::addNote (string citation, string style, [[maybe_unused]] bool endnote)
+void Editor_Usfm2Html::add_note (string citation, string style, [[maybe_unused]] bool endnote)
 {
   // Be sure the road ahead is clear.
   if (!roadIsClear ()) {
@@ -563,7 +551,7 @@ void Editor_Usfm2Html::addNoteText (string text)
 {
   if (text.empty ()) return;
   if (!note_p_open) {
-    addNote ("?", "");
+    add_note ("?", "");
   }
   xml_node spanDomElement = notePnode.append_child ("span");
   spanDomElement.text ().set (text.c_str());
@@ -750,19 +738,5 @@ bool Editor_Usfm2Html::roadIsClear ()
   
   // No blockers found: The road is clear.
   return true;
-}
-
-
-// This creates an entry in the $this->notecitations map.
-// $style: the style: an object with values.
-void Editor_Usfm2Html::createNoteCitation (const Database_Styles_Item & style) // Todo still to test and call it.
-{
-  filter::text::note_citation notecitation;
-  // Handle caller sequence.
-  notecitation.set_sequence(style.userint1, style.userstring1);
-  // Handle note caller restart moment.
-  notecitation.set_restart(style.userint2);
-  // Store the citation for later use.
-  notecitations [style.marker] = notecitation;
 }
 

@@ -43,82 +43,7 @@ passage_marker_value::passage_marker_value (int book, int chapter, string verse,
 }
 
 
-namespace filter::text {
-
-note_citation::note_citation ()
-{
-  pointer = 0;
-}
-
-void note_citation::set_sequence (int numbering, const string & usersequence)
-{
-  if (numbering == NoteNumbering123) {
-    this->sequence.clear();
-  }
-  else if (numbering == NoteNumberingAbc) {
-    this->sequence = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-  }
-  else if (numbering == NoteNumberingUser) {
-    if (!usersequence.empty()) this->sequence = filter_string_explode (usersequence, ' ');
-  }
-  else {
-    this->sequence = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // Fallback sequence.
-  }
-  // How the above works:
-  // The note will be numbered as follows:
-  // If a sequence is given, then this sequence is followed for the citations.
-  // If no sequence is given, then the note gets numerical citations.
-}
-
-void note_citation::set_restart (int setting)
-{
-  if (setting == NoteRestartNumberingNever) this->restart = "never";
-  else if (setting == NoteRestartNumberingEveryBook) this->restart = "book";
-  else if (setting == NoteRestartNumberingEveryChapter) this->restart = "chapter";
-  else this->restart = "chapter";
-}
-
-string note_citation::get (string citation) // Todo
-{
-  // Handle USFM automatic note citation.
-  if (citation == "+") {
-    // If the sequence is empty, then the note citation starts at 1 and increases each time.
-    if (sequence.empty()) {
-      pointer++;
-      citation = to_string (pointer);
-    }
-    // The sequence of note callers is not empty.
-    // So take the note citaton from the sequence,
-    // and then iterate to the next one.
-    else {
-      citation = sequence [pointer];
-      pointer++;
-      if (pointer >= sequence.size ()) pointer = 0;
-    }
-  }
-
-  // Handle situation in USFM that no note citation is to be displayed.
-  else if (citation == "-") {
-    citation.clear();
-  }
-  
-  // Done.
-  return citation;
-}
-
-void note_citation::run_restart (const string & moment)
-{
-  if (restart == moment) {
-    pointer = 0;
-  }
-}
-
-}
-
-
-
 // This class filters USFM text, converting it into other formats.
-
 
 
 Filter_Text::Filter_Text (string bible_in)
@@ -1705,7 +1630,7 @@ void Filter_Text::createNoteCitation (const Database_Styles_Item & style) // Tod
 {
   // Create an entry in the notecitations array in this object, if it does not yet exist.
   if (notecitations.find (style.marker) == notecitations.end()) {
-    filter::text::note_citation notecitation;
+    filter::note::citation notecitation;
     // Handle caller sequence.
     notecitation.set_sequence(style.userint1, style.userstring1);
     // Handle note caller restart moment.

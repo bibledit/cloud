@@ -26,6 +26,7 @@ libbibledit_a_SOURCES = \
 	filter/memory.cpp \
 	filter/webview.cpp \
 	filter/mail.cpp \
+  filter/note.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \

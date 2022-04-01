@@ -57,7 +57,7 @@ void citation::set_restart (int setting)
   else this->restart = "chapter";
 }
 
-string citation::get (string citation) // Todo
+string citation::get (string citation)
 {
   // Handle USFM automatic note citation.
   if (citation == "+") {
@@ -92,7 +92,7 @@ void citation::run_restart (const string & moment)
   }
 }
 
-void citations::evaluate_style (const Database_Styles_Item & style) // Todo
+void citations::evaluate_style (const Database_Styles_Item & style)
 {
   // Evaluate the style to find out whether to create a note citation for it.
   bool create = false;
@@ -119,6 +119,17 @@ void citations::evaluate_style (const Database_Styles_Item & style) // Todo
 string citations::get (const string & marker, const string & citation)
 {
   return cache[marker].get(citation);
+}
+
+
+// This resets the note citations data.
+// Resetting means that the note citations start to count afresh.
+// $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
+void citations::restart (const string & moment)
+{
+  for (auto & notecitation : cache) {
+    notecitation.second.run_restart (moment);
+  }
 }
 
 

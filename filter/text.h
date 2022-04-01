@@ -100,9 +100,7 @@ private:
   void new_paragraph (const Database_Styles_Item & style, bool keepWithNext);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (string chapterText);
-  void createNoteCitation (const Database_Styles_Item & style);
   string getNoteCitation (const Database_Styles_Item & style);
-  void resetNoteCitations (string moment);
   void ensureNoteParagraphStyle (string marker, const Database_Styles_Item & style);
 
 public:
@@ -152,8 +150,7 @@ private:
 
 private:
   // Information for the citations for the notes.
-  map <string, filter::note::citation> notecitations;
-  filter::note::citations citations;
+  filter::note::citations note_citations;
 
   string standardContentMarkerFootEndNote;
   string standardContentMarkerCrossReference;

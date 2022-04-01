@@ -43,6 +43,7 @@ class citations
 public:
   void evaluate_style (const Database_Styles_Item & style);
   string get (const string & marker, const string & citation);
+  void restart (const string & moment);
 private:
   map <string, citation> cache;
 };

@@ -180,7 +180,7 @@ void Filter_Text::getUsfmNextChapter ()
 
 // This function gets the styles from the database,
 // and stores them in the object for quicker access.
-void Filter_Text::getStyles (string stylesheet) // Todo set the note citations here?
+void Filter_Text::getStyles (string stylesheet)
 {
   styles.clear();
   // Get the relevant styles information included.
@@ -223,6 +223,7 @@ void Filter_Text::pre_process_usfm ()
         if (usfm_is_opening_marker (marker)) {
           if (styles.find (marker) != styles.end()) {
             Database_Styles_Item style = styles [marker];
+            note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
@@ -312,10 +313,6 @@ void Filter_Text::pre_process_usfm ()
                 {
                   case FootEndNoteSubtypeFootnote:
                   case FootEndNoteSubtypeEndnote:
-                  {
-                    createNoteCitation (style); // Todo update this?
-                    break;
-                  }
                   case FootEndNoteSubtypeStandardContent:
                   case FootEndNoteSubtypeContent:
                   case FootEndNoteSubtypeContentWithEndmarker:
@@ -331,10 +328,6 @@ void Filter_Text::pre_process_usfm ()
                 switch (style.subtype)
                 {
                   case CrossreferenceSubtypeCrossreference:
-                  {
-                    createNoteCitation (style); // Todo update this?
-                    break;
-                  }
                   case CrossreferenceSubtypeStandardContent:
                   case CrossreferenceSubtypeContent:
                   case CrossreferenceSubtypeContentWithEndmarker:
@@ -410,7 +403,7 @@ void Filter_Text::process_usfm ()
                   }
                   processedBooksCount++;
                   // Reset notes.
-                  resetNoteCitations ("book");
+                  note_citations.restart("book");
                   // Online Bible.
                   if (onlinebible_text) onlinebible_text->storeData ();
                   // eSword.
@@ -695,7 +688,7 @@ void Filter_Text::process_usfm ()
               // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
 
               // Reset.
-              resetNoteCitations ("chapter");
+              note_citations.restart("chapter");
 
               // Done.
               break;
@@ -1624,24 +1617,6 @@ void Filter_Text::putChapterNumberInFrame (string chapterText)
 
 
 
-// This creates an entry in the $this->notecitations map.
-// $style: the style: an object with values.
-void Filter_Text::createNoteCitation (const Database_Styles_Item & style) // Todo
-{
-  // Create an entry in the notecitations array in this object, if it does not yet exist.
-  if (notecitations.find (style.marker) == notecitations.end()) {
-    filter::note::citation notecitation;
-    // Handle caller sequence.
-    notecitation.set_sequence(style.userint1, style.userstring1);
-    // Handle note caller restart moment.
-    notecitation.set_restart(style.userint2);
-    // Store the citation for later use.
-    notecitations [style.marker] = notecitation;
-  }
-}
-
-
-
 // This gets the note citation.
 // The first time that a xref is encountered, this function would return, e.g. 'a'.
 // The second time, it would return 'b'. Then 'c', 'd', 'e', and so on, up to 'z'.
@@ -1649,7 +1624,7 @@ void Filter_Text::createNoteCitation (const Database_Styles_Item & style) // Tod
 // The note citation is the character that is put in superscript in the main body of Bible text.
 // $style: array with values for the note opening marker.
 // Returns: The character for the note citation.
-string Filter_Text::getNoteCitation (const Database_Styles_Item & style) // Todo
+string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
 {
   bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
   if (end_of_text_reached) return string();
@@ -1662,21 +1637,8 @@ string Filter_Text::getNoteCitation (const Database_Styles_Item & style) // Todo
   citation = filter_string_trim (citation);
   
   // Get the rendered note citation.
-  string marker = style.marker;
-  citation = notecitations[marker].get(citation);
+  citation = note_citations.get(style.marker, citation);
   return citation;
-}
-
-
-
-// This resets selected note citation data.
-// Resetting means that the note citations start to count afresh.
-// $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
-void Filter_Text::resetNoteCitations (string moment)
-{
-  for (auto & notecitation : notecitations) {
-    notecitation.second.run_restart (moment); // Todo
-  }
 }
 
 

@@ -84,4 +84,6 @@ private:
   string convert_style_name (string style);
   int image_counter;
   // string pictures_folder;
+  bool automatic_note_caller = false;
 };
+

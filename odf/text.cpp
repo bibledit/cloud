@@ -58,6 +58,8 @@ Odf_Text::Odf_Text (string bible_in)
   
   initialize_content_xml ();
   initialize_styles_xml ();
+  
+  automatic_note_caller = Database_Config_Bible::getOdtAutomaticNoteCaller(bible);
 }
 
 
@@ -1045,8 +1047,11 @@ void Odf_Text::add_note (string caller, string style, bool endnote)
   // The note citation, the 'caller' is normally in superscript in the OpenDocument.
   // The default values of the application are used.
   // The Bibledit stylesheet is not consulted.
+  // It handles the setting on the export page for having an automatic note caller.
   xml_node textNoteCitationDomElement = textNoteDomElement.append_child ("text:note-citation");
-  textNoteCitationDomElement.append_attribute ("text:label") = escape_special_xml_characters (caller).c_str();
+  if (!automatic_note_caller) {
+    textNoteCitationDomElement.append_attribute ("text:label") = escape_special_xml_characters (caller).c_str();
+  }
   textNoteCitationDomElement.text().set( escape_special_xml_characters (caller).c_str());
 
   xml_node textNoteBodyDomElement = textNoteDomElement.append_child ("text:note-body");

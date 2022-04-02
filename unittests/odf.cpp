@@ -91,7 +91,7 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
     odf_text.add_text ("Text");
-    odf_text.addNote ("†", "");
+    odf_text.add_note ("†", "");
     odf_text.addNoteText ("Note");
     odf_text.add_text (".");
     odf_text.save (odf_text_test_odt);
@@ -138,7 +138,7 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
     odf_text.add_text ("Text");
-    odf_text.addNote ("𐌰", "f");
+    odf_text.add_note ("𐌰", "f");
     odf_text.open_text_style (add, true, false);
     odf_text.addNoteText ("Add");
     odf_text.closeTextStyle (true, false);
@@ -216,7 +216,7 @@ void test_odf ()
     Odf_Text odf_text (bible);
     odf_text.new_paragraph ();
     odf_text.add_text ("text");
-    odf_text.addNote ("𐌰", "f");
+    odf_text.add_note ("𐌰", "f");
     odf_text.open_text_style (add, true, false);
     odf_text.addNoteText ("add");
     odf_text.open_text_style (nd, true, true);

@@ -52,7 +52,7 @@ public:
   void closeTextStyle (bool note, bool embed);
   void placeTextInFrame (string text, string style, float fontsize, int italic, int bold);
   void createSuperscriptStyle ();
-  void addNote (string caller, string style, bool endnote = false);
+  void add_note (string caller, string style, bool endnote = false);
   void addNoteText (string text);
   void closeCurrentNote ();
   void save (string name);

@@ -1145,7 +1145,7 @@ void Filter_Text::processNote ()
                 if (isOpeningMarker) {
                   ensureNoteParagraphStyle (marker, styles [standardContentMarkerFootEndNote]);
                   string citation = getNoteCitation (style);
-                  if (odf_text_standard) odf_text_standard->addNote (citation, marker);
+                  if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
                     vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
@@ -1181,7 +1181,7 @@ void Filter_Text::processNote ()
                 if (isOpeningMarker) {
                   ensureNoteParagraphStyle (marker, styles[standardContentMarkerFootEndNote]);
                   string citation = getNoteCitation (style);
-                  if (odf_text_standard) odf_text_standard->addNote (citation, marker, true);
+                  if (odf_text_standard) odf_text_standard->add_note (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
                     vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
@@ -1258,7 +1258,7 @@ void Filter_Text::processNote ()
                 if (isOpeningMarker) {
                   ensureNoteParagraphStyle (marker, styles[standardContentMarkerCrossReference]);
                   string citation = getNoteCitation (style);
-                  if (odf_text_standard) odf_text_standard->addNote (citation, marker);
+                  if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
                     vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;

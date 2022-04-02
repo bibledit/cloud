@@ -1028,7 +1028,7 @@ void Odf_Text::createSuperscriptStyle ()
 // $caller: The text of the note caller, that is, the note citation.
 // $style: Style name for the paragraph in the footnote body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Odf_Text::addNote (string caller, string style, bool endnote)
+void Odf_Text::add_note (string caller, string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!current_text_p_node_opened) new_paragraph ();
@@ -1066,7 +1066,7 @@ void Odf_Text::addNoteText (string text)
   if (text == "") return;
 
   // Ensure a note has started.
-  if (!note_text_p_opened) addNote ("?", "");
+  if (!note_text_p_opened) add_note ("?", "");
 
   // Temporal styles array should have at least one style for the code below to work.
   vector <string> styles (currentNoteTextStyle.begin(), currentNoteTextStyle.end());

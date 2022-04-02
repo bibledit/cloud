@@ -877,3 +877,17 @@ void Database_Config_Bible::setOdtPoetryVersesLeft (string bible, bool value)
 {
   setBValue (bible, odt_poetry_verses_left_key(), value);
 }
+
+
+const char * odt_automatic_note_caller_key ()
+{
+  return "odt-automatic-note-caller";
+}
+bool Database_Config_Bible::getOdtAutomaticNoteCaller (string bible)
+{
+  return getBValue (bible, odt_automatic_note_caller_key(), false);
+}
+void Database_Config_Bible::setOdtAutomaticNoteCaller (string bible, bool value)
+{
+  setBValue (bible, odt_automatic_note_caller_key(), value);
+}

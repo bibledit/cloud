@@ -363,6 +363,13 @@ string manage_exports (void * webserver_request)
   view.set_variable ("font", Database_Config_Bible::getExportFont (bible));
 
   
+  if (checkbox == "autocaller") {
+    Database_Config_Bible::setOdtAutomaticNoteCaller (bible, checked);
+    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+  }
+  view.set_variable ("autocaller", get_checkbox_status (Database_Config_Bible::getOdtAutomaticNoteCaller (bible)));
+
+  
   if (checkbox == "info") {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, checked);
     Database_State::setExport (bible, 0, Export_Logic::export_needed);

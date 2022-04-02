@@ -165,6 +165,8 @@ public:
   static void setDailyChecksEnabled (string bible, bool value);
   static bool getOdtPoetryVersesLeft (string bible);
   static void setOdtPoetryVersesLeft (string bible, bool value);
+  static bool getOdtAutomaticNoteCaller (string bible);
+  static void setOdtAutomaticNoteCaller (string bible, bool value);
 private:
   static string file (string bible);
   static string file (string bible, const char * key);

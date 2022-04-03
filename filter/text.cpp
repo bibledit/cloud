@@ -184,10 +184,10 @@ void Filter_Text::getStyles (string stylesheet)
 {
   styles.clear();
   // Get the relevant styles information included.
-  if (odf_text_standard) odf_text_standard->createPageBreakStyle ();
-  if (odf_text_text_only) odf_text_text_only->createPageBreakStyle ();
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createPageBreakStyle ();
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->createSuperscriptStyle ();
+  if (odf_text_standard) odf_text_standard->create_page_break_style ();
+  if (odf_text_text_only) odf_text_text_only->create_page_break_style ();
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_page_break_style ();
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_superscript_style ();
   Database_Styles database_styles;
   vector <string> markers = database_styles.getMarkers (stylesheet);
   for (auto marker : markers) {
@@ -372,10 +372,10 @@ void Filter_Text::process_usfm ()
           {
             case StyleTypeIdentifier:
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
@@ -394,9 +394,9 @@ void Filter_Text::process_usfm ()
                   // Whether to insert a new page before the book. But never before the first book.
                   if (style.userbool1) {
                     if (processedBooksCount) {
-                      if (odf_text_standard) odf_text_standard->newPageBreak ();
-                      if (odf_text_text_only) odf_text_text_only->newPageBreak ();
-                      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
+                      if (odf_text_standard) odf_text_standard->new_page_break ();
+                      if (odf_text_text_only) odf_text_text_only->new_page_break ();
+                      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_page_break ();
                       if (html_text_standard) html_text_standard->new_page_break ();
                       if (html_text_linked) html_text_linked->new_page_break ();
                     }
@@ -525,10 +525,10 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypeStartsParagraph: 
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
@@ -575,9 +575,9 @@ void Filter_Text::process_usfm ()
                 if (html_text_standard) html_text_standard->open_text_style (style, false, isEmbeddedMarker);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, isEmbeddedMarker);
               } else {
-                if (odf_text_standard) odf_text_standard->closeTextStyle (false, isEmbeddedMarker);
-                if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, isEmbeddedMarker);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, isEmbeddedMarker);
+                if (odf_text_standard) odf_text_standard->close_text_style (false, isEmbeddedMarker);
+                if (odf_text_text_only) odf_text_text_only->close_text_style (false, isEmbeddedMarker);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, isEmbeddedMarker);
                 if (html_text_standard) html_text_standard->close_text_style (false, isEmbeddedMarker);
                 if (html_text_linked) html_text_linked->close_text_style (false, isEmbeddedMarker);
               }
@@ -585,10 +585,10 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypeChapterNumber:
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
 
@@ -695,10 +695,10 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypeVerseNumber:
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
               if (onlinebible_text) onlinebible_text->storeData ();
@@ -807,9 +807,9 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (v_vp_number);
                 if (html_text_standard) html_text_standard->add_text (v_vp_number);
                 if (html_text_linked) html_text_linked->add_text (v_vp_number);
-                if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-                if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
+                if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+                if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
                 if (html_text_standard) html_text_standard->close_text_style (false, false);
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
@@ -889,10 +889,10 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypePeripheral:
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
@@ -921,10 +921,10 @@ void Filter_Text::process_usfm ()
                 // Set a flag that the parser is going to be within figure markup.
                 is_within_figure_markup = true;
                 // At the start of the \fig marker, close all text styles that might be open.
-                if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-                if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+                if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
                 if (html_text_standard) html_text_standard->close_text_style (false, false);
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
               } else {
@@ -936,15 +936,15 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypePageBreak:
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
-              if (odf_text_standard) odf_text_standard->newPageBreak ();
-              if (odf_text_text_only) odf_text_text_only->newPageBreak ();
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->newPageBreak ();
+              if (odf_text_standard) odf_text_standard->new_page_break ();
+              if (odf_text_text_only) odf_text_text_only->new_page_break ();
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_page_break ();
               if (html_text_standard) html_text_standard->new_page_break ();
               if (html_text_linked) html_text_linked->new_page_break ();
               if (text_text) text_text->paragraph (); 
@@ -952,10 +952,10 @@ void Filter_Text::process_usfm ()
             }
             case StyleTypeTableElement:
             {
-              if (odf_text_standard) odf_text_standard->closeTextStyle (false, false);
-              if (odf_text_text_only) odf_text_text_only->closeTextStyle (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->closeTextStyle (false, false);
-              if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
               if (html_text_standard) html_text_standard->close_text_style (false, false);
               if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
@@ -1148,10 +1148,10 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
-                    odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->current_text_style;
+                    odf_text_text_and_note_citations->current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
+                    odf_text_text_and_note_citations->current_text_style = currentTextStyles;
                   }
                   // Add space if the paragraph has text already.
                   if (odf_text_notes) {
@@ -1184,10 +1184,10 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
-                    odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->current_text_style;
+                    odf_text_text_and_note_citations->current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
+                    odf_text_text_and_note_citations->current_text_style = currentTextStyles;
                   }
                   // Open note in the web page.
                   if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote, true);
@@ -1209,8 +1209,8 @@ void Filter_Text::processNote ()
                 // The style of the standard content is already used in the note's body.
                 // If means that the text style should be cleared
                 // in order to return to the correct style for the paragraph.
-                if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
-                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (odf_text_standard) odf_text_standard->close_text_style (true, false);
+                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
                 if (html_text_standard) html_text_standard->close_text_style (true, false);
                 if (html_text_linked) html_text_linked->close_text_style (true, false);
                 break;
@@ -1224,8 +1224,8 @@ void Filter_Text::processNote ()
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
-                  if (odf_text_standard) odf_text_standard->closeTextStyle (true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->closeTextStyle (false, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->close_text_style (true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->close_text_style (false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->close_text_style (true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->close_text_style (true, isEmbeddedMarker);
                 }
@@ -1234,8 +1234,8 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeParagraph:
               {
                 // The style of this is not yet implemented.
-                if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
-                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (odf_text_standard) odf_text_standard->close_text_style (true, false);
+                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
                 if (html_text_standard) html_text_standard->close_text_style (true, false);
                 if (html_text_linked) html_text_linked->close_text_style (true, false);
                 if (text_text) text_text->note ();
@@ -1261,10 +1261,10 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->currentTextStyle;
-                    odf_text_text_and_note_citations->currentTextStyle = {"superscript"};
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->current_text_style;
+                    odf_text_text_and_note_citations->current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->currentTextStyle = currentTextStyles;
+                    odf_text_text_and_note_citations->current_text_style = currentTextStyles;
                   }
                   // Add a space if the paragraph has text already.
                   if (odf_text_notes) {
@@ -1295,8 +1295,8 @@ void Filter_Text::processNote ()
                 // The style of the standard content is already used in the note's body.
                 // If means that the text style should be cleared
                 // in order to return to the correct style for the paragraph.
-                if (odf_text_standard) odf_text_standard->closeTextStyle (true, false);
-                if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+                if (odf_text_standard) odf_text_standard->close_text_style (true, false);
+                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
                 if (html_text_standard) html_text_standard->close_text_style (true, false);
                 if (html_text_linked) html_text_linked->close_text_style (true, false);
                 break;
@@ -1310,8 +1310,8 @@ void Filter_Text::processNote ()
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
-                  if (odf_text_standard) odf_text_standard->closeTextStyle (true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->closeTextStyle (false, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->close_text_style (true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->close_text_style (false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->close_text_style (true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->close_text_style (true, isEmbeddedMarker);
                 }
@@ -1336,7 +1336,7 @@ void Filter_Text::processNote ()
       }
     } else {
       // Here is no marker. Treat it as text.
-      if (odf_text_standard) odf_text_standard->addNoteText (currentItem);
+      if (odf_text_standard) odf_text_standard->add_note_text (currentItem);
       if (odf_text_notes) odf_text_notes->add_text (currentItem);
       if (html_text_standard) html_text_standard->add_note_text (currentItem);
       if (html_text_linked) html_text_linked->add_note_text (currentItem);
@@ -1351,8 +1351,8 @@ void Filter_Text::processNote ()
 
   // "Close" the current note, so that any following note text, if malformed,
   // will be added to a new note, not to the last one created.
-  if (odf_text_standard) odf_text_standard->closeCurrentNote ();
-  if (odf_text_notes) odf_text_notes->closeTextStyle (false, false);
+  if (odf_text_standard) odf_text_standard->close_current_note ();
+  if (odf_text_notes) odf_text_notes->close_text_style (false, false);
   if (html_text_standard) html_text_standard->close_current_note ();
   if (html_text_linked) html_text_linked->close_current_note ();
   //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
@@ -1610,9 +1610,9 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 void Filter_Text::putChapterNumberInFrame (string chapterText)
 {
   Database_Styles_Item style = styles[chapterMarker];
-  if (odf_text_standard) odf_text_standard->placeTextInFrame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
-  if (odf_text_text_only) odf_text_text_only->placeTextInFrame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->placeTextInFrame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
+  if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
+  if (odf_text_text_only) odf_text_text_only->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
 }
 
 

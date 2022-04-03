@@ -63,7 +63,7 @@ void test_filter_text ()
 \v 2 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
     )";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
@@ -192,7 +192,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\\rem Comment\n"
     "\\xxx Unknown markup\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -236,7 +236,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     string usfm_ruth = filter_url_file_get_contents (filter_url_create_path ({directory, "08-Ruth.usfm"}));
     string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path ({directory, "60-1Peter.usfm"}));
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm_ruth);
     filter_text.add_usfm_code (usfm_1_peter);
     filter_text.run (styles_logic_standard_sheet ());
@@ -281,7 +281,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\\v 4 Verse Four.\n"
     "\\v 5 Verse Five.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -306,7 +306,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\\id GEN\n"
     "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*\\x + \\xt Isa. 3.3.\\x*, text 2\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f*, text3.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -355,7 +355,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     )";
     usfm = filter_string_trim (usfm);
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -418,7 +418,7 @@ Xref 4aXref 4.
     )";
     usfm = filter_string_trim (usfm);
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -804,7 +804,7 @@ A Verse text.
     "\\p\n"
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -827,7 +827,7 @@ A Verse text.
     "\\id GEN\n"
     "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_text_and_note_citations = new Odf_Text (bible);
+    filter_text.odf_text_text_and_note_citations = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
@@ -850,7 +850,7 @@ A Verse text.
     "\\p\n"
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -876,7 +876,7 @@ A Verse text.
     "\\p\n"
     "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -913,7 +913,7 @@ A Verse text.
 \v 2 Jesus came to save the people.
     )";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     
@@ -976,7 +976,7 @@ Chapter 2
 \v 2 Jesus came to save the people.
     )";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     
@@ -1103,7 +1103,7 @@ Chapter Two
 \v 2 \vp B Jesus is the son of God.
     )";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (filter_string_trim(usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -1145,7 +1145,7 @@ A Jesus is King.  B Jesus is the son of God.
     string path = filter_url_create_root_path ({"unittests", "tests", "invalid-utf8-2.usfm"});
     string invalid_utf8_usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new Odf_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (filter_string_trim(invalid_utf8_usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
@@ -1196,7 +1196,7 @@ A Jesus is King.  B Jesus is the son of God.
     // Test converting the USFM with an image to OpenDocument.
     {
       Filter_Text filter_text = Filter_Text (bible);
-      filter_text.odf_text_standard = new Odf_Text (bible);
+      filter_text.odf_text_standard = new odf_text (bible);
       filter_text.add_usfm_code (usfm);
       filter_text.run (styles_logic_standard_sheet());
       filter_text.odf_text_standard->save (TextTestOdt);

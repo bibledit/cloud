@@ -126,13 +126,13 @@ private:
 
 public:
   // Object for creating OpenDocument with text in standard form.
-  Odf_Text * odf_text_standard;
+  odf_text * odf_text_standard;
   // Object for creating OpenDocument with text only.
-  Odf_Text * odf_text_text_only;
+  odf_text * odf_text_text_only;
   // Object for creating OpenDocument with text and note citations.
-  Odf_Text * odf_text_text_and_note_citations;
+  odf_text * odf_text_text_and_note_citations;
   // Object for creating OpenDocument with the notes only.
-  Odf_Text * odf_text_notes;
+  odf_text * odf_text_notes;
 
 public:
   void produceInfoDocument (string path);

@@ -26,16 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 using namespace pugi;
 
-class Odf_Text
+class odf_text
 {
 public:
-  Odf_Text (string bible_in);
-  ~Odf_Text ();
+  odf_text (string bible_in);
+  ~odf_text ();
   void new_paragraph (string style = styles_logic_standard_sheet ());
   void add_text (string text);
   void new_heading1 (string text, bool hide = false);
-  void createPageBreakStyle ();
-  void newPageBreak ();
+  void create_page_break_style ();
+  void new_page_break ();
   void create_paragraph_style (string name,
                                string fontname,
                                float fontsize,
@@ -45,42 +45,42 @@ public:
                                float spacebefore, float spaceafter,
                                float leftmargin, float rightmargin,
                                float firstlineindent,
-                               bool keepWithNext,
+                               bool keep_with_next,
                                int dropcaps);
   void update_current_paragraph_style (string name);
   void open_text_style (Database_Styles_Item style, bool note, bool embed);
-  void closeTextStyle (bool note, bool embed);
-  void placeTextInFrame (string text, string style, float fontsize, int italic, int bold);
-  void createSuperscriptStyle ();
+  void close_text_style (bool note, bool embed);
+  void place_text_in_frame (string text, string style, float fontsize, int italic, int bold);
+  void create_superscript_style ();
   void add_note (string caller, string style, bool endnote = false);
-  void addNoteText (string text);
-  void closeCurrentNote ();
+  void add_note_text (string text);
+  void close_current_note ();
   void save (string name);
   string current_paragraph_style;
   string current_paragraph_content;
-  vector <string> currentTextStyle;
+  vector <string> current_text_style;
   void add_image (string alt, string src, string caption);
   void add_tab ();
 private:
   string bible;
-  string unpackedOdtFolder;
-  xml_document contentDom; // The content.xml DOMDocument.
+  string unpacked_odt_folder;
+  xml_document content_dom; // The content.xml DOMDocument.
   xml_node office_text_node; // The office:text DOMNode.
-  xml_document stylesDom; // The styles.xml DOMDocument.
-  vector <string> createdStyles; // An array with styles already created in the $stylesDom.
+  xml_document styles_dom; // The styles.xml DOMDocument.
+  vector <string> created_styles; // An array with styles already created in the $stylesDom.
   xml_node office_styles_node; // The office:styles DOMNode.
   //xml_node officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
   xml_node current_text_p_node; // The current text:p DOMElement.
   bool current_text_p_node_opened = false; // Whether the text:p element has been opened.
   xml_attribute current_text_p_node_style_name; // The DOMAttr of the name of the style of the current text:p element.
-  int frameCount;
-  int noteCount;
-  xml_node noteTextPDomElement; // The text:p DOMElement of the current footnote, if any.
+  int frame_count;
+  int note_count;
+  xml_node note_text_p_dom_element; // The text:p DOMElement of the current footnote, if any.
   bool note_text_p_opened = false; // Whether the text:p for notes has been opened.
-  vector <string> currentNoteTextStyle;
+  vector <string> current_note_text_style;
   void initialize_content_xml ();
   void initialize_styles_xml ();
-  void newNamedHeading (string style, string text, bool hide = false);
+  void new_named_heading (string style, string text, bool hide = false);
   string convert_style_name (string style);
   int image_counter;
   // string pictures_folder;

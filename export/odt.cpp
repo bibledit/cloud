@@ -60,10 +60,10 @@ void export_odt_book (string bible, int book, bool log)
   
   
   Filter_Text filter_text = Filter_Text (bible);
-  filter_text.odf_text_standard = new Odf_Text (bible);
-  filter_text.odf_text_text_only = new Odf_Text (bible);
-  filter_text.odf_text_text_and_note_citations = new Odf_Text (bible);
-  filter_text.odf_text_notes = new Odf_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.odf_text_text_only = new odf_text (bible);
+  filter_text.odf_text_text_and_note_citations = new odf_text (bible);
+  filter_text.odf_text_notes = new odf_text (bible);
   
   
   if (book == 0) {

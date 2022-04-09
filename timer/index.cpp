@@ -64,11 +64,11 @@ void timer_index ()
       if (!config_globals_data_initialized) continue;
       
       // The current time, localized.
-      int local_seconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
-      int second = filter_date_numerical_second (local_seconds);
-      int minute = filter_date_numerical_minute (local_seconds);
-      int hour = filter_date_numerical_hour (local_seconds);
-      [[maybe_unused]] int weekday = filter_date_numerical_week_day (local_seconds);
+      int local_seconds = filter::date::local_seconds (filter::date::seconds_since_epoch ());
+      int second = filter::date::numerical_second (local_seconds);
+      int minute = filter::date::numerical_minute (local_seconds);
+      int hour = filter::date::numerical_hour (local_seconds);
+      [[maybe_unused]] int weekday = filter::date::numerical_week_day (local_seconds);
       
       // Run once per second.
       if (second == previous_second) continue;

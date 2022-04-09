@@ -87,7 +87,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->session_logic ()->setUsername (username);
   request->database_config_user()->setUpdatedSettings ({});
   Database_Config_General::setUnsentBibleDataTime (0);
-  Database_Config_General::setUnreceivedBibleDataTime (filter_date_seconds_since_epoch ());
+  Database_Config_General::setUnreceivedBibleDataTime (filter::date::seconds_since_epoch ());
   
   // Set flag for first run after connecting.
   Database_Config_General::setJustConnectedToCloud (true);

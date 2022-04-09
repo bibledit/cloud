@@ -112,7 +112,7 @@ void Database_Confirm::store (unsigned int id, string query,
   sql.add (",");
   sql.add (query);
   sql.add (",");
-  sql.add (filter_date_seconds_since_epoch ());
+  sql.add (filter::date::seconds_since_epoch ());
   sql.add (",");
   sql.add (to);
   sql.add (",");
@@ -233,7 +233,7 @@ void Database_Confirm::erase (unsigned int id)
 void Database_Confirm::trim ()
 {
   // Leave entries for no more than 30 days.
-  unsigned int time = filter_date_seconds_since_epoch () - 2592000; 
+  unsigned int time = filter::date::seconds_since_epoch () - 2592000; 
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM confirm WHERE timestamp <");
   sql.add (time);

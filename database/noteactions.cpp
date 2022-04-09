@@ -77,7 +77,7 @@ void Database_NoteActions::record (const string& username, int note, int action,
   sql.add (",");
   sql.add (note);
   sql.add (",");
-  sql.add (filter_date_seconds_since_epoch ());
+  sql.add (filter::date::seconds_since_epoch ());
   sql.add (",");
   sql.add (action);
   sql.add (",");

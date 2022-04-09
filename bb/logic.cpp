@@ -368,13 +368,13 @@ void bible_logic_kick_unsent_data_timer ()
   if (Database_Config_General::getUnsentBibleDataTime () != 0) return;
   
   // Stamp with the current time.
-  Database_Config_General::setUnsentBibleDataTime (filter_date_seconds_since_epoch ());
+  Database_Config_General::setUnsentBibleDataTime (filter::date::seconds_since_epoch ());
 }
 
 
 void bible_logic_kick_unreceived_data_timer ()
 {
-  Database_Config_General::setUnreceivedBibleDataTime (filter_date_seconds_since_epoch ());
+  Database_Config_General::setUnreceivedBibleDataTime (filter::date::seconds_since_epoch ());
 }
 
 
@@ -390,7 +390,7 @@ string bible_logic_unsent_unreceived_data_warning ()
   int data_time = Database_Config_General::getUnreceivedBibleDataTime ();
   // A value of 0 means that it is not relevant.
   if (data_time) {
-    int now = filter_date_seconds_since_epoch ();
+    int now = filter::date::seconds_since_epoch ();
     // Unreceived data warning after four days.
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
@@ -407,7 +407,7 @@ string bible_logic_unsent_unreceived_data_warning ()
   data_time = Database_Config_General::getUnsentBibleDataTime ();
   // A value of 0 means that there's no pending data.
   if (data_time) {
-    int now = filter_date_seconds_since_epoch ();
+    int now = filter::date::seconds_since_epoch ();
     // Unsent data warning after four days.
     data_time += (4 * 24 * 3600);
     if (now > data_time) {

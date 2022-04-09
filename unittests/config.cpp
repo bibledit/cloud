@@ -115,7 +115,7 @@ void test_database_config_user ()
   // Testing the Sprint month and trimming it.
   // It should get today's month.
   {
-    int month = filter_date_numerical_month (filter_date_seconds_since_epoch ());
+    int month = filter::date::numerical_month (filter::date::seconds_since_epoch ());
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
     // Set the sprint month to another month value: It should get this value back from the database.
     int newmonth = 123;
@@ -130,8 +130,8 @@ void test_database_config_user ()
     struct stat foo;
     struct utimbuf new_times;
     stat (filename.c_str(), &foo);
-    new_times.actime = filter_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
-    new_times.modtime = filter_date_seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.actime = filter::date::seconds_since_epoch () - (2 * 24 * 3600) - 10;
+    new_times.modtime = filter::date::seconds_since_epoch () - (2 * 24 * 3600) - 10;
     utime (filename.c_str(), &new_times);
     request.database_config_user ()->trim ();
     evaluate (__LINE__, __func__, month, request.database_config_user ()->getSprintMonth ());
@@ -153,7 +153,7 @@ void test_database_config_user ()
   evaluate (__LINE__, __func__, "test", request.database_config_user ()->getConsultationNotesAssignmentSelector ());
 
   // Sprint year.
-  evaluate (__LINE__, __func__, filter_date_numerical_year (filter_date_seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
+  evaluate (__LINE__, __func__, filter::date::numerical_year (filter::date::seconds_since_epoch ()), request.database_config_user ()->getSprintYear ());
   
   // Test getting a Bible that does not exist: It creates one.
   evaluate (__LINE__, __func__, demo_sample_bible_name (), request.database_config_user ()->getBible ());

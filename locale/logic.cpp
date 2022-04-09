@@ -48,10 +48,10 @@ string locale_logic_month (int month)
 
 string locale_logic_date (int seconds)
 {
-  seconds = filter_date_local_seconds (seconds);
-  int day = filter_date_numerical_month_day (seconds);
-  int month = filter_date_numerical_month (seconds);
-  int year = filter_date_numerical_year (seconds);
+  seconds = filter::date::local_seconds (seconds);
+  int day = filter::date::numerical_month_day (seconds);
+  int month = filter::date::numerical_month (seconds);
+  int year = filter::date::numerical_year (seconds);
   return convert_to_string (day) + " " + locale_logic_month (month) + " " + convert_to_string (year);
 }
 
@@ -59,16 +59,16 @@ string locale_logic_date (int seconds)
 string locale_logic_date_time (int seconds)
 {
   // Localize the seconds.
-  seconds = filter_date_local_seconds (seconds);
+  seconds = filter::date::local_seconds (seconds);
   // Convert the seconds into a human readable date and time.
   string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
-  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_hour (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter_date_numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
   // Done.
   return timestamp;
 }

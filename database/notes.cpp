@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <jsonxx/jsonxx.h>
 #include <database/logic.h>
+#include <time.h>
 
 
 using namespace jsonxx;
@@ -501,11 +502,9 @@ vector <int> Database_Notes::get_identifiers ()
 string Database_Notes::assemble_contents (int identifier, string contents)
 {
   string new_contents = get_contents (identifier);
-  int time = filter_date_seconds_since_epoch ();
-  string datetime = convert_to_string (filter_date_numerical_month_day (time)) + "/" + convert_to_string (filter_date_numerical_month (time)) + "/" + convert_to_string (filter_date_numerical_year (time));
+  string datetime = filter::date::localized_date ();
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
-
   // To make the notes more readable, add whitespace between the comments.
   bool is_initial_comment = new_contents.empty ();
   if (!is_initial_comment) {
@@ -665,19 +664,19 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
       break;
     case 1:
       // Select notes that have been edited during the last 30 days.
-      time = filter_date_seconds_since_epoch () - 30 * 24 * 3600;
+      time = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
       break;
     case 2:
       // Select notes that have been edited during the last 7 days.
-      time = filter_date_seconds_since_epoch () - 7 * 24 * 3600;
+      time = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
       break;
     case 3:
       // Select notes that have been edited since yesterday.
-      time = filter_date_seconds_since_epoch () - 1 * 24 * 3600 - filter_date_numerical_hour (filter_date_seconds_since_epoch ()) * 3600;
+      time = filter::date::seconds_since_epoch () - 1 * 24 * 3600 - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
     case 4:
       // Select notes that have been edited today.
-      time = filter_date_seconds_since_epoch () - filter_date_numerical_hour (filter_date_seconds_since_epoch ()) * 3600;
+      time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
   }
   if (time != 0) {
@@ -694,23 +693,23 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
       break;
     case 1:
       // Select notes that have not been edited for a day.
-      nonedit = filter_date_seconds_since_epoch () - 1 * 24 * 3600;
+      nonedit = filter::date::seconds_since_epoch () - 1 * 24 * 3600;
       break;
     case 2:
       // Select notes that have not been edited for two days.
-      nonedit = filter_date_seconds_since_epoch () - 2 * 24 * 3600;
+      nonedit = filter::date::seconds_since_epoch () - 2 * 24 * 3600;
       break;
     case 3:
       // Select notes that have not been edited for a week.
-      nonedit = filter_date_seconds_since_epoch () - 7 * 24 * 3600;
+      nonedit = filter::date::seconds_since_epoch () - 7 * 24 * 3600;
       break;
     case 4:
       // Select notes that have not been edited for a month.
-      nonedit = filter_date_seconds_since_epoch () - 30 * 24 * 3600;
+      nonedit = filter::date::seconds_since_epoch () - 30 * 24 * 3600;
       break;
     case 5:
       // Select notes that have not been edited for a year.
-      nonedit = filter_date_seconds_since_epoch () - 365 * 24 * 3600;
+      nonedit = filter::date::seconds_since_epoch () - 365 * 24 * 3600;
       break;
   }
   if (nonedit != 0) {
@@ -1474,7 +1473,7 @@ void Database_Notes::set_public (int identifier, bool value)
 void Database_Notes::note_modified_actions (int identifier)
 {
   // Update 'modified' field.
-  set_modified (identifier, filter_date_seconds_since_epoch());
+  set_modified (identifier, filter::date::seconds_since_epoch());
 }
 
 

@@ -115,7 +115,7 @@ string manage_accounts (void * webserver_request)
     user_level = request->database_users ()->get_level (username);
     string role = Filter_Roles::text (user_level);
     string email = request->database_users ()->get_email (username);
-    int seconds = filter_date_seconds_since_epoch() - account_creation_times[username];
+    int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
     string days = convert_to_string (seconds / (3600 * 24));
     
     // In the Indonesian free Cloud,

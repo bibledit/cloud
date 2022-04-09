@@ -59,7 +59,7 @@ string edit_edit (void * webserver_request)
   
   // Check whether a Bible editor is alive.
   int timestamp = request->database_config_user()->getLiveBibleEditor ();
-  bool alive = (timestamp > (filter_date_seconds_since_epoch () - 5));
+  bool alive = (timestamp > (filter::date::seconds_since_epoch () - 5));
   
   
   if (alive) return translate ("The passage has been opened in the existing Bible editor");

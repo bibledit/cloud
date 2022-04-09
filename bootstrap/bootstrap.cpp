@@ -251,8 +251,8 @@ void bootstrap_index (void * webserver_request)
   /*
   if (!request->post.empty () && config_logic_demo_enabled ()) {
     string contents;
-    int seconds = filter_date_seconds_since_epoch ();
-    string rfc822time = filter_date_rfc822 (seconds);
+    int seconds = filter::date::seconds_since_epoch ();
+    string rfc822time = filter::date::rfc822 (seconds);
     contents.append (rfc822time + "\n");
     contents.append (request->get + "\n");
     string query;

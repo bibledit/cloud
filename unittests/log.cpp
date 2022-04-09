@@ -66,7 +66,7 @@ void test_database_logs ()
     // Test the getNext function of the Journal.
     refresh_sandbox (true);
     Database_Logs::log ("description");
-    int second = filter_date_seconds_since_epoch ();
+    int second = filter::date::seconds_since_epoch ();
     string filename = convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;

@@ -852,7 +852,7 @@ const char * filter_url_temp_dir ()
 // Returns the name of a temporary file.
 string filter_url_tempfile (const char * directory)
 {
-  string filename = convert_to_string (filter_date_seconds_since_epoch ()) + convert_to_string (filter_date_numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
+  string filename = convert_to_string (filter::date::seconds_since_epoch ()) + convert_to_string (filter::date::numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
     filename = filter_url_create_path ({directory, filename});
   } else {

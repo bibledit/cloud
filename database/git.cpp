@@ -64,7 +64,7 @@ void Database_Git::optimize ()
   sql.clear ();
 
   // Delete entries older than 10 days.
-  int timestamp = filter_date_seconds_since_epoch () - 432000;
+  int timestamp = filter::date::seconds_since_epoch () - 432000;
   sql.add ("DELETE FROM changes WHERE timestamp <");
   sql.add (timestamp);
   sql.add (";");
@@ -82,7 +82,7 @@ void Database_Git::store_chapter (string user, string bible, int book, int chapt
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO changes VALUES (");
-  sql.add (filter_date_seconds_since_epoch ());
+  sql.add (filter::date::seconds_since_epoch ());
   sql.add (",");
   sql.add (user);
   sql.add (",");

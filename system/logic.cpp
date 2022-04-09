@@ -557,7 +557,7 @@ void system_logic_indonesian_free_expiration ()
     int level = database_users.get_level(user);
     if (level != Filter_Roles::consultant()) continue;
     // Expire this account after 30 days.
-    int account_creation_time = filter_date_seconds_since_epoch();
+    int account_creation_time = filter::date::seconds_since_epoch();
     {
       vector <string> lines = Database_Config_General::getAccountCreationTimes ();
       for (auto line : lines) {
@@ -567,7 +567,7 @@ void system_logic_indonesian_free_expiration ()
         if (user == bits[1]) account_creation_time = seconds;
       }
     }
-    int seconds = filter_date_seconds_since_epoch() - account_creation_time;
+    int seconds = filter::date::seconds_since_epoch() - account_creation_time;
     int days = seconds / (3600 * 24);
     if (days <= 30) continue;
     // Get details of this user.

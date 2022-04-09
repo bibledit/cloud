@@ -40,8 +40,8 @@ void tasks_logic_queue (string command, vector <string> parameters)
   lines.push_back (command);
   lines.insert (lines.end(), parameters.begin(), parameters.end());
   // The filename to write to contains seconds and microseconds.
-  string seconds = convert_to_string (filter_date_seconds_since_epoch ());
-  string time = seconds + filter_string_fill (convert_to_string (filter_date_numerical_microseconds ()), 8, '0');
+  string seconds = convert_to_string (filter::date::seconds_since_epoch ());
+  string time = seconds + filter_string_fill (convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path ({tasks_logic_folder (), time});
   // On Windows the microtime is not fine enough.
   // This leads to one task overwriting a previous one in case it is queued immediately after.

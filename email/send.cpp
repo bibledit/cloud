@@ -224,10 +224,10 @@ string email_send ([[maybe_unused]] string to_mail,
 
   upload_ctx.lines_read = 0;
 
-  int seconds = filter_date_seconds_since_epoch ();
+  int seconds = filter::date::seconds_since_epoch ();
   payload_text.clear();
   string payload;
-  payload = "Date: " + convert_to_string (filter_date_numerical_year (seconds)) + "/" + convert_to_string (filter_date_numerical_month (seconds)) + "/" + convert_to_string (filter_date_numerical_month_day (seconds)) + " " + convert_to_string (filter_date_numerical_hour (seconds)) + ":" + convert_to_string (filter_date_numerical_minute (seconds)) + "\n";
+  payload = "Date: " + convert_to_string (filter::date::numerical_year (seconds)) + "/" + convert_to_string (filter::date::numerical_month (seconds)) + "/" + convert_to_string (filter::date::numerical_month_day (seconds)) + " " + convert_to_string (filter::date::numerical_hour (seconds)) + ":" + convert_to_string (filter::date::numerical_minute (seconds)) + "\n";
   payload_text.push_back (payload);
   payload = "To: <" + to_mail + "> " + to_name + "\n";
   payload_text.push_back (payload);

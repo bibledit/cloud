@@ -190,7 +190,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
     if (bits.size() != 3) continue;
     string path = filter_url_create_path ({teamFolder (), file});
     int time = filter_url_file_modification_time (path);
-    int days = (filter_date_seconds_since_epoch () - time) / 86400;
+    int days = (filter::date::seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed team changes older than so many days usually indicate a problem.
       // Perhaps the server crashed so it never could process them.
@@ -340,7 +340,7 @@ void Database_Modifications::recordUserSave (const string& username, const strin
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (timeFile, convert_to_string (filter_date_seconds_since_epoch ()));
+  filter_url_file_put_contents (timeFile, convert_to_string (filter::date::seconds_since_epoch ()));
   string oldIDFile = userOldIDFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (oldIDFile, convert_to_string (oldID));
   string oldTextFile = userOldTextFile (username, bible, book, chapter, newID);
@@ -393,7 +393,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
   for (auto & file : files) {
     string path = filter_url_create_path ({folder, file});
     int time = filter_url_file_modification_time (path);
-    int days = (filter_date_seconds_since_epoch () - time) / 86400;
+    int days = (filter::date::seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed user changes older than so many days usually indicate a problem.
       // Perhaps the server crashed so it never could process them.
@@ -445,7 +445,7 @@ int Database_Modifications::getUserTimestamp (const string& username, const stri
   string contents = filter_url_file_get_contents (file);
   int time = convert_to_int (contents);
   if (time > 0) return time;
-  return filter_date_seconds_since_epoch ();
+  return filter::date::seconds_since_epoch ();
 }
 
 
@@ -501,7 +501,7 @@ void Database_Modifications::recordNotification (const vector <string> & users, 
   // Normally this function is called just after midnight.
   // It would then put the current time on changes made the day before.
   // Make a correction for that by subtracting 6 hours.
-  int timestamp = filter_date_seconds_since_epoch () - 21600;
+  int timestamp = filter::date::seconds_since_epoch () - 21600;
   for (auto & user : users) {
     int identifier = getNextAvailableNotificationIdentifier ();
     SqliteDatabase sql (notificationIdentifierDatabase (identifier));
@@ -546,10 +546,10 @@ void Database_Modifications::indexTrimAllNotifications ()
 
   // Change notifications expire after 30 days.
   // But the more there are, the sooner they expire.
-  int expiry_time = filter_date_seconds_since_epoch () - (30 * 3600 * 24);
-  if (sidentifiers.size () > 10000) expiry_time = filter_date_seconds_since_epoch () - (14 * 3600 * 24);
-  if (sidentifiers.size () > 20000) expiry_time = filter_date_seconds_since_epoch () - (7 * 3600 * 14);
-  if (sidentifiers.size () > 30000) expiry_time = filter_date_seconds_since_epoch () - (4 * 3600 * 14);
+  int expiry_time = filter::date::seconds_since_epoch () - (30 * 3600 * 24);
+  if (sidentifiers.size () > 10000) expiry_time = filter::date::seconds_since_epoch () - (14 * 3600 * 24);
+  if (sidentifiers.size () > 20000) expiry_time = filter::date::seconds_since_epoch () - (7 * 3600 * 14);
+  if (sidentifiers.size () > 30000) expiry_time = filter::date::seconds_since_epoch () - (4 * 3600 * 14);
 
   // Database: Connect and speed it up.
   sqlite3 * db = connect ();
@@ -790,7 +790,7 @@ int Database_Modifications::getNotificationTimeStamp (int id)
   sqlite3 * db = connect ();
   vector <string> timestamps = database_sqlite_query (db, sql.sql) ["timestamp"];
   database_sqlite_disconnect (db);
-  int time = filter_date_seconds_since_epoch ();
+  int time = filter::date::seconds_since_epoch ();
   for (auto & stamp : timestamps) {
     time = convert_to_int (stamp);
   }
@@ -1022,7 +1022,7 @@ void Database_Modifications::storeClientNotification (int id, string username, s
   // Erase any existing database.
   deleteNotificationFile (id);
   // Timestamp is not used: Just put the current time.
-  int timestamp = filter_date_seconds_since_epoch ();
+  int timestamp = filter::date::seconds_since_epoch ();
   {
     SqliteDatabase sql (notificationIdentifierDatabase (id));
     sql.add (createNotificationsDbSql ());

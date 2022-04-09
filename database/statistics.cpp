@@ -107,7 +107,7 @@ const char * Database_Statistics::name ()
 
 int Database_Statistics::year_ago ()
 {
-  int timestamp = filter_date_seconds_since_epoch ();
+  int timestamp = filter::date::seconds_since_epoch ();
   timestamp -= (3600 * 24 * 365);
   return timestamp;
 }

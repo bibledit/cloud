@@ -37,7 +37,7 @@ void test_database_statistics ()
     
     int one_thousand = 1000;
     int two_thousand = 2000;
-    int now = filter_date_seconds_since_epoch ();
+    int now = filter::date::seconds_since_epoch ();
     int now_plus_one = now + 1;
     
     // Record some statistics.

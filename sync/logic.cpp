@@ -362,7 +362,7 @@ void Sync_Logic::prioritized_ip_address_record ()
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   sync_logic_mutex.lock ();
-  config_globals_prioritized_ip_addresses [request->remote_address] = filter_date_seconds_since_epoch ();
+  config_globals_prioritized_ip_addresses [request->remote_address] = filter::date::seconds_since_epoch ();
   sync_logic_mutex.unlock ();
 }
 
@@ -372,7 +372,7 @@ bool Sync_Logic::prioritized_ip_address_active ()
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string ip = request->remote_address;
-  int time = filter_date_seconds_since_epoch ();
+  int time = filter::date::seconds_since_epoch ();
   bool active = false;
   sync_logic_mutex.lock ();
   bool record_present = config_globals_prioritized_ip_addresses.count (ip);

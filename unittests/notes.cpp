@@ -78,7 +78,7 @@ void test_database_noteactions ()
     database.record ("phpunit3", 3, 4, "content5");
     vector <Database_Note_Action> data = database.getNoteData (2);
     evaluate (__LINE__, __func__, 2, (int)data.size());
-    int now = filter_date_seconds_since_epoch ();
+    int now = filter::date::seconds_since_epoch ();
     evaluate (__LINE__, __func__, 1, data[0].rowid);
     evaluate (__LINE__, __func__, "phpunit1", data[0].username);
     if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) evaluate (__LINE__, __func__, now, data[0].timestamp);
@@ -580,7 +580,7 @@ void test_database_notes ()
     database_notes.create ();
     
     request.session_logic()->setUsername ("unittest");
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     
     // Create note.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);

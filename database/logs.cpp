@@ -46,8 +46,8 @@ void Database_Logs::log (string description, int level)
     description.append ("... This entry was too large and has been truncated: " + convert_to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
-  string seconds = convert_to_string (filter_date_seconds_since_epoch ());
-  string time = seconds + filter_string_fill (convert_to_string (filter_date_numerical_microseconds ()), 8, '0');
+  string seconds = convert_to_string (filter::date::seconds_since_epoch ());
+  string time = seconds + filter_string_fill (convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path ({folder (), time});
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
@@ -88,9 +88,9 @@ void Database_Logs::rotate ()
   
   // Timestamp for removing older records, depending on whether it's a tiny journal.
 #ifdef HAVE_TINY_JOURNAL
-  int oldtimestamp = filter_date_seconds_since_epoch () - (14400);
+  int oldtimestamp = filter::date::seconds_since_epoch () - (14400);
 #else
-  int oldtimestamp = filter_date_seconds_since_epoch () - (6 * 86400);
+  int oldtimestamp = filter::date::seconds_since_epoch () - (6 * 86400);
 #endif
 
   

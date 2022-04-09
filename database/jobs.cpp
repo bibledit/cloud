@@ -65,7 +65,7 @@ void Database_Jobs::optimize ()
 void Database_Jobs::trim ()
 {
   // Delete jobs older than 30 days.
-  int timestamp = filter_date_seconds_since_epoch () - (30 * 24 * 3600);
+  int timestamp = filter::date::seconds_since_epoch () - (30 * 24 * 3600);
   SqliteSQL sql = SqliteSQL ();
   sql.add ("DELETE FROM jobs WHERE timestamp <");
   sql.add (timestamp);
@@ -99,7 +99,7 @@ int Database_Jobs::get_new_id ()
   } while (id_exists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.
-  int timestamp = filter_date_seconds_since_epoch ();
+  int timestamp = filter::date::seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO jobs (id, timestamp) VALUES (");
   sql.add (id);

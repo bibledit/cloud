@@ -42,12 +42,12 @@ void sprint_burndown ([[maybe_unused]] string bible,
                       [[maybe_unused]] int manualmonth)
 {
 #ifdef HAVE_CLOUD
-  int localseconds = filter_date_local_seconds (filter_date_seconds_since_epoch ());
-  int year = filter_date_numerical_year (localseconds);
-  int month = filter_date_numerical_month (localseconds);
-  int monthday = filter_date_numerical_month_day (localseconds); // 1 to 31.
-  int weekday = filter_date_numerical_week_day (localseconds); // 0 (for Sunday) through 6 (for Saturday).
-  int hour = filter_date_numerical_hour (localseconds);
+  int localseconds = filter::date::local_seconds (filter::date::seconds_since_epoch ());
+  int year = filter::date::numerical_year (localseconds);
+  int month = filter::date::numerical_month (localseconds);
+  int monthday = filter::date::numerical_month_day (localseconds); // 1 to 31.
+  int weekday = filter::date::numerical_week_day (localseconds); // 0 (for Sunday) through 6 (for Saturday).
+  int hour = filter::date::numerical_hour (localseconds);
   bool sprintstart = false;
   bool sprintfinish = false;
   bool email = false;
@@ -57,12 +57,12 @@ void sprint_burndown ([[maybe_unused]] string bible,
   // Every Friday at 2 PM (14:00h) it sends email about the sprint progress.
   if ((weekday == 5) && (hour == 14)) email = true;
   // On the first business day of the month, at 10 AM, send email about the start of the sprint.
-  if (filter_date_is_first_business_day_of_month (monthday, weekday) && (hour == 10)) {
+  if (filter::date::is_first_business_day_of_month (monthday, weekday) && (hour == 10)) {
     email = true;
     sprintstart = true;
   }
   // On the last business day of the month, at 2 PM (14:00h), send email about the end of the sprint.
-  if ((monthday == filter_date_get_last_business_day_of_month (year, month)) && (hour == 14)) {
+  if ((monthday == filter::date::get_last_business_day_of_month (year, month)) && (hour == 14)) {
     email = true;
     sprintfinish = true;
   }
@@ -87,9 +87,9 @@ void sprint_burndown ([[maybe_unused]] string bible,
   if (hour <= 6) {
     localseconds -= (3600 * 6);
   }
-  year = filter_date_numerical_year (localseconds);
-  month = filter_date_numerical_month (localseconds);
-  monthday = filter_date_numerical_month_day (localseconds); // 1 to 31.
+  year = filter::date::numerical_year (localseconds);
+  month = filter::date::numerical_month (localseconds);
+  monthday = filter::date::numerical_month_day (localseconds); // 1 to 31.
   
   
   // It sending the planning manually, update the date.
@@ -197,14 +197,14 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
 #ifdef HAVE_CLOUD
   
   // Get the seconds for the first of the month.
-  int seconds = filter_date_seconds_since_epoch (year, month, 1);
+  int seconds = filter::date::seconds_since_epoch (year, month, 1);
   
   // The business days in the month for on the X-axis.
   vector <int> days_in_month;
   for (unsigned int day = 1; day <= 31; day++) {
-    int mymonth = filter_date_numerical_month (seconds);
+    int mymonth = filter::date::numerical_month (seconds);
     if (mymonth == month) {
-      if (filter_date_is_business_day (year, month, day)) {
+      if (filter::date::is_business_day (year, month, day)) {
         days_in_month.push_back (day);
       }
     }

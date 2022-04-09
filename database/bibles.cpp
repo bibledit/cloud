@@ -304,7 +304,7 @@ int Database_Bibles::getChapterAge (string bible, int book, int chapter)
     string file = files [files.size() - 1];
     string path = filter_url_create_path ({folder, file});
     int time = filter_url_file_modification_time (path);
-    int now = filter_date_seconds_since_epoch ();
+    int now = filter::date::seconds_since_epoch ();
     return now - time;
   }
   return 100'000'000;

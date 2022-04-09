@@ -72,22 +72,22 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   if (request->query.count ("previoussprint")) {
     int month = request->database_config_user()->getSprintMonth ();
     int year = request->database_config_user()->getSprintYear ();
-    filter_date_get_previous_month (month, year);
+    filter::date::get_previous_month (month, year);
     request->database_config_user()->setSprintMonth (month);
     request->database_config_user()->setSprintYear (year);
   }
   
   
   if (request->query.count ("currentprint")) {
-    request->database_config_user()->setSprintMonth (filter_date_numerical_month (filter_date_seconds_since_epoch ()));
-    request->database_config_user()->setSprintYear (filter_date_numerical_year (filter_date_seconds_since_epoch ()));
+    request->database_config_user()->setSprintMonth (filter::date::numerical_month (filter::date::seconds_since_epoch ()));
+    request->database_config_user()->setSprintYear (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   }
   
   
   if (request->query.count ("nextsprint")) {
     int month = request->database_config_user()->getSprintMonth ();
     int year = request->database_config_user()->getSprintYear ();
-    filter_date_get_next_month (month, year);
+    filter::date::get_next_month (month, year);
     request->database_config_user()->setSprintMonth (month);
     request->database_config_user()->setSprintYear (year);
   }
@@ -174,7 +174,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   
   
   if (request->query.count ("moveback")) {
-    filter_date_get_previous_month (month, year);
+    filter::date::get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the previous sprint"));
     request->database_config_user()->setSprintMonth (month);
@@ -183,7 +183,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
                         
                         
   if (request->query.count ("moveforward")) {
-    filter_date_get_next_month (month, year);
+    filter::date::get_next_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the next sprint"));
     request->database_config_user()->setSprintMonth (month);

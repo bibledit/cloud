@@ -50,7 +50,7 @@ void Database_Ipc::trim ()
       deleteMessage (record.rowid);
     }
   }
-  int now = filter_date_seconds_since_epoch ();
+  int now = filter::date::seconds_since_epoch ();
   vector <string> files = filter_url_scandir (folder ());
   for (string item : files) {
     string path = file(item);

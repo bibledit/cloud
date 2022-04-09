@@ -66,7 +66,7 @@ string sendreceive_notes_up_to_date_text ()
 void sendreceive_notes ()
 {
   if (sendreceive_notes_watchdog) {
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     if (time < (sendreceive_notes_watchdog + 900)) {
       Database_Logs::log (sendreceive_notes_text () + translate("Still busy"), Filter_Roles::translator ());
       return;
@@ -524,5 +524,5 @@ bool sendreceive_notes_download (int lowId, int highId)
 
 void sendreceive_notes_kick_watchdog ()
 {
-  sendreceive_notes_watchdog = filter_date_seconds_since_epoch ();
+  sendreceive_notes_watchdog = filter::date::seconds_since_epoch ();
 }

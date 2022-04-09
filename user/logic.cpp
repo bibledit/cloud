@@ -76,7 +76,7 @@ bool user_logic_login_failure_check_okay ()
   // No time set yet: OK.
   if (!user_logic_login_failure_time) return true;
   // A login failure was recorded during this very second: Check fails.
-  if (user_logic_login_failure_time == filter_date_seconds_since_epoch ()) return false;
+  if (user_logic_login_failure_time == filter::date::seconds_since_epoch ()) return false;
   // Default: OK.
   return true;
 }
@@ -85,7 +85,7 @@ bool user_logic_login_failure_check_okay ()
 void user_logic_login_failure_register ()
 {
   // Register a login failure for the current second.
-  user_logic_login_failure_time = filter_date_seconds_since_epoch ();
+  user_logic_login_failure_time = filter::date::seconds_since_epoch ();
 }
 
 
@@ -99,7 +99,7 @@ void user_logic_login_failure_clear ()
 void user_logic_store_account_creation (string username)
 {
   vector <string> account_creation_times = Database_Config_General::getAccountCreationTimes ();
-  string account_creation_time = convert_to_string(filter_date_seconds_since_epoch()) + "|" + username;
+  string account_creation_time = convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
   account_creation_times.push_back(account_creation_time);
   Database_Config_General::setAccountCreationTimes(account_creation_times);
 }

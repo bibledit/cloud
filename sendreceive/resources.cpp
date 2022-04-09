@@ -45,7 +45,7 @@ int sendreceive_resources_watchdog = 0;
 
 void sendreceive_resources_kick_watchdog ()
 {
-  sendreceive_resources_watchdog = filter_date_seconds_since_epoch ();
+  sendreceive_resources_watchdog = filter::date::seconds_since_epoch ();
 }
 
 
@@ -76,7 +76,7 @@ void sendreceive_resources_delay_during_prioritized_tasks ()
 void sendreceive_resources ()
 {
   if (sendreceive_resources_watchdog) {
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     if (time < (sendreceive_resources_watchdog + 900)) {
       return;
     }

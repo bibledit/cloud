@@ -137,7 +137,7 @@ void test_database_modifications_user ()
     Database_Modifications database_modifications;
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old1", 4, "new1");
     int time = database_modifications.getUserTimestamp ("phpunit1", "bible", 1, 2, 4);
-    int currenttime = filter_date_seconds_since_epoch ();
+    int currenttime = filter::date::seconds_since_epoch ();
     if ((time < currenttime - 1) || (time > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, time);
   }
 }
@@ -438,7 +438,7 @@ void test_database_modifications_notifications ()
     
     // Set the time back, re-index, filter_string_trim, and check one entry's gone.
     database_modifications.indexTrimAllNotifications ();
-    database_modifications.notificationUpdateTime (1, filter_date_seconds_since_epoch () - 7776001);
+    database_modifications.notificationUpdateTime (1, filter::date::seconds_since_epoch () - 7776001);
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {2}, ids);
@@ -511,10 +511,10 @@ void test_database_modifications_notifications ()
     database_modifications.create ();
     
     int timestamp = database_modifications.getNotificationTimeStamp (0);
-    int currenttime = filter_date_seconds_since_epoch ();
+    int currenttime = filter::date::seconds_since_epoch ();
     if ((timestamp < currenttime) || (timestamp > currenttime + 1)) evaluate (__LINE__, __func__, currenttime, timestamp);
     
-    int time = filter_date_seconds_since_epoch () - 21600;
+    int time = filter::date::seconds_since_epoch () - 21600;
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     timestamp = database_modifications.getNotificationTimeStamp (1);

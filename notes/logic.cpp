@@ -513,10 +513,10 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << ">Respond by email</a></p>" << endl;
 
   // Deal with possible postponing email till 9 PM.
-  int timestamp = filter_date_seconds_since_epoch ();
+  int timestamp = filter::date::seconds_since_epoch ();
   if (postpone) {
-    int localseconds = filter_date_local_seconds (timestamp);
-    float localhour = filter_date_numerical_hour (localseconds) + (float) filter_date_numerical_minute (localseconds) / 60;
+    int localseconds = filter::date::local_seconds (timestamp);
+    float localhour = filter::date::numerical_hour (localseconds) + (float) filter::date::numerical_minute (localseconds) / 60;
     if (localhour < 21) {
       float difference = 21 - localhour;
       timestamp += (3600 * difference) - 10;
@@ -576,7 +576,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
     username = filter_string_str_replace (".", " ", username);
   }
   // Clean the email's body.
-  string year = convert_to_string (filter_date_numerical_year (filter_date_seconds_since_epoch ()));
+  string year = convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   string sender = Database_Config_General::getSiteMailName();
   body = filter_string_extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,

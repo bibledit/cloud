@@ -21,23 +21,28 @@
 
 #include <config/libraries.h>
 
-int filter_date_numerical_second (int seconds);
-int filter_date_numerical_minute (int seconds);
-int filter_date_numerical_hour (int seconds);
-int filter_date_numerical_month_day (int seconds);
-int filter_date_numerical_week_day (int seconds);
-int filter_date_numerical_month (int seconds);
-int filter_date_numerical_year (int seconds);
-int filter_date_numerical_microseconds ();
-int filter_date_seconds_since_epoch ();
-int filter_date_seconds_since_epoch (int year, int month, int day);
-int filter_date_local_seconds (int seconds);
-bool filter_date_is_first_business_day_of_month (int monthday, int weekday);
-int filter_date_get_last_business_day_of_month (int year, int month);
-bool filter_date_is_business_day (int year, int month, int day);
-void filter_date_get_previous_month (int & month, int & year);
-void filter_date_get_next_month (int & month, int & year);
-string filter_date_day_rfc822 (int day);
-string filter_date_month_rfc822 (int month);
-string filter_date_rfc822 (int seconds);
-long filter_date_elapsed_microseconds (long start);
+namespace filter::date {
+
+int numerical_second (int seconds);
+int numerical_minute (int seconds);
+int numerical_hour (int seconds);
+int numerical_month_day (int seconds);
+int numerical_week_day (int seconds);
+int numerical_month (int seconds);
+int numerical_year (int seconds);
+int numerical_microseconds ();
+int seconds_since_epoch ();
+int seconds_since_epoch (int year, int month, int day);
+int local_seconds (int seconds);
+bool is_first_business_day_of_month (int monthday, int weekday);
+int get_last_business_day_of_month (int year, int month);
+bool is_business_day (int year, int month, int day);
+void get_previous_month (int & month, int & year);
+void get_next_month (int & month, int & year);
+string day_rfc822 (int day);
+string month_rfc822 (int month);
+string rfc822 (int seconds);
+long elapsed_microseconds (long start);
+string localized_date ();
+
+}

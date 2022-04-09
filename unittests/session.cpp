@@ -192,8 +192,8 @@ void test_session ()
     
     // To get stable results from the unit tests, run them right from the start of a new second.
     // The issue is that the failed logins are recorded per second.
-    int now = filter_date_seconds_since_epoch ();
-    while (now == filter_date_seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
+    int now = filter::date::seconds_since_epoch ();
+    while (now == filter::date::seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
     
     // Test the brute force detection mechanism.
     evaluate (__LINE__, __func__, true, user_logic_login_failure_check_okay ());
@@ -223,8 +223,8 @@ void test_session ()
     evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
     
     // Wait till the next second.
-    now = filter_date_seconds_since_epoch ();
-    while (now == filter_date_seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
+    now = filter::date::seconds_since_epoch ();
+    while (now == filter::date::seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
     
     // After a second, a proper login works again.
     request = Webserver_Request ();

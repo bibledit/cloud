@@ -214,5 +214,5 @@ void Database_Login::testTimestamp ()
 // Gets the current number of days since the Unix epoch.
 int Database_Login::timestamp ()
 {
-  return filter_date_seconds_since_epoch () / 86400;
+  return filter::date::seconds_since_epoch () / 86400;
 }

@@ -156,8 +156,8 @@ string rss_logic_xml_path ()
 
 void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions)
 {
-  int seconds = filter_date_seconds_since_epoch ();
-  string rfc822time = filter_date_rfc822 (seconds);
+  int seconds = filter::date::seconds_since_epoch ();
+  string rfc822time = filter::date::rfc822 (seconds);
   string guid = convert_to_string (seconds);
   bool document_updated = false;
   xml_document document;

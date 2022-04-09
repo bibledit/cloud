@@ -238,7 +238,7 @@ void Database_Config_User::trim ()
   // Reset the sprint month and year after some time.
   // When a user visits the Sprint page after a few days, it will then display the current Sprint.
   // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
-  int time = filter_date_seconds_since_epoch () - (2 * 24 * 3600);
+  int time = filter::date::seconds_since_epoch () - (2 * 24 * 3600);
   Database_Users database_users;
   vector <string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
@@ -688,7 +688,7 @@ const char * Database_Config_User::keySprintMonth ()
 }
 int Database_Config_User::getSprintMonth ()
 {
-  return getIValue (keySprintMonth (), filter_date_numerical_month (filter_date_seconds_since_epoch ()));
+  return getIValue (keySprintMonth (), filter::date::numerical_month (filter::date::seconds_since_epoch ()));
 }
 void Database_Config_User::setSprintMonth (int value)
 {
@@ -702,7 +702,7 @@ const char * Database_Config_User::keySprintYear ()
 }
 int Database_Config_User::getSprintYear ()
 {
-  return getIValue (keySprintYear (), filter_date_numerical_year (filter_date_seconds_since_epoch ()));
+  return getIValue (keySprintYear (), filter::date::numerical_year (filter::date::seconds_since_epoch ()));
 }
 void Database_Config_User::setSprintYear (int value)
 {

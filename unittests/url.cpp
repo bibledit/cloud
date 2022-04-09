@@ -341,7 +341,7 @@ void test_url ()
     string file = filter_url_create_path ({directory, "file.txt"});
     filter_url_file_put_contents (file, "file.txt");
     int mod_time = filter_url_file_modification_time (file);
-    int ref_time = filter_date_seconds_since_epoch ();
+    int ref_time = filter::date::seconds_since_epoch ();
     bool check = (mod_time < ref_time - 1) || (mod_time > ref_time + 1);
     if (check) evaluate (__LINE__, __func__, ref_time, mod_time);
   }

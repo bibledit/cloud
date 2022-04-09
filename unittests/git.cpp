@@ -936,7 +936,7 @@ void test_database_git ()
   Database_Git::optimize ();
   rowids = Database_Git::get_rowids (user, bible);
   evaluate (__LINE__, __func__, 3, rowids.size ());
-  Database_Git::touch_timestamps (filter_date_seconds_since_epoch () - 432000 - 1);
+  Database_Git::touch_timestamps (filter::date::seconds_since_epoch () - 432000 - 1);
   Database_Git::optimize ();
   rowids = Database_Git::get_rowids (user, bible);
   evaluate (__LINE__, __func__, 0, rowids.size ());

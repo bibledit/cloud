@@ -1527,8 +1527,8 @@ string encrypt_decrypt (string key, string data)
 // Gets a new random string for sessions, encryption, you name it.
 string get_new_random_string ()
 {
-  string u = convert_to_string (filter_date_numerical_microseconds ());
-  string s = convert_to_string (filter_date_seconds_since_epoch ());
+  string u = convert_to_string (filter::date::numerical_microseconds ());
+  string s = convert_to_string (filter::date::seconds_since_epoch ());
   string r = convert_to_string (config_globals_int_distribution (config_globals_random_engine));
   return md5 (u + s + r);
 }

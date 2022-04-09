@@ -42,7 +42,7 @@ void test_database_navigation ()
     database.create ();
     
     // Use current time.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     
     // Record one entry.
     // As a result there should be no previous entry.
@@ -87,7 +87,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // Use current time.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     // Record one entry, and another one 6 seconds later.
     database.record (time, user, 1, 2, 3);
     time += 6;
@@ -104,7 +104,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // Use current time.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     // Record one entry, and another 6 seconds later.
     database.record (time, user, 1, 2, 3);
     time += 6;
@@ -121,7 +121,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // Use current time.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     // Record three entries, each one 6 seconds later.
     database.record (time, user, 1, 2, 3);
     time += 6;
@@ -140,7 +140,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // Use current time.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     // Record five entries, each one 6 seconds later.
     database.record (time, user, 1, 2, 3);
     time += 6;
@@ -174,7 +174,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // Use current time.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     // Record several entries, all spaced apart by 6 seconds.
     database.record (time, user, 1, 2, 3);
     time += 6;
@@ -196,7 +196,7 @@ void test_database_navigation ()
     Database_Navigation database;
     database.create ();
     // Record two entries at an interval.
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     database.record (time, user, 1, 2, 3);
     time += 6;
     database.record (time, user, 4, 5, 6);
@@ -242,7 +242,7 @@ void test_database_navigation ()
     refresh_sandbox (true);
     Database_Navigation database;
     database.create ();
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     vector<Passage> passages;
 
     // Record three entries at an interval for this user.
@@ -318,7 +318,7 @@ void test_database_navigation ()
     refresh_sandbox (true);
     Database_Navigation database;
     database.create ();
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     vector<Passage> passages;
     
     // 1. Record several recent passages.
@@ -336,7 +336,7 @@ void test_database_navigation ()
     refresh_sandbox (true);
     Database_Navigation database;
     database.create ();
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     vector<Passage> passages;
     
     // 1. Record several old passages.

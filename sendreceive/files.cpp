@@ -69,7 +69,7 @@ void sendreceive_files ()
 {
   // Watchdog handler.
   if (sendreceive_files_watchdog) {
-    int time = filter_date_seconds_since_epoch ();
+    int time = filter::date::seconds_since_epoch ();
     if (time < (sendreceive_files_watchdog + 900)) {
       Database_Logs::log (sendreceive_files_text () + translate("Still busy"), Filter_Roles::translator ());
       return;
@@ -261,5 +261,5 @@ void sendreceive_files ()
 
 void sendreceive_files_kick_watchdog ()
 {
-  sendreceive_files_watchdog = filter_date_seconds_since_epoch ();
+  sendreceive_files_watchdog = filter::date::seconds_since_epoch ();
 }

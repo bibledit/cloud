@@ -74,7 +74,7 @@ void Database_Mail::optimize ()
 
 void Database_Mail::trim ()
 {
-  int time = filter_date_seconds_since_epoch () - 2592000; // Remove entries after 30 days.
+  int time = filter::date::seconds_since_epoch () - 2592000; // Remove entries after 30 days.
   SqliteSQL sql = SqliteSQL ();
   sql.add ("DELETE FROM mail WHERE timestamp <");
   sql.add (time);
@@ -93,7 +93,7 @@ void Database_Mail::trim ()
 // time: Normally not given, but if given, it indicates the time stamp for sending this email.
 void Database_Mail::send (string to, string subject, string body, int time)
 {
-  if (time == 0) time = filter_date_seconds_since_epoch ();
+  if (time == 0) time = filter::date::seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO mail VALUES (");
   sql.add (to);
@@ -193,7 +193,7 @@ Database_Mail_Item Database_Mail::get (int id)
 vector <int> Database_Mail::getMailsToSend ()
 {
   vector <int> ids;
-  int timestamp = filter_date_seconds_since_epoch ();
+  int timestamp = filter::date::seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM mail WHERE timestamp <=");
   sql.add (timestamp);

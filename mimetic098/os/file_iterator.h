@@ -13,7 +13,10 @@ namespace mimetic
 {
 struct StdFile;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 struct ifile_iterator: public std::iterator<std::input_iterator_tag, char>
+#pragma clang diagnostic pop
 {
     ifile_iterator();    
     ifile_iterator(StdFile* f);

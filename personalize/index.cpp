@@ -471,7 +471,7 @@ string personalize_index (void * webserver_request)
   view.set_variable ("referencefromaccordance", get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ()));
 
   
-  // The date format to be used for in the Consultation Notes.
+  // The date format to be used in the Consultation Notes.
   const char * dateformat = "dateformat";
   if (request->post.count (dateformat)) {
     int date_format_key = convert_to_int (request->post [dateformat]);

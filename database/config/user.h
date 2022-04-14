@@ -236,6 +236,8 @@ public:
   void setReceiveFocusedReferenceFromAccordance (bool value);
   bool getUseColoredNoteStatusLabels ();
   void setUseColoredNoteStatusLabels (bool value);
+  int getNotesDateFormat ();
+  void setNotesDateFormat (int value);
 private:
   void * webserver_request;
   string file (string user);

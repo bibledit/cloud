@@ -314,5 +314,16 @@ string localized_date ()
 }
 
 
+string date_format_to_text (date_format format)
+{
+  switch (format) {
+    case dd_mm_yyyy: return "dd/mm/yyyy";
+    case mm_dd_yyyy: return "mm/dd/yyyy";
+    case yyyy_mn_dd: return "yyyy-mm-dd";
+  }
+  return string();
+}
+
+
 }
 

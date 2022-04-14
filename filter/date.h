@@ -45,4 +45,11 @@ string rfc822 (int seconds);
 long elapsed_microseconds (long start);
 string localized_date ();
 
+enum date_format {
+  dd_mm_yyyy = 0,
+  mm_dd_yyyy = 1,
+  yyyy_mn_dd = 2
+};
+string date_format_to_text (date_format format);
+
 }

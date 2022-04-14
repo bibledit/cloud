@@ -1466,3 +1466,16 @@ void Database_Config_User::setUseColoredNoteStatusLabels (bool value)
   setBValue (use_colored_note_status_labels_key (), value);
 }
 
+
+const char * notes_date_format_key ()
+{
+  return "notes_date-format";
+}
+int Database_Config_User::getNotesDateFormat ()
+{
+  return getIValue (notes_date_format_key (), 0);
+}
+void Database_Config_User::setNotesDateFormat (int value)
+{
+  setIValue (notes_date_format_key (), value);
+}

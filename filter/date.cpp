@@ -20,6 +20,7 @@
 #include <filter/date.h>
 #include <filter/string.h>
 #include <database/config/general.h>
+#include <webserver/request.h>
 
 
 namespace filter::date {
@@ -303,7 +304,7 @@ long elapsed_microseconds (long start)
 }
 
 
-string localized_date ()
+string localized_date_format ()
 {
   time_t tt;
   time (&tt);
@@ -321,6 +322,37 @@ string date_format_to_text (date_format format)
     case mm_dd_yyyy: return "mm/dd/yyyy";
     case yyyy_mn_dd: return "yyyy-mm-dd";
   }
+  return string();
+}
+
+
+string localized_date_format (void * webserver_request)
+{
+  int time = seconds_since_epoch ();
+  
+  string day = convert_to_string (numerical_month_day (time));
+  string month = convert_to_string (numerical_month (time));
+  string year = convert_to_string (numerical_year (time));
+
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  date_format df = static_cast<date_format>(request->database_config_user()->getNotesDateFormat());
+
+  switch (df) {
+    case dd_mm_yyyy:
+    {
+      return day + "/" + month + "/" + year;
+    }
+    case mm_dd_yyyy:
+    {
+      return month + "/" + day + "/" + year;
+    }
+    case yyyy_mn_dd:
+    default:
+    {
+      return year + "-" + month + "-" + day;
+    }
+  }
+  
   return string();
 }
 

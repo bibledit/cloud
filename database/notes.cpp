@@ -502,7 +502,7 @@ vector <int> Database_Notes::get_identifiers ()
 string Database_Notes::assemble_contents (int identifier, string contents)
 {
   string new_contents = get_contents (identifier);
-  string datetime = filter::date::localized_date ();
+  string datetime = filter::date::localized_date_format (webserver_request);
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic ()->currentUser ();
   // To make the notes more readable, add whitespace between the comments.

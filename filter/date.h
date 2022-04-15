@@ -43,7 +43,7 @@ string day_rfc822 (int day);
 string month_rfc822 (int month);
 string rfc822 (int seconds);
 long elapsed_microseconds (long start);
-string localized_date ();
+string localized_date_format ();
 
 enum date_format {
   dd_mm_yyyy = 0,
@@ -51,5 +51,6 @@ enum date_format {
   yyyy_mn_dd = 2
 };
 string date_format_to_text (date_format format);
+string localized_date_format (void * webserver_request);
 
 }

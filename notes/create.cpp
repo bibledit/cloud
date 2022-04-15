@@ -98,13 +98,13 @@ string notes_create (void * webserver_request)
       bible.clear ();
     }
     notes_logic.createNote (bible, book, chapter, verse, summary, body, false);
-    return "";
+    return string();
   }
 
   
   if (request->post.count ("cancel")) {
     redirect_browser (request, notes_index_url ());
-    return "";
+    return string();
   }
   
 

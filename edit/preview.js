@@ -24,8 +24,6 @@ $ (document).ready (function ()
   $ ("#workspacemenu").append (bar);
   
   previewIdPollerTimeoutStart ();
-  
-  //navigationNewPassage (); // Todo
 });
 
 
@@ -72,7 +70,6 @@ function previewLoadChapter ()
   else previewChapterInitialized = true;
   
   
-  //setTimeout (previewScrollVerseIntoView, 500); // Todo
 
   
 }

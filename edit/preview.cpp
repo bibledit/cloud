@@ -108,6 +108,9 @@ string edit_preview (void * webserver_request)
     view.set_variable ("caller", caller);
   }
   
+  // Store the active Bible in the page's javascript.
+  view.set_variable ("navigationCode", Navigation_Passage::code (bible));
+  
   page += view.render ("edit", "preview");
   
   page += Assets_Page::footer ();

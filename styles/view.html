@@ -47,8 +47,14 @@
 <!-- #ENDZONE columns_relevant -->
 
 <!-- #BEGINZONE color_relevant -->
-<tr><td>translate("Color")</td><td style="background-color:##color##"></td><td><a href="view?sheet=##sheet##&style=##style##&textcolor=">[translate ("edit")]</a></td></tr>
-<tr><td>translate("Background color")</td><td style="background-color:##backgroundcolor##"></td><td><a href="view?sheet=##sheet##&style=##style##&backgroundcolor=">[translate ("edit")]</a></td></tr>
+<tr>
+  <td>translate("Color")</td>
+  <td><input id="fgcolor" type="text" class="coloris" value="##color##"></td>
+  <td><a href="view?sheet=##sheet##&style=##style##&textcolor=">[translate ("edit")]</a></td></tr>
+<tr>
+  <td>translate("Background color")</td>
+  <td><input id="bgcolor" type="text" class="coloris" value="##backgroundcolor##"></td>
+  <td><a href="view?sheet=##sheet##&style=##style##&backgroundcolor=">[translate ("edit")]</a></td></tr>
 <!-- #ENDZONE color_relevant -->
 
 <!-- #BEGINZONE print_relevant -->
@@ -96,3 +102,18 @@
 <!-- #ENDZONE userstring2_dumpendnotes -->
 
 </table>
+
+<link rel="stylesheet" type="text/css" href="../coloris/coloris.min.css">
+<style type="text/css">
+.clr-field button {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+</style>
+<script type="text/javascript" src="../coloris/coloris.min.js"></script>
+<script type="text/javascript" src="view.js?##VERSION##"></script>
+<script type="text/javascript">
+var sheet = "##sheet##";
+var style = "##style##";
+</script>

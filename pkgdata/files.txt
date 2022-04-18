@@ -55,6 +55,13 @@
 /collaboration/index.html
 /collaboration/link.html
 /collaboration/settings.html
+/coloris
+/coloris/coloris.css
+/coloris/coloris.js
+/coloris/coloris.min.css
+/coloris/coloris.min.js
+/coloris/examples.html
+/coloris/LICENSE
 /compare
 /compare/index.html
 /config
@@ -752,6 +759,7 @@
 /styles/indexm.html
 /styles/sheetm.html
 /styles/view.html
+/styles/view.js
 /sword
 /sword/dev.txt
 /sword/locales.d

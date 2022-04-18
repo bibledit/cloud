@@ -532,44 +532,28 @@ string styles_view (void * webserver_request)
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   
   string color = marker_data.color;
-  if (request->query.count ("textcolor")) {
-    color = request->query["color"];
-    if (color == "") {
-      Dialog_Color dialog_color = Dialog_Color ("view", translate("Please specify a new color"));
-      dialog_color.add_query ("textcolor", "true");
-      dialog_color.add_query ("sheet", sheet);
-      dialog_color.add_query ("style", style);
-      page += dialog_color.run ();
-      return page;
-    } else {
-      if (color.find ("#") == string::npos) color.insert (0, "#");
-      if (color.length () != 7) color = "#000000";
-      if (write) {
-        database_styles.updateColor (sheet, style, color);
-        style_is_edited = true;
-      }
+  if (request->query.count ("fgcolor")) {
+    color = request->query["fgcolor"];
+    if (color.find ("#") == string::npos) color.insert (0, "#");
+    if (color.length () != 7) color = "#000000";
+    if (write) {
+      database_styles.updateColor (sheet, style, color);
+      style_is_edited = true;
     }
+    return string();
   }
   view.set_variable ("color", color);
 
   string backgroundcolor = marker_data.backgroundcolor;
-  if (request->query.count ("backgroundcolor")) {
-    backgroundcolor = request->query["color"];
-    if (backgroundcolor == "") {
-      Dialog_Color dialog_color = Dialog_Color ("view", translate("Please specify a new color"));
-      dialog_color.add_query ("backgroundcolor", "true");
-      dialog_color.add_query ("sheet", sheet);
-      dialog_color.add_query ("style", style);
-      page += dialog_color.run ();
-      return page;
-    } else {
-      if (backgroundcolor.find ("#") == string::npos) backgroundcolor.insert (0, "#");
-      if (backgroundcolor.length () != 7) backgroundcolor = "#FFFFFF";
-      if (write) {
-        database_styles.updateBackgroundColor (sheet, style, backgroundcolor);
-        style_is_edited = true;
-      }
+  if (request->query.count ("bgcolor")) {
+    color = request->query["bgcolor"];
+    if (color.find ("#") == string::npos) color.insert (0, "#");
+    if (color.length () != 7) color = "#FFFFFF";
+    if (write) {
+      database_styles.updateBackgroundColor (sheet, style, color);
+      style_is_edited = true;
     }
+    return string();
   }
   view.set_variable ("backgroundcolor", backgroundcolor);
 

@@ -1236,6 +1236,9 @@ table.interlinear.rtl {
   #topbar {
     display: none;
   }
+  /* Print entire page with all search results: */
+  * { overflow: visible !important; }
+  .page { page-break-after:always; }
 }
 
 @page {

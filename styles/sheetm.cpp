@@ -104,9 +104,9 @@ string styles_sheetm (void * webserver_request)
     string marker_name = item.second;
     marker_name = translate (marker_name);
     markerblock << "<tr>";
-    markerblock << "<td><a href=" << quoted ("view?sheet=" + name + "&style=" + marker) << ">" << marker << "</a></td>";
+    markerblock << R"(<td><a href=")" << "view?sheet=" << name << "&style=" << marker << R"(">)"  << marker << "</a></td>";
     markerblock << "<td>" << marker_name << "</td>";
-    markerblock << "<td>[<a href=" << quoted ("?name=" + name + "&delete=" + marker) << "\">" << translate("delete") << "]</a></td>";
+    markerblock << R"(<td>[<a href=")" << "?name=" << name << "&delete=" << marker << R"(">)" << translate("delete") << "]</a></td>";
     markerblock << "</tr>";
   }
   view.set_variable ("markerblock", markerblock.str());

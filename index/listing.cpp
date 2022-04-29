@@ -25,6 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <locale/translate.h>
 #include <menu/logic.h>
+#include <pugixml/pugixml.hpp>
+
+using namespace pugi;
 
 
 bool index_listing_match (string url)
@@ -70,36 +73,45 @@ string index_listing (void * webserver_request, string url)
   }
   string directory = filter_url_create_root_path ({url});
   if (!file_or_dir_exists (directory) || filter_url_is_dir (directory)) {
+    // The document that contains the listing.
+    xml_document listing_document;
+    string listing;
+    // Check the files in this folder.
     vector <string> files = filter_url_scandir (directory);
-    for (auto & file : files) {
-      string path = filter_url_create_path ({directory, file});
-      string suffix = filter_url_get_extension (file);
-      // Implement force download for USFM files.
-      // https://github.com/bibledit/cloud/issues/771
-      string download;
-      if (suffix == "usfm") download = "download";
-      string line;
-      line.append ("<tr>");
-      line.append ("<td>");
-      line.append (R"(<a href=")" + filter_url_create_path ({url, file}) + R"(")" + download + ">");
-      line.append (file);
-      line.append ("</a>");
-      line.append ("</td>");
-      line.append ("<td>");
-      if (!filter_url_is_dir (path)) {
-        line.append (convert_to_string (filter_url_filesize (path)));
-      }
-      line.append ("</td>");
-      line.append ("</tr>");
-      file = line;
+    // Handle empty folder.
+    if (files.empty()) {
+      xml_node span_node = listing_document.append_child("span");
+      span_node.text().set(translate ("No files in this folder").c_str());
     }
-    string listing = filter_string_implode (files, "\n");
-    if (listing.empty ()) listing = translate ("No files in this folder");
+    // Handle file / folder listing.
     else {
-      listing.insert (0, "<table>");
-      listing.append ("</table>");
+      xml_node table_node = listing_document.append_child("table");
+      for (auto & file : files) {
+        // Open a new row.
+        xml_node tr_node = table_node.append_child("tr");
+        // Add the link to the file in the first column.
+        xml_node td_node = tr_node.append_child("td");
+        xml_node a_node = td_node.append_child("a");
+        string href = filter_url_create_path ({url, file});
+        a_node.append_attribute("href") = href.c_str();
+        a_node.text().set(file.c_str());
+        // Implement force download for USFM files.
+        // https://github.com/bibledit/cloud/issues/771
+        string suffix = filter_url_get_extension (file);
+        if (suffix == "usfm") {
+          a_node.append_attribute("download") = file.c_str();
+        }
+        // Optionally add the file size.
+        string path = filter_url_create_path ({directory, file});
+        if (!filter_url_is_dir (path)) {
+          td_node = tr_node.append_child("td");
+          td_node.text().set(convert_to_string (filter_url_filesize (path)).c_str());
+        }
+      }
     }
-    view.set_variable ("listing", listing);
+    stringstream ss;
+    listing_document.print (ss, "", format_raw);
+    view.set_variable ("listing", ss.str());
   } else {
     string filename = filter_url_create_root_path ({url});
     return filter_url_file_get_contents (filename);

@@ -73,10 +73,15 @@ string index_listing (void * webserver_request, string url)
     vector <string> files = filter_url_scandir (directory);
     for (auto & file : files) {
       string path = filter_url_create_path ({directory, file});
+      string suffix = filter_url_get_extension (file);
+      // Implement force download for USFM files.
+      // https://github.com/bibledit/cloud/issues/771
+      string download;
+      if (suffix == "usfm") download = "download";
       string line;
       line.append ("<tr>");
       line.append ("<td>");
-      line.append (R"(<a href=")" + filter_url_create_path ({url, file}) + R"(">)");
+      line.append (R"(<a href=")" + filter_url_create_path ({url, file}) + R"(")" + download + ">");
       line.append (file);
       line.append ("</a>");
       line.append ("</td>");

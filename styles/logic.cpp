@@ -116,7 +116,7 @@ string styles_logic_subtype_text (int type, int subtype)
     if (subtype == ParagraphSubtypeSectionHeading ) return translate ("is content");
     if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is content with endmarker");
   }
-  if (type == StyleTypePeripheral) {
+  if (type == StyleTypePeripheral) { // Todo
     if (subtype == PeripheralSubtypePublication    ) return translate ("starts publication data");
     if (subtype == PeripheralSubtypeTableOfContents) return translate ("starts table of contents");
     if (subtype == PeripheralSubtypePreface        ) return translate ("starts preface");
@@ -127,6 +127,7 @@ string styles_logic_subtype_text (int type, int subtype)
     if (subtype == PeripheralSubtypeMapIndex       ) return translate ("starts map index");
     if (subtype == PeripheralSubtypeCover          ) return translate ("starts cover");
     if (subtype == PeripheralSubtypeSpine          ) return translate ("starts spine");
+    if (subtype == PeripheralSubtypeGeneral        ) return translate ("starts general peripheral content");
   }
   if (type == StyleTypePicture) {
   }

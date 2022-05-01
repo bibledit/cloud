@@ -907,10 +907,21 @@ void Filter_Text::process_usfm ()
                 case PeripheralSubtypeMapIndex:
                 case PeripheralSubtypeCover:
                 case PeripheralSubtypeSpine:
-                case PeripheralSubtypeGeneral:
-                default:
+                {
+                  addToFallout (R"(Unknown pheripheral marker \)" + marker, false);
+                  break;
+                }
+                case PeripheralSubtypeGeneral: // Todo
                 {
                   addToInfo(R"(Pheripheral markup: \)" + marker, true);
+                  // To start peripheral material o a new page.
+                  // https://ubsicap.github.io/usfm/peripherals/index.html
+                  if (odf_text_standard) odf_text_standard->new_page_break ();
+                  if (odf_text_text_only) odf_text_text_only->new_page_break ();
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_page_break ();
+                  if (html_text_standard) html_text_standard->new_page_break ();
+                  if (html_text_linked) html_text_linked->new_page_break ();
+                  // Done.
                   break;
                 }
               }

@@ -907,9 +907,10 @@ void Filter_Text::process_usfm ()
                 case PeripheralSubtypeMapIndex:
                 case PeripheralSubtypeCover:
                 case PeripheralSubtypeSpine:
+                case PeripheralSubtypeGeneral:
                 default:
                 {
-                  addToFallout (R"(Unknown pheripheral marker \)" + marker, false);
+                  addToInfo(R"(Pheripheral markup: \)" + marker, true);
                   break;
                 }
               }
@@ -1471,7 +1472,7 @@ string Filter_Text::getCurrentPassageText ()
 // $text: String to add to the Info array.
 // $next: If true, it also adds the text following the marker to the info,
 // and removes this text from the USFM input stream.
-void Filter_Text::addToInfo (string text, bool next)
+void Filter_Text::addToInfo (string text, bool next) // Todo call for \periph too.
 {
   text = getCurrentPassageText() + " " + text;
   if (next) {

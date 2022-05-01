@@ -6757,7 +6757,7 @@ style_record styles_table [] =
     /* userstring3 */ "",
     /* backgroundcolor */ "#FFFFFF",
   },
-  // https://ubsicap.github.io/usfm/peripherals/index.html Todo
+  // https://ubsicap.github.io/usfm/peripherals/index.html
   {
     /* marker */ "periph",
     /* name */ "Peripheral",

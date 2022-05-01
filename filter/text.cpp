@@ -911,7 +911,7 @@ void Filter_Text::process_usfm ()
                   addToFallout (R"(Unknown pheripheral marker \)" + marker, false);
                   break;
                 }
-                case PeripheralSubtypeGeneral: // Todo
+                case PeripheralSubtypeGeneral:
                 {
                   addToInfo(R"(Pheripheral markup: \)" + marker, true);
                   // To start peripheral material o a new page.
@@ -1483,7 +1483,7 @@ string Filter_Text::getCurrentPassageText ()
 // $text: String to add to the Info array.
 // $next: If true, it also adds the text following the marker to the info,
 // and removes this text from the USFM input stream.
-void Filter_Text::addToInfo (string text, bool next) // Todo call for \periph too.
+void Filter_Text::addToInfo (string text, bool next)
 {
   text = getCurrentPassageText() + " " + text;
   if (next) {

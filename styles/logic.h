@@ -83,7 +83,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define PeripheralSubtypeCover           8
 #define PeripheralSubtypeSpine           9
 #define PeripheralSubtypeGeneral        10
-// Todo handle the above in all code.
 
 #define TableElementSubtypeRow             0 
 #define TableElementSubtypeHeading         1 

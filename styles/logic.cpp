@@ -116,7 +116,7 @@ string styles_logic_subtype_text (int type, int subtype)
     if (subtype == ParagraphSubtypeSectionHeading ) return translate ("is content");
     if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is content with endmarker");
   }
-  if (type == StyleTypePeripheral) { // Todo
+  if (type == StyleTypePeripheral) {
     if (subtype == PeripheralSubtypePublication    ) return translate ("starts publication data");
     if (subtype == PeripheralSubtypeTableOfContents) return translate ("starts table of contents");
     if (subtype == PeripheralSubtypePreface        ) return translate ("starts preface");

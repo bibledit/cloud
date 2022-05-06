@@ -274,7 +274,9 @@ void bootstrap_index (void * webserver_request)
   string extension = filter_url_get_extension (request->get);
   string url = request->get.substr (1);
   
-  // Serve graphics, stylesheets, JavaScript, fonts, with direct streaming for low memory usage.
+  
+  // Serve graphics, stylesheets, JavaScript, fonts, and so on.
+  // Use direct streaming for low memory usage.
   if (   (extension == "ico")
       || (filter_url_is_image (extension))
       || (extension == "css")
@@ -282,6 +284,7 @@ void bootstrap_index (void * webserver_request)
       || (Fonts_Logic::isFont (extension))
       || (extension == "sh")
       || (extension == "map")
+      || (extension == "webmanifest")
       ) {
     http_stream_file (request, true);
     return;

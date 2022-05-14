@@ -639,6 +639,7 @@
 		CA6BEA0426456C08009A0416 /* list2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = list2.h; sourceTree = "<group>"; };
 		CA6F68B3257CDF21008D51F5 /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CA6F68B4257CDF21008D51F5 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
+		CA70A069282ECF3F0077D241 /* enums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = enums.h; sourceTree = "<group>"; };
 		CA74778627F7376700192B66 /* note.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = note.cpp; sourceTree = "<group>"; };
 		CA74778727F7376700192B66 /* note.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = note.h; sourceTree = "<group>"; };
 		CA74D1F9277B6D74000EC1CA /* strutils.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = strutils.cxx; sourceTree = "<group>"; };
@@ -5294,6 +5295,7 @@
 		CADE428924F174B1003165BB /* tasks */ = {
 			isa = PBXGroup;
 			children = (
+				CA70A069282ECF3F0077D241 /* enums.h */,
 				CADE428C24F174B1003165BB /* holder */,
 				CADE428A24F174B1003165BB /* logic.cpp */,
 				CADE428D24F174B1003165BB /* logic.h */,

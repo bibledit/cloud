@@ -38,6 +38,7 @@
 #include <paratext/logic.h>
 #include <menu/logic.h>
 #include <config/globals.h>
+#include <tasks/enums.h>
 
 
 string sendreceive_index_url ()
@@ -151,14 +152,27 @@ string sendreceive_index (void * webserver_request)
     view.set_variable ("success", starting_to_sync);
   }
   
-  
-  if (request->query.count ("syncparatext")) {
-    if (sendreceive_paratext_queued ()) {
-      view.set_variable ("error", translate("Still synchronizing with Paratext."));
+
+  {
+    auto sync_method = tasks::enums::paratext_sync::none;
+    if (request->query.count ("syncparatext")) {
+      sync_method = tasks::enums::paratext_sync::bi_directional;
     }
-    sendreceive_queue_paratext ();
-    view.set_variable ("success", starting_to_sync);
-  }
+    if (request->query.count ("bibledit2paratext")) {
+      sync_method = tasks::enums::paratext_sync::bibledit_to_paratext;
+    }
+    if (request->query.count ("paratext2bibledit")) {
+      sync_method = tasks::enums::paratext_sync::paratext_to_bibledit;
+    }
+    if (sync_method != tasks::enums::paratext_sync::none) {
+      if (sendreceive_paratext_queued ()) {
+        view.set_variable ("error", translate("Still synchronizing with Paratext."));
+      } else {
+        sendreceive_queue_paratext (sync_method);
+        view.set_variable ("success", starting_to_sync);
+      }
+    }
+   }
   
   
 #ifdef HAVE_CLIENT

@@ -270,7 +270,7 @@ void trace_unit_tests (string func)
 int odf2txt (string odf, string txt)
 {
   string script_path = filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"});
-  string command = "python2 " + script_path + " " + odf + " > " + txt + " 2>&1";
+  string command = "python2.7 " + script_path + " " + odf + " > " + txt + " 2>&1";
   int ret = system (command.c_str());
   return ret;
 }

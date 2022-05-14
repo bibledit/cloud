@@ -21,11 +21,12 @@
 
 #include <config/libraries.h>
 #include <filter/string.hpp>
+#include <tasks/enums.h>
 
 void sendreceive_queue_bible (string bible);
 
 void sendreceive_queue_sync (int minute, int second);
-void sendreceive_queue_paratext ();
+void sendreceive_queue_paratext (tasks::enums::paratext_sync method);
 bool sendreceive_sync_queued ();
 bool sendreceive_paratext_queued ();
 

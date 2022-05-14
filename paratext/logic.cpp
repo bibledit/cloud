@@ -282,8 +282,10 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize ()
+void Paratext_Logic::synchronize (tasks::enums::paratext_sync method) // Todo implement.
 {
+  cout << static_cast<int>(method) << endl; // Todo
+  
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
   if (bibles.empty ()) return;
@@ -388,22 +390,22 @@ void Paratext_Logic::synchronize ()
       
       for (int chapter : chapters) {
         
-        string usfm;
         string ancestor = ancestor_usfm [chapter];
         string bibledit = database_bibles.getChapter (bible, book, chapter);
         string paratext = paratext_usfm [chapter];
 
+        // Results of the merge or copy operations.
         vector <string> messages;
-        bool merged;
         vector <Merge_Conflict> conflicts;
-
-        // Run the synchronizer.
-        usfm = synchronize (ancestor, bibledit, paratext, messages, merged, conflicts);
+        string updated_usfm;
         
-        // If there was a result of syncing, set the ancestor and paratext data.
-        if (!usfm.empty ()) {
-          ancestor_usfm [chapter] = usfm;
-          paratext_usfm [chapter] = usfm;
+        // Run the synchronizer.
+        updated_usfm = synchronize (ancestor, bibledit, paratext, messages, conflicts);
+        
+        // If there was a result of syncing or of copying, set the ancestor and paratext data.
+        if (!updated_usfm.empty ()) {
+          ancestor_usfm [chapter] = updated_usfm;
+          paratext_usfm [chapter] = updated_usfm;
         }
         
         // Messages for the logbook.
@@ -411,9 +413,9 @@ void Paratext_Logic::synchronize ()
           Database_Logs::log (journalTag (bible, book, chapter) + message, Filter_Roles::translator ());
         }
 
-        // Log the change due to a merge.
-        if (merged) {
-          bible_logic_log_change (bible, book, chapter, usfm, "", "Paratext", true);
+        // Log the change due to a merge or copy.
+        if (!updated_usfm.empty ()) {
+          bible_logic_log_change (bible, book, chapter, updated_usfm, "", "Paratext", true);
         }
 
         // If there's any conflicts, email full details about the conflict to the user.
@@ -422,13 +424,13 @@ void Paratext_Logic::synchronize ()
         bible_logic_merge_irregularity_mail ({ username }, conflicts);
         
         // Store the updated chapter in Bibledit.
-        if (!usfm.empty ()) {
+        if (!updated_usfm.empty ()) {
           // Set flag for saving to Paratext.
           book_is_updated = true;
           // Store it only in case the Bibledit data was updated.
           // https://github.com/bibledit/cloud/issues/339
-          if (usfm != bibledit) {
-            bible_logic_store_chapter (bible, book, chapter, usfm);
+          if (updated_usfm != bibledit) {
+            bible_logic_store_chapter (bible, book, chapter, updated_usfm);
           }
         }
 
@@ -470,12 +472,11 @@ void Paratext_Logic::synchronize ()
 
 string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext,
                                     vector <string> & messages,
-                                    bool & merged, vector <Merge_Conflict> & conflicts)
+                                    vector <Merge_Conflict> & conflicts)
 {
   string resulting_usfm;
 
   messages.clear ();
-  merged = false;
   conflicts.clear ();
   
   // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
@@ -513,7 +514,6 @@ string Paratext_Logic::synchronize (string ancestor, string bibledit, string par
   else if (!ancestor.empty ()) {
     resulting_usfm = filter_merge_run (ancestor, bibledit, paratext, true, conflicts);
     messages.push_back (translate ("Chapter merged"));
-    merged = true;
   }
   
   // Cannot merge the two.

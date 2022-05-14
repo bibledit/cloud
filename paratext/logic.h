@@ -22,6 +22,7 @@
 #include <config/libraries.h>
 #include <classes/merge.h>
 #include <filter/passage.h>
+#include <tasks/enums.h>
 
 class Paratext_Logic
 {
@@ -35,10 +36,10 @@ public:
   static void copyParatext2Bibledit (string bible);
   static string ancestorPath (string bible, int book);
   static vector <string> enabledBibles ();
-  static void synchronize ();
+  static void synchronize (tasks::enums::paratext_sync method);
   static string synchronize (string ancestor, string bibledit, string paratext,
                              vector <string> & messages,
-                             bool & merged, vector <Merge_Conflict> & conflicts);
+                             vector <Merge_Conflict> & conflicts);
   static string synchronizeStartText ();
   static string synchronizeReadyText ();
 private:

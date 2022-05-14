@@ -73,6 +73,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/cache.h>
 #include <nmt/logic.h>
 #include <images/logic.h>
+#include <tasks/enums.h>
 
 
 atomic <int> running_tasks (0);
@@ -243,7 +244,9 @@ void tasks_run_one (string filename)
     Paratext_Logic::setup (parameter1, parameter2);
   }
   else if (command == SYNCPARATEXT) {
-    Paratext_Logic::synchronize ();
+    int imethod = convert_to_int(parameter1);
+    auto method = static_cast<tasks::enums::paratext_sync>(imethod);
+    Paratext_Logic::synchronize (method);
   }
   else if (command == SUBMITBIBLEDROPBOX) {
     export_bibledropbox (parameter1, parameter2);

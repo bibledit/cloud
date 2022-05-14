@@ -137,13 +137,13 @@ bool sendreceive_sync_queued ()
 
 
 // Queues Paratext sync.
-void sendreceive_queue_paratext ()
+void sendreceive_queue_paratext (tasks::enums::paratext_sync method)
 {
 #ifdef HAVE_PARATEXT
   if (sendreceive_paratext_queued ()) {
     Database_Logs::log ("About to start synchronizing with Paratext");
   } else {
-    tasks_logic_queue (SYNCPARATEXT);
+    tasks_logic_queue (SYNCPARATEXT, { to_string(static_cast<int>(method)) });
   }
 #endif
 }

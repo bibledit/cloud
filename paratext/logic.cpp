@@ -282,10 +282,8 @@ vector <string> Paratext_Logic::enabledBibles ()
 }
 
 
-void Paratext_Logic::synchronize (tasks::enums::paratext_sync method) // Todo implement.
+void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 {
-  cout << static_cast<int>(method) << endl; // Todo
-  
   // The Bibles for which Paratext synchronization has been enabled.
   vector <string> bibles = enabledBibles ();
   if (bibles.empty ()) return;
@@ -399,10 +397,39 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method) // Todo im
         vector <Merge_Conflict> conflicts;
         string updated_usfm;
         
-        // Run the synchronizer.
-        updated_usfm = synchronize (ancestor, bibledit, paratext, messages, conflicts);
-        
-        // If there was a result of syncing or of copying, set the ancestor and paratext data.
+        // Handle the synchronization method.
+        switch (method) {
+          case tasks::enums::paratext_sync::none:
+          {
+            break;
+          }
+          case tasks::enums::paratext_sync::bi_directional:
+          {
+            // Run the merge synchronizer.
+            updated_usfm = synchronize (ancestor, bibledit, paratext, messages, conflicts);
+            break;
+          }
+          case tasks::enums::paratext_sync::bibledit_to_paratext:
+          {
+            // If there's a change between Bibledit and Paratext, take the Bibledit data.
+            if (bibledit != paratext) {
+              updated_usfm = bibledit;
+              messages.push_back (translate ("Copy Bibledit to Paratext"));
+            }
+            break;
+          }
+          case tasks::enums::paratext_sync::paratext_to_bibledit:
+          {
+            // If there's a change between Paratext and Bibledit, take the Paratext data.
+            if (paratext != bibledit) {
+              updated_usfm = paratext;
+              messages.push_back (translate ("Copy Paratext to Bibledit"));
+            }
+            break;
+          }
+        }
+
+        // If there was a result of syncing or copying, set the ancestor and paratext data.
         if (!updated_usfm.empty ()) {
           ancestor_usfm [chapter] = updated_usfm;
           paratext_usfm [chapter] = updated_usfm;

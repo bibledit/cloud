@@ -495,7 +495,7 @@ void system_logic_indonesian_free_deletion ([[maybe_unused]] string username,
   }
   
   Database_Bibles database_bibles;
-  string bible = filter_indonesian_terjemahanku_mytranslation_name (username);
+  string bible = filter::indonesian::mytranslation (username);
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
     vector <int> chapters = database_bibles.getChapters (bible, book);
@@ -586,14 +586,14 @@ void system_logic_indonesian_free_expiration ()
   vector<string> valid_indonesian_bibles;
   users = database_users.get_users();
   for (auto user : users) {
-    string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
+    string bible = filter::indonesian::mytranslation (user);
     valid_indonesian_bibles.push_back(bible);
   }
   Database_Confirm database_confirm;
   vector <int> ids = database_confirm.get_ids();
   for (auto id : ids) {
     string username = database_confirm.get_username(id);
-    string bible = filter_indonesian_terjemahanku_mytranslation_name (username);
+    string bible = filter::indonesian::mytranslation (username);
     valid_indonesian_bibles.push_back(bible);
   }
   // Get all available Bibles at the system.
@@ -603,7 +603,7 @@ void system_logic_indonesian_free_expiration ()
   vector <string> bibles_to_delete = filter_string_array_diff(bibles, valid_indonesian_bibles);
   for (auto bible : bibles_to_delete) {
     // Skip the shared Indonesian Bible.
-    if (bible == filter_indonesian_alkitabkita_ourtranslation_name()) continue;
+    if (bible == filter::indonesian::ourtranslation()) continue;
     // Delete this unassociated Bible.
     Database_Logs::log("Deleting Bible not associated with any account: " + bible);
     database_bibles.deleteBible(bible);

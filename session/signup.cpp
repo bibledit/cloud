@@ -329,7 +329,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       confirm_worker.setup (mail, user, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
       if (config_logic_indonesian_cloud_free ()) {
         // In the Indonesian free Cloud, create the Bible for the user.
-        string bible = filter_indonesian_terjemahanku_mytranslation_name (user);
+        string bible = filter::indonesian::mytranslation (user);
         tasks_logic_queue (CREATEEMPTYBIBLE, {bible});
       }
       // Done signup.

@@ -21,5 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string filter_indonesian_alkitabkita_ourtranslation_name ();
-string filter_indonesian_terjemahanku_mytranslation_name (const string & user);
+namespace filter::indonesian {
+string ourtranslation ();
+string mytranslation (const string & user);
+}

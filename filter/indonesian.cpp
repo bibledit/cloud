@@ -26,13 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 
 
-string filter_indonesian_alkitabkita_ourtranslation_name ()
+namespace filter::indonesian {
+
+string ourtranslation ()
 {
   return "AlkitabKita";
 }
 
 
-string filter_indonesian_terjemahanku_mytranslation_name (const string & user)
+string mytranslation (const string & user)
 {
   string name = "Terjemahanku";
   if (!user.empty()) {
@@ -43,3 +45,4 @@ string filter_indonesian_terjemahanku_mytranslation_name (const string & user)
 }
 
 
+}

@@ -86,12 +86,12 @@ string editone2_index (void * webserver_request)
       vector <string> bibles = AccessBible::Bibles (request);
       string selected_bible;
       for (auto bible : bibles) {
-        if (bible != filter_indonesian_alkitabkita_ourtranslation_name ()) selected_bible = bible;
+        if (bible != filter::indonesian::ourtranslation ()) selected_bible = bible;
       }
       if (selected_bible.empty ()) {
         // No Bible selected yet: Create the Indonesian Sample Bible and take that.
         string user = request->session_logic ()->currentUser ();
-        selected_bible = filter_indonesian_terjemahanku_mytranslation_name (user);
+        selected_bible = filter::indonesian::mytranslation (user);
         bible_logic_create_empty_bible (selected_bible);
       }
       request->database_config_user()->setBible (selected_bible);

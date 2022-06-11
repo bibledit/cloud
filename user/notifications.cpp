@@ -195,6 +195,31 @@ string user_notifications (void * webserver_request)
   }
   view.set_variable ("contributorschangesonlinenotifications", get_checkbox_status (database_config_user.getContributorChangesNotificationsOnline ()));
 
+  // Setting per user for which Bibles the user will receive change notifications.
+  // The set of Bibles the user can choose
+  // is limited to those Bibles the user has read access to.
+  {
+    vector <string> bibles = AccessBible::Bibles (webserver_request);
+    for (const auto & bible : bibles) {
+      if (checkbox == "changenotificationbible" + bible) {
+        vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
+        if (checked) {
+          currentbibles.push_back(bible);
+        } else {
+          currentbibles = filter_string_array_diff (currentbibles, {bible});
+        }
+        database_config_user.setChangeNotificationsBibles(currentbibles);
+      }
+    }
+    vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
+    for (const auto & bible : bibles) {
+      map <string, string> values;
+      values ["bible"] = bible;
+      values ["checked"] = get_checkbox_status (in_array (bible, currentbibles));
+      view.add_iteration ("changenotificationbible", values);
+    }
+  }
+  
   if (checkbox == "biblechecksnotification") {
     database_config_user.setBibleChecksNotification (checked);
     return "";

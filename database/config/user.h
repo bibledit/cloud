@@ -238,6 +238,8 @@ public:
   void setUseColoredNoteStatusLabels (bool value);
   int getNotesDateFormat ();
   void setNotesDateFormat (int value);
+  vector <string> getChangeNotificationsBibles ();
+  void setChangeNotificationsBibles (const vector <string>& values);
 private:
   void * webserver_request;
   string file (string user);

@@ -111,6 +111,14 @@ translate("Receive daily mail with the changes in the Bible made by anyone.")
 <input type="checkbox" name="pendingchangenotifications" onchange="checkbox_v2(this)" ##pendingchangenotifications## />
 translate("Receive daily mail with the number of online change notifications awaiting my attention.")
 </p>
+
+<p>
+translate("Get change notifications for these Bibles:")
+<!-- #BEGINITERATION changenotificationbible -->
+| <input type="checkbox" name="changenotificationbible##bible##" onchange="checkbox_v2(this)" ##checked## /> ##bible##
+<!-- #ENDITERATION changenotificationbible -->
+</p>
+
 <!-- #ENDZONE consultant -->
 
 <!-- #BEGINZONE consultant -->

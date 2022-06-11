@@ -1479,3 +1479,17 @@ void Database_Config_User::setNotesDateFormat (int value)
 {
   setIValue (notes_date_format_key (), value);
 }
+
+
+const char * change_notifications_bibles_key ()
+{
+  return "change-notifications-bibles";
+}
+vector <string> Database_Config_User::getChangeNotificationsBibles () // Todo
+{
+  return getList (change_notifications_bibles_key ());
+}
+void Database_Config_User::setChangeNotificationsBibles (const vector <string>& values)
+{
+  setList (change_notifications_bibles_key (), values);
+}

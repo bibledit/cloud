@@ -1485,7 +1485,7 @@ const char * change_notifications_bibles_key ()
 {
   return "change-notifications-bibles";
 }
-vector <string> Database_Config_User::getChangeNotificationsBibles () // Todo
+vector <string> Database_Config_User::getChangeNotificationsBibles ()
 {
   return getList (change_notifications_bibles_key ());
 }

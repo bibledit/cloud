@@ -165,7 +165,7 @@ void changes_modifications ()
   // will get the change notifications from.
   // This setting affects the changes made by all users.
   // Note: A user will always receive notificatons of changes made by that same user.
-  map <string, vector<string> > notification_bibles_per_user; // Todo use this where relevant.
+  map <string, vector<string> > notification_bibles_per_user;
   {
     vector <string> users = request.database_users ()->get_users ();
     for (const auto & user : users) {
@@ -262,7 +262,7 @@ void changes_modifications ()
   
   // Generate the notifications, online and by email,
   // for the changes in the Bibles entered by anyone
-  // since the previous notifications were generated. Todo
+  // since the previous notifications were generated.
   vector <string> bibles = database_modifications.getTeamDiffBibles ();
   for (auto bible : bibles) {
     
@@ -275,7 +275,17 @@ void changes_modifications ()
     for (auto user : users) {
       if (AccessBible::Read (&request, bible, user)) {
         if (request.database_config_user()->getUserGenerateChangeNotifications (user)) {
-          changeNotificationUsers.push_back (user);
+          // The recipient may have set which Bibles to get the change notifications for.
+          // This is stored like this:
+          // container [user] = list of bibles.
+          bool receive {true};
+          try {
+            const vector <string> & bibles = notification_bibles_per_user.at(user);
+            receive = in_array(bible, bibles);
+          } catch (...) {}
+          if (receive) {
+            changeNotificationUsers.push_back (user);
+          }
         }
       }
     }

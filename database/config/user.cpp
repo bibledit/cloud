@@ -1489,6 +1489,10 @@ vector <string> Database_Config_User::getChangeNotificationsBibles () // Todo
 {
   return getList (change_notifications_bibles_key ());
 }
+vector <string> Database_Config_User::getChangeNotificationsBiblesForUser (const string & user)
+{
+  return getListForUser (user, change_notifications_bibles_key ());
+}
 void Database_Config_User::setChangeNotificationsBibles (const vector <string>& values)
 {
   setList (change_notifications_bibles_key (), values);

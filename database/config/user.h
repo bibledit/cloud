@@ -239,6 +239,7 @@ public:
   int getNotesDateFormat ();
   void setNotesDateFormat (int value);
   vector <string> getChangeNotificationsBibles ();
+  vector <string> getChangeNotificationsBiblesForUser (const string & user);
   void setChangeNotificationsBibles (const vector <string>& values);
 private:
   void * webserver_request;

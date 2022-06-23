@@ -59,9 +59,10 @@ string index_index (void * webserver_request)
   
   if (config_logic_demo_enabled ()) {
     // The demo, when there's no active menu, forwards to the active workspace.
-    if (request->query.empty ()) {
-      header.refresh (5, "/" + workspace_index_url ());
-    }
+    // This is disabled see https://github.com/bibledit/cloud/issues/789
+//    if (request->query.empty ()) {
+//      header.refresh (5, "/" + workspace_index_url ());
+//    }
     // Indonesian Cloud Free
     // Forwards to read/index instead.
     if (config_logic_indonesian_cloud_free_simple ()) {

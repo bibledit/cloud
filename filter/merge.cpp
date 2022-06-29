@@ -104,7 +104,10 @@ string filter_merge_graphemes2lines (string data)
 }
 
 
-void filter_merge_detect_conflict (string base, string change, string prioritized_change, string result,
+void filter_merge_detect_conflict (string base,
+                                   string change,
+                                   string prioritized_change,
+                                   string result,
                                    vector <Merge_Conflict> & conflicts)
 {
   // Clean input.

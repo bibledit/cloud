@@ -81,17 +81,17 @@ string manage_write (void * webserver_request)
   // Toggle write access to Bible book.
   if (!request->post.empty ()) {
     string checkbox = request->post["checkbox"];
-    checkbox.erase (0, 4);
-    int book = convert_to_int (checkbox);
+    string s_book (checkbox);
+    s_book.erase (0, 4);
+    int book = convert_to_int (s_book);
     if (book) {
       if (bible_read_access) {
-        string checkbox = request->post ["checkbox"];
         bool checked = convert_to_bool (request->post ["checked"]);
         Database_Privileges::setBibleBook (user, bible, book, checked);
         database_privileges_client_create (user, true);
       }
     }
-    return "";
+    return string();
   }
 
   // Toggle write access to Testament.

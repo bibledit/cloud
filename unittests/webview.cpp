@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 
-
 void test_filter_webview ()
 {
   trace_unit_tests (__func__);

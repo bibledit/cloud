@@ -178,7 +178,7 @@ void webserver_process_request (int connfd, string clientaddress)
             open
 #endif
             (request.stream_file.c_str(), O_RDONLY);
-            unsigned char buffer [1024];
+            unsigned char streambuffer [1024];
             int bytecount;
             do {
               bytecount = (int)
@@ -187,9 +187,9 @@ void webserver_process_request (int connfd, string clientaddress)
 #else
               read
 #endif
-              (filefd, buffer, 1024);
+              (filefd, streambuffer, 1024);
               if (bytecount > 0) {
-                [[maybe_unused]] auto sendbytes = (int)send (connfd, (const char *)buffer, bytecount, 0);
+                [[maybe_unused]] auto sendbytes = (int)send (connfd, (const char *)streambuffer, bytecount, 0);
               }
             }
             while (bytecount > 0);

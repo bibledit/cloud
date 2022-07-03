@@ -116,10 +116,10 @@ string bible_order (void * webserver_request)
       Database_Books::getIdFromEnglish ("Zechariah"),
       Database_Books::getIdFromEnglish ("Malachi"),
     };
-    vector <string> bookorder;
-    for (auto & book : interspersed) bookorder.push_back (convert_to_string (book));
-    string order = filter_string_implode (bookorder, " ");
-    Database_Config_Bible::setBookOrder (bible, order);
+    vector <string> v_book_order;
+    for (auto & book : interspersed) v_book_order.push_back (convert_to_string (book));
+    string s_book_order = filter_string_implode (v_book_order, " ");
+    Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
 
   
@@ -175,10 +175,10 @@ string bible_order (void * webserver_request)
       Database_Books::getIdFromEnglish ("Sirach"),
       Database_Books::getIdFromEnglish ("Baruch"),
     };
-    vector <string> bookorder;
-    for (auto & book : interspersed) bookorder.push_back (convert_to_string (book));
-    string order = filter_string_implode (bookorder, " ");
-    Database_Config_Bible::setBookOrder (bible, order);
+    vector <string> v_book_order;
+    for (auto & book : interspersed) v_book_order.push_back (convert_to_string (book));
+    string s_book_order = filter_string_implode (v_book_order, " ");
+    Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
 
   
@@ -196,8 +196,8 @@ string bible_order (void * webserver_request)
     vector <string> s_books;
     for (auto & book : books) s_books.push_back (convert_to_string (book));
     array_move_up_down (s_books, move, !moveup.empty ());
-    string order = filter_string_implode (s_books, " ");
-    Database_Config_Bible::setBookOrder (bible, order);
+    string s_order = filter_string_implode (s_books, " ");
+    Database_Config_Bible::setBookOrder (bible, s_order);
   }
   
   vector <int> books = filter_passage_get_ordered_books (bible);

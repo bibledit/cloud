@@ -657,9 +657,9 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           read
 #endif
           (filefd, buffer, 1024);
-          int len = bytecount;
-          const unsigned char * buf = (const unsigned char *) &buffer;
-          while (connection_healthy && (len > 0)) {
+          int remaining_length = bytecount;
+          const unsigned char * buffer_ptr = (const unsigned char *) &buffer;
+          while (connection_healthy && (remaining_length > 0)) {
             // Function
             // int ret = mbedtls_ssl_write (&ssl, buf, len)
             // will do partial writes in some cases.
@@ -667,10 +667,10 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
             // the function must be called again with updated arguments:
             // buf + ret, len - ret
             // until it returns a value equal to the last 'len' argument.
-            ret = mbedtls_ssl_write (&ssl, buf, len);
+            ret = mbedtls_ssl_write (&ssl, buffer_ptr, remaining_length);
             if (ret > 0) {
-              buf += ret;
-              len -= ret;
+              buffer_ptr += ret;
+              remaining_length -= ret;
             } else {
               // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
               // it must be called later with the *same* arguments,

@@ -199,14 +199,14 @@ string styles_view (void * webserver_request)
   if (request->query.count ("subtype")) {
     string s = request->query["subtype"];
     subtype = convert_to_int (s);
-    if (s == "") {
+    if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
-      int type = marker_data.type;
+      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
+      int type2 = style_data.type;
       for (int i = 0; i < 99; i++) {
-        string text = styles_logic_subtype_text (type, i);
+        string text = styles_logic_subtype_text (type2, i);
         if (text.length () > 2) {
           dialog_list.add_row (text, "subtype", convert_to_string (i));
         }

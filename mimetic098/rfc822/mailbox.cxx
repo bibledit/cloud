@@ -85,10 +85,10 @@ void Mailbox::set(const string& input)
                 else
                     m_mailbox.assign(input, x+1, endoff - x);
                 m_label.assign(input, 0 , x);
-                for(int t = (int)m_label.length()-1; t > 0; --t)
+                for(int t2 = (int)m_label.length()-1; t2 > 0; --t2)
                 {
-                    if(m_label[t] == ' ')
-                        m_label.erase(t, 1);
+                    if(m_label[t2] == ' ')
+                        m_label.erase(t2, 1);
                     else
                         break;
                 }

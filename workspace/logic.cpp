@@ -215,10 +215,8 @@ string workspace_process_units (string length)
   // If a size factor is found, great, otherwise default to 1
   if (length == convert_to_string (convert_to_int (length))) {
     return length;
-  } else {
-    string length = "1";
-    return length;
   }
+  return "1";
 }
 
 

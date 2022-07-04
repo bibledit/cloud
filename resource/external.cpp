@@ -286,7 +286,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   string annotation_info = div_node.attribute("onclick").value();
   vector <string> bits = filter_string_explode(annotation_info, '\'');
   if (bits.size() >= 13) {
-    string url = "https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php";
+    string annotation_url = "https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php";
     map <string, string> post;
     post ["prefix"] = bits[1];
     post ["verse_id"] = bits[3];
@@ -296,7 +296,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     post ["slug_id"] = bits[11];
     post ["book_id"] = convert_to_string(book);
     string error, html;
-    html = filter_url_http_post (url, post, error, false, false);
+    html = filter_url_http_post (annotation_url, post, error, false, false);
     if (error.empty()) {
       html = filter_string_tidy_invalid_html (html);
       xml_document document;

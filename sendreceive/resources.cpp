@@ -151,22 +151,22 @@ void sendreceive_resources ()
         // Now request the path to download it.
         url = filter_url_build_http_query (book_url, "a", convert_to_string (Sync_Logic::resources_request_download));
         error.clear ();
-        string response = filter_url_http_get (url, error, false);
+        string response2 = filter_url_http_get (url, error, false);
         if (error.empty ()) {
           // At this stage the file size is known, plus the fragment of the path in the Cloud.
           // Check whether the file is already available on the client, fully downloaded.
-          string client_path = filter_url_create_root_path ({filter_url_urldecode (response)});
+          string client_path = filter_url_create_root_path ({filter_url_urldecode (response2)});
           int client_size = filter_url_filesize (client_path);
           if (server_size != client_size) {
             // Download it.
-            string url = client_logic_url (address, port, response);
+            string url2 = client_logic_url (address, port, response2);
             error.clear ();
-            filter_url_download_file (url, client_path, error, false);
+            filter_url_download_file (url2, client_path, error, false);
             if (error.empty ()) {
               string bookname = Database_Books::getEnglishFromId (book);
               Database_Logs::log ("Downloaded " + resource + " " + bookname, Filter_Roles::consultant ());
             } else {
-              Database_Logs::log ("Failed to download resource " + response + " :" + error, Filter_Roles::consultant ());
+              Database_Logs::log ("Failed to download resource " + response2 + " :" + error, Filter_Roles::consultant ());
               error_count++;
             }
           }

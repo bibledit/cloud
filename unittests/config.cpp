@@ -93,7 +93,7 @@ void test_database_config_user ()
   string username = "username";
   string password = "password";
   database_users.add_user (username, password, 5, "");
-  request.session_logic ()->attemptLogin (username, password, true);
+  request.session_logic ()->attempt_login (username, password, true);
 
   // Testing setList, getList, plus add/removeUpdatedSetting.
   {

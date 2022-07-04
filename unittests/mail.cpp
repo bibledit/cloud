@@ -52,7 +52,7 @@ void test_database_mail ()
     Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
-    request.session_logic ()->setUsername ("phpunit");
+    request.session_logic ()->set_username ("phpunit");
     
     int count = database_mail.getMailCount ();
     evaluate (__LINE__, __func__, 0, count);
@@ -72,7 +72,7 @@ void test_database_mail ()
     Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
-    request.session_logic ()->setUsername ("phpunit");
+    request.session_logic ()->set_username ("phpunit");
     
     database_mail.send ("phpunit", "subject", "body");
     
@@ -100,7 +100,7 @@ void test_database_mail ()
     Webserver_Request request;
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
-    request.session_logic ()->setUsername ("phpunit");
+    request.session_logic ()->set_username ("phpunit");
     
     database_mail.send ("phpunit", "subject", "body");
     

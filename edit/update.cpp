@@ -249,7 +249,7 @@ string edit_update (void * webserver_request)
   // It might cause confusion more than it clarifies.
   //if (good2go && bible_write_access && text_was_edited) {
     //if (loaded_chapter_usfm != existing_chapter_usfm) {
-      //bible_logic_recent_save_email (bible, book, chapter, 0, username, loaded_chapter_usfm, existing_chapter_usfm);
+      //bible_logic_recent_save_email (bible, book, chapter, username, loaded_chapter_usfm, existing_chapter_usfm);
     //}
   //}
 

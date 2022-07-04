@@ -45,7 +45,7 @@ void test_bibles ()
   Webserver_Request request;
   test_store_bible_data_safely_setup (&request, "");
   request.database_users ()->create ();
-  request.session_logic ()->setUsername ("phpunit");
+  request.session_logic ()->set_username ("phpunit");
   string usfm = R"(
 \c 1
 \p

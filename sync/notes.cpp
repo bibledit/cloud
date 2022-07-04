@@ -94,7 +94,7 @@ string sync_notes (void * webserver_request)
       return "";
     }
   }
-  request->session_logic ()->setUsername (user);
+  request->session_logic ()->set_username (user);
   
   
   // Note lower and upper limits.

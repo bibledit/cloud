@@ -71,7 +71,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   request->database_users ()->add_user (username, password, level, "");
   
   // Update the username and the level in the current session.
-  request->session_logic ()->setUsername (username);
+  request->session_logic ()->set_username (username);
   request->session_logic ()->currentLevel (true);
   
   // If there's pending Bible updates, send them off to the user.
@@ -84,7 +84,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   database_noteactions.create ();
   database_bibleactions.clear ();
   database_bibleactions.create ();
-  request->session_logic ()->setUsername (username);
+  request->session_logic ()->set_username (username);
   request->database_config_user()->setUpdatedSettings ({});
   Database_Config_General::setUnsentBibleDataTime (0);
   Database_Config_General::setUnreceivedBibleDataTime (filter::date::seconds_since_epoch ());

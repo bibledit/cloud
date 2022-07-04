@@ -569,7 +569,7 @@ void workspace_send (void * webserver_request, string workspace, string user)
 
   // New webserver request object for the destination user.
   Webserver_Request destination_request;
-  destination_request.session_logic ()->setUsername (user);
+  destination_request.session_logic ()->set_username (user);
   
   // Save workspace for destination user.
   active_workspace = destination_request.database_config_user()->getActiveWorkspace ();

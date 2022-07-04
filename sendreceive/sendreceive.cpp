@@ -149,8 +149,9 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
       filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
       if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
       vector <string> messages;
-      string error;
-      filter_git_commit (directory, "", translate ("Bibledit resolved the conflicts"), messages, error);
+      string tmp_error;
+      string no_user {};
+      filter_git_commit (directory, no_user, translate ("Bibledit resolved the conflicts"), messages, tmp_error);
       for (auto & msg : messages) Database_Logs::log (sendreceive_tag () + "conflict resolution: " + msg, Filter_Roles::translator ());
       // The above "git pull" operation failed due to the conflict(s).
       // Since the conflicts have now been resolved, set "success" to true again.

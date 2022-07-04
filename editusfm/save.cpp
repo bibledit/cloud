@@ -114,7 +114,7 @@ string editusfm_save (void * webserver_request)
               // Because the user's editor may not yet have loaded this updated Bible text.
               // https://github.com/bibledit/cloud/issues/340
               if (ancestor_usfm != server_usfm) {
-                bible_logic_recent_save_email (bible, book, chapter, 0, username, ancestor_usfm, server_usfm);
+                bible_logic_recent_save_email (bible, book, chapter, username, ancestor_usfm, server_usfm);
               }
               
              

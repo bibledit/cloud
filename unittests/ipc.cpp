@@ -32,7 +32,7 @@ void test_ipc ()
   refresh_sandbox (true);
   Webserver_Request request;
   request.database_users ()->create ();
-  request.session_logic ()->setUsername ("phpunit");
+  request.session_logic ()->set_username ("phpunit");
   
   // There should be no note identifier.
   int identifier = Ipc_Notes::get (&request);
@@ -130,7 +130,7 @@ void test_database_ipc ()
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     string user = "phpunit";
-    request.session_logic ()->setUsername (user);
+    request.session_logic ()->set_username (user);
     string channel = "channel";
     string command = "focus";
     
@@ -156,7 +156,7 @@ void test_database_ipc ()
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     string user = "phpunit";
-    request.session_logic ()->setUsername (user);
+    request.session_logic ()->set_username (user);
     string channel = "channel";
     string command = "opennote";
     
@@ -182,7 +182,7 @@ void test_database_ipc ()
     Database_Ipc database_ipc = Database_Ipc (&request);
     
     string user = "phpunit";
-    request.session_logic ()->setUsername (user);
+    request.session_logic ()->set_username (user);
     string channel = "channel";
     string command = "notesalive";
     

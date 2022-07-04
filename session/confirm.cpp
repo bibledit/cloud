@@ -77,7 +77,7 @@ string session_confirm ([[maybe_unused]] void * webserver_request)
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
     // Authenticate against local database, but skipping some checks.
-    if (request->session_logic()->attemptLogin (email, "", true, true)) {
+    if (request->session_logic()->attempt_login (email, "", true, true)) {
       // Log the login.
       Database_Logs::log (request->session_logic()->currentUser () + " confirmed account and logged in");
       // Store web site's base URL.

@@ -92,7 +92,7 @@ string session_login (void * webserver_request)
       // Optionally query the LDAP server and log the response.
       user_logic_optional_ldap_authentication (webserver_request, user, pass);
       // Authenticate against local database.
-      if (request->session_logic()->attemptLogin (user, pass, touch_enabled)) {
+      if (request->session_logic()->attempt_login (user, pass, touch_enabled)) {
         // Log the login.
         Database_Logs::log (request->session_logic()->currentUser () + " logged in");
         // Store web site's base URL.

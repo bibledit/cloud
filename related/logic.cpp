@@ -62,17 +62,17 @@ void related_logic_search_related (const string & bookname, int input_chapter, c
       
       // Store all related passages.
       if (match) {
-        for (xml_node reference : set.children ()) {
-          string bookname = reference.attribute ("book").value ();
-          int book = Database_Books::getIdFromEnglish (bookname);
-          int chapter = convert_to_int (reference.attribute ("chapter").value ());
-          string verse = reference.attribute ("verse").value ();
+        for (xml_node passage_node : set.children ()) {
+          string related_bookname = passage_node.attribute ("book").value ();
+          int related_book = Database_Books::getIdFromEnglish (related_bookname);
+          int related_chapter = convert_to_int (passage_node.attribute ("chapter").value ());
+          string verse = passage_node.attribute ("verse").value ();
           vector <int> verses;
           if (usfm_handle_verse_range (verse, verses));
           else verses.push_back (convert_to_int (verse));
-          for (auto verse : verses) {
-            if (book && chapter) {
-              Passage passage ("", book, chapter, convert_to_string (verse));
+          for (auto related_verse : verses) {
+            if (related_book && related_chapter) {
+              Passage passage ("", related_book, related_chapter, convert_to_string (related_verse));
               int i = filter_passage_to_integer (passage);
               // No duplicate passages to be included.
               if (!in_array (i, passages)) {

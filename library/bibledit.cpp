@@ -415,7 +415,7 @@ const char * bibledit_get_reference_for_accordance ()
 
   // Get the active Bible and its versification system.
   Webserver_Request request;
-  request.session_logic()->setUsername(user);
+  request.session_logic()->set_username(user);
   Database_Config_User database_config_user (&request);
   string bible = request.database_config_user ()->getBible ();
   string versification = Database_Config_Bible::getVersificationSystem (bible);
@@ -455,7 +455,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Get and set the user name on this client device.
   string user = client_logic_get_username ();
   Webserver_Request request;
-  request.session_logic()->setUsername(user);
+  request.session_logic()->set_username(user);
 
   // Setting whether to enable receiving verse references from Accordance.
   bool enabled  = request.database_config_user ()->getReceiveFocusedReferenceFromAccordance ();

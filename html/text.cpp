@@ -205,8 +205,8 @@ void Html_Text::add_note_text (string text)
     span_node.append_attribute ("class") = filter_string_implode (current_note_text_style, " ").c_str();
   }
   if (popup_node) {
-    xml_node span_node = popup_node.append_child ("span");
-    span_node.text().set (text.c_str());
+    xml_node span_node_2 = popup_node.append_child ("span");
+    span_node_2.text().set (text.c_str());
   }
 }
 

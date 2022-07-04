@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void test_workspaces_setup (Webserver_Request & request)
 {
   request.database_users ()->create ();
-  request.session_logic ()->setUsername ("phpunit");
+  request.session_logic ()->set_username ("phpunit");
 }
 
 

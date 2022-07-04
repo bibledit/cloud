@@ -109,7 +109,7 @@ void sendreceive_changes ()
     return;
   }
   string user = users [0];
-  request.session_logic ()->setUsername (user);
+  request.session_logic ()->set_username (user);
   string password = request.database_users ()->get_md5 (user);
   
   
@@ -193,8 +193,8 @@ void sendreceive_changes ()
     return;
   }
   {
-    vector <string> ids = filter_string_explode (response, '\n');
-    for (auto & id : ids) server_identifiers.push_back (convert_to_int (id));
+    vector <string> ids2 = filter_string_explode (response, '\n');
+    for (auto & id : ids2) server_identifiers.push_back (convert_to_int (id));
   }
 
   

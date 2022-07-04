@@ -121,7 +121,7 @@ bool sendreceive_notes_upload ()
     return false;
   }
   string user = users [0];
-  request.session_logic ()->setUsername (user);
+  request.session_logic ()->set_username (user);
   
   
   // The basic request to be POSTed to the server.
@@ -281,12 +281,12 @@ bool sendreceive_notes_upload ()
     
     // Deal with the extra, added, note actions.
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
-      map <string, string> post;
-      post ["u"] = bin2hex (user);
-      post ["i"] = convert_to_string (identifier);
-      post ["a"] = convert_to_string (action);
+      map <string, string> post2;
+      post2 ["u"] = bin2hex (user);
+      post2 ["i"] = convert_to_string (identifier);
+      post2 ["a"] = convert_to_string (action);
       sendreceive_notes_kick_watchdog ();
-      response = sync_logic.post (post, url, error);
+      response = sync_logic.post (post2, url, error);
       if (error.empty ()) {
         if (action == Sync_Logic::notes_get_contents) {
           if (response != database_notes.get_contents (identifier)) {
@@ -341,7 +341,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     return false;
   }
   string user = users [0];
-  request.session_logic ()->setUsername (user);
+  request.session_logic ()->set_username (user);
   string password = request.database_users ()->get_md5 (user);
 
   
@@ -484,9 +484,9 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Skip note if it is still to be sent off to the server.
     if (database_noteactions.exists (identifier)) continue;
     
-    string server_checksum = server_checksums [i];
-    string client_checksum = database_notes.get_checksum (identifier);
-    if (client_checksum == server_checksum) continue;
+    string server_checksum_note = server_checksums [i];
+    string client_checksum_note = database_notes.get_checksum (identifier);
+    if (client_checksum_note == server_checksum_note) continue;
     
     // Store the identifier to be downloaded as part of a bulk download.
     identifiers_bulk_download.push_back (convert_to_string (identifier));

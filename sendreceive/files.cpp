@@ -122,7 +122,7 @@ void sendreceive_files ()
   post ["v"] = convert_to_string (version);
   string error;
   string response;
-  int iresponse = 0;
+  int iresponse { 0 };
   
 
   // Request the checksum of all relevant files on the server.
@@ -167,8 +167,8 @@ void sendreceive_files ()
       return;
     }
     iresponse = convert_to_int (response);
-    int checksum = Sync_Logic::files_get_directory_checksum (directory);
-    if (iresponse == checksum) {
+    int checksum_d = Sync_Logic::files_get_directory_checksum (directory);
+    if (iresponse == checksum_d) {
       continue;
     }
 
@@ -212,9 +212,9 @@ void sendreceive_files ()
         sendreceive_files_done ();
         return;
       }
-      int iresponse = convert_to_int (response);
-      int checksum = Sync_Logic::files_get_file_checksum (directory, file);
-      if (iresponse == checksum) {
+      int iresponse_file = convert_to_int (response);
+      int checksum_file = Sync_Logic::files_get_file_checksum (directory, file);
+      if (iresponse_file == checksum_file) {
         continue;
       }
       

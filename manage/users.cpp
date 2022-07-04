@@ -219,9 +219,9 @@ string manage_users (void * webserver_request)
   
   // Login on behalf of another user.
   if (request->query.count ("login")) {
-    request->session_logic ()->switchUser (objectUsername);
+    request->session_logic ()->switch_user (objectUsername);
     redirect_browser (request, session_switch_url ());
-    return "";
+    return string();
   }
   
   

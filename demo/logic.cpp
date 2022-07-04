@@ -140,7 +140,7 @@ void demo_clean_data ()
   
   
   // Set user to the demo credentials (admin) as this is the user who is always logged-in in a demo installation.
-  request.session_logic ()->setUsername (session_admin_credentials ());
+  request.session_logic ()->set_username (session_admin_credentials ());
   
   
   // Delete empty stylesheet that may have been there.

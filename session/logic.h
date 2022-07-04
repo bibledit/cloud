@@ -27,8 +27,8 @@ class Session_Logic
 {
 public:
   Session_Logic (void * webserver_request_in);
-  void setUsername (string name);
-  bool attemptLogin (string user_or_email, string password, bool touch_enabled,
+  void set_username (string name);
+  bool attempt_login (string user_or_email, string password, bool touch_enabled,
                      bool skip_checks = false);
   bool loggedIn ();
   string currentUser ();
@@ -36,14 +36,14 @@ public:
   int currentLevel (bool force = false);
   string remoteAddress ();
   void logout ();
-  void switchUser (string username);
+  void switch_user (string new_user);
 private:
-  int level = 0;               // The level of the user.
-  int check_ip_blocks = 3;     // How many numbers from IP use in fingerprint?
-  bool logged_in;              // Whether user is logged in.
-  string username;             // The username.
-  bool touch_enabled;          // Whether user works from a touch-enabled device.
-  void * webserver_request;    // Pointer to instance of Webserver_Request.
+  int level { 0 };                     // The level of the user.
+  int check_ip_blocks { 3 };           // How many numbers from IP use in fingerprint?
+  bool logged_in { false };            // Whether user is logged in.
+  string username {};                  // The username.
+  bool touch_enabled { false };        // Whether user works from a touch-enabled device.
+  void * webserver_request {nullptr};  // Pointer to instance of Webserver_Request.
   void open ();
   bool openAccess ();
   string fingerprint ();

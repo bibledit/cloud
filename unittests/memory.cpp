@@ -106,7 +106,7 @@ void test_memory ()
     Database_Login::create ();
     demo_create_sample_bible ();
     Webserver_Request request;
-    request.session_logic ()->setUsername (session_admin_credentials ());
+    request.session_logic ()->set_username (session_admin_credentials ());
     request.database_config_user ()->setGenerateChangeNotifications (true);
     request.database_config_user ()->setUserChangesNotification (true);
     request.database_config_user ()->setUserChangesNotificationsOnline (true);

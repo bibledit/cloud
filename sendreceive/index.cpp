@@ -91,13 +91,13 @@ string sendreceive_index (void * webserver_request)
   string bible;
   if (request->query.count ("bible")) {
     bible = request->query["bible"];
-    if (bible == "") {
+    if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
       vector <string> bibles = AccessBible::Bibles (request);
-      for (auto & bible : bibles) {
+      for (auto & selectable_bible : bibles) {
         // Select Bibles the user has write access to.
-        if (AccessBible::Write (request, bible)) {
-          dialog_list.add_row (bible, "bible", bible);
+        if (AccessBible::Write (request, selectable_bible)) {
+          dialog_list.add_row (selectable_bible, "bible", selectable_bible);
         }
       }
       page += dialog_list.run ();

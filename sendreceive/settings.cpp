@@ -98,7 +98,7 @@ void sendreceive_settings ()
     return;
   }
   string user = users [0];
-  request.session_logic ()->setUsername (user);
+  request.session_logic ()->set_username (user);
   
   string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();

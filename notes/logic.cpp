@@ -585,9 +585,9 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   body = filter_string_str_replace ("\n", " ", body);
   // Make comment on the consultation note.
   string sessionuser = request->session_logic ()->currentUser ();
-  request->session_logic ()->setUsername (username);
+  request->session_logic ()->set_username (username);
   addComment (identifier, body);
-  request->session_logic ()->setUsername (sessionuser);
+  request->session_logic ()->set_username (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
     string subject = translate("Your comment was posted");
@@ -670,12 +670,12 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   body = filter_string_extract_body (body);
   // Post the note.
   string sessionuser = request->session_logic()->currentUser ();
-  request->session_logic()->setUsername (username);
+  request->session_logic()->set_username (username);
   Database_Notes database_notes = Database_Notes(webserver_request);
   string bible = request->database_config_user()->getBible ();
   int identifier = database_notes.store_new_note (bible, book, chapter, verse, summary, body, false);
   handlerNewNote (identifier);
-  request->session_logic()->setUsername (sessionuser);
+  request->session_logic()->set_username (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
     subject = translate("Your new note was posted");

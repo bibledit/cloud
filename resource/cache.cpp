@@ -97,51 +97,51 @@ string resource_cache (void * webserver_request)
 
   vector <string> active_resources;
   resources = request->database_config_user()->getActiveResources ();
-  for (auto & resource : resources) {
-    active_resources.push_back (resource);
+  for (auto & resource2 : resources) {
+    active_resources.push_back (resource2);
   }
 
   
   vector <string> all_resources;
   // USFM resources.
   resources = client_logic_usfm_resources_get ();
-  for (auto & resource : resources) {
-    all_resources.push_back (resource);
+  for (auto & resource2 : resources) {
+    all_resources.push_back (resource2);
   }
   // External resources.
   if (!config_globals_hide_bible_resources) {
     resources = resource_external_names ();
-    for (auto & resource : resources) {
-      all_resources.push_back (resource);
+    for (auto & resource2 : resources) {
+      all_resources.push_back (resource2);
     }
   }
   // SWORD resources.
   if (!config_globals_hide_bible_resources) {
     resources = sword_logic_get_available ();
-    for (auto & resource : resources) {
-      resource_types [resource] = sword_type;
-      all_resources.push_back (resource);
+    for (auto & resource2 : resources) {
+      resource_types [resource2] = sword_type;
+      all_resources.push_back (resource2);
     }
   }
   // Any old USFM resources still available on the client.
   Database_UsfmResources database_usfmresources;
   resources = database_usfmresources.getResources ();
-  for (auto & resource : resources) {
-    resource_types [resource] = old_type;
-    all_resources.push_back (resource);
+  for (auto & resource2 : resources) {
+    resource_types [resource2] = old_type;
+    all_resources.push_back (resource2);
   }
   // BibleGateway resources.
   if (!config_globals_hide_bible_resources) {
     resources = resource_logic_bible_gateway_module_list_get ();
-    for (auto & resource : resources) {
-      all_resources.push_back (resource);
+    for (auto & resource2 : resources) {
+      all_resources.push_back (resource2);
     }
   }
   // StudyLight resources.
   if (!config_globals_hide_bible_resources) {
     resources = resource_logic_study_light_module_list_get ();
-    for (auto & resource : resources) {
-      all_resources.push_back (resource);
+    for (auto & resource2 : resources) {
+      all_resources.push_back (resource2);
     }
   }
 
@@ -150,32 +150,32 @@ string resource_cache (void * webserver_request)
   string horizontal_line = "-----";
   vector <string> listed_resources = active_resources;
   listed_resources.push_back (horizontal_line);
-  for (auto & resource : all_resources) {
-    if (!in_array (resource, listed_resources)) listed_resources.push_back (resource);
+  for (auto & resource2 : all_resources) {
+    if (!in_array (resource2, listed_resources)) listed_resources.push_back (resource2);
   }
   
   
   // Generate html block with the resources.
   vector <string> bibles = request->database_bibles()->getBibles ();
   string block;
-  for (auto & resource : listed_resources) {
+  for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.
-    if (in_array (resource, bibles)) continue;
-    if (resource_logic_is_divider (resource)) continue;
+    if (in_array (resource2, bibles)) continue;
+    if (resource_logic_is_divider (resource2)) continue;
     block.append ("<p>");
-    if (resource == horizontal_line) block.append ("<hr>");
+    if (resource2 == horizontal_line) block.append ("<hr>");
     else {
-      string href (resource);
+      string href (resource2);
       string query;
-      if (resource_types [resource] == sword_type) {
-        string source = sword_logic_get_source (resource);
-        string module = sword_logic_get_remote_module (resource);
+      if (resource_types [resource2] == sword_type) {
+        string source = sword_logic_get_source (resource2);
+        string module = sword_logic_get_remote_module (resource2);
         href = sword_logic_get_resource_name (source, module);
       }
-      if (resource_types [resource] == old_type) {
+      if (resource_types [resource2] == old_type) {
         query = "&old=yes";
       }
-      block.append ("<a href=\"download?name=" + href + query + "\">" + resource + "</a>");
+      block.append ("<a href=\"download?name=" + href + query + "\">" + resource2 + "</a>");
     }
     block.append ("</p>\n");
   }

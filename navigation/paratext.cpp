@@ -57,7 +57,7 @@ string navigation_paratext (void * webserver_request)
           int verse = convert_to_int(chapter_verse[1]);
           // Set the user name on this client device.
           string user = client_logic_get_username ();
-          request->session_logic()->setUsername(user);
+          request->session_logic()->set_username(user);
           // "I believe how SantaFe works on Windows is
           // that it always sends a standardised verse reference.
           // So, for instance, a reference of Psalm 13:3 in the Hebrew Bible

@@ -115,13 +115,13 @@ string public_login (void * webserver_request)
 
     if (form_is_valid) {
       // For public login, the password is taken to be the same as the username.
-      if (request->session_logic()->attemptLogin (name, name, touch_enabled)) {
+      if (request->session_logic()->attempt_login (name, name, touch_enabled)) {
         // Log the login.
         Database_Logs::log ("User " + request->session_logic()->currentUser () + " logged in");
       } else {
         // Add a new user and login.
         request->database_users ()->add_user(name, name, Filter_Roles::guest (), email);
-        request->session_logic()->attemptLogin (name, name, touch_enabled);
+        request->session_logic()->attempt_login (name, name, touch_enabled);
         Database_Logs::log ("Public account created for user " + request->session_logic()->currentUser () + " with email " + email);
       }
     }

@@ -73,14 +73,14 @@ string search_search2 (void * webserver_request)
     
     
     // Retrieve the search parameters from the volatile database.
-    string query = Database_Volatile::getValue (identifier, "query");
+    string query2 = Database_Volatile::getValue (identifier, "query");
     //bool casesensitive = convert_to_bool (Database_Volatile::getValue (identifier, "casesensitive"));
     bool plaintext = convert_to_bool (Database_Volatile::getValue (identifier, "plaintext"));
     
     
     // Get the Bible and passage for this identifier.
     Passage details = Passage::decode (hit);
-    string bible = details.bible;
+    string bible2 = details.bible;
     int book = details.book;
     int chapter = details.chapter;
     string verse = details.verse;
@@ -89,15 +89,15 @@ string search_search2 (void * webserver_request)
     // Get the plain text or USFM.
     string text;
     if (plaintext) {
-      text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
+      text = search_logic_get_bible_verse_text (bible2, book, chapter, convert_to_int (verse));
     } else {
-      text = search_logic_get_bible_verse_usfm (bible, book, chapter, convert_to_int (verse));
+      text = search_logic_get_bible_verse_usfm (bible2, book, chapter, convert_to_int (verse));
     }
     
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    text =  filter_string_markup_words ({query}, text);
+    text =  filter_string_markup_words ({query2}, text);
     string output = "<div>" + link + " " + text + "</div>";
     
     

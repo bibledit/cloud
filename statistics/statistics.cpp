@@ -93,7 +93,7 @@ void statistics_statistics ()
     if (request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
       body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << endl;
       body << "<ul>" << endl;
-      request.session_logic ()->setUsername (user);
+      request.session_logic ()->set_username (user);
       
       vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bible.
@@ -148,7 +148,7 @@ void statistics_statistics ()
                                                      -1);     // Limit.
       body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << endl;
       body << "</ul>" << endl;
-      request.session_logic ()->setUsername ("");
+      request.session_logic ()->set_username ("");
     }
 
     

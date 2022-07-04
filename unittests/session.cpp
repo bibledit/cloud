@@ -57,7 +57,7 @@ void test_session ()
     
     // Test function to set the username.
     string username = "ঃইঝম";
-    request.session_logic ()->setUsername (username);
+    request.session_logic ()->set_username (username);
     evaluate (__LINE__, __func__, username, request.session_logic ()->currentUser ());
     config_globals_open_installation = false;
   }
@@ -116,9 +116,9 @@ void test_session ()
     
     // Log in by providing username and password.
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "incorrect", true));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, "incorrect", true));
     user_logic_login_failure_clear ();
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
 
     // Check whether logged in also from another session.
@@ -141,7 +141,7 @@ void test_session ()
     // Login. Then vary the browser's signature for subsequent sessions.
     request = Webserver_Request ();
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     string remote_address = request.remote_address;
     string user_agent = request.user_agent;
@@ -206,20 +206,20 @@ void test_session ()
     // Properly login.
     request = Webserver_Request ();
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request.session_logic ()->logout ();
     
     // Login with wrong password.
     request = Webserver_Request ();
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, password + "wrong", true));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, password + "wrong", true));
     evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
     
     // Detector kicks in: A proper login now fails also.
     request = Webserver_Request ();
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, password, true));
     evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
     
     // Wait till the next second.
@@ -229,7 +229,7 @@ void test_session ()
     // After a second, a proper login works again.
     request = Webserver_Request ();
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (username, password, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     request.session_logic ()->logout ();
   }
@@ -254,12 +254,12 @@ void test_session ()
     
     // Log in by providing email and incorrect password, but skip checks.
     request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attemptLogin (email, "incorrect", true, true));
+    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (email, "incorrect", true, true));
     evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
     
     // Log out and log in again with username, and skip checks, but this should fail.
     request.session_logic()->logout();
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attemptLogin (username, "wrong", true, true));
+    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, "wrong", true, true));
     user_logic_login_failure_clear ();
   }
   

@@ -283,14 +283,14 @@ void test_database_notes ()
     
     // Normally creating a new note would subscribe the current user to the note.
     // But since this unit test runs without sessions, it would have subscribed an empty user.
-    request.session_logic()->setUsername ("");
+    request.session_logic()->set_username ("");
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> subscribers = database_notes.get_subscribers (identifier);
     evaluate (__LINE__, __func__, {}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
@@ -346,7 +346,7 @@ void test_database_notes ()
     Database_Mail database_mail = Database_Mail (&request);
     database_mail.create ();
     
-    request.session_logic()->setUsername ("unittest2");
+    request.session_logic()->set_username ("unittest2");
     
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
@@ -418,7 +418,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     int oldidentifier = database_notes.store_new_note ("unittest", 0, 0, 0, "Summary", "Contents", false);
     string bible = database_notes.get_bible (oldidentifier);
     evaluate (__LINE__, __func__, "unittest", bible);
@@ -450,7 +450,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     
     // Create notes for certain passages.
     int oldidentifier = database_notes.store_new_note ("", 10, 9, 8, "Summary", "Contents", false);
@@ -490,7 +490,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     
     // Create notes.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
@@ -530,7 +530,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     
     // Create note.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
@@ -579,7 +579,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     int time = filter::date::seconds_since_epoch ();
     
     // Create note.
@@ -613,7 +613,7 @@ void test_database_notes ()
     Database_Notes database_notes (&request);
     database_notes.create ();
     
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     
     // Create a few notes.
     vector <int> standardids;
@@ -641,7 +641,7 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create note.
-    request.session_logic()->setUsername ("unittest");
+    request.session_logic()->set_username ("unittest");
     int identifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     int identifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     

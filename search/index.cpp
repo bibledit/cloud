@@ -65,13 +65,13 @@ string search_index (void * webserver_request)
 
     // Get the Bible and passage for this identifier.
     Passage passage = Passage::decode (id);
-    string bible = passage.bible;
+    string bible2 = passage.bible;
     int book = passage.book;
     int chapter = passage.chapter;
     string verse = passage.verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible2, book, chapter, convert_to_int (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

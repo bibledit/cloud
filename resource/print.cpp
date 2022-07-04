@@ -325,7 +325,7 @@ string resource_print (void * webserver_request)
 void resource_print_job (string jobId, string user, string bible)
 {
   Webserver_Request request;
-  request.session_logic ()->setUsername (user);
+  request.session_logic ()->set_username (user);
   
   
   Database_Jobs database_jobs = Database_Jobs ();

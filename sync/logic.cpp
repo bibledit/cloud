@@ -93,7 +93,7 @@ bool Sync_Logic::credentials_okay ()
   }
   
   // Set username in session.
-  request->session_logic ()->setUsername (username);
+  request->session_logic ()->set_username (username);
   
   // OK.
   return true;

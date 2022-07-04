@@ -89,26 +89,26 @@ void Session_Logic::open ()
   // Don't regard this as something that triggers the brute force attach mitigation mechanism.
   string cookie = request->session_identifier;
   if (cookie.empty ()) {
-    setUsername ("");
+    set_username ("");
     logged_in = false;
     return;
   }
   
   bool daily;
-  string username = Database_Login::getUsername (cookie, daily);
-  if (!username.empty ()) {
-    setUsername (username);
+  string username_from_cookie = Database_Login::getUsername (cookie, daily);
+  if (!username_from_cookie.empty ()) {
+    set_username (username_from_cookie);
     logged_in = true;
     if (daily) request->resend_cookie = true;
     touch_enabled = Database_Login::getTouchEnabled (cookie);
   } else {
-    setUsername ("");
+    set_username (string());
     logged_in = false;
   }
 }
 
 
-void Session_Logic::setUsername (string name)
+void Session_Logic::set_username (string name)
 {
   username = name;
 }
@@ -118,7 +118,7 @@ bool Session_Logic::openAccess ()
 {
   // Open access if it is flagged as such.
   if (config_globals_open_installation) {
-    setUsername (session_admin_credentials ());
+    set_username (session_admin_credentials ());
     level = Filter_Roles::admin ();
     logged_in = true;
     return true;
@@ -157,8 +157,8 @@ string Session_Logic::fingerprint ()
 // Attempts to log into the system.
 // Records whether the user logged in from a touch-enabled device.
 // Returns boolean success.
-bool Session_Logic::attemptLogin (string user_or_email, string password, bool touch_enabled,
-                                  bool skip_checks)
+bool Session_Logic::attempt_login (string user_or_email, string password,
+                                   bool touch_enabled_in, bool skip_checks)
 {
   // Brute force attack mitigation.
   if (!user_logic_login_failure_check_okay ()) {
@@ -190,11 +190,11 @@ bool Session_Logic::attemptLogin (string user_or_email, string password, bool to
   
   if (login_okay) {
     open ();
-    setUsername (user_or_email);
+    set_username (user_or_email);
     logged_in = true;
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     string cookie = request->session_identifier;
-    Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled);
+    Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled_in);
     currentLevel (true);
     return true;
   } else {
@@ -258,11 +258,10 @@ int Session_Logic::currentLevel (bool force)
 
 void Session_Logic::logout ()
 {
-  string username = currentUser ();
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string cookie = request->session_identifier;
-  Database_Login::removeTokens (username, cookie);
-  setUsername ("");
+  Database_Login::removeTokens (currentUser (), cookie);
+  set_username (string());
   level = Filter_Roles::guest();
 }
 
@@ -283,7 +282,7 @@ bool Session_Logic::clientAccess ()
       user = users [0];
       level = database_users.get_level (user);
     }
-    setUsername (user);
+    set_username (user);
     logged_in = true;
     return true;
   }
@@ -291,10 +290,10 @@ bool Session_Logic::clientAccess ()
 }
 
 
-void Session_Logic::switchUser (string username)
+void Session_Logic::switch_user (string new_user)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string cookie = request->session_identifier;
-  Database_Login::removeTokens (username, cookie);
-  Database_Login::renameTokens (currentUser (), username, cookie);
+  Database_Login::removeTokens (new_user, cookie);
+  Database_Login::renameTokens (currentUser (), new_user, cookie);
 }

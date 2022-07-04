@@ -93,28 +93,28 @@ void sources_kjv_parse_loop (xml_node element,
     sources_kjv_store (book, chapter, verse, "", english);
   } else if (element_name == "inscription") {
     for (xml_node child : element.children ()) {
-      string lemma;
-      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+      string tmp_lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "q") {
     for (xml_node child : element.children ()) {
-      string lemma;
-      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+      string tmp_lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "divineName") {
     for (xml_node child : element.children ()) {
-      string lemma;
-      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+      string tmp_lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "title") {
     for (xml_node child : element.children ()) {
-      string lemma;
-      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+      string tmp_lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "foreign") {
     for (xml_node child : element.children ()) {
-      string lemma;
-      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
+      string tmp_lemma;
+      sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else {
     if (within_verse) {

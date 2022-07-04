@@ -792,8 +792,6 @@ void test_git ()
     test_filter_git_setup (&request, bible, newbible,
                            "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
     
-    string repository = filter_git_directory (bible);
-    
     // Commit the data to the repository.
     success = filter_git_add_remove_all (repository, error);
     evaluate (__LINE__, __func__, true, success);
@@ -839,8 +837,6 @@ void test_git ()
     vector <string> messages;
     
     test_filter_git_setup (&request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
-    
-    string repository = filter_git_directory (bible);
     
     // Commit the data to the repository.
     success = filter_git_add_remove_all (repository, error);

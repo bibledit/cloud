@@ -263,9 +263,9 @@ string styles_view (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+      Database_Styles_Item style_item = database_styles.getMarkerData (sheet, style);
       int last_value = ooitOn;
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type, style_item.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", convert_to_string (i));
@@ -291,9 +291,9 @@ string styles_view (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
       int last_value = ooitOn;
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", convert_to_string (i));
@@ -319,7 +319,7 @@ string styles_view (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
       int last_value = ooitOn;
       if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
         last_value = ooitToggle;
@@ -347,9 +347,9 @@ string styles_view (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
       int last_value = ooitOn;
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (marker_data.type, marker_data.subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", convert_to_string (i));

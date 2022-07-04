@@ -245,11 +245,11 @@ void sources_styles_parse ()
     // Look for the start of a style block trough e.g. "\Marker id".
     if (paratext_line.find (backslash_marker) == 0) {
       paratext_line.erase (0, backslash_marker.length ());
-      string marker = filter_string_trim (paratext_line);
+      string curr_marker = filter_string_trim (paratext_line);
       // Skip markers in the z-area.
-      if (marker [0] == 'z') continue;
+      if (curr_marker [0] == 'z') continue;
       // A new style block starts here.
-      paratext_marker = marker;
+      paratext_marker = curr_marker;
       continue;
     }
 
@@ -325,71 +325,71 @@ void sources_styles_parse ()
   cpp_lines.clear ();
   cpp_lines.push_back ("{");
   for (auto element : style_definitions) {
-    definition_type style_definition = element.second;
+    definition_type style_def = element.second;
     string line;
     cpp_lines.push_back ("  {");
 
-    line = sources_style_parse_generate_entry (marker_key, style_definition [marker_key], true);
+    line = sources_style_parse_generate_entry (marker_key, style_def [marker_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (name_key, style_definition [name_key], true);
+    line = sources_style_parse_generate_entry (name_key, style_def [name_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (info_key, style_definition [info_key], true);
+    line = sources_style_parse_generate_entry (info_key, style_def [info_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (category_key, style_definition [category_key], true);
+    line = sources_style_parse_generate_entry (category_key, style_def [category_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (type_key, style_definition [type_key], false);
+    line = sources_style_parse_generate_entry (type_key, style_def [type_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (subtype_key, style_definition [subtype_key], false);
+    line = sources_style_parse_generate_entry (subtype_key, style_def [subtype_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (fontsize_key, style_definition [fontsize_key], false);
+    line = sources_style_parse_generate_entry (fontsize_key, style_def [fontsize_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (italic_key, style_definition [italic_key], false);
+    line = sources_style_parse_generate_entry (italic_key, style_def [italic_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (bold_key, style_definition [bold_key], false);
+    line = sources_style_parse_generate_entry (bold_key, style_def [bold_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (underline_key, style_definition [underline_key], false);
+    line = sources_style_parse_generate_entry (underline_key, style_def [underline_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (smallcaps_key, style_definition [smallcaps_key], false);
+    line = sources_style_parse_generate_entry (smallcaps_key, style_def [smallcaps_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (superscript_key, style_definition [superscript_key], false);
+    line = sources_style_parse_generate_entry (superscript_key, style_def [superscript_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (justification_key, style_definition [justification_key], false);
+    line = sources_style_parse_generate_entry (justification_key, style_def [justification_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (spacebefore_key, style_definition [spacebefore_key], false);
+    line = sources_style_parse_generate_entry (spacebefore_key, style_def [spacebefore_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (spaceafter_key, style_definition [spaceafter_key], false);
+    line = sources_style_parse_generate_entry (spaceafter_key, style_def [spaceafter_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (leftmargin_key, style_definition [leftmargin_key], false);
+    line = sources_style_parse_generate_entry (leftmargin_key, style_def [leftmargin_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (rightmargin_key, style_definition [rightmargin_key], false);
+    line = sources_style_parse_generate_entry (rightmargin_key, style_def [rightmargin_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (firstlineindent_key, style_definition [firstlineindent_key], false);
+    line = sources_style_parse_generate_entry (firstlineindent_key, style_def [firstlineindent_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (spancolumns_key, style_definition [spancolumns_key], false);
+    line = sources_style_parse_generate_entry (spancolumns_key, style_def [spancolumns_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (color_key, style_definition [color_key], true);
+    line = sources_style_parse_generate_entry (color_key, style_def [color_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (print_key, style_definition [print_key], false);
+    line = sources_style_parse_generate_entry (print_key, style_def [print_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userbool1_key, style_definition [userbool1_key], false);
+    line = sources_style_parse_generate_entry (userbool1_key, style_def [userbool1_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userbool2_key, style_definition [userbool2_key], false);
+    line = sources_style_parse_generate_entry (userbool2_key, style_def [userbool2_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userbool3_key, style_definition [userbool3_key], false);
+    line = sources_style_parse_generate_entry (userbool3_key, style_def [userbool3_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userint1_key, style_definition [userint1_key], false);
+    line = sources_style_parse_generate_entry (userint1_key, style_def [userint1_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userint2_key, style_definition [userint2_key], false);
+    line = sources_style_parse_generate_entry (userint2_key, style_def [userint2_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userint3_key, style_definition [userint3_key], false);
+    line = sources_style_parse_generate_entry (userint3_key, style_def [userint3_key], false);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userstring1_key, style_definition [userstring1_key], true);
+    line = sources_style_parse_generate_entry (userstring1_key, style_def [userstring1_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userstring2_key, style_definition [userstring2_key], true);
+    line = sources_style_parse_generate_entry (userstring2_key, style_def [userstring2_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (userstring3_key, style_definition [userstring3_key], true);
+    line = sources_style_parse_generate_entry (userstring3_key, style_def [userstring3_key], true);
     cpp_lines.push_back (line);
-    line = sources_style_parse_generate_entry (backgroundcolor_key, style_definition [backgroundcolor_key], true);
+    line = sources_style_parse_generate_entry (backgroundcolor_key, style_def [backgroundcolor_key], true);
     cpp_lines.push_back (line);
 
     cpp_lines.push_back ("  },");

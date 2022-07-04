@@ -109,8 +109,8 @@ void export_web_book (string bible, int book, bool log)
     filter_text_chapter.html_text_linked->custom_class = Filter_Css::getClass (bible);
     
     // Create breadcrumbs and navigator for the chapter.
-    Html_Header htmlHeader = Html_Header (filter_text_chapter.html_text_linked);
-    htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
+    Html_Header html_header = Html_Header (filter_text_chapter.html_text_linked);
+    html_header.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
     vector <pair <string, string> > breadcrumbs_navigator;
     breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
     breadcrumbs_navigator.push_back (pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ()));
@@ -129,7 +129,7 @@ void export_web_book (string bible, int book, bool log)
       string link = "mailto:" + feedback_email + "?Subject=" + subject;
       breadcrumbs_navigator.push_back (pair (translate ("Feedback"), link));
     }
-    htmlHeader.create (breadcrumbs_navigator);
+    html_header.create (breadcrumbs_navigator);
     
     // Create interlinked html for the chapter.
     filter_text_chapter.run (stylesheet);

@@ -1169,7 +1169,6 @@ A Jesus is King.  B Jesus is the son of God.
     Database_BibleImages database_bibleimages;
     database_bibleimages.store(image_2_path);
     database_bibleimages.store(image_3_path);
-    string bible = "bible";
     string usfm = R"(
 \c 1
 \p
@@ -1178,14 +1177,14 @@ A Jesus is King.  B Jesus is the son of God.
     )";
     // Test converting the USFM with an image to html.
     {
-      string standard = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
+      string standard_html = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
       string html;
       Filter_Text filter_text = Filter_Text (bible);
       filter_text.html_text_standard = new Html_Text (bible);
       filter_text.add_usfm_code (usfm);
       filter_text.run (styles_logic_standard_sheet());
       html = filter_text.html_text_standard->get_inner_html();
-      evaluate (__LINE__, __func__, standard, html);
+      evaluate (__LINE__, __func__, standard_html, html);
       evaluate (__LINE__, __func__, {image_2_name}, filter_text.image_sources);
       for (auto src : filter_text.image_sources) {
         string contents = database_bibleimages.get(src);

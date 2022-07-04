@@ -119,14 +119,14 @@ string system_index (void * webserver_request)
   // Entry of time zone offset in hours.
   if (request->post.count ("timezone")) {
     string input = request->post ["timezone"];
-    input = filter_string_str_replace ("UTC", "", input);
-    int timezone = convert_to_int (input);
-    timezone = clip (timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
-    Database_Config_General::setTimezone (timezone);
+    input = filter_string_str_replace ("UTC", string(), input);
+    int input_timezone = convert_to_int (input);
+    input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
+    Database_Config_General::setTimezone (input_timezone);
   }
   // Set the time zone offset in the GUI.
-  int timezone = Database_Config_General::getTimezone();
-  view.set_variable ("timezone", convert_to_string (timezone));
+  int timezone_setting = Database_Config_General::getTimezone();
+  view.set_variable ("timezone", convert_to_string (timezone_setting));
   // Display the section to set the site's timezone only
   // in case the calling program has not yet set this zone in the library.
   // So for example the app for iOS can set the timezone from the device,
@@ -141,19 +141,21 @@ string system_index (void * webserver_request)
   // Whether to include the author with every change in the RSS feed.
   if (checkbox == "rssauthor") {
     Database_Config_General::setAuthorInRssFeed (checked);
-    return "";
+    return string();
   }
   view.set_variable ("rssauthor", get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
   // The location of the RSS feed.
   view.set_variable ("rssfeed", rss_feed_url ());
   // The Bibles that send their changes to the RSS feed.
-  Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
   string rssbibles;
-  for (auto bible : bibles) {
-    if (Database_Config_Bible::getSendChangesToRSS (bible)) {
-      if (!rssbibles.empty ()) rssbibles.append (" ");
-      rssbibles.append (bible);
+  {
+    Database_Bibles database_bibles;
+    vector <string> bibles = database_bibles.getBibles ();
+    for (auto bible : bibles) {
+      if (Database_Config_Bible::getSendChangesToRSS (bible)) {
+        if (!rssbibles.empty ()) rssbibles.append (" ");
+        rssbibles.append (bible);
+      }
     }
   }
   if (rssbibles.empty ()) {

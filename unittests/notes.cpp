@@ -513,8 +513,8 @@ void test_database_notes ()
     // Test getting all possible statuses.
     vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
     vector <string> rawstatuses;
-    for (auto & status : statuses) {
-      rawstatuses.push_back (status.raw);
+    for (auto & note_text : statuses) {
+      rawstatuses.push_back (note_text.raw);
     }
     evaluate (__LINE__, __func__, {"yyyyy", "xxxxx", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
   }
@@ -560,9 +560,9 @@ void test_database_notes ()
     vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
     vector <string> rawseverities;
     vector <string> localizedseverities;
-    for (auto & severity : severities) {
-      rawseverities.push_back (severity.raw);
-      localizedseverities.push_back (severity.localized);
+    for (auto & note_text : severities) {
+      rawseverities.push_back (note_text.raw);
+      localizedseverities.push_back (note_text.localized);
     }
     evaluate (__LINE__, __func__, {"0", "1", "2", "3", "4", "5"}, rawseverities);
     evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);

@@ -101,36 +101,36 @@ void sprint_burndown ([[maybe_unused]] string bible,
   
   
   vector <string> bibles = {bible};
-  if (bible == "") {
+  if (bible.empty()) {
     bibles = request.database_bibles()->getBibles ();
   }
   
 
-  for (auto bible : bibles) {
+  for (auto bible2 : bibles) {
 
     
     // Get the total number of tasks for this sprint,
     // and the average percentage of completion of them,
     // and store this information in the sprint history table.
-    vector <int> ids = database_sprint.getTasks (bible, year, month);
+    vector <int> ids = database_sprint.getTasks (bible2, year, month);
     vector <int> percentages;
     for (auto id : ids) {
       percentages.push_back (database_sprint.getComplete (id));
     }
-    int tasks = static_cast<int>(ids.size ());
+    int task_count = static_cast<int>(ids.size ());
     int complete = 0;
-    if (tasks != 0) {
+    if (task_count != 0) {
       for (auto percentage : percentages) complete += percentage;
-      complete = round ((float) complete / (float) tasks);
+      complete = round ((float) complete / (float) task_count);
     }
-    database_sprint.logHistory (bible, year, month, monthday, tasks, complete);
+    database_sprint.logHistory (bible2, year, month, monthday, task_count, complete);
     
     
     // Send email if requested.
     if (email) {
-      if (tasks) {
+      if (task_count) {
         // Only mail if the current sprint contains tasks.
-        string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
+        string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
         vector <string> categories = filter_string_explode (scategories, '\n');
         size_t category_count = categories.size();
         int category_percentage = round (100 / category_count);
@@ -141,30 +141,30 @@ void sprint_burndown ([[maybe_unused]] string bible,
             string subject = translate("Team's progress in Sprint");
             if (sprintstart) subject = translate("Sprint has started");
             if (sprintfinish) subject = translate("Sprint has finished");
-            subject +=  " | " + bible;
+            subject +=  " | " + bible2;
             
             vector <string> body;
             
-            body.push_back ("<h4>" + bible + "</h4>");
+            body.push_back ("<h4>" + bible2 + "</h4>");
             body.push_back ("<h4>" + locale_logic_month (month) + "</h4>");
             body.push_back ("<h4>" + translate("Sprint Planning and Team's Progress") + "</h4>");
             body.push_back ("<table>");
-            vector <int> tasks = database_sprint.getTasks (bible, year, month);
+            vector <int> tasks = database_sprint.getTasks (bible2, year, month);
             for (auto id : tasks) {
               body.push_back ("<tr>");
               string title = database_sprint.getTitle (id);
               body.push_back ("<td>" + title + "</td>");
-              int complete = database_sprint.getComplete (id);
+              int complete_cnt = database_sprint.getComplete (id);
               string text;
-              for (int i = 0; i < round (complete / category_percentage); i++) text.append ("▓");
-              for (int i = 0; i < category_count - round (complete / category_percentage); i++) text.append ("▁");
+              for (int i = 0; i < round (complete_cnt / category_percentage); i++) text.append ("▓");
+              for (int i = 0; i < category_count - round (complete_cnt / category_percentage); i++) text.append ("▁");
               body.push_back ("<td>" + text + "</td>");
               body.push_back ("</tr>");
             }
             body.push_back ("</table>");
             
             body.push_back ("<h4>" + translate("Sprint Burndown Chart - Remaining Tasks") + "</h4>");
-            string burndownchart = sprint_create_burndown_chart (bible, year, month);
+            string burndownchart = sprint_create_burndown_chart (bible2, year, month);
             body.push_back ("<p>" + burndownchart + "</p>");
             
             if (!body.empty ()) {

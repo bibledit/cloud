@@ -125,11 +125,11 @@ string sync_notes (void * webserver_request)
       vector <string> bibles = AccessBible::Bibles (webserver_request, user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       string response;
-      for (auto identifier : identifiers) {
+      for (auto id : identifiers) {
         if (!response.empty ()) response.append ("\n");
-        response.append (convert_to_string (identifier));
+        response.append (convert_to_string (id));
         response.append ("\n");
-        response.append (database_notes.get_checksum (identifier));
+        response.append (database_notes.get_checksum (id));
       }
       return response;
     }

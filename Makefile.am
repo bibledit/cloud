@@ -590,7 +590,7 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g
+AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g -Wshadow
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(GTK_CFLAGS)

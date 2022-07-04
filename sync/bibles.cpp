@@ -200,7 +200,7 @@ string sync_bibles (void * webserver_request)
       // The server responds with a checksum and then the list of books in the Bible.
       vector <int> server_books = request->database_bibles()->getBooks (bible);
       vector <string> v_server_books;
-      for (auto book : server_books) v_server_books.push_back (convert_to_string (book));
+      for (auto server_book : server_books) v_server_books.push_back (convert_to_string (server_book));
       string s_server_books = filter_string_implode (v_server_books, "\n");
       string checksum = Checksum_Logic::get (v_server_books);
       return checksum + "\n" + s_server_books;
@@ -215,7 +215,7 @@ string sync_bibles (void * webserver_request)
       // The server responds with the list of books in the Bible book.
       vector <int> server_chapters = request->database_bibles()->getChapters (bible, book);
       vector <string> v_server_chapters;
-      for (auto & chapter : server_chapters) v_server_chapters.push_back (convert_to_string (chapter));
+      for (auto & server_chapter : server_chapters) v_server_chapters.push_back (convert_to_string (server_chapter));
       string s_server_chapters = filter_string_implode (v_server_chapters, "\n");
       string checksum = Checksum_Logic::get (v_server_chapters);
       return checksum + "\n" + s_server_chapters;

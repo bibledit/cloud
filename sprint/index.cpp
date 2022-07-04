@@ -138,20 +138,20 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   
   
   if (request->query.count ("mail")) {
-    int year = request->database_config_user()->getSprintYear ();
-    int month = request->database_config_user()->getSprintMonth ();
-    sprint_burndown (bible, year, month);
+    int mail_year = request->database_config_user()->getSprintYear ();
+    int mail_month = request->database_config_user()->getSprintMonth ();
+    sprint_burndown (bible, mail_year, mail_month);
     view.set_variable ("success", translate("The information was mailed to the subscribers"));
   }
   
   
   if (request->query.count ("bible")) {
     bible = request->query ["bible"];
-    if (bible == "") {
+    if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
       vector <string> bibles = AccessBible::Bibles (request);
-      for (auto & bible : bibles) {
-        dialog_list.add_row (bible, "bible", bible);
+      for (auto & selection_bible : bibles) {
+        dialog_list.add_row (selection_bible, "bible", selection_bible);
       }
       page += dialog_list.run ();
       return page;
@@ -220,14 +220,14 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   
   
   string tasks;
-  vector <int> vtasks = database_sprint.getTasks (bible, year, month);
-  for (auto & id : vtasks) {
-    string title = escape_special_xml_characters (database_sprint.getTitle (id));
-    int percentage = database_sprint.getComplete (id);
-    tasks.append ("<tr id=\"a" + convert_to_string (id) + "\">\n");
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");
+  vector <int> v_tasks = database_sprint.getTasks (bible, year, month);
+  for (auto & task_id : v_tasks) {
+    string title = escape_special_xml_characters (database_sprint.getTitle (task_id));
+    int percentage = database_sprint.getComplete (task_id);
+    tasks.append ("<tr id=\"a" + convert_to_string (task_id) + "\">\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (task_id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");
     tasks.append ("<td></td>\n");
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveback=\"> « </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (task_id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");
     size_t category_count = vcategories.size();
     float category_percentage = 100 / category_count;
@@ -235,7 +235,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
       int high = round ((i2 + 1) * category_percentage);
       tasks.append ("<td>\n");
       tasks.append ("<input type=\"checkbox\" id=\"task");
-      tasks.append (convert_to_string (id));
+      tasks.append (convert_to_string (task_id));
       tasks.append ("box");
       tasks.append (convert_to_string (i2));
       tasks.append ("\"");
@@ -247,7 +247,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
       
       tasks.append ("</td>\n");
     }
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (id) + "&moveforward=\"> » </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + convert_to_string (task_id) + "&moveforward=\"> » </a></td>\n");
     tasks.append ("</tr>\n");
   }
   view.set_variable ("tasks", tasks);

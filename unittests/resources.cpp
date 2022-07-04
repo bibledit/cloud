@@ -188,12 +188,12 @@ void test_database_imageresources ()
     database_imageresources.create ("unittest");
     
     for (int i = 10; i < 20; i++) {
-      string image = "unittest" + convert_to_string (i) + ".jpg";
-      string path = "/tmp/" + image;
-      filter_url_file_cp (image, path);
-      database_imageresources.store ("unittest", path);
-      filter_url_unlink (path);
-      database_imageresources.assign ("unittest", image, i, i, i, i, i, i+10);
+      string image_name = "unittest" + convert_to_string (i) + ".jpg";
+      string image_path = "/tmp/" + image_name;
+      filter_url_file_cp (image_name, image_path);
+      database_imageresources.store ("unittest", image_path);
+      filter_url_unlink (image_path);
+      database_imageresources.assign ("unittest", image_name, i, i, i, i, i, i+10);
     }
     
     vector <string> images = database_imageresources.get ("unittest", 11, 11, 13);
@@ -208,12 +208,12 @@ void test_database_imageresources ()
     
     database_imageresources.create ("unittest");
     
-    string image = "unittest.jpg";
-    string path = "/tmp/" + image;
-    filter_url_file_cp (image, path);
-    database_imageresources.store ("unittest", path);
-    filter_url_unlink (path);
-    database_imageresources.assign ("unittest", image, 1, 2, 0, 1, 2, 10);
+    string image_name = "unittest.jpg";
+    string path_path = "/tmp/" + image_name;
+    filter_url_file_cp (image_name, path_path);
+    database_imageresources.store ("unittest", path_path);
+    filter_url_unlink (path_path);
+    database_imageresources.assign ("unittest", image_name, 1, 2, 0, 1, 2, 10);
     
     int book1, chapter1, verse1, book2, chapter2, verse2;
     database_imageresources.get ("unittest", "none-existing",
@@ -221,7 +221,7 @@ void test_database_imageresources ()
     evaluate (__LINE__, __func__, book1, 0);
     evaluate (__LINE__, __func__, chapter1, 0);
     
-    database_imageresources.get ("unittest", image,
+    database_imageresources.get ("unittest", image_name,
                                  book1, chapter1, verse1, book2, chapter2, verse2);
     evaluate (__LINE__, __func__, book1, 1);
     evaluate (__LINE__, __func__, chapter1, 2);
@@ -255,14 +255,14 @@ void test_database_userresources ()
   value = Database_UserResources::url (name);
   evaluate (__LINE__, __func__, url, value);
   
-  for (auto name : specialnames) {
-    Database_UserResources::url (name, name + url);
+  for (auto special_name : specialnames) {
+    Database_UserResources::url (special_name, special_name + url);
   }
   names = Database_UserResources::names ();
   evaluate (__LINE__, __func__, specialnames, names);
   
-  for (auto name : specialnames) {
-    Database_UserResources::remove (name);
+  for (auto special_name : specialnames) {
+    Database_UserResources::remove (special_name);
   }
   names = Database_UserResources::names ();
   evaluate (__LINE__, __func__, {}, names);

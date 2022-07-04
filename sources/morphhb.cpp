@@ -122,23 +122,23 @@ void sources_morphhb_parse ()
 
           if (word_stored) database_oshb.store (book, chapter, verse, "", " ", "");
 
-          string node_name = node.name ();
+          string child_node_name = node.name ();
 
-          if (node_name == "w") {
+          if (child_node_name == "w") {
             sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
           }
           
-          else if (node_name == "seg") {
+          else if (child_node_name == "seg") {
             string word = node.child_value ();
             database_oshb.store (book, chapter, verse, "", word, "");
           }
           
-          else if (node_name == "note") {
+          else if (child_node_name == "note") {
             for (xml_node variant_node : node.children ()) {
-              string node_name = variant_node.name ();
-              if (node_name == "catchWord") {
+              string variant_node_name = variant_node.name ();
+              if (variant_node_name == "catchWord") {
                 sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
-              } else if (node_name == "rdg") {
+              } else if (variant_node_name == "rdg") {
                 for (xml_node w_node : variant_node.children ()) {
                   database_oshb.store (book, chapter, verse, "", "/", "");
                   sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, w_node);

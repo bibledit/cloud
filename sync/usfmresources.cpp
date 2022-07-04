@@ -76,9 +76,9 @@ string sync_usfmresources (void * webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_books) {
-    vector <int> books = database_usfmresources.getBooks (resource);
+    vector <int> resource_books = database_usfmresources.getBooks (resource);
     vector <string> sbooks;
-    for (auto & book : books) sbooks.push_back (convert_to_string (book));
+    for (auto & resource_book : resource_books) sbooks.push_back (convert_to_string (resource_book));
     return filter_string_implode (sbooks, "\n");    
   }
   
@@ -87,10 +87,10 @@ string sync_usfmresources (void * webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_chapters) {
-    vector <int> chapters = database_usfmresources.getChapters (resource, book);
-    vector <string> schapters;
-    for (auto & chapter : chapters) schapters.push_back (convert_to_string (chapter));
-    return filter_string_implode (schapters, "\n");
+    vector <int> res_chapters = database_usfmresources.getChapters (resource, book);
+    vector <string> s_chapters;
+    for (auto & res_chapter : res_chapters) s_chapters.push_back (convert_to_string (res_chapter));
+    return filter_string_implode (s_chapters, "\n");
   }
   
   else if (action == Sync_Logic::usfmresources_get_chapter_checksum) {

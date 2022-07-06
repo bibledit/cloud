@@ -355,17 +355,17 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
   }
 
+#ifdef HAVE_CLOUD
   // When a user is not logged in, or a guest,
   // put the public feedback into the main menu, rather than in a sub menu.
   // This is the default configuration.
-  bool public_feedback_possible = true;
+  bool public_feedback_possible { true };
   // In the Indonesian Cloud Free, there's no public feedback possible,
   // since the aim is to keep things easy to understand for beginners.
   // Except when it's the Indonesian Cloud Free Simple.
   if (config_logic_indonesian_cloud_free ()) {
     public_feedback_possible = false;
   }
-#ifdef HAVE_CLOUD
   if (public_feedback_possible) {
     if (menu_logic_public_or_guest (webserver_request)) {
       if (!public_logic_bibles (webserver_request).empty ()) {

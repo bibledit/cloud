@@ -1146,10 +1146,10 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         // The location where the mismatch occurs indicates the end of the relevant verses content.
         {
           xml_document document;
-          xml_parse_result result = document.load_string (html.c_str(), parse_default | parse_fragment);
-          if (result.offset > 10) {
-            size_t pos = result.offset - 2;
-            html.erase (pos);
+          xml_parse_result parse_result = document.load_string (html.c_str(), parse_default | parse_fragment);
+          if (parse_result.offset > 10) {
+            size_t pos2 = parse_result.offset - 2;
+            html.erase (pos2);
           }
         }
         // Parse the html fragment into a DOM.
@@ -1186,8 +1186,8 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           if (xpath) {
             stringstream ss;
             xpath.node().print (ss, "", format_raw);
-            string html = ss.str ();
-            string footnote_text = filter_string_html2text (html);
+            string selected_html = ss.str ();
+            string footnote_text = filter_string_html2text (selected_html);
             result.append ("<br>Note: ");
             result.append (footnote_text);
           }

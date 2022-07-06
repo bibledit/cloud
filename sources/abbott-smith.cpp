@@ -90,8 +90,8 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
   database_abbottsmith->store (lemma, lemma_case_folded, strong, contents);
   
   // If there's more Strong's numbers in the entry, store those too, but without any lemma.
-  for (auto strong : strongs) {
-    database_abbottsmith->store ("", "", strong, contents);
+  for (auto strong2 : strongs) {
+    database_abbottsmith->store (string(), string(), strong2, contents);
   }
 }
 

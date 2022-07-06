@@ -146,6 +146,7 @@ void sendreceive_queue_paratext (tasks::enums::paratext_sync method)
     tasks_logic_queue (SYNCPARATEXT, { to_string(static_cast<int>(method)) });
   }
 #endif
+  (void) method;
 }
 
 

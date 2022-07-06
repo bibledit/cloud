@@ -171,8 +171,8 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
           vector <int> chapters = request->database_bibles()->getChapters (bible, book);
           vector <string> chapterfiles = filter_url_scandir (filter_url_create_path ({repository, bookname}));
           for (auto & chaptername : chapterfiles) {
-            string path = filter_url_create_path ({repository, bookname, chaptername});
-            if (filter_url_is_dir (path)) {
+            string chapter_path = filter_url_create_path ({repository, bookname, chaptername});
+            if (filter_url_is_dir (chapter_path)) {
               if (filter_string_is_numeric (chaptername)) {
                 int chapter = convert_to_int (chaptername);
                 string filename = filter_url_create_path ({repository, bookname, chaptername, "data"});
@@ -569,8 +569,8 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
 
   if (!unmerged_paths.empty ()) {
     vector <string> messages;
-    string error;
-    filter_git_commit (repository, "", translate ("Bibledit fixed merge conflicts"), messages, error);
+    string error2;
+    filter_git_commit (repository, "", translate ("Bibledit fixed merge conflicts"), messages, error2);
   }
   
   // Done.

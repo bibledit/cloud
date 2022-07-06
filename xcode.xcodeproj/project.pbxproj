@@ -6664,6 +6664,7 @@
 					/opt/local/lib,
 					/usr/local/lib,
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SYSTEM_HEADER_SEARCH_PATHS[arch=*]" = "";
 				WARNING_CFLAGS = "";
@@ -6710,6 +6711,7 @@
 					/opt/local/lib,
 					/usr/local/lib,
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"SYSTEM_HEADER_SEARCH_PATHS[arch=*]" = "";
 			};

@@ -315,17 +315,17 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
     // So we remain with:
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
     {
-      xml_node node = note_p_element.first_child();
-      string name = node.name ();
+      xml_node node2 = note_p_element.first_child();
+      string name = node2.name ();
       if (name != "span") {
         // Normally the <span> is the first child in the <p> that is a note.
         // But the user may have typed some text there.
         // If so, then the <span> is the second child of the <p>.
         // This code cares for that situation.
-        node = node.next_sibling();
-        name = node.name();
+        node2 = node2.next_sibling();
+        name = node2.name();
       }
-      note_p_element.remove_child (node);
+      note_p_element.remove_child (node2);
     }
 
     // Preserve active character styles in the main text, and reset them for the note.

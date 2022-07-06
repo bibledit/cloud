@@ -69,10 +69,10 @@ void export_odt_book (string bible, int book, bool log)
   if (book == 0) {
     // Load entire Bible, ordered.
     vector <int> books = filter_passage_get_ordered_books (bible);
-    for (auto book : books) {
-      vector <int> chapters = database_bibles.getChapters (bible, book);
+    for (auto book2 : books) {
+      vector <int> chapters = database_bibles.getChapters (bible, book2);
       for (auto chapter : chapters) {
-        string usfm = database_bibles.getChapter (bible, book, chapter);
+        string usfm = database_bibles.getChapter (bible, book2, chapter);
         // Filter it.
         usfm = usfm_remove_w_attributes (usfm);
         usfm = filter_string_trim (usfm);

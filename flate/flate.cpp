@@ -208,12 +208,12 @@ void Flate::process_translate (string& rendering)
   string gettextopen = R"(translate(")";
   string gettextclose = R"("))";
   // Limit gettext iterations.
-  int iterations = 0;
+  int iteration_counter { 0 };
   // Start processing variables by locating the first one.
   size_t position = rendering.find (gettextopen);
   // Iterate through the contents till all gettext calls have been dealt with.
-  while ((position != string::npos) && (iterations < 1000)) {
-    iterations++;
+  while ((position != string::npos) && (iteration_counter < 1000)) {
+    iteration_counter++;
     // Remove the gettext opener.
     rendering.erase (position, gettextopen.length());
     // Position where the gettext call ends.

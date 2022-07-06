@@ -77,8 +77,8 @@ string public_index (void * webserver_request)
     bible = request->query ["bible"];
     if (bible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display"), "", "");
-      for (auto & bible : public_bibles) {
-        dialog_list.add_row (bible, "bible", bible);
+      for (auto & public_bible : public_bibles) {
+        dialog_list.add_row (public_bible, "bible", public_bible);
       }
       Assets_Header header = Assets_Header ("", request);
       string page = header.run ();

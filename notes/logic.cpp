@@ -590,11 +590,11 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   request->session_logic ()->set_username (sessionuser);
   // Mail confirmation to the username.
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
-    string subject = translate("Your comment was posted");
-    subject.append (" [CNID");
-    subject.append (convert_to_string (identifier));
-    subject.append ("]");
-    email_schedule (username, subject, body);
+    string confirm_subject = translate("Your comment was posted");
+    confirm_subject.append (" [CNID");
+    confirm_subject.append (convert_to_string (identifier));
+    confirm_subject.append ("]");
+    email_schedule (username, confirm_subject, body);
   }
   // Log operation.
   Database_Logs::log ("Comment posted: " + body);

@@ -330,8 +330,8 @@ string manage_users (void * webserver_request)
       if (myLevel > objectUserLevel) {
         tbody << "<td>│</td>";
         tbody << "<td>";
-        bool enabled = request->database_users ()->get_enabled (username);
-        if (enabled) {
+        bool account_enabled = request->database_users ()->get_enabled (username);
+        if (account_enabled) {
           tbody << "<a href=" << quoted("?user=" + username + "&disable") << ">" << translate ("Disable") << "</a>";
         } else {
           tbody << "<a href=" << quoted("?user=" + username + "&enable") << ">" << translate ("Enable") << "</a>";

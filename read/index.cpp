@@ -111,8 +111,8 @@ string read_index (void * webserver_request)
   if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
   string bible_html;
   vector <string> bibles = AccessBible::Bibles (request);
-  for (auto bible : bibles) {
-    bible_html = Options_To_Select::add_selection (bible, bible, bible_html);
+  for (auto selectable_bible : bibles) {
+    bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
   }
   view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
   view.set_variable ("bible", bible);

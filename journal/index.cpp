@@ -43,12 +43,15 @@ bool journal_index_acl (void * webserver_request)
 {
   // In Client mode, anyone can view the journal.
 #ifdef HAVE_CLIENT
+  (void) webserver_request;
   return true;
 #endif
   // In the Cloud, the role of Consultant or higher can view the journal.
+#ifdef HAVE_CLOUD
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
     return true;
   }
+#endif
   // No access.
   return false;
 }

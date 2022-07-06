@@ -165,8 +165,8 @@ string resource_organize (void * webserver_request)
   
   if (request->query.count ("install")) {
     vector <string> installing_resources = Database_Config_General::getResourcesToCache ();
-    vector <string> active_resources = request->database_config_user()->getActiveResources ();
-    for (auto & resource : active_resources) {
+    vector <string> active_resources_2 = request->database_config_user()->getActiveResources ();
+    for (auto & resource : active_resources_2) {
       if (resource_logic_can_cache (resource)) {
         if (!in_array (resource, installing_resources)) {
           installing_resources.push_back (resource);

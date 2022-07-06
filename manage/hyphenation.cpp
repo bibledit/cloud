@@ -75,17 +75,17 @@ string manage_hyphenation (void * webserver_request)
   
   
   if (request->query.count ("bible")) {
-    string bible = request->query ["bible"];
-    if (bible == "") {
+    string bible2 = request->query ["bible"];
+    if (bible2.empty()) {
       Dialog_List dialog_list = Dialog_List ("", translate("Which Bible would you like to take the data from?"), "", "");
       vector <string> bibles = AccessBible::Bibles (webserver_request);
-      for (auto bible : bibles) {
-        dialog_list.add_row (bible, "bible", bible);
+      for (auto list_bible : bibles) {
+        dialog_list.add_row (list_bible, "bible", list_bible);
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user()->setBible (bible);
+      request->database_config_user()->setBible (bible2);
     }
   }
   bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());

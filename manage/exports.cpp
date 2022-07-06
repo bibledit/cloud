@@ -75,11 +75,11 @@ string manage_exports (void * webserver_request)
   
   if (request->query.count ("bible")) {
     string bible = request->query["bible"];
-    if (bible == "") {
+    if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("exports", translate("Select a Bible"), "", "");
       vector <string> bibles = AccessBible::Bibles (webserver_request);
-      for (auto bible : bibles) {
-        dialog_list.add_row (bible, "bible", bible);
+      for (auto bible2 : bibles) {
+        dialog_list.add_row (bible2, "bible", bible2);
       }
       page += dialog_list.run ();
       return page;

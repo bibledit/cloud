@@ -168,7 +168,6 @@ Passage filter_integer_to_passage (int integer)
 int filter_passage_interpret_book (string book)
 {
   book = filter_string_trim (book);
-  int identifier = 0;
 
   // Recognize names like "I Peter", where the "I" can also be "II" or "III".
   // Do the longest ones first.
@@ -195,16 +194,23 @@ int filter_passage_interpret_book (string book)
     string english = Database_Books::getEnglishFromId(identifier);
     if (english.empty()) continue;
     if (book == unicode_string_casefold(english)) return identifier;
+    
     if (nospacebook == unicode_string_casefold(english)) return identifier;
+    
     string localized = translate(english);
     if (localized.empty()) continue;
+    
     if (book == unicode_string_casefold(localized)) return identifier;
+    
     if (nospacebook == unicode_string_casefold(localized)) return identifier;
   }
 
+  
   // Recognise the USFM book abbreviations.
-  identifier = Database_Books::getIdFromUsfm (book);
-  if (identifier) return identifier;
+  {
+    int identifier = Database_Books::getIdFromUsfm (book);
+    if (identifier) return identifier;
+  }
 
   // Try the OSIS abbreviations.
   for (auto identifier : bookids) {
@@ -253,8 +259,10 @@ int filter_passage_interpret_book (string book)
   }
 
   // Do a case-insensitive search in the books database for something like the book given.
-  identifier = Database_Books::getIdLikeText (book);
-  if (identifier) return identifier;
+  {
+    int identifier = Database_Books::getIdLikeText (book);
+    if (identifier) return identifier;
+  }
   
   // Sorry, no book found.
   return 0;

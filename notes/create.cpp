@@ -113,7 +113,7 @@ string notes_create (void * webserver_request)
   if (request->query.count ("fromchange")) {
     int fromchange = convert_to_int (request->query ["fromchange"]);
     Database_Modifications database_modifications;
-    string bible = database_modifications.getNotificationBible (fromchange);
+    //string bible = database_modifications.getNotificationBible (fromchange);
     string summary = translate("Query about a change in the text");
     string contents = "<p>" + translate("Old text:") + "</p>";
     contents += database_modifications.getNotificationOldText (fromchange);

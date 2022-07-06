@@ -347,12 +347,12 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
     vector <string> chapters = result ["chapter"];
     vector <string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size (); i++) {
-      Passage passage = Passage ("", convert_to_int (books [i]), convert_to_int (chapters [i]), verses [i]);
+      Passage passage2 = Passage (string(), convert_to_int (books [i]), convert_to_int (chapters [i]), verses [i]);
       bool passageExists = false;
       for (auto & existingpassage : targetpassage) {
-        if (existingpassage.equal (passage)) passageExists = true;
+        if (existingpassage.equal (passage2)) passageExists = true;
       }
-      if (!passageExists) targetpassage.push_back (passage);
+      if (!passageExists) targetpassage.push_back (passage2);
     }
   }
   

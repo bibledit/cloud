@@ -383,11 +383,11 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
     for (auto search_replace_set : search_replace_sets) {
       vector <string> search_replace = filter_string_explode(search_replace_set, '=');
       if (search_replace.size() == 2) {
-        string search = search_replace[0];
-        if (search.empty()) continue;
-        string replace = search_replace[1];
-        base = filter_string_str_replace(search, replace, base);
-        update = filter_string_str_replace(search, replace, update);
+        string search_item = search_replace[0];
+        if (search_item.empty()) continue;
+        string replace_item = search_replace[1];
+        base = filter_string_str_replace(search_item, replace_item, base);
+        update = filter_string_str_replace(search_item, replace_item, update);
       }
     }
   }
@@ -1721,10 +1721,10 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const string & pa
   int ending_chapter = starting_chapter;
   colon_pos = last_word.find(":");
   if (colon_pos != string::npos) {
-    string ch_fragment = last_word.substr(0, colon_pos);
-    ending_chapter = convert_to_int(ch_fragment);
-    string check = convert_to_string(ending_chapter);
-    if (ch_fragment != check) return false;
+    string chapter_fragment = last_word.substr(0, colon_pos);
+    ending_chapter = convert_to_int(chapter_fragment);
+    check = convert_to_string(ending_chapter);
+    if (chapter_fragment != check) return false;
     last_word.erase(0, colon_pos + 1);
   }
 

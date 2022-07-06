@@ -295,20 +295,20 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     post ["verse"] = bits[9];
     post ["slug_id"] = bits[11];
     post ["book_id"] = convert_to_string(book);
-    string error, html;
-    html = filter_url_http_post (annotation_url, post, error, false, false);
+    string error;
+    string annotation_html = filter_url_http_post (annotation_url, post, error, false, false);
     if (error.empty()) {
-      html = filter_string_tidy_invalid_html (html);
-      xml_document document;
-      document.load_string (html.c_str());
-      string selector = "//body";
-      xpath_node xpathnode = document.select_node(selector.c_str());
-      xml_node body_node = xpathnode.node();
+      annotation_html = filter_string_tidy_invalid_html (annotation_html);
+      xml_document annotation_document;
+      annotation_document.load_string (annotation_html.c_str());
+      string selector2 = "//body";
+      xpath_node xpathnode2 = annotation_document.select_node(selector2.c_str());
+      xml_node body_node = xpathnode2.node();
       stringstream ss;
       body_node.print (ss, "", format_raw);
-      gbs_annotation_walker walker;
-      body_node.traverse (walker);
-      for (auto fragment : walker.texts) {
+      gbs_annotation_walker annotation_walker;
+      body_node.traverse (annotation_walker);
+      for (auto fragment : annotation_walker.texts) {
         text.append(" ");
         text.append (filter_string_trim(fragment));
       }

@@ -1744,17 +1744,17 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   for (auto & line : lines) {
     if (line.empty ()) continue;
     if (line.find ("HTTP") != string::npos) {
-      size_t pos = line.find (" ");
-      if (pos != string::npos) {
-        line.erase (0, pos + 1);
+      size_t pos2 = line.find (" ");
+      if (pos2 != string::npos) {
+        line.erase (0, pos2 + 1);
         int response_code = convert_to_int (line);
         if (response_code != 200) {
           error = "Response code: " + line;
-          return "";
+          return string();
         }
       } else {
         error = "Invalid response: " + line;
-        return "";
+        return string();
       }
     }
   }
@@ -1950,9 +1950,9 @@ bool filter_url_port_can_connect (string hostname, int port)
     // If it fails, try the next one.
     if (sock < 0) continue;
     // Try to connect.
-    int res = connect (sock, rp->ai_addr, rp->ai_addrlen);
+    int res2 = connect (sock, rp->ai_addr, rp->ai_addrlen);
     // If connected, set the flag.
-    if (res != -1) connected = true;
+    if (res2 != -1) connected = true;
     // Socket should be closed.
     if (sock) {
   #ifdef HAVE_WINDOWS

@@ -277,12 +277,12 @@ string changes_changes (void * webserver_request)
   for (auto & category : categories) {
     if (category == changes_bible_category ()) continue;
     string user = category;
-    vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
+    vector <int> personal_ids2 = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     string user_and_icon = translate ("user") + " " + category;
     if (category == changes_personal_category ()) {
       user_and_icon = translate ("me") + " " + emoji_smiling_face_with_smiling_eyes ();
     }
-    if (!personal_ids.empty () && !bible_ids.empty ()) {
+    if (!personal_ids2.empty () && !bible_ids.empty ()) {
       view.add_iteration ("matching", { pair ("user", user), pair ("icon", user_and_icon) } );
     }
   }

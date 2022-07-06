@@ -28,7 +28,8 @@
 #include <locale/translate.h>
 
 
-void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter, map <int, string> verses,
+void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter,
+                                             map <int, string> verses,
                                              string center_marks, string end_marks, string disregards)
 {
   vector <string> centermarks = filter_string_explode (center_marks, ' ');
@@ -40,8 +41,8 @@ void Checks_Verses::missingPunctuationAtEnd (string bible, int book, int chapter
     string text = element.second;
     if (verse == 0) continue;
     if (text.empty ()) continue;
-    for (auto ignore : ignores) {
-      text = filter_string_str_replace (ignore, "", text);
+    for (auto ignore_text : ignores) {
+      text = filter_string_str_replace (ignore_text, string(), text);
     }
     size_t text_length = unicode_string_length (text);
     string lastCharacter = unicode_string_substr (text, text_length - 1, 1);

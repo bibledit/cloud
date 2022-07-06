@@ -30,12 +30,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // If no $user is given, it takes the currently logged-in user.
 bool AccessBible::Read (void * webserver_request, const string & bible, string user)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Client: User has access to all Bibles.
 #ifdef HAVE_CLIENT
+  (void) webserver_request;
+  (void) bible;
+  (void) user;
   return true;
 #endif
+
+#ifdef HAVE_CLOUD
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   // Get the level, that is the role, of the given user.
   int role_level { 0 };
@@ -79,7 +83,8 @@ bool AccessBible::Read (void * webserver_request, const string & bible, string u
       return true;
     }
   }
-
+#endif
+  
   // Default.
   return false;
 }

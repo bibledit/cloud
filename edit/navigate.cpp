@@ -99,14 +99,14 @@ string edit_navigate (void * webserver_request)
   // Get the ending offsets for each verse.
   vector <size_t> ending_offsets;
   for (size_t i = 0; i < verses.size (); i++) {
-    size_t offset = starting_offsets [i];
+    size_t offset2 = starting_offsets [i];
     for (size_t i2 = 0; i2 < starting_offsets.size (); i2++) {
-      if (starting_offsets [i2] > offset) {
-        offset = starting_offsets [i2];
+      if (starting_offsets [i2] > offset2) {
+        offset2 = starting_offsets [i2];
         break;
       }
     }
-    ending_offsets.push_back (offset - 1);
+    ending_offsets.push_back (offset2 - 1);
   }
   
   

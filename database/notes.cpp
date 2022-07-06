@@ -193,19 +193,19 @@ void Database_Notes::trim ()
   vector <string> bits1 = filter_url_scandir (main_folder);
   for (auto bit1 : bits1) {
     if (bit1.length () == 3) {
-      string folder = filter_url_create_path ({main_folder, bit1});
-      vector <string> bits2 = filter_url_scandir (folder);
+      string folder1 = filter_url_create_path ({main_folder, bit1});
+      vector <string> bits2 = filter_url_scandir (folder1);
       if (bits2.empty ()) {
-        Database_Logs::log (message + folder);
-        remove (folder.c_str ());
+        Database_Logs::log (message + folder1);
+        remove (folder1.c_str ());
       }
       for (auto bit2 : bits2) {
         if (bit2.length () == 3) {
-          string folder = filter_url_create_path ({main_folder, bit1, bit2});
-          vector <string> bits3 = filter_url_scandir (folder);
+          string folder2 = filter_url_create_path ({main_folder, bit1, bit2});
+          vector <string> bits3 = filter_url_scandir (folder2);
           if (bits3.empty ()) {
-            Database_Logs::log (message + folder);
-            remove (folder.c_str());
+            Database_Logs::log (message + folder2);
+            remove (folder2.c_str());
           }
         }
       }
@@ -1907,8 +1907,8 @@ vector <string> Database_Notes::set_bulk (string json)
     note2 << summary_key () << summary;
     note2 << status_key () << status;
     note2 << severity_key () << convert_to_string (severity);
-    string json = note2.json ();
-    filter_url_file_put_contents (path, json);
+    string json2 = note2.json ();
+    filter_url_file_put_contents (path, json2);
     
     // Update the indexes.
     update_database (identifier);

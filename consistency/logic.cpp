@@ -73,14 +73,14 @@ string Consistency_Logic::response ()
     line = omit_verse_text (line);
     
     vector <string> range_sequence = filter_passage_handle_sequences_ranges (line);
-    for (auto line : range_sequence) {
-      Passage passage = filter_passage_interpret_passage (previousPassage, line);
+    for (auto line2 : range_sequence) {
+      Passage passage = filter_passage_interpret_passage (previousPassage, line2);
       if (passage.book != 0) {
         int book = passage.book;
         int chapter = passage.chapter;
         string verse = passage.verse;
-        line = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-        line += " ";
+        line2 = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+        line2 += " ";
         
         // Check whether the chapter identifier has changed for this reference.
         // If so, set a flag so the data can be re-assembled for this verse.
@@ -117,14 +117,14 @@ string Consistency_Logic::response ()
           
           // Formatting.
           if (resources.size () > 1) {
-            line += "<br>";
+            line2 += "<br>";
           }
-          line += text;
+          line2 += text;
         }
-        response.push_back (line);
+        response.push_back (line2);
         previousPassage = passage;
       } else {
-        response.push_back (R"(<span class="error">)" + translate("Unknown passage") + " " + line + "</span>");
+        response.push_back (R"(<span class="error">)" + translate("Unknown passage") + " " + line2 + "</span>");
       }
     }
   }

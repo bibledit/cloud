@@ -315,8 +315,8 @@ void demo_prepare_sample_bible ()
           // This results in a book with number 0.
           // This book gets skipped here, so the license information is skipped as well.
           int chapter = data.chapter;
-          string usfm = data.data;
-          bible_logic_store_chapter (demo_sample_bible_name (), book, chapter, usfm);
+          string usfm2 = data.data;
+          bible_logic_store_chapter (demo_sample_bible_name (), book, chapter, usfm2);
         }
       }
     }

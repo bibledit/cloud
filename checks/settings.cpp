@@ -69,11 +69,11 @@ string checks_settings (void * webserver_request)
   
   if (request->query.count ("bible")) {
     string bible = request->query["bible"];
-    if (bible == "") {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), "", "");
+    if (bible.empty()) {
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), string(), string());
       vector <string> bibles = AccessBible::Bibles (webserver_request);
-      for (auto bible : bibles) {
-        dialog_list.add_row (bible, "bible", bible);
+      for (auto selectable_bible : bibles) {
+        dialog_list.add_row (selectable_bible, "bible", selectable_bible);
       }
       page += dialog_list.run ();
       return page;

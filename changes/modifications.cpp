@@ -271,8 +271,8 @@ void changes_modifications ()
     
     
     vector <string> changeNotificationUsers;
-    vector <string> users = request.database_users ()->get_users ();
-    for (auto user : users) {
+    vector <string> all_users = request.database_users ()->get_users ();
+    for (auto user : all_users) {
       if (AccessBible::Read (&request, bible, user)) {
         if (request.database_config_user()->getUserGenerateChangeNotifications (user)) {
           // The recipient may have set which Bibles to get the change notifications for.
@@ -280,8 +280,8 @@ void changes_modifications ()
           // container [user] = list of bibles.
           bool receive {true};
           try {
-            const vector <string> & bibles = notification_bibles_per_user.at(user);
-            receive = in_array(bible, bibles);
+            const vector <string> & user_bibles = notification_bibles_per_user.at(user);
+            receive = in_array(bible, user_bibles);
           } catch (...) {}
           if (receive) {
             changeNotificationUsers.push_back (user);
@@ -289,7 +289,7 @@ void changes_modifications ()
         }
       }
     }
-    users.clear ();
+    all_users.clear ();
     
     
     // The number of changes processed so far for this Bible.
@@ -416,8 +416,8 @@ void changes_modifications ()
         if (bodies.size () > 1) {
           subject.append (" (" + convert_to_string (b + 1) + "/" + convert_to_string (bodies.size ()) + ")");
         }
-        vector <string> users = request.database_users ()->get_users ();
-        for (auto & user : users) {
+        vector <string> all_users_2 = request.database_users ()->get_users ();
+        for (auto & user : all_users_2) {
           if (request.database_config_user()->getUserBibleChangesNotification (user)) {
             if (AccessBible::Read (&request, bible, user)) {
               if (!client_logic_client_enabled ()) {
@@ -452,9 +452,9 @@ void changes_modifications ()
       vector <string> revisions = filter_url_scandir (folder);
       for (auto & revision : revisions) {
         string path = filter_url_create_path ({folder, revision});
-        int time = filter_url_file_modification_time (path);
-        int days = (now - time) / 86400;
-        if (days > 31) {
+        int time2 = filter_url_file_modification_time (path);
+        int days2 = (now - time2) / 86400;
+        if (days2 > 31) {
           filter_url_rmdir (path);
           Database_Logs::log ("Removing expired downloadable revision notification: " + bible + " " + revision, Filter_Roles::translator ());
         }

@@ -590,9 +590,9 @@ void Database_Modifications::indexTrimAllNotifications ()
       sql.add ("SELECT count(*) FROM notifications WHERE identifier = ");
       sql.add (identifier);
       sql.add (";");
-      vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-      if (!result.empty ()) {
-        int count = convert_to_int (result [0]);
+      vector <string> count_result = database_sqlite_query (db, sql.sql) ["count(*)"];
+      if (!count_result.empty ()) {
+        int count = convert_to_int (count_result [0]);
         exists = (count > 0);
       }
     }
@@ -943,32 +943,32 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
 
   // Go through each of the personal changes.
   for (auto & personalID : personals) {
-    string bible = getNotificationBible (personalID);
+    string bible2 = getNotificationBible (personalID);
     Passage passage = getNotificationPassage (personalID);
     int book = passage.book;
     int chapter = passage.chapter;
     int verse = convert_to_int (passage.verse);
     string modification = getNotificationModification (personalID);
     // Get all matching identifiers from the team's change notifications.
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("SELECT identifier FROM notifications WHERE username =");
-    sql.add (username);
-    sql.add ("AND category =");
-    sql.add (team);
-    sql.add ("AND bible =");
-    sql.add (bible);
-    sql.add ("AND book =");
-    sql.add (book);
-    sql.add ("AND chapter =");
-    sql.add (chapter);
-    sql.add ("AND verse =");
-    sql.add (verse);
-    sql.add ("AND modification =");
-    sql.add (modification);
-    sql.add (";");
+    SqliteSQL sql2 = SqliteSQL ();
+    sql2.add ("SELECT identifier FROM notifications WHERE username =");
+    sql2.add (username);
+    sql2.add ("AND category =");
+    sql2.add (team);
+    sql2.add ("AND bible =");
+    sql2.add (bible2);
+    sql2.add ("AND book =");
+    sql2.add (book);
+    sql2.add ("AND chapter =");
+    sql2.add (chapter);
+    sql2.add ("AND verse =");
+    sql2.add (verse);
+    sql2.add ("AND modification =");
+    sql2.add (modification);
+    sql2.add (";");
     vector <int> teamMatches;
-    vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
-    for (auto & item : result) {
+    vector <string> result2 = database_sqlite_query (db, sql2.sql) ["identifier"];
+    for (auto & item : result2) {
       teamMatches.push_back (convert_to_int (item));
     }
     // There should be exactly one candidate for the matches to be removed.
@@ -978,20 +978,20 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
       // Check there are only two change notifications for this user / Bible / book / chapter / verse.
       // If there are more, we can't be sure that the personal change was not overwritten somehow.
       vector <int> passageMatches;
-      SqliteSQL sql = SqliteSQL ();
-      sql.add ("SELECT identifier FROM notifications WHERE username =");
-      sql.add (username);
-      sql.add ("AND bible =");
-      sql.add (bible);
-      sql.add ("AND book =");
-      sql.add (book);
-      sql.add ("AND chapter =");
-      sql.add (chapter);
-      sql.add ("AND verse =");
-      sql.add (verse);
-      sql.add (";");
-      vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
-      for (auto & item : result) {
+      SqliteSQL sql3 = SqliteSQL ();
+      sql3.add ("SELECT identifier FROM notifications WHERE username =");
+      sql3.add (username);
+      sql3.add ("AND bible =");
+      sql3.add (bible2);
+      sql3.add ("AND book =");
+      sql3.add (book);
+      sql3.add ("AND chapter =");
+      sql3.add (chapter);
+      sql3.add ("AND verse =");
+      sql3.add (verse);
+      sql3.add (";");
+      vector <string> result3 = database_sqlite_query (db, sql3.sql) ["identifier"];
+      for (auto & item : result3) {
         passageMatches.push_back (convert_to_int (item));
       }
       if (passageMatches.size () == 2) {

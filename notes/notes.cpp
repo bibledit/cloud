@@ -134,8 +134,8 @@ string notes_notes (void * webserver_request)
       verses.insert (0, status_text + " ");
     }
     if (show_bible_in_notes_list) {
-      string bible = database_notes.get_bible (identifier);
-      verses.insert (0, bible + " ");
+      string note_bible = database_notes.get_bible (identifier);
+      verses.insert (0, note_bible + " ");
     }
     // A simple way to make it easier to see the individual notes in the list,
     // when the summaries of some notes are long, is to display the passage first.
@@ -143,8 +143,8 @@ string notes_notes (void * webserver_request)
 
     string verse_text;
     if (passage_inclusion_selector) {
-      vector <Passage> passages = database_notes.get_passages (identifier);
-      for (auto & passage : passages) {
+      vector <Passage> include_passages = database_notes.get_passages (identifier);
+      for (auto & passage : include_passages) {
         string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
         string text = usfm_get_verse_text (usfm, convert_to_int (passage.verse));
         if (!verse_text.empty ()) verse_text.append ("<br>");

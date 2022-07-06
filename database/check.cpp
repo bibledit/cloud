@@ -128,9 +128,9 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     sql.add ("AND data = ");
     sql.add (data);
     sql.add (";");
-    vector <string> result = sql.query () ["count(*)"];
-    if (!result.empty ()) {
-      count = convert_to_int (result [0]);
+    vector <string> count_result = sql.query () ["count(*)"];
+    if (!count_result.empty ()) {
+      count = convert_to_int (count_result [0]);
     }
     // Record the data no more than so often.
     if (count < 10) {

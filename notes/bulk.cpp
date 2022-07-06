@@ -167,30 +167,30 @@ string notes_bulk (void * webserver_request)
   
   
   if (assign) {
-    string assign = request->query["assign"];
+    string assignee = request->query["assign"];
     string user = request->session_logic ()->currentUser ();
     vector <string> assignees = database_noteassignment.assignees (user);
-    if (in_array (assign, assignees)) {
+    if (in_array (assignee, assignees)) {
       for (auto identifier : identifiers) {
-        if (!database_notes.is_assigned (identifier, assign)) {
-          notes_logic.assignUser (identifier, assign);
+        if (!database_notes.is_assigned (identifier, assignee)) {
+          notes_logic.assignUser (identifier, assignee);
         }
       }
     }
     success = translate("The notes were assigned to the user");
-    Database_Logs::log ("Notes assigned to user " + assign + ": " + identifierlist);
+    Database_Logs::log ("Notes assigned to user " + assignee + ": " + identifierlist);
   }
   
   
   if (unassign) {
-    string unassign = request->query["unassign"];
+    string unassignee = request->query["unassign"];
     for (auto identifier : identifiers) {
-      if (database_notes.is_assigned (identifier, unassign)) {
-        notes_logic.unassignUser (identifier, unassign);
+      if (database_notes.is_assigned (identifier, unassignee)) {
+        notes_logic.unassignUser (identifier, unassignee);
       }
     }
     success = translate("The notes are no longer assigned to the user");
-    Database_Logs::log ("Notes unassigned from user " + unassign + ": " + identifierlist);
+    Database_Logs::log ("Notes unassigned from user " + unassignee + ": " + identifierlist);
   }
 
   
@@ -207,10 +207,10 @@ string notes_bulk (void * webserver_request)
 
   
   if (status) {
-    string status = request->query["status"];
+    string new_status = request->query["status"];
     for (auto identifier : identifiers) {
-      if (database_notes.get_raw_status (identifier) != status) {
-        notes_logic.setStatus (identifier, status);
+      if (database_notes.get_raw_status (identifier) != new_status) {
+        notes_logic.setStatus (identifier, new_status);
       }
     }
     success = translate("The status of the notes was updated");
@@ -219,10 +219,10 @@ string notes_bulk (void * webserver_request)
   
   
   if (severity) {
-    int severity = convert_to_int (request->query["severity"]);
+    int new_severity = convert_to_int (request->query["severity"]);
     for (auto identifier : identifiers) {
-      if (database_notes.get_raw_severity (identifier) != severity) {
-        notes_logic.setRawSeverity (identifier, severity);
+      if (database_notes.get_raw_severity (identifier) != new_severity) {
+        notes_logic.setRawSeverity (identifier, new_severity);
       }
     }
     success = translate("The severity of the notes was updated");
@@ -231,11 +231,11 @@ string notes_bulk (void * webserver_request)
   
   
   if (bible) {
-    string bible = request->query["bible"];
-    if (bible == notes_logic.generalBibleName ()) bible = "";
+    string new_bible = request->query["bible"];
+    if (new_bible == notes_logic.generalBibleName ()) new_bible.clear();
     for (auto identifier : identifiers) {
-      if (database_notes.get_bible (identifier) != bible) {
-        notes_logic.setBible (identifier, bible);
+      if (database_notes.get_bible (identifier) != new_bible) {
+        notes_logic.setBible (identifier, new_bible);
       }
     }
     success = translate("The Bible of the notes was updated");

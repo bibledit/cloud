@@ -91,11 +91,11 @@ string Editor_Styles::getAll (void * webserver_request)
     string marker = item.first;
     string name = item.second;
     name = translate (name);
-    Database_Styles_Item data = request->database_styles()->getMarkerData (stylesheet, marker);
-    string category = data.category;
+    Database_Styles_Item marker_data = request->database_styles()->getMarkerData (stylesheet, marker);
+    string category = marker_data.category;
     category = styles_logic_category_text (category);
-    string line = marker + " " + name + " (" + category + ")";
-    lines.push_back ("<option>" + line + "</option>");
+    string line2 = marker + " " + name + " (" + category + ")";
+    lines.push_back ("<option>" + line2 + "</option>");
   }
   
   lines.push_back ("</select>");

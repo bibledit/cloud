@@ -184,9 +184,9 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   if (workspace_index_acl (webserver_request)) {
     if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
       string label = translate ("Workspace");
-      string tooltip;
-      menu_logic_workspace_category (webserver_request, &tooltip);
-      html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip, ""));
+      string tooltip2;
+      menu_logic_workspace_category (webserver_request, &tooltip2);
+      html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip2, ""));
       tooltipbits.push_back (label);
     }
   }

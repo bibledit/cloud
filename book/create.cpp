@@ -48,7 +48,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   }
   
   // The chapters that have been created.
-  vector <int> chaptersCreated;
+  vector <int> chapters_created;
   
   // The USFM created.
   string data;
@@ -59,7 +59,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
     data += "\\h "     + Database_Books::getEnglishFromId (book) + "\n";
     data += "\\toc2 "  + Database_Books::getEnglishFromId (book) + "\n";
     bible_logic_store_chapter (bible, book, 0, data);
-    chaptersCreated.push_back (0);
+    chapters_created.push_back (0);
   }
   
   
@@ -77,20 +77,20 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
           data += "\\v " + convert_to_string (i) + "\n";
         }
         bible_logic_store_chapter (bible, book, ch, data);
-        chaptersCreated.push_back (ch);
+        chapters_created.push_back (ch);
       }
     }
   }
   
   // Done.
-  if (chaptersCreated.size () == 0) {
+  if (chapters_created.size () == 0) {
     feedback.push_back (translate("No chapters have been created"));
     return false;
   }
   string created;
-  for (auto & chapter : chaptersCreated) {
+  for (auto & chapter_created : chapters_created) {
     if (!created.empty ()) created.append (" ");
-    created.append (convert_to_string (chapter));
+    created.append (convert_to_string (chapter_created));
   }
   feedback.push_back (translate("The following chapters have been created:") + " " + created);
   return true;

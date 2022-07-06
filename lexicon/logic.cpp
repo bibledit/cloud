@@ -1119,22 +1119,22 @@ string lexicon_logic_hebrew_morphology_render (string value)
   
   // A slash separates morphology items.
   vector <string> values = filter_string_explode (value, '/');
-  for (auto value : values) {
+  for (auto value2 : values) {
 
-    if (value.empty ()) continue;
+    if (value2.empty ()) continue;
     
     if (!renderings.empty ()) renderings.push_back (" + ");
     
     // Part of Speech
-    string part_of_speech = value.substr (0, 1);
-    value.erase (0, 1);
+    string part_of_speech = value2.substr (0, 1);
+    value2.erase (0, 1);
     if (part_of_speech == "A") {
       renderings.push_back ("adjective");
       // type gender number state
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_adjective (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_adjective (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value2));
     }
     else if (part_of_speech == "C") {
       renderings.push_back ("conjunction");
@@ -1145,46 +1145,46 @@ string lexicon_logic_hebrew_morphology_render (string value)
     else if (part_of_speech == "N") {
       renderings.push_back ("noun");
       // type gender number state
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_noun (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_noun (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value2));
     }
     else if (part_of_speech == "P") {
       renderings.push_back ("pronoun");
       // type person gender number
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_pronoun (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_pronoun (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value2));
     }
     else if (part_of_speech == "R") {
       renderings.push_back ("preposition");
       // type
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_preposition (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_preposition (value2));
     }
     else if (part_of_speech == "S") {
       renderings.push_back ("suffix");
       // type person gender number
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_suffix (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_suffix (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value2));
     }
     else if (part_of_speech == "T") {
       renderings.push_back ("particle");
       // type
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_particle (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_particle (value2));
     }
     else if (part_of_speech == "V") {
       renderings.push_back ("verb");
       // stem type person gender number state
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_stem (hebrew, aramaic, value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_verb_conjugation (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value));
-      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_stem (hebrew, aramaic, value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_type_verb_conjugation (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_person (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_gender (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_number (value2));
+      renderings.push_back (lexicon_logic_hebrew_morphology_render_state (value2));
     }
     else {
       renderings.push_back ("unknown");

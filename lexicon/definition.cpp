@@ -103,8 +103,8 @@ string lexicon_definition (void * webserver_request)
       // The lemma.
       string lemma = database_morphgnt.lemma (rowid);
       vector <string> strongs = database_strong.strong (lemma);
-      for (auto & id : strongs) {
-        rendering = lexicon_logic_render_strongs_definition (id);
+      for (auto & lexicon_id : strongs) {
+        rendering = lexicon_logic_render_strongs_definition (lexicon_id);
         if (!rendering.empty ()) renderings.push_back (rendering);
       }
       rendering = lexicon_logic_render_abbott_smiths_definition(lemma, "");

@@ -131,6 +131,18 @@ PKG_CHECK_MODULES(ICU, icu-i18n >= 60.0, AC_DEFINE(HAVE_ICU, 1, Define whether I
 AC_SUBST(ICU_CFLAGS)
 AC_SUBST(ICU_LIBS)
 
+
+AC_MSG_CHECKING([C++ compiler])
+GPPVERSION=`${CXX} --version | grep clang`
+if test "$GPPVERSION" = ""; then
+AC_MSG_RESULT([GCC])
+else
+AC_MSG_RESULT([clang])
+fi
+AM_CONDITIONAL([COMPILERGCC],[test "$GPPVERSION" = ""])
+AM_CONDITIONAL([COMPILERCLANG],[test "$GPPVERSION" != ""])
+
+
 # Windows.
 ENABLEWINDOWS=no
 AC_ARG_ENABLE(windows,

@@ -19,8 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/image.h>
 
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-qual"
+#pragma GCC diagnostic ignored "-Wcast-align"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
+#pragma GCC diagnostic pop
 
 
 void filter_image_get_sizes (string image_path, int & width, int & height)

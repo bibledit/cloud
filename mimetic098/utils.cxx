@@ -8,6 +8,8 @@
 #include <sstream>
 #include <stdlib.h>
 
+#pragma GCC diagnostic ignored "-Wchar-subscripts"
+
 namespace mimetic
 {
 

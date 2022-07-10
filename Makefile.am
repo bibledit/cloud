@@ -590,7 +590,16 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g -Wshadow
+GCC_CXXFLAGS = -Wcatch-value=2 -Wconditionally-supported
+CLANG_CXXFLAGS = ""
+UNKNOWN_CXXFLAGS = ""
+
+AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g -Wshadow -Warray-bounds -Wcast-align -Wcast-qual
+if COMPILERGCC
+AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported
+endif
+if COMPILERCLANG
+endif
 AM_CXXFLAGS += $(CURL_CFLAGS)
 AM_CXXFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS += $(GTK_CFLAGS)

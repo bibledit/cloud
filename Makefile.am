@@ -594,7 +594,7 @@ GCC_CXXFLAGS = -Wcatch-value=2 -Wconditionally-supported
 CLANG_CXXFLAGS = ""
 UNKNOWN_CXXFLAGS = ""
 
-AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g -Wshadow -Warray-bounds -Wcast-align -Wcast-qual
+AM_CXXFLAGS = -Wall -Wextra -pedantic -fno-var-tracking -g -Wno-unknown-pragmas -Wshadow -Warray-bounds -Wcast-align -Wcast-qual
 if COMPILERGCC
 AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported
 endif

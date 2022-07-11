@@ -40,6 +40,8 @@ static MUTEX_TYPE *mutex_buf = NULL;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-function"
+
 
 static void locking_function(int mode, int n, const char * file, int line)
 {

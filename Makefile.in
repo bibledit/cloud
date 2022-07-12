@@ -1574,14 +1574,11 @@ generate_SOURCES = \
 generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wno-unknown-pragmas -Wextra -pedantic -g \
 	$(OPENSSL_CFLAGS)
-GCC_CXXFLAGS = -Wcatch-value=2 -Wconditionally-supported
-CLANG_CXXFLAGS = ""
-UNKNOWN_CXXFLAGS = ""
 AM_CXXFLAGS = -Wall -Wno-unknown-pragmas -Wextra -pedantic \
 	-fno-var-tracking -g -Wshadow -Warray-bounds -Wcast-align \
-	-Wcast-qual $(am__append_1) $(CURL_CFLAGS) $(OPENSSL_CFLAGS) \
-	$(GTK_CFLAGS) $(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) \
-	$(XML2_CFLAGS)
+	-Wcast-qual -Wconversion -Wctor-dtor-privacy $(am__append_1) \
+	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
+	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

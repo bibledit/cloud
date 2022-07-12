@@ -57,32 +57,32 @@ void citation::set_restart (int setting)
   else this->restart = "chapter";
 }
 
-string citation::get (string citation)
+string citation::get (string citation_in)
 {
   // Handle USFM automatic note citation.
-  if (citation == "+") {
+  if (citation_in == "+") {
     // If the sequence is empty, then the note citation starts at 1 and increases each time.
     if (sequence.empty()) {
       pointer++;
-      citation = to_string (pointer);
+      citation_in = to_string (pointer);
     }
     // The sequence of note callers is not empty.
     // So take the note citaton from the sequence,
     // and then iterate to the next one.
     else {
-      citation = sequence [pointer];
+      citation_in = sequence [pointer];
       pointer++;
       if (pointer >= sequence.size ()) pointer = 0;
     }
   }
 
   // Handle situation in USFM that no note citation is to be displayed.
-  else if (citation == "-") {
-    citation.clear();
+  else if (citation_in == "-") {
+    citation_in.clear();
   }
   
   // Done.
-  return citation;
+  return citation_in;
 }
 
 void citation::run_restart (const string & moment)

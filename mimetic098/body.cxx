@@ -9,6 +9,8 @@
 #include <mimetic098/body.h>
 #include <mimetic098/os/file.h>
 
+#pragma GCC diagnostic ignored "-Wshadow"
+
 namespace mimetic
 {
 using std::string;

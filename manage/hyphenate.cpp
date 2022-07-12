@@ -128,7 +128,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
     bool isUsfm = false;
     
     // Process each character.
-    for (unsigned int i = 0; i < characters.size (); i++) {
+    for (size_t i = 0; i < characters.size (); i++) {
       
       string character = characters [i];
       
@@ -174,11 +174,13 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
  */
 bool hyphenate_is_near_white_space (const vector <string> & characters, int offset)
 {
-  int start = offset - 2; // The constant for the nearness to the start of the word.
-  size_t end = offset + 2; // The constant for the nearness to the end of the word.
+  // The constant for the nearness to the start of the word.
+  int start = offset - 2;
+  // The constant for the nearness to the end of the word.
+  size_t end = static_cast<size_t>(offset + 2);
   if (start < 0) start = 0;
   if (end > characters.size()) end = characters.size();
-  for (unsigned int i = start; i < end; i++) {
+  for (size_t i = start; i < end; i++) {
     if (characters[i] == " ") return true;
   }
   return false;

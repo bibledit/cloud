@@ -39,7 +39,7 @@ Assets_Header::Assets_Header (string title, void * webserver_request)
   includeTouchCSS = false;
   includeNotifIt = false;
   displayNavigator = false;
-  this->webserver_request = webserver_request;
+  m_webserver_request = webserver_request;
   view = new Assets_View ();
   view->set_variable ("title", title);
 }
@@ -79,7 +79,7 @@ void Assets_Header::setNavigator ()
 // Display the user's basic stylesheet.css.
 void Assets_Header::setStylesheet ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   includedStylesheet = stylesheet;
@@ -89,7 +89,7 @@ void Assets_Header::setStylesheet ()
 // Display the user's editor stylesheet.css.
 void Assets_Header::setEditorStylesheet ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
   string bible = request->database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   includedEditorStylesheet = stylesheet;
@@ -99,7 +99,7 @@ void Assets_Header::setEditorStylesheet ()
 // Whether to display the topbar.
 bool Assets_Header::displayTopbar ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
   // If the topbar is in the query: Don't display the top bar.
   if (request->query.count ("topbar")) {
     return false;
@@ -137,7 +137,7 @@ void Assets_Header::addBreadCrumb (string item, string text)
 // Runs the header.
 string Assets_Header::run ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
 
   string page;
   
@@ -181,7 +181,7 @@ string Assets_Header::run ()
     view->set_variable ("included_editor_stylesheet", includedEditorStylesheet);
   }
 
-  bool basic_mode = config_logic_basic_mode (webserver_request);
+  bool basic_mode = config_logic_basic_mode (m_webserver_request);
   string basicadvanced;
   if (basic_mode) basicadvanced = "basic";
   else basicadvanced = "advanced";
@@ -218,25 +218,25 @@ string Assets_Header::run ()
       if (basic_mode) {
         // Basic mode gives basic menu, but nothing in tabbed mode.
         if (!tabbed_mode_on) {
-          menublock = menu_logic_basic_categories (webserver_request);
+          menublock = menu_logic_basic_categories (m_webserver_request);
         }
       } else {
         string devnull;
-        menublock = menu_logic_main_categories (webserver_request, devnull);
+        menublock = menu_logic_main_categories (m_webserver_request, devnull);
       }
       start_button = false;
     } else if (item == menu_logic_translate_menu ()) {
-      menublock = menu_logic_translate_category (webserver_request);
+      menublock = menu_logic_translate_category (m_webserver_request);
     } else if (item == menu_logic_search_menu ()) {
-      menublock = menu_logic_search_category (webserver_request);
+      menublock = menu_logic_search_category (m_webserver_request);
     } else if (item == menu_logic_tools_menu ()) {
-      menublock = menu_logic_tools_category (webserver_request);
+      menublock = menu_logic_tools_category (m_webserver_request);
     } else if (item == menu_logic_settings_menu ()) {
-      menublock = menu_logic_settings_category (webserver_request);
+      menublock = menu_logic_settings_category (m_webserver_request);
     } else if (item == menu_logic_settings_resources_menu ()) {
-      menublock = menu_logic_settings_resources_category (webserver_request);
+      menublock = menu_logic_settings_resources_category (m_webserver_request);
     } else if (item == "help") {
-      menublock = menu_logic_help_category (webserver_request);
+      menublock = menu_logic_help_category (m_webserver_request);
     }
     view->set_variable ("mainmenu", menublock);
 
@@ -247,7 +247,7 @@ string Assets_Header::run ()
     if (start_button) {
       view->enable_zone ("start_button");
       string tooltip;
-      menu_logic_main_categories (webserver_request, tooltip);
+      menu_logic_main_categories (m_webserver_request, tooltip);
       view->set_variable ("starttooltip", tooltip);
     }
     
@@ -367,7 +367,7 @@ string Assets_Header::run ()
     if (!breadcrumbs.empty ()) {
       // No bread crumbs in basic mode.
       // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
-      if (!config_logic_basic_mode (webserver_request)) {
+      if (!config_logic_basic_mode (m_webserver_request)) {
         stringstream track;
         track << "<a href=" << quoted(index_index_url ()) << ">";
         track << menu_logic_menu_text ("") << "</a>";

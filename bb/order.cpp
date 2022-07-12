@@ -191,7 +191,7 @@ string bible_order (void * webserver_request)
   string moveup = request->query ["moveup"];
   string movedown = request->query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
-    size_t move = convert_to_int (moveup + movedown);
+    size_t move = static_cast<size_t>(convert_to_int (moveup + movedown));
     vector <int> books = filter_passage_get_ordered_books (bible);
     vector <string> s_books;
     for (auto & book : books) s_books.push_back (convert_to_string (book));

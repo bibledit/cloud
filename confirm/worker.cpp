@@ -55,7 +55,7 @@ void Confirm_Worker::setup (string mailto, string username,
                             string subsequent_subject, string subsequent_body)
 {
   Database_Confirm database_confirm;
-  int confirmation_id = database_confirm.get_new_id ();
+  unsigned int confirmation_id = database_confirm.get_new_id ();
   xml_document document;
   xml_node node = document.append_child ("p");
   string information;
@@ -68,7 +68,7 @@ void Confirm_Worker::setup (string mailto, string username,
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   string siteUrl = config_logic_site_url (webserver_request);
-  string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", convert_to_string(confirmation_id));
+  string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   stringstream output;
   document.print (output, "", format_raw);
@@ -85,7 +85,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, s
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
   Database_Confirm database_confirm;
-  int id = database_confirm.search_id (subject);
+  unsigned int id = database_confirm.search_id (subject);
   if (id == 0) {
     return false;
   }

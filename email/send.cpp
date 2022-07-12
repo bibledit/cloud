@@ -137,7 +137,7 @@ static vector <string> payload_text;
 
 
 struct upload_status {
-  int lines_read;
+  size_t lines_read;
 };
 
 
@@ -152,7 +152,7 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
     return 0;
   }
   
-  if (upload_ctx->lines_read >= (int)payload_text.size()) {
+  if (upload_ctx->lines_read >= payload_text.size()) {
     return 0;
   }
 

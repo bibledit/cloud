@@ -33,11 +33,11 @@ namespace filter::text {
 
 passage_marker_value::passage_marker_value (int book, int chapter, string verse, string marker, string value)
 {
-  this->book = book;
-  this->chapter = chapter;
-  this->verse = verse;
-  this->marker = marker;
-  this->value = value;
+  this->m_book = book;
+  this->m_chapter = chapter;
+  this->m_verse = verse;
+  this->m_marker = marker;
+  this->m_value = value;
 }
 
 }
@@ -414,8 +414,8 @@ void Filter_Text::process_usfm ()
                   // So create a correct hidden header for displaying in the running header.
                   string runningHeader = Database_Books::getEnglishFromId (currentBookIdentifier);
                   for (auto item : runningHeaders) {
-                    if (item.book == currentBookIdentifier) {
-                      runningHeader = item.value;
+                    if (item.m_book == currentBookIdentifier) {
+                      runningHeader = item.m_value;
                     }
                   }
                   if (odf_text_standard) odf_text_standard->new_heading1 (runningHeader, true);
@@ -604,9 +604,9 @@ void Filter_Text::process_usfm ()
 
               // If there is a published chapter character, the chapter number takes that value.
               for (auto publishedChapterMarker : publishedChapterMarkers) {
-                if (publishedChapterMarker.book == currentBookIdentifier) {
-                  if (publishedChapterMarker.chapter == currentChapterNumber) {
-                    number = publishedChapterMarker.value;
+                if (publishedChapterMarker.m_book == currentBookIdentifier) {
+                  if (publishedChapterMarker.m_chapter == currentChapterNumber) {
+                    number = publishedChapterMarker.m_value;
                     inumber = convert_to_int (number);
                   }
                 }
@@ -615,8 +615,8 @@ void Filter_Text::process_usfm ()
               // Enter text for the running headers.
               string runningHeader = Database_Books::getEnglishFromId (currentBookIdentifier);
               for (auto item : runningHeaders) {
-                if (item.book == currentBookIdentifier) {
-                  runningHeader = item.value;
+                if (item.m_book == currentBookIdentifier) {
+                  runningHeader = item.m_value;
                 }
               }
               runningHeader = runningHeader + " " + number;
@@ -649,12 +649,12 @@ void Filter_Text::process_usfm ()
                   string labelEntireBook = "";
                   string labelCurrentChapter = "";
                   for (auto pchapterLabel : chapterLabels) {
-                    if (pchapterLabel.book == currentBookIdentifier) {
-                      if (pchapterLabel.chapter == 0) {
-                        labelEntireBook = pchapterLabel.value;
+                    if (pchapterLabel.m_book == currentBookIdentifier) {
+                      if (pchapterLabel.m_chapter == 0) {
+                        labelEntireBook = pchapterLabel.m_value;
                       }
-                      if (pchapterLabel.chapter == currentChapterNumber) {
-                        labelCurrentChapter = pchapterLabel.value;
+                      if (pchapterLabel.m_chapter == currentChapterNumber) {
+                        labelCurrentChapter = pchapterLabel.m_value;
                       }
                     }
                   }
@@ -761,10 +761,10 @@ void Filter_Text::process_usfm ()
               // In case there was a published verse marker, use that markup for publishing.
               string v_vp_number = v_number;
               for (auto publishedVerseMarker : publishedVerseMarkers) {
-                if (publishedVerseMarker.book == currentBookIdentifier) {
-                  if (publishedVerseMarker.chapter == currentChapterNumber) {
-                    if (publishedVerseMarker.verse == currentVerseNumber) {
-                      v_vp_number = publishedVerseMarker.value;
+                if (publishedVerseMarker.m_book == currentBookIdentifier) {
+                  if (publishedVerseMarker.m_chapter == currentChapterNumber) {
+                    if (publishedVerseMarker.m_verse == currentVerseNumber) {
+                      v_vp_number = publishedVerseMarker.m_value;
                     }
                   }
                 }
@@ -1395,7 +1395,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Running headers.
   information.new_heading1 (translate("Running headers"));
   for (auto item : runningHeaders) {
-    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1403,13 +1403,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Table of Contents entries.
   information.new_heading1 (translate("Long table of contents entries"));
   for (auto item : longTOCs) {
-    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Short table of contents entries"));
   for (auto item : shortTOCs) {
-    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1417,7 +1417,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Book abbreviations.
   information.new_heading1 (translate("Book abbreviations"));
   for (auto item : bookAbbreviations) {
-    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1425,13 +1425,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Chapter specials.
   information.new_heading1 (translate("Publishing chapter labels"));
   for (auto item : chapterLabels) {
-    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Publishing alternate chapter numbers"));
   for (auto item : publishedChapterMarkers) {
-    string line = Database_Books::getEnglishFromId (item.book) + " (USFM " + item.marker + ") => " + item.value;
+    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }

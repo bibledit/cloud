@@ -71,31 +71,31 @@ void test_filter_text ()
     int actualRunningHeaders = (int)filter_text.runningHeaders.size();
     evaluate (__LINE__, __func__, desiredRunningHeaders, actualRunningHeaders);
     if (actualRunningHeaders == desiredRunningHeaders) {
-      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].book);
-      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[0].verse);
-      evaluate (__LINE__, __func__, "h", filter_text.runningHeaders[0].marker);
-      evaluate (__LINE__, __func__, "Header", filter_text.runningHeaders[0].value);
-      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[1].book);
-      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[1].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[1].verse);
-      evaluate (__LINE__, __func__, "h1", filter_text.runningHeaders[1].marker);
-      evaluate (__LINE__, __func__, "Header1", filter_text.runningHeaders[1].value);
-      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[2].book);
-      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[2].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[2].verse);
-      evaluate (__LINE__, __func__, "h2", filter_text.runningHeaders[2].marker);
-      evaluate (__LINE__, __func__, "Header2", filter_text.runningHeaders[2].value);
-      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[3].book);
-      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[3].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[3].verse);
-      evaluate (__LINE__, __func__, "h3", filter_text.runningHeaders[3].marker);
-      evaluate (__LINE__, __func__, "Header3", filter_text.runningHeaders[3].value);
-      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[4].book);
-      evaluate (__LINE__, __func__, 2, filter_text.runningHeaders[4].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[4].verse);
-      evaluate (__LINE__, __func__, "h", filter_text.runningHeaders[4].marker);
-      evaluate (__LINE__, __func__, "Header4", filter_text.runningHeaders[4].value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[0].m_verse);
+      evaluate (__LINE__, __func__, "h", filter_text.runningHeaders[0].m_marker);
+      evaluate (__LINE__, __func__, "Header", filter_text.runningHeaders[0].m_value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[1].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[1].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[1].m_verse);
+      evaluate (__LINE__, __func__, "h1", filter_text.runningHeaders[1].m_marker);
+      evaluate (__LINE__, __func__, "Header1", filter_text.runningHeaders[1].m_value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[2].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[2].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[2].m_verse);
+      evaluate (__LINE__, __func__, "h2", filter_text.runningHeaders[2].m_marker);
+      evaluate (__LINE__, __func__, "Header2", filter_text.runningHeaders[2].m_value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[3].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.runningHeaders[3].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[3].m_verse);
+      evaluate (__LINE__, __func__, "h3", filter_text.runningHeaders[3].m_marker);
+      evaluate (__LINE__, __func__, "Header3", filter_text.runningHeaders[3].m_value);
+      evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[4].m_book);
+      evaluate (__LINE__, __func__, 2, filter_text.runningHeaders[4].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.runningHeaders[4].m_verse);
+      evaluate (__LINE__, __func__, "h", filter_text.runningHeaders[4].m_marker);
+      evaluate (__LINE__, __func__, "Header4", filter_text.runningHeaders[4].m_value);
     }
 
     // Check table of contents items.
@@ -103,21 +103,21 @@ void test_filter_text ()
     size_t actuallongTOCs = filter_text.longTOCs.size();
     evaluate (__LINE__, __func__, desiredlongTOCs, actuallongTOCs);
     if (desiredlongTOCs == (int)actuallongTOCs) {
-      evaluate (__LINE__, __func__, 1, filter_text.longTOCs[0].book);
-      evaluate (__LINE__, __func__, 0, filter_text.longTOCs[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.longTOCs[0].verse);
-      evaluate (__LINE__, __func__, "toc1", filter_text.longTOCs[0].marker);
-      evaluate (__LINE__, __func__, "The Book of Genesis", filter_text.longTOCs[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.longTOCs[0].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.longTOCs[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.longTOCs[0].m_verse);
+      evaluate (__LINE__, __func__, "toc1", filter_text.longTOCs[0].m_marker);
+      evaluate (__LINE__, __func__, "The Book of Genesis", filter_text.longTOCs[0].m_value);
     }
     int desiredshortTOCs = 1;
     size_t actualshortTOCs = filter_text.shortTOCs.size();
     evaluate (__LINE__, __func__, desiredshortTOCs, actualshortTOCs);
     if (desiredlongTOCs == (int)actuallongTOCs) {
-      evaluate (__LINE__, __func__, 1, filter_text.shortTOCs[0].book);
-      evaluate (__LINE__, __func__, 0, filter_text.shortTOCs[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.shortTOCs[0].verse);
-      evaluate (__LINE__, __func__, "toc2", filter_text.shortTOCs[0].marker);
-      evaluate (__LINE__, __func__, "Genesis", filter_text.shortTOCs[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.shortTOCs[0].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.shortTOCs[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.shortTOCs[0].m_verse);
+      evaluate (__LINE__, __func__, "toc2", filter_text.shortTOCs[0].m_marker);
+      evaluate (__LINE__, __func__, "Genesis", filter_text.shortTOCs[0].m_value);
     }
 
     // Check book abbreviation.
@@ -125,11 +125,11 @@ void test_filter_text ()
     size_t actualbookAbbreviations = filter_text.bookAbbreviations.size();
     evaluate (__LINE__, __func__, desiredbookAbbreviations, actualbookAbbreviations);
     if (desiredbookAbbreviations == (int)actualbookAbbreviations) {
-      evaluate (__LINE__, __func__, 1, filter_text.bookAbbreviations[0].book);
-      evaluate (__LINE__, __func__, 0, filter_text.bookAbbreviations[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.bookAbbreviations[0].verse);
-      evaluate (__LINE__, __func__, "toc3", filter_text.bookAbbreviations[0].marker);
-      evaluate (__LINE__, __func__, "Gen", filter_text.bookAbbreviations[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.bookAbbreviations[0].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.bookAbbreviations[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.bookAbbreviations[0].m_verse);
+      evaluate (__LINE__, __func__, "toc3", filter_text.bookAbbreviations[0].m_marker);
+      evaluate (__LINE__, __func__, "Gen", filter_text.bookAbbreviations[0].m_value);
     }
     
     // Check published chapter markers.
@@ -137,16 +137,16 @@ void test_filter_text ()
     size_t actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
     evaluate (__LINE__, __func__, desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
     if (desiredpublishedChapterMarkers == (int)actualpublishedChapterMarkers) {
-      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].book);
-      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[0].verse);
-      evaluate (__LINE__, __func__, "cp", filter_text.publishedChapterMarkers[0].marker);
-      evaluate (__LINE__, __func__, "Ⅰ", filter_text.publishedChapterMarkers[0].value);
-      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[1].book);
-      evaluate (__LINE__, __func__, 2, filter_text.publishedChapterMarkers[1].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[1].verse);
-      evaluate (__LINE__, __func__, "cp", filter_text.publishedChapterMarkers[1].marker);
-      evaluate (__LINE__, __func__, "②", filter_text.publishedChapterMarkers[1].value);
+      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].m_book);
+      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[0].m_verse);
+      evaluate (__LINE__, __func__, "cp", filter_text.publishedChapterMarkers[0].m_marker);
+      evaluate (__LINE__, __func__, "Ⅰ", filter_text.publishedChapterMarkers[0].m_value);
+      evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[1].m_book);
+      evaluate (__LINE__, __func__, 2, filter_text.publishedChapterMarkers[1].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[1].m_verse);
+      evaluate (__LINE__, __func__, "cp", filter_text.publishedChapterMarkers[1].m_marker);
+      evaluate (__LINE__, __func__, "②", filter_text.publishedChapterMarkers[1].m_value);
     }
     
     // OpenDocument output.
@@ -922,11 +922,11 @@ A Verse text.
     size_t actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
     if (desiredchapterLabels == (int)actualchapterLabels) {
-      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
-      evaluate (__LINE__, __func__, 0, filter_text.chapterLabels[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
-      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].marker);
-      evaluate (__LINE__, __func__, "Chapter", filter_text.chapterLabels[0].value);
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].m_book);
+      evaluate (__LINE__, __func__, 0, filter_text.chapterLabels[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].m_verse);
+      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].m_marker);
+      evaluate (__LINE__, __func__, "Chapter", filter_text.chapterLabels[0].m_value);
     }
     
     // OpenDocument output.
@@ -985,16 +985,16 @@ Chapter 2
     size_t actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
     if (desiredchapterLabels == (int)actualchapterLabels) {
-      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].book);
-      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].verse);
-      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].marker);
-      evaluate (__LINE__, __func__, "Chapter One", filter_text.chapterLabels[0].value);
-      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[1].book);
-      evaluate (__LINE__, __func__, 2, filter_text.chapterLabels[1].chapter);
-      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[1].verse);
-      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[1].marker);
-      evaluate (__LINE__, __func__, "Chapter Two", filter_text.chapterLabels[1].value);
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].m_book);
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].m_verse);
+      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[0].m_marker);
+      evaluate (__LINE__, __func__, "Chapter One", filter_text.chapterLabels[0].m_value);
+      evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[1].m_book);
+      evaluate (__LINE__, __func__, 2, filter_text.chapterLabels[1].m_chapter);
+      evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[1].m_verse);
+      evaluate (__LINE__, __func__, "cl", filter_text.chapterLabels[1].m_marker);
+      evaluate (__LINE__, __func__, "Chapter Two", filter_text.chapterLabels[1].m_value);
     }
     
     // OpenDocument output.
@@ -1002,7 +1002,7 @@ Chapter 2
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter_string_str_replace ("  ", string(), odt);
     string standard = R"(
 Genesis
 

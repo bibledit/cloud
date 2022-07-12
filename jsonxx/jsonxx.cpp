@@ -29,6 +29,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 //   Sean Middleditch <sean@middleditch.us>
 //   rlyeh <https://github.com/r-lyeh>
 
+#pragma clang diagnostic ignored "-Wstring-conversion"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+
 #include "jsonxx.h"
 
 #include <cctype>

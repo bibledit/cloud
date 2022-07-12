@@ -121,7 +121,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
     int complete = 0;
     if (task_count != 0) {
       for (auto percentage : percentages) complete += percentage;
-      complete = round ((float) complete / (float) task_count);
+      complete = static_cast<int> (round ((float) complete / (float) task_count));
     }
     database_sprint.logHistory (bible2, year, month, monthday, task_count, complete);
     
@@ -133,7 +133,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
         string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
         vector <string> categories = filter_string_explode (scategories, '\n');
         size_t category_count = categories.size();
-        int category_percentage = round (100 / category_count);
+        int category_percentage = static_cast<int>(round (100 / category_count));
         vector <string> users = request.database_users ()->get_users ();
         for (auto user : users) {
           if (request.database_config_user()->getUserSprintProgressNotification (user)) {
@@ -201,7 +201,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   
   // The business days in the month for on the X-axis.
   vector <int> days_in_month;
-  for (unsigned int day = 1; day <= 31; day++) {
+  for (int day = 1; day <= 31; day++) {
     int mymonth = filter::date::numerical_month (seconds);
     if (mymonth == month) {
       if (filter::date::is_business_day (year, month, day)) {

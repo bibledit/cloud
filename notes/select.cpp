@@ -220,10 +220,10 @@ string notes_select (void * webserver_request)
   if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
   stringstream severityblock;
   vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
-  for (int i = 0; i < (int)severities.size (); i++) {
+  for (size_t i = 0; i < severities.size (); i++) {
     severityblock << " | ";
     severityblock << "<a ";
-    if (severity_selector == i) severityblock << active_class;
+    if (severity_selector == static_cast<int>(i)) severityblock << active_class;
     severityblock << "href=" << quoted ("select?severityselector=" + convert_to_string (i)) << ">" << severities[i].localized << "</a>";
   }
   view.set_variable ("severityblock", severityblock.str());

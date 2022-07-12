@@ -17,6 +17,8 @@
 #include <mimetic098/streambufs.h>
 #include <mimetic098/utils.h>
 
+#pragma GCC diagnostic ignored "-Wshadow"
+
 namespace mimetic
 {
 

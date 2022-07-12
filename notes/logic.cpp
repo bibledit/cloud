@@ -519,7 +519,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
     float localhour = filter::date::numerical_hour (localseconds) + (float) filter::date::numerical_minute (localseconds) / 60;
     if (localhour < 21) {
       float difference = 21 - localhour;
-      timestamp += (3600 * difference) - 10;
+      timestamp += static_cast<int>(3600 * difference) - 10;
     }
   }
 

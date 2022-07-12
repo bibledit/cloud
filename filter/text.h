@@ -36,12 +36,12 @@ namespace filter::text {
 class passage_marker_value
 {
 public:
-  passage_marker_value (int book_in, int chapter_in, string verse_in, string marker_in, string value_in);
-  int book;
-  int chapter;
-  string verse;
-  string marker;
-  string value;
+  passage_marker_value (int book, int chapter, string verse, string marker, string value);
+  int m_book;
+  int m_chapter;
+  string m_verse;
+  string m_marker;
+  string m_value;
 };
 
 }

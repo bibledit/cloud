@@ -47,7 +47,7 @@ private:
   bool displayNavigator;
   string includedStylesheet;
   string includedEditorStylesheet;
-  void * webserver_request;
+  void * m_webserver_request;
   string loginrequest;
   string fadingmenu;
   vector <pair <string, string> > breadcrumbs;

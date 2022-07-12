@@ -30,7 +30,7 @@ public:
   citation ();
   void set_sequence (int numbering, const string & usersequence);
   void set_restart (int setting);
-  string get (string citation);
+  string get (string citation_in);
   void run_restart (const string & moment);
 private:
   string restart;

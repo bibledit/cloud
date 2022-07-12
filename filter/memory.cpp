@@ -23,6 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_MACH_MACH
 #include <mach/mach.h>
 #endif
+#ifdef HAVE_EXECINFO
+#include <execinfo.h>
+#endif
 
 
 // Returns the memory available as a percentage of the total system memory.
@@ -92,4 +95,22 @@ uint64_t filter_memory_total_usage ()
   return resident_memory;
 #endif
   return 0;
+}
+
+
+void filter_memory_print_back_trace ()
+{
+#ifdef HAVE_EXECINFO
+  // https://stackoverflow.com/questions/3899870/print-call-stack-in-c-or-c
+  // To add linker flag -rdynamic is essential.
+  char **strings;
+  size_t i, size;
+  void *array[1024];
+  size = backtrace(array, 1024);
+  strings = backtrace_symbols(array, size);
+  for (i = 0; i < size; i++)
+    cout << strings[i] << endl;
+  puts("");
+  free(strings);
+#endif
 }

@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/memory.h>
 #include <database/sqlite.h>
 
 

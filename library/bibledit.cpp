@@ -409,6 +409,10 @@ const char * bibledit_get_reference_for_accordance ()
   // The purpose is that the value remains live in memory for the caller,
   // even after the function has returned, and local variables will have been destroyed.
   static string reference;
+  
+  // Wait till all the data has been initialized.
+  // If the data is not yet initialized, return an empty reference instead.
+  if (!config_globals_data_initialized) return reference.c_str();
 
   // Get the username on this client device.
   string user = client_logic_get_username ();

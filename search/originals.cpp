@@ -105,10 +105,10 @@ string search_originals (void * webserver_request)
     // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.
     size_t maxcount = 0;
     if (type == "ot") {
-      maxcount = round (0.3 * 23145);
+      maxcount = static_cast<size_t> (round (0.3 * 23145));
     }
     if (type == "nt") {
-      maxcount = round (0.3 * 7957);
+      maxcount = static_cast<size_t> (round (0.3 * 7957));
     }
     
     
@@ -150,7 +150,7 @@ string search_originals (void * webserver_request)
       v_passages.push_back (passage);
       counts.push_back (count);
     }
-    quick_sort (counts, v_passages, 0, static_cast<int>(counts.size()));
+    quick_sort (counts, v_passages, 0, static_cast<unsigned> (counts.size()));
     reverse (v_passages.begin(), v_passages.end());
 
     

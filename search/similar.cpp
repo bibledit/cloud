@@ -91,7 +91,7 @@ string search_similar (void * webserver_request)
     vector <string> vwords = filter_string_explode (words, ' ');
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Bible.
-    size_t maxcount = round (0.3 * search_logic_get_verse_count (bible));
+    size_t maxcount = static_cast<size_t> (round (0.3 * search_logic_get_verse_count (bible)));
     
     // Store how often a verse occurs in an array.
     // The keys are the identifiers of the search results.
@@ -124,7 +124,7 @@ string search_similar (void * webserver_request)
       ids.push_back (id);
       counts.push_back (count);
     }
-    quick_sort (counts, ids, 0, static_cast<int>(counts.size()));
+    quick_sort (counts, ids, 0, static_cast<unsigned> (counts.size()));
     reverse (ids.begin(), ids.end());
 
     // Output the passage identifiers to the browser.

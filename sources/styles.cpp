@@ -276,7 +276,7 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_leftmargin) == 0) {
       paratext_line.erase (0, backslash_leftmargin.length());
       string inches = filter_string_trim (paratext_line);
-      int value = round (254 * convert_to_float (inches));
+      int value = static_cast<int>(round (254 * convert_to_float (inches)));
       float millimeters = (float) value / 10;
       style_definitions [paratext_marker] [leftmargin_key] = convert_to_string (millimeters);
       continue;
@@ -286,7 +286,7 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_rightmargin) == 0) {
       paratext_line.erase (0, backslash_rightmargin.length());
       string inches = filter_string_trim (paratext_line);
-      int value = round (254 * convert_to_float (inches));
+      int value = static_cast<int>(round (254 * convert_to_float (inches)));
       float millimeters = (float) value / 10;
       style_definitions [paratext_marker] [rightmargin_key] = convert_to_string (millimeters);
       continue;
@@ -296,7 +296,7 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_firstlineindent) == 0) {
       paratext_line.erase (0, backslash_firstlineindent.length());
       string inches = filter_string_trim (paratext_line);
-      int value = round (254 * convert_to_float (inches));
+      int value = static_cast<int>(round (254 * convert_to_float (inches)));
       float millimeters = (float) value / 10;
       style_definitions [paratext_marker] [firstlineindent_key] = convert_to_string (millimeters);
       continue;

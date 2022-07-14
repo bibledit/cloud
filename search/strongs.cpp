@@ -92,7 +92,7 @@ string search_strongs (void * webserver_request)
     vector <string> words = filter_string_explode (s_words, ' ');
     
     // Include items if there are no more search hits than 30% of the total number of verses in the KJV.
-    size_t maxcount = round (0.3 * 31102);
+    size_t maxcount = static_cast<size_t> (round (0.3 * 31102));
     
     // Store how often a verse occurs in an array.
     // The keys are the passages of the search results.

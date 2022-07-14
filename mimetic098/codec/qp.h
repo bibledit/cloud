@@ -10,6 +10,13 @@
 #include <string>
 #include <sstream>
 #include <cassert>
+
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+
+
+
 #include <mimetic098/libconfig.h>
 #include <mimetic098/utils.h>
 #include <mimetic098/circular_buffer.h>

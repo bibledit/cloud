@@ -293,7 +293,7 @@ class Value {
         type_ = INVALID_;
         break;
       default:
-        JSONXX_ASSERT( !"not implemented" );
+        JSONXX_ASSERT( ! static_cast <bool> ("not implemented") );
     }
   }
   template<typename T>

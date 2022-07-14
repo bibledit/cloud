@@ -119,8 +119,8 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
         float category_percentage = 100 / category_count;
         int percentage;
         bool on = (checked == "true");
-        if (on) percentage = round ((box + 1) * category_percentage);
-        else percentage = round (box * category_percentage);
+        if (on) percentage = static_cast <int> (round ((box + 1) * category_percentage));
+        else percentage = static_cast <int> (round (box * category_percentage));
         database_sprint.updateComplete (identifier, percentage);
       }
     }
@@ -232,7 +232,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
     size_t category_count = vcategories.size();
     float category_percentage = 100 / category_count;
     for (size_t i2 = 0; i2 < vcategories.size (); i2++) {
-      int high = round ((i2 + 1) * category_percentage);
+      int high = static_cast <int> (round ((i2 + 1) * category_percentage));
       tasks.append ("<td>\n");
       tasks.append ("<input type=\"checkbox\" id=\"task");
       tasks.append (convert_to_string (task_id));

@@ -70,6 +70,7 @@ void collaboration_link ([[maybe_unused]] string object,
     if (!takeme && !takerepo) {
       error = translate ("It is unclear which data to copy to where");
       result = false;
+      if (result) {};
     }
   }
 

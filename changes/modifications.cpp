@@ -482,7 +482,7 @@ void changes_modifications ()
   // Store the statistics in the database.
   if (modification_time_count) {
     // Take average timestamp of all timestamps.
-    int timestamp = round (modification_time_total / modification_time_count);
+    int timestamp = static_cast <int> (round (modification_time_total / modification_time_count));
     for (auto & element : user_change_statistics) {
       // Store dated change statistics per user.
       string user = element.first;

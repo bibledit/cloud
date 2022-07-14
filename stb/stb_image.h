@@ -396,6 +396,8 @@ extern "C" {
 #endif
 #endif
 
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // PRIMARY API - works on images of any type

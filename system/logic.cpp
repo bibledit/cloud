@@ -342,7 +342,7 @@ void system_logic_produce_resources_file (int jobid)
 
   
   // Progress bar data: How many tarballs to create.
-  size_t tarball_count = 1 + single_resources.size ();
+  int tarball_count = static_cast<int>(1 + single_resources.size ());
   int tarball_counter = 0;
 
   
@@ -592,7 +592,7 @@ void system_logic_indonesian_free_expiration ()
   Database_Confirm database_confirm;
   vector <int> ids = database_confirm.get_ids();
   for (auto id : ids) {
-    string username = database_confirm.get_username(id);
+    string username = database_confirm.get_username(static_cast<unsigned int>(id));
     string bible = filter::indonesian::mytranslation (username);
     valid_indonesian_bibles.push_back(bible);
   }

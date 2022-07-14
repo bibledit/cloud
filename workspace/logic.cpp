@@ -185,7 +185,7 @@ void workspace_create_defaults (void * webserver_request)
   vector <string> names = workspace_get_default_names ();
   for (unsigned int i = 0; i < names.size (); i++) {
     request->database_config_user()->setActiveWorkspace (names [i]);
-    int bench = i + 1;
+    int bench = static_cast<int>(i + 1);
     workspace_set_urls (request, workspace_get_default_urls (bench));
     workspace_set_widths (request, workspace_get_default_widths (bench));
     workspace_set_heights (request, workspace_get_default_heights (bench));

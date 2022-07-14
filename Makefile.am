@@ -590,9 +590,9 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -Wall -Wno-unknown-pragmas -Wextra -pedantic -g
 AM_CFLAGS += $(OPENSSL_CFLAGS)
 
-AM_CXXFLAGS = -Wall -Wno-unknown-pragmas -Wextra -pedantic -fno-var-tracking -g -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy
+AM_CXXFLAGS = -Wall -Wno-unknown-pragmas -Wextra -pedantic -fno-var-tracking -g -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor
 if COMPILERGCC
-AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported
+AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-condim
 endif
 if COMPILERCLANG
 endif

@@ -12,6 +12,7 @@
 #include <time.h>
 #include <fcntl.h>
 #include <errno.h>
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #include <mimetic098/libconfig.h>
 #include <mimetic098/os/mmfile.h>
 #include <cstring>

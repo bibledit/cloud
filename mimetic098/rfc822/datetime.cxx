@@ -6,6 +6,10 @@
  ***************************************************************************/
 #include <iomanip>
 #include <sstream>
+
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
+
 #include <mimetic098/rfc822/datetime.h>
 #include <mimetic098/strutils.h>
 #include <mimetic098/tokenizer.h>

@@ -6,6 +6,7 @@
  ***************************************************************************/
 #ifndef _MIMETIC_CODEC_BASE64_H_
 #define _MIMETIC_CODEC_BASE64_H_
+
 #include <mimetic098/circular_buffer.h>
 #include <mimetic098/codec/codec_base.h>
 #include <mimetic098/codec/codec_chain.h>

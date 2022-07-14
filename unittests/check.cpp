@@ -146,7 +146,7 @@ void test_database_check ()
     Database_Check database_check = Database_Check ();
     database_check.create ();
     database_check.recordOutput ("phpunit", 3, 4, 5, "once");
-    for (unsigned int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       database_check.recordOutput ("phpunit", i, i, i, "multiple");
     }
     vector <Database_Check_Hit> hits = database_check.getHits ();

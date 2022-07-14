@@ -8,6 +8,11 @@
 #include <fstream>
 #include <streambuf>
 #include <algorithm>
+
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
+
 #include <mimetic098/mimeentity.h>
 #include <mimetic098/tokenizer.h>
 #include <mimetic098/strutils.h>
@@ -16,8 +21,6 @@
 #include <mimetic098/parser/itparser.h>
 #include <mimetic098/streambufs.h>
 #include <mimetic098/utils.h>
-
-#pragma GCC diagnostic ignored "-Wshadow"
 
 namespace mimetic
 {

@@ -65,14 +65,14 @@ string workspace_organize (void * webserver_request)
   
   // Re-ordering workspaces.
   if (request->query.count ("up")) {
-    size_t item = convert_to_int (request->query ["up"]);
+    size_t item = static_cast<size_t>(convert_to_int (request->query ["up"]));
     vector <string> workspaces = workspace_get_names (request);
     array_move_up_down (workspaces, item, true);
     workspace_reorder (request, workspaces);
     success = translate ("The workspace was moved up");
   }
   if (request->query.count ("down")) {
-    size_t item = convert_to_int (request->query ["down"]);
+    size_t item = static_cast<size_t>(convert_to_int (request->query ["down"]));
     vector <string> workspaces = workspace_get_names (request);
     array_move_up_down (workspaces, item, false);
     workspace_reorder (request, workspaces);

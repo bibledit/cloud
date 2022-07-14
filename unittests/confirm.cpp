@@ -37,14 +37,14 @@ void test_database_confirm ()
   database_confirm.trim ();
   
   // New ID generation test.
-  int id = database_confirm.get_new_id ();
-  if (id < 10'000) evaluate (__LINE__, __func__, "Should be greater than 10000", id);
+  unsigned int id = database_confirm.get_new_id ();
+  if (id < 10'000) evaluate (__LINE__, __func__, string("Should be greater than 10000"), to_string(id));
   
   // Store data for the ID.
   database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
   
   // Search for this ID based on subject.
-  int id2 = database_confirm.search_id ("Subject line CID" + convert_to_string (id) + " Re:");
+  unsigned int id2 = database_confirm.search_id ("Subject line CID" + to_string (id) + " Re:");
   evaluate (__LINE__, __func__, id, id2);
   
   // Retrieve data for the ID.
@@ -66,7 +66,7 @@ void test_database_confirm ()
   evaluate (__LINE__, __func__, string(), username);
 
   vector <int> ids = database_confirm.get_ids();
-  evaluate (__LINE__, __func__, { id }, ids);
+  evaluate (__LINE__, __func__, { static_cast<int>(id) }, ids);
 
   // Delete this ID.
   database_confirm.erase (id);

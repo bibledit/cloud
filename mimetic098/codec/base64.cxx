@@ -4,6 +4,9 @@
 
     $Id: base64.cxx,v 1.3 2008-10-07 11:06:26 tat Exp $
  ***************************************************************************/
+
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+
 #include <mimetic098/codec/base64.h>
 
 using namespace mimetic;

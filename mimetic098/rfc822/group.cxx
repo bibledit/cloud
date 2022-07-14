@@ -4,6 +4,10 @@
 
     $Id: group.cxx,v 1.3 2008-10-07 11:06:26 tat Exp $
  ***************************************************************************/
+
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
+
 #include <mimetic098/rfc822/group.h>
 #include <mimetic098/strutils.h>
 

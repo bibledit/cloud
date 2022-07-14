@@ -114,8 +114,7 @@ void Checks_Sentences::check (map <int, string> texts)
   }
   
   // Go through the characters.
-  int characterCount = static_cast<int>(characters.size ());
-  for (int i = 0; i < characterCount; i++) {
+  for (size_t i = 0; i < characters.size (); i++) {
     // Store current verse number in the object.
     verseNumber = verse_numbers [i];
     // Get the current character.
@@ -264,7 +263,10 @@ void Checks_Sentences::addResult (string text, int modifier)
   // Get previous and next text fragment.
   int start = currentPosition - 25;
   if (start < 0) start = 0;
-  string previousFragment = unicode_string_substr (fullText, start, currentPosition - start - 1);
+  string previousFragment =
+    unicode_string_substr (fullText,
+                           static_cast <size_t> (start),
+                           static_cast <size_t> (currentPosition - start - 1));
   int iterations = 5;
   while (iterations) {
     size_t pos = previousFragment.find (" ");
@@ -275,7 +277,8 @@ void Checks_Sentences::addResult (string text, int modifier)
     }
     iterations--;
   }
-  string nextFragment = unicode_string_substr (fullText, currentPosition, 25);
+  string nextFragment = unicode_string_substr (fullText,
+                                               static_cast <size_t> (currentPosition), 25);
   while (nextFragment.length () > 10) {
     size_t pos = nextFragment.rfind (" ");
     if (pos == string::npos) nextFragment.erase (nextFragment.length () - 1, 1);

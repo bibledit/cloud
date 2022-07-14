@@ -53,7 +53,7 @@ string workspace_index (void * webserver_request)
 
   // Set the requested workspace as the active one.
   if (request->query.count ("bench")) {
-    unsigned int bench = convert_to_int (request->query ["bench"]);
+    size_t bench = static_cast <size_t> (convert_to_int (request->query ["bench"]));
     if (bench < workspaces.size ()) {
       string workspace = workspaces [bench];
       request->database_config_user()->setActiveWorkspace (workspace);
@@ -107,11 +107,11 @@ string workspace_index (void * webserver_request)
   map <int, string> widths = workspace_get_widths (request);
   // The Bible editor number, starting from 1, going up.
   map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
-  for (unsigned int key = 0; key < 15; key++) {
+  for (int key = 0; key < 15; key++) {
     string url = urls [key];
     string width = widths [key];
     int editor_number = editor_numbers [key];
-    int row = round (key / 5) + 1;
+    int row = static_cast<int> (round (key / 5)) + 1;
     int column = key % 5 + 1;
     string variable = "url" + convert_to_string (row) + convert_to_string (column);
     view.set_variable (variable, url);
@@ -124,7 +124,7 @@ string workspace_index (void * webserver_request)
   
   
   map <int, string> heights = workspace_get_heights (request);
-  for (unsigned int key = 0; key < 3; key++) {
+  for (int key = 0; key < 3; key++) {
     string height = heights [key];
     int row = key + 1;
     string variable = "height" + convert_to_string (row);

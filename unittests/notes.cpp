@@ -1233,7 +1233,7 @@ void test_database_notes ()
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", "", -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
@@ -1429,7 +1429,7 @@ void test_database_notes ()
     
     // Get the checksums for later reference.
     vector <string> checksums;
-    for (int i = 0; i < 5; i++) {
+    for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       database_notes.update_checksum (identifier);
       string checksum = database_notes.get_checksum (identifier);
@@ -1444,7 +1444,7 @@ void test_database_notes ()
     string json = database_notes.get_bulk (v_identifier);
     
     // Delete all notes again.
-    for (int i = 0; i < 5; i++) {
+    for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       evaluate (__LINE__, __func__, false, database_notes.get_summary (identifier).empty ());
       evaluate (__LINE__, __func__, false, database_notes.get_contents (identifier).empty ());
@@ -1464,7 +1464,7 @@ void test_database_notes ()
     }
     
     // The checksums should now be gone.
-    for (int i = 0; i < 5; i++) {
+    for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       string checksum = database_notes.get_checksum (identifier);
       evaluate (__LINE__, __func__, "", checksum);
@@ -1479,7 +1479,7 @@ void test_database_notes ()
     database_notes.set_bulk (json);
     
     // Check that the notes are back.
-    for (int i = 0; i < 5; i++) {
+    for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       string assigned = database_notes.get_raw_assigned (identifier);
       evaluate (__LINE__, __func__, v_assigned [i], assigned);
@@ -1502,7 +1502,7 @@ void test_database_notes ()
     }
     
     // The checksums should be back also.
-    for (int i = 0; i < 5; i++) {
+    for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       string checksum = database_notes.get_checksum (identifier);
       evaluate (__LINE__, __func__, checksums [i], checksum);
@@ -1754,8 +1754,8 @@ void test_database_notes ()
     database_notes.set_raw_severity (identifier2, severity2);
     evaluate (__LINE__, __func__, severity1, database_notes.get_raw_severity (identifier1));
     evaluate (__LINE__, __func__, severity2, database_notes.get_raw_severity (identifier2));
-    evaluate (__LINE__, __func__, standard_severities [severity1], database_notes.get_severity (identifier1));
-    evaluate (__LINE__, __func__, standard_severities [severity2], database_notes.get_severity (identifier2));
+    evaluate (__LINE__, __func__, standard_severities [static_cast <size_t> (severity1)], database_notes.get_severity (identifier1));
+    evaluate (__LINE__, __func__, standard_severities [static_cast <size_t> (severity2)], database_notes.get_severity (identifier2));
     
     // Test the methods for the modification time.
     int modified1 = 1000;

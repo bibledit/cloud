@@ -9,6 +9,9 @@
 #include <sstream>
 #include <iomanip>
 #include <cassert>
+
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+
 #include <mimetic098/contenttype.h>
 #include <mimetic098/tokenizer.h>
 #include <mimetic098/utils.h>

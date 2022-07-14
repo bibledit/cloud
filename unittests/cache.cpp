@@ -44,7 +44,7 @@ void test_database_cache ()
   string databasepath = filter_url_create_root_path ({"databases",  "cache_resource_unittests.sqlite"});
   string out_err;
   filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
-  size_t count = Database_Cache::count ("unittests");
+  int count = Database_Cache::count ("unittests");
   evaluate (__LINE__, __func__, 1, count);
   exists = Database_Cache::exists ("unittests", 8, 1, 16);
   evaluate (__LINE__, __func__, true, exists);

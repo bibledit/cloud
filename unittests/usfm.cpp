@@ -1045,7 +1045,9 @@ void test_usfm ()
       evaluate (__LINE__, __func__, 33, import [1].book);
       evaluate (__LINE__, __func__, 1, import [1].chapter);
       evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].data);
-    } else evaluate (__LINE__, __func__, "executing tests", "skipping tests");
+    } else {
+      evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
+    }
     
     evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
@@ -1078,7 +1080,7 @@ void test_usfm ()
       evaluate (__LINE__, __func__, 1, import [1].chapter);
       evaluate (__LINE__, __func__, standard_chapter, filter_string_trim (import [1].data));
     } else {
-      evaluate (__LINE__, __func__, "executing tests", "skipping tests");
+      evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
     }
   }
 

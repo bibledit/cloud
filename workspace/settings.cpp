@@ -110,7 +110,7 @@ string workspace_settings (void * webserver_request)
   map <int, string> widths = workspace_get_widths (request);
   for (auto & element : urls) {
     int key = element.first;
-    int row = round (key / 5) + 1;
+    int row = static_cast<int>(round (key / 5)) + 1;
     int column = key % 5 + 1;
     string variable = "url" + convert_to_string (row) + convert_to_string (column);
     view.set_variable (variable, urls[key]);

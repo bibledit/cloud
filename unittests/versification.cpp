@@ -428,23 +428,23 @@ void test_database_versifications ()
     // Test books.
     vector <int> books = database_versifications.getBooks (english ());
     vector <int> standard;
-    for (unsigned int i = 1; i <= 66; i++) standard.push_back (i);
+    for (int i = 1; i <= 66; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, books);
     
     // Test chapters.
     vector <int> chapters = database_versifications.getChapters (english (), 1);
     standard.clear ();
-    for (unsigned int i = 1; i <= 50; i++) standard.push_back (i);
+    for (int i = 1; i <= 50; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
     chapters = database_versifications.getChapters (english (), 1, true);
     standard.clear ();
-    for (unsigned int i = 0; i <= 50; i++) standard.push_back (i);
+    for (int i = 0; i <= 50; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
     
     // Test verses.
     vector <int> verses = database_versifications.getVerses (english (), 1, 2);
     standard.clear ();
-    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    for (int i = 0; i <= 25; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, verses);
     
     // Verses in chapter 0.
@@ -464,13 +464,13 @@ void test_database_versifications ()
     // Maximum number of chapters.
     chapters = database_versifications.getMaximumChapters (5);
     standard.clear ();
-    for (unsigned int i = 0; i <= 34; i++) standard.push_back (i);
+    for (int i = 0; i <= 34; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
     
     // Maximum number of verses.
     verses = database_versifications.getMaximumVerses (1, 2);
     standard.clear ();
-    for (unsigned int i = 0; i <= 25; i++) standard.push_back (i);
+    for (int i = 0; i <= 25; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, verses);
   }
   // Import Export

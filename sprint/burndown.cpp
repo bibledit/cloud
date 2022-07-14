@@ -221,7 +221,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
       if (day == item.day) {
         int tasks = item.tasks;
         int complete = item.complete;
-        tasks = round (tasks * (100 - complete) / 100);
+        tasks = static_cast <int> (round (tasks * (100 - complete) / 100));
         data [day] = tasks;
       }
     }

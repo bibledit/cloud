@@ -99,6 +99,9 @@
 #	pragma diag_suppress=237 // controlling expression is constant
 #endif
 
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wstring-conversion"
+
 // Inlining controls
 #if defined(_MSC_VER) && _MSC_VER >= 1300
 #	define PUGI__NO_INLINE __declspec(noinline)

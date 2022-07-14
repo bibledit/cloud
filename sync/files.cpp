@@ -60,7 +60,7 @@ string sync_files (void * webserver_request)
   string user = hex2bin (request->post ["u"]);
   int action = convert_to_int (request->post ["a"]);
   int version = convert_to_int (request->post ["v"]);
-  size_t d = convert_to_int (request->post ["d"]);
+  size_t d = static_cast<size_t>(convert_to_int (request->post ["d"]));
   string file = request->post ["f"];
 
   // For security reasons a client does not specify the directory of the file to be downloaded.

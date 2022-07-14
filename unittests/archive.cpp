@@ -75,8 +75,8 @@ void test_archive ()
     zipfile = filter_archive_zip_folder_miniz_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     size = filter_url_filesize (zipfile);
-    if (size < 2437) evaluate (__LINE__, __func__, "Should be at least 2437 bytes", "");
-    if (size > 2445) evaluate (__LINE__, __func__, "Should be no larger than 2445 bytes", "");
+    if (size < 2437) evaluate (__LINE__, __func__, "Should be at least 2437 bytes", string());
+    if (size > 2445) evaluate (__LINE__, __func__, "Should be no larger than 2445 bytes", string());
 
     // Zipping non-existing folder through the shell fails.
     zipfile = filter_archive_zip_folder_shell_internal ("xxx");
@@ -128,9 +128,9 @@ void test_archive ()
     // Test gzipped tarball compression.
     string tarball = filter_archive_tar_gzip_file (path1);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (tarball));
-    size_t size = filter_url_filesize (tarball);
-    size_t min = 155;
-    size_t max = 181;
+    int size = filter_url_filesize (tarball);
+    int min = 155;
+    int max = 181;
     if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), convert_to_string (size));
     // Test that compressing a non-existing file returns NULL.
     tarball = filter_archive_tar_gzip_file ("xxxxx");

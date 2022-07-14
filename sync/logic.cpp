@@ -123,9 +123,9 @@ string Sync_Logic::checksum (const vector <int> & identifiers)
 vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 {
   int range = end - start;
-  range = round (range / 10);
+  range = static_cast<int>(round (range / 10));
   vector <Sync_Logic_Range> ranges;
-  for (unsigned int i = 0; i <= 9; i++) {
+  for (int i = 0; i <= 9; i++) {
     int first = start + (i * range);
     int last = start + ((i + 1) * range) - 1;
     if (i == 9) {

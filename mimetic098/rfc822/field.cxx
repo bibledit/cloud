@@ -4,6 +4,9 @@
 
     $Id: field.cxx,v 1.7 2009-02-27 15:56:34 tat Exp $
  ***************************************************************************/
+
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+
 #include <mimetic098/rfc822/field.h>
 #include <mimetic098/strutils.h>
 #include <mimetic098/utils.h>

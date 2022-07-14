@@ -33,7 +33,7 @@ void double_space_usfm (string bible, int book, int chapter, int verse, string d
   if (pos != string::npos) {
     int start = static_cast<int>(pos) - 10;
     if (start < 0) start = 0;
-    string fragment = data.substr (start, 20);
+    string fragment = data.substr (static_cast <size_t> (start), 20);
     Database_Check database_check;
     database_check.recordOutput (bible, book, chapter, verse, translate ("Double space:") + " ... " + fragment + " ...");
   }

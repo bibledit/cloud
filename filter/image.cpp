@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wcast-qual"
 #pragma GCC diagnostic ignored "-Wcast-align"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 #pragma GCC diagnostic pop

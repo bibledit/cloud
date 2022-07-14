@@ -592,7 +592,7 @@ AM_CFLAGS += $(OPENSSL_CFLAGS)
 
 AM_CXXFLAGS = -Wall -Wno-unknown-pragmas -Wextra -pedantic -fno-var-tracking -g -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor
 if COMPILERGCC
-AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-condim
+AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond
 endif
 if COMPILERCLANG
 endif

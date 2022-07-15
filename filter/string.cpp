@@ -42,7 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic ignored "-Wdocumentation"
-#pragma clang diagnostic ignored "-Wsign-conversion"
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>
@@ -520,8 +519,8 @@ string unicode_string_substr (string s, size_t pos, size_t len)
     len--;
   }
   // Return substring.
-  size_t startpos = static_cast<size_t> (startiter - input);
-  size_t lenpos = static_cast<size_t> (enditer - startiter);
+  size_t startpos = static_cast <size_t> (startiter - input);
+  size_t lenpos = static_cast <size_t> (enditer - startiter);
   s = s.substr (startpos, lenpos);
   return s;
 }
@@ -530,11 +529,11 @@ string unicode_string_substr (string s, size_t pos, size_t len)
 // Equivalent to PHP's mb_strpos function.
 size_t unicode_string_strpos (string haystack, string needle, size_t offset)
 {
-  size_t haystack_length = unicode_string_length (haystack);
-  size_t needle_length = unicode_string_length (needle);
-  for (size_t pos = offset; pos <= haystack_length - needle_length; pos++) {
-    string substring = unicode_string_substr (haystack, pos, needle_length);
-    if (substring == needle) return pos;
+  int haystack_length = static_cast<int>(unicode_string_length (haystack));
+  int needle_length = static_cast<int>(unicode_string_length (needle));
+  for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
+    string substring = unicode_string_substr (haystack, static_cast <size_t> (pos), static_cast <size_t> (needle_length));
+    if (substring == needle) return static_cast <size_t> (pos);
   }
   return string::npos;
 }
@@ -546,9 +545,9 @@ size_t unicode_string_strpos_case_insensitive (string haystack, string needle, s
   haystack = unicode_string_casefold (haystack);
   needle = unicode_string_casefold (needle);
   
-  size_t haystack_length = unicode_string_length (haystack);
-  size_t needle_length = unicode_string_length (needle);
-  for (size_t pos = offset; pos <= haystack_length - needle_length; pos++) {
+  int haystack_length = static_cast<int>(unicode_string_length (haystack));
+  int needle_length = static_cast<int>(unicode_string_length (needle));
+  for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
     string substring = unicode_string_substr (haystack, pos, needle_length);
     if (substring == needle) return pos;
   }
@@ -580,14 +579,14 @@ string unicode_string_casefold (string s)
       string character = unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
       const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
-      utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
+      utf8proc_ssize_t len = character.length ();
       utf8proc_int32_t dst;
-      utf8proc_iterate (str, len, &dst);
+      utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
       // Convert the Unicode point to lower case.
       utf8proc_int32_t luc = utf8proc_tolower (dst);
       // Convert the Unicode point back to a UTF-8 string.
       utf8proc_uint8_t buffer [10];
-      utf8proc_ssize_t output = utf8proc_encode_char (luc, buffer);
+      output = utf8proc_encode_char (luc, buffer);
       buffer [output] = 0;
       stringstream ss;
       ss << buffer;
@@ -627,14 +626,14 @@ string unicode_string_uppercase (string s)
       string character = unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
       const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
-      utf8proc_ssize_t len = static_cast <utf8proc_ssize_t> (character.length ());
+      utf8proc_ssize_t len = character.length ();
       utf8proc_int32_t dst;
-      utf8proc_iterate (str, len, &dst);
+      utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
       // Convert the Unicode point to lower case.
       utf8proc_int32_t luc = utf8proc_toupper (dst);
       // Convert the Unicode point back to a UTF-8 string.
       utf8proc_uint8_t buffer [10];
-      utf8proc_ssize_t output = utf8proc_encode_char (luc, buffer);
+      output = utf8proc_encode_char (luc, buffer);
       buffer [output] = 0;
       stringstream ss;
       ss << buffer;
@@ -664,10 +663,10 @@ string unicode_string_transliterate (string s)
     for (unsigned int pos = 0; pos < string_length; pos++) {
       string character = unicode_string_substr (s, pos, 1);
       const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
-      utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
+      utf8proc_ssize_t len = character.length ();
       uint8_t *dest;
       utf8proc_option_t options = (utf8proc_option_t) (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
-      utf8proc_map (str, len, &dest, options);
+      [[maybe_unused]] auto output = utf8proc_map (str, len, &dest, options);
       stringstream ss;
       ss << dest;
       transliteration.append (ss.str ());
@@ -715,9 +714,9 @@ bool unicode_string_is_punctuation (string s)
     s = unicode_string_substr (s, 0, 1);
     // Convert the string to a Unicode point.
     const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
-    utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
+    utf8proc_ssize_t len = s.length ();
     utf8proc_int32_t codepoint;
-    utf8proc_iterate (str, len, &codepoint);
+    [[maybe_unused]] auto output = utf8proc_iterate (str, len, &codepoint);
     // Get category.
     utf8proc_category_t category = utf8proc_category	(codepoint);
     if ((category >= UTF8PROC_CATEGORY_PC) && (category <= UTF8PROC_CATEGORY_PO)) return true;
@@ -745,7 +744,7 @@ int unicode_string_convert_to_codepoint (string s)
       s = unicode_string_substr (s, 0, 1);
       // Convert the string to a Unicode point.
       const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
-      utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
+      utf8proc_ssize_t len = s.length ();
       utf8proc_int32_t codepoint;
       [[maybe_unused]] auto output = utf8proc_iterate (str, len, &codepoint);
       point = codepoint;
@@ -1441,7 +1440,7 @@ string hex2bin (string hex)
     for (string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
     {
       extract.assign (pos, pos+2);
-      out.push_back (static_cast<char> (my_stoi (extract, nullptr, 16)));
+      out.push_back (my_stoi (extract, nullptr, 16));
     }
   }
   return out;

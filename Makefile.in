@@ -89,7 +89,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT) generate$(EXEEXT)
-@COMPILERGCC_TRUE@am__append_1 = -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-condim
+@COMPILERGCC_TRUE@am__append_1 = -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac

@@ -88,7 +88,7 @@ string resource_print (void * webserver_request)
   
   
   if (request->query.count ("remove")) {
-    size_t offset = abs (convert_to_int (request->query["remove"]));
+    size_t offset = static_cast<size_t>(abs (convert_to_int (request->query["remove"])));
     vector <string> resources = request->database_config_user()->getPrintResources ();
     if (!resources.empty () && (offset < resources.size ())) {
       string remove = resources [offset];
@@ -101,7 +101,7 @@ string resource_print (void * webserver_request)
   string moveup = request->query ["moveup"];
   string movedown = request->query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
-    size_t move = convert_to_int (moveup + movedown);
+    size_t move = static_cast<size_t> (convert_to_int (moveup + movedown));
     vector <string> resources = request->database_config_user()->getPrintResources ();
     array_move_up_down (resources, move, !moveup.empty ());
     request->database_config_user()->setPrintResources (resources);

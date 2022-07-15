@@ -1148,7 +1148,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           xml_document document;
           xml_parse_result parse_result = document.load_string (html.c_str(), parse_default | parse_fragment);
           if (parse_result.offset > 10) {
-            size_t pos2 = parse_result.offset - 2;
+            size_t pos2 = static_cast<size_t>(parse_result.offset - 2);
             html.erase (pos2);
           }
         }

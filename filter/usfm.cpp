@@ -657,7 +657,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   // The length of the new text should not differ more than a set percentage from the old text.
   float existingLength = oldtext.length();
   float newLength = newtext.length ();
-  int percentage = 100 * (newLength - existingLength) / existingLength;
+  int percentage = static_cast<int> (100 * (newLength - existingLength) / existingLength);
   percentage = abs (percentage);
   if (percentage > 100) percentage = 100;
   if (percentage > allowed_percentage) {
@@ -860,9 +860,9 @@ bool usfm_handle_verse_range (string verse, vector <int> & verses)
     start_range = verse.substr (0, position);
     verse.erase (0, ++position);
     end_range = verse;
-    unsigned int start_verse_i = convert_to_int(number_in_string(start_range));
-    unsigned int end_verse_i = convert_to_int(number_in_string(end_range));
-    for (unsigned int i = start_verse_i; i <= end_verse_i; i++) {
+    int start_verse_i = convert_to_int(number_in_string(start_range));
+    int end_verse_i = convert_to_int(number_in_string(end_range));
+    for (int i = start_verse_i; i <= end_verse_i; i++) {
       if (i == start_verse_i)
         verses.push_back (convert_to_int (start_range));
       else if (i == end_verse_i)

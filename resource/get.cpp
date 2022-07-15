@@ -56,7 +56,7 @@ string resource_get (void * webserver_request)
   if (!s_resource.empty () && !s_book.empty () && !s_chapter.empty () && !s_verse.empty ()) {
 
 
-    unsigned int resource = convert_to_int (s_resource);
+    unsigned int resource = static_cast<unsigned>(convert_to_int (s_resource));
     int book = convert_to_int (s_book);
     int chapter = convert_to_int (s_chapter);
     int verse = convert_to_int (s_verse);

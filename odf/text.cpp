@@ -755,8 +755,8 @@ void odf_text::create_paragraph_style (string name,
   // The goal is that the left is at a 0 left margin,
   // and that the verse is aligned at the very left of the column.
   // (And then a tab puts the text at the desired first line indent space.)
-  int millimeters = firstlineindent;
-  if (is_poetry_q_style) millimeters = 0 - leftmargin;
+  int millimeters = static_cast<int>(firstlineindent);
+  if (is_poetry_q_style) millimeters = static_cast <int> (0 - leftmargin);
   string first_lineindent_mm = convert_to_string (millimeters) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:text-indent") = first_lineindent_mm.c_str();
 
@@ -784,7 +784,7 @@ void odf_text::create_paragraph_style (string name,
   // See issue https://github.com/bibledit/cloud/issues/671
   if (is_poetry_q_style) {
     xml_node style_tab_stops = style_paragraph_properties_node.append_child("style:tab-stops");
-    int tab_indent = firstlineindent;
+    int tab_indent = static_cast<int> (firstlineindent);
     for (int i = 0; i < 10; i++) {
       xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
       string tab_stop = convert_to_string(tab_indent) + "mm";

@@ -22,7 +22,11 @@
 #include <filter/text.h>
 #include <filter/usfm.h>
 #include <filter/url.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #include <dtl/dtl.hpp>
+#pragma GCC diagnostic pop
 #include <webserver/request.h>
 #include <database/modifications.h>
 #include <database/books.h>
@@ -264,7 +268,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     }
     
     // Calculate the percentage similarity.
-    int percentage = round (100 * ((float) similar_count / (float) element_count));
+    int percentage = static_cast<int> (round (100 * (static_cast<float>(similar_count) / static_cast<float>(element_count))));
     return percentage;
     
   } catch (...) {
@@ -320,7 +324,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   }
   
   // Calculate the percentage similarity.
-  int percentage = round (100 * ((float) similar_count / (float) element_count));
+  int percentage = static_cast<int> (round (100 * ((float) similar_count / (float) element_count)));
   return percentage;
 }
 

@@ -23,7 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING 1
 
 #include <filter/string.h>
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 #include <utf8/utf8.h>
+#pragma GCC diagnostic pop
 #include <filter/url.h>
 #include <filter/md5.h>
 #include <filter/date.h>
@@ -38,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic ignored "-Wdocumentation"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>
@@ -473,7 +478,7 @@ string narrow_non_breaking_space_u202F ()
 // Returns the length of string s in unicode points, not in bytes.
 size_t unicode_string_length (string s)
 {
-  size_t length = utf8::distance (s.begin(), s.end());
+  size_t length = static_cast<size_t> (utf8::distance (s.begin(), s.end()));
   return length;
 }
 
@@ -515,8 +520,8 @@ string unicode_string_substr (string s, size_t pos, size_t len)
     len--;
   }
   // Return substring.
-  size_t startpos = startiter - input;
-  size_t lenpos = enditer - startiter;
+  size_t startpos = static_cast<size_t> (startiter - input);
+  size_t lenpos = static_cast<size_t> (enditer - startiter);
   s = s.substr (startpos, lenpos);
   return s;
 }
@@ -525,9 +530,9 @@ string unicode_string_substr (string s, size_t pos, size_t len)
 // Equivalent to PHP's mb_strpos function.
 size_t unicode_string_strpos (string haystack, string needle, size_t offset)
 {
-  int haystack_length = static_cast<int>(unicode_string_length (haystack));
-  int needle_length = static_cast<int>(unicode_string_length (needle));
-  for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
+  size_t haystack_length = unicode_string_length (haystack);
+  size_t needle_length = unicode_string_length (needle);
+  for (size_t pos = offset; pos <= haystack_length - needle_length; pos++) {
     string substring = unicode_string_substr (haystack, pos, needle_length);
     if (substring == needle) return pos;
   }

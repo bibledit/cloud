@@ -164,8 +164,8 @@ string filter_archive_unzip_miniz_internal (string zipfile)
   if (status) {
     
     // Iterate over the files in the archive.
-    int filecount = mz_zip_reader_get_num_files (&zip_archive);
-    for (int i = 0; i < filecount; i++) {
+    unsigned filecount = mz_zip_reader_get_num_files (&zip_archive);
+    for (unsigned i = 0; i < filecount; i++) {
 
       // If there was an error, skip processing further files.
       if (error) continue;

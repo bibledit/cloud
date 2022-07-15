@@ -226,10 +226,10 @@ void test_styles ()
     vector <string> markers;
     
     markers = database_styles.getMarkers (styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 203, (int)markers.size ());
+    evaluate (__LINE__, __func__, 204, (int)markers.size ());
     
     markers = database_styles.getMarkers ("phpunit");
-    evaluate (__LINE__, __func__, 203, (int)markers.size ());
+    evaluate (__LINE__, __func__, 204, (int)markers.size ());
     
     string marker = "p";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
@@ -237,7 +237,7 @@ void test_styles ()
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
     
     map <string, string> markers_names = database_styles.getMarkersAndNames ("phpunit");
-    evaluate (__LINE__, __func__, 203, (int)markers_names.size());
+    evaluate (__LINE__, __func__, 204, (int)markers_names.size());
     evaluate (__LINE__, __func__, "Blank line", markers_names ["b"]);
     evaluate (__LINE__, __func__, "Normal paragraph", markers_names ["p"]);
     evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);

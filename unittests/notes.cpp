@@ -1233,7 +1233,7 @@ void test_database_notes ()
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
-    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
+    identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", true, -1, 0, "", -1);
     evaluate (__LINE__, __func__, {}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);

@@ -43,7 +43,7 @@ int filter_memory_percentage_available ()
   uint64_t speculative = stats.speculative_count;
   uint64_t free = stats.free_count;
   uint64_t total = active + inactive + wired + speculative + free;
-  return (int)(inactive + speculative + free) * 100 / total;
+  return static_cast<int>(inactive + speculative + free) * 100 / static_cast<int> (total);
 
 #else
 
@@ -104,11 +104,10 @@ void filter_memory_print_back_trace ()
   // https://stackoverflow.com/questions/3899870/print-call-stack-in-c-or-c
   // To add linker flag -rdynamic is essential.
   char **strings;
-  size_t i, size;
   void *array[1024];
-  size = backtrace(array, 1024);
+  int size = backtrace(array, 1024);
   strings = backtrace_symbols(array, size);
-  for (i = 0; i < size; i++)
+  for (int i = 0; i < size; i++)
     cout << strings[i] << endl;
   puts("");
   free(strings);

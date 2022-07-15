@@ -49,7 +49,7 @@ string editusfm_offset (void * webserver_request)
   string bible = request->query ["bible"];
   int book = convert_to_int (request->query ["book"]);
   int chapter = convert_to_int (request->query ["chapter"]);
-  int offset = convert_to_int (request->query ["offset"]);
+  unsigned int offset = static_cast<unsigned> (convert_to_int (request->query ["offset"]));
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   vector <int> verses = usfm_offset_to_versenumber (usfm, offset);
   // Only update navigation in case the verse differs.

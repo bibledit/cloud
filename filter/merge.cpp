@@ -18,7 +18,10 @@
 
 
 #include <filter/merge.h>
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
 #include <dtl/dtl.hpp>
+#pragma GCC diagnostic pop
 using dtl::Diff3;
 #include <filter/string.h>
 #include <pugixml/pugixml.hpp>

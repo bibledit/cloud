@@ -54,7 +54,7 @@ string editusfm_focus (void * webserver_request)
   int startingOffset = usfm_versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
   // The following deals with a combined verse.
-  for (unsigned int i = 1; i < 25; i++) {
+  for (int i = 1; i < 25; i++) {
     if (startingOffset == endingOffset) {
       endingOffset = usfm_versenumber_to_offset (usfm, verse + i);
       if (endingOffset > startingOffset) endingOffset--;

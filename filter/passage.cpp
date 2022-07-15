@@ -153,9 +153,9 @@ int filter_passage_to_integer (Passage passage)
 // This converts the $integer, created above, to a passage.
 Passage filter_integer_to_passage (int integer)
 {
-  int book = round (integer / 1000000);
+  int book = static_cast<int> (round (integer / 1000000));
   integer -= book * 1000000;
-  int chapter = round (integer / 1000);
+  int chapter = static_cast<int> (round (integer / 1000));
   integer -= chapter * 1000;
   string verse = convert_to_string (integer);
   return Passage ("", book, chapter, verse);
@@ -425,8 +425,8 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
         start = convert_to_string (convert_to_int (start));
         start = string (start.rbegin(), start.rend());
       }
-      unsigned int end = convert_to_int (filter_string_trim (range [1]));
-      for (size_t i = convert_to_int (start) + 1; i <= end; i++) {
+      unsigned int end = static_cast <unsigned> (convert_to_int (filter_string_trim (range [1])));
+      for (size_t i = static_cast<size_t> (convert_to_int (start) + 1); i <= end; i++) {
         output.push_back (convert_to_string (i));
       }
     }

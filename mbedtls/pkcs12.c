@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  PKCS#12 Personal Information Exchange Syntax
  *

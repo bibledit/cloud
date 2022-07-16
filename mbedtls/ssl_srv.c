@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  SSLv3/TLSv1 server-side functions
  *

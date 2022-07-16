@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  NIST SP800-38C compliant CCM implementation
  *

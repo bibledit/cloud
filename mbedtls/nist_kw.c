@@ -1,3 +1,5 @@
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  Implementation of NIST SP 800-38F key wrapping, supporting KW and KWP modes
  *  only

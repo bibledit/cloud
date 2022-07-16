@@ -83,7 +83,7 @@ unsigned int Database_Confirm::get_new_id ()
 {
   unsigned int id = 0;
   do {
-    id = config_globals_int_distribution (config_globals_random_engine);
+    id = static_cast<unsigned int>(config_globals_int_distribution (config_globals_random_engine));
   } while (id_exists (id));
   return id;
 }
@@ -94,7 +94,7 @@ bool Database_Confirm::id_exists (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   vector <string> ids = sql.query () ["id"];
   return !ids.empty ();
@@ -108,7 +108,7 @@ void Database_Confirm::store (unsigned int id, string query,
 {
   SqliteDatabase sql (filename ());
   sql.add ("INSERT INTO confirm VALUES (");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (",");
   sql.add (query);
   sql.add (",");
@@ -136,7 +136,7 @@ unsigned int Database_Confirm::search_id (string subject)
   for (string id : ids) {
     size_t pos = subject.find (id);
     if (pos != string::npos) {
-      return convert_to_int (id);
+      return static_cast<unsigned>(convert_to_int (id));
     }
   }
   return 0;
@@ -159,7 +159,7 @@ string Database_Confirm::get_query (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT query FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   vector <string> result = sql.query () ["query"];
   if (!result.empty ()) return result [0];
@@ -172,7 +172,7 @@ string Database_Confirm::get_mail_to (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT mailto FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   vector <string> result = sql.query () ["mailto"];
   if (!result.empty ()) return result [0];
@@ -185,7 +185,7 @@ string Database_Confirm::get_subject (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT subject FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   vector <string> result = sql.query () ["subject"];
   if (!result.empty ()) return result [0];
@@ -198,7 +198,7 @@ string Database_Confirm::get_body (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT body FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   vector <string> result = sql.query () ["body"];
   if (!result.empty ()) return result [0];
@@ -211,7 +211,7 @@ string Database_Confirm::get_username (unsigned int id) // Test return valid and
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   vector <string> result = sql.query () ["username"];
   if (!result.empty ()) return result [0];
@@ -224,7 +224,7 @@ void Database_Confirm::erase (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM confirm WHERE id =");
-  sql.add (id);
+  sql.add (static_cast<int>(id));
   sql.add (";");
   sql.execute ();
 }
@@ -233,7 +233,7 @@ void Database_Confirm::erase (unsigned int id)
 void Database_Confirm::trim ()
 {
   // Leave entries for no more than 30 days.
-  unsigned int time = filter::date::seconds_since_epoch () - 2592000; 
+  int time = filter::date::seconds_since_epoch () - 2592000;
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM confirm WHERE timestamp <");
   sql.add (time);

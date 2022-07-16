@@ -25,6 +25,9 @@
 #include <stddef.h>
 #include <string.h>
 
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+
 #include "microtar.h"
 
 typedef struct {

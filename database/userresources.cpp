@@ -68,14 +68,14 @@ void Database_UserResources::url (const string& name, const string & value)
 string Database_UserResources::book (const string& name, int id)
 {
   if (id < 1) return string();
-  return load (name, id);
+  return load (name, static_cast<size_t>(id));
 }
 
 
 // Stores the text fragment for a Bible book in the database.
 void Database_UserResources::book (const string& name, int id, const string & fragment)
 {
-  if (id > 0) save (name, id, fragment);
+  if (id > 0) save (name, static_cast<size_t>(id), fragment);
 }
 
 

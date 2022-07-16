@@ -150,7 +150,7 @@ int Database_Books::getIdLikeText (string text)
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].onlinebible)));
   }
-  quick_sort (similarities, ids, 0, (int)ids.size());
+  quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
   return ids.back ();
 }
 

@@ -77,7 +77,7 @@ string Editor_Usfm2Html::get ()
 
   // If there are notes, move the notes <div> or <p> after everything else.
   // (It has the <hr> or <br> as a child).
-  size_t count = distance (notes_node.begin (), notes_node.end ());
+  long int count = distance (notes_node.begin (), notes_node.end ());
   if (count > 1) {
     body_node.append_move (notes_node);
   }

@@ -39,6 +39,8 @@
  *  Implementation of libutf8proc.
  */
 
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 
 #include "utf8proc.h"
 #include "utf8proc_data.c"

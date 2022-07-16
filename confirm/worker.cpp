@@ -121,7 +121,7 @@ bool Confirm_Worker::handleLink (string & email)
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
   Database_Confirm database_confirm;
-  int id = database_confirm.search_id (web_id);
+  unsigned int id = database_confirm.search_id (web_id);
   if (id == 0) {
     return false;
   }

@@ -1385,7 +1385,7 @@ string Database_Notes::get_severity (int identifier)
   int severity = get_raw_severity (identifier);
   vector <string> standard = standard_severities ();
   string severitystring;
-  if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [severity];
+  if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [static_cast<size_t> (severity)];
   if (severitystring.empty()) severitystring = "Normal";
   severitystring = translate (severitystring.c_str());
   return severitystring;
@@ -1878,17 +1878,17 @@ vector <string> Database_Notes::set_bulk (string json)
   for (size_t i = 0; i < bulk.size (); i++) {
     
     // Get all the different fields for this note.
-    Object note = bulk.get<Object>((int)i);
+    Object note = bulk.get<Object>(static_cast<unsigned>(i));
     string assigned = note.get<String> ("a");
     string bible = note.get<String> ("b");
     string contents = note.get<String> ("c");
-    int identifier = note.get<Number> ("i");
-    int modified = note.get<Number> ("m");
+    int identifier = static_cast<int>(note.get<Number> ("i"));
+    int modified = static_cast<int>(note.get<Number> ("m"));
     string passage = note.get<String> ("p");
     string subscriptions = note.get<String> ("sb");
     string summary = note.get<String> ("sm");
     string status = note.get<String> ("st");
-    int severity = note.get<Number> ("sv");
+    int severity = static_cast<int>(note.get<Number> ("sv"));
     
     // Feedback about which note it received in bulk.
     summaries.push_back (summary);

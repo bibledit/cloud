@@ -219,6 +219,7 @@
 /developer
 /developer/index.html
 /developer/index.js
+/developer/warnings.sh
 /dialog
 /dialog/books.html
 /dialog/color.html

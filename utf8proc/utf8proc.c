@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wassign-enum"
 /* -*- mode: c; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*- */
 /*
  *  Copyright (c) 2009 Public Software Group e. V., Berlin, Germany

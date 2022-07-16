@@ -148,7 +148,6 @@ void sources_kjv_parse ()
           book++;
           Database_Logs::log ("Book " + convert_to_string (book));
           chapter = 0;
-          verse = 0;
           for (xml_node chapter_element : divbook.children ()) {
             if (strcmp (chapter_element.name (), "chapter") == 0) {
               chapter++;

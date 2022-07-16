@@ -656,6 +656,7 @@ void test_git ()
     vector <string> paths = { "Psalms/0/data" };
     success = filter_git_resolve_conflicts (repository, paths, error);
     evaluate (__LINE__, __func__, string(), error);
+    evaluate (__LINE__, __func__, true, success);
     // Check the merge result.
     string standard =
     "\\id PSALM\n"

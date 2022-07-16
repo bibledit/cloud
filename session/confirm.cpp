@@ -57,7 +57,7 @@ bool session_confirm_acl (void * webserver_request)
   // Such a situation produces level 1, that is the guest level.
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   int level = request->session_logic ()->currentLevel ();
-  return (level = Filter_Roles::guest());
+  return (level == Filter_Roles::guest());
 }
 
 

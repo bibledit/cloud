@@ -97,7 +97,8 @@ void test_database_check ()
     evaluate (__LINE__, __func__, 1, (int)suppressions.size());
     
     id = suppressions [0].rowid;
-    
+    evaluate (__LINE__, __func__, 1, id);
+
     database_check.release (1);
     hits = database_check.getHits ();
     evaluate (__LINE__, __func__, 2, (int)hits.size());

@@ -86,7 +86,7 @@ string styles_view (void * webserver_request)
   
   
   // Whether a style was edited.
-  bool style_is_edited = false;
+  bool style_is_edited { false };
 
   
   // The style's name.
@@ -539,6 +539,7 @@ string styles_view (void * webserver_request)
     if (write) {
       database_styles.updateColor (sheet, style, color);
       style_is_edited = true;
+      if (style_is_edited) {};
     }
     return string();
   }
@@ -552,6 +553,7 @@ string styles_view (void * webserver_request)
     if (write) {
       database_styles.updateBackgroundColor (sheet, style, color);
       style_is_edited = true;
+      if (style_is_edited) {};
     }
     return string();
   }

@@ -365,8 +365,11 @@ void Filter_Text::process_usfm ()
         bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
         // Clean up the marker, so we remain with the basic version, e.g. 'id'.
         string marker = usfm_get_marker (currentItem);
+        // Strip word-level attributes.
+        dispose_of_word_level_attributes (marker);
         if (styles.find (marker) != styles.end())
         {
+          // Deal with known style.
           Database_Styles_Item style = styles [marker];
           switch (style.type)
           {
@@ -565,7 +568,7 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case StyleTypeInlineText: // Todo
+            case StyleTypeInlineText:
             {
               // Support for a normal and an embedded character style.
               if (isOpeningMarker) {
@@ -574,7 +577,6 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (style, false, isEmbeddedMarker);
                 if (html_text_standard) html_text_standard->open_text_style (style, false, isEmbeddedMarker);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, isEmbeddedMarker);
-                dispose_of_word_level_attributes();
               } else {
                 if (odf_text_standard) odf_text_standard->close_text_style (false, isEmbeddedMarker);
                 if (odf_text_text_only) odf_text_text_only->close_text_style (false, isEmbeddedMarker);
@@ -992,7 +994,7 @@ void Filter_Text::process_usfm ()
               // UserInt1TableColumnNumber:
               break;
             }
-            case StyleTypeWordlistElement: // Todo
+            case StyleTypeWordlistElement:
             {
               switch (style.subtype)
               {
@@ -1516,7 +1518,6 @@ void Filter_Text::addToFallout (string text, bool next)
 // and the text following that marker is added to the word list array.
 void Filter_Text::addToWordList (vector <string>  & list)
 {
-  dispose_of_word_level_attributes();
   string text = usfm_peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   text.append (" (");
   text.append (getCurrentPassageText ());
@@ -1733,31 +1734,26 @@ void Filter_Text::notes_plain_text_handler ()
 
 // Example: \+w Lord|strong="H3068"\+w*
 // It will dispose of e.g. this: |strong="H3068"
-void Filter_Text::dispose_of_word_level_attributes () // Todo
+// It handles the default attribute: \w gracious|grace\w*
+void Filter_Text::dispose_of_word_level_attributes (const string& marker)
 {
-  // It is assumed, and indeed designed to be,
-  // that this method is called right after character markup starts.
+  // USFM 3.0 has four markers providing attributes.
+  // https://ubsicap.github.io/usfm/attributes/index.html.
+  // Deal with those only, and don't deal with any others.
+  // Note that the \fig markup is handled elsewhere in this class.
+  if ((marker != "w") && (marker != "rb") && (marker != "xt")) return;
+  
   // Check the text following this markup whether it contains word-level attributes.
   string possible_markup = usfm_peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   
-  // If the markup is too short to contains the required characters, then bail out.
+  // If the markup is too short to contain the required characters, then bail out.
   if (possible_markup.length() < 4) return;
 
   // Look for the vertical bar. If it's not there, bail out.
   size_t bar_position = possible_markup.find("|");
   if (bar_position == string::npos) return;
 
-  // Look for the first quote. If it's not there, bail out.
-  size_t first_quote_position = possible_markup.find(R"(")", bar_position);
-  if (first_quote_position == string::npos) return;
-  
-  // Look for the second quote. If it's not there, bail out.
-  size_t second_quote_position = possible_markup.find(R"(")", bar_position + 1);
-  if (second_quote_position == string::npos) return;
-
   // Remove the fragment and store the remainder back into the object.
-  cout << possible_markup << endl; // Todo
-  possible_markup.erase(bar_position, bar_position - second_quote_position + 1);
-  cout << possible_markup << endl; // Todo
+  possible_markup.erase(bar_position);
   chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = possible_markup;
 }

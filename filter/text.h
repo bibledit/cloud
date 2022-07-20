@@ -231,7 +231,7 @@ private:
   // https://ubsicap.github.io/usfm/attributes/index.html
 public:
 private:
-  void dispose_of_word_level_attributes ();
+  void dispose_of_word_level_attributes (const string& marker);
   
   
 };

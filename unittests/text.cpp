@@ -1216,6 +1216,34 @@ caption
     }
   }
 
+  // Test export word-level attributes.
+  // https://ubsicap.github.io/usfm/attributes/index.html
+  {
+    string usfm = R"(
+\p
+\v 1 This is verse one.
+\v 2 And the \nd \+w Lord|strong="H3068"\+w*\nd* \w said|strong="H0559"\w* unto \w Cain|strong="H7014"\w*:
+\v 3 This is verse three.
+\v 4 Text with ruby glosses: \rb One|gloss="gg:gg"\rb* and \rb two|"gg:gg"\rb*.
+\v 5 Text with default attribute: \w gracious|strong="H1234,G5485"\w*.
+\v 6 Text with multiple attributes: \w gracious|lemma="grace" x-myattr="metadata"\w*.
+    )";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.initializeHeadingsAndTextPerVerse (false);
+    filter_text.add_usfm_code (usfm);
+    filter_text.run (styles_logic_standard_sheet ());
+    map <int, string> verses_text = filter_text.getVersesText ();
+    map <int, string> standard = {
+      {1, "This is verse one."},
+      {2, "And the Lord said unto Cain:"},
+      {3, "This is verse three."},
+      {4, "Text with ruby glosses: One and two."},
+      {5, "Text with default attribute: gracious."},
+      {6, "Text with multiple attributes: gracious."},
+    };
+    evaluate (__LINE__, __func__, standard, verses_text);
+  }
+  
   filter_url_unlink (TextTestOdt);
   filter_url_unlink (TextTestHtml);
   filter_url_unlink (TextTestTxt);

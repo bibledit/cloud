@@ -157,25 +157,25 @@ private:
 
 public:
   // Object for creating standard web documents.
-  Html_Text * html_text_standard;
+  Html_Text * html_text_standard {nullptr};
   // Object for creating interlinked web documents.
-  Html_Text * html_text_linked;
+  Html_Text * html_text_linked {nullptr};
 
 public:
   // Object for creating the input file for the Online Bible compiler.
-  OnlineBible_Text * onlinebible_text;
+  OnlineBible_Text * onlinebible_text {nullptr};
 
 public:
   // Object for creating the Bible module for eSword.
-  Esword_Text * esword_text;
+  Esword_Text * esword_text {nullptr};
 
 public:
   // Object for exporting to plain text.
-  Text_Text * text_text;
+  Text_Text * text_text { nullptr };
 
 public:
   // Object for exporting to TBS online bible format.
-  Tbsx_Text * tbsx_text;
+  Tbsx_Text * tbsx_text { nullptr };
   
 public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
@@ -188,15 +188,14 @@ public:
   vector <map <int, string>> verses_paragraphs;
 private:
   // Flags for headings per verse processor.
-  bool headings_text_per_verse_active;
-  bool heading_started;
+  bool headings_text_per_verse_active { false };
+  bool heading_started  { false };
   // Holds verse numbers and the plain text in that verse, without anything extra.
   map <int, string> verses_text;
   // Flag for text per verse processor.
   bool text_started;
   void storeVersesParagraphs ();
   map <int, string> actual_verses_paragraph;
-
   
 private:
   string space_type_after_verse; // The type of space to follow a verse number.
@@ -209,7 +208,7 @@ public:
   map <int, vector <int>> verses_text_note_positions;
 private:
   // Flag to keep track of open note.
-  bool note_open_now = false;
+  bool note_open_now { false };
   // The joined fragments.
   string notes_plain_text_buffer;
   // Handler.
@@ -220,12 +219,19 @@ public:
   vector <string> image_sources;
 private:
   // Flag for whether the processor is now within figure markup.
-  bool is_within_figure_markup = false;
+  bool is_within_figure_markup { false };
   
 public:
 private:
   // Flag for whether to left-align certain poetry styles
   // in exports to OpenDocument format.
-  bool odt_left_align_verse_in_poetry_styles = false;
+  bool odt_left_align_verse_in_poetry_styles { false };
+
+  // Handle the word-level attributes.
+  // https://ubsicap.github.io/usfm/attributes/index.html
+public:
+private:
+  void dispose_of_word_level_attributes ();
+  
   
 };

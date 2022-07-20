@@ -1745,7 +1745,7 @@ void Filter_Text::dispose_of_word_level_attributes (const string& marker)
   
   // Check the text following this markup whether it contains word-level attributes.
   string possible_markup = usfm_peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-  
+
   // If the markup is too short to contain the required characters, then bail out.
   if (possible_markup.length() < 4) return;
 

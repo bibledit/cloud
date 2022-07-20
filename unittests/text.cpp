@@ -1227,6 +1227,7 @@ caption
 \v 4 Text with ruby glosses: \rb One|gloss="gg:gg"\rb* and \rb two|"gg:gg"\rb*.
 \v 5 Text with default attribute: \w gracious|strong="H1234,G5485"\w*.
 \v 6 Text with multiple attributes: \w gracious|lemma="grace" x-myattr="metadata"\w*.
+\v 7 Text with \x - \xt 1|GEN 2:1\xt*\x*link reference.
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
@@ -1240,6 +1241,7 @@ caption
       {4, "Text with ruby glosses: One and two."},
       {5, "Text with default attribute: gracious."},
       {6, "Text with multiple attributes: gracious."},
+      {7, "Text with link reference."},
     };
     evaluate (__LINE__, __func__, standard, verses_text);
   }

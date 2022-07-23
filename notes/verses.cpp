@@ -72,7 +72,7 @@ string notes_verses (void * webserver_request)
       line = filter_string_trim (line);
       if (line != "") {
         Passage passage = filter_passage_interpret_passage (previousPassage, line);
-        if (passage.book != 0) {
+        if (passage.m_book != 0) {
           passages.push_back (passage);
           previousPassage = passage;
         }

@@ -46,13 +46,13 @@ void test_database_oshb ()
   vector <Passage> passages = database_oshb.searchHebrew ("יָדְע֥וּ");
   evaluate (__LINE__, __func__, 2, (int)passages.size());
   
-  evaluate (__LINE__, __func__, 19,   passages[0].book);
-  evaluate (__LINE__, __func__, 95,   passages[0].chapter);
-  evaluate (__LINE__, __func__, "10", passages[0].verse);
+  evaluate (__LINE__, __func__, 19,   passages[0].m_book);
+  evaluate (__LINE__, __func__, 95,   passages[0].m_chapter);
+  evaluate (__LINE__, __func__, "10", passages[0].m_verse);
   
-  evaluate (__LINE__, __func__, 30,   passages[1].book);
-  evaluate (__LINE__, __func__, 3,    passages[1].chapter);
-  evaluate (__LINE__, __func__, "10", passages[1].verse);
+  evaluate (__LINE__, __func__, 30,   passages[1].m_book);
+  evaluate (__LINE__, __func__, 3,    passages[1].m_chapter);
+  evaluate (__LINE__, __func__, "10", passages[1].m_verse);
   
   // Job 3:2.
   vector <int> items = database_oshb.rowids (18, 3, 2);

@@ -23,8 +23,11 @@
 #include <webserver/request.h>
 #include "assets/view.h"
 #include "resource/logic.h"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <jsonxx/jsonxx.h>
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 
 
 using namespace jsonxx;

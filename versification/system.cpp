@@ -73,9 +73,9 @@ string versification_system (void * webserver_request)
   vector <string> data;
   vector <Passage> passages = database_versifications.getBooksChaptersVerses (name);
   for (auto & passage : passages) {
-    int book = passage.book;
-    int chapter = passage.chapter;
-    string verse = passage.verse;
+    int book = passage.m_book;
+    int chapter = passage.m_chapter;
+    string verse = passage.m_verse;
     string bookname = Database_Books::getEnglishFromId (book);
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");

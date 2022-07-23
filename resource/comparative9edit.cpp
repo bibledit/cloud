@@ -30,7 +30,10 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <database/config/general.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 #include <resource/comparative1edit.h>
 #include <client/logic.h>
 

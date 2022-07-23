@@ -33,7 +33,7 @@ void test_database_sblgnt ()
   
   vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
   evaluate (__LINE__, __func__, 1,   (int)passages.size());
-  evaluate (__LINE__, __func__, 58,  passages[0].book);
-  evaluate (__LINE__, __func__, 6,   passages[0].chapter);
-  evaluate (__LINE__, __func__, "2", passages[0].verse);
+  evaluate (__LINE__, __func__, 58,  passages[0].m_book);
+  evaluate (__LINE__, __func__, 6,   passages[0].m_chapter);
+  evaluate (__LINE__, __func__, "2", passages[0].m_verse);
 }

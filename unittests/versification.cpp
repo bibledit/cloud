@@ -454,7 +454,7 @@ void test_database_versifications ()
     // Books Chapters Verses.
     vector <Passage> data = database_versifications.getBooksChaptersVerses (english ());
     evaluate (__LINE__, __func__, 1189, (int)data.size());
-    evaluate (__LINE__, __func__, "31", data [0].verse);
+    evaluate (__LINE__, __func__, "31", data [0].m_verse);
     
     // Maximum number of books.
     books = database_versifications.getMaximumBooks ();
@@ -486,7 +486,7 @@ void test_database_versifications ()
     evaluate (__LINE__, __func__, 1000, id);
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
     evaluate (__LINE__, __func__, 2, (int)data.size ());
-    evaluate (__LINE__, __func__, "25", data [1].verse);
+    evaluate (__LINE__, __func__, "25", data [1].m_verse);
     string output = database_versifications.output ("phpunit");
     evaluate (__LINE__, __func__, filter_string_trim (input), filter_string_trim (output));
   }

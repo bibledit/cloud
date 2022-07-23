@@ -39,7 +39,7 @@ public:
   string get_document ();
   void save_document (string filename);
 private:
-  string buffer;
-  bool in_note;
+  string buffer {};
+  bool in_note {false};
   vector <string> output;
 };

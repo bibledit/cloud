@@ -53,8 +53,8 @@ string edit_edit (void * webserver_request)
   
   string passage_query = request->query ["passage"];
   Passage passage = filter_integer_to_passage (convert_to_int (passage_query));
-  Ipc_Focus::set (request, passage.book, passage.chapter, convert_to_int (passage.verse));
-  Navigation_Passage::record_history (request, passage.book, passage.chapter, convert_to_int (passage.verse));
+  Ipc_Focus::set (request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+  Navigation_Passage::record_history (request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
   
   
   // Check whether a Bible editor is alive.

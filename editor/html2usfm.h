@@ -21,7 +21,10 @@
 
 #include <config/libraries.h>
 #include <database/styles.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 
 using namespace pugi;
 
@@ -33,16 +36,16 @@ public:
   void run ();
   string get ();
 private:
-  xml_document document; // DOMDocument holding the html.
-  map <string, Database_Styles_Item> styles; // Style information.
-  vector <string> output; // Output USFM.
-  string currentLine; // Growing current USFM line.
-  bool mono; // Monospace font.
-  set <string> suppressEndMarkers; // Markers which should not have endmarkers, e.g. \v does not have \v*
-  set <string> noteOpeners;
-  vector <string> characterStyles; // Active character styles.
-  bool processingNote = false; // Note processing flag.
-  string lastNoteStyle; // The most recent style opened inside a note.
+  xml_document document {}; // DOMDocument holding the html.
+  map <string, Database_Styles_Item> styles {}; // Style information.
+  vector <string> output {}; // Output USFM.
+  string currentLine {}; // Growing current USFM line.
+  bool mono {false}; // Monospace font.
+  set <string> suppressEndMarkers {}; // Markers which should not have endmarkers, e.g. \v does not have \v*
+  set <string> noteOpeners {};
+  vector <string> characterStyles {}; // Active character styles.
+  bool processingNote {false}; // Note processing flag.
+  string lastNoteStyle {}; // The most recent style opened inside a note.
   void preprocess ();
   void flushLine ();
   void postprocess ();

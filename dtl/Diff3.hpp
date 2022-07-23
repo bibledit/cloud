@@ -1,3 +1,4 @@
+#pragma GCC diagnostic ignored "-Weffc++"
 /**
    dtl -- Diff Template Library
    

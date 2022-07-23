@@ -76,8 +76,8 @@ string navigation_paratext (void * webserver_request)
             passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
           }
           if (passages.empty()) return "";
-          chapter = passages[0].chapter;
-          verse = convert_to_int (passages[0].verse);
+          chapter = passages[0].m_chapter;
+          verse = convert_to_int (passages[0].m_verse);
           // Set the focused passage for Bibledit.
           Ipc_Focus::set (request, book, chapter, verse);
         }

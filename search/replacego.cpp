@@ -65,10 +65,10 @@ string search_replacego (void * webserver_request)
   
   // Get Bible and passage for this identifier.
   Passage passage = Passage::decode (id);
-  string bible = passage.bible;
-  int book = passage.book;
-  int chapter = passage.chapter;
-  int verse = convert_to_int (passage.verse);
+  string bible = passage.m_bible;
+  int book = passage.m_book;
+  int chapter = passage.m_chapter;
+  int verse = convert_to_int (passage.m_verse);
   
   
   // Check whether the user has write access to the book.

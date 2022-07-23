@@ -26,9 +26,11 @@ class Dialog_Entry
 public:
   Dialog_Entry (string url, string question, string value, string submit, string help);
   ~Dialog_Entry ();
+  Dialog_Entry(const Dialog_Entry&) = delete;
+  Dialog_Entry operator=(const Dialog_Entry&) = delete;
   void add_query (string parameter, string value);
   string run ();
 private:
-  void * assets_view = NULL;
-  string base_url;
+  void * assets_view {nullptr};
+  string base_url {};
 };

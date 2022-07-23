@@ -110,9 +110,9 @@ string edit_save (void * webserver_request)
     return translate("Incorrect chapter");
   }
   
-  int book_number = book_chapter_text[0].book;
-  int chapter_number = book_chapter_text[0].chapter;
-  user_usfm = book_chapter_text[0].data;
+  int book_number = book_chapter_text[0].m_book;
+  int chapter_number = book_chapter_text[0].m_chapter;
+  user_usfm = book_chapter_text[0].m_data;
   bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
   if (!chapter_ok) {
     return translate("Incorrect chapter") + " " + convert_to_string (chapter_number);

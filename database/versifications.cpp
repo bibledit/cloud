@@ -133,11 +133,11 @@ string Database_Versifications::output (const string& name)
   vector <string> lines;
   vector <Passage> versification_data = getBooksChaptersVerses (name);
   for (Passage & passage : versification_data) {
-    string line = Database_Books::getEnglishFromId (passage.book);
+    string line = Database_Books::getEnglishFromId (passage.m_book);
     line.append (" ");
-    line.append (convert_to_string (passage.chapter));
+    line.append (convert_to_string (passage.m_chapter));
     line.append (":");
-    line.append (passage.verse);
+    line.append (passage.m_verse);
     lines.push_back (line);
   }
   return filter_string_implode (lines, "\n");
@@ -243,9 +243,9 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const string& 
   vector <string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
-    passage.book = convert_to_int (books [i]);
-    passage.chapter = convert_to_int (chapters [i]);
-    passage.verse = verses [i];
+    passage.m_book = convert_to_int (books [i]);
+    passage.m_chapter = convert_to_int (chapters [i]);
+    passage.m_verse = verses [i];
     data.push_back (passage);
   }
   return data;

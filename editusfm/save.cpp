@@ -78,9 +78,9 @@ string editusfm_save (void * webserver_request)
           vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
           if (!book_chapter_text.empty()) {
             BookChapterData data = book_chapter_text[0];
-            int book_number = data.book;
-            int chapter_number = data.chapter;
-            string chapter_data_to_save = data.data;
+            int book_number = data.m_book;
+            int chapter_number = data.m_chapter;
+            string chapter_data_to_save = data.m_data;
             if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
               // The USFM loaded into the editor.
               string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);

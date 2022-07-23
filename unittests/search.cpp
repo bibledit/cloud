@@ -79,10 +79,10 @@ void test_search ()
     vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
     evaluate (__LINE__, __func__, 1, (int)passages.size());
     if (!passages.empty ()) {
-      evaluate (__LINE__, __func__, "phpunit", passages[0].bible);
-      evaluate (__LINE__, __func__, 2, passages[0].book);
-      evaluate (__LINE__, __func__, 3, passages[0].chapter);
-      evaluate (__LINE__, __func__, "6", passages[0].verse);
+      evaluate (__LINE__, __func__, "phpunit", passages[0].m_bible);
+      evaluate (__LINE__, __func__, 2, passages[0].m_book);
+      evaluate (__LINE__, __func__, 3, passages[0].m_chapter);
+      evaluate (__LINE__, __func__, "6", passages[0].m_verse);
     }
   }
 
@@ -93,13 +93,13 @@ void test_search ()
     vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
     evaluate (__LINE__, __func__, 4, (int)passages.size());
     if (passages.size () == 4) {
-      evaluate (__LINE__, __func__, "phpunit3", passages[0].bible);
-      evaluate (__LINE__, __func__, 6, passages[1].book);
-      evaluate (__LINE__, __func__, 7, passages[2].chapter);
-      evaluate (__LINE__, __func__, "0", passages[0].verse);
-      evaluate (__LINE__, __func__, "1", passages[1].verse);
-      evaluate (__LINE__, __func__, "2", passages[2].verse);
-      evaluate (__LINE__, __func__, "4", passages[3].verse);
+      evaluate (__LINE__, __func__, "phpunit3", passages[0].m_bible);
+      evaluate (__LINE__, __func__, 6, passages[1].m_book);
+      evaluate (__LINE__, __func__, 7, passages[2].m_chapter);
+      evaluate (__LINE__, __func__, "0", passages[0].m_verse);
+      evaluate (__LINE__, __func__, "1", passages[1].m_verse);
+      evaluate (__LINE__, __func__, "2", passages[2].m_verse);
+      evaluate (__LINE__, __func__, "4", passages[3].m_verse);
     }
   }
 

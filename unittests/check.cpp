@@ -133,9 +133,9 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 6, 7, 8, "test2");
     Passage passage = database_check.getPassage (2);
-    evaluate (__LINE__, __func__, 6, passage.book);
-    evaluate (__LINE__, __func__, 7, passage.chapter);
-    evaluate (__LINE__, __func__, "8", passage.verse);
+    evaluate (__LINE__, __func__, 6, passage.m_book);
+    evaluate (__LINE__, __func__, 7, passage.m_chapter);
+    evaluate (__LINE__, __func__, "8", passage.m_verse);
   }
 
   {

@@ -175,12 +175,12 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
 bool hyphenate_is_near_white_space (const vector <string> & characters, int offset)
 {
   // The constant for the nearness to the start of the word.
-  size_t start = static_cast<size_t> (offset - 2);
+  int start = offset - 2;
   // The constant for the nearness to the end of the word.
-  size_t end = static_cast<size_t>(offset + 2);
+  int end = offset + 2;
   if (start < 0) start = 0;
-  if (end > characters.size()) end = characters.size();
-  for (size_t i = start; i < end; i++) {
+  if (end > static_cast<int>(characters.size())) end = static_cast<int> (characters.size());
+  for (size_t i = static_cast<size_t>(start); i < static_cast<size_t>(end); i++) {
     if (characters[i] == " ") return true;
   }
   return false;

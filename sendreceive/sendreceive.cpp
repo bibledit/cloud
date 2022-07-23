@@ -93,7 +93,7 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
     vector <string> lines = filter_git_status (directory, true);
     for (auto & line : lines) {
       Passage passage = filter_git_get_passage (line);
-      if (passage.book) {
+      if (passage.m_book) {
         Database_Logs::log (sendreceive_tag () + line, Filter_Roles::translator ());
         localchanges = true;
       }
@@ -183,9 +183,9 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
       pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
       for (auto & pull_message : pull_messages) {
         Passage passage = filter_git_get_passage (pull_message);
-        if (passage.book) {
-          int book = passage.book;
-          int chapter = passage.chapter;
+        if (passage.m_book) {
+          int book = passage.m_book;
+          int chapter = passage.m_chapter;
           filter_git_sync_git_chapter_to_bible (directory, bible, book, chapter);
         }
       }

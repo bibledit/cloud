@@ -35,7 +35,10 @@
 #include <access/bible.h>
 #include <ipc/notes.h>
 #include <locale/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 
 
 using namespace pugi;
@@ -118,7 +121,7 @@ string changes_change (void * webserver_request)
   
   // Get notes for the passage.
   vector <int> notes = database_notes.select_notes (bibles, // Bibles.
-                                                   passage.book, passage.chapter, convert_to_int (passage.verse),
+                                                   passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse),
                                                    0,  // Passage selector.
                                                    0,  // Edit selector.
                                                    0,  // Non-edit selector.

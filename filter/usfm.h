@@ -24,10 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class BookChapterData
 {
 public:
-  BookChapterData (int book_in, int chapter_in, string data_in);
-  int book;
-  int chapter;
-  string data;
+  BookChapterData (int book, int chapter, string data);
+  int m_book { 0 };
+  int m_chapter { 0 };
+  string m_data {};
 };
 
 string usfm_one_string (string usfm);

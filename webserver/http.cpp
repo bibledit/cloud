@@ -23,7 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <config/globals.h>
 #include <filter/string.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <parsewebdata/ParseWebData.h>
+#pragma GCC diagnostic pop
 #include <webserver/request.h>
 
 

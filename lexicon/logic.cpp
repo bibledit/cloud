@@ -27,7 +27,10 @@
 #include <database/strong.h>
 #include <database/hebrewlexicon.h>
 #include <database/abbottsmith.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 #include <webserver/request.h>
 
 

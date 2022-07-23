@@ -26,12 +26,14 @@ class Dialog_List
 public:
   Dialog_List (string url, string question, string info_top, string info_bottom, bool post = false);
   ~Dialog_List ();
+  Dialog_List(const Dialog_List&) = delete;
+  Dialog_List operator=(const Dialog_List&) = delete;
   void add_query (string parameter, string value);
   void add_row (string text, string parameter, string value);
   string run ();
 private:
-  void * assets_view = NULL;
-  string base_url;
-  string list_block;
-  bool post_result = false;
+  void * assets_view {nullptr};
+  string base_url {};
+  string list_block {};
+  bool post_result {false};
 };

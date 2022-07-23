@@ -64,10 +64,10 @@ string public_notes (void * webserver_request)
       vector <Passage> passages = database_notes.get_passages (identifier);
       string verses;
       for (auto & passage : passages) {
-        if (passage.book != book) continue;
-        if (passage.chapter != chapter) continue;
+        if (passage.m_book != book) continue;
+        if (passage.m_chapter != chapter) continue;
         if (!verses.empty ()) verses.append (" ");
-        verses.append (passage.verse);
+        verses.append (passage.m_verse);
       }
       notesblock << verses;
       notesblock << " | ";

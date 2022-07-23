@@ -104,7 +104,7 @@ void test_session ()
     Database_Users database_users;
     database_users.create ();
     database_users.upgrade ();
-    Webserver_Request request;
+    Webserver_Request request1;
 
     // Enter a user into the database.
     string username = "ঃইঝম";
@@ -115,61 +115,61 @@ void test_session ()
     string session = "abcdefgh";
     
     // Log in by providing username and password.
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, "incorrect", true));
+    request1.session_identifier = session;
+    evaluate (__LINE__, __func__, false, request1.session_logic ()->attempt_login (username, "incorrect", true));
     user_logic_login_failure_clear ();
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
+    evaluate (__LINE__, __func__, true, request1.session_logic ()->attempt_login (username, password, true));
+    evaluate (__LINE__, __func__, true, request1.session_logic ()->loggedIn ());
 
     // Check whether logged in also from another session.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    evaluate (__LINE__, __func__, username, request.session_logic ()->currentUser ());
-    evaluate (__LINE__, __func__, level, request.session_logic ()->currentLevel ());
+    Webserver_Request request2;
+    request2.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request2.session_logic ()->loggedIn ());
+    evaluate (__LINE__, __func__, username, request2.session_logic ()->currentUser ());
+    evaluate (__LINE__, __func__, level, request2.session_logic ()->currentLevel ());
     
     // Logout in another session, and check it in a subsequent session.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.session_logic ()->logout ();
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
-    evaluate (__LINE__, __func__, "", request.session_logic ()->currentUser ());
-    evaluate (__LINE__, __func__, Filter_Roles::guest(), request.session_logic ()->currentLevel ());
+    Webserver_Request request3;
+    request3.session_identifier = session;
+    request3.session_logic ()->logout ();
+    Webserver_Request request4;
+    request4.session_identifier = session;
+    evaluate (__LINE__, __func__, false, request4.session_logic ()->loggedIn ());
+    evaluate (__LINE__, __func__, "", request4.session_logic ()->currentUser ());
+    evaluate (__LINE__, __func__, Filter_Roles::guest(), request4.session_logic ()->currentLevel ());
     
     // Login. Then vary the browser's signature for subsequent sessions.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    string remote_address = request.remote_address;
-    string user_agent = request.user_agent;
-    string accept_language = request.accept_language;
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.remote_address = "1.2.3.4";
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.remote_address = remote_address;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.user_agent = "User's Agent";
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.user_agent = user_agent;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.accept_language = "xy_ZA";
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    request.accept_language = accept_language;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
+    Webserver_Request request5;
+    request5.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request5.session_logic ()->attempt_login (username, password, true));
+    evaluate (__LINE__, __func__, true, request5.session_logic ()->loggedIn ());
+    string remote_address = request5.remote_address;
+    string user_agent = request5.user_agent;
+    string accept_language = request5.accept_language;
+    Webserver_Request request6;
+    request6.session_identifier = session;
+    request6.remote_address = "1.2.3.4";
+    evaluate (__LINE__, __func__, true, request6.session_logic ()->loggedIn ());
+    Webserver_Request request7;
+    request7.session_identifier = session;
+    request7.remote_address = remote_address;
+    evaluate (__LINE__, __func__, true, request7.session_logic ()->loggedIn ());
+    Webserver_Request request8;
+    request8.session_identifier = session;
+    request8.user_agent = "User's Agent";
+    evaluate (__LINE__, __func__, true, request8.session_logic ()->loggedIn ());
+    Webserver_Request request9;
+    request9.session_identifier = session;
+    request9.user_agent = user_agent;
+    evaluate (__LINE__, __func__, true, request9.session_logic ()->loggedIn ());
+    Webserver_Request request10;
+    request10.session_identifier = session;
+    request10.accept_language = "xy_ZA";
+    evaluate (__LINE__, __func__, true, request10.session_logic ()->loggedIn ());
+    Webserver_Request request11;
+    request11.session_identifier = session;
+    request11.accept_language = accept_language;
+    evaluate (__LINE__, __func__, true, request11.session_logic ()->loggedIn ());
   }
 
   {
@@ -187,7 +187,7 @@ void test_session ()
     string email = "info@bibledit.org";
     int level = 5;
     database_users.add_user (username, password, level, email);
-    Webserver_Request request;
+    Webserver_Request request1;
     string session = "abcdefgh";
     
     // To get stable results from the unit tests, run them right from the start of a new second.
@@ -204,34 +204,34 @@ void test_session ()
     user_logic_login_failure_clear ();
     
     // Properly login.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request.session_logic ()->logout ();
+    Webserver_Request request2;
+    request2.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request2.session_logic ()->attempt_login (username, password, true));
+    evaluate (__LINE__, __func__, true, request2.session_logic ()->loggedIn ());
+    request2.session_logic ()->logout ();
     
     // Login with wrong password.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, password + "wrong", true));
-    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    Webserver_Request request3;
+    request3.session_identifier = session;
+    evaluate (__LINE__, __func__, false, request3.session_logic ()->attempt_login (username, password + "wrong", true));
+    evaluate (__LINE__, __func__, false, request3.session_logic ()->loggedIn ());
     
     // Detector kicks in: A proper login now fails also.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, false, request.session_logic ()->attempt_login (username, password, true));
-    evaluate (__LINE__, __func__, false, request.session_logic ()->loggedIn ());
+    Webserver_Request request4;
+    request4.session_identifier = session;
+    evaluate (__LINE__, __func__, false, request4.session_logic ()->attempt_login (username, password, true));
+    evaluate (__LINE__, __func__, false, request4.session_logic ()->loggedIn ());
     
     // Wait till the next second.
     now = filter::date::seconds_since_epoch ();
     while (now == filter::date::seconds_since_epoch ()) this_thread::sleep_for (chrono::milliseconds (10));
     
     // After a second, a proper login works again.
-    request = Webserver_Request ();
-    request.session_identifier = session;
-    evaluate (__LINE__, __func__, true, request.session_logic ()->attempt_login (username, password, true));
-    evaluate (__LINE__, __func__, true, request.session_logic ()->loggedIn ());
-    request.session_logic ()->logout ();
+    Webserver_Request request5;
+    request5.session_identifier = session;
+    evaluate (__LINE__, __func__, true, request5.session_logic ()->attempt_login (username, password, true));
+    evaluate (__LINE__, __func__, true, request5.session_logic ()->loggedIn ());
+    request5.session_logic ()->logout ();
   }
   
   // Checks on login session without proper check, as in a confirmation through a link.

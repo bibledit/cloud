@@ -20,11 +20,15 @@
 #include <filter/merge.h>
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <dtl/dtl.hpp>
 #pragma GCC diagnostic pop
 using dtl::Diff3;
 #include <filter/string.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 #include <email/send.h>
 #include <filter/usfm.h>
 

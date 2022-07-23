@@ -35,10 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 Assets_Header::Assets_Header (string title, void * webserver_request)
 {
-  includeJQueryTouch = false;
-  includeTouchCSS = false;
-  includeNotifIt = false;
-  displayNavigator = false;
   m_webserver_request = webserver_request;
   view = new Assets_View ();
   view->set_variable ("title", title);

@@ -152,10 +152,10 @@ string search_all (void * webserver_request)
   // Assemble the search results for the Bible text.
   string textblock;
   for (auto & passage : passages) {
-    string bible = passage.bible;
-    int book = passage.book;
-    int chapter = passage.chapter;
-    string verse = passage.verse;
+    string bible = passage.m_bible;
+    int book = passage.m_book;
+    int chapter = passage.m_chapter;
+    string verse = passage.m_verse;
     // The title plus link.
     string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.

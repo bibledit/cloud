@@ -122,21 +122,21 @@ string resource_print (void * webserver_request)
     } else {
       // Set where to start from: Set book, chapter 1, verse 0.
       Passage frompassage = request->database_config_user()->getPrintPassageFrom ();
-      frompassage.book = convert_to_int (frombook);
-      frompassage.chapter = 0;
-      frompassage.verse = "0";
+      frompassage.m_book = convert_to_int (frombook);
+      frompassage.m_chapter = 0;
+      frompassage.m_verse = "0";
       request->database_config_user()->setPrintPassageFrom (frompassage);
       // Check if ending book matches.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set ending passage to a sensible value.
-        topassage.book = convert_to_int (frombook);
-        vector <int> chapters = request->database_bibles()->getChapters (bible, topassage.book);
-        topassage.chapter = frompassage.chapter;
-        if (!chapters.empty ()) topassage.chapter = chapters.back ();
-        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.book, topassage.chapter));
-        topassage.verse = frompassage.verse;
-        if (!verses.empty ()) topassage.verse = convert_to_string (verses.back ());
+        topassage.m_book = convert_to_int (frombook);
+        vector <int> chapters = request->database_bibles()->getChapters (bible, topassage.m_book);
+        topassage.m_chapter = frompassage.m_chapter;
+        if (!chapters.empty ()) topassage.m_chapter = chapters.back ();
+        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
+        topassage.m_verse = frompassage.m_verse;
+        if (!verses.empty ()) topassage.m_verse = convert_to_string (verses.back ());
         request->database_config_user()->setPrintPassageTo (topassage);
       }
     }
@@ -148,7 +148,7 @@ string resource_print (void * webserver_request)
     if (fromchapter == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
       Passage passage = request->database_config_user()->getPrintPassageFrom ();
-      vector <int> chapters = request->database_bibles()->getChapters (bible, passage.book);
+      vector <int> chapters = request->database_bibles()->getChapters (bible, passage.m_book);
       for (auto & chapter : chapters) {
         dialog_list.add_row (convert_to_string (chapter), "fromchapter", convert_to_string (chapter));
       }
@@ -157,17 +157,17 @@ string resource_print (void * webserver_request)
     } else {
       // Set which chapter to start from, and the verse also.
       Passage frompassage = request->database_config_user()->getPrintPassageFrom ();
-      frompassage.chapter = convert_to_int (fromchapter);
-      frompassage.verse = "0";
+      frompassage.m_chapter = convert_to_int (fromchapter);
+      frompassage.m_verse = "0";
       request->database_config_user()->setPrintPassageFrom (frompassage);
       // Check if ending passage is sensible.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set ending chapter / verse to sensible values.
-        topassage.chapter = convert_to_int (fromchapter);
-        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.book, topassage.chapter));
-        topassage.verse = frompassage.verse;
-        if (!verses.empty ()) topassage.verse = convert_to_string (verses.back ());
+        topassage.m_chapter = convert_to_int (fromchapter);
+        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
+        topassage.m_verse = frompassage.m_verse;
+        if (!verses.empty ()) topassage.m_verse = convert_to_string (verses.back ());
         request->database_config_user()->setPrintPassageTo (topassage);
       }
     }
@@ -179,7 +179,7 @@ string resource_print (void * webserver_request)
     if (fromverse == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = request->database_config_user()->getPrintPassageFrom ();
-      string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
+      string usfm = request->database_bibles()->getChapter (bible, passage.m_book, passage.m_chapter);
       vector <int> verses = usfm_get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (convert_to_string (verse), "fromverse", convert_to_string (verse));
@@ -189,14 +189,14 @@ string resource_print (void * webserver_request)
     } else {
       // Set verse.
       Passage frompassage = request->database_config_user()->getPrintPassageFrom ();
-      frompassage.verse = fromverse;
+      frompassage.m_verse = fromverse;
       request->database_config_user()->setPrintPassageFrom (frompassage);
       // Sensible matching ending verse.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
-        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.book, topassage.chapter));
-        topassage.verse = frompassage.verse;
-        if (!verses.empty ()) topassage.verse = convert_to_string (verses.back ());
+        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
+        topassage.m_verse = frompassage.m_verse;
+        if (!verses.empty ()) topassage.m_verse = convert_to_string (verses.back ());
         request->database_config_user()->setPrintPassageTo (topassage);
       }
     }
@@ -217,17 +217,17 @@ string resource_print (void * webserver_request)
     } else {
       // Set ending passage.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
-      topassage.book = convert_to_int (tobook);
-      topassage.chapter = 1;
-      topassage.verse = "0";
+      topassage.m_book = convert_to_int (tobook);
+      topassage.m_chapter = 1;
+      topassage.m_verse = "0";
       request->database_config_user()->setPrintPassageTo (topassage);
       // Check on matching starting book.
       Passage frompassage = request->database_config_user()->getPrintPassageFrom ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set starting passage to a sensible value.
-        frompassage.book = convert_to_int (tobook);
-        frompassage.chapter = 0;
-        frompassage.verse = "0";
+        frompassage.m_book = convert_to_int (tobook);
+        frompassage.m_chapter = 0;
+        frompassage.m_verse = "0";
         request->database_config_user()->setPrintPassageFrom (frompassage);
       }
     }
@@ -239,7 +239,7 @@ string resource_print (void * webserver_request)
     if (tochapter == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
       Passage passage = request->database_config_user()->getPrintPassageTo ();
-      vector <int> chapters = request->database_bibles()->getChapters (bible, passage.book);
+      vector <int> chapters = request->database_bibles()->getChapters (bible, passage.m_book);
       for (auto & chapter : chapters) {
         dialog_list.add_row (convert_to_string (chapter), "tochapter", convert_to_string (chapter));
       }
@@ -248,16 +248,16 @@ string resource_print (void * webserver_request)
     } else {
       // Set chapter.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
-      topassage.chapter = convert_to_int (tochapter);
-      topassage.verse = "0";
+      topassage.m_chapter = convert_to_int (tochapter);
+      topassage.m_verse = "0";
       request->database_config_user()->setPrintPassageTo (topassage);
       // Match starting passage.
       Passage frompassage = request->database_config_user()->getPrintPassageFrom ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set starting passage to a sensible value.
-        frompassage.book = topassage.book;
-        frompassage.chapter = 0;
-        frompassage.verse = "0";
+        frompassage.m_book = topassage.m_book;
+        frompassage.m_chapter = 0;
+        frompassage.m_verse = "0";
         request->database_config_user()->setPrintPassageFrom (frompassage);
       }
     }
@@ -269,7 +269,7 @@ string resource_print (void * webserver_request)
     if (toverse == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = request->database_config_user()->getPrintPassageTo ();
-      string usfm = request->database_bibles()->getChapter (bible, passage.book, passage.chapter);
+      string usfm = request->database_bibles()->getChapter (bible, passage.m_book, passage.m_chapter);
       vector <int> verses = usfm_get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (convert_to_string (verse), "toverse", convert_to_string (verse));
@@ -279,15 +279,15 @@ string resource_print (void * webserver_request)
     } else {
       // Set ending verse.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
-      topassage.verse = toverse;
+      topassage.m_verse = toverse;
       request->database_config_user()->setPrintPassageTo (topassage);
       // Match starting verse.
       Passage frompassage = request->database_config_user()->getPrintPassageFrom ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set starting passage to a sensible value.
-        frompassage.book = topassage.book;
-        frompassage.chapter = topassage.chapter;
-        frompassage.verse = "0";
+        frompassage.m_book = topassage.m_book;
+        frompassage.m_chapter = topassage.m_chapter;
+        frompassage.m_verse = "0";
         request->database_config_user()->setPrintPassageFrom (frompassage);
       }
     }
@@ -307,13 +307,13 @@ string resource_print (void * webserver_request)
 
 
   Passage passage = request->database_config_user()->getPrintPassageFrom ();
-  view.set_variable ("from_book", Database_Books::getEnglishFromId (passage.book));
-  view.set_variable ("from_chapter", convert_to_string (passage.chapter));
-  view.set_variable ("from_verse", passage.verse);
+  view.set_variable ("from_book", Database_Books::getEnglishFromId (passage.m_book));
+  view.set_variable ("from_chapter", convert_to_string (passage.m_chapter));
+  view.set_variable ("from_verse", passage.m_verse);
   passage = request->database_config_user()->getPrintPassageTo ();
-  view.set_variable ("to_book", Database_Books::getEnglishFromId (passage.book));
-  view.set_variable ("to_chapter", convert_to_string (passage.chapter));
-  view.set_variable ("to_verse", passage.verse);
+  view.set_variable ("to_book", Database_Books::getEnglishFromId (passage.m_book));
+  view.set_variable ("to_chapter", convert_to_string (passage.m_chapter));
+  view.set_variable ("to_verse", passage.m_verse);
 
 
   page += view.render ("resource", "print");

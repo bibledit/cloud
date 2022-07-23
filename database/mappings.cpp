@@ -327,9 +327,9 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
   // This is a translation from Hebrew/Greek to the $output system.
   vector <Passage> targetpassage;
   for (Passage & passage : origpassage) {
-    int origbook = passage.book;
-    int origchapter = passage.chapter;
-    int origverse = convert_to_int (passage.verse);
+    int origbook = passage.m_book;
+    int origchapter = passage.m_chapter;
+    int origverse = convert_to_int (passage.m_verse);
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT book, chapter, verse FROM maps WHERE name =");
     sql.add (output);

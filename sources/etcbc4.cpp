@@ -22,7 +22,10 @@
 #include <database/etcbc4.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 
 
 using namespace pugi;

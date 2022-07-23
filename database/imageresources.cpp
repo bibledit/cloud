@@ -223,16 +223,16 @@ void Database_ImageResources::get (string name, string image,
 
   if (!start.empty ()) {
     Passage passage = filter_integer_to_passage (convert_to_int (start [0]));
-    book1 = passage.book;
-    chapter1 = passage.chapter;
-    verse1 = convert_to_int (passage.verse);
+    book1 = passage.m_book;
+    chapter1 = passage.m_chapter;
+    verse1 = convert_to_int (passage.m_verse);
   }
   
   if (!end.empty ()) {
     Passage passage = filter_integer_to_passage (convert_to_int (end [0]));
-    book2 = passage.book;
-    chapter2 = passage.chapter;
-    verse2 = convert_to_int (passage.verse);
+    book2 = passage.m_book;
+    chapter2 = passage.m_chapter;
+    verse2 = convert_to_int (passage.m_verse);
   }
 }
 

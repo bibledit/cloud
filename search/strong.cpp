@@ -113,9 +113,9 @@ string search_strong (void * webserver_request)
     
     // Get the and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
-    int book = passage.book;
-    int chapter = passage.chapter;
-    string verse = passage.verse;
+    int book = passage.m_book;
+    int chapter = passage.m_chapter;
+    string verse = passage.m_verse;
     
     // Get the plain text.
     string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));

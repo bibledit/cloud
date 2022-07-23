@@ -39,40 +39,40 @@ public:
 
 private:
   // Sentence structure parameters.
-  vector <string> capitals;
-  vector <string> small_letters;
-  vector <string> end_marks;
-  vector <string> center_marks;
-  vector <string> disregards;
-  vector <string> names;
+  vector <string> capitals {};
+  vector <string> small_letters {};
+  vector <string> end_marks {};
+  vector <string> center_marks {};
+  vector <string> disregards {};
+  vector <string> names {};
   
   // State.
-  int verseNumber;
-  int currentPosition;
+  int verseNumber {0};
+  int currentPosition {0};
   
   // Grapheme analysis.
-  string character;
-  bool isSpace;
-  int spacePosition;
-  bool isCapital;
-  int capitalPosition;
-  bool isSmallLetter;
-  int smallLetterPosition;
-  bool isEndMark;
-  int endMarkPosition;
-  bool isCenterMark;
-  int centerMarkPosition;
-  int punctuationMarkPosition;
-  int previousMarkPosition;
+  string character {};
+  bool isSpace {false};
+  int spacePosition {0};
+  bool isCapital {false};
+  int capitalPosition {0};
+  bool isSmallLetter {false};
+  int smallLetterPosition {0};
+  bool isEndMark {false};
+  int endMarkPosition {0};
+  bool isCenterMark {false};
+  int centerMarkPosition {0};
+  int punctuationMarkPosition {0};
+  int previousMarkPosition {0};
   
   // Context.
-  string fullText;
+  string fullText {};
   
   // Results of the checks.
-  vector <pair<int, string>> checkingResults;
-  const int displayCharacterOnly = 1;
-  const int displayContext = 2;
-  const int skipNames = 3;
+  vector <pair<int, string>> checkingResults {};
+  static constexpr int displayCharacterOnly {1};
+  static constexpr int displayContext {2};
+  static constexpr int skipNames {3};
   
   void addResult (string text, int modifier);
   void checkUnknownCharacter ();

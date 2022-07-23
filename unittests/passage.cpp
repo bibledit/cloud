@@ -31,15 +31,15 @@ void test_passage ()
 
   {
     Passage passage;
-    evaluate (__LINE__, __func__, "", passage.bible);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, "", passage.m_bible);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
     passage = Passage ("bible", 1, 2, "3");
-    evaluate (__LINE__, __func__, "bible", passage.bible);
-    evaluate (__LINE__, __func__, 1, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "3", passage.verse);
+    evaluate (__LINE__, __func__, "bible", passage.m_bible);
+    evaluate (__LINE__, __func__, 1, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "3", passage.m_verse);
     evaluate (__LINE__, __func__, true, passage.equal (passage));
     Passage passage2 = Passage ("bible", 1, 2, "4");
     evaluate (__LINE__, __func__, false, passage.equal (passage2));
@@ -215,24 +215,24 @@ void test_passage ()
   // Explode passage.
   {
     Passage passage = filter_passage_explode_passage ("Genesis 2:2");
-    evaluate (__LINE__, __func__, 1, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "2", passage.verse);
+    evaluate (__LINE__, __func__, 1, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "2", passage.m_verse);
     
     passage = filter_passage_explode_passage ("1 Corinth. 2:2");
-    evaluate (__LINE__, __func__, 46, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "2", passage.verse);
+    evaluate (__LINE__, __func__, 46, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "2", passage.m_verse);
     
     passage = filter_passage_explode_passage ("Song of Sol. 2:2");
-    evaluate (__LINE__, __func__, 22, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "2", passage.verse);
+    evaluate (__LINE__, __func__, 22, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "2", passage.m_verse);
     
     passage = filter_passage_explode_passage ("Revelation 2:2");
-    evaluate (__LINE__, __func__, 66, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "2", passage.verse);
+    evaluate (__LINE__, __func__, 66, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "2", passage.m_verse);
   }
 
   // Interpret passage.

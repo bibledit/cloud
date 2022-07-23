@@ -27,6 +27,8 @@ class Session_Logic
 {
 public:
   Session_Logic (void * webserver_request_in);
+  Session_Logic(const Session_Logic&) = delete;
+  Session_Logic operator=(const Session_Logic&) = delete;
   void set_username (string name);
   bool attempt_login (string user_or_email, string password, bool touch_enabled,
                      bool skip_checks = false);

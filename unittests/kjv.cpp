@@ -76,20 +76,20 @@ void test_database_kjv ()
     vector <Passage> passages = database_kjv.searchStrong ("G909");
     evaluate (__LINE__, __func__, 4, (int)passages.size());
     
-    evaluate (__LINE__, __func__, 41,   passages[0].book);
-    evaluate (__LINE__, __func__, 7,    passages[0].chapter);
-    evaluate (__LINE__, __func__, "4",  passages[0].verse);
+    evaluate (__LINE__, __func__, 41,   passages[0].m_book);
+    evaluate (__LINE__, __func__, 7,    passages[0].m_chapter);
+    evaluate (__LINE__, __func__, "4",  passages[0].m_verse);
     
-    evaluate (__LINE__, __func__, 41,   passages[1].book);
-    evaluate (__LINE__, __func__, 7,    passages[1].chapter);
-    evaluate (__LINE__, __func__, "8",  passages[1].verse);
+    evaluate (__LINE__, __func__, 41,   passages[1].m_book);
+    evaluate (__LINE__, __func__, 7,    passages[1].m_chapter);
+    evaluate (__LINE__, __func__, "8",  passages[1].m_verse);
     
-    evaluate (__LINE__, __func__, 58,   passages[2].book);
-    evaluate (__LINE__, __func__, 6,    passages[2].chapter);
-    evaluate (__LINE__, __func__, "2",  passages[2].verse);
+    evaluate (__LINE__, __func__, 58,   passages[2].m_book);
+    evaluate (__LINE__, __func__, 6,    passages[2].m_chapter);
+    evaluate (__LINE__, __func__, "2",  passages[2].m_verse);
     
-    evaluate (__LINE__, __func__, 58,   passages[3].book);
-    evaluate (__LINE__, __func__, 9,    passages[3].chapter);
-    evaluate (__LINE__, __func__, "10", passages[3].verse);
+    evaluate (__LINE__, __func__, 58,   passages[3].m_book);
+    evaluate (__LINE__, __func__, 9,    passages[3].m_chapter);
+    evaluate (__LINE__, __func__, "10", passages[3].m_verse);
   }
 }

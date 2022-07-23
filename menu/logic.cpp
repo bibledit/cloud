@@ -92,7 +92,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <bb/logic.h>
 #include <ldap/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <jsonxx/jsonxx.h>
+#pragma GCC diagnostic pop
 #include <read/index.h>
 #include <filter/css.h>
 #include <resource/comparative9edit.h>
@@ -192,17 +195,17 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   }
 
   string menutooltip;
-  int current_theme_index[2] = {convert_to_int (request->database_config_user ()->getCurrentTheme ()), 1};
+  int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
   if (config_logic_indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
-      current_theme_index[0] = convert_to_int (database_filebased_cache_get (filename));
+      current_theme_index = convert_to_int (database_filebased_cache_get (filename));
     } else {
       database_filebased_cache_put (filename, "1");
-      current_theme_index[0] = 1;
+      current_theme_index = 1;
     }
   }
-  string color = Filter_Css::theme_picker (current_theme_index[0], current_theme_index[1]);
+  string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
     if (config_logic_indonesian_cloud_free_simple ()) {
@@ -317,17 +320,17 @@ string menu_logic_basic_categories (void * webserver_request)
 
   vector <string> html;
 
-  int current_theme_index[2] = {convert_to_int (request->database_config_user ()->getCurrentTheme ()), 1};
+  int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
   if (config_logic_indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
-      current_theme_index[0] = convert_to_int (database_filebased_cache_get (filename));
+      current_theme_index = convert_to_int (database_filebased_cache_get (filename));
     } else {
       database_filebased_cache_put (filename, "1");
-      current_theme_index[0] = 1;
+      current_theme_index = 1;
     }
   }
-  string color = Filter_Css::theme_picker (current_theme_index[0], current_theme_index[1]);
+  string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (read_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));

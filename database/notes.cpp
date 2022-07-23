@@ -31,7 +31,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <trash/handler.h>
 #include <webserver/request.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <jsonxx/jsonxx.h>
+#pragma GCC diagnostic pop
 #include <database/logic.h>
 #include <time.h>
 
@@ -1200,9 +1203,9 @@ Passage Database_Notes::decode_passage (string passage)
   passage = filter_string_trim (passage);
   Passage decodedpassage = Passage ();
   vector <string> lines = filter_string_explode (passage, '.');
-  if (lines.size() > 0) decodedpassage.book = convert_to_int (lines[0]);
-  if (lines.size() > 1) decodedpassage.chapter = convert_to_int (lines[1]);
-  if (lines.size() > 2) decodedpassage.verse = lines[2];
+  if (lines.size() > 0) decodedpassage.m_book = convert_to_int (lines[0]);
+  if (lines.size() > 1) decodedpassage.m_chapter = convert_to_int (lines[1]);
+  if (lines.size() > 2) decodedpassage.m_verse = lines[2];
   return decodedpassage;
 }
 
@@ -1247,7 +1250,7 @@ void Database_Notes::set_passages (int identifier, const vector <Passage>& passa
   string line;
   for (auto & passage : passages) {
     if (!line.empty ()) line.append ("\n");
-    line.append (encode_passage (passage.book, passage.chapter, convert_to_int (passage.verse)));
+    line.append (encode_passage (passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse)));
   }
   // Store it.
   set_raw_passage (identifier, line);

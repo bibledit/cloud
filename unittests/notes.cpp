@@ -1666,9 +1666,9 @@ void test_database_notes ()
     Passage passage2 = Passage ("", 4, 5, "6");
     
     // Create notes.
-    int oldidentifier1 = database_notes.store_new_note (bible1, passage1.book, passage1.chapter, convert_to_int (passage1.verse), "v1", "v1", false);
+    int oldidentifier1 = database_notes.store_new_note (bible1, passage1.m_book, passage1.m_chapter, convert_to_int (passage1.m_verse), "v1", "v1", false);
     int identifier1 = oldidentifier1 + 2;
-    int oldidentifier2 = database_notes.store_new_note (bible2, passage2.book, passage2.chapter, convert_to_int (passage2.verse), "v2", "v2", false);
+    int oldidentifier2 = database_notes.store_new_note (bible2, passage2.m_book, passage2.m_chapter, convert_to_int (passage2.m_verse), "v2", "v2", false);
     int identifier2 = oldidentifier2 + 4;
     
     // Call the method to set a new identifier.

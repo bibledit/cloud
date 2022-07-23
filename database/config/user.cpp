@@ -855,7 +855,7 @@ Passage Database_Config_User::getPrintPassageFromForUser (string user)
 }
 void Database_Config_User::setPrintPassageFrom (Passage value)
 {
-  string s = convert_to_string (value.book) + "." + convert_to_string (value.chapter) + "." + value.verse;
+  string s = convert_to_string (value.m_book) + "." + convert_to_string (value.m_chapter) + "." + value.m_verse;
   setValue ("print-passage-from", s);
 }
 
@@ -870,7 +870,7 @@ Passage Database_Config_User::getPrintPassageToForUser (string user)
 }
 void Database_Config_User::setPrintPassageTo (Passage value)
 {
-  string s = convert_to_string (value.book) + "." + convert_to_string (value.chapter) + "." + value.verse;
+  string s = convert_to_string (value.m_book) + "." + convert_to_string (value.m_chapter) + "." + value.m_verse;
   setValue ("print-passage-to", s);
 }
 

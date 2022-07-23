@@ -25,11 +25,11 @@ class Passage
 {
 public:
   Passage ();
-  Passage (string bible_in, int book_in, int chapter_in, string verse_in);
-  string bible;
-  int book;
-  int chapter;
-  string verse;
+  Passage (string bible, int book, int chapter, string verse);
+  string m_bible {};
+  int m_book {};
+  int m_chapter {};
+  string m_verse {};
   bool equal (Passage & passage);
   string encode ();
   static Passage decode (const string& encoded);

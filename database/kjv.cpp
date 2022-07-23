@@ -105,9 +105,9 @@ vector <Passage> Database_Kjv::searchStrong (string strong)
   vector <string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
-    passage.book = convert_to_int (books [i]);
-    passage.chapter = convert_to_int (chapters [i]);
-    passage.verse = verses [i];
+    passage.m_book = convert_to_int (books [i]);
+    passage.m_chapter = convert_to_int (chapters [i]);
+    passage.m_verse = verses [i];
     hits.push_back (passage);
   }
   return hits;

@@ -40,7 +40,7 @@ public:
   void add (const char * fragment);
   void add (int value);
   void add (string value);
-  string sql;
+  string sql {};
 private:
 };
 
@@ -50,7 +50,7 @@ class SqliteReader
 public:
   SqliteReader (int dummy);
   ~SqliteReader ();
-  map <string, vector <string> > result;
+  map <string, vector <string> > result {};
   static int callback (void *userdata, int argc, char **argv, char **column_names);
 private:
 };
@@ -60,13 +60,15 @@ class SqliteDatabase
 public:
   SqliteDatabase (string filename);
   ~SqliteDatabase ();
+  SqliteDatabase(const SqliteDatabase&) = delete;
+  SqliteDatabase operator=(const SqliteDatabase&) = delete;
   void clear ();
   void add (const char * fragment);
   void add (int value);
   void add (string value);
-  string sql;
+  string sql {};
   void execute ();
   map <string, vector <string> > query ();
 private:
-  sqlite3 * db;
+  sqlite3 * db {nullptr};
 };

@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <unittests/json.h>
 #include <unittests/utilities.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <jsonxx/jsonxx.h>
+#pragma GCC diagnostic pop
 #include <filter/url.h>
 
 

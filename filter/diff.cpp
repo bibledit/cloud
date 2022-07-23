@@ -23,8 +23,9 @@
 #include <filter/usfm.h>
 #include <filter/url.h>
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <dtl/dtl.hpp>
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
@@ -193,7 +194,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
       content.push_back(line);
       // Something was inserted.
       // So increase the position to point to the next offset in the sequence from where to proceed.
-      position += size;
+      position += static_cast<int>(size);
       // Check on number of changes in paragraphs.
       if (line.substr(0, 1) == "\n") new_line_diff_count++;
     }
@@ -212,7 +213,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
       // No difference.
       // Increase the position of the subsequent edit
       // with the amount of 16-bits code points of the current text bit in UTF-16.
-      position += size;
+      position += static_cast<int>(size);
     }
   }
 }

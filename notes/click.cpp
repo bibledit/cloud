@@ -81,7 +81,7 @@ string notes_click (void * webserver_request)
     contents += "<p>" + translate("New text:") + "</p>";
     contents += database_modifications.getNotificationNewText (inew);
     Passage passage = database_modifications.getNotificationPassage (inew);
-    int identifier = notes_logic.createNote (bible, passage.book, passage.chapter, convert_to_int (passage.verse), summary, contents, false);
+    int identifier = notes_logic.createNote (bible, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse), summary, contents, false);
     Ipc_Notes::open (request, identifier);
   }
   

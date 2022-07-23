@@ -67,9 +67,9 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   vector <Passage> versification_data = database_versifications.getBooksChaptersVerses (versification);
   for (auto & row : versification_data) {
-    if (book == row.book) {
-      int ch = row.chapter;
-      int verse = convert_to_int (row.verse);
+    if (book == row.m_book) {
+      int ch = row.m_chapter;
+      int verse = convert_to_int (row.m_verse);
       if ((chapter < 0) || (chapter == ch)) {
         data  = "\\c " + convert_to_string (ch) + "\n";
         data += "\\p\n";

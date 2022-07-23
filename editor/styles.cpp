@@ -24,7 +24,10 @@
 #include <locale/translate.h>
 #include <styles/logic.h>
 #include <database/config/bible.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 
 
 using namespace pugi;

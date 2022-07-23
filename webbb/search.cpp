@@ -90,11 +90,11 @@ string webbible_search (void * webserver_request)
     
     
     // Get the passage of this search hit.
-    if (passage.book == 0) continue;
-    string bible = passage.bible;
-    int book = passage.book;
-    int chapter = passage.chapter;
-    string verse = passage.verse;
+    if (passage.m_book == 0) continue;
+    string bible = passage.m_bible;
+    int book = passage.m_book;
+    int chapter = passage.m_chapter;
+    string verse = passage.m_verse;
     
     
     // The title.

@@ -1,3 +1,5 @@
+#pragma GCC diagnostic ignore "-Weffc++"
+
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------

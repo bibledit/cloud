@@ -223,7 +223,7 @@ string Filter_Css::getCss (string class_, string font, int directionvalue, int l
   }
   
   if (letterspacing != 0) {
-    float value = letterspacing / 10;
+    float value = static_cast <float> (letterspacing / 10);
     string line = "letter-spacing: " + convert_to_string (value) + "px;";
     css.push_back (line);
   }

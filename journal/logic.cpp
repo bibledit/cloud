@@ -27,7 +27,10 @@
 #include <sendreceive/files.h>
 #include <sendreceive/sendreceive.h>
 #include <journal/index.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <database/logs.h>

@@ -89,8 +89,8 @@ void nmt_logic_export (string referencebible, string translatingbible)
           continue;
         }
         
-        int translation_chapter = translation_passages[0].chapter;
-        int translation_verse = convert_to_int (translation_passages[0].verse);
+        int translation_chapter = translation_passages[0].m_chapter;
+        int translation_verse = convert_to_int (translation_passages[0].m_verse);
 
         // Convert the verse USFM of the reference Bible to plain verse text.
         string reference_text;

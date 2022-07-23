@@ -105,7 +105,7 @@ int numerical_microseconds ()
   auto now = chrono::system_clock::now ();
   auto duration = now.time_since_epoch ();
   auto microseconds = chrono::duration_cast<std::chrono::microseconds>(duration).count();
-  int usecs = microseconds % 1000000;
+  int usecs = static_cast<int>(microseconds % 1000000);
   return usecs;
 }
 

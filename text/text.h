@@ -33,8 +33,8 @@ public:
   void addnotetext (string text);
   string getnote ();
 private:
-  vector <string> output;
-  string thisline;
-  vector <string> notes;
-  string thisnoteline;
+  vector <string> output {};
+  string thisline {};
+  vector <string> notes {};
+  string thisnoteline {};
 };

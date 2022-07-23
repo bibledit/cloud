@@ -80,10 +80,10 @@ string search_search2 (void * webserver_request)
     
     // Get the Bible and passage for this identifier.
     Passage details = Passage::decode (hit);
-    string bible2 = details.bible;
-    int book = details.book;
-    int chapter = details.chapter;
-    string verse = details.verse;
+    string bible2 = details.m_bible;
+    int book = details.m_book;
+    int chapter = details.m_chapter;
+    string verse = details.m_verse;
     
     
     // Get the plain text or USFM.
@@ -144,7 +144,7 @@ string search_search2 (void * webserver_request)
       int book = Ipc_Focus::getBook (request);
       vector <Passage> bookpassages;
       for (auto & passage : passages) {
-        if (book == passage.book) {
+        if (book == passage.m_book) {
           bookpassages.push_back (passage);
         }
       }
@@ -158,7 +158,7 @@ string search_search2 (void * webserver_request)
     if (otbooks || ntbooks) {
       vector <Passage> bookpassages;
       for (auto & passage : passages) {
-        string type = Database_Books::getType (passage.book);
+        string type = Database_Books::getType (passage.m_book);
         if (otbooks) if (type != "ot") continue;
         if (ntbooks) if (type != "nt") continue;
         bookpassages.push_back (passage);

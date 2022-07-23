@@ -94,9 +94,9 @@ void test_database_navigation ()
     database.record (time, user, 4, 5, 6);
     // Get previous entry, which should be the first one entered.
     Passage passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 1, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "3", passage.verse);
+    evaluate (__LINE__, __func__, 1, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "3", passage.m_verse);
   }
   
   {
@@ -111,9 +111,9 @@ void test_database_navigation ()
     database.record (time, user, 4, 5, 6);
     // Get previous entry for another user: It should not be there.
     Passage passage = database.get_previous (user + "2");
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
   }
   
   {
@@ -130,9 +130,9 @@ void test_database_navigation ()
     database.record (time, user, 7, 8, 9);
     // Get previous entry, which should be the second one entered.
     Passage passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 4, passage.book);
-    evaluate (__LINE__, __func__, 5, passage.chapter);
-    evaluate (__LINE__, __func__, "6", passage.verse);
+    evaluate (__LINE__, __func__, 4, passage.m_book);
+    evaluate (__LINE__, __func__, 5, passage.m_chapter);
+    evaluate (__LINE__, __func__, "6", passage.m_verse);
   }
   
   {
@@ -153,9 +153,9 @@ void test_database_navigation ()
     database.record (time, user, 13, 14, 15);
     // Get previous entry, which should be the last but one passage recorded.
     Passage passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 10, passage.book);
-    evaluate (__LINE__, __func__, 11, passage.chapter);
-    evaluate (__LINE__, __func__, "12", passage.verse);
+    evaluate (__LINE__, __func__, 10, passage.m_book);
+    evaluate (__LINE__, __func__, 11, passage.m_chapter);
+    evaluate (__LINE__, __func__, "12", passage.m_verse);
   }
   
   {
@@ -164,9 +164,9 @@ void test_database_navigation ()
     database.create ();
     // There should be no next passage.
     Passage passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
   }
   
   {
@@ -186,9 +186,9 @@ void test_database_navigation ()
     time += 6;
     database.record (time, user, 1, 2, 3);
     Passage passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
   }
   
   {
@@ -202,39 +202,39 @@ void test_database_navigation ()
     database.record (time, user, 4, 5, 6);
     // Next entry is not there.
     Passage passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
     // Previous entry should be there.
     passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 1, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "3", passage.verse);
+    evaluate (__LINE__, __func__, 1, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "3", passage.m_verse);
     // Next entry should be there since we moved to the previous one.
     passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 4, passage.book);
-    evaluate (__LINE__, __func__, 5, passage.chapter);
-    evaluate (__LINE__, __func__, "6", passage.verse);
+    evaluate (__LINE__, __func__, 4, passage.m_book);
+    evaluate (__LINE__, __func__, 5, passage.m_chapter);
+    evaluate (__LINE__, __func__, "6", passage.m_verse);
     // Previous entry should be there.
     passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 1, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "3", passage.verse);
+    evaluate (__LINE__, __func__, 1, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "3", passage.m_verse);
     // Previous entry before previous entry should not be there.
     passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
     // Next entry should be there since we moved to the previous one.
     passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 4, passage.book);
-    evaluate (__LINE__, __func__, 5, passage.chapter);
-    evaluate (__LINE__, __func__, "6", passage.verse);
+    evaluate (__LINE__, __func__, 4, passage.m_book);
+    evaluate (__LINE__, __func__, 5, passage.m_chapter);
+    evaluate (__LINE__, __func__, "6", passage.m_verse);
     // The entry next to the next entry should not be there.
     passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
   }
   
   {
@@ -262,12 +262,12 @@ void test_database_navigation ()
     passages = database.get_history(user, -1);
     evaluate (__LINE__, __func__, 2, passages.size());
     if (passages.size() == 2) {
-      evaluate (__LINE__, __func__, 4, passages[0].book);
-      evaluate (__LINE__, __func__, 5, passages[0].chapter);
-      evaluate (__LINE__, __func__, "6", passages[0].verse);
-      evaluate (__LINE__, __func__, 1, passages[1].book);
-      evaluate (__LINE__, __func__, 2, passages[1].chapter);
-      evaluate (__LINE__, __func__, "3", passages[1].verse);
+      evaluate (__LINE__, __func__, 4, passages[0].m_book);
+      evaluate (__LINE__, __func__, 5, passages[0].m_chapter);
+      evaluate (__LINE__, __func__, "6", passages[0].m_verse);
+      evaluate (__LINE__, __func__, 1, passages[1].m_book);
+      evaluate (__LINE__, __func__, 2, passages[1].m_chapter);
+      evaluate (__LINE__, __func__, "3", passages[1].m_verse);
     }
     
     // At this stage there should not yet be any forward history.
@@ -281,16 +281,16 @@ void test_database_navigation ()
     passages = database.get_history(user, -1);
     evaluate (__LINE__, __func__, 1, passages.size());
     if (passages.size() == 1) {
-      evaluate (__LINE__, __func__, 1, passages[0].book);
-      evaluate (__LINE__, __func__, 2, passages[0].chapter);
-      evaluate (__LINE__, __func__, "3", passages[0].verse);
+      evaluate (__LINE__, __func__, 1, passages[0].m_book);
+      evaluate (__LINE__, __func__, 2, passages[0].m_chapter);
+      evaluate (__LINE__, __func__, "3", passages[0].m_verse);
     }
     passages = database.get_history(user, 1);
     evaluate (__LINE__, __func__, 1, passages.size());
     if (passages.size() == 1) {
-      evaluate (__LINE__, __func__, 7, passages[0].book);
-      evaluate (__LINE__, __func__, 8, passages[0].chapter);
-      evaluate (__LINE__, __func__, "9", passages[0].verse);
+      evaluate (__LINE__, __func__, 7, passages[0].m_book);
+      evaluate (__LINE__, __func__, 8, passages[0].m_chapter);
+      evaluate (__LINE__, __func__, "9", passages[0].m_verse);
     }
 
     // Go backwards yet another step.
@@ -304,12 +304,12 @@ void test_database_navigation ()
     passages = database.get_history(user, 1);
     evaluate (__LINE__, __func__, 2, passages.size());
     if (passages.size() == 2) {
-      evaluate (__LINE__, __func__, 4, passages[0].book);
-      evaluate (__LINE__, __func__, 5, passages[0].chapter);
-      evaluate (__LINE__, __func__, "6", passages[0].verse);
-      evaluate (__LINE__, __func__, 7, passages[1].book);
-      evaluate (__LINE__, __func__, 8, passages[1].chapter);
-      evaluate (__LINE__, __func__, "9", passages[1].verse);
+      evaluate (__LINE__, __func__, 4, passages[0].m_book);
+      evaluate (__LINE__, __func__, 5, passages[0].m_chapter);
+      evaluate (__LINE__, __func__, "6", passages[0].m_verse);
+      evaluate (__LINE__, __func__, 7, passages[1].m_book);
+      evaluate (__LINE__, __func__, 8, passages[1].m_chapter);
+      evaluate (__LINE__, __func__, "9", passages[1].m_verse);
     }
   }
 

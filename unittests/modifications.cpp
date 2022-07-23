@@ -555,13 +555,13 @@ void test_database_modifications_notifications ()
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     Passage passage = database_modifications.getNotificationPassage (1);
-    evaluate (__LINE__, __func__, 1, passage.book);
-    evaluate (__LINE__, __func__, 2, passage.chapter);
-    evaluate (__LINE__, __func__, "3", passage.verse);
+    evaluate (__LINE__, __func__, 1, passage.m_book);
+    evaluate (__LINE__, __func__, 2, passage.m_chapter);
+    evaluate (__LINE__, __func__, "3", passage.m_verse);
     passage = database_modifications.getNotificationPassage (3);
-    evaluate (__LINE__, __func__, 0, passage.book);
-    evaluate (__LINE__, __func__, 0, passage.chapter);
-    evaluate (__LINE__, __func__, "", passage.verse);
+    evaluate (__LINE__, __func__, 0, passage.m_book);
+    evaluate (__LINE__, __func__, 0, passage.m_chapter);
+    evaluate (__LINE__, __func__, "", passage.m_verse);
   }
   
   // Old text.

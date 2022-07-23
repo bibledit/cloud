@@ -124,9 +124,9 @@ string resource_img (void * webserver_request)
   if ((book1 == 0) || (book2 == 0)) {
     string end = Database_Volatile::getValue (userid, "imageresources");
     Passage passage = filter_integer_to_passage (convert_to_int (end));
-    book1 = book2 = passage.book;
-    chapter1 = chapter2 = passage.chapter;
-    verse1 = verse2 = convert_to_int (passage.verse);
+    book1 = book2 = passage.m_book;
+    chapter1 = chapter2 = passage.m_chapter;
+    verse1 = verse2 = convert_to_int (passage.m_verse);
     if (book1 == 0) book1 = 1;
     if (book2 == 0) book2 = 1;
   }

@@ -462,8 +462,8 @@ Passage filter_git_get_passage (string line)
         int chapter = convert_to_int (bits [1]);
         string data = bits [2];
         if (data.find ("data") != string::npos) {
-          passage.book = book;
-          passage.chapter = chapter;
+          passage.m_book = book;
+          passage.m_chapter = chapter;
         }
       }
     }

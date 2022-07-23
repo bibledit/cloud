@@ -31,7 +31,10 @@
 #include <tasks/logic.h>
 #include <journal/index.h>
 #include <menu/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 
 
 using namespace pugi;

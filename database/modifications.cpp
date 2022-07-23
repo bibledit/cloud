@@ -846,9 +846,9 @@ Passage Database_Modifications::getNotificationPassage (int id)
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
-    passage.book = convert_to_int (books [i]);
-    passage.chapter = convert_to_int (chapters [i]);
-    passage.verse = verses [i];
+    passage.m_book = convert_to_int (books [i]);
+    passage.m_chapter = convert_to_int (chapters [i]);
+    passage.m_verse = verses [i];
   }
   return passage;
 }
@@ -945,9 +945,9 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
   for (auto & personalID : personals) {
     string bible2 = getNotificationBible (personalID);
     Passage passage = getNotificationPassage (personalID);
-    int book = passage.book;
-    int chapter = passage.chapter;
-    int verse = convert_to_int (passage.verse);
+    int book = passage.m_book;
+    int chapter = passage.m_chapter;
+    int verse = convert_to_int (passage.m_verse);
     string modification = getNotificationModification (personalID);
     // Get all matching identifiers from the team's change notifications.
     SqliteSQL sql2 = SqliteSQL ();

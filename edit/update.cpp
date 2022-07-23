@@ -198,9 +198,9 @@ string edit_update (void * webserver_request)
       Database_Logs::log (translate ("A user tried to save something different from exactly one chapter"));
       messages.push_back (translate("Incorrect chapter"));
     }
-    int book_number = book_chapter_text[0].book;
-    int chapter_number = book_chapter_text[0].chapter;
-    edited_chapter_usfm = book_chapter_text[0].data;
+    int book_number = book_chapter_text[0].m_book;
+    int chapter_number = book_chapter_text[0].m_chapter;
+    edited_chapter_usfm = book_chapter_text[0].m_data;
     bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
     if (!chapter_ok) {
       messages.push_back (translate("Incorrect chapter") + " " + convert_to_string (chapter_number));

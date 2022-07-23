@@ -78,9 +78,9 @@ string notes_note (void * webserver_request)
   vector <Passage> passages = database_notes.get_passages (id);
   if (!passages.empty ()) {
     Passage focused_passage;
-    focused_passage.book = Ipc_Focus::getBook (webserver_request);
-    focused_passage.chapter = Ipc_Focus::getChapter (webserver_request);
-    focused_passage.verse = convert_to_string (Ipc_Focus::getVerse (webserver_request));
+    focused_passage.m_book = Ipc_Focus::getBook (webserver_request);
+    focused_passage.m_chapter = Ipc_Focus::getChapter (webserver_request);
+    focused_passage.m_verse = convert_to_string (Ipc_Focus::getVerse (webserver_request));
     // Only set passage and track history if the focused passage
     // differs from all of the passages of the note.
     // If the focused passage is already at any of the passages belonging to the note,
@@ -90,9 +90,9 @@ string notes_note (void * webserver_request)
       if (focused_passage.equal (passage)) passage_focused = true;
     }
     if (!passage_focused) {
-      int desired_book = passages[0].book;
-      int desired_chapter = passages[0].chapter;
-      int desired_verse = convert_to_int (passages[0].verse);
+      int desired_book = passages[0].m_book;
+      int desired_chapter = passages[0].m_chapter;
+      int desired_verse = convert_to_int (passages[0].m_verse);
       Ipc_Focus::set (webserver_request, desired_book, desired_chapter, desired_verse);
       Navigation_Passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
     }

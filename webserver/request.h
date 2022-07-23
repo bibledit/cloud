@@ -33,46 +33,48 @@ class Webserver_Request
 public:
   Webserver_Request ();
   ~Webserver_Request ();
+  Webserver_Request(const Webserver_Request&) = delete; // Todo
+  Webserver_Request operator=(const Webserver_Request&) = delete;
   // Whether the connection runs via the secure server.
-  bool secure;
+  bool secure {false};
   // The session identifier of the cookie sent by the browser.
-  string session_identifier;
+  string session_identifier {};
    // Whether to resend the cookie to the browser.
-  bool resend_cookie;
+  bool resend_cookie {false};
    // The browser's or client's remote IPv4 or IPv6 address.
-  string remote_address;
+  string remote_address {};
   // The page the browser requests via GET or via POST.
-  string get;
+  string get {};
    // Whether it is a POST request.
-  bool is_post;
+  bool is_post {false};
    // The query from the browser, e.g. foo=bar&baz=qux, neatly arranged into a map.
-  map <string, string> query;
+  map <string, string> query {};
    // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
-  string user_agent;
+  string user_agent {};
    // The browser's or client's Accept-Language header.
-  string accept_language;
+  string accept_language {};
    // The server's host as requested by the client.
-  string host;
+  string host {};
    // The content type of the browser request.
-  string content_type;
+  string content_type {};
    // The content length of the browser request.
-  int content_length;
+  int content_length {0};
    // The raw POST data from the browser, item by item.
-  map <string, string> post;
+  map <string, string> post {};
    // Header as received from the browser.
-  string if_none_match;
+  string if_none_match {};
    // Extra header to be sent back to the browser.
-  string header;
+  string header {};
    // Body to be sent back to the browser.
-  string reply;
+  string reply {};
    // Response code to be sent to the browser.
-  int response_code;
+  int response_code {0};
    // The requested file's size for browser caching.
-  string etag;
+  string etag {};
    // The content type of the response.
-  string response_content_type;
+  string response_content_type {};
    // The path of the file to copy from disk straight to the network without loading it in memory.
-  string stream_file;
+  string stream_file {};
   // Extra objects.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
@@ -82,11 +84,11 @@ public:
   Database_Check * database_check ();
   Database_Ipc * database_ipc ();
 private:
-  Session_Logic * session_logic_instance = NULL;
-  Database_Config_User * database_config_user_instance = NULL;
-  Database_Users * database_users_instance = NULL;
-  Database_Styles * database_styles_instance = NULL;
-  Database_Bibles * database_bibles_instance = NULL;
-  Database_Check * database_check_instance = NULL;
-  Database_Ipc * database_ipc_instance = NULL;
+  Session_Logic * session_logic_instance { nullptr };
+  Database_Config_User * database_config_user_instance { nullptr };
+  Database_Users * database_users_instance { nullptr };
+  Database_Styles * database_styles_instance { nullptr };
+  Database_Bibles * database_bibles_instance { nullptr };
+  Database_Check * database_check_instance { nullptr };
+  Database_Ipc * database_ipc_instance { nullptr };
 };

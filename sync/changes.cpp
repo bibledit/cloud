@@ -112,9 +112,9 @@ string sync_changes (void * webserver_request)
       // chapter
       // verse
       Passage passage = database_modifications.getNotificationPassage (id);
-      lines.push_back (convert_to_string (passage.book));
-      lines.push_back (convert_to_string (passage.chapter));
-      lines.push_back (passage.verse);
+      lines.push_back (convert_to_string (passage.m_book));
+      lines.push_back (convert_to_string (passage.m_chapter));
+      lines.push_back (passage.m_verse);
       // oldtext (ensure it's one line for correct transfer to client)
       string oldtext = database_modifications.getNotificationOldText (id);
       oldtext = filter_string_str_replace ("\n", " ", oldtext);

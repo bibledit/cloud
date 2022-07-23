@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <related/logic.h>
 #include <database/books.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
+#pragma GCC diagnostic pop
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -99,8 +102,8 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
 
     // Get details about the book in the passage.
     // It assumes all input passages refer to the same book.
-    string bookname = Database_Books::getEnglishFromId (input[0].book);
-    string booktype = Database_Books::getType (input[0].book);
+    string bookname = Database_Books::getEnglishFromId (input[0].m_book);
+    string booktype = Database_Books::getType (input[0].m_book);
     bool is_ot = (booktype == "ot");
     bool is_nt = (booktype == "nt");
     
@@ -121,12 +124,12 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
       // Search for parallel passages.
       for (xml_node passages : parallel_document.children ()) {
         for (xml_node section : passages.children ()) {
-          related_logic_search_related (bookname, input_passage.chapter, input_passage.verse, section, related_passages);
+          related_logic_search_related (bookname, input_passage.m_chapter, input_passage.m_verse, section, related_passages);
         }
       }
       // Search for quotes.
       for (xml_node passages : quotation_document.children ()) {
-        related_logic_search_related (bookname, input_passage.chapter, input_passage.verse, passages, related_passages);
+        related_logic_search_related (bookname, input_passage.m_chapter, input_passage.m_verse, passages, related_passages);
       }
     }
   }

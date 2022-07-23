@@ -151,9 +151,9 @@ Passage Database_Navigation::get_previous (const string& user)
   vector <string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.book = convert_to_int (books [0]);
-    passage.chapter = convert_to_int (chapters [0]);
-    passage.verse = verses [0];
+    passage.m_book = convert_to_int (books [0]);
+    passage.m_chapter = convert_to_int (chapters [0]);
+    passage.m_verse = verses [0];
     return passage;
   }
   return Passage ();
@@ -194,9 +194,9 @@ Passage Database_Navigation::get_next (const string& user)
   vector <string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.book = convert_to_int (books [0]);
-    passage.chapter = convert_to_int (chapters [0]);
-    passage.verse = verses [0];
+    passage.m_book = convert_to_int (books [0]);
+    passage.m_chapter = convert_to_int (chapters [0]);
+    passage.m_verse = verses [0];
     return passage;
   }
   return Passage ();
@@ -319,9 +319,9 @@ vector <Passage> Database_Navigation::get_history (const string& user, int direc
     vector <string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size(); i++) {
       Passage passage;
-      passage.book = convert_to_int (books [i]);
-      passage.chapter = convert_to_int (chapters [i]);
-      passage.verse = verses [i];
+      passage.m_book = convert_to_int (books [i]);
+      passage.m_chapter = convert_to_int (chapters [i]);
+      passage.m_verse = verses [i];
       passages.push_back(passage);
     }
   }

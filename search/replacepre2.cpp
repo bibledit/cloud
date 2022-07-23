@@ -61,10 +61,10 @@ string search_replacepre2 (void * webserver_request)
   
   // Get the Bible and passage for this identifier.
   Passage details = Passage::decode (id);
-  string bible = details.bible;
-  int book = details.book;
-  int chapter = details.chapter;
-  string verse = details.verse;
+  string bible = details.m_bible;
+  int book = details.m_book;
+  int chapter = details.m_chapter;
+  string verse = details.m_verse;
   
   
   // Get the plain text or the USFM.

@@ -21,15 +21,15 @@
 
 #include <config/libraries.h>
 
-class Merge_Conflict
+struct Merge_Conflict
 {
 public:
-  string base;
-  string change;
-  string prioritized_change;
-  string result;
-  string subject;
+  string base {};
+  string change {};
+  string prioritized_change {};
+  string result {};
+  string subject {};
   // The following shows the passage where the conflict occurred.
-  int book = 0;
-  int chapter = 0;
+  int book {0};
+  int chapter {0};
 };

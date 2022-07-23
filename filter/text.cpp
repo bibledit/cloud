@@ -33,11 +33,11 @@ namespace filter::text {
 
 passage_marker_value::passage_marker_value (int book, int chapter, string verse, string marker, string value)
 {
-  this->m_book = book;
-  this->m_chapter = chapter;
-  this->m_verse = verse;
-  this->m_marker = marker;
-  this->m_value = value;
+  m_book = book;
+  m_chapter = chapter;
+  m_verse = verse;
+  m_marker = marker;
+  m_value = value;
 }
 
 }

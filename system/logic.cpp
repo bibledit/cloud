@@ -161,14 +161,14 @@ void system_logic_import_bibles_file (string tarball)
     string stylesheet = styles_logic_standard_sheet ();
     vector <BookChapterData> book_chapter_text = usfm_import (data, stylesheet);
     for (auto & book_chapter_data : book_chapter_text) {
-      if (book_chapter_data.book > 0) {
+      if (book_chapter_data.m_book > 0) {
         // Store the data and log it.
         // This does not trigger the client to send it to the Cloud.
         // Reason is that the Cloud is authoritative,
         // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
-        database_bibles.storeChapter (bible, book_chapter_data.book, book_chapter_data.chapter, book_chapter_data.data);
-        string bookname = Database_Books::getEnglishFromId (book_chapter_data.book);
-        Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (book_chapter_data.chapter));
+        database_bibles.storeChapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
+        string bookname = Database_Books::getEnglishFromId (book_chapter_data.m_book);
+        Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (book_chapter_data.m_chapter));
       } else {
         // Import error.
         Database_Logs::log ("Could not import this file: " + file);

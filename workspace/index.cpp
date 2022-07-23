@@ -89,8 +89,8 @@ string workspace_index (void * webserver_request)
     Database_Notes database_notes (webserver_request);
     vector <Passage> passages = database_notes.get_passages (noteid);
     if (!passages.empty ()) {
-      Ipc_Focus::set (webserver_request, passages[0].book, passages[0].chapter, convert_to_int (passages[0].verse));
-      Navigation_Passage::record_history (webserver_request, passages[0].book, passages[0].chapter, convert_to_int (passages[0].verse));
+      Ipc_Focus::set (webserver_request, passages[0].m_book, passages[0].m_chapter, convert_to_int (passages[0].m_verse));
+      Navigation_Passage::record_history (webserver_request, passages[0].m_book, passages[0].m_chapter, convert_to_int (passages[0].m_verse));
     }
   }
   

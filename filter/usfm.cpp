@@ -30,17 +30,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 #include <locale/translate.h>
 #include <developer/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
 #include <pugixml/pugixml.hpp>
-
-
+#pragma GCC diagnostic pop
 using namespace pugi;
 
 
-BookChapterData::BookChapterData (int book_in, int chapter_in, string data_in)
+BookChapterData::BookChapterData (int book, int chapter, string data)
 {
-  book = book_in;
-  chapter = chapter_in;
-  data = data_in;
+  m_book = book;
+  m_chapter = chapter;
+  m_data = data;
 }
 
 
@@ -297,9 +298,9 @@ vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_numb
 // Offset is calculated with unicode_string_length to support UTF-8.
 vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
 {
-  unsigned int totalOffset = 0;
+  size_t totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
-  for (unsigned int i = 0; i < lines.size(); i++) {
+  for (unsigned i = 0; i < lines.size(); i++) {
     size_t length = unicode_string_length (lines [i]);
     totalOffset += length;
     if (totalOffset >= offset) {
@@ -325,7 +326,7 @@ int usfm_versenumber_to_offset (string usfm, int verse)
     for (auto & v : verses) {
       if (v == verse) return totalOffset;
     }
-    totalOffset += unicode_string_length (line);
+    totalOffset += static_cast<int>(unicode_string_length (line));
     // Add 1 for new line.
     totalOffset += 1;
   }
@@ -655,8 +656,8 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
   if (newtext.length() > oldtext.length()) allowed_percentage = 100;
 
   // The length of the new text should not differ more than a set percentage from the old text.
-  float existingLength = oldtext.length();
-  float newLength = newtext.length ();
+  float existingLength = static_cast <float> (oldtext.length());
+  float newLength = static_cast <float> (newtext.length ());
   int percentage = static_cast<int> (100 * (newLength - existingLength) / existingLength);
   percentage = abs (percentage);
   if (percentage > 100) percentage = 100;

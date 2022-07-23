@@ -1039,12 +1039,12 @@ void test_usfm ()
     vector <BookChapterData> import = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, (int)import.size());
     if (import.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import [0].book);
-      evaluate (__LINE__, __func__, 0, import [0].chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import [0].data);
-      evaluate (__LINE__, __func__, 33, import [1].book);
-      evaluate (__LINE__, __func__, 1, import [1].chapter);
-      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].data);
+      evaluate (__LINE__, __func__, 33, import [0].m_book);
+      evaluate (__LINE__, __func__, 0, import [0].m_chapter);
+      evaluate (__LINE__, __func__, "\\id MIC", import [0].m_data);
+      evaluate (__LINE__, __func__, 33, import [1].m_book);
+      evaluate (__LINE__, __func__, 1, import [1].m_chapter);
+      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].m_data);
     } else {
       evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
     }
@@ -1073,12 +1073,12 @@ void test_usfm ()
     vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, (int)import.size());
     if (import.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import [0].book);
-      evaluate (__LINE__, __func__, 0, import [0].chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import [0].data);
-      evaluate (__LINE__, __func__, 33, import [1].book);
-      evaluate (__LINE__, __func__, 1, import [1].chapter);
-      evaluate (__LINE__, __func__, standard_chapter, filter_string_trim (import [1].data));
+      evaluate (__LINE__, __func__, 33, import [0].m_book);
+      evaluate (__LINE__, __func__, 0, import [0].m_chapter);
+      evaluate (__LINE__, __func__, "\\id MIC", import [0].m_data);
+      evaluate (__LINE__, __func__, 33, import [1].m_book);
+      evaluate (__LINE__, __func__, 1, import [1].m_chapter);
+      evaluate (__LINE__, __func__, standard_chapter, filter_string_trim (import [1].m_data));
     } else {
       evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
     }

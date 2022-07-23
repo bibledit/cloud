@@ -27,6 +27,8 @@ class Assets_Header
 public:
   Assets_Header (string title, void * webserver_request_in);
   ~Assets_Header ();
+  Assets_Header(const Assets_Header&) = delete;
+  Assets_Header operator=(const Assets_Header&) = delete;
   void jQueryTouchOn ();
   void touchCSSOn ();
   void notifItOn ();
@@ -39,17 +41,17 @@ public:
   void addBreadCrumb (string item, string text);
   string run ();
 private:
-  Assets_View * view;
-  bool includeJQueryTouch;
-  bool includeTouchCSS;
-  bool includeNotifIt;
-  vector <string> headLines;
-  bool displayNavigator;
-  string includedStylesheet;
-  string includedEditorStylesheet;
-  void * m_webserver_request;
-  string loginrequest;
-  string fadingmenu;
-  vector <pair <string, string> > breadcrumbs;
+  Assets_View * view {nullptr};
+  bool includeJQueryTouch {false};
+  bool includeTouchCSS {false};
+  bool includeNotifIt {false};
+  vector <string> headLines {};
+  bool displayNavigator {false};
+  string includedStylesheet {};
+  string includedEditorStylesheet {};
+  void * m_webserver_request {nullptr};
+  string loginrequest {};
+  string fadingmenu {};
+  vector <pair <string, string> > breadcrumbs {};
 };
 

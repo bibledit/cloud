@@ -280,7 +280,7 @@ void http_server ()
   serveraddr.sin6_flowinfo = 0;
   serveraddr.sin6_family = AF_INET6;
   serveraddr.sin6_addr = in6addr_any;
-  serveraddr.sin6_port = htons (convert_to_int (config_logic_http_network_port ()));
+  serveraddr.sin6_port = htons (static_cast<uint16_t>(convert_to_int (config_logic_http_network_port ())));
 #endif
   result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
   if (result != 0) {

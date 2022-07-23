@@ -53,7 +53,6 @@ void citation::set_restart (int setting)
 {
   if (setting == NoteRestartNumberingNever) this->restart = "never";
   else if (setting == NoteRestartNumberingEveryBook) this->restart = "book";
-  else if (setting == NoteRestartNumberingEveryChapter) this->restart = "chapter";
   else this->restart = "chapter";
 }
 

@@ -242,7 +242,7 @@ public:
   vector <string> getChangeNotificationsBiblesForUser (const string & user);
   void setChangeNotificationsBibles (const vector <string>& values);
 private:
-  void * webserver_request;
+  void * webserver_request {nullptr};
   string file (string user);
   string file (string user, const char * key);
   string mapkey (string user, const char * key);

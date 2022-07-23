@@ -28,6 +28,7 @@
 
 
 // Suppress warnings in the included header.
+#pragma GCC diagnostic push
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma clang diagnostic ignored "-Wdeprecated-register"
@@ -39,8 +40,11 @@
 #pragma clang diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wconversion"
 #include <mimetic098/mimetic.h>
 #pragma clang diagnostic pop
+#pragma GCC diagnostic pop
 
 
 using namespace mimetic;

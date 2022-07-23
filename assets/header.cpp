@@ -342,7 +342,7 @@ string Assets_Header::run ()
     view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
   }
 
-  int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
+  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   filename = current_theme_filebased_cache_filename (request->session_identifier);
   if (config_logic_indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {

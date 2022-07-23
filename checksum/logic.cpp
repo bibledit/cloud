@@ -55,7 +55,7 @@ string Checksum_Logic::get (string data)
 string Checksum_Logic::get (const vector <string>& data)
 {
   int length = 0;
-  for (auto & bit : data) length += bit.length ();
+  for (auto & bit : data) length += static_cast<int>(bit.length ());
   return convert_to_string (length);
 }
 

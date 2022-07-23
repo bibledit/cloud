@@ -26,9 +26,11 @@ class Dialog_Color
 public:
   Dialog_Color (string url, string question);
   ~Dialog_Color ();
+  Dialog_Color(const Dialog_Color&) = delete;
+  Dialog_Color operator=(const Dialog_Color&) = delete;
   void add_query (string parameter, string value);
   string run ();
 private:
-  void * assets_view = NULL;
-  string base_url;
+  void * assets_view {nullptr};
+  string base_url {};
 };

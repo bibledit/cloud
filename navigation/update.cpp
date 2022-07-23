@@ -112,7 +112,7 @@ string navigation_update (void * webserver_request)
   
   // Get the list of available verses in the current chapter.
   else if (request->query.count ("getverses")) {
-    return Navigation_Passage::get_verses_fragment (request, bible, convert_to_int (book), chapter, verse);
+    return Navigation_Passage::get_verses_fragment (request, bible, book, chapter, verse);
   }
 
   

@@ -150,7 +150,7 @@ string editone2_index (void * webserver_request)
 
   string cls = Filter_Css::getClass (bible);
   string font = Fonts_Logic::getTextFont (bible);
-  int current_theme_index = convert_to_int(request->database_config_user ()->getCurrentTheme ());
+  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);

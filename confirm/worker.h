@@ -34,7 +34,7 @@ public:
   bool handleEmail (string from, string subject, string body);
   bool handleLink (string & email);
 private:
-  void * webserver_request;
+  void * webserver_request {nullptr};
   void informManagers (string email, string body);
 };
 

@@ -195,7 +195,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   }
 
   string menutooltip;
-  int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
+  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
   if (config_logic_indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
@@ -320,7 +320,7 @@ string menu_logic_basic_categories (void * webserver_request)
 
   vector <string> html;
 
-  int current_theme_index = convert_to_int (request->database_config_user ()->getCurrentTheme ());
+  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
   if (config_logic_indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {

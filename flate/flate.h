@@ -28,10 +28,10 @@ public:
   void enable_zone (string zone);
   string render (string html);
   void add_iteration (string key, map <string, string> value);
-  map <string, vector < map <string, string> > > iterations;
+  map <string, vector < map <string, string> > > iterations {};
 private:
-  map <string, string> variables;
-  map <string, bool> zones;
+  map <string, string> variables {};
+  map <string, bool> zones {};
   void process_iterations (string & rendering);
   void process_zones (string& rendering);
   void process_variables (string& rendering);

@@ -95,12 +95,12 @@ mutex sqlite_execute_mutex;
 
 sqlite3 * database_sqlite_connect_file (string filename)
 {
-  sqlite3 *db;
+  sqlite3 *db {nullptr};
   int rc = sqlite3_open (filename.c_str(), &db);
   if (rc) {
     const char * error = sqlite3_errmsg (db);
-    database_sqlite_error (db, "Database " + filename, (char *) error);
-    return NULL;
+    database_sqlite_error (db, "Database " + filename, const_cast<char*>(error));
+    return nullptr;
   }
   sqlite3_busy_timeout (db, 1000);
   return db;

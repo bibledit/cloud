@@ -36,43 +36,43 @@ public:
   void stylesheet (string stylesheet);
   void run ();
   string get ();
-  size_t textLength;
-  map <int, int> verseStartOffsets;
-  string currentParagraphStyle;
-  string currentParagraphContent;
+  size_t textLength {0};
+  map <int, int> verseStartOffsets {};
+  string currentParagraphStyle {};
+  string currentParagraphContent {};
 private:
-  vector <string> markersAndText; // Strings alternating between USFM and text.
-  unsigned int markersAndTextPointer = 0;
+  vector <string> markersAndText {}; // Strings alternating between USFM and text.
+  unsigned int markersAndTextPointer {0};
   
   // All the style information.
-  map <string, Database_Styles_Item> styles;
+  map <string, Database_Styles_Item> styles {};
   
   // XML nodes.
-  xml_document document;
-  xml_node body_node;
-  xml_node notes_node;
+  xml_document document {};
+  xml_node body_node {};
+  xml_node notes_node {};
   
   // Standard content markers for notes.
-  string standardContentMarkerFootEndNote;
-  string standardContentMarkerCrossReference;
+  string standardContentMarkerFootEndNote {};
+  string standardContentMarkerCrossReference {};
 
-  xml_node current_p_node; // The current p node.
-  bool current_p_open = false;
-  vector <string> currentTextStyles;
+  xml_node current_p_node {}; // The current p node.
+  bool current_p_open {false};
+  vector <string> currentTextStyles {};
   
-  int noteCount = 0;
-  xml_node notePnode; // The p DOM element of the current footnote, if any.
-  bool note_p_open = false;
-  vector <string> currentNoteTextStyles;
+  int noteCount {0};
+  xml_node notePnode {}; // The p DOM element of the current footnote, if any.
+  bool note_p_open {false};
+  vector <string> currentNoteTextStyles {};
   
   // The note citations.
-  filter::note::citations note_citations;
+  filter::note::citations note_citations {};
 
   // Whether note is open.
-  bool noteOpened = false;
+  bool noteOpened {false};
   
   // Lengths and offsets.
-  bool first_line_done = false;
+  bool first_line_done {false};
   
   void preprocess ();
   void process ();

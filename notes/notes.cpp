@@ -94,7 +94,7 @@ string notes_notes (void * webserver_request)
         numeric_passages.push_back (filter_passage_to_integer (passage));
       }
       if (!numeric_passages.empty ()) {
-        double average = static_cast<size_t>(accumulate (numeric_passages.begin (), numeric_passages.end (), 0)) / numeric_passages.size ();
+        double average = static_cast<double>(accumulate (numeric_passages.begin (), numeric_passages.end (), 0)) / numeric_passages.size ();
         passage_sort_key = static_cast<int> (round(average));
       }
       passage_sort_keys.push_back (passage_sort_key);

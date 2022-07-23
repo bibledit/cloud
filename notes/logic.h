@@ -26,12 +26,12 @@ class Notes_Logic
 {
 public:
   Notes_Logic (void * webserver_request_in);
-  static const int lowNoteIdentifier  = 100000000;
-  static const int highNoteIdentifier = 999999999;
-  static const int notifyNoteNew = 1;
-  static const int notifyNoteComment = 2;
-  static const int notifyNoteDelete = 3;
-  static const int notifyMarkNoteForDeletion = 4;
+  static constexpr int lowNoteIdentifier  = 100000000;
+  static constexpr int highNoteIdentifier = 999999999;
+  static constexpr int notifyNoteNew = 1;
+  static constexpr int notifyNoteComment = 2;
+  static constexpr int notifyNoteDelete = 3;
+  static constexpr int notifyMarkNoteForDeletion = 4;
   int createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw);
   void setContent (int identifier, const string& content);
   void addComment (int identifier, const string& comment);
@@ -56,7 +56,7 @@ public:
   bool handleEmailComment (string from, string subject, string body);
   string generalBibleName ();
 private:
-  void * webserver_request;
+  void * webserver_request {nullptr};
   void notifyUsers (int identifier, int notification);
   void emailUsers (int identifier, const string& label, string bible, const vector <string> & users, bool postpone);
 };

@@ -33,10 +33,10 @@ class Editor_Html2Format
 public:
   void load (string html);
   void run ();
-  vector <string> texts;
-  vector <string> formats;
+  vector <string> texts {};
+  vector <string> formats {};
 private:
-  xml_document document; // DOMDocument holding the html.
+  xml_document document {}; // DOMDocument holding the html.
   void preprocess ();
   void postprocess ();
   void process ();
@@ -45,5 +45,5 @@ private:
   void closeElementNode (xml_node node);
   void openInline (string className);
   string update_quill_class (string classname);
-  string current_character_format;
+  string current_character_format {};
 };

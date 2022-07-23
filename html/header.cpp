@@ -38,20 +38,20 @@ using namespace pugi;
 
 Html_Header::Html_Header (void * html_text)
 {
-  htmlText = html_text;
+  m_html_text = html_text;
 }
 
 
-void Html_Header::searchBackLink (string url, string text)
+void Html_Header::search_back_link (string url, string text)
 {
-  searchBackLinkUrl = url;
-  searchBackLinkText = text;
+  m_search_back_link_url = url;
+  m_search_back_link_text = text;
 }
 
 
 void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
 {
-  Html_Text * html_text = static_cast<Html_Text *>(htmlText);
+  Html_Text * html_text = static_cast<Html_Text *>(m_html_text);
   xml_node tableElement = html_text->new_table ();
   xml_node tableRowElement = html_text->new_table_row (tableElement);
   xml_node tableDataElement = html_text->new_table_data (tableRowElement);
@@ -75,10 +75,10 @@ void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
   inputElement = formElement.append_child ("input");
   inputElement.append_attribute ("type") = "hidden";
   inputElement.append_attribute ("name") = "url";
-  inputElement.append_attribute ("value") = searchBackLinkUrl.c_str ();
+  inputElement.append_attribute ("value") = m_search_back_link_url.c_str ();
   inputElement = formElement.append_child ("input");
   inputElement.append_attribute ("type") = "hidden";
   inputElement.append_attribute ("name") = "text";
-  inputElement.append_attribute ("value") = searchBackLinkText.c_str ();
+  inputElement.append_attribute ("value") = m_search_back_link_text.c_str ();
 }
 

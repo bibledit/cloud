@@ -65,28 +65,26 @@ public:
   void add_image (string alt, string src, string caption);
   void add_tab ();
 private:
-  string bible;
-  string unpacked_odt_folder;
-  xml_document content_dom; // The content.xml DOMDocument.
-  xml_node office_text_node; // The office:text DOMNode.
-  xml_document styles_dom; // The styles.xml DOMDocument.
-  vector <string> created_styles; // An array with styles already created in the $stylesDom.
-  xml_node office_styles_node; // The office:styles DOMNode.
-  //xml_node officeAutomaticStylesDomNode; // The office:automatic-styles DOMNode.
-  xml_node current_text_p_node; // The current text:p DOMElement.
-  bool current_text_p_node_opened = false; // Whether the text:p element has been opened.
-  xml_attribute current_text_p_node_style_name; // The DOMAttr of the name of the style of the current text:p element.
-  int frame_count;
-  int note_count;
-  xml_node note_text_p_dom_element; // The text:p DOMElement of the current footnote, if any.
-  bool note_text_p_opened = false; // Whether the text:p for notes has been opened.
-  vector <string> current_note_text_style;
+  string bible {};
+  string unpacked_odt_folder {};
+  xml_document content_dom {}; // The content.xml DOMDocument.
+  xml_node office_text_node {}; // The office:text DOMNode.
+  xml_document styles_dom {}; // The styles.xml DOMDocument.
+  vector <string> created_styles {}; // An array with styles already created in the $stylesDom.
+  xml_node office_styles_node {}; // The office:styles DOMNode.
+  xml_node current_text_p_node {}; // The current text:p DOMElement.
+  bool current_text_p_node_opened {false}; // Whether the text:p element has been opened.
+  xml_attribute current_text_p_node_style_name {}; // The DOMAttr of the name of the style of the current text:p element.
+  int frame_count {0};
+  int note_count {0};
+  xml_node note_text_p_dom_element {}; // The text:p DOMElement of the current footnote, if any.
+  bool note_text_p_opened {false}; // Whether the text:p for notes has been opened.
+  vector <string> current_note_text_style {};
   void initialize_content_xml ();
   void initialize_styles_xml ();
   void new_named_heading (string style, string text, bool hide = false);
   string convert_style_name (string style);
-  int image_counter;
-  // string pictures_folder;
-  bool automatic_note_caller = false;
+  int image_counter {0};
+  bool automatic_note_caller {false};
 };
 

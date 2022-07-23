@@ -120,7 +120,7 @@ string bible_css (void * webserver_request)
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   view.set_variable ("lineheight", convert_to_string (lineheight));
 
-  float letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  float letterspacing = static_cast<float> (Database_Config_Bible::getLetterSpacing (bible));
   letterspacing /= 10;
   view.set_variable ("letterspacing", convert_to_string (letterspacing));
 

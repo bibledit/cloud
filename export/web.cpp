@@ -76,7 +76,7 @@ void export_web_book (string bible, int book, bool log)
   // Web index file for the book.
   Html_Text html_text_rich_book_index (bibleBookText);
   Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
-  htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
+  htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({
     pair (bible, filter_url_html_file_name_bible ()),
     pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ())
@@ -110,7 +110,7 @@ void export_web_book (string bible, int book, bool log)
     
     // Create breadcrumbs and navigator for the chapter.
     Html_Header html_header = Html_Header (filter_text_chapter.html_text_linked);
-    html_header.searchBackLink (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
+    html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
     vector <pair <string, string> > breadcrumbs_navigator;
     breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
     breadcrumbs_navigator.push_back (pair (translate (Database_Books::getEnglishFromId (book)), filter_url_html_file_name_bible ()));
@@ -190,7 +190,7 @@ void export_web_index (string bible, bool log)
   Html_Text html_text_rich_bible_index (bible);
   // On top are the breadcrumbs, starting with a clickable Bible name.
   Html_Header htmlHeader = Html_Header (&html_text_rich_bible_index);
-  htmlHeader.searchBackLink (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
+  htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
   htmlHeader.create ({ pair (bible, filter_url_html_file_name_bible ())});
   
   

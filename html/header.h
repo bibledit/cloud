@@ -26,10 +26,10 @@ class Html_Header
 {
 public:
   Html_Header (void * html_text);
-  void searchBackLink (string url, string text);
+  void search_back_link (string url, string text);
   void create (const vector <pair <string, string> > & breadcrumbs);
 private:
-  void * htmlText;
-  string searchBackLinkUrl;
-  string searchBackLinkText;
+  void * m_html_text {nullptr};
+  string m_search_back_link_url {};
+  string m_search_back_link_text {};
 };

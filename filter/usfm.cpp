@@ -37,6 +37,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace pugi;
 
 
+namespace filter::usfm {
+
+
 BookChapterData::BookChapterData (int book, int chapter, string data)
 {
   m_book = book;
@@ -47,7 +50,7 @@ BookChapterData::BookChapterData (int book, int chapter, string data)
 
 // Returns the string $usfm as one long string.
 // $usfm may contain new lines, but the resulting long string won't.
-string usfm_one_string (string usfm)
+string one_string (string usfm)
 {
   string long_string = "";
   vector <string> usfm_lines = filter_string_explode (usfm, '\n');
@@ -74,7 +77,7 @@ string usfm_one_string (string usfm)
 //             ...
 // Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
 // If $code does not start with a marker, this becomes visible in the output too.
-vector <string> usfm_get_markers_and_text (string code)
+vector <string> get_markers_and_text (string code)
 {
   vector <string> markers_and_text;
   code = filter_string_str_replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
@@ -123,7 +126,7 @@ vector <string> usfm_get_markers_and_text (string code)
 // "\id "   -> "id"
 // "\add*"  -> "add"
 // "\+add*" -> "add"
-string usfm_get_marker (string usfm)
+string get_marker (string usfm)
 {
   if (usfm.empty ()) return usfm;
   size_t pos = usfm.find ("\\");
@@ -169,8 +172,8 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
   int chapter_number = 0;
   string chapter_data = "";
 
-  input = usfm_one_string (input);
-  vector <string> markers_and_text = usfm_get_markers_and_text (input);
+  input = one_string (input);
+  vector <string> markers_and_text = get_markers_and_text (input);
   bool retrieve_book_number_on_next_iteration = false;
   bool retrieve_chapter_number_on_next_iteration = false;
 
@@ -184,10 +187,10 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       retrieve_chapter_number_on_next_iteration = false;
       chapter_number = convert_to_int (marker_or_text);
     }
-    string marker = usfm_get_marker (marker_or_text);
+    string marker = get_marker (marker_or_text);
     if (!marker.empty()) {
       // USFM marker found.
-      bool opener = usfm_is_opening_marker (marker_or_text);
+      bool opener = is_opening_marker (marker_or_text);
       bool store_chapter_data = false;
       if (marker == "id") {
         retrieve_book_number_on_next_iteration = true;
@@ -232,40 +235,40 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 // 10-12b
 // 10,11a
 // 10,12
-vector <int> usfm_get_verse_numbers (string usfm)
+vector <int> get_verse_numbers (string usfm)
 {
   vector <int> verse_numbers = { 0 };
-  vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
+  vector <string> markers_and_text = get_markers_and_text (usfm);
   bool extract_verse = false;
   for (string marker_or_text : markers_and_text) {
     if (extract_verse) {
-      string verse = usfm_peek_verse_number (marker_or_text);
+      string verse = peek_verse_number (marker_or_text);
       // Range of verses.
-      if (usfm_handle_verse_range (verse, verse_numbers));
+      if (handle_verse_range (verse, verse_numbers));
       // Sequence of verses.
-      else if (usfm_handle_verse_sequence (verse, verse_numbers));
+      else if (handle_verse_sequence (verse, verse_numbers));
       // Single verse.
       else verse_numbers.push_back (convert_to_int (verse));
       extract_verse = false;
     }
-    if (marker_or_text.substr (0, 2) == usfm_marker_v ()) extract_verse = true;
+    if (marker_or_text.substr (0, 2) == marker_v ()) extract_verse = true;
     string va_or_vp = marker_or_text.substr (0, 3);
-    if (va_or_vp == usfm_marker_va ()) extract_verse = false;
-    if (va_or_vp == usfm_marker_vp ()) extract_verse = false;
+    if (va_or_vp == marker_va ()) extract_verse = false;
+    if (va_or_vp == marker_vp ()) extract_verse = false;
   }
   return verse_numbers;
 }
 
 
 // Returns the chapter numbers found in $usfm.
-vector <int> usfm_get_chapter_numbers (string usfm)
+vector <int> get_chapter_numbers (string usfm)
 {
   vector <int> chapter_numbers = { 0 };
-  vector <string> markers_and_text = usfm_get_markers_and_text (usfm);
+  vector <string> markers_and_text = get_markers_and_text (usfm);
   bool extract_chapter = false;
   for (string marker_or_text : markers_and_text) {
     if (extract_chapter) {
-      string chapter = usfm_peek_verse_number (marker_or_text);
+      string chapter = peek_verse_number (marker_or_text);
       chapter_numbers.push_back (convert_to_int (chapter));
       extract_chapter = false;
     }
@@ -278,13 +281,13 @@ vector <int> usfm_get_chapter_numbers (string usfm)
 
 
 // Returns the verse numbers in the string of $usfm code at line number $line_number.
-vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number)
+vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
   vector <int> verse_number = {0}; // Initial verse number.
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (i <= line_number) {
-      vector <int> verse_numbers = usfm_get_verse_numbers (lines[i]);
+      vector <int> verse_numbers = get_verse_numbers (lines[i]);
       if (verse_numbers.size() >= 2) {
         verse_number = filter_string_array_diff (verse_numbers, {0});
       }
@@ -296,7 +299,7 @@ vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_numb
 
 // Returns the verse numbers in the string of $usfm code at offset $offset.
 // Offset is calculated with unicode_string_length to support UTF-8.
-vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
+vector <int> offset_to_versenumber (string usfm, unsigned int offset)
 {
   size_t totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
@@ -304,7 +307,7 @@ vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
     size_t length = unicode_string_length (lines [i]);
     totalOffset += length;
     if (totalOffset >= offset) {
-      return usfm_linenumber_to_versenumber (usfm, i);
+      return linenumber_to_versenumber (usfm, i);
     }
     // Add 1 for new line.
     totalOffset += 1;
@@ -315,14 +318,14 @@ vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset)
 
 
 // Returns the offset within the $usfm code where $verse number starts.
-int usfm_versenumber_to_offset (string usfm, int verse)
+int versenumber_to_offset (string usfm, int verse)
 {
   // Verse number 0 starts at offset 0.
   if (verse == 0) return 0;
   int totalOffset = 0;
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (string line : lines) {
-    vector <int> verses = usfm_get_verse_numbers (line);
+    vector <int> verses = get_verse_numbers (line);
     for (auto & v : verses) {
       if (v == verse) return totalOffset;
     }
@@ -336,14 +339,14 @@ int usfm_versenumber_to_offset (string usfm, int verse)
 
 // Returns the verse text given a $verse_number and $usfm code.
 // Handles combined verses.
-string usfm_get_verse_text (string usfm, int verse_number)
+string get_verse_text (string usfm, int verse_number)
 {
   vector <string> result;
   bool hit = (verse_number == 0);
 
   vector <string> lines = filter_string_explode (usfm, '\n');
   for (string line : lines) {
-    vector <int> verses = usfm_get_verse_numbers (line);
+    vector <int> verses = get_verse_numbers (line);
     if (verse_number == 0) {
       if (verses.size () != 1) hit = false;
       if (hit) result.push_back (line);
@@ -370,10 +373,10 @@ string usfm_get_verse_text (string usfm, int verse_number)
 // Gets the USFM for the $verse number for a Quill-based verse editor.
 // This means that preceding empty paragraphs will be included also.
 // And that empty paragraphs at the end will be omitted.
-string usfm_get_verse_text_quill (string usfm, int verse)
+string get_verse_text_quill (string usfm, int verse)
 {
   // Get the raw USFM for the verse, that is, the bit between the \v... markers.
-  string raw_verse_usfm = usfm_get_verse_text (usfm, verse);
+  string raw_verse_usfm = get_verse_text (usfm, verse);
   
   // Bail out if empty.
   if (raw_verse_usfm.empty ()) {
@@ -383,13 +386,13 @@ string usfm_get_verse_text_quill (string usfm, int verse)
   // Omit new paragraphs at the end.
   // In this context it is taken as opening USFM markers without content.
   string verse_usfm (raw_verse_usfm);
-  vector <string> markers_and_text = usfm_get_markers_and_text (verse_usfm);
+  vector <string> markers_and_text = get_markers_and_text (verse_usfm);
   while (true) {
     if (markers_and_text.empty ()) break;
     string code = markers_and_text.back ();
     markers_and_text.pop_back ();
-    if (!usfm_is_usfm_marker (code)) break;
-    if (!usfm_is_opening_marker (code)) break;
+    if (!is_usfm_marker (code)) break;
+    if (!is_opening_marker (code)) break;
     verse_usfm.erase (verse_usfm.size () - code.size ());
     verse_usfm = filter_string_trim (verse_usfm);
     if (verse_usfm.empty ()) break;
@@ -404,17 +407,17 @@ string usfm_get_verse_text_quill (string usfm, int verse)
   // Any empty paragraphs at the end of the previous verse USFM,
   // add them to the current verse's USFM.
   if (verse) {
-    string previous_verse_usfm = usfm_get_verse_text (usfm, verse - 1);
+    string previous_verse_usfm = get_verse_text (usfm, verse - 1);
     // For combined verses: The raw USFM fragments should differ to make sense.
     if (previous_verse_usfm != raw_verse_usfm) {
       if (!previous_verse_usfm.empty ()) {
-        markers_and_text = usfm_get_markers_and_text (previous_verse_usfm);
+        markers_and_text = get_markers_and_text (previous_verse_usfm);
         while (true) {
           if (markers_and_text.empty ()) break;
           string code = markers_and_text.back ();
           markers_and_text.pop_back ();
-          if (!usfm_is_usfm_marker (code)) break;
-          if (!usfm_is_opening_marker (code)) break;
+          if (!is_usfm_marker (code)) break;
+          if (!is_opening_marker (code)) break;
           verse_usfm.insert (0, code + "\n");
         }
       }
@@ -427,7 +430,7 @@ string usfm_get_verse_text_quill (string usfm, int verse)
 
 
 // Gets the chapter text given a book of $usfm code, and the $chapter_number.
-string usfm_get_chapter_text (string usfm, int chapter_number)
+string get_chapter_text (string usfm, int chapter_number)
 {
   // Empty input: Ready.
   if (usfm.empty ()) return usfm;
@@ -436,7 +439,7 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
   if (chapter_number) {
     // Normal chapter marker (new line after the number).
     bool found = false;
-    string marker = usfm_get_opening_usfm ("c", false) + convert_to_string (chapter_number) + "\n";
+    string marker = get_opening_usfm ("c", false) + convert_to_string (chapter_number) + "\n";
     size_t pos = usfm.find (marker);
     // Was the chapter found?
     if (pos != string::npos) {
@@ -444,14 +447,14 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
       usfm.erase (0, pos);
     }
     // Unusual chapter marker (space after the number).
-    marker = usfm_get_opening_usfm ("c", false) + convert_to_string (chapter_number) + " ";
+    marker = get_opening_usfm ("c", false) + convert_to_string (chapter_number) + " ";
     pos = usfm.find (marker);
     if (pos != string::npos) {
       found = true;
       usfm.erase (0, pos);
     }
     // Another observed unusual situation: A non-breaking space after the chapter number.
-    marker = usfm_get_opening_usfm ("c", false) + convert_to_string (chapter_number) + non_breaking_space_u00A0 ();
+    marker = get_opening_usfm ("c", false) + convert_to_string (chapter_number) + non_breaking_space_u00A0 ();
     pos = usfm.find (marker);
     if (pos != string::npos) {
       found = true;
@@ -463,7 +466,7 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
   }
 
   // Look for any next chapter marker.
-  size_t pos = usfm.find (usfm_get_opening_usfm ("c", false), 1);
+  size_t pos = usfm.find (get_opening_usfm ("c", false), 1);
   if (pos != string::npos) {
     usfm.erase (pos);
   }
@@ -481,14 +484,14 @@ string usfm_get_chapter_text (string usfm, int chapter_number)
 // It ensures that the $exclude_usfm does not make it to the output of the function.
 // In case of $quill, it uses a routine optimized for a Quill-based editor.
 // This means that empty paragraphs at the end of the extracted USFM fragment are not included.
-string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill)
+string get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill)
 {
   vector <string> bits;
   string previous_usfm;
   for (int vs = verse_from; vs <= verse_to; vs++) {
     string verse_usfm;
-    if (quill) verse_usfm = usfm_get_verse_text_quill (usfm, vs);
-    else verse_usfm = usfm_get_verse_text (usfm, vs);
+    if (quill) verse_usfm = get_verse_text_quill (usfm, vs);
+    else verse_usfm = get_verse_text (usfm, vs);
     // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
     if (verse_usfm == previous_usfm) continue;
     if (!verse_usfm.empty () && !previous_usfm.empty ()) {
@@ -510,7 +513,7 @@ string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, con
 
 
 // Returns true if the $code contains a USFM marker.
-bool usfm_is_usfm_marker (string code)
+bool is_usfm_marker (string code)
 {
   if (code.length () < 2) return false;
   if (code.substr (0, 1) == "\\") return true;
@@ -520,7 +523,7 @@ bool usfm_is_usfm_marker (string code)
 
 // Returns true if the marker in $usfm is an opening marker.
 // Else it returns false.
-bool usfm_is_opening_marker (string usfm)
+bool is_opening_marker (string usfm)
 {
   return usfm.find ("*") == string::npos;
 }
@@ -528,7 +531,7 @@ bool usfm_is_opening_marker (string usfm)
 
 // Returns true if the marker in $usfm is an embedded marker.
 // Else it returns false.
-bool usfm_is_embedded_marker (string usfm)
+bool is_embedded_marker (string usfm)
 {
   return usfm.find ( "+") != string::npos;
 }
@@ -537,7 +540,7 @@ bool usfm_is_embedded_marker (string usfm)
 // Returns the USFM book identifier.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: if increased by one, it should point to the \id in $usfm.
-string usfm_get_book_identifier (const vector <string>& usfm, unsigned int pointer)
+string get_book_identifier (const vector <string>& usfm, unsigned int pointer)
 {
   string identifier = "XXX"; // Fallback value.
   if (++pointer < usfm.size ()) {
@@ -550,7 +553,7 @@ string usfm_get_book_identifier (const vector <string>& usfm, unsigned int point
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. It gets increased by one.
-string usfm_get_text_following_marker (const vector <string>& usfm, unsigned int & pointer)
+string get_text_following_marker (const vector <string>& usfm, unsigned int & pointer)
 {
   string text = ""; // Fallback value.
   ++pointer;
@@ -564,14 +567,14 @@ string usfm_get_text_following_marker (const vector <string>& usfm, unsigned int
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. Pointer is left as it is.
-string usfm_peek_text_following_marker (const vector <string>& usfm, unsigned int pointer)
+string peek_text_following_marker (const vector <string>& usfm, unsigned int pointer)
 {
-  return usfm_get_text_following_marker (usfm, pointer);
+  return get_text_following_marker (usfm, pointer);
 }
 
 
 // Returns the verse number in the $usfm code.
-string usfm_peek_verse_number (string usfm)
+string peek_verse_number (string usfm)
 {
   // Make it robust, even handling cases like \v 1-2“Moi - No space after verse number.
   string verseNumber = "";
@@ -604,7 +607,7 @@ string usfm_peek_verse_number (string usfm)
 // Takes a marker in the form of text only, like "id" or "add",
 // and converts it into opening USFM, like "\id " or "\add ".
 // Supports the embedded markup "+".
-string usfm_get_opening_usfm (string text, bool embedded)
+string get_opening_usfm (string text, bool embedded)
 {
   string embed = embedded ? "+" : "";
   return "\\" + embed + text + " ";
@@ -614,7 +617,7 @@ string usfm_get_opening_usfm (string text, bool embedded)
 // Takes a marker in the form of text only, like "add",
 // and converts it into closing USFM, like "\add*".
 // Supports the embedded markup "+".
-string usfm_get_closing_usfm (string text, bool embedded)
+string get_closing_usfm (string text, bool embedded)
 {
   string embed = embedded ? "+" : "";
   return "\\" + embed + text + "*";
@@ -625,7 +628,7 @@ string usfm_get_closing_usfm (string text, bool embedded)
 // It returns an empty string if the difference is below the limit set for the Bible.
 // It returns a short message specifying the difference if it exceeds that limit.
 // It fills $explanation with a longer message in case saving is not safe.
-string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation)
+string save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation)
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return string();
@@ -707,7 +710,7 @@ string usfm_save_is_safe (void * webserver_request, string oldtext, string newte
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-string usfm_safely_store_chapter (void * webserver_request,
+string safely_store_chapter (void * webserver_request,
                                   string bible, int book, int chapter, string usfm, string & explanation)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
@@ -719,7 +722,7 @@ string usfm_safely_store_chapter (void * webserver_request,
   if (usfm == existing) return "";
   
   // Safety check.
-  string message = usfm_save_is_safe (webserver_request, existing, usfm, true, explanation);
+  string message = save_is_safe (webserver_request, existing, usfm, true, explanation);
   if (!message.empty ()) return message;
 
   // Record the change in the journal.
@@ -741,7 +744,7 @@ string usfm_safely_store_chapter (void * webserver_request,
  // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
-string usfm_safely_store_verse (void * webserver_request,
+string safely_store_verse (void * webserver_request,
                                 string bible, int book, int chapter, int verse, string usfm,
                                 string & explanation, bool quill)
 {
@@ -750,7 +753,7 @@ string usfm_safely_store_verse (void * webserver_request,
   usfm = filter_string_trim (usfm);
 
   // Check that the USFM to be saved is for the correct verse.
-  vector <int> save_verses = usfm_get_verse_numbers (usfm);
+  vector <int> save_verses = get_verse_numbers (usfm);
   if ((verse != 0) && !save_verses.empty ()) {
     save_verses.erase (save_verses.begin());
   }
@@ -772,13 +775,13 @@ string usfm_safely_store_verse (void * webserver_request,
   
   // Get the existing USFM fragment for the verse to save.
   string existing_verse_usfm;
-  if (quill) existing_verse_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
-  else existing_verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+  if (quill) existing_verse_usfm = get_verse_text_quill (chapter_usfm, verse);
+  else existing_verse_usfm = get_verse_text (chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
   // Check that there is a match between the existing verse numbers and the verse numbers to save.
-  vector <int> existing_verses = usfm_get_verse_numbers (existing_verse_usfm);
-  save_verses = usfm_get_verse_numbers (usfm);
+  vector <int> existing_verses = get_verse_numbers (existing_verse_usfm);
+  save_verses = get_verse_numbers (usfm);
   bool verses_match = true;
   if (save_verses.size () == existing_verses.size ()) {
     for (unsigned int i = 0; i < save_verses.size (); i++) {
@@ -803,7 +806,7 @@ string usfm_safely_store_verse (void * webserver_request,
   }
 
   // Check maximum difference between new and existing USFM.
-  string message = usfm_save_is_safe (webserver_request, existing_verse_usfm, usfm, false, explanation);
+  string message = save_is_safe (webserver_request, existing_verse_usfm, usfm, false, explanation);
   if (!message.empty ()) return message;
   
   // Store the new verse USFM in the existing chapter USFM.
@@ -830,7 +833,7 @@ string usfm_safely_store_verse (void * webserver_request,
 
 
 // Returns whether $usfm contains one or more empty verses.
-bool usfm_contains_empty_verses (string usfm)
+bool contains_empty_verses (string usfm)
 {
   usfm = filter_string_str_replace ("\n", "", usfm);
   if (usfm.empty ()) return false;
@@ -844,7 +847,7 @@ bool usfm_contains_empty_verses (string usfm)
   if (pos != string::npos) return true;
   pos = usfm.find ("\\v \\v");
   if (pos != string::npos) return true;
-  pos = usfm.find_last_of (usfm_marker_v ());
+  pos = usfm.find_last_of (marker_v ());
   if (pos == usfm.length () - 1) return true;
   return false;
 }
@@ -852,7 +855,7 @@ bool usfm_contains_empty_verses (string usfm)
 
 // This looks at the $fragment, whether it's a range of verses.
 // If so, it puts the all of the verses in $verses, and returns true.
-bool usfm_handle_verse_range (string verse, vector <int> & verses)
+bool handle_verse_range (string verse, vector <int> & verses)
 {
   if (verse.find ("-") != string::npos) {
     size_t position;
@@ -879,7 +882,7 @@ bool usfm_handle_verse_range (string verse, vector <int> & verses)
 
 // This looks at the $fragment, whether it's a sequence of verses.
 // If so, it puts the all of the verses in $verses, and returns true.
-bool usfm_handle_verse_sequence (string verse, vector <int> & verses)
+bool handle_verse_sequence (string verse, vector <int> & verses)
 {
   if (verse.find (",") != string::npos) {
     int iterations = 0;
@@ -906,19 +909,19 @@ bool usfm_handle_verse_sequence (string verse, vector <int> & verses)
 }
 
 
-const char * usfm_marker_v ()
+const char * marker_v ()
 {
   return R"(\v)";
 }
 
 
-const char * usfm_marker_va ()
+const char * marker_va ()
 {
   return R"(\va)";
 }
 
 
-const char * usfm_marker_vp ()
+const char * marker_vp ()
 {
   return R"(\vp)";
 }
@@ -932,7 +935,7 @@ const char * usfm_marker_vp ()
 //   attribute = "value".
 // Example:
 //   \w gracious|lemma="grace"\w*
-string usfm_remove_w_attributes (string usfm)
+string remove_w_attributes (string usfm) // Todo use this?
 {
   // Check for a vertical bar at all in the input USFM.
   // If it's not there, then there won't be any word-level attributes.
@@ -954,12 +957,12 @@ string usfm_remove_w_attributes (string usfm)
         keep_going = false;
 
         // The opener should be there.
-        size_t opener_pos = usfm.find (usfm_get_opening_usfm (marker), last_pos);
+        size_t opener_pos = usfm.find (get_opening_usfm (marker), last_pos);
         if (opener_pos == string::npos) continue;
         last_pos = opener_pos + 1;
 
         // The closer should be there too.
-        size_t closer_pos = usfm.find (usfm_get_closing_usfm (marker), last_pos);
+        size_t closer_pos = usfm.find (get_closing_usfm (marker), last_pos);
         if (closer_pos == string::npos) continue;
 
         // The vertical bar should be between the opener and closer.
@@ -990,7 +993,7 @@ string usfm_remove_w_attributes (string usfm)
 // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
 // That means it is backwards compatible with USFM 1/2:
 // \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig*
-string usfm_extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref)
+string extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref)
 {
   // The resulting USFM where the \fig markup has been removed from.
   string usfm_out;
@@ -1001,13 +1004,13 @@ string usfm_extract_fig (string usfm, string & caption, string & alt, string& sr
   string marker = "fig";
   
   // If the opener is there, it means the \fig markup could be there.
-  string opener = usfm_get_opening_usfm (marker);
+  string opener = get_opening_usfm (marker);
   size_t pos1 = usfm.find (opener);
   if (pos1 != string::npos) {
     usfm_out.append(usfm.substr(0, pos1));
     usfm.erase (0, pos1 + opener.length());
     // Erase the \fig* closing markup.
-    string closer = usfm_get_closing_usfm(marker);
+    string closer = get_closing_usfm(marker);
     size_t pos2 = usfm.find(closer);
     if (pos2 != string::npos) {
       usfm_out.append(usfm.substr(pos2 + closer.length()));
@@ -1066,7 +1069,7 @@ string usfm_extract_fig (string usfm, string & caption, string & alt, string& sr
 
 
 // Returns true if the marker is a standard "q." marker.
-bool usfm_is_standard_q_poetry (const string & marker)
+bool is_standard_q_poetry (const string & marker)
 {
   if (marker == "q") return true;
   if (marker == "q1") return true;
@@ -1074,3 +1077,6 @@ bool usfm_is_standard_q_poetry (const string & marker)
   if (marker == "q3") return true;
   return false;
 }
+
+
+} // End of namespace.

@@ -151,8 +151,8 @@ void compare_compare (string bible, string compare, int jobId)
       
       
       // Get the combined set of verses in the chapter of the Bible and of the USFM to compare with.
-      vector <int> bible_verse_numbers = usfm_get_verse_numbers (bible_chapter_usfm);
-      vector <int> compare_verse_numbers = usfm_get_verse_numbers (compare_chapter_usfm);
+      vector <int> bible_verse_numbers = filter::usfm::get_verse_numbers (bible_chapter_usfm);
+      vector <int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
       vector <int> verses;
       {
         set <int> verseset;
@@ -167,8 +167,8 @@ void compare_compare (string bible, string compare, int jobId)
  
 
         // Get the USFM of verse of the Bible and comparison USFM, and skip it if both are the same.
-        string bible_verse_usfm = usfm_get_verse_text (bible_chapter_usfm, verse);
-        string compare_verse_usfm = usfm_get_verse_text (compare_chapter_usfm, verse);
+        string bible_verse_usfm = filter::usfm::get_verse_text (bible_chapter_usfm, verse);
+        string compare_verse_usfm = filter::usfm::get_verse_text (compare_chapter_usfm, verse);
         if (bible_verse_usfm == compare_verse_usfm) continue;
         
         Filter_Text filter_text_bible = Filter_Text (bible);

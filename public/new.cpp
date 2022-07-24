@@ -57,7 +57,7 @@ string public_new (void * webserver_request)
     int verse = convert_to_int (request->query ["verse"]);
 
     string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new Html_Text (bible);

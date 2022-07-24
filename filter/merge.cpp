@@ -23,7 +23,6 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #include <dtl/dtl.hpp>
 #pragma GCC diagnostic pop
-using dtl::Diff3;
 #include <filter/string.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
@@ -33,6 +32,7 @@ using dtl::Diff3;
 #include <filter/usfm.h>
 
 
+using dtl::Diff3;
 using namespace pugi;
 
 
@@ -259,7 +259,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
                                 vector <Merge_Conflict> & conflicts)
 {
   // Get the verse numbers in the changed text.
-  vector <int> verses = usfm_get_verse_numbers (change);
+  vector <int> verses = filter::usfm::get_verse_numbers (change);
   
   vector <string> results;
   
@@ -269,9 +269,9 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
   for (auto verse : verses) {
     
     // Gets the texts to merge for this verse.
-    string base_text = usfm_get_verse_text (base, verse);
-    string change_text = usfm_get_verse_text (change, verse);
-    string prioritized_change_text = usfm_get_verse_text (prioritized_change, verse);
+    string base_text = filter::usfm::get_verse_text (base, verse);
+    string change_text = filter::usfm::get_verse_text (change, verse);
+    string prioritized_change_text = filter::usfm::get_verse_text (prioritized_change, verse);
     
     // Check for combined verses.
     if (change_text == previous_change) continue;

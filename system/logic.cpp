@@ -159,7 +159,7 @@ void system_logic_import_bibles_file (string tarball)
     
     // Get details about the USFM to import.
     string stylesheet = styles_logic_standard_sheet ();
-    vector <BookChapterData> book_chapter_text = usfm_import (data, stylesheet);
+    vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
     for (auto & book_chapter_data : book_chapter_text) {
       if (book_chapter_data.m_book > 0) {
         // Store the data and log it.

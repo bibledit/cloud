@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+namespace filter::usfm {
+
 class BookChapterData
 {
 public:
@@ -30,40 +32,43 @@ public:
   string m_data {};
 };
 
-string usfm_one_string (string usfm);
-vector <string> usfm_get_markers_and_text (string code);
-string usfm_get_marker (string usfm);
+string one_string (string usfm);
+vector <string> get_markers_and_text (string code);
+string get_marker (string usfm);
 vector <BookChapterData> usfm_import (string input, string stylesheet);
-vector <int> usfm_get_verse_numbers (string usfm);
-vector <int> usfm_get_chapter_numbers (string usfm);
-vector <int> usfm_linenumber_to_versenumber (string usfm, unsigned int line_number);
-vector <int> usfm_offset_to_versenumber (string usfm, unsigned int offset);
-int usfm_versenumber_to_offset (string usfm, int verse);
-string usfm_get_verse_text (string usfm, int verse);
-string usfm_get_verse_text_quill (string usfm, int verse_number);
-string usfm_get_chapter_text (string usfm, int chapter_number);
-string usfm_get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill);
-bool usfm_is_usfm_marker (string code);
-bool usfm_is_opening_marker (string usfm);
-bool usfm_is_embedded_marker (string usfm);
-string usfm_get_book_identifier (const vector <string>& usfm, unsigned int pointer);
-string usfm_get_text_following_marker (const vector <string>& usfm, unsigned int & pointer);
-string usfm_peek_text_following_marker (const vector <string>& usfm, unsigned int pointer);
-string usfm_peek_verse_number (string usfm);
-string usfm_get_opening_usfm (string text, bool embedded = false);
-string usfm_get_closing_usfm (string text, bool embedded = false);
-string usfm_save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation);
-string usfm_safely_store_chapter (void * webserver_request,
-                                  string bible, int book, int chapter, string usfm, string & explanation);
-string usfm_safely_store_verse (void * webserver_request,
-                                string bible, int book, int chapter, int verse, string usfm,
-                                string & explanation, bool quill);
-bool usfm_contains_empty_verses (string usfm);
-bool usfm_handle_verse_range (string verse, vector <int> & verses);
-bool usfm_handle_verse_sequence (string verse, vector <int> & verses);
-const char * usfm_marker_v ();
-const char * usfm_marker_va ();
-const char * usfm_marker_vp ();
-string usfm_remove_w_attributes (string usfm);
-string usfm_extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref);
-bool usfm_is_standard_q_poetry (const string & marker);
+vector <int> get_verse_numbers (string usfm);
+vector <int> get_chapter_numbers (string usfm);
+vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number);
+vector <int> offset_to_versenumber (string usfm, unsigned int offset);
+int versenumber_to_offset (string usfm, int verse);
+string get_verse_text (string usfm, int verse);
+string get_verse_text_quill (string usfm, int verse_number);
+string get_chapter_text (string usfm, int chapter_number);
+string get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill);
+bool is_usfm_marker (string code);
+bool is_opening_marker (string usfm);
+bool is_embedded_marker (string usfm);
+string get_book_identifier (const vector <string>& usfm, unsigned int pointer);
+string get_text_following_marker (const vector <string>& usfm, unsigned int & pointer);
+string peek_text_following_marker (const vector <string>& usfm, unsigned int pointer);
+string peek_verse_number (string usfm);
+string get_opening_usfm (string text, bool embedded = false);
+string get_closing_usfm (string text, bool embedded = false);
+string save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation);
+string safely_store_chapter (void * webserver_request,
+                             string bible, int book, int chapter, string usfm, string & explanation);
+string safely_store_verse (void * webserver_request,
+                           string bible, int book, int chapter, int verse, string usfm,
+                           string & explanation, bool quill);
+bool contains_empty_verses (string usfm);
+bool handle_verse_range (string verse, vector <int> & verses);
+bool handle_verse_sequence (string verse, vector <int> & verses);
+const char * marker_v ();
+const char * marker_va ();
+const char * marker_vp ();
+string remove_w_attributes (string usfm);
+string extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref);
+bool is_standard_q_poetry (const string & marker);
+
+}
+

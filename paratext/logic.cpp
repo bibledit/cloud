@@ -337,7 +337,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       string paratext_book = paratext_books [book];
       if (paratext_book.empty ()) {
         Database_Logs::log (journalTag (bible, book, -1) + "The Paratext project does not have this book", Filter_Roles::translator ());
-        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + usfm_get_opening_usfm("id") + Database_Books::getUsfmFromId (book) + " on the first line", Filter_Roles::translator ());
+        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + filter::usfm::get_opening_usfm("id") + Database_Books::getUsfmFromId (book) + " on the first line", Filter_Roles::translator ());
         continue;
       }
       
@@ -346,9 +346,9 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       map <int, string> ancestor_usfm;
       {
         string book_usfm = ancestor (bible, book);
-        vector <int> chapters = usfm_get_chapter_numbers (book_usfm);
+        vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
-          string chapter_usfm = usfm_get_chapter_text (book_usfm, chapter);
+          string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, chapter);
           ancestor_usfm [chapter] = chapter_usfm;
         }
       }
@@ -364,9 +364,9 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
         // This looks like a bug in Paratext. Remove those empty lines.
         book_usfm = filter_string_str_replace ("\n\n", "\n", book_usfm);
-        vector <int> chapters = usfm_get_chapter_numbers (book_usfm);
+        vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
-          string chapter_usfm = usfm_get_chapter_text (book_usfm, chapter);
+          string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, chapter);
           paratext_usfm [chapter] = chapter_usfm;
         }
       }

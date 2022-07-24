@@ -116,16 +116,16 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   // Get the combined verse numbers in old and new USFM.
-  vector <int> old_verse_numbers = usfm_get_verse_numbers (oldusfm);
-  vector <int> new_verse_numbers = usfm_get_verse_numbers (newusfm);
+  vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (oldusfm);
+  vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (newusfm);
   vector <int> verses = old_verse_numbers;
   verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
   verses = array_unique (verses);
   sort (verses.begin(), verses.end());
 
   for (auto verse : verses) {
-    string old_verse_usfm = usfm_get_verse_text (oldusfm, verse);
-    string new_verse_usfm = usfm_get_verse_text (newusfm, verse);
+    string old_verse_usfm = filter::usfm::get_verse_text (oldusfm, verse);
+    string new_verse_usfm = filter::usfm::get_verse_text (newusfm, verse);
     if (old_verse_usfm != new_verse_usfm) {
       Filter_Text filter_text_old = Filter_Text (bible);
       Filter_Text filter_text_new = Filter_Text (bible);

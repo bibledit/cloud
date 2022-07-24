@@ -75,9 +75,9 @@ string editusfm_save (void * webserver_request)
       if (!usfm.empty ()) {
         if (unicode_string_is_valid (usfm)) {
           string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-          vector <BookChapterData> book_chapter_text = usfm_import (usfm, stylesheet);
+          vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (usfm, stylesheet);
           if (!book_chapter_text.empty()) {
-            BookChapterData data = book_chapter_text[0];
+            filter::usfm::BookChapterData data = book_chapter_text[0];
             int book_number = data.m_book;
             int chapter_number = data.m_chapter;
             string chapter_data_to_save = data.m_data;
@@ -122,7 +122,7 @@ string editusfm_save (void * webserver_request)
               if (AccessBible::BookWrite (request, string(), bible, book)) {
                 // Safely store the chapter.
                 string explanation;
-                string message = usfm_safely_store_chapter (request, bible, book, chapter, chapter_data_to_save, explanation);
+                string message = filter::usfm::safely_store_chapter (request, bible, book, chapter, chapter_data_to_save, explanation);
                 bible_logic_unsafe_save_mail (message, explanation, username, chapter_data_to_save, book, chapter);
                 if (message.empty()) {
 #ifndef HAVE_CLIENT

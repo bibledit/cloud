@@ -79,7 +79,7 @@ string search_replacego2 (void * webserver_request)
   
   // Get the old chapter and verse USFM.
   string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
+  string old_verse_usfm = filter::usfm::get_verse_text (old_chapter_usfm, verse);
   
   
   // As a standard to compare against, get the plain text from the search database,

@@ -82,11 +82,11 @@ void search_logic_index_chapter (string bible, int book, int chapter)
   
   set <string> already_processed;
   
-  vector <int> verses = usfm_get_verse_numbers (usfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   
   for (auto verse : verses) {
 
-    string raw_usfm = filter_string_trim (usfm_get_verse_text (usfm, verse));
+    string raw_usfm = filter_string_trim (filter::usfm::get_verse_text (usfm, verse));
 
     // In case of combined verses, the bit of USFM may have been indexed already.
     // Skip it in that case.

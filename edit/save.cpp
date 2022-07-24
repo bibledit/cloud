@@ -104,7 +104,7 @@ string edit_save (void * webserver_request)
   
   string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
-  vector <BookChapterData> book_chapter_text = usfm_import (user_usfm, stylesheet);
+  vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
     Database_Logs::log (translate ("User tried to save something different from exactly one chapter."));
     return translate("Incorrect chapter");
@@ -157,7 +157,7 @@ string edit_save (void * webserver_request)
 
   // Safely store the chapter.
   string explanation;
-  string message = usfm_safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
+  string message = filter::usfm::safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
   bible_logic_unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
 
   // If an error message was given, then return that message to the browser.

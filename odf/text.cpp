@@ -679,7 +679,7 @@ void odf_text::create_paragraph_style (string name,
   // and if so, whether this is one of the defined poetry styles.
   bool is_poetry_q_style = false;
   if (Database_Config_Bible::getOdtPoetryVersesLeft (bible)) {
-    is_poetry_q_style = usfm_is_standard_q_poetry (name);
+    is_poetry_q_style = filter::usfm::is_standard_q_poetry (name);
   }
   
   // It looks like this in styles.xml:

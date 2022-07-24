@@ -307,7 +307,7 @@ void demo_prepare_sample_bible ()
       string usfm = filter_url_file_get_contents (file);
       usfm = filter_string_collapse_whitespace (usfm);
       // Import the USFM into the sample Bible.
-      vector <BookChapterData> book_chapter_data = usfm_import (usfm, styles_logic_standard_sheet ());
+      vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
       for (auto data : book_chapter_data) {
         int book = data.m_book;
         if (book) {

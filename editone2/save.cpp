@@ -138,7 +138,7 @@ string editone2_save (void * webserver_request)
   
   // Safely store the verse.
   string explanation;
-  string message = usfm_safely_store_verse (request, bible, book, chapter, verse, verse_usfm, explanation, true);
+  string message = filter::usfm::safely_store_verse (request, bible, book, chapter, verse, verse_usfm, explanation, true);
   bible_logic_unsafe_save_mail (message, explanation, username, verse_usfm, book, chapter);
   // If storing the verse worked out well, there's no message to display.
   if (message.empty ()) {

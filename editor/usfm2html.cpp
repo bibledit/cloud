@@ -34,7 +34,7 @@ void Editor_Usfm2Html::load (string usfm)
   usfm.append ("\n");
   // Separate it into markers and text.
   // Load it into the object.
-  markersAndText = usfm_get_markers_and_text (usfm);
+  markersAndText = filter::usfm::get_markers_and_text (usfm);
   markersAndTextPointer = 0;
 }
 
@@ -146,13 +146,13 @@ void Editor_Usfm2Html::process ()
   size_t markersAndTextCount = markersAndText.size();
   for (markersAndTextPointer = 0; markersAndTextPointer < markersAndTextCount; markersAndTextPointer++) {
     string currentItem = markersAndText[markersAndTextPointer];
-    if (usfm_is_usfm_marker (currentItem))
+    if (filter::usfm::is_usfm_marker (currentItem))
     {
       // Store indicator whether the marker is an opening marker.
-      bool isOpeningMarker = usfm_is_opening_marker (currentItem);
-      bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
+      bool isOpeningMarker = filter::usfm::is_opening_marker (currentItem);
+      bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-      string marker = usfm_get_marker (currentItem);
+      string marker = filter::usfm::get_marker (currentItem);
       if (styles.count (marker))
       {
         Database_Styles_Item style = styles [marker];
@@ -195,7 +195,7 @@ void Editor_Usfm2Html::process ()
               if (roadIsClear ()) {
                 openTextStyle (style, isEmbeddedMarker);
               } else {
-                addText (usfm_get_opening_usfm (marker));
+                addText (filter::usfm::get_opening_usfm (marker));
               }
             } else {
               closeTextStyle (isEmbeddedMarker);
@@ -219,8 +219,8 @@ void Editor_Usfm2Html::process ()
             }
             // Open verse style, record verse/length, add verse number, close style again, and add a space.
             openTextStyle (style, false);
-            string textFollowingMarker = usfm_get_text_following_marker (markersAndText, markersAndTextPointer);
-            string number = usfm_peek_verse_number (textFollowingMarker);
+            string textFollowingMarker = filter::usfm::get_text_following_marker (markersAndText, markersAndTextPointer);
+            string number = filter::usfm::peek_verse_number (textFollowingMarker);
             verseStartOffsets [convert_to_int (number)] = static_cast<int>(textLength);
             addText (number);
             closeTextStyle (false);
@@ -396,10 +396,10 @@ void Editor_Usfm2Html::outputAsIs (string marker, bool isOpeningMarker)
     // Add opening marker as it is.
     closeParagraph ();
     newParagraph ("mono");
-    addText (usfm_get_opening_usfm (marker));
+    addText (filter::usfm::get_opening_usfm (marker));
   } else {
     // Add closing marker to existing paragraph.
-    addText (usfm_get_closing_usfm (marker));
+    addText (filter::usfm::get_closing_usfm (marker));
   }
 }
 
@@ -510,7 +510,7 @@ void Editor_Usfm2Html::add_note (string citation, string style, [[maybe_unused]]
 {
   // Be sure the road ahead is clear.
   if (!roadIsClear ()) {
-    addText (usfm_get_opening_usfm (style));
+    addText (filter::usfm::get_opening_usfm (style));
     return;
   }
   
@@ -601,10 +601,10 @@ bool Editor_Usfm2Html::roadIsClear ()
   int input_subtype = 0;
   {
     string currentItem = markersAndText[markersAndTextPointer];
-    if (!usfm_is_usfm_marker (currentItem)) return true;
-    input_opener = usfm_is_opening_marker (currentItem);
-    input_embedded = usfm_is_embedded_marker (currentItem);
-    string marker = usfm_get_marker (currentItem);
+    if (!filter::usfm::is_usfm_marker (currentItem)) return true;
+    input_opener = filter::usfm::is_opening_marker (currentItem);
+    input_embedded = filter::usfm::is_embedded_marker (currentItem);
+    string marker = filter::usfm::get_marker (currentItem);
     input_marker = marker;
     if (!styles.count (marker)) return true;
     Database_Styles_Item style = styles [marker];
@@ -626,17 +626,17 @@ bool Editor_Usfm2Html::roadIsClear ()
     for (size_t pointer = markersAndTextPointer + 1; pointer < markersAndTextCount; pointer++) {
       if (done) continue;
       string currentItem = markersAndText[pointer];
-      if (usfm_is_usfm_marker (currentItem))
+      if (filter::usfm::is_usfm_marker (currentItem))
       {
-        string marker = usfm_get_marker (currentItem);
+        string marker = filter::usfm::get_marker (currentItem);
         if (styles.count (marker))
         {
           Database_Styles_Item style = styles [marker];
           markers.push_back (marker);
           types.push_back (style.type);
           subtypes.push_back (style.subtype);
-          openers.push_back (usfm_is_opening_marker (currentItem));
-          embeddeds.push_back (usfm_is_embedded_marker (currentItem));
+          openers.push_back (filter::usfm::is_opening_marker (currentItem));
+          embeddeds.push_back (filter::usfm::is_embedded_marker (currentItem));
           // Don't go beyond the next verse marker.
           if (style.type == StyleTypeVerseNumber) done = true;
         }

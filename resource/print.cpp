@@ -134,7 +134,7 @@ string resource_print (void * webserver_request)
         vector <int> chapters = request->database_bibles()->getChapters (bible, topassage.m_book);
         topassage.m_chapter = frompassage.m_chapter;
         if (!chapters.empty ()) topassage.m_chapter = chapters.back ();
-        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
+        vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
         topassage.m_verse = frompassage.m_verse;
         if (!verses.empty ()) topassage.m_verse = convert_to_string (verses.back ());
         request->database_config_user()->setPrintPassageTo (topassage);
@@ -165,7 +165,7 @@ string resource_print (void * webserver_request)
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set ending chapter / verse to sensible values.
         topassage.m_chapter = convert_to_int (fromchapter);
-        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
+        vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
         topassage.m_verse = frompassage.m_verse;
         if (!verses.empty ()) topassage.m_verse = convert_to_string (verses.back ());
         request->database_config_user()->setPrintPassageTo (topassage);
@@ -180,7 +180,7 @@ string resource_print (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = request->database_config_user()->getPrintPassageFrom ();
       string usfm = request->database_bibles()->getChapter (bible, passage.m_book, passage.m_chapter);
-      vector <int> verses = usfm_get_verse_numbers (usfm);
+      vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (convert_to_string (verse), "fromverse", convert_to_string (verse));
       }
@@ -194,7 +194,7 @@ string resource_print (void * webserver_request)
       // Sensible matching ending verse.
       Passage topassage = request->database_config_user()->getPrintPassageTo ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
-        vector <int> verses = usfm_get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
+        vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->getChapter (bible, topassage.m_book, topassage.m_chapter));
         topassage.m_verse = frompassage.m_verse;
         if (!verses.empty ()) topassage.m_verse = convert_to_string (verses.back ());
         request->database_config_user()->setPrintPassageTo (topassage);
@@ -270,7 +270,7 @@ string resource_print (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = request->database_config_user()->getPrintPassageTo ();
       string usfm = request->database_bibles()->getChapter (bible, passage.m_book, passage.m_chapter);
-      vector <int> verses = usfm_get_verse_numbers (usfm);
+      vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (convert_to_string (verse), "toverse", convert_to_string (verse));
       }
@@ -351,7 +351,7 @@ void resource_print_job (string jobId, string user, string bible)
     vector <int> chapters = request.database_bibles()->getChapters (bible, book);
     for (auto & chapter : chapters) {
       string usfm = request.database_bibles()->getChapter (bible, book, chapter);
-      vector <int> verses = usfm_get_verse_numbers (usfm);
+      vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         int passage = filter_passage_to_integer (Passage ("", book, chapter, convert_to_string (verse)));
         if ((passage >= ifrom) && (passage <= ito)) {

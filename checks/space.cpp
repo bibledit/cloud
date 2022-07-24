@@ -71,13 +71,13 @@ void space_before_punctuation (string bible, int book, int chapter, map <int, st
 void space_end_verse (string bible, int book, int chapter, string usfm)
 {
   Database_Check database_check;
-  vector <int> verses = usfm_get_verse_numbers (usfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   for (auto verse : verses) {
     if (!verse) continue;
-    string text = usfm_get_verse_text (usfm, verse);
-    vector <string> items = usfm_get_markers_and_text (text);
+    string text = filter::usfm::get_verse_text (usfm, verse);
+    vector <string> items = filter::usfm::get_markers_and_text (text);
     for (auto item : items) {
-      if (usfm_is_usfm_marker (item)) {
+      if (filter::usfm::is_usfm_marker (item)) {
         text = filter_string_str_replace (item, "", text);
       }
     }

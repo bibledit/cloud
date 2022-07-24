@@ -278,7 +278,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     string chapter_usfm;
     if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
     if (isLocalUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
-    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
     filter_text.html_text_standard = new Html_Text ("");
@@ -429,7 +429,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     // Fetch from database and convert to html.
     Database_UsfmResources database_usfmresources;
     string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
-    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
     filter_text.html_text_standard = new Html_Text ("");

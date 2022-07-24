@@ -70,7 +70,7 @@ string edit_load (void * webserver_request)
   string html = editor_usfm2html.get ();
   
   // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.
-  if (usfm_contains_empty_verses (usfm)) {
+  if (filter::usfm::contains_empty_verses (usfm)) {
     string search = "<span> </span>";
     string replace = "<span>" + unicode_non_breaking_space_entity () + "</span>";
     html = filter_string_str_replace (search, replace, html);

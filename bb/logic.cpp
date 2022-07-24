@@ -283,8 +283,8 @@ void bible_logic_log_change (const string& bible,
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
-  vector <int> existing_verse_numbers = usfm_get_verse_numbers (existing_usfm);
-  vector <int> verse_numbers = usfm_get_verse_numbers (usfm);
+  vector <int> existing_verse_numbers = filter::usfm::get_verse_numbers (existing_usfm);
+  vector <int> verse_numbers = filter::usfm::get_verse_numbers (usfm);
   vector <int> verses = existing_verse_numbers;
   verses.insert (verses.end (), verse_numbers.begin (), verse_numbers.end ());
   verses = array_unique (verses);
@@ -295,8 +295,8 @@ void bible_logic_log_change (const string& bible,
   body.push_back ("Changes:");
   
   for (auto verse : verses) {
-    string existing_verse_usfm = usfm_get_verse_text (existing_usfm, verse);
-    string verse_usfm = usfm_get_verse_text (usfm, verse);
+    string existing_verse_usfm = filter::usfm::get_verse_text (existing_usfm, verse);
+    string verse_usfm = filter::usfm::get_verse_text (usfm, verse);
     if (existing_verse_usfm != verse_usfm) {
       Filter_Text filter_text_old = Filter_Text (bible);
       Filter_Text filter_text_new = Filter_Text (bible);
@@ -449,10 +449,10 @@ void bible_logic_merge_irregularity_mail (vector <string> users, vector <Merge_C
     // Go through all verses available in the USFM,
     // and make a record for each verse,
     // where the USFM differs between the change that the user made and the result that was saved.
-    vector <int> verses = usfm_get_verse_numbers (conflict.result);
+    vector <int> verses = filter::usfm::get_verse_numbers (conflict.result);
     for (auto verse : verses) {
-      string change = usfm_get_verse_text (conflict.change, verse);
-      string result = usfm_get_verse_text (conflict.result, verse);
+      string change = filter::usfm::get_verse_text (conflict.change, verse);
+      string result = filter::usfm::get_verse_text (conflict.result, verse);
       // When there's no change in the verse, skip it.
       if (change == result) continue;
       // Record the difference.
@@ -583,14 +583,14 @@ void bible_logic_client_receive_merge_mail (const string & bible, int book, int 
   // Go through all verses from the client,
   // and make a record for each verse,
   // where the USFM differs between client and server.
-  vector <int> verses = usfm_get_verse_numbers (client_old);
+  vector <int> verses = filter::usfm::get_verse_numbers (client_old);
   for (auto verse : verses) {
-    string client_old_verse = usfm_get_verse_text (client_old, verse);
-    string client_new_verse = usfm_get_verse_text (client_new, verse);
+    string client_old_verse = filter::usfm::get_verse_text (client_old, verse);
+    string client_new_verse = filter::usfm::get_verse_text (client_new, verse);
     // When there's no change in the verse as sent by the client, skip further checks.
     if (client_old_verse == client_new_verse) continue;
     // Check whether the client's change made it to the server.
-    string server_verse = usfm_get_verse_text (server, verse);
+    string server_verse = filter::usfm::get_verse_text (server, verse);
     if (client_new_verse == server_verse) continue;
     // Record the difference.
     client_diff.push_back (client_new_verse);
@@ -734,10 +734,10 @@ void bible_logic_client_no_write_access_mail (const string & bible, int book, in
   // Go through all verses from the client,
   // and make a record for each verse,
   // where the USFM differs between client and server.
-  vector <int> verses = usfm_get_verse_numbers (oldusfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (oldusfm);
   for (auto verse : verses) {
-    string client_old_verse = usfm_get_verse_text (oldusfm, verse);
-    string client_new_verse = usfm_get_verse_text (newusfm, verse);
+    string client_old_verse = filter::usfm::get_verse_text (oldusfm, verse);
+    string client_new_verse = filter::usfm::get_verse_text (newusfm, verse);
     // When there's no change in the verse as sent by the client, skip further checks.
     if (client_old_verse == client_new_verse) continue;
     // Record the difference.
@@ -804,10 +804,10 @@ void bible_logic_recent_save_email (const string & bible,
   // Go through all verses available in the USFM,
   // and make a record for each verse,
   // where the USFM differs between the old and the new USFM.
-  vector <int> verses = usfm_get_verse_numbers (new_usfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (new_usfm);
   for (auto verse : verses) {
-    string old_verse = usfm_get_verse_text (old_usfm, verse);
-    string new_verse = usfm_get_verse_text (new_usfm, verse);
+    string old_verse = filter::usfm::get_verse_text (old_usfm, verse);
+    string new_verse = filter::usfm::get_verse_text (new_usfm, verse);
     // When there's no change in the verse, skip further checks.
     if (old_verse == new_verse) continue;
     // Record the difference.
@@ -926,11 +926,11 @@ void bible_logic_optional_merge_irregularity_email (const string & bible, int bo
 
   // Go through all verses available in the USFM,
   // and check the differences for each verse.
-  vector <int> verses = usfm_get_verse_numbers (merged_usfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (merged_usfm);
   for (auto verse : verses) {
-    string ancestor_verse_usfm = usfm_get_verse_text (ancestor_usfm, verse);
-    string edited_verse_usfm = usfm_get_verse_text (edited_usfm, verse);
-    string merged_verse_usfm = usfm_get_verse_text (merged_usfm, verse);
+    string ancestor_verse_usfm = filter::usfm::get_verse_text (ancestor_usfm, verse);
+    string edited_verse_usfm = filter::usfm::get_verse_text (edited_usfm, verse);
+    string merged_verse_usfm = filter::usfm::get_verse_text (merged_usfm, verse);
     // There's going to be a check to find out that all the changes the user made,
     // are available among the changes resulting from the merge.
     // If all the changes are there, all is good.

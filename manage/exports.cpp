@@ -348,7 +348,7 @@ string manage_exports (void * webserver_request)
     vector <string> markers = database_styles.getMarkers (styles_logic_standard_sheet ());
     vector <string> poetry_styles;
     for (auto & style : markers) {
-      if (usfm_is_standard_q_poetry (style)) poetry_styles.push_back(style);
+      if (filter::usfm::is_standard_q_poetry (style)) poetry_styles.push_back(style);
     }
     view.set_variable("poetrymarkers", filter_string_implode(poetry_styles, " "));
   }

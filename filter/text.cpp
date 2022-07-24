@@ -99,7 +99,7 @@ void Filter_Text::add_usfm_code (string usfm)
   usfm = filter_string_trim (usfm);
   usfm += "\n";
   // Sort the USFM code out and separate it into markers and text.
-  vector <string> markersAndText = usfm_get_markers_and_text (usfm);
+  vector <string> markersAndText = filter::usfm::get_markers_and_text (usfm);
   // Add the USFM to the object.
   usfmMarkersAndText.insert (usfmMarkersAndText.end(), markersAndText.begin(), markersAndText.end());
 }
@@ -217,10 +217,10 @@ void Filter_Text::pre_process_usfm ()
     getUsfmNextChapter ();
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
       string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
-      if (usfm_is_usfm_marker (currentItem)) {
+      if (filter::usfm::is_usfm_marker (currentItem)) {
         string marker = filter_string_trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
-        if (usfm_is_opening_marker (marker)) {
+        if (filter::usfm::is_opening_marker (marker)) {
           if (styles.find (marker) != styles.end()) {
             Database_Styles_Item style = styles [marker];
             note_citations.evaluate_style(style);
@@ -230,7 +230,7 @@ void Filter_Text::pre_process_usfm ()
                   case IdentifierSubtypeBook:
                   {
                     // Get book number.
-                    string usfm_id = usfm_get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                     // Get Bibledit book number.
                     currentBookIdentifier = Database_Books::getIdFromUsfm (usfm_id);
@@ -243,32 +243,32 @@ void Filter_Text::pre_process_usfm ()
                   }
                   case IdentifierSubtypeRunningHeader:
                   {
-                    string runningHeader = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     runningHeaders.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, runningHeader));
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
                   {
-                    string longTOC = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string longTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     longTOCs.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, longTOC));
                     break;
                   }
                   case IdentifierSubtypeShortTOC:
                   {
-                    string shortTOC = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string shortTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     shortTOCs.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, shortTOC));
                     break;
                   }
                   case IdentifierSubtypeBookAbbrev:
                   {
-                    string bookAbbreviation = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string bookAbbreviation = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     bookAbbreviations.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, bookAbbreviation));
                     break;
                   }
                   case IdentifierSubtypeChapterLabel:
                   {
                     // Store the chapter label for this book and chapter.
-                    string chapterLabel = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string chapterLabel = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     chapterLabels.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, chapterLabel));
                     // If a chapter label is in the book, there's no drop caps output of the chapter number.
                     book_has_chapter_label [currentBookIdentifier] = true;
@@ -277,7 +277,7 @@ void Filter_Text::pre_process_usfm ()
                   }
                   case IdentifierSubtypePublishedChapterMarker:
                   {
-                    string publishedChapterMarker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string publishedChapterMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     publishedChapterMarkers.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedChapterMarker));
                     break;
                   }
@@ -286,7 +286,7 @@ void Filter_Text::pre_process_usfm ()
                     // It gets the published verse markup.
                     // The marker looks like: ... \vp ၁။\vp* ...
                     // It stores this markup in the object for later reference.
-                    string publishedVerseMarker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    string publishedVerseMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     publishedVerseMarkers.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
                     break;
                   }
@@ -294,7 +294,7 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case StyleTypeChapterNumber:
               {
-                string number = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 currentChapterNumber = convert_to_int (number);
                 numberOfChaptersPerBook[currentBookIdentifier] = currentChapterNumber;
                 currentVerseNumber = "0";
@@ -302,7 +302,7 @@ void Filter_Text::pre_process_usfm ()
               }
               case StyleTypeVerseNumber:
               {
-                string number = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 int inumber = convert_to_int (number);
                 currentVerseNumber = convert_to_string (inumber);
                 break;
@@ -358,13 +358,13 @@ void Filter_Text::process_usfm ()
     getUsfmNextChapter ();
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
       string currentItem = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer];
-      if (usfm_is_usfm_marker (currentItem))
+      if (filter::usfm::is_usfm_marker (currentItem))
       {
         // Indicator describing the marker.
-        bool isOpeningMarker = usfm_is_opening_marker (currentItem);
-        bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
+        bool isOpeningMarker = filter::usfm::is_opening_marker (currentItem);
+        bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
         // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-        string marker = usfm_get_marker (currentItem);
+        string marker = filter::usfm::get_marker (currentItem);
         // Strip word-level attributes.
         dispose_of_word_level_attributes (marker);
         if (styles.find (marker) != styles.end())
@@ -386,14 +386,14 @@ void Filter_Text::process_usfm ()
                 case IdentifierSubtypeBook:
                 {
                   // Get book number.
-                  string usfm_id = usfm_get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                   currentBookIdentifier = Database_Books::getIdFromUsfm (usfm_id);
                   // Reset chapter and verse numbers.
                   currentChapterNumber = 0;
                   currentVerseNumber = "0";
                   // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
-                  usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   // Whether to insert a new page before the book. But never before the first book.
                   if (style.userbool1) {
                     if (processedBooksCount) {
@@ -443,7 +443,7 @@ void Filter_Text::process_usfm ()
                 case IdentifierSubtypeRunningHeader:
                 {
                   // This information was processed during the preprocessing stage.
-                  string runningHeader = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   // Ideally this information should be inserted in the headers of the standard text document.
                   // UserBool2RunningHeaderLeft:
                   // UserBool3RunningHeaderRight:
@@ -453,32 +453,32 @@ void Filter_Text::process_usfm ()
                 case IdentifierSubtypeLongTOC:
                 {
                   // This information already went into the Info document. Remove it from the USFM stream.
-                  usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   break;
                 }
                 case IdentifierSubtypeShortTOC:
                 {
                   // This information already went into the Info document. Remove it from the USFM stream.
-                  usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   break;
                 }
                 case IdentifierSubtypeBookAbbrev:
                 {
                   // This information already went into the Info document. Remove it from the USFM stream.
-                  usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   break;
                 }
                 case IdentifierSubtypeChapterLabel:
                 {
                   // This information is already in the object. Remove it from the USFM stream.
-                  usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   break;
                 }
                 case IdentifierSubtypePublishedChapterMarker:
                 {
                   // This information is already in the object.
                   // Remove it from the USFM stream.
-                  usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   break;
                 }
                 case IdentifierSubtypeCommentWithEndmarker:
@@ -493,7 +493,7 @@ void Filter_Text::process_usfm ()
                   if (isOpeningMarker) {
                     // This information is already in the object.
                     // Remove it from the USFM stream at the opening marker.
-                    usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   } else {
                     // USFM allows the closing marker \vp* to be followed by a space.
                     // But this space should not be converted to text output.
@@ -598,7 +598,7 @@ void Filter_Text::process_usfm ()
               if (onlinebible_text) onlinebible_text->storeData ();
 
               // Get the chapter number.
-              string number = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               int inumber = convert_to_int (number);
 
               // Update this object.
@@ -757,9 +757,9 @@ void Filter_Text::process_usfm ()
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
               // Temporarily retrieve the text that follows the \v verse marker.
-              string text_following_v_marker = usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              string text_following_v_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               // Extract the verse number, and store it in the object.
-              string v_number = usfm_peek_verse_number (text_following_v_marker);
+              string v_number = filter::usfm::peek_verse_number (text_following_v_marker);
               currentVerseNumber = v_number;
               // In case there was a published verse marker, use that markup for publishing.
               string v_vp_number = v_number;
@@ -849,17 +849,17 @@ void Filter_Text::process_usfm ()
                 // If a chapter number was put, do not output any white space.
                 if (output_chapter_text_at_first_verse.empty()) {
                   if (odf_text_standard) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_standard->current_paragraph_style);
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_standard->current_paragraph_style);
                     if (tab) odf_text_standard->add_tab();
                     else odf_text_standard->add_text (space_type_after_verse);
                   }
                   if (odf_text_text_only) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_text_only->current_paragraph_style);
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_only->current_paragraph_style);
                     if (tab) odf_text_text_only->add_tab();
                     else odf_text_text_only->add_text (space_type_after_verse);
                   }
                   if (odf_text_text_and_note_citations) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && usfm_is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style);
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style);
                     if (tab) odf_text_text_and_note_citations->add_tab();
                     else odf_text_text_and_note_citations->add_text (space_type_after_verse);
                   }
@@ -1057,7 +1057,7 @@ void Filter_Text::process_usfm ()
         if (is_within_figure_markup) {
           // Extract the bits for this image / picture / figure.
           string caption, alt, src, size, loc, copy, ref;
-          usfm_extract_fig (currentItem, caption, alt, src, size, loc, copy, ref);
+          filter::usfm::extract_fig (currentItem, caption, alt, src, size, loc, copy, ref);
           // Store the name of this image in the object, ready to be copied into place if needed.
           image_sources.push_back(src);
           // Add the image to the various output formats.
@@ -1075,17 +1075,17 @@ void Filter_Text::process_usfm ()
           // output a tab before any text.
           if (odf_text_standard)
             if (odt_left_align_verse_in_poetry_styles)
-              if (usfm_is_standard_q_poetry (odf_text_standard->current_paragraph_style))
+              if (filter::usfm::is_standard_q_poetry (odf_text_standard->current_paragraph_style))
                 if (odf_text_standard->current_paragraph_content.empty())
                   odf_text_standard->add_tab();
           if (odf_text_text_only)
             if (odt_left_align_verse_in_poetry_styles)
-              if (usfm_is_standard_q_poetry (odf_text_text_only->current_paragraph_style))
+              if (filter::usfm::is_standard_q_poetry (odf_text_text_only->current_paragraph_style))
                 if (odf_text_text_only->current_paragraph_content.empty())
                   odf_text_text_only->add_tab();
           if (odf_text_text_and_note_citations)
             if (odt_left_align_verse_in_poetry_styles)
-              if (usfm_is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style))
+              if (filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style))
                 if (odf_text_text_and_note_citations->current_paragraph_content.empty())
                   odf_text_text_and_note_citations->add_tab();
           // Output text as normal.
@@ -1133,13 +1133,13 @@ void Filter_Text::processNote ()
   for ( ; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++)
   {
     string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
-    if (usfm_is_usfm_marker (currentItem))
+    if (filter::usfm::is_usfm_marker (currentItem))
     {
       // Flags about the nature of the marker.
-      bool isOpeningMarker = usfm_is_opening_marker (currentItem);
-      bool isEmbeddedMarker = usfm_is_embedded_marker (currentItem);
+      bool isOpeningMarker = filter::usfm::is_opening_marker (currentItem);
+      bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
-      string marker = usfm_get_marker (currentItem);
+      string marker = filter::usfm::get_marker (currentItem);
       if (styles.find (marker) != styles.end())
       {
         Database_Styles_Item style = styles[marker];
@@ -1490,7 +1490,7 @@ void Filter_Text::addToInfo (string text, bool next)
 {
   text = getCurrentPassageText() + " " + text;
   if (next) {
-    text.append (" " + usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer));
+    text.append (" " + filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer));
   }
   info.push_back (text);
 }
@@ -1505,7 +1505,7 @@ void Filter_Text::addToFallout (string text, bool next)
 {
   text = getCurrentPassageText () + " " + text;
   if (next) {
-    text.append (" " + usfm_get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer));
+    text.append (" " + filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer));
   }
   fallout.push_back (text);
 }
@@ -1518,7 +1518,7 @@ void Filter_Text::addToFallout (string text, bool next)
 // and the text following that marker is added to the word list array.
 void Filter_Text::addToWordList (vector <string>  & list)
 {
-  string text = usfm_peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+  string text = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   text.append (" (");
   text.append (getCurrentPassageText ());
   text.append (")");
@@ -1744,7 +1744,7 @@ void Filter_Text::dispose_of_word_level_attributes (const string& marker)
   if ((marker != "w") && (marker != "rb") && (marker != "xt")) return;
   
   // Check the text following this markup whether it contains word-level attributes.
-  string possible_markup = usfm_peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+  string possible_markup = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
 
   // If the markup is too short to contain the required characters, then bail out.
   if (possible_markup.length() < 4) return;

@@ -51,12 +51,12 @@ string editusfm_focus (void * webserver_request)
   int chapter = convert_to_int (request->query ["chapter"]);
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (request);
-  int startingOffset = usfm_versenumber_to_offset (usfm, verse);
+  int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
   // The following deals with a combined verse.
   for (int i = 1; i < 25; i++) {
     if (startingOffset == endingOffset) {
-      endingOffset = usfm_versenumber_to_offset (usfm, verse + i);
+      endingOffset = filter::usfm::versenumber_to_offset (usfm, verse + i);
       if (endingOffset > startingOffset) endingOffset--;
     }
   }

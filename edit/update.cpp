@@ -193,7 +193,7 @@ string edit_update (void * webserver_request)
   // Check that the edited USFM contains no more than, and exactly the same as,
   // the book and chapter that was loaded in the editor.
   if (good2go && bible_write_access) {
-    vector <BookChapterData> book_chapter_text = usfm_import (edited_chapter_usfm, stylesheet);
+    vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (edited_chapter_usfm, stylesheet);
     if (book_chapter_text.size () != 1) {
       Database_Logs::log (translate ("A user tried to save something different from exactly one chapter"));
       messages.push_back (translate("Incorrect chapter"));
@@ -266,7 +266,7 @@ string edit_update (void * webserver_request)
   string explanation;
   string message;
   if (good2go && bible_write_access && text_was_edited) {
-    message = usfm_safely_store_chapter (request, bible, book, chapter, edited_chapter_usfm, explanation);
+    message = filter::usfm::safely_store_chapter (request, bible, book, chapter, edited_chapter_usfm, explanation);
     bible_logic_unsafe_save_mail (message, explanation, username, edited_chapter_usfm, book, chapter);
     if (!message.empty ()) messages.push_back (message);
   }

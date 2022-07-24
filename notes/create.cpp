@@ -135,7 +135,7 @@ string notes_create (void * webserver_request)
   if (request->database_config_user ()->getShowVerseTextAtCreateNote ()) {
     string versetext;
     string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
-    string verse_usfm = usfm_get_verse_text (chapter_usfm, verse);
+    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();

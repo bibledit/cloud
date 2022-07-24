@@ -64,15 +64,15 @@ void changes_process_identifiers (Webserver_Request * request,
     string old_chapter_usfm = old_chapter_text.oldtext;
     Database_Modifications_Text new_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, newId);
     string new_chapter_usfm = new_chapter_text.newtext;
-    vector <int> old_verse_numbers = usfm_get_verse_numbers (old_chapter_usfm);
-    vector <int> new_verse_numbers = usfm_get_verse_numbers (new_chapter_usfm);
+    vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
+    vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
     vector <int> verses = old_verse_numbers;
     verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
     verses = array_unique (verses);
     sort (verses.begin(), verses.end());
     for (auto verse : verses) {
-      string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
-      string new_verse_usfm = usfm_get_verse_text (new_chapter_usfm, verse);
+      string old_verse_usfm = filter::usfm::get_verse_text (old_chapter_usfm, verse);
+      string new_verse_usfm = filter::usfm::get_verse_text (new_chapter_usfm, verse);
       if (old_verse_usfm != new_verse_usfm) {
         Filter_Text filter_text_old = Filter_Text (bible);
         Filter_Text filter_text_new = Filter_Text (bible);
@@ -335,15 +335,15 @@ void changes_modifications ()
         Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), Filter_Roles::translator ());
         string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
         string new_chapter_usfm = request.database_bibles()->getChapter (bible, book, chapter);
-        vector <int> old_verse_numbers = usfm_get_verse_numbers (old_chapter_usfm);
-        vector <int> new_verse_numbers = usfm_get_verse_numbers (new_chapter_usfm);
+        vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
+        vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
         vector <int> verses = old_verse_numbers;
         verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
         verses = array_unique (verses);
         sort (verses.begin (), verses.end());
         for (auto verse : verses) {
-          string old_verse_usfm = usfm_get_verse_text (old_chapter_usfm, verse);
-          string new_verse_usfm = usfm_get_verse_text (new_chapter_usfm, verse);
+          string old_verse_usfm = filter::usfm::get_verse_text (old_chapter_usfm, verse);
+          string new_verse_usfm = filter::usfm::get_verse_text (new_chapter_usfm, verse);
           if (old_verse_usfm != new_verse_usfm) {
             processedChangesCount++;
             // In case of too many change notifications, processing them would take too much time, so take a few shortcuts.

@@ -114,15 +114,15 @@ void Checks_Usfm::check (string usfm)
 
   toc (usfm);
   
-  usfm_markers_and_text = usfm_get_markers_and_text (usfm);
+  usfm_markers_and_text = filter::usfm::get_markers_and_text (usfm);
   for (usfm_markers_and_text_pointer = 0; usfm_markers_and_text_pointer < usfm_markers_and_text.size(); usfm_markers_and_text_pointer++) {
     usfm_item = usfm_markers_and_text [usfm_markers_and_text_pointer];
-    if (usfm_is_usfm_marker (usfm_item)) {
+    if (filter::usfm::is_usfm_marker (usfm_item)) {
       
       // Get the current verse number.
       if (usfm_item == R"(\v )") {
-        string verseCode = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
-        verse_number = convert_to_int (usfm_peek_verse_number (verseCode));
+        string verseCode = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+        verse_number = convert_to_int (filter::usfm::peek_verse_number (verseCode));
       }
       
       malformed_verse_number ();
@@ -152,8 +152,8 @@ void Checks_Usfm::check (string usfm)
 void Checks_Usfm::malformed_verse_number ()
 {
   if (usfm_item == "\\v ") {
-    string code = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
-    string cleanVerseNumber = usfm_peek_verse_number (code);
+    string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+    string cleanVerseNumber = filter::usfm::peek_verse_number (code);
     vector <string> v_dirtyVerseNumber = filter_string_explode (code, ' ');
     string dirtyVerseNumber;
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
@@ -188,10 +188,10 @@ void Checks_Usfm::marker_in_stylesheet ()
 {
   string marker = usfm_item.substr (1);
   marker = filter_string_trim (marker);
-  if (!usfm_is_opening_marker (marker)) {
+  if (!filter::usfm::is_opening_marker (marker)) {
     if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
   }
-  if (usfm_is_embedded_marker (marker)) {
+  if (filter::usfm::is_embedded_marker (marker)) {
     if (!marker.empty ()) marker = marker.substr (1);
   }
   if (marker == "") return;
@@ -206,7 +206,7 @@ void Checks_Usfm::malformed_id ()
   string ide = usfm_item.substr (0, 4);
   if (ide == "\\ide") return;
   if (item == "\\id") {
-    string code = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+    string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string sid =  code.substr (0, 3);
     vector <string> vid = filter_string_explode (code, ' ');
     string id;
@@ -263,7 +263,7 @@ void Checks_Usfm::matching_endmarker ()
   // Remove the initial backslash, e.g. '\add' becomes 'add'.
   marker = marker.substr (1);
   marker = filter_string_trim (marker);
-  bool isOpener = usfm_is_opening_marker (marker);
+  bool isOpener = filter::usfm::is_opening_marker (marker);
   if (!isOpener) {
    if (!marker.empty ()) marker = marker.substr (0, marker.length () - 1);
   }
@@ -293,7 +293,7 @@ void Checks_Usfm::embedded_marker ()
   marker = marker.substr (1);
   marker = filter_string_trim (marker);
 
-  bool isOpener = usfm_is_opening_marker (marker);
+  bool isOpener = filter::usfm::is_opening_marker (marker);
 
   // Clean a closing marker, e.g. '\add*' becomes '\add'.
   if (!isOpener) {
@@ -345,32 +345,32 @@ void Checks_Usfm::toc (string usfm)
   if ((type == "ot") || (type == "nt")) {
 
     // Check on the presence of the table of contents markers in this chapter.
-    bool toc1_present = usfm.find (usfm_get_opening_usfm (long_toc1_marker)) != string::npos;
-    bool toc2_present = usfm.find (usfm_get_opening_usfm (short_toc2_marker)) != string::npos;
-    bool toc3_present = usfm.find (usfm_get_opening_usfm (abbrev_toc3_marker)) != string::npos;
+    bool toc1_present = usfm.find (filter::usfm::get_opening_usfm (long_toc1_marker)) != string::npos;
+    bool toc2_present = usfm.find (filter::usfm::get_opening_usfm (short_toc2_marker)) != string::npos;
+    bool toc3_present = usfm.find (filter::usfm::get_opening_usfm (abbrev_toc3_marker)) != string::npos;
 
     // The markers should be on chapter 0 only.
     if (chapter_number == 0) {
       // Required: \toc1
       if (!toc1_present) {
-        add_result (translate ("The book lacks the marker for the verbose book name:") + " " + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
+        add_result (translate ("The book lacks the marker for the verbose book name:") + " " + filter::usfm::get_opening_usfm (long_toc1_marker), display_nothing);
       }
       // Required: \toc2
       if (!toc2_present) {
-        add_result (translate ("The book lacks the marker for the short book name:") + " " + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
+        add_result (translate ("The book lacks the marker for the short book name:") + " " + filter::usfm::get_opening_usfm (short_toc2_marker), display_nothing);
       }
     } else {
       string msg = translate ("The following marker belongs in chapter 0:") + " ";
       // Required markers.
       if (toc1_present) {
-        add_result (msg + usfm_get_opening_usfm (long_toc1_marker), display_nothing);
+        add_result (msg + filter::usfm::get_opening_usfm (long_toc1_marker), display_nothing);
       }
       if (toc2_present) {
-        add_result (msg + usfm_get_opening_usfm (short_toc2_marker), display_nothing);
+        add_result (msg + filter::usfm::get_opening_usfm (short_toc2_marker), display_nothing);
       }
       // Optional markers, but should not be anywhere else except in chapter 0.
       if (toc3_present) {
-        add_result (msg + usfm_get_opening_usfm (abbrev_toc3_marker), display_nothing);
+        add_result (msg + filter::usfm::get_opening_usfm (abbrev_toc3_marker), display_nothing);
       }
     }
   }
@@ -380,9 +380,9 @@ void Checks_Usfm::toc (string usfm)
 void Checks_Usfm::figure ()
 {
   if (usfm_item == R"(\fig )") {
-    string usfm = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+    string usfm = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string caption, alt, src, size, loc, copy, ref;
-    usfm_extract_fig (usfm, caption, alt, src, size, loc, copy, ref);
+    filter::usfm::extract_fig (usfm, caption, alt, src, size, loc, copy, ref);
     if (src.empty()) {
       add_result (translate ("Empty figure source:") + " " + usfm, display_nothing);
     } else {
@@ -409,7 +409,7 @@ vector <pair<int, string>> Checks_Usfm::get_results ()
 void Checks_Usfm::add_result (string text, int modifier)
 {
   string current = usfm_item;
-  string next = usfm_peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
+  string next = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
   next = next.substr (0, 20);
   switch (modifier) {
     case display_nothing:
@@ -449,9 +449,9 @@ void Checks_Usfm::empty_markup ()
   // bool previous_is_embedded = false;
 
   // Set the above set of flags.
-  if (usfm_is_usfm_marker (current_item)) {
+  if (filter::usfm::is_usfm_marker (current_item)) {
     //current_is_usfm = true;
-    if (usfm_is_opening_marker(current_item)) {
+    if (filter::usfm::is_opening_marker(current_item)) {
       //current_is_opener = true;
     }
     else current_is_closer = true;
@@ -459,9 +459,9 @@ void Checks_Usfm::empty_markup ()
   } else {
     //current_is_text = true;
   }
-  if (usfm_is_usfm_marker (empty_markup_previous_item)) {
+  if (filter::usfm::is_usfm_marker (empty_markup_previous_item)) {
     //previous_is_usfm = true;
-    if (usfm_is_opening_marker(empty_markup_previous_item)) previous_is_opener = true;
+    if (filter::usfm::is_opening_marker(empty_markup_previous_item)) previous_is_opener = true;
     //else previous_is_closer = true;
     //if (usfm_is_embedded_marker(empty_markup_previous_item)) previous_is_embedded = true;
   } else {
@@ -489,9 +489,9 @@ void Checks_Usfm::note ()
   bool current_is_opener = false;
   bool current_is_closer = false;
   //bool current_is_embedded = false;
-  if (usfm_is_usfm_marker (usfm_item)) {
+  if (filter::usfm::is_usfm_marker (usfm_item)) {
     //current_is_usfm = true;
-    if (usfm_is_opening_marker(usfm_item)) current_is_opener = true;
+    if (filter::usfm::is_opening_marker(usfm_item)) current_is_opener = true;
     else current_is_closer = true;
     //if (usfm_is_embedded_marker(usfm_item)) current_is_embedded = true;
   } else {
@@ -503,7 +503,7 @@ void Checks_Usfm::note ()
   // From here on it is assumed that the current item is USFM, not text.
 
   // Get the plain marker, e.g. '\f ' becomes "f".
-  string current_marker = usfm_get_marker (usfm_item);
+  string current_marker = filter::usfm::get_marker (usfm_item);
   
   // Get this style's properties.
   Database_Styles_Item style = style_items [current_marker];
@@ -528,7 +528,7 @@ void Checks_Usfm::note ()
   if (!within_note) return;
 
   // Get the next item, that is the item following the current item.
-  string next_item = usfm_peek_text_following_marker (usfm_markers_and_text,
+  string next_item = filter::usfm::peek_text_following_marker (usfm_markers_and_text,
                                                       usfm_markers_and_text_pointer);
   
   // Flags that describe the next item.
@@ -537,7 +537,7 @@ void Checks_Usfm::note ()
   //bool next_is_opener = false;
   //bool next_is_closer = false;
   //bool next_is_embedded = false;
-  if (usfm_is_usfm_marker (next_item)) {
+  if (filter::usfm::is_usfm_marker (next_item)) {
     //next_is_usfm = true;
     //if (usfm_is_opening_marker(next_item)) next_is_opener = true;
     //else next_is_closer = true;
@@ -548,7 +548,7 @@ void Checks_Usfm::note ()
 
   // Change, e.g. '\f ' to '\f'.
   // Remove the initial backslash, e.g. '\f' becomes 'f'.
-  string next_marker = usfm_get_marker(next_item);
+  string next_marker = filter::usfm::get_marker(next_item);
 
   // If the current item is opening markup ...
   if (!current_is_opener) return;

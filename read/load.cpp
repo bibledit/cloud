@@ -65,16 +65,16 @@ string read_load (void * webserver_request)
 
   string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
 
-  vector <int> verses = usfm_get_verse_numbers (chapter_usfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
   int highest_verse = 0;
   if (!verses.empty ()) highest_verse = verses.back ();
   
   // The Quill-based editor removes empty paragraphs at the end.
   // Therefore do not include them.
-  string editable_usfm = usfm_get_verse_text_quill (chapter_usfm, verse);
+  string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse);
   
-  string prefix_usfm = usfm_get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
-  string suffix_usfm = usfm_get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
+  string prefix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
+  string suffix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
 
   // Store a copy of the USFM loaded in the editor for later reference.
   // Note that this verse editor has been tested that it uses the correct sequence

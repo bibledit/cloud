@@ -56,7 +56,7 @@ void related_logic_search_related (const string & bookname, int input_chapter, c
       if (match) {
         string verse = reference.attribute ("verse").value ();
         vector <int> verses;
-        if (usfm_handle_verse_range (verse, verses)) {
+        if (filter::usfm::handle_verse_range (verse, verses)) {
           match = in_array (convert_to_int (input_verse), verses);
         } else {
           match = (verse == input_verse);
@@ -71,7 +71,7 @@ void related_logic_search_related (const string & bookname, int input_chapter, c
           int related_chapter = convert_to_int (passage_node.attribute ("chapter").value ());
           string verse = passage_node.attribute ("verse").value ();
           vector <int> verses;
-          if (usfm_handle_verse_range (verse, verses));
+          if (filter::usfm::handle_verse_range (verse, verses));
           else verses.push_back (convert_to_int (verse));
           for (auto related_verse : verses) {
             if (related_book && related_chapter) {

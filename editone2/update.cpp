@@ -173,7 +173,7 @@ string editone2_update (void * webserver_request)
   // and the existing USFM as a prioritized change-set.
   string loaded_verse_usfm = editone_logic_html_to_usfm (stylesheet, loaded_html);
   string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
-  string existing_verse_usfm = usfm_get_verse_text_quill (old_chapter_usfm, verse);
+  string existing_verse_usfm = filter::usfm::get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter_string_trim (existing_verse_usfm);
 
   
@@ -216,7 +216,7 @@ string editone2_update (void * webserver_request)
   string explanation;
   string message;
   if (good2go && bible_write_access && text_was_edited) {
-    message = usfm_safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
+    message = filter::usfm::safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
     bible_logic_unsafe_save_mail (message, explanation, username, edited_verse_usfm, book, chapter);
   }
 
@@ -280,7 +280,7 @@ string editone2_update (void * webserver_request)
     string editor_html (edited_html);
     string server_html;
     {
-      string verse_usfm = usfm_get_verse_text_quill (new_chapter_usfm, verse);
+      string verse_usfm = filter::usfm::get_verse_text_quill (new_chapter_usfm, verse);
       editone_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
     vector <int> positions;

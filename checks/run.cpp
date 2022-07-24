@@ -154,12 +154,12 @@ void checks_run (string bible)
       }
       
       
-      vector <int> verses = usfm_get_verse_numbers (chapterUsfm);
+      vector <int> verses = filter::usfm::get_verse_numbers (chapterUsfm);
       if (check_chapters_verses_versification) Checks_Versification::verses (bible, book, chapter, verses);
       
       
       for (auto verse : verses) {
-        string verseUsfm = usfm_get_verse_text (chapterUsfm, verse);
+        string verseUsfm = filter::usfm::get_verse_text (chapterUsfm, verse);
         if (check_double_spaces_usfm) {
           checks::space::double_space_usfm (bible, book, chapter, verse, verseUsfm);
         }

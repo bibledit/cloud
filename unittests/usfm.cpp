@@ -436,7 +436,7 @@ void test_usfm ()
   {
     string usfm =
     "\\id MIC";
-    evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
@@ -444,14 +444,14 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::linenumber_to_versenumber (usfm, 1));
   }
   
   // Test converting line number to verse number.
   {
     string usfm =
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
@@ -461,10 +461,10 @@ void test_usfm ()
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1. \n"
     "\\v 2 Verse 1.";
-    evaluate (__LINE__, __func__, {0}, usfm_linenumber_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {3}, usfm_linenumber_to_versenumber (usfm, 1));
-    evaluate (__LINE__, __func__, {1}, usfm_linenumber_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, {2}, usfm_linenumber_to_versenumber (usfm, 3));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {3}, filter::usfm::linenumber_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::linenumber_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {2}, filter::usfm::linenumber_to_versenumber (usfm, 3));
   }
   
   // Test converting line number to verse number.
@@ -472,15 +472,15 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1-2 Verse";
-    evaluate (__LINE__, __func__, {1, 2}, usfm_linenumber_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {1, 2}, filter::usfm::linenumber_to_versenumber (usfm, 1));
   }
   
   // Test converting offset to verse number.
   {
     string usfm = "\\id MIC";
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 17));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 17));
   }
   
   // Test converting offset to verse number.
@@ -488,8 +488,8 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 8));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 8));
   }
   
   // Test converting offset to verse number.
@@ -497,16 +497,16 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1-3 Verse";
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, {1, 2, 3}, usfm_offset_to_versenumber (usfm, 8));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    evaluate (__LINE__, __func__, {1, 2, 3}, filter::usfm::offset_to_versenumber (usfm, 8));
   }
   
   // Test converting offset to verse number.
   {
     string usfm =
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 2));
   }
   
   // Test converting offset to verse number.
@@ -517,20 +517,20 @@ void test_usfm ()
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.";
     
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 1));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 0));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 1));
     
-    evaluate (__LINE__, __func__, {0}, usfm_offset_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 3));
-    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 4));
+    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 2));
+    evaluate (__LINE__, __func__, {3}, filter::usfm::offset_to_versenumber (usfm, 3));
+    evaluate (__LINE__, __func__, {3}, filter::usfm::offset_to_versenumber (usfm, 4));
     
-    evaluate (__LINE__, __func__, {3}, usfm_offset_to_versenumber (usfm, 31));
-    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 32));
-    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 33));
+    evaluate (__LINE__, __func__, {3}, filter::usfm::offset_to_versenumber (usfm, 31));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 32));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 33));
     
-    evaluate (__LINE__, __func__, {1}, usfm_offset_to_versenumber (usfm, 45));
-    evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 46));
-    evaluate (__LINE__, __func__, {2}, usfm_offset_to_versenumber (usfm, 47));
+    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 45));
+    evaluate (__LINE__, __func__, {2}, filter::usfm::offset_to_versenumber (usfm, 46));
+    evaluate (__LINE__, __func__, {2}, filter::usfm::offset_to_versenumber (usfm, 47));
   }
   
   // Test converting verse number to offset.
@@ -541,13 +541,13 @@ void test_usfm ()
     "\\v 2 Verse 2.\n"
     "\\v 3 Verse 3.\n"
     "\\v 4-5 Verse 4 and 5.";
-    evaluate (__LINE__, __func__, 3, usfm_versenumber_to_offset (usfm, 1));
-    evaluate (__LINE__, __func__, 17, usfm_versenumber_to_offset (usfm, 2));
-    evaluate (__LINE__, __func__, 31, usfm_versenumber_to_offset (usfm, 3));
-    evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 4));
-    evaluate (__LINE__, __func__, 45, usfm_versenumber_to_offset (usfm, 5));
-    evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
-    evaluate (__LINE__, __func__, 66, usfm_versenumber_to_offset (usfm, 6));
+    evaluate (__LINE__, __func__, 3, filter::usfm::versenumber_to_offset (usfm, 1));
+    evaluate (__LINE__, __func__, 17, filter::usfm::versenumber_to_offset (usfm, 2));
+    evaluate (__LINE__, __func__, 31, filter::usfm::versenumber_to_offset (usfm, 3));
+    evaluate (__LINE__, __func__, 45, filter::usfm::versenumber_to_offset (usfm, 4));
+    evaluate (__LINE__, __func__, 45, filter::usfm::versenumber_to_offset (usfm, 5));
+    evaluate (__LINE__, __func__, 66, filter::usfm::versenumber_to_offset (usfm, 6));
+    evaluate (__LINE__, __func__, 66, filter::usfm::versenumber_to_offset (usfm, 6));
   }
 
   // Testing getting USFM for verse, basic and for Quill-based verse editor.
@@ -555,12 +555,12 @@ void test_usfm ()
     string usfm =
     "\\p\n"
     "\\v 1 One";
-    evaluate (__LINE__, __func__, "\\p", usfm_get_verse_text (usfm, 0));
-    evaluate (__LINE__, __func__, "", usfm_get_verse_text_quill (usfm, 0));
-    evaluate (__LINE__, __func__, "\\v 1 One", usfm_get_verse_text (usfm, 1));
-    evaluate (__LINE__, __func__, usfm, usfm_get_verse_text_quill (usfm, 1));
-    evaluate (__LINE__, __func__, "", usfm_get_verse_text (usfm, 2));
-    evaluate (__LINE__, __func__, "", usfm_get_verse_text_quill (usfm, 2));
+    evaluate (__LINE__, __func__, "\\p", filter::usfm::get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, "", filter::usfm::get_verse_text_quill (usfm, 0));
+    evaluate (__LINE__, __func__, "\\v 1 One", filter::usfm::get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, usfm, filter::usfm::get_verse_text_quill (usfm, 1));
+    evaluate (__LINE__, __func__, "", filter::usfm::get_verse_text (usfm, 2));
+    evaluate (__LINE__, __func__, "", filter::usfm::get_verse_text_quill (usfm, 2));
   }
   
   // Testing getting USFM for verse, basic and Quill.
@@ -596,73 +596,73 @@ void test_usfm ()
     "\\c 1\n"
     "\\s Isibingelelo\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 0));
     result =
     "\\c 1\n"
     "\\s Isibingelelo";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 0));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 0));
     
     result =
     "\\v 1 Umdala\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 1));
     result =
     "\\p\n"
     "\\v 1 Umdala";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 1));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 1));
     
     result =
     "\\v 2 Sithandwa";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 2));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 2));
     result =
     "\\p\n"
     "\\v 2 Sithandwa";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 2));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 2));
     
     result =
     "\\v 3 Ngoba";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 3));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 3));
     result =
     "\\v 3 Ngoba";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 3));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 3));
     
     result =
     "\\v 4 Kangilantokozo\n"
     "\\s Inkathazo\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 4));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 4));
     result =
     "\\v 4 Kangilantokozo\n"
     "\\s Inkathazo";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 4));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 4));
     
     result =
     "\\v 5 Sithandwa";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 5));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 5));
     result =
     "\\p\n"
     "\\v 5 Sithandwa";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 5));
     
     result =
     "\\v 12 NgoDemetriyu\n"
     "\\s Isicino\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 12));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 12));
     result =
     "\\v 12 NgoDemetriyu\n"
     "\\s Isicino";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 12));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 12));
     
     result =
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 14));
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 14));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 14));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 14));
     
     result.clear ();
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 15));
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 15));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 15));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 15));
   }
  
   // Test getting the verse text from USFM.
@@ -674,19 +674,19 @@ void test_usfm ()
     "\\v 6 Verse 6.";
     string result;
     
-    result = usfm_get_verse_text (usfm, 2);
+    result = filter::usfm::get_verse_text (usfm, 2);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    result = usfm_get_verse_text_quill (usfm, 2);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    
-    result = usfm_get_verse_text (usfm, 3);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    result = usfm_get_verse_text_quill (usfm, 3);
+    result = filter::usfm::get_verse_text_quill (usfm, 2);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
     
-    result = usfm_get_verse_text (usfm, 4);
+    result = filter::usfm::get_verse_text (usfm, 3);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
-    result = usfm_get_verse_text_quill (usfm, 4);
+    result = filter::usfm::get_verse_text_quill (usfm, 3);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    
+    result = filter::usfm::get_verse_text (usfm, 4);
+    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    result = filter::usfm::get_verse_text_quill (usfm, 4);
     evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
   }
   
@@ -710,57 +710,57 @@ void test_usfm ()
     "\\b\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 0));
     result =
     "\\c 1"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 0));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 0));
     
     result =
     "\\v 1 One"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 1));
     result =
     "\\b\n"
     "\\p\n"
     "\\v 1 One"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 1));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 1));
     
     result =
     "\\v 2 Two\n"
     "\\b\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 2));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 2));
     result =
     "\\v 2 Two"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 2));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 2));
     
     result =
     "\\v 3 Three"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 3));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 3));
     result =
     "\\b\n"
     "\\p\n"
     "\\v 3 Three"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 3));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 3));
     
     result =
     "\\v 4 Four"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 4));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 4));
     result =
     "\\v 4 Four"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 4));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 4));
     
     result.clear ();
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 5));
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 5));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 5));
   }
   
   // Testing USFM extraction for Quill-based visual verse editor with empty verses.
@@ -780,54 +780,54 @@ void test_usfm ()
     "\\c 1\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 0));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 0));
     result =
     "\\c 1"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 0));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 0));
     
     result =
     "\\v 1"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 1));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 1));
     result =
     "\\p\n"
     "\\v 1"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 1));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 1));
     
     result =
     "\\v 2\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 2));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 2));
     result =
     "\\v 2"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 2));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 2));
     
     result =
     "\\v 3"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 3));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 3));
     result =
     "\\p\n"
     "\\v 3"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 3));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 3));
     
     result =
     "\\v 4"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 4));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 4));
     result =
     "\\v 4"
     "";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 4));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 4));
     
     result.clear ();
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text (usfm, 5));
-    evaluate (__LINE__, __func__, result, usfm_get_verse_text_quill (usfm, 5));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 5));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 5));
   }
   
   // Test getting the USFM for a verse where there's alternate verse number or published verse numbers.
@@ -838,10 +838,10 @@ void test_usfm ()
     string chapter_usfm = filter_url_file_get_contents (path);
     string usfm;
     
-    usfm = usfm_get_verse_text (chapter_usfm, 1);
+    usfm = filter::usfm::get_verse_text (chapter_usfm, 1);
     evaluate (__LINE__, __func__, "\\v 1 Verse 1.", usfm);
     
-    usfm = usfm_get_verse_text (chapter_usfm, 12);
+    usfm = filter::usfm::get_verse_text (chapter_usfm, 12);
     evaluate (__LINE__, __func__, "\\v 12 Verse 12 one.\n"
               "\\p \\va 1b \\va* Alternate verse 1b, \\va 2 \\va* alternate verse 2.\n"
               "\\s Header 13\n"
@@ -863,77 +863,77 @@ void test_usfm ()
     result =
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", false));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 2, "", false));
     result =
     "\\p\n"
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 2, "", true));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 2, "", true));
     
     result =
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", false));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 3, "", false));
     result =
     "\\p\n"
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 1, 3, "", true));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 3, "", true));
     
     result =
     "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
     result =
     "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, usfm_get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
+    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
   }
 
   // Test on detecting a general USFM marker.
   {
-    evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\id"));
-    evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\c "));
-    evaluate (__LINE__, __func__, false, usfm_is_usfm_marker ("c"));
-    evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\add "));
-    evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\add*"));
-    evaluate (__LINE__, __func__, true, usfm_is_usfm_marker ("\\+add*"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\id"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\c "));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_usfm_marker ("c"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\add "));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\add*"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\+add*"));
   }
   
   // Test on detecting an opening marker.
   {
-    evaluate (__LINE__, __func__, true, usfm_is_opening_marker ("\\id"));
-    evaluate (__LINE__, __func__, true, usfm_is_opening_marker ("\\c "));
-    evaluate (__LINE__, __func__, false, usfm_is_opening_marker ("\\c*"));
-    evaluate (__LINE__, __func__, true, usfm_is_opening_marker ("\\+add "));
-    evaluate (__LINE__, __func__, false, usfm_is_opening_marker ("\\+add*"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_opening_marker ("\\id"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_opening_marker ("\\c "));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_opening_marker ("\\c*"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_opening_marker ("\\+add "));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_opening_marker ("\\+add*"));
   }
   
   // Test on detecting embedded marker.
   {
-    evaluate (__LINE__, __func__, false, usfm_is_embedded_marker ("\\add"));
-    evaluate (__LINE__, __func__, false, usfm_is_embedded_marker ("\\add*"));
-    evaluate (__LINE__, __func__, true, usfm_is_embedded_marker ("\\+add"));
-    evaluate (__LINE__, __func__, true, usfm_is_embedded_marker ("\\+add "));
-    evaluate (__LINE__, __func__, true, usfm_is_embedded_marker ("\\+add*"));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_embedded_marker ("\\add"));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_embedded_marker ("\\add*"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_embedded_marker ("\\+add"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_embedded_marker ("\\+add "));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_embedded_marker ("\\+add*"));
   }
 
   // Test on extracting a book identifier.
   {
-    evaluate (__LINE__, __func__, "GEN", usfm_get_book_identifier ({ "\\id", "GEN" }, 0));
-    evaluate (__LINE__, __func__, "XXX", usfm_get_book_identifier ({ "\\id", "GEN" }, 1));
-    evaluate (__LINE__, __func__, "GE", usfm_get_book_identifier ({ "\\id", "GE" }, 0));
-    evaluate (__LINE__, __func__, "GEN", usfm_get_book_identifier ({ "\\id", "GENxxx" }, 0));
-    evaluate (__LINE__, __func__, "GEN", usfm_get_book_identifier ({ "", "GENxxx" }, 0));
+    evaluate (__LINE__, __func__, "GEN", filter::usfm::get_book_identifier ({ "\\id", "GEN" }, 0));
+    evaluate (__LINE__, __func__, "XXX", filter::usfm::get_book_identifier ({ "\\id", "GEN" }, 1));
+    evaluate (__LINE__, __func__, "GE", filter::usfm::get_book_identifier ({ "\\id", "GE" }, 0));
+    evaluate (__LINE__, __func__, "GEN", filter::usfm::get_book_identifier ({ "\\id", "GENxxx" }, 0));
+    evaluate (__LINE__, __func__, "GEN", filter::usfm::get_book_identifier ({ "", "GENxxx" }, 0));
   }
   
   // Test on extracting a verse number.
   {
-    evaluate (__LINE__, __func__, "1", usfm_peek_verse_number ("1"));
-    evaluate (__LINE__, __func__, "1", usfm_peek_verse_number ("1 "));
-    evaluate (__LINE__, __func__, "1a", usfm_peek_verse_number ("1a"));
-    evaluate (__LINE__, __func__, "2-3", usfm_peek_verse_number ("2-3"));
-    evaluate (__LINE__, __func__, "2b,3", usfm_peek_verse_number ("2b,3"));
-    evaluate (__LINE__, __func__, "2b,3,", usfm_peek_verse_number ("2b,3, 4"));
-    evaluate (__LINE__, __func__, "2a-3b", usfm_peek_verse_number ("2a-3b And he said"));
+    evaluate (__LINE__, __func__, "1", filter::usfm::peek_verse_number ("1"));
+    evaluate (__LINE__, __func__, "1", filter::usfm::peek_verse_number ("1 "));
+    evaluate (__LINE__, __func__, "1a", filter::usfm::peek_verse_number ("1a"));
+    evaluate (__LINE__, __func__, "2-3", filter::usfm::peek_verse_number ("2-3"));
+    evaluate (__LINE__, __func__, "2b,3", filter::usfm::peek_verse_number ("2b,3"));
+    evaluate (__LINE__, __func__, "2b,3,", filter::usfm::peek_verse_number ("2b,3, 4"));
+    evaluate (__LINE__, __func__, "2a-3b", filter::usfm::peek_verse_number ("2a-3b And he said"));
   }
 
   // Test on Genesis USFM.
@@ -942,49 +942,49 @@ void test_usfm ()
     string bookusfm = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN.SFM"}));
     
     // Test getting all chapter number from USFM.
-    vector <int> chapters = usfm_get_chapter_numbers (bookusfm);
+    vector <int> chapters = filter::usfm::get_chapter_numbers (bookusfm);
     vector <int> all_chapters;
     for (int i = 0; i <= 50; i++) all_chapters.push_back (i);
     evaluate (__LINE__, __func__, all_chapters, chapters);
     
     // Test getting contents for chapter 0.
-    string usfm = usfm_get_chapter_text (bookusfm, 0);
+    string usfm = filter::usfm::get_chapter_text (bookusfm, 0);
     string standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-0.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
-    chapters = usfm_get_chapter_numbers (usfm);
+    chapters = filter::usfm::get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0 }, chapters);
     
     // Test getting contents for last chapter in USFM.
-    usfm = usfm_get_chapter_text (bookusfm, 50);
+    usfm = filter::usfm::get_chapter_text (bookusfm, 50);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-50.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
-    chapters = usfm_get_chapter_numbers (usfm);
+    chapters = filter::usfm::get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 50 }, chapters);
     
     // Test getting the text of a chapter somewhere within a block of USFM.
-    usfm = usfm_get_chapter_text (bookusfm, 25);
+    usfm = filter::usfm::get_chapter_text (bookusfm, 25);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-25.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
-    chapters = usfm_get_chapter_numbers (usfm);
+    chapters = filter::usfm::get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 25 }, chapters);
     
     // Test getting non-existing chapter text.
-    usfm = usfm_get_chapter_text (bookusfm, 51);
+    usfm = filter::usfm::get_chapter_text (bookusfm, 51);
     evaluate (__LINE__, __func__, "", usfm);
     
-    chapters = usfm_get_chapter_numbers (usfm);
+    chapters = filter::usfm::get_chapter_numbers (usfm);
     evaluate (__LINE__, __func__, { 0 }, chapters);
     
     // Test getting text for chapter that has a space after chapter number.
     string modified_book_usfm = filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm);
-    usfm = usfm_get_chapter_text (modified_book_usfm, 10);
+    usfm = filter::usfm::get_chapter_text (modified_book_usfm, 10);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-10.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
     
-    chapters = usfm_get_chapter_numbers (modified_book_usfm);
+    chapters = filter::usfm::get_chapter_numbers (modified_book_usfm);
     evaluate (__LINE__, __func__, all_chapters, chapters);
   }
   
@@ -992,51 +992,51 @@ void test_usfm ()
   {
     string directory = filter_url_create_root_path ({"unittests", "tests"});
     string book_usfm = filter_url_file_get_contents (filter_url_create_path ({directory, "16NEHTSIC.SFM"}));
-    string chapter_usfm = usfm_get_chapter_text (book_usfm, 12);
+    string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, 12);
     evaluate (__LINE__, __func__, 7355, chapter_usfm.size());
   }
   
   // Test making one string out of the USFM.
   {
-    evaluate (__LINE__, __func__, "", usfm_one_string (""));
-    evaluate (__LINE__, __func__, "\\id GEN", usfm_one_string ("\\id GEN\n"));
-    evaluate (__LINE__, __func__, "\\v 10 text", usfm_one_string ("\\v 10\ntext"));
-    evaluate (__LINE__, __func__, "\\v 10\\v 11", usfm_one_string ("\\v 10\n\\v 11"));
-    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", usfm_one_string ("\\v 10 text\n\\p\\v 11"));
+    evaluate (__LINE__, __func__, "", filter::usfm::one_string (""));
+    evaluate (__LINE__, __func__, "\\id GEN", filter::usfm::one_string ("\\id GEN\n"));
+    evaluate (__LINE__, __func__, "\\v 10 text", filter::usfm::one_string ("\\v 10\ntext"));
+    evaluate (__LINE__, __func__, "\\v 10\\v 11", filter::usfm::one_string ("\\v 10\n\\v 11"));
+    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", filter::usfm::one_string ("\\v 10 text\n\\p\\v 11"));
     string inputusfm =
     "\\v 9  If we confess our sins, he is faithful and just to forgive\n"
     "us \\add our\\add* sins, and to cleanse us from all unrighteousness.";
-    string outputusfm = usfm_one_string (inputusfm);
+    string outputusfm = filter::usfm::one_string (inputusfm);
     string standard = filter_string_str_replace ("\n", " ", inputusfm);
     evaluate (__LINE__, __func__, standard, outputusfm);
   }
   
   // Test getting the markers and the text from USFM.
   {
-    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, usfm_get_markers_and_text ("noise\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
-    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, usfm_get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, usfm_get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
+    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, filter::usfm::get_markers_and_text ("\\id GEN\\c 10"));
+    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, filter::usfm::get_markers_and_text ("noise\\id GEN\\c 10"));
+    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, filter::usfm::get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
+    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, filter::usfm::get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
+    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, filter::usfm::get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
   }
 
   // Test getting the markers from a fragment of USFM.
   {
-    evaluate (__LINE__, __func__, "", usfm_get_marker (""));
-    evaluate (__LINE__, __func__, "id", usfm_get_marker ("\\id GEN"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add insertion"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\add*\\add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add"));
-    evaluate (__LINE__, __func__, "add", usfm_get_marker ("\\+add*"));
+    evaluate (__LINE__, __func__, "", filter::usfm::get_marker (""));
+    evaluate (__LINE__, __func__, "id", filter::usfm::get_marker ("\\id GEN"));
+    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add insertion"));
+    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add"));
+    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add*"));
+    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add*\\add"));
+    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\+add"));
+    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\+add*"));
   }
 
   // Test importing common USFM.
   {
-    evaluate (__LINE__, __func__, 0, (int)usfm_import ("", styles_logic_standard_sheet ()).size());
+    evaluate (__LINE__, __func__, 0, (int)filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size());
     
-    vector <BookChapterData> import = usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
+    vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, (int)import.size());
     if (import.size () == 2) {
       evaluate (__LINE__, __func__, 33, import [0].m_book);
@@ -1049,7 +1049,7 @@ void test_usfm ()
       evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
     }
     
-    evaluate (__LINE__, __func__, {0, 1, 2}, usfm_get_verse_numbers ("\\v 1 test\\v 2 test"));
+    evaluate (__LINE__, __func__, {0, 1, 2}, filter::usfm::get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
 
   // Test importing USFM with \vp markup.
@@ -1070,7 +1070,7 @@ void test_usfm ()
 \v 2 \vp B\vp* Verse two.
     )";
     standard_chapter = filter_string_trim (standard_chapter);
-    vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
+    vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, (int)import.size());
     if (import.size () == 2) {
       evaluate (__LINE__, __func__, 33, import [0].m_book);
@@ -1087,31 +1087,31 @@ void test_usfm ()
   // Test importing USFM demo chapter.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
-    vector <BookChapterData> import = usfm_import (usfm, styles_logic_standard_sheet ());
+    vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     evaluate (__LINE__, __func__, 7, (int)import.size());
   }
 
   // Test building opening USFM marker.
   {
-    evaluate (__LINE__, __func__, "\\id ", usfm_get_opening_usfm ("id"));
-    evaluate (__LINE__, __func__, "\\add ", usfm_get_opening_usfm ("add"));
-    evaluate (__LINE__, __func__, "\\add ", usfm_get_opening_usfm ("add", false));
-    evaluate (__LINE__, __func__, "\\+add ", usfm_get_opening_usfm ("add", true));
+    evaluate (__LINE__, __func__, "\\id ", filter::usfm::get_opening_usfm ("id"));
+    evaluate (__LINE__, __func__, "\\add ", filter::usfm::get_opening_usfm ("add"));
+    evaluate (__LINE__, __func__, "\\add ", filter::usfm::get_opening_usfm ("add", false));
+    evaluate (__LINE__, __func__, "\\+add ", filter::usfm::get_opening_usfm ("add", true));
   }
   
   // Test building closing USFM marker.
   {
-    evaluate (__LINE__, __func__, "\\wj*", usfm_get_closing_usfm ("wj"));
-    evaluate (__LINE__, __func__, "\\add*", usfm_get_closing_usfm ("add"));
-    evaluate (__LINE__, __func__, "\\add*", usfm_get_closing_usfm ("add", false));
-    evaluate (__LINE__, __func__, "\\+add*", usfm_get_closing_usfm ("add", true));
+    evaluate (__LINE__, __func__, "\\wj*", filter::usfm::get_closing_usfm ("wj"));
+    evaluate (__LINE__, __func__, "\\add*", filter::usfm::get_closing_usfm ("add"));
+    evaluate (__LINE__, __func__, "\\add*", filter::usfm::get_closing_usfm ("add", false));
+    evaluate (__LINE__, __func__, "\\+add*", filter::usfm::get_closing_usfm ("add", true));
   }
 
   // Test getting verse numbers from USFM.
   {
     string usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
-    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }, usfm_get_verse_numbers (usfm));
+    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }, filter::usfm::get_verse_numbers (usfm));
     usfm = ""
     "\\c 80\n"
     "\\s Umkhuleko wokusizwa kukaIsrayeli\n"
@@ -1142,25 +1142,25 @@ void test_usfm ()
     "\\v 18 Ngakho kasiyikubuyela emuva sisuke kuwe; sivuselele, khona sizabiza ibizo lakho\\x + Hlab. 71.20.\\x*.\n"
     "\\p\n"
     "\\v 19 \nnd kosi\nd*, Nkulunkulu wamabandla, siphendule, wenze ubuso bakho bukhanye, ngakho sizasindiswa\\x + 80.3,7.\\x*.\n";
-    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, usfm_get_verse_numbers (usfm));
+    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, filter::usfm::get_verse_numbers (usfm));
   }
   
   // Test getting verse numbers from USFM.
   {
     string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
-    vector <int> verses = usfm_get_verse_numbers (usfm);
+    vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 1, 2, 3 }, verses);
     
     usfm = "\\v 10-12b Fragment\n\\p\n\\v 13 Fragment\n";
-    verses = usfm_get_verse_numbers (usfm);
+    verses = filter::usfm::get_verse_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 10, 11, 12, 13 }, verses);
     
     usfm = "\\v 10,11a Fragment\n\\p\n\\v 13 Fragment\n";
-    verses = usfm_get_verse_numbers (usfm);
+    verses = filter::usfm::get_verse_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 10, 11, 13 }, verses);
     
     usfm = "\\v 10,12 Fragment\n\\p\n\\v 13 Fragment\n";
-    verses = usfm_get_verse_numbers (usfm);
+    verses = filter::usfm::get_verse_numbers (usfm);
     evaluate (__LINE__, __func__, { 0, 10, 12, 13 }, verses);
   }
   
@@ -1169,23 +1169,23 @@ void test_usfm ()
     string usfm;
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
-    evaluate (__LINE__, __func__, false, usfm_contains_empty_verses (usfm));
+    evaluate (__LINE__, __func__, false, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.\n"
     "\\v 2 Two";
-    evaluate (__LINE__, __func__, false, usfm_contains_empty_verses (usfm));
+    evaluate (__LINE__, __func__, false, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.\n"
     "\\v 2";
-    evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
+    evaluate (__LINE__, __func__, true, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 \n"
     "\\v 2 Two";
-    evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
+    evaluate (__LINE__, __func__, true, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 \n"
     "\\v 2 ";
-    evaluate (__LINE__, __func__, true, usfm_contains_empty_verses (usfm));
+    evaluate (__LINE__, __func__, true, filter::usfm::contains_empty_verses (usfm));
   }
   
   // Testing removing word level attributes.
@@ -1196,26 +1196,26 @@ void test_usfm ()
     string standard;
 
     usfm = R"(\v 1 This is an example \w gracious|lemma="grace"\w* this is an example \w gracious|grace\w* this is an example \w gracious|strong="H01234,G05485"\w* this is an example \w gracious\w* this is an example \w gracious|x-myattr="metadata"\w* this is an example \w gracious|lemma="grace" x-myattr="metadata"\w*.)";
-    result = usfm_remove_w_attributes (usfm);
+    result = filter::usfm::remove_w_attributes (usfm);
     standard = R"(\v 1 This is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w* this is an example \w gracious\w*.)";
     evaluate (__LINE__, __func__, standard, result);
 
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
-    result = usfm_remove_w_attributes (usfm);
+    result = filter::usfm::remove_w_attributes (usfm);
     evaluate (__LINE__, __func__, usfm, result);
 
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
-    result = usfm_extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
+    result = filter::usfm::extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
     standard = R"(\v 18 At once they left their nets and went with him. )";
     evaluate (__LINE__, __func__, standard, result);
 
     usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*)";
-    result = usfm_remove_w_attributes (usfm);
+    result = filter::usfm::remove_w_attributes (usfm);
     standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.\fig*)";
     evaluate (__LINE__, __func__, usfm, result);
 
     usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*)";
-    result = usfm_extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
+    result = filter::usfm::extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
     standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. )";
     evaluate (__LINE__, __func__, standard, result);
   }
@@ -1282,7 +1282,7 @@ void test_usfm ()
 
     // USFM without any figure information.
     usfm_in = R"(Text \fig Empty figure.\fig* text.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, string(), caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, string(), src);
@@ -1294,7 +1294,7 @@ void test_usfm ()
 
     // USFM 1/2.x with invalid figure information.
     usfm_in = R"(Text \fig DESC|SIZE|LOC|COPY|CAP|REF\fig* text.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, string(), caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, string(), src);
@@ -1306,7 +1306,7 @@ void test_usfm ()
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt016.tif|span|||At once they left their nets.|1.18\fig* text.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "At once they left their nets.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt016.tif", src);
@@ -1318,7 +1318,7 @@ void test_usfm ()
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt017.tif|col|||Took her by the hand, and...the fever left her.|1.31\fig* text.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt017.tif", src);
@@ -1330,7 +1330,7 @@ void test_usfm ()
 
     // Default USFM 1/2.x \fig definition.
     usfm_in = R"(Text \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig* text.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "CAP", caption);
     evaluate (__LINE__, __func__, "DESC", alt);
     evaluate (__LINE__, __func__, "FILE", src);
@@ -1342,7 +1342,7 @@ void test_usfm ()
 
     // USFM 3.0 example.
     usfm_in = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "At once they left their nets.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt016.jpg", src);
@@ -1354,7 +1354,7 @@ void test_usfm ()
 
     // USFM 3.0 example.
     usfm_in = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
-    usfm_out = usfm_extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
+    usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
     evaluate (__LINE__, __func__, string(), alt);
     evaluate (__LINE__, __func__, "avnt017.tif", src);
@@ -1367,12 +1367,12 @@ void test_usfm ()
 
   // Test determining standard q poetry styles.
   {
-    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q"));
-    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q1"));
-    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q2"));
-    evaluate (__LINE__, __func__, true, usfm_is_standard_q_poetry ("q3"));
-    evaluate (__LINE__, __func__, false, usfm_is_standard_q_poetry ("q4"));
-    evaluate (__LINE__, __func__, false, usfm_is_standard_q_poetry ("q5"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q1"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q2"));
+    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q3"));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_standard_q_poetry ("q4"));
+    evaluate (__LINE__, __func__, false, filter::usfm::is_standard_q_poetry ("q5"));
   }
   
   // Test checking valid USFM of the fig markup.

@@ -78,7 +78,7 @@ string edit_navigate (void * webserver_request)
   // Get the number of verses in the USFM.
   // This covers combined verses also.
   int last_offset = 0;
-  vector <int> verses = usfm_get_verse_numbers (usfm);
+  vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   for (int i = 0; i < (int)verses.size (); i++) {
     if (editor_usfm2html.verseStartOffsets.count (i)) {
       last_offset = editor_usfm2html.verseStartOffsets [i];

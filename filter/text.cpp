@@ -366,7 +366,7 @@ void Filter_Text::process_usfm ()
         // Clean up the marker, so we remain with the basic version, e.g. 'id'.
         string marker = filter::usfm::get_marker (currentItem);
         // Strip word-level attributes.
-        dispose_of_word_level_attributes (marker);
+        if (isOpeningMarker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
         if (styles.find (marker) != styles.end())
         {
           // Deal with known style.
@@ -1729,31 +1729,4 @@ void Filter_Text::notes_plain_text_handler ()
     offset = static_cast<int>(verses_text [iverse].size ());
   }
   verses_text_note_positions[iverse].push_back (offset);
-}
-
-
-// Example: \+w Lord|strong="H3068"\+w*
-// It will dispose of e.g. this: |strong="H3068"
-// It handles the default attribute: \w gracious|grace\w*
-void Filter_Text::dispose_of_word_level_attributes (const string& marker)
-{
-  // USFM 3.0 has four markers providing attributes.
-  // https://ubsicap.github.io/usfm/attributes/index.html.
-  // Deal with those only, and don't deal with any others.
-  // Note that the \fig markup is handled elsewhere in this class.
-  if ((marker != "w") && (marker != "rb") && (marker != "xt")) return;
-  
-  // Check the text following this markup whether it contains word-level attributes.
-  string possible_markup = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-
-  // If the markup is too short to contain the required characters, then bail out.
-  if (possible_markup.length() < 4) return;
-
-  // Look for the vertical bar. If it's not there, bail out.
-  size_t bar_position = possible_markup.find("|");
-  if (bar_position == string::npos) return;
-
-  // Remove the fragment and store the remainder back into the object.
-  possible_markup.erase(bar_position);
-  chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = possible_markup;
 }

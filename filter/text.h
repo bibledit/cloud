@@ -228,12 +228,5 @@ private:
   // Flag for whether to left-align certain poetry styles
   // in exports to OpenDocument format.
   bool odt_left_align_verse_in_poetry_styles { false };
-
-  // Handle the word-level attributes.
-  // https://ubsicap.github.io/usfm/attributes/index.html
-public:
-private:
-  void dispose_of_word_level_attributes (const string& marker);
-  
   
 };

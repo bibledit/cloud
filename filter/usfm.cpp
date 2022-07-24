@@ -927,64 +927,33 @@ const char * marker_vp ()
 }
 
 
-// This removes the word level attributes from $usfm.
-// See https://ubsicap.github.io/usfm/attributes/index.html
-// Within a character marker span,
-// an attributes list is separated from the text content by a vertical bar |.
-// Attributes are listed as pairs of name and corresponding value using the syntax:
-//   attribute = "value".
-// Example:
-//   \w gracious|lemma="grace"\w*
-string remove_w_attributes (string usfm) // Todo use this?
+// Find and remove the word-level attributes.
+// https://ubsicap.github.io/usfm/attributes/index.html
+// Example: \+w Lord|strong="H3068"\+w*
+// It will dispose of e.g. this: |strong="H3068"
+// It handles the default attribute: \w gracious|grace\w*
+void remove_word_level_attributes (const string & marker,
+                                   vector <string> & container, unsigned int & pointer) // Todo use this.
 {
-  // Check for a vertical bar at all in the input USFM.
-  // If it's not there, then there won't be any word-level attributes.
-  if (usfm.find ("|") != string::npos) {
-
-    // Flag whether a replacement was made.
-    bool keep_going = false;
-    
-    // In USFM 3.0 there's two character markers that support word level attributes.
-    // But the \fig is already handled elsewhere.
-    vector <string> supported_character_markers = { "w" };
-    for (auto & marker : supported_character_markers) {
-
-      // Support multiple replacements.
-      size_t last_pos = 0;
-      do {
-      
-        // Set flag.
-        keep_going = false;
-
-        // The opener should be there.
-        size_t opener_pos = usfm.find (get_opening_usfm (marker), last_pos);
-        if (opener_pos == string::npos) continue;
-        last_pos = opener_pos + 1;
-
-        // The closer should be there too.
-        size_t closer_pos = usfm.find (get_closing_usfm (marker), last_pos);
-        if (closer_pos == string::npos) continue;
-
-        // The vertical bar should be between the opener and closer.
-        size_t bar_pos = usfm.find ("|", last_pos);
-        if (bar_pos == string::npos) continue;
-        if (bar_pos < opener_pos) continue;
-        
-        // There may be situations without the vertical bar.
-        if (bar_pos < closer_pos) {
-          // Remove the word level attribute.
-          usfm.erase (bar_pos, closer_pos - bar_pos);
-        }
-
-        // Set flag.
-        keep_going = true;
-
-      } while (keep_going);
-    }
-  }
+  // USFM 3.0 has four markers providing attributes.
+  // https://ubsicap.github.io/usfm/attributes/index.html.
+  // Deal with those only, and don't deal with any others.
+  // Note that the \fig markup is handled elsewhere in this class.
+  if ((marker != "w") && (marker != "rb") && (marker != "xt")) return;
   
-  // Done.
-  return usfm;
+  // Check the text following this markup whether it contains word-level attributes.
+  string possible_markup = filter::usfm::peek_text_following_marker (container, pointer);
+  
+  // If the markup is too short to contain the required characters, then bail out.
+  if (possible_markup.length() < 4) return;
+  
+  // Look for the vertical bar. If it's not there, bail out.
+  size_t bar_position = possible_markup.find("|");
+  if (bar_position == string::npos) return;
+  
+  // Remove the fragment and store the remainder back into the object.
+  possible_markup.erase(bar_position);
+  container [pointer + 1] = possible_markup;
 }
 
 

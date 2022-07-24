@@ -66,7 +66,8 @@ bool handle_verse_sequence (string verse, vector <int> & verses);
 const char * marker_v ();
 const char * marker_va ();
 const char * marker_vp ();
-string remove_w_attributes (string usfm);
+void remove_word_level_attributes (const string & marker,
+                                   vector <string> & container, unsigned int & pointer);
 string extract_fig (string usfm, string & caption, string & alt, string& src, string& size, string& loc, string& copy, string& ref);
 bool is_standard_q_poetry (const string & marker);
 

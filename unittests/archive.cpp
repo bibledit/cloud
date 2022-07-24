@@ -75,7 +75,7 @@ void test_archive ()
     zipfile = filter_archive_zip_folder_miniz_internal (directory);
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     size = filter_url_filesize (zipfile);
-    if (size < 2437) evaluate (__LINE__, __func__, "Should be at least 2437 bytes", to_string(size));
+    if (size < 2433) evaluate (__LINE__, __func__, "Should be at least 2433 bytes", to_string(size));
     if (size > 2445) evaluate (__LINE__, __func__, "Should be no larger than 2445 bytes", to_string(size));
 
     // Zipping non-existing folder through the shell fails.

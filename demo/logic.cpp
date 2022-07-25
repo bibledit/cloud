@@ -436,7 +436,7 @@ vector <string> demo_logic_default_resources ()
     resources.clear ();
     resources = {
       // Original language resources.
-      resource_logic_assemble_rich_divider ("Sumber Penelitian Bahasa Asli", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/bahasa-sumber-alkitab/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Bahasa Sumber Alkitab", "https://alkitabkita.info/bahasa-sumber-alkitab/", "black", "orange"),
       resource_external_biblehub_interlinear_name (),
       HEBREW_ETCBC4_NAME,
       OSHB_NAME,
@@ -445,19 +445,18 @@ vector <string> demo_logic_default_resources ()
       SBLGNT_NAME,
       "Comparative Byz",
       // Literal translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Harfiah", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Secara Harfiah", "https://alkitabkita.info/terjemahan-secara-harfiah/", "black", "orange"),
       "MILT",
       "TB74",
       "KSI",
       "AYT",
-      resource_logic_assemble_rich_divider ("Terjemahan Harfiah (Bahasa Inggris)", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-secara-harfiah/", "black", "darkseagreen"),
       "Majority TCENT",
       "1599 Geneva Bible (GNV)",
       KJV_LEXICON_NAME,
       "ESV",
       "HCSB 2003",
       // Modified literal translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Literal Dimodifikasi", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-modified-literal/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Harfian yang Dimodifikasi", "https://alkitabkita.info/terjemahan-harfiah-yang-dimodifikasi/", "black", "orange"),
       "NET Bible",
       "New International Version (NIV)",
       "Expanded Bible (EXB)",
@@ -466,23 +465,21 @@ vector <string> demo_logic_default_resources ()
       "Complete Jewish Bible (CJB)",
       "GOD’S WORD Translation (GW)",
       // Dynamic equivalence translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/terjemahan-berdasarkan-arti/", "black", "orange"),
       "AlkitabKita",
       "BIS85",
       "TMV87",
-      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti (Bahasa Inggris)", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-berdasarkan-arti/", "black", "darkseagreen"),
       "New Living Translation (NLT)",
       "UDB",
       "GNT",
       "FBV-Feb2022",
       // Parafrase translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/terjemahan-parafrasa/", "black", "orange"),
       "FAYH",
-      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa (Bahasa Inggris)", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/terjemahan-parafrasa/", "black", "darkseagreen"),
       "J.B. Phillips New Testament (PHILLIPS)",
       "Living Bible (TLB)",
       // Commentaries.
-      resource_logic_assemble_rich_divider ("Tafsiran", "https://alkitabkita.info/wiki/petunjuk-penggunaan-bibledit/sumber-sumber-penelitian/tafsiran/", "black", "orange"),
+      resource_logic_assemble_rich_divider ("Tafsiran", "https://alkitabkita.info/tafsiran/", "black", "orange"),
       "T4T",
       "Barnes' Notes on the Whole Bible (studylight-eng/bnb)",
       "Dr. Constable's Expository Notes (studylight-eng/dcc)",

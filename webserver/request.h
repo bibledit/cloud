@@ -33,7 +33,7 @@ class Webserver_Request
 public:
   Webserver_Request ();
   ~Webserver_Request ();
-  Webserver_Request(const Webserver_Request&) = delete; // Todo
+  Webserver_Request(const Webserver_Request&) = delete;
   Webserver_Request operator=(const Webserver_Request&) = delete;
   // Whether the connection runs via the secure server.
   bool secure {false};

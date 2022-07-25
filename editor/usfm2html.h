@@ -40,9 +40,10 @@ public:
   map <int, int> verseStartOffsets {};
   string currentParagraphStyle {};
   string currentParagraphContent {};
+  void set_preview ();
 private:
-  vector <string> markersAndText {}; // Strings alternating between USFM and text.
-  unsigned int markersAndTextPointer {0};
+  vector <string> markers_and_text {}; // Strings alternating between USFM and text.
+  unsigned int markers_and_text_pointer {0};
   
   // All the style information.
   map <string, Database_Styles_Item> styles {};
@@ -73,6 +74,9 @@ private:
   
   // Lengths and offsets.
   bool first_line_done {false};
+  
+  // Whether it runs in preview-mode.
+  bool m_preview { false };
   
   void preprocess ();
   void process ();

@@ -933,7 +933,7 @@ const char * marker_vp ()
 // It will dispose of e.g. this: |strong="H3068"
 // It handles the default attribute: \w gracious|grace\w*
 void remove_word_level_attributes (const string & marker,
-                                   vector <string> & container, unsigned int & pointer) // Todo use this.
+                                   vector <string> & container, unsigned int & pointer)
 {
   // USFM 3.0 has four markers providing attributes.
   // https://ubsicap.github.io/usfm/attributes/index.html.

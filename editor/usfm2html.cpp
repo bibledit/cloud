@@ -34,8 +34,8 @@ void Editor_Usfm2Html::load (string usfm)
   usfm.append ("\n");
   // Separate it into markers and text.
   // Load it into the object.
-  markersAndText = filter::usfm::get_markers_and_text (usfm);
-  markersAndTextPointer = 0;
+  markers_and_text = filter::usfm::get_markers_and_text (usfm);
+  markers_and_text_pointer = 0;
 }
 
 
@@ -142,10 +142,10 @@ void Editor_Usfm2Html::preprocess ()
 
 void Editor_Usfm2Html::process ()
 {
-  markersAndTextPointer = 0;
-  size_t markersAndTextCount = markersAndText.size();
-  for (markersAndTextPointer = 0; markersAndTextPointer < markersAndTextCount; markersAndTextPointer++) {
-    string currentItem = markersAndText[markersAndTextPointer];
+  markers_and_text_pointer = 0;
+  size_t markersAndTextCount = markers_and_text.size();
+  for (markers_and_text_pointer = 0; markers_and_text_pointer < markersAndTextCount; markers_and_text_pointer++) {
+    string currentItem = markers_and_text[markers_and_text_pointer];
     if (filter::usfm::is_usfm_marker (currentItem))
     {
       // Store indicator whether the marker is an opening marker.
@@ -153,6 +153,9 @@ void Editor_Usfm2Html::process ()
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
       string marker = filter::usfm::get_marker (currentItem);
+      // Handle preview mode: Strip word-level attributes.
+      if (m_preview) if (isOpeningMarker) filter::usfm::remove_word_level_attributes (marker, markers_and_text, markers_and_text_pointer);
+
       if (styles.count (marker))
       {
         Database_Styles_Item style = styles [marker];
@@ -219,7 +222,7 @@ void Editor_Usfm2Html::process ()
             }
             // Open verse style, record verse/length, add verse number, close style again, and add a space.
             openTextStyle (style, false);
-            string textFollowingMarker = filter::usfm::get_text_following_marker (markersAndText, markersAndTextPointer);
+            string textFollowingMarker = filter::usfm::get_text_following_marker (markers_and_text, markers_and_text_pointer);
             string number = filter::usfm::peek_verse_number (textFollowingMarker);
             verseStartOffsets [convert_to_int (number)] = static_cast<int>(textLength);
             addText (number);
@@ -233,8 +236,8 @@ void Editor_Usfm2Html::process ()
                 textFollowingMarker = textFollowingMarker.substr (pos + number.length());
               }
               textFollowingMarker = filter_string_ltrim (textFollowingMarker);
-              markersAndText [markersAndTextPointer] = textFollowingMarker;
-              markersAndTextPointer--;
+              markers_and_text [markers_and_text_pointer] = textFollowingMarker;
+              markers_and_text_pointer--;
             }
             break;
           }
@@ -600,7 +603,7 @@ bool Editor_Usfm2Html::roadIsClear ()
   int input_type = 0;
   int input_subtype = 0;
   {
-    string currentItem = markersAndText[markersAndTextPointer];
+    string currentItem = markers_and_text[markers_and_text_pointer];
     if (!filter::usfm::is_usfm_marker (currentItem)) return true;
     input_opener = filter::usfm::is_opening_marker (currentItem);
     input_embedded = filter::usfm::is_embedded_marker (currentItem);
@@ -622,10 +625,10 @@ bool Editor_Usfm2Html::roadIsClear ()
   bool end_chapter_reached = false;
   {
     bool done = false;
-    size_t markersAndTextCount = markersAndText.size();
-    for (size_t pointer = markersAndTextPointer + 1; pointer < markersAndTextCount; pointer++) {
+    size_t markersAndTextCount = markers_and_text.size();
+    for (size_t pointer = markers_and_text_pointer + 1; pointer < markersAndTextCount; pointer++) {
       if (done) continue;
-      string currentItem = markersAndText[pointer];
+      string currentItem = markers_and_text[pointer];
       if (filter::usfm::is_usfm_marker (currentItem))
       {
         string marker = filter::usfm::get_marker (currentItem);
@@ -740,3 +743,8 @@ bool Editor_Usfm2Html::roadIsClear ()
   return true;
 }
 
+
+void Editor_Usfm2Html::set_preview ()
+{
+  m_preview = true;
+}

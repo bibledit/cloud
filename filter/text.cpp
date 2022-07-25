@@ -1730,3 +1730,5 @@ void Filter_Text::notes_plain_text_handler ()
   }
   verses_text_note_positions[iverse].push_back (offset);
 }
+
+

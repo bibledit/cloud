@@ -27,8 +27,8 @@ public:
   Consistency_Logic (void * webserver_request_in, int id_in);
   string response ();
 private:
-  void * webserver_request;
-  int id;
+  void * webserver_request {nullptr};
+  int id {0};
   string verseText (string resource, int book, int chapter, int verse);
   string omit_verse_text (string input);
 };

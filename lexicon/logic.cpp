@@ -1472,7 +1472,7 @@ string lexicon_logic_hebrew_morphology_render_state (string & value)
 
 struct abbott_smith_walker: xml_tree_walker
 {
-  string text;
+  string text {};
 
   bool text_element_already_handled = false;
   string previous_element_name;
@@ -1531,7 +1531,7 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
   
   xml_document document;
   document.load_string (definition.c_str());
-  abbott_smith_walker tree_walker;
+  abbott_smith_walker tree_walker {};
   document.traverse (tree_walker);
   renderings.push_back (tree_walker.text);
 

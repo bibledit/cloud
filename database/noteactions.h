@@ -22,14 +22,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/passage.h>
 
-class Database_Note_Action
+struct Database_Note_Action
 {
-public:
-  int rowid;
-  string username;
-  int timestamp;
-  int action;
-  string content;
+  int rowid {0};
+  string username {};
+  int timestamp {0};
+  int action {0};
+  string content {};
 };
 
 class Database_NoteActions

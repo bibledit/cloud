@@ -1070,8 +1070,8 @@ struct bible_gateway_walker: xml_tree_walker
 {
   bool skip_next_text = false;
   bool parsing = true;
-  string text;
-  vector <string> footnotes;
+  string text {};
+  vector <string> footnotes {};
 
   virtual bool for_each (xml_node& node)
   {
@@ -1170,7 +1170,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
         xml_node passage_text_node = document.first_child ();
         xml_node passage_wrap_node = passage_text_node.first_child ();
         xml_node passage_content_node = passage_wrap_node.first_child ();
-        bible_gateway_walker walker;
+        bible_gateway_walker walker {};
         passage_content_node.traverse (walker);
         result.append (walker.text);
         // Adding text of the footnote(s) if any.
@@ -1468,7 +1468,7 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
 
 struct easy_english_bible_walker: xml_tree_walker
 {
-  string text;
+  string text {};
 
   virtual bool for_each (xml_node& node)
   {
@@ -1550,7 +1550,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     for (auto paragraph_node : div_node.children()) {
 
       // Assemble the text by iterating over all child text nodes.
-      easy_english_bible_walker tree_walker;
+      easy_english_bible_walker tree_walker {};
       paragraph_node.traverse(tree_walker);
 
       // Clean the text and skip empty text.

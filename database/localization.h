@@ -25,12 +25,11 @@ class Database_Localization
 {
 public:
   Database_Localization (const string& language_in);
-  ~Database_Localization ();
   void create (string po);
   string translate (const string& english);
   string backtranslate (const string& localization);
 private:
-  string language;
+  string language {};
   sqlite3 * connect ();
 };
 

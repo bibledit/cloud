@@ -24,11 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_Kjv_Item
+struct Database_Kjv_Item
 {
-public:
-  string strong;
-  string english;
+  string strong {};
+  string english {};
 };
 
 

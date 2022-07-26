@@ -23,25 +23,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-class Database_Ipc_Item
+struct Database_Ipc_Item
 {
-public:
-  string file;
-  int rowid;
-  string user;
-  string channel;
-  string command;
+  string file {};
+  int rowid {0};
+  string user {};
+  string channel {};
+  string command {};
 };
 
 
-class Database_Ipc_Message
+struct Database_Ipc_Message
 {
-public:
-  Database_Ipc_Message ();
-  int id;
-  string channel;
-  string command;
-  string message;
+  int id {0};
+  string channel {};
+  string command {};
+  string message {};
 };
 
 
@@ -57,7 +54,7 @@ public:
   Database_Ipc_Message getNote ();
   bool getNotesAlive ();
 private:
-  void * webserver_request;
+  void * webserver_request {nullptr};
   string folder ();
   string file (string file);
   vector <Database_Ipc_Item> readData ();

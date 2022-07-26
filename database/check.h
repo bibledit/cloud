@@ -26,12 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Check_Hit
 {
 public:
-  int rowid;
-  string bible;
-  int book;
-  int chapter;
-  int verse;
-  string data;
+  int rowid {0};
+  string bible {};
+  int book {0};
+  int chapter {0};
+  int verse {0};
+  string data {};
 };
 
 

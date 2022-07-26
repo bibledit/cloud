@@ -81,7 +81,7 @@ string edit_position (void * webserver_request)
     }
   }
   if (verse) {
-    startingOffset += convert_to_string (verse).length () + 1;
+    startingOffset += static_cast<int> (convert_to_string (verse).length () + 1);
   }
   if (endingOffset) {
     endingOffset--;

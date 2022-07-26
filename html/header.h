@@ -26,6 +26,8 @@ class Html_Header
 {
 public:
   Html_Header (void * html_text);
+  Html_Header(const Html_Header&) = delete;
+  Html_Header operator=(const Html_Header&) = delete;
   void search_back_link (string url, string text);
   void create (const vector <pair <string, string> > & breadcrumbs);
 private:

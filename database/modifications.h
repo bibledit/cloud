@@ -22,18 +22,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/passage.h>
 
-class Database_Modifications_Id
+struct Database_Modifications_Id
 {
-public:
-  int oldid;
-  int newid;
+  int oldid {0};
+  int newid {0};
 };
 
-class Database_Modifications_Text
+struct Database_Modifications_Text
 {
-public:
-  string oldtext;
-  string newtext;
+  string oldtext {};
+  string newtext {};
 };
 
 class Database_Modifications

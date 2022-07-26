@@ -94,7 +94,7 @@ string resource_download (void * webserver_request)
     for (auto book : books) {
       vector <int> chapters = database_usfmresources.getChapters (name, book);
       // Rough average of 20 verses per chapter.
-      count += (20 * chapters.size());
+      count += static_cast<int>(20 * chapters.size());
     }
   }
   if (count == 0) count = Database_Cache::count (name);

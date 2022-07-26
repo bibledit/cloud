@@ -31,6 +31,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma clang diagnostic ignored "-Wstring-conversion"
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wconversion"
 
 #include "jsonxx.h"
 

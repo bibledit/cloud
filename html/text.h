@@ -44,32 +44,32 @@ public:
   void add_note_text (string text);
   void close_current_note ();
   void add_link (xml_node node,
-                string reference, string identifier,
-                string title, string style, string text,
-                bool add_popup = false);
+                 string reference, string identifier,
+                 string title, string style, string text,
+                 bool add_popup = false);
   xml_node new_table ();
   xml_node new_table_row (xml_node tableElement);
   xml_node new_table_data (xml_node tableRowElement, bool alignRight = false);
   void save (string name);
-  xml_node current_p_node; // The current p element.
-  string current_paragraph_style;
-  string current_paragraph_content;
-  vector <string> current_text_style;
+  xml_node current_p_node {}; // The current p element.
+  string current_paragraph_style {};
+  string current_paragraph_content {};
+  vector <string> current_text_style {};
   // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
-  string custom_class = "";
+  string custom_class {};
   void have_popup_notes ();
   void add_image (string alt, string src, string caption);
 private:
-  xml_document document;
-  xml_node head_node;
-  xml_node body_node;
-  xml_node notes_div_node;
-  bool current_p_node_open = false;
-  int note_count;
-  xml_node note_p_node; // The p element of the current footnote, if any.
-  bool note_p_node_open = false;
-  vector <string> current_note_text_style;
+  xml_document document {};
+  xml_node head_node {};
+  xml_node body_node {};
+  xml_node notes_div_node {};
+  bool current_p_node_open {false};
+  int note_count {0};
+  xml_node note_p_node {}; // The p element of the current footnote, if any.
+  bool note_p_node_open {false};
+  vector <string> current_note_text_style {};
   void new_named_heading (string style, string text, bool hide = false);
-  bool add_popup_notes = false;
-  xml_node popup_node;
+  bool add_popup_notes {false};
+  xml_node popup_node {};
 };

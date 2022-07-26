@@ -116,7 +116,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
         string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
         vector <string> categories = filter_string_explode (categorytext, '\n');
         size_t category_count = categories.size ();
-        float category_percentage = 100 / category_count;
+        float category_percentage = 100.0f / static_cast<float>(category_count);
         int percentage;
         bool on = (checked == "true");
         if (on) percentage = static_cast <int> (round ((box + 1) * category_percentage));

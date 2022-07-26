@@ -32,7 +32,7 @@ public:
   void save (string name);
   void storeData ();
 private:
-  string currentLine;
-  bool lineLoaded = false;
-  vector <string> output;
+  string currentLine {};
+  bool lineLoaded {false};
+  vector <string> output {};
 };

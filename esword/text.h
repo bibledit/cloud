@@ -34,9 +34,9 @@ public:
   void createModule (string filename);
   vector <string> get_sql ();
 private:
-  int currentBook;
-  int currentChapter;
-  int currentVerse;
-  string currentText;
-  vector <string> sql; // Contains the generated SQL.
+  int currentBook {0};
+  int currentChapter {0};
+  int currentVerse {0};
+  string currentText {};
+  vector <string> sql {}; // Contains the generated SQL.
 };

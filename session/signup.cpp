@@ -39,12 +39,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace pugi;
 
 
-class Verification
+struct Verification
 {
-public:
-  string question;
-  string answer;
-  string passage;
+  string question {};
+  string answer {};
+  string passage {};
 };
 
 

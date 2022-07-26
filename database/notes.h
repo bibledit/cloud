@@ -24,11 +24,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/passage.h>
 
 
-class Database_Notes_Text
+struct Database_Notes_Text
 {
-public:
-  string raw;
-  string localized;
+  string raw {};
+  string localized {};
 };
 
 
@@ -38,7 +37,7 @@ class Database_Notes
 public:
   Database_Notes (void * webserver_request_in);
 private:
-  void * webserver_request;
+  void * webserver_request {nullptr};
 
 public:
   void create ();

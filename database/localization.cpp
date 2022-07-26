@@ -37,11 +37,6 @@ Database_Localization::Database_Localization (const string& language_in)
 }
 
 
-Database_Localization::~Database_Localization ()
-{
-}
-
-
 sqlite3 * Database_Localization::connect ()
 {
   return database_sqlite_connect ("localization_" + language);

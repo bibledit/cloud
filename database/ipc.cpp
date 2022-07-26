@@ -29,13 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience: Stored in plain file system.
 
 
-Database_Ipc_Message::Database_Ipc_Message ()
-{
-  // Empty message has an identifier of 0.
-  id = 0;
-}
-
-
 Database_Ipc::Database_Ipc (void * webserver_request_in)
 {
   webserver_request = webserver_request_in;

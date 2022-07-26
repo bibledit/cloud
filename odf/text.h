@@ -59,9 +59,9 @@ public:
   void add_note_text (string text);
   void close_current_note ();
   void save (string name);
-  string current_paragraph_style;
-  string current_paragraph_content;
-  vector <string> current_text_style;
+  string current_paragraph_style {};
+  string current_paragraph_content {};
+  vector <string> current_text_style {};
   void add_image (string alt, string src, string caption);
   void add_tab ();
 private:

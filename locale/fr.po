@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build ddeaac87a34b6ea67d70ca539d5ee736a1205d45)\n"
+"X-Generator: Launchpad (build 7bbd534dfad8da0a8420b10c8106612d2610ae35)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -674,16 +674,20 @@ msgstr "La ressource va être importée dans la Bible."
 msgid "The journal shows the progress."
 msgstr "Le journal montre la progression."
 
-msgid "Would you like to change the stylesheet?"
-msgstr "Souhaitez-vous modifier la feuille de style ?"
-
-msgid "A stylesheet affects how the Bible text in the editor looks."
+msgid "Would you like to change the stylesheet for editing?"
 msgstr ""
-"Une feuille de style affecte la présentation du texte de la Bible dans "
-"l'éditeur."
+
+msgid "The stylesheet affects how the Bible text in the editor looks."
+msgstr ""
 
 msgid "Please make your choice below."
 msgstr "Veuillez faire votre choix ci-dessous."
+
+msgid "Would you like to change the stylesheet for export?"
+msgstr ""
+
+msgid "The stylesheet affects how the Bible text looks when exported."
+msgstr ""
 
 msgid "More operations in the Cloud"
 msgstr "Plus d'opération sur le nuage"
@@ -702,6 +706,21 @@ msgstr "Rien n'a été importé."
 
 msgid "Nothing was uploaded"
 msgstr "Rien n'a été téléversé"
+
+msgid "Bible image"
+msgstr ""
+
+msgid "Bible images"
+msgstr ""
+
+msgid "The file was uploaded and is being processed."
+msgstr "Le fichier a été téléversé et est en cours de traitement."
+
+msgid "Would you like to delete this image?"
+msgstr "Voulez-vous supprimer cette image ?"
+
+msgid "The image was deleted."
+msgstr "L'image a été supprimée."
 
 msgid "This book is absent from the Bible"
 msgstr "Ce livre est absent de la Bible"
@@ -959,8 +978,11 @@ msgstr "Chargement..."
 msgid "All Bibles"
 msgstr "Toutes les Bibles"
 
-msgid "all of them"
-msgstr "Tous"
+msgid "user"
+msgstr "utilisateur"
+
+msgid "me"
+msgstr ""
 
 msgid "Sort on verse"
 msgstr ""
@@ -3127,6 +3149,27 @@ msgstr "Envoyer les modifications vers le flux RSS"
 msgid "Import text from a resource"
 msgstr "Importer du texte depuis une ressource"
 
+msgid "Stylesheet for editing"
+msgstr ""
+
+msgid "Stylesheet for export"
+msgstr ""
+
+msgid "Run an automatic daily check on the text"
+msgstr ""
+
+msgid "List of images available for use in Bible text."
+msgstr ""
+
+msgid "Upload an image or a compressed archive of them."
+msgstr ""
+
+msgid "Go back"
+msgstr "Précédent"
+
+msgid "Delete this image"
+msgstr ""
+
 msgid "help"
 msgstr "aide"
 
@@ -3187,9 +3230,6 @@ msgid ""
 msgstr ""
 "Ceci recherchera le texte brut de la Bible, sans tenir compte des numéros de "
 "verset, des titres, ou d'autres additions."
-
-msgid "Go back"
-msgstr "Précédent"
 
 msgid "Enter all possible matching pairs in the text of the Bible."
 msgstr ""
@@ -3356,15 +3396,17 @@ msgstr "Date"
 msgid "Change Notifications"
 msgstr "Changement(s) dans les notifications"
 
-msgid "Dismiss the notifications of the changes of the following categories:"
+msgid "Dismiss the notifications of the changes made by"
 msgstr ""
-"Ignorer les notifications des modifications des catégories suivantes :"
 
-msgid "(if their changes and verses match)"
-msgstr "(Si leurs changements et les versets correspondent)"
+msgid "when they match with changes made by anyone else on the team"
+msgstr ""
 
-msgid "(all of them)"
-msgstr "(tous)"
+msgid "Dismiss the notifications of all changes made by me"
+msgstr ""
+
+msgid "Dismiss the notifications of all changes made by anyone"
+msgstr ""
 
 msgid "Select Bible:"
 msgstr "Choisissez une Bible :"
@@ -3433,38 +3475,36 @@ msgstr "Cette page avec les notifications de changement est pour vous."
 msgid "Your colleagues have their own lists."
 msgstr "Vos collègues ont leurs propres listes."
 
-msgid ""
-"Changes in the text of the Bibles will be added to the list the next day."
+msgid "Every day it will detect changes in the Bibles."
 msgstr ""
-"Tout changement dans le texte des Bibles sera ajouté à la liste le jour "
-"suivant."
+
+msgid ""
+"It will then generate new change notifications based on those changes."
+msgstr ""
+
+msgid "It will add these new change notifications to the list."
+msgstr ""
 
 msgid "The change notifications fall into several categories:"
 msgstr "Les notifications de modification entre dans plusieurs catégories :"
 
-msgid "Changes marked with a smiley face are changes made by you."
+msgid ""
+"Those marked with a smiley face are notifications of changes made by you."
 msgstr ""
-"Les modifications marquées avec un smiley sont celles effectuées par vous."
-
-msgid "user"
-msgstr "utilisateur"
-
-msgid "Changes marked with the name of a user are changes made by this user."
-msgstr ""
-"Les modifications marquées avec le nom d'un utilisateur sont celles "
-"effectuées par cet utilisateur."
-
-msgid "Changes marked with a book symbol are the changes in the Bible text."
-msgstr ""
-"Les modifications marquées avec le symbole du livre sont celles effectuées "
-"dans la Bible."
 
 msgid ""
-"They have been made either by yourself or by someone else working on this "
-"Bible."
+"Those marked with the name of a user are notifications of changes made by "
+"this user."
 msgstr ""
-"Elles peuvent avoir été faites par vous-même ou bien par n'importe qui "
-"travaillant sur cette Bible."
+
+msgid ""
+"Those marked with a book symbol are notifications of changes in the Bible "
+"text."
+msgstr ""
+
+msgid ""
+"They are the result of the combined edits of all users working on this Bible."
+msgstr ""
 
 msgid ""
 "Each category can be enabled or disabled separately in your notifications."
@@ -3955,14 +3995,23 @@ msgid ""
 "for me online."
 msgstr ""
 
+msgid "They will be marked with a 📖 icon."
+msgstr ""
+
 msgid ""
 "Notifications about changes in the Bible made by me will be generated for me "
 "online."
 msgstr ""
 
+msgid "They will be marked with a 😊 icon."
+msgstr ""
+
 msgid ""
 "Notifications about changes in the Bible made by the individual contributors "
 "will be generated for me online."
+msgstr ""
+
+msgid "These notifications will be marked by the team member's name."
 msgstr ""
 
 msgid ""
@@ -5012,6 +5061,12 @@ msgstr "Afficher la date dans l'en-tête."
 msgid "The type of space to insert after a verse number"
 msgstr "Type d'espace à insérer après un numéro de verset"
 
+msgid "Align the verse numbers in poetry to the left."
+msgstr ""
+
+msgid "This applies to the following markers:"
+msgstr ""
+
 msgid "Font:"
 msgstr "Police :"
 
@@ -5042,9 +5097,6 @@ msgid ""
 msgstr ""
 "L'aide dans Online Bible fournit plus d'informations sur la création d'un "
 "module."
-
-msgid "The exports use the following stylesheet:"
-msgstr "L'exportation utilise la feuille de style suivante :"
 
 msgid "Password to secure the exports:"
 msgstr "Mot de passe pour sécuriser les exportations :"
@@ -10094,6 +10146,90 @@ msgstr "Décochez l'affichage des césures."
 msgid "Untick display of non-breaking spaces."
 msgstr "Décocher l'affichage des espaces insécables."
 
+msgid "Install Bibledit Cloud on CentOS"
+msgstr ""
+
+msgid "Follow the steps below to install Bibledit Cloud on CentOS 7 and 8."
+msgstr ""
+
+msgid "It needs basic knowledge about working with CentOS Server."
+msgstr ""
+
+msgid "Update the software sources:"
+msgstr "Mettez à jour vos sources de logiciels :"
+
+msgid "For CentOS 7 install and activate a newer compiler:"
+msgstr ""
+
+msgid "Install the software Bibledit relies on:"
+msgstr ""
+"L'installation du logiciel Bibledit nécessite l'installation des dépendances "
+"suivantes :"
+
+msgid "Download the most recent mimetic library from"
+msgstr ""
+
+msgid "Unpack the downloaded mimetic library:"
+msgstr ""
+
+msgid "Change to the directory:"
+msgstr "Déplacez-vous dans le dossier :"
+
+msgid "Build and install the mimetic library:"
+msgstr ""
+
+msgid "This takes a while."
+msgstr "Cela peut prendre un certain temps."
+
+msgid ""
+"There will be many technical messages and warnings, but there should be no "
+"errors."
+msgstr ""
+
+msgid "Go back to the home directory:"
+msgstr ""
+
+msgid "Download a recent version of Bibledit from"
+msgstr ""
+
+msgid "Unpack the downloaded Bibledit in folder bibledit:"
+msgstr ""
+
+msgid "Build Bibledit:"
+msgstr "Compilez Bibledit :"
+
+msgid "There will be many technical messages, but there should be no errors."
+msgstr ""
+"Il y aura beaucoup de messages techniques, mais il ne devrait pas y avoir "
+"d'erreurs."
+
+msgid "For CentOS 7 deactivate the previously activated compiler:"
+msgstr ""
+
+msgid "Open port 8080 in the firewall:"
+msgstr ""
+
+msgid "Start Bibledit:"
+msgstr "Démarrez Bibledit :"
+
+msgid ""
+"Open the web address in the browser, follow the instructions on the screen "
+"to configure Bibledit Cloud, and log in."
+msgstr ""
+"Ouvrez l'adresse Web dans le navigateur, suivez les instructions à l'écran "
+"pour configurer Bibledit Cloud et connectez-vous."
+
+msgid "Most of Bibledit Cloud will now be working."
+msgstr ""
+
+msgid ""
+"To get email services working, connect Bibledit to a gmail or other mail "
+"account."
+msgstr ""
+
+msgid "To get SWORD resources working, install the SWORD libraries."
+msgstr ""
+
 msgid "Install Bibledit on Android"
 msgstr "Installer Bibledit sur Android"
 
@@ -10188,6 +10324,9 @@ msgstr "Bibledit sur Chrome OS"
 
 msgid "Bibledit Cloud on Ubuntu"
 msgstr "Bibledit Cloud sur Ubuntu"
+
+msgid "Bibledit Cloud on CentOS"
+msgstr ""
 
 msgid "Upgrading"
 msgstr "Mise à niveau"
@@ -10674,44 +10813,6 @@ msgid "It needs basic knowledge about working with Linux servers."
 msgstr ""
 "Il est necéssaire d'avoir quelques connaissances sur le fonctionnement des "
 "serveurs linux."
-
-msgid "Update the software sources:"
-msgstr "Mettez à jour vos sources de logiciels :"
-
-msgid "Install the software Bibledit relies on:"
-msgstr ""
-"L'installation du logiciel Bibledit nécessite l'installation des dépendances "
-"suivantes :"
-
-msgid "Download a recent version of Bibledit from"
-msgstr ""
-
-msgid "Unpack the downloaded Bibledit in folder bibledit:"
-msgstr ""
-
-msgid "Change to the directory:"
-msgstr "Déplacez-vous dans le dossier :"
-
-msgid "Build Bibledit:"
-msgstr "Compilez Bibledit :"
-
-msgid "This takes a while."
-msgstr "Cela peut prendre un certain temps."
-
-msgid "There will be many technical messages, but there should be no errors."
-msgstr ""
-"Il y aura beaucoup de messages techniques, mais il ne devrait pas y avoir "
-"d'erreurs."
-
-msgid "Start Bibledit:"
-msgstr "Démarrez Bibledit :"
-
-msgid ""
-"Open the web address in the browser, follow the instructions on the screen "
-"to configure Bibledit Cloud, and log in."
-msgstr ""
-"Ouvrez l'adresse Web dans le navigateur, suivez les instructions à l'écran "
-"pour configurer Bibledit Cloud et connectez-vous."
 
 msgid ""
 "Bibledit assists with checking how consistent words have been translated in "
@@ -13042,6 +13143,9 @@ msgstr "L'utilisateur existe déjà"
 msgid "User created"
 msgstr "Utilisateur créé"
 
+msgid "Cannot remove the demo admin"
+msgstr ""
+
 msgid "Select a role for"
 msgstr "Sélectionnez un rôle pour"
 
@@ -13153,10 +13257,6 @@ msgstr "La Bible va être exportée au format e-Sword."
 
 msgid "The Bible is being exported to Online Bible format."
 msgstr "La Bible va être exportée au format Bible Online."
-
-msgid "Would you like to use another stylesheet for the exports?"
-msgstr ""
-"Voulez-vous utiliser une autre feuille de style pour les exportations ?"
 
 msgid "The password for securing exports was saved."
 msgstr "Le mot de passe pour sécuriser les exports a été enregistré."
@@ -13397,15 +13497,6 @@ msgstr "Terminée"
 
 msgid "The list was updated"
 msgstr "La liste a été mise à jour"
-
-msgid "The file was uploaded and is being processed."
-msgstr "Le fichier a été téléversé et est en cours de traitement."
-
-msgid "Would you like to delete this image?"
-msgstr "Voulez-vous supprimer cette image ?"
-
-msgid "The image was deleted."
-msgstr "L'image a été supprimée."
 
 msgid "Number of defined books:"
 msgstr "Nombre de livre définis :"

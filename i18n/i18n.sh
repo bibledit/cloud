@@ -129,3 +129,7 @@ sed -i.bak '/X-Launchpad-Export-Date/d' ~/dev/cloud/locale/*.po ~/dev/cloud/loca
 rm ~/dev/cloud/locale/*.bak
 # Remove temporal .pot.
 rm /tmp/bibledit.pot
+
+
+echo Remember to bump the version number so it reloads the localization database.
+

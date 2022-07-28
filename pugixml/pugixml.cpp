@@ -1,5 +1,6 @@
-#pragma GCC diagnostic ignore "-Weffc++"
 
+#pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Weffc++"
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------

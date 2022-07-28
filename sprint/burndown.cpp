@@ -132,7 +132,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
         // Only mail if the current sprint contains tasks.
         string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
         vector <string> categories = filter_string_explode (scategories, '\n');
-        size_t category_count = categories.size();
+        int category_count = static_cast<int>(categories.size());
         int category_percentage = static_cast<int>(round (100 / category_count));
         vector <string> users = request.database_users ()->get_users ();
         for (auto user : users) {

@@ -1474,8 +1474,8 @@ struct abbott_smith_walker: xml_tree_walker
 {
   string text {};
 
-  bool text_element_already_handled = false;
-  string previous_element_name;
+  bool text_element_already_handled {false};
+  string previous_element_name {};
 
   virtual bool for_each (xml_node& node)
   {

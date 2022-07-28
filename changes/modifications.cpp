@@ -118,7 +118,7 @@ void changes_process_identifiers (Webserver_Request * request,
         // Statistics: Count yet another change made by this hard-working user!
         change_count++;
         int timestamp = database_modifications.getUserTimestamp (user, bible, book, chapter, newId);
-        time_total += timestamp;
+        time_total += static_cast<float>(timestamp);
         time_count++;
       }
     }
@@ -158,7 +158,7 @@ void changes_modifications ()
 
   // Storage for the statistics.
   map <string, int> user_change_statistics;
-  float modification_time_total = 0;
+  float modification_time_total = 0.0f;
   int modification_time_count = 0;
 
   // There is a setting per user indicating which Bible(s) a user
@@ -482,7 +482,7 @@ void changes_modifications ()
   // Store the statistics in the database.
   if (modification_time_count) {
     // Take average timestamp of all timestamps.
-    int timestamp = static_cast <int> (round (modification_time_total / modification_time_count));
+    int timestamp = static_cast <int> (round (modification_time_total / static_cast<float>(modification_time_count)));
     for (auto & element : user_change_statistics) {
       // Store dated change statistics per user.
       string user = element.first;

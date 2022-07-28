@@ -1,5 +1,15 @@
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  Public Key layer for parsing key files and structures
  *

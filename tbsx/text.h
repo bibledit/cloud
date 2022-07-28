@@ -41,5 +41,5 @@ public:
 private:
   string buffer {};
   bool in_note {false};
-  vector <string> output;
+  vector <string> output {};
 };

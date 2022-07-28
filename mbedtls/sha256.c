@@ -1,5 +1,15 @@
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  FIPS-180-2 compliant SHA-256 implementation
  *

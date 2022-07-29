@@ -28,9 +28,7 @@ $ (document).ready (function ()
   var bibleSelectionElement = document.querySelector ("#bibleselect");
   bibleSelectionElement.addEventListener ('change', () => {
     var value = bibleSelectionElement.value;
-    var postData = '{"bibleselect":"'+value+'"}';
-    postData = JSON.parse(postData);
-    $.post ("index", postData)
+    $.post ("index", { bibleselect: bibleSelectionElement.value })
       .done (function() { window.location.reload () });
   });
 

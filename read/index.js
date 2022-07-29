@@ -27,10 +27,7 @@ $ (document).ready (function ()
   // Listens for bibleselect option tags value change to update the loaded Bible.
   var bibleSelectionElement = document.querySelector ("#bibleselect");
   bibleSelectionElement.addEventListener ('change', () => {
-    var value = bibleSelectionElement.value;
-    var postData = '{"bibleselect":"'+value+'"}';
-    postData = JSON.parse(postData);
-    $.post ("index", postData)
+    $.post ("index", { bibleselect: bibleSelectionElement.value })
       .done (function() { window.location.reload () });
   });
 

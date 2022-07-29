@@ -33,6 +33,7 @@
 #include <ipc/focus.h>
 #include <search/logic.h>
 #include <menu/logic.h>
+#include <dialog/list2.h>
 
 
 string search_search2_url ()
@@ -198,7 +199,14 @@ string search_search2 (void * webserver_request)
     // Output results.
     return output;
   }
+
   
+  // Set the user chosen Bible as the current Bible.
+  if (request->post.count ("bibleselect")) {
+    string bibleselect = request->post ["bibleselect"];
+    request->database_config_user ()->setBible (bibleselect);
+    return string();
+  }
   
   // Build the advanced search page.
   string page;
@@ -207,6 +215,14 @@ string search_search2 (void * webserver_request)
   header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   Assets_View view;
+  {
+    string bible_html;
+    vector <string> accessible_bibles = AccessBible::Bibles (request);
+    for (auto selectable_bible : accessible_bibles) {
+      bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
+    }
+    view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
+  }
   view.set_variable ("bible", bible);
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);

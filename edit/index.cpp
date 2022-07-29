@@ -86,6 +86,7 @@ string edit_index (void * webserver_request)
       else book = 0;
       Ipc_Focus::set (request, book, 1, 1);
     }
+    return string();
   }
 
   

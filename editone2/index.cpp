@@ -102,6 +102,7 @@ string editone2_index (void * webserver_request)
   if (request->post.count ("bibleselect")) {
     string bibleselect = request->post ["bibleselect"];
     request->database_config_user ()->setBible (bibleselect);
+    return string();
   }
 
   string page;

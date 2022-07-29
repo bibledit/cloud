@@ -194,6 +194,13 @@ ENABLEIOS=yes
 ]
 )
 
+# Whether to enable compiler warnings. Todo
+ENABLEWARNINGS=no
+AC_ARG_ENABLE(warnings,
+[  --enable-warnings Enable compiler warnings],[ENABLEWARNINGS=yes])
+AM_CONDITIONAL([COMPILERWARNINGS],[test $ENABLEWARNINGS = yes])
+
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 
@@ -206,4 +213,5 @@ Android               (--enable-android)             : ${ENABLEANDROID}
 macOS                 (--enable-mac)                 : ${ENABLEMAC}
 Linux                 (--enable-linux)               : ${ENABLELINUX}
 iOS                   (--enable-ios)                 : ${ENABLEIOS}
+Enable GCC warnings   (--enable-warnings)            : ${ENABLEWARNINGS}
 "

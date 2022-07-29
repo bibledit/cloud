@@ -651,6 +651,8 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+COMPILERWARNINGS_FALSE
+COMPILERWARNINGS_TRUE
 COMPILERCLANG_FALSE
 COMPILERCLANG_TRUE
 COMPILERGCC_FALSE
@@ -783,6 +785,7 @@ enable_android
 enable_mac
 enable_linux
 enable_ios
+enable_warnings
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1443,6 +1446,7 @@ Optional Features:
   --enable-mac Compile for Mac
   --enable-linux Compile for Linux
   --enable-ios Compile for iOS
+  --enable-warnings Enable compiler warnings
 
 Some influential environment variables:
   CC          C compiler command
@@ -7300,6 +7304,24 @@ ENABLEIOS=yes
 fi
 
 
+# Whether to enable compiler warnings. Todo
+ENABLEWARNINGS=no
+# Check whether --enable-warnings was given.
+if test ${enable_warnings+y}
+then :
+  enableval=$enable_warnings; ENABLEWARNINGS=yes
+fi
+
+ if test $ENABLEWARNINGS = yes; then
+  COMPILERWARNINGS_TRUE=
+  COMPILERWARNINGS_FALSE='#'
+else
+  COMPILERWARNINGS_TRUE='#'
+  COMPILERWARNINGS_FALSE=
+fi
+
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -7449,6 +7471,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COMPILERCLANG_TRUE}" && test -z "${COMPILERCLANG_FALSE}"; then
   as_fn_error $? "conditional \"COMPILERCLANG\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${COMPILERWARNINGS_TRUE}" && test -z "${COMPILERWARNINGS_FALSE}"; then
+  as_fn_error $? "conditional \"COMPILERWARNINGS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -8780,5 +8806,6 @@ Android               (--enable-android)             : ${ENABLEANDROID}
 macOS                 (--enable-mac)                 : ${ENABLEMAC}
 Linux                 (--enable-linux)               : ${ENABLELINUX}
 iOS                   (--enable-ios)                 : ${ENABLEIOS}
+Enable GCC warnings   (--enable-warnings)            : ${ENABLEWARNINGS}
 "
 

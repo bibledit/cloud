@@ -134,7 +134,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   time_t t = time (NULL);
   struct tm lt = {};
   localtime_r (&t, &lt);
-  hours = round (lt.tm_gmtoff / 3600);
+  hours = static_cast<int>(round (lt.tm_gmtoff / 3600));
 #endif
   config_globals_timezone_offset_utc = hours;
   Database_Logs::log ("Timezone offset in hours: " + convert_to_string (hours));

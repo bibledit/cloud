@@ -219,6 +219,10 @@ string sendreceive_index (void * webserver_request)
   } else {
     view.enable_zone ("gitwrite");
   }
+
+  
+  bool basic_mode = config_logic_basic_mode (request);
+  if (basic_mode) view.enable_zone("basicmode");
   
   page += view.render ("sendreceive", "index");
   page += Assets_Page::footer ();

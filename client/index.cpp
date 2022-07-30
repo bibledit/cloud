@@ -153,10 +153,8 @@ string client_index (void * webserver_request)
     }
   }
 
-  if (client_logic_client_enabled ())
-    view.enable_zone ("clienton");
-  else
-    view.enable_zone ("clientoff");
+  if (client_logic_client_enabled ()) view.enable_zone ("clienton");
+  else view.enable_zone ("clientoff");
   
   string address = Database_Config_General::getServerAddress ();
   view.set_variable ("address", address);
@@ -179,6 +177,9 @@ string client_index (void * webserver_request)
   if (request->query.count ("info")) {
     view.enable_zone ("info");
   }
+  
+  bool basic_mode = config_logic_basic_mode (request);
+  if (basic_mode) view.enable_zone("basicmode");
   
   string page;
 

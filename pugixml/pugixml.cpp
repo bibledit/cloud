@@ -1,6 +1,7 @@
 
 #pragma GCC diagnostic ignored "-Wconversion"
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------

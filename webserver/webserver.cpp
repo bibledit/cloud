@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <webserver/webserver.h>
 #include <webserver/http.h>
 #include <bootstrap/bootstrap.h>
 #include <webserver/request.h>
@@ -39,6 +40,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <io.h>
 #endif
+
+
+// Declarations.
+int get_line (int sock, char *buf, int size);
+void webserver_process_request (int connfd, string clientaddress);
 
 
 // Gets a line from a socket.

@@ -310,7 +310,10 @@ string localized_date_format ()
   time (&tt);
   struct tm * localtm = localtime (&tt);
   char buffer[20];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-y2k"
   strftime(buffer, sizeof(buffer), "%x", localtm);
+#pragma GCC diagnostic pop
   return string (buffer);
 }
 

@@ -34,6 +34,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
+// Declarations.
+void sigint_handler ([[maybe_unused]] int s);
+string backtrace_path ();
+void sigsegv_handler ([[maybe_unused]] int sig);
+
+
 void sigint_handler ([[maybe_unused]] int s)
 {
   // When pressing Ctrl-C, the system outputs a "^C".

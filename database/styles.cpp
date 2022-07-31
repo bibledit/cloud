@@ -670,34 +670,3 @@ void Database_Styles::cache_defaults ()
 }
 
 
-Database_Styles_Item::Database_Styles_Item ()
-{
-  // Defaults.
-  type = 0;
-  subtype = 0;
-  fontsize = 12;
-  italic = 0;
-  bold = 0;
-  underline = 0;
-  smallcaps = 0;
-  superscript = 0;
-  justification = 0;
-  spacebefore = 0;
-  spaceafter = 0;
-  leftmargin = 0;
-  rightmargin = 0;
-  firstlineindent = 0;
-  spancolumns = false;
-  color = "#000000";
-  print = false;
-  userbool1 = false;
-  userbool2 = false;
-  userbool3 = false;
-  userint1 = 0;
-  userint2 = 0;
-  userint3 = 0;
-  userstring1 = "";
-  userstring2 = "";
-  userstring3 = "";
-  backgroundcolor = "#FFFFFF";
-}

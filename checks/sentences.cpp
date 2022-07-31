@@ -23,6 +23,9 @@
 #include <locale/translate.h>
 
 
+Checks_Sentences::~Checks_Sentences() {};
+
+
 void Checks_Sentences::enterCapitals (string capitals_in)
 {
   capitals = filter_string_explode (capitals_in, ' ');

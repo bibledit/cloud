@@ -42,9 +42,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
-// Declarations.
+// Internal function declarations.
 int get_line (int sock, char *buf, int size);
 void webserver_process_request (int connfd, string clientaddress);
+void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd);
 
 
 // Gets a line from a socket.

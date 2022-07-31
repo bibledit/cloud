@@ -47,6 +47,10 @@ using namespace pugi;
 #define SHIN_STRONG 10007
 
 
+// Internal function declarations.
+string lexicon_logic_render_part_of_speech_pop_front (vector <string> & parts);
+
+
 // The names of the available lexicon resources.
 vector <string> lexicon_logic_resource_names ()
 {

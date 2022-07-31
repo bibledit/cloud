@@ -37,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Declarations.
 void sigint_handler ([[maybe_unused]] int s);
 string backtrace_path ();
+[[ noreturn ]]
 void sigsegv_handler ([[maybe_unused]] int sig);
 
 
@@ -60,6 +61,7 @@ string backtrace_path ()
 #ifdef HAVE_EXECINFO
 // http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
 // To add linker flag -rdynamic is essential.
+[[ noreturn ]]
 void sigsegv_handler ([[maybe_unused]] int sig)
 {
   // Information.

@@ -30,6 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/logic.h>
 
 
+// Internal declarations.
+string filter_shell_escape_argument (string argument);
+
+
 string filter_shell_escape_argument (string argument)
 {
   argument = filter_string_str_replace ("'", "\\'", argument);

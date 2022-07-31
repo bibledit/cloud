@@ -30,6 +30,10 @@
 #include <database/statistics.h>
 
 
+// Internal function declarations.
+void changes_statistics_add (Assets_View & view, const string & date, int count);
+
+
 string changes_statistics_url ()
 {
   return "changes/statistics";

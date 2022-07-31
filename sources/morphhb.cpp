@@ -30,6 +30,12 @@
 using namespace pugi;
 
 
+// Local declarations.
+void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, xml_node node);
+void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node);
+void sources_morphhb_parse ();
+
+
 void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, xml_node node)
 {
   string lemma = node.attribute ("lemma").value ();

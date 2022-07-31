@@ -21,17 +21,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Styles_Item
+struct Database_Styles_Item
 {
-public:
-  Database_Styles_Item ();
   string marker {};
   string name {};
   string info {};
   string category {};
   int type {0};
   int subtype {0};
-  float fontsize {0.0f};
+  float fontsize {12.0f};
   int italic {0};
   int bold {0};
   int underline {0};
@@ -44,7 +42,7 @@ public:
   float rightmargin {0.0f};
   float firstlineindent {0.0f};
   bool spancolumns {false};
-  string color {};
+  string color {"#000000"};
   bool print {false};
   bool userbool1 {false};
   bool userbool2 {false};
@@ -55,7 +53,7 @@ public:
   string userstring1 {};
   string userstring2 {};
   string userstring3 {};
-  string backgroundcolor {};
+  string backgroundcolor {"#FFFFFF"};
 };
 
 

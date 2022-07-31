@@ -27,6 +27,10 @@
 #include <filter/usfm.h>
 
 
+// Internal function declarations.
+void developer_logic_import_changes_save (string bible, int book, int chapter, int verse, string & text);
+
+
 mutex log_network_mutex;
 vector <string> log_network_cache;
 

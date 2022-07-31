@@ -44,6 +44,18 @@
 #include <email/send.h>
 
 
+// Internal function declarations.
+void changes_process_identifiers (Webserver_Request * request,
+                                  const string & user,
+                                  const vector <string> & recipients,
+                                  const string & bible,
+                                  int book, int chapter,
+                                  const map <string, vector<string>> & bibles_per_user,
+                                  int oldId, int newId,
+                                  string & email,
+                                  int & change_count, float & time_total, int & time_count);
+
+
 // Helper function.
 // $user: The user whose changes are being processed.
 // $recipients: The users who opted for receiving online notifications of any contributor.

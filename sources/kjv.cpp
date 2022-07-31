@@ -32,6 +32,11 @@
 using namespace pugi;
 
 
+// Declarations local functions.
+void sources_kjv_store (int book, int chapter, int verse, string lemma, string english);
+void sources_kjv_parse_loop (xml_node element, int & book, int & chapter, int & verse, bool & within_verse, string & lemma);
+
+
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
 {
   Database_Kjv database_kjv;

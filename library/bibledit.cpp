@@ -45,6 +45,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 
 
+// Internal function declarations.
+void bibledit_last_ditch_forced_exit ();
+
+
 bool bibledit_started = false;
 
 

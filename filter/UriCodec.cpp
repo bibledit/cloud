@@ -1,3 +1,5 @@
+#pragma GCC system_header
+
 /**
  * Uri encode and decode (RFC1630, RFC1738, RFC2396)
  * http://www.codeguru.com/cpp/cpp/algorithms/strings/article.php/c12759/URI-Encoding-and-Decoding.htm

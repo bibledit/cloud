@@ -42,6 +42,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
+// Internal function declarations.
+vector <string> filter_url_scandir_internal (string folder);
+string filter_url_dirname_internal (string url, const char * separator);
+string filter_url_basename_internal (string url, const char * separator);
+size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
+
+
 // SSL/TLS globals.
 mbedtls_entropy_context filter_url_mbed_tls_entropy;
 mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;

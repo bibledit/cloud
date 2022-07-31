@@ -17,6 +17,7 @@
  */
 
 
+#include <export/index.h>
 #include <export/web.h>
 #include <export/logic.h>
 #include <database/bibles.h>

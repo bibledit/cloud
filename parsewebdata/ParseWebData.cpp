@@ -26,6 +26,8 @@
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#pragma GCC diagnostic ignored "-Winline"
 
 
 #include "ParseWebData.h"

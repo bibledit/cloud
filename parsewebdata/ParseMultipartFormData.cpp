@@ -1,5 +1,6 @@
 #pragma GCC diagnostic ignored "-Weffc++"
-
+#pragma GCC diagnostic ignored "-Wmissing-declarations"
+#pragma GCC diagnostic ignored "-Winline"
 
 /*
  The MIT License (MIT)

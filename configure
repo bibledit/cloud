@@ -7304,7 +7304,7 @@ ENABLEIOS=yes
 fi
 
 
-# Whether to enable compiler warnings. Todo
+# Whether to enable compiler warnings.
 ENABLEWARNINGS=no
 # Check whether --enable-warnings was given.
 if test ${enable_warnings+y}

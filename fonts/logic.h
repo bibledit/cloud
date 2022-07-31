@@ -25,11 +25,11 @@ class Fonts_Logic
 {
 public:
   static vector <string> getFonts ();
-  static bool fontExists (string font);
-  static string getFontPath (string font);
+  static bool font_exists (string font);
+  static string get_font_path (string font);
   static void erase (string font);
-  static string getTextFont (string bible);
-  static bool isFont (string suffix);
+  static string get_text_font (string bible);
+  static bool is_font (string suffix);
 private:
   static string folder ();
 };

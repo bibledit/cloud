@@ -110,7 +110,7 @@ void test_styles ()
 
   // CSS.
   {
-    string css = Filter_Css::getCss ("class", "", 0);
+    string css = Filter_Css::get_css ("class", "", 0);
     
     string standard =
     ".class\n"
@@ -118,7 +118,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("class", "", 101);
+    css = Filter_Css::get_css ("class", "", 101);
     standard =
     ".class\n"
     "{\n"
@@ -126,7 +126,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("class", "", 102);
+    css = Filter_Css::get_css ("class", "", 102);
     standard =
     ".class\n"
     "{\n"
@@ -134,7 +134,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("class", "", 110);
+    css = Filter_Css::get_css ("class", "", 110);
     standard =
     ".class\n"
     "{\n"
@@ -142,7 +142,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("CLass", "", 130);
+    css = Filter_Css::get_css ("CLass", "", 130);
     standard =
     ".CLass\n"
     "{\n"
@@ -150,7 +150,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("CLass", "", 1322);
+    css = Filter_Css::get_css ("CLass", "", 1322);
     standard =
     ".CLass\n"
     "{\n"
@@ -159,7 +159,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("Class", "sherif", 0);
+    css = Filter_Css::get_css ("Class", "sherif", 0);
     standard =
     ".Class\n"
     "{\n"
@@ -167,7 +167,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("Class", "sherif", 102);
+    css = Filter_Css::get_css ("Class", "sherif", 102);
     standard =
     ".Class\n"
     "{\n"
@@ -176,7 +176,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::getCss ("classs", "../font.ttf", 0);
+    css = Filter_Css::get_css ("classs", "../font.ttf", 0);
     standard =
     "@font-face\n"
     "{\n"

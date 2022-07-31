@@ -41,7 +41,7 @@ public:
   static string bt_rl ();
   static int writingModeValue (string mode);
   static string getClass (string bible);
-  static string getCss (string class_, string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
+  static string get_css (string class_, string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
   static void distinction_set_basic ();
   static string distinction_set_light (int itemstyleindex);
   static string distinction_set_dark (int itemstyleindex);

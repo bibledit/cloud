@@ -140,7 +140,7 @@ string edit_index (void * webserver_request)
   
   
   string clss = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::getTextFont (bible);
+  string font = Fonts_Logic::get_text_font (bible);
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
@@ -151,8 +151,8 @@ string edit_index (void * webserver_request)
   view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
   view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", clss);
-  view.set_variable ("custom_css", Filter_Css::getCss (clss,
-                                                       Fonts_Logic::getFontPath (font),
+  view.set_variable ("custom_css", Filter_Css::get_css (clss,
+                                                       Fonts_Logic::get_font_path (font),
                                                        direction,
                                                        lineheight,
                                                        letterspacing));

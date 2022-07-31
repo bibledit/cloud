@@ -281,7 +281,7 @@ string system_index (void * webserver_request)
     bool font_in_use = false;
     vector <string> bibles = request->database_bibles ()->getBibles ();
     for (auto & bible : bibles) {
-      if (font == Fonts_Logic::getTextFont (bible)) font_in_use = true;
+      if (font == Fonts_Logic::get_text_font (bible)) font_in_use = true;
     }
     if (!font_in_use) {
       // Only delete a font when it is not in use.

@@ -102,7 +102,7 @@ string bible_css (void * webserver_request)
   view.enable_zone ("client");
 #endif
   
-  string font = Fonts_Logic::getTextFont (bible);
+  string font = Fonts_Logic::get_text_font (bible);
   view.set_variable ("font", font);
 
   int direction = Database_Config_Bible::getTextDirection (bible);
@@ -124,13 +124,13 @@ string bible_css (void * webserver_request)
   letterspacing /= 10;
   view.set_variable ("letterspacing", convert_to_string (letterspacing));
 
-  string cls = Filter_Css::getClass (bible);
-  view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_Css::getCss
-                     (cls,
-                      Fonts_Logic::getFontPath (font), direction,
-                      lineheight,
-                      Database_Config_Bible::getLetterSpacing (bible)));
+  string custom_class = Filter_Css::getClass (bible);
+  view.set_variable ("custom_class", custom_class);
+  string custom_css = Filter_Css::get_css (custom_class,
+                                          Fonts_Logic::get_font_path (font), direction,
+                                          lineheight,
+                                          Database_Config_Bible::getLetterSpacing (bible));
+  view.set_variable ("custom_css", custom_css);
 
   page += view.render ("bb", "css");
   

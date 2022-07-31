@@ -149,20 +149,20 @@ string editone2_index (void * webserver_request)
   config_logic_swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
-  string cls = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::getTextFont (bible);
+  string custom_class = Filter_Css::getClass (bible);
+  string font = Fonts_Logic::get_text_font (bible);
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
   view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
-  view.set_variable ("custom_class", cls);
-  view.set_variable ("custom_css", Filter_Css::getCss (cls,
-                                                       Fonts_Logic::getFontPath (font),
-                                                       direction,
-                                                       lineheight,
-                                                       letterspacing));
+  view.set_variable ("custom_class", custom_class);
+  string custom_css = Filter_Css::get_css (custom_class,
+                                          Fonts_Logic::get_font_path (font),
+                                          direction, lineheight, letterspacing);
+  view.set_variable ("custom_css", custom_css);
+
   
   // Whether to enable fast Bible editor switching.
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {

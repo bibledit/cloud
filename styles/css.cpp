@@ -346,11 +346,11 @@ void Styles_Css::add_editor_styles ()
 void Styles_Css::customize (const string& bible)
 {
   string cls = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::getTextFont (bible);
-  bool uploaded_font = Fonts_Logic::fontExists (font);
-  font = Fonts_Logic::getFontPath (font);
+  string font = Fonts_Logic::get_text_font (bible);
+  bool uploaded_font = Fonts_Logic::font_exists (font);
+  font = Fonts_Logic::get_font_path (font);
   int direction = Database_Config_Bible::getTextDirection (bible);
-  string css = Filter_Css::getCss (cls, font, direction);
+  string css = Filter_Css::get_css (cls, font, direction);
   if (uploaded_font) css = filter_string_str_replace ("../fonts/", "", css);
   m_code.push_back (css);
 }

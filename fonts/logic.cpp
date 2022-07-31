@@ -46,21 +46,21 @@ vector <string> Fonts_Logic::getFonts ()
 }
 
 
-bool Fonts_Logic::fontExists (string font)
+bool Fonts_Logic::font_exists (string font)
 {
   string path = filter_url_create_path ({folder (), font});
   return file_or_dir_exists (path);
 }
 
 
-string Fonts_Logic::getFontPath (string font)
+string Fonts_Logic::get_font_path (string font)
 {
   // Case of no font.
   if (font == string()) return string();
   
   // Case when the font exists within Bibledit.
-  if (fontExists (font)) {
-    return filter_url_create_path ({"fonts", font});
+  if (font_exists (font)) {
+    return filter_url_create_path ({"../fonts", font});
   }
   
   // Case when the font is available from the browser independent of Bibledit.
@@ -83,7 +83,7 @@ void Fonts_Logic::erase (string font)
 
 // When a font is set for a Bible in Bibledit Cloud, this becomes the default font for the clients.
 // Ahd when the client sets its own font, this font will be taken instead.
-string Fonts_Logic::getTextFont (string bible)
+string Fonts_Logic::get_text_font (string bible)
 {
   string font = Database_Config_Bible::getTextFont (bible);
 #ifdef HAVE_CLIENT
@@ -97,7 +97,7 @@ string Fonts_Logic::getTextFont (string bible)
 
 
 // Returns true if the $font path has a font suffix.
-bool Fonts_Logic::isFont (string suffix)
+bool Fonts_Logic::is_font (string suffix)
 {
   return (suffix == "ttf")
       || (suffix == "otf")

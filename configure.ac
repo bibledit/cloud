@@ -194,7 +194,7 @@ ENABLEIOS=yes
 ]
 )
 
-# Whether to enable compiler warnings. Todo
+# Whether to enable compiler warnings.
 ENABLEWARNINGS=no
 AC_ARG_ENABLE(warnings,
 [  --enable-warnings Enable compiler warnings],[ENABLEWARNINGS=yes])

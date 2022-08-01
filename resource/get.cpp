@@ -109,7 +109,7 @@ string resource_get (void * webserver_request)
             }
           }
         }
-        while ((int)chapters_before.size () > context_before) {
+        while (static_cast<int>(chapters_before.size()) > context_before) {
           chapters_before.erase (chapters_before.begin ());
           verses_before.erase (verses_before.begin ());
         }
@@ -141,7 +141,7 @@ string resource_get (void * webserver_request)
             }
           }
         }
-        while ((int)chapters_after.size () > context_after) {
+        while (static_cast<int>(chapters_after.size()) > context_after) {
           chapters_after.pop_back ();
           verses_after.pop_back ();
         }

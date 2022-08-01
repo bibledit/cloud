@@ -68,9 +68,6 @@ Html_Text::Html_Text (string title)
 }
 
 
-Html_Text::~Html_Text () {};
-
-
 void Html_Text::new_paragraph (string style)
 {
   current_p_node = body_node.append_child ("p");

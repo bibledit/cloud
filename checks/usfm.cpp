@@ -84,9 +84,6 @@ Checks_Usfm::Checks_Usfm (string bible)
 }
 
 
-Checks_Usfm::~Checks_Usfm () {};
-
-
 void Checks_Usfm::initialize (int book, int chapter)
 {
   checking_results.clear ();

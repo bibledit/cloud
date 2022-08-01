@@ -65,7 +65,7 @@ int get_line (int sock, char *buf, int size)
   char character = '\0';
   int n = 0;
   while ((i < size - 1) && (character != '\n')) {
-    n = (int) recv (sock, &character, 1, 0);
+    n = static_cast<int> (recv (sock, &character, 1, 0));
     if (n > 0) {
       if (character == '\r') {
         /*
@@ -74,7 +74,7 @@ int get_line (int sock, char *buf, int size)
         // So it's safe to throw the \r away, as we're sure the \n follows.
         continue;
         */
-        n = (int) recv (sock, &character, 1, MSG_PEEK);
+        n = static_cast<int> (recv (sock, &character, 1, MSG_PEEK));
         if ((n > 0) && (character == '\n')) {
           recv (sock, &character, 1, 0);
         } else {
@@ -142,7 +142,7 @@ void webserver_process_request (int connfd, string clientaddress)
           bool done_reading = false;
           int total_bytes_read = 0;
           do {
-            bytes_read = (int)recv(connfd, buffer, BUFFERSIZE, 0);
+            bytes_read = static_cast<int> (recv(connfd, buffer, BUFFERSIZE, 0));
             for (int i = 0; i < bytes_read; i++) {
               postdata += buffer [i];
             }
@@ -188,13 +188,13 @@ void webserver_process_request (int connfd, string clientaddress)
             unsigned char streambuffer [1024];
             int bytecount;
             do {
-              bytecount = (int)
+              bytecount = static_cast<int> (
 #ifdef HAVE_WINDOWS
               _read
 #else
               read
 #endif
-              (filefd, streambuffer, 1024);
+              (filefd, streambuffer, 1024));
               if (bytecount > 0) {
                 [[maybe_unused]] auto sendbytes = send (connfd, (const char *)streambuffer, static_cast<size_t>(bytecount), 0);
               }

@@ -24,7 +24,6 @@
 class Checks_Sentences
 {
 public:
-  ~Checks_Sentences();
   void enterCapitals (string capitals_in);
   void enterSmallLetters (string small_letters_in);
   void enterEndMarks (string end_marks_in);

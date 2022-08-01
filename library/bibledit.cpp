@@ -45,10 +45,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 
 
-// Internal function declarations.
-void bibledit_last_ditch_forced_exit ();
-
-
 bool bibledit_started = false;
 
 
@@ -302,6 +298,7 @@ const char * bibledit_get_pages_to_open ()
 // the normal shutdown fails to work.
 // This last-ditch function waits a few seconds, and if the app is still running then,
 // it exits the app, regardless of the state of the internal webservers.
+[[noreturn]]
 void bibledit_last_ditch_forced_exit ()
 {
   this_thread::sleep_for (chrono::seconds (2));

@@ -31,7 +31,7 @@ using namespace pugi;
 
 void pugixml_utils_error_logger (void * pugi_xml_parse_result, const string & xml)
 {
-  xml_parse_result * result = (xml_parse_result *) pugi_xml_parse_result;
+  xml_parse_result * result = static_cast<xml_parse_result *>(pugi_xml_parse_result);
   if (result->status == status_ok) return;
   int start = static_cast<int>(result->offset - 10);
   if (start < 0) start = 0;
@@ -40,7 +40,7 @@ void pugixml_utils_error_logger (void * pugi_xml_parse_result, const string & xm
   string msg;
   msg.append (result->description());
   msg.append (" at offset ");
-  msg.append (convert_to_string ((size_t)result->offset));
+  msg.append (convert_to_string (static_cast<size_t>(result->offset)));
   msg.append (": ");
   msg.append (fragment);
   Database_Logs::log (msg);

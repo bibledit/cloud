@@ -79,7 +79,7 @@ string edit_navigate (void * webserver_request)
   // This covers combined verses also.
   int last_offset = 0;
   vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-  for (int i = 0; i < (int)verses.size (); i++) {
+  for (int i = 0; i < static_cast<int>(verses.size ()); i++) {
     if (editor_usfm2html.verseStartOffsets.count (i)) {
       last_offset = editor_usfm2html.verseStartOffsets [i];
     } else {
@@ -114,9 +114,9 @@ string edit_navigate (void * webserver_request)
   int verse = Ipc_Focus::getVerse (request);
   for (size_t i = 0; i < verses.size (); i++) {
     if (verse == verses[i]) {
-      if ((size_t) offset >= starting_offsets [i]) {
-        if ((size_t) offset <= ending_offsets [i]) {
-          return "";
+      if (static_cast<size_t>(offset) >= starting_offsets [i]) {
+        if (static_cast<size_t>(offset) <= ending_offsets [i]) {
+          return string();
         }
       }
     }

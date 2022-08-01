@@ -36,9 +36,6 @@ Assets_View::Assets_View ()
 }
 
 
-Assets_View::~Assets_View () {};
-
-
 // Sets a variable (key and value) for the html template.
 void Assets_View::set_variable (string key, string value)
 {

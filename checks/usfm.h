@@ -26,7 +26,6 @@ class Checks_Usfm
 {
 public:
   Checks_Usfm (string bible);
-  ~Checks_Usfm ();
   void initialize (int book, int chapter);
   void finalize ();
   void check (string usfm);

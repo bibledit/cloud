@@ -90,8 +90,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT) generate$(EXEEXT)
 @COMPILERWARNINGS_TRUE@am__append_1 = -Wall -Wno-unknown-pragmas -Wextra -pedantic
-@COMPILERWARNINGS_TRUE@am__append_2 = -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wformat-overflow=2 -Winline -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs -Wmissing-noreturn
-@COMPILERGCC_TRUE@@COMPILERWARNINGS_TRUE@am__append_3 = -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond
+@COMPILERWARNINGS_TRUE@am__append_2 = -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast
+@COMPILERGCC_TRUE@@COMPILERWARNINGS_TRUE@am__append_3 = -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond -Wformat-overflow=2 -Wlogical-op -Wnoexcept -Wno-non-template-friend
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac

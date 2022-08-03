@@ -210,7 +210,7 @@ string bible_settings (void * webserver_request)
   stringstream bookblock2;
   book_document.print (bookblock2, "", format_raw);
   view.set_variable ("bookblock", bookblock2.str());
-  view.set_variable ("book_count", convert_to_string ((int)book_ids.size()));
+  view.set_variable ("book_count", convert_to_string (static_cast<int>(book_ids.size())));
 
 
   // Public feedback.

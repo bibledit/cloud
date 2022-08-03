@@ -42,7 +42,7 @@ void test_versification ()
     vector <int> fault = filter_string_array_diff (books, {10});
     Checks_Versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)results.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -72,7 +72,7 @@ void test_versification ()
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, (int)results.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -111,7 +111,7 @@ void test_versification ()
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 4, (int)results.size());
+    evaluate (__LINE__, __func__, 4, static_cast<int>(results.size()));
     if (results.size () == 4) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -165,7 +165,7 @@ void test_versification ()
     
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 3, (int)results.size());
+    evaluate (__LINE__, __func__, 3, static_cast<int>(results.size()));
     if (results.size () == 3) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);

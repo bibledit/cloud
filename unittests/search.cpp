@@ -77,7 +77,7 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
-    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, 1, static_cast <int> (passages.size()));
     if (!passages.empty ()) {
       evaluate (__LINE__, __func__, "phpunit", passages[0].m_bible);
       evaluate (__LINE__, __func__, 2, passages[0].m_book);
@@ -91,7 +91,7 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
-    evaluate (__LINE__, __func__, 4, (int)passages.size());
+    evaluate (__LINE__, __func__, 4, static_cast <int> (passages.size()));
     if (passages.size () == 4) {
       evaluate (__LINE__, __func__, "phpunit3", passages[0].m_bible);
       evaluate (__LINE__, __func__, 6, passages[1].m_book);
@@ -164,28 +164,28 @@ void test_search ()
     test_search_setup ();
     
     vector <Passage> passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 10, (int)passages.size());
+    evaluate (__LINE__, __func__, 10, static_cast <int> (passages.size()));
     search_logic_delete_bible ("phpunit");
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 0, (int)passages.size());
+    evaluate (__LINE__, __func__, 0, static_cast <int> (passages.size()));
     
     test_search_setup ();
 
     search_logic_delete_book ("phpunit", 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 10, (int)passages.size());
+    evaluate (__LINE__, __func__, 10, static_cast <int> (passages.size()));
     search_logic_delete_book ("phpunit", 2);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 0, (int)passages.size());
+    evaluate (__LINE__, __func__, 0, static_cast <int> (passages.size()));
     
     test_search_setup ();
 
     search_logic_delete_chapter ("phpunit", 3, 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 10, (int)passages.size());
+    evaluate (__LINE__, __func__, 10, static_cast <int> (passages.size()));
     search_logic_delete_chapter ("phpunit", 2, 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 0, (int)passages.size());
+    evaluate (__LINE__, __func__, 0, static_cast <int> (passages.size()));
   }
   
   // Test total verse count in Bible.

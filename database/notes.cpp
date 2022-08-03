@@ -1388,7 +1388,7 @@ string Database_Notes::get_severity (int identifier)
   int severity = get_raw_severity (identifier);
   vector <string> standard = standard_severities ();
   string severitystring;
-  if ((severity >= 0) && (severity < (int)standard.size())) severitystring = standard [static_cast<size_t> (severity)];
+  if ((severity >= 0) && (severity < static_cast<int>(standard.size()))) severitystring = standard [static_cast<size_t> (severity)];
   if (severitystring.empty()) severitystring = "Normal";
   severitystring = translate (severitystring.c_str());
   return severitystring;

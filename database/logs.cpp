@@ -111,7 +111,7 @@ void Database_Logs::rotate ()
     string path = filter_url_create_path ({directory, files [i]});
 
     // Limit the number of journal entries.
-    if ((int)i < limitfilecount) {
+    if (static_cast<int> (i) < limitfilecount) {
       filter_url_unlink (path);
       continue;
     }

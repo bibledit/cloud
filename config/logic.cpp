@@ -123,7 +123,7 @@ string config_logic_admin_email ()
 int my_stoi (const string& str, void * idx, int base)
 {
 #ifdef HAVE_STOI
-  size_t * index = (size_t *) idx;
+  size_t * index = static_cast<size_t *> (idx);
   return stoi (str, index, base);
 #else
   char ** endptr = reinterpret_cast <char **> (idx);

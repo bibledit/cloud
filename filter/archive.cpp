@@ -376,10 +376,10 @@ string filter_archive_microtar_pack (string tarpath, string directory, vector <s
     // Read the file's data.
     string data = filter_url_file_get_contents (path);
     // Write the file's name to the tarball.
-    res = mtar_write_file_header(&tar, file.c_str(), (unsigned)data.length ());
+    res = mtar_write_file_header(&tar, file.c_str(), static_cast<unsigned> (data.length ()));
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
     // Write the file's data to the tarball.
-    res = mtar_write_data(&tar, data.c_str(), (unsigned)data.length ());
+    res = mtar_write_data(&tar, data.c_str(), static_cast<unsigned> (data.length ()));
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
   }
   
@@ -423,7 +423,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
     res = mtar_find (&tar, file.c_str(), &h);
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
     // Read the file's data.
-    char *p = (char *)calloc(1, h.size + 1);
+    char *p = static_cast<char *> (calloc(1, h.size + 1));
     res = mtar_read_data(&tar, p, h.size);
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
     string data (p, h.size);

@@ -44,7 +44,7 @@ void test_database_oshb ()
   }
 
   vector <Passage> passages = database_oshb.searchHebrew ("יָדְע֥וּ");
-  evaluate (__LINE__, __func__, 2, (int)passages.size());
+  evaluate (__LINE__, __func__, 2, static_cast <int> (passages.size()));
   
   evaluate (__LINE__, __func__, 19,   passages[0].m_book);
   evaluate (__LINE__, __func__, 95,   passages[0].m_chapter);

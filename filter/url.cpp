@@ -642,9 +642,9 @@ string filter_url_file_get_contents(string filename)
     streamoff filesize = ifs.tellg();
     if (filesize == 0) return string();
     ifs.seekg(0, ios::beg);
-    vector <char> bytes((int)filesize);
-    ifs.read(&bytes[0], (int)filesize);
-    return string(&bytes[0], (int)filesize);
+    vector <char> bytes(static_cast<int> (filesize));
+    ifs.read(&bytes[0], static_cast<int> (filesize));
+    return string(&bytes[0], static_cast<int> (filesize));
   }
   catch (...) {
     return string();
@@ -746,7 +746,7 @@ int filter_url_filesize (string filename)
   struct stat buf;
   int rc = stat (filename.c_str (), &buf);
 #endif
-  return rc == 0 ? (int)(buf.st_size) : 0;
+  return rc == 0 ? static_cast<int> (buf.st_size) : 0;
 }
 
 
@@ -934,7 +934,7 @@ string filter_url_build_http_query (string url, const string& parameter, const s
 
 size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
 {
-  ((string *) stream)->append ((char *) ptr, 0, size * count);
+  static_cast<string *>(stream)->append (static_cast<char *>(ptr), 0, size * count);
   return size * count;
 }
 
@@ -964,7 +964,7 @@ string filter_url_http_get (string url, string& error, [[maybe_unused]] bool che
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        response.append ("http code " + convert_to_string ((int)http_code));
+        response.append ("http code " + convert_to_string (static_cast<int>(http_code)));
       }
     } else {
       response.clear ();
@@ -1184,7 +1184,7 @@ void filter_url_download_file (string url, string filename, string& error,
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        error.append ("http code " + convert_to_string ((int)http_code));
+        error.append ("http code " + convert_to_string (static_cast<int>(http_code)));
       }
     } else {
       error = curl_easy_strerror (res);
@@ -1241,7 +1241,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
 {
   if (curl_handle && userptr) {};
   bool log = true;
-  curl_infotype type = (curl_infotype) curl_info_type;
+  curl_infotype type = static_cast<curl_infotype>(curl_info_type);
   if (type == CURLINFO_SSL_DATA_OUT) log = false;
   if (type == CURLINFO_SSL_DATA_OUT) log = false;
   if (log) {
@@ -1261,7 +1261,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
 #else
 void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 {
-  CURL * handle = (CURL *) curl_handle;
+  CURL * handle = static_cast<CURL *>(curl_handle);
   
   // There is a timeout on establishing a connection.
   curl_easy_setopt (handle, CURLOPT_CONNECTTIMEOUT, 10);
@@ -1550,13 +1550,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
 #else
-    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, const_cast<struct timeval *>(&tv), sizeof(struct timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
-    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, const_cast<struct timeval *>(&tv), sizeof(struct timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
   }
@@ -1623,7 +1623,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       
       // Write the secure http request to the server.
       const char * output = request.c_str();
-      const unsigned char * buf = (const unsigned char *) output;
+      const unsigned char * buf = reinterpret_cast<const unsigned char *>(output);
       // The C function strlen () fails on null characters in the request, so take string::size()
       size_t len = request.size ();
       while (connection_healthy && (len > 0)) {
@@ -1652,7 +1652,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     } else {
 
       // Send plain http.
-      if (send (sock, request.c_str(), request.length(), 0) != (int) request.length ()) {
+      if (send (sock, request.c_str(), request.length(), 0) != static_cast<int>(request.length ())) {
         error = "Sending request: ";
         error.append (strerror (errno));
         connection_healthy = false;
@@ -1692,7 +1692,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 #ifdef HAVE_WINDOWS
         ret = (int)recv(sock, &cur, 1, 0);
 #else
-        ret = (int)read(sock, &cur, 1);
+        ret = static_cast<int>(read(sock, &cur, 1));
 #endif
       }
       if (ret > 0) {
@@ -1781,7 +1781,7 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_ctr_drbg_init (&filter_url_mbed_tls_ctr_drbg);
   mbedtls_entropy_init (&filter_url_mbed_tls_entropy);
   const char *pers = "Client";
-  ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, (const unsigned char *) pers, strlen (pers));
+  ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, reinterpret_cast <const unsigned char *> (pers), strlen (pers));
   filter_url_display_mbed_tls_error (ret, NULL, false);
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.

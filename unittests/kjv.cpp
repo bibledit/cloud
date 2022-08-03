@@ -74,7 +74,7 @@ void test_database_kjv ()
   
   {
     vector <Passage> passages = database_kjv.searchStrong ("G909");
-    evaluate (__LINE__, __func__, 4, (int)passages.size());
+    evaluate (__LINE__, __func__, 4, static_cast <int> (passages.size()));
     
     evaluate (__LINE__, __func__, 41,   passages[0].m_book);
     evaluate (__LINE__, __func__, 7,    passages[0].m_chapter);

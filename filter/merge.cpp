@@ -21,6 +21,7 @@
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <dtl/dtl.hpp>
 #pragma GCC diagnostic pop
 #include <filter/string.h>

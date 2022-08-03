@@ -739,7 +739,7 @@ void Filter_Text::process_usfm ()
               // Deal with the case of a pending chapter number.
               if (!output_chapter_text_at_first_verse.empty()) {
                 if (!Database_Config_Bible::getExportChapterDropCapsFrames (bible)) {
-                  int dropCapsLength = (int)unicode_string_length (output_chapter_text_at_first_verse);
+                  int dropCapsLength = static_cast<int>(unicode_string_length (output_chapter_text_at_first_verse));
                   applyDropCapsToCurrentParagraph (dropCapsLength);
                   if (odf_text_standard) odf_text_standard->add_text (output_chapter_text_at_first_verse);
                   if (odf_text_text_only) odf_text_text_only->add_text (output_chapter_text_at_first_verse);

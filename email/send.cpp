@@ -145,7 +145,7 @@ struct upload_status {
 #else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
-  struct upload_status *upload_ctx = (struct upload_status *)userp;
+  struct upload_status *upload_ctx = static_cast <struct upload_status *> (userp);
   const char *data;
 
   if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
@@ -295,7 +295,7 @@ string email_send ([[maybe_unused]] string to_mail,
    * of using CURLUSESSL_TRY here, because if TLS upgrade fails, the transfer
    * will continue anyway - see the security discussion in the libcurl
    * tutorial for more details. */
-  if (port != "25") curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+  if (port != "25") curl_easy_setopt(curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
 
   /* If your server doesn't have a valid certificate, then you can disable
    * part of the Transport Layer Security protection by setting the

@@ -41,7 +41,7 @@ void test_usfm2html ()
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    evaluate (__LINE__, __func__, 61, (int)editor_usfm2html.textLength);
+    evaluate (__LINE__, __func__, 61, static_cast<int>(editor_usfm2html.textLength));
     evaluate (__LINE__, __func__,  { pair (0, 0), pair (1, 2) }, editor_usfm2html.verseStartOffsets);
     evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
   }

@@ -65,7 +65,7 @@ void test_database_statistics ()
     evaluate (__LINE__, __func__, size, changes.size ());
     
     // Sort the change statistics most recent first.
-    if ((int)changes.size () == size) {
+    if (static_cast<int>(changes.size ()) == size) {
       evaluate (__LINE__, __func__, now - one_thousand, changes[0].first);
       evaluate (__LINE__, __func__, 31, changes[0].second);
       evaluate (__LINE__, __func__, now - two_thousand, changes[1].first);

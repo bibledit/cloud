@@ -121,7 +121,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 #ifndef HAVE_WINDOWS
   {
     // The following works on Linux but not on macOS:
-    char *linkname = (char *) malloc (256);
+    char *linkname = static_cast<char *> (malloc (256));
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
     [[maybe_unused]] ssize_t result = readlink ("/proc/self/exe", linkname, 256);
     webroot = filter_url_dirname (linkname);

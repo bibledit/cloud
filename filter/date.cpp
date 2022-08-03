@@ -115,7 +115,7 @@ int seconds_since_epoch ()
 {
   auto now = chrono::system_clock::now ();
   auto duration = now.time_since_epoch ();
-  int seconds = (int) chrono::duration_cast<std::chrono::seconds>(duration).count();
+  int seconds = static_cast<int>(chrono::duration_cast<std::chrono::seconds>(duration).count());
   return seconds;
 }
 

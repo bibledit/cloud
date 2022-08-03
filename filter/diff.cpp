@@ -26,6 +26,7 @@
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <dtl/dtl.hpp>
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
@@ -189,7 +190,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     if (indicator == '+') {
       // Something to be inserted into the old sequence to get at the new sequence.
       positions.push_back(position);
-      sizes.push_back((int)size);
+      sizes.push_back(static_cast<int> (size));
       additions.push_back(true);
       content.push_back(line);
       // Something was inserted.
@@ -201,7 +202,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     else if (indicator == '-') {
       // Something to be deleted at the given position.
       positions.push_back(position);
-      sizes.push_back((int)size);
+      sizes.push_back(static_cast<int> (size));
       additions.push_back(false);
       content.push_back(line);
       // Something was deleted.
@@ -325,7 +326,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   }
   
   // Calculate the percentage similarity.
-  int percentage = static_cast<int> (round (100 * ((float) similar_count / (float) element_count)));
+  int percentage = static_cast<int> (round (100 * (static_cast<float>(similar_count) / static_cast<float>(element_count))));
   return percentage;
 }
 

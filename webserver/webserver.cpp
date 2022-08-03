@@ -196,7 +196,7 @@ void webserver_process_request (int connfd, string clientaddress)
 #endif
               (filefd, streambuffer, 1024));
               if (bytecount > 0) {
-                [[maybe_unused]] auto sendbytes = send (connfd, (const char *)streambuffer, static_cast<size_t>(bytecount), 0);
+                [[maybe_unused]] auto sendbytes = send (connfd, reinterpret_cast<const char *> (streambuffer), static_cast<size_t>(bytecount), 0);
               }
             }
             while (bytecount > 0);
@@ -262,7 +262,7 @@ void http_server ()
   // The function is used to allow the local address to  be reused
   // when the server is restarted before the required wait time expires.
   int optval = 1;
-  int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, (const char *) &optval, sizeof (int));
+  int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *> ( &optval), sizeof (int));
   if (result != 0) {
     string error = "Error setting socket option: ";
     error.append (strerror (errno));
@@ -289,7 +289,7 @@ void http_server ()
   serveraddr.sin6_addr = in6addr_any;
   serveraddr.sin6_port = htons (static_cast<uint16_t>(convert_to_int (config_logic_http_network_port ())));
 #endif
-  result = mybind (listenfd, (struct sockaddr *) &serveraddr, sizeof (serveraddr));
+  result = mybind (listenfd, reinterpret_cast<struct sockaddr *>(&serveraddr), sizeof (serveraddr));
   if (result != 0) {
     string error = "Error binding server to socket: ";
     error.append (strerror (errno));
@@ -315,7 +315,7 @@ void http_server ()
     // Socket and file descriptor for the client connection.
     struct sockaddr_in6 clientaddr6;
     socklen_t clientlen = sizeof (clientaddr6);
-    int connfd = accept (listenfd, (struct sockaddr *)&clientaddr6, &clientlen);
+    int connfd = accept (listenfd, reinterpret_cast<struct sockaddr *>(&clientaddr6), &clientlen);
     if (connfd > 0) {
 
       // Socket receive timeout, plain http.
@@ -508,7 +508,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       // Get client's remote IPv4 address in dotted notation and put it in the webserver request object.
       struct sockaddr_in addr;
       socklen_t addr_size = sizeof(struct sockaddr_in);
-      getpeername (client_fd.fd, (struct sockaddr *)&addr, &addr_size);
+      getpeername (client_fd.fd, reinterpret_cast<struct sockaddr *>(&addr), &addr_size);
       char remote_address [256];
       inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
       request.remote_address = remote_address;
@@ -617,7 +617,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       
       // Write the response to the browser.
       const char * output = request.reply.c_str();
-      const unsigned char * buf = (const unsigned char *) output;
+      const unsigned char * buf = reinterpret_cast<const unsigned char *>(output);
       // The C function strlen () fails on null characters in the reply, so take string::size()
       size_t len = request.reply.size ();
       while (connection_healthy && (len > 0)) {
@@ -657,15 +657,15 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         unsigned char buffer [1024];
         int bytecount;
         do {
-          bytecount = (int)
+          bytecount = static_cast<int>(
 #ifdef HAVE_WINDOWS
           _read
 #else
           read
 #endif
-          (filefd, buffer, 1024);
+          (filefd, buffer, 1024));
           int remaining_length = bytecount;
-          const unsigned char * buffer_ptr = (const unsigned char *) &buffer;
+          const unsigned char * buffer_ptr = reinterpret_cast<const unsigned char *>(&buffer);
           while (connection_healthy && (remaining_length > 0)) {
             // Function
             // int ret = mbedtls_ssl_write (&ssl, buf, len)
@@ -788,7 +788,7 @@ void https_server ()
 
   // Seed the random number generator.
   const char *pers = "Cloud";
-  ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *) pers, strlen (pers));
+  ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, reinterpret_cast<const unsigned char *> (pers), strlen (pers));
   if (ret != 0) {
     filter_url_display_mbed_tls_error (ret, NULL, true);
     return;

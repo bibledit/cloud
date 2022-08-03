@@ -219,7 +219,7 @@ int convert_to_int (string s)
 
 int convert_to_int (float f)
 {
-  int i = (int)round(f);
+  int i = static_cast<int> (round(f));
   return i;
 }
 
@@ -579,7 +579,7 @@ string unicode_string_casefold (string s)
       // Get one UTF-8 character.
       string character = unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
-      const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+      const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
       utf8proc_int32_t dst;
       [[maybe_unused]] utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
@@ -626,7 +626,7 @@ string unicode_string_uppercase (string s)
       // Get one UTF-8 character.
       string character = unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
-      const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+      const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
       utf8proc_int32_t dst;
       [[maybe_unused]] utf8proc_ssize_t output = utf8proc_iterate (str, len, &dst);
@@ -663,10 +663,10 @@ string unicode_string_transliterate (string s)
     size_t string_length = unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
       string character = unicode_string_substr (s, pos, 1);
-      const utf8proc_uint8_t *str = (const unsigned char *) (character.c_str ());
+      const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
       uint8_t *dest;
-      utf8proc_option_t options = (utf8proc_option_t) (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
+      utf8proc_option_t options = static_cast<utf8proc_option_t> (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
       [[maybe_unused]] auto output = utf8proc_map (str, len, &dest, options);
       stringstream ss;
       ss << dest;
@@ -714,7 +714,7 @@ bool unicode_string_is_punctuation (string s)
     // Be sure to take only one character.
     s = unicode_string_substr (s, 0, 1);
     // Convert the string to a Unicode point.
-    const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
+    const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *>(s.c_str ());
     utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
     utf8proc_int32_t codepoint;
     [[maybe_unused]] auto output = utf8proc_iterate (str, len, &codepoint);
@@ -744,7 +744,7 @@ int unicode_string_convert_to_codepoint (string s)
       // Be sure to take only one character.
       s = unicode_string_substr (s, 0, 1);
       // Convert the string to a Unicode point.
-      const utf8proc_uint8_t *str = (const unsigned char *) (s.c_str ());
+      const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *>(s.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
       utf8proc_int32_t codepoint;
       [[maybe_unused]] auto output = utf8proc_iterate (str, len, &codepoint);
@@ -1663,11 +1663,11 @@ void array_move_from_to (vector <string> & container, size_t from, size_t to)
   to *= 2;
   
   // Remove the item, and insert it by a key that puts it at the desired position.
-  string moving_item = mapped_container [(int)from];
-  mapped_container.erase ((int)from);
+  string moving_item = mapped_container [static_cast<int> (from)];
+  mapped_container.erase (static_cast<int> (from));
   if (move_up) to++;
   else to--;
-  mapped_container [(int)to] = moving_item;
+  mapped_container [static_cast<int> (to)] = moving_item;
   
   // Since the map sorts by key,
   // transfer its data back to the original container.
@@ -1760,14 +1760,14 @@ string filter_string_tidy_invalid_html (string html)
   // char * data : buffer containing part of the web page
   // int len : number of bytes in data
   // Last argument is 0 if the web page isn't complete, and 1 for the final call.
-  htmlParseChunk(parser, html.c_str(), (int)html.size(), 1);
+  htmlParseChunk(parser, html.c_str(), static_cast<int> (html.size()), 1);
 
   // Extract the fixed html
   if (parser->myDoc) {
     xmlChar *s;
     int size;
     xmlDocDumpMemory(parser->myDoc, &s, &size);
-    html = (char *)s;
+    html = reinterpret_cast<char *> (s);
     xmlFree(s);
   }
   

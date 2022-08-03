@@ -378,7 +378,7 @@ string styles_view (void * webserver_request)
     }
   }
   view.set_variable ("superscript_value", styles_logic_off_on_inherit_toggle_text (superscript));
-  view.set_variable ("superscript_toggle", convert_to_string (!(bool) superscript));
+  view.set_variable ("superscript_toggle", convert_to_string (!static_cast<bool> (superscript)));
   
 
   // Whether a list of the following paragraph treats are relevant.

@@ -1150,7 +1150,7 @@ void bible_logic_html_to_editor_updates (const string & editor_html,
   if (new_line_diff_count) {
     int position = 0;
     for (size_t i = 0; i < server_utf8_characters.size(); i++) {
-      int size = (int)convert_to_u16string (server_utf8_characters[i]).length();
+      int size = static_cast<int>(convert_to_u16string (server_utf8_characters[i]).length());
       if (server_utf8_characters[i] == "\n") {
         positions.push_back(position);
         sizes.push_back(size);

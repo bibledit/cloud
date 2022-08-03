@@ -112,7 +112,7 @@ int filter_shell_run (string command,
     // This runs in the child.
     dup2(fd, 1);
     close(fd);
-    execlp (command.c_str(), parameter, (char*)0);
+    execlp (command.c_str(), parameter, static_cast<char*> (0));
     // The above only returns in case of an error.
     Database_Logs::log (strerror (errno));
     // Use_exit instead of exit, so there's no flushing.
@@ -249,7 +249,7 @@ int filter_shell_vfork ([[maybe_unused]] string & output,
     if (!directory.empty ()) {
       [[maybe_unused]] int result = chdir (directory.c_str());
     }
-    execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, (char *) 0);
+    execlp (command.c_str(), command.c_str(), p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, static_cast<char*> (0));
     // The above only returns in case of an error.
     Database_Logs::log (command + ": " + strerror (errno));
     _exit (1);

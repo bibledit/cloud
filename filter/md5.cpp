@@ -24,14 +24,14 @@
 string md5 (const string str)
 {
   unsigned char md5sum[16];
-  const unsigned char *input = (const unsigned char *)str.c_str ();
+  const unsigned char *input = reinterpret_cast<const unsigned char *>(str.c_str ());
   [[maybe_unused]] int ret = mbedtls_md5_ret (input, str.size (), md5sum);
 
   // Space for 32 bytes of hexits and one terminating null byte.
   char hexits [32+1];
 
   memset (hexits, 0, sizeof (hexits));
-  for (int i = 0; i < 16; i++) sprintf (&hexits[i*2], "%02x", (unsigned int)md5sum[i]);
+  for (int i = 0; i < 16; i++) sprintf (&hexits[i*2], "%02x", static_cast<unsigned int>(md5sum[i]));
   
   // Resulting hexits.
   return string (hexits);

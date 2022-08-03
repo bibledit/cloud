@@ -77,7 +77,7 @@ void test_database_noteactions ()
     database.record ("phpunit2", 2, 4, "content4");
     database.record ("phpunit3", 3, 4, "content5");
     vector <Database_Note_Action> data = database.getNoteData (2);
-    evaluate (__LINE__, __func__, 2, (int)data.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(data.size()));
     int now = filter::date::seconds_since_epoch ();
     evaluate (__LINE__, __func__, 1, data[0].rowid);
     evaluate (__LINE__, __func__, "phpunit1", data[0].username);
@@ -256,13 +256,13 @@ void test_database_notes ()
     length = value.length ();
     database_notes.add_comment (newidentifier, "comment2");
     value = database_notes.get_contents (newidentifier);
-    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
+    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
     pos = value.find ("comment2");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
     // Universal method to add comment.
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
-    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string ((int)value.length()));
+    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
     pos = value.find ("comment5");
     if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
   }
@@ -459,23 +459,23 @@ void test_database_notes ()
     // Test getting passage.
     vector <Passage> passages = database_notes.get_passages (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
-    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (passages.size()));
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     passages = database_notes.get_passages (newidentifier);
     standard = Passage ("", 5, 4, "3");
-    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size()));
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     
     // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
     database_notes.set_passages (oldidentifier, {standard});
     passages = database_notes.get_passages (oldidentifier);
-    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size()));
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
     standard = Passage ("", 12, 13, "14");
     database_notes.set_passages (newidentifier, {standard});
     passages = database_notes.get_passages (newidentifier);
-    evaluate (__LINE__, __func__, 1, (int)passages.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size()));
     evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
   }
 
@@ -647,9 +647,13 @@ void test_database_notes ()
     
     // Contents of the note.
     string original_contents1 = database_notes.get_contents (identifier1);
-    if (original_contents1.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents1.length ()));
+    if (original_contents1.length () <= 20) {
+      evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string (static_cast<int>(original_contents1.length ())));
+    }
     string original_contents2 = database_notes.get_contents (identifier2);
-    if (original_contents2.length () <= 20) evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string ((int) original_contents2.length ()));
+    if (original_contents2.length () <= 20) {
+      evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string (static_cast<int>(original_contents2.length())));
+    }
     
     // Checksum of the notes.
     string original_checksum1 = database_notes.get_checksum (identifier1);
@@ -1068,11 +1072,11 @@ void test_database_notes ()
     // Checksum calculation: slow and fast methods should be the same.
     Sync_Logic sync_logic = Sync_Logic (&request);
     string oldchecksum1 = sync_logic.checksum (oldidentifiers);
-    evaluate (__LINE__, __func__, 32, (int)oldchecksum1.length());
+    evaluate (__LINE__, __func__, 32, static_cast<int>(oldchecksum1.length()));
     string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
     evaluate (__LINE__, __func__, oldchecksum1, oldchecksum2);
     string newchecksum1 = sync_logic.checksum (newidentifiers);
-    evaluate (__LINE__, __func__, 32, (int)newchecksum1.length());
+    evaluate (__LINE__, __func__, 32, static_cast<int>(newchecksum1.length()));
     string newchecksum2 = database_notes.get_multiple_checksum (newidentifiers);
     evaluate (__LINE__, __func__, newchecksum1, newchecksum2);
   }
@@ -1158,7 +1162,7 @@ void test_database_notes ()
     Sync_Logic sync_logic = Sync_Logic (&request);
     
     vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
-    evaluate (__LINE__, __func__, 10, (int)ranges.size());
+    evaluate (__LINE__, __func__, 10, static_cast<int>(ranges.size()));
     evaluate (__LINE__, __func__, 100'000'000, ranges[0].low);
     evaluate (__LINE__, __func__, 189'999'998, ranges[0].high);
     evaluate (__LINE__, __func__, 189'999'999, ranges[1].low);
@@ -1181,7 +1185,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 999'999'999, ranges[9].high);
     
     ranges = sync_logic.create_range (100'000'000, 100'000'100);
-    evaluate (__LINE__, __func__, 10, (int)ranges.size());
+    evaluate (__LINE__, __func__, 10, static_cast<int>(ranges.size()));
     evaluate (__LINE__, __func__, 100'000'000, ranges[0].low);
     evaluate (__LINE__, __func__, 100'000'009, ranges[0].high);
     evaluate (__LINE__, __func__, 100'000'010, ranges[1].low);

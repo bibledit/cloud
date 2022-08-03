@@ -40,7 +40,7 @@ void test_verses ()
     };
     Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)results.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -61,7 +61,7 @@ void test_verses ()
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)results.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);
@@ -82,7 +82,7 @@ void test_verses ()
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"Did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, (int)results.size());
+    evaluate (__LINE__, __func__, 0, static_cast<int>(results.size()));
   }
   database_check.truncateOutput ("");
   // Test Pattern
@@ -94,7 +94,7 @@ void test_verses ()
     };
     Checks_Verses::patterns ("1", 1, 1, verses, {"said"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, (int)results.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
       evaluate (__LINE__, __func__, 1, hit.rowid);

@@ -256,15 +256,23 @@ void test_database_notes ()
     length = value.length ();
     database_notes.add_comment (newidentifier, "comment2");
     value = database_notes.get_contents (newidentifier);
-    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
+    if (value.length () < static_cast<size_t>(length + 30)) {
+      evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
+    }
     pos = value.find ("comment2");
-    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
+    if (pos == string::npos) {
+      evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
+    }
     // Universal method to add comment.
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
-    if (value.length () < (size_t) (length + 30)) evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
+    if (value.length () < static_cast<size_t>(length + 30)) {
+      evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
+    }
     pos = value.find ("comment5");
-    if (pos == string::npos) evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
+    if (pos == string::npos) {
+      evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
+    }
   }
 
   // Test subscriptions.
@@ -657,9 +665,9 @@ void test_database_notes ()
     
     // Checksum of the notes.
     string original_checksum1 = database_notes.get_checksum (identifier1);
-    evaluate (__LINE__, __func__, 32, (int) original_checksum1.length());
+    evaluate (__LINE__, __func__, 32, static_cast<int>(original_checksum1.length()));
     string original_checksum2 = database_notes.get_checksum (identifier2);
-    evaluate (__LINE__, __func__, 32, (int) original_checksum2.length());
+    evaluate (__LINE__, __func__, 32, static_cast<int>(original_checksum2.length()));
     
     // Change the identifier.
     int new_id1 = database_notes.get_new_unique_identifier ();

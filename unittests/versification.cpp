@@ -485,7 +485,7 @@ void test_database_versifications ()
     int id = database_versifications.getID ("phpunit");
     evaluate (__LINE__, __func__, 1000, id);
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
-    evaluate (__LINE__, __func__, 2, (int)data.size ());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (data.size ()));
     evaluate (__LINE__, __func__, "25", data [1].m_verse);
     string output = database_versifications.output ("phpunit");
     evaluate (__LINE__, __func__, filter_string_trim (input), filter_string_trim (output));

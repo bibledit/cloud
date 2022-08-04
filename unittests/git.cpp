@@ -450,7 +450,7 @@ void test_git ()
     // Push to the remote repository.
     success = filter_git_push (clonedrepository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, (int)messages.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(messages.size()));
     
     // Pull from remote repository.
     success = filter_git_pull (clonedrepository, messages);
@@ -506,7 +506,7 @@ void test_git ()
     paths = filter_git_status (repository);
     size = 10;
     evaluate (__LINE__, __func__, size, paths.size());
-    if ((int)paths.size() == size) {
+    if (static_cast<int> (paths.size()) == size) {
       evaluate (__LINE__, __func__, 6, (paths[6].find ("Psalms/")));
       evaluate (__LINE__, __func__, 6, (paths[7].find ("Song of Solomon/")));
     }
@@ -521,7 +521,7 @@ void test_git ()
     paths = filter_git_status (repository);
     size = 10;
     evaluate (__LINE__, __func__, size, paths.size());
-    if ((int)paths.size() == size) {
+    if (static_cast<int> (paths.size()) == size) {
       evaluate (__LINE__, __func__, 6, (paths[6].find ("new file:   Psalms/0/data")));
       evaluate (__LINE__, __func__, 6, (paths[7].find ("new file:   Psalms/11/data")));
       evaluate (__LINE__, __func__, 6, (paths[8].find ("new file:   Song of Solomon/2/data")));
@@ -542,7 +542,7 @@ void test_git ()
     paths = filter_git_status (repository);
     size = 8;
     evaluate (__LINE__, __func__, size, paths.size());
-    if ((int)paths.size() == size) {
+    if (static_cast<int> (paths.size()) == size) {
       evaluate (__LINE__, __func__, 6, (paths[4].find ("deleted:    Psalms/0/data")));
       evaluate (__LINE__, __func__, 6, (paths[5].find ("deleted:    Psalms/11/data")));
     }
@@ -555,7 +555,7 @@ void test_git ()
     paths = filter_git_status (repository);
     size = 6;
     evaluate (__LINE__, __func__, size, paths.size());
-    if ((int)paths.size() == size) {
+    if (static_cast<int> (paths.size()) == size) {
       evaluate (__LINE__, __func__, 6, (paths[3].find ("deleted:    Psalms/0/data")));
       evaluate (__LINE__, __func__, 6, (paths[4].find ("deleted:    Psalms/11/data")));
     }
@@ -768,14 +768,14 @@ void test_git ()
     // Commit and push the result.
     success = filter_git_commit (repository, "", "message", messages, error);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 5, (int)messages.size());
+    evaluate (__LINE__, __func__, 5, static_cast<int>(messages.size()));
     success = filter_git_push (repository, messages);
     evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, (int)messages.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(messages.size()));
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, 4, (int)messages.size ());
+    evaluate (__LINE__, __func__, 4, static_cast<int>(messages.size ()));
     
     // Remove journal entries.
     refresh_sandbox (false);

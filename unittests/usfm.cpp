@@ -1037,7 +1037,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, 0, static_cast<int>(filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size()));
     
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, (int)import.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
       evaluate (__LINE__, __func__, 33, import [0].m_book);
       evaluate (__LINE__, __func__, 0, import [0].m_chapter);
@@ -1071,7 +1071,7 @@ void test_usfm ()
     )";
     standard_chapter = filter_string_trim (standard_chapter);
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, (int)import.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
       evaluate (__LINE__, __func__, 33, import [0].m_book);
       evaluate (__LINE__, __func__, 0, import [0].m_chapter);
@@ -1089,7 +1089,7 @@ void test_usfm ()
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
-    evaluate (__LINE__, __func__, 7, (int)import.size());
+    evaluate (__LINE__, __func__, 7, static_cast<int> (import.size ()));
   }
 
   // Test building opening USFM marker.

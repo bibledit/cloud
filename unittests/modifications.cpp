@@ -107,7 +107,7 @@ void test_database_modifications_user ()
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
     vector <Database_Modifications_Id> identifiers = database_modifications.getUserIdentifiers ("phpunit1", "bible", 1, 2);
-    evaluate (__LINE__, __func__, 3, (int)identifiers.size());
+    evaluate (__LINE__, __func__, 3, static_cast<int>(identifiers.size()));
     evaluate (__LINE__, __func__, 3, identifiers[0].oldid);
     evaluate (__LINE__, __func__, 4, identifiers[0].newid);
     evaluate (__LINE__, __func__, 4, identifiers[1].oldid);
@@ -611,15 +611,15 @@ void test_database_modifications_notifications ()
     database_modifications.recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
-    evaluate (__LINE__, __func__, 3, (int)ids.size ());
+    evaluate (__LINE__, __func__, 3, static_cast <int>(ids.size ()));
     
     database_modifications.clearNotificationsUser ("phpunit2");
     
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
-    evaluate (__LINE__, __func__, 2, (int)ids.size ());
+    evaluate (__LINE__, __func__, 2, static_cast <int>(ids.size ()));
     
     ids = database_modifications.getNotificationIdentifiers ("phpunit2", "");
-    evaluate (__LINE__, __func__, 0, (int)ids.size ());
+    evaluate (__LINE__, __func__, 0, static_cast <int>(ids.size ()));
   }
 
   // Clear matches one.
@@ -631,11 +631,11 @@ void test_database_modifications_notifications ()
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
     vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
-    evaluate (__LINE__, __func__, 2, (int)ids.size ());
+    evaluate (__LINE__, __func__, 2, static_cast <int>(ids.size ()));
     database_modifications.clearNotificationMatches ("phpunit", changes_personal_category (), "T");
     database_modifications.indexTrimAllNotifications ();
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
-    evaluate (__LINE__, __func__, 0, (int)ids.size ());
+    evaluate (__LINE__, __func__, 0, static_cast <int>(ids.size ()));
   }
 
   // Notification team identifiers.

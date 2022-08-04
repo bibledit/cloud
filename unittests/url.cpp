@@ -146,7 +146,7 @@ void test_url ()
   // Test char values used in encoding and decoding.
   {
     char one = -1;
-    char two = (char)255;
+    char two = static_cast<char> (255);
     evaluate (__LINE__, __func__, one, two);
   }
     

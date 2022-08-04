@@ -45,15 +45,15 @@ void test_database_check ()
     database_check.create ();
     
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, (int)hits.size());
+    evaluate (__LINE__, __func__, 0, static_cast<int> (hits.size()));
     
     database_check.recordOutput ("phpunit", 1, 2, 3, "test");
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)hits.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
     
     database_check.truncateOutput ("");
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, (int)hits.size());
+    evaluate (__LINE__, __func__, 0, static_cast<int> (hits.size()));
   }
 
   {
@@ -66,7 +66,7 @@ void test_database_check ()
     database_check.create ();
     database_check.recordOutput ("phpunit", 5, 2, 3, "test");
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)hits.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
     evaluate (__LINE__, __func__, "phpunit", hits [0].bible);
     evaluate (__LINE__, __func__, 5, hits [0].book);
     evaluate (__LINE__, __func__, 2, hits [0].chapter);
@@ -86,22 +86,22 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
     
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, (int)hits.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (hits.size()));
     
     int id = hits [0].rowid;
     database_check.approve (id);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)hits.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
     
     vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
-    evaluate (__LINE__, __func__, 1, (int)suppressions.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(suppressions.size()));
     
     id = suppressions [0].rowid;
     evaluate (__LINE__, __func__, 1, id);
 
     database_check.release (1);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, (int)hits.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (hits.size()));
   }
 
   {
@@ -115,11 +115,11 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, (int)hits.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (hits.size()));
     int id = hits [0].rowid;
     database_check.erase (id);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, (int)hits.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
   }
 
   {
@@ -151,6 +151,6 @@ void test_database_check ()
       database_check.recordOutput ("phpunit", i, i, i, "multiple");
     }
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 12, (int)hits.size());
+    evaluate (__LINE__, __func__, 12, static_cast<int> (hits.size()));
   }
 }

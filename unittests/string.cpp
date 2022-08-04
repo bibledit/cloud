@@ -357,7 +357,7 @@ void test_string ()
     string folder = filter_url_create_root_path ({"unittests", "tests"});
     string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
     vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
-    evaluate (__LINE__, __func__, 747, (int)tidy.size());
+    evaluate (__LINE__, __func__, 747, static_cast<int>(tidy.size()));
   }
   
   {
@@ -391,8 +391,8 @@ void test_string ()
   }
   
   {
-    evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("test"));
-    evaluate (__LINE__, __func__, 4, (int)unicode_string_length ("ᨁᨃᨅᨕ"));
+    evaluate (__LINE__, __func__, 4, static_cast<int>(unicode_string_length ("test")));
+    evaluate (__LINE__, __func__, 4, static_cast<int>(unicode_string_length ("ᨁᨃᨅᨕ")));
   }
   
   {
@@ -410,20 +410,20 @@ void test_string ()
   {
     string hebrew = "אָבּגּדּהּ";
     string needle = "דּ";
-    evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos ("012345", "3"));
-    evaluate (__LINE__, __func__, 5, (int)unicode_string_strpos ("012345", "5"));
-    evaluate (__LINE__, __func__, 0, (int)unicode_string_strpos ("012345", "0"));
-    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("012345", "6"));
-    evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle));
-    evaluate (__LINE__, __func__, 3, (int)unicode_string_strpos (hebrew, needle, 3));
-    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos (hebrew, needle, 4));
-    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos ("", "3"));
+    evaluate (__LINE__, __func__, 3, static_cast<int>(unicode_string_strpos ("012345", "3")));
+    evaluate (__LINE__, __func__, 5, static_cast<int>(unicode_string_strpos ("012345", "5")));
+    evaluate (__LINE__, __func__, 0, static_cast<int>(unicode_string_strpos ("012345", "0")));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos ("012345", "6")));
+    evaluate (__LINE__, __func__, 3, static_cast<int>(unicode_string_strpos (hebrew, needle)));
+    evaluate (__LINE__, __func__, 3, static_cast<int>(unicode_string_strpos (hebrew, needle, 3)));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos (hebrew, needle, 4)));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos ("", "3")));
   }
   
   {
-    evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "c"));
-    evaluate (__LINE__, __func__, 2, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "cD"));
-    evaluate (__LINE__, __func__, -1, (int)unicode_string_strpos_case_insensitive ("AbCdEf", "ce"));
+    evaluate (__LINE__, __func__, 2, static_cast<int>(unicode_string_strpos_case_insensitive ("AbCdEf", "c")));
+    evaluate (__LINE__, __func__, 2, static_cast<int>(unicode_string_strpos_case_insensitive ("AbCdEf", "cD")));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos_case_insensitive ("AbCdEf", "ce")));
   }
   
   {
@@ -547,11 +547,11 @@ void test_string ()
   {
     u16string u16;
     u16 = convert_to_u16string ("a");
-    evaluate (__LINE__, __func__, 1, (int)u16.length());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (u16.length()));
     u16 = convert_to_u16string ("ℵ");
-    evaluate (__LINE__, __func__, 1, (int)u16.length());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (u16.length()));
     u16 = convert_to_u16string ("😀");
-    evaluate (__LINE__, __func__, 2, (int)u16.length());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (u16.length()));
   }
   
   // Test tidying invalid html.

@@ -44,11 +44,11 @@ void test_database_sprint ()
     evaluate (__LINE__, __func__, {}, ids);
     database.storeTask ("phpunit", 2014, 1, "phpunit");
     ids = database.getTasks ("phpunit", 2014, 1);
-    evaluate (__LINE__, __func__, 1, (int)ids.size ());
+    evaluate (__LINE__, __func__, 1, static_cast <int>(ids.size ()));
     ids = database.getTasks ("phpunit", 2014, 2);
-    evaluate (__LINE__, __func__, 0, (int)ids.size ());
+    evaluate (__LINE__, __func__, 0, static_cast <int>(ids.size ()));
     ids = database.getTasks ("phpunit2", 2014, 1);
-    evaluate (__LINE__, __func__, 0, (int)ids.size ());
+    evaluate (__LINE__, __func__, 0, static_cast <int>(ids.size ()));
   }
   // GetTitle
   {
@@ -82,7 +82,7 @@ void test_database_sprint ()
     
     // Expect no history at all for January 2014.
     vector <Database_Sprint_Item> history = database.getHistory ("phpunit", 2014, 1);
-    evaluate (__LINE__, __func__, 0, (int)history.size());
+    evaluate (__LINE__, __func__, 0, static_cast<int>(history.size()));
     
     // Log values for January 2014, and check that the database returns those values.
     database.logHistory ("phpunit", 2014, 1, 10, 15, 50);

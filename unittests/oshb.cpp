@@ -33,7 +33,7 @@ void test_database_oshb ()
   vector <string> data = database_oshb.getVerse (18, 3, 2);
   size = 7;
   evaluate (__LINE__, __func__, size, data.size());
-  if ((int)data.size () == size) {
+  if (static_cast<int> (data.size ()) == size) {
     evaluate (__LINE__, __func__, "וַיַּ֥עַן", data [0]);
     evaluate (__LINE__, __func__, " ", data [1]);
     evaluate (__LINE__, __func__, "אִיּ֗וֹב", data [2]);
@@ -56,7 +56,7 @@ void test_database_oshb ()
   
   // Job 3:2.
   vector <int> items = database_oshb.rowids (18, 3, 2);
-  evaluate (__LINE__, __func__, 7, (int)items.size());
+  evaluate (__LINE__, __func__, 7, static_cast<int>(items.size()));
   
   evaluate (__LINE__, __func__, "c/6030 b", database_oshb.lemma (items[0]));
   evaluate (__LINE__, __func__, "", database_oshb.lemma (items[1]));

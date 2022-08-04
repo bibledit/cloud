@@ -120,29 +120,29 @@ void test_database_users ()
     
     database_users.add_user (username1, password, level, email);
     vector <string> admins = database_users.getAdministrators ();
-    evaluate (__LINE__, __func__, 1, (int)admins.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (admins.size()));
     if (!admins.empty()) evaluate (__LINE__, __func__, username1, admins [0]);
     
     database_users.add_user (username2, password, level, email);
     admins = database_users.getAdministrators ();
-    evaluate (__LINE__, __func__, 2, (int)admins.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (admins.size()));
     
     // Check that a disabled admin account is not included in the number of administrators.
     database_users.set_enabled (username1, false);
     admins = database_users.getAdministrators ();
-    evaluate (__LINE__, __func__, 1, (int)admins.size());
+    evaluate (__LINE__, __func__, 1, static_cast<int> (admins.size()));
     
     // Check that once an account is enabled, it is included again in the number of administrators.
     database_users.set_enabled (username1, true);
     admins = database_users.getAdministrators ();
-    evaluate (__LINE__, __func__, 2, (int)admins.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int> (admins.size()));
     
     email = "new@email.address";
     database_users.updateUserEmail (username1, email);
     evaluate (__LINE__, __func__, email, database_users.get_email (username1));
     
     vector <string> users = database_users.get_users ();
-    evaluate (__LINE__, __func__, 2, (int)users.size());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(users.size()));
     
     evaluate (__LINE__, __func__, md5 (password), database_users.get_md5 (username1));
   }

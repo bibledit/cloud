@@ -58,7 +58,7 @@ void test_database_mail ()
     evaluate (__LINE__, __func__, 0, count);
     
     vector <Database_Mail_User> mails = database_mail.getMails ();
-    evaluate (__LINE__, __func__, 0, (int)mails.size());
+    evaluate (__LINE__, __func__, 0, static_cast<int>(mails.size()));
     
     vector <int> mails_to_send = database_mail.getMailsToSend ();
     evaluate (__LINE__, __func__, {}, mails_to_send);
@@ -105,11 +105,11 @@ void test_database_mail ()
     database_mail.send ("phpunit", "subject", "body");
     
     vector <int> mails = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, 1, (int)mails.size ());
+    evaluate (__LINE__, __func__, 1, static_cast <int>(mails.size ()));
     
     database_mail.postpone (1);
     mails = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, 0, (int)mails.size ());
+    evaluate (__LINE__, __func__, 0, static_cast <int>(mails.size ()));
   }
 #endif
 }

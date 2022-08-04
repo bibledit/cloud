@@ -58,7 +58,7 @@ void test_database_logs ()
       string contents = filter_url_file_get_contents (path);
       evaluate (__LINE__, __func__, 50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
     } else {
-      evaluate (__LINE__, __func__, 1, (int)result.size ());
+      evaluate (__LINE__, __func__, 1, static_cast<int>(result.size ()));
     }
     refresh_sandbox (true, {"This entry was too large and has been truncated"});
   }

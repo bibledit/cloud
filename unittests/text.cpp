@@ -68,7 +68,7 @@ void test_filter_text ()
     filter_text.run (styles_logic_standard_sheet ());
     // Check that it finds the running headers.
     int desiredRunningHeaders = 5;
-    int actualRunningHeaders = (int)filter_text.runningHeaders.size();
+    int actualRunningHeaders = static_cast<int>(filter_text.runningHeaders.size());
     evaluate (__LINE__, __func__, desiredRunningHeaders, actualRunningHeaders);
     if (actualRunningHeaders == desiredRunningHeaders) {
       evaluate (__LINE__, __func__, 1, filter_text.runningHeaders[0].m_book);
@@ -102,7 +102,7 @@ void test_filter_text ()
     int desiredlongTOCs = 1;
     size_t actuallongTOCs = filter_text.longTOCs.size();
     evaluate (__LINE__, __func__, desiredlongTOCs, actuallongTOCs);
-    if (desiredlongTOCs == (int)actuallongTOCs) {
+    if (desiredlongTOCs == static_cast<int>(actuallongTOCs)) {
       evaluate (__LINE__, __func__, 1, filter_text.longTOCs[0].m_book);
       evaluate (__LINE__, __func__, 0, filter_text.longTOCs[0].m_chapter);
       evaluate (__LINE__, __func__, "0", filter_text.longTOCs[0].m_verse);
@@ -112,7 +112,7 @@ void test_filter_text ()
     int desiredshortTOCs = 1;
     size_t actualshortTOCs = filter_text.shortTOCs.size();
     evaluate (__LINE__, __func__, desiredshortTOCs, actualshortTOCs);
-    if (desiredlongTOCs == (int)actuallongTOCs) {
+    if (desiredlongTOCs == static_cast<int>(actuallongTOCs)) {
       evaluate (__LINE__, __func__, 1, filter_text.shortTOCs[0].m_book);
       evaluate (__LINE__, __func__, 0, filter_text.shortTOCs[0].m_chapter);
       evaluate (__LINE__, __func__, "0", filter_text.shortTOCs[0].m_verse);
@@ -124,7 +124,7 @@ void test_filter_text ()
     int desiredbookAbbreviations = 1;
     size_t actualbookAbbreviations = filter_text.bookAbbreviations.size();
     evaluate (__LINE__, __func__, desiredbookAbbreviations, actualbookAbbreviations);
-    if (desiredbookAbbreviations == (int)actualbookAbbreviations) {
+    if (desiredbookAbbreviations == static_cast<int>(actualbookAbbreviations)) {
       evaluate (__LINE__, __func__, 1, filter_text.bookAbbreviations[0].m_book);
       evaluate (__LINE__, __func__, 0, filter_text.bookAbbreviations[0].m_chapter);
       evaluate (__LINE__, __func__, "0", filter_text.bookAbbreviations[0].m_verse);
@@ -136,7 +136,7 @@ void test_filter_text ()
     int desiredpublishedChapterMarkers = 2;
     size_t actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
     evaluate (__LINE__, __func__, desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
-    if (desiredpublishedChapterMarkers == (int)actualpublishedChapterMarkers) {
+    if (desiredpublishedChapterMarkers == static_cast<int>(actualpublishedChapterMarkers)) {
       evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].m_book);
       evaluate (__LINE__, __func__, 1, filter_text.publishedChapterMarkers[0].m_chapter);
       evaluate (__LINE__, __func__, "0", filter_text.publishedChapterMarkers[0].m_verse);
@@ -921,7 +921,7 @@ A Verse text.
     int desiredchapterLabels = 1;
     size_t actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == (int)actualchapterLabels) {
+    if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
       evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].m_book);
       evaluate (__LINE__, __func__, 0, filter_text.chapterLabels[0].m_chapter);
       evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].m_verse);
@@ -984,7 +984,7 @@ Chapter 2
     int desiredchapterLabels = 2;
     size_t actualchapterLabels = filter_text.chapterLabels.size();
     evaluate (__LINE__, __func__, desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == (int)actualchapterLabels) {
+    if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
       evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].m_book);
       evaluate (__LINE__, __func__, 1, filter_text.chapterLabels[0].m_chapter);
       evaluate (__LINE__, __func__, "0", filter_text.chapterLabels[0].m_verse);
@@ -1037,7 +1037,7 @@ Chapter Two
     int n = 3;
     size_t size = filter_text.notes_plain_text.size();
     evaluate (__LINE__, __func__, n, size);
-    if ((int)size == n) {
+    if (static_cast<int> (size) == n) {
       evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[0].first);
       evaluate (__LINE__, __func__, "2", filter_text.notes_plain_text[1].first);
       evaluate (__LINE__, __func__, "3", filter_text.notes_plain_text[2].first);
@@ -1073,7 +1073,7 @@ Chapter Two
     int n = 5;
     size_t size = filter_text.notes_plain_text.size();
     evaluate (__LINE__, __func__, n, size);
-    if ((int)size == n) {
+    if (static_cast<int> (size) == n) {
       evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[0].first);
       evaluate (__LINE__, __func__, "1", filter_text.notes_plain_text[1].first);
       evaluate (__LINE__, __func__, "2", filter_text.notes_plain_text[2].first);

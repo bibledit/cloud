@@ -241,12 +241,12 @@ void test_database_mappings ()
     Database_Mappings database_mappings;
     database_mappings.create1 ();
     vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "15");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     passages = database_mappings.translate ("--X", "--X", 15, 16, 17);
     standard = Passage ("", 15, 16, "17");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
   
@@ -268,7 +268,7 @@ void test_database_mappings ()
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "15");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
 
@@ -290,7 +290,7 @@ void test_database_mappings ()
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "13");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
 
@@ -312,7 +312,7 @@ void test_database_mappings ()
     database_mappings.import ("XYZ", import);
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
-    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "13");
@@ -328,7 +328,7 @@ void test_database_mappings ()
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     Passage standard = Passage ("", 14, 14, "12");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
 
@@ -342,7 +342,7 @@ void test_database_mappings ()
     "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
-    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "13");
@@ -357,7 +357,7 @@ void test_database_mappings ()
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 15, "14");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
@@ -370,7 +370,7 @@ void test_database_mappings ()
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
     vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "14");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
   }
@@ -385,7 +385,7 @@ void test_database_mappings ()
     "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
     database_mappings.import ("ABA", import);
     vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "13");
     evaluate (__LINE__, __func__, true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "14");
@@ -453,7 +453,7 @@ void test_database_versifications ()
     
     // Books Chapters Verses.
     vector <Passage> data = database_versifications.getBooksChaptersVerses (english ());
-    evaluate (__LINE__, __func__, 1189, (int)data.size());
+    evaluate (__LINE__, __func__, 1189, static_cast<int>(data.size()));
     evaluate (__LINE__, __func__, "31", data [0].m_verse);
     
     // Maximum number of books.

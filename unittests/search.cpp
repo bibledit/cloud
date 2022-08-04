@@ -108,11 +108,11 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_text ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text ("phpunit2", "sixth");
-    evaluate (__LINE__, __func__, 0, (int)passages.size ());
+    evaluate (__LINE__, __func__, 0, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
   }
   
   // Test search Bible case sensitive.
@@ -120,11 +120,11 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_text_case_sensitive ("phpunit", "Verse");
-    evaluate (__LINE__, __func__, 3, (int)passages.size ());
+    evaluate (__LINE__, __func__, 3, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text_case_sensitive ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text_case_sensitive ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, (int)passages.size ());
+    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
   }
 
   // Searching in USFM.
@@ -132,7 +132,7 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_usfm ("phpunit", "\\Add");
-    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
   }
   
   // Searching in USFM case-sensitive.
@@ -140,9 +140,9 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\Add");
-    evaluate (__LINE__, __func__, 0, (int)passages.size ());
+    evaluate (__LINE__, __func__, 0, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\add");
-    evaluate (__LINE__, __func__, 2, (int)passages.size ());
+    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
   }
   
   // Test getting Bible verse text.

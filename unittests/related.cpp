@@ -33,7 +33,7 @@ void test_related ()
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "6") });
     int size = 6;
     evaluate (__LINE__, __func__, size, output.size ());
-    if ((int)output.size () == size) {
+    if (static_cast<int>(output.size ()) == size) {
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "6").equal (output[0]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "7").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "8").equal (output[2]));
@@ -54,7 +54,7 @@ void test_related ()
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "29"), Passage ("", 1, 11, "12") });
     int size = 12;
     evaluate (__LINE__, __func__, size, output.size ());
-    if ((int)output.size () == size) {
+    if (static_cast<int>(output.size ()) == size) {
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "26").equal (output[0]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "27").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 1, 10, "28").equal (output[2]));
@@ -76,7 +76,7 @@ void test_related ()
     vector <Passage> output = related_logic_get_verses ({ Passage ("", 42, 3, "4") });
     int size = 10;
     evaluate (__LINE__, __func__, size, output.size ());
-    if ((int)output.size () == size) {
+    if (static_cast<int>(output.size ()) == size) {
       evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "3").equal (output[0]));
       evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "4").equal (output[1]));
       evaluate (__LINE__, __func__, true, Passage ("", 23, 40, "5").equal (output[2]));

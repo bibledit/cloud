@@ -138,7 +138,7 @@ void evaluate (int line, string func, float desired, float actual)
 void evaluate (int line, string func, vector <string> desired, vector <string> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   for (size_t i = 0; i < desired.size (); i++) {
@@ -150,7 +150,7 @@ void evaluate (int line, string func, vector <string> desired, vector <string> a
 void evaluate (int line, string func, vector <int> desired, vector <int> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   for (size_t i = 0; i < desired.size (); i++) {
@@ -162,7 +162,7 @@ void evaluate (int line, string func, vector <int> desired, vector <int> actual)
 void evaluate (int line, string func, vector <bool> desired, vector <bool> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   for (size_t i = 0; i < desired.size (); i++) {
@@ -174,7 +174,7 @@ void evaluate (int line, string func, vector <bool> desired, vector <bool> actua
 void evaluate (int line, string func, map <int, string> desired, map <int, string> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   auto desirediterator = desired.begin ();
@@ -191,7 +191,7 @@ void evaluate (int line, string func, map <int, string> desired, map <int, strin
 void evaluate (int line, string func, map <string, int> desired, map <string, int> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   auto desirediterator = desired.begin ();
@@ -208,7 +208,7 @@ void evaluate (int line, string func, map <string, int> desired, map <string, in
 void evaluate (int line, string func, map <int, int> desired, map <int, int> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   auto desirediterator = desired.begin ();
@@ -225,7 +225,7 @@ void evaluate (int line, string func, map <int, int> desired, map <int, int> act
 void evaluate (int line, string func, map <string, string> desired, map <string, string> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   auto desirediterator = desired.begin ();
@@ -242,7 +242,7 @@ void evaluate (int line, string func, map <string, string> desired, map <string,
 void evaluate (int line, string func, vector <pair<int, string>> desired, vector <pair<int, string>> actual)
 {
   if (desired.size() != actual.size ()) {
-    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string ((int)actual.size()) + " size mismatch");
+    error_message (line, func, convert_to_string (static_cast<int> (desired.size ())), convert_to_string (static_cast<int>(actual.size())) + " size mismatch");
     return;
   }
   auto desirediterator = desired.begin ();

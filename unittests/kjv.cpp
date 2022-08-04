@@ -30,7 +30,7 @@ void test_database_kjv ()
   
   {
     vector <Database_Kjv_Item> data = database_kjv.getVerse (43, 11, 35);
-    evaluate (__LINE__, __func__, 6, (int)data.size());
+    evaluate (__LINE__, __func__, 6, static_cast<int>(data.size()));
     
     evaluate (__LINE__, __func__, "G3588", data[0].strong);
     evaluate (__LINE__, __func__, "Jesus", data[0].english);
@@ -47,28 +47,28 @@ void test_database_kjv ()
   {
     // Testing space between the end of the canonical text and a note following it.
     vector <Database_Kjv_Item> data = database_kjv.getVerse (1, 1, 5);
-    evaluate (__LINE__, __func__, 23, (int)data.size());
+    evaluate (__LINE__, __func__, 23, static_cast<int>(data.size()));
     evaluate (__LINE__, __func__, " [And the evening…: Heb. And the evening was, and the morning was etc.]", data[22].english);
   }
   
   {
     // Testing proper parsing of the <q> element in Luke 13.2.
     vector <Database_Kjv_Item> data = database_kjv.getVerse (42, 13, 2);
-    evaluate (__LINE__, __func__, 40, (int)data.size());
+    evaluate (__LINE__, __func__, 40, static_cast<int>(data.size()));
     evaluate (__LINE__, __func__, "Suppose ye", data[12].english);
   }
   
   {
     // Check parsing of <inscription> in Exodus 28.36.
     vector <Database_Kjv_Item> data = database_kjv.getVerse (2, 28, 36);
-    evaluate (__LINE__, __func__, 23, (int)data.size());
+    evaluate (__LINE__, __func__, 23, static_cast<int>(data.size()));
     evaluate (__LINE__, __func__, "HOLINESS", data[18].english);
   }
   
   {
     // Check parsing of <divineName> in Genesis 2.4.
     vector <Database_Kjv_Item> data = database_kjv.getVerse (1, 2, 4);
-    evaluate (__LINE__, __func__, 25, (int)data.size());
+    evaluate (__LINE__, __func__, 25, static_cast<int>(data.size()));
     evaluate (__LINE__, __func__, "Lord", data[15].english);
   }
   

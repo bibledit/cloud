@@ -1034,7 +1034,7 @@ void test_usfm ()
 
   // Test importing common USFM.
   {
-    evaluate (__LINE__, __func__, 0, (int)filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size());
+    evaluate (__LINE__, __func__, 0, static_cast<int>(filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size()));
     
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, (int)import.size());

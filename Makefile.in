@@ -366,7 +366,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mimetic098/os/utils.$(OBJEXT) \
 	mimetic098/os/file_iterator.$(OBJEXT) \
 	mimetic098/os/mmfile.$(OBJEXT) \
-	mimetic098/codec/base64.$(OBJEXT)
+	mimetic098/codec/base64.$(OBJEXT) \
+	system/googletranslate.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -701,7 +702,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	sync/$(DEPDIR)/logic.Po sync/$(DEPDIR)/mail.Po \
 	sync/$(DEPDIR)/notes.Po sync/$(DEPDIR)/resources.Po \
 	sync/$(DEPDIR)/settings.Po sync/$(DEPDIR)/setup.Po \
-	sync/$(DEPDIR)/usfmresources.Po system/$(DEPDIR)/index.Po \
+	sync/$(DEPDIR)/usfmresources.Po \
+	system/$(DEPDIR)/googletranslate.Po system/$(DEPDIR)/index.Po \
 	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
 	tasks/$(DEPDIR)/run.Po tbsx/$(DEPDIR)/text.Po \
 	text/$(DEPDIR)/text.Po timer/$(DEPDIR)/index.Po \
@@ -1475,7 +1477,8 @@ libbibledit_a_SOURCES = \
   mimetic098/os/utils.cxx \
   mimetic098/os/file_iterator.cxx \
   mimetic098/os/mmfile.cxx \
-  mimetic098/codec/base64.cxx
+  mimetic098/codec/base64.cxx \
+  system/googletranslate.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3189,6 +3192,8 @@ mimetic098/codec/$(DEPDIR)/$(am__dirstamp):
 	@: > mimetic098/codec/$(DEPDIR)/$(am__dirstamp)
 mimetic098/codec/base64.$(OBJEXT): mimetic098/codec/$(am__dirstamp) \
 	mimetic098/codec/$(DEPDIR)/$(am__dirstamp)
+system/googletranslate.$(OBJEXT): system/$(am__dirstamp) \
+	system/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3958,6 +3963,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/settings.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/setup.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/usfmresources.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/googletranslate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
@@ -5092,6 +5098,7 @@ distclean: distclean-am
 	-rm -f sync/$(DEPDIR)/settings.Po
 	-rm -f sync/$(DEPDIR)/setup.Po
 	-rm -f sync/$(DEPDIR)/usfmresources.Po
+	-rm -f system/$(DEPDIR)/googletranslate.Po
 	-rm -f system/$(DEPDIR)/index.Po
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
@@ -5712,6 +5719,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f sync/$(DEPDIR)/settings.Po
 	-rm -f sync/$(DEPDIR)/setup.Po
 	-rm -f sync/$(DEPDIR)/usfmresources.Po
+	-rm -f system/$(DEPDIR)/googletranslate.Po
 	-rm -f system/$(DEPDIR)/index.Po
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po

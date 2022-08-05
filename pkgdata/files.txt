@@ -857,6 +857,7 @@
 /sword/mods.d/globals.conf
 /sync
 /system
+/system/googletranslate.html
 /system/index.html
 /tasks
 /tasks/holder

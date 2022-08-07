@@ -742,6 +742,7 @@
 		CA83A69F289D7C9F0038E298 /* googletranslate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = googletranslate.cpp; sourceTree = "<group>"; };
 		CA83A6A0289D7C9F0038E298 /* googletranslate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = googletranslate.h; sourceTree = "<group>"; };
 		CA83A6A1289D7C9F0038E298 /* googletranslate.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = googletranslate.html; sourceTree = "<group>"; };
+		CA842042289FEB58006EEA23 /* googletranslate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = googletranslate.txt; sourceTree = "<group>"; };
 		CA889AB3288310600071B46D /* warnings.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = warnings.sh; sourceTree = "<group>"; };
 		CAA001932569986E00BCA329 /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
 		CAA001942569986E00BCA329 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
@@ -5288,6 +5289,7 @@
 				CA83A69F289D7C9F0038E298 /* googletranslate.cpp */,
 				CA83A6A0289D7C9F0038E298 /* googletranslate.h */,
 				CA83A6A1289D7C9F0038E298 /* googletranslate.html */,
+				CA842042289FEB58006EEA23 /* googletranslate.txt */,
 				CADE428824F174B1003165BB /* index.cpp */,
 				CADE427D24F174B1003165BB /* index.h */,
 				CADE427F24F174B1003165BB /* index.html */,

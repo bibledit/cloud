@@ -1,0 +1,8 @@
+Using Google Translate in Bibledit - Developer Notes
+====================================================
+
+One option to use Google Translate is through the Google Cloud Platform C++ Client Libraries.
+Information: https://github.com/googleapis/google-cloud-cpp
+While building this through $ cmake the build machine started to freeze up.
+It then indicated that there's was no application memory left.
+

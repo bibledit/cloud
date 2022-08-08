@@ -66,6 +66,7 @@
 /compare/index.html
 /config
 /config/config.txt
+/config/googletranslate.txt
 /config/ldap.txt
 /config/local.cert.pem
 /config/local.chain.pem

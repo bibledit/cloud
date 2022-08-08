@@ -10,6 +10,7 @@
 		CA10382925279F940021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382725279F940021AF25 /* html2format.cpp */; };
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
 		CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */; };
+		CA181FFD28A162C1009F5954 /* google.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA181FFC28A162C0009F5954 /* google.cpp */; };
 		CA47750F260FC720001F50DD /* accounts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47750E260FC720001F50DD /* accounts.cpp */; };
 		CA55F184277B916100673C9E /* header.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D240277B6D74000EC1CA /* header.cxx */; };
 		CA55F185277B917600673C9E /* contentid.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D236277B6D74000EC1CA /* contentid.cxx */; };
@@ -600,6 +601,7 @@
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
 		CA10382B2527A4010021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = html2format.h; sourceTree = "<group>"; };
 		CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../usr/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
+		CA181FFC28A162C0009F5954 /* google.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = google.cpp; path = filter/google.cpp; sourceTree = "<group>"; };
 		CA18ADBF24F169DA00FF603C /* server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = server; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA1B741925F54DC90030846D /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
@@ -743,6 +745,8 @@
 		CA83A6A0289D7C9F0038E298 /* googletranslate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = googletranslate.h; sourceTree = "<group>"; };
 		CA83A6A1289D7C9F0038E298 /* googletranslate.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = googletranslate.html; sourceTree = "<group>"; };
 		CA842042289FEB58006EEA23 /* googletranslate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = googletranslate.txt; sourceTree = "<group>"; };
+		CA84204328A03C39006EEA23 /* google.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = google.cpp; sourceTree = "<group>"; };
+		CA84204428A03C39006EEA23 /* google.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = google.h; sourceTree = "<group>"; };
 		CA889AB3288310600071B46D /* warnings.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = warnings.sh; sourceTree = "<group>"; };
 		CAA001932569986E00BCA329 /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
 		CAA001942569986E00BCA329 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
@@ -2666,6 +2670,7 @@
 		CA18ADB624F169DA00FF603C = {
 			isa = PBXGroup;
 			children = (
+				CA181FFC28A162C0009F5954 /* google.cpp */,
 				CADE36FD24F1737A003165BB /* access */,
 				CADE36FC24F1737A003165BB /* aclocal.m4 */,
 				CADE370D24F1737A003165BB /* assets */,
@@ -3200,6 +3205,7 @@
 		CADE37F824F173EB003165BB /* config */ = {
 			isa = PBXGroup;
 			children = (
+				CA842042289FEB58006EEA23 /* googletranslate.txt */,
 				CADE37F924F173EB003165BB /* config.h */,
 				CADE37FA24F173EB003165BB /* config.txt */,
 				CADE380124F173EB003165BB /* globals.cpp */,
@@ -3428,6 +3434,8 @@
 				CA6A2765260B966200EE8844 /* focus.js */,
 				CADE398E24F17422003165BB /* git.cpp */,
 				CADE396024F17422003165BB /* git.h */,
+				CA84204328A03C39006EEA23 /* google.cpp */,
+				CA84204428A03C39006EEA23 /* google.h */,
 				CADE396224F17422003165BB /* html.cpp */,
 				CADE394924F17422003165BB /* html.h */,
 				CA6A12CD26F782C600CDB5DB /* image.cpp */,
@@ -5289,7 +5297,6 @@
 				CA83A69F289D7C9F0038E298 /* googletranslate.cpp */,
 				CA83A6A0289D7C9F0038E298 /* googletranslate.h */,
 				CA83A6A1289D7C9F0038E298 /* googletranslate.html */,
-				CA842042289FEB58006EEA23 /* googletranslate.txt */,
 				CADE428824F174B1003165BB /* index.cpp */,
 				CADE427D24F174B1003165BB /* index.h */,
 				CADE427F24F174B1003165BB /* index.html */,
@@ -5942,6 +5949,7 @@
 				CA55F19B277B93F800673C9E /* address.cxx in Sources */,
 				CA55F19A277B93EA00673C9E /* mailboxlist.cxx in Sources */,
 				CA55F199277B93DB00673C9E /* group.cxx in Sources */,
+				CA181FFD28A162C1009F5954 /* google.cpp in Sources */,
 				CA55F198277B93CD00673C9E /* datetime.cxx in Sources */,
 				CA55F197277B93B900673C9E /* messageid.cxx in Sources */,
 				CA55F196277B92F500673C9E /* mailbox.cxx in Sources */,

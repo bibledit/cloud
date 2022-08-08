@@ -44,3 +44,4 @@ bool config_logic_indonesian_cloud_free ();
 bool config_logic_indonesian_cloud_free_simple ();
 bool config_logic_indonesian_cloud_free_individual ();
 bool config_logic_default_bibledit_configuration ();
+string config_logic_google_translate_json_key_path ();

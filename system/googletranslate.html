@@ -1,6 +1,4 @@
 <h2>translate("Google Translate")</h2>
-<p class="error">##error##</p>
-<p class="success">##success##</p>
 
 <p>
 translate("Google Translate can help you translating your resources into another language.")
@@ -8,16 +6,24 @@ translate("For example it can translate the Greek New Testament into your local 
 translate("Or it can translate another resource into that language.")
 translate("That gives the translators easier access to those resources in a language they can understand.")
 </p>
-
+<br>
 <p>
 translate("To start using translated resources, follow these steps:")
 </p>
 <ol>
   <li>
-    translate("Obtain a key from Google to access the Google Translate API.")
+    translate("The admin who hosts Bibledit Cloud needs to set up access to Google Translate.")
+    translate("Information about how to set it up is in this file:")
+    ##config##
   </li>
   <li>
-    translate("Enter the key in Bibledit Cloud.")
+    <a href="googletranslate">
+    translate("Check whether access to Google Translate is now operational.")
+    </a>
+  </li>
+  <li>
+    <span class="error">##error##</span>
+    <span class="success">##success##</span>
   </li>
   <li>
     translate("Define a Google Translate Resource in Bibledit Cloud.")
@@ -26,68 +32,6 @@ translate("To start using translated resources, follow these steps:")
     translate("Add the defined Google Translate Resource to your list of resources to view.")
   </li>
 </ol>
-
-<h3>1. translate("Obtain a key")</h3>
-<p>
-translate("You need to get a JSON key from Google to be able to use the Google Translation service.")
-translate("Here are the step to take to get that JSON key from Google.")
-</p>
-<ol>
-  <li>
-    translate("Choose which Google account to use.")
-    translate("Or create a new Google account to use that.")
-  </li>
-  <li>
-    <a href="https://cloud.google.com/translate/docs/setup" target="_blank">translate("Open the page with information about how to setup Google Translate.")</a>
-    translate("This is a guide to setting up Google Cloud Translation.")
-    translate("The guide helps you understand the next steps to take.")
-  </li>
-  <li>
-    translate("Go to the Google Cloud console.")
-    translate("Go to the project selector page.")
-    translate("Select or create a Google Cloud project.")
-  </li>
-  <li>
-    translate("Enable billing for your Cloud project.")
-  </li>
-  <li>
-    translate("Enable the Cloud Translation API.")
-    translate("To do that, click on this button in the guide:")
-    translate("Enable the API.")
-    translate("Follow the instructions on the screen to complete the process of enabling the API.")
-  </li>
-  <li>
-    translate("Create a service account and keys.")
-    translate("To do that, click on this button in the guide:")
-    translate("Go to Create service account.")
-    translate("Follow all the steps in that guide.")
-    translate("At the end you will have a JSON key.")
-    translate("Store that key safely.")
-  </li>
-</ol>
-
-<h3>2. translate("Enter the key")</h3>
-
-<h3>3. translate("Create a translated resource")</h3>
-
-<h3>4. translate("Use the translated resource")</h3>
-
-
-
-
-
-translate("")
-<p>
-</p>
-<ol>
-  <li>
-  </li>
-</ol>
-
-
-
-
-
 
 <script type="text/javascript" src="../personalize/index.js?##VERSION##"></script>
 <script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>

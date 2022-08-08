@@ -351,3 +351,9 @@ bool config_logic_default_bibledit_configuration ()
   
   return status;
 }
+
+
+string config_logic_google_translate_json_key_path ()
+{
+  return filter_url_create_root_path ({config_logic_config_folder (), "googletranslate.json"});
+}

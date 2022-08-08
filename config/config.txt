@@ -1,5 +1,5 @@
 Bibledit Cloud Configuration
-
+============================
 
 All configuration files reside in the config folder.
 
@@ -75,4 +75,5 @@ After making a change in the configuration, restart Bibledit Cloud, for the new 
 Logging all network connections.
 To enable this, put a file "log-network" in the config folder. The file can be left empty.
 If this file is there, Bibledit will log information to file tmp/log-network.csv".
+
 

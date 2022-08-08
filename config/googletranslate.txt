@@ -1,0 +1,47 @@
+Configuring Bibledit to use Google Translate
+============================================
+
+Google Translate can help you translating your resources into another language.
+That gives the translators easier access to those resources in a language they can understand.
+To start using translated resources, follow these steps:
+
+Step 1: Obtain a key from Google to access the Google Translate API
+-------------------------------------------------------------------
+
+You need to get a JSON key from Google to be able to use the Google Translation service.
+Here are the steps to take to get that JSON key from Google.
+
+1.
+Choose which Google account to use.
+Or create a new Google account and use that.
+
+2.
+Open the following page with information about how to setup Google Translate.
+https://cloud.google.com/translate/docs/setup
+This is a guide to setting up Google Cloud Translation.
+The guide helps you understand the next steps to take.
+
+3.
+Go to the Google Cloud console.
+Go to the project selector page.
+Select or create a Google Cloud project.
+
+4.
+Enable billing for your Cloud project.
+
+5.
+Enable the Cloud Translation API.
+To do that, click on the following button in the guide labeled "Enable the API".
+Follow the instructions on the screen to complete the process of enabling the API.
+
+6.
+Create a service account and keys.
+To do that, click on the button in the guide labeled "Go to Create service account".
+Follow all the steps in that guide.
+At the end you will have a JSON key.
+Store that key safely.
+
+7.
+Give Bibledit Cloud access to the JSON key.
+Store the key in the Bibledit "config" folder as file "googletranslate.json".
+

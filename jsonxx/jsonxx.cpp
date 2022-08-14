@@ -42,6 +42,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #include <sstream>
 #include <vector>
 #include <limits>
+#include <exception>
 
 // Snippet that creates an assertion function that works both in DEBUG & RELEASE mode.
 // JSONXX_ASSERT(...) macro will redirect to this. assert() macro is kept untouched.
@@ -52,10 +53,14 @@ OTHER DEALINGS IN THE SOFTWARE.
 #endif
 #include <stdio.h>
 #include <cassert>
-void jsonxx::assertion( const char *file, int line, const char *expression, bool result ) {
-    if( !result ) {
-        fprintf( stderr, "[JSONXX] expression '%s' failed at %s:%d -> ", expression, file, line );
-        assert( 0 );
+void jsonxx::assertion (const char *file, int line, const char *expression, bool result)
+{
+    if (!result) {
+//        fprintf( stderr, "[JSONXX] expression '%s' failed at %s:%d -> ", expression, file, line );
+//        assert( 0 );
+      (void) file;
+      (void) line;
+      throw std::runtime_error (expression);
     }
 }
 #if defined(JSONXX_REENABLE_NDEBUG)

@@ -45,3 +45,13 @@ Store that key safely.
 Give Bibledit Cloud access to the JSON key.
 Store the key in the Bibledit "config" folder as file "googletranslate.json".
 
+Step 2: Install gcloud on the server hosting Bibledit Cloud
+-----------------------------------------------------------
+
+Bibledit Cloud authenticates access to Google Translate through the gcloud CLI.
+Therefore gcloud needs to be installed on the server.
+Information: https://cloud.google.com/sdk/gcloud/
+
+To install gcloud on the Bibledit server, follow these steps:
+https://cloud.google.com/sdk/docs/install
+

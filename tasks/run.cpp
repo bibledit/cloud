@@ -74,6 +74,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <nmt/logic.h>
 #include <images/logic.h>
 #include <tasks/enums.h>
+#include <filter/google.h>
 
 
 atomic <int> running_tasks (0);
@@ -324,6 +325,9 @@ void tasks_run_one (string filename)
   }
   else if (command == IMPORTBIBLEIMAGES) {
     images_logic_import_images (parameter1);
+  }
+  else if (command == GETGOOGLEACCESSTOKEN) {
+    filter::google::refresh_access_token ();
   }
   else {
     Database_Logs::log ("Unknown task: " + command);

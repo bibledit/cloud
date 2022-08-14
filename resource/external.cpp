@@ -249,7 +249,7 @@ struct gbs_annotation_walker: xml_tree_walker
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, int verse)
+string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, int verse) // Todo check
 {
   string text;
   
@@ -299,7 +299,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     post ["slug_id"] = bits[11];
     post ["book_id"] = convert_to_string(book);
     string error;
-    string annotation_html = filter_url_http_post (annotation_url, post, error, false, false);
+    string annotation_html = filter_url_http_post (annotation_url, string(), post, error, false, false, {});
     if (error.empty()) {
       annotation_html = filter_string_tidy_invalid_html (annotation_html);
       xml_document annotation_document;

@@ -47,6 +47,8 @@ vector <string> filter_url_scandir_internal (string folder);
 string filter_url_dirname_internal (string url, const char * separator);
 string filter_url_basename_internal (string url, const char * separator);
 size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
+void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size);
+int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp);
 
 
 // SSL/TLS globals.
@@ -932,7 +934,7 @@ string filter_url_build_http_query (string url, const string& parameter, const s
 }
 
 
-size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
+size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream) // Todo
 {
   static_cast<string *>(stream)->append (static_cast<char *>(ptr), 0, size * count);
   return size * count;
@@ -977,12 +979,83 @@ string filter_url_http_get (string url, string& error, [[maybe_unused]] bool che
 }
 
 
+// The debug function for libcurl, it dumps the data as specified.
+void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size)
+{
+  size_t i;
+  size_t c;
+  unsigned int width = 0x10;
+  
+  fprintf(stream, "%s, %10.10ld bytes (0x%8.8lx)\n", text, (long)size, (long)size);
+  
+  for (i = 0; i < size; i += width) {
+    fprintf(stream, "%4.4lx: ", (long)i);
+    
+    // Show hex to the left.
+    for (c = 0; c < width; c++) {
+      if (i + c < size) fprintf (stream, "%02x ", ptr[i + c]);
+      else fputs("   ", stream);
+    }
+    
+    // Show data on the right.
+    for (c = 0; (c < width) && (i + c < size); c++) {
+      char x = (ptr[i + c] >= 0x20 && ptr[i + c] < 0x80) ? ptr[i + c] : '.';
+      fputc (x, stream);
+    }
+
+    // Newline.
+    fputc ('\n', stream);
+  }
+}
+
+
+// The trace function for libcurl.
+int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp)
+{
+  const char *text;
+
+  // Prevent compiler warnings.
+  (void)handle;
+  (void)userp;
+  
+  switch (type) {
+    case CURLINFO_TEXT:
+      fprintf(stderr, "== Info: %s", data);
+    default: /* in case a new one is introduced to shock us */
+      return 0;
+      
+    case CURLINFO_HEADER_OUT:
+      text = "=> Send header";
+      break;
+    case CURLINFO_DATA_OUT:
+      text = "=> Send data";
+      break;
+    case CURLINFO_SSL_DATA_OUT:
+      text = "=> Send SSL data";
+      break;
+    case CURLINFO_HEADER_IN:
+      text = "<= Recv header";
+      break;
+    case CURLINFO_DATA_IN:
+      text = "<= Recv data";
+      break;
+    case CURLINFO_SSL_DATA_IN:
+      text = "<= Recv SSL data";
+      break;
+  }
+  
+  filter_url_curl_debug_dump(text, stderr, (unsigned char *)data, size);
+  return 0;
+}
+
+
 // Sends a http POST request to $url.
 // burst: Set connection timing for burst mode, where the response comes after a relatively long silence.
-// It posts the $values.
+// It posts the $post_data as-t.
+// It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (string url, map <string, string> values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate)
+string filter_url_http_post (const string & url, string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers) // Todo
 {
   string response;
 #ifdef HAVE_CLIENT
@@ -994,24 +1067,39 @@ string filter_url_http_post (string url, map <string, string> values, string& er
     // First set the URL that is about to receive the POST.
     // This can be http or https.
     curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
-    // Generate the post data.
-    string postdata;
-    for (auto & element : values) {
-      if (!postdata.empty ()) postdata.append ("&");
-      postdata.append (element.first);
-      postdata.append ("=");
-      postdata.append (filter_url_urlencode (element.second));
+    // Generate the post data, add it to the plain post data.
+    for (auto & element : post_values) {
+      if (!post_data.empty ()) post_data.append ("&");
+      post_data.append (element.first);
+      post_data.append ("=");
+      post_data.append (filter_url_urlencode (element.second));
     }
     // Specify the POST data to curl, e.g.: "name=foo&project=bar"
-    curl_easy_setopt (curl, CURLOPT_POSTFIELDS, postdata.c_str());
+    curl_easy_setopt (curl, CURLOPT_POSTFIELDS, post_data.c_str());
     // Callback for the server response.
     curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, filter_url_curl_write_function);
     curl_easy_setopt (curl, CURLOPT_WRITEDATA, &response);
     // Further options.
     curl_easy_setopt (curl, CURLOPT_FOLLOWLOCATION, 1L);
+    // Enable the trace function.
+    // curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, filter_url_curl_trace);
+    // The DEBUGFUNCTION has no effect until we enable VERBOSE.
     // curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
     // Timeouts for very bad networks, see the GET routine above for an explanation.
     filter_url_curl_set_timeout (curl, burst);
+    // Whether to check the secure certificate.
+    // If the configuration of the site is not right, the certificate cannot be verified.
+    // That would result in resources not being fetched anymore.
+    if (!check_certificate) curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    // Optional extra headers.
+    struct curl_slist *list = nullptr;
+    for (auto header : headers) {
+      string line = header.first + ": " + header.second;
+      list = curl_slist_append (list, line.c_str ());
+    }
+    if (list) {
+      curl_easy_setopt (curl, CURLOPT_HTTPHEADER, list);
+    }
     // Perform the request.
     CURLcode res = curl_easy_perform (curl);
     // Result check.
@@ -1026,6 +1114,7 @@ string filter_url_http_post (string url, map <string, string> values, string& er
       error = curl_easy_strerror (res);
     }
     // Always cleanup.
+    if (list) curl_slist_free_all (list);
     curl_easy_cleanup (curl);
   }
 #endif

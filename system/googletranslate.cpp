@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/google.h>
+#include <filter/shell.h>
 #include <locale/translate.h>
 #include <menu/logic.h>
 #include <database/logs.h>
@@ -67,10 +68,50 @@ string system_googletranslate (void * webserver_request)
   if (!json_error.empty()) Database_Logs::log(json_error);
   error.assign(json_error);
 
+  // Check whether gcloud has been installed on the server.
+  if (error.empty()) {
+    bool gcloud_present = filter_shell_is_present ("gcloud");
+    if (!gcloud_present) {
+      error.assign("The gcloud CLI was not found on the server.");
+    }
+  }
+
+  // Check whether the service account can be activated.
+  if (error.empty()) {
+    auto [ activate_ok, activate_output ] = filter::google::activate_service_account ();
+    if (!activate_ok) error.assign(activate_output);
+    Database_Logs::log (activate_output);
+  }
+
+  // Print and store the gcloud access token.
+  if (error.empty()) {
+    auto [ access_ok, access_token ] = filter::google::print_store_access_token ();
+    if (!access_ok) error.assign(access_token);
+    Database_Logs::log ("Access token: " + access_token);
+  }
+
+  // Do a translation.
+  string english_text { "Jesus the Christ the Messiah" };
+  string greek_text;
+  if (error.empty()) {
+    auto [ trans_ok, translation, trans_err ] = filter::google::translate (english_text, "en", "el");
+    if (!trans_ok) error.assign(trans_err);
+    if (trans_ok) greek_text = translation;
+  }
   
-  
-  if (json_key.length()) {
-    success = translate("The connection to Google Translate looks good.");
+  // Handle the OK message.
+  if (error.empty()) if (json_key.length()) {
+    stringstream ss;
+    ss << translate("The connection to Google Translate looks good.");
+    ss << " ";
+    ss << translate("An example translation was made.");
+    ss << " - ";
+    ss << translate ("English") << ": ";
+    ss << quoted(english_text); // Todo parse it.
+    ss << " - ";
+    ss << translate ("Greek") << ": ";
+    ss << quoted(greek_text);
+    success = ss.str();
   }
   
   // Set the feedback.
@@ -88,6 +129,3 @@ string system_googletranslate (void * webserver_request)
 // While building this through $ cmake the build machine started to freeze up.
 // It then indicated that there's was no application memory left.
 // So this method is not used.
-
-
-

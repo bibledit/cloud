@@ -23,6 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <config/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#include <jsonxx/jsonxx.h>
+#pragma GCC diagnostic pop
+using namespace jsonxx;
 
 
 namespace filter::google {
@@ -41,6 +46,134 @@ tuple <string, string> get_json_key_value_error ()
   if (value.empty()) error = "The key at " + path + " is empty";
 
   return { value, error };
+}
+
+
+// This runs $ gcloud auth activate-service-account --key-file=key.json.
+// It returns whether activation was successful,
+// plus the resulting output of the command.
+tuple <bool, string> activate_service_account ()
+{
+  stringstream command;
+  command << "gcloud auth activate-service-account --quiet --key-file=";
+  command << quoted(config_logic_google_translate_json_key_path ());
+  string out_err;
+  int result = filter_shell_run (command.str(), out_err);
+  return { (result == 0), out_err };
+}
+
+
+string google_access_token {};
+
+// This runs $ gcloud auth application-default print-access-token.
+// It returns whether the command was successful,
+// plus the resulting output of the command.
+tuple <bool, string> print_store_access_token ()
+{
+  // Set the path to the JSON key in the environment for gcloud to use.
+  setenv("GOOGLE_APPLICATION_CREDENTIALS", config_logic_google_translate_json_key_path ().c_str(), 1);
+  // Print the access token.
+  string command {"gcloud auth application-default print-access-token"};
+  string out_err;
+  int result = filter_shell_run (command.c_str(), out_err);
+  // Check on success.
+  bool success = (result == 0);
+  // Store the token if it was received, else clear it.
+  // Trim the token to remove any new line it likely contains.
+  if (success) google_access_token = filter_string_trim(out_err);
+  else google_access_token.clear();
+  // Done.
+  return { success, out_err };
+}
+
+
+// Refreshes the Google access token.
+void refresh_access_token ()
+{
+  // Check whether the JSON keys exists, if not, bail out.
+  if (!file_or_dir_exists(config_logic_google_translate_json_key_path ())) {
+    return;
+  }
+
+  // Refresh the token.
+  auto [ success, token ] = print_store_access_token ();
+  
+  Database_Logs::log ("Google access token: " + token);
+}
+
+
+// This makes an authenticated call to the Google Translate API.
+// Pass the text to be translated.
+// Pass the source language code and the target language code.
+// It returns whether the call was successful, plus the translated text, plus the error
+tuple <bool, string, string> translate (const string text, const char * source, const char * target) // Todo
+{
+  // From the shell, run these two commands to translate a string.
+  // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/key.json"
+  // $ curl -s -X POST -H "Content-Type: application/json" \
+  //  -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
+  //  --data "{
+  //  'q': 'The quick brown fox jumps over the lazy dog',
+  //  'source': 'en',
+  //  'target': 'fr',
+  //  'format': 'text'
+  //  }" "https://translation.googleapis.com/language/translate/v2"
+
+  // The URL of the translation REST API.
+  const string url { "https://translation.googleapis.com/language/translate/v2" };
+
+  // Create the JSON data to post.
+  Object translation_data;
+  translation_data << "q" << text;
+  translation_data << "source" << string (source);
+  translation_data << "target" << string (target);
+  translation_data << "format" << "text";
+  string postdata = translation_data.json ();
+  
+  string error;
+  bool burst { false };
+  bool check_certificate { false };
+  const vector <pair <string, string> > headers {
+    { "Content-Type", "application/json" },
+    { "Authorization", "Bearer " + google_access_token }
+  };
+  string translation = filter_url_http_post (url, postdata, {}, error, burst, check_certificate, headers);
+  bool success { error.empty() };
+
+  // Parse the translation JSON.
+  // Example:
+  // {
+  //   "data": {
+  //     "translations": [
+  //       {
+  //       "translatedText": "Ιησούς ο Χριστός ο Μεσσίας"
+  //       }
+  //     ]
+  //   }
+  // }
+  if (error.empty()) {
+    try {
+      Object json_object;
+      json_object.parse (translation);
+      Object data = json_object.get<Object> ("data");
+      Array translations = data.get<Array> ("translations");
+      Object translated = translations.get<Object>(0);
+      translation = translated.get<String> ("translatedText");
+    } catch (const exception & exception) {
+      error = exception.what();
+      error.append (" - ");
+      error.append(translation);
+      success = false;
+      translation.clear();
+    }
+  }
+
+  if (!error.empty()) {
+    Database_Logs::log("Error while translating text: " + error);
+  }
+
+  // Done.
+  return { success, translation, error };
 }
 
 

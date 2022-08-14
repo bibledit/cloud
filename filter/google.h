@@ -24,5 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace filter::google {
 
 tuple <string, string> get_json_key_value_error ();
+tuple <bool, string> activate_service_account ();
+tuple <bool, string> print_store_access_token ();
+void refresh_access_token ();
+tuple <bool, string, string> translate (const string text, const char * source, const char * target);
 
 }

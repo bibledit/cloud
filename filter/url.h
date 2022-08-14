@@ -56,7 +56,7 @@ string filter_url_unique_path (string path);
 bool filter_url_email_is_valid (string email);
 string filter_url_build_http_query (string url, const string& parameter, const string& value);
 string filter_url_http_get (string url, string& error, bool check_certificate);
-string filter_url_http_post (string url, map <string, string> values, string& error, bool burst, bool check_certificate);
+string filter_url_http_post (const string & url, string post_data, const map <string, string> & post_values, string& error, bool burst, bool check_certificate, const vector <pair <string, string> > & headers);
 string filter_url_http_upload (string url, map <string, string> values, string filename, string& error);
 string filter_url_http_response_code_text (int code);
 void filter_url_download_file (string url, string filename, string& error, bool check_certificate);

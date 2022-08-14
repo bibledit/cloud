@@ -86,6 +86,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define DELETEINDONESIANFREEUSER "deleteindonesianfreeuser"
 #define EXPIREINDONESIANFREEUSERS "expireindonesianfreeusers"
 #define IMPORTBIBLEIMAGES "importbibleimages"
+#define GETGOOGLEACCESSTOKEN "getgoogleaccesstoken"
 
 
 string tasks_logic_folder ();

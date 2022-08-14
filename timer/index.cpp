@@ -49,9 +49,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void timer_index ()
 {
-  int previous_second = -1;
-  int previous_minute = -1;
-  int previous_fraction = -1;
+  int previous_second { -1 };
+  int previous_minute { -1 };
+  int previous_fraction { -1 };
+  int google_translate_authentication_token_age_minute { 0 };
+  
+#ifdef HAVE_CLOUD
+  // Right after startup, update the Google Translate access token.
+  tasks_logic_queue(GETGOOGLEACCESSTOKEN);
+#endif
+  
   while (config_globals_webserver_running) {
 
     try {
@@ -263,7 +270,18 @@ void timer_index ()
         }
       }
 #endif
-      
+
+#ifdef HAVE_CLOUD
+      // Keep the Google Translate access token current.
+      // From experiments it appears that the token is valid for one hour.
+      // So before the hour has expired, renew the token again.
+      google_translate_authentication_token_age_minute++;
+      if (google_translate_authentication_token_age_minute > 50) {
+        tasks_logic_queue(GETGOOGLEACCESSTOKEN);
+        google_translate_authentication_token_age_minute = 0;
+      }
+#endif
+
     } catch (exception & e) {
       Database_Logs::log (e.what ());
     } catch (exception * e) {

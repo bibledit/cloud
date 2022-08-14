@@ -208,6 +208,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/confirm.h>
 #include <resource/comparative9edit.h>
 #include <resource/comparative1edit.h>
+#include <resource/translated9edit.h>
+#include <resource/translated1edit.h>
 #include <developer/logic.h>
 #include <developer/delay.h>
 #include <images/index.h>
@@ -1250,6 +1252,16 @@ void bootstrap_index (void * webserver_request)
 
   if ((url == resource_comparative1edit_url ()) && browser_request_security_okay (request) && resource_comparative1edit_acl (request)) {
     request->reply = resource_comparative1edit (request);
+    return;
+  }
+
+  if ((url == resource_translated9edit_url ()) && browser_request_security_okay (request) && resource_translated9edit_acl (request)) {
+    request->reply = resource_translated9edit (request);
+    return;
+  }
+  
+  if ((url == resource_translated1edit_url ()) && browser_request_security_okay (request) && resource_translated1edit_acl (request)) {
+    request->reply = resource_translated1edit (request);
     return;
   }
 

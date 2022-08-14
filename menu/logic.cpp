@@ -99,6 +99,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <read/index.h>
 #include <filter/css.h>
 #include <resource/comparative9edit.h>
+#include <resource/translated9edit.h>
 #include <images/index.h>
 
 
@@ -1007,6 +1008,12 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
 #ifdef HAVE_CLOUD
   if (resource_comparative9edit_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_comparative9edit_url (), translate ("Comparative"), true, "", ""));
+  }
+#endif
+
+#ifdef HAVE_CLOUD
+  if (resource_translated9edit_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (resource_translated9edit_url (), translate ("Translated"), true, "", ""));
   }
 #endif
   

@@ -339,7 +339,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/indonesian.$(OBJEXT) session/confirm.$(OBJEXT) \
 	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
 	resource/comparative9edit.$(OBJEXT) \
-	resource/comparative1edit.$(OBJEXT) developer/delay.$(OBJEXT) \
+	resource/comparative1edit.$(OBJEXT) \
+	resource/translated9edit.$(OBJEXT) \
+	resource/translated1edit.$(OBJEXT) developer/delay.$(OBJEXT) \
 	images/index.$(OBJEXT) images/view.$(OBJEXT) \
 	images/fetch.$(OBJEXT) images/logic.$(OBJEXT) \
 	database/bibleimages.$(OBJEXT) filter/image.$(OBJEXT) \
@@ -665,6 +667,8 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	resource/$(DEPDIR)/manage.Po resource/$(DEPDIR)/organize.Po \
 	resource/$(DEPDIR)/print.Po resource/$(DEPDIR)/select.Po \
 	resource/$(DEPDIR)/studylight.Po resource/$(DEPDIR)/sword.Po \
+	resource/$(DEPDIR)/translated1edit.Po \
+	resource/$(DEPDIR)/translated9edit.Po \
 	resource/$(DEPDIR)/unload.Po resource/$(DEPDIR)/user1edit.Po \
 	resource/$(DEPDIR)/user1view.Po \
 	resource/$(DEPDIR)/user9edit.Po \
@@ -1444,6 +1448,8 @@ libbibledit_a_SOURCES = \
   database/abbottsmith.cpp \
   resource/comparative9edit.cpp \
   resource/comparative1edit.cpp \
+  resource/translated9edit.cpp \
+  resource/translated1edit.cpp \
   developer/delay.cpp \
   images/index.cpp \
   images/view.cpp \
@@ -3085,6 +3091,10 @@ resource/comparative9edit.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
 resource/comparative1edit.$(OBJEXT): resource/$(am__dirstamp) \
 	resource/$(DEPDIR)/$(am__dirstamp)
+resource/translated9edit.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
+resource/translated1edit.$(OBJEXT): resource/$(am__dirstamp) \
+	resource/$(DEPDIR)/$(am__dirstamp)
 developer/delay.$(OBJEXT): developer/$(am__dirstamp) \
 	developer/$(DEPDIR)/$(am__dirstamp)
 images/$(am__dirstamp):
@@ -3896,6 +3906,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/select.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/studylight.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/sword.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/translated1edit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/translated9edit.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/unload.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/user1edit.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@resource/$(DEPDIR)/user1view.Po@am__quote@ # am--include-marker
@@ -5032,6 +5044,8 @@ distclean: distclean-am
 	-rm -f resource/$(DEPDIR)/select.Po
 	-rm -f resource/$(DEPDIR)/studylight.Po
 	-rm -f resource/$(DEPDIR)/sword.Po
+	-rm -f resource/$(DEPDIR)/translated1edit.Po
+	-rm -f resource/$(DEPDIR)/translated9edit.Po
 	-rm -f resource/$(DEPDIR)/unload.Po
 	-rm -f resource/$(DEPDIR)/user1edit.Po
 	-rm -f resource/$(DEPDIR)/user1view.Po
@@ -5654,6 +5668,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f resource/$(DEPDIR)/select.Po
 	-rm -f resource/$(DEPDIR)/studylight.Po
 	-rm -f resource/$(DEPDIR)/sword.Po
+	-rm -f resource/$(DEPDIR)/translated1edit.Po
+	-rm -f resource/$(DEPDIR)/translated9edit.Po
 	-rm -f resource/$(DEPDIR)/unload.Po
 	-rm -f resource/$(DEPDIR)/user1edit.Po
 	-rm -f resource/$(DEPDIR)/user1view.Po

@@ -11,6 +11,8 @@
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
 		CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */; };
 		CA181FFD28A162C1009F5954 /* google.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA181FFC28A162C0009F5954 /* google.cpp */; };
+		CA40E47628A91E7300E0A563 /* translated9edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA40E47028A91E7200E0A563 /* translated9edit.cpp */; };
+		CA40E47728A91E7300E0A563 /* translated1edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA40E47128A91E7200E0A563 /* translated1edit.cpp */; };
 		CA47750F260FC720001F50DD /* accounts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47750E260FC720001F50DD /* accounts.cpp */; };
 		CA55F184277B916100673C9E /* header.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D240277B6D74000EC1CA /* header.cxx */; };
 		CA55F185277B917600673C9E /* contentid.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D236277B6D74000EC1CA /* contentid.cxx */; };
@@ -609,6 +611,12 @@
 		CA23A6FA2781EE5500A7A23B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CA314CD22662298D00EF8CE3 /* delay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
+		CA40E47028A91E7200E0A563 /* translated9edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated9edit.cpp; sourceTree = "<group>"; };
+		CA40E47128A91E7200E0A563 /* translated1edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated1edit.cpp; sourceTree = "<group>"; };
+		CA40E47228A91E7200E0A563 /* translated9edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translated9edit.h; sourceTree = "<group>"; };
+		CA40E47328A91E7300E0A563 /* translated9edit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = translated9edit.html; sourceTree = "<group>"; };
+		CA40E47428A91E7300E0A563 /* translated1edit.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = translated1edit.html; sourceTree = "<group>"; };
+		CA40E47528A91E7300E0A563 /* translated1edit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = translated1edit.h; sourceTree = "<group>"; };
 		CA47750C260FC71F001F50DD /* accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = accounts.h; sourceTree = "<group>"; };
 		CA47750D260FC720001F50DD /* accounts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = accounts.html; sourceTree = "<group>"; };
 		CA47750E260FC720001F50DD /* accounts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = accounts.cpp; sourceTree = "<group>"; };
@@ -4784,12 +4792,12 @@
 				CADE3FF924F17495003165BB /* cache.cpp */,
 				CADE3FE324F17495003165BB /* cache.h */,
 				CADE3FE524F17495003165BB /* cache.html */,
-				CAD55EAF260140360021FED0 /* comparative9edit.cpp */,
-				CAD55EB2260140370021FED0 /* comparative9edit.h */,
-				CAD55EB3260140370021FED0 /* comparative9edit.html */,
 				CAD55EB0260140370021FED0 /* comparative1edit.cpp */,
 				CAD55EB1260140370021FED0 /* comparative1edit.h */,
 				CAD55EAE260140360021FED0 /* comparative1edit.html */,
+				CAD55EAF260140360021FED0 /* comparative9edit.cpp */,
+				CAD55EB2260140370021FED0 /* comparative9edit.h */,
+				CAD55EB3260140370021FED0 /* comparative9edit.html */,
 				CADE400424F17495003165BB /* convert2bible.cpp */,
 				CADE400224F17495003165BB /* convert2bible.h */,
 				CADE3FCA24F17495003165BB /* convert2resource.cpp */,
@@ -4840,6 +4848,12 @@
 				CADE3FDF24F17495003165BB /* sword.cpp */,
 				CADE401124F17495003165BB /* sword.h */,
 				CADE3FFE24F17495003165BB /* sword.html */,
+				CA40E47128A91E7200E0A563 /* translated1edit.cpp */,
+				CA40E47528A91E7300E0A563 /* translated1edit.h */,
+				CA40E47428A91E7300E0A563 /* translated1edit.html */,
+				CA40E47028A91E7200E0A563 /* translated9edit.cpp */,
+				CA40E47228A91E7200E0A563 /* translated9edit.h */,
+				CA40E47328A91E7300E0A563 /* translated9edit.html */,
 				CADE3FD524F17495003165BB /* unload.cpp */,
 				CADE3FF824F17495003165BB /* unload.h */,
 				CADE3FD124F17495003165BB /* user1edit.cpp */,
@@ -6110,6 +6124,7 @@
 				CADE455D24F174DF003165BB /* change.cpp in Sources */,
 				CADE455E24F174DF003165BB /* versification.cpp in Sources */,
 				CADE455F24F174DF003165BB /* pairs.cpp in Sources */,
+				CA40E47728A91E7300E0A563 /* translated1edit.cpp in Sources */,
 				CADE456024F174DF003165BB /* suppress.cpp in Sources */,
 				CADE456124F174DF003165BB /* settingspairs.cpp in Sources */,
 				CADE456224F174DF003165BB /* logic.cpp in Sources */,
@@ -6126,6 +6141,7 @@
 				CADE456D24F174DF003165BB /* index.cpp in Sources */,
 				CADE456E24F174DF003165BB /* logic.cpp in Sources */,
 				CADE456F24F174DF003165BB /* logic.cpp in Sources */,
+				CA40E47628A91E7300E0A563 /* translated9edit.cpp in Sources */,
 				CADE457024F174DF003165BB /* index.cpp in Sources */,
 				CADE457124F174DF003165BB /* link.cpp in Sources */,
 				CADE457224F174DF003165BB /* settings.cpp in Sources */,

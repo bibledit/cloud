@@ -138,6 +138,9 @@ public:
   static vector <string> getComparativeResources ();
   static void setComparativeResources (vector <string> values);
 
+  static vector <string> getTranslatedResources ();
+  static void setTranslatedResources (vector <string> values);
+
   static vector <string> getActiveResources ();
   static void setActiveResources (vector <string> values);
 

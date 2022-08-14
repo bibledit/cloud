@@ -448,6 +448,8 @@ libbibledit_a_SOURCES = \
   database/abbottsmith.cpp \
   resource/comparative9edit.cpp \
   resource/comparative1edit.cpp \
+  resource/translated9edit.cpp \
+  resource/translated1edit.cpp \
   developer/delay.cpp \
   images/index.cpp \
   images/view.cpp \

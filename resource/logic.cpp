@@ -1977,3 +1977,55 @@ string resource_logic_assemble_comparative_resource (string title,
   vector <string> bits = {resource_logic_comparative_resource() + title, base, update, remove, replace, convert_to_true_false(diacritics), convert_to_true_false(casefold), convert_to_true_false(cache)};
   return filter_string_implode(bits, "|");
 }
+
+
+string resource_logic_translated_resource ()
+{
+  return "Translated ";
+}
+
+
+bool resource_logic_parse_translated_resource (string input,
+                                               string * title,
+                                               string * original_resource,
+                                               string * source_language,
+                                               string * target_language,
+                                               bool * cache) // Todo working here.
+{
+  // The definite check whether this is a translated resource
+  // is to check that "Translated " is the first part of the input.
+  if (input.find(resource_logic_translated_resource()) != 0) return false;
+  
+  // Do a forgiving parsing of the properties of this resource.
+  if (title) title->clear();
+  if (original_resource) original_resource->clear();
+  if (source_language) source_language->clear();
+  if (target_language) target_language->clear();
+  if (cache) * cache = false;
+  vector <string> bits = filter_string_explode(input, '|');
+  if (bits.size() > 0) if (title) title->assign (bits[0]);
+  if (bits.size() > 1) if (original_resource) original_resource->assign(bits[1]);
+  if (bits.size() > 2) if (source_language) source_language->assign(bits[2]);
+  if (bits.size() > 3) if (target_language) target_language->assign(bits[3]);
+  if (bits.size() > 4) if (cache) * cache = convert_to_bool(bits[4]);
+  
+  // Done.
+  return true;
+}
+
+
+string resource_logic_assemble_translated_resource (string title,
+                                                    string original_resource,
+                                                    string source_language,
+                                                    string target_language,
+                                                    bool cache) // Todo
+{
+  // Check whether the "Translated " flag already is included in the given $title.
+  size_t pos = title.find (resource_logic_translated_resource ());
+  if (pos != string::npos) {
+    title.erase (pos, resource_logic_translated_resource ().length());
+  }
+  // Ensure the "Translated " flag is always included right at the start.
+  vector <string> bits = {resource_logic_translated_resource() + title, original_resource, source_language, target_language, convert_to_true_false(cache)};
+  return filter_string_implode(bits, "|");
+}

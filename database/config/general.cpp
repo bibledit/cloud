@@ -549,6 +549,20 @@ void Database_Config_General::setComparativeResources (vector <string> values)
 }
 
 
+const char * translated_resources_key ()
+{
+  return "translated-resources";
+}
+vector <string> Database_Config_General::getTranslatedResources ()
+{
+  return getList (translated_resources_key ());
+}
+void Database_Config_General::setTranslatedResources (vector <string> values)
+{
+  setList (translated_resources_key (), values);
+}
+
+
 const char * active_resources_key ()
 {
   return "active-resources";

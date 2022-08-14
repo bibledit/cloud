@@ -606,6 +606,8 @@
 /resource/select.html
 /resource/studylight.html
 /resource/sword.html
+/resource/translated1edit.html
+/resource/translated9edit.html
 /resource/user1edit.html
 /resource/user1view.html
 /resource/user1view.js

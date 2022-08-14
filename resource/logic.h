@@ -111,3 +111,16 @@ string resource_logic_assemble_comparative_resource (string title,
                                                      bool diacritics = false,
                                                      bool casefold = false,
                                                      bool cache = false);
+
+string resource_logic_translated_resource ();
+bool resource_logic_parse_translated_resource (string input,
+                                               string * title = nullptr,
+                                               string * original_resource = nullptr,
+                                               string * source_language = nullptr,
+                                               string * target_language = nullptr,
+                                               bool * cache = nullptr);
+string resource_logic_assemble_translated_resource (string title,
+                                                    string original_resource = string(),
+                                                    string source_language = string(),
+                                                    string target_language = string(),
+                                                    bool cache = false);

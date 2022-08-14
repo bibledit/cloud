@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <database/books.h>
 #include <database/logs.h>
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
 #include <mbedtls/net_sockets.h>
@@ -48,7 +48,9 @@ string filter_url_dirname_internal (string url, const char * separator);
 string filter_url_basename_internal (string url, const char * separator);
 size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
 void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size);
+#ifdef HAVE_CLOUD
 int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp);
+#endif
 
 
 // SSL/TLS globals.
@@ -1010,6 +1012,7 @@ void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *
 
 
 // The trace function for libcurl.
+#ifdef HAVE_CLOUD
 int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp)
 {
   const char *text;
@@ -1047,6 +1050,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
   filter_url_curl_debug_dump(text, stderr, (unsigned char *)data, size);
   return 0;
 }
+#endif
 
 
 // Sends a http POST request to $url.
@@ -1055,11 +1059,11 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const string & url, string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers) // Todo
+string filter_url_http_post (const string & url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers) // Todo
 {
   string response;
 #ifdef HAVE_CLIENT
-  response = filter_url_http_request_mbed (url, error, values, "", check_certificate);
+  response = filter_url_http_request_mbed (url, error, post_values, "", check_certificate);
 #else
   // Get a curl handle.
   CURL *curl = curl_easy_init ();

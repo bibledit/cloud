@@ -28,5 +28,6 @@ tuple <bool, string> activate_service_account ();
 tuple <bool, string> print_store_access_token ();
 void refresh_access_token ();
 tuple <bool, string, string> translate (const string text, const char * source, const char * target);
+vector <pair <string, string> > get_languages (const string & target);
 
 }

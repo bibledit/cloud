@@ -106,10 +106,10 @@ void refresh_access_token ()
 // Pass the text to be translated.
 // Pass the source language code and the target language code.
 // It returns whether the call was successful, plus the translated text, plus the error
-tuple <bool, string, string> translate (const string text, const char * source, const char * target) // Todo
+tuple <bool, string, string> translate (const string text, const char * source, const char * target)
 {
   // From the shell, run these two commands to translate a string.
-  // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/key.json"
+  // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/googletranslate.json"
   // $ curl -s -X POST -H "Content-Type: application/json" \
   //  -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
   //  --data "{
@@ -174,6 +174,86 @@ tuple <bool, string, string> translate (const string text, const char * source, 
 
   // Done.
   return { success, translation, error };
+}
+
+
+// This asks the Google Translate API for the list of supported languages.
+// It returns a container with a pair of <language code, language name>.
+// The language name is given in the $target language.
+vector <pair <string, string> > get_languages (const string & target)
+{
+
+  // From the shell, run these two commands to translate a string.
+  // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/googletranslate.json"
+  // $ curl -s -X POST -H "Content-Type: application/json; charset=utf-8" -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) --data "{ 'target': 'en' }" "https://translation.googleapis.com/language/translate/v2/languages"
+  
+  // The URL of the translation REST API.
+  const string url { "https://translation.googleapis.com/language/translate/v2/languages" };
+  
+  // Create the JSON data to post.
+  Object request_data;
+  request_data << "target" << target;
+  string postdata = request_data.json ();
+  
+  string error;
+  bool burst { false };
+  bool check_certificate { false };
+  const vector <pair <string, string> > headers {
+    { "Content-Type", "application/json; charset=utf-8" },
+    { "Authorization", "Bearer " + google_access_token }
+  };
+  string result_json = filter_url_http_post (url, postdata, {}, error, burst, check_certificate, headers);
+  bool success { error.empty() };
+  
+  // Parse the resulting JSON.
+  // Example:
+  // {
+  //   "data": {
+  //     "languages": [
+  //       {
+  //         "language": "zh-CN",
+  //         "name": "Chinese (Simplified)"
+  //       },
+  //       {
+  //         "language": "he",
+  //         "name": "Hebrew"
+  //       },
+  //       {
+  //         "language": "zu",
+  //         "name": "Zulu"
+  //       }
+  //     ]
+  //   }
+  // }
+  vector <pair <string, string> > language_codes_names;
+  if (error.empty()) {
+    try {
+      Object json_object;
+      json_object.parse (result_json);
+      Object data = json_object.get<Object> ("data");
+      Array languages = data.get<Array> ("languages");
+      for (size_t i = 0; i < languages.size(); i++) {
+        Object language_name = languages.get<Object>(static_cast<unsigned>(i));
+        string language = language_name.get<String>("language");
+        string name = language_name.get<String>("name");
+        language_codes_names.push_back({language, name});
+      }
+    } catch (const exception & exception) {
+      error = exception.what();
+      error.append (" - ");
+      error.append(result_json);
+      success = false;
+      language_codes_names.clear();
+    }
+  }
+  
+  if (!error.empty()) {
+    Database_Logs::log("Error while getting Google Translate supported languages: " + error);
+    language_codes_names.clear();
+  }
+  
+  // Done.
+  return language_codes_names;
 }
 
 

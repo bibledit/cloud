@@ -26,6 +26,7 @@
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/archive.h>
+#include <filter/google.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
@@ -59,7 +60,7 @@ string resource_translated1edit (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("User-defined resources"), request);
+  Assets_Header header = Assets_Header (translate("Translated resource"), request);
   header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
@@ -78,94 +79,73 @@ string resource_translated1edit (void * webserver_request)
   bool resource_edited = false;
 
 
-  string title, base, update, remove, replace;
-  bool diacritics = false, casefold = false, cache = false;
+  string title, original_resource, source_language, target_language;
+  bool cache {false};
   {
-//    vector <string> resources = Database_Config_General::gettranslatedResources ();
-//    for (auto resource : resources) {
-//      resource_logic_parse_translated_resource (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold, &cache);
-//      if (title == name) break;
-//    }
+    vector <string> resources = Database_Config_General::getTranslatedResources ();
+    for (auto resource : resources) {
+      resource_logic_parse_translated_resource (resource, &title, &original_resource, &source_language, &target_language, &cache);
+      if (title == name) break;
+    }
   }
 
   
-  // The translated resource's base resource.
-  if (request->query.count ("base")) {
-    string value = request->query["base"];
+  // The translated resource's original resource.
+  if (request->query.count ("original")) {
+    string value = request->query["original"];
     if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as a base resource"), translate ("The base resource is used as a starting point for the comparison."), "");
+      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), string());
       dialog_list.add_query ("name", name);
       vector <string> resources = resource_logic_get_names (webserver_request, true);
       for (auto & resource : resources) {
-        dialog_list.add_row (resource, "base", resource);
+        dialog_list.add_row (resource, "original", resource);
       }
       page += dialog_list.run ();
       return page;
     } else {
-      base = value;
+      original_resource = value;
+      resource_edited = true;
+    }
+  }
+
+  
+  // The language of the original resource.
+  if (request->query.count ("source")) {
+    string value = request->query["source"];
+    if (value.empty()) {
+      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), string());
+      dialog_list.add_query ("name", name);
+      vector <pair <string, string> > languages = filter::google::get_languages ("en");
+      for (auto & language : languages) {
+        dialog_list.add_row (language.second, "source", language.first);
+      }
+      page += dialog_list.run ();
+      return page;
+    } else {
+      source_language = value;
       resource_edited = true;
     }
   }
   
   
-  // The translated resource's updated resource.
-  if (request->query.count ("update")) {
-    string value = request->query["update"];
+  // The language to translate the resource into. Todo
+  if (request->query.count ("target")) {
+    string value = request->query["target"];
     if (value.empty()) {
-      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the updated resource."), translate ("The updated resource will be compared with the base resource."), "");
+      Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), string());
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
-      for (auto & resource : resources) {
-        dialog_list.add_row (resource, "update", resource);
+      vector <pair <string, string> > languages = filter::google::get_languages ("en");
+      for (auto & language : languages) {
+        dialog_list.add_row (language.second, "target", language.first);
       }
       page += dialog_list.run ();
       return page;
     } else {
-      update = value;
+      target_language = value;
       resource_edited = true;
     }
   }
   
-  
-  // The characters to remove from both resources before doing a comparison.
-  if (request->query.count ("remove")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("translated1edit", translate("Enter or edit the characters to remove from the resources"), remove, "remove", "");
-    dialog_entry.add_query ("name", name);
-    page += dialog_entry.run ();
-    return page;
-  }
-  if (request->post.count ("remove")) {
-    remove = request->post ["entry"];
-    resource_edited = true;
-  }
-
-  
-  // The characters to search for and replace in both resources before doing a comparison.
-  if (request->query.count ("replace")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("translated1edit", translate("Enter or edit the search and replace sets"), replace, "replace", "");
-    dialog_entry.add_query ("name", name);
-    page += dialog_entry.run ();
-    return page;
-  }
-  if (request->post.count ("replace")) {
-    replace = request->post ["entry"];
-    resource_edited = true;
-  }
-
-  
-  // Whether to remove diacritics before doing the comparison.
-  if (checkbox == "diacritics") {
-    diacritics = checked;
-    resource_edited = true;
-  }
-
-  
-  // Whether to do case folding of the text before doing the comparison.
-  if (checkbox == "casefold") {
-    casefold = checked;
-    resource_edited = true;
-  }
-
   
   // Whether to cache the resource on client devices.
   if (checkbox == "cache") {
@@ -176,33 +156,30 @@ string resource_translated1edit (void * webserver_request)
   
   // Save the translated resource if it was edited.
   if (resource_edited) {
-//    vector <string> resources = Database_Config_General::gettranslatedResources ();
-//    error = translate ("Could not save");
-//    for (size_t i = 0; i < resources.size(); i++) {
-//      string title2;
-//      resource_logic_parse_translated_resource (resources[i], &title2);
-//      if (title2 == title) {
-//        string resource = resource_logic_assemble_translated_resource (title, base, update, remove, replace, diacritics, casefold, cache);
-//        resources[i] = resource;
-//        success = translate ("Saved");
-//        error.clear();
-//      }
-//    }
-//    Database_Config_General::settranslatedResources (resources);
-//    if (cache) client_logic_no_cache_resource_remove(title);
-//    else client_logic_no_cache_resource_add(title);
+    vector <string> resources = Database_Config_General::getTranslatedResources ();
+    error = translate ("Could not save");
+    for (size_t i = 0; i < resources.size(); i++) {
+      string title2;
+      resource_logic_parse_translated_resource (resources[i], &title2);
+      if (title2 == title) {
+        string resource = resource_logic_assemble_translated_resource (title, original_resource, source_language, target_language, cache);
+        resources[i] = resource;
+        success = translate ("Saved");
+        error.clear();
+      }
+    }
+    Database_Config_General::setTranslatedResources (resources);
+    if (cache) client_logic_no_cache_resource_remove(title);
+    else client_logic_no_cache_resource_add(title);
   }
   
 
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   view.set_variable ("title", title);
-  view.set_variable ("base", base);
-  view.set_variable ("update", update);
-  view.set_variable ("remove", remove);
-  view.set_variable ("replace", replace);
-  view.set_variable ("diacritics", get_checkbox_status (diacritics));
-  view.set_variable ("casefold", get_checkbox_status (casefold));
+  view.set_variable ("original", original_resource);
+  view.set_variable ("source", source_language);
+  view.set_variable ("target", target_language);
   view.set_variable ("cache", get_checkbox_status (cache));
   page += view.render ("resource", "translated1edit");
   page += Assets_Page::footer ();

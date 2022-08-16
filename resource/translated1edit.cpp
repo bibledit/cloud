@@ -128,7 +128,7 @@ string resource_translated1edit (void * webserver_request)
   }
   
   
-  // The language to translate the resource into. Todo
+  // The language to translate the resource into.
   if (request->query.count ("target")) {
     string value = request->query["target"];
     if (value.empty()) {

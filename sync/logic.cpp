@@ -143,7 +143,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
-string Sync_Logic::post (map <string, string> & post, const string& url, string & error, bool burst) // Todo check
+string Sync_Logic::post (map <string, string> & post, const string& url, string & error, bool burst)
 {
   error.clear ();
   string response = filter_url_http_post (url, string(), post, error, burst, true, {});

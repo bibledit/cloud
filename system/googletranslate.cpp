@@ -107,7 +107,7 @@ string system_googletranslate (void * webserver_request)
     ss << translate("An example translation was made.");
     ss << " - ";
     ss << translate ("English") << ": ";
-    ss << quoted(english_text); // Todo parse it.
+    ss << quoted(english_text);
     ss << " - ";
     ss << translate ("Greek") << ": ";
     ss << quoted(greek_text);

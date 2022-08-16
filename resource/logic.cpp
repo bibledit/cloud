@@ -1990,7 +1990,7 @@ bool resource_logic_parse_translated_resource (string input,
                                                string * original_resource,
                                                string * source_language,
                                                string * target_language,
-                                               bool * cache) // Todo working here.
+                                               bool * cache)
 {
   // The definite check whether this is a translated resource
   // is to check that "Translated " is the first part of the input.
@@ -2018,7 +2018,7 @@ string resource_logic_assemble_translated_resource (string title,
                                                     string original_resource,
                                                     string source_language,
                                                     string target_language,
-                                                    bool cache) // Todo
+                                                    bool cache)
 {
   // Check whether the "Translated " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_translated_resource ());

@@ -936,7 +936,7 @@ string filter_url_build_http_query (string url, const string& parameter, const s
 }
 
 
-size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream) // Todo
+size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
 {
   static_cast<string *>(stream)->append (static_cast<char *>(ptr), 0, size * count);
   return size * count;
@@ -1059,7 +1059,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const string & url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers) // Todo
+string filter_url_http_post (const string & url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers)
 {
   string response;
 #ifdef HAVE_CLIENT

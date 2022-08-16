@@ -223,13 +223,36 @@ string resource_select (void * webserver_request)
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
   if (request->query.count ("comparative")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, "", true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, string(), true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources;
     vector<string> raw_resources = Database_Config_General::getComparativeResources ();
     for (auto raw_resource : raw_resources) {
       string title;
       if (resource_logic_parse_comparative_resource (raw_resource, &title)) {
+        resources.push_back(title);
+      }
+    }
+    for (auto resource : resources) {
+      dialog_list.add_row (resource, "add", resource);
+    }
+    page += dialog_list.run ();
+    return page;
+  }
+
+  
+  // The translated resources are stored as one resource per line.
+  // The line contains multiple properties of the resource.
+  // One of those properties is the title.
+  // This selection mechanism here shows that title only.
+  if (request->query.count ("translated")) {
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, string(), true);
+    dialog_list.add_query ("page", request->query["page"]);
+    vector <string> resources;
+    vector<string> raw_resources = Database_Config_General::getTranslatedResources ();
+    for (auto raw_resource : raw_resources) {
+      string title;
+      if (resource_logic_parse_translated_resource (raw_resource, &title)) {
         resources.push_back(title);
       }
     }

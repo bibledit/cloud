@@ -37,6 +37,7 @@
 #include <filter/shell.h>
 #include <filter/roles.h>
 #include <filter/diff.h>
+#include <filter/google.h>
 #include <resource/external.h>
 #include <locale/translate.h>
 #include <client/logic.h>
@@ -140,21 +141,22 @@ string resource_logic_get_html (void * webserver_request,
   string html;
 
   // Determine the type of the resource.
-  bool isBible = resource_logic_is_bible (resource);
-  bool isUsfm = resource_logic_is_usfm (resource);
-  bool isExternal = resource_logic_is_external (resource);
-  bool isImage = resource_logic_is_image (resource);
-  bool isLexicon = resource_logic_is_lexicon (resource);
-  bool isSword = resource_logic_is_sword (resource);
-  bool isBibleGateway = resource_logic_is_biblegateway (resource);
-  bool isStudyLight = resource_logic_is_studylight (resource);
-  bool isComparative = resource_logic_is_comparative (resource);
+  bool is_bible = resource_logic_is_bible (resource);
+  bool is_usfm = resource_logic_is_usfm (resource);
+  bool is_external = resource_logic_is_external (resource);
+  bool is_image = resource_logic_is_image (resource);
+  bool is_lexicon = resource_logic_is_lexicon (resource);
+  bool is_sword = resource_logic_is_sword (resource);
+  bool is_bible_gateway = resource_logic_is_biblegateway (resource);
+  bool is_study_light = resource_logic_is_studylight (resource);
+  bool is_comparative = resource_logic_is_comparative (resource);
+  bool is_translated = resource_logic_is_translated(resource); // Todo use.
 
   // Handle a comparative resource.
   // This type of resource is special.
   // It is not one resource, but made out of two resources.
   // It fetches data from two resources and combines that into one.
-  if (isComparative) {
+  if (is_comparative) { // Todo handle translated.
 #ifdef HAVE_CLOUD
     html = resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
@@ -164,6 +166,20 @@ string resource_logic_get_html (void * webserver_request,
     return html;
   }
 
+  // Handle a translated resource.
+  // This type of resource is special.
+  // It consists of any of the other types of resources, as the base resource.
+  // It gets that data, and then has that translated.
+  if (is_translated) {
+#ifdef HAVE_CLOUD
+    html = resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, add_verse_numbers);
+#endif
+#ifdef HAVE_CLIENT
+    html = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse); // Todo test it.
+#endif
+    return html;
+  }
+  
   Database_Mappings database_mappings;
 
   // Retrieve versification system of the active Bible.
@@ -172,19 +188,19 @@ string resource_logic_get_html (void * webserver_request,
 
   // Determine the versification system of the current resource.
   string resource_versification;
-  if (isBible || isUsfm) {
+  if (is_bible || is_usfm) {
     resource_versification = Database_Config_Bible::getVersificationSystem (bible);
-  } else if (isExternal) {
+  } else if (is_external) {
     resource_versification = resource_external_mapping (resource);
-  } else if (isImage) {
-  } else if (isLexicon) {
+  } else if (is_image) {
+  } else if (is_lexicon) {
     resource_versification = database_mappings.original ();
     if (resource == KJV_LEXICON_NAME) resource_versification = english ();
-  } else if (isSword) {
+  } else if (is_sword) {
     resource_versification = english ();
-  } else if (isBibleGateway) {
+  } else if (is_bible_gateway) {
     resource_versification = english ();
-  } else if (isStudyLight) {
+  } else if (is_study_light) {
     resource_versification = english ();
   } else {
   }
@@ -239,7 +255,7 @@ string resource_logic_get_html (void * webserver_request,
     string possible_included_passage;
     if (add_verse_numbers) possible_included_passage = passage.m_verse + " ";
     if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.m_book, passage.m_chapter, passage.m_verse) + " ";
-    if (isImage) possible_included_passage.clear ();
+    if (is_image) possible_included_passage.clear ();
     html.append (possible_included_passage);
     html.append (resource_logic_get_verse (webserver_request, resource, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse)));
   }
@@ -408,24 +424,53 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
 }
 
 
+string resource_logic_cloud_get_translation (void * webserver_request,
+                                             const string & resource, int book, int chapter, int verse,
+                                             bool add_verse_numbers) // Todo write and test.
+{
+  // This function gets passed the resource title only.
+  // So get all defined translated resources and look for the one with this title.
+  // And then get the additional properties belonging to this resource.
+  string title, original_resource, source_language, target_language;
+  vector <string> resources = Database_Config_General::getTranslatedResources ();
+  for (const auto & input : resources) {
+    resource_logic_parse_translated_resource (input, &title, &original_resource, &source_language, &target_language);
+    if (title == resource) break;
+  }
+  
+  // Get the html of the resources to be translated.
+  string original_text = resource_logic_get_html (webserver_request, original_resource, book, chapter, verse, add_verse_numbers);
+  // Clean all html elements away from the text to get a better and cleaner translation.
+  original_text = filter_string_html2text (original_text);
+
+  // Run it through Google Translate.
+  auto [ translation_success, translated_text, translation_error] = filter::google::translate (original_text, source_language.c_str(), target_language.c_str());
+
+  // Done.
+  if (translation_success) return translated_text;
+  Database_Logs::log (translation_error);
+  return "Failed to translate";
+}
+
+
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Determine the type of the current resource.
-  bool isExternal = resource_logic_is_external (resource);
-  bool isUsfm = resource_logic_is_usfm (resource);
-  bool isSword = resource_logic_is_sword (resource);
-  bool isBibleGateway = resource_logic_is_biblegateway (resource);
-  bool isStudyLight = resource_logic_is_studylight (resource);
-  bool isComparative = resource_logic_is_comparative (resource);
+  bool is_external = resource_logic_is_external (resource);
+  bool is_usfm = resource_logic_is_usfm (resource);
+  bool is_sword = resource_logic_is_sword (resource);
+  bool is_bible_gateway = resource_logic_is_biblegateway (resource);
+  bool is_study_light = resource_logic_is_studylight (resource);
+  bool is_comparative = resource_logic_is_comparative (resource); // Todo handle translated.
 
-  if (isExternal) {
+  if (is_external) {
     // The server fetches it from the web.
     return resource_external_cloud_fetch_cache_extract (resource, book, chapter, verse);
   }
   
-  if (isUsfm) {
+  if (is_usfm) {
     // Fetch from database and convert to html.
     Database_UsfmResources database_usfmresources;
     string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
@@ -438,24 +483,24 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     return filter_text.html_text_standard->get_inner_html ();
   }
   
-  if (isSword) {
+  if (is_sword) {
     // Fetch it from a SWORD module.
     string sword_module = sword_logic_get_remote_module (resource);
     string sword_source = sword_logic_get_source (resource);
     return sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   }
 
-  if (isBibleGateway) {
+  if (is_bible_gateway) {
     // The server fetches it from the web.
     return resource_logic_bible_gateway_get (resource, book, chapter, verse);
   }
 
-  if (isStudyLight) {
+  if (is_study_light) {
     // The server fetches it from the web.
     return resource_logic_study_light_get (resource, book, chapter, verse);
   }
 
-  if (isComparative) {
+  if (is_comparative) { // Todo handle translated too.
     // Handle a comparative resource.
     // This type of resource is special.
     // It is not one resource, but made out of two resources.
@@ -465,7 +510,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   }
   
   // Nothing found.
-  return translate ("Bibledit Cloud could not localize this resource");
+  return translate ("Bibledit Cloud could not locate this resource");
 }
 
 
@@ -1909,7 +1954,7 @@ bool resource_logic_is_studylight (string resource)
 }
 
 
-bool resource_logic_is_comparative (string resource)
+bool resource_logic_is_comparative (const string & resource)
 {
   return resource_logic_parse_comparative_resource(resource);
 }
@@ -1921,7 +1966,7 @@ string resource_logic_comparative_resource ()
 }
 
 
-bool resource_logic_parse_comparative_resource (string input,
+bool resource_logic_parse_comparative_resource (const string & input,
                                                 string * title,
                                                 string * base,
                                                 string * update,
@@ -1979,13 +2024,19 @@ string resource_logic_assemble_comparative_resource (string title,
 }
 
 
+bool resource_logic_is_translated (const string & resource) // Todo
+{
+  return resource_logic_parse_translated_resource(resource);
+}
+
+
 string resource_logic_translated_resource ()
 {
   return "Translated ";
 }
 
 
-bool resource_logic_parse_translated_resource (string input,
+bool resource_logic_parse_translated_resource (const string & input,
                                                string * title,
                                                string * original_resource,
                                                string * source_language,

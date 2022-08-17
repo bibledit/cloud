@@ -28,6 +28,9 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 string resource_logic_cloud_get_comparison (void * webserver_request,
                                             string resource, int book, int chapter, int verse,
                                             bool add_verse_numbers);
+string resource_logic_cloud_get_translation (void * webserver_request,
+                                             const string & resource, int book, int chapter, int verse,
+                                             bool add_verse_numbers);
 string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse);
 string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse);
 
@@ -91,10 +94,11 @@ bool resource_logic_is_sword (string resource);
 bool resource_logic_is_divider (string resource);
 bool resource_logic_is_biblegateway (string resource);
 bool resource_logic_is_studylight (string resource);
-bool resource_logic_is_comparative (string resource);
+bool resource_logic_is_comparative (const string & resource);
+bool resource_logic_is_translated (const string & resource);
 
 string resource_logic_comparative_resource ();
-bool resource_logic_parse_comparative_resource (string input,
+bool resource_logic_parse_comparative_resource (const string & input,
                                                 string * title = nullptr,
                                                 string * base = nullptr,
                                                 string * update = nullptr,
@@ -113,7 +117,7 @@ string resource_logic_assemble_comparative_resource (string title,
                                                      bool cache = false);
 
 string resource_logic_translated_resource ();
-bool resource_logic_parse_translated_resource (string input,
+bool resource_logic_parse_translated_resource (const string & input,
                                                string * title = nullptr,
                                                string * original_resource = nullptr,
                                                string * source_language = nullptr,

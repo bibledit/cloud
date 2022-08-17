@@ -24,6 +24,7 @@
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/passage.h>
+#include <filter/google.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
@@ -269,6 +270,10 @@ string resource_select (void * webserver_request)
   if (!config_globals_hide_bible_resources) {
     view.enable_zone ("sensitive_bible_resource");
   }
+
+  // If Google Translate has not yet been set up, then enable a bit of information about that.
+  auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
+  if (json_key.empty()) view.enable_zone("setup_translated");
 
   
   page += view.render ("resource", "select");

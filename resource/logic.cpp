@@ -2080,3 +2080,11 @@ string resource_logic_assemble_translated_resource (string title,
   vector <string> bits = {resource_logic_translated_resource() + title, original_resource, source_language, target_language, convert_to_true_false(cache)};
   return filter_string_implode(bits, "|");
 }
+
+
+string resource_logic_translated_resources_list_path () // Todo
+{
+  return filter_url_create_root_path ({database_logic_databases (), "client", "translated_resources.txt"});
+}
+
+

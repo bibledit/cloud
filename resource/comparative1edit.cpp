@@ -174,8 +174,9 @@ string resource_comparative1edit (void * webserver_request)
   }
 
   
-  // Save the comparative resource if it was edited.
+  // If the resource was edited, then take a number of steps.
   if (resource_edited) {
+    // Save the comparative resource if it was edited.
     vector <string> resources = Database_Config_General::getComparativeResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
@@ -189,6 +190,7 @@ string resource_comparative1edit (void * webserver_request)
       }
     }
     Database_Config_General::setComparativeResources (resources);
+    // Possibly update the list of resources not to be cached on the client devices.
     if (cache) client_logic_no_cache_resource_remove(title);
     else client_logic_no_cache_resource_add(title);
   }

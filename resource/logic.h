@@ -128,3 +128,5 @@ string resource_logic_assemble_translated_resource (string title,
                                                     string source_language = string(),
                                                     string target_language = string(),
                                                     bool cache = false);
+string resource_logic_translated_resources_list_path ();
+

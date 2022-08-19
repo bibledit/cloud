@@ -153,9 +153,10 @@ string resource_translated1edit (void * webserver_request)
     resource_edited = true;
   }
 
-  
-  // Save the translated resource if it was edited.
+
+  // If the resource was edited, then take some steps.
   if (resource_edited) {
+    // Save the translated resource.
     vector <string> resources = Database_Config_General::getTranslatedResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
@@ -169,8 +170,14 @@ string resource_translated1edit (void * webserver_request)
       }
     }
     Database_Config_General::setTranslatedResources (resources);
+    // Update the list of resources not to be cached on the client devices.
     if (cache) client_logic_no_cache_resource_remove(title);
     else client_logic_no_cache_resource_add(title);
+    // Store the list of translated resources for download by the client devices.
+    {
+      string path = resource_logic_translated_resources_list_path ();
+      filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+    }
   }
   
 

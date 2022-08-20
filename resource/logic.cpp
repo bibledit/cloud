@@ -455,7 +455,7 @@ string resource_logic_cloud_get_translation (void * webserver_request,
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo serve translated resource too.
 {
   // Determine the type of the current resource.
   bool is_external = resource_logic_is_external (resource);
@@ -463,7 +463,8 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool is_sword = resource_logic_is_sword (resource);
   bool is_bible_gateway = resource_logic_is_biblegateway (resource);
   bool is_study_light = resource_logic_is_studylight (resource);
-  bool is_comparative = resource_logic_is_comparative (resource); // Todo handle translated.
+  bool is_comparative = resource_logic_is_comparative (resource);
+  bool is_translated = resource_logic_is_translated(resource); // Todo handle translated.
 
   if (is_external) {
     // The server fetches it from the web.
@@ -500,13 +501,20 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     return resource_logic_study_light_get (resource, book, chapter, verse);
   }
 
-  if (is_comparative) { // Todo handle translated too.
+  if (is_comparative) {
     // Handle a comparative resource.
     // This type of resource is special.
     // It is not one resource, but made out of two resources.
     // It fetches data from two resources and combines that into one.
     Webserver_Request request;
     return resource_logic_cloud_get_comparison (&request, resource, book, chapter, verse, false);
+  }
+  
+  if (is_translated) { // Todo handle translated
+    // Handle a translated resource.
+    // It's a resource, which will then be translated by Google Translate.
+    Webserver_Request request;
+    return resource_logic_cloud_get_translation (&request, resource, book, chapter, verse, false);
   }
   
   // Nothing found.

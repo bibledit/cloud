@@ -129,4 +129,5 @@ string resource_logic_assemble_translated_resource (string title,
                                                     string target_language = string(),
                                                     bool cache = false);
 string resource_logic_translated_resources_list_path ();
+vector <string> resource_logic_translated_resources_get_list_on_client ();
 

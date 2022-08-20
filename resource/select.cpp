@@ -250,7 +250,12 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, string(), true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources;
-    vector<string> raw_resources = Database_Config_General::getTranslatedResources ();
+    vector<string> raw_resources =
+#ifdef HAVE_CLOUD
+    Database_Config_General::getTranslatedResources ();
+#else
+    resource_logic_translated_resources_get_list_on_client ();
+#endif
     for (auto raw_resource : raw_resources) {
       string title;
       if (resource_logic_parse_translated_resource (raw_resource, &title)) {

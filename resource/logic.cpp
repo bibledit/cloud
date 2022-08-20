@@ -2088,3 +2088,10 @@ string resource_logic_translated_resources_list_path () // Todo
 }
 
 
+// Get the list of Translated resources on a client device.
+vector <string> resource_logic_translated_resources_get_list_on_client ()
+{
+  string path = resource_logic_translated_resources_list_path ();
+  string contents = filter_url_file_get_contents (path);
+  return filter_string_explode (contents, '\n');
+}

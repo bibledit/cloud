@@ -277,8 +277,11 @@ string resource_select (void * webserver_request)
   }
 
   // If Google Translate has not yet been set up, then enable a bit of information about that.
+  // Do this only in the Cloud.
+#ifdef HAVE_CLOUD
   auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
   if (json_key.empty()) view.enable_zone("setup_translated");
+#endif
 
   
   page += view.render ("resource", "select");

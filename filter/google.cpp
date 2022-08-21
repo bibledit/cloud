@@ -106,7 +106,7 @@ void refresh_access_token ()
 // Pass the text to be translated.
 // Pass the source language code and the target language code.
 // It returns whether the call was successful, plus the translated text, plus the error
-tuple <bool, string, string> translate (const string text, const char * source, const char * target) // Todo pass strings.
+tuple <bool, string, string> translate (const string text, const char * source, const char * target)
 {
   // From the shell, run these two commands to translate a string.
   // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/googletranslate.json"

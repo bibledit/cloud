@@ -150,13 +150,13 @@ string resource_logic_get_html (void * webserver_request,
   bool is_bible_gateway = resource_logic_is_biblegateway (resource);
   bool is_study_light = resource_logic_is_studylight (resource);
   bool is_comparative = resource_logic_is_comparative (resource);
-  bool is_translated = resource_logic_is_translated(resource); // Todo use.
+  bool is_translated = resource_logic_is_translated(resource);
 
   // Handle a comparative resource.
   // This type of resource is special.
   // It is not one resource, but made out of two resources.
   // It fetches data from two resources and combines that into one.
-  if (is_comparative) { // Todo handle translated.
+  if (is_comparative) {
 #ifdef HAVE_CLOUD
     html = resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
@@ -175,7 +175,7 @@ string resource_logic_get_html (void * webserver_request,
     html = resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
 #ifdef HAVE_CLIENT
-    html = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse); // Todo test it.
+    html = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
     return html;
   }
@@ -426,7 +426,7 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
 
 string resource_logic_cloud_get_translation (void * webserver_request,
                                              const string & resource, int book, int chapter, int verse,
-                                             bool add_verse_numbers) // Todo write and test.
+                                             bool add_verse_numbers)
 {
   // This function gets passed the resource title only.
   // So get all defined translated resources and look for the one with this title.
@@ -455,7 +455,7 @@ string resource_logic_cloud_get_translation (void * webserver_request,
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse) // Todo serve translated resource too.
+string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
 {
   // Determine the type of the current resource.
   bool is_external = resource_logic_is_external (resource);
@@ -464,7 +464,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   bool is_bible_gateway = resource_logic_is_biblegateway (resource);
   bool is_study_light = resource_logic_is_studylight (resource);
   bool is_comparative = resource_logic_is_comparative (resource);
-  bool is_translated = resource_logic_is_translated(resource); // Todo handle translated.
+  bool is_translated = resource_logic_is_translated(resource);
 
   if (is_external) {
     // The server fetches it from the web.
@@ -510,7 +510,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     return resource_logic_cloud_get_comparison (&request, resource, book, chapter, verse, false);
   }
   
-  if (is_translated) { // Todo handle translated
+  if (is_translated) {
     // Handle a translated resource.
     // It's a resource, which will then be translated by Google Translate.
     Webserver_Request request;
@@ -2032,7 +2032,7 @@ string resource_logic_assemble_comparative_resource (string title,
 }
 
 
-bool resource_logic_is_translated (const string & resource) // Todo
+bool resource_logic_is_translated (const string & resource)
 {
   return resource_logic_parse_translated_resource(resource);
 }
@@ -2090,7 +2090,7 @@ string resource_logic_assemble_translated_resource (string title,
 }
 
 
-string resource_logic_translated_resources_list_path () // Todo
+string resource_logic_translated_resources_list_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "translated_resources.txt"});
 }

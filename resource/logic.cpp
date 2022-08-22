@@ -138,8 +138,6 @@ string resource_logic_get_html (void * webserver_request,
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
-  string html;
-
   // Determine the type of the resource.
   bool is_bible = resource_logic_is_bible (resource);
   bool is_usfm = resource_logic_is_usfm (resource);
@@ -158,12 +156,11 @@ string resource_logic_get_html (void * webserver_request,
   // It fetches data from two resources and combines that into one.
   if (is_comparative) {
 #ifdef HAVE_CLOUD
-    html = resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
+    return resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
 #ifdef HAVE_CLIENT
-    html = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
+    return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
-    return html;
   }
 
   // Handle a translated resource.
@@ -172,12 +169,11 @@ string resource_logic_get_html (void * webserver_request,
   // It gets that data, and then has that translated.
   if (is_translated) {
 #ifdef HAVE_CLOUD
-    html = resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, add_verse_numbers);
+    return resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, add_verse_numbers);
 #endif
 #ifdef HAVE_CLIENT
-    html = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
+    return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
-    return html;
   }
   
   Database_Mappings database_mappings;
@@ -250,7 +246,9 @@ string resource_logic_get_html (void * webserver_request,
       }
     }
   }
-  
+
+  string html;
+
   for (auto passage : passages) {
     string possible_included_passage;
     if (add_verse_numbers) possible_included_passage = passage.m_verse + " ";
@@ -442,6 +440,9 @@ string resource_logic_cloud_get_translation (void * webserver_request,
   string original_text = resource_logic_get_html (webserver_request, original_resource, book, chapter, verse, add_verse_numbers);
   // Clean all html elements away from the text to get a better and cleaner translation.
   original_text = filter_string_html2text (original_text);
+  
+  // If the original text is empty, do not even send it to Google Translate, for saving resources.
+  if (original_text.empty()) return string();
 
   // Run it through Google Translate.
   auto [ translation_success, translated_text, translation_error] = filter::google::translate (original_text, source_language.c_str(), target_language.c_str());
@@ -512,7 +513,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   if (is_translated) {
     // Handle a translated resource.
-    // It's a resource, which will then be translated by Google Translate.
+    // This passes the resource title only
     Webserver_Request request;
     return resource_logic_cloud_get_translation (&request, resource, book, chapter, verse, false);
   }
@@ -803,11 +804,13 @@ void resource_logic_create_cache ()
   if (resource_logic_create_cache_running) return;
   resource_logic_create_cache_running = true;
   
-  // If there's nothing to cache, bail out.
+  // Get the signatures of the resources to cache.
   vector <string> signatures = Database_Config_General::getResourcesToCache ();
+  // If there's nothing to cache, bail out.
   if (signatures.empty ()) return;
 
-  // Resource and book to cache.
+  // A signature is the resource title, then a space, and then the book number.
+  // Remove this signature and store the remainder back into the configuration.
   string signature = signatures [0];
   signatures.erase (signatures.begin ());
   Database_Config_General::setResourcesToCache (signatures);

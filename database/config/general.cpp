@@ -406,6 +406,9 @@ void Database_Config_General::setLastMenuClick (string url)
 }
 
 
+// Store the resources to be cached.
+// The format is this:
+// <resource title><space><book number>
 vector <string> Database_Config_General::getResourcesToCache ()
 {
   return getList ("resources-to-cache");

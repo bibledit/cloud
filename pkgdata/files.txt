@@ -1115,7 +1115,8 @@
 /user/notifications.html
 /utf8
 /utf8proc
-/utf8proc/LICENSE
+/utf8proc/LICENSE.md
+/utf8proc/MANIFEST
 /utf8/readme.txt
 /valgrind
 /versification

@@ -2205,7 +2205,6 @@
 		CADE428F24F174B1003165BB /* run.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = run.h; sourceTree = "<group>"; };
 		CADE429724F174B1003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE429D24F174B1003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
-		CADE429F24F174BD003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CADE42A024F174BD003165BB /* utf8proc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utf8proc.c; sourceTree = "<group>"; };
 		CADE42A124F174BD003165BB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CADE42A224F174BD003165BB /* utf8proc_data.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utf8proc_data.c; sourceTree = "<group>"; };
@@ -5345,7 +5344,6 @@
 		CADE429E24F174BD003165BB /* utf8proc */ = {
 			isa = PBXGroup;
 			children = (
-				CADE429F24F174BD003165BB /* LICENSE */,
 				CADE42A124F174BD003165BB /* README.md */,
 				CADE42A224F174BD003165BB /* utf8proc_data.c */,
 				CADE42A024F174BD003165BB /* utf8proc.c */,

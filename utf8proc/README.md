@@ -1,27 +1,8 @@
-*Copyright &copy; 2014-2015 by Steven G. Johnson, Jiahao Chen, Tony Kelman, Jonas Fonseca, and other contributors listed in the git history.*
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
 # utf8proc
-[![Build Status](https://travis-ci.org/JuliaLang/utf8proc.png)](https://travis-ci.org/JuliaLang/utf8proc)
+[![CI](https://github.com/NanoComp/meep/actions/workflows/build-ci.yml/badge.svg)](https://github.com/JuliaStrings/utf8proc/actions/workflows/build-ci.yml)
+[![AppVeyor status](https://ci.appveyor.com/api/projects/status/ivaa0v6ikxrmm5r6?svg=true)](https://ci.appveyor.com/project/StevenGJohnson/utf8proc)
 
-[utf8proc](http://julialang.org/utf8proc/) is a small, clean C
+[utf8proc](http://juliastrings.github.io/utf8proc/) is a small, clean C
 library that provides Unicode normalization, case-folding, and other
 operations for data in the [UTF-8
 encoding](http://en.wikipedia.org/wiki/UTF-8).  It was [initially
@@ -50,7 +31,27 @@ the included `LICENSE.md` file for more detailed information.
 
 ## Quick Start
 
-For compilation of the C library run `make`.
+Typical users should download a [utf8proc release](http://juliastrings.github.io/utf8proc/releases/) rather than cloning directly from github.
+
+For compilation of the C library, run `make`.  You can also install the library and header file with `make install` (by default into `/usr/local/lib` and `/usr/local/bin`, but this can be changed by `make prefix=/some/dir`).  `make check` runs some tests, and `make clean` deletes all of the generated files.
+
+Alternatively, you can compile with `cmake`, e.g. by
+```sh
+mkdir build
+cmake -S . -B build
+cmake --build build
+```
+
+### Using other compilers
+The included `Makefile` supports GNU/Linux flavors and MacOS with `gcc`-like compilers; Windows users will typically use `cmake`.
+
+For other Unix-like systems and other compilers, you may need to pass modified settings to `make` in order to use the correct compilation flags for building shared libraries on your system.
+
+For HP-UX with HP's `aCC` compiler and GNU Make (installed as `gmake`), you can compile with
+```
+gmake CC=/opt/aCC/bin/aCC CFLAGS="+O2" PICFLAG="+z" C99FLAG="-Ae" WCFLAGS="+w" LDFLAG_SHARED="-b" SOFLAG="-Wl,+h"
+```
+To run `gmake install` you will need GNU coreutils for the `install` command, and you may want to pass `prefix=/opt libdir=/opt/lib/hpux32` or similar to change the installation location.
 
 ## General Information
 
@@ -58,7 +59,7 @@ The C library is found in this directory after successful compilation
 and is named `libutf8proc.a` (for the static library) and
 `libutf8proc.so` (for the dynamic library).
 
-The Unicode version supported is 8.0.0.
+The Unicode version supported is 13.0.0.
 
 For Unicode normalizations, the following options are used:
 

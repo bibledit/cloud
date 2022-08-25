@@ -67,6 +67,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define whether utf8proc is available */
+#define HAVE_UTF8PROC 1
+
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */
 

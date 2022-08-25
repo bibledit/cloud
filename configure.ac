@@ -131,6 +131,11 @@ PKG_CHECK_MODULES(ICU, icu-i18n >= 60.0, AC_DEFINE(HAVE_ICU, 1, Define whether I
 AC_SUBST(ICU_CFLAGS)
 AC_SUBST(ICU_LIBS)
 
+# Check UTF8 proce library whether available.
+PKG_CHECK_MODULES(UTF8PROC, libutf8proc >= 2.5.0, AC_DEFINE(HAVE_UTF8PROC, 1, Define whether utf8proc is available), AC_MSG_NOTICE(libutf8proc development version >= 2.5.0 is beneficial to have.))
+AC_SUBST(UTF8PROC_CFLAGS)
+AC_SUBST(UTF8PROC_LIBS)
+
 
 AC_MSG_CHECKING([C++ compiler])
 GPPVERSION=`${CXX} --version | grep clang`

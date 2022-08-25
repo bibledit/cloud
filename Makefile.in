@@ -924,7 +924,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
 	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) $(ICU_LIBS) \
-	$(XML2_LIBS)
+	$(XML2_LIBS) $(UTF8PROC_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -947,6 +947,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 UNZIP_PATH = @UNZIP_PATH@
+UTF8PROC_CFLAGS = @UTF8PROC_CFLAGS@
+UTF8PROC_LIBS = @UTF8PROC_LIBS@
 VERSION = @VERSION@
 XML2_CFLAGS = @XML2_CFLAGS@
 XML2_LIBS = @XML2_LIBS@
@@ -1588,7 +1590,8 @@ generate_LDADD = libbibledit.a
 AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1)
 AM_CXXFLAGS = -fno-var-tracking -g $(am__append_2) $(am__append_3) \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
-	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS)
+	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS) \
+	$(UTF8PROC_CFLAGS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

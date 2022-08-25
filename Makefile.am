@@ -610,6 +610,7 @@ AM_CXXFLAGS += $(GTK_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT2GTK_CFLAGS)
 AM_CXXFLAGS += $(ICU_CFLAGS)
 AM_CXXFLAGS += $(XML2_CFLAGS)
+AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
 
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
 LIBS += $(CURL_LIBS)
@@ -618,6 +619,7 @@ LIBS += $(GTK_LIBS)
 LIBS += $(WEBKIT2GTK_LIBS)
 LIBS += $(ICU_LIBS)
 LIBS += $(XML2_LIBS)
+LIBS += $(UTF8PROC_LIBS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

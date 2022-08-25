@@ -657,6 +657,8 @@ COMPILERCLANG_FALSE
 COMPILERCLANG_TRUE
 COMPILERGCC_FALSE
 COMPILERGCC_TRUE
+UTF8PROC_LIBS
+UTF8PROC_CFLAGS
 ICU_LIBS
 ICU_CFLAGS
 HAVE_LIBMBEDTLS_FALSE
@@ -808,7 +810,9 @@ OPENSSL_LIBS
 XML2_CFLAGS
 XML2_LIBS
 ICU_CFLAGS
-ICU_LIBS'
+ICU_LIBS
+UTF8PROC_CFLAGS
+UTF8PROC_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1473,6 +1477,10 @@ Some influential environment variables:
   XML2_LIBS   linker flags for XML2, overriding pkg-config
   ICU_CFLAGS  C compiler flags for ICU, overriding pkg-config
   ICU_LIBS    linker flags for ICU, overriding pkg-config
+  UTF8PROC_CFLAGS
+              C compiler flags for UTF8PROC, overriding pkg-config
+  UTF8PROC_LIBS
+              linker flags for UTF8PROC, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -7192,6 +7200,85 @@ else
 printf "%s\n" "yes" >&6; }
 
 printf "%s\n" "#define HAVE_ICU 1" >>confdefs.h
+
+fi
+
+
+
+# Check UTF8 proce library whether available.
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libutf8proc >= 2.5.0" >&5
+printf %s "checking for libutf8proc >= 2.5.0... " >&6; }
+
+if test -n "$UTF8PROC_CFLAGS"; then
+    pkg_cv_UTF8PROC_CFLAGS="$UTF8PROC_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libutf8proc >= 2.5.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libutf8proc >= 2.5.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_UTF8PROC_CFLAGS=`$PKG_CONFIG --cflags "libutf8proc >= 2.5.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$UTF8PROC_LIBS"; then
+    pkg_cv_UTF8PROC_LIBS="$UTF8PROC_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libutf8proc >= 2.5.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libutf8proc >= 2.5.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_UTF8PROC_LIBS=`$PKG_CONFIG --libs "libutf8proc >= 2.5.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        UTF8PROC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libutf8proc >= 2.5.0" 2>&1`
+        else
+	        UTF8PROC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libutf8proc >= 2.5.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$UTF8PROC_PKG_ERRORS" >&5
+
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: libutf8proc development version >= 2.5.0 is beneficial to have." >&5
+printf "%s\n" "$as_me: libutf8proc development version >= 2.5.0 is beneficial to have." >&6;}
+elif test $pkg_failed = untried; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: libutf8proc development version >= 2.5.0 is beneficial to have." >&5
+printf "%s\n" "$as_me: libutf8proc development version >= 2.5.0 is beneficial to have." >&6;}
+else
+	UTF8PROC_CFLAGS=$pkg_cv_UTF8PROC_CFLAGS
+	UTF8PROC_LIBS=$pkg_cv_UTF8PROC_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+printf "%s\n" "#define HAVE_UTF8PROC 1" >>confdefs.h
 
 fi
 

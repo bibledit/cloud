@@ -1809,9 +1809,6 @@
 		CADE3F8E24F17488003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3F8F24F17488003165BB /* quill.bubble.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.bubble.css; sourceTree = "<group>"; };
 		CADE3F9024F17488003165BB /* quill.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.min.js; sourceTree = "<group>"; };
-		CADE3F9224F17488003165BB /* bubble.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = bubble.html; sourceTree = "<group>"; };
-		CADE3F9324F17488003165BB /* snow.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = snow.html; sourceTree = "<group>"; };
-		CADE3F9424F17488003165BB /* full.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = full.html; sourceTree = "<group>"; };
 		CADE3F9524F17488003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE3F9724F17488003165BB /* quill.min.js.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = quill.min.js.map; sourceTree = "<group>"; };
 		CADE3F9824F17488003165BB /* quill.core.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.core.css; sourceTree = "<group>"; };
@@ -4711,7 +4708,6 @@
 		CADE3F8A24F17488003165BB /* quill */ = {
 			isa = PBXGroup;
 			children = (
-				CADE3F9124F17488003165BB /* examples */,
 				CADE3F8C24F17488003165BB /* LICENSE */,
 				CADE3F8E24F17488003165BB /* logic.cpp */,
 				CADE3F9524F17488003165BB /* logic.h */,
@@ -4726,16 +4722,6 @@
 				CADE3F9924F17488003165BB /* readme.txt */,
 			);
 			path = quill;
-			sourceTree = "<group>";
-		};
-		CADE3F9124F17488003165BB /* examples */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3F9224F17488003165BB /* bubble.html */,
-				CADE3F9324F17488003165BB /* snow.html */,
-				CADE3F9424F17488003165BB /* full.html */,
-			);
-			path = examples;
 			sourceTree = "<group>";
 		};
 		CADE3F9F24F17488003165BB /* pix */ = {

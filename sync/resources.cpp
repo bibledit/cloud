@@ -101,7 +101,7 @@ string sync_resources (void * webserver_request)
         return Database_Cache::path (resource, book);
       }
       
-      default: break;
+      default: {};
     }
   }
     

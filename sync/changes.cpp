@@ -130,6 +130,7 @@ string sync_changes (void * webserver_request)
       // Result.
       return filter_string_implode (lines, "\n");
     }
+    default: {};
   }
 
   

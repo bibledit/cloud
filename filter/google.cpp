@@ -110,14 +110,7 @@ tuple <bool, string, string> translate (const string text, const char * source, 
 {
   // From the shell, run these two commands to translate a string.
   // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/googletranslate.json"
-  // $ curl -s -X POST -H "Content-Type: application/json" \
-  //  -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) \
-  //  --data "{
-  //  'q': 'The quick brown fox jumps over the lazy dog',
-  //  'source': 'en',
-  //  'target': 'fr',
-  //  'format': 'text'
-  //  }" "https://translation.googleapis.com/language/translate/v2"
+  // $ curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer "$(gcloud auth application-default print-access-token) --data "{ 'q': 'The quick brown fox jumps over the lazy dog', 'source': 'en', 'target': 'fr', 'format': 'text' }" "https://translation.googleapis.com/language/translate/v2"
 
   // The URL of the translation REST API.
   const string url { "https://translation.googleapis.com/language/translate/v2" };
@@ -203,7 +196,6 @@ vector <pair <string, string> > get_languages (const string & target)
     { "Authorization", "Bearer " + google_access_token }
   };
   string result_json = filter_url_http_post (url, postdata, {}, error, burst, check_certificate, headers);
-  bool success { error.empty() };
   
   // Parse the resulting JSON.
   // Example:
@@ -242,7 +234,6 @@ vector <pair <string, string> > get_languages (const string & target)
       error = exception.what();
       error.append (" - ");
       error.append(result_json);
-      success = false;
       language_codes_names.clear();
     }
   }

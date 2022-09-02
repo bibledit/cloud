@@ -59,7 +59,7 @@ vector <string> workspace_get_default_names ()
 
 map <int, string> workspace_get_default_urls (int id)
 {
-  map <int, string> urls;
+  map <int, string> urls {};
   switch (id) {
     case 1:
       urls [0] = editone2_index_url ();

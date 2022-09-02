@@ -456,6 +456,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     case notifyNoteComment         : label = translate("Comment");             break;
     case notifyNoteDelete          : label = translate("Deleted");             break;
     case notifyMarkNoteForDeletion : label = translate("Marked for deletion"); break;
+    default: break;
   }
 
   // Optional postponing sending email.

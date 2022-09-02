@@ -218,6 +218,7 @@ bool sendreceive_notes_upload ()
         case Sync_Logic::notes_put_mark_delete: break;
         case Sync_Logic::notes_put_unmark_delete: break;
         case Sync_Logic::notes_put_delete: break;
+        default: break;
       }
       post ["c"] = content;
       
@@ -275,6 +276,7 @@ bool sendreceive_notes_upload ()
         case Sync_Logic::notes_put_mark_delete: break;
         case Sync_Logic::notes_put_unmark_delete: break;
         case Sync_Logic::notes_put_delete: break;
+        default: break;
       }
     }
     

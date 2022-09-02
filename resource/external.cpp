@@ -25,6 +25,7 @@
 #include "resource/logic.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
 #include <jsonxx/jsonxx.h>
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
@@ -95,7 +96,7 @@ struct gbs_basic_walker: xml_tree_walker
   vector <string> texts {};
   bool canonical_text {true};
 
-  virtual bool for_each (xml_node& node)
+  virtual bool for_each (xml_node& node) override
   {
     xml_node_type nodetype = node.type();
     if (nodetype == node_pcdata) {
@@ -171,7 +172,7 @@ struct gbs_plus_walker: xml_tree_walker
   bool verse_references {false};
   string reference_number {};
 
-  virtual bool for_each (xml_node& node)
+  virtual bool for_each (xml_node& node) override
   {
     xml_node_type nodetype = node.type();
     if (nodetype == node_pcdata) {
@@ -223,7 +224,7 @@ struct gbs_annotation_walker: xml_tree_walker
   vector <string> texts {};
   bool within_annotations {false};
 
-  virtual bool for_each (xml_node& node)
+  virtual bool for_each (xml_node& node) override
   {
     xml_node_type nodetype = node.type();
     if (nodetype == node_pcdata) {

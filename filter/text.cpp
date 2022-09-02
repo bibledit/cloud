@@ -290,6 +290,7 @@ void Filter_Text::pre_process_usfm ()
                     publishedVerseMarkers.push_back (filter::text::passage_marker_value (currentBookIdentifier, currentChapterNumber, currentVerseNumber, marker, publishedVerseMarker));
                     break;
                   }
+                  default: break;
                 }
                 break;
               case StyleTypeChapterNumber:
@@ -320,6 +321,7 @@ void Filter_Text::pre_process_usfm ()
                   {
                     break;
                   }
+                  default: break;
                 }
                 break;
               }
@@ -334,9 +336,11 @@ void Filter_Text::pre_process_usfm ()
                   {
                     break;
                   }
+                  default: break;
                 }
                 break;
               }
+              default: break;
             }
           }
         }
@@ -927,6 +931,7 @@ void Filter_Text::process_usfm ()
                   // Done.
                   break;
                 }
+                default: break;
               }
               break;
             }

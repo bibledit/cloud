@@ -483,7 +483,7 @@ string personalize_index (void * webserver_request)
   for (filter::date::date_format df = filter::date::dd_mm_yyyy;
        df <= filter::date::yyyy_mn_dd;
        df = static_cast<filter::date::date_format>(df + 1)) {
-    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), to_string(df), date_format_html);
+    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), convert_to_string(df), date_format_html);
   }
   view.set_variable ("dateformatoptags", Options_To_Select::mark_selected (date_format_key, date_format_html));
   view.set_variable (dateformat, date_format_key);

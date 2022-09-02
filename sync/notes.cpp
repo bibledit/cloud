@@ -188,14 +188,14 @@ string sync_notes (void * webserver_request)
       // Update search field.
       database_notes.update_search_fields (identifier);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_create_complete:
     {
       // Do notifications.
       notes_logic.handlerNewNote (identifier);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_summary:
     {
@@ -206,7 +206,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client created or updated a note on the server: " + content, Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_contents:
     {
@@ -215,7 +215,7 @@ string sync_notes (void * webserver_request)
       // Update search field.
       database_notes.update_search_fields (identifier);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_comment:
     {
@@ -228,7 +228,7 @@ string sync_notes (void * webserver_request)
       // Notifications.
       notes_logic.handlerAddComment (identifier);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_subscribe:
     {
@@ -237,7 +237,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_unsubscribe:
     {
@@ -246,7 +246,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_assign:
     {
@@ -257,7 +257,7 @@ string sync_notes (void * webserver_request)
       // Notifications.
       notes_logic.handlerAssignNote (identifier, content);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_unassign:
     {
@@ -266,7 +266,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_status:
     {
@@ -275,7 +275,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client set the note status on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_passages:
     {
@@ -283,7 +283,7 @@ string sync_notes (void * webserver_request)
       database_notes.set_raw_passage (identifier, content);
       database_notes.index_raw_passage (identifier, content);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_severity:
     {
@@ -292,14 +292,14 @@ string sync_notes (void * webserver_request)
       // Info
       Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_bible:
     {
       // Set the Bible for a note on the server.
       notes_logic.setBible (identifier, content);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_mark_delete:
     {
@@ -310,7 +310,7 @@ string sync_notes (void * webserver_request)
       // Notifications.
       notes_logic.handlerMarkNoteForDeletion (identifier);
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_unmark_delete:
     {
@@ -319,7 +319,7 @@ string sync_notes (void * webserver_request)
       // Info.
       Database_Logs::log ("Client unmarked a note on server for deletion: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return "";
+      return string();
     }
     case Sync_Logic::notes_put_delete:
     {
@@ -330,7 +330,7 @@ string sync_notes (void * webserver_request)
       // Delete note on server.
       notes_logic.erase (identifier);
       // Done.
-      return "";
+      return string();
     }
     // This method of bulk download was implemented as of September 2016.
     // After a year or so, the logic for the replaced download methods can probably be removed from the Cloud.
@@ -344,6 +344,7 @@ string sync_notes (void * webserver_request)
       string json = database_notes.get_bulk (identifiers);
       return json;
     }
+    default: {};
   }
   
   // Bad request.

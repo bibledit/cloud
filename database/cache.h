@@ -59,7 +59,6 @@ string menu_font_size_filebased_cache_filename (string sid);
 string resource_font_size_filebased_cache_filename (string sid);
 string hebrew_font_size_filebased_cache_filename (string sid);
 string greek_font_size_filebased_cache_filename (string sid);
-string greek_font_size_filebased_cache_filename (string sid);
 string current_theme_filebased_cache_filename (string sid);
 
 

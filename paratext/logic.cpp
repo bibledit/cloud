@@ -427,6 +427,8 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
             }
             break;
           }
+          default:
+            break;
         }
 
         // If there was a result of syncing or copying, set the ancestor and paratext data.

@@ -121,7 +121,7 @@ void sendreceive_settings ()
     // What to request for.
     post ["a"] = convert_to_string (id);
 
-    string value;
+    string value {};
     switch (id) {
       case Sync_Logic::settings_send_workspace_urls:
         value = request.database_config_user()->getWorkspaceURLs ();
@@ -133,9 +133,12 @@ void sendreceive_settings ()
         value = request.database_config_user()->getWorkspaceHeights ();
         break;
       case Sync_Logic::settings_send_resources_organization:
+      {
         vector <string> resources = request.database_config_user()->getActiveResources ();
         value = filter_string_implode (resources, "\n");
         break;
+      }
+      default: break;
     }
     post ["v"] = value;
     

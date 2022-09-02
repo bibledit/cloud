@@ -30,6 +30,7 @@
 #include <ipc/focus.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
 

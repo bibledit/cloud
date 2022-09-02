@@ -177,6 +177,7 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
       }
       break;
     }
+    default: break;
   }
   return false;
 }
@@ -230,6 +231,7 @@ bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtyp
       }
       break;
     }
+    default: return false;
   }
   return false;
 }
@@ -270,6 +272,7 @@ bool styles_logic_superscript_is_relevant (int type, int subtype)
       }
       break;
     }
+    default: return false;
   }
   return false;
 }
@@ -354,6 +357,7 @@ bool styles_logic_color_is_relevant (int type, int subtype)
       }
       break;
     }
+    default: return false;
   }
   return false;
 }
@@ -379,6 +383,7 @@ bool styles_logic_print_is_relevant (int type, int subtype)
       }
       break;
     }
+    default: return false;
   }
   return false;
 }
@@ -599,79 +604,64 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
   switch (type) {
     case StyleTypeIdentifier :
     {
-      if (subtype == IdentifierSubtypePublishedVerseMarker) {
-        return false;
-      } else {
-        return true;
-      }
-      break;
+      if (subtype == IdentifierSubtypePublishedVerseMarker) return false;
+      return true;
     }
     case StyleTypeNotUsedComment :
     {
       return true;
-      break;
     }
     case StyleTypeNotUsedRunningHeader :
     {
       return true;
-      break;
     }
     case StyleTypeStartsParagraph :
     {
       return true;
-      break;
     }
     case StyleTypeInlineText :
     {
       return false;
-      break;
     }
     case StyleTypeChapterNumber :
     {
       return true;
-      break;
     }
     case StyleTypeVerseNumber :
     {
       return true;
-      break;
     }
     case StyleTypeFootEndNote :
     {
       return false;
-      break;
     }
     case StyleTypeCrossreference :
     {
       return false;
-      break;
     }
     case StyleTypePeripheral :
     {
       return true;
-      break;
     }
     case StyleTypePicture :
     {
       return true;
-      break;
     }
     case StyleTypePageBreak :
     {
       return true;
-      break;
     }
     case StyleTypeTableElement :
     {
       if (subtype == TableElementSubtypeRow) return true;
       return false;
-      break;
     }
     case StyleTypeWordlistElement :
     {
       return false;
-      break;
     }
+    default:
+      return false;
   }
   return true;
 }

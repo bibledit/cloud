@@ -26,6 +26,8 @@ while read -r file; do
   echo '#pragma GCC diagnostic ignored "-Wconversion"' >> $file
   echo '#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"' >> $file
   echo '#pragma GCC diagnostic ignored "-Wold-style-cast"' >> $file
+  echo '#pragma GCC diagnostic ignored "-Wsuggest-override"' >> $file
+  echo '#pragma GCC diagnostic ignored "-Wswitch-default"' >> $file
   echo '' >> $file
   cat tmpc >> $file
   rm tmpc

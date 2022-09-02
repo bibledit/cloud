@@ -81,7 +81,7 @@ int filter_memory_percentage_available ()
 
 
 // Returns how many bytes of memory the app currently uses.
-uint64_t filter_memory_total_usage ()
+uint64_t filter_memory_total_usage () 
 {
 #ifdef HAVE_MACH_MACH
   // macOS.

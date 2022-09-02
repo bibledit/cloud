@@ -24,6 +24,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
 #include <pugixml/pugixml.hpp>
 #ifdef HAVE_ICU
 #include <unicode/ustdio.h>

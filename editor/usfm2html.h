@@ -23,6 +23,7 @@
 #include <database/styles.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
 #include <filter/text.h>

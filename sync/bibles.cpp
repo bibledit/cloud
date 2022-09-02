@@ -236,6 +236,7 @@ string sync_bibles (void * webserver_request)
       string checksum = Checksum_Logic::get (usfm);
       return checksum + "\n" + usfm;
     }
+    default: {};
   }
   
   // Bad request.

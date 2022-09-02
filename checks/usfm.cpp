@@ -423,6 +423,8 @@ void Checks_Usfm::add_result (string text, int modifier)
     case Checks_Usfm::display_full:
       text += ": " + current + next;
       break;
+    default:
+      break;
   }
   checking_results.push_back (pair (verse_number, text));
 }

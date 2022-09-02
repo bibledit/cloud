@@ -731,10 +731,11 @@ void odf_text::create_paragraph_style (string name,
   // Text alignment can be: AlignmentLeft, AlignmentCenter, AlignmentRight, AlignmentJustify.
   string alignmenttext;
   switch (alignment) {
-    case AlignmentLeft:    alignmenttext = "start"; break;
-    case AlignmentCenter:  alignmenttext = "center"; break;
-    case AlignmentRight:   alignmenttext = "end"; break;
+    case AlignmentLeft:    alignmenttext = "start";   break;
+    case AlignmentCenter:  alignmenttext = "center";  break;
+    case AlignmentRight:   alignmenttext = "end";     break;
     case AlignmentJustify: alignmenttext = "justify"; break;
+    default: break;
   }
   style_paragraph_properties_node.append_attribute ("fo:text-align") = alignmenttext.c_str();
   style_paragraph_properties_node.append_attribute ("style:justify-single-word") = "false";

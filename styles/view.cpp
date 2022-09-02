@@ -669,6 +669,7 @@ string styles_view (void * webserver_request)
       }
       view.set_variable ("userint1", convert_to_string (userint1));
       break;
+    default: break;
   }
   
   
@@ -719,6 +720,7 @@ string styles_view (void * webserver_request)
       }
       view.set_variable ("userint2", styles_logic_end_note_position_text (userint2));
       break;
+    default: break;
   }
 
   
@@ -744,6 +746,7 @@ string styles_view (void * webserver_request)
       userstring1_question = translate("Please enter a new addition to the word list entry");
       userstring1_help = translate("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit would include this in the exported documents.");
       break;
+    default: break;
   }
   if (request->query.count ("userstring1")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", userstring1_question, userstring1, "userstring1", userstring1_help);
@@ -777,6 +780,7 @@ string styles_view (void * webserver_request)
         userstring2_info = translate(R"(The marker is to be given without the backslash, e.g. "zendnotes".)");
       }
       break;
+    default: break;
   }
   if (request->query.count ("userstring2")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", userstring2_question, userstring2, "userstring2", userstring2_info);

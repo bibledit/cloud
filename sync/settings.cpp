@@ -69,7 +69,7 @@ string sync_settings (void * webserver_request)
     case Sync_Logic::settings_send_workspace_urls:
     {
       request->database_config_user()->setWorkspaceURLs (value);
-      return "";
+      return string();
     }
     case Sync_Logic::settings_get_workspace_urls:
     {
@@ -78,7 +78,7 @@ string sync_settings (void * webserver_request)
     case Sync_Logic::settings_send_workspace_widths:
     {
       request->database_config_user()->setWorkspaceWidths (value);
-      return "";
+      return string();
     }
     case Sync_Logic::settings_get_workspace_widths:
     {
@@ -87,7 +87,7 @@ string sync_settings (void * webserver_request)
     case Sync_Logic::settings_send_workspace_heights:
     {
       request->database_config_user()->setWorkspaceHeights (value);
-      return "";
+      return string();
     }
     case Sync_Logic::settings_get_workspace_heights:
     {
@@ -97,7 +97,7 @@ string sync_settings (void * webserver_request)
     {
       vector <string> resources = filter_string_explode (value, '\n');
       request->database_config_user()->setActiveResources (resources);
-      return "";
+      return string();
     }
     case Sync_Logic::settings_get_resources_organization:
     {
@@ -116,11 +116,14 @@ string sync_settings (void * webserver_request)
     case Sync_Logic::settings_send_platform:
     {
       // No longer in use, just discard this.
-      return "";
+      return string();
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:
     {
       return convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ());
+    }
+    default:
+    {
     }
   }
 

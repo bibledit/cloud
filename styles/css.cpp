@@ -95,6 +95,7 @@ void Styles_Css::evaluate (void * database_styles_item)
           add (style, true, false);
           break;
         }
+        default: break;
       }
       break;
     }
@@ -131,6 +132,7 @@ void Styles_Css::evaluate (void * database_styles_item)
           add (style, false, false);
           break;
         }
+        default: break;
       }
       break;
     }
@@ -150,9 +152,11 @@ void Styles_Css::evaluate (void * database_styles_item)
           add (style, false, false);
           break;
         }
+        default: break;
       }
       break;
     }
+    default: break;
   }
 }
 
@@ -241,10 +245,11 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     // Text alignment options.
     string alignment;
     switch (style->justification) {
-      case AlignmentLeft:    alignment = ""; break;
-      case AlignmentCenter:  alignment = "center"; break;
-      case AlignmentRight:   alignment = "right"; break;
+      case AlignmentLeft:    alignment = "";        break;
+      case AlignmentCenter:  alignment = "center";  break;
+      case AlignmentRight:   alignment = "right";   break;
       case AlignmentJustify: alignment = "justify"; break;
+      default: break;
     }
     if (alignment != "") {
       m_code.push_back ("text-align: " + alignment + ";");

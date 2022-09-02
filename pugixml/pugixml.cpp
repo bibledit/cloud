@@ -4,6 +4,7 @@
 #pragma GCC diagnostic ignored "-Wfloat-equal"
 #pragma GCC diagnostic ignored "-Wnull-dereference"
 #pragma GCC diagnostic ignored "-Wmissing-noreturn"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------

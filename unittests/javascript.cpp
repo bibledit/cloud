@@ -34,6 +34,6 @@ void test_javascript ()
     string out_err;
     int exitcode = filter_shell_run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
     evaluate (__LINE__, __func__, 0, exitcode);
-    evaluate (__LINE__, __func__, 124, out_err.size());
+    evaluate (__LINE__, __func__, 59, out_err.size());
   }
 }

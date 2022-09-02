@@ -29,6 +29,7 @@
 #include <database/abbottsmith.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
@@ -1481,7 +1482,7 @@ struct abbott_smith_walker: xml_tree_walker
   bool text_element_already_handled {false};
   string previous_element_name {};
 
-  virtual bool for_each (xml_node& node)
+  virtual bool for_each (xml_node& node) override
   {
     // Details of the current node.
     string clas = node.attribute ("class").value ();

@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 #include <curl/curl.h>
 #endif
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
 #include <mbedtls/net_sockets.h>
 #include <mbedtls/debug.h>
 #include <mbedtls/ssl.h>
@@ -36,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/error.h>
 #include <mbedtls/certs.h>
+#pragma GCC diagnostic pop
 #ifdef HAVE_WINDOWS
 #include <direct.h>
 #include <io.h>
@@ -988,10 +991,10 @@ void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *
   size_t c;
   unsigned int width = 0x10;
   
-  fprintf(stream, "%s, %10.10ld bytes (0x%8.8lx)\n", text, (long)size, (long)size);
+  fprintf(stream, "%s, %10.10ld bytes (0x%8.8lx)\n", text, static_cast<long> (size), static_cast<long> (size));
   
   for (i = 0; i < size; i += width) {
-    fprintf(stream, "%4.4lx: ", (long)i);
+    fprintf(stream, "%4.4lx: ", static_cast<long> (i));
     
     // Show hex to the left.
     for (c = 0; c < width; c++) {
@@ -1015,7 +1018,7 @@ void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *
 #ifdef HAVE_CLOUD
 int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp)
 {
-  const char *text;
+  const char *text { nullptr };
 
   // Prevent compiler warnings.
   (void)handle;
@@ -1024,9 +1027,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
   switch (type) {
     case CURLINFO_TEXT:
       fprintf(stderr, "== Info: %s", data);
-    default: /* in case a new one is introduced to shock us */
       return 0;
-      
     case CURLINFO_HEADER_OUT:
       text = "=> Send header";
       break;
@@ -1045,9 +1046,11 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
     case CURLINFO_SSL_DATA_IN:
       text = "<= Recv SSL data";
       break;
+    default: 
+      return 0;
   }
   
-  filter_url_curl_debug_dump(text, stderr, (unsigned char *)data, size);
+  filter_url_curl_debug_dump(text, stderr, reinterpret_cast<unsigned char *> (data), size);
   return 0;
 }
 #endif

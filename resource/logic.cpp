@@ -1129,7 +1129,7 @@ struct bible_gateway_walker: xml_tree_walker
   string text {};
   vector <string> footnotes {};
 
-  virtual bool for_each (xml_node& node)
+  virtual bool for_each (xml_node& node) override
   {
     // Details of the current node.
     string classname = node.attribute ("class").value ();
@@ -1517,6 +1517,7 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
     case 64: return { "3john-lbw" }; // 3 John.
     case 65: return { "jude-lbw", "jude-nh-lbw" }; // Jude.
     case 66: return { "revelation-lbw" }; // Revelation.
+    default: return {};
   }
   return {};
 }
@@ -1526,7 +1527,7 @@ struct easy_english_bible_walker: xml_tree_walker
 {
   string text {};
 
-  virtual bool for_each (xml_node& node)
+  virtual bool for_each (xml_node& node) override
   {
     // Handle this node if it's a text node.
     if (node.type() == pugi::node_pcdata) {

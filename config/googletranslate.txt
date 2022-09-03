@@ -19,27 +19,35 @@ Or create a new Google account and use that.
 Open the following page with information about how to setup Google Translate.
 https://cloud.google.com/translate/docs/setup
 This is a guide to setting up Google Cloud Translation.
-The guide helps you understand the next steps to take.
+The guide helps you with the next steps to take.
+
+You will use the basic edition of Cloud Translation.
+The Google Guide assumes that basic adition.
 
 3.
 Go to the Google Cloud console.
 Go to the project selector page.
 Select or create a Google Cloud project.
+See the Google Guide for full details.
 
 4.
 Enable billing for your Cloud project.
+See the Google Guide for full details.
 
 5.
 Enable the Cloud Translation API.
 To do that, click on the following button in the guide labeled "Enable the API".
 Follow the instructions on the screen to complete the process of enabling the API.
+See the Google Guide for full details.
 
 6.
 Create a service account and keys.
 To do that, click on the button in the guide labeled "Go to Create service account".
 Follow all the steps in that guide.
 At the end you will have a JSON key.
+Normally the JSON key will have downloaded to your Downloads folder.
 Store that key safely.
+See the Google Guide for full details.
 
 7.
 Give Bibledit Cloud access to the JSON key.

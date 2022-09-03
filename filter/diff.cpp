@@ -27,6 +27,8 @@
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wswitch-default"
 #include <dtl/dtl.hpp>
 #pragma GCC diagnostic pop
 #include <webserver/request.h>

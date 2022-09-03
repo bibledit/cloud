@@ -657,9 +657,10 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
     case 3:
       // Select notes that refer to any passage: No constraint to apply here.
       break;
+    default: break;
   }
   // Consider edit selector.
-  int time = 0;
+  int time { 0 };
   switch (edit_selector) {
     case 0:
       // Select notes that have been edited at any time. Apply no constraint.
@@ -681,6 +682,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
       // Select notes that have been edited today.
       time = filter::date::seconds_since_epoch () - filter::date::numerical_hour (filter::date::seconds_since_epoch ()) * 3600;
       break;
+    default: break;
   }
   if (time != 0) {
     query.append (" AND modified >= ");
@@ -688,7 +690,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
     query.append (" ");
   }
   // Consider non-edit selector.
-  int nonedit = 0;
+  int nonedit { 0 };
   switch (non_edit_selector) {
     case 0:
       // Select notes that have not been edited at any time. Apply no constraint.
@@ -714,6 +716,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
       // Select notes that have not been edited for a year.
       nonedit = filter::date::seconds_since_epoch () - 365 * 24 * 3600;
       break;
+    default: break;
   }
   if (nonedit != 0) {
     query.append (" AND modified <= ");

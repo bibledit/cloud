@@ -41,8 +41,9 @@ string locale_logic_month (int month)
     case 10: return translate ("October");
     case 11: return translate ("November");
     case 12: return translate ("December");
+    default: translate ("Month") + " " + convert_to_string (month);
   }
-  return translate ("Month") + " " + convert_to_string (month);
+  return string();
 }
 
 

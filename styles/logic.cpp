@@ -158,7 +158,8 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
     {
       switch (subtype) {
         case FootEndNoteSubtypeStandardContent : return true;
-        case FootEndNoteSubtypeParagraph       : return true;
+        case FootEndNoteSubtypeParagraph : return true;
+        default: return false;
       }
       break;
     }
@@ -166,6 +167,7 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
     {
       switch (subtype) {
         case CrossreferenceSubtypeStandardContent : return true;
+        default: return false;
       }
       break;
     }
@@ -174,10 +176,11 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
       switch (subtype) {
         case TableElementSubtypeHeading : return true;
         case TableElementSubtypeCell    : return true;
+        default: return false;
       }
       break;
     }
-    default: break;
+    default: return false;
   }
   return false;
 }
@@ -198,9 +201,11 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
       switch (subtype) {
         case TableElementSubtypeHeading : return true;
         case TableElementSubtypeCell    : return true;
+          return false;
       }
       break;
     }
+    default: return false;
   }
   return false;
 }
@@ -210,24 +215,26 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
 bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtype)
 {
   switch (type) {
-    case StyleTypeInlineText  : return true;
-    case StyleTypeVerseNumber : return true;
-    case StyleTypeFootEndNote :
+    case StyleTypeInlineText: return true;
+    case StyleTypeVerseNumber: return true;
+    case StyleTypeFootEndNote:
     {
       switch (subtype) {
-        case FootEndNoteSubtypeFootnote             : return true;
-        case FootEndNoteSubtypeEndnote              : return true;
-        case FootEndNoteSubtypeContent              : return true;
-        case FootEndNoteSubtypeContentWithEndmarker : return true;
+        case FootEndNoteSubtypeFootnote: return true;
+        case FootEndNoteSubtypeEndnote: return true;
+        case FootEndNoteSubtypeContent: return true;
+        case FootEndNoteSubtypeContentWithEndmarker: return true;
+        default: return false;
       }
       break;
     }
-    case StyleTypeCrossreference :
+    case StyleTypeCrossreference:
     {
       switch (subtype) {
-        case CrossreferenceSubtypeCrossreference       : return true;
-        case CrossreferenceSubtypeContent              : return true;
-        case CrossreferenceSubtypeContentWithEndmarker : return true;
+        case CrossreferenceSubtypeCrossreference: return true;
+        case CrossreferenceSubtypeContent: return true;
+        case CrossreferenceSubtypeContentWithEndmarker: return true;
+        default: return false;
       }
       break;
     }
@@ -261,6 +268,7 @@ bool styles_logic_superscript_is_relevant (int type, int subtype)
         case FootEndNoteSubtypeEndnote         : return true;
         case FootEndNoteSubtypeStandardContent : return true;
         case FootEndNoteSubtypeParagraph       : return true;
+        default: return false;
       }
       break;
     }
@@ -269,6 +277,7 @@ bool styles_logic_superscript_is_relevant (int type, int subtype)
       switch (subtype) {
         case CrossreferenceSubtypeCrossreference        : return true;
         case CrossreferenceSubtypeStandardContent       : return true;
+        default: return false;
       }
       break;
     }
@@ -289,6 +298,7 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
       switch (subtype) {
         case FootEndNoteSubtypeStandardContent : return true;
         case FootEndNoteSubtypeParagraph       : return true;
+        default: return false;
       }
       break;
     }
@@ -296,6 +306,7 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
     {
       switch (subtype) {
         case CrossreferenceSubtypeStandardContent : return true;
+        default: return false;
       }
       break;
     }
@@ -304,9 +315,11 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
       switch (subtype) {
         case TableElementSubtypeHeading : return true;
         case TableElementSubtypeCell    : return true;
+        default: return false;
       }
       break;
     }
+    default: return false;
   }
   return false;
 }
@@ -346,6 +359,7 @@ bool styles_logic_color_is_relevant (int type, int subtype)
       switch (subtype) {
         case FootEndNoteSubtypeContent              : return true;
         case FootEndNoteSubtypeContentWithEndmarker : return true;
+        default: return false;
       }
       break;
     }
@@ -354,6 +368,7 @@ bool styles_logic_color_is_relevant (int type, int subtype)
       switch (subtype) {
         case CrossreferenceSubtypeContent              : return true;
         case CrossreferenceSubtypeContentWithEndmarker : return true;
+        default: return false;
       }
       break;
     }
@@ -373,6 +388,7 @@ bool styles_logic_print_is_relevant (int type, int subtype)
       switch (subtype) {
         case FootEndNoteSubtypeFootnote : return true;
         case FootEndNoteSubtypeEndnote  : return true;
+        default: return false;
       }
       break;
     }
@@ -380,6 +396,7 @@ bool styles_logic_print_is_relevant (int type, int subtype)
     {
       switch (subtype) {
         case CrossreferenceSubtypeCrossreference  : return true;
+        default: return false;
       }
       break;
     }

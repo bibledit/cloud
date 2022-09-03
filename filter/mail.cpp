@@ -43,6 +43,8 @@
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wconversion"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wswitch-default"
 #include <mimetic098/mimetic.h>
 #pragma clang diagnostic pop
 #pragma GCC diagnostic pop

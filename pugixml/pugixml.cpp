@@ -7,6 +7,8 @@
 #pragma GCC diagnostic ignored "-Wsuggest-override"
 #pragma GCC diagnostic ignored "-Wswitch-enum"
 #pragma GCC diagnostic ignored "-Wuseless-cast"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------
@@ -43,8 +45,8 @@
  * Copyright (C) 2003, by Kristen Wegner (kristen@tima.net)
  */
 
-#ifndef SOURCE_PUGIXML_CPP
-#define SOURCE_PUGIXML_CPP
+//#ifndef SOURCE_PUGIXML_CPP
+//#define SOURCE_PUGIXML_CPP
 
 #include "pugixml.hpp"
 
@@ -12455,7 +12457,7 @@ namespace pugi
 #undef PUGI__THROW_ERROR
 #undef PUGI__CHECK_ERROR
 
-#endif
+//#endif
 
 /**
  * Copyright (c) 2006-2015 Arseny Kapoulkine

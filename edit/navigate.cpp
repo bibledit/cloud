@@ -114,8 +114,8 @@ string edit_navigate (void * webserver_request)
   int verse = Ipc_Focus::getVerse (request);
   for (size_t i = 0; i < verses.size (); i++) {
     if (verse == verses[i]) {
-      if (static_cast<size_t>(offset) >= starting_offsets [i]) {
-        if (static_cast<size_t>(offset) <= ending_offsets [i]) {
+      if (offset >= starting_offsets [i]) {
+        if (offset <= ending_offsets [i]) {
           return string();
         }
       }

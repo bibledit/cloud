@@ -226,10 +226,10 @@ string email_receive_message (string& error)
   
   res = curl_easy_perform (curl);
 
-  string body;
+  string body {};
   
   if (res == CURLE_OK) {
-    body = static_cast<char *>(s.ptr);
+    if (s.ptr) body = s.ptr;
   } else {
     error = curl_easy_strerror (res);
   }

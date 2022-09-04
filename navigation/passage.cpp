@@ -31,6 +31,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
 
@@ -182,7 +183,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     a_node.append_attribute("id") = "selectverse";
     a_node.append_attribute("href") = "selectverse";
     a_node.append_attribute("title") = translate("Select verse").c_str();
-    a_node.text() = string (" " + convert_to_string (verse) + " ").c_str();
+    a_node.text() = (" " + convert_to_string (verse) + " ").c_str();
   }
 
   if (next_verse_is_available) {
@@ -503,10 +504,10 @@ void Navigation_Passage::add_selector_link (string& html, string id, string href
   // No wrapping of a book name consisting of more than one word.
   xml_document document;
   xml_node span_node = document.append_child("span");
-  span_node.append_attribute("class") = string("selector" + class_expansion).c_str();
+  span_node.append_attribute("class") = ("selector" + class_expansion).c_str();
   {
     xml_node a_node = span_node.append_child("a");
-    a_node.append_attribute("id") = string (id + "apply").c_str();
+    a_node.append_attribute("id") = (id + "apply").c_str();
     a_node.append_attribute("href") = href.c_str();
     a_node.text() = text.c_str();
   }

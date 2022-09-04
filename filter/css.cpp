@@ -108,7 +108,7 @@ string Filter_Css::writingModeBottomTopLeftRight (int value)
 
 string Filter_Css::writingModeBottomTopRightLeft (int value)
 {
-  value = static_cast<int> (value / 10);
+  value = (value / 10);
   value = value % 10;
   if (value == 4) return "checked";
   else return "";

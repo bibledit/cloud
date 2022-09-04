@@ -256,7 +256,7 @@ void test_database_notes ()
     length = value.length ();
     database_notes.add_comment (newidentifier, "comment2");
     value = database_notes.get_contents (newidentifier);
-    if (value.length () < static_cast<size_t>(length + 30)) {
+    if (value.length () < (length + 30)) {
       evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment2");
@@ -266,7 +266,7 @@ void test_database_notes ()
     // Universal method to add comment.
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
-    if (value.length () < static_cast<size_t>(length + 30)) {
+    if (value.length () < (length + 30)) {
       evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment5");

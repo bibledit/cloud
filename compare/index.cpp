@@ -36,6 +36,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
 
@@ -97,7 +98,7 @@ string compare_index (void * webserver_request)
   for (auto & name : names) {
     xml_node li_node = document.append_child("li");
     xml_node a_node = li_node.append_child("a");
-    a_node.append_attribute("href") = string("index?bible=" + bible + "&compare=" + name).c_str();
+    a_node.append_attribute("href") = ("index?bible=" + bible + "&compare=" + name).c_str();
     a_node.text().set(name.c_str());
   }
   stringstream ss;

@@ -28,6 +28,7 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
 #pragma GCC diagnostic ignored "-Wuseless-cast"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <jsonxx/jsonxx.h>
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop

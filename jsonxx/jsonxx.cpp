@@ -36,6 +36,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #pragma GCC diagnostic ignored "-Wswitch-enum"
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wuseless-cast"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 
 #include "jsonxx.h"
 

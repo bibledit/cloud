@@ -141,10 +141,17 @@ void Editor_Html2Usfm::processNode (xml_node node)
       currentLine += text;
       break;
     }
+    case node_null:
+    case node_document:
+    case node_comment:
+    case node_pi:
+    case node_declaration:
+    case node_doctype:
+    case node_cdata:
     default:
     {
       string nodename = node.name ();
-      Database_Logs::log ("Unknown XML node " + nodename + " while saving editor text");
+      Database_Logs::log ("XML node " + nodename + " not handled while saving editor text");
       break;
     }
   }

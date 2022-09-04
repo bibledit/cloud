@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wswitch-enum"
 #include <mbedtls/net_sockets.h>
 #include <mbedtls/debug.h>
 #include <mbedtls/ssl.h>
@@ -1046,6 +1047,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
     case CURLINFO_SSL_DATA_IN:
       text = "<= Recv SSL data";
       break;
+    case CURLINFO_END:
     default: 
       return 0;
   }

@@ -597,7 +597,7 @@ AM_CFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -fno-var-tracking -g
 if COMPILERWARNINGS
 AM_CFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic
-AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual  -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default
+AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual  -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter
 if COMPILERGCC
 AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond -Wformat-overflow=2 -Wlogical-op -Wnoexcept -Wno-non-template-friend -Wrestrict -Wstrict-null-sentinel
 endif

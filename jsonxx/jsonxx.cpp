@@ -33,6 +33,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Wswitch-enum"
 
 #include "jsonxx.h"
 

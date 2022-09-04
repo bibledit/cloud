@@ -92,10 +92,17 @@ void Editor_Html2Format::processNode (xml_node node)
       formats.push_back(current_character_format);
       break;
     }
+    case node_null:
+    case node_document:
+    case node_cdata:
+    case node_comment:
+    case node_pi:
+    case node_declaration:
+    case node_doctype:
     default:
     {
       string nodename = node.name ();
-      Database_Logs::log ("Unknown XML node " + nodename + " while saving editor text");
+      Database_Logs::log ("XML node " + nodename + " not handled while saving editor text");
       break;
     }
   }

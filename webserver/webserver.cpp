@@ -27,6 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/date.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wswitch-enum"
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/certs.h>
@@ -37,6 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/net_sockets.h>
 #include <mbedtls/error.h>
 #include <mbedtls/ssl_cache.h>
+#pragma GCC diagnostic pop
 #ifdef HAVE_WINDOWS
 #include <io.h>
 #endif

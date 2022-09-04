@@ -5,6 +5,7 @@
 #pragma GCC diagnostic ignored "-Wnull-dereference"
 #pragma GCC diagnostic ignored "-Wmissing-noreturn"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wswitch-enum"
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------

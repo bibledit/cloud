@@ -32,6 +32,7 @@
 #pragma clang diagnostic ignored "-Wsign-conversion"
 
 #pragma GCC diagnostic ignored "-Wconversion"
+#pragma GCC diagnostic ignored "-Wundef"
 
 /***************************************************************************
     copyright            : (C) 2002-2008 by Stefano Barbato

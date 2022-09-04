@@ -182,20 +182,20 @@ string changes_change (void * webserver_request)
     td_node = tr_node.append_child("td");
     if (subscription) {
       xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = string("unsubscribe" + convert_to_string (note)).c_str();
-      a_node2.text().set(string("[" + translate("unsubscribe") + "]").c_str());
+      a_node2.append_attribute("href") = ("unsubscribe" + convert_to_string (note)).c_str();
+      a_node2.text().set(("[" + translate("unsubscribe") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (assignment) {
       xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = string("unassign" + convert_to_string (note)).c_str();
-      a_node2.text().set(string("[" + translate("I have done my part on it") + "]").c_str());
+      a_node2.append_attribute("href") = ("unassign" + convert_to_string (note)).c_str();
+      a_node2.text().set(("[" + translate("I have done my part on it") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (level >= Filter_Roles::manager ()) {
       xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = string("delete" + convert_to_string (note)).c_str();
-      a_node2.text().set(string("[" + translate("mark for deletion") + "]").c_str());
+      a_node2.append_attribute("href") = ("delete" + convert_to_string (note)).c_str();
+      a_node2.text().set(("[" + translate("mark for deletion") + "]").c_str());
     }
   }
   stringstream notesblock;

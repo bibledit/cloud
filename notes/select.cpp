@@ -261,7 +261,7 @@ string notes_select (void * webserver_request)
                                                          status_selector,
                                                          bible_selector,
                                                          assignment_selector,
-                                                         bool (subscription_selector),
+                                                         subscription_selector,
                                                          severity_selector,
                                                          text_selector,
                                                          search_text,

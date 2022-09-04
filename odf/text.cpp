@@ -1225,17 +1225,17 @@ void odf_text::add_image ([[maybe_unused]] string alt, string src, string captio
     image_counter++;
     xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
     draw_frame_node.append_attribute("draw:style-name") = "fr1";
-    draw_frame_node.append_attribute("draw:name") = string ("Image" + convert_to_string(image_counter)).c_str();
+    draw_frame_node.append_attribute("draw:name") = ("Image" + convert_to_string(image_counter)).c_str();
     draw_frame_node.append_attribute("text:anchor-type") = "char";
-    draw_frame_node.append_attribute("svg:width") = string(convert_to_string (available_width_mm) + "mm").c_str();
+    draw_frame_node.append_attribute("svg:width") = (convert_to_string (available_width_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-width") = "100%";
-    draw_frame_node.append_attribute("svg:height") = string (convert_to_string (available_height_mm) + "mm").c_str();
+    draw_frame_node.append_attribute("svg:height") = (convert_to_string (available_height_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-height") = "scale";
     draw_frame_node.append_attribute("draw:z-index") = "0";
     {
       xml_node draw_image_node = draw_frame_node.append_child("draw:image");
       // draw_image_node.append_attribute("xlink:href") = string("Pictures/" + src).c_str();
-      draw_image_node.append_attribute("xlink:href") = string("../" + src).c_str();
+      draw_image_node.append_attribute("xlink:href") = ("../" + src).c_str();
       draw_image_node.append_attribute("xlink:type") = "simple";
       draw_image_node.append_attribute("xlink:show") = "embed";
       draw_image_node.append_attribute("xlink:actuate") = "onLoad";

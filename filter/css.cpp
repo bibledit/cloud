@@ -72,37 +72,37 @@ int Filter_Css::directionValue (string direction)
 
 string Filter_Css::writingModeUnspecified (int value)
 {
-  value = static_cast<int> (value / 10);
+  value = value / 10;
   value = value % 10;
   if (value == 0) return "checked";
-  else return "";
+  else return string();
 }
 
 
 string Filter_Css::writingModeTopBottomLeftRight (int value)
 {
-  value = static_cast<int> (value / 10);
+  value = value / 10;
   value = value % 10;
   if (value == 1) return "checked";
-  else return "";
+  else return string();
 }
 
 
 string Filter_Css::writingModeTopBottomRightLeft (int value)
 {
-  value = static_cast<int> (value / 10);
+  value = value / 10;
   value = value % 10;
   if (value == 2) return "checked";
-  else return "";
+  else return string();
 }
 
 
 string Filter_Css::writingModeBottomTopLeftRight (int value)
 {
-  value = static_cast<int> (value / 10);
+  value = value / 10;
   value = value % 10;
   if (value == 3) return "checked";
-  else return "";
+  else return string();
 }
 
 
@@ -201,7 +201,7 @@ string Filter_Css::get_css (string class_, string font, int directionvalue, int 
     css.push_back (line);
   }
   
-  int mode = static_cast<int> (directionvalue / 10);
+  int mode = directionvalue / 10;
   mode = mode % 10;
   
   if (mode > 0) {

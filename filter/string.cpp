@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // No longer needed since upgrading the UTF8 library?
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING 1
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING 1
+#pragma GCC diagnostic ignored "-Wunused-macros"
 
 #include <filter/string.h>
 #pragma GCC diagnostic push

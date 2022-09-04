@@ -1359,7 +1359,7 @@ int filter_url_curl_debug_callback (void *curl_handle, int curl_info_type, char 
 #else
 void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 {
-  CURL * handle = static_cast<CURL *>(curl_handle);
+  CURL * handle = curl_handle;
   
   // There is a timeout on establishing a connection.
   curl_easy_setopt (handle, CURLOPT_CONNECTTIMEOUT, 10);
@@ -1648,13 +1648,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
 #else
-    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, const_cast<struct timeval *>(&tv), sizeof(struct timeval));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(struct timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
-    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, const_cast<struct timeval *>(&tv), sizeof(struct timeval));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(struct timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
   }

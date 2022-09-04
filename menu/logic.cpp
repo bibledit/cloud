@@ -92,8 +92,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <bb/logic.h>
 #include <ldap/logic.h>
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 #include <jsonxx/jsonxx.h>
 #pragma GCC diagnostic pop
 #include <read/index.h>

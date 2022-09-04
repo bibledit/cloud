@@ -32,7 +32,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <trash/handler.h>
 #include <webserver/request.h>
 #pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Weffc++"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 #include <jsonxx/jsonxx.h>
 #pragma GCC diagnostic pop
 #include <database/logic.h>

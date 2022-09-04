@@ -20,6 +20,7 @@ while read -r file; do
 
   echo $file
   mv $file tmpc
+  echo '#pragma clang diagnostic ignored "-Wunknown-warning-option"' >> $file
   echo '#pragma clang diagnostic ignored "-Wimplicit-int-conversion"' >> $file
   echo '#pragma clang diagnostic ignored "-Wsign-conversion"' >> $file
   echo '#pragma GCC diagnostic ignored "-Weffc++"' >> $file
@@ -28,6 +29,7 @@ while read -r file; do
   echo '#pragma GCC diagnostic ignored "-Wold-style-cast"' >> $file
   echo '#pragma GCC diagnostic ignored "-Wsuggest-override"' >> $file
   echo '#pragma GCC diagnostic ignored "-Wswitch-default"' >> $file
+  echo '#pragma GCC diagnostic ignored "-Wuseless-cast"' >> $file
   echo '' >> $file
   cat tmpc >> $file
   rm tmpc

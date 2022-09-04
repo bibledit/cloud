@@ -23,9 +23,11 @@
 #include <webserver/request.h>
 #include "assets/view.h"
 #include "resource/logic.h"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
 #include <jsonxx/jsonxx.h>
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop

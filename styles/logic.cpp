@@ -201,7 +201,7 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
       switch (subtype) {
         case TableElementSubtypeHeading : return true;
         case TableElementSubtypeCell    : return true;
-          return false;
+        default: return false;
       }
       break;
     }
@@ -343,6 +343,7 @@ bool styles_logic_columns_are_relevant (int type, int subtype)
   switch (type) {
     case StyleTypeStartsParagraph : return true;
     case StyleTypeChapterNumber   : return true;
+    default: return false;
   }
   return false;
 }
@@ -435,12 +436,13 @@ int styles_logic_get_userbool1_function (int type, int subtype)
 string styles_logic_get_userbool1_text (int function)
 {
   switch (function) {
-    case UserBool1PrintChapterAtFirstVerse : return translate ("Print chapter number at first verse");
-    case UserBool1IdStartsNewPage          : return translate ("Start on a new page");
-    case UserBool1NoteAppliesToApocrypha   : return translate ("Refers to the Apocrypha");
-    case UserBool1VerseRestartsParagraph   : return translate ("Restart paragraph");
+    case UserBool1PrintChapterAtFirstVerse: return translate ("Print chapter number at first verse");
+    case UserBool1IdStartsNewPage: return translate ("Start on a new page");
+    case UserBool1NoteAppliesToApocrypha: return translate ("Refers to the Apocrypha");
+    case UserBool1VerseRestartsParagraph: return translate ("Restart paragraph");
+    default: return "--";
   }
-  return "--";
+  return string();
 }
 
 
@@ -462,11 +464,12 @@ int styles_logic_get_userbool2_function (int type, int subtype)
 string styles_logic_get_userbool2_text (int function)
 {
   switch (function) {
-    case UserBool2IdStartsOddPage            : return translate ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
-    case UserBool2ChapterInLeftRunningHeader : return translate ("Print chapter number in the running header of the left page");
-    case UserBool2RunningHeaderLeft          : return translate ("Print this in the running header of the left page");
+    case UserBool2IdStartsOddPage: return translate ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
+    case UserBool2ChapterInLeftRunningHeader: return translate ("Print chapter number in the running header of the left page");
+    case UserBool2RunningHeaderLeft: return translate ("Print this in the running header of the left page");
+    default: return string();
   }
-  return "";
+  return string();
 }
 
 
@@ -488,10 +491,11 @@ int styles_logic_get_userbool3_function (int type, int subtype)
 string styles_logic_get_userbool3_text (int function)
 {
   switch (function) {
-    case UserBool3ChapterInRightRunningHeader : return translate ("Print chapter number in the running header of the right page");
-    case UserBool3RunningHeaderRight          : return translate ("Print this in the running header of the right page");
+    case UserBool3ChapterInRightRunningHeader: return translate ("Print chapter number in the running header of the right page");
+    case UserBool3RunningHeaderRight: return translate ("Print this in the running header of the right page");
+    default: return string();
   }
-  return "";
+  return string();
 }
 
 

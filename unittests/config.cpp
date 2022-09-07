@@ -128,7 +128,7 @@ void test_database_config_user ()
     // Trimming resets the sprint month to the current month.
     string filename = filter_url_create_path ({testing_directory, "databases", "config", "user", "username", "sprint-month"});
     struct stat foo;
-    struct utimbuf new_times;
+    utimbuf new_times;
     stat (filename.c_str(), &foo);
     new_times.actime = filter::date::seconds_since_epoch () - (2 * 24 * 3600) - 10;
     new_times.modtime = filter::date::seconds_since_epoch () - (2 * 24 * 3600) - 10;

@@ -286,14 +286,14 @@ void http_server ()
 #endif
 #ifdef HAVE_CLOUD
   // When configured as a server it listens on any IPv6 address.
-  struct sockaddr_in6 serveraddr;
+  sockaddr_in6 serveraddr;
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin6_flowinfo = 0;
   serveraddr.sin6_family = AF_INET6;
   serveraddr.sin6_addr = in6addr_any;
   serveraddr.sin6_port = htons (static_cast<uint16_t>(convert_to_int (config_logic_http_network_port ())));
 #endif
-  result = mybind (listenfd, reinterpret_cast<struct sockaddr *>(&serveraddr), sizeof (serveraddr));
+  result = mybind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
   if (result != 0) {
     string error = "Error binding server to socket: ";
     error.append (strerror (errno));
@@ -317,13 +317,13 @@ void http_server ()
   while (listener_healthy && config_globals_webserver_running) {
 
     // Socket and file descriptor for the client connection.
-    struct sockaddr_in6 clientaddr6;
+    sockaddr_in6 clientaddr6;
     socklen_t clientlen = sizeof (clientaddr6);
-    int connfd = accept (listenfd, reinterpret_cast<struct sockaddr *>(&clientaddr6), &clientlen);
+    int connfd = accept (listenfd, reinterpret_cast<sockaddr *>(&clientaddr6), &clientlen);
     if (connfd > 0) {
 
       // Socket receive timeout, plain http.
-      struct timeval tv;
+      timeval tv;
       tv.tv_sec = 60;
       tv.tv_usec = 0;
       setsockopt (connfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
@@ -487,7 +487,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 {
   // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
-  struct timeval tv;
+  timeval tv;
   tv.tv_sec = 60;
   tv.tv_usec = 0;
   setsockopt (client_fd.fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
@@ -510,9 +510,9 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
     if (config_globals_webserver_running) {
 
       // Get client's remote IPv4 address in dotted notation and put it in the webserver request object.
-      struct sockaddr_in addr;
-      socklen_t addr_size = sizeof(struct sockaddr_in);
-      getpeername (client_fd.fd, reinterpret_cast<struct sockaddr *>(&addr), &addr_size);
+      sockaddr_in addr;
+      socklen_t addr_size = sizeof(sockaddr_in);
+      getpeername (client_fd.fd, reinterpret_cast<sockaddr *>(&addr), &addr_size);
       char remote_address [256];
       inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
       request.remote_address = remote_address;

@@ -32,7 +32,7 @@ void sources_morphgnt_parse ()
 
   vector <string> files;
   DIR * dir = opendir ("sources/morphgnt");
-  struct dirent * direntry;
+  dirent * direntry;
   while ((direntry = readdir (dir)) != nullptr) {
     string name = direntry->d_name;
     if (name.find ("morphgnt.txt") == string::npos) continue;

@@ -93,14 +93,14 @@ struct cstring {
 };
 
 
-void init_string (struct cstring *s) {
+void init_string (cstring *s) {
   s->len = 0;
   s->ptr = static_cast<char *>(malloc(s->len+1));
   s->ptr[0] = '\0';
 }
 
 
-size_t writefunc(void *ptr, size_t size, size_t nmemb, struct cstring *s)
+size_t writefunc(void *ptr, size_t size, size_t nmemb, cstring *s)
 {
   size_t new_len = s->len + size*nmemb;
   s->ptr = static_cast<char *>(realloc (s->ptr, new_len+1));
@@ -138,7 +138,7 @@ int email_receive_count (string& error, bool verbose)
   CURL *curl;
   CURLcode res = CURLE_OK;
 
-  struct cstring s;
+  cstring s;
   init_string (&s);
 
   curl = curl_easy_init ();
@@ -200,7 +200,7 @@ string email_receive_message (string& error)
   CURL *curl;
   CURLcode res = CURLE_OK;
 
-  struct cstring s;
+  cstring s;
   init_string (&s);
 
   curl = curl_easy_init ();

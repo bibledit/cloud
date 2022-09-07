@@ -145,7 +145,7 @@ struct upload_status {
 #else
 static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 {
-  struct upload_status *upload_ctx = static_cast <struct upload_status *> (userp);
+  upload_status *upload_ctx = static_cast <upload_status *> (userp);
   const char *data;
 
   if((size == 0) || (nmemb == 0) || ((size*nmemb) < 1)) {
@@ -219,8 +219,8 @@ string email_send ([[maybe_unused]] string to_mail,
   
   CURL *curl;
   CURLcode res = CURLE_OK;
-  struct curl_slist *recipients = nullptr;
-  struct upload_status upload_ctx;
+  curl_slist * recipients {nullptr};
+  upload_status upload_ctx;
 
   upload_ctx.lines_read = 0;
 

@@ -97,7 +97,7 @@ vector <string> filter_url_scandir_internal (string folder)
   
   DIR * dir = opendir (folder.c_str());
   if (dir) {
-    struct dirent * direntry;
+    dirent * direntry;
     while ((direntry = readdir (dir)) != nullptr) {
       string name = direntry->d_name;
       // Exclude short-hand directory names.
@@ -1105,7 +1105,7 @@ string filter_url_http_post (const string & url, [[maybe_unused]] string post_da
     // That would result in resources not being fetched anymore.
     if (!check_certificate) curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     // Optional extra headers.
-    struct curl_slist *list = nullptr;
+    curl_slist *list {nullptr};
     for (auto header : headers) {
       string line = header.first + ": " + header.second;
       list = curl_slist_append (list, line.c_str ());
@@ -1152,8 +1152,8 @@ string filter_url_http_upload ([[maybe_unused]] string url,
 #else
 
   // Coded while looking at http://curl.haxx.se/libcurl/c/postit2.html.
-  struct curl_httppost *formpost=nullptr;
-  struct curl_httppost *lastptr=nullptr;
+  curl_httppost * formpost {nullptr};
+  curl_httppost * lastptr {nullptr};
 
   // Fill in the text fields to submit.
   for (auto & element : values) {
@@ -1497,11 +1497,11 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   
   
   // Resolve the host.
-  struct addrinfo hints;
-  struct addrinfo * address_results = nullptr;
-  bool address_info_resolved = false;
+  addrinfo hints;
+  addrinfo * address_results {nullptr};
+  bool address_info_resolved {false};
   if (!secure) {
-    memset (&hints, 0, sizeof (struct addrinfo));
+    memset (&hints, 0, sizeof (addrinfo));
     // Allow IPv4 and IPv6.
     hints.ai_family = AF_UNSPEC;
     // TCP/IP socket.
@@ -1582,7 +1582,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     
     // Iterate over the list of address structures.
     vector <string> errors;
-    struct addrinfo * rp = nullptr;
+    addrinfo * rp {nullptr};
     if (connection_healthy) {
       for (rp = address_results; rp != nullptr; rp = rp->ai_next) {
         // Try to get a socket for this address structure.
@@ -1641,7 +1641,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     const char * tv = "600000";
 #else
     // Linux: Timeout value is a struct timeval, address passed to setsockopt() is const void *
-    struct timeval tv;
+    timeval tv;
     tv.tv_sec = 600;
     tv.tv_usec = 0;
 #endif
@@ -1652,13 +1652,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
 #else
-    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(struct timeval));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
 #ifdef HAVE_WINDOWS
     ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, tv, sizeof (tv));
 #else
-    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(struct timeval));
+    ret = setsockopt (comm_sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(timeval));
 #endif
     if (ret != 0) Database_Logs::log (strerror (errno));
   }
@@ -2032,10 +2032,10 @@ string filter_url_update_directory_separator_if_windows (string filename)
 bool filter_url_port_can_connect (string hostname, int port)
 {
   // Resolve the host.
-  struct addrinfo hints;
-  struct addrinfo * address_results = nullptr;
-  bool address_info_resolved = false;
-  memset (&hints, 0, sizeof (struct addrinfo));
+  addrinfo hints;
+  addrinfo * address_results {nullptr};
+  bool address_info_resolved {false};
+  memset (&hints, 0, sizeof (addrinfo));
   // Allow IPv4 and IPv6.
   hints.ai_family = AF_UNSPEC;
   // TCP/IP socket.
@@ -2049,10 +2049,10 @@ bool filter_url_port_can_connect (string hostname, int port)
   int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
   if (res != 0) return false;
   // Result of the text.
-  bool connected = false;
+  bool connected {false};
   // Iterate over the list of address structures.
-  vector <string> errors;
-  struct addrinfo * rp = nullptr;
+  vector <string> errors {};
+  addrinfo * rp {nullptr};
   for (rp = address_results; rp != nullptr; rp = rp->ai_next) {
     // Try to get a socket for this address structure.
     int sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);

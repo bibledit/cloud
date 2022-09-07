@@ -1545,7 +1545,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         connection_healthy = false;
       }
       mbedtls_ssl_conf_authmode (&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
-      mbedtls_ssl_conf_ca_chain (&conf, &filter_url_mbed_tls_cacert, NULL);
+      mbedtls_ssl_conf_ca_chain (&conf, &filter_url_mbed_tls_cacert, nullptr);
       mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &filter_url_mbed_tls_ctr_drbg);
       ret = mbedtls_ssl_setup (&ssl, &conf);
       if (ret != 0) {
@@ -1558,7 +1558,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         filter_url_display_mbed_tls_error (ret, &error, false);
         connection_healthy = false;
       }
-      mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, NULL);
+      mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, nullptr);
     }
     
     // Secure connect to host.
@@ -1582,9 +1582,9 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     
     // Iterate over the list of address structures.
     vector <string> errors;
-    struct addrinfo * rp = NULL;
+    struct addrinfo * rp = nullptr;
     if (connection_healthy) {
-      for (rp = address_results; rp != NULL; rp = rp->ai_next) {
+      for (rp = address_results; rp != nullptr; rp = rp->ai_next) {
         // Try to get a socket for this address structure.
         sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
         // If it fails, try the next one.
@@ -1618,7 +1618,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     
     // Check whether no address succeeded.
     if (connection_healthy) {
-      if (rp == NULL) {
+      if (rp == nullptr) {
         error = filter_string_implode (errors, " | ");
         connection_healthy = false;
       }
@@ -1773,7 +1773,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     bool reading_body = false;
     char prev = 0;
     char cur;
-    FILE * file = NULL;
+    FILE * file = nullptr;
     if (!filename.empty ()) {
 #ifdef HAVE_WINDOWS
       wstring wfilename = string2wstring (filename);
@@ -1884,14 +1884,14 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_entropy_init (&filter_url_mbed_tls_entropy);
   const char *pers = "Client";
   ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, reinterpret_cast <const unsigned char *> (pers), strlen (pers));
-  filter_url_display_mbed_tls_error (ret, NULL, false);
+  filter_url_display_mbed_tls_error (ret, nullptr, false);
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.
   string path = filter_url_create_root_path ({"filter", "cas.crt"});
   while (!file_or_dir_exists (path)) this_thread::sleep_for (chrono::milliseconds (100));
   // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
-  filter_url_display_mbed_tls_error (ret, NULL, false);
+  filter_url_display_mbed_tls_error (ret, nullptr, false);
 }
 
 
@@ -2052,8 +2052,8 @@ bool filter_url_port_can_connect (string hostname, int port)
   bool connected = false;
   // Iterate over the list of address structures.
   vector <string> errors;
-  struct addrinfo * rp = NULL;
-  for (rp = address_results; rp != NULL; rp = rp->ai_next) {
+  struct addrinfo * rp = nullptr;
+  for (rp = address_results; rp != nullptr; rp = rp->ai_next) {
     // Try to get a socket for this address structure.
     int sock = socket (rp->ai_family, rp->ai_socktype, rp->ai_protocol);
     // If it fails, try the next one.

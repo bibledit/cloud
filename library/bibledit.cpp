@@ -131,7 +131,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   hours = 0 - (tzi.Bias / 60);
 #else
   // Set local timezone offset in the library on Linux.
-  time_t t = time (NULL);
+  time_t t = time (nullptr);
   struct tm lt = {};
   localtime_r (&t, &lt);
   hours = static_cast<int>(round (lt.tm_gmtoff / 3600));

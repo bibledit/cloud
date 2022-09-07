@@ -774,7 +774,7 @@ void Database_Modifications::deleteNotification (int identifier, sqlite3 * db)
   // Make a very short connection to the database, 
   // to prevent corruption when a user deletes lots of changes notifications 
   // by keeping the delete key pressed.
-  bool local_connection = (db == NULL);
+  bool local_connection = (db == nullptr);
   if (local_connection) db = connect ();
   database_sqlite_exec (db, sql.sql);
   if (local_connection) database_sqlite_disconnect (db);

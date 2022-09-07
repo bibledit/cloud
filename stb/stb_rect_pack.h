@@ -500,7 +500,7 @@ static stbrp__findresult stbrp__skyline_pack_rectangle(stbrp_context *context, i
       STBRP_ASSERT(cur->x < cur->next->x);
       cur = cur->next;
    }
-   STBRP_ASSERT(cur->next == NULL);
+   STBRP_ASSERT(cur->next == nullptr);
 
    {
       int count=0;

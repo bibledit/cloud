@@ -21,7 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <webserver/request.h>
 #include <config/globals.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <filter/UriCodec.cpp>
+#pragma GCC diagnostic pop
 #include <filter/string.h>
 #include <filter/date.h>
 #include <database/books.h>
@@ -32,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wswitch-enum"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <mbedtls/net_sockets.h>
 #include <mbedtls/debug.h>
 #include <mbedtls/ssl.h>
@@ -94,7 +98,7 @@ vector <string> filter_url_scandir_internal (string folder)
   DIR * dir = opendir (folder.c_str());
   if (dir) {
     struct dirent * direntry;
-    while ((direntry = readdir (dir)) != NULL) {
+    while ((direntry = readdir (dir)) != nullptr) {
       string name = direntry->d_name;
       // Exclude short-hand directory names.
       if (name == ".") continue;
@@ -637,7 +641,7 @@ void filter_url_set_write_permission (string path)
 
 
 // Get and returns the contents of $filename.
-string filter_url_file_get_contents(string filename)
+string filter_url_file_get_contents(string filename) // Todo fix warnings and do unit tests on this too.
 {
   if (!file_or_dir_exists (filename)) return string();
   try {
@@ -650,9 +654,9 @@ string filter_url_file_get_contents(string filename)
     streamoff filesize = ifs.tellg();
     if (filesize == 0) return string();
     ifs.seekg(0, ios::beg);
-    vector <char> bytes(static_cast<int> (filesize));
+    vector <char> bytes(static_cast<size_t> (filesize));
     ifs.read(&bytes[0], static_cast<int> (filesize));
-    return string(&bytes[0], static_cast<int> (filesize));
+    return string(&bytes[0], static_cast<size_t> (filesize));
   }
   catch (...) {
     return string();
@@ -1005,7 +1009,7 @@ void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *
     
     // Show data on the right.
     for (c = 0; (c < width) && (i + c < size); c++) {
-      char x = (ptr[i + c] >= 0x20 && ptr[i + c] < 0x80) ? ptr[i + c] : '.';
+      unsigned char x = (ptr[i + c] >= 0x20 && ptr[i + c] < 0x80) ? ptr[i + c] : '.';
       fputc (x, stream);
     }
 
@@ -1148,8 +1152,8 @@ string filter_url_http_upload ([[maybe_unused]] string url,
 #else
 
   // Coded while looking at http://curl.haxx.se/libcurl/c/postit2.html.
-  struct curl_httppost *formpost=NULL;
-  struct curl_httppost *lastptr=NULL;
+  struct curl_httppost *formpost=nullptr;
+  struct curl_httppost *lastptr=nullptr;
 
   // Fill in the text fields to submit.
   for (auto & element : values) {
@@ -1735,7 +1739,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         int ret = mbedtls_ssl_write (&ssl, buf, len);
         if (ret > 0) {
           buf += ret;
-          len -= ret;
+          len -= static_cast<size_t>(ret); // Todo fix warning.
         } else {
           // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
           // it must be called later with the *same* arguments,
@@ -1785,7 +1789,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         unsigned char buffer [1];
         memset (&buffer, 0, 1);
         ret = mbedtls_ssl_read (&ssl, buffer, 1);
-        cur = buffer [0];
+        cur = static_cast<char>(buffer [0]);
       } else {
 #ifdef HAVE_WINDOWS
         ret = (int)recv(sock, &cur, 1, 0);

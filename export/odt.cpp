@@ -113,25 +113,25 @@ void export_odt_book (string bible, int book, bool log)
   string basefile = filter_url_basename (standardFilename);
   filter_url_unlink (standardFilename + ".zip");
   if (secure) {
-    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, nullptr, nullptr);
     filter_url_unlink (standardFilename);
   }
   basefile = filter_url_basename (textOnlyFilename);
   filter_url_unlink (textOnlyFilename + ".zip");
   if (secure) {
-    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, nullptr, nullptr);
     filter_url_unlink (textOnlyFilename);
   }
   basefile = filter_url_basename (textAndCitationsFilename);
   filter_url_unlink (textAndCitationsFilename + ".zip");
   if (secure) {
-    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, nullptr, nullptr);
     filter_url_unlink (textAndCitationsFilename);
   }
   basefile = filter_url_basename (notesFilename);
   filter_url_unlink (notesFilename + ".zip");
   if (secure) {
-    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, NULL, NULL);
+    filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, nullptr, nullptr);
     filter_url_unlink (notesFilename);
   }
   

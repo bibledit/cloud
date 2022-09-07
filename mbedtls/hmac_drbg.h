@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file hmac_drbg.h
  *

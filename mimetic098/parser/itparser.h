@@ -1,3 +1,5 @@
+#pragma GCC system_header
+
 #ifndef _MIMETIC_PARSER_ITPARSER_H_
 #define _MIMETIC_PARSER_ITPARSER_H_
 #include <iterator>

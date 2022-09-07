@@ -146,14 +146,14 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     // Getting the web root on Windows.
     // The following gets the path to the server.exe.
     // char buf[MAX_PATH] = { 0 };
-    // DWORD ret = GetModuleFileNameA(NULL, buf, MAX_PATH);
+    // DWORD ret = GetModuleFileNameA(nullptr, buf, MAX_PATH);
     // While developing, the .exe runs in folder Debug or Release, and not in the expected folder.
     // Therefore it's better to take the path of the current directory.
     wchar_t buffer[MAX_PATH];
     GetCurrentDirectory (MAX_PATH, buffer);
     char chars[MAX_PATH];
     char def_char = ' ';
-    WideCharToMultiByte (CP_ACP, 0, buffer, -1, chars, MAX_PATH, &def_char, NULL);
+    WideCharToMultiByte (CP_ACP, 0, buffer, -1, chars, MAX_PATH, &def_char, nullptr);
     webroot = chars;
   }
 #endif
@@ -166,7 +166,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     if (homeptr) homefolder = homeptr;
     string workingdirectory;
     char cwd [MAXPATHLEN];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) workingdirectory = cwd;
+    if (getcwd(cwd, sizeof(cwd)) != nullptr) workingdirectory = cwd;
     // If the web root folder, derived from the binary, is the same as the current directory,
     // it means that the binary is started from a Cloud installation in user space.
     // The web root folder is okay as it is.

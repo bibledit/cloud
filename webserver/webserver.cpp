@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wswitch-enum"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/certs.h>
@@ -524,13 +525,13 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       if (connection_healthy) {
         ret = mbedtls_ssl_setup (&ssl, conf);
         if (ret != 0) {
-          filter_url_display_mbed_tls_error (ret, NULL, true);
+          filter_url_display_mbed_tls_error (ret, nullptr, true);
           connection_healthy = false;
         }
       }
       
       if (connection_healthy) {
-        mbedtls_ssl_set_bio (&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, NULL);
+        mbedtls_ssl_set_bio (&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, nullptr);
       }
       
       // SSL / TLS handshake.
@@ -539,7 +540,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           if (config_globals_webserver_running) {
             // In case the secure server runs, display the error.
             // And in case the server is interrupted by e.g. Ctrl-C, don't display this error.
-            filter_url_display_mbed_tls_error (ret, NULL, true);
+            filter_url_display_mbed_tls_error (ret, nullptr, true);
           }
           connection_healthy = false;
         }
@@ -641,7 +642,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           // until it returns a positive value.
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-          filter_url_display_mbed_tls_error (ret, NULL, true);
+          filter_url_display_mbed_tls_error (ret, nullptr, true);
           connection_healthy = false;
         }
       }
@@ -687,7 +688,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
               // until it returns a positive value.
               if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
               if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-              filter_url_display_mbed_tls_error (ret, NULL, true);
+              filter_url_display_mbed_tls_error (ret, nullptr, true);
               connection_healthy = false;
             }
           }
@@ -706,7 +707,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         while ((ret = mbedtls_ssl_close_notify (&ssl)) < 0) {
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-          filter_url_display_mbed_tls_error (ret, NULL, true);
+          filter_url_display_mbed_tls_error (ret, nullptr, true);
           connection_healthy = false;
           if (connection_healthy) {}; // Suppress static analyzer warning about unused code.
           break;
@@ -772,8 +773,8 @@ void https_server ()
   mbedtls_pk_context pkey;
   mbedtls_pk_init (&pkey);
   path = config_logic_server_key_path ();
-  ret = mbedtls_pk_parse_keyfile (&pkey, path.c_str (), NULL);
-  if (ret != 0) filter_url_display_mbed_tls_error (ret, NULL, true);
+  ret = mbedtls_pk_parse_keyfile (&pkey, path.c_str (), nullptr);
+  if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
   
   // Server certificates store.
   mbedtls_x509_crt srvcert;
@@ -782,40 +783,40 @@ void https_server ()
   // Load the server certificate.
   path = config_logic_server_certificate_path ();
   ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
-  if (ret != 0) filter_url_display_mbed_tls_error (ret, NULL, true);
+  if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
 
   // Load the chain of certificates of the certificate authorities.
   path = config_logic_authorities_certificates_path ();
   ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
-  if (ret != 0) filter_url_display_mbed_tls_error (ret, NULL, true);
+  if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
 
   // Seed the random number generator.
   const char *pers = "Cloud";
   ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, reinterpret_cast<const unsigned char *> (pers), strlen (pers));
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, NULL, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
     return;
   }
   
   // Setup the listening TCP socket.
-  ret = mbedtls_net_bind (&listen_fd, NULL, network_port.c_str (), MBEDTLS_NET_PROTO_TCP);
+  ret = mbedtls_net_bind (&listen_fd, nullptr, network_port.c_str (), MBEDTLS_NET_PROTO_TCP);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, NULL, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
     return;
   }
   
   // Setup SSL/TLS default values for the lifetime of the https server.
   ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, NULL, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
     return;
   }
   mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
   mbedtls_ssl_conf_session_cache (&conf, &cache, mbedtls_ssl_cache_get, mbedtls_ssl_cache_set);
-  mbedtls_ssl_conf_ca_chain (&conf, srvcert.next, NULL);
+  mbedtls_ssl_conf_ca_chain (&conf, srvcert.next, nullptr);
   ret = mbedtls_ssl_conf_own_cert (&conf, &srvcert, &pkey);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, NULL, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
     return;
   }
   
@@ -827,9 +828,9 @@ void https_server ()
     mbedtls_net_init (&client_fd);
     
     // Wait until a client connects.
-    ret = mbedtls_net_accept (&listen_fd, &client_fd, NULL, 0, NULL);
+    ret = mbedtls_net_accept (&listen_fd, &client_fd, nullptr, 0, nullptr);
     if (ret != 0 ) {
-      filter_url_display_mbed_tls_error (ret, NULL, true);
+      filter_url_display_mbed_tls_error (ret, nullptr, true);
       continue;
     }
     

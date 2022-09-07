@@ -26,6 +26,7 @@
 
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
 
 #include  "miniz.h"
 

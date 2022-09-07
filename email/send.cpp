@@ -219,7 +219,7 @@ string email_send ([[maybe_unused]] string to_mail,
   
   CURL *curl;
   CURLcode res = CURLE_OK;
-  struct curl_slist *recipients = NULL;
+  struct curl_slist *recipients = nullptr;
   struct upload_status upload_ctx;
 
   upload_ctx.lines_read = 0;
@@ -363,7 +363,7 @@ string email_send ([[maybe_unused]] string to_mail,
 void email_schedule (string to, string subject, string body, int time)
 {
   // Schedule the mail for sending.
-  Database_Mail database_mail (NULL);
+  Database_Mail database_mail (nullptr);
   database_mail.send (to, subject, body, time);
   // Schedule a task to send the scheduled mail right away.
   tasks_logic_queue (SENDEMAIL);

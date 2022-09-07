@@ -35,11 +35,11 @@ string menu_logic_settings_resources_menu ();
 string menu_logic_main_categories (void * webserver_request, string & tooltip);
 string menu_logic_basic_categories (void * webserver_request);
 
-string menu_logic_workspace_category (void * webserver_request, string * tooltip = NULL);
-string menu_logic_translate_category (void * webserver_request, string * tooltip = NULL);
-string menu_logic_search_category (void * webserver_request, string * tooltip = NULL);
-string menu_logic_tools_category (void * webserver_request, string * tooltip = NULL);
-string menu_logic_settings_category (void * webserver_request, string * tooltip = NULL);
+string menu_logic_workspace_category (void * webserver_request, string * tooltip = nullptr);
+string menu_logic_translate_category (void * webserver_request, string * tooltip = nullptr);
+string menu_logic_search_category (void * webserver_request, string * tooltip = nullptr);
+string menu_logic_tools_category (void * webserver_request, string * tooltip = nullptr);
+string menu_logic_settings_category (void * webserver_request, string * tooltip = nullptr);
 string menu_logic_settings_resources_category (void * webserver_request);
 string menu_logic_help_category (void * webserver_request);
 

@@ -36,7 +36,7 @@ void test_sqlite ()
   map <string, vector <string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
   evaluate (__LINE__, __func__, "567", actual ["column2"] [1]);
   database_sqlite_disconnect (db);
-  database_sqlite_disconnect (NULL);
+  database_sqlite_disconnect (nullptr);
 
   evaluate (__LINE__, __func__, true, database_sqlite_healthy ("sqlite"));
   unlink (database_sqlite_file ("sqlite").c_str());

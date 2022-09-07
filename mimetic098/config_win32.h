@@ -1,3 +1,5 @@
+#pragma GCC system_header
+
 /* mimetic/config_win32.h  */
 
 #undef HAVE_DIRENT_H

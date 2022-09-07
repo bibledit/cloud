@@ -1,3 +1,5 @@
+#pragma GCC system_header
+
 /***************************************************************************
     copyright            : (C) 2002-2008 by Stefano Barbato
     email                : stefano@codesink.org

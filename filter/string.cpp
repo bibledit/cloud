@@ -1417,7 +1417,7 @@ int filter_string_user_identifier (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   string hash = md5 (username).substr (0, 5);
-  int identifier = my_stoi (hash, NULL, 36);
+  int identifier = my_stoi (hash, nullptr, 36);
   return identifier;
 }
 
@@ -1757,7 +1757,7 @@ string filter_string_tidy_invalid_html (string html)
 #ifdef HAVE_CLOUD
 
   // Create a parser context.
-  htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (NULL, NULL, NULL, 0, NULL, XML_CHAR_ENCODING_UTF8);
+  htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (nullptr, nullptr, nullptr, 0, nullptr, XML_CHAR_ENCODING_UTF8);
   
   // Set relevant options on the parser context.
   htmlCtxtUseOptions(parser, HTML_PARSE_NOBLANKS | HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING | HTML_PARSE_NONET);

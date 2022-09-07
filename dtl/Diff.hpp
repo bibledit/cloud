@@ -551,7 +551,7 @@ namespace dtl {
             huge             = false;
             trivial          = false;
             editDistanceOnly = false;
-            fp               = NULL;
+            fp               = nullptr;
         }
         
         /**

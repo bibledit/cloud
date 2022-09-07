@@ -67,8 +67,8 @@ public:
   void indexTrimAllNotifications ();
   vector <int> getNotificationIdentifiers (string username, string bible, bool sort_on_category = false);
   vector <int> getNotificationTeamIdentifiers (const string& username, const string& category, string bible = "");
-  vector <string> getNotificationDistinctBibles (string username = "");
-  void deleteNotification (int identifier, sqlite3 * db = NULL);
+  vector <string> getNotificationDistinctBibles (string username = string());
+  void deleteNotification (int identifier, sqlite3 * db = nullptr);
   int getNotificationTimeStamp (int id);
   string getNotificationCategory (int id);
   string getNotificationBible (int id);

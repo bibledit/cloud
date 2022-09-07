@@ -44,8 +44,8 @@ string filter_shell_escape_argument (string argument)
 
 
 // Runs shell $command in folder $directory, with $parameters.
-// If $output and $error are non-NULL, that is where the output of the shell command goes.
-// If they are NULL, the output of the shell command goes to the Journal.
+// If $output and $error are non-nullptr, that is where the output of the shell command goes.
+// If they are nullptr, the output of the shell command goes to the Journal.
 int filter_shell_run ([[maybe_unused]] string directory,
                       string command,
                       [[maybe_unused]] const vector <string> parameters,
@@ -122,7 +122,7 @@ int filter_shell_run (string command,
   }
   
   // Wait till child is ready.
-  wait(0);
+  wait(nullptr);
   close(fd);
   
   // Read the child's output.

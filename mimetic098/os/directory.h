@@ -1,3 +1,5 @@
+#pragma GCC system_header
+
 #ifndef _MIMETIC_OS_DIRECTORY_H_
 #define _MIMETIC_OS_DIRECTORY_H_
 #include <string>

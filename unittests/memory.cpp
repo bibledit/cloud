@@ -81,7 +81,7 @@ void test_memory ()
   refresh_sandbox (false);
   {
     Database_State::create ();
-    Database_Notes database_notes (NULL);
+    Database_Notes database_notes (nullptr);
     database_notes.create ();
     for (int i = 0; i < 100; i++) {
       database_notes.store_new_note ("bible", i, i, i, "summary", "contents", true);

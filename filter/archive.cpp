@@ -90,7 +90,7 @@ string filter_archive_zip_folder_miniz_internal (string folder)
     mz_bool status;
     if (is_dir) {
       file.append ("/");
-      status = mz_zip_add_mem_to_archive_file_in_place(zippedfile.c_str(), file.c_str(), NULL, 0, "", 0, MZ_DEFAULT_LEVEL);
+      status = mz_zip_add_mem_to_archive_file_in_place(zippedfile.c_str(), file.c_str(), nullptr, 0, "", 0, MZ_DEFAULT_LEVEL);
     } else {
       string contents = filter_url_file_get_contents (path);
       status = mz_zip_add_mem_to_archive_file_in_place (zippedfile.c_str(), file.c_str(), contents.c_str(), contents.size(), "", 0, MZ_DEFAULT_LEVEL);

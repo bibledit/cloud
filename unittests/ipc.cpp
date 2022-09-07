@@ -73,7 +73,7 @@ void test_database_ipc ()
   // Test trim.
   {
     refresh_sandbox (true);
-    Database_Ipc database_ipc = Database_Ipc (NULL);
+    Database_Ipc database_ipc = Database_Ipc (nullptr);
     database_ipc.trim ();
   }
   // Test store retrieve

@@ -43,7 +43,7 @@ void statistics_statistics ()
   Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());
 
   
-  string siteUrl = config_logic_site_url (NULL);
+  string siteUrl = config_logic_site_url (nullptr);
   
   
   vector <string> bibles = request.database_bibles()->getBibles ();

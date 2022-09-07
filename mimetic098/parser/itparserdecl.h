@@ -1,3 +1,5 @@
+#pragma GCC system_header
+
 #ifndef _MIMETIC_ITPARSER_DECL_H_
 #define _MIMETIC_ITPARSER_DECL_H_
 

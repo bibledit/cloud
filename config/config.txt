@@ -33,6 +33,9 @@ $ cp /etc/letsencrypt/live/yoursite.org/*.pem /var/bibledit/bibledit-cloud/confi
 The configuration path in this example is at /var/bibledit/bibledit-cloud/config.
 The path for your Bibledit Cloud instances is available from menu Help / Installation.
 
+After copying the certificates into place, make sure that Bibledit is able to read them
+without permission errors.
+
 After the certificates have been copied, restart Bibledit Cloud. It will then load the new certificates.
 
 

@@ -641,7 +641,7 @@ void filter_url_set_write_permission (string path)
 
 
 // Get and returns the contents of $filename.
-string filter_url_file_get_contents(string filename) // Todo fix warnings and do unit tests on this too.
+string filter_url_file_get_contents(string filename)
 {
   if (!file_or_dir_exists (filename)) return string();
   try {
@@ -1739,7 +1739,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         int ret = mbedtls_ssl_write (&ssl, buf, len);
         if (ret > 0) {
           buf += ret;
-          len -= static_cast<size_t>(ret); // Todo fix warning.
+          len -= static_cast<size_t>(ret);
         } else {
           // When it returns MBEDTLS_ERR_SSL_WANT_WRITE/READ,
           // it must be called later with the *same* arguments,

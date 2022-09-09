@@ -68,9 +68,6 @@
 /config/config.txt
 /config/googletranslate.txt
 /config/ldap.txt
-/config/local.cert.pem
-/config/local.chain.pem
-/config/local.privkey.pem
 /config/userfacingurl.txt
 /confirm
 /consistency

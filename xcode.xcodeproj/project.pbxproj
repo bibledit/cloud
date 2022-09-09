@@ -929,15 +929,12 @@
 		CADE37ED24F173D5003165BB /* change.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = change.h; sourceTree = "<group>"; };
 		CADE37F924F173EB003165BB /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CADE37FA24F173EB003165BB /* config.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.txt; sourceTree = "<group>"; };
-		CADE37FB24F173EB003165BB /* local.chain.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.chain.pem; sourceTree = "<group>"; };
 		CADE37FC24F173EB003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
-		CADE37FE24F173EB003165BB /* local.privkey.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.privkey.pem; sourceTree = "<group>"; };
 		CADE37FF24F173EB003165BB /* globals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
 		CADE380124F173EB003165BB /* globals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = globals.cpp; sourceTree = "<group>"; };
 		CADE380224F173EB003165BB /* userfacingurl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = userfacingurl.txt; sourceTree = "<group>"; };
 		CADE380324F173EB003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE380524F173EB003165BB /* ldap.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ldap.txt; sourceTree = "<group>"; };
-		CADE380624F173EB003165BB /* local.cert.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = local.cert.pem; sourceTree = "<group>"; };
 		CADE380D24F173EB003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CADE380F24F173EB003165BB /* link.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = link.html; sourceTree = "<group>"; };
 		CADE381024F173EB003165BB /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -3219,9 +3216,6 @@
 				CADE37FF24F173EB003165BB /* globals.h */,
 				CADE380524F173EB003165BB /* ldap.txt */,
 				CAEB953F27909FDD00F0F093 /* libraries.h */,
-				CADE380624F173EB003165BB /* local.cert.pem */,
-				CADE37FB24F173EB003165BB /* local.chain.pem */,
-				CADE37FE24F173EB003165BB /* local.privkey.pem */,
 				CADE37FC24F173EB003165BB /* logic.cpp */,
 				CADE380324F173EB003165BB /* logic.h */,
 				CADE380224F173EB003165BB /* userfacingurl.txt */,

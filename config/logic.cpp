@@ -197,30 +197,22 @@ string manual_user_facing_url ()
 
 
 // Returns the path to the secure server's private key.
-// See also https://github.com/bibledit/cloud/issues/235
-string server_key_path ()
+string server_key_path (const bool force)
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ({config::logic::config_folder (), "privkey.pem"});
-  if (file_or_dir_exists (path)) return path;
-  // Try the file for localhost next.
-  path = filter_url_create_root_path ({config::logic::config_folder (), "local.privkey.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (force || file_or_dir_exists (path)) return path;
   // Nothing found.
   return string();
 }
 
 
 // Returns the path to the secure server's public certificate.
-// See also https://github.com/bibledit/cloud/issues/235
-string server_certificate_path ()
+string server_certificate_path (const bool force)
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ({config::logic::config_folder (), "cert.pem"});
-  if (file_or_dir_exists (path)) return path;
-  // Try the file for localhost next.
-  path = filter_url_create_root_path ({config::logic::config_folder (), "local.cert.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (force || file_or_dir_exists (path)) return path;
   // Nothing found.
   return string();
 }
@@ -231,15 +223,11 @@ string server_certificate_path ()
 // At the top of the file will be the intermediate authority that issued the server certificate.
 // Next can be more intermediate authorities.
 // At the bottom of the file should be the trusted root certificate.
-// See also https://github.com/bibledit/cloud/issues/235
-string authorities_certificates_path ()
+string authorities_certificates_path (const bool force)
 {
   // Try the correct config file first.
   string path = filter_url_create_root_path ({config::logic::config_folder (), "chain.pem"});
-  if (file_or_dir_exists (path)) return path;
-  // Try the file for localhost next.
-  path = filter_url_create_root_path ({config::logic::config_folder (), "local.chain.pem"});
-  if (file_or_dir_exists (path)) return path;
+  if (force || file_or_dir_exists (path)) return path;
   // Nothing found.
   return string();
 }

@@ -743,9 +743,45 @@ void https_server ()
 #ifdef RUN_SECURE_SERVER
 
   // The https network port to listen on.
-  // Port "0..9" means: Don't run the secure web server.
+  // Port 0..9 means this:: Don't run the secure web server.
   string network_port = config::logic::https_network_port ();
   if (network_port.length() <= 1) return;
+  
+  // Check whether all the certificates are there and can be read.
+  // If not, log some feedback and don't run the secure web server.
+  string server_key_path {config::logic::server_key_path (false)};
+  string server_certificate_path {config::logic::server_certificate_path (false)};
+  string authorities_certificates_path {config::logic::authorities_certificates_path (false)};
+  if (!server_key_path.empty()) {
+    string contents {filter_url_file_get_contents (server_key_path)};
+    if (contents.empty()) {
+      Database_Logs::log("Cannot read " + server_key_path + " so not running secure server");
+      return;
+    }
+  } else {
+    Database_Logs::log("Cannot find server private key in " + config::logic::server_key_path (true) + " so not running secure server");
+    return;
+  }
+  if (!server_certificate_path.empty()) {
+    string contents {filter_url_file_get_contents (server_certificate_path)};
+    if (contents.empty()) {
+      Database_Logs::log("Cannot read " + server_certificate_path + " so not running secure server");
+      return;
+    }
+  } else {
+    Database_Logs::log("Cannot find server certificate in " + config::logic::server_certificate_path (true) + " so not running secure server");
+    return;
+  }
+  if (!authorities_certificates_path.empty()) {
+    string contents {filter_url_file_get_contents (authorities_certificates_path)};
+    if (contents.empty()) {
+      Database_Logs::log("Cannot read " + authorities_certificates_path + " so not running secure server");
+      return;
+    }
+  } else {
+    Database_Logs::log("Cannot find certificate authorities chain in " + config::logic::authorities_certificates_path (true) + " so not running secure server");
+    return;
+  }
   
   // File descriptor for the listener.
   mbedtls_net_context listen_fd;
@@ -766,29 +802,35 @@ void https_server ()
   mbedtls_ctr_drbg_context ctr_drbg;
   mbedtls_ctr_drbg_init (&ctr_drbg);
 
-  int ret;
-  string path;
-  
   // Load the private RSA server key.
   mbedtls_pk_context pkey;
   mbedtls_pk_init (&pkey);
-  path = config::logic::server_key_path ();
-  ret = mbedtls_pk_parse_keyfile (&pkey, path.c_str (), nullptr);
-  if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
+  int ret = mbedtls_pk_parse_keyfile (&pkey, server_key_path.c_str (), nullptr);
+  if (ret != 0) {
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    Database_Logs::log("Invalid " + server_key_path + " so not running secure server");
+    return;
+  }
   
   // Server certificates store.
   mbedtls_x509_crt srvcert;
   mbedtls_x509_crt_init (&srvcert);
   
   // Load the server certificate.
-  path = config::logic::server_certificate_path ();
-  ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
-  if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
+  ret = mbedtls_x509_crt_parse_file (&srvcert, server_certificate_path.c_str ());
+  if (ret != 0) {
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    Database_Logs::log("Invalid " + server_certificate_path + " so not running secure server");
+    return;
+  }
 
   // Load the chain of certificates of the certificate authorities.
-  path = config::logic::authorities_certificates_path ();
-  ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
-  if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
+  ret = mbedtls_x509_crt_parse_file (&srvcert, authorities_certificates_path.c_str ());
+  if (ret != 0) {
+    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    Database_Logs::log("Invalid " + authorities_certificates_path + " so not running secure server");
+    return;
+  }
 
   // Seed the random number generator.
   const char *pers = "Cloud";
@@ -819,6 +861,8 @@ void https_server ()
     filter_url_display_mbed_tls_error (ret, nullptr, true);
     return;
   }
+
+  cout << "Listening on https://localhost:" << network_port << endl;
   
   // Keep preparing for, accepting, and processing client connections.
   while (config_globals_webserver_running) {

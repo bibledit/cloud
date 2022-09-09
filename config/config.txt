@@ -34,7 +34,10 @@ The configuration path in this example is at /var/bibledit/bibledit-cloud/config
 The path for your Bibledit Cloud instances is available from menu Help / Installation.
 
 After copying the certificates into place, make sure that Bibledit is able to read them
-without permission errors.
+without permission errors. The following three files are needed:
+* The server key: privkey.pem
+* The server certificate: cert.pem
+* The chain of trusted certificate authorities: chain.pem
 
 After the certificates have been copied, restart Bibledit Cloud. It will then load the new certificates.
 

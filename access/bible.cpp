@@ -53,7 +53,7 @@ bool AccessBible::Read (void * webserver_request, const string & bible, string u
   }
 
   // Indonesian Cloud Free.
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     // A free guest account has a role of "Consultant".
     if (role_level == Filter_Roles::consultant()) {
       // This level/role has access to:
@@ -102,7 +102,7 @@ bool AccessBible::Write (void * webserver_request, const string & bible, string 
   }
 #endif
   // Indonesian Cloud Free: Access all Bibles.
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     return true;
   }
 
@@ -171,7 +171,7 @@ bool AccessBible::BookWrite (void * webserver_request, string user, const string
   // The free guest account has a role of Consultant.
   // The consultant has write access to his/her own Bible.
   // The consultant has read-access to the "AlkitabKita" Bible.
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     if (level == Filter_Roles::consultant()) {
       if (bible == filter::indonesian::ourtranslation()) {
         return false;
@@ -249,7 +249,7 @@ tuple<bool, bool> AccessBible::Any (void * webserver_request)
     if (AccessBible::Read (webserver_request, bible)) read = true;
     if (AccessBible::Write (webserver_request, bible)) write = true;
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     if (int level = request->session_logic ()->currentLevel ();
         level >= Filter_Roles::consultant())
     {

@@ -160,7 +160,7 @@ string setup_index (void * webserver_request)
     view.set_variable ("readonly", "readonly");
     // If the admin's are already there, then the setup has completed.
     // The automatic page refresh will kick in, and navigate to the main screen.
-    Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+    Database_Config_General::setInstalledInterfaceVersion (config::logic::version ());
   }
 
   return view.render ("setup", "index");

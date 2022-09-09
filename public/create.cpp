@@ -91,11 +91,11 @@ string public_create (void * webserver_request)
     database_notes.subscribe (identifier);
     // Indonesian Cloud Free
     // Go to the main read Bible page.
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       redirect_browser (request, read_index_url ());
     }
     // Go to the main public notes page.
-    if (config_logic_default_bibledit_configuration ()) {
+    if (config::logic::default_bibledit_configuration ()) {
       redirect_browser (request, public_index_url ());
     }
     return "";
@@ -103,10 +103,10 @@ string public_create (void * webserver_request)
 
   
   if (request->post.count ("cancel")) {
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       redirect_browser (request, read_index_url ());
     }
-    if (config_logic_default_bibledit_configuration ()) {
+    if (config::logic::default_bibledit_configuration ()) {
       redirect_browser (request, public_index_url ());
     }
     return "";

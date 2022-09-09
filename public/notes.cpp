@@ -59,7 +59,7 @@ string public_notes (void * webserver_request)
     if (database_notes.get_public (identifier)) {
       notesblock << "<p class=" << quoted ("nowrap") << ">";
       string url_to_note = "note?id=" + convert_to_string (identifier);
-      if (config_logic_indonesian_cloud_free_simple ()) url_to_note = "../public/" + url_to_note;
+      if (config::logic::indonesian_cloud_free_simple ()) url_to_note = "../public/" + url_to_note;
       notesblock << "<a href=" << quoted (url_to_note) << ">";
       vector <Passage> passages = database_notes.get_passages (identifier);
       string verses;

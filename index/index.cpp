@@ -57,7 +57,7 @@ string index_index (void * webserver_request)
   
   Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
   
-  if (config_logic_demo_enabled ()) {
+  if (config::logic::demo_enabled ()) {
     // The demo, when there's no active menu, forwards to the active workspace.
     // This is disabled see https://github.com/bibledit/cloud/issues/789
 //    if (request->query.empty ()) {
@@ -65,7 +65,7 @@ string index_index (void * webserver_request)
 //    }
     // Indonesian Cloud Free
     // Forwards to read/index instead.
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       if (request->query.empty ()) {
         header.refresh (5, "/" + read_index_url ());
       }

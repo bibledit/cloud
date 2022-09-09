@@ -194,9 +194,9 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   // Start the Bibledit library.
   bibledit_start_library ();
   bibledit_log ("The server started");
-  cout << "Listening on http://localhost:" << config_logic_http_network_port ();
+  cout << "Listening on http://localhost:" << config::logic::http_network_port ();
 #ifdef HAVE_CLOUD
-  string https_port = config_logic_https_network_port ();
+  string https_port = config::logic::https_network_port ();
   if (https_port.length() > 1) {
     cout << " and https://localhost:" << https_port;
   }

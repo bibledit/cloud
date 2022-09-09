@@ -52,7 +52,7 @@ string search_replace (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string siteUrl = config_logic_site_url (webserver_request);
+  string siteUrl = config::logic::site_url (webserver_request);
   
   string bible = request->database_config_user()->getBible ();
   if (request->query.count ("b")) {

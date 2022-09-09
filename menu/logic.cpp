@@ -188,7 +188,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   // Deal with a situation the user has access to the workspaces.
   if (workspace_index_acl (webserver_request)) {
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       string label = translate ("Workspace");
       string tooltip2;
       menu_logic_workspace_category (webserver_request, &tooltip2);
@@ -200,7 +200,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   string menutooltip;
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
       current_theme_index = convert_to_int (database_filebased_cache_get (filename));
     } else {
@@ -211,57 +211,57 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       html.push_back (menu_logic_create_item (read_index_url (), "Baca", true, "", color));
     }
 
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       html.push_back (menu_logic_create_item (menu_logic_translate_menu (), menu_logic_translate_text (), false, menutooltip, color));
       tooltipbits.push_back (menu_logic_translate_text ());
     }
   }
   
   if (!menu_logic_search_category (webserver_request, &menutooltip).empty ()) {
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       html.push_back (menu_logic_create_item (resource_index_url (), "Teliti", true, "", color));
     }
 
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       html.push_back (menu_logic_create_item (menu_logic_search_menu (), menu_logic_search_text (), false, menutooltip, color));
       tooltipbits.push_back (menu_logic_search_text ());
     }
   }
 
   if (!menu_logic_tools_category (webserver_request, &menutooltip).empty ()) {
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       menu_logic_workspace_category (webserver_request, &tooltip);
       html.push_back (menu_logic_create_item (workspace_index_url (), "Baca dan Teliti", true, "", color));
     }
 
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       html.push_back (menu_logic_create_item (menu_logic_tools_menu (), menu_logic_tools_text (), false, menutooltip, color));
       tooltipbits.push_back (menu_logic_tools_text ());
     }
   }
 
   if (!menu_logic_settings_category (webserver_request, &menutooltip).empty ()) {
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
     }
 
 
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       html.push_back (menu_logic_create_item (menu_logic_settings_menu (), menu_logic_settings_text (), false, menutooltip, color));
       tooltipbits.push_back (menu_logic_settings_text ());
     }
   }
   
   if (!menu_logic_help_category (webserver_request).empty ()) {
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       html.push_back("");
     }
 
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       html.push_back (menu_logic_create_item ("help/index", menu_logic_help_text (), true, menu_logic_help_text (), color));
       tooltipbits.push_back (menu_logic_help_text ());
     }
@@ -325,7 +325,7 @@ string menu_logic_basic_categories (void * webserver_request)
 
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
       current_theme_index = convert_to_int (database_filebased_cache_get (filename));
     } else {
@@ -369,7 +369,7 @@ string menu_logic_basic_categories (void * webserver_request)
   // In the Indonesian Cloud Free, there's no public feedback possible,
   // since the aim is to keep things easy to understand for beginners.
   // Except when it's the Indonesian Cloud Free Simple.
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     public_feedback_possible = false;
   }
   if (public_feedback_possible) {
@@ -433,7 +433,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
   if (tooltip) tooltip->assign (filter_string_implode (labels, " | "));
   // Indonesian Cloud Free
   // The default setting only has one workspace.
-  if (config_logic_indonesian_cloud_free_simple ()) return "";
+  if (config::logic::indonesian_cloud_free_simple ()) return "";
   return filter_string_implode (html, "\n");
 }
 
@@ -708,7 +708,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 {
   [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
-  [[maybe_unused]] bool demo = config_logic_demo_enabled ();
+  [[maybe_unused]] bool demo = config::logic::demo_enabled ();
   
   // The labels that may end up in the menu.
   string bibles = menu_logic_bible_manage_text ();
@@ -872,7 +872,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 #ifndef HAVE_CLIENT
       cloud_menu = false;
 #endif
-      if (config_logic_demo_enabled ()) cloud_menu = true;
+      if (config::logic::demo_enabled ()) cloud_menu = true;
       if (cloud_menu) {
         if (client_index_acl (webserver_request)) {
           html.push_back (menu_logic_create_item (client_index_url (), label, true, "", ""));
@@ -1251,7 +1251,7 @@ bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chap
   int selection = 0;
   if (visual) selection = request->database_config_user ()->getFastSwitchVisualEditors ();
   else selection = request->database_config_user ()->getFastSwitchUsfmEditors ();
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     // Show all editors in the Indonesian Cloud Free.
     if (visual) selection = 0;
     else selection = 1;

@@ -133,7 +133,7 @@ vector <string> Database_Bibles::getBibles ()
   vector <string> bibles = filter_url_scandir (mainFolder ());
   // Indonesian Cloud Free
   // Return only "AlkitabKita".
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     bibles.clear ();
     bibles.push_back (icfBibleName ());
   }
@@ -205,7 +205,7 @@ vector <int> Database_Bibles::getBooks (string bible)
   vector <string> files = filter_url_scandir (folder);
   // Indonesian Cloud Free
   // Read the books for TSI from the external database.
-  if (config_logic_indonesian_cloud_free_simple ()) files = icfBooks ();
+  if (config::logic::indonesian_cloud_free_simple ()) files = icfBooks ();
   for (string book : files) {
     if (filter_string_is_numeric (book)) books.push_back (convert_to_int (book));
   }
@@ -239,7 +239,7 @@ vector <int> Database_Bibles::getChapters (string bible, int book)
   vector <string> files = filter_url_scandir (folder);
   // Indonesian Cloud Free
   // Read the chapters for TSI from the external database.
-  if (config_logic_indonesian_cloud_free_simple ()) files = icfChapters (book);
+  if (config::logic::indonesian_cloud_free_simple ()) files = icfChapters (book);
   for (string file : files) {
     if (filter_string_is_numeric (file)) chapters.push_back (convert_to_int (file));
   }
@@ -261,7 +261,7 @@ string Database_Bibles::getChapter (string bible, int book, int chapter)
 {
   // Indonesian Cloud Free
   // Read the chapter data for TSI from the external database.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     string filename = "100000001";
     string url = icfURL () + icfBibleName() + "/" + convert_to_string (book) +  "/" + convert_to_string (chapter) + "/" + filename;
     string error;

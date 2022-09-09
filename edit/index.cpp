@@ -135,7 +135,7 @@ string edit_index (void * webserver_request)
   "var editorChapterVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
   "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
-  config_logic_swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   
@@ -160,7 +160,7 @@ string edit_index (void * webserver_request)
  
   // In basic mode the editor has no controls and fewer indicators.
   // In basic mode, the user can just edit text, and cannot style it.
-  bool basic_mode = config_logic_basic_mode (webserver_request);
+  bool basic_mode = config::logic::basic_mode (webserver_request);
   if (!basic_mode) view.enable_zone ("advancedmode");
   
   
@@ -168,7 +168,7 @@ string edit_index (void * webserver_request)
   if (!basic_mode && request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone ("fastswitcheditor");
   }
 

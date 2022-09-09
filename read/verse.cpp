@@ -33,7 +33,7 @@ string read_verse_url ()
 
 bool read_verse_acl (void * webserver_request)
 {
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     return true;
   }
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;

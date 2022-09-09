@@ -21,27 +21,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-const char * config_logic_config_folder ();
-const char * config_logic_version ();
-void config_logic_load_settings ();
-string config_logic_http_network_port ();
-string config_logic_https_network_port ();
-bool config_logic_demo_enabled ();
-string config_logic_admin_username ();
-string config_logic_admin_password ();
-string config_logic_admin_email ();
+namespace config::logic {
+
+const char * config_folder ();
+const char * version ();
+void load_settings ();
+string http_network_port ();
+string https_network_port ();
+bool demo_enabled ();
+string admin_username ();
+string admin_password ();
+string admin_email ();
 int my_stoi (const string& str, void * idx = nullptr, int base = 10);
-bool config_logic_basic_mode (void * webserver_request);
-string config_logic_site_url (void * webserver_request);
-string config_logic_manual_user_facing_url ();
-string config_logic_server_key_path ();
-string config_logic_server_certificate_path ();
-string config_logic_authorities_certificates_path ();
-bool config_logic_enforce_https_browser ();
-bool config_logic_enforce_https_client ();
-void config_logic_swipe_enabled (void * webserver_request, string & script);
-bool config_logic_indonesian_cloud_free ();
-bool config_logic_indonesian_cloud_free_simple ();
-bool config_logic_indonesian_cloud_free_individual ();
-bool config_logic_default_bibledit_configuration ();
-string config_logic_google_translate_json_key_path ();
+bool basic_mode (void * webserver_request);
+string site_url (void * webserver_request);
+string manual_user_facing_url ();
+string server_key_path ();
+string server_certificate_path ();
+string authorities_certificates_path ();
+bool enforce_https_browser ();
+bool enforce_https_client ();
+void swipe_enabled (void * webserver_request, string & script);
+bool indonesian_cloud_free ();
+bool indonesian_cloud_free_simple ();
+bool indonesian_cloud_free_individual ();
+bool default_bibledit_configuration ();
+string google_translate_json_key_path ();
+
+} // End of namespace.

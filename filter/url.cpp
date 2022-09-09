@@ -132,10 +132,10 @@ string get_base_url (void * webserver_request)
   string port;
   if (request->secure || config_globals_enforce_https_browser) {
     scheme = "https";
-    port = config_logic_https_network_port ();
+    port = config::logic::https_network_port ();
   } else {
     scheme = "http";
-    port = config_logic_http_network_port ();
+    port = config::logic::http_network_port ();
   }
   string url = scheme + "://" + request->host + ":" + port + "/";
   return url;
@@ -154,15 +154,15 @@ void redirect_browser (void * webserver_request, string path)
   // The absolute location contains the user-facing URL, when the administrator entered it.
   // This is needed in case of a proxy server,
   // where Bibledit may not be able to obtain the user-facing URL of the website.
-  string location = config_logic_site_url (webserver_request);
+  string location = config::logic::site_url (webserver_request);
   
   // If the request was secure, or supposed to be secure,
   // ensure the location contains https rather than plain http,
   // plus the correct secure port.
   if (request->secure || config_globals_enforce_https_browser) {
     location = filter_string_str_replace ("http:", "https:", location);
-    string plainport = config_logic_http_network_port ();
-    string secureport = config_logic_https_network_port ();
+    string plainport = config::logic::http_network_port ();
+    string secureport = config::logic::https_network_port ();
     location = filter_string_str_replace (":" + plainport, ":" + secureport, location);
   }
   

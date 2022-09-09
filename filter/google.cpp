@@ -37,7 +37,7 @@ namespace filter::google {
 
 tuple <string, string> get_json_key_value_error ()
 {
-  string path = config_logic_google_translate_json_key_path ();
+  string path = config::logic::google_translate_json_key_path ();
 
   if (!file_or_dir_exists (path)) {
     return { string(), "Cannot find the JSON key to access Google Translate. Looking for this file: " + path };
@@ -58,7 +58,7 @@ tuple <bool, string> activate_service_account ()
 {
   stringstream command;
   command << "gcloud auth activate-service-account --quiet --key-file=";
-  command << quoted(config_logic_google_translate_json_key_path ());
+  command << quoted(config::logic::google_translate_json_key_path ());
   string out_err;
   int result = filter_shell_run (command.str(), out_err);
   return { (result == 0), out_err };
@@ -73,7 +73,7 @@ string google_access_token {};
 tuple <bool, string> print_store_access_token ()
 {
   // Set the path to the JSON key in the environment for gcloud to use.
-  setenv("GOOGLE_APPLICATION_CREDENTIALS", config_logic_google_translate_json_key_path ().c_str(), 1);
+  setenv("GOOGLE_APPLICATION_CREDENTIALS", config::logic::google_translate_json_key_path ().c_str(), 1);
   // Print the access token.
   string command {"gcloud auth application-default print-access-token"};
   string out_err;
@@ -93,7 +93,7 @@ tuple <bool, string> print_store_access_token ()
 void refresh_access_token ()
 {
   // Check whether the JSON keys exists, if not, bail out.
-  if (!file_or_dir_exists(config_logic_google_translate_json_key_path ())) {
+  if (!file_or_dir_exists(config::logic::google_translate_json_key_path ())) {
     return;
   }
 

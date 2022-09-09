@@ -219,7 +219,7 @@ string changes_changes (void * webserver_request)
   stringstream loading;
   loading << quoted(translate("Loading ..."));
   string script = "var loading = " + loading.str() + ";";
-  config_logic_swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
   
@@ -293,7 +293,7 @@ string changes_changes (void * webserver_request)
   }
   
   
-  view.set_variable ("VERSION", config_logic_version ());
+  view.set_variable ("VERSION", config::logic::version ());
 
   
   if (touch) view.enable_zone ("touch");

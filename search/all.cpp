@@ -84,7 +84,7 @@ string search_all (void * webserver_request)
   Database_Notes database_notes = Database_Notes (request);
 
   
-  string siteUrl = config_logic_site_url (webserver_request);
+  string siteUrl = config::logic::site_url (webserver_request);
 
   
   vector <string> bibles = AccessBible::Bibles (request);

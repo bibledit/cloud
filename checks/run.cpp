@@ -262,7 +262,7 @@ void checks_run (string bible)
   
   // Add a link to the online checking results.
   if (!emailBody.empty ()) {
-    string siteUrl = config_logic_site_url (nullptr);
+    string siteUrl = config::logic::site_url (nullptr);
     stringstream body1;
     body1 << "<p><a href=" << quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";
     emailBody.push_back (body1.str());

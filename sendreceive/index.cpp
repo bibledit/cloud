@@ -221,7 +221,7 @@ string sendreceive_index (void * webserver_request)
   }
 
   
-  bool basic_mode = config_logic_basic_mode (request);
+  bool basic_mode = config::logic::basic_mode (request);
   if (basic_mode) view.enable_zone("basicmode");
   
   page += view.render ("sendreceive", "index");

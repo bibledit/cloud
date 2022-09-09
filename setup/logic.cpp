@@ -61,7 +61,7 @@ void setup_conditionally (const char * package)
   if (p == config_globals_document_root) setup_wait_till_main_folders_present ();
   
   // Run the setup if the versions differ.
-  if (config_logic_version () != Database_Config_General::getInstalledDatabaseVersion ()) {
+  if (config::logic::version () != Database_Config_General::getInstalledDatabaseVersion ()) {
     
     vector <string> messages;
 
@@ -89,23 +89,23 @@ void setup_conditionally (const char * package)
 #endif
     
     // Update installed version.
-    Database_Config_General::setInstalledDatabaseVersion (config_logic_version ());
+    Database_Config_General::setInstalledDatabaseVersion (config::logic::version ());
   };
 
-  if (config_logic_version () != Database_Config_General::getInstalledInterfaceVersion ()) {
+  if (config::logic::version () != Database_Config_General::getInstalledInterfaceVersion ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
 #ifdef HAVE_CLIENT
     setup_complete_gui ();
 #endif
-    if (config_logic_demo_enabled ()) setup_complete_gui ();
+    if (config::logic::demo_enabled ()) setup_complete_gui ();
     
     // When the admin's credentials are configured, enter them, and do not display them in the setup page.
-    if (!config_logic_admin_username ().empty ()) {
-      if (!config_logic_admin_password ().empty ()) {
-        setup_set_admin_details (config_logic_admin_username (),
-                                 config_logic_admin_password (),
-                                 config_logic_admin_email ());
+    if (!config::logic::admin_username ().empty ()) {
+      if (!config::logic::admin_password ().empty ()) {
+        setup_set_admin_details (config::logic::admin_username (),
+                                 config::logic::admin_password (),
+                                 config::logic::admin_email ());
         setup_complete_gui ();
       }
     }
@@ -316,7 +316,7 @@ void setup_set_admin_details (string username, string password, string email)
 // Set the GUI setup status as completed.
 void setup_complete_gui ()
 {
-  Database_Config_General::setInstalledInterfaceVersion (config_logic_version ());
+  Database_Config_General::setInstalledInterfaceVersion (config::logic::version ());
 }
 
 

@@ -86,11 +86,11 @@ string personalize_index (void * webserver_request)
   // Set the user chosen theme as the current theme.
   if (request->post.count ("themepicker")) {
     int themepicker = convert_to_int (request->post ["themepicker"]);
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       string filename = current_theme_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (themepicker));
     }
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       request->database_config_user ()->setCurrentTheme (themepicker);
     }
   }
@@ -110,11 +110,11 @@ string personalize_index (void * webserver_request)
     // All of the accessible user defined variable in Indonesian Cloud Free
     // Simple version uses filebased database as explained in ./ipc/focus.cpp
     // line 37 to 44. 
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       string filename = general_font_size_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizegeneral));
     }
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       request->database_config_user ()->setGeneralFontSize (fontsizegeneral);
     }
     return "";
@@ -122,11 +122,11 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizemenu")) {
     int fontsizemenu = convert_to_int (request->post["fontsizemenu"]);
     fontsizemenu = clip (fontsizemenu, 50, 300);
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizemenu));
     }
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       request->database_config_user ()->setMenuFontSize (fontsizemenu);
     }
     return "";
@@ -142,21 +142,21 @@ string personalize_index (void * webserver_request)
 
   
   // Font size for everything.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     string filename = general_font_size_filebased_cache_filename (request->session_identifier);
     view.set_variable ("fontsizegeneral", database_filebased_cache_get (filename));
   }
-  if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+  if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
     view.set_variable ("fontsizegeneral", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
   }
 
   
   // Font size for the menu.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
     view.set_variable ("fontsizemenu", database_filebased_cache_get (filename));
   }
-  if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+  if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
     view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
   }
   
@@ -176,11 +176,11 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizeresources")) {
     int fontsizeresources = convert_to_int (request->post["fontsizeresources"]);
     fontsizeresources = clip (fontsizeresources, 50, 300);
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       string filename = current_theme_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizeresources));
     }
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       request->database_config_user ()->setResourcesFontSize (fontsizeresources);
     }
     return "";
@@ -192,11 +192,11 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizehebrew")) {
     int fontsizehebrew = convert_to_int (request->post["fontsizehebrew"]);
     fontsizehebrew = clip (fontsizehebrew, 50, 300);
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       string filename = current_theme_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizehebrew));
     }
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       request->database_config_user ()->setHebrewFontSize (fontsizehebrew);
     }
     return "";
@@ -208,11 +208,11 @@ string personalize_index (void * webserver_request)
   if (request->post.count ("fontsizegreek")) {
     int fontsizegreek = convert_to_int (request->post["fontsizegreek"]);
     fontsizegreek = clip (fontsizegreek, 50, 300);
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       string filename = current_theme_filebased_cache_filename (request->session_identifier);
       database_filebased_cache_put (filename, convert_to_string (fontsizegreek));
     }
-    if ((config_logic_default_bibledit_configuration () || config_logic_indonesian_cloud_free ()) && !(config_logic_indonesian_cloud_free_simple ())) {
+    if ((config::logic::default_bibledit_configuration () || config::logic::indonesian_cloud_free ()) && !(config::logic::indonesian_cloud_free_simple ())) {
       request->database_config_user ()->setGreekFontSize (fontsizegreek);
     }
     return "";
@@ -241,7 +241,7 @@ string personalize_index (void * webserver_request)
   // Set the chosen theme on the option HTML tag.
   string theme_key = convert_to_string (request->database_config_user ()->getCurrentTheme ());
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
       theme_key = convert_to_string (database_filebased_cache_get (filename));
     }
@@ -510,14 +510,14 @@ string personalize_index (void * webserver_request)
   } else {
     view.enable_zone ("advancedmode");
     view.enable_zone ("indonesiancloudfreesimple_disable");
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       view.disable_zone ("bibles");
       view.disable_zone ("notestatuson");
       view.disable_zone ("indonesiancloudfreesimple_disable");
     }
   }
 
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone ("indonesiancloudfree");
   }
   

@@ -190,7 +190,7 @@ void timer_index ()
       
       // Actions for a demo installation.
       if (minute == 10) {
-        if (config_logic_demo_enabled ()) {
+        if (config::logic::demo_enabled ()) {
           tasks_logic_queue (CLEANDEMO);
         }
       }
@@ -239,7 +239,7 @@ void timer_index ()
       
 #ifdef HAVE_CLOUD
       // In the free Indonesian Cloud configuration, expire free users after so many days.
-      if (config_logic_indonesian_cloud_free ()) {
+      if (config::logic::indonesian_cloud_free ()) {
         if ((hour == 3) && (minute == 10)) {
           tasks_logic_queue (EXPIREINDONESIANFREEUSERS);
         }

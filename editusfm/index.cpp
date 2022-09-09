@@ -120,7 +120,7 @@ string editusfm_index (void * webserver_request)
   ss << "var usfmEditorWriteAccess = true;" << endl;
   ss << "var verticalCaretPosition = " << verticalCaretPosition << ";" << endl;
   string script = ss.str();
-  config_logic_swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
 
@@ -143,7 +143,7 @@ string editusfm_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone ("fastswitcheditor");
   }
 

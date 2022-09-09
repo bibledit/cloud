@@ -111,7 +111,7 @@ string manage_users (void * webserver_request)
       page += Assets_Page::error (translate("Cannot remove the last user"));
     } else if ((objectUserLevel >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
       page += Assets_Page::error (translate("Cannot remove the last administrator"));
-    } else if (config_logic_demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
+    } else if (config::logic::demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
       page += Assets_Page::error (translate("Cannot remove the demo admin"));
     } else {
       string message;
@@ -360,7 +360,7 @@ string manage_users (void * webserver_request)
     view.enable_zone ("local");
   }
 
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone("accounts");
   }
 

@@ -42,7 +42,7 @@ void Ipc_Focus::set (void * webserver_request, int book, int chapter, int verse)
     // Bible book, chapter, and verse are saved into a file based
     // cache database with the user's IP as plus a unique string of
     // characters based on the data name's initial as the file name.
-    if (config_logic_indonesian_cloud_free_simple ()) {
+    if (config::logic::indonesian_cloud_free_simple ()) {
       // Use the client's IP and unique string to identify the data
       // as the file name.
       // Cache the Bible book, chapter, and verse index.
@@ -69,7 +69,7 @@ int Ipc_Focus::getBook (void * webserver_request)
   int book = request->database_config_user()->getFocusedBook ();
   // Indonesian Cloud Free
   // Gets the Bible book index from a file based cache database.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     string filename = focused_book_filebased_cache_filename (request->session_identifier);
     if (database_filebased_cache_exists (filename)) {
       book = convert_to_int (database_filebased_cache_get (filename));
@@ -88,7 +88,7 @@ int Ipc_Focus::getChapter (void * webserver_request)
   int chapter = request->database_config_user()->getFocusedChapter ();
   // Indonesian Cloud Free
   // Gets the chapter index from a file based cache database.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     string filename = focused_chapter_filebased_cache_filename (request->session_identifier);
     if (database_filebased_cache_exists (filename)) {
       chapter = convert_to_int (database_filebased_cache_get (filename));
@@ -107,7 +107,7 @@ int Ipc_Focus::getVerse (void * webserver_request)
   int verse = request->database_config_user()->getFocusedVerse ();
   // Indonesian Cloud Free
   // Gets the verse index from a file based cache database.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     string filename = focused_verse_filebased_cache_filename (request->session_identifier);
     if (database_filebased_cache_exists (filename)) {
       verse = convert_to_int (database_filebased_cache_get (filename));

@@ -28,36 +28,39 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 
 
-const char * config_logic_config_folder ()
+namespace config::logic {
+
+
+const char * config_folder ()
 {
   return "config";
 }
 
 
 // Returns the Bibledit version number.
-const char * config_logic_version ()
+const char * version ()
 {
   return VERSION;
 }
 
 
 // Loads the values from the config folder into memory for faster access.
-void config_logic_load_settings ()
+void load_settings ()
 {
   string path;
   // Read the setting whether to log network connections.
-  path = filter_url_create_root_path ({config_logic_config_folder (), "log-network"});
+  path = filter_url_create_root_path ({config::logic::config_folder (), "log-network"});
   config_globals_log_network = file_or_dir_exists (path);
 }
 
 
 // Return the network port configured for the server.
-string config_logic_http_network_port ()
+string http_network_port ()
 {
   // If a port number is known already, take that.
   if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number;
   // Read the port number from file.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "network-port"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port"});
   config_globals_negotiated_port_number = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
   config_globals_negotiated_port_number = filter_string_trim (config_globals_negotiated_port_number);
@@ -69,17 +72,17 @@ string config_logic_http_network_port ()
 
 
 // Return the secure network port for the secure server.
-string config_logic_https_network_port ()
+string https_network_port ()
 {
   // Read the port number from file.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "network-port-secure"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port-secure"});
   string port = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
   port = filter_string_trim (port);
   // Default value.
   if (port.empty ()) {
     // The secure port is the plain http port plus one.
-    int iport = convert_to_int (config_logic_http_network_port ());
+    int iport = convert_to_int (config::logic::http_network_port ());
     iport++;
     port = convert_to_string (iport);
   }
@@ -88,33 +91,33 @@ string config_logic_https_network_port ()
 
 
 // Returns whether demo mode is enabled during configure.
-bool config_logic_demo_enabled ()
+bool demo_enabled ()
 {
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "demo"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "demo"});
   return file_or_dir_exists (path);
 }
 
 
 // The configured admin's username.
-string config_logic_admin_username ()
+string admin_username ()
 {
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "admin-username"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-username"});
   return filter_string_trim (filter_url_file_get_contents (path));
 }
 
 
 // The configured admin's password.
-string config_logic_admin_password ()
+string admin_password ()
 {
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "admin-password"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-password"});
   return filter_string_trim (filter_url_file_get_contents (path));
 }
 
 
 // The configured admin's email.
-string config_logic_admin_email ()
+string admin_email ()
 {
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "admin-email"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-email"});
   return filter_string_trim (filter_url_file_get_contents (path));
 }
 
@@ -134,7 +137,7 @@ int my_stoi (const string& str, void * idx, int base)
 
 
 // Returns whether the interface is supposed to be in basic mode.
-bool config_logic_basic_mode (void * webserver_request)
+bool basic_mode (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   bool basic_mode = request->database_config_user ()->getBasicInterfaceMode ();
@@ -143,11 +146,11 @@ bool config_logic_basic_mode (void * webserver_request)
 
 
 // This returns the URL of Bibledit Cloud that faces the user.
-string config_logic_site_url (void * webserver_request)
+string site_url (void * webserver_request)
 {
   // When the administrator has entered a fixed value for the user-facing URL, take that.
   // It overrides everything.
-  string url = config_logic_manual_user_facing_url ();
+  string url = config::logic::manual_user_facing_url ();
   if (!url.empty ()) return url;
   
   // If a webserver request is passed, take the host from there.
@@ -173,13 +176,13 @@ string config_logic_site_url (void * webserver_request)
 
 
 // This returns the filtered value of file userfacingurl.conf.
-string config_logic_manual_user_facing_url ()
+string manual_user_facing_url ()
 {
 #ifdef HAVE_CLIENT
-  return "";
+  return string();
 #else
   // Read the configuration file.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "userfacingurl.conf"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "userfacingurl.conf"});
   string url = filter_url_file_get_contents (path);
   // Remove white space.
   url = filter_string_trim (url);
@@ -195,31 +198,31 @@ string config_logic_manual_user_facing_url ()
 
 // Returns the path to the secure server's private key.
 // See also https://github.com/bibledit/cloud/issues/235
-string config_logic_server_key_path ()
+string server_key_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "privkey.pem"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "privkey.pem"});
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path ({config_logic_config_folder (), "local.privkey.pem"});
+  path = filter_url_create_root_path ({config::logic::config_folder (), "local.privkey.pem"});
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
-  return "";
+  return string();
 }
 
 
 // Returns the path to the secure server's public certificate.
 // See also https://github.com/bibledit/cloud/issues/235
-string config_logic_server_certificate_path ()
+string server_certificate_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "cert.pem"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "cert.pem"});
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path ({config_logic_config_folder (), "local.cert.pem"});
+  path = filter_url_create_root_path ({config::logic::config_folder (), "local.cert.pem"});
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
-  return "";
+  return string();
 }
 
 
@@ -229,37 +232,37 @@ string config_logic_server_certificate_path ()
 // Next can be more intermediate authorities.
 // At the bottom of the file should be the trusted root certificate.
 // See also https://github.com/bibledit/cloud/issues/235
-string config_logic_authorities_certificates_path ()
+string authorities_certificates_path ()
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "chain.pem"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "chain.pem"});
   if (file_or_dir_exists (path)) return path;
   // Try the file for localhost next.
-  path = filter_url_create_root_path ({config_logic_config_folder (), "local.chain.pem"});
+  path = filter_url_create_root_path ({config::logic::config_folder (), "local.chain.pem"});
   if (file_or_dir_exists (path)) return path;
   // Nothing found.
-  return "";
+  return string();
 }
 
 
 // Whether to enforce https traffic for browser communications.
-bool config_logic_enforce_https_browser ()
+bool enforce_https_browser ()
 {
-  return file_or_dir_exists (filter_url_create_root_path ({config_logic_config_folder (), "browser.https"}));
+  return file_or_dir_exists (filter_url_create_root_path ({config::logic::config_folder (), "browser.https"}));
 }
 
 
 // Whether to enforce https traffic for client communications.
-bool config_logic_enforce_https_client ()
+bool enforce_https_client ()
 {
-  return file_or_dir_exists (filter_url_create_root_path ({config_logic_config_folder (), "client.https"}));
+  return file_or_dir_exists (filter_url_create_root_path ({config::logic::config_folder (), "client.https"}));
 }
 
 
-void config_logic_swipe_enabled (void * webserver_request, string & script)
+void swipe_enabled (void * webserver_request, string & script)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
+  
   string true_false = "false";
   if (request->session_logic ()->touchEnabled ()) {
     if (request->database_config_user ()->getSwipeActionsAvailable ()) {
@@ -275,19 +278,19 @@ void config_logic_swipe_enabled (void * webserver_request, string & script)
 
 
 // Whether the free Indonesian Cloud is enabled.
-bool config_logic_indonesian_cloud_free ()
+bool indonesian_cloud_free ()
 {
   // Keep status in memory once it has been read from disk.
   // This is to speed up things.
   static bool read = false;
   static bool status = false;
   if (read) return status;
-
+  
   // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "indonesiancloudfree"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesiancloudfree"});
   status = file_or_dir_exists (path);
   read = true;
- 
+  
   return status;
 }
 
@@ -297,19 +300,19 @@ bool config_logic_indonesian_cloud_free ()
 // 1. It only has an account with Consultant access level registered.
 // 2. It gives no access to account creation from menu
 // 3. It has different workspace defaults.
-bool config_logic_indonesian_cloud_free_simple ()
+bool indonesian_cloud_free_simple ()
 {
   // Keep status in memory once it has been read from disk.
   // This is to speed up things.
   static bool read = false;
   static bool status = false;
   if (read) return status;
-
+  
   // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "indonesiancloudfreesimple"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesiancloudfreesimple"});
   status = file_or_dir_exists (path);
   read = true;
- 
+  
   return status;
 }
 
@@ -317,43 +320,49 @@ bool config_logic_indonesian_cloud_free_simple ()
 // Whether the free Indonesian Cloud Free Individual is enabled.
 // It is just like the default Indonesian Cloud Free,
 // but with no access to the consultation notes feature.
-bool config_logic_indonesian_cloud_free_individual ()
+bool indonesian_cloud_free_individual ()
 {
   // Keep status in memory once it has been read from disk.
   // This is to speed up things.
   static bool read = false;
   static bool status = false;
   if (read) return status;
-
+  
   // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config_logic_config_folder (), "indonesiancloudfreeindividual"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesiancloudfreeindividual"});
   status = file_or_dir_exists (path);
-  read = true;
- 
-  return status;
-}
-
-
-// Whether the default Bibledit configuration is enabled.
-bool config_logic_default_bibledit_configuration ()
-{
-  // Keep status in memory once it has been read from disk.
-  // This is to speed up things.
-  static bool read = false;
-  static bool status = true;
-  if (read) return status;
-
-  // If any of the special configurations is enabled, the default configuration is disabled.
-  if (config_logic_indonesian_cloud_free ()) status = false;
-  if (config_logic_indonesian_cloud_free_simple ()) status = false;
-  if (config_logic_indonesian_cloud_free_individual ()) status = false;
   read = true;
   
   return status;
 }
 
 
-string config_logic_google_translate_json_key_path ()
+// Whether the default Bibledit configuration is enabled.
+bool default_bibledit_configuration ()
 {
-  return filter_url_create_root_path ({config_logic_config_folder (), "googletranslate.json"});
+  // Keep status in memory once it has been read from disk.
+  // This is to speed up things.
+  static bool read = false;
+  static bool status = true;
+  if (read) return status;
+  
+  // If any of the special configurations is enabled, the default configuration is disabled.
+  if (config::logic::indonesian_cloud_free ()) status = false;
+  if (config::logic::indonesian_cloud_free_simple ()) status = false;
+  if (config::logic::indonesian_cloud_free_individual ()) status = false;
+  read = true;
+  
+  return status;
 }
+
+
+string google_translate_json_key_path ()
+{
+  return filter_url_create_root_path ({config::logic::config_folder (), "googletranslate.json"});
+}
+
+
+} // End of namespace.
+
+
+

@@ -64,15 +64,15 @@ void Confirm_Worker::setup (string mailto, string username,
   xml_document document;
   xml_node node = document.append_child ("p");
   string information;
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     information = translate ("Please confirm this request by clicking this following link:");
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     information = "Klik tautan ini untuk menyelesaikan proses pendaftaran dan masuk Bibledit:";
   }
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string siteUrl = config_logic_site_url (webserver_request);
+  string siteUrl = config::logic::site_url (webserver_request);
   string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   stringstream output;

@@ -241,12 +241,12 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       node = initial_document.append_child ("h3");
       node.text ().set (initial_subject.c_str());
       string information;
-      if (config_logic_default_bibledit_configuration ()) {
+      if (config::logic::default_bibledit_configuration ()) {
         node = initial_document.append_child ("p");
         information = translate("There is a request to open an account with this email address.");
         node.text ().set (information.c_str());
       }
-      if (config_logic_indonesian_cloud_free ()) {
+      if (config::logic::indonesian_cloud_free ()) {
         node = initial_document.append_child ("p");
         information = "Shalom " + user + "!";
         node.text ().set (information.c_str());
@@ -273,10 +273,10 @@ string session_signup ([[maybe_unused]] void * webserver_request)
         initial_body = output.str ();
       }
       string query;
-      if (config_logic_default_bibledit_configuration ()) {
+      if (config::logic::default_bibledit_configuration ()) {
         query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail);
       }
-      if (config_logic_indonesian_cloud_free ()) {
+      if (config::logic::indonesian_cloud_free ()) {
         // The Indonesian free Cloud new account should have the consultant role for things to work well.
         query = database_users.add_userQuery (user, pass, Filter_Roles::consultant (), mail);
       }
@@ -286,7 +286,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       xml_document subsequent_document;
       node = subsequent_document.append_child ("h3");
       node.text ().set (subsequent_subject.c_str());
-      if (config_logic_default_bibledit_configuration ()) {
+      if (config::logic::default_bibledit_configuration ()) {
         node = subsequent_document.append_child ("p");
         information = translate("Welcome!");
         node.text ().set (information.c_str());
@@ -294,7 +294,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
         information = translate("Your account is now active and you have logged in.");
         node.text ().set (information.c_str());
       }
-      if (config_logic_indonesian_cloud_free ()) {
+      if (config::logic::indonesian_cloud_free ()) {
         node = subsequent_document.append_child ("p");
         information = "Shalom " + user + ",";
         node.text ().set (information.c_str());
@@ -331,7 +331,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       }
       // Store the confirmation information in the database.
       confirm_worker.setup (mail, user, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
-      if (config_logic_indonesian_cloud_free ()) {
+      if (config::logic::indonesian_cloud_free ()) {
         // In the Indonesian free Cloud, create the Bible for the user.
         string bible = filter::indonesian::mytranslation (user);
         tasks_logic_queue (CREATEEMPTYBIBLE, {bible});

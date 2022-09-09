@@ -96,18 +96,18 @@ string resource_index (void * webserver_request)
   int window_position = config_globals_resource_window_positions [username];
   string script = "var resourceCount = " + convert_to_string (resource_count) + ";\n"
                   "var resourceWindowPosition = " + convert_to_string (window_position) + ";";
-  config_logic_swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   
   bool can_organize_active_resources = true;
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     // In the Indonesian free Cloud, only Managers and higher roles can organize the resources.
     // In that type of Cloud, all resources for all users are one and the same setting.
     int level = request->session_logic()->currentLevel();
     can_organize_active_resources = (level >= Filter_Roles::manager());
   }
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     // In the Indonesian Cloud Free Simple version, the organize zone is not enabled.
     can_organize_active_resources = false;
   }

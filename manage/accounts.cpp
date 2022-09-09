@@ -122,7 +122,7 @@ string manage_accounts (void * webserver_request)
     // the free guest accounts have a role of Consultant.
     // So only displays roles of Consultant or lower.
     // Skip any higher roles.
-    if (config_logic_indonesian_cloud_free ()) {
+    if (config::logic::indonesian_cloud_free ()) {
       if (user_level > Filter_Roles::consultant()) continue;
     }
 

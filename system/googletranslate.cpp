@@ -61,7 +61,7 @@ string system_googletranslate (void * webserver_request)
   view.set_variable ("external", assets_external_logic_link_addon ());
   
   // The location of the googletranslate.txt file with required information about setup.
-  view.set_variable ("config", filter_url_create_root_path ({config_logic_config_folder (), "googletranslate.txt"}));
+  view.set_variable ("config", filter_url_create_root_path ({config::logic::config_folder (), "googletranslate.txt"}));
 
   // Check whether the Google Translate JSON key can be read.
   auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();

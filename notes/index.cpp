@@ -93,7 +93,7 @@ string notes_index (void * webserver_request)
   // Manager roles and higher can do mass updates on the notes.
   if (level >= Filter_Roles::manager ()) {
     // No mass updates in basic mode.
-    if (!config_logic_basic_mode (webserver_request)) {
+    if (!config::logic::basic_mode (webserver_request)) {
       view.enable_zone ("update");
     }
   }

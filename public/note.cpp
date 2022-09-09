@@ -81,7 +81,7 @@ string public_note (void * webserver_request)
   string url_to_index = "index";
   view.set_variable ("url_to_index", url_to_index);
 
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     view.set_variable ("url_to_index", get_base_url (request) + read_index_url ());
   }
 

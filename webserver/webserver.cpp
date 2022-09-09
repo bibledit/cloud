@@ -291,7 +291,7 @@ void http_server ()
   serveraddr.sin6_flowinfo = 0;
   serveraddr.sin6_family = AF_INET6;
   serveraddr.sin6_addr = in6addr_any;
-  serveraddr.sin6_port = htons (static_cast<uint16_t>(convert_to_int (config_logic_http_network_port ())));
+  serveraddr.sin6_port = htons (static_cast<uint16_t>(convert_to_int (config::logic::http_network_port ())));
 #endif
   result = mybind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
   if (result != 0) {
@@ -744,7 +744,7 @@ void https_server ()
 
   // The https network port to listen on.
   // Port "0..9" means: Don't run the secure web server.
-  string network_port = config_logic_https_network_port ();
+  string network_port = config::logic::https_network_port ();
   if (network_port.length() <= 1) return;
   
   // File descriptor for the listener.
@@ -772,7 +772,7 @@ void https_server ()
   // Load the private RSA server key.
   mbedtls_pk_context pkey;
   mbedtls_pk_init (&pkey);
-  path = config_logic_server_key_path ();
+  path = config::logic::server_key_path ();
   ret = mbedtls_pk_parse_keyfile (&pkey, path.c_str (), nullptr);
   if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
   
@@ -781,12 +781,12 @@ void https_server ()
   mbedtls_x509_crt_init (&srvcert);
   
   // Load the server certificate.
-  path = config_logic_server_certificate_path ();
+  path = config::logic::server_certificate_path ();
   ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
   if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
 
   // Load the chain of certificates of the certificate authorities.
-  path = config_logic_authorities_certificates_path ();
+  path = config::logic::authorities_certificates_path ();
   ret = mbedtls_x509_crt_parse_file (&srvcert, path.c_str ());
   if (ret != 0) filter_url_display_mbed_tls_error (ret, nullptr, true);
 

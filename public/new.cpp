@@ -77,7 +77,7 @@ string public_new (void * webserver_request)
 
   string cancellation_url = "index";
 
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     cancellation_url = get_base_url (request) + read_index_url ();
   }
 

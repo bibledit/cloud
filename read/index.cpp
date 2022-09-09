@@ -55,7 +55,7 @@ string read_index_url ()
 bool read_index_acl (void * webserver_request)
 {
   int role = Filter_Roles::translator ();
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     role = Filter_Roles::consultant ();
   }
   if (Filter_Roles::access_control (webserver_request, role)) return true;
@@ -77,7 +77,7 @@ string read_index (void * webserver_request)
     Navigation_Passage::record_history (request, switchbook, switchchapter, 1);
   }
 
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     // See issue https://github.com/bibledit/cloud/issues/503
     // Specific configuration for the Indonesian free Cloud instance.
     // The name of the default Bible in the Read tab will be AlkitabKita
@@ -119,7 +119,7 @@ string read_index (void * webserver_request)
   view.set_variable ("bible", bible);
 
   // In the Indonesian Cloud Free Simple version, its possible to get a specific book by query.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     if (request->query.count ("bbn")) {
       int bible_book_number = convert_to_int (request->query ["bbn"]);
       Ipc_Focus::set (request, bible_book_number, 1, 1);
@@ -142,14 +142,14 @@ string read_index (void * webserver_request)
   "var readchooseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
   "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
-  config_logic_swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
   string cls = Filter_Css::getClass (bible);
   string font = Fonts_Logic::get_text_font (bible);
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     if (database_filebased_cache_exists (filename)) {
       current_theme_index = convert_to_int (database_filebased_cache_get (filename));
     } else {
@@ -173,7 +173,7 @@ string read_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
@@ -188,7 +188,7 @@ string read_index (void * webserver_request)
   // Indonesian Cloud Free.
   // Whether to enable public feedback access.
   // Whether to disable onestatus.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     view.disable_zone ("onestatus");
     view.enable_zone ("public_feedback");
     view.set_variable ("public_new_feedback_url", get_base_url (request) + public_new_url ());

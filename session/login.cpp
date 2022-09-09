@@ -109,7 +109,7 @@ string session_login (void * webserver_request)
     }
   }
   
-  view.set_variable ("VERSION", config_logic_version ());
+  view.set_variable ("VERSION", config::logic::version ());
   
   if (ldap_logic_is_on ()) {
     view.enable_zone ("ldap");

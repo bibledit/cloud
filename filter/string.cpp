@@ -1417,7 +1417,7 @@ int filter_string_user_identifier (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   string hash = md5 (username).substr (0, 5);
-  int identifier = my_stoi (hash, nullptr, 36);
+  int identifier = config::logic::my_stoi (hash, nullptr, 36);
   return identifier;
 }
 
@@ -1447,7 +1447,7 @@ string hex2bin (string hex)
     for (string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
     {
       extract.assign (pos, pos+2);
-      out.push_back (static_cast<char> (my_stoi (extract, nullptr, 16)));
+      out.push_back (static_cast<char> (config::logic::my_stoi (extract, nullptr, 16)));
     }
   }
   return out;

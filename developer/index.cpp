@@ -142,7 +142,7 @@ string developer_index (void * webserver_request)
   }
 
   if (debug == "expirefreeindonesian") {
-    if (config_logic_indonesian_cloud_free ()) {
+    if (config::logic::indonesian_cloud_free ()) {
       tasks_logic_queue (EXPIREINDONESIANFREEUSERS);
       view.set_variable ("success", "Task was started");
     } else view.set_variable ("error", "Not configured");

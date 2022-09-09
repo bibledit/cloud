@@ -654,7 +654,7 @@ void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 
 vector <string> Database_Config_User::getActiveResources ()
 {
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     // In the Indonesian Cloud free, there's one central location for storing the active resources.
     return Database_Config_General::getActiveResources ();
   }
@@ -663,10 +663,10 @@ vector <string> Database_Config_User::getActiveResources ()
 }
 void Database_Config_User::setActiveResources (vector <string> values)
 {
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     setList ("active-resources", values);
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     Database_Config_General::setActiveResources (values);
   }
 }
@@ -1120,7 +1120,7 @@ int Database_Config_User::getCurrentTheme ()
 {
   // Indonesian Cloud Free
   // Set the "Light" theme as the default theme.
-  if (config_logic_indonesian_cloud_free ()) return getIValue (current_theme_style_key (), 1);
+  if (config::logic::indonesian_cloud_free ()) return getIValue (current_theme_style_key (), 1);
   return getIValue (current_theme_style_key (), 0);
 }
 void Database_Config_User::setCurrentTheme (int index)

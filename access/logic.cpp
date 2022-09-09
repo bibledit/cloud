@@ -43,7 +43,7 @@ int access_logic_view_notes_role ()
 {
   // Indonesian Cloud Free
   // The normal user of the Individual version doesn't have access to notes.
-  if (config_logic_indonesian_cloud_free_individual ()) {
+  if (config::logic::indonesian_cloud_free_individual ()) {
     return Filter_Roles::translator ();
   }
   return Filter_Roles::consultant ();

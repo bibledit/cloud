@@ -73,7 +73,7 @@
 // Returns true if the credentials are correct for a demo installation.
 bool demo_acl (string user, string pass)
 {
-  if (config_logic_demo_enabled ()) {
+  if (config::logic::demo_enabled ()) {
     if (user == session_admin_credentials ()) {
       if ((pass == session_admin_credentials ()) || (pass == md5 (session_admin_credentials ()))) {
         return true;
@@ -179,32 +179,32 @@ void demo_clean_data ()
   
   
   // Create / update sample Bible.
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     demo_create_sample_bible ();
   }
 
 
   // Create sample notes.
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     demo_create_sample_notes (&request);
   }
 
   
   // Create samples for the workspaces.
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     demo_create_sample_workspaces (&request);
   }
   
   
   // Set navigator to John 3:16.
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     Ipc_Focus::set (&request, 43, 3, 16);
   }
 
 
   // Indonesian Cloud Free
   // Set navigator to John 1:1.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     Ipc_Focus::set (&request, 43, 1, 1);
   }
   
@@ -418,21 +418,21 @@ void demo_create_sample_workspaces (void * webserver_request)
 vector <string> demo_logic_default_resources ()
 {
   vector <string> resources;
-  if (config_logic_default_bibledit_configuration ()) {
+  if (config::logic::default_bibledit_configuration ()) {
     // Add a few resources that are also safe in an obfuscated version.
     resources = {
       demo_sample_bible_name (),
       resource_logic_violet_divider ()
     };
     // For demo purposes, add some more resources to show-case some of the capabilities.
-    if (config_logic_demo_enabled ()) {
+    if (config::logic::demo_enabled ()) {
       resources.push_back (resource_external_biblehub_interlinear_name ());
       resources.push_back (resource_external_net_bible_name ());
       resources.push_back (SBLGNT_NAME);
     }
   }
   // Add specific resources for Indonesian Cloud Free Simple/Demo version.
-  if (config_logic_indonesian_cloud_free_simple ()) {
+  if (config::logic::indonesian_cloud_free_simple ()) {
     resources.clear ();
     resources = {
       // Original language resources.

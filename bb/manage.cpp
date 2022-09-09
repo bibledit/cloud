@@ -97,7 +97,7 @@ string bible_manage (void * webserver_request)
       }
       success_message = translate("The Bible was created");
       // Creating a Bible removes any Sample Bible that might have been there.
-      if (!config_logic_demo_enabled ()) {
+      if (!config::logic::demo_enabled ()) {
         request->database_bibles ()->deleteBible (demo_sample_bible_name ());
         search_logic_delete_bible (demo_sample_bible_name ());
       }
@@ -137,7 +137,7 @@ string bible_manage (void * webserver_request)
             Database_Privileges::setBible (me, destination, true);
           }
           // Creating a Bible removes any Sample Bible that might have been there.
-          if (!config_logic_demo_enabled ()) {
+          if (!config::logic::demo_enabled ()) {
             request->database_bibles ()->deleteBible (demo_sample_bible_name ());
             search_logic_delete_bible (demo_sample_bible_name ());
           }

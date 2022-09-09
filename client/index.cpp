@@ -127,7 +127,7 @@ string client_index (void * webserver_request)
     if (address.find ("http") == string::npos) address = filter_url_set_scheme (address, false);
     Database_Config_General::setServerAddress (address);
     
-    int port = convert_to_int (config_logic_http_network_port ());
+    int port = convert_to_int (config::logic::http_network_port ());
     if (connect) port = convert_to_int (request->post ["port"]);
     if (demo) port = demo_port ();
     Database_Config_General::setServerPort (port);
@@ -178,7 +178,7 @@ string client_index (void * webserver_request)
     view.enable_zone ("info");
   }
   
-  bool basic_mode = config_logic_basic_mode (request);
+  bool basic_mode = config::logic::basic_mode (request);
   if (basic_mode) view.enable_zone("basicmode");
   
   string page;

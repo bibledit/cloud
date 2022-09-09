@@ -54,7 +54,7 @@ bool editone2_index_acl (void * webserver_request)
 {
   // Default minimum role for getting access.
   int minimum_role = Filter_Roles::translator ();
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     minimum_role = Filter_Roles::consultant ();
   }
   if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
@@ -76,7 +76,7 @@ string editone2_index (void * webserver_request)
     Navigation_Passage::record_history (request, switchbook, switchchapter, 1);
   }
 
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     // See issue https://github.com/bibledit/cloud/issues/503
     // Specific configuration for the Indonesian free Cloud instance.
     // The name of the default Bible in the Translate tab will be another Bible than AlkitabKita.
@@ -146,7 +146,7 @@ string editone2_index (void * webserver_request)
   "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
   "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
   "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
-  config_logic_swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
   string custom_class = Filter_Css::getClass (bible);
@@ -168,7 +168,7 @@ string editone2_index (void * webserver_request)
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
-  if (config_logic_indonesian_cloud_free ()) {
+  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone ("fastswitcheditor");
   }
 

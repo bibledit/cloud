@@ -62,11 +62,11 @@ string help_index (void * webserver_request, const string& url)
 
   Assets_View view;
 
-  view.set_variable ("version", config_logic_version ());
+  view.set_variable ("version", config::logic::version ());
 
   view.set_variable ("external", assets_external_logic_link_addon ());
 
-  view.set_variable ("config", filter_url_create_root_path ({config_logic_config_folder ()}));
+  view.set_variable ("config", filter_url_create_root_path ({config::logic::config_folder ()}));
   
   string filename (url);
   size_t pos = url.find ("/");

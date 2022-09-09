@@ -51,7 +51,7 @@ bool bibledit_started = false;
 // Get Bibledit's version number.
 const char * bibledit_get_version_number ()
 {
-  return config_logic_version ();
+  return config::logic::version ();
 }
 
 
@@ -75,7 +75,7 @@ const char * bibledit_get_network_port ()
 #endif
 
   // Set the port number.
-  config_logic_http_network_port ();
+  config::logic::http_network_port ();
 
   // Give the port number to the caller.
   return config_globals_negotiated_port_number.c_str ();
@@ -144,7 +144,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   locale_logic_obfuscate_initialize ();
   
   // Read some configuration settings into memory for faster access.
-  config_logic_load_settings ();
+  config::logic::load_settings ();
   
   // Initialize data in a thread.
   thread setup_thread = thread (setup_conditionally, package);
@@ -188,7 +188,7 @@ void bibledit_start_library ()
 #else
   config_globals_client_prepared = false;
 #endif
-  if (config_logic_demo_enabled ()) {
+  if (config::logic::demo_enabled ()) {
     config_globals_open_installation = true;
   }
 
@@ -209,8 +209,8 @@ void bibledit_start_library ()
   config_globals_webserver_running = true;
   
   // Whether the plain http server redirects to secure http.
-  config_globals_enforce_https_browser = config_logic_enforce_https_browser ();
-  config_globals_enforce_https_client = config_logic_enforce_https_client ();
+  config_globals_enforce_https_browser = config::logic::enforce_https_browser ();
+  config_globals_enforce_https_client = config::logic::enforce_https_client ();
   
   // Run the plain web server in a thread.
   config_globals_http_worker = new thread (http_server);
@@ -321,12 +321,12 @@ void bibledit_stop_library ()
   
   // Connect to the plain webserver to initiate its shutdown mechanism.
   url = "http://localhost:";
-  url.append (config_logic_http_network_port ());
+  url.append (config::logic::http_network_port ());
   filter_url_http_get (url, error, false);
 
 #ifdef RUN_SECURE_SERVER
   // If the secure server runs, connect to it to initiate its shutdown mechanism.
-  string https_port = config_logic_https_network_port ();
+  string https_port = config::logic::https_network_port ();
   if (https_port.length() > 1) {
     url = "https://localhost:";
     url.append (https_port);

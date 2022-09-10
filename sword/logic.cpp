@@ -419,7 +419,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   string module_text;
   bool module_available = false;
 
-  string osis = Database_Books::getOsisFromId (book);
+  string osis = Database_Books::get_osis_from_id (book);
   string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
 
   // See notes on function sword_logic_diatheke
@@ -490,7 +490,7 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
   }
 
   // The name of the book to pass to diatheke.
-  string osis = Database_Books::getOsisFromId (book);
+  string osis = Database_Books::get_osis_from_id (book);
 
   // Cannot run more than one "diatheke" per user, so use a mutex for that.
   sword_logic_diatheke_run_mutex.lock ();

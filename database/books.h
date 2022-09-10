@@ -24,20 +24,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Books
 {
 public:
-  static vector <int> getIDs ();
-  static int getIdFromEnglish (string english);
-  static string getEnglishFromId (int id);
-  static string getUsfmFromId (int id);
-  static string getBibleworksFromId (int id);
-  static string getOsisFromId (int id);
-  static int getIdFromUsfm (string usfm);
-  static int getIdFromOsis (string osis);
-  static int getIdFromBibleworks (string bibleworks);
-  static int getIdLikeText (string text);
-  static int getIdFromOnlinebible (string onlinebible);
-  static string getOnlinebibleFromId (int id);
-  static int getOrderFromId (int id);
-  static string getType (int id);
+  static vector <int> get_ids ();
+  static int get_id_from_english (string english);
+  static string get_english_from_id (int id);
+  static string get_usfm_from_id (int id);
+  static string get_bibleworks_from_id (int id);
+  static string get_osis_from_id (int id);
+  static int get_id_from_usfm (string usfm);
+  static int get_id_from_osis (string osis);
+  static int get_id_from_bibleworks (string bibleworks);
+  static int get_id_like_text (string text);
+  static int get_id_from_onlinebible (string onlinebible);
+  static string get_onlinebible_from_id (int id);
+  static int get_order_from_id (int id);
+  static string get_type (int id);
 private:
   static unsigned int data_count ();
 };

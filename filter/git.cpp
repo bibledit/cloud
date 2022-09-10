@@ -66,7 +66,7 @@ bool filter_git_init (string directory, bool bare)
 void filter_git_commit_modification_to_git (string repository, string user, int book, int chapter,
                                             string & oldusfm, string & newusfm)
 {
-  string bookname = Database_Books::getEnglishFromId (book);
+  string bookname = Database_Books::get_english_from_id (book);
   string bookdir = filter_url_create_path ({repository, bookname});
   string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
   if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
@@ -164,7 +164,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   for (auto & bookname : bookfiles) {
     string path = filter_url_create_path ({repository, bookname});
     if (filter_url_is_dir (path)) {
-      int book = Database_Books::getIdFromEnglish (bookname);
+      int book = Database_Books::get_id_from_english (bookname);
       if (book) {
         if (in_array (book, books)) {
           // Book exists in the database: Check the chapters.
@@ -199,7 +199,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   // If necessary, save the chapter to the repository.
   books = request->database_bibles()->getBooks (bible);
   for (auto & book : books) {
-    string bookname = Database_Books::getEnglishFromId (book);
+    string bookname = Database_Books::get_english_from_id (book);
     string bookdir = filter_url_create_path ({repository, bookname});
     if (!file_or_dir_exists (bookdir)) filter_url_mkdir (bookdir);
     vector <int> chapters = request->database_bibles()->getChapters (bible, book);
@@ -234,7 +234,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
   for (auto & bookname : bookfiles) {
     string bookpath = filter_url_create_path ({repository, bookname});
     if (filter_url_is_dir (bookpath)) {
-      int book = Database_Books::getIdFromEnglish (bookname);
+      int book = Database_Books::get_id_from_english (bookname);
       if (book) {
         // Check the chapters.
         vector <int> chapters = request->database_bibles()->getChapters (bible, book);
@@ -272,7 +272,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
   // If necessary, update the data in the database.
   vector <int> books = request->database_bibles()->getBooks (bible);
   for (auto & book : books) {
-    string bookname = Database_Books::getEnglishFromId (book);
+    string bookname = Database_Books::get_english_from_id (book);
     string bookdir = filter_url_create_path ({repository, bookname});
     if (file_or_dir_exists (bookdir)) {
       vector <int> chapters = request->database_bibles()->getChapters (bible, book);
@@ -312,7 +312,7 @@ string filter_git_disabled ()
 void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter)
 {
   // Filename for the chapter.
-  string bookname = Database_Books::getEnglishFromId (book);
+  string bookname = Database_Books::get_english_from_id (book);
   string filename = filter_url_create_path ({repository, bookname, convert_to_string (chapter), "data"});
   
   if (file_or_dir_exists (filename)) {
@@ -456,7 +456,7 @@ Passage filter_git_get_passage (string line)
     size_t pos = bits [0].find (":");
     if (pos != string::npos) bits [0].erase (0, pos + 1);
     string bookname = filter_string_trim (bits [0]);
-    int book = Database_Books::getIdFromEnglish (bookname);
+    int book = Database_Books::get_id_from_english (bookname);
     if (book) {
       if (filter_string_is_numeric (bits [1])) {
         int chapter = convert_to_int (bits [1]);

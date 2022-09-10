@@ -233,7 +233,7 @@ void Filter_Text::pre_process_usfm ()
                     string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                     // Get Bibledit book number.
-                    currentBookIdentifier = Database_Books::getIdFromUsfm (usfm_id);
+                    currentBookIdentifier = Database_Books::get_id_from_usfm (usfm_id);
                     // Reset chapter and verse numbers.
                     currentChapterNumber = 0;
                     numberOfChaptersPerBook[currentBookIdentifier] = 0;
@@ -392,7 +392,7 @@ void Filter_Text::process_usfm ()
                   // Get book number.
                   string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
-                  currentBookIdentifier = Database_Books::getIdFromUsfm (usfm_id);
+                  currentBookIdentifier = Database_Books::get_id_from_usfm (usfm_id);
                   // Reset chapter and verse numbers.
                   currentChapterNumber = 0;
                   currentVerseNumber = "0";
@@ -419,7 +419,7 @@ void Filter_Text::process_usfm ()
                   // It does this only when it's the first header on the page.
                   // The book starts here.
                   // So create a correct hidden header for displaying in the running header.
-                  string runningHeader = Database_Books::getEnglishFromId (currentBookIdentifier);
+                  string runningHeader = Database_Books::get_english_from_id (currentBookIdentifier);
                   for (auto item : runningHeaders) {
                     if (item.m_book == currentBookIdentifier) {
                       runningHeader = item.m_value;
@@ -620,7 +620,7 @@ void Filter_Text::process_usfm ()
               }
 
               // Enter text for the running headers.
-              string runningHeader = Database_Books::getEnglishFromId (currentBookIdentifier);
+              string runningHeader = Database_Books::get_english_from_id (currentBookIdentifier);
               for (auto item : runningHeaders) {
                 if (item.m_book == currentBookIdentifier) {
                   runningHeader = item.m_value;
@@ -1395,7 +1395,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Number of chapters per book.
   information.new_heading1 (translate("Number of chapters per book"));
   for (const auto & element : numberOfChaptersPerBook) {
-    string line = Database_Books::getEnglishFromId (element.first) + " => " + convert_to_string (element.second);
+    string line = Database_Books::get_english_from_id (element.first) + " => " + convert_to_string (element.second);
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1403,7 +1403,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Running headers.
   information.new_heading1 (translate("Running headers"));
   for (auto item : runningHeaders) {
-    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    string line = Database_Books::get_english_from_id (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1411,13 +1411,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Table of Contents entries.
   information.new_heading1 (translate("Long table of contents entries"));
   for (auto item : longTOCs) {
-    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    string line = Database_Books::get_english_from_id (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Short table of contents entries"));
   for (auto item : shortTOCs) {
-    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    string line = Database_Books::get_english_from_id (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1425,7 +1425,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Book abbreviations.
   information.new_heading1 (translate("Book abbreviations"));
   for (auto item : bookAbbreviations) {
-    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    string line = Database_Books::get_english_from_id (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1433,13 +1433,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Chapter specials.
   information.new_heading1 (translate("Publishing chapter labels"));
   for (auto item : chapterLabels) {
-    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    string line = Database_Books::get_english_from_id (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Publishing alternate chapter numbers"));
   for (auto item : publishedChapterMarkers) {
-    string line = Database_Books::getEnglishFromId (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    string line = Database_Books::get_english_from_id (item.m_book) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }

@@ -114,7 +114,7 @@ string resource_print (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
       vector <int> books = request->database_bibles()->getBooks (bible);
       for (auto & book : books) {
-        string bookname = Database_Books::getEnglishFromId (book);
+        string bookname = Database_Books::get_english_from_id (book);
         dialog_list.add_row (bookname, "frombook", convert_to_string (book));
       }
       page += dialog_list.run ();
@@ -209,7 +209,7 @@ string resource_print (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
       vector <int> books = request->database_bibles()->getBooks (bible);
       for (auto & book : books) {
-        string bookname = Database_Books::getEnglishFromId (book);
+        string bookname = Database_Books::get_english_from_id (book);
         dialog_list.add_row (bookname, "tobook", convert_to_string (book));
       }
       page += dialog_list.run ();
@@ -307,11 +307,11 @@ string resource_print (void * webserver_request)
 
 
   Passage passage = request->database_config_user()->getPrintPassageFrom ();
-  view.set_variable ("from_book", Database_Books::getEnglishFromId (passage.m_book));
+  view.set_variable ("from_book", Database_Books::get_english_from_id (passage.m_book));
   view.set_variable ("from_chapter", convert_to_string (passage.m_chapter));
   view.set_variable ("from_verse", passage.m_verse);
   passage = request->database_config_user()->getPrintPassageTo ();
-  view.set_variable ("to_book", Database_Books::getEnglishFromId (passage.m_book));
+  view.set_variable ("to_book", Database_Books::get_english_from_id (passage.m_book));
   view.set_variable ("to_chapter", convert_to_string (passage.m_chapter));
   view.set_variable ("to_verse", passage.m_verse);
 

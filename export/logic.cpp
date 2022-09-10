@@ -174,10 +174,10 @@ string Export_Logic::baseBookFileName (int book)
   if (book) {
     // The file name has a number that indicates the default order of the book.
     // Localize the English book name: https://github.com/bibledit/cloud/issues/241
-    int order = Database_Books::getOrderFromId (book);
+    int order = Database_Books::get_order_from_id (book);
     filename = filter_string_fill (convert_to_string (order), 2, '0');
     filename.append ("_");
-    filename.append (translate (Database_Books::getEnglishFromId (book)));
+    filename.append (translate (Database_Books::get_english_from_id (book)));
   } else {
     // Whole Bible.
     filename = "00_" + translate ("Bible");

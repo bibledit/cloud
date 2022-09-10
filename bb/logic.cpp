@@ -207,7 +207,7 @@ void bible_logic_import_resource (string bible, string resource)
   vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
     
-    string bookName = Database_Books::getEnglishFromId (book);
+    string bookName = Database_Books::get_english_from_id (book);
 
     vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (auto & chapter : chapters) {
@@ -217,7 +217,7 @@ void bible_logic_import_resource (string bible, string resource)
       
       vector <string> usfm;
       
-      if (chapter == 0) usfm.push_back ("\\id " + Database_Books::getUsfmFromId (book));
+      if (chapter == 0) usfm.push_back ("\\id " + Database_Books::get_usfm_from_id (book));
       
       if (chapter) {
         usfm.push_back ("\\c " + convert_to_string (chapter));
@@ -278,7 +278,7 @@ void bible_logic_log_change (const string& bible,
   // It used to calculate the percentage difference, but this took a relatively long time.
   // In particular on low-power devices and on Windows, the time it took was excessive.
 
-  string bookname = Database_Books::getEnglishFromId (book);
+  string bookname = Database_Books::get_english_from_id (book);
   string passage = bible + " " + bookname + " " + convert_to_string (chapter);
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -335,7 +335,7 @@ void bible_logic_log_change (const string& bible,
 void bible_logic_log_merge (string user, string bible, int book, int chapter,
                             string base, string change, string prioritized_change, string result)
 {
-  string bookname = Database_Books::getEnglishFromId (book);
+  string bookname = Database_Books::get_english_from_id (book);
   string passage = bible + " " + bookname + " " + convert_to_string (chapter);
   
   vector <string> body;
@@ -1177,9 +1177,9 @@ void bible_logic_create_empty_bible (const string & name)
   search_logic_delete_bible (name);
 
   // Create books with blank verses for the OT and NT.
-  vector <int> books = Database_Books::getIDs ();
+  vector <int> books = Database_Books::get_ids ();
   for (auto book : books) {
-    string type = Database_Books::getType (book);
+    string type = Database_Books::get_type (book);
     if ((type == "ot") || (type == "nt")) {
       vector <string> feedback;
       book_create (name, book, -1, feedback);

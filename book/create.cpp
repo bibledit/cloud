@@ -55,9 +55,9 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   
   // Chapter 0.
   if (chapter <=  0) {
-    data  = "\\id "    + Database_Books::getUsfmFromId(book)     + "\n";
-    data += "\\h "     + Database_Books::getEnglishFromId (book) + "\n";
-    data += "\\toc2 "  + Database_Books::getEnglishFromId (book) + "\n";
+    data  = "\\id "    + Database_Books::get_usfm_from_id(book)     + "\n";
+    data += "\\h "     + Database_Books::get_english_from_id (book) + "\n";
+    data += "\\toc2 "  + Database_Books::get_english_from_id (book) + "\n";
     bible_logic_store_chapter (bible, book, 0, data);
     chapters_created.push_back (0);
   }

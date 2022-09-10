@@ -89,7 +89,7 @@ void bible_import_usfm (string data, string bible, int book, int chapter)
     string chapter_data = data2.m_data;
     if (book_number > 0) {
       bible_logic_store_chapter (bible, book_number, chapter_number, chapter_data);
-      string book_name = Database_Books::getUsfmFromId (book_number);
+      string book_name = Database_Books::get_usfm_from_id (book_number);
       Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter_number));
     } else {
       Database_Logs::log ("Could not import this data: " + chapter_data.substr (0, 1000));
@@ -229,6 +229,6 @@ void bible_import_text (string text, string bible, int book, int chapter)
 
   // Import the text as USFM.
   bible_logic_store_chapter (bible, book, chapter, newtext);
-  string book_name = Database_Books::getUsfmFromId (book);
+  string book_name = Database_Books::get_usfm_from_id (book);
   Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter) + ": " + text);
 }

@@ -163,7 +163,7 @@ void sendreceive_resources ()
             error.clear ();
             filter_url_download_file (url2, client_path, error, false);
             if (error.empty ()) {
-              string bookname = Database_Books::getEnglishFromId (book);
+              string bookname = Database_Books::get_english_from_id (book);
               Database_Logs::log ("Downloaded " + resource + " " + bookname, Filter_Roles::consultant ());
             } else {
               Database_Logs::log ("Failed to download resource " + response2 + " :" + error, Filter_Roles::consultant ());

@@ -194,7 +194,7 @@ string bible_settings (void * webserver_request)
   xml_document book_document;
   vector <int> book_ids = filter_passage_get_ordered_books (bible);
   for (auto & book: book_ids) {
-    string book_name = Database_Books::getEnglishFromId (book);
+    string book_name = Database_Books::get_english_from_id (book);
     book_name = translate(book_name);
     xml_node a_or_span_node;
     if (manager_level) {

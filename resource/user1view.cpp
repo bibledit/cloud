@@ -67,9 +67,9 @@ string resource_user1view (void * webserver_request)
   string url = Database_UserResources::url (name);
   code.push_back ("var userResourceUrl = \"" + url + "\";");
   code.push_back ("var userResourceBooks = [];");
-  vector <int> ids = Database_Books::getIDs ();
+  vector <int> ids = Database_Books::get_ids ();
   for (auto id : ids) {
-    string type = Database_Books::getType (id);
+    string type = Database_Books::get_type (id);
     if ((type == "ot") || (type == "nt")) {
       string book = Database_UserResources::book (name, id);
       if (book.empty ()) book = convert_to_string (id);

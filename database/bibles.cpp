@@ -213,7 +213,7 @@ vector <int> Database_Bibles::getBooks (string bible)
   // Sort the books according to the order defined in the books database.
   vector <int> order;
   for (auto & book : books) {
-    order.push_back (Database_Books::getOrderFromId (book));
+    order.push_back (Database_Books::get_order_from_id (book));
   }
   quick_sort (order, books, 0, static_cast<unsigned>(order.size()));
 

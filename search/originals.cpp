@@ -71,7 +71,7 @@ string search_originals (void * webserver_request)
     int chapter = Ipc_Focus::getChapter (request);
     int verse = Ipc_Focus::getVerse (request);
     
-    string type = Database_Books::getType (book);
+    string type = Database_Books::get_type (book);
     
     string classs;
     
@@ -100,7 +100,7 @@ string search_originals (void * webserver_request)
     vector <string> v_words = filter_string_explode (words, ' ');
     
     int book = Ipc_Focus::getBook (request);
-    string type = Database_Books::getType (book);
+    string type = Database_Books::get_type (book);
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.
     size_t maxcount = 0;

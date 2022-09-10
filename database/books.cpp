@@ -25,8 +25,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <database/booksdata.h>
 
+constexpr unsigned int data_count ()
+{
+  return sizeof (books_table) / sizeof (*books_table);
+}
 
-vector <int> Database_Books::getIDs ()
+
+
+vector <int> Database_Books::get_ids ()
 {
   vector <int> ids;
   for (unsigned int i = 0; i < data_count (); i++) {
@@ -37,7 +43,7 @@ vector <int> Database_Books::getIDs ()
 }
 
 
-int Database_Books::getIdFromEnglish (string english)
+int Database_Books::get_id_from_english (string english)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (english == books_table[i].english) {
@@ -48,7 +54,7 @@ int Database_Books::getIdFromEnglish (string english)
 }
 
 
-string Database_Books::getEnglishFromId (int id)
+string Database_Books::get_english_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {
@@ -59,7 +65,7 @@ string Database_Books::getEnglishFromId (int id)
 }
 
 
-string Database_Books::getUsfmFromId (int id)
+string Database_Books::get_usfm_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {
@@ -70,7 +76,7 @@ string Database_Books::getUsfmFromId (int id)
 }
 
 
-string Database_Books::getBibleworksFromId (int id)
+string Database_Books::get_bibleworks_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {
@@ -81,7 +87,7 @@ string Database_Books::getBibleworksFromId (int id)
 }
 
 
-string Database_Books::getOsisFromId (int id)
+string Database_Books::get_osis_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {
@@ -92,7 +98,7 @@ string Database_Books::getOsisFromId (int id)
 }
 
 
-int Database_Books::getIdFromUsfm (string usfm)
+int Database_Books::get_id_from_usfm (string usfm)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (usfm == books_table[i].usfm) {
@@ -103,7 +109,7 @@ int Database_Books::getIdFromUsfm (string usfm)
 }
 
 
-int Database_Books::getIdFromOsis (string osis)
+int Database_Books::get_id_from_osis (string osis)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (osis == books_table[i].osis) {
@@ -114,7 +120,7 @@ int Database_Books::getIdFromOsis (string osis)
 }
 
 
-int Database_Books::getIdFromBibleworks (string bibleworks)
+int Database_Books::get_id_from_bibleworks (string bibleworks)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (bibleworks == books_table[i].bibleworks) {
@@ -130,7 +136,7 @@ Tries to interprete $text as the name of a Bible book.
 Returns the book's identifier if it succeeds.
 If it fails, it returns 0.
 */
-int Database_Books::getIdLikeText (string text)
+int Database_Books::get_id_like_text (string text)
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
@@ -155,7 +161,7 @@ int Database_Books::getIdLikeText (string text)
 }
 
 
-int Database_Books::getIdFromOnlinebible (string onlinebible)
+int Database_Books::get_id_from_onlinebible (string onlinebible)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (onlinebible == books_table[i].onlinebible) {
@@ -166,7 +172,7 @@ int Database_Books::getIdFromOnlinebible (string onlinebible)
 }
 
 
-string Database_Books::getOnlinebibleFromId (int id)
+string Database_Books::get_onlinebible_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {
@@ -177,7 +183,7 @@ string Database_Books::getOnlinebibleFromId (int id)
 }
 
 
-int Database_Books::getOrderFromId (int id)
+int Database_Books::get_order_from_id (int id) // Todo
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {
@@ -188,7 +194,7 @@ int Database_Books::getOrderFromId (int id)
 }
 
 
-string Database_Books::getType (int id)
+string Database_Books::get_type (int id)
 {
   for (unsigned int i = 0; i < data_count(); i++) {
     if (id == books_table[i].id) {

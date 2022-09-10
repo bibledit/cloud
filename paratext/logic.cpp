@@ -125,7 +125,7 @@ int Paratext_Logic::getBook (string filename)
   fragment.erase (0, 4);
   
   // Get book from the USFM id.
-  int id = Database_Books::getIdFromUsfm (fragment);
+  int id = Database_Books::get_id_from_usfm (fragment);
   return id;
 }
 
@@ -164,7 +164,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
   vector <int> bibledit_books = database_bibles.getBooks (bible);
   for (int book : bibledit_books) {
 
-    string bookname = Database_Books::getEnglishFromId (book);
+    string bookname = Database_Books::get_english_from_id (book);
 
     string paratext_book = paratext_books [book];
 
@@ -220,7 +220,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
   for (auto element : paratext_books) {
 
     int book = element.first;
-    string bookname = Database_Books::getEnglishFromId (book);
+    string bookname = Database_Books::get_english_from_id (book);
 
     string paratext_book = element.second;
     string path = filter_url_create_path ({projectFolder (bible), paratext_book});
@@ -337,7 +337,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       string paratext_book = paratext_books [book];
       if (paratext_book.empty ()) {
         Database_Logs::log (journalTag (bible, book, -1) + "The Paratext project does not have this book", Filter_Roles::translator ());
-        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + filter::usfm::get_opening_usfm("id") + Database_Books::getUsfmFromId (book) + " on the first line", Filter_Roles::translator ());
+        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + filter::usfm::get_opening_usfm("id") + Database_Books::get_usfm_from_id (book) + " on the first line", Filter_Roles::translator ());
         continue;
       }
       
@@ -570,7 +570,7 @@ string Paratext_Logic::synchronizeReadyText ()
 // If chapter is negative, it is left out from the tag.
 string Paratext_Logic::journalTag (string bible, int book, int chapter)
 {
-  string bookname = Database_Books::getEnglishFromId (book);
+  string bookname = Database_Books::get_english_from_id (book);
   string project = Database_Config_Bible::getParatextProject (bible);
   string fragment = bible + " <> " + project + " " + bookname;
   if (chapter >= 0) fragment.append (" " + convert_to_string (chapter));

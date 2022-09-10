@@ -142,7 +142,7 @@ void export_odt_book (string bible, int book, bool log)
   
   if (log) {
     string bookname;
-    if (book) bookname = Database_Books::getEnglishFromId (book);
+    if (book) bookname = Database_Books::get_english_from_id (book);
     else bookname = translate ("whole Bible");
     Database_Logs::log (translate("Exported to OpenDocument files") + " " + bible + " " + bookname, Filter_Roles::translator ());
   }

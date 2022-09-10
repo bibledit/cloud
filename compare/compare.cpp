@@ -90,7 +90,7 @@ void compare_compare (string bible, string compare, int jobId)
   for (auto & book : books) {
 
     
-    string bookName = Database_Books::getEnglishFromId (book);
+    string bookName = Database_Books::get_english_from_id (book);
     database_jobs.set_progress (jobId, bookName);
     
     

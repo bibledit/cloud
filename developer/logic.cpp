@@ -123,7 +123,7 @@ void developer_logic_import_changes ()
   string contents = filter_url_file_get_contents(file_path);
   vector<string> lines = filter_string_explode(contents, "\n");
 
-  vector <int> book_ids = Database_Books::getIDs ();
+  vector <int> book_ids = Database_Books::get_ids ();
 
   Passage passage (bible, 0, 0, "");
   string text;
@@ -137,7 +137,7 @@ void developer_logic_import_changes ()
 
     // Locate and extract the book identifier.
     for (auto book_id : book_ids) {
-      string s = Database_Books::getEnglishFromId(book_id);
+      string s = Database_Books::get_english_from_id(book_id);
       size_t pos = line.find(s);
       if (pos != 3) continue;
       book = book_id;

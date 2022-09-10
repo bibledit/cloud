@@ -37,7 +37,7 @@ void export_index ()
   
   // Go through all sub directories of the exports directory.
   // Remove subdirectories if their corresponding Bible no longer exists in the system.
-  string directory = Export_Logic::mainDirectory ();
+  string directory = export_logic::main_directory ();
   vector <string> files = filter_url_scandir (directory);
   for (auto & file : files) {
     if (in_array (file, bibles)) continue;
@@ -49,14 +49,14 @@ void export_index ()
   // Schedule the relevant Bibles for export.
   for (auto bible : bibles) {
     
-    if (Database_State::getExport (bible, 0, Export_Logic::export_needed)) {
+    if (Database_State::getExport (bible, 0, export_logic::export_needed)) {
       
-      Database_State::clearExport (bible, 0, Export_Logic::export_needed);
+      Database_State::clearExport (bible, 0, export_logic::export_needed);
       vector <int> books = database_bibles.getBooks (bible);
       // Book 0 flags export of the whole Bible (this is not relevant to all export types).
       books.push_back (0);
       for (auto book : books) {
-        for (int format = Export_Logic::export_needed + 1; format < Export_Logic::export_end; format++) {
+        for (int format = export_logic::export_needed + 1; format < export_logic::export_end; format++) {
           Database_State::setExport (bible, book, format);
         }
       }
@@ -64,36 +64,36 @@ void export_index ()
       Database_Logs::log ("Exporting Bible " + bible, Filter_Roles::translator ());
 
       if (Database_Config_Bible::getExportWebDuringNight (bible)) {
-        Export_Logic::scheduleWeb (bible, false);
-        Export_Logic::scheduleWebIndex (bible, false);
+        export_logic::schedule_web (bible, false);
+        export_logic::schedule_web_index (bible, false);
       }
 
       if (Database_Config_Bible::getExportHtmlDuringNight (bible)) {
-        Export_Logic::scheduleHtml (bible, false);
+        export_logic::schedule_html (bible, false);
       }
       
       if (Database_Config_Bible::getExportUsfmDuringNight (bible)) {
-        Export_Logic::scheduleUsfm (bible, false);
+        export_logic::schedule_usfm (bible, false);
       }
       
       if (Database_Config_Bible::getExportTextDuringNight (bible)) {
-        Export_Logic::scheduleTextAndBasicUsfm (bible, false);
+        export_logic::schedule_text_and_basic_usfm (bible, false);
       }
       
       if (Database_Config_Bible::getExportOdtDuringNight (bible)) {
-        Export_Logic::scheduleOpenDocument (bible, false);
+        export_logic::schedule_open_document (bible, false);
       }
       
       if (Database_Config_Bible::getGenerateInfoDuringNight (bible)) {
-        Export_Logic::scheduleInfo (bible, false);
+        export_logic::schedule_info (bible, false);
       }
       
       if (Database_Config_Bible::getExportESwordDuringNight (bible)) {
-        Export_Logic::scheduleESword (bible, false);
+        export_logic::schedule_e_sword (bible, false);
       }
 
       if (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)) {
-        Export_Logic::scheduleOnlineBible (bible, false);
+        export_logic::schedule_online_bible (bible, false);
       }
       
     }

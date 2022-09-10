@@ -39,15 +39,15 @@
 void export_text_usfm_book (string bible, int book, bool log)
 {
   // Create folders for the clear text and the basic USFM exports.
-  string usfmDirectory = Export_Logic::USFMdirectory (bible, 1);
+  string usfmDirectory = export_logic::usfm_directory (bible, 1);
   if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
-  string textDirectory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "text"});
+  string textDirectory = filter_url_create_path ({export_logic::bible_directory (bible), "text"});
   if (!file_or_dir_exists (textDirectory)) filter_url_mkdir (textDirectory);
   
   
   // Filenames for text and usfm.
-  string usfmFilename = filter_url_create_path ({usfmDirectory, Export_Logic::baseBookFileName (book) + ".usfm"});
-  string textFilename = filter_url_create_path ({textDirectory, Export_Logic::baseBookFileName (book) + ".txt"});
+  string usfmFilename = filter_url_create_path ({usfmDirectory, export_logic::base_book_filename (book) + ".usfm"});
+  string textFilename = filter_url_create_path ({textDirectory, export_logic::base_book_filename (book) + ".txt"});
   
   
   Database_Bibles database_bibles;
@@ -119,7 +119,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   
   
   // Clear the flag that indicated this export.
-  Database_State::clearExport (bible, book, Export_Logic::export_text_and_basic_usfm);
+  Database_State::clearExport (bible, book, export_logic::export_text_and_basic_usfm);
 
   
   if (log) Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());

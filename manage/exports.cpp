@@ -98,24 +98,24 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("remove")) {
-    string directory = Export_Logic::bibleDirectory (bible);
+    string directory = export_logic::bible_directory (bible);
     filter_url_rmdir (directory);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
     view.set_variable ("success", translate("The export has been removed."));
   }
   
   
   if (checkbox == "web") {
     Database_Config_Bible::setExportWebDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
     return "";
   }
   view.set_variable ("web", get_checkbox_status (Database_Config_Bible::getExportWebDuringNight (bible)));
   
   
   if (request->query.count ("webnow")) {
-    Export_Logic::scheduleWeb (bible, true);
-    Export_Logic::scheduleWebIndex (bible, true);
+    export_logic::schedule_web (bible, true);
+    export_logic::schedule_web_index (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Web format."));
   }
   
@@ -141,13 +141,13 @@ string manage_exports (void * webserver_request)
   
   if (checkbox == "html") {
     Database_Config_Bible::setExportHtmlDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("html", get_checkbox_status (Database_Config_Bible::getExportHtmlDuringNight (bible)));
   
   
   if (request->query.count ("htmlnow")) {
-    Export_Logic::scheduleHtml (bible, true);
+    export_logic::schedule_html (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Html format."));
   }
 
@@ -160,20 +160,20 @@ string manage_exports (void * webserver_request)
   
   if (checkbox == "usfm") {
     Database_Config_Bible::setExportUsfmDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("usfm", get_checkbox_status (Database_Config_Bible::getExportUsfmDuringNight (bible)));
  
   
   if (request->query.count ("usfmnow")) {
-    Export_Logic::scheduleUsfm (bible, true);
+    export_logic::schedule_usfm (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to USFM format."));
   }
 
   
   if (checkbox == "usfmsecure") {
     Database_Config_Bible::setSecureUsfmExport (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("usfmsecure", get_checkbox_status (Database_Config_Bible::getSecureUsfmExport (bible)));
 
@@ -185,27 +185,27 @@ string manage_exports (void * webserver_request)
   
   
   if (request->query.count ("textnow")) {
-    Export_Logic::scheduleTextAndBasicUsfm (bible, true);
+    export_logic::schedule_text_and_basic_usfm (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to basic USFM format and text."));
   }
                        
                      
   if (checkbox == "odt") {
     Database_Config_Bible::setExportOdtDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("odt", get_checkbox_status (Database_Config_Bible::getExportOdtDuringNight (bible)));
 
   
   if (request->query.count ("odtnow")) {
-    Export_Logic::scheduleOpenDocument (bible, true);
+    export_logic::schedule_open_document (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to OpenDocument format."));
   }
 
   
   if (checkbox == "dropcaps") {
     Database_Config_Bible::setExportChapterDropCapsFrames (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("dropcaps", get_checkbox_status (Database_Config_Bible::getExportChapterDropCapsFrames (bible)));
 
@@ -218,7 +218,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("pagewidth")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 30) && (value <= 500)) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setPageWidth (bible, convert_to_string (value));
     }
   }
@@ -233,7 +233,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("pageheight")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 40) && (value <= 600)) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setPageHeight (bible, convert_to_string (value));
     }
   }
@@ -248,7 +248,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("innermargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setInnerMargin (bible, convert_to_string (value));
     }
   }
@@ -263,7 +263,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("outermargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setOuterMargin (bible, convert_to_string (value));
     }
   }
@@ -278,7 +278,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("topmargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setTopMargin (bible, convert_to_string (value));
     }
   }
@@ -293,7 +293,7 @@ string manage_exports (void * webserver_request)
   if (request->post.count ("bottommargin")) {
     int value = convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setBottomMargin (bible, convert_to_string (value));
     }
   }
@@ -308,7 +308,7 @@ string manage_exports (void * webserver_request)
   
   if (checkbox == "odtsecure") {
     Database_Config_Bible::setSecureOdtExport (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("odtsecure", get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
 
@@ -340,7 +340,7 @@ string manage_exports (void * webserver_request)
   
   if (checkbox == "odtqleft") {
     Database_Config_Bible::setOdtPoetryVersesLeft (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("odtqleft", get_checkbox_status (Database_Config_Bible::getOdtPoetryVersesLeft (bible)));
   {
@@ -356,7 +356,7 @@ string manage_exports (void * webserver_request)
   
   if (request->post.count ("fontsubmit")) {
     string font = request->post["fontentry"];
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
     Database_Config_Bible::setExportFont (bible, font);
     view.set_variable ("success", translate("The font for securing exports was saved."));
   }
@@ -365,60 +365,60 @@ string manage_exports (void * webserver_request)
   
   if (checkbox == "autocaller") {
     Database_Config_Bible::setOdtAutomaticNoteCaller (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("autocaller", get_checkbox_status (Database_Config_Bible::getOdtAutomaticNoteCaller (bible)));
 
   
   if (checkbox == "info") {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("info", get_checkbox_status (Database_Config_Bible::getGenerateInfoDuringNight (bible)));
                    
   
   if (request->query.count ("infonow")) {
-    Export_Logic::scheduleInfo (bible, true);
+    export_logic::schedule_info (bible, true);
     view.set_variable ("success", translate("The info documents are being generated."));
   }
   
                        
   if (checkbox == "esword") {
     Database_Config_Bible::setExportESwordDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("esword", get_checkbox_status (Database_Config_Bible::getExportESwordDuringNight (bible)));
                      
                                           
   if (request->query.count ("eswordnow")) {
-    Export_Logic::scheduleESword (bible, true);
+    export_logic::schedule_e_sword (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to e-Sword format."));
   }
   
                        
   if (checkbox == "onlinebible") {
     Database_Config_Bible::setExportOnlineBibleDuringNight (bible, checked);
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
   }
   view.set_variable ("onlinebible", get_checkbox_status (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)));
   
   
   if (request->query.count ("onlinebiblenow")) {
-    Export_Logic::scheduleOnlineBible (bible, true);
+    export_logic::schedule_online_bible (bible, true);
     view.set_variable ("success", translate("The Bible is being exported to Online Bible format."));
   }
   
                      
   if (request->post.count ("passwordsubmit")) {
     string password = request->post["passwordentry"];
-    Database_State::setExport (bible, 0, Export_Logic::export_needed);
+    Database_State::setExport (bible, 0, export_logic::export_needed);
     Database_Config_Bible::setExportPassword (bible, password);
     view.set_variable ("success", translate("The password for securing exports was saved."));
   }
   // If the password is needed, but not set, set a default password.
   if (Database_Config_Bible::getSecureUsfmExport (bible) || Database_Config_Bible::getSecureOdtExport (bible)) {
     if (Database_Config_Bible::getExportPassword (bible).empty ()) {
-      Database_State::setExport (bible, 0, Export_Logic::export_needed);
+      Database_State::setExport (bible, 0, export_logic::export_needed);
       Database_Config_Bible::setExportPassword (bible, "password");
     }
   }

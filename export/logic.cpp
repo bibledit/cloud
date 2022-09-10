@@ -28,7 +28,7 @@
 
 
 // Schedule all Bibles for exports.
-void Export_Logic::scheduleAll ()
+void export_logic::schedule_all ()
 {
   tasks_logic_queue (EXPORTALL);
 }
@@ -37,7 +37,7 @@ void Export_Logic::scheduleAll ()
 // Schedule a Bible book for export to text and basic USFM format.
 // $bible: Bible.
 // $book: book.
-void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool log)
+void export_logic::schedule_text_and_basic_usfm (string bible, bool log)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -48,7 +48,7 @@ void Export_Logic::scheduleTextAndBasicUsfm (string bible, bool log)
 
 
 // Schedule a Bible for export to USFM format.
-void Export_Logic::scheduleUsfm (string bible, bool log)
+void export_logic::schedule_usfm (string bible, bool log)
 {
   tasks_logic_queue (EXPORTUSFM, {bible, convert_to_string (log)});
 }
@@ -56,7 +56,7 @@ void Export_Logic::scheduleUsfm (string bible, bool log)
 
 // Schedule export to OpenDocument.
 // $bible: Bible.
-void Export_Logic::scheduleOpenDocument (string bible, bool log)
+void export_logic::schedule_open_document (string bible, bool log)
 {
   // Get the available books in the Bible.
   Database_Bibles database_bibles;
@@ -72,7 +72,7 @@ void Export_Logic::scheduleOpenDocument (string bible, bool log)
 
 // Schedule creation info documents.
 // $bible: Bible.
-void Export_Logic::scheduleInfo (string bible, bool log)
+void export_logic::schedule_info (string bible, bool log)
 {
   tasks_logic_queue (EXPORTINFO, {bible, convert_to_string (log)});
 }
@@ -80,7 +80,7 @@ void Export_Logic::scheduleInfo (string bible, bool log)
 
 // Schedule export to html.
 // $bible: Bible.
-void Export_Logic::scheduleHtml (string bible, bool log)
+void export_logic::schedule_html (string bible, bool log)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -92,7 +92,7 @@ void Export_Logic::scheduleHtml (string bible, bool log)
 
 // Schedule export to web.
 // $bible: Bible.
-void Export_Logic::scheduleWeb (string bible, bool log)
+void export_logic::schedule_web (string bible, bool log)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -104,35 +104,35 @@ void Export_Logic::scheduleWeb (string bible, bool log)
 
 // Schedule export to web index.
 // $bible: Bible.
-void Export_Logic::scheduleWebIndex (string bible, bool log)
+void export_logic::schedule_web_index (string bible, bool log)
 {
   tasks_logic_queue (EXPORTWEBINDEX, {bible, convert_to_string (log)});
 }
 
 
-void Export_Logic::scheduleOnlineBible (string bible, bool log)
+void export_logic::schedule_online_bible (string bible, bool log)
 {
   tasks_logic_queue (EXPORTONLINEBIBLE, {bible, convert_to_string (log)});
 }
 
 
-void Export_Logic::scheduleESword (string bible, bool log)
+void export_logic::schedule_e_sword (string bible, bool log)
 {
   tasks_logic_queue (EXPORTESWORD, {bible, convert_to_string (log)});
 }
 
 
 // The main exports directory.
-string Export_Logic::mainDirectory ()
+string export_logic::main_directory ()
 {
   return filter_url_create_root_path ({"exports"});
 }
 
 
 // A Bible's export directory.
-string Export_Logic::bibleDirectory (string bible)
+string export_logic::bible_directory (string bible)
 {
-  return filter_url_create_path ({mainDirectory (), bible});
+  return filter_url_create_path ({main_directory (), bible});
 }
 
 
@@ -141,9 +141,9 @@ string Export_Logic::bibleDirectory (string bible)
 // 0: directory for the full USFM.
 // 1: directory for the basic USFM.
 // 2: root USFM directory.
-string Export_Logic::USFMdirectory (string bible, int type)
+string export_logic::usfm_directory (string bible, int type)
 {
-  string directory = filter_url_create_path ({bibleDirectory (bible), "usfm"});
+  string directory = filter_url_create_path ({bible_directory (bible), "usfm"});
   switch (type) {
     case 0: directory = filter_url_create_path ({directory, "full"}); break;
     case 1: directory = filter_url_create_path ({directory, "basic"}); break;
@@ -153,13 +153,13 @@ string Export_Logic::USFMdirectory (string bible, int type)
 }
 
 
-string Export_Logic::webDirectory (string bible)
+string export_logic::web_directory (string bible)
 {
-  return filter_url_create_path ({bibleDirectory (bible), "web"});
+  return filter_url_create_path ({bible_directory (bible), "web"});
 }
 
 
-string Export_Logic::webBackLinkDirectory (string bible)
+string export_logic::web_back_link_directory (string bible)
 {
   return "/exports/" + bible + "/web/";
 }
@@ -168,7 +168,7 @@ string Export_Logic::webBackLinkDirectory (string bible)
 // Provides the base book file name, e.g. 01_Genesis.
 // Or 00_Bible for an entire Bible when $book = 0;
 // Takes in account the order of the books, possibly modified by the user.
-string Export_Logic::baseBookFileName (int book) // Todo
+string export_logic::base_book_filename (int book) // Todo
 {
   string filename;
   if (book) {

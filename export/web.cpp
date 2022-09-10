@@ -41,7 +41,7 @@
 
 void export_web_book (string bible, int book, bool log)
 {
-  string directory = Export_Logic::webDirectory (bible);
+  string directory = export_logic::web_directory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
@@ -67,7 +67,7 @@ void export_web_book (string bible, int book, bool log)
   }
   
   
-  string backLinkPath = Export_Logic::webBackLinkDirectory (bible);
+  string backLinkPath = export_logic::web_back_link_directory (bible);
   
   
   string bibleBookText = bible + " " + database::books::get_english_from_id (book);
@@ -150,7 +150,7 @@ void export_web_book (string bible, int book, bool log)
   
   
   // Clear the flag for this export.
-  Database_State::clearExport (bible, book, Export_Logic::export_web);
+  Database_State::clearExport (bible, book, export_logic::export_web);
   
   
   if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());
@@ -160,7 +160,7 @@ void export_web_book (string bible, int book, bool log)
 void export_web_index (string bible, bool log)
 {
   // Create folders for the web export.
-  string directory = Export_Logic::webDirectory (bible);
+  string directory = export_logic::web_directory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
@@ -181,7 +181,7 @@ void export_web_index (string bible, bool log)
   styles_sheets.create (stylesheet, filecss, false, bible);
   
   
-  string backLinkPath = Export_Logic::webBackLinkDirectory (bible);
+  string backLinkPath = export_logic::web_back_link_directory (bible);
   
   
   // Main index file.
@@ -219,7 +219,7 @@ void export_web_index (string bible, bool log)
 
   
   // Clear the flag that indicated this export.
-  Database_State::clearExport (bible, 0, Export_Logic::export_web_index);
+  Database_State::clearExport (bible, 0, export_logic::export_web_index);
 
   
   if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", Filter_Roles::translator ());

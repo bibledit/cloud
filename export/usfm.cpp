@@ -41,7 +41,7 @@ void export_usfm (string bible, bool log)
   
   
   // Root USFM directory, plus info file.
-  string usfmDirectory = Export_Logic::USFMdirectory (bible, 2);
+  string usfmDirectory = export_logic::usfm_directory (bible, 2);
   if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
   string infopath = filter_url_create_root_path ({"export", "usfm.html"});
   string infocontents = filter_url_file_get_contents (infopath);
@@ -50,7 +50,7 @@ void export_usfm (string bible, bool log)
   
   
   // USFM directories
-  string usfmDirectoryFull = Export_Logic::USFMdirectory (bible, 0);
+  string usfmDirectoryFull = export_logic::usfm_directory (bible, 0);
   if (!file_or_dir_exists (usfmDirectoryFull)) filter_url_mkdir (usfmDirectoryFull);
   
   
@@ -83,13 +83,13 @@ void export_usfm (string bible, bool log)
     
     
     // Save the USFM of this book to a file with a localized name.
-    string base_book_filename = Export_Logic::baseBookFileName (book);
+    string base_book_filename = export_logic::base_book_filename (book);
     string path = filter_url_create_path ({usfmDirectoryFull, base_book_filename + ".usfm"});
     filter_url_file_put_contents (path, bookUsfmDataFull);
 
     
     // Clear the flag that indicated this export.
-    Database_State::clearExport (bible, book, Export_Logic::export_full_usfm);
+    Database_State::clearExport (bible, book, export_logic::export_full_usfm);
     
     
     if (log) Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());
@@ -97,7 +97,7 @@ void export_usfm (string bible, bool log)
 
   
   // Base name of the zip file.
-  string zipfile = Export_Logic::baseBookFileName (0) + ".zip";
+  string zipfile = export_logic::base_book_filename (0) + ".zip";
   string zippath = filter_url_create_path ({usfmDirectoryFull, zipfile});
   
   
@@ -125,7 +125,7 @@ void export_usfm (string bible, bool log)
   
   
   // Clear the flag that indicated this export.
-  Database_State::clearExport (bible, 0, Export_Logic::export_full_usfm);
+  Database_State::clearExport (bible, 0, export_logic::export_full_usfm);
 
   
   if (log) Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + translate("All books"), Filter_Roles::translator ());

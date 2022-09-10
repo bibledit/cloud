@@ -39,7 +39,7 @@
 
 void export_onlinebible (string bible, bool log)
 {
-  string directory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "onlinebible"});
+  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "onlinebible"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
@@ -67,7 +67,7 @@ void export_onlinebible (string bible, bool log)
   filter_text_bible.onlinebible_text->save (filename);
 
   
-  Database_State::clearExport (bible, 0, Export_Logic::export_online_bible);
+  Database_State::clearExport (bible, 0, export_logic::export_online_bible);
 
   
   if (log) Database_Logs::log (translate("Exported to Online Bible") + " " + bible, Filter_Roles::translator ());

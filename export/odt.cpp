@@ -40,12 +40,12 @@
 void export_odt_book (string bible, int book, bool log)
 {
   // Create folders for the OpenDocument export.
-  string directory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "opendocument"});
+  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "opendocument"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.
-  string basename = Export_Logic::baseBookFileName (book);
+  string basename = export_logic::base_book_filename (book);
   string standardFilename = filter_url_create_path ({directory, basename + "_standard.odt"});
   string textOnlyFilename = filter_url_create_path ({directory, basename + "_text_only.odt"});
   string textAndCitationsFilename = filter_url_create_path ({directory, basename + "_text_and_note_citations.odt"});
@@ -137,7 +137,7 @@ void export_odt_book (string bible, int book, bool log)
   
   
   // Clear the flag that indicated this export.
-  Database_State::clearExport (bible, book, Export_Logic::export_opendocument);
+  Database_State::clearExport (bible, book, export_logic::export_opendocument);
 
   
   if (log) {

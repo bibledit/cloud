@@ -23,39 +23,36 @@
 #include <config/libraries.h>
 
 
-class Export_Logic
-{
-public:
-  static void scheduleAll ();
-  static void scheduleTextAndBasicUsfm (string bible, bool log);
-  static void scheduleUsfm (string bible, bool log);
-  static void scheduleOpenDocument (string bible, bool log);
-  static void scheduleInfo (string bible, bool log);
-  static void scheduleHtml (string bible, bool log);
-  static void scheduleWeb (string bible, bool log);
-  static void scheduleWebIndex (string bible, bool log);
-  static void scheduleOnlineBible (string bible, bool log);
-  static void scheduleESword (string bible, bool log);
-  static string mainDirectory ();
-  static string bibleDirectory (string bible);
-  static string USFMdirectory (string bible, int type);
-  static string webDirectory (string bible);
-  static string webBackLinkDirectory (string bible);
-  static string baseBookFileName (int book);
-  static string osisDirectory (string bible);
-  static string osisSwordVariantDirectory (string interpreter, int complexity);
-  static const int export_needed = 0;
-  static const int export_text_and_basic_usfm = 1;
-  static const int export_full_usfm = 2;
-  static const int export_opendocument = 3;
-  static const int export_info = 4;
-  static const int export_html = 5;
-  static const int export_web = 6;
-  static const int export_web_index = 7;
-  static const int export_online_bible = 8;
-  static const int export_esword = 9;
-  static const int export_end = 10;
-private:
-};
+namespace export_logic {
+
+void schedule_all ();
+void schedule_text_and_basic_usfm (string bible, bool log);
+void schedule_usfm (string bible, bool log);
+void schedule_open_document (string bible, bool log);
+void schedule_info (string bible, bool log);
+void schedule_html (string bible, bool log);
+void schedule_web (string bible, bool log);
+void schedule_web_index (string bible, bool log);
+void schedule_online_bible (string bible, bool log);
+void schedule_e_sword (string bible, bool log);
+string main_directory ();
+string bible_directory (string bible);
+string usfm_directory (string bible, int type);
+string web_directory (string bible);
+string web_back_link_directory (string bible);
+string base_book_filename (int book);
+constexpr int export_needed { 0 };
+constexpr int export_text_and_basic_usfm { 1 };
+constexpr int export_full_usfm { 2 };
+constexpr int export_opendocument { 3 };
+constexpr int export_info { 4 };
+constexpr int export_html { 5 };
+constexpr int export_web { 6 };
+constexpr int export_web_index { 7 };
+constexpr int export_online_bible { 8 };
+constexpr int export_esword { 9 };
+constexpr int export_end { 10 };
+
+}; // End of namespace.
 
 

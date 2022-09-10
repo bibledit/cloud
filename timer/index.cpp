@@ -169,7 +169,7 @@ void timer_index ()
       // This may take an hour on a production machine.
       // This hour was in PHP. In C++ it is much faster.
       if ((hour == 1) && (minute == 10)) {
-        Export_Logic::scheduleAll ();
+        export_logic::schedule_all ();
       }
 #endif
       

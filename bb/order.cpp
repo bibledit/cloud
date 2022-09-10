@@ -184,7 +184,7 @@ string bible_order (void * webserver_request)
   
   // Deuterocanonicals or Apocrypha at the end of the entire Bible.
   if (order == "end") {
-    Database_Config_Bible::setBookOrder (bible, "");
+    Database_Config_Bible::setBookOrder (bible, string());
   }
 
   // Handle updates to the custom book order.

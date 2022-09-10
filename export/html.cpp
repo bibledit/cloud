@@ -42,12 +42,12 @@
 void export_html_book (string bible, int book, bool log)
 {
   // Create folders for the html export.
-  string directory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "html"});
+  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "html"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filename for the html file.
-  string basename = Export_Logic::baseBookFileName (book);
+  string basename = export_logic::base_book_filename (book);
   string filename_html = filter_url_create_path ({directory, basename + ".html"});
   string stylesheet_css = filter_url_create_path ({directory, "stylesheet.css"});
   
@@ -112,7 +112,7 @@ void export_html_book (string bible, int book, bool log)
 
   
   // Clear the flag for this export.
-  Database_State::clearExport (bible, book, Export_Logic::export_html);
+  Database_State::clearExport (bible, book, export_logic::export_html);
 
   
   if (log) Database_Logs::log (translate("Exported to html") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());

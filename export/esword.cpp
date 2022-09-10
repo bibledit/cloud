@@ -38,7 +38,7 @@
 
 void export_esword (string bible, bool log)
 {
-  string directory = filter_url_create_path ({Export_Logic::bibleDirectory (bible), "esword"});
+  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "esword"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
@@ -69,7 +69,7 @@ void export_esword (string bible, bool log)
   filter_text_bible.esword_text->createModule (filename);
 
   
-  Database_State::clearExport (bible, 0, Export_Logic::export_esword);
+  Database_State::clearExport (bible, 0, export_logic::export_esword);
 
   
   if (log) Database_Logs::log (translate("Exported to e-Sword") + " " + bible, Filter_Roles::translator ());

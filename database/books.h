@@ -21,23 +21,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Books
-{
-public:
-  static vector <int> get_ids ();
-  static int get_id_from_english (string english);
-  static string get_english_from_id (int id);
-  static string get_usfm_from_id (int id);
-  static string get_bibleworks_from_id (int id);
-  static string get_osis_from_id (int id);
-  static int get_id_from_usfm (string usfm);
-  static int get_id_from_osis (string osis);
-  static int get_id_from_bibleworks (string bibleworks);
-  static int get_id_like_text (string text);
-  static int get_id_from_onlinebible (string onlinebible);
-  static string get_onlinebible_from_id (int id);
-  static int get_order_from_id (int id);
-  static string get_type (int id);
-private:
-  static unsigned int data_count ();
+namespace database::books {
+
+vector <int> get_ids ();
+int get_id_from_english (string english);
+string get_english_from_id (int id);
+string get_usfm_from_id (int id);
+string get_bibleworks_from_id (int id);
+string get_osis_from_id (int id);
+int get_id_from_usfm (string usfm);
+int get_id_from_osis (string osis);
+int get_id_from_bibleworks (string bibleworks);
+int get_id_like_text (string text);
+int get_id_from_onlinebible (string onlinebible);
+string get_onlinebible_from_id (int id);
+int get_order_from_id (int id);
+string get_type (int id);
+
 };

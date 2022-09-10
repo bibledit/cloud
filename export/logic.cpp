@@ -168,16 +168,16 @@ string Export_Logic::webBackLinkDirectory (string bible)
 // Provides the base book file name, e.g. 01_Genesis.
 // Or 00_Bible for an entire Bible when $book = 0;
 // Takes in account the order of the books, possibly modified by the user.
-string Export_Logic::baseBookFileName (int book)
+string Export_Logic::baseBookFileName (int book) // Todo
 {
   string filename;
   if (book) {
     // The file name has a number that indicates the default order of the book.
     // Localize the English book name: https://github.com/bibledit/cloud/issues/241
-    int order = Database_Books::get_order_from_id (book);
+    int order = database::books::get_order_from_id (book);
     filename = filter_string_fill (convert_to_string (order), 2, '0');
     filename.append ("_");
-    filename.append (translate (Database_Books::get_english_from_id (book)));
+    filename.append (translate (database::books::get_english_from_id (book)));
   } else {
     // Whole Bible.
     filename = "00_" + translate ("Bible");

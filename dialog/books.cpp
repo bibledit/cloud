@@ -66,7 +66,7 @@ string Dialog_Books::run ()
   Assets_View * view = static_cast<Assets_View *>(assets_view);
   view->set_variable ("base_url", base_url);
 
-  vector <int> book_ids = Database_Books::get_ids ();
+  vector <int> book_ids = database::books::get_ids ();
   if (!include.empty ()) {
     book_ids = include;
   }
@@ -84,7 +84,7 @@ string Dialog_Books::run ()
   for (auto & id : book_ids) {
     book_block << "<a href=";
     book_block << quoted(filter_url_build_http_query (base_url, selection_action, convert_to_string (id)));
-    book_block << ">" << Database_Books::get_english_from_id (id) << "</a>\n";
+    book_block << ">" << database::books::get_english_from_id (id) << "</a>\n";
   }
   view->set_variable ("book_block", book_block.str());
   

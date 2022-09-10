@@ -211,7 +211,7 @@ void Checks_Usfm::malformed_id ()
     vector <string> vid = filter_string_explode (code, ' ');
     string id;
     if (!vid.empty ()) id = vid [0];
-    int book = Database_Books::get_id_from_usfm (id);
+    int book = database::books::get_id_from_usfm (id);
     if (book == 0) {
       add_result (translate ("Unknown ID"), display_full);
     } else {
@@ -341,7 +341,7 @@ void Checks_Usfm::toc (string usfm)
 {
   // Only check the 66 canonical books.
   // Skip any of the other books.
-  string type = Database_Books::get_type (book_number);
+  string type = database::books::get_type (book_number);
   if ((type == "ot") || (type == "nt")) {
 
     // Check on the presence of the table of contents markers in this chapter.

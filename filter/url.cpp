@@ -1321,7 +1321,7 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
   
   // Add the name for the book. No spaces.
   filename += filter_string_fill (convert_to_string (book), 2, '0');
-  string sbook = Database_Books::get_english_from_id (book);
+  string sbook = database::books::get_english_from_id (book);
   sbook = filter_string_str_replace (" ", "", sbook);
   filename += '-' + sbook;
   

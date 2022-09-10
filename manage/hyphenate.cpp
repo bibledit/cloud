@@ -79,7 +79,7 @@ void manage_hyphenate (string bible, string user)
   // Go through the input Bible's books and chapters.
   vector <int> books = database_bibles.getBooks (inputBible);
   for (auto book : books) {
-    Database_Logs::log (Database_Books::get_english_from_id (book));
+    Database_Logs::log (database::books::get_english_from_id (book));
     vector <int> chapters = database_bibles.getChapters (inputBible, book);
     for (auto chapter : chapters) {
       string data = database_bibles.getChapter (inputBible, book, chapter);

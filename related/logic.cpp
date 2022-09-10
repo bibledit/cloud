@@ -69,7 +69,7 @@ void related_logic_search_related (const string & bookname, int input_chapter, c
       if (match) {
         for (xml_node passage_node : set.children ()) {
           string related_bookname = passage_node.attribute ("book").value ();
-          int related_book = Database_Books::get_id_from_english (related_bookname);
+          int related_book = database::books::get_id_from_english (related_bookname);
           int related_chapter = convert_to_int (passage_node.attribute ("chapter").value ());
           string verse = passage_node.attribute ("verse").value ();
           vector <int> verses;
@@ -104,8 +104,8 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
 
     // Get details about the book in the passage.
     // It assumes all input passages refer to the same book.
-    string bookname = Database_Books::get_english_from_id (input[0].m_book);
-    string booktype = Database_Books::get_type (input[0].m_book);
+    string bookname = database::books::get_english_from_id (input[0].m_book);
+    string booktype = database::books::get_type (input[0].m_book);
     bool is_ot = (booktype == "ot");
     bool is_nt = (booktype == "nt");
     

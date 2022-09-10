@@ -25,17 +25,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <database/booksdata.h>
 
-constexpr unsigned int data_count ()
-{
-  return sizeof (books_table) / sizeof (*books_table);
-}
+
+namespace database::books {
 
 
+// Internal function for the number of data elements.
+constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
 
-vector <int> Database_Books::get_ids ()
+
+vector <int> get_ids ()
 {
   vector <int> ids;
-  for (unsigned int i = 0; i < data_count (); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     int id = books_table[i].id;
     ids.push_back (id);
   }
@@ -43,9 +44,9 @@ vector <int> Database_Books::get_ids ()
 }
 
 
-int Database_Books::get_id_from_english (string english)
+int get_id_from_english (string english)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
       return books_table[i].id;
     }
@@ -54,9 +55,9 @@ int Database_Books::get_id_from_english (string english)
 }
 
 
-string Database_Books::get_english_from_id (int id)
+string get_english_from_id (int id)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].english;
     }
@@ -65,9 +66,9 @@ string Database_Books::get_english_from_id (int id)
 }
 
 
-string Database_Books::get_usfm_from_id (int id)
+string get_usfm_from_id (int id)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].usfm;
     }
@@ -76,9 +77,9 @@ string Database_Books::get_usfm_from_id (int id)
 }
 
 
-string Database_Books::get_bibleworks_from_id (int id)
+string get_bibleworks_from_id (int id)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].bibleworks;
     }
@@ -87,9 +88,9 @@ string Database_Books::get_bibleworks_from_id (int id)
 }
 
 
-string Database_Books::get_osis_from_id (int id)
+string get_osis_from_id (int id)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].osis;
     }
@@ -98,9 +99,9 @@ string Database_Books::get_osis_from_id (int id)
 }
 
 
-int Database_Books::get_id_from_usfm (string usfm)
+int get_id_from_usfm (string usfm)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
       return books_table[i].id;
     }
@@ -109,9 +110,9 @@ int Database_Books::get_id_from_usfm (string usfm)
 }
 
 
-int Database_Books::get_id_from_osis (string osis)
+int get_id_from_osis (string osis)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
       return books_table[i].id;
     }
@@ -120,9 +121,9 @@ int Database_Books::get_id_from_osis (string osis)
 }
 
 
-int Database_Books::get_id_from_bibleworks (string bibleworks)
+int get_id_from_bibleworks (string bibleworks)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
       return books_table[i].id;
     }
@@ -136,14 +137,14 @@ Tries to interprete $text as the name of a Bible book.
 Returns the book's identifier if it succeeds.
 If it fails, it returns 0.
 */
-int Database_Books::get_id_like_text (string text)
+int get_id_like_text (string text)
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
   // Then return the best match.
   vector <int> ids;
   vector <int> similarities;
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     int id = books_table[i].id;
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
@@ -161,9 +162,9 @@ int Database_Books::get_id_like_text (string text)
 }
 
 
-int Database_Books::get_id_from_onlinebible (string onlinebible)
+int get_id_from_onlinebible (string onlinebible)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {
       return books_table[i].id;
     }
@@ -172,9 +173,9 @@ int Database_Books::get_id_from_onlinebible (string onlinebible)
 }
 
 
-string Database_Books::get_onlinebible_from_id (int id)
+string get_onlinebible_from_id (int id)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].onlinebible;
     }
@@ -183,9 +184,9 @@ string Database_Books::get_onlinebible_from_id (int id)
 }
 
 
-int Database_Books::get_order_from_id (int id) // Todo
+int get_order_from_id (int id) // Todo
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].order;
     }
@@ -194,9 +195,9 @@ int Database_Books::get_order_from_id (int id) // Todo
 }
 
 
-string Database_Books::get_type (int id)
+string get_type (int id)
 {
-  for (unsigned int i = 0; i < data_count(); i++) {
+  for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
       return books_table[i].type;
     }
@@ -205,7 +206,4 @@ string Database_Books::get_type (int id)
 }
 
 
-unsigned int Database_Books::data_count ()
-{
-  return sizeof (books_table) / sizeof (*books_table);
-}
+} // End of namespace.

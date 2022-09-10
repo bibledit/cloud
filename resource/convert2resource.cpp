@@ -42,7 +42,7 @@ void convert_bible_to_resource (string bible)
   
   vector <int> books = database_bibles.getBooks (bible);
   for (auto & book : books) {
-    string bookname = Database_Books::get_english_from_id (book);
+    string bookname = database::books::get_english_from_id (book);
     Database_Logs::log (bookname, Filter_Roles::manager ());
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (auto & chapter : chapters) {

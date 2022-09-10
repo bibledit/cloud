@@ -101,7 +101,7 @@ string manage_write (void * webserver_request)
     int majority = 0;
     vector <int> books = request->database_bibles ()->getBooks (bible);
     for (auto & book : books) {
-      string type = Database_Books::get_type (book);
+      string type = database::books::get_type (book);
       if (type == testament) {
         bool read, write;
         Database_Privileges::getBibleBook (user, bible, book, read, write);
@@ -112,7 +112,7 @@ string manage_write (void * webserver_request)
     // Update the write access privileges for the books of the Testament,
     // by setting the write privileges to the opposite of the majority state.
     for (auto & book : books) {
-      string type = Database_Books::get_type (book);
+      string type = database::books::get_type (book);
       if (type == testament) {
         Database_Privileges::setBibleBook (user, bible, book, (majority < 0));
       }
@@ -125,7 +125,7 @@ string manage_write (void * webserver_request)
   vector <int> books = request->database_bibles ()->getBooks (bible);
   for (size_t i = 0; i < books.size (); i++) {
     int book = books[i];
-    string bookname = Database_Books::get_english_from_id (book);
+    string bookname = database::books::get_english_from_id (book);
     string checkboxname = "book" + convert_to_string (book);
     bool read, write;
     Database_Privileges::getBibleBook (user, bible, book, read, write);

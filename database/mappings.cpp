@@ -145,7 +145,7 @@ void Database_Mappings::import (const string& name, const string& data)
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
     string passage_book_string = filter_string_implode(bits, " ");
-    int passage_book = Database_Books::get_id_from_english(passage_book_string);
+    int passage_book = database::books::get_id_from_english(passage_book_string);
 
     // Split the original entry on the colon (:) to get the verse.
     bits = filter_string_explode(original_string, ':');
@@ -158,7 +158,7 @@ void Database_Mappings::import (const string& name, const string& data)
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
     string original_book_string = filter_string_implode(bits, " ");
-    int original_book = Database_Books::get_id_from_english(original_book_string);
+    int original_book = database::books::get_id_from_english(original_book_string);
 
     // Store it in the database.
     SqliteSQL sql = SqliteSQL ();
@@ -207,11 +207,11 @@ string Database_Mappings::output (const string& name)
 
   for (unsigned int i = 0; i < books.size (); i++) {
     int book = convert_to_int (books [i]);
-    string bookname = Database_Books::get_english_from_id (book);
+    string bookname = database::books::get_english_from_id (book);
     string chapter = chapters [i];
     string verse = verses [i];
     int origbook = convert_to_int (origbooks[i]);
-    string origbookname = Database_Books::get_english_from_id (origbook);
+    string origbookname = database::books::get_english_from_id (origbook);
     string origchapter = origchapters[i];
     string origverse = origverses [i];
     string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;

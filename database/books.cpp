@@ -184,7 +184,7 @@ string get_onlinebible_from_id (int id)
 }
 
 
-int get_order_from_id (int id) // Todo
+int get_order_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {

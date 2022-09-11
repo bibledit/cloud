@@ -46,8 +46,8 @@ void export_text_usfm_book (string bible, int book, bool log)
   
   
   // Filenames for text and usfm.
-  string usfmFilename = filter_url_create_path ({usfmDirectory, export_logic::base_book_filename (book) + ".usfm"});
-  string textFilename = filter_url_create_path ({textDirectory, export_logic::base_book_filename (book) + ".txt"});
+  string usfmFilename = filter_url_create_path ({usfmDirectory, export_logic::base_book_filename (bible, book) + ".usfm"});
+  string textFilename = filter_url_create_path ({textDirectory, export_logic::base_book_filename (bible, book) + ".txt"});
   
   
   Database_Bibles database_bibles;

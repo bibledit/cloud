@@ -282,7 +282,7 @@ void http_server ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
-  serveraddr.sin_port = htons (convert_to_int (config_logic_http_network_port ()));
+  serveraddr.sin_port = htons (convert_to_int (config::logic::http_network_port ()));
 #endif
 #ifdef HAVE_CLOUD
   // When configured as a server it listens on any IPv6 address.
@@ -436,7 +436,7 @@ void http_server ()
   memset(&serveraddr, 0, sizeof(serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-  serveraddr.sin_port = htons(convert_to_int(config_logic_http_network_port()));
+  serveraddr.sin_port = htons(convert_to_int(config::logic::http_network_port()));
   result = mybind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
   if (result == SOCKET_ERROR) {
 	  string error = "Error binding server to socket";

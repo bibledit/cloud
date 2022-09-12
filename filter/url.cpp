@@ -2134,3 +2134,42 @@ string filter_url_get_mime_type (string extension)
   return mime_types [extension];
 }
     
+
+// Read the URL, and split it up in three parts: The scheme, the host, and the port.
+// For example: "https://bibledit.org:8080" will be split up into this:
+// - https
+// - bibledit.org
+// - 8080
+// It returns true if the three parts could be found, else it returns false.
+void filter_url_get_scheme_host_port (string url, string & scheme, string & host, int & port) // Todo
+{
+  // Clear the values that are going to be detected.
+  scheme.clear();
+  host.clear();
+  port = 0;
+
+  // Extract the scheme: http(s).
+  size_t pos = url.find ("://");
+  if (pos != string::npos) {
+    scheme = url.substr(0, pos);
+    url.erase (0, pos + 3);
+  }
+  
+  // Extract the host.
+  pos = url.find (":");
+  if (pos == string::npos) pos = url.find ("/");
+  if (pos == string::npos) pos = url.length () + 1;
+  host = url.substr (0, pos);
+  url.erase (0, host.length ());
+  
+  // Extract the port number if any.
+  pos = url.find (":");
+  if (pos != string::npos) {
+    url.erase (0, 1);
+    size_t pos2 = url.find ("/");
+    if (pos2 == string::npos) pos2 = url.length () + 1;
+    string p = url.substr (0, pos2);
+    port = convert_to_int (p);
+    url.erase (0, p.length ());
+  }
+}

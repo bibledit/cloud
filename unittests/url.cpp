@@ -346,5 +346,27 @@ void test_url ()
     if (check) evaluate (__LINE__, __func__, ref_time, mod_time);
   }
   
+  // Testing the splitting of scheme and host and port.
+  {
+    string scheme {};
+    string host {};
+    int port {0};
+    
+    filter_url_get_scheme_host_port ("https://bibledit.org:8080", scheme, host, port);
+    evaluate (__LINE__, __func__, "https", scheme);
+    evaluate (__LINE__, __func__, "bibledit.org", host);
+    evaluate (__LINE__, __func__, 8080, port);
+    
+    filter_url_get_scheme_host_port ("bibledit.org:8080", scheme, host, port);
+    evaluate (__LINE__, __func__, string(), scheme);
+    evaluate (__LINE__, __func__, "bibledit.org", host);
+    evaluate (__LINE__, __func__, 8080, port);
+    
+    filter_url_get_scheme_host_port ("bibledit.org", scheme, host, port);
+    evaluate (__LINE__, __func__, string(), scheme);
+    evaluate (__LINE__, __func__, "bibledit.org", host);
+    evaluate (__LINE__, __func__, 0, port);
+  }
+  
   refresh_sandbox (true);
 }

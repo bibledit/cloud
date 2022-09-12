@@ -78,3 +78,5 @@ string filter_url_update_directory_separator_if_windows (string filename);
 bool filter_url_port_can_connect (string hostname, int port);
 bool filter_url_is_image (string extension);
 string filter_url_get_mime_type (string extension);
+void filter_url_get_scheme_host_port (string url, string & scheme, string & host, int & port);
+

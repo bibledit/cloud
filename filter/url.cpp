@@ -2140,8 +2140,8 @@ string filter_url_get_mime_type (string extension)
 // - https
 // - bibledit.org
 // - 8080
-// It returns true if the three parts could be found, else it returns false.
-void filter_url_get_scheme_host_port (string url, string & scheme, string & host, int & port) // Todo
+// If any of these three parts is not found, then the part is left empty, or the port remains 0.
+void filter_url_get_scheme_host_port (string url, string & scheme, string & host, int & port)
 {
   // Clear the values that are going to be detected.
   scheme.clear();

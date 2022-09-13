@@ -102,7 +102,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
 }
 
 
-string client_index (void * webserver_request)
+string client_index (void * webserver_request) // Todo do checks here.
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
@@ -120,36 +120,70 @@ string client_index (void * webserver_request)
   bool connect = request->post.count ("connect");
   bool demo = request->query.count ("demo");
   if (connect || demo) {
+
+    bool proceed {true};
     
     string address;
-    if (connect) address = request->post ["address"];
+    if (proceed) address = request->post ["address"];
     if (demo) address = demo_address ();
+    // If there's not something like "http" in the server address, then add it.
     if (address.find ("http") == string::npos) address = filter_url_set_scheme (address, false);
+    if (proceed) {
+      // Get schema, host and port.
+      string scheme {};
+      string host {};
+      int port {};
+      filter_url_get_scheme_host_port (address, scheme, host, port);
+      // If no address given, then that's an error.
+      if (proceed) if (host.empty()) {
+        view.set_variable ("error", translate ("Supply an internet address"));
+        proceed = false;
+      }
+      // If the user entered a port number here too, then that's an error.
+      if (proceed) if (port > 0) {
+        view.set_variable ("error", translate ("Remove the port number from the internet address"));
+        proceed = false;
+      }
+    }
+    // Store the address.
     Database_Config_General::setServerAddress (address);
     
     int port = convert_to_int (config::logic::http_network_port ());
-    if (connect) port = convert_to_int (request->post ["port"]);
+    if (proceed) port = convert_to_int (request->post ["port"]);
     if (demo) port = demo_port ();
+    if (proceed) if (port == 0) {
+      view.set_variable ("error", translate ("Supply a port number"));
+      proceed = false;
+    }
     Database_Config_General::setServerPort (port);
     
     string user;
-    if (connect) user = request->post ["user"];
+    if (proceed) user = request->post ["user"];
     if (demo) user = session_admin_credentials ();
+    if (proceed) if (user.empty()) {
+      view.set_variable ("error", translate ("Supply a username"));
+      proceed = false;
+    }
     
     string pass;
-    if (connect) pass = request->post ["pass"];
-    if (demo) pass = session_admin_credentials (); 
+    if (proceed) pass = request->post ["pass"];
+    if (demo) pass = session_admin_credentials ();
+    if (proceed) if (pass.empty()) {
+      view.set_variable ("error", translate ("Supply a password"));
+      proceed = false;
+    }
 
-    string response = client_logic_connection_setup (user, md5 (pass));
-    int iresponse = convert_to_int (response);
-
-    if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
-      // Enable client mode upon a successful connection.
-      client_index_enable_client (request, user, pass, iresponse);
-      // Feedback.
-      view.set_variable ("success", translate("Connection is okay."));
-    } else {
-      view.set_variable ("error", translate ("Could not create a connection with Bibledit Cloud") + ": " + response);
+    if (proceed) {
+      string response = client_logic_connection_setup (user, md5 (pass));
+      int iresponse = convert_to_int (response);
+      if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
+        // Enable client mode upon a successful connection.
+        client_index_enable_client (request, user, pass, iresponse);
+        // Feedback.
+        view.set_variable ("success", translate("Connection is okay."));
+      } else {
+        view.set_variable ("error", translate ("Could not create a connection with Bibledit Cloud") + ": " + response);
+      }
     }
   }
 

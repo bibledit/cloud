@@ -213,7 +213,11 @@ void demo_clean_data ()
   // Too many resources crash the demo: Limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources = false;
-  if (resources.size () > 25) reset_resources = true;
+  unsigned long max_resource = 25;
+  // Bump up the resource limit for the Indonesian Cloud Free Simple version so
+  // more resource could be added and current one can be modified.
+  if (config::logic::indonesian_cloud_free_simple ()) max_resource = 60; 
+  if (resources.size () > max_resource) reset_resources = true;
   vector <string> defaults = demo_logic_default_resources ();
   for (auto & name : defaults) {
     if (!in_array (name, resources)) reset_resources = true;

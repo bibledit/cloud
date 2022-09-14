@@ -216,7 +216,7 @@ void demo_clean_data ()
   unsigned long max_resource = 25;
   // Bump up the resource limit for the Indonesian Cloud Free Simple version so
   // more resource could be added and current one can be modified.
-  if (config::logic::indonesian_cloud_free_simple ()) max_resource = 60; 
+  if (config::logic::indonesian_cloud_free_simple ()) max_resource = 65; 
   if (resources.size () > max_resource) reset_resources = true;
   vector <string> defaults = demo_logic_default_resources ();
   for (auto & name : defaults) {

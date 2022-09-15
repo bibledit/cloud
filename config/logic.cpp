@@ -47,9 +47,8 @@ const char * version ()
 // Loads the values from the config folder into memory for faster access.
 void load_settings ()
 {
-  string path;
   // Read the setting whether to log network connections.
-  path = filter_url_create_root_path ({config::logic::config_folder (), "log-network"});
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "log-network"});
   config_globals_log_network = file_or_dir_exists (path);
 }
 
@@ -140,7 +139,7 @@ int my_stoi (const string& str, void * idx, int base)
 bool basic_mode (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  bool basic_mode = request->database_config_user ()->getBasicInterfaceMode ();
+  bool basic_mode {request->database_config_user ()->getBasicInterfaceMode ()};
   return basic_mode;
 }
 

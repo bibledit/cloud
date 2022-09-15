@@ -52,14 +52,14 @@ bool client_index_acl (void * webserver_request)
 void client_index_remove_all_users (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> existingusers = request->database_users()->get_users ();
-  for (auto existinguser : existingusers) {
+  vector <string> existingusers {request->database_users()->get_users ()};
+  for (const auto & existinguser : existingusers) {
     request->database_users()->removeUser (existinguser);
   }
 }
 
 
-void client_index_enable_client (void * webserver_request, string username, string password, int level)
+void client_index_enable_client (void * webserver_request, const string & username, const string & password, int level)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
@@ -68,7 +68,7 @@ void client_index_enable_client (void * webserver_request, string username, stri
   
   // Remove all users from the database, and add the current one.
   client_index_remove_all_users (request);
-  request->database_users ()->add_user (username, password, level, "");
+  request->database_users ()->add_user (username, password, level, string());
   
   // Update the username and the level in the current session.
   request->session_logic ()->set_username (username);
@@ -102,11 +102,11 @@ void client_index_enable_client (void * webserver_request, string username, stri
 }
 
 
-string client_index (void * webserver_request) // Todo do checks here.
+string client_index (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  Assets_View view;
+  Assets_View view {};
   
   if (request->query.count ("disable")) {
     client_logic_enable_client (false);
@@ -123,7 +123,7 @@ string client_index (void * webserver_request) // Todo do checks here.
 
     bool proceed {true};
     
-    string address;
+    string address {};
     if (proceed) address = request->post ["address"];
     if (demo) address = demo_address ();
     // If there's not something like "http" in the server address, then add it.
@@ -132,7 +132,7 @@ string client_index (void * webserver_request) // Todo do checks here.
       // Get schema, host and port.
       string scheme {};
       string host {};
-      int port {};
+      int port {0};
       filter_url_get_scheme_host_port (address, scheme, host, port);
       // If no address given, then that's an error.
       if (proceed) if (host.empty()) {
@@ -157,7 +157,7 @@ string client_index (void * webserver_request) // Todo do checks here.
     }
     Database_Config_General::setServerPort (port);
     
-    string user;
+    string user {};
     if (proceed) user = request->post ["user"];
     if (demo) user = session_admin_credentials ();
     if (proceed) if (user.empty()) {
@@ -165,7 +165,7 @@ string client_index (void * webserver_request) // Todo do checks here.
       proceed = false;
     }
     
-    string pass;
+    string pass {};
     if (proceed) pass = request->post ["pass"];
     if (demo) pass = session_admin_credentials ();
     if (proceed) if (pass.empty()) {
@@ -190,16 +190,16 @@ string client_index (void * webserver_request) // Todo do checks here.
   if (client_logic_client_enabled ()) view.enable_zone ("clienton");
   else view.enable_zone ("clientoff");
   
-  string address = Database_Config_General::getServerAddress ();
+  string address {Database_Config_General::getServerAddress ()};
   view.set_variable ("address", address);
   
-  int port = Database_Config_General::getServerPort ();
+  int port {Database_Config_General::getServerPort ()};
   view.set_variable ("port", convert_to_string (port));
   
   view.set_variable ("url", client_logic_link_to_cloud ("", ""));
   
-  vector <string> users = request->database_users ()->get_users ();
-  for (auto & user : users) {
+  vector <string> users {request->database_users ()->get_users ()};
+  for (const auto & user : users) {
     int level = request->database_users()->get_level (user);
     view.set_variable ("role", Filter_Roles::text (level));
   }
@@ -212,10 +212,10 @@ string client_index (void * webserver_request) // Todo do checks here.
     view.enable_zone ("info");
   }
   
-  bool basic_mode = config::logic::basic_mode (request);
+  bool basic_mode {config::logic::basic_mode (request)};
   if (basic_mode) view.enable_zone("basicmode");
   
-  string page;
+  string page {};
 
   // Since the role of the user may change after a successful connection to the server,
   // the menu generation in the header should be postponed till when the actual role is known.

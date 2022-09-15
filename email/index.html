@@ -2,11 +2,15 @@
 <p>translate("This page deals with setting up the email system.")</p>
 <p>translate("Bibledit sends out email. It also collects email every five minutes and acts upon these emails.")</p>
 <p>translate("It needs an external email account for sending and receiving email.")</p>
-<p>translate("The help information on this page assumes that we use a Google mail account. You will have your own email account dedicated to Bibledit.")</p>
-<p>translate("The email address is bibletranslation@gmail.com, and the password is pazzwrd.")</p>
 <p>
-translate("The Google mail account should let less secure apps use the account.")
-translate("Bibledit email setup requires this.")
+translate("The help information on this page uses a sample Google mail account.")
+translate("You will have your own email account dedicated to Bibledit.")
+</p>
+<p>translate("The sample email address is bibletranslation@gmail.com, and the password is pazzwrd.")</p>
+<p>
+translate("Google now recommends two-factor authentication to be enabled.")
+translate("The password to log into the Google account will not work in Bibledit.")
+translate("Instead create an App Password on Google and use that as the password below.")
 </p>
 <p>translate("In case the setup fails to work, all diagnostics can be seen in the Journal.")</p>
 
@@ -14,8 +18,8 @@ translate("Bibledit email setup requires this.")
 <h2>translate("Site name and email address")</h2>
 <form action="index#name" name="email" method="post">
   <p>translate("Our own sample values are given below. Yours will be different.")</p>
-  <p>translate("Name: Bibledit Cloud")</p>
-  <p>translate("Email address: bibletranslation@gmail.com")</p>
+  <p>translate("Name:") Bibledit Cloud</p>
+  <p>translate("Email address:") bibletranslation@gmail.com</p>
   <p>translate("To switch the mailer off, leave the fields empty.")</p>
   <h4>translate("Enter the name and the email address, and press Submit.")</h4>
   <table>
@@ -40,11 +44,11 @@ translate("Bibledit email setup requires this.")
 <h2>translate("Retrieving mail")</h2>
 <form action="index#retrieve" name="retrieve" method="post">
   <p>translate("Sample values:")</p>
-  <p>translate("POP3 Host: pop.gmail.com")</p>
-  <p>translate("Username: bibletranslation@gmail.com")</p>
-  <p>translate("Password: pazzwrd")</p>
-  <p>translate("Protocol: POP3S")</p>
-  <p>translate("Port: 995")</p>
+  <p>translate("POP3 Host:")  pop.gmail.com</p>
+  <p>translate("Username:")  bibletranslation@gmail.com</p>
+  <p>translate("Password:") your-app-password</p>
+  <p>translate("Protocol:") POP3S</p>
+  <p>translate("Port:") 995</p>
   <h4>translate("Enter the account details, and press Submit.")</h4>
   <p>translate("When you submit the values, Bibledit will attempt to contact this email account and tell the number of messages in the Inbox.")</p>
   <table>
@@ -85,10 +89,10 @@ translate("Bibledit email setup requires this.")
 <h2>translate("Sending mail")</h2>
 <form action="index#send" name="send" method="post">
   <p>translate("Sample values:")</p>
-  <p>translate("SMTP Host: smtp.gmail.com")</p>
-  <p>translate("Username: bibletranslation@gmail.com")</p>
-  <p>translate("Password: pazzwrd")</p>
-  <p>translate("Port: 587")</p>
+  <p>translate("SMTP Host:") smtp.gmail.com</p>
+  <p>translate("Username:") bibletranslation@gmail.com</p>
+  <p>translate("Password:") your-app-password</p>
+  <p>translate("Port:") 587</p>
   <p>translate("If the SMTP server does not need authentication, just leave the fields for username and password empty.")</p>
   <p>translate("Any port other than 25 will use a secure connection.")</p>
   <h4>translate("Enter the account details, and press Submit.")</h4>

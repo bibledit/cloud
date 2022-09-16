@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 8374359a4078b88c107789f7620f3f25e1f1843c)\n"
+"X-Generator: Launchpad (build d8a8b6effe4eae83e8bb5babdb93ddb4ac4f09e0)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -826,6 +826,22 @@ msgstr ""
 msgid "The following marker belongs in chapter 0:"
 msgstr ""
 
+msgid "Empty figure source:"
+msgstr ""
+
+msgid "Could not find Bible image:"
+msgstr ""
+
+msgid "Unusual quotation mark found:"
+msgstr ""
+
+msgid ""
+"Opening markup is followed by closing markup without intervening text:"
+msgstr ""
+
+msgid "This sequence in the note does not look right:"
+msgstr ""
+
 msgid "Sentence Structure"
 msgstr ""
 
@@ -919,6 +935,12 @@ msgid "Space before an exclamation mark"
 msgstr ""
 
 msgid "Space at the end of the verse"
+msgstr ""
+
+msgid "Space before final note markup"
+msgstr ""
+
+msgid "Space before final cross reference markup"
 msgstr ""
 
 msgid "Checks"
@@ -1044,9 +1066,6 @@ msgstr ""
 msgid "Edit verse"
 msgstr ""
 
-msgid "Select which Bible to open in the editor"
-msgstr ""
-
 msgid "Editor and Resources"
 msgstr ""
 
@@ -1116,9 +1135,6 @@ msgstr ""
 msgid "Workspace"
 msgstr ""
 
-msgid "Select which Bible to read"
-msgstr ""
-
 msgid "Bibledit"
 msgstr ""
 
@@ -1140,19 +1156,37 @@ msgstr ""
 msgid "The following email was sent to this user:"
 msgstr ""
 
-msgid "Select chapter"
+msgid "Back"
 msgstr ""
 
-msgid "cancel"
+msgid "Forward"
 msgstr ""
 
 msgid "Select book"
 msgstr ""
 
+msgid "Select chapter"
+msgstr ""
+
+msgid "Go to previous verse"
+msgstr ""
+
 msgid "Select verse"
 msgstr ""
 
+msgid "Go to next verse"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
 msgid "Enter passage to go to"
+msgstr ""
+
+msgid "History back"
+msgstr ""
+
+msgid "History forward"
 msgstr ""
 
 msgid "Copying Bible from Bibledit to a Paratext project."
@@ -1552,6 +1586,9 @@ msgstr ""
 msgid "starts spine"
 msgstr ""
 
+msgid "starts general peripheral content"
+msgstr ""
+
 msgid "starts a new row"
 msgstr ""
 
@@ -1732,9 +1769,6 @@ msgid ""
 "enter is just a number, e.g. 0."
 msgstr ""
 
-msgid "Please specify a new color"
-msgstr ""
-
 msgid "Would you like to change the numbering of the note?"
 msgstr ""
 
@@ -1773,7 +1807,7 @@ msgstr ""
 msgid "Please enter a marker at which the endnotes should be dumped"
 msgstr ""
 
-msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgid "(The marker is to be given without the backslash, e.g. "
 msgstr ""
 
 msgid "Styles"
@@ -1874,16 +1908,7 @@ msgstr ""
 msgid ": "
 msgstr ""
 
-msgid "Set the language for Bibledit"
-msgstr ""
-
-msgid "Incorrect font size in percents"
-msgstr ""
-
 msgid "System"
-msgstr ""
-
-msgid "Please enter a font size between 50 and 300 percent"
 msgstr ""
 
 msgid "none"
@@ -2462,6 +2487,9 @@ msgstr ""
 msgid "General font size for the interface"
 msgstr ""
 
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr ""
+
 msgid "Size throughout the interface."
 msgstr ""
 
@@ -2674,6 +2702,15 @@ msgstr ""
 msgid "Bibledit always sends the focused verse reference to Accordance."
 msgstr ""
 
+msgid "Visit alkitabkita.info for more information."
+msgstr ""
+
+msgid "Date format in consultation notes"
+msgstr ""
+
+msgid "The date format to use for consultation notes?"
+msgstr ""
+
 msgid "Send / Receive"
 msgstr ""
 
@@ -2705,16 +2742,23 @@ msgid "It receives updates from Bibledit Cloud."
 msgstr ""
 
 msgid ""
-"The Paratext bridge sends changes from Bibledit to Paratext on this computer."
+"The Paratext bridge can send changes from Bibledit to Paratext on this "
+"computer."
 msgstr ""
 
-msgid "Bibledit receives updates from Paratext."
+msgid "Bibledit can receive updates from Paratext."
 msgstr ""
 
 msgid "The following Bibles link to a Paratext project:"
 msgstr ""
 
-msgid "Synchronize with Paratext now."
+msgid "Merge the changes in Paratext and in Bibledit now."
+msgstr ""
+
+msgid "Copy the changes in Bibledit to Paratext now."
+msgstr ""
+
+msgid "Copy the changes in Paratext to Bibledit now."
 msgstr ""
 
 msgid "Do not synchronize with Paratext while Paratext is running."
@@ -3088,6 +3132,9 @@ msgid ""
 "exclamation mark"
 msgstr ""
 
+msgid "a space before a final note or cross reference marker"
+msgstr ""
+
 msgid "sentence structure"
 msgstr ""
 
@@ -3102,7 +3149,7 @@ msgid ""
 "versification system"
 msgstr ""
 
-msgid "well formed USFM"
+msgid "well-formed USFM"
 msgstr ""
 
 msgid "missing punctuation at the end of a verse"
@@ -3732,6 +3779,9 @@ msgid ""
 "my attention."
 msgstr ""
 
+msgid "Get notifications of changes made by anyone in these Bibles:"
+msgstr ""
+
 msgid "Text Checks"
 msgstr ""
 
@@ -3895,7 +3945,16 @@ msgid ""
 "Search for verses with most Strong's numbers similar to the focused verse in:"
 msgstr ""
 
-msgid "Current book"
+msgid "all books"
+msgstr ""
+
+msgid "current book"
+msgstr ""
+
+msgid "Old Testament"
+msgstr ""
+
+msgid "New Testament"
 msgstr ""
 
 msgid "What to do with the search results"
@@ -4174,9 +4233,6 @@ msgstr ""
 msgid "Number of emails still to be sent:"
 msgstr ""
 
-msgid "Visit alkitabkita.info for more information."
-msgstr ""
-
 msgid "Create new"
 msgstr ""
 
@@ -4423,6 +4479,9 @@ msgid "Select the user to unassign the notes from"
 msgstr ""
 
 msgid "Back to notes list"
+msgstr ""
+
+msgid "Passage"
 msgstr ""
 
 msgid "Edit the note content"
@@ -4699,6 +4758,14 @@ msgstr ""
 msgid "Font:"
 msgstr ""
 
+msgid "Use automatic note callers instead of fixed ones."
+msgstr ""
+
+msgid ""
+"This enables the OpenDocument editor to restart the note callers on for "
+"example every page."
+msgstr ""
+
 msgid "Info document"
 msgstr ""
 
@@ -4817,12 +4884,6 @@ msgstr ""
 msgid "Toggle the modification privileges for entire Testaments"
 msgstr ""
 
-msgid "Old Testament"
-msgstr ""
-
-msgid "New Testament"
-msgstr ""
-
 msgid "Neural Machine Translation"
 msgstr ""
 
@@ -4852,7 +4913,7 @@ msgstr ""
 msgid "Original language texts"
 msgstr ""
 
-msgid "Bibles (translations)"
+msgid "Bibles and notes"
 msgstr ""
 
 msgid "Lexicons"
@@ -6780,7 +6841,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2021 Teus Benschop."
+msgid "Copyright (©) 2003-2022 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -6885,7 +6946,7 @@ msgstr ""
 msgid "Install Bibledit via the App Store."
 msgstr ""
 
-msgid "This works on an iPad or an iPhone running iOS 8 or higher."
+msgid "This works on an iPad or an iPhone running iOS 12 or higher."
 msgstr ""
 
 msgid "Hint."
@@ -7307,7 +7368,7 @@ msgstr ""
 msgid "Print."
 msgstr ""
 
-msgid "Go to the Bible editor selector."
+msgid "Cycle through the available Bible editors."
 msgstr ""
 
 msgid "Scrum-based Translation"
@@ -9044,9 +9105,6 @@ msgstr ""
 msgid "If you would like this assistance, post a message to:"
 msgstr ""
 
-msgid "Or use the contact form at the website:"
-msgstr ""
-
 msgid "OpenLDAP"
 msgstr ""
 
@@ -9088,7 +9146,19 @@ msgstr ""
 msgid "This assumes a standard installation of the operating system."
 msgstr ""
 
-msgid "Download Bibledit from the App Store."
+msgid "Install Bibledit from the App Store."
+msgstr ""
+
+msgid "Download Bibledit.zip from"
+msgstr ""
+
+msgid "Unpack it."
+msgstr ""
+
+msgid "But most likely macOS will already have done this for you."
+msgstr ""
+
+msgid "Drag Bibledit to the Applications folder."
 msgstr ""
 
 msgid "Start it from the Applications."
@@ -9360,6 +9430,9 @@ msgstr ""
 msgid "The Navigator shows two arrows:"
 msgstr ""
 
+msgid "Clicking"
+msgstr ""
+
 msgid "goes back in the navigation history."
 msgstr ""
 
@@ -9367,6 +9440,9 @@ msgid "goes forward in the navigation history."
 msgstr ""
 
 msgid "There are also keyboard shortcuts for it."
+msgstr ""
+
+msgid "A long click on any of these two arrows brings up the history menu."
 msgstr ""
 
 msgid "Some pages display one or more clickable passages."
@@ -10714,8 +10790,14 @@ msgid "Target references added text"
 msgstr ""
 
 msgid ""
-"Used for marking text which should be ignored when identifying or linking to "
-"cross reference target references."
+"Used for marking text added to the target references. This text should be "
+"ignored when identifying or linking to cross reference target references."
+msgstr ""
+
+msgid "Peripheral"
+msgstr ""
+
+msgid "Divisions for peripheral content."
 msgstr ""
 
 msgid "Genesis"
@@ -11685,6 +11767,9 @@ msgstr ""
 msgid "Received from client"
 msgstr ""
 
+msgid "Mail generated by a Bibledit client at IP address"
+msgstr ""
+
 msgid "whole Bible"
 msgstr ""
 
@@ -11866,6 +11951,9 @@ msgid "Please enter the title for the divider"
 msgstr ""
 
 msgid "Please enter the link for the divider"
+msgstr ""
+
+msgid "Please specify a new color"
 msgstr ""
 
 msgid "Please enter a name for the new comparative resource"

@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 7bbd534dfad8da0a8420b10c8106612d2610ae35)\n"
+"X-Generator: Launchpad (build d8a8b6effe4eae83e8bb5babdb93ddb4ac4f09e0)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -855,6 +855,22 @@ msgstr "Le livre n'a pas la balise pour le nom du livre court :"
 msgid "The following marker belongs in chapter 0:"
 msgstr "La balise suivante appartient au chapitre 0 :"
 
+msgid "Empty figure source:"
+msgstr ""
+
+msgid "Could not find Bible image:"
+msgstr ""
+
+msgid "Unusual quotation mark found:"
+msgstr ""
+
+msgid ""
+"Opening markup is followed by closing markup without intervening text:"
+msgstr ""
+
+msgid "This sequence in the note does not look right:"
+msgstr ""
+
 msgid "Sentence Structure"
 msgstr "Structure de la phrase"
 
@@ -962,6 +978,12 @@ msgstr "Espace avant un un point d'exclamation"
 
 msgid "Space at the end of the verse"
 msgstr "Espace à la fin du verset"
+
+msgid "Space before final note markup"
+msgstr ""
+
+msgid "Space before final cross reference markup"
+msgstr ""
 
 msgid "Checks"
 msgstr "Vérifications"
@@ -1088,9 +1110,6 @@ msgstr ""
 msgid "Edit verse"
 msgstr "Éditer un verset"
 
-msgid "Select which Bible to open in the editor"
-msgstr "Sélectionnez quelle Bible ouvrir dans l'éditeur"
-
 msgid "Editor and Resources"
 msgstr "Éditeurs et ressources"
 
@@ -1161,9 +1180,6 @@ msgstr ""
 msgid "Workspace"
 msgstr "Espace de travail"
 
-msgid "Select which Bible to read"
-msgstr ""
-
 msgid "Bibledit"
 msgstr "Bibledit"
 
@@ -1185,19 +1201,37 @@ msgstr "Adresse électronique :"
 msgid "The following email was sent to this user:"
 msgstr "Le courriel suivant a été envoyé à cet utilisateur :"
 
-msgid "Select chapter"
-msgstr "Sélectionner un chapitre"
+msgid "Back"
+msgstr ""
 
-msgid "cancel"
-msgstr "annuler"
+msgid "Forward"
+msgstr ""
 
 msgid "Select book"
 msgstr "Choisir un livre"
 
+msgid "Select chapter"
+msgstr "Sélectionner un chapitre"
+
+msgid "Go to previous verse"
+msgstr ""
+
 msgid "Select verse"
 msgstr "Sélectionner un verset"
 
+msgid "Go to next verse"
+msgstr ""
+
+msgid "cancel"
+msgstr "annuler"
+
 msgid "Enter passage to go to"
+msgstr ""
+
+msgid "History back"
+msgstr ""
+
+msgid "History forward"
 msgstr ""
 
 msgid "Copying Bible from Bibledit to a Paratext project."
@@ -1601,6 +1635,9 @@ msgstr "débute la couverture"
 msgid "starts spine"
 msgstr "débute le dos du livre"
 
+msgid "starts general peripheral content"
+msgstr ""
+
 msgid "starts a new row"
 msgstr "commence une nouvelle ligne"
 
@@ -1797,9 +1834,6 @@ msgstr ""
 "C'est le retrait de la première ligne du paragraphe. La valeur à entrer est "
 "juste un nombre, par ex. 0."
 
-msgid "Please specify a new color"
-msgstr "Veuillez spécifier une nouvelle couleur"
-
 msgid "Would you like to change the numbering of the note?"
 msgstr "Voulez-vous changer la numérotation de la note ?"
 
@@ -1852,9 +1886,8 @@ msgstr ""
 "Veuillez saisir une balise au niveau de laquelle les notes de fin seront "
 "situées"
 
-msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgid "(The marker is to be given without the backslash, e.g. "
 msgstr ""
-"La balise doit être écrit sans l'anti-slash, par ex. \\\"zendnotes\\\"."
 
 msgid "Styles"
 msgstr "Styles"
@@ -1958,17 +1991,8 @@ msgstr ""
 msgid ": "
 msgstr ""
 
-msgid "Set the language for Bibledit"
-msgstr "Choisissez une langue pour Bibledit"
-
-msgid "Incorrect font size in percents"
-msgstr "Taille de police en pourcentages incorrecte"
-
 msgid "System"
 msgstr "Système"
-
-msgid "Please enter a font size between 50 and 300 percent"
-msgstr "Entrez une taille de police entre 50 et 300 pourcent"
 
 msgid "none"
 msgstr "aucun"
@@ -2569,6 +2593,9 @@ msgstr "Dépôt réseau sécurisé"
 msgid "General font size for the interface"
 msgstr "Taille de police générale pour l'interface"
 
+msgid "Please enter a font size between 50 and 300 percent"
+msgstr "Entrez une taille de police entre 50 et 300 pourcent"
+
 msgid "Size throughout the interface."
 msgstr "Taille pour toute l'interface."
 
@@ -2809,6 +2836,15 @@ msgstr ""
 msgid "Bibledit always sends the focused verse reference to Accordance."
 msgstr ""
 
+msgid "Visit alkitabkita.info for more information."
+msgstr ""
+
+msgid "Date format in consultation notes"
+msgstr ""
+
+msgid "The date format to use for consultation notes?"
+msgstr ""
+
 msgid "Send / Receive"
 msgstr "Envoyer / Recevoir"
 
@@ -2840,19 +2876,24 @@ msgid "It receives updates from Bibledit Cloud."
 msgstr "Il reçoit des mises à jour de Bibledit Cloud."
 
 msgid ""
-"The Paratext bridge sends changes from Bibledit to Paratext on this computer."
+"The Paratext bridge can send changes from Bibledit to Paratext on this "
+"computer."
 msgstr ""
-"La passerelle Paratext envoie des modifications de Bibledit à Paratext sur "
-"cet ordinateur."
 
-msgid "Bibledit receives updates from Paratext."
-msgstr "Bibledit reçoit des mises à jour de Paratext."
+msgid "Bibledit can receive updates from Paratext."
+msgstr ""
 
 msgid "The following Bibles link to a Paratext project:"
 msgstr "Les Bibles suivantes sont liées à un projet Paratext :"
 
-msgid "Synchronize with Paratext now."
-msgstr "Synchroniser avec Paratext maintenant."
+msgid "Merge the changes in Paratext and in Bibledit now."
+msgstr ""
+
+msgid "Copy the changes in Bibledit to Paratext now."
+msgstr ""
+
+msgid "Copy the changes in Paratext to Bibledit now."
+msgstr ""
 
 msgid "Do not synchronize with Paratext while Paratext is running."
 msgstr ""
@@ -3264,6 +3305,9 @@ msgstr ""
 "une espace avant une virgule, un point-virgule, un point final, un point "
 "d'interrogation ou un point d'exclamation"
 
+msgid "a space before a final note or cross reference marker"
+msgstr ""
+
 msgid "sentence structure"
 msgstr "structure de la phrase"
 
@@ -3282,7 +3326,7 @@ msgstr ""
 "Corriger le nombre de chapitres et de versets dans les livres existants "
 "selon le système de versification"
 
-msgid "well formed USFM"
+msgid "well-formed USFM"
 msgstr ""
 
 msgid "missing punctuation at the end of a verse"
@@ -4019,6 +4063,9 @@ msgid ""
 "my attention."
 msgstr ""
 
+msgid "Get notifications of changes made by anyone in these Bibles:"
+msgstr ""
+
 msgid "Text Checks"
 msgstr "Vérifications du texte"
 
@@ -4201,8 +4248,17 @@ msgstr ""
 "Rechercher des versets avec le plus de nombres de Strong semblables au "
 "verset ciblé dans :"
 
-msgid "Current book"
-msgstr "Livre courant"
+msgid "all books"
+msgstr ""
+
+msgid "current book"
+msgstr ""
+
+msgid "Old Testament"
+msgstr "Ancien Testament"
+
+msgid "New Testament"
+msgstr "Nouveau Testament"
 
 msgid "What to do with the search results"
 msgstr "Que faire des résultats de recherche"
@@ -4500,9 +4556,6 @@ msgstr ""
 msgid "Number of emails still to be sent:"
 msgstr ""
 
-msgid "Visit alkitabkita.info for more information."
-msgstr ""
-
 msgid "Create new"
 msgstr "Créer un nouveau"
 
@@ -4757,6 +4810,9 @@ msgstr "Sélectionnez l'utilisateur pour annuler l'attribution des notes"
 
 msgid "Back to notes list"
 msgstr "Retour à la liste des notes"
+
+msgid "Passage"
+msgstr ""
 
 msgid "Edit the note content"
 msgstr "Éditer le contenu de la note"
@@ -5070,6 +5126,14 @@ msgstr ""
 msgid "Font:"
 msgstr "Police :"
 
+msgid "Use automatic note callers instead of fixed ones."
+msgstr ""
+
+msgid ""
+"This enables the OpenDocument editor to restart the note callers on for "
+"example every page."
+msgstr ""
+
 msgid "Info document"
 msgstr "Information sur le document"
 
@@ -5202,12 +5266,6 @@ msgid "Toggle the modification privileges for entire Testaments"
 msgstr ""
 "Activez les privilèges de modification pour les testaments en entier."
 
-msgid "Old Testament"
-msgstr "Ancien Testament"
-
-msgid "New Testament"
-msgstr "Nouveau Testament"
-
 msgid "Neural Machine Translation"
 msgstr ""
 
@@ -5237,8 +5295,8 @@ msgstr "Ressources Web"
 msgid "Original language texts"
 msgstr "Textes en langues originales"
 
-msgid "Bibles (translations)"
-msgstr "Bibles (traductions)"
+msgid "Bibles and notes"
+msgstr ""
 
 msgid "Lexicons"
 msgstr "Lexiques"
@@ -7675,7 +7733,7 @@ msgstr "Référence externe"
 msgid "Bibledit software"
 msgstr "Logiciel Bibledit"
 
-msgid "Copyright (©) 2003-2021 Teus Benschop."
+msgid "Copyright (©) 2003-2022 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -7803,9 +7861,8 @@ msgstr "Installer Bibledit pour iOS"
 msgid "Install Bibledit via the App Store."
 msgstr "Installez Bibledit via l'App Store."
 
-msgid "This works on an iPad or an iPhone running iOS 8 or higher."
+msgid "This works on an iPad or an iPhone running iOS 12 or higher."
 msgstr ""
-"Cela fonctionne sur un iPad ou un iPhone exécutant iOS 8 ou supérieur."
 
 msgid "Hint."
 msgstr "Conseil :"
@@ -8307,8 +8364,8 @@ msgstr "Rechercher suivante."
 msgid "Print."
 msgstr "Imprimer."
 
-msgid "Go to the Bible editor selector."
-msgstr "Aller au sélecteur de l'éditeur de la Bible."
+msgid "Cycle through the available Bible editors."
+msgstr ""
 
 msgid "Scrum-based Translation"
 msgstr "Traduction basée sur Scrum"
@@ -10516,9 +10573,6 @@ msgstr ""
 msgid "If you would like this assistance, post a message to:"
 msgstr "Si vous souhaitez cette assistance, postez un message à :"
 
-msgid "Or use the contact form at the website:"
-msgstr "Ou utilisez le formulaire de contact sur le site Web :"
-
 msgid "OpenLDAP"
 msgstr "OpenLDAP"
 
@@ -10567,8 +10621,20 @@ msgstr "Installer Bibledit Cloud sur macOS"
 msgid "This assumes a standard installation of the operating system."
 msgstr "Cela suppose une installation standard du système d'exploitation."
 
-msgid "Download Bibledit from the App Store."
-msgstr "Téléchargez Bibledit depuis l'App Store."
+msgid "Install Bibledit from the App Store."
+msgstr ""
+
+msgid "Download Bibledit.zip from"
+msgstr ""
+
+msgid "Unpack it."
+msgstr ""
+
+msgid "But most likely macOS will already have done this for you."
+msgstr ""
+
+msgid "Drag Bibledit to the Applications folder."
+msgstr ""
 
 msgid "Start it from the Applications."
 msgstr "Démarrez-le à partir des applications."
@@ -10903,6 +10969,9 @@ msgstr "Sur les écrans tactiles, vous pouvez glisser pour naviguer."
 msgid "The Navigator shows two arrows:"
 msgstr "Le navigateur affiche deux flèches :"
 
+msgid "Clicking"
+msgstr ""
+
 msgid "goes back in the navigation history."
 msgstr "retourne dans l'historique de navigation."
 
@@ -10911,6 +10980,9 @@ msgstr "avance dans l'historique de navigation."
 
 msgid "There are also keyboard shortcuts for it."
 msgstr "Il y a aussi des raccourcis clavier pour cela."
+
+msgid "A long click on any of these two arrows brings up the history menu."
+msgstr ""
 
 msgid "Some pages display one or more clickable passages."
 msgstr "Certaines pages affichent un ou plusieurs passages cliquables."
@@ -12408,11 +12480,15 @@ msgid "Target references added text"
 msgstr "Référence cible texte ajouté"
 
 msgid ""
-"Used for marking text which should be ignored when identifying or linking to "
-"cross reference target references."
+"Used for marking text added to the target references. This text should be "
+"ignored when identifying or linking to cross reference target references."
 msgstr ""
-"Utilisé pour baliser le texte qui doit être ignoré lors de l'identification "
-"ou de la liaison à des références cibles de références croisées."
+
+msgid "Peripheral"
+msgstr ""
+
+msgid "Divisions for peripheral content."
+msgstr ""
 
 msgid "Genesis"
 msgstr "Genèse"
@@ -13385,6 +13461,9 @@ msgstr "Bibledit a résolu les conflits de fusion"
 msgid "Received from client"
 msgstr "Reçu du client"
 
+msgid "Mail generated by a Bibledit client at IP address"
+msgstr ""
+
 msgid "whole Bible"
 msgstr "toute la Bible"
 
@@ -13569,6 +13648,9 @@ msgstr ""
 
 msgid "Please enter the link for the divider"
 msgstr ""
+
+msgid "Please specify a new color"
+msgstr "Veuillez spécifier une nouvelle couleur"
 
 msgid "Please enter a name for the new comparative resource"
 msgstr ""

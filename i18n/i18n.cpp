@@ -146,6 +146,9 @@ int main ()
         // The English string.
         string english = contents.substr (position, pos - position);
         
+        // If the English string is empty, don't store it.
+        if (english.empty()) continue;
+        
         // Wrap it in calls recognizable as gettext calls, and store it.
         english.insert (0, "translate(\"");
         english.append ("\")");
@@ -161,30 +164,40 @@ int main ()
   unsigned int styles_data_count = sizeof (styles_table) / sizeof (*styles_table);
   for (unsigned int i = 0; i < styles_data_count; i++) {
     string english = styles_table[i].name;
-    english.insert (0, "translate(\"");
-    english.append ("\")");
-    translatables.push_back (english);
+    if (!english.empty()) {
+      english.insert (0, "translate(\"");
+      english.append ("\")");
+      translatables.push_back (english);
+    }
     english = styles_table[i].info;
-    english.insert (0, "translate(\"");
-    english.append ("\")");
-    translatables.push_back (english);
+    if (!english.empty()) {
+      english.insert (0, "translate(\"");
+      english.append ("\")");
+      translatables.push_back (english);
+    }
   }
 
   // Go over all Bible books to internationalize them.
   unsigned int books_data_count = sizeof (books_table) / sizeof (*books_table);
   for (unsigned int i = 0; i < books_data_count; i++) {
     string english = books_table[i].english;
-    english.insert (0, "translate(\"");
-    english.append ("\")");
-    translatables.push_back (english);
+    if (!english.empty()) {
+      english.insert (0, "translate(\"");
+      english.append ("\")");
+      translatables.push_back (english);
+    }
     string osis = books_table[i].osis;
-    osis.insert (0, "translate(\"");
-    osis.append ("\")");
-    translatables.push_back (osis);
+    if (!osis.empty()) {
+      osis.insert (0, "translate(\"");
+      osis.append ("\")");
+      translatables.push_back (osis);
+    }
     string bibleworks = books_table[i].bibleworks;
-    bibleworks.insert (0, "translate(\"");
-    bibleworks.append ("\")");
-    translatables.push_back (bibleworks);
+    if (!bibleworks.empty ()) {
+      bibleworks.insert (0, "translate(\"");
+      bibleworks.append ("\")");
+      translatables.push_back (bibleworks);
+    }
   }
   
   // Store translatable strings.

@@ -161,9 +161,9 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   // The following is for the Cloud configuration only:
   {
     // Get home folder and working directory.
-    string homefolder;
-    const char * homeptr = getenv ("HOME");
-    if (homeptr) homefolder = homeptr;
+    string home_folder;
+    const char * home_env_ptr = getenv ("HOME");
+    if (home_env_ptr) home_folder = home_env_ptr;
     string workingdirectory;
     char cwd [MAXPATHLEN];
     if (getcwd(cwd, sizeof(cwd)) != nullptr) workingdirectory = cwd;
@@ -175,9 +175,9 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
       // because it is undesirable to have all the data in the home folder.
       // If the web root is the package prefix, it should be updated,
       // because it now runs the binary installed in /usr/bin.
-      if ((webroot == homefolder) || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
+      if ((webroot == home_folder) || (webroot.find (PACKAGE_PREFIX_DIR) == 0)) {
         // Update web root to ~/bibledit or ~/bibledit-cloud.
-        webroot = filter_url_create_path ({homefolder, filter_url_basename (PACKAGE_DATA_DIR)});
+        webroot = filter_url_create_path ({home_folder, filter_url_basename (PACKAGE_DATA_DIR)});
       }
     }
   }

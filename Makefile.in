@@ -369,7 +369,8 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mimetic098/os/file_iterator.$(OBJEXT) \
 	mimetic098/os/mmfile.$(OBJEXT) \
 	mimetic098/codec/base64.$(OBJEXT) \
-	system/googletranslate.$(OBJEXT) filter/google.$(OBJEXT)
+	system/googletranslate.$(OBJEXT) filter/google.$(OBJEXT) \
+	i18n/logic.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -546,41 +547,41 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
 	fonts/$(DEPDIR)/logic.Po help/$(DEPDIR)/index.Po \
 	html/$(DEPDIR)/header.Po html/$(DEPDIR)/text.Po \
-	images/$(DEPDIR)/fetch.Po images/$(DEPDIR)/index.Po \
-	images/$(DEPDIR)/logic.Po images/$(DEPDIR)/view.Po \
-	index/$(DEPDIR)/index.Po index/$(DEPDIR)/listing.Po \
-	ipc/$(DEPDIR)/focus.Po ipc/$(DEPDIR)/notes.Po \
-	jobs/$(DEPDIR)/index.Po journal/$(DEPDIR)/index.Po \
-	journal/$(DEPDIR)/logic.Po jsonxx/$(DEPDIR)/jsonxx.Po \
-	ldap/$(DEPDIR)/logic.Po lexicon/$(DEPDIR)/definition.Po \
-	lexicon/$(DEPDIR)/logic.Po library/$(DEPDIR)/bibledit.Po \
-	library/$(DEPDIR)/locks.Po locale/$(DEPDIR)/logic.Po \
-	locale/$(DEPDIR)/translate.Po manage/$(DEPDIR)/accounts.Po \
-	manage/$(DEPDIR)/exports.Po manage/$(DEPDIR)/hyphenate.Po \
-	manage/$(DEPDIR)/hyphenation.Po manage/$(DEPDIR)/index.Po \
-	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
-	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
-	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
-	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
-	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
-	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
-	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
-	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
-	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
-	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
-	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
-	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecp.Po \
-	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
-	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
-	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
-	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md5.Po \
-	mbedtls/$(DEPDIR)/md_wrap.Po mbedtls/$(DEPDIR)/net_sockets.Po \
-	mbedtls/$(DEPDIR)/oid.Po mbedtls/$(DEPDIR)/pem.Po \
-	mbedtls/$(DEPDIR)/pk.Po mbedtls/$(DEPDIR)/pk_wrap.Po \
-	mbedtls/$(DEPDIR)/pkcs12.Po mbedtls/$(DEPDIR)/pkcs5.Po \
-	mbedtls/$(DEPDIR)/pkparse.Po mbedtls/$(DEPDIR)/pkwrite.Po \
-	mbedtls/$(DEPDIR)/platform.Po \
+	i18n/$(DEPDIR)/logic.Po images/$(DEPDIR)/fetch.Po \
+	images/$(DEPDIR)/index.Po images/$(DEPDIR)/logic.Po \
+	images/$(DEPDIR)/view.Po index/$(DEPDIR)/index.Po \
+	index/$(DEPDIR)/listing.Po ipc/$(DEPDIR)/focus.Po \
+	ipc/$(DEPDIR)/notes.Po jobs/$(DEPDIR)/index.Po \
+	journal/$(DEPDIR)/index.Po journal/$(DEPDIR)/logic.Po \
+	jsonxx/$(DEPDIR)/jsonxx.Po ldap/$(DEPDIR)/logic.Po \
+	lexicon/$(DEPDIR)/definition.Po lexicon/$(DEPDIR)/logic.Po \
+	library/$(DEPDIR)/bibledit.Po library/$(DEPDIR)/locks.Po \
+	locale/$(DEPDIR)/logic.Po locale/$(DEPDIR)/translate.Po \
+	manage/$(DEPDIR)/accounts.Po manage/$(DEPDIR)/exports.Po \
+	manage/$(DEPDIR)/hyphenate.Po manage/$(DEPDIR)/hyphenation.Po \
+	manage/$(DEPDIR)/index.Po manage/$(DEPDIR)/privileges.Po \
+	manage/$(DEPDIR)/users.Po manage/$(DEPDIR)/write.Po \
+	mapping/$(DEPDIR)/index.Po mapping/$(DEPDIR)/map.Po \
+	mbedtls/$(DEPDIR)/aes.Po mbedtls/$(DEPDIR)/arc4.Po \
+	mbedtls/$(DEPDIR)/asn1parse.Po mbedtls/$(DEPDIR)/asn1write.Po \
+	mbedtls/$(DEPDIR)/base64.Po mbedtls/$(DEPDIR)/bignum.Po \
+	mbedtls/$(DEPDIR)/blowfish.Po mbedtls/$(DEPDIR)/camellia.Po \
+	mbedtls/$(DEPDIR)/ccm.Po mbedtls/$(DEPDIR)/certs.Po \
+	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
+	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
+	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
+	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
+	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
+	mbedtls/$(DEPDIR)/ecp.Po mbedtls/$(DEPDIR)/ecp_curves.Po \
+	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
+	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
+	mbedtls/$(DEPDIR)/hmac_drbg.Po mbedtls/$(DEPDIR)/md.Po \
+	mbedtls/$(DEPDIR)/md5.Po mbedtls/$(DEPDIR)/md_wrap.Po \
+	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/oid.Po \
+	mbedtls/$(DEPDIR)/pem.Po mbedtls/$(DEPDIR)/pk.Po \
+	mbedtls/$(DEPDIR)/pk_wrap.Po mbedtls/$(DEPDIR)/pkcs12.Po \
+	mbedtls/$(DEPDIR)/pkcs5.Po mbedtls/$(DEPDIR)/pkparse.Po \
+	mbedtls/$(DEPDIR)/pkwrite.Po mbedtls/$(DEPDIR)/platform.Po \
 	mbedtls/$(DEPDIR)/platform_util.Po \
 	mbedtls/$(DEPDIR)/poly1305.Po mbedtls/$(DEPDIR)/ripemd160.Po \
 	mbedtls/$(DEPDIR)/rsa.Po mbedtls/$(DEPDIR)/rsa_internal.Po \
@@ -1488,7 +1489,8 @@ libbibledit_a_SOURCES = \
   mimetic098/os/mmfile.cxx \
   mimetic098/codec/base64.cxx \
   system/googletranslate.cpp \
-  filter/google.cpp
+  filter/google.cpp \
+  i18n/logic.cpp
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -3211,6 +3213,14 @@ system/googletranslate.$(OBJEXT): system/$(am__dirstamp) \
 	system/$(DEPDIR)/$(am__dirstamp)
 filter/google.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
+i18n/$(am__dirstamp):
+	@$(MKDIR_P) i18n
+	@: > i18n/$(am__dirstamp)
+i18n/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) i18n/$(DEPDIR)
+	@: > i18n/$(DEPDIR)/$(am__dirstamp)
+i18n/logic.$(OBJEXT): i18n/$(am__dirstamp) \
+	i18n/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3455,6 +3465,7 @@ mostlyclean-compile:
 	-rm -f fonts/*.$(OBJEXT)
 	-rm -f help/*.$(OBJEXT)
 	-rm -f html/*.$(OBJEXT)
+	-rm -f i18n/*.$(OBJEXT)
 	-rm -f images/*.$(OBJEXT)
 	-rm -f index/*.$(OBJEXT)
 	-rm -f ipc/*.$(OBJEXT)
@@ -3705,6 +3716,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/header.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@i18n/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@images/$(DEPDIR)/fetch.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@images/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@images/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
@@ -4525,6 +4537,8 @@ distclean-generic:
 	-rm -f help/$(am__dirstamp)
 	-rm -f html/$(DEPDIR)/$(am__dirstamp)
 	-rm -f html/$(am__dirstamp)
+	-rm -f i18n/$(DEPDIR)/$(am__dirstamp)
+	-rm -f i18n/$(am__dirstamp)
 	-rm -f images/$(DEPDIR)/$(am__dirstamp)
 	-rm -f images/$(am__dirstamp)
 	-rm -f index/$(DEPDIR)/$(am__dirstamp)
@@ -4843,6 +4857,7 @@ distclean: distclean-am
 	-rm -f help/$(DEPDIR)/index.Po
 	-rm -f html/$(DEPDIR)/header.Po
 	-rm -f html/$(DEPDIR)/text.Po
+	-rm -f i18n/$(DEPDIR)/logic.Po
 	-rm -f images/$(DEPDIR)/fetch.Po
 	-rm -f images/$(DEPDIR)/index.Po
 	-rm -f images/$(DEPDIR)/logic.Po
@@ -5467,6 +5482,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f help/$(DEPDIR)/index.Po
 	-rm -f html/$(DEPDIR)/header.Po
 	-rm -f html/$(DEPDIR)/text.Po
+	-rm -f i18n/$(DEPDIR)/logic.Po
 	-rm -f images/$(DEPDIR)/fetch.Po
 	-rm -f images/$(DEPDIR)/index.Po
 	-rm -f images/$(DEPDIR)/logic.Po

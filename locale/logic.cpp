@@ -103,9 +103,9 @@ map <string, string> locale_logic_localizations ()
 }
 
 
-map <string, string> locale_logic_read_po (string file)
+unordered_map <string, string> locale_logic_read_msgid_msgstr (string file)
 {
-  map <string, string> translations;
+  unordered_map <string, string> translations;
   string contents = filter_url_file_get_contents (file);
   vector <string> lines = filter_string_explode (contents, '\n');
   string msgid;

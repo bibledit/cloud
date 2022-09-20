@@ -25,7 +25,7 @@ string locale_logic_month (int month);
 string locale_logic_date (int seconds);
 string locale_logic_date_time (int seconds);
 map <string, string> locale_logic_localizations ();
-map <string, string> locale_logic_read_po (string file);
+unordered_map <string, string> locale_logic_read_msgid_msgstr (string file);
 
 string locale_logic_text_loaded ();
 string locale_logic_text_will_save ();

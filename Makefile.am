@@ -486,7 +486,8 @@ libbibledit_a_SOURCES = \
   mimetic098/os/mmfile.cxx \
   mimetic098/codec/base64.cxx \
   system/googletranslate.cpp \
-  filter/google.cpp
+  filter/google.cpp \
+  i18n/logic.cpp
 
 bin_PROGRAMS = server unittest generate
 

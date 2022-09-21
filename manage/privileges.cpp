@@ -63,7 +63,7 @@ string manage_privileges (void * webserver_request)
   if (user.empty()) user = request->post["val1"];
   view.set_variable ("user", user);
   int level;
-  access_logic_user_level (webserver_request, user, level);
+  access_logic::user_level (webserver_request, user, level);
 
   
   bool privileges_updated = false;
@@ -78,7 +78,7 @@ string manage_privileges (void * webserver_request)
     privileges_updated = true;
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
-  if (level >= access_logic_view_resources_role ()) {
+  if (level >= access_logic::view_resources_role ()) {
     state = true;
     view.set_variable ("viewresourcesdisabled", get_disabled (true));
   }
@@ -91,10 +91,10 @@ string manage_privileges (void * webserver_request)
     privileges_updated = true;
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
-  if (level >= access_logic_view_resources_role ()) {
+  if (level >= access_logic::view_resources_role ()) {
     view.set_variable ("viewnotesdisabled", get_disabled (true));
   }
-  state = access_logic_privilege_view_notes (webserver_request, user);
+  state = access_logic::privilege_view_notes (webserver_request, user);
   view.set_variable ("viewnoteschecked", get_checkbox_status (state));
   
   
@@ -104,10 +104,10 @@ string manage_privileges (void * webserver_request)
     privileges_updated = true;
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
-  if (level >= access_logic_view_resources_role ()) {
+  if (level >= access_logic::view_resources_role ()) {
     view.set_variable ("createcommentnotesdisabled", get_disabled (true));
   }
-  state = access_logic_privilege_create_comment_notes (webserver_request, user);
+  state = access_logic::privilege_create_comment_notes (webserver_request, user);
   view.set_variable ("createcommentnoteschecked", get_checkbox_status (state));
 
   
@@ -116,10 +116,10 @@ string manage_privileges (void * webserver_request)
     request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, checked);
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
-  if (level >= access_logic_delete_consultation_notes_role ()) {
+  if (level >= access_logic::delete_consultation_notes_role ()) {
     view.set_variable ("deletenotesdisabled", get_disabled (true));
   }
-  state = access_logic_privilege_delete_consultation_notes (webserver_request, user);
+  state = access_logic::privilege_delete_consultation_notes (webserver_request, user);
   view.set_variable ("deletenoteschecked", get_checkbox_status (state));
 
   
@@ -127,10 +127,10 @@ string manage_privileges (void * webserver_request)
   if (checkbox == "useadvancedmode") {
     request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, checked);
   }
-  if (level >= access_logic_use_advanced_mode_role ()) {
+  if (level >= access_logic::use_advanced_mode_role ()) {
     view.set_variable ("useadvancedmodedisabled", get_disabled (true));
   }
-  state = access_logic_privilege_use_advanced_mode (webserver_request, user);
+  state = access_logic::privilege_use_advanced_mode (webserver_request, user);
   view.set_variable ("useadvancedmodechecked", get_checkbox_status (state));
 
   

@@ -340,7 +340,7 @@ string personalize_index (void * webserver_request)
     string changebible = request->query ["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", "");
-      vector <string> bibles = AccessBible::Bibles (request);
+      vector <string> bibles = access_bible::bibles (request);
       for (auto & bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
       }
@@ -358,7 +358,7 @@ string personalize_index (void * webserver_request)
       }
     }
   }
-  string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
   view.set_variable ("bible", bible);
 
   
@@ -490,10 +490,10 @@ string personalize_index (void * webserver_request)
 
   
   // Enable the sections with settings relevant to the user and device.
-  bool resources = access_logic_privilege_view_resources (webserver_request);
+  bool resources = access_logic::privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
   bool bibles = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   if (read || write) bibles = true;
   if (bibles) view.enable_zone ("bibles");
   if (request->session_logic ()->touchEnabled ()) {

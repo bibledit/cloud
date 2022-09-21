@@ -50,7 +50,7 @@ string resource_translated1edit_url ()
 
 bool resource_translated1edit_acl (void * webserver_request)
 {
-  return access_logic_privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (webserver_request);
 }
 
 

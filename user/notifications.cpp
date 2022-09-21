@@ -47,9 +47,9 @@ bool user_notifications_acl (void * webserver_request)
   // Consultant has access.
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
   // Whoever can view notes has access.
-  if (access_logic_privilege_view_notes (webserver_request)) return true;
+  if (access_logic::privilege_view_notes (webserver_request)) return true;
   // Whoever has access to a Bible has access to this page.
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   if (read) return true;
   // No access.
   return false;
@@ -199,7 +199,7 @@ string user_notifications (void * webserver_request)
   // The set of Bibles the user can choose
   // is limited to those Bibles the user has read access to.
   {
-    vector <string> bibles = AccessBible::Bibles (webserver_request);
+    vector <string> bibles = access_bible::bibles (webserver_request);
     for (const auto & bible : bibles) {
       if (checkbox == "changenotificationbible" + bible) {
         vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
@@ -241,7 +241,7 @@ string user_notifications (void * webserver_request)
   view.set_variable ("url", client_logic_link_to_cloud (user_notifications_url (), translate("You can set the notifications in Bibledit Cloud.")));
 
   // The bits accessible to the user depends on the user's privileges.
-  auto [ read_bible, write_bible ] = AccessBible::Any (webserver_request);
+  auto [ read_bible, write_bible ] = access_bible::any (webserver_request);
   if (read_bible) view.enable_zone ("readbible");
   if (write_bible) view.enable_zone ("writebible");
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))

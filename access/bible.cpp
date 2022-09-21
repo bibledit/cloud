@@ -26,9 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/indonesian.h>
 
 
+namespace access_bible {
+
+
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool AccessBible::Read (void * webserver_request, const string & bible, string user)
+bool read (void * webserver_request, const string & bible, string user)
 {
   // Client: User has access to all Bibles.
 #ifdef HAVE_CLIENT
@@ -91,7 +94,7 @@ bool AccessBible::Read (void * webserver_request, const string & bible, string u
 
 
 // Returns true if the user has write access to the $bible.
-bool AccessBible::Write (void * webserver_request, const string & bible, string user)
+bool write (void * webserver_request, const string & bible, string user)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to all Bibles.
@@ -106,7 +109,7 @@ bool AccessBible::Write (void * webserver_request, const string & bible, string 
     return true;
   }
 
-  int level = 0;
+  int level {0};
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (user.empty ()) {
     user = request->session_logic ()->currentUser ();
@@ -144,7 +147,7 @@ bool AccessBible::Write (void * webserver_request, const string & bible, string 
 // If no user is given, it takes the currently logged-in user.
 // If the user has read-only access to even one book of the $bible,
 // then the user is considered not to have write access to the entire $bible.
-bool AccessBible::BookWrite (void * webserver_request, string user, const string & bible, int book)
+bool book_write (void * webserver_request, string user, const string & bible, int book)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to the book.
@@ -156,7 +159,7 @@ bool AccessBible::BookWrite (void * webserver_request, string user, const string
 #endif
 
   // Get the user level (role).
-  int level = 0;
+  int level {0};
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (user.empty ()) {
     user = request->session_logic ()->currentUser ();
@@ -186,7 +189,8 @@ bool AccessBible::BookWrite (void * webserver_request, string user, const string
   }
 
   // Read the privileges for the user.
-  bool read, write;
+  bool read {false};
+  bool write {false};
   Database_Privileges::getBibleBook (user, bible, book, read, write);
   if (write) {
     return true;
@@ -206,13 +210,13 @@ bool AccessBible::BookWrite (void * webserver_request, string user, const string
 
 // Returns an array of Bibles the user has read access to.
 // If no user is given, it takes the currently logged-in user.
-vector <string> AccessBible::Bibles (void * webserver_request, string user)
+vector <string> bibles (void * webserver_request, string user)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> allbibles = request->database_bibles ()->getBibles ();
   vector <string> bibles;
   for (auto & bible : allbibles) {
-    if (AccessBible::Read (webserver_request, bible, user)) {
+    if (read (webserver_request, bible, user)) {
       bibles.push_back (bible);
     }
   }
@@ -223,11 +227,11 @@ vector <string> AccessBible::Bibles (void * webserver_request, string user)
 // This function clamps bible.
 // It returns the $bible if the currently logged-in user has access to it.
 // Else it returns another accessible bible or nothing.
-string AccessBible::Clamp (void * webserver_request, string bible)
+string clamp (void * webserver_request, string bible)
 {
-  if (!AccessBible::Read (webserver_request, bible)) {
+  if (!read (webserver_request, bible)) {
     bible = string();
-    vector <string> bibles = AccessBible::Bibles (webserver_request);
+    vector <string> bibles = access_bible::bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     request->database_config_user ()->setBible (bible);
@@ -239,15 +243,15 @@ string AccessBible::Clamp (void * webserver_request, string bible)
 // This function checks whether the user in the $webserver_request
 // has $read or $write access to one or more Bibles.
 // It returns a tuple <read, write>.
-tuple<bool, bool> AccessBible::Any (void * webserver_request)
+tuple<bool, bool> any (void * webserver_request)
 {
-  bool read = false;
-  bool write = false;
+  bool read {false};
+  bool write {false};
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> bibles = request->database_bibles ()->getBibles ();
   for (auto & bible : bibles) {
-    if (AccessBible::Read (webserver_request, bible)) read = true;
-    if (AccessBible::Write (webserver_request, bible)) write = true;
+    if (access_bible::read (webserver_request, bible)) read = true;
+    if (access_bible::write (webserver_request, bible)) write = true;
   }
   if (config::logic::indonesian_cloud_free ()) {
     if (int level = request->session_logic ()->currentLevel ();
@@ -265,3 +269,4 @@ tuple<bool, bool> AccessBible::Any (void * webserver_request)
 }
 
 
+}

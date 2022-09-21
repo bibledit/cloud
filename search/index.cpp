@@ -41,7 +41,7 @@ string search_index_url ()
 bool search_index_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -116,7 +116,7 @@ string search_index (void * webserver_request)
   
   {
     string bible_html;
-    vector <string> accessible_bibles = AccessBible::Bibles (request);
+    vector <string> accessible_bibles = access_bible::bibles (request);
     for (auto selectable_bible : accessible_bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
     }

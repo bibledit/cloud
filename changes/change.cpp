@@ -118,7 +118,7 @@ string changes_change (void * webserver_request)
 
   // Bibles and passage.
   Passage passage = database_modifications.getNotificationPassage (id);
-  vector <string> bibles = AccessBible::Bibles (request);
+  vector <string> bibles = access_bible::bibles (request);
   
   
   // Get notes for the passage.

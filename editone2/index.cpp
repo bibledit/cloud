@@ -58,7 +58,7 @@ bool editone2_index_acl (void * webserver_request)
     minimum_role = Filter_Roles::consultant ();
   }
   if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -83,7 +83,7 @@ string editone2_index (void * webserver_request)
     // Standard it will be Terjemahanku (My Translation).
     // When the user changed that to another name, the editor will load that other name.
     {
-      vector <string> bibles = AccessBible::Bibles (request);
+      vector <string> bibles = access_bible::bibles (request);
       string selected_bible;
       for (auto bible : bibles) {
         if (bible != filter::indonesian::ourtranslation ()) selected_bible = bible;
@@ -121,10 +121,10 @@ string editone2_index (void * webserver_request)
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // If needed, change Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
-  string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = AccessBible::Clamp (request, request->query ["bible"]);
+  string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
+  if (request->query.count ("bible")) bible = access_bible::clamp (request, request->query ["bible"]);
   string bible_html;
-  vector <string> bibles = AccessBible::Bibles (request);
+  vector <string> bibles = access_bible::bibles (request);
   for (auto selectable_bible : bibles) {
     bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
   }

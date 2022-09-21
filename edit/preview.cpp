@@ -47,7 +47,7 @@ string edit_preview_url ()
 bool edit_preview_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -74,7 +74,7 @@ string edit_preview (void * webserver_request)
   
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  string bible = AccessBible::Clamp (request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
   
   string cls = Filter_Css::getClass (bible);
   string font = Fonts_Logic::get_text_font (bible);

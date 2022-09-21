@@ -68,7 +68,7 @@ string checks_suppress (void * webserver_request)
   {
     vector <string> all_bibles = request->database_bibles()->getBibles ();
     for (auto bible : all_bibles) {
-      if (AccessBible::Write (webserver_request, bible)) {
+      if (access_bible::write (webserver_request, bible)) {
         bibles.push_back (bible);
       }
     }

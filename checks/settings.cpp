@@ -71,7 +71,7 @@ string checks_settings (void * webserver_request)
     string bible = request->query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), string(), string());
-      vector <string> bibles = AccessBible::Bibles (webserver_request);
+      vector <string> bibles = access_bible::bibles (webserver_request);
       for (auto selectable_bible : bibles) {
         dialog_list.add_row (selectable_bible, "bible", selectable_bible);
       }
@@ -81,7 +81,7 @@ string checks_settings (void * webserver_request)
       request->database_config_user()->setBible (bible);
     }
   }
-  string bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
 
   
   if (request->query.count ("run")) {

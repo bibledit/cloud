@@ -21,12 +21,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class AccessBible {
-public:
-  static bool Read (void * webserver_request, const string & bible, string user = string());
-  static bool Write (void * webserver_request, const string & bible, string user = string());
-  static bool BookWrite (void * webserver_request, string user, const string & bible, int book);
-  static vector <string> Bibles (void * webserver_request, string user = string());
-  static string Clamp (void * webserver_request, string bible);
-  static tuple<bool, bool> Any (void * webserver_request);
-};
+namespace access_bible {
+
+bool read (void * webserver_request, const string & bible, string user = string());
+bool write (void * webserver_request, const string & bible, string user = string());
+bool book_write (void * webserver_request, string user, const string & bible, int book);
+vector <string> bibles (void * webserver_request, string user = string());
+string clamp (void * webserver_request, string bible);
+tuple<bool, bool> any (void * webserver_request);
+
+}

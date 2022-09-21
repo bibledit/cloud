@@ -43,7 +43,7 @@ string search_replace2_url ()
 bool search_replace2_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   return write;
 }
 
@@ -69,7 +69,7 @@ string search_replace2 (void * webserver_request)
 
   {
     string bible_html;
-    vector <string> bibles = AccessBible::Bibles (request);
+    vector <string> bibles = access_bible::bibles (request);
     for (auto selectable_bible : bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
     }

@@ -46,7 +46,7 @@ string notes_create_url ()
 
 bool notes_create_acl (void * webserver_request)
 {
-  return access_logic_privilege_create_comment_notes (webserver_request);
+  return access_logic::privilege_create_comment_notes (webserver_request);
 }
 
 
@@ -71,7 +71,7 @@ string notes_create (void * webserver_request)
   // If no Bible is passed, it takes the user's active Bible.
   string bible = request->post ["bible"];
   if (bible.empty ()) {
-    bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible ());
+    bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
   }
   
   

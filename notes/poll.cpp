@@ -39,7 +39,7 @@ string notes_poll_url ()
 
 bool notes_poll_acl (void * webserver_request)
 {
-  return access_logic_privilege_view_notes (webserver_request);
+  return access_logic::privilege_view_notes (webserver_request);
 }
 
 

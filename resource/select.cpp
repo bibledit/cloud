@@ -51,7 +51,7 @@ string resource_select_url ()
 
 bool resource_select_acl (void * webserver_request)
 {
-  return access_logic_privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (webserver_request);
 }
 
 
@@ -85,7 +85,7 @@ string resource_select (void * webserver_request)
     // The POST method is supposed to be immune to that.
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
-    vector <string> bibles = AccessBible::Bibles (webserver_request);
+    vector <string> bibles = access_bible::bibles (webserver_request);
     for (auto bible : bibles) {
       dialog_list.add_row (bible, "add", bible);
     }

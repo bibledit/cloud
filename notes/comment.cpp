@@ -43,7 +43,7 @@ string notes_comment_url ()
 
 bool notes_comment_acl (void * webserver_request)
 {
-  return access_logic_privilege_create_comment_notes (webserver_request);
+  return access_logic::privilege_create_comment_notes (webserver_request);
 }
 
 

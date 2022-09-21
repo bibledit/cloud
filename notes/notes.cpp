@@ -41,7 +41,7 @@ string notes_notes_url ()
 
 bool notes_notes_acl (void * webserver_request)
 {
-  return access_logic_privilege_view_notes (webserver_request);
+  return access_logic::privilege_view_notes (webserver_request);
 }
 
 
@@ -51,7 +51,7 @@ string notes_notes (void * webserver_request)
   Database_Notes database_notes (webserver_request);
 
   
-  string bible = AccessBible::Clamp (webserver_request, request->database_config_user()->getBible());
+  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible());
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
@@ -72,7 +72,7 @@ string notes_notes (void * webserver_request)
 
   
   // The Bibles the current user has access to.
-  vector <string> bibles = AccessBible::Bibles (webserver_request, request->session_logic()->currentUser ());
+  vector <string> bibles = access_bible::bibles (webserver_request, request->session_logic()->currentUser ());
   
   
   // The admin disables notes selection on Bibles,

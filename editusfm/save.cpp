@@ -47,7 +47,7 @@ string editusfm_save_url ()
 bool editusfm_save_acl (void * webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = AccessBible::Any (webserver_request);
+  auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -119,7 +119,7 @@ string editusfm_save (void * webserver_request)
               
              
               // Check on write access.
-              if (AccessBible::BookWrite (request, string(), bible, book)) {
+              if (access_bible::book_write (request, string(), bible, book)) {
                 // Safely store the chapter.
                 string explanation;
                 string message = filter::usfm::safely_store_chapter (request, bible, book, chapter, chapter_data_to_save, explanation);

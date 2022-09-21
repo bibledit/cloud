@@ -87,12 +87,12 @@ string bible_settings (void * webserver_request)
   // The Bible.
   string bible = request->query["bible"];
   if (bible.empty()) bible = request->post ["val1"];
-  bible = AccessBible::Clamp (request, bible);
+  bible = access_bible::clamp (request, bible);
   view.set_variable ("bible", escape_special_xml_characters (bible));
 
   
   // Whether the user has write access to this Bible.
-  bool write_access = AccessBible::Write (request, bible);
+  bool write_access = access_bible::write (request, bible);
   if (write_access) view.enable_zone ("write_access");
 
   

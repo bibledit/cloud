@@ -66,14 +66,14 @@ string bible_import (void * webserver_request)
   string error_message;
   
   // The name of the Bible.
-  string bible = AccessBible::Clamp (request, request->query["bible"]);
+  string bible = access_bible::clamp (request, request->query["bible"]);
   view.set_variable ("bible", escape_special_xml_characters (bible));
   
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
 
   // Whether the user has write access to this Bible.
-  if (bool write_access = AccessBible::Write (request, bible); write_access) {
+  if (bool write_access = access_bible::write (request, bible); write_access) {
     view.enable_zone ("write_access");
   }
 

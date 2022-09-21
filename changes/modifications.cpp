@@ -285,7 +285,7 @@ void changes_modifications ()
     vector <string> changeNotificationUsers;
     vector <string> all_users = request.database_users ()->get_users ();
     for (auto user : all_users) {
-      if (AccessBible::Read (&request, bible, user)) {
+      if (access_bible::read (&request, bible, user)) {
         if (request.database_config_user()->getUserGenerateChangeNotifications (user)) {
           // The recipient may have set which Bibles to get the change notifications for.
           // This is stored like this:
@@ -431,7 +431,7 @@ void changes_modifications ()
         vector <string> all_users_2 = request.database_users ()->get_users ();
         for (auto & user : all_users_2) {
           if (request.database_config_user()->getUserBibleChangesNotification (user)) {
-            if (AccessBible::Read (&request, bible, user)) {
+            if (access_bible::read (&request, bible, user)) {
               if (!client_logic_client_enabled ()) {
                 email_schedule (user, subject, bodies[b]);
               }

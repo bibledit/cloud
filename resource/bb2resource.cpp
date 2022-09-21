@@ -77,7 +77,7 @@ string resource_bible2resource (void * webserver_request)
   
   
   if (request->query.count ("convert")) {
-    if (AccessBible::Write (request, bible)) {
+    if (access_bible::write (request, bible)) {
       tasks_logic_queue (CONVERTBIBLE2RESOURCE, {bible});
       redirect_browser (request, journal_index_url ());
       return "";

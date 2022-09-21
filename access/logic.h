@@ -22,23 +22,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 #define PRIVILEGE_VIEW_RESOURCES 1
-int access_logic_view_resources_role ();
-bool access_logic_privilege_view_resources (void * webserver_request, string user = "");
+
+namespace access_logic {
+
+int view_resources_role ();
+bool privilege_view_resources (void * webserver_request, string user = "");
 
 #define PRIVILEGE_VIEW_NOTES 2
-int access_logic_view_notes_role ();
-bool access_logic_privilege_view_notes (void * webserver_request, string user = "");
+int view_notes_role ();
+bool privilege_view_notes (void * webserver_request, string user = "");
 
 #define PRIVILEGE_CREATE_COMMENT_NOTES 3
-int access_logic_create_comment_notes_role ();
-bool access_logic_privilege_create_comment_notes (void * webserver_request, string user = "");
+int create_comment_notes_role ();
+bool privilege_create_comment_notes (void * webserver_request, string user = "");
 
-int access_logic_delete_consultation_notes_role ();
-bool access_logic_privilege_delete_consultation_notes (void * webserver_request, string user = "");
+int delete_consultation_notes_role ();
+bool privilege_delete_consultation_notes (void * webserver_request, string user = "");
 
-int access_logic_use_advanced_mode_role ();
-bool access_logic_privilege_use_advanced_mode (void * webserver_request, string user = "");
+int use_advanced_mode_role ();
+bool privilege_use_advanced_mode (void * webserver_request, string user = "");
 
-void access_logic_user_level (void * webserver_request, string & user, int & level);
-void access_logic_create_client_files ();
+void user_level (void * webserver_request, string & user, int & level);
+void create_client_files ();
 
+}

@@ -146,7 +146,7 @@ void database_maintenance ()
   notes_logic_maintain_note_assignees (false);
   
   
-  access_logic_create_client_files ();
+  access_logic::create_client_files ();
   
   
 #ifdef HAVE_CLOUD

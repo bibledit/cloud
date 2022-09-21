@@ -73,6 +73,6 @@ string notes_assign_n (void * webserver_request)
   
   
   page += view.render ("notes", "assign-n");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

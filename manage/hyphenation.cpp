@@ -116,6 +116,6 @@ string manage_hyphenation (void * webserver_request)
   
   
   page += view.render ("manage", "hyphenation");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

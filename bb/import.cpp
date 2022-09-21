@@ -129,7 +129,7 @@ string bible_import (void * webserver_request)
 
   page += view.render ("bb", "import");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

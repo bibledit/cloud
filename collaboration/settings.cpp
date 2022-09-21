@@ -83,6 +83,6 @@ string collaboration_settings (void * webserver_request)
   
   
   page += view.render ("collaboration", "settings");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -57,7 +57,7 @@ string Dialog_Yes::run ()
   view->set_variable ("yes", yes);
   view->set_variable ("cancel", cancel);
   string page = view->render ("dialog", "yes");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }
 

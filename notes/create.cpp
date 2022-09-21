@@ -149,7 +149,7 @@ string notes_create (void * webserver_request)
   // page += view.render ("notes", "create");
   page += view.render ("notes", "create");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

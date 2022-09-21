@@ -183,7 +183,7 @@ string workspace_organize (void * webserver_request)
   page += view.render ("workspace", "organize");
   
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   
   return page;

@@ -180,7 +180,7 @@ string search_similar (void * webserver_request)
 
   page += view.render ("search", "similar");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

@@ -107,7 +107,7 @@ string compare_index (void * webserver_request)
 
   page += view.render ("compare", "index");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

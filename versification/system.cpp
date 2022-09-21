@@ -90,7 +90,7 @@ string versification_system (void * webserver_request)
 
   page += view.render ("versification", "system");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

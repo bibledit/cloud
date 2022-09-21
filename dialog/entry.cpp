@@ -63,7 +63,7 @@ string Dialog_Entry::run ()
   Assets_View * view = static_cast<Assets_View *>(assets_view);
   view->set_variable ("base_url", base_url);
   string page = view->render ("dialog", "entry");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }
 

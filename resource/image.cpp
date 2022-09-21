@@ -161,6 +161,6 @@ string resource_image (void * webserver_request)
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("resource", "image");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -117,6 +117,6 @@ string resource_user1edit (void * webserver_request)
   view.set_variable ("error", error);
   view.set_variable ("url", resource_logic_default_user_url ());
   page += view.render ("resource", "user1edit");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

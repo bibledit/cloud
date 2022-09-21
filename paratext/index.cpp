@@ -52,7 +52,7 @@ string paratext_index (void * webserver_request)
 
 
   string page;
-  page = Assets_Page::header (translate ("Paratext"), webserver_request);
+  page = assets_page::header (translate ("Paratext"), webserver_request);
   Assets_View view;
   string success;
   string error;
@@ -177,7 +177,7 @@ string paratext_index (void * webserver_request)
   
   page += view.render ("paratext", "index");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

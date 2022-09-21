@@ -21,13 +21,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Assets_Page
-{
-public:
-  static string header (string title, void * webserver_request);
-  static string success (string message);
-  static string error (string message);
-  static string message (string message);
-  static string footer ();
-private:
-};
+namespace assets_page {
+
+string header (const string & title, void * webserver_request);
+string success (const string & message);
+string error (const string & message);
+string message (const string & message);
+string footer ();
+
+}

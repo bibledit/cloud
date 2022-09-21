@@ -88,6 +88,6 @@ string resource_studylight (void * webserver_request)
 
   
   page += view.render ("resource", "studylight");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

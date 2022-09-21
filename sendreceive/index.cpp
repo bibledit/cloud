@@ -225,6 +225,6 @@ string sendreceive_index (void * webserver_request)
   if (basic_mode) view.enable_zone("basicmode");
   
   page += view.render ("sendreceive", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

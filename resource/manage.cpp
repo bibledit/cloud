@@ -121,6 +121,6 @@ string resource_manage (void * webserver_request)
 
   
   page += view.render ("resource", "manage");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

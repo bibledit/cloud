@@ -115,7 +115,7 @@ string changes_statistics ([[maybe_unused]] void * webserver_request)
   page += view.render ("changes", "statistics");
   
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 #endif
 }

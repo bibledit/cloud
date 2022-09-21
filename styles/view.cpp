@@ -810,7 +810,7 @@ string styles_view (void * webserver_request)
   
   page += view.render ("styles", "view");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

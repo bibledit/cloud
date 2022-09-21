@@ -155,7 +155,7 @@ string bible_manage (void * webserver_request)
       if (access_bible::write (request, bible)) {
         bible_logic_delete_bible (bible);
       } else {
-        page += Assets_Page::error ("Insufficient privileges to complete action");
+        page += assets_page::error ("Insufficient privileges to complete action");
       }
     }
     if (confirm == "") {
@@ -185,7 +185,7 @@ string bible_manage (void * webserver_request)
 
   page += view.render ("bb", "manage");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

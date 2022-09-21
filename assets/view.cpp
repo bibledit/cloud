@@ -39,26 +39,26 @@ Assets_View::Assets_View ()
 // Sets a variable (key and value) for the html template.
 void Assets_View::set_variable (string key, string value)
 {
-  variables[key] = value;
+  m_variables[key] = value;
 }
 
 
 // Enable displaying a zone in the html template.
 void Assets_View::enable_zone (string zone)
 {
-  zones [zone] = true;
+  m_zones [zone] = true;
 }
 
 
 void Assets_View::disable_zone (string zone)
 {
-  zones.erase (zone);
+  m_zones.erase (zone);
 }
 
 
 void Assets_View::add_iteration (string key, map <string, string> value)
 {
-  iterations[key].push_back (value);
+  m_iterations[key].push_back (value);
 }
 
 
@@ -84,14 +84,14 @@ string Assets_View::render (string tpl1, string tpl2)
 
   // Copy the variables and zones and iterations to the engine.
   map <string, string>::iterator iter1;
-  for (iter1 = variables.begin (); iter1 != variables.end(); ++iter1) {
+  for (iter1 = m_variables.begin (); iter1 != m_variables.end(); ++iter1) {
     flate.set_variable (iter1->first, iter1->second);
   }
   map <string, bool>::iterator iter2;
-  for (iter2 = zones.begin (); iter2 != zones.end(); ++iter2) {
+  for (iter2 = m_zones.begin (); iter2 != m_zones.end(); ++iter2) {
     flate.enable_zone (iter2->first);
   }
-  flate.iterations = iterations;
+  flate.iterations = m_iterations;
 
   // Get and return the page contents.
   string page = flate.render (tpl);

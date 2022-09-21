@@ -111,6 +111,6 @@ string resource_download (void * webserver_request)
   
   
   page += view.render ("resource", "download");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

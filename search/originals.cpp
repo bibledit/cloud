@@ -201,7 +201,7 @@ string search_originals (void * webserver_request)
 
   page += view.render ("search", "originals");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

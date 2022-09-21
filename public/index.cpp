@@ -130,6 +130,6 @@ string public_index (void * webserver_request)
   view.set_variable ("exports_css", css);
   
   page += view.render ("public", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

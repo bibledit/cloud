@@ -80,6 +80,6 @@ string search_replace2 (void * webserver_request)
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);
   page += view.render ("search", "replace2");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

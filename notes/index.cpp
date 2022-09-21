@@ -105,7 +105,7 @@ string notes_index (void * webserver_request)
   
   page += view.render ("notes", "index");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

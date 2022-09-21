@@ -89,6 +89,6 @@ string Dialog_Books::run ()
   view->set_variable ("book_block", book_block.str());
   
   string page = view->render ("dialog", "books");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

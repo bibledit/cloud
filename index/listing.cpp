@@ -64,7 +64,7 @@ bool index_listing_acl (void * webserver_request, string url)
 string index_listing (void * webserver_request, string url)
 {
   string page;
-  page = Assets_Page::header (translate ("Bibledit"), webserver_request);
+  page = assets_page::header (translate ("Bibledit"), webserver_request);
   // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
@@ -122,6 +122,6 @@ string index_listing (void * webserver_request, string url)
     return filter_url_file_get_contents (filename);
   }
   page += view.render ("index", "listing");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

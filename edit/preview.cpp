@@ -114,7 +114,7 @@ string edit_preview (void * webserver_request)
   
   page += view.render ("edit", "preview");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

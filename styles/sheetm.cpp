@@ -78,11 +78,11 @@ string styles_sheetm (void * webserver_request)
     string newstyle = request->post["entry"];
     vector <string> existing_markers = database_styles.getMarkers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
-      page += Assets_Page::error (translate("This style already exists"));
+      page += assets_page::error (translate("This style already exists"));
     } else {
       database_styles.addMarker (name, newstyle);
       styles_sheets_create_all ();
-      page += Assets_Page::success (translate("The style has been created"));
+      page += assets_page::success (translate("The style has been created"));
     }
   }
   if (request->query.count("new")) {
@@ -116,7 +116,7 @@ string styles_sheetm (void * webserver_request)
 
   page += view.render ("styles", "sheetm");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

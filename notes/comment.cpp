@@ -108,6 +108,6 @@ string notes_comment (void * webserver_request)
   
   view.set_variable ("success", success);
   page += view.render ("notes", "comment");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

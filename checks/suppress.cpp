@@ -52,7 +52,7 @@ string checks_suppress (void * webserver_request)
   
   
   string page;
-  page = Assets_Page::header (translate ("Suppressed checking results"), webserver_request);
+  page = assets_page::header (translate ("Suppressed checking results"), webserver_request);
   Assets_View view;
   
   
@@ -98,6 +98,6 @@ string checks_suppress (void * webserver_request)
   
   
   page += view.render ("checks", "suppress");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

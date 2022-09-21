@@ -67,6 +67,6 @@ string notes_severity_n (void * webserver_request)
   
   
   page += view.render ("notes", "severity-n");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

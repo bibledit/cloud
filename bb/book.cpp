@@ -146,7 +146,7 @@ string bible_book (void * webserver_request)
 
   page += view.render ("bb", "book");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

@@ -69,6 +69,6 @@ string resource_user9view (void * webserver_request)
 
    
   page += view.render ("resource", "user9view");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

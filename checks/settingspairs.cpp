@@ -93,6 +93,6 @@ string checks_settingspairs (void * webserver_request)
   
   
   page += view.render ("checks", "settingspairs");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

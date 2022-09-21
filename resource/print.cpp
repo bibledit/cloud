@@ -317,7 +317,7 @@ string resource_print (void * webserver_request)
 
 
   page += view.render ("resource", "print");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }
 

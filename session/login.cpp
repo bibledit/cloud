@@ -136,7 +136,7 @@ string session_login (void * webserver_request)
     page += view.render ("session", "login");
   }
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

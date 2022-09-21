@@ -85,6 +85,6 @@ string notes_status_1 (void * webserver_request)
   view.set_variable ("success", success);
   view.set_variable ("error", error);
   page += view.render ("notes", "status-1");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

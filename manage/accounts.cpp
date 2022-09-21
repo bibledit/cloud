@@ -80,9 +80,9 @@ string manage_accounts (void * webserver_request)
     vector <string> users = request->database_users ()->get_users ();
     vector <string> administrators = request->database_users ()->getAdministrators ();
     if (users.size () == 1) {
-      page += Assets_Page::error (translate("Cannot remove the last user"));
+      page += assets_page::error (translate("Cannot remove the last user"));
     } else if ((user_level >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
-      page += Assets_Page::error (translate("Cannot remove the last administrator"));
+      page += assets_page::error (translate("Cannot remove the last administrator"));
     } else {
       string message;
       user_logic_delete_account (objectUsername, role, email, message);
@@ -90,7 +90,7 @@ string manage_accounts (void * webserver_request)
       tasks_logic_queue (DELETEINDONESIANFREEUSER, {objectUsername, email});
       message.append (" ");
       message.append ("See the Journal for progress");
-      page += Assets_Page::success (message);
+      page += assets_page::success (message);
     }
   }
   
@@ -137,7 +137,7 @@ string manage_accounts (void * webserver_request)
   
   page += view.render ("manage", "accounts");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   if (user_updated) notes_logic_maintain_note_assignees (true);
   if (privileges_updated) database_privileges_client_create (objectUsername, true);

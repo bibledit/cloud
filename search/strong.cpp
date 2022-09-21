@@ -145,7 +145,7 @@ string search_strong (void * webserver_request)
 
   page += view.render ("search", "strong");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

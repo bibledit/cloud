@@ -118,6 +118,6 @@ string public_create (void * webserver_request)
                                                                                                       
   
   page += view.render ("public", "create");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

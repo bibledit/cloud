@@ -88,6 +88,6 @@ string resource_biblegateway (void * webserver_request)
 
   
   page += view.render ("resource", "bbgateway");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

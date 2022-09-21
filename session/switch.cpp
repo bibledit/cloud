@@ -56,7 +56,7 @@ string session_switch (void * webserver_request)
 
   page += view.render ("session", "switch");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

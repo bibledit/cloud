@@ -285,6 +285,6 @@ string resource_select (void * webserver_request)
 
   
   page += view.render ("resource", "select");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

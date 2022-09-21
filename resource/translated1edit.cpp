@@ -189,6 +189,6 @@ string resource_translated1edit (void * webserver_request)
   view.set_variable ("target", target_language);
   view.set_variable ("cache", get_checkbox_status (cache));
   page += view.render ("resource", "translated1edit");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

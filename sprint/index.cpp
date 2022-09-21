@@ -260,7 +260,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
 
 
   page += view.render ("sprint", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 #endif
 }

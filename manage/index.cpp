@@ -46,6 +46,6 @@ string manage_index (void * webserver_request)
   page = header.run ();
   Assets_View view;
   page += view.render ("manage", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

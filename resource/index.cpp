@@ -115,7 +115,7 @@ string resource_index (void * webserver_request)
   
   
   page += view.render ("resource", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }
 

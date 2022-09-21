@@ -179,7 +179,7 @@ string search_strongs (void * webserver_request)
 
   page += view.render ("search", "strongs");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

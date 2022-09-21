@@ -185,6 +185,6 @@ string resource_organize (void * webserver_request)
 
   
   page += view.render ("resource", "organize");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

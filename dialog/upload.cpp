@@ -59,6 +59,6 @@ string Dialog_Upload::run ()
   view->set_variable ("import", import);
   view->set_variable ("cancel", base_url);
   string page = view->render ("dialog", "upload");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

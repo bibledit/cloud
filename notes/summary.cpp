@@ -76,7 +76,7 @@ string notes_summary (void * webserver_request)
   
   page += view.render ("notes", "summary");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

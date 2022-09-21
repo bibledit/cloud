@@ -146,6 +146,6 @@ string notes_note (void * webserver_request)
   
   view.set_variable ("success", success);
   page += view.render ("notes", "note");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -367,6 +367,6 @@ string system_index (void * webserver_request)
 
   
   page += view.render ("system", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

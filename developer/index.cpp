@@ -156,7 +156,7 @@ string developer_index (void * webserver_request)
   view.set_variable ("code", code);
 
   page += view.render ("developer", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

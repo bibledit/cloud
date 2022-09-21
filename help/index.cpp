@@ -74,7 +74,7 @@ string help_index (void * webserver_request, const string& url)
  
   page += view.render ("help", filename);
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

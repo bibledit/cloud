@@ -273,7 +273,7 @@ void collaboration_link ([[maybe_unused]] string object,
   view.set_variable ("success", filter_string_implode (success, "<br>\n"));
   view.set_variable ("error", error);
   page += view.render ("collaboration", "link");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   database_jobs.set_result (jobid, page);
 #endif
 }

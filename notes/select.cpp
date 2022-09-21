@@ -274,7 +274,7 @@ string notes_select (void * webserver_request)
   
   page += view.render ("notes", "select");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

@@ -143,7 +143,7 @@ string workspace_index (void * webserver_request)
   
   // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.
   page += view.render ("workspace", "index");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }
 

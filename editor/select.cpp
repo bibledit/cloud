@@ -102,6 +102,6 @@ string editor_select (void * webserver_request)
   }
   
   page += view.render ("editor", "select");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -251,7 +251,7 @@ string user_notifications (void * webserver_request)
   
   page += view.render ("user", "notifications");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

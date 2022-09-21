@@ -70,6 +70,6 @@ string notes_unassign_n (void * webserver_request)
   
   
   page += view.render ("notes", "unassign-n");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

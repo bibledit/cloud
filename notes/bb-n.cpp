@@ -69,6 +69,6 @@ string notes_bible_n (void * webserver_request)
   
   
   page += view.render ("notes", "bb-n");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

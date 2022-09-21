@@ -55,7 +55,7 @@ string bible_chapter (void * webserver_request)
   
   string page;
   
-  page = Assets_Page::header (translate ("Chapter"), webserver_request);
+  page = assets_page::header (translate ("Chapter"), webserver_request);
   
   Assets_View view;
   
@@ -86,7 +86,7 @@ string bible_chapter (void * webserver_request)
 
   page += view.render ("bb", "chapter");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

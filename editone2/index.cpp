@@ -179,7 +179,7 @@ string editone2_index (void * webserver_request)
   
   page += view.render ("editone2", "index");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

@@ -346,7 +346,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
   if (signed_up) page += view.render ("session", "signedup");
   else page += view.render ("session", "signup");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
 #endif
 

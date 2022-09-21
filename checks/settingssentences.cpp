@@ -122,6 +122,6 @@ string checks_settingssentences (void * webserver_request)
   
   
   page += view.render ("checks", "settingssentences");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

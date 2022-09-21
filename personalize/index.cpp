@@ -552,7 +552,7 @@ string personalize_index (void * webserver_request)
   view.set_variable ("error", error);
   page += view.render ("personalize", "index");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

@@ -85,6 +85,6 @@ string Dialog_List::run ()
   view->set_variable ("base_url", base_url);
   view->set_variable ("list_block", list_block);
   string page = view->render ("dialog", "list");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -130,7 +130,7 @@ string user_account ([[maybe_unused]] void * webserver_request)
 
   page += view.render ("user", "account");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
 #endif
 

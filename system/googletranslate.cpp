@@ -119,7 +119,7 @@ string system_googletranslate (void * webserver_request)
   view.set_variable ("error", error);
 
   page += view.render ("system", "googletranslate");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }
 

@@ -144,7 +144,7 @@ string email_index (void * webserver_request)
 
   page += view.render ("email", "index");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

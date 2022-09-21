@@ -186,7 +186,7 @@ string search_all (void * webserver_request)
   page += view.render ("search", "all");
   
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   
   return page;

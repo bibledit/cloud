@@ -117,6 +117,6 @@ string resource_sword (void * webserver_request)
   
   
   page += view.render ("resource", "sword");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

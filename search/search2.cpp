@@ -227,6 +227,6 @@ string search_search2 (void * webserver_request)
   string script = "var searchBible = \"" + bible + "\";";
   view.set_variable ("script", script);
   page += view.render ("search", "search2");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

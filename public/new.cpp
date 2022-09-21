@@ -85,6 +85,6 @@ string public_new (void * webserver_request)
 
 
   page += view.render ("public", "new");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -219,11 +219,11 @@ string client_index (void * webserver_request)
 
   // Since the role of the user may change after a successful connection to the server,
   // the menu generation in the header should be postponed till when the actual role is known.
-  page = Assets_Page::header (translate ("Server"), webserver_request);
+  page = assets_page::header (translate ("Server"), webserver_request);
   
   page += view.render ("client", "index");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

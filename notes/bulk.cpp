@@ -274,7 +274,7 @@ string notes_bulk (void * webserver_request)
   
   page += view.render ("notes", "bulk");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

@@ -76,12 +76,12 @@ string styles_indexm (void * webserver_request)
     name = filter_string_trim (name);
     vector <string> existing = database_styles.getSheets ();
     if (find (existing.begin(), existing.end (), name) != existing.end ()) {
-      page += Assets_Page::error (translate("This stylesheet already exists"));
+      page += assets_page::error (translate("This stylesheet already exists"));
     } else {
       database_styles.createSheet (name);
       database_styles.grantWriteAccess (username, name);
       styles_sheets_create_all ();
-      page += Assets_Page::success (translate("The stylesheet has been created"));
+      page += assets_page::success (translate("The stylesheet has been created"));
     }
   }
   if (request->query.count ("new")) {
@@ -100,7 +100,7 @@ string styles_indexm (void * webserver_request)
         if (write) {
           database_styles.deleteSheet (del);
           database_styles.revokeWriteAccess ("", del);
-          page += Assets_Page::success (translate("The stylesheet has been deleted"));
+          page += assets_page::success (translate("The stylesheet has been deleted"));
         }
       } if (confirm == "") {
         Dialog_Yes dialog_yes = Dialog_Yes ("indexm", translate("Would you like to delete this stylesheet?"));
@@ -133,7 +133,7 @@ string styles_indexm (void * webserver_request)
 
   page += view.render ("styles", "indexm");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

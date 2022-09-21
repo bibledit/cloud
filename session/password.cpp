@@ -102,7 +102,7 @@ string session_password (void * webserver_request)
 
   page += view.render ("session", "password");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
 
   return page;
 }

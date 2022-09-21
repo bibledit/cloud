@@ -196,7 +196,7 @@ string resource_divider (void * webserver_request)
   
   page += view.render ("resource", "divider");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

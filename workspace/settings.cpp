@@ -144,7 +144,7 @@ string workspace_settings (void * webserver_request)
  
   page += view.render ("workspace", "settings");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

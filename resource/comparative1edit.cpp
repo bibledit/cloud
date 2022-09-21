@@ -207,6 +207,6 @@ string resource_comparative1edit (void * webserver_request)
   view.set_variable ("casefold", get_checkbox_status (casefold));
   view.set_variable ("cache", get_checkbox_status (cache));
   page += view.render ("resource", "comparative1edit");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

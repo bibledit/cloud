@@ -89,7 +89,7 @@ string versification_index (void * webserver_request)
   
   page += view.render ("versification", "index");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

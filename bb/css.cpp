@@ -94,7 +94,7 @@ string bible_css (void * webserver_request)
     if (letterspacing > 3) letterspacing = 3;
     Database_Config_Bible::setLetterSpacing (bible, static_cast<int>(10 * letterspacing));
     
-    page += Assets_Page::success ("The information was saved.");
+    page += assets_page::success ("The information was saved.");
     
   }
 
@@ -134,7 +134,7 @@ string bible_css (void * webserver_request)
 
   page += view.render ("bb", "css");
   
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   return page;
 }

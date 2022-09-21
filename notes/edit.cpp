@@ -162,6 +162,6 @@ string notes_edit (void * webserver_request)
   
   
   page += view.render ("notes", "edit");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

@@ -82,12 +82,12 @@ string resource_bible2resource (void * webserver_request)
       redirect_browser (request, journal_index_url ());
       return "";
     } else {
-      Assets_Page::error (translate("Insufficient privileges to complete operation."));
+      assets_page::error (translate("Insufficient privileges to complete operation."));
     }
   }
 
   
   page += view.render ("resource", "bb2resource");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

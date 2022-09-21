@@ -86,6 +86,6 @@ string public_comment (void * webserver_request)
   
   
   page += view.render ("public", "comment");
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   return page;
 }

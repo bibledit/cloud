@@ -86,12 +86,12 @@ string manage_users (void * webserver_request)
   if (request->post.count ("new")) {
     string user = request->post["entry"];
     if (request->database_users ()->usernameExists (user)) {
-      page += Assets_Page::error (translate("User already exists"));
+      page += assets_page::error (translate("User already exists"));
     } else {
       request->database_users ()->add_user(user, user, Filter_Roles::member (), "");
       user_logic_store_account_creation (user);
       user_updated = true;
-      page += Assets_Page::success (translate("User created"));
+      page += assets_page::success (translate("User created"));
     }
   }
   
@@ -108,16 +108,16 @@ string manage_users (void * webserver_request)
     vector <string> users = request->database_users ()->get_users ();
     vector <string> administrators = request->database_users ()->getAdministrators ();
     if (users.size () == 1) {
-      page += Assets_Page::error (translate("Cannot remove the last user"));
+      page += assets_page::error (translate("Cannot remove the last user"));
     } else if ((objectUserLevel >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
-      page += Assets_Page::error (translate("Cannot remove the last administrator"));
+      page += assets_page::error (translate("Cannot remove the last administrator"));
     } else if (config::logic::demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
-      page += Assets_Page::error (translate("Cannot remove the demo admin"));
+      page += assets_page::error (translate("Cannot remove the demo admin"));
     } else {
       string message;
       user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
-      page += Assets_Page::success (message);
+      page += assets_page::success (message);
     }
   }
   
@@ -157,11 +157,11 @@ string manage_users (void * webserver_request)
   if (request->post.count ("email")) {
     string email = request->post["entry"];
     if (filter_url_email_is_valid (email)) {
-      page += Assets_Page::success (translate("Email address was updated"));
+      page += assets_page::success (translate("Email address was updated"));
       request->database_users ()->updateUserEmail (objectUsername, email);
       user_updated = true;
     } else {
-      page += Assets_Page::error (translate("The email address is not valid"));
+      page += assets_page::error (translate("The email address is not valid"));
     }
   }
   
@@ -182,7 +182,7 @@ string manage_users (void * webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      Assets_Page::success (translate("The user has been granted access to this Bible"));
+      assets_page::success (translate("The user has been granted access to this Bible"));
       // Write access depends on whether it's a translator role or higher.
       bool write = (objectUserLevel >= Filter_Roles::translator ());
       Database_Privileges::setBible (objectUsername, addbible, write);
@@ -198,14 +198,14 @@ string manage_users (void * webserver_request)
     Database_Privileges::removeBibleBook (objectUsername, removebible, 0);
     user_updated = true;
     privileges_updated = true;
-    Assets_Page::success (translate("The user no longer has access to this Bible"));
+    assets_page::success (translate("The user no longer has access to this Bible"));
   }
   
   
   // Enable or disable a user account.
   if (request->query.count ("enable")) {
     request->database_users ()->set_enabled (objectUsername, true);
-    Assets_Page::success (translate("The user account was enabled"));
+    assets_page::success (translate("The user account was enabled"));
   }
   if (request->query.count ("disable")) {
     // Disable the user in the database.
@@ -213,7 +213,7 @@ string manage_users (void * webserver_request)
     // Remove all login tokens (cookies) for this user, so the user no longer is logged in.
     Database_Login::removeTokens (objectUsername);
     // Feedback.
-    Assets_Page::success (translate("The user account was disabled"));
+    assets_page::success (translate("The user account was disabled"));
   }
   
   
@@ -366,7 +366,7 @@ string manage_users (void * webserver_request)
 
   page += view.render ("manage", "users");
 
-  page += Assets_Page::footer ();
+  page += assets_page::footer ();
   
   if (user_updated) notes_logic_maintain_note_assignees (true);
   if (privileges_updated) database_privileges_client_create (objectUsername, true);

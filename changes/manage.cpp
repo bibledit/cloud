@@ -89,7 +89,7 @@ string changes_manage (void * webserver_request)
   
   
   bool notifications = false;
-  vector <string> users = access_user_assignees (webserver_request);
+  vector <string> users = access_user::assignees (webserver_request);
   for (auto user : users) {
     string any_bible = "";
     vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);

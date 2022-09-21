@@ -108,7 +108,7 @@ string manage_accounts (void * webserver_request)
   }
   
   // Retrieve assigned users.
-  vector <string> users = access_user_assignees (webserver_request);
+  vector <string> users = access_user::assignees (webserver_request);
   for (auto & username : users) {
     
     // Gather details for this user account.

@@ -63,10 +63,10 @@ string edit_preview (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Preview"), request);
-  header.setNavigator ();
-  header.setEditorStylesheet ();
-  if (touch) header.jQueryTouchOn ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.set_navigator ();
+  header.set_editor_stylesheet ();
+  if (touch) header.jquery_touch_on ();
+  header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   if (timeout) header.refresh (5, "../" + caller + "/index");
   page = header.run ();
   

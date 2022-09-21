@@ -152,6 +152,6 @@ string session_login_display_header (void * webserver_request)
      Therefore no output should be sent so the forward headers work.
   */
   Assets_Header header = Assets_Header (translate ("Login"), webserver_request);
-  header.touchCSSOn ();
+  header.touch_css_on ();
   return header.run ();
 }

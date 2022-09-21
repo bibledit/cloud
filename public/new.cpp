@@ -69,8 +69,8 @@ string public_new (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate ("New feedback"), request);
-  header.setNavigator ();
-  header.setStylesheet ();
+  header.set_navigator ();
+  header.set_stylesheet ();
   page = header.run ();
   Assets_View view;
 

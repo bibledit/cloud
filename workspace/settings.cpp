@@ -100,8 +100,8 @@ string workspace_settings (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit workspace"), request);
-  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (workspace_organize_url (), menu_logic_workspace_organize_text ());
+  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.add_bread_crumb (workspace_organize_url (), menu_logic_workspace_organize_text ());
   page = header.run ();
   
   Assets_View view;

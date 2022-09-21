@@ -56,10 +56,10 @@ string resource_index (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Resources"), request);
-  header.setNavigator ();
-  header.setStylesheet ();
-  if (touch) header.jQueryTouchOn ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.set_navigator ();
+  header.set_stylesheet ();
+  if (touch) header.jquery_touch_on ();
+  header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view;
   

@@ -82,10 +82,10 @@ string editusfm_index (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit USFM"), request);
-  header.setNavigator ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  if (touch) header.jQueryTouchOn ();
-  header.notifItOn ();
+  header.set_navigator ();
+  header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  if (touch) header.jquery_touch_on ();
+  header.notify_it_on ();
   page = header.run ();
   Assets_View view;
 

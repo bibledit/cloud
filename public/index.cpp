@@ -92,8 +92,8 @@ string public_index (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate ("Public feedback"), request);
-  header.setNavigator ();
-  header.setStylesheet ();
+  header.set_navigator ();
+  header.set_stylesheet ();
   page = header.run ();
   Assets_View view;
   

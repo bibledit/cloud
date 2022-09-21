@@ -48,7 +48,7 @@ string session_password (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
-  header.touchCSSOn ();
+  header.touch_css_on ();
   page += header.run ();
 
   Assets_View view;

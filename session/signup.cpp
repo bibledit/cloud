@@ -70,7 +70,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   Assets_Header header = Assets_Header (translate ("Signup"), webserver_request);
-  header.touchCSSOn ();
+  header.touch_css_on ();
   page += header.run ();
   
   Assets_View view;

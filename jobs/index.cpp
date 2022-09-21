@@ -96,7 +96,7 @@ string jobs_index (void * webserver_request)
     header.refresh (1);
   }
   
-  header.setEditorStylesheet ();
+  header.set_editor_stylesheet ();
 
   page += header.run ();
 

@@ -108,11 +108,11 @@ string editone2_index (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Edit verse"), request);
-  header.setNavigator ();
-  header.setEditorStylesheet ();
-  if (touch) header.jQueryTouchOn ();
-  header.notifItOn ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  header.set_navigator ();
+  header.set_editor_stylesheet ();
+  if (touch) header.jquery_touch_on ();
+  header.notify_it_on ();
+  header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   
   Assets_View view;

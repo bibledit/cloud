@@ -41,7 +41,7 @@ string assets_external (void * webserver_request)
   }
 
   // Wait for some time till a URL is available.
-  int timer = 100;
+  int timer {100};
   while (timer) {
     this_thread::sleep_for (chrono::milliseconds (100));
     timer--;
@@ -61,11 +61,11 @@ string assets_external_logic_link_addon ()
 {
   // Open an external link in an external browser on most clients.
   // Open an external link in a new tab in some situations.
-  bool newtab = false;
+  bool newtab {false};
 #ifdef HAVE_CLOUD
   newtab = true;
 #endif
-  string addon;
+  string addon {};
   if (newtab) addon = R"(target="_blank")";
   else addon = R"(class="external")";
   // Done.

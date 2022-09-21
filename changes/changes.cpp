@@ -131,9 +131,9 @@ string changes_changes (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("Changes"), request);
-  header.setStylesheet ();
-  header.addBreadCrumb (menu_logic_translate_menu (), menu_logic_translate_text ());
-  if (touch) header.jQueryTouchOn ();
+  header.set_stylesheet ();
+  header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
+  if (touch) header.jquery_touch_on ();
   page += header.run ();
   Assets_View view;
   

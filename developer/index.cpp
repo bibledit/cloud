@@ -61,7 +61,7 @@ string developer_index (void * webserver_request)
   string page;
 
   Assets_Header header = Assets_Header ("Development", webserver_request);
-  header.notifItOn ();
+  header.notify_it_on ();
   page = header.run ();
 
   Assets_View view;

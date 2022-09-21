@@ -166,8 +166,8 @@ string search_strongs (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Search"), request);
-  header.setNavigator ();
-  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
+  header.set_navigator ();
+  header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
   Assets_View view;

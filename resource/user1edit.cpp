@@ -57,7 +57,7 @@ string resource_user1edit (void * webserver_request)
   
   string page;
   Assets_Header header = Assets_Header (translate("User-defined resources"), request);
-  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
   string error, success;

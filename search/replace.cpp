@@ -102,7 +102,7 @@ string search_replace (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Replace"), request);
-  header.addBreadCrumb (menu_logic_search_menu (), menu_logic_search_text ());
+  header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
   Assets_View view;

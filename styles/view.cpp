@@ -59,8 +59,8 @@ string styles_view (void * webserver_request)
   string page;
   
   Assets_Header header = Assets_Header (translate("Style"), webserver_request);
-  header.addBreadCrumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.addBreadCrumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
+  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();
   
   Assets_View view;

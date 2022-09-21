@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // This function returns users assigned to the logged-in user.
-vector <string> access_user_assignees (void * webserver_request)
+vector <string> access_user::assignees (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 

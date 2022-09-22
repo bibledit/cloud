@@ -56,14 +56,14 @@ bool changes_manage_acl (void * webserver_request)
 string changes_manage (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Modifications database_modifications;
+  Database_Modifications database_modifications {};
   
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Changes"), request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   
   
   if (request->query.count("clear")) {
@@ -72,13 +72,13 @@ string changes_manage (void * webserver_request)
     // If there's 2000+ notifications, it takes a considerable time.
     // For that reason, it starts a background job to clear the change notifications.
     // The app will remain responsive to the user.
-    Database_Jobs database_jobs = Database_Jobs ();
+    Database_Jobs database_jobs {};
     int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::manager ());
     database_jobs.set_start (jobId, translate ("Clearing change notifications."));
     tasks_logic_queue (DELETECHANGES, {convert_to_string (jobId), username});
     redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
-    return "";
+    return string();
   }
   
   
@@ -88,14 +88,14 @@ string changes_manage (void * webserver_request)
   }
   
   
-  bool notifications = false;
+  bool notifications {false};
   vector <string> users = access_user::assignees (webserver_request);
-  for (auto user : users) {
-    string any_bible = "";
+  for (const auto & user : users) {
+    string any_bible {};
     vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
     if (!ids.empty ()) {
       notifications = true;
-      map <string, string> values;
+      map <string, string> values {};
       values ["user"] = user;
       values ["count"] = convert_to_string (ids.size ());
       view.add_iteration ("notifications", values);

@@ -70,7 +70,7 @@ void changes_process_identifiers (Webserver_Request * request,
                                   int & change_count, float & time_total, int & time_count)
 {
   if (oldId != 0) {
-    Database_Modifications database_modifications;
+    Database_Modifications database_modifications {};
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Database_Modifications_Text old_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, oldId);
     string old_chapter_usfm = old_chapter_text.oldtext;
@@ -148,8 +148,8 @@ void changes_modifications ()
   
   
   // Data objects.
-  Webserver_Request request;
-  Database_Modifications database_modifications;
+  Webserver_Request request {};
+  Database_Modifications database_modifications {};
 
 
   // Check on the health of the modifications database and (re)create it if needed.
@@ -169,15 +169,15 @@ void changes_modifications ()
   }
 
   // Storage for the statistics.
-  map <string, int> user_change_statistics;
-  float modification_time_total = 0.0f;
-  int modification_time_count = 0;
+  map <string, int> user_change_statistics {};
+  float modification_time_total {0.0f};
+  int modification_time_count {0};
 
   // There is a setting per user indicating which Bible(s) a user
   // will get the change notifications from.
   // This setting affects the changes made by all users.
   // Note: A user will always receive notificatons of changes made by that same user.
-  map <string, vector<string> > notification_bibles_per_user;
+  map <string, vector<string> > notification_bibles_per_user {};
   {
     vector <string> users = request.database_users ()->get_users ();
     for (const auto & user : users) {
@@ -195,14 +195,14 @@ void changes_modifications ()
 
   vector <string> users = database_modifications.getUserUsernames ();
   if (!users.empty ()) Database_Logs::log ("Change notifications: Per user", Filter_Roles::translator ());
-  for (auto user : users) {
+  for (const auto & user : users) {
 
     // Total changes made by this user.
-    int change_count = 0;
+    int change_count {0};
     
     // Go through the Bibles changed by the current user.
     vector <string> bibles = database_modifications.getUserBibles (user);
-    for (auto bible : bibles) {
+    for (const auto & bible : bibles) {
       
       // Body of the email to be sent.
       string email = "<p>" + translate("You have entered the changes below in a Bible editor.") + " " + translate ("You may check if it made its way into the Bible text.") + "</p>";
@@ -276,7 +276,7 @@ void changes_modifications ()
   // for the changes in the Bibles entered by anyone
   // since the previous notifications were generated.
   vector <string> bibles = database_modifications.getTeamDiffBibles ();
-  for (auto bible : bibles) {
+  for (const auto & bible : bibles) {
     
     
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -284,7 +284,7 @@ void changes_modifications ()
     
     vector <string> changeNotificationUsers;
     vector <string> all_users = request.database_users ()->get_users ();
-    for (auto user : all_users) {
+    for (const auto & user : all_users) {
       if (access_bible::read (&request, bible, user)) {
         if (request.database_config_user()->getUserGenerateChangeNotifications (user)) {
           // The recipient may have set which Bibles to get the change notifications for.
@@ -336,7 +336,7 @@ void changes_modifications ()
     
     
     // Storage for body of the email with the changes.
-    vector <string> email_changes;
+    vector <string> email_changes {};
     
     
     // Generate the online change notifications.
@@ -408,10 +408,10 @@ void changes_modifications ()
       // then each part should remain well below that maximum size.
       // The size was reduced even more later on:
       // https://github.com/bibledit/cloud/issues/727
-      vector <string> bodies;
-      int counter = 0;
-      string body;
-      for (auto & line : email_changes) {
+      vector <string> bodies {};
+      int counter {0};
+      string body {};
+      for (const auto & line : email_changes) {
         body.append ("<div>");
         body.append (line);
         body.append ("</div>\n");
@@ -440,8 +440,6 @@ void changes_modifications ()
         }
       }
     }
-    
-    
   }
 
   
@@ -454,7 +452,7 @@ void changes_modifications ()
   string directory = filter_url_create_root_path ({"revisions"});
   int now = filter::date::seconds_since_epoch ();
   bibles = filter_url_scandir (directory);
-  for (auto &bible : bibles) {
+  for (const auto & bible : bibles) {
     string folder = filter_url_create_path ({directory, bible});
     int time = filter_url_file_modification_time (folder);
     int days = (now - time) / 86400;
@@ -477,7 +475,7 @@ void changes_modifications ()
   
   // Clear checksum caches.
   users = request.database_users ()->get_users ();
-  for (auto user : users) {
+  for (const auto & user : users) {
     request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
   

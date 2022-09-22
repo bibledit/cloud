@@ -32,10 +32,10 @@
 // Creates book template with ID $book in Bible $bible.
 // If a $chapter is given instead of -1, it creates that chapter only.
 // If the $chapter is -1, it creates all chapters within that book.
-bool book_create (string bible, int book, int chapter, vector <string> & feedback)
+bool book_create (const string & bible, const int book, const int chapter, vector <string> & feedback)
 {
-  Database_Bibles database_bibles;
-  Database_Versifications database_versifications;
+  Database_Bibles database_bibles {};
+  Database_Versifications database_versifications {};
 
   vector <string> bibles = database_bibles.getBibles ();
   if (!in_array (bible, bibles)) {
@@ -48,10 +48,10 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   }
   
   // The chapters that have been created.
-  vector <int> chapters_created;
+  vector <int> chapters_created {};
   
   // The USFM created.
-  string data;
+  string data {};
   
   // Chapter 0.
   if (chapter <=  0) {
@@ -66,7 +66,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
   // Subsequent chapters.
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   vector <Passage> versification_data = database_versifications.getBooksChaptersVerses (versification);
-  for (auto & row : versification_data) {
+  for (const auto & row : versification_data) {
     if (book == row.m_book) {
       int ch = row.m_chapter;
       int verse = convert_to_int (row.m_verse);

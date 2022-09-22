@@ -951,7 +951,7 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
     Filter_Text filter_text_ancestor = Filter_Text (bible);
     Filter_Text filter_text_edited = Filter_Text (bible);
     Filter_Text filter_text_merged = Filter_Text (bible);
-    filter_text_ancestor.html_text_standard = new Html_Text (translate("Bible")); // Todo smart pointers here and down.
+    filter_text_ancestor.html_text_standard = new Html_Text (translate("Bible"));
     filter_text_edited.html_text_standard = new Html_Text (translate("Bible"));
     filter_text_merged.html_text_standard = new Html_Text (translate("Bible"));
     filter_text_ancestor.text_text = new Text_Text ();

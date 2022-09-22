@@ -67,10 +67,10 @@ string changes_changes (void * webserver_request)
   
   // Handle AJAX call to load the summary of a change notification.
   if (request->query.count ("load")) {
-    int identifier = convert_to_int (request->query["load"]);
-    stringstream block;
-    Passage passage = database_modifications.getNotificationPassage (identifier);
-    string link = filter_passage_link_for_opening_editor_at (passage.m_book, passage.m_chapter, passage.m_verse);
+    const int identifier = convert_to_int (request->query["load"]);
+    stringstream block {};
+    const Passage passage = database_modifications.getNotificationPassage (identifier);
+    const string link = filter_passage_link_for_opening_editor_at (passage.m_book, passage.m_chapter, passage.m_verse);
     string category = database_modifications.getNotificationCategory (identifier);
     if (category == changes_personal_category ()) category = emoji_smiling_face_with_smiling_eyes ();
     if (category == changes_bible_category ()) category = emoji_open_book ();
@@ -88,35 +88,35 @@ string changes_changes (void * webserver_request)
   
   // Handle AJAX call to remove a change notification.
   if (request->post.count ("remove")) {
-    int remove = convert_to_int (request->post["remove"]);
+    const int remove = convert_to_int (request->post["remove"]);
     trash_change_notification (request, remove);
     database_modifications.deleteNotification (remove);
 #ifdef HAVE_CLIENT
     request->database_config_user ()->addRemovedChange (remove);
 #endif
     request->database_config_user ()->setChangeNotificationsChecksum ("");
-    return "";
+    return string();
   }
   
   
   // Handle AJAX call to navigate to the passage belonging to the change notification.
   if (request->post.count ("navigate")) {
     string navigate = request->post["navigate"];
-    int id = convert_to_int (navigate);
-    Passage passage = database_modifications.getNotificationPassage (id);
+    const int id = convert_to_int (navigate);
+    const Passage passage = database_modifications.getNotificationPassage (id);
     if (passage.m_book) {
       Ipc_Focus::set (request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
       Navigation_Passage::record_history (request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
     }
     // Set the correct default Bible for the user.
-    string bible = database_modifications.getNotificationBible (id);
+    const string bible = database_modifications.getNotificationBible (id);
     if (!bible.empty ()) request->database_config_user()->setBible (bible);
-    return "";
+    return string();
   }
   
   
   // Handle query to update the sorting order.
-  string sort = request->query ["sort"];
+  const string sort = request->query ["sort"];
   if (sort == "verse") {
     request->database_config_user ()->setOrderChangesByAuthor (false);
   }
@@ -125,17 +125,17 @@ string changes_changes (void * webserver_request)
   }
 
   
-  string username = request->session_logic()->currentUser ();
-  bool touch = request->session_logic ()->touchEnabled ();
+  const string username = request->session_logic()->currentUser ();
+  const bool touch = request->session_logic ()->touchEnabled ();
   
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Changes"), request);
   header.set_stylesheet ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   if (touch) header.jquery_touch_on ();
   page += header.run ();
-  Assets_View view;
+  Assets_View view {};
   
 
   // The selected Bible, that is, the Bible for which to show the change notifications.
@@ -147,12 +147,12 @@ string changes_changes (void * webserver_request)
 
   
   // Remove a user's personal changes notifications and their matching change notifications in the Bible.
-  string matching = request->query ["matching"];
+  const string matching = request->query ["matching"];
   if (!matching.empty ()) {
     vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category (), selectedbible);
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
-    for (auto & id : ids) {
+    for (const auto id : ids) {
       request->database_config_user ()->addRemovedChange (id);
     }
 #endif
@@ -164,7 +164,7 @@ string changes_changes (void * webserver_request)
   // Remove all the personal change notifications.
   if (request->query.count ("personal")) {
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
-    for (auto id : ids) {
+    for (const auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
 #ifdef HAVE_CLIENT
@@ -178,7 +178,7 @@ string changes_changes (void * webserver_request)
   // Remove all the Bible change notifications.
   if (request->query.count ("bible")) {
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
-    for (auto id : ids) {
+    for (const auto id : ids) {
       trash_change_notification (request, id);
       database_modifications.deleteNotification (id);
 #ifdef HAVE_CLIENT
@@ -208,7 +208,7 @@ string changes_changes (void * webserver_request)
   bool sort_on_author = request->database_config_user ()->getOrderChangesByAuthor ();
   vector <int> notification_ids = database_modifications.getNotificationIdentifiers (username, selectedbible, sort_on_author);
   // Send the identifiers to the browser for download there.
-  string pendingidentifiers;
+  string pendingidentifiers {};
   for (auto id : notification_ids) {
     if (!pendingidentifiers.empty ()) pendingidentifiers.append (" ");
     pendingidentifiers.append (convert_to_string (id));
@@ -216,7 +216,7 @@ string changes_changes (void * webserver_request)
   view.set_variable ("pendingidentifiers", pendingidentifiers);
   
   
-  stringstream loading;
+  stringstream loading {};
   loading << quoted(translate("Loading ..."));
   string script = "var loading = " + loading.str() + ";";
   config::logic::swipe_enabled (webserver_request, script);
@@ -237,8 +237,8 @@ string changes_changes (void * webserver_request)
     // If there's more than one distinct Bible, add the "All Bibles" selector.
     if (distinct_bibles.size () > 1) distinct_bibles.insert (distinct_bibles.begin(), "");
     // Iterate over the Bibles and make them all selectable.
-    for (auto bible : distinct_bibles) {
-      string cssclass;
+    for (const auto & bible : distinct_bibles) {
+      string cssclass {};
       if (selectedbible == bible) cssclass = "active";
       string name (bible);
       if (name.empty ()) name = translate ("All Bibles");
@@ -263,25 +263,25 @@ string changes_changes (void * webserver_request)
   
   // Add links to clear the notifications from the individual contributors.
   vector <string> categories = database_modifications.getCategories ();
-  for (auto & category : categories) {
+  for (const auto & category : categories) {
     if (category == changes_personal_category ()) continue;
     if (category == changes_bible_category ()) continue;
-    string user = category;
+    const string & user = category;
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     if (!ids.empty ()) {
       view.add_iteration ("individual", {
         pair ("user", user),
         pair ("selectedbible", selectedbible),
         pair ("count", convert_to_string(ids.size()))
-      } );
+      });
     }
   }
 
   
   // Add links to clear matching notifications of the various users.
-  for (auto & category : categories) {
+  for (const auto & category : categories) {
     if (category == changes_bible_category ()) continue;
-    string user = category;
+    const string & user = category;
     vector <int> personal_ids2 = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     string user_and_icon = translate ("user") + " " + category;
     if (category == changes_personal_category ()) {
@@ -303,7 +303,8 @@ string changes_changes (void * webserver_request)
   
   
   // Create data for the link for how to sort the change notifications.
-  string sortquery, sorttext;
+  string sortquery {};
+  string sorttext {};
   if (request->database_config_user ()->getOrderChangesByAuthor ()) {
     sortquery = "verse";
     sorttext = translate ("Sort on verse" );

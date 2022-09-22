@@ -75,7 +75,7 @@ void client_index_enable_client (void * webserver_request, const string & userna
   request->session_logic ()->currentLevel (true);
   
   // If there's pending Bible updates, send them off to the user.
-  bible_logic_client_mail_pending_bible_updates (username);
+  bible_logic::client_mail_pending_bible_updates (username);
   
   // Clear all pending note actions and Bible actions and settings updates.
   Database_NoteActions database_noteactions;

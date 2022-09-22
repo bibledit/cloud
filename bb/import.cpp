@@ -52,7 +52,7 @@ string bible_import (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
   
   Assets_Header header = Assets_Header (translate("Import"), webserver_request);
   header.set_navigator ();
@@ -60,10 +60,10 @@ string bible_import (void * webserver_request)
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view {};
   
-  string success_message;
-  string error_message;
+  string success_message {};
+  string error_message {};
   
   // The name of the Bible.
   string bible = access_bible::clamp (request, request->query["bible"]);

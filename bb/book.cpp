@@ -57,17 +57,17 @@ string bible_book (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
   
   Assets_Header header = Assets_Header (translate("Book"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view {};
   
-  string success_message;
-  string error_message;
+  string success_message {};
+  string error_message {};
   
   // The name of the Bible.
   string bible = access_bible::clamp (request, request->query["bible"]);
@@ -95,7 +95,7 @@ string bible_book (void * webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (write_access) bible_logic_delete_chapter (bible, book, convert_to_int (deletechapter));
+      if (write_access) bible_logic::delete_chapter (bible, book, convert_to_int (deletechapter));
     }
   }
   
@@ -113,7 +113,7 @@ string bible_book (void * webserver_request)
     // Only create the chapters if it does not yet exist.
     if (find (chapters.begin(), chapters.end(), createchapter) == chapters.end()) {
       vector <string> feedback;
-      bool result = true;
+      bool result {true};
       if (write_access) result = book_create (bible, book, createchapter, feedback);
       string message = filter_string_implode (feedback, " ");
       if (result) success_message = message;
@@ -125,7 +125,7 @@ string bible_book (void * webserver_request)
   
   // Available chapters.
   vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
-  string chapterblock;
+  string chapterblock {};
   for (auto & chapter : chapters) {
     chapterblock.append (R"(<a href="chapter?bible=)");
     chapterblock.append (bible);

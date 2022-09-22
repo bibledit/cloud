@@ -92,7 +92,7 @@ string editone2_index (void * webserver_request)
         // No Bible selected yet: Create the Indonesian Sample Bible and take that.
         string user = request->session_logic ()->currentUser ();
         selected_bible = filter::indonesian::mytranslation (user);
-        bible_logic_create_empty_bible (selected_bible);
+        bible_logic::create_empty_bible (selected_bible);
       }
       request->database_config_user()->setBible (selected_bible);
     }

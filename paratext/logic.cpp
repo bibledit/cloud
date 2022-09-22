@@ -444,13 +444,13 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 
         // Log the change due to a merge or copy.
         if (!updated_usfm.empty ()) {
-          bible_logic_log_change (bible, book, chapter, updated_usfm, "", "Paratext", true);
+          bible_logic::log_change (bible, book, chapter, updated_usfm, "", "Paratext", true);
         }
 
         // If there's any conflicts, email full details about the conflict to the user.
         // This may enable the user to resolve conflicts manually.
         filter_merge_add_book_chapter (conflicts, book, chapter);
-        bible_logic_merge_irregularity_mail ({ username }, conflicts);
+        bible_logic::merge_irregularity_mail ({ username }, conflicts);
         
         // Store the updated chapter in Bibledit.
         if (!updated_usfm.empty ()) {
@@ -459,7 +459,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
           // Store it only in case the Bibledit data was updated.
           // https://github.com/bibledit/cloud/issues/339
           if (updated_usfm != bibledit) {
-            bible_logic_store_chapter (bible, book, chapter, updated_usfm);
+            bible_logic::store_chapter (bible, book, chapter, updated_usfm);
           }
         }
 

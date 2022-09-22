@@ -149,7 +149,7 @@ void tasks_run_one (string filename)
     bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
   }
   else if (command == IMPORTRESOURCE) {
-    bible_logic_import_resource (parameter1, parameter2);
+    bible_logic::import_resource (parameter1, parameter2);
   }
   else if (command == COMPAREUSFM) {
     compare_compare (parameter1, parameter2, convert_to_int (parameter3));
@@ -315,7 +315,7 @@ void tasks_run_one (string filename)
     nmt_logic_export (parameter1, parameter2);
   }
   else if (command == CREATEEMPTYBIBLE) {
-    bible_logic_create_empty_bible (parameter1);
+    bible_logic::create_empty_bible (parameter1);
   }
   else if (command == DELETEINDONESIANFREEUSER) {
     system_logic_indonesian_free_deletion (parameter1, parameter2);

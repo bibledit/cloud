@@ -258,7 +258,7 @@ void sendreceive_bibles ()
   if (client_checksum == server_checksum) {
     Database_Logs::log (sendreceive_bibles_up_to_date_text (), Filter_Roles::translator ());
     send_receive_bibles_done ();
-    bible_logic_kick_unreceived_data_timer ();
+    bible_logic::kick_unreceived_data_timer ();
     return;
   }
   
@@ -284,7 +284,7 @@ void sendreceive_bibles ()
   if (server_checksum != message_checksum) {
     Database_Logs::log (sendreceive_bibles_text () + translate("Checksum error while receiving list of Bibles"), Filter_Roles::translator ());
     send_receive_bibles_done ();
-    bible_logic_kick_unreceived_data_timer ();
+    bible_logic::kick_unreceived_data_timer ();
     return;
   }
   Database_Logs::log (sendreceive_bibles_text () + filter_string_implode (v_server_bibles, ", "), Filter_Roles::translator ());
@@ -531,8 +531,8 @@ void sendreceive_bibles ()
         string client_usfm = request.database_bibles()->getChapter (bible, book, chapter);
         string merged_usfm = filter_merge_run (old_usfm, client_usfm, server_usfm, true, conflicts);
         filter_merge_add_book_chapter (conflicts, book, chapter);
-        bible_logic_merge_irregularity_mail ( { user }, conflicts);
-        bible_logic_store_chapter (bible, book, chapter, merged_usfm);
+        bible_logic::merge_irregularity_mail ( { user }, conflicts);
+        bible_logic::store_chapter (bible, book, chapter, merged_usfm);
       }
     }
   }
@@ -549,7 +549,7 @@ void sendreceive_bibles ()
   
   // Done.
   Database_Logs::log (sendreceive_bibles_text () + "Ready", Filter_Roles::translator ());
-  bible_logic_kick_unreceived_data_timer ();
+  bible_logic::kick_unreceived_data_timer ();
   send_receive_bibles_done ();
 }
 

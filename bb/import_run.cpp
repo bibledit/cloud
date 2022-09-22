@@ -36,18 +36,18 @@ void bible_import_run (string location, string bible, int book, int chapter)
 
   string folder = filter_archive_uncompress (location);
   if (!folder.empty ()) location = folder;
-  vector <string> files;
+  vector <string> files {};
   if (filter_url_is_dir (location)) {
     filter_url_recursive_scandir (location, files);
   } else {
     files.push_back (location);
   }
   
-  for (auto & file : files) {
+  for (const auto & file : files) {
     if (filter_url_is_dir (file)) continue;
     Database_Logs::log ("Examining file for import: " + file);
-    string success_message = "";
-    string error_message = "";
+    string success_message {};
+    string error_message {};
     string data = filter_url_file_get_contents (file);
     if (!data.empty()) {
       if (unicode_string_is_valid (data)) {
@@ -80,7 +80,8 @@ void bible_import_run (string location, string bible, int book, int chapter)
 // Import the USFM in $data into $bible.
 void bible_import_usfm (string data, string bible, int book, int chapter)
 {
-  if (book && chapter) {}
+  (void) book;
+  (void) chapter;
   string stylesheet = styles_logic_standard_sheet ();
   vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
   for (auto & data2 : book_chapter_text) {
@@ -88,7 +89,7 @@ void bible_import_usfm (string data, string bible, int book, int chapter)
     int chapter_number = data2.m_chapter;
     string chapter_data = data2.m_data;
     if (book_number > 0) {
-      bible_logic_store_chapter (bible, book_number, chapter_number, chapter_data);
+      bible_logic::store_chapter (bible, book_number, chapter_number, chapter_data);
       string book_name = database::books::get_usfm_from_id (book_number);
       Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter_number));
     } else {
@@ -102,7 +103,7 @@ void bible_import_usfm (string data, string bible, int book, int chapter)
 void bible_import_text (string text, string bible, int book, int chapter)
 {
   // Consecutive discoveries.
-  bool discoveries_passed = true;
+  bool discoveries_passed {true};
   
   // Split the input text into separate lines.
   vector <string> lines = filter_string_explode (text, '\n');
@@ -162,11 +163,11 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // The first time a number is found, a \p is prefixed.
     bool paragraph_open = false;
     if (discoveries_passed) {
-      string output;
+      string output {};
       string number = number_in_string(lines[i]);
       // Setting for having the number only at the start of the line.
-      bool treat_as_normal_paragraph = false;
-      bool verses_at_start = true;
+      bool treat_as_normal_paragraph {false};
+      bool verses_at_start {true};
       if (verses_at_start) {
         if (lines[i].find (number) != 0) {
           number.clear();
@@ -212,7 +213,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   }
   
   // Make one block of text.
-  string newtext;
+  string newtext {};
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (lines[i].empty())
       continue;
@@ -228,7 +229,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   }
 
   // Import the text as USFM.
-  bible_logic_store_chapter (bible, book, chapter, newtext);
+  bible_logic::store_chapter (bible, book, chapter, newtext);
   string book_name = database::books::get_usfm_from_id (book);
   Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter) + ": " + text);
 }

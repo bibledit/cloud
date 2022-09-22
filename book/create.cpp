@@ -58,7 +58,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
     data  = "\\id "    + database::books::get_usfm_from_id(book)     + "\n";
     data += "\\h "     + database::books::get_english_from_id (book) + "\n";
     data += "\\toc2 "  + database::books::get_english_from_id (book) + "\n";
-    bible_logic_store_chapter (bible, book, 0, data);
+    bible_logic::store_chapter (bible, book, 0, data);
     chapters_created.push_back (0);
   }
   
@@ -76,7 +76,7 @@ bool book_create (string bible, int book, int chapter, vector <string> & feedbac
         for (int i = 1; i <= verse; i++) {
           data += "\\v " + convert_to_string (i) + "\n";
         }
-        bible_logic_store_chapter (bible, book, ch, data);
+        bible_logic::store_chapter (bible, book, ch, data);
         chapters_created.push_back (ch);
       }
     }

@@ -66,7 +66,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
     string message = "User " + username + " does not have write access to Bible " + bible;
     Database_Logs::log (message, Filter_Roles::manager ());
     // The Cloud will email the user with details about the issue.
-    bible_logic_client_no_write_access_mail (bible, book, chapter, username, oldusfm, newusfm);
+    bible_logic::client_no_write_access_mail (bible, book, chapter, username, oldusfm, newusfm);
     // The Cloud returns the checksum so the client things the chapter was send off correcly,
     // and will not re-schedule this as a failure.
     return checksum;
@@ -102,23 +102,23 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   
   
   // Server logs the change from the client.
-  bible_logic_log_change (bible, book, chapter, newusfm, username, translate ("Received from client"), false);
+  bible_logic::log_change (bible, book, chapter, newusfm, username, translate ("Received from client"), false);
 
   
   if (serverusfm == "") {
     // If the chapter on the server is still empty, then just store the client's version on the server, and that's it.
-    bible_logic_store_chapter (bible, book, chapter, newusfm);
+    bible_logic::store_chapter (bible, book, chapter, newusfm);
   } else if (newusfm != serverusfm) {
     // Do a merge in case the client sends USFM that differs from what's on the server.
     vector <Merge_Conflict> conflicts;
     string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm, true, conflicts);
     // Update the server with the new chapter data.
-    bible_logic_store_chapter (bible, book, chapter, mergedusfm);
+    bible_logic::store_chapter (bible, book, chapter, mergedusfm);
     // Check on the merge.
     filter_merge_add_book_chapter (conflicts, book, chapter);
-    bible_logic_client_receive_merge_mail (bible, book, chapter, username, oldusfm, newusfm, mergedusfm);
+    bible_logic::client_receive_merge_mail (bible, book, chapter, username, oldusfm, newusfm, mergedusfm);
     // Log the merge in the journal, for possible trouble shooting.
-    bible_logic_log_merge (username, bible, book, chapter, oldusfm, newusfm, serverusfm, mergedusfm);
+    bible_logic::log_merge (username, bible, book, chapter, oldusfm, newusfm, serverusfm, mergedusfm);
   }
   
 

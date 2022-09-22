@@ -103,7 +103,7 @@ string index_index (void * webserver_request)
   
   Assets_View view;
 
-  view.set_variable ("warning", bible_logic_unsent_unreceived_data_warning ());
+  view.set_variable ("warning", bible_logic::unsent_unreceived_data_warning ());
   
   page += view.render ("index", "index");
   page += assets_page::footer ();

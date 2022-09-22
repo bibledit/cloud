@@ -53,14 +53,14 @@ string bible_chapter (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
   
   page = assets_page::header (translate ("Chapter"), webserver_request);
   
-  Assets_View view;
+  Assets_View view {};
   
-  string success_message;
-  string error_message;
+  string success_message {};
+  string error_message {};
   
   // The name of the Bible.
   string bible = access_bible::clamp (request, request->query["bible"]);

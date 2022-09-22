@@ -729,10 +729,10 @@ string safely_store_chapter (void * webserver_request,
 
   // Record the change in the journal.
   string user = request->session_logic ()->currentUser ();
-  bible_logic_log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"), false);
+  bible_logic::log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"), false);
   
   // Safety checks have passed: Save chapter.
-  bible_logic_store_chapter (bible, book, chapter, usfm);
+  bible_logic::store_chapter (bible, book, chapter, usfm);
   return "";
 }
 
@@ -824,10 +824,10 @@ string safely_store_verse (void * webserver_request,
 
   // Record the change in the journal.
   string user = request->session_logic ()->currentUser ();
-  bible_logic_log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);
+  bible_logic::log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);
   
   // Safety checks have passed: Save chapter.
-  bible_logic_store_chapter (bible, book, chapter, chapter_usfm);
+  bible_logic::store_chapter (bible, book, chapter, chapter_usfm);
 
   // Done: OK.
   return "";

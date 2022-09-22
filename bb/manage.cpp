@@ -64,16 +64,16 @@ string bible_manage (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
   
   Assets_Header header = Assets_Header (translate("Bibles"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view {};
   
-  string success_message;
-  string error_message;
+  string success_message {};
+  string error_message {};
   
   // New Bible handler.
   if (request->query.count ("new")) {
@@ -153,12 +153,12 @@ string bible_manage (void * webserver_request)
     if (confirm == "yes") {
       // User needs write access for delete operation.
       if (access_bible::write (request, bible)) {
-        bible_logic_delete_bible (bible);
+        bible_logic::delete_bible (bible);
       } else {
         page += assets_page::error ("Insufficient privileges to complete action");
       }
     }
-    if (confirm == "") {
+    if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to delete this Bible?") + " (" + bible + ")");
       dialog_yes.add_query ("delete", bible);
       page += dialog_yes.run ();
@@ -170,14 +170,14 @@ string bible_manage (void * webserver_request)
   view.set_variable ("error_message", error_message);
   vector <string> bibles = access_bible::bibles (request);
   xml_document document;
-  for (auto & bible : bibles) {
+  for (const auto & bible : bibles) {
     xml_node li_node = document.append_child ("li");
     xml_node a_node = li_node.append_child("a");
     string href = filter_url_build_http_query ("settings", "bible", bible);
     a_node.append_attribute("href") = href.c_str();
     a_node.text().set(bible.c_str());
   }
-  stringstream bibleblock;
+  stringstream bibleblock {};
   document.print(bibleblock, "", format_raw);
   view.set_variable ("bibleblock", bibleblock.str());
 

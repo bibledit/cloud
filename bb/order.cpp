@@ -48,14 +48,14 @@ string bible_order (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
 
   Assets_Header header = Assets_Header (translate("Order"), request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view {};
   
   // The name of the Bible.
   string bible = access_bible::clamp (request, request->query ["bible"]);
@@ -116,8 +116,8 @@ string bible_order (void * webserver_request)
       database::books::get_id_from_english ("Zechariah"),
       database::books::get_id_from_english ("Malachi"),
     };
-    vector <string> v_book_order;
-    for (auto & book : interspersed) v_book_order.push_back (convert_to_string (book));
+    vector <string> v_book_order {};
+    for (const auto book : interspersed) v_book_order.push_back (convert_to_string (book));
     string s_book_order = filter_string_implode (v_book_order, " ");
     Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
@@ -175,8 +175,8 @@ string bible_order (void * webserver_request)
       database::books::get_id_from_english ("Sirach"),
       database::books::get_id_from_english ("Baruch"),
     };
-    vector <string> v_book_order;
-    for (auto & book : interspersed) v_book_order.push_back (convert_to_string (book));
+    vector <string> v_book_order {};
+    for (const auto book : interspersed) v_book_order.push_back (convert_to_string (book));
     string s_book_order = filter_string_implode (v_book_order, " ");
     Database_Config_Bible::setBookOrder (bible, s_book_order);
   }

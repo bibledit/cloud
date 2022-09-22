@@ -558,7 +558,7 @@ void test_bibles ()
     vector <int> sizes_out;
     vector <string> operators_out;
     vector <string> content_out;
-    bible_logic_condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
+    bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
                                          positions_out, sizes_out, operators_out, content_out);
     evaluate (__LINE__, __func__, {6  }, positions_out);
     evaluate (__LINE__, __func__, {1  }, sizes_out);
@@ -576,7 +576,7 @@ void test_bibles ()
     vector <int> sizes_out;
     vector <string> operators_out;
     vector <string> content_out;
-    bible_logic_condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
+    bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
                                          positions_out, sizes_out, operators_out, content_out);
     evaluate (__LINE__, __func__, {6,      6    }, positions_out);
     evaluate (__LINE__, __func__, {1,      1    }, sizes_out);
@@ -595,7 +595,7 @@ void test_bibles ()
     vector <int> sizes_out;
     vector <string> operators_out;
     vector <string> content_out;
-    bible_logic_condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
+    bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
                                          positions_out, sizes_out, operators_out, content_out);
     evaluate (__LINE__, __func__, {6,      6       }, positions_out);
     evaluate (__LINE__, __func__, {2,      2       }, sizes_out);
@@ -613,7 +613,7 @@ void test_bibles ()
     vector <int> sizes_out;
     vector <string> operators_out;
     vector <string> content_out;
-    bible_logic_condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
+    bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
                                          positions_out, sizes_out, operators_out, content_out);
     evaluate (__LINE__, __func__, {6,   7,      8     }, positions_out);
     evaluate (__LINE__, __func__, {1,   1,      1     }, sizes_out);
@@ -630,7 +630,7 @@ void test_bibles ()
     vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 34  }, positions);
     evaluate (__LINE__, __func__, { 1   }, sizes);
     evaluate (__LINE__, __func__, { "i" }, operators);
@@ -646,7 +646,7 @@ void test_bibles ()
     vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 33,  33,  33  }, positions);
     evaluate (__LINE__, __func__, { 1,   1,   1   }, sizes);
     evaluate (__LINE__, __func__, { "d", "d", "i" }, operators);
@@ -662,7 +662,7 @@ void test_bibles ()
     vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 34,    34,  0,    62   }, positions);
     evaluate (__LINE__, __func__, { 1,     1,   1,    1    }, sizes);
     evaluate (__LINE__, __func__, { "d",   "i", "p",  "p"  }, operators);
@@ -678,7 +678,7 @@ void test_bibles ()
     vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
     evaluate (__LINE__, __func__, { 1,      1,   1,   1,    1,   1,    1    }, sizes);
     evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);
@@ -694,7 +694,7 @@ void test_bibles ()
     vector <int> sizes;
     vector <string> operators;
     vector <string> content;
-    bible_logic_html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
+    bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     //evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
     //evaluate (__LINE__, __func__, { 1,      1,   1,   1,    1,   1,    1    }, sizes);
     //evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);

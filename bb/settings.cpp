@@ -72,16 +72,16 @@ string bible_settings (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Bible"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
 
   
-  string success_message;
-  string error_message;
+  string success_message {};
+  string error_message {};
 
   
   // The Bible.
@@ -141,10 +141,10 @@ string bible_settings (void * webserver_request)
   
   // Book deletion.
   string deletebook = request->query["deletebook"];
-  if (deletebook != "") {
+  if (!deletebook.empty()) {
     string confirm = request->query["confirm"];
     if (confirm == "yes") {
-      if (write_access) bible_logic_delete_book (bible, convert_to_int (deletebook));
+      if (write_access) bible_logic::delete_book (bible, convert_to_int (deletebook));
     } else if (confirm == "cancel") {
     } else {
       Dialog_Yes dialog_yes = Dialog_Yes ("settings", translate("Would you like to delete this book?"));
@@ -185,15 +185,15 @@ string bible_settings (void * webserver_request)
   }
 
   
-  int level = request->session_logic ()->currentLevel ();
-  bool manager_level = (level >= Filter_Roles::manager ());
+  const int level = request->session_logic ()->currentLevel ();
+  const bool manager_level = (level >= Filter_Roles::manager ());
   if (manager_level) view.enable_zone ("manager");
 
   
   // Available books.
-  xml_document book_document;
+  xml_document book_document {};
   vector <int> book_ids = filter_passage_get_ordered_books (bible);
-  for (auto & book: book_ids) {
+  for (const auto book: book_ids) {
     string book_name = database::books::get_english_from_id (book);
     book_name = translate(book_name);
     xml_node a_or_span_node;
@@ -209,7 +209,7 @@ string bible_settings (void * webserver_request)
     xml_node space_node = book_document.append_child("span");
     space_node.text().set(" ");
   }
-  stringstream bookblock2;
+  stringstream bookblock2 {};
   book_document.print (bookblock2, "", format_raw);
   view.set_variable ("bookblock", bookblock2.str());
   view.set_variable ("book_count", convert_to_string (static_cast<int>(book_ids.size())));

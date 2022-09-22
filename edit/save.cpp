@@ -141,7 +141,7 @@ string edit_save (void * webserver_request)
   
   // Check on the merge.
   filter_merge_add_book_chapter (conflicts, book, chapter);
-  bible_logic_merge_irregularity_mail ({username}, conflicts);
+  bible_logic::merge_irregularity_mail ({username}, conflicts);
   
   // Check whether the USFM on disk has changed compared to the USFM that was loaded in the editor.
   // If there's a difference, email the user.
@@ -152,13 +152,13 @@ string edit_save (void * webserver_request)
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
   if (ancestor_usfm != server_usfm) {
-    bible_logic_recent_save_email (bible, book, chapter, username, ancestor_usfm, server_usfm);
+    bible_logic::recent_save_email (bible, book, chapter, username, ancestor_usfm, server_usfm);
   }
 
   // Safely store the chapter.
   string explanation;
   string message = filter::usfm::safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
-  bible_logic_unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
+  bible_logic::unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
 
   // If an error message was given, then return that message to the browser.
   if (!message.empty ()) return message;

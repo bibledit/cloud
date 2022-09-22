@@ -142,7 +142,7 @@ string search_replacego (void * webserver_request)
   
   // Store the new chapter in the database on success.
   if (replacementOkay && write) {
-    bible_logic_store_chapter (bible, book, chapter, new_chapter_usfm);
+    bible_logic::store_chapter (bible, book, chapter, new_chapter_usfm);
   }
   
   

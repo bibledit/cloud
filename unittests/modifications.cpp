@@ -173,12 +173,12 @@ void test_database_modifications_team ()
     evaluate (__LINE__, __func__, false, exists);
     
     // After storing a chapter there should be a diff.
-    bible_logic_store_chapter ("phpunit", 1, 2, "chapter text one");
+    bible_logic::store_chapter ("phpunit", 1, 2, "chapter text one");
     exists = database_modifications.teamDiffExists ("phpunit", 1, 2);
     evaluate (__LINE__, __func__, true, exists);
     
     // After storing a chapter for the second time, the diff should still exist.
-    bible_logic_store_chapter ("none", 1, 2, "chapter text two");
+    bible_logic::store_chapter ("none", 1, 2, "chapter text two");
     exists = database_modifications.teamDiffExists ("phpunit", 1, 2);
     evaluate (__LINE__, __func__, true, exists);
     
@@ -201,9 +201,9 @@ void test_database_modifications_team ()
     evaluate (__LINE__, __func__, false, database_modifications.teamDiffExists ("phpunit", 2, 2));
     evaluate (__LINE__, __func__, false, database_modifications.teamDiffExists ("phpunit", 2, 3));
     
-    bible_logic_store_chapter ("phpunit", 2, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 2, 2, "chapter text");
-    bible_logic_store_chapter ("phpunit", 2, 3, "chapter text");
+    bible_logic::store_chapter ("phpunit", 2, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 2, 2, "chapter text");
+    bible_logic::store_chapter ("phpunit", 2, 3, "chapter text");
     
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 2, 1));
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 2, 2));
@@ -232,9 +232,9 @@ void test_database_modifications_team ()
     evaluate (__LINE__, __func__, false, database_modifications.teamDiffExists ("phpunit", 4, 1));
     evaluate (__LINE__, __func__, false, database_modifications.teamDiffExists ("phpunit", 5, 1));
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 4, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 5, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 4, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 5, 1, "chapter text");
     
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 3, 1));
     evaluate (__LINE__, __func__, true, database_modifications.teamDiffExists ("phpunit", 4, 1));
@@ -263,18 +263,18 @@ void test_database_modifications_team ()
     string diff = database_modifications.getTeamDiff ("phpunit", 1, 1);
     evaluate (__LINE__, __func__, "", diff);
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
     database_modifications.truncateTeams ();
-    bible_logic_store_chapter ("phpunit", 3, 1, "longer chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "longer chapter text");
     diff = database_modifications.getTeamDiff ("phpunit", 3, 1);
     evaluate (__LINE__, __func__, "chapter text", diff);
     
     diff = database_modifications.getTeamDiff ("phpunit", 1, 2);
     evaluate (__LINE__, __func__, "", diff);
     
-    bible_logic_store_chapter ("phpunit", 5, 5, "chapter text");
+    bible_logic::store_chapter ("phpunit", 5, 5, "chapter text");
     database_modifications.truncateTeams ();
-    bible_logic_store_chapter ("phpunit", 5, 5, "longer chapter text");
+    bible_logic::store_chapter ("phpunit", 5, 5, "longer chapter text");
     diff = database_modifications.getTeamDiff ("phpunit", 5, 5);
     evaluate (__LINE__, __func__, "chapter text", diff);
   }
@@ -289,9 +289,9 @@ void test_database_modifications_team ()
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 5, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
     
     vector <int> chapters = database_modifications.getTeamDiffChapters ("phpunit", 1);
     evaluate (__LINE__, __func__, {}, chapters);
@@ -313,9 +313,9 @@ void test_database_modifications_team ()
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 5, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
     
     vector <string> bibles = database_modifications.getTeamDiffBibles ();
     evaluate (__LINE__, __func__, {"phpunit"}, bibles);
@@ -341,9 +341,9 @@ void test_database_modifications_team ()
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 5, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
     
     vector <int> chapters = database_modifications.getTeamDiffChapters ("phpunit", 3);
     evaluate (__LINE__, __func__, {1, 3, 5}, chapters);
@@ -364,9 +364,9 @@ void test_database_modifications_team ()
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit", 3, 3, "chapter text");
-    bible_logic_store_chapter ("phpunit", 4, 5, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
+    bible_logic::store_chapter ("phpunit", 4, 5, "chapter text");
     
     vector <int> books = database_modifications.getTeamDiffBooks ("phpunit");
     evaluate (__LINE__, __func__, {3, 4}, books);
@@ -385,9 +385,9 @@ void test_database_modifications_team ()
     database_bibles.createBible ("phpunit");
     database_bibles.createBible ("phpunit2");
     
-    bible_logic_store_chapter ("phpunit", 3, 1, "chapter text");
-    bible_logic_store_chapter ("phpunit2", 3, 3, "chapter text");
-    bible_logic_store_chapter ("phpunit2", 3, 5, "chapter text");
+    bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
+    bible_logic::store_chapter ("phpunit2", 3, 3, "chapter text");
+    bible_logic::store_chapter ("phpunit2", 3, 5, "chapter text");
     
     int count = database_modifications.getTeamDiffCount ("phpunit");
     evaluate (__LINE__, __func__, 1, count);

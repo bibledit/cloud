@@ -25,10 +25,10 @@
 class Checks_Usfm
 {
 public:
-  Checks_Usfm (string bible);
+  Checks_Usfm (const string & bible);
   void initialize (int book, int chapter);
   void finalize ();
-  void check (string usfm);
+  void check (const string & usfm);
   vector <pair<int, string>> get_results ();
 private:
   // USFM and text.
@@ -71,10 +71,10 @@ private:
   
   // Methods.
   void malformed_verse_number ();
-  void new_line_in_usfm (string usfm);
+  void new_line_in_usfm (const string & usfm);
   void marker_in_stylesheet ();
   void malformed_id ();
-  void forward_slash (string usfm);
+  void forward_slash (const string & usfm);
   void widow_back_slash ();
   void matching_endmarker ();
   void embedded_marker ();

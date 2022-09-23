@@ -25,15 +25,15 @@
 #include <locale/translate.h>
 
 
-void Checks_Versification::books (string bible, vector <int> books)
+void checks_versification::books (const string & bible, const vector <int> & books)
 {
-  Database_Versifications database_versifications;
+  Database_Versifications database_versifications {};
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = english ();
-  vector <int> standardBooks = database_versifications.getBooks (versification);
-  vector <int> absentBooks = filter_string_array_diff (standardBooks, books);
-  vector <int> extraBooks = filter_string_array_diff (books, standardBooks);
-  Database_Check database_check;
+  const vector <int> standardBooks = database_versifications.getBooks (versification);
+  const vector <int> absentBooks = filter_string_array_diff (standardBooks, books);
+  const vector <int> extraBooks = filter_string_array_diff (books, standardBooks);
+  Database_Check database_check {};
   for (auto book : absentBooks) {
     database_check.recordOutput (bible, book, 1, 1, translate ("This book is absent from the Bible"));
   }
@@ -43,15 +43,15 @@ void Checks_Versification::books (string bible, vector <int> books)
 }
 
 
-void Checks_Versification::chapters (string bible, int book, vector <int> chapters)
+void checks_versification::chapters (const string & bible, int book, const vector <int> & chapters)
 {
-  Database_Versifications database_versifications;
+  Database_Versifications database_versifications {};
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = english ();
-  vector <int> standardChapters = database_versifications.getChapters (versification, book, true);
-  vector <int> absentChapters = filter_string_array_diff (standardChapters, chapters);
-  vector <int> extraChapters = filter_string_array_diff (chapters, standardChapters);
-  Database_Check database_check;
+  const vector <int> standardChapters = database_versifications.getChapters (versification, book, true);
+  const vector <int> absentChapters = filter_string_array_diff (standardChapters, chapters);
+  const vector <int> extraChapters = filter_string_array_diff (chapters, standardChapters);
+  Database_Check database_check {};
   for (auto chapter : absentChapters) {
     database_check.recordOutput (bible, book, chapter, 1, translate ("This chapter is missing"));
   }
@@ -61,17 +61,17 @@ void Checks_Versification::chapters (string bible, int book, vector <int> chapte
 }
 
 
-void Checks_Versification::verses (string bible, int book, int chapter, vector <int> verses)
+void checks_versification::verses (const string & bible, int book, int chapter, const vector <int> & verses)
 {
   // Get verses in this chapter according to the versification system for the Bible.
-  Database_Versifications database_versifications;
+  Database_Versifications database_versifications {};
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = english ();
-  vector <int> standardVerses = database_versifications.getVerses (versification, book, chapter);
+  const vector <int> standardVerses = database_versifications.getVerses (versification, book, chapter);
   // Look for missing and extra verses.
-  vector <int> absentVerses = filter_string_array_diff (standardVerses, verses);
-  vector <int> extraVerses = filter_string_array_diff (verses, standardVerses);
-  Database_Check database_check;
+  const vector <int> absentVerses = filter_string_array_diff (standardVerses, verses);
+  const vector <int> extraVerses = filter_string_array_diff (verses, standardVerses);
+  Database_Check database_check {};
   for (auto verse : absentVerses) {
     database_check.recordOutput (bible, book, chapter, verse, translate ("This verse is missing according to the versification system"));
   }
@@ -80,8 +80,8 @@ void Checks_Versification::verses (string bible, int book, int chapter, vector <
     database_check.recordOutput (bible, book, chapter, verse, translate ("This verse is extra according to the versification system"));
   }
   // Look for verses out of order.
-  int previousVerse = 0;
-  for (unsigned int i = 0; i < verses.size(); i++) {
+  int previousVerse {0};
+  for (size_t i = 0; i < verses.size(); i++) {
     int verse = verses[i];
     if (i > 0) {
       if (verse != (previousVerse + 1)) {

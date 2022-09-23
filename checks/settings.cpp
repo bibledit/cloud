@@ -60,11 +60,11 @@ string checks_settings (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Manage Checks"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   
   
   if (request->query.count ("bible")) {
@@ -72,7 +72,7 @@ string checks_settings (void * webserver_request)
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), string(), string());
       vector <string> bibles = access_bible::bibles (webserver_request);
-      for (auto selectable_bible : bibles) {
+      for (const auto & selectable_bible : bibles) {
         dialog_list.add_row (selectable_bible, "bible", selectable_bible);
       }
       page += dialog_list.run ();

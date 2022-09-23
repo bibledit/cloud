@@ -21,11 +21,10 @@
 
 #include <config/libraries.h>
 
-class Checks_Headers
-{
-public:
-  static void noPunctuationAtEnd (string bible, int book, int chapter,
-                                  map <int, string> headings,
-                                  string centermarks, string endmarks);
-private:
-};
+namespace checks_headers {
+
+void no_punctuation_at_end (const string & bible, int book, int chapter,
+                            const map <int, string> & headings,
+                            const string & centermarks, const string & endmarks);
+
+}

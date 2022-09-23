@@ -48,7 +48,7 @@ void test_pairs ()
       pair (3, "Verse three."),
       pair (4, "Verse four.")
     };
-    Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
+    checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, results.size());
     database_check.truncateOutput ("");
@@ -60,7 +60,7 @@ void test_pairs ()
       pair (3, "Verse three]."),
       pair (4, "Verse four.")
     };
-    Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
+    checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, results.size());
     database_check.truncateOutput ("");
@@ -72,7 +72,7 @@ void test_pairs ()
       pair (3, "Verse (three."),
       pair (4, "Verse four.")
     };
-    Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
+    checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
     evaluate (__LINE__, __func__, 2, results.size());
     if (results.size () == 2) {
@@ -95,7 +95,7 @@ void test_pairs ()
       pair (3, "Verse three."),
       pair (4, "Verse four).")
     };
-    Checks_Pairs::run (bible, book, chapter, verses, pairs, false);
+    checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
     evaluate (__LINE__, __func__, 2, results.size());
     if (results.size () == 2) {

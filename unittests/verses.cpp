@@ -38,7 +38,7 @@ void test_verses ()
       pair (4, "He said."),
       pair (5, "He said: “Jesus.”")
     };
-    Checks_Verses::missingPunctuationAtEnd ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
+    checks_verses::missing_punctuation_at_end ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
     if (results.size ()) {
@@ -59,7 +59,7 @@ void test_verses ()
       pair (3, "He didn't say"),
       pair (4, "He said.")
     };
-    Checks_Verses::patterns ("1", 1, 1, verses, {"did"});
+    checks_verses::patterns ("1", 1, 1, verses, {"did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
     if (results.size ()) {
@@ -80,7 +80,7 @@ void test_verses ()
       pair (3, "He didn't say"),
       pair (4, "He said.")
     };
-    Checks_Verses::patterns ("1", 1, 1, verses, {"Did"});
+    checks_verses::patterns ("1", 1, 1, verses, {"Did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 0, static_cast<int>(results.size()));
   }
@@ -92,7 +92,7 @@ void test_verses ()
       pair (3, "He didn't say"),
       pair (4, "He said.")
     };
-    Checks_Verses::patterns ("1", 1, 1, verses, {"said"});
+    checks_verses::patterns ("1", 1, 1, verses, {"said"});
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 2, static_cast<int>(results.size()));
     if (results.size () == 2) {

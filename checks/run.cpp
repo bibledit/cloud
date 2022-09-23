@@ -50,14 +50,14 @@
 
 void checks_run (string bible)
 {
-  Webserver_Request request;
-  Database_Check database_check;
+  Webserver_Request request {};
+  Database_Check database_check {};
 #ifndef HAVE_CLIENT
-  Database_Modifications database_modifications;
+  Database_Modifications database_modifications {};
 #endif
 
   
-  if (bible == "") return;
+  if (bible.empty()) return;
   
   
   Database_Logs::log ("Check " + bible + ": Start", Filter_Roles::translator ());
@@ -76,15 +76,15 @@ void checks_run (string bible)
   bool check_sentence_structure = Database_Config_Bible::getCheckSentenceStructure (bible);
   bool check_paragraph_structure = Database_Config_Bible::getCheckParagraphStructure (bible);
   Checks_Sentences checks_sentences;
-  checks_sentences.enterCapitals (Database_Config_Bible::getSentenceStructureCapitals (bible));
-  checks_sentences.enterSmallLetters (Database_Config_Bible::getSentenceStructureSmallLetters (bible));
+  checks_sentences.enter_capitals (Database_Config_Bible::getSentenceStructureCapitals (bible));
+  checks_sentences.enter_small_letters (Database_Config_Bible::getSentenceStructureSmallLetters (bible));
   string end_marks = Database_Config_Bible::getSentenceStructureEndPunctuation (bible);
-  checks_sentences.enterEndMarks (end_marks);
+  checks_sentences.enter_end_marks (end_marks);
   string center_marks = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
-  checks_sentences.enterCenterMarks (center_marks);
+  checks_sentences.enter_center_marks (center_marks);
   string disregards = Database_Config_Bible::getSentenceStructureDisregards (bible);
-  checks_sentences.enterDisregards (disregards);
-  checks_sentences.enterNames (Database_Config_Bible::getSentenceStructureNames (bible));
+  checks_sentences.enter_disregards (disregards);
+  checks_sentences.enter_names (Database_Config_Bible::getSentenceStructureNames (bible));
   vector <string> within_sentence_paragraph_markers = filter_string_explode (Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (bible), ' ');
   bool check_books_versification = Database_Config_Bible::getCheckBooksVersification (bible);
   bool check_chapters_verses_versification = Database_Config_Bible::getCheckChaptesVersesVersification (bible);
@@ -117,14 +117,14 @@ void checks_run (string bible)
 
   
   vector <int> books = request.database_bibles()->getBooks (bible);
-  if (check_books_versification) Checks_Versification::books (bible, books);
+  if (check_books_versification) checks_versification::books (bible, books);
   
   
   for (auto book : books) {
     
     
     vector <int> chapters = request.database_bibles()->getChapters (bible, book);
-    if (check_chapters_verses_versification) Checks_Versification::chapters (bible, book, chapters);
+    if (check_chapters_verses_versification) checks_versification::chapters (bible, book, chapters);
     
     
     for (auto chapter : chapters) {
@@ -155,7 +155,7 @@ void checks_run (string bible)
       
       
       vector <int> verses = filter::usfm::get_verse_numbers (chapterUsfm);
-      if (check_chapters_verses_versification) Checks_Versification::verses (bible, book, chapter, verses);
+      if (check_chapters_verses_versification) checks_versification::verses (bible, book, chapter, verses);
       
       
       for (auto verse : verses) {
@@ -179,11 +179,11 @@ void checks_run (string bible)
       filter_text.initializeHeadingsAndTextPerVerse (false);
       filter_text.add_usfm_code (chapterUsfm);
       filter_text.run (stylesheet);
-      map <int, string>  verses_headings = filter_text.verses_headings;
+      map <int, string> verses_headings = filter_text.verses_headings;
       map <int, string> verses_text = filter_text.getVersesText ();
       vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
       if (check_full_stop_in_headings) {
-        Checks_Headers::noPunctuationAtEnd (bible, book, chapter, verses_headings, center_marks, end_marks);
+        checks_headers::no_punctuation_at_end (bible, book, chapter, verses_headings, center_marks, end_marks);
       }
       if (check_space_before_punctuation) {
         checks::space::space_before_punctuation (bible, book, chapter, verses_text);
@@ -198,7 +198,7 @@ void checks_run (string bible)
                                        verses_paragraphs);
         }
         
-        vector <pair<int, string>> results = checks_sentences.getResults ();
+        vector <pair<int, string>> results = checks_sentences.get_results ();
         for (auto result : results) {
           int verse = result.first;
           string msg = result.second;
@@ -219,15 +219,15 @@ void checks_run (string bible)
       }
 
       if (check_missing_punctuation_end_verse) {
-        Checks_Verses::missingPunctuationAtEnd (bible, book, chapter, verses_text, center_marks, end_marks, disregards);
+        checks_verses::missing_punctuation_at_end (bible, book, chapter, verses_text, center_marks, end_marks, disregards);
       }
       
       if (check_patterns) {
-        Checks_Verses::patterns (bible, book, chapter, verses_text, checking_patterns);
+        checks_verses::patterns (bible, book, chapter, verses_text, checking_patterns);
       }
       
       if (check_matching_pairs) {
-        Checks_Pairs::run (bible, book, chapter, verses_text, matching_pairs, check_french_citation_style);
+        checks_pairs::run (bible, book, chapter, verses_text, matching_pairs, check_french_citation_style);
       }
       
       if (check_space_end_verse) {
@@ -235,12 +235,12 @@ void checks_run (string bible)
       }
       
       if (check_french_punctuation) {
-        Checks_French::spaceBeforeAfterPunctuation (bible, book, chapter, verses_headings);
-        Checks_French::spaceBeforeAfterPunctuation (bible, book, chapter, verses_text);
+        checks_french::space_before_after_punctuation (bible, book, chapter, verses_headings);
+        checks_french::space_before_after_punctuation (bible, book, chapter, verses_text);
       }
       
       if (check_french_citation_style) {
-        Checks_French::citationStyle (bible, book, chapter, verses_paragraphs);
+        checks_french::citation_style (bible, book, chapter, verses_paragraphs);
       }
       
     }
@@ -250,7 +250,7 @@ void checks_run (string bible)
   // Create an email with the checking results for this bible.
   vector <string> emailBody;
   vector <Database_Check_Hit> hits = database_check.getHits ();
-  for (auto hit : hits) {
+  for (const auto & hit : hits) {
     if (hit.bible == bible) {
       string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, convert_to_string (hit.verse))});
       string data = escape_special_xml_characters (hit.data);
@@ -263,10 +263,10 @@ void checks_run (string bible)
   // Add a link to the online checking results.
   if (!emailBody.empty ()) {
     string siteUrl = config::logic::site_url (nullptr);
-    stringstream body1;
+    stringstream body1 {};
     body1 << "<p><a href=" << quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";
     emailBody.push_back (body1.str());
-    stringstream body2;
+    stringstream body2 {};
     body2 << "<p><a href=" << quoted(siteUrl + checks_settings_url ()) << ">" << translate ("Settings") << "</a></p>";
     emailBody.push_back (body2.str());
   }

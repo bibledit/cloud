@@ -22,4 +22,4 @@
 #include <config/libraries.h>
 
 void checks_logic_start_all ();
-void checks_logic_start (string bible);
+void checks_logic_start (const string & bible);

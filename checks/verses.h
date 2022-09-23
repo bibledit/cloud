@@ -21,11 +21,13 @@
 
 #include <config/libraries.h>
 
-class Checks_Verses
-{
-public:
-  static void missingPunctuationAtEnd (string bible, int book, int chapter, map <int, string> verses,
-                                       string center_marks, string end_marks, string disregards);
-  static void patterns (string bible, int book, int chapter, map <int, string> verses, vector <string> patterns);
-private:
-};
+namespace checks_verses {
+
+void missing_punctuation_at_end (const string & bible, int book, int chapter,
+                                 const map <int, string> & verses,
+                                 const string & center_marks, const string & end_marks,
+                                 const string & disregards);
+void patterns (const string & bible, int book, int chapter,
+               const map <int, string> & verses, const vector <string> & patterns);
+
+}

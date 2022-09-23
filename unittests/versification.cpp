@@ -40,7 +40,7 @@ void test_versification ()
     database_check.create ();
     vector <int> books = database_versifications.getBooks (english ());
     vector <int> fault = filter_string_array_diff (books, {10});
-    Checks_Versification::books ("Bible", fault);
+    checks_versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
     if (results.size ()) {
@@ -68,7 +68,7 @@ void test_versification ()
     // One missing and one extra chapter.
     vector <int> chapters = {0, 2, 3, 4, 5};
     // Run check.
-    Checks_Versification::chapters ("Bible", book, chapters);
+    checks_versification::chapters ("Bible", book, chapters);
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
@@ -107,7 +107,7 @@ void test_versification ()
     vector <int> verses = {0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24};
 
     // Run check.
-    Checks_Versification::verses ("Bible", book, chapter, verses);
+    checks_versification::verses ("Bible", book, chapter, verses);
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
@@ -161,7 +161,7 @@ void test_versification ()
     vector <int> verses = {0, 2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
     
     // Run check.
-    Checks_Versification::verses ("Bible", book, chapter, verses);
+    checks_versification::verses ("Bible", book, chapter, verses);
     
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();

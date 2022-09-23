@@ -58,12 +58,12 @@ string checks_settingspairs (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate ("Matching pairs"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   
   
   string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
@@ -72,11 +72,11 @@ string checks_settingspairs (void * webserver_request)
   
   if (request->post.count ("pairs")) {
     string fragment = request->post["pairs"];
-    vector <string> errors;
+    vector <string> errors {};
     vector <string> pairs = filter_string_explode (fragment, ' ');
-    bool okay = true;
-    for (auto & pair : pairs) {
-      size_t length = unicode_string_length (pair);
+    bool okay {true};
+    for (const auto & pair : pairs) {
+      const size_t length = unicode_string_length (pair);
       if (length != 2) {
         errors.push_back (translate ("A pair should consist of two characters:") + " " + pair);
         okay = false;

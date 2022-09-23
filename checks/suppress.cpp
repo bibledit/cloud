@@ -48,12 +48,12 @@ bool checks_suppress_acl (void * webserver_request)
 string checks_suppress (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Check database_check;
+  Database_Check database_check {};
   
   
-  string page;
+  string page {};
   page = assets_page::header (translate ("Suppressed checking results"), webserver_request);
-  Assets_View view;
+  Assets_View view {};
   
   
   if (request->query.count ("release")) {
@@ -64,10 +64,10 @@ string checks_suppress (void * webserver_request)
   
                         
   // Get the Bibles the user has write-access to.
-  vector <string> bibles;
+  vector <string> bibles {};
   {
     vector <string> all_bibles = request->database_bibles()->getBibles ();
-    for (auto bible : all_bibles) {
+    for (const auto & bible : all_bibles) {
       if (access_bible::write (webserver_request, bible)) {
         bibles.push_back (bible);
       }
@@ -75,9 +75,9 @@ string checks_suppress (void * webserver_request)
   }
   
   
-  string block;
-  vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
-  for (auto suppression : suppressions) {
+  string block {};
+  const vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
+  for (const auto & suppression : suppressions) {
     string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.
     if (in_array (bible, bibles)) {

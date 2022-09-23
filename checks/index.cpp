@@ -51,14 +51,14 @@ bool checks_index_acl (void * webserver_request)
 string checks_index (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Check database_check;
+  Database_Check database_check {};
 
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   
 
   if (request->query.count ("approve")) {
@@ -76,10 +76,10 @@ string checks_index (void * webserver_request)
 
   
   // Get the Bibles the user has write-access to.
-  vector <string> bibles;
+  vector <string> bibles {};
   {
-    vector <string> all_bibles = request->database_bibles()->getBibles ();
-    for (auto bible : all_bibles) {
+    const vector <string> & all_bibles = request->database_bibles()->getBibles ();
+    for (const auto & bible : all_bibles) {
       if (access_bible::write (webserver_request, bible)) {
         bibles.push_back (bible);
       }
@@ -87,9 +87,9 @@ string checks_index (void * webserver_request)
   }
   
   
-  stringstream resultblock;
-  vector <Database_Check_Hit> hits = database_check.getHits ();
-  for (auto hit : hits) {
+  stringstream resultblock {};
+  const vector <Database_Check_Hit> & hits = database_check.getHits ();
+  for (const auto & hit : hits) {
     string bible = hit.bible;
     if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {
       int id = hit.rowid;

@@ -21,11 +21,10 @@
 
 #include <config/libraries.h>
 
-class Checks_Versification
-{
-public:
-  static void books (string bible, vector <int> books);
-  static void chapters (string bible, int book, vector <int> chapters);
-  static void verses (string bible, int book, int chapter, vector <int> verses);
-private:
-};
+namespace checks_versification {
+
+void books (const string & bible, const vector <int> & books);
+void chapters (const string & bible, int book, const vector <int> & chapters);
+void verses (const string & bible, int book, int chapter, const vector <int> & verses);
+
+}

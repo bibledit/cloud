@@ -58,12 +58,12 @@ string checks_settingssentences (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate ("Sentence Structure"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   
   
   string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());

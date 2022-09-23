@@ -23,46 +23,46 @@
 #include <locale/translate.h>
 
 
-void Checks_Sentences::enterCapitals (string capitals_in)
+void Checks_Sentences::enter_capitals (const string & capitals)
 {
-  capitals = filter_string_explode (capitals_in, ' ');
+  m_capitals = filter_string_explode (capitals, ' ');
 }
 
 
-void Checks_Sentences::enterSmallLetters (string small_letters_in)
+void Checks_Sentences::enter_small_letters (const string & small_letters)
 {
-  small_letters = filter_string_explode (small_letters_in, ' ');
+  m_small_letters = filter_string_explode (small_letters, ' ');
 }
 
 
-void Checks_Sentences::enterEndMarks (string end_marks_in)
+void Checks_Sentences::enter_end_marks (const string & end_marks)
 {
-  end_marks = filter_string_explode (end_marks_in, ' ');
+  m_end_marks = filter_string_explode (end_marks, ' ');
 }
 
 
-void Checks_Sentences::enterCenterMarks (string center_marks_in)
+void Checks_Sentences::enter_center_marks (const string & center_marks)
 {
-  center_marks = filter_string_explode (center_marks_in, ' ');
+  m_center_marks = filter_string_explode (center_marks, ' ');
 }
 
 
-void Checks_Sentences::enterDisregards (string disregards_in)
+void Checks_Sentences::enter_disregards (const string & disregards)
 {
-  disregards = filter_string_explode (disregards_in, ' ');
+  m_disregards = filter_string_explode (disregards, ' ');
 }
 
 
-void Checks_Sentences::enterNames (string names_in)
+void Checks_Sentences::enter_names (string names)
 {
-  names.clear ();
-  names_in = filter_string_str_replace ("\n", " ", names_in);
-  vector <string> names2 = filter_string_explode (names_in, ' ');
+  m_names.clear ();
+  names = filter_string_str_replace ("\n", " ", names);
+  vector <string> names2 = filter_string_explode (names, ' ');
   for (auto name : names2) {
-    if (name != "") {
+    if (!name.empty()) {
       // Limit the length to the left of the suffix in the test.
       name = unicode_string_substr (name, 0, 11);
-      names.push_back (name);
+      m_names.push_back (name);
     }
   }
 }
@@ -70,25 +70,25 @@ void Checks_Sentences::enterNames (string names_in)
 
 void Checks_Sentences::initialize ()
 {
-  currentPosition = 0;
-  spacePosition = 0;
-  capitalPosition = 0;
-  smallLetterPosition = 0;
-  endMarkPosition = 0;
-  centerMarkPosition = 0;
-  punctuationMarkPosition = 0;
-  previousMarkPosition = 0;
-  checkingResults.clear ();
-  fullText.clear ();
+  current_position = 0;
+  space_position = 0;
+  capital_position = 0;
+  small_letter_position = 0;
+  end_mark_position = 0;
+  center_mark_position = 0;
+  punctuation_mark_position = 0;
+  previous_mark_position = 0;
+  checking_results.clear ();
+  full_text.clear ();
 }
 
 
-void Checks_Sentences::check (map <int, string> texts)
+void Checks_Sentences::check (const map <int, string> & texts)
 {
-  vector <int> verse_numbers;
-  vector <string> characters;
-  int iterations = 0;
-  for (auto element : texts) {
+  vector <int> verse_numbers {};
+  vector <string> characters {};
+  int iterations {0};
+  for (const auto & element : texts) {
     int verse = element.first;
     string text = element.second;
     // For the second and subsequent verse_numbers, add a space to the text,
@@ -96,18 +96,18 @@ void Checks_Sentences::check (map <int, string> texts)
     if (iterations > 0) {
       verse_numbers.push_back (verse);
       characters.push_back (" ");
-      fullText += " ";
+      full_text += " ";
     }
     // Split the UTF-8 text into characters and add them to the arrays of verse_numbers / characters.
     size_t count = unicode_string_length (text);
     for (size_t i = 0; i < count; i++) {
       character = unicode_string_substr (text, i, 1);
       // Skip characters to be disregarded.
-      if (in_array (character, disregards)) continue;
+      if (in_array (character, m_disregards)) continue;
       // Store verse numbers and characters.
       verse_numbers.push_back (verse);
       characters.push_back (character);
-      fullText += character;
+      full_text += character;
     }
     // Next iteration.
     iterations++;
@@ -116,60 +116,60 @@ void Checks_Sentences::check (map <int, string> texts)
   // Go through the characters.
   for (size_t i = 0; i < characters.size (); i++) {
     // Store current verse number in the object.
-    verseNumber = verse_numbers [i];
+    verse_number = verse_numbers [i];
     // Get the current character.
     character = characters [i];
     // Analyze the character.
-    analyzeCharacters ();
+    analyze_characters ();
     // Run the checks.
-    checkUnknownCharacter ();
-    checkCharacter ();
+    check_unknown_character ();
+    check_character ();
   }
 }
 
 
-void Checks_Sentences::checkCharacter ()
+void Checks_Sentences::check_character ()
 {
   // Handle a capital after a comma: ... He said, Go ...
-  if (this->isCapital)
-    if (this->spacePosition > 0)
-      if (this->currentPosition == this->spacePosition + 1)
-        if (this->currentPosition == this->centerMarkPosition + 2)
-          this->addResult (translate ("Capital follows mid-sentence punctuation mark"), Checks_Sentences::skipNames);
+  if (this->is_capital)
+    if (this->space_position > 0)
+      if (this->current_position == this->space_position + 1)
+        if (this->current_position == this->center_mark_position + 2)
+          this->add_result (translate ("Capital follows mid-sentence punctuation mark"), Checks_Sentences::skip_names);
   
   
   // Handle a small letter straight after mid-sentence punctuation: ... He said,go ...
-  if (this->isSmallLetter)
-    if (this->centerMarkPosition > 0)
-      if (this->currentPosition == this->centerMarkPosition + 1)
-        this->addResult (translate ("Small letter follows straight after a mid-sentence punctuation mark"), Checks_Sentences::displayContext);
+  if (this->is_small_letter)
+    if (this->center_mark_position > 0)
+      if (this->current_position == this->center_mark_position + 1)
+        this->add_result (translate ("Small letter follows straight after a mid-sentence punctuation mark"), Checks_Sentences::display_context);
   
   
   // Handle a capital straight after mid-sentence punctuation: ... He said,Go ...
-  if (this->isCapital)
-    if (this->centerMarkPosition > 0)
-      if (this->currentPosition == this->centerMarkPosition + 1)
-        this->addResult (translate ("Capital follows straight after a mid-sentence punctuation mark"), Checks_Sentences::displayContext);
+  if (this->is_capital)
+    if (this->center_mark_position > 0)
+      if (this->current_position == this->center_mark_position + 1)
+        this->add_result (translate ("Capital follows straight after a mid-sentence punctuation mark"), Checks_Sentences::display_context);
   
   
   // Handle small letter or capital straight after end-sentence punctuation: He said.Go. // He said.go.
-  if ((this->isSmallLetter) || (this->isCapital))
-    if (this->endMarkPosition > 0)
-      if (this->currentPosition == this->endMarkPosition + 1)
-        this->addResult (translate ("A letter follows straight after an end-sentence punctuation mark"), Checks_Sentences::displayContext);
+  if ((this->is_small_letter) || (this->is_capital))
+    if (this->end_mark_position > 0)
+      if (this->current_position == this->end_mark_position + 1)
+        this->add_result (translate ("A letter follows straight after an end-sentence punctuation mark"), Checks_Sentences::display_context);
   
   
   // Handle case of no capital after end-sentence punctuation: He did that. he went.
-  if (this->isSmallLetter)
-    if (this->endMarkPosition > 0)
-      if (this->currentPosition == this->endMarkPosition + 2)
-        this->addResult (translate ("No capital after an end-sentence punctuation mark"), Checks_Sentences::displayContext);
+  if (this->is_small_letter)
+    if (this->end_mark_position > 0)
+      if (this->current_position == this->end_mark_position + 2)
+        this->add_result (translate ("No capital after an end-sentence punctuation mark"), Checks_Sentences::display_context);
   
   
   // Handle two punctuation marks in sequence.
-  if (this->isEndMark || this->isCenterMark)
-    if (this->currentPosition == this->previousMarkPosition + 1)
-      this->addResult (translate ("Two punctuation marks in sequence"), Checks_Sentences::displayContext);
+  if (this->is_end_mark || this->is_center_mark)
+    if (this->current_position == this->previous_mark_position + 1)
+      this->add_result (translate ("Two punctuation marks in sequence"), Checks_Sentences::display_context);
   
 }
 
@@ -180,15 +180,15 @@ void Checks_Sentences::checkCharacter ()
 // The USFM markers that start paragraphs that do not need to start with the correct capitalization.
 // Usually such markers are poetic markers like \q1 and so on.
 // $verses_paragraphs: The entire paragraphs, with verse number as their keys.
-void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
-                                   vector <string> within_sentence_paragraph_markers,
-                                   vector <map <int, string>> verses_paragraphs)
+void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_markers,
+                                   const vector <string> & within_sentence_paragraph_markers,
+                                   const vector <map <int, string>> & verses_paragraphs)
 {
   // Iterate over the paragraphs.
   for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {
     
     // Container with verse numbers and the whole paragraph.
-    map <int, string> verses_paragraph = verses_paragraphs [p];
+    const map <int, string> & verses_paragraph = verses_paragraphs [p];
     
     // Skip empty container.
     if (verses_paragraph.empty ()) continue;
@@ -201,13 +201,13 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
     }
     
     // Check that the paragraph starts with a capital.
-    isCapital = in_array (character2, capitals);
-    if (!isCapital) {
-      string paragraph_marker = paragraph_start_markers [p];
+    is_capital = in_array (character2, m_capitals);
+    if (!is_capital) {
+      const string & paragraph_marker = paragraph_start_markers [p];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         string context = verses_paragraph.begin()->second;
         context = unicode_string_substr (context, 0, 15);
-        checkingResults.push_back (pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
+        checking_results.push_back (pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
       }
     }
     
@@ -229,22 +229,22 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
     }
     
     // Check that the paragraph ends with correct punctuation.
-    isEndMark = in_array (character2, this->end_marks) || in_array (previous_character, this->end_marks);
-    if (!isEndMark) {
+    is_end_mark = in_array (character2, this->m_end_marks) || in_array (previous_character, this->m_end_marks);
+    if (!is_end_mark) {
       // If the next paragraph starts with a marker that indicates it should not necessarily be capitalized,
       // then the current paragraph may have punctuation that would be incorrect otherwise.
-      string next_paragraph_marker;
+      string next_paragraph_marker {};
       size_t p2 = p + 1;
       if (p2 < paragraph_start_markers.size ()) {
         next_paragraph_marker = paragraph_start_markers [p2];
       }
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
         string context = verses_paragraph.rbegin()->second;
-        size_t length = unicode_string_length (character2);
+        const size_t length = unicode_string_length (character2);
         if (length >= 15) {
           context = unicode_string_substr (context, length - 15, 15);
         }
-        checkingResults.push_back (pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
+        checking_results.push_back (pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
       }
     }
     
@@ -252,24 +252,21 @@ void Checks_Sentences::paragraphs (vector <string> paragraph_start_markers,
 }
 
 
-vector <pair<int, string>> Checks_Sentences::getResults ()
+vector <pair<int, string>> Checks_Sentences::get_results ()
 {
-  return checkingResults;
+  return checking_results;
 }
 
 
-void Checks_Sentences::addResult (string text, int modifier)
+void Checks_Sentences::add_result (string text, int modifier)
 {
   // Get previous and next text fragment.
-  int start = currentPosition - 25;
+  int start = current_position - 25;
   if (start < 0) start = 0;
-  string previousFragment =
-    unicode_string_substr (fullText,
-                           static_cast <size_t> (start),
-                           static_cast <size_t> (currentPosition - start - 1));
-  int iterations = 5;
+  string previousFragment = unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
+  int iterations {5};
   while (iterations) {
-    size_t pos = previousFragment.find (" ");
+    const size_t pos = previousFragment.find (" ");
     if (pos != string::npos) {
       if ((previousFragment.length () - pos) > 10) {
         previousFragment.erase (0, pos + 1);
@@ -277,73 +274,72 @@ void Checks_Sentences::addResult (string text, int modifier)
     }
     iterations--;
   }
-  string nextFragment = unicode_string_substr (fullText,
-                                               static_cast <size_t> (currentPosition), 25);
+  string nextFragment = unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
   while (nextFragment.length () > 10) {
-    size_t pos = nextFragment.rfind (" ");
+    const size_t pos = nextFragment.rfind (" ");
     if (pos == string::npos) nextFragment.erase (nextFragment.length () - 1, 1);
     else nextFragment.erase (pos);
   }
   // Check whether the result can be skipped due to a name being involved.
-  if (modifier == skipNames) {
+  if (modifier == skip_names) {
     string haystack = character + nextFragment;
-    for (auto name : names) {
+    for (auto name : m_names) {
       if (haystack.find (name) == 0) return;
     }
   }
   // Assemble text for checking result.
-  if (modifier == displayCharacterOnly) {
+  if (modifier == display_character_only) {
     text += ": " + character;
   }
-  if ((modifier == displayContext) || (modifier == skipNames)) {
+  if ((modifier == display_context) || (modifier == skip_names)) {
     text += ": " + previousFragment + character + nextFragment;
   }
   // Store checking result.
-  checkingResults.push_back (pair (verseNumber, text));
+  checking_results.push_back (pair (verse_number, text));
 }
 
 
-void Checks_Sentences::checkUnknownCharacter ()
+void Checks_Sentences::check_unknown_character ()
 {
-  if (isSpace) return;
-  if (isCapital) return;
-  if (isSmallLetter) return;
-  if (isEndMark) return;
-  if (isCenterMark) return;
-  addResult (translate ("Unknown character"), Checks_Sentences::displayCharacterOnly);
+  if (is_space) return;
+  if (is_capital) return;
+  if (is_small_letter) return;
+  if (is_end_mark) return;
+  if (is_center_mark) return;
+  add_result (translate ("Unknown character"), Checks_Sentences::display_character_only);
 }
 
 
-void Checks_Sentences::analyzeCharacters ()
+void Checks_Sentences::analyze_characters ()
 {
-  currentPosition++;
+  current_position++;
   
-  isSpace = (character == " ");
-  if (isSpace) {
-    spacePosition = currentPosition;
+  is_space = (character == " ");
+  if (is_space) {
+    space_position = current_position;
   }
   
-  isCapital = in_array (character, capitals);
-  if (isCapital) {
-    capitalPosition = currentPosition;
+  is_capital = in_array (character, m_capitals);
+  if (is_capital) {
+    capital_position = current_position;
   }
   
-  isSmallLetter = in_array (character, small_letters);
-  if (isSmallLetter) {
-    smallLetterPosition = currentPosition;
+  is_small_letter = in_array (character, m_small_letters);
+  if (is_small_letter) {
+    small_letter_position = current_position;
   }
   
-  isEndMark = in_array (character, end_marks);
-  if (isEndMark) {
-    endMarkPosition = currentPosition;
-    previousMarkPosition = punctuationMarkPosition;
-    punctuationMarkPosition = currentPosition;
+  is_end_mark = in_array (character, m_end_marks);
+  if (is_end_mark) {
+    end_mark_position = current_position;
+    previous_mark_position = punctuation_mark_position;
+    punctuation_mark_position = current_position;
   }
   
-  isCenterMark = in_array (character, center_marks);
-  if (isCenterMark) {
-    centerMarkPosition = currentPosition;
-    previousMarkPosition = punctuationMarkPosition;
-    punctuationMarkPosition = currentPosition;
+  is_center_mark = in_array (character, m_center_marks);
+  if (is_center_mark) {
+    center_mark_position = current_position;
+    previous_mark_position = punctuation_mark_position;
+    punctuation_mark_position = current_position;
   }
 }

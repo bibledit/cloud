@@ -25,16 +25,16 @@
 
 void checks_logic_start_all ()
 {
-  Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
-  for (auto bible : bibles) {
+  Database_Bibles database_bibles {};
+  const vector <string> & bibles = database_bibles.getBibles ();
+  for (const auto & bible : bibles) {
     bool enabled = Database_Config_Bible::getDailyChecksEnabled (bible);
     if (enabled) checks_logic_start (bible);
   }
 }
 
 
-void checks_logic_start (string bible)
+void checks_logic_start (const string & bible)
 {
   tasks_logic_queue (CHECKBIBLE, {bible});
 }

@@ -24,58 +24,58 @@
 class Checks_Sentences
 {
 public:
-  void enterCapitals (string capitals_in);
-  void enterSmallLetters (string small_letters_in);
-  void enterEndMarks (string end_marks_in);
-  void enterCenterMarks (string center_marks_in);
-  void enterDisregards (string disregards_in);
-  void enterNames (string names_in);
+  void enter_capitals (const string & capitals);
+  void enter_small_letters (const string & small_letters);
+  void enter_end_marks (const string & end_marks);
+  void enter_center_marks (const string & center_marks);
+  void enter_disregards (const string & disregards);
+  void enter_names (string names);
   void initialize ();
-  vector <pair<int, string>> getResults ();
-  void check (map <int, string> texts);
-  void paragraphs (vector <string> paragraph_start_markers,
-                   vector <string> within_sentence_paragraph_markers,
-                   vector <map <int, string>> verses_paragraphs);
+  vector <pair<int, string>> get_results ();
+  void check (const map <int, string> & texts);
+  void paragraphs (const vector <string> & paragraph_start_markers,
+                   const vector <string> & within_sentence_paragraph_markers,
+                   const vector <map <int, string>> & verses_paragraphs);
 
 private:
   // Sentence structure parameters.
-  vector <string> capitals {};
-  vector <string> small_letters {};
-  vector <string> end_marks {};
-  vector <string> center_marks {};
-  vector <string> disregards {};
-  vector <string> names {};
+  vector <string> m_capitals {};
+  vector <string> m_small_letters {};
+  vector <string> m_end_marks {};
+  vector <string> m_center_marks {};
+  vector <string> m_disregards {};
+  vector <string> m_names {};
   
   // State.
-  int verseNumber {0};
-  int currentPosition {0};
+  int verse_number {0};
+  int current_position {0};
   
   // Grapheme analysis.
   string character {};
-  bool isSpace {false};
-  int spacePosition {0};
-  bool isCapital {false};
-  int capitalPosition {0};
-  bool isSmallLetter {false};
-  int smallLetterPosition {0};
-  bool isEndMark {false};
-  int endMarkPosition {0};
-  bool isCenterMark {false};
-  int centerMarkPosition {0};
-  int punctuationMarkPosition {0};
-  int previousMarkPosition {0};
+  bool is_space {false};
+  int space_position {0};
+  bool is_capital {false};
+  int capital_position {0};
+  bool is_small_letter {false};
+  int small_letter_position {0};
+  bool is_end_mark {false};
+  int end_mark_position {0};
+  bool is_center_mark {false};
+  int center_mark_position {0};
+  int punctuation_mark_position {0};
+  int previous_mark_position {0};
   
   // Context.
-  string fullText {};
+  string full_text {};
   
   // Results of the checks.
-  vector <pair<int, string>> checkingResults {};
-  static constexpr int displayCharacterOnly {1};
-  static constexpr int displayContext {2};
-  static constexpr int skipNames {3};
+  vector <pair<int, string>> checking_results {};
+  static constexpr int display_character_only {1};
+  static constexpr int display_context {2};
+  static constexpr int skip_names {3};
   
-  void addResult (string text, int modifier);
-  void checkUnknownCharacter ();
-  void analyzeCharacters ();
-  void checkCharacter ();
+  void add_result (string text, int modifier);
+  void check_unknown_character ();
+  void analyze_characters ();
+  void check_character ();
 };

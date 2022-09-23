@@ -47,7 +47,7 @@ void test_french ()
     texts [5] = "This is it;";
     texts [6] = "This is it" + nbsp + ";";
     texts [7] = "This is «" + nnbsp + "French" + nnbsp + "» with narrow non-breaking spaces.";
-    Checks_French::spaceBeforeAfterPunctuation (bible, 2, 3, texts);
+    checks_french::space_before_after_punctuation (bible, 2, 3, texts);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     int hitcount = 6;
     evaluate (__LINE__, __func__, hitcount, hits.size ());
@@ -101,7 +101,7 @@ void test_french ()
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
-    Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
+    checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 4;
     evaluate (__LINE__, __func__, size, hits.size ());
@@ -137,7 +137,7 @@ void test_french ()
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
-    Checks_French::citationStyle (bible, 2, 3, verses_paragraphs);
+    checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 1;
     evaluate (__LINE__, __func__, size, hits.size ());

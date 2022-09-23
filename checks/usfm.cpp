@@ -29,12 +29,12 @@
 #include <locale/translate.h>
 
 
-Checks_Usfm::Checks_Usfm (string bible)
+Checks_Usfm::Checks_Usfm (const string & bible)
 {
-  Database_Styles database_styles;
+  Database_Styles database_styles {};
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   markers_stylesheet = database_styles.getMarkers (stylesheet);
-  for (auto marker : markers_stylesheet) {
+  for (const auto & marker : markers_stylesheet) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     style_items [marker] = style;
     int styleType = style.type;
@@ -42,8 +42,8 @@ Checks_Usfm::Checks_Usfm (string bible)
 
     // Find out which markers require an endmarker.
     // And which markers are embeddable.
-    bool required_endmarker = false;
-    bool embeddable_marker = false;
+    bool required_endmarker {false};
+    bool embeddable_marker {false};
     if (styleType == StyleTypeIdentifier) {
       if (styleSubtype == IdentifierSubtypePublishedVerseMarker) {
         required_endmarker = true;
@@ -106,7 +106,7 @@ void Checks_Usfm::finalize ()
 }
 
 
-void Checks_Usfm::check (string usfm)
+void Checks_Usfm::check (const string & usfm)
 {
   new_line_in_usfm (usfm);
   
@@ -164,9 +164,9 @@ void Checks_Usfm::malformed_verse_number ()
 }
 
 
-void Checks_Usfm::new_line_in_usfm (string usfm)
+void Checks_Usfm::new_line_in_usfm (const string & usfm)
 {
-  size_t position = string::npos;
+  size_t position {string::npos};
   size_t pos = usfm.find ("\\\n");
   if (pos != string::npos) {
     position = pos;
@@ -194,7 +194,7 @@ void Checks_Usfm::marker_in_stylesheet ()
   if (filter::usfm::is_embedded_marker (marker)) {
     if (!marker.empty ()) marker = marker.substr (1);
   }
-  if (marker == "") return;
+  if (marker.empty()) return;
   if (in_array (marker, markers_stylesheet)) return;
   add_result (translate ("Marker not in stylesheet"), Checks_Usfm::display_current);
 }
@@ -204,12 +204,12 @@ void Checks_Usfm::malformed_id ()
 {
   string item = usfm_item.substr (0, 3);
   string ide = usfm_item.substr (0, 4);
-  if (ide == "\\ide") return;
-  if (item == "\\id") {
+  if (ide == R"(\ide)") return;
+  if (item == R"(\id)") {
     string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
-    string sid =  code.substr (0, 3);
+    string sid = code.substr (0, 3);
     vector <string> vid = filter_string_explode (code, ' ');
-    string id;
+    string id {};
     if (!vid.empty ()) id = vid [0];
     int book = database::books::get_id_from_usfm (id);
     if (book == 0) {
@@ -223,11 +223,11 @@ void Checks_Usfm::malformed_id ()
 }
 
 
-void Checks_Usfm::forward_slash (string usfm)
+void Checks_Usfm::forward_slash (const string & usfm)
 {
   string code = filter_string_str_replace ("\n", " ", usfm);
   size_t pos = code.find ("/");
-  string bit;
+  string bit {};
   if (pos != string::npos) {
     size_t pos2 = code.find (" ", pos);
     if (pos2 != string::npos) {
@@ -440,13 +440,13 @@ void Checks_Usfm::empty_markup ()
   // bool current_is_text = false;
   // bool current_is_usfm = false;
   // bool current_is_opener = false;
-  bool current_is_closer = false;
+  bool current_is_closer {false};
   // bool current_is_embedded = false;
 
   // Flags that will describe the previous item.
   // bool previous_is_text = false;
   // bool previous_is_usfm = false;
-  bool previous_is_opener = false;
+  bool previous_is_opener {false};
   // bool previous_is_closer = false;
   // bool previous_is_embedded = false;
 
@@ -486,10 +486,10 @@ void Checks_Usfm::empty_markup ()
 void Checks_Usfm::note ()
 {
   // Flags that describe the current item.
-  bool current_is_text = false;
+  bool current_is_text {false};
   //bool current_is_usfm = false;
-  bool current_is_opener = false;
-  bool current_is_closer = false;
+  bool current_is_opener {false};
+  bool current_is_closer {false};
   //bool current_is_embedded = false;
   if (filter::usfm::is_usfm_marker (usfm_item)) {
     //current_is_usfm = true;
@@ -512,7 +512,7 @@ void Checks_Usfm::note ()
   
   // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
   // Clear this flag if it ends the note or xref.
-  bool note_border_marker = false;
+  bool note_border_marker {false};
   if (style.type == StyleTypeFootEndNote) {
     if (style.subtype == FootEndNoteSubtypeFootnote) note_border_marker = true;
     if (style.subtype == FootEndNoteSubtypeEndnote) note_border_marker = true;
@@ -530,11 +530,10 @@ void Checks_Usfm::note ()
   if (!within_note) return;
 
   // Get the next item, that is the item following the current item.
-  string next_item = filter::usfm::peek_text_following_marker (usfm_markers_and_text,
-                                                      usfm_markers_and_text_pointer);
+  string next_item = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
   
   // Flags that describe the next item.
-  bool next_is_text = false;
+  bool next_is_text {false};
   //bool next_is_usfm = false;
   //bool next_is_opener = false;
   //bool next_is_closer = false;

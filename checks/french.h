@@ -21,14 +21,13 @@
 
 #include <config/libraries.h>
 
-class Checks_French
-{
-public:
-  static void spaceBeforeAfterPunctuation (string bible, int book, int chapter,
-                                           map <int, string> texts);
-  static void citationStyle  (string bible, int book, int chapter,
-                              vector <map <int, string>> verses_paragraphs);
-  static string left_guillemet ();
-  static string right_guillemet ();
-private:
-};
+namespace checks_french {
+
+void space_before_after_punctuation (const string & bible, int book, int chapter,
+                                     const map <int, string> & texts);
+void citation_style  (const string & bible, int book, int chapter,
+                      const vector <map <int, string>> & verses_paragraphs);
+string left_guillemet ();
+string right_guillemet ();
+
+}

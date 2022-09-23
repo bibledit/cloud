@@ -25,34 +25,34 @@
 #include <checks/french.h>
 
 
-void Checks_Pairs::run (const string & bible, int book, int chapter,
+void checks_pairs::run (const string & bible, int book, int chapter,
                         const map <int, string> & texts,
                         const vector <pair <string, string> > & pairs,
                         bool french_citation_style)
 {
   // This holds the opener characters of the pairs which were opened in the text.
   // For example, it may hold the "[".
-  vector <int> verses;
-  vector <string> opened;
+  vector <int> verses {};
+  vector <string> opened {};
   
   // Containers with the openers and the closers.
   // If the check on the French citation style is active,
   // skip the French guillemets.
-  vector <string> openers;
-  vector <string> closers;
-  for (auto & element : pairs) {
+  vector <string> openers {};
+  vector <string> closers {};
+  for (const auto & element : pairs) {
     string opener = element.first;
-    if (french_citation_style && (opener == Checks_French::left_guillemet ())) continue;
+    if (french_citation_style && (opener == checks_french::left_guillemet ())) continue;
     string closer = element.second;
-    if (french_citation_style && (opener == Checks_French::right_guillemet ())) continue;
+    if (french_citation_style && (opener == checks_french::right_guillemet ())) continue;
     openers.push_back (opener);
     closers.push_back (closer);
   }
 
-  Database_Check database_check;
+  Database_Check database_check {};
 
   // Go through the verses with their texts.
-  for (auto & element : texts) {
+  for (const auto & element : texts) {
     int verse = element.first;
     string text = element.second;
     size_t length = unicode_string_length (text);
@@ -102,11 +102,11 @@ void Checks_Pairs::run (const string & bible, int book, int chapter,
 }
 
 
-string Checks_Pairs::match (const string & character, const vector <pair <string, string> > & pairs)
+string checks_pairs::match (const string & character, const vector <pair <string, string> > & pairs)
 {
   for (auto & element : pairs) {
     if (character == element.first) return element.second;
     if (character == element.second) return element.first;
   }
-  return "";
+  return string();
 }

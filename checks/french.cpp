@@ -27,14 +27,14 @@
 // In French there is a no-break space after the « and before the » ! ? : ;
 // The Unicode value for the no-break space is U+00A0.
 // Another type of non-breaking space will be acceptable too.
-void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int chapter,
-                                                 map <int, string> texts)
+void checks_french::space_before_after_punctuation (const string & bible, int book, int chapter,
+                                                    const map <int, string> & texts)
 {
-  Database_Check database_check;
+  Database_Check database_check {};
   string nbsp = non_breaking_space_u00A0 ();
   string nnbsp = narrow_non_breaking_space_u202F ();
   vector <string> right_punctuation = { right_guillemet(), "!", "?", ":", ";" };
-  for (auto element : texts) {
+  for (const auto & element : texts) {
     int verse = element.first;
 
     {
@@ -56,7 +56,7 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
       }
     }
     
-    for (auto punctuation : right_punctuation) {
+    for (const auto & punctuation : right_punctuation) {
       string text = element.second;
       // The location of this punctuation character.
       size_t pos = unicode_string_strpos (text, punctuation);
@@ -89,20 +89,20 @@ void Checks_French::spaceBeforeAfterPunctuation (string bible, int book, int cha
 // « This is the text of the citation.
 // « This is a new paragraph, and it ends the citation ».
 // This checks on that style.
-void Checks_French::citationStyle (string bible, int book, int chapter,
-                                   vector <map <int, string>> verses_paragraphs)
+void checks_french::citation_style (const string & bible, int book, int chapter,
+                                    const vector <map <int, string>> & verses_paragraphs)
 {
-  Database_Check database_check;
+  Database_Check database_check {};
 
   // Store the state of the previous paragraph.
   // It indicates whether any citation was left open at the end of the paragraph.
-  bool previous_paragraph_open_citation = false;
+  bool previous_paragraph_open_citation {false};
   
   // Iterate over the paragraphs.
   for (unsigned int paragraph_counter = 0; paragraph_counter < verses_paragraphs.size (); paragraph_counter++) {
     
     // Container with verse numbers as the keys, plus the text of the whole paragraph.
-    map <int, string> verses_paragraph = verses_paragraphs [paragraph_counter];
+    const map <int, string> verses_paragraph = verses_paragraphs [paragraph_counter];
     
     // Skip empty containers.
     if (verses_paragraph.empty ()) continue;
@@ -125,15 +125,15 @@ void Checks_French::citationStyle (string bible, int book, int chapter,
     }
 
     // Count the number of left and right guillements in the paragraph.
-    int last_verse = 0;
-    string paragraph;
-    for (auto element : verses_paragraph) {
+    int last_verse {0};
+    string paragraph {};
+    for (const auto & element : verses_paragraph) {
       paragraph.append (element.second);
       last_verse = element.first;
     }
-    int opener_count = 0;
+    int opener_count {0};
     filter_string_str_replace (left_guillemet (), "", paragraph, &opener_count);
-    int closer_count = 0;
+    int closer_count {0};
     filter_string_str_replace (right_guillemet (), "", paragraph, &closer_count);
 
     // Determine whether the current paragraph opens a citation and does not close it.
@@ -154,13 +154,13 @@ void Checks_French::citationStyle (string bible, int book, int chapter,
 }
 
 
-string Checks_French::left_guillemet ()
+string checks_french::left_guillemet ()
 {
   return "«";
 }
 
 
-string Checks_French::right_guillemet ()
+string checks_french::right_guillemet ()
 {
   return "»";
 }

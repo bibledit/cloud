@@ -97,18 +97,6 @@ string demo_address_secure ()
 }
 
 
-int demo_port ()
-{
-  return 8090;
-}
-
-
-int demo_port_secure ()
-{
-  return 8091;
-}
-
-
 // Returns a warning in case the client is connected to the open demo server.
 string demo_client_warning ()
 {

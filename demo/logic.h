@@ -24,8 +24,8 @@
 bool demo_acl (string user, string pass);
 string demo_address ();
 string demo_address_secure ();
-int demo_port ();
-int demo_port_secure ();
+constexpr int demo_port () {return 8090;};
+constexpr int demo_port_secure () {return 8091;};
 string demo_client_warning ();
 void demo_clean_data ();
 string demo_sample_bible_name ();

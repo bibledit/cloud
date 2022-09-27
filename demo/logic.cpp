@@ -218,7 +218,10 @@ void demo_clean_data ()
   // more resource could be added and current one can be modified.
   if (config::logic::indonesian_cloud_free_simple ()) max_resource = 65; 
   if (resources.size () > max_resource) reset_resources = true;
+  // Check if all the current resource exists in the default.
   vector <string> defaults = demo_logic_default_resources ();
+  // Make it so the check will always pass on Indonesian Cloud Free Simple version.
+  if (config::logic::indonesian_cloud_free_simple()) defaults = resources;
   for (auto & name : defaults) {
     if (!in_array (name, resources)) reset_resources = true;
   }

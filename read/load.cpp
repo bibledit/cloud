@@ -123,7 +123,7 @@ string read_load (void * webserver_request)
   
   string user = request->session_logic ()->currentUser ();
   bool write = false;
-  data = Checksum_Logic::send (data, write);
+  data = checksum_logic::send (data, write);
 
   return data;
 }

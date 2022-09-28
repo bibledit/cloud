@@ -80,7 +80,7 @@ string editone2_save (void * webserver_request)
 
   
   // Checksum.
-  if (Checksum_Logic::get (html) != checksum) {
+  if (checksum_logic::get (html) != checksum) {
     request->response_code = 409;
     return translate ("Checksum error");
   }

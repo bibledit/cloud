@@ -109,14 +109,14 @@ string edit_update (void * webserver_request)
 
   // Checksums of the loaded and edited html.
   if (good2go) {
-    if (Checksum_Logic::get (loaded_html) != checksum1) {
+    if (checksum_logic::get (loaded_html) != checksum1) {
       request->response_code = 409;
       messages.push_back (translate ("Checksum error"));
       good2go = false;
     }
   }
   if (good2go) {
-    if (Checksum_Logic::get (edited_html) != checksum2) {
+    if (checksum_logic::get (edited_html) != checksum2) {
       request->response_code = 409;
       messages.push_back (translate ("Checksum error"));
       good2go = false;
@@ -402,7 +402,7 @@ string edit_update (void * webserver_request)
   // Test using the Cloud together with client devices with send and receive.
   
   bool write = access_bible::book_write (webserver_request, username, bible, book);
-  response = Checksum_Logic::send (response, write);
+  response = checksum_logic::send (response, write);
 
   // Ready.
   //this_thread::sleep_for(chrono::seconds(5));

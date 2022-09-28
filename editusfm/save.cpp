@@ -66,7 +66,7 @@ string editusfm_save (void * webserver_request)
 
   
   if (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("usfm")) {
-    if (Checksum_Logic::get (usfm) == checksum) {
+    if (checksum_logic::get (usfm) == checksum) {
       usfm = filter_url_tag_to_plus (usfm);
       usfm = filter_string_trim (usfm);
       // Collapse multiple spaces in the USFM into one space.

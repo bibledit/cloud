@@ -123,7 +123,7 @@ string editone2_load (void * webserver_request)
   
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
-  data = Checksum_Logic::send (data, write);
+  data = checksum_logic::send (data, write);
 
   return data;
 }

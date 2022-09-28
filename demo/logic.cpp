@@ -84,23 +84,10 @@ bool demo_acl (string user, string pass)
 }
 
 
-// Returns the address of the current demo server.
-string demo_address ()
-{
-  return "http://bibledit.org";
-}
-
-
-string demo_address_secure ()
-{
-  return "https://bibledit.org";
-}
-
-
 // Returns a warning in case the client is connected to the open demo server.
 string demo_client_warning ()
 {
-  string warning;
+  string warning {};
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
     if (address == demo_address () || address == demo_address_secure ()) {

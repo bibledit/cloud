@@ -72,7 +72,7 @@ string edit_save (void * webserver_request)
   string checksum = request->post["checksum"];
   string unique_id = request->post ["id"];
 
-  if (Checksum_Logic::get (html) != checksum) {
+  if (checksum_logic::get (html) != checksum) {
     request->response_code = 409;
     return translate("Checksum error");
   }

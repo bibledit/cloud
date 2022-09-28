@@ -60,5 +60,5 @@ string editusfm_load (void * webserver_request)
   string user = request->session_logic ()->currentUser ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
 
-  return Checksum_Logic::send (usfm, write);
+  return checksum_logic::send (usfm, write);
 }

@@ -23,11 +23,11 @@
 
 bool client_logic_client_enabled ();
 void client_logic_enable_client (bool enable);
-string client_logic_url (string address, int port, string path);
+string client_logic_url (const string & address, int port, const string & path);
 string client_logic_connection_setup (string user, string hash);
-string client_logic_create_note_encode (string bible, int book, int chapter, int verse,
-                                        string summary, string contents, bool raw);
-void client_logic_create_note_decode (string data,
+string client_logic_create_note_encode (const string & bible, int book, int chapter, int verse,
+                                        const string & summary, const string & contents, bool raw);
+void client_logic_create_note_decode (const string & data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw);
 string client_logic_link_to_cloud (string path, string linktext);

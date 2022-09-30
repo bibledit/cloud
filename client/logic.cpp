@@ -55,7 +55,7 @@ void client_logic_enable_client (bool enable)
 // $address is the website.
 // $port is the port number.
 // $path is the path after the website.
-string client_logic_url (string address, int port, string path)
+string client_logic_url (const string & address, int port, const string & path)
 {
   return address + ":" + convert_to_string (port) + "/" + path;
 }
@@ -67,11 +67,11 @@ string client_logic_url (string address, int port, string path)
 // It returns an empty string in case of failure or the response from the server.
 string client_logic_connection_setup (string user, string hash)
 {
-  Database_Users database_users;
+  Database_Users database_users {};
   
   if (user.empty ()) {
     vector <string> users = database_users.get_users ();
-    if (users.empty()) return "";
+    if (users.empty()) return string();
     user = users [0];
     hash = database_users.get_md5 (user);
   }
@@ -83,7 +83,7 @@ string client_logic_connection_setup (string user, string hash)
   
   string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
   
-  string error;
+  string error {};
   string response = filter_url_http_get (url, error, true);
   int iresponse = convert_to_int (response);
   
@@ -103,10 +103,10 @@ string client_logic_connection_setup (string user, string hash)
 }
 
 
-string client_logic_create_note_encode (string bible, int book, int chapter, int verse,
-                                        string summary, string contents, bool raw)
+string client_logic_create_note_encode (const string & bible, int book, int chapter, int verse,
+                                        const string & summary, const string & contents, bool raw)
 {
-  vector <string> data;
+  vector <string> data {};
   data.push_back (bible);
   data.push_back (convert_to_string (book));
   data.push_back (convert_to_string (chapter));
@@ -118,7 +118,7 @@ string client_logic_create_note_encode (string bible, int book, int chapter, int
 }
 
 
-void client_logic_create_note_decode (string data,
+void client_logic_create_note_decode (const string & data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw)
 {
@@ -155,8 +155,8 @@ void client_logic_create_note_decode (string data,
 // It displays the $linktext.
 string client_logic_link_to_cloud (string path, string linktext)
 {
-  string url;
-  string external;
+  string url {};
+  string external {};
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
     int port = Database_Config_General::getServerPort ();
@@ -180,7 +180,7 @@ string client_logic_link_to_cloud (string path, string linktext)
     linktext = url;
   }
   
-  stringstream link;
+  stringstream link {};
   link << "<a href=" << quoted(url) << external << ">" << linktext << "</a>";
   return link.str();
 }
@@ -199,7 +199,7 @@ void client_logic_usfm_resources_update ()
   // It is stored in the client files area.
   // Clients can access it from there.
   string path = client_logic_usfm_resources_path ();
-  Database_UsfmResources database_usfmresources;
+  Database_UsfmResources database_usfmresources {};
   vector <string> resources = database_usfmresources.getResources ();
   filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
 }

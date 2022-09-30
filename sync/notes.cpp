@@ -57,7 +57,7 @@ string sync_notes (void * webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     request->response_code = 426;
-    return "";
+    return string();
   }
 
   
@@ -68,7 +68,7 @@ string sync_notes (void * webserver_request)
   if (!database_notes.available ()) available = false;
   if (!available) {
     request->response_code = 503;
-    return "";
+    return string();
   }
 
 
@@ -82,7 +82,7 @@ string sync_notes (void * webserver_request)
   
   // Check on the credentials when the clients sends data to the server to be stored there.
   if ((action >= Sync_Logic::notes_put_create_initiate) && (action != Sync_Logic::notes_get_bulk)) {
-    if (!sync_logic.credentials_okay ()) return "";
+    if (!sync_logic.credentials_okay ()) return string();
   }
 
 
@@ -91,7 +91,7 @@ string sync_notes (void * webserver_request)
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
     if (!request->database_users ()->usernameExists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, Filter_Roles::manager ());
-      return "";
+      return string();
     }
   }
   request->session_logic ()->set_username (user);
@@ -351,5 +351,5 @@ string sync_notes (void * webserver_request)
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   request->response_code = 400;
-  return "";
+  return string();
 }

@@ -149,7 +149,7 @@ string resource_comparative1edit (void * webserver_request)
   }
   if (request->post.count ("replace")) {
     replace = request->post ["entry"];
-       = true;
+    resource_edited = true;
   }
 
   
@@ -194,10 +194,8 @@ string resource_comparative1edit (void * webserver_request)
     if (cache) client_logic_no_cache_resource_remove(title);
     else client_logic_no_cache_resource_add(title);
     // Store the list of comparative resources for download by the client devices.
-    cout << __LINE__ << endl; // Todo
     {
       string path = resource_logic_comparative_resources_list_path ();
-      cout << path << endl; // Todo
       filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
     }
   }

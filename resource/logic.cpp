@@ -2036,6 +2036,21 @@ string resource_logic_assemble_comparative_resource (string title,
 }
 
 
+string resource_logic_comparative_resources_list_path () // Todo
+{
+  return filter_url_create_root_path ({database_logic_databases (), "client", "comparative_resources.txt"});
+}
+
+
+// Get the list of comparative resources on a client device.
+vector <string> resource_logic_comparative_resources_get_list_on_client () // Todo
+{
+  string path = resource_logic_comparative_resources_list_path ();
+  string contents = filter_url_file_get_contents (path);
+  return filter_string_explode (contents, '\n');
+}
+
+
 bool resource_logic_is_translated (const string & resource)
 {
   return resource_logic_parse_translated_resource(resource);
@@ -2094,14 +2109,14 @@ string resource_logic_assemble_translated_resource (string title,
 }
 
 
-string resource_logic_translated_resources_list_path ()
+string resource_logic_translated_resources_list_path () // Todo
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "translated_resources.txt"});
 }
 
 
-// Get the list of Translated resources on a client device.
-vector <string> resource_logic_translated_resources_get_list_on_client ()
+// Get the list of translated resources on a client device.
+vector <string> resource_logic_translated_resources_get_list_on_client () // Todo
 {
   string path = resource_logic_translated_resources_list_path ();
   string contents = filter_url_file_get_contents (path);

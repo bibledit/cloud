@@ -115,6 +115,8 @@ string resource_logic_assemble_comparative_resource (string title,
                                                      bool diacritics = false,
                                                      bool casefold = false,
                                                      bool cache = false);
+string resource_logic_comparative_resources_list_path ();
+vector <string> resource_logic_comparative_resources_get_list_on_client ();
 
 string resource_logic_translated_resource ();
 bool resource_logic_parse_translated_resource (const string & input,

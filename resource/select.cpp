@@ -60,10 +60,10 @@ string resource_select (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Resources"), request);
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
 
   
   view.set_variable ("page", resource_logic_selector_page (webserver_request));
@@ -71,7 +71,7 @@ string resource_select (void * webserver_request)
   view.set_variable ("caller", caller);
   
 
-  string disconnected_info;
+  string disconnected_info {};
 #ifdef HAVE_CLIENT
   if (!client_logic_client_enabled ()) {
     disconnected_info = translate ("Connect to Bibledit Cloud to have access to the full range of available resources.");
@@ -86,7 +86,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> bibles = access_bible::bibles (webserver_request);
-    for (auto bible : bibles) {
+    for (const auto & bible : bibles) {
       dialog_list.add_row (bible, "add", bible);
     }
     page += dialog_list.run ();
@@ -106,7 +106,7 @@ string resource_select (void * webserver_request)
     Database_UsfmResources database_usfmresources;
     resources = database_usfmresources.getResources ();
 #endif
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -118,7 +118,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_original_language_resources ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -130,7 +130,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_external_get_bibles ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -143,7 +143,7 @@ string resource_select (void * webserver_request)
     dialog_list.add_query ("page", request->query["page"]);
     Database_ImageResources database_imageresources;
     vector <string> resources = database_imageresources.names ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -155,7 +155,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = lexicon_logic_resource_names ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -167,7 +167,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = sword_logic_get_available ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -187,7 +187,7 @@ string resource_select (void * webserver_request)
       resource_logic_orange_divider (),
       resource_logic_rich_divider(),
     };
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -199,7 +199,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_logic_bible_gateway_module_list_get ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -211,7 +211,7 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), disconnected_info, "", true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources = resource_logic_study_light_module_list_get ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -227,14 +227,19 @@ string resource_select (void * webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, string(), true);
     dialog_list.add_query ("page", request->query["page"]);
     vector <string> resources;
-    vector<string> raw_resources = Database_Config_General::getComparativeResources ();
-    for (auto raw_resource : raw_resources) {
-      string title;
+    vector<string> raw_resources =
+#ifdef HAVE_CLOUD
+    Database_Config_General::getComparativeResources ();
+#else
+    resource_logic_comparative_resources_get_list_on_client ();
+#endif
+    for (const auto & raw_resource : raw_resources) {
+      string title {};
       if (resource_logic_parse_comparative_resource (raw_resource, &title)) {
         resources.push_back(title);
       }
     }
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();
@@ -256,13 +261,13 @@ string resource_select (void * webserver_request)
 #else
     resource_logic_translated_resources_get_list_on_client ();
 #endif
-    for (auto raw_resource : raw_resources) {
-      string title;
+    for (const auto & raw_resource : raw_resources) {
+      string title {};
       if (resource_logic_parse_translated_resource (raw_resource, &title)) {
         resources.push_back(title);
       }
     }
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
     }
     page += dialog_list.run ();

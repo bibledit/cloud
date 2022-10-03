@@ -23,6 +23,7 @@
 #include <assets/header.h>
 #include <filter/roles.h>
 #include <filter/string.h>
+#include <filter/google.h>
 #include <filter/url.h>
 #include <locale/translate.h>
 #include <resource/logic.h>
@@ -154,6 +155,14 @@ string resource_translated9edit (void * webserver_request)
     document.print (resourceblock, "", format_raw);
     view.set_variable ("resourceblock", resourceblock.str ());
   }
+
+  
+  // If Google Translate has not yet been set up, then enable a bit of information about that.
+  // Do this only in the Cloud.
+#ifdef HAVE_CLOUD
+  auto [ json_key, json_error ] = filter::google::get_json_key_value_error ();
+  if (json_key.empty()) view.enable_zone("setup_translated");
+#endif
 
    
   view.set_variable ("success", success);

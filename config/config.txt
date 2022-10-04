@@ -44,7 +44,8 @@ After the certificates have been copied, restart Bibledit Cloud. It will then lo
 
 To enforce secure http for browser communications, put a file named browser.https in the config folder.
 The file may be empty. Once this file is found, Bibledit Cloud will redirect any incoming http browser traffic to https traffic.
-A file with the name of client.https will do the same for Bibledit client traffic.
+
+A file with the name of client.https will enforce https for Bibledit client traffic. It won't redirect incoming http client connections to https though. It will just generate an error on the client connection. The user should manually upgrade the client connection.
 
 
 OpenLDAP server: See file ldap.txt for more information.

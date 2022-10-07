@@ -56,14 +56,14 @@ string styles_view (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page;
+  string page {};
   
   Assets_Header header = Assets_Header (translate("Style"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view {};
 
 
   string sheet = request->query ["sheet"];
@@ -74,13 +74,13 @@ string styles_view (void * webserver_request)
   view.set_variable ("style", escape_special_xml_characters (style));
 
   
-  Database_Styles database_styles;
+  Database_Styles database_styles {};
   Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
   
   
   // Whether the logged-in user has write access to the stylesheet.
-  string username = request->session_logic ()->currentUser ();
-  int userlevel = request->session_logic ()->currentLevel ();
+  const string username = request->session_logic ()->currentUser ();
+  const int userlevel = request->session_logic ()->currentLevel ();
   bool write = database_styles.hasWriteAccess (username, sheet);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
@@ -169,14 +169,14 @@ string styles_view (void * webserver_request)
   // The style's type.
   int type = marker_data.type;
   if (request->query.count ("type")) {
-    string s = request->query["type"];
+    const string s = request->query["type"];
     type = convert_to_int (s);
-    if (s == "") {
+    if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the type of this style?"), translate("Here are the various types:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       for (int i = 0; i < 99; i++) {
-        string text = styles_logic_type_text (i);
+        const string text = styles_logic_type_text (i);
         if (text.length () > 2) {
           dialog_list.add_row (text, "type", convert_to_string (i));
         }
@@ -197,10 +197,10 @@ string styles_view (void * webserver_request)
   // The style's subtype.
   int subtype = marker_data.subtype;
   if (request->query.count ("subtype")) {
-    string s = request->query["subtype"];
+    const string s = request->query["subtype"];
     subtype = convert_to_int (s);
     if (s.empty()) {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), "", "");
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), string(), string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
@@ -226,7 +226,7 @@ string styles_view (void * webserver_request)
   if (subtype_text.length () > 2) view.enable_zone ("subtype_text");
   
   
-  // The fontsize.
+  // The fontsize. Todo
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {
@@ -249,7 +249,7 @@ string styles_view (void * webserver_request)
   view.set_variable ("fontsize", convert_to_string (fontsize));
 
 
-  // Italics, bold, underline, small caps relevance.
+  // Italics, bold, underline, small caps relevance. Todo
   if (styles_logic_italic_bold_underline_smallcaps_are_relevant (type, subtype)) {
     view.enable_zone ("ibus_relevant");
   }
@@ -258,13 +258,13 @@ string styles_view (void * webserver_request)
   // Italic.
   int italic = marker_data.italic;
   if (request->query.count ("italic")) {
-    string s = request->query["italic"];
-    if (s == "") {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), "", "");
+    const string s = request->query["italic"];
+    if (s.empty()) {
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), string(), string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_item = database_styles.getMarkerData (sheet, style);
-      int last_value = ooitOn;
+      int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type, style_item.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
@@ -286,13 +286,13 @@ string styles_view (void * webserver_request)
   // Bold.
   int bold = marker_data.bold;
   if (request->query.count ("bold")) {
-    string s = request->query["bold"];
-    if (s == "") {
+    const string s = request->query["bold"];
+    if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
-      int last_value = ooitOn;
+      int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
@@ -314,13 +314,13 @@ string styles_view (void * webserver_request)
   // Underline.
   int underline = marker_data.underline;
   if (request->query.count ("underline")) {
-    string s = request->query["underline"];
-    if (s == "") {
+    const string s = request->query["underline"];
+    if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
-      int last_value = ooitOn;
+      int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
@@ -342,13 +342,13 @@ string styles_view (void * webserver_request)
   // Small caps.
   int smallcaps = marker_data.smallcaps;
   if (request->query.count ("smallcaps")) {
-    string s = request->query["smallcaps"];
-    if (s == "") {
+    const string s = request->query["smallcaps"];
+    if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), "", "");
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
-      int last_value = ooitOn;
+      int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
@@ -381,14 +381,14 @@ string styles_view (void * webserver_request)
   view.set_variable ("superscript_toggle", convert_to_string (!static_cast<bool> (superscript)));
   
 
-  // Whether a list of the following paragraph treats are relevant.
+  // Whether a list of the following paragraph treats are relevant. Todo
   if (styles_logic_paragraph_treats_are_relevant (type, subtype)) view.enable_zone ("paragraph_treats_relevant");
 
   
   // Text alignment.
   int justification = marker_data.justification;
   if (request->query.count ("alignment")) {
-    Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), "", "");
+    Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), string(), string());
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
     for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
@@ -528,7 +528,7 @@ string styles_view (void * webserver_request)
    */
 
   
-  // Color.
+  // Color. Todo
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   
   string color = marker_data.color;
@@ -545,7 +545,7 @@ string styles_view (void * webserver_request)
   }
   view.set_variable ("color", color);
 
-  string backgroundcolor = marker_data.backgroundcolor;
+  string backgroundcolor {marker_data.backgroundcolor};
   if (request->query.count ("bgcolor")) {
     color = request->query["bgcolor"];
     if (color.find ("#") == string::npos) color.insert (0, "#");
@@ -562,7 +562,7 @@ string styles_view (void * webserver_request)
 
   // Whether to print this style.
   if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");
-  bool print = marker_data.print;
+  bool print {marker_data.print};
   if (request->query.count ("print")) {
     print = convert_to_bool (request->query["print"]);
     if (write) {
@@ -574,11 +574,11 @@ string styles_view (void * webserver_request)
   view.set_variable ("print_toggle", convert_to_string (!print));
   
 
-  // Userbool1
+  // Userbool1. Todo
   string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
   if (userbool1_function.length () > 2) view.enable_zone ("userbool1_relevant");
   view.set_variable ("userbool1_function", userbool1_function);
-  bool userbool1 = marker_data.userbool1;
+  bool userbool1 {marker_data.userbool1};
   if (request->query.count ("userbool1")) {
     userbool1 = convert_to_bool (request->query["userbool1"]);
     if (write) {
@@ -590,11 +590,11 @@ string styles_view (void * webserver_request)
   view.set_variable ("userbool1_toggle", convert_to_string (!userbool1));
 
   
-  // Userbool2
+  // Userbool2. Todo.
   string userbool2_function = styles_logic_get_userbool2_text (styles_logic_get_userbool2_function (type, subtype));
   if (userbool2_function.length () > 2) view.enable_zone ("userbool2_relevant");
   view.set_variable ("userbool2_function", userbool2_function);
-  bool userbool2 = marker_data.userbool2;
+  bool userbool2 {marker_data.userbool2};
   if (request->query.count ("userbool2")) {
     userbool2 = convert_to_bool (request->query["userbool2"]);
     if (write) {
@@ -606,11 +606,11 @@ string styles_view (void * webserver_request)
   view.set_variable ("userbool2_toggle", convert_to_string (!userbool2));
 
   
-  // Userbool3
+  // Userbool3. Todo
   string userbool3_function = styles_logic_get_userbool3_text (styles_logic_get_userbool3_function (type, subtype));
   if (userbool3_function.length () > 2) view.enable_zone ("userbool3_relevant");
   view.set_variable ("userbool3_function", userbool3_function);
-  bool userbool3 = marker_data.userbool3;
+  bool userbool3 {marker_data.userbool3};
   if (request->query.count ("userbool3")) {
     userbool3 = convert_to_bool (request->query["userbool3"]);
     if (write) {
@@ -622,7 +622,7 @@ string styles_view (void * webserver_request)
   view.set_variable ("userbool3_toggle", convert_to_string (!userbool3));
 
   
-  // Userint1.
+  // Userint1. Todo
   int userint1 = marker_data.userint1;
   switch (styles_logic_get_userint1_function (type, subtype)) {
     case UserInt1None :
@@ -728,9 +728,9 @@ string styles_view (void * webserver_request)
   
 
   // Userstring1.
-  string userstring1 = marker_data.userstring1;
-  string userstring1_question;
-  string userstring1_help;
+  string userstring1 {marker_data.userstring1};
+  string userstring1_question {};
+  string userstring1_help {};
   switch (styles_logic_get_userstring1_function (type, subtype)) {
     case UserString1None :
       break;
@@ -767,9 +767,9 @@ string styles_view (void * webserver_request)
   
 
   // Userstring2
-  string userstring2 = marker_data.userstring2;
-  string userstring2_question;
-  string userstring2_info;
+  string userstring2 {marker_data.userstring2};
+  string userstring2_question {};
+  string userstring2_info {};
   switch (styles_logic_get_userstring2_function (type, subtype)) {
     case UserString2None :
       break;
@@ -796,7 +796,7 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  if (userstring2 == "") userstring2 = "--";
+  if (userstring2.empty()) userstring2 = "--";
   view.set_variable ("userstring2", escape_special_xml_characters (userstring2));
   
   // Recreate stylesheets after editing a style.

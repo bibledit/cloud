@@ -192,11 +192,11 @@ void setup_write_access ()
 // Waits until the main folders for setup are present.
 void setup_wait_till_main_folders_present ()
 {
-  bool present;
+  bool present {true};
   do {
     present = true;
     vector <string> folders = {"dyncss", database_logic_databases (), "databases/config/general", "logbook", "bibles", "processes"};
-    for (auto folder : folders) {
+    for (const auto & folder : folders) {
       string path = filter_url_create_root_path ({folder});
       if (!file_or_dir_exists (path)) {
         present = false;

@@ -24,7 +24,7 @@
 class Styles_Css
 {
 public:
-  Styles_Css (void * webserver_request, string stylesheet);
+  Styles_Css (void * webserver_request, const string & stylesheet);
   Styles_Css(const Styles_Css&) = delete;
   Styles_Css operator=(const Styles_Css&) = delete;
   void editor ();

@@ -29,7 +29,7 @@
 #include <quill/logic.h>
 
 
-Styles_Css::Styles_Css (void * webserver_request, string stylesheet)
+Styles_Css::Styles_Css (void * webserver_request, const string & stylesheet)
 {
   m_webserver_request = webserver_request;
   m_stylesheet = stylesheet;
@@ -156,6 +156,11 @@ void Styles_Css::evaluate (void * database_styles_item)
       }
       break;
     }
+    case StyleTypePicture:
+    {
+      add (style, true, false);
+      break;
+    }
     default: break;
   }
 }
@@ -169,10 +174,10 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
 {
   Database_Styles_Item * style = static_cast<Database_Styles_Item *> (database_styles_item);
 
-  string class_ = style->marker;
+  string class_ {style->marker};
 
   // The name of the class as used in a Quill-based editor.
-  string quill_class = ", .";
+  string quill_class {", ."};
   if (paragraph) {
     quill_class.append (quill_logic_class_prefix_block ());
   } else {
@@ -186,8 +191,8 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   // Font size.
   // Since it is html and not pdf for paper, a font size of 12pt is considered to be equal to 100%.
   if (paragraph) {
-    float points = style->fontsize;
-    float percents = points * 100 / 12;
+    float points {style->fontsize};
+    float percents {points * 100 / 12};
     int fontsize = convert_to_int (percents);
     if (fontsize != 100) {
       m_code.push_back ("font-size: " + convert_to_string (fontsize) + "%;");

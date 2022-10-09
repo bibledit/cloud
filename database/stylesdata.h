@@ -830,7 +830,7 @@ style_record styles_table [] =
     /* underline */ 0,
     /* smallcaps */ 0,
     /* superscript */ 0,
-    /* justification */ 0,
+    /* justification */ 1,
     /* spacebefore */ 0,
     /* spaceafter */ 0,
     /* leftmargin */ 0,

@@ -1177,7 +1177,7 @@ A Jesus is King.  B Jesus is the son of God.
     )";
     // Test converting the USFM with an image to html.
     {
-      string standard_html = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
+      string standard_html = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%" /><p class="fig"><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
       string html;
       Filter_Text filter_text = Filter_Text (bible);
       filter_text.html_text_standard = new Html_Text (bible);
@@ -1207,6 +1207,8 @@ A Jesus is King.  B Jesus is the son of God.
 Unknown 1
 
 1 Verse one. 
+
+
 
 caption
 

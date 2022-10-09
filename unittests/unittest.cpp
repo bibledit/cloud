@@ -143,8 +143,10 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
+  test_filter_text ();
   refresh_sandbox (false);
-//  exit (0);
+//
+  exit (0); // Todo
   
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.

@@ -825,7 +825,7 @@ style_record styles_table [] =
     /* type */ 10,
     /* subtype */ 0,
     /* fontsize */ 12,
-    /* italic */ 0,
+    /* italic */ 1,
     /* bold */ 0,
     /* underline */ 0,
     /* smallcaps */ 0,

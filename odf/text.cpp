@@ -668,7 +668,7 @@ void odf_text::create_paragraph_style (string name,
 {
   // Whether to align verse numbers in poetry to the left of the margin,
   // and if so, whether this is one of the defined poetry styles.
-  bool is_poetry_q_style = false;
+  bool is_poetry_q_style {false};
   if (Database_Config_Bible::getOdtPoetryVersesLeft (m_bible)) {
     is_poetry_q_style = filter::usfm::is_standard_q_poetry (name);
   }
@@ -720,7 +720,7 @@ void odf_text::create_paragraph_style (string name,
   }
 
   // Text alignment can be: AlignmentLeft, AlignmentCenter, AlignmentRight, AlignmentJustify.
-  string alignmenttext;
+  string alignmenttext {};
   switch (alignment) {
     case AlignmentLeft:    alignmenttext = "start";   break;
     case AlignmentCenter:  alignmenttext = "center";  break;

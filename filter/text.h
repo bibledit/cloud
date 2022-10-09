@@ -50,22 +50,22 @@ public:
 class Filter_Text
 {
 public:
-  Filter_Text (string bible_in);
+  Filter_Text (string bible);
   ~Filter_Text ();
   Filter_Text(const Filter_Text&) = delete;
   Filter_Text operator=(const Filter_Text&) = delete;
   
 private:
-  string bible {};
+  string m_bible {};
 
 public:
   void add_usfm_code (string usfm);
 private:
   // Container holding USFM, alternating between markup and text.
-  vector <string> usfmMarkersAndText {};
-  unsigned int usfmMarkersAndTextPointer {0};
-  bool unprocessedUsfmCodeAvailable ();
-  void getUsfmNextChapter ();
+  vector <string> m_usfm_markers_and_text {};
+  unsigned int usfm_markers_and_text_ptr {0};
+  bool unprocessed_usfm_code_available ();
+  void get_usfm_next_chapter ();
   
 public:
   void run (string stylesheet);
@@ -75,7 +75,7 @@ private:
   unsigned int chapter_usfm_markers_and_text_pointer {0};
 
 public:
-  void getStyles (string stylesheet);
+  void get_styles (string stylesheet);
 private:
   // A map of marker -> object with style information.
   map <string, Database_Styles_Item> styles {};
@@ -88,9 +88,9 @@ public:
   void pre_process_usfm ();
 private:
   // Book identifier, e.g. 1, 2, 3, and so on.
-  int currentBookIdentifier {0};
+  int m_current_book_identifier {0};
   // Chapter number, e.g. 1, 2, 3, etc.
-  int currentChapterNumber {0};
+  int m_current_chapter_number {0};
   // Verse number, e.g. "0", "1", "2", and so on.
   string currentVerseNumber {};
   string getCurrentPassageText ();
@@ -196,7 +196,7 @@ private:
   map <int, string> verses_text {};
   // Flag for text per verse processor.
   bool text_started {false};
-  void storeVersesParagraphs ();
+  void store_verses_paragraphs ();
   map <int, string> actual_verses_paragraph {};
   
 private:
@@ -222,6 +222,7 @@ public:
 private:
   // Flag for whether the processor is now within figure markup.
   bool is_within_figure_markup { false };
+  string figure_marker {};
   
 public:
 private:

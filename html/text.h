@@ -34,7 +34,7 @@ class Html_Text
 {
 public:
   Html_Text (string title);
-  void new_paragraph (string style = "");
+  void new_paragraph (string style = string());
   void add_text (string text);
   string get_html ();
   string get_inner_html ();
@@ -60,7 +60,7 @@ public:
   // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
   string custom_class {};
   void have_popup_notes ();
-  void add_image (string alt, string src, string caption);
+  void add_image (string style, string alt, string src, string caption);
 private:
   xml_document document {};
   xml_node head_node {};

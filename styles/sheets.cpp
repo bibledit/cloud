@@ -48,18 +48,18 @@ void Styles_Sheets::recreate ()
 {
   Database_Styles database_styles;
   vector <string> stylesheets = database_styles.getSheets ();
-  for (auto & stylesheet : stylesheets) {
+  for (const auto & stylesheet : stylesheets) {
     string path = get_location (stylesheet, false);
-    create (stylesheet, path, false, "");
+    create (stylesheet, path, false, string());
     path = get_location (stylesheet, true);
-    create (stylesheet, path, true, "");
+    create (stylesheet, path, true, string());
   }
 }
 
 
 void Styles_Sheets::create (string stylesheet, string path, bool editor, string export_bible)
 {
-  Webserver_Request request;
+  Webserver_Request request {};
   Styles_Css styles_css = Styles_Css (&request, stylesheet);
   if (editor) {
     styles_css.editor ();
@@ -67,7 +67,7 @@ void Styles_Sheets::create (string stylesheet, string path, bool editor, string 
   if (!export_bible.empty ()) {
     styles_css.exports ();
     styles_css.customize (export_bible);
-    styles_css.customize ("");
+    styles_css.customize (string());
   }
   styles_css.generate ();
   styles_css.css (path);

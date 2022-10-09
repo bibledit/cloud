@@ -35,18 +35,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // The other thing is that Java is slow compared to the methods below written in C++.
 
 
-odf_text::odf_text (string bible_in)
+odf_text::odf_text (string bible)
 {
-  bible = bible_in;
-  current_text_p_node_opened = false;
-  current_paragraph_style.clear();
-  current_paragraph_content.clear();
-  current_text_style.clear();
-  frame_count = 0;
-  note_text_p_opened = false;
-  note_count = 0;
-  current_note_text_style.clear();
-  image_counter = 0;
+  m_bible = bible;
 
   // Unpack the .odt template.
   string template_odf = filter_url_create_root_path ({"odf", "template.odt"});
@@ -59,7 +50,7 @@ odf_text::odf_text (string bible_in)
   initialize_content_xml ();
   initialize_styles_xml ();
   
-  automatic_note_caller = Database_Config_Bible::getOdtAutomaticNoteCaller(bible);
+  automatic_note_caller = Database_Config_Bible::getOdtAutomaticNoteCaller(m_bible);
 }
 
 
@@ -121,7 +112,7 @@ void odf_text::initialize_content_xml ()
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
     
-    string fontname = Database_Config_Bible::getExportFont (bible);
+    string fontname = Database_Config_Bible::getExportFont (m_bible);
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = fontname.c_str();
     fontname.insert (0, "'");
@@ -282,7 +273,7 @@ void odf_text::initialize_styles_xml ()
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
   
-    string fontname = Database_Config_Bible::getExportFont (bible);
+    string fontname = Database_Config_Bible::getExportFont (m_bible);
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = fontname.c_str();
     fontname.insert (0, "'");
@@ -381,7 +372,7 @@ void odf_text::initialize_styles_xml ()
   }
 
   // Update the tab-stops in the header style. The tab stops depend on page and margin dimensions.
-  int centerPosition = convert_to_int (Database_Config_Bible::getPageWidth (bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (bible));
+  int centerPosition = convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
 
   xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
@@ -436,14 +427,14 @@ void odf_text::initialize_styles_xml ()
     {
       xml_node style_page_layout_properties = style_page_layout.append_child ("style:page-layout-properties");
       // Take the page size and margins from the Bible's settings.
-      style_page_layout_properties.append_attribute ("fo:page-width") = convert_to_string (Database_Config_Bible::getPageWidth (bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:page-height") = convert_to_string (Database_Config_Bible::getPageHeight (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-width") = convert_to_string (Database_Config_Bible::getPageWidth (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-height") = convert_to_string (Database_Config_Bible::getPageHeight (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("style:num-format") = "1";
       style_page_layout_properties.append_attribute ("style:print-orientation") = "portrait";
-      style_page_layout_properties.append_attribute ("fo:margin-top") = convert_to_string (Database_Config_Bible::getTopMargin (bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-bottom") = convert_to_string (Database_Config_Bible::getBottomMargin (bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-left") = convert_to_string (Database_Config_Bible::getInnerMargin (bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-right") = convert_to_string (Database_Config_Bible::getOuterMargin (bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-top") = convert_to_string (Database_Config_Bible::getTopMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-bottom") = convert_to_string (Database_Config_Bible::getBottomMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-left") = convert_to_string (Database_Config_Bible::getInnerMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-right") = convert_to_string (Database_Config_Bible::getOuterMargin (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("style:writing-mode") = "lr-tb";
       style_page_layout_properties.append_attribute ("style:footnote-max-height") = "0cm";
       {
@@ -520,7 +511,7 @@ void odf_text::initialize_styles_xml ()
           text_p.append_child ("text:tab");
         }
         // Whether and how to put the date in the running headers.
-        if (Database_Config_Bible::getDateInHeader (bible)) {
+        if (Database_Config_Bible::getDateInHeader (m_bible)) {
           xml_node node = text_p.append_child ("text:date");
           node.append_attribute ("style:data-style-name") = "N81";
           node.append_attribute ("text:date-value") = "";
@@ -548,7 +539,7 @@ void odf_text::initialize_styles_xml ()
           text_p.append_child ("text:tab");
         }
         // Whether and how to put the date in the running headers.
-        if (Database_Config_Bible::getDateInHeader (bible)) {
+        if (Database_Config_Bible::getDateInHeader (m_bible)) {
           xml_node node = text_p.append_child ("text:date");
           node.append_attribute ("style:data-style-name") = "N81";
           node.append_attribute ("text:date-value") = "";
@@ -572,9 +563,9 @@ void odf_text::new_paragraph (string style)
 {
   current_text_p_node = office_text_node.append_child ("text:p");
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style.c_str();
-  current_text_p_node_opened = true;
-  current_paragraph_style = style;
-  current_paragraph_content.clear();
+  m_current_text_p_node_opened = true;
+  m_current_paragraph_style = style;
+  m_current_paragraph_content.clear();
 }
 
 
@@ -586,11 +577,11 @@ void odf_text::add_text (string text)
   if (text.empty()) return;
 
   // Ensure a paragraph has started.
-  if (!current_text_p_node_opened) new_paragraph ();
+  if (!m_current_text_p_node_opened) new_paragraph ();
   
   // Temporal styles array should have at least one style for the code below to work.
   // So ensure it has at least one style.
-  vector <string> styles (current_text_style.begin (), current_text_style.end ());
+  vector <string> styles (m_current_text_style.begin (), m_current_text_style.end ());
   if (styles.empty()) styles.push_back (string());
   
   // Write a text span element, nesting the second and later ones.
@@ -609,7 +600,7 @@ void odf_text::add_text (string text)
   dom_node.text ().set (text.c_str());
 
   // Update public paragraph text.
-  current_paragraph_content += text;
+  m_current_paragraph_content += text;
 }
 
 
@@ -654,9 +645,9 @@ void odf_text::new_page_break ()
   // Always clear the paragraph-opened-flag,
   // because we don't want subsequent text to be added to this page break,
   // since it would be nearly invisible, and thus text would mysteriously get lost.
-  current_text_p_node_opened = false;
-  current_paragraph_style.clear ();
-  current_paragraph_content.clear ();
+  m_current_text_p_node_opened = false;
+  m_current_paragraph_style.clear ();
+  m_current_paragraph_content.clear ();
 }
 
 
@@ -678,7 +669,7 @@ void odf_text::create_paragraph_style (string name,
   // Whether to align verse numbers in poetry to the left of the margin,
   // and if so, whether this is one of the defined poetry styles.
   bool is_poetry_q_style = false;
-  if (Database_Config_Bible::getOdtPoetryVersesLeft (bible)) {
+  if (Database_Config_Bible::getOdtPoetryVersesLeft (m_bible)) {
     is_poetry_q_style = filter::usfm::is_standard_q_poetry (name);
   }
   
@@ -800,7 +791,7 @@ void odf_text::create_paragraph_style (string name,
 // $name: the name of the style, e.g. 'p'.
 void odf_text::update_current_paragraph_style (string name)
 {
-  if (!current_text_p_node_opened) new_paragraph ();
+  if (!m_current_text_p_node_opened) new_paragraph ();
   current_text_p_node.remove_attribute (current_text_p_node_style_name);
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name");
   current_text_p_node_style_name = convert_style_name (name).c_str();
@@ -877,11 +868,11 @@ void odf_text::open_text_style (Database_Styles_Item style, bool note, bool embe
   }
 
   if (note) {
-    if (!embed) current_note_text_style.clear();
-    current_note_text_style.push_back (marker);
+    if (!embed) m_current_note_text_style.clear();
+    m_current_note_text_style.push_back (marker);
   } else {
-    if (!embed) current_text_style.clear ();
-    current_text_style.push_back (marker);
+    if (!embed) m_current_text_style.clear ();
+    m_current_text_style.push_back (marker);
   }
 }
 
@@ -892,11 +883,11 @@ void odf_text::open_text_style (Database_Styles_Item style, bool note, bool embe
 void odf_text::close_text_style (bool note, bool embed)
 {
   if (note) {
-    if (!embed) current_note_text_style.clear();
-    if (!current_note_text_style.empty ()) current_note_text_style.pop_back ();
+    if (!embed) m_current_note_text_style.clear();
+    if (!m_current_note_text_style.empty ()) m_current_note_text_style.pop_back ();
   } else {
-    if (!embed) current_text_style.clear();
-    if (!current_text_style.empty()) current_text_style.pop_back ();
+    if (!embed) m_current_text_style.clear();
+    if (!m_current_text_style.empty()) m_current_text_style.pop_back ();
   }
 }
 
@@ -914,7 +905,7 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
 
   // The frame goes in an existing paragraph (text:p) element, just like a 'text:span' element.
   // Ensure that a paragraph is open.
-  if (!current_text_p_node_opened) new_paragraph ();
+  if (!m_current_text_p_node_opened) new_paragraph ();
 
   // The frame looks like this, in content.xml:
   // <draw:frame draw:style-name="fr1" draw:name="frame1" text:anchor-type="paragraph" svg:y="0cm" fo:min-width="0.34cm" draw:z-index="0">
@@ -924,8 +915,8 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
   // </draw:frame>
   xml_node draw_frame_dom_element = current_text_p_node.append_child ("draw:frame");
   draw_frame_dom_element.append_attribute ("draw:style-name") = "chapterframe";
-  frame_count++;
-  draw_frame_dom_element.append_attribute ("draw:name") = convert_to_string ("frame" + convert_to_string (frame_count)).c_str();
+  m_frame_count++;
+  draw_frame_dom_element.append_attribute ("draw:name") = convert_to_string ("frame" + convert_to_string (m_frame_count)).c_str();
   draw_frame_dom_element.append_attribute ("text:anchor-type") = "paragraph";
   draw_frame_dom_element.append_attribute ("svg:y") = "0cm";
   draw_frame_dom_element.append_attribute ("fo:min-width") = "0.34cm";
@@ -1034,12 +1025,12 @@ void odf_text::create_superscript_style ()
 void odf_text::add_note (string caller, string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
-  if (!current_text_p_node_opened) new_paragraph ();
+  if (!m_current_text_p_node_opened) new_paragraph ();
 
   xml_node text_note_dom_element = current_text_p_node.append_child ("text:note");
-  text_note_dom_element.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (note_count)).c_str();
-  note_count++;
-  note_text_p_opened = true;
+  text_note_dom_element.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (m_note_count)).c_str();
+  m_note_count++;
+  m_note_text_p_opened = true;
   string noteclass;
   if (endnote) noteclass = "endnote";
   else noteclass = "footnote";
@@ -1072,10 +1063,10 @@ void odf_text::add_note_text (string text)
   if (text == "") return;
 
   // Ensure a note has started.
-  if (!note_text_p_opened) add_note ("?", "");
+  if (!m_note_text_p_opened) add_note ("?", "");
 
   // Temporal styles array should have at least one style for the code below to work.
-  vector <string> styles (current_note_text_style.begin(), current_note_text_style.end());
+  vector <string> styles (m_current_note_text_style.begin(), m_current_note_text_style.end());
   if (styles.empty ()) styles.push_back ("");
 
   // Write a text span element, nesting the second and later ones.
@@ -1095,7 +1086,7 @@ void odf_text::add_note_text (string text)
 void odf_text::close_current_note ()
 {
   close_text_style (true, false);
-  note_text_p_opened = false;
+  m_note_text_p_opened = false;
 }
 
 
@@ -1141,9 +1132,9 @@ void odf_text::new_named_heading (string style, string text, bool hide)
   }
 
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
-  current_text_p_node_opened = false;
-  current_paragraph_style.clear ();
-  current_paragraph_content.clear ();
+  m_current_text_p_node_opened = false;
+  m_current_paragraph_style.clear ();
+  m_current_paragraph_content.clear ();
 }
 
 
@@ -1189,43 +1180,42 @@ void odf_text::save (string name)
 //     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
 //   </draw:frame>
 // </text:p>
-void odf_text::add_image ([[maybe_unused]] string alt, string src, string caption)
+void odf_text::add_image (string style, [[maybe_unused]] string alt, string src, string caption) // Todo
 {
   // The parent paragraph for the image has the "p" style.
-  const char * style = "p";
   current_text_p_node = office_text_node.append_child ("text:p");
-  current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style;
-  current_text_p_node_opened = true;
-  current_paragraph_style = style;
-  current_paragraph_content.clear();
+  current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = "p";
+  m_current_text_p_node_opened = true;
+  m_current_paragraph_style = style;
+  m_current_paragraph_content.clear();
 
   // Get the width and height of the image in pixels.
-  int image_width_pixels = 0, image_height_pixels = 0;
+  int image_width_pixels {0};
+  int image_height_pixels {0};
   {
-    Database_BibleImages database_bibleimages;
+    Database_BibleImages database_bibleimages {};
     string path = filter_url_create_root_path ({filter_url_temp_dir (), "image_contents"});
     string contents = database_bibleimages.get(src);
     filter_url_file_put_contents(path, contents);
     filter_image_get_sizes (path, image_width_pixels, image_height_pixels);
-
   }
 
   // Determine the width of the available space so the image width will be equal to that.
   // Then the image height depends on the ratio of the image width and height in pixels.
-  int available_width_mm = 0;
-  int available_height_mm = 50;
+  int available_width_mm {0};
+  int available_height_mm {50};
   {
-    available_width_mm = convert_to_int (Database_Config_Bible::getPageWidth (bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (bible));
+    available_width_mm = convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
     if (image_width_pixels && image_height_pixels) {
       available_height_mm = available_width_mm * image_height_pixels / image_width_pixels;
     }
   }
   
   {
-    image_counter++;
+    m_image_counter++;
     xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
     draw_frame_node.append_attribute("draw:style-name") = "fr1";
-    draw_frame_node.append_attribute("draw:name") = ("Image" + convert_to_string(image_counter)).c_str();
+    draw_frame_node.append_attribute("draw:name") = ("Image" + convert_to_string(m_image_counter)).c_str();
     draw_frame_node.append_attribute("text:anchor-type") = "char";
     draw_frame_node.append_attribute("svg:width") = (convert_to_string (available_width_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-width") = "100%";
@@ -1247,10 +1237,12 @@ void odf_text::add_image ([[maybe_unused]] string alt, string src, string captio
     }
   }
   
-  // Optionally add the caption if given.
+  // Optionally add the caption if given. Todo
   if (!caption.empty()) {
-    xml_node text_node = current_text_p_node.append_child(node_pcdata);
-    text_node.set_value(caption.c_str());
+    new_paragraph (style);
+    add_text (caption);
+//    xml_node text_node = current_text_p_node.append_child(node_pcdata);
+//    text_node.set_value(caption.c_str());
   }
 
   // Save the picture into the Pictures output folder.
@@ -1268,9 +1260,9 @@ void odf_text::add_image ([[maybe_unused]] string alt, string src, string captio
 
   // Close the current paragraph.
   // Goal: Any text that will be added will be output into a new paragraph.
-  current_text_p_node_opened = false;
-  current_paragraph_style.clear ();
-  current_paragraph_content.clear ();
+  m_current_text_p_node_opened = false;
+  m_current_paragraph_style.clear ();
+  m_current_paragraph_content.clear ();
 }
 
 
@@ -1278,11 +1270,11 @@ void odf_text::add_image ([[maybe_unused]] string alt, string src, string captio
 void odf_text::add_tab ()
 {
   // Ensure a paragraph has started.
-  if (!current_text_p_node_opened) new_paragraph ();
+  if (!m_current_text_p_node_opened) new_paragraph ();
   
   // Write a text tab element.
   current_text_p_node.append_child ("text:tab");
 
   // Update public paragraph text.
-  current_paragraph_content += "\t";
+  m_current_paragraph_content += "\t";
 }

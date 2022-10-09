@@ -99,6 +99,7 @@ private:
   void process_usfm ();
   void processNote ();
   // Opening a new paragraph.
+  void create_paragraph_style (const Database_Styles_Item & style, bool keepWithNext);
   void new_paragraph (const Database_Styles_Item & style, bool keepWithNext);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (string chapterText);

@@ -40,15 +40,15 @@ void test_odf ()
     odf_text odf_text (bible);
     odf_text.create_page_break_style ();
     odf_text.new_paragraph ();
-    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.current_paragraph_style);
+    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.m_current_paragraph_style);
     odf_text.add_text ("Paragraph One");
-    evaluate (__LINE__, __func__, "Paragraph One", odf_text.current_paragraph_content);
+    evaluate (__LINE__, __func__, "Paragraph One", odf_text.m_current_paragraph_content);
     odf_text.new_paragraph ();
-    evaluate (__LINE__, __func__, "", odf_text.current_paragraph_content);
+    evaluate (__LINE__, __func__, "", odf_text.m_current_paragraph_content);
     odf_text.add_text ("Paragraph Two");
-    evaluate (__LINE__, __func__, "Paragraph Two", odf_text.current_paragraph_content);
+    evaluate (__LINE__, __func__, "Paragraph Two", odf_text.m_current_paragraph_content);
     odf_text.new_heading1 ("Heading One");
-    evaluate (__LINE__, __func__, "", odf_text.current_paragraph_content);
+    evaluate (__LINE__, __func__, "", odf_text.m_current_paragraph_content);
     odf_text.new_page_break ();
     odf_text.new_paragraph ();
     odf_text.add_text ("Paragraph Three");
@@ -267,7 +267,7 @@ void test_odf ()
   {
     odf_text odf_text (bible);
     odf_text.new_paragraph ();
-    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.current_paragraph_style);
+    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.m_current_paragraph_style);
     odf_text.add_text ("One apostrophy ' and two more ''.");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);

@@ -696,18 +696,18 @@ void Filter_Text::process_usfm ()
               // Handle a situation that a verse number starts a new paragraph.
               if (style.userbool1) {
                 if (odf_text_standard) {
-                  if (!odf_text_standard->current_paragraph_content.empty()) {
-                    odf_text_standard->new_paragraph (odf_text_standard->current_paragraph_style);
+                  if (!odf_text_standard->m_current_paragraph_content.empty()) {
+                    odf_text_standard->new_paragraph (odf_text_standard->m_current_paragraph_style);
                   }
                 }
                 if (odf_text_text_only) {
-                  if (!odf_text_text_only->current_paragraph_content.empty()) {
-                    odf_text_text_only->new_paragraph (odf_text_text_only->current_paragraph_style);
+                  if (!odf_text_text_only->m_current_paragraph_content.empty()) {
+                    odf_text_text_only->new_paragraph (odf_text_text_only->m_current_paragraph_style);
                   }
                 }
                 if (odf_text_text_and_note_citations) {
-                  if (!odf_text_text_and_note_citations->current_paragraph_content.empty()) {
-                    odf_text_text_and_note_citations->new_paragraph (odf_text_text_and_note_citations->current_paragraph_style);
+                  if (!odf_text_text_and_note_citations->m_current_paragraph_content.empty()) {
+                    odf_text_text_and_note_citations->new_paragraph (odf_text_text_and_note_citations->m_current_paragraph_style);
                   }
                 }
                 if (html_text_standard) {
@@ -764,17 +764,17 @@ void Filter_Text::process_usfm ()
               if (output_chapter_text_at_first_verse.empty ()) {
                 // If the current paragraph has text already, then insert a space.
                 if (odf_text_standard) {
-                  if (!odf_text_standard->current_paragraph_content.empty()) {
+                  if (!odf_text_standard->m_current_paragraph_content.empty()) {
                     odf_text_standard->add_text (" ");
                   }
                 }
                 if (odf_text_text_only) {
-                  if (!odf_text_text_only->current_paragraph_content.empty()) {
+                  if (!odf_text_text_only->m_current_paragraph_content.empty()) {
                     odf_text_text_only->add_text (" ");
                   }
                 }
                 if (odf_text_text_and_note_citations) {
-                  if (!odf_text_text_and_note_citations->current_paragraph_content.empty()) {
+                  if (!odf_text_text_and_note_citations->m_current_paragraph_content.empty()) {
                     odf_text_text_and_note_citations->add_text (" ");
                   }
                 }
@@ -837,17 +837,17 @@ void Filter_Text::process_usfm ()
                 // If a chapter number was put, do not output any white space.
                 if (output_chapter_text_at_first_verse.empty()) {
                   if (odf_text_standard) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_standard->current_paragraph_style);
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_standard->m_current_paragraph_style);
                     if (tab) odf_text_standard->add_tab();
                     else odf_text_standard->add_text (space_type_after_verse);
                   }
                   if (odf_text_text_only) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_only->current_paragraph_style);
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_only->m_current_paragraph_style);
                     if (tab) odf_text_text_only->add_tab();
                     else odf_text_text_only->add_text (space_type_after_verse);
                   }
                   if (odf_text_text_and_note_citations) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style);
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->m_current_paragraph_style);
                     if (tab) odf_text_text_and_note_citations->add_tab();
                     else odf_text_text_and_note_citations->add_text (space_type_after_verse);
                   }
@@ -925,6 +925,8 @@ void Filter_Text::process_usfm ()
                 // Set a flag that the parser is going to be within figure markup and save the style.
                 is_within_figure_markup = true;
                 figure_marker = marker;
+                // Create the style for the figure because it is used within the ODT generator.
+                create_paragraph_style (style, false);
                 // At the start of the \fig marker, close all text styles that might be open.
                 if (odf_text_standard) odf_text_standard->close_text_style (false, false);
                 if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
@@ -1061,9 +1063,9 @@ void Filter_Text::process_usfm ()
           // Store the name of this image in the object, ready to be copied into place if needed.
           image_sources.push_back(src);
           // Add the image to the various output formats.
-          if (odf_text_standard) odf_text_standard->add_image(alt, src, caption); // Todo
-          if (odf_text_text_only) odf_text_text_only->add_image(alt, src, caption);// Todo
-          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_image(alt, src, caption);// Todo
+          if (odf_text_standard) odf_text_standard->add_image(figure_marker, alt, src, caption); // Todo
+          if (odf_text_text_only) odf_text_text_only->add_image(figure_marker, alt, src, caption);// Todo
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_image(figure_marker, alt, src, caption);// Todo
           if (html_text_standard) html_text_standard->add_image(figure_marker, alt, src, caption);
           if (html_text_linked) html_text_linked->add_image(figure_marker, alt, src, caption);
         }
@@ -1075,18 +1077,18 @@ void Filter_Text::process_usfm ()
           // output a tab before any text.
           if (odf_text_standard)
             if (odt_left_align_verse_in_poetry_styles)
-              if (filter::usfm::is_standard_q_poetry (odf_text_standard->current_paragraph_style))
-                if (odf_text_standard->current_paragraph_content.empty())
+              if (filter::usfm::is_standard_q_poetry (odf_text_standard->m_current_paragraph_style))
+                if (odf_text_standard->m_current_paragraph_content.empty())
                   odf_text_standard->add_tab();
           if (odf_text_text_only)
             if (odt_left_align_verse_in_poetry_styles)
-              if (filter::usfm::is_standard_q_poetry (odf_text_text_only->current_paragraph_style))
-                if (odf_text_text_only->current_paragraph_content.empty())
+              if (filter::usfm::is_standard_q_poetry (odf_text_text_only->m_current_paragraph_style))
+                if (odf_text_text_only->m_current_paragraph_content.empty())
                   odf_text_text_only->add_tab();
           if (odf_text_text_and_note_citations)
             if (odt_left_align_verse_in_poetry_styles)
-              if (filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->current_paragraph_style))
-                if (odf_text_text_and_note_citations->current_paragraph_content.empty())
+              if (filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->m_current_paragraph_style))
+                if (odf_text_text_and_note_citations->m_current_paragraph_content.empty())
                   odf_text_text_and_note_citations->add_tab();
           // Output text as normal.
           if (odf_text_standard) odf_text_standard->add_text (currentItem);
@@ -1163,14 +1165,14 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->current_text_style;
-                    odf_text_text_and_note_citations->current_text_style = {"superscript"};
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->m_current_text_style;
+                    odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->current_text_style = currentTextStyles;
+                    odf_text_text_and_note_citations->m_current_text_style = currentTextStyles;
                   }
                   // Add space if the paragraph has text already.
                   if (odf_text_notes) {
-                    if (odf_text_notes->current_paragraph_content != "") {
+                    if (odf_text_notes->m_current_paragraph_content != "") {
                       odf_text_notes->add_text (" ");
                     }
                   }
@@ -1199,10 +1201,10 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->current_text_style;
-                    odf_text_text_and_note_citations->current_text_style = {"superscript"};
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->m_current_text_style;
+                    odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->current_text_style = currentTextStyles;
+                    odf_text_text_and_note_citations->m_current_text_style = currentTextStyles;
                   }
                   // Open note in the web page.
                   if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote, true);
@@ -1276,14 +1278,14 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->current_text_style;
-                    odf_text_text_and_note_citations->current_text_style = {"superscript"};
+                    vector <string> currentTextStyles = odf_text_text_and_note_citations->m_current_text_style;
+                    odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->current_text_style = currentTextStyles;
+                    odf_text_text_and_note_citations->m_current_text_style = currentTextStyles;
                   }
                   // Add a space if the paragraph has text already.
                   if (odf_text_notes) {
-                    if (odf_text_notes->current_paragraph_content != "") {
+                    if (odf_text_notes->m_current_paragraph_content != "") {
                       odf_text_notes->add_text (" ");
                     }
                   }
@@ -1541,12 +1543,10 @@ void Filter_Text::produceFalloutDocument (string path)
 }
 
 
-
-// This function ensures that a certain paragraph style is in the OpenDocument,
-// and then opens a paragraph with that style.
+// This function ensures that a certain paragraph style is in the OpenDocument.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWithNext)
+void Filter_Text::create_paragraph_style (const Database_Styles_Item & style, bool keepWithNext)
 {
   string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
@@ -1571,6 +1571,17 @@ void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWi
     if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
     createdStyles.push_back (marker);
   }
+}
+
+
+// This function ensures that a certain paragraph style is in the OpenDocument,
+// and then opens a paragraph with that style.
+// $style: The style to use.
+// $keepWithNext: Whether to keep this paragraph with the next one.
+void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWithNext) // Todo create somewhere for fig here.
+{
+  create_paragraph_style(style, keepWithNext);
+  string marker = style.marker;
   if (odf_text_standard) odf_text_standard->new_paragraph (marker);
   if (odf_text_text_only) odf_text_text_only->new_paragraph (marker);
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_paragraph (marker);
@@ -1589,9 +1600,9 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
   // To name a style according to the number of characters to put in drop caps,
   // e.g. a style name like p_c1 or p_c2 or p_c3.
   if (odf_text_standard) {
-    string combined_style = odf_text_standard->current_paragraph_style + "_" + chapterMarker + convert_to_string (dropCapsLength);
+    string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + convert_to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
-      Database_Styles_Item style = styles[odf_text_standard->current_paragraph_style];
+      Database_Styles_Item style = styles[odf_text_standard->m_current_paragraph_style];
       string fontname = Database_Config_Bible::getExportFont (m_bible);
       float fontsize = style.fontsize;
       int italic = style.italic;

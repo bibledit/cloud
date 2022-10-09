@@ -33,14 +33,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void test_styles ()
 {
   trace_unit_tests (__func__);
-  Webserver_Request request;
+  Webserver_Request request {};
 
   // Create basic stylesheet.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
-    database_styles.createSheet ("phpunit");
-    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    Database_Styles database_styles {};
+    database_styles.createSheet ("testsheet");
+    Styles_Css styles_css = Styles_Css (&request, "testsheet");
     styles_css.generate ();
     string css = styles_css.css ();
     string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
@@ -50,9 +50,9 @@ void test_styles ()
   // Create stylesheet for export.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
-    database_styles.createSheet ("phpunit");
-    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    Database_Styles database_styles {};
+    database_styles.createSheet ("testsheet");
+    Styles_Css styles_css = Styles_Css (&request, "testsheet");
     styles_css.exports ();
     styles_css.generate ();
     string css = styles_css.css ();
@@ -63,9 +63,9 @@ void test_styles ()
   // Stylesheet for the Bible editor.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
-    database_styles.createSheet ("phpunit");
-    Styles_Css styles_css = Styles_Css (&request, "phpunit");
+    Database_Styles database_styles {};
+    database_styles.createSheet ("testsheet");
+    Styles_Css styles_css = Styles_Css (&request, "testsheet");
     styles_css.editor ();
     styles_css.generate ();
     string css = styles_css.css ();
@@ -110,7 +110,7 @@ void test_styles ()
 
   // CSS.
   {
-    string css = Filter_Css::get_css ("class", "", 0);
+    string css = Filter_Css::get_css ("class", string(), 0);
     
     string standard =
     ".class\n"
@@ -118,7 +118,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::get_css ("class", "", 101);
+    css = Filter_Css::get_css ("class", string(), 101);
     standard =
     ".class\n"
     "{\n"
@@ -126,7 +126,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::get_css ("class", "", 102);
+    css = Filter_Css::get_css ("class", string(), 102);
     standard =
     ".class\n"
     "{\n"
@@ -134,7 +134,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::get_css ("class", "", 110);
+    css = Filter_Css::get_css ("class", string(), 110);
     standard =
     ".class\n"
     "{\n"
@@ -142,7 +142,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::get_css ("CLass", "", 130);
+    css = Filter_Css::get_css ("CLass", string(), 130);
     standard =
     ".CLass\n"
     "{\n"
@@ -150,7 +150,7 @@ void test_styles ()
     "}\n";
     evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
     
-    css = Filter_Css::get_css ("CLass", "", 1322);
+    css = Filter_Css::get_css ("CLass", string(), 1322);
     standard =
     ".CLass\n"
     "{\n"
@@ -204,11 +204,11 @@ void test_styles ()
     vector <string> sheets = database_styles.getSheets ();
     evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
     
-    database_styles.createSheet ("phpunit");
+    database_styles.createSheet ("testsheet");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { styles_logic_standard_sheet (), "phpunit" }, sheets);
+    evaluate (__LINE__, __func__, { styles_logic_standard_sheet (), "testsheet" }, sheets);
     
-    database_styles.deleteSheet ("phpunit");
+    database_styles.deleteSheet ("testsheet");
     sheets = database_styles.getSheets ();
     evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
     
@@ -220,36 +220,36 @@ void test_styles ()
   // Do a spot check on the markers and their associated parameters.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
-    database_styles.createSheet ("phpunit");
+    Database_Styles database_styles {};
+    database_styles.createSheet ("testsheet");
     
-    vector <string> markers;
+    vector <string> markers {};
     
     markers = database_styles.getMarkers (styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 204, static_cast<int>(markers.size ()));
     
-    markers = database_styles.getMarkers ("phpunit");
+    markers = database_styles.getMarkers ("testsheet");
     evaluate (__LINE__, __func__, 204, static_cast<int>(markers.size ()));
     
-    string marker = "p";
+    string marker {"p"};
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
     marker = "add";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
     
-    map <string, string> markers_names = database_styles.getMarkersAndNames ("phpunit");
+    map <string, string> markers_names = database_styles.getMarkersAndNames ("testsheet");
     evaluate (__LINE__, __func__, 204, static_cast<int>(markers_names.size()));
     evaluate (__LINE__, __func__, "Blank line", markers_names ["b"]);
     evaluate (__LINE__, __func__, "Normal paragraph", markers_names ["p"]);
     evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);
     
-    database_styles.deleteMarker ("phpunit", "p");
-    markers = database_styles.getMarkers ("phpunit");
+    database_styles.deleteMarker ("testsheet", "p");
+    markers = database_styles.getMarkers ("testsheet");
     marker = "p";
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
     marker = "add";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
     
-    markers_names = database_styles.getMarkersAndNames ("phpunit");
+    markers_names = database_styles.getMarkersAndNames ("testsheet");
     evaluate (__LINE__, __func__, "", markers_names ["p"]);
     evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);
   }
@@ -257,9 +257,9 @@ void test_styles ()
   // More specific check on a marker.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
-    database_styles.createSheet ("phpunit");
-    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    Database_Styles database_styles {};
+    database_styles.createSheet ("testsheet");
+    Database_Styles_Item data = database_styles.getMarkerData ("testsheet", "add");
     evaluate (__LINE__, __func__, "add", data.marker);
     evaluate (__LINE__, __func__, "st", data.category);
   }
@@ -267,84 +267,84 @@ void test_styles ()
   // Updating a marker.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
-    database_styles.createSheet ("phpunit");
-    database_styles.updateName ("phpunit", "add", "Addition");
-    Database_Styles_Item data = database_styles.getMarkerData ("phpunit", "add");
+    Database_Styles database_styles {};
+    database_styles.createSheet ("testsheet");
+    database_styles.updateName ("testsheet", "add", "Addition");
+    Database_Styles_Item data = database_styles.getMarkerData ("testsheet", "add");
     evaluate (__LINE__, __func__, "Addition", data.name);
-    database_styles.updateInfo ("phpunit", "p", "Paragraph");
-    data = database_styles.getMarkerData ("phpunit", "p");
+    database_styles.updateInfo ("testsheet", "p", "Paragraph");
+    data = database_styles.getMarkerData ("testsheet", "p");
     evaluate (__LINE__, __func__, "Paragraph", data.info);
   }
   
   // Read and write access to the styles database.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
+    Database_Styles database_styles {};
     database_styles.create ();
-    database_styles.createSheet ("phpunit");
+    database_styles.createSheet ("testsheet");
     
     // A user does not have write access to the stylesheet.
-    bool write = database_styles.hasWriteAccess ("user", "phpunit");
+    bool write = database_styles.hasWriteAccess ("user", "testsheet");
     evaluate (__LINE__, __func__, false, write);
     
     // Grant write access, and test it for this user, and for another user.
-    database_styles.grantWriteAccess ("user", "phpunit");
-    write = database_styles.hasWriteAccess ("user", "phpunit");
+    database_styles.grantWriteAccess ("user", "testsheet");
+    write = database_styles.hasWriteAccess ("user", "testsheet");
     evaluate (__LINE__, __func__, true, write);
-    write = database_styles.hasWriteAccess ("user2", "phpunit");
+    write = database_styles.hasWriteAccess ("user2", "testsheet");
     evaluate (__LINE__, __func__, false, write);
     write = database_styles.hasWriteAccess ("user", "phpunit2");
     evaluate (__LINE__, __func__, false, write);
     
     // Revoke write access for a user, test it in various ways.
-    database_styles.revokeWriteAccess ("user2", "phpunit");
-    write = database_styles.hasWriteAccess ("user", "phpunit");
+    database_styles.revokeWriteAccess ("user2", "testsheet");
+    write = database_styles.hasWriteAccess ("user", "testsheet");
     evaluate (__LINE__, __func__, true, write);
-    database_styles.revokeWriteAccess ("user", "phpunit");
-    write = database_styles.hasWriteAccess ("user", "phpunit");
+    database_styles.revokeWriteAccess ("user", "testsheet");
+    write = database_styles.hasWriteAccess ("user", "testsheet");
     evaluate (__LINE__, __func__, false, write);
     
     // Revoking write access for all users.
-    database_styles.grantWriteAccess ("user1", "phpunit");
-    database_styles.grantWriteAccess ("user2", "phpunit");
-    database_styles.revokeWriteAccess ("", "phpunit");
-    write = database_styles.hasWriteAccess ("user1", "phpunit");
+    database_styles.grantWriteAccess ("user1", "testsheet");
+    database_styles.grantWriteAccess ("user2", "testsheet");
+    database_styles.revokeWriteAccess ("", "testsheet");
+    write = database_styles.hasWriteAccess ("user1", "testsheet");
     evaluate (__LINE__, __func__, false, write);
   }
   
   // Adding a marker.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
+    Database_Styles database_styles {};
     database_styles.create ();
-    database_styles.createSheet ("phpunit");
+    database_styles.createSheet ("testsheet");
     
     // Get markers.
-    vector <string> markers = database_styles.getMarkers ("phpunit");
-    string marker = "zhq";
+    vector <string> markers = database_styles.getMarkers ("testsheet");
+    string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
     
     // Add marker.
-    database_styles.addMarker ("phpunit", marker);
-    markers = database_styles.getMarkers ("phpunit");
+    database_styles.addMarker ("testsheet", marker);
+    markers = database_styles.getMarkers ("testsheet");
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "should be there");
   }
 
   // Testing empty stylesheet.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
+    Database_Styles database_styles {};
     database_styles.create ();
     vector <string> markers = database_styles.getMarkers ("");
-    string marker = "zhq";
+    string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
   }
   
   // Testing the styles application in the editors.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
+    Database_Styles database_styles {};
     database_styles.create ();
     Database_State database_state;
     database_state.create ();

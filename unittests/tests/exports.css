@@ -76,6 +76,9 @@ text-indent: 3.2mm;
 }
 .fe, .b-fe {
 }
+.fig, .b-fig {
+text-align: center;
+}
 .fk, .i-fk {
 font-style: italic;
 font-weight: bold;

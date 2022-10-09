@@ -74,7 +74,7 @@ string styles_logic_type_text (int type)
 }
 
 
-// subtypeText - Returns the $subtype as human readable text.
+// This returns the $subtype as human readable text.
 string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
@@ -148,7 +148,7 @@ string styles_logic_subtype_text (int type, int subtype)
 }
 
 
-// Returns true if the fontsize is relevant for $type and $subtype
+// Returns true if the fontsize is relevant for $type and $subtype.
 bool styles_logic_fontsize_is_relevant (int type, int subtype)
 {
   switch (type) {
@@ -170,6 +170,10 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
         default: return false;
       }
       break;
+    }
+    case StyleTypePicture :
+    {
+      return true;
     }
     case StyleTypeTableElement :
     {
@@ -196,6 +200,7 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
     case StyleTypeVerseNumber     : return true;
     case StyleTypeFootEndNote     : return true;
     case StyleTypeCrossreference  : return true;
+    case StyleTypePicture         : return true;
     case StyleTypeTableElement :
     {
       switch (subtype) {
@@ -310,6 +315,7 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
       }
       break;
     }
+    case StyleTypePicture : return true;
     case StyleTypeTableElement :
     {
       switch (subtype) {

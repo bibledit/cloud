@@ -92,7 +92,7 @@ Stages to retrieve resource content and serve it.
 */
 
 
-vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only) // Todo
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only)
 {
   vector <string> names {};
   
@@ -122,9 +122,13 @@ vector <string> resource_logic_get_names (void * webserver_request, bool bibles_
     names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
   }
   
-  // SWORD resources
+  // SWORD resources.
   vector <string> sword_resources = sword_logic_get_available ();
   names.insert (names.end (), sword_resources.begin(), sword_resources.end());
+  
+  // Bible Gateway resources.
+  vector <string> bible_gateway_resources = resource_logic_bible_gateway_module_list_get ();
+  names.insert (names.end (), bible_gateway_resources.begin(), bible_gateway_resources.end());
   
   sort (names.begin(), names.end());
   

@@ -92,16 +92,16 @@ Stages to retrieve resource content and serve it.
 */
 
 
-vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only)
+vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only) // Todo
 {
-  vector <string> names;
+  vector <string> names {};
   
   // Bibles the user has read access to.
   vector <string> bibles = access_bible::bibles (webserver_request);
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // USFM resources.
-  Database_UsfmResources database_usfmresources;
+  Database_UsfmResources database_usfmresources {};
   vector <string> usfm_resources = database_usfmresources.getResources ();
   names.insert (names.end(), usfm_resources.begin(), usfm_resources.end());
   
@@ -111,7 +111,7 @@ vector <string> resource_logic_get_names (void * webserver_request, bool bibles_
   
   // Image resources.
   if (!bibles_only) {
-    Database_ImageResources database_imageresources;
+    Database_ImageResources database_imageresources {};
     vector <string> image_resources = database_imageresources.names ();
     names.insert (names.end (), image_resources.begin(), image_resources.end());
   }

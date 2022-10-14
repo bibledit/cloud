@@ -59,12 +59,13 @@ string resource_translated1edit (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Translated resource"), request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-  Assets_View view;
-  string error, success;
+  Assets_View view {};
+  string error {};
+  string success {};
   
   
   string name = request->query ["name"];
@@ -76,14 +77,17 @@ string resource_translated1edit (void * webserver_request)
   bool checked = convert_to_bool (request->post ["checked"]);
 
   
-  bool resource_edited = false;
+  bool resource_edited {false};
 
 
-  string title, original_resource, source_language, target_language;
+  string title {};
+  string original_resource {};
+  string source_language {};
+  string target_language {};
   bool cache {false};
   {
     vector <string> resources = Database_Config_General::getTranslatedResources ();
-    for (auto resource : resources) {
+    for (const auto & resource : resources) {
       resource_logic_parse_translated_resource (resource, &title, &original_resource, &source_language, &target_language, &cache);
       if (title == name) break;
     }
@@ -97,7 +101,7 @@ string resource_translated1edit (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), string());
       dialog_list.add_query ("name", name);
       vector <string> resources = resource_logic_get_names (webserver_request, true);
-      for (auto & resource : resources) {
+      for (const auto & resource : resources) {
         dialog_list.add_row (resource, "original", resource);
       }
       page += dialog_list.run ();
@@ -116,7 +120,7 @@ string resource_translated1edit (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), string());
       dialog_list.add_query ("name", name);
       vector <pair <string, string> > languages = filter::google::get_languages ("en");
-      for (auto & language : languages) {
+      for (const auto & language : languages) {
         dialog_list.add_row (language.second, "source", language.first);
       }
       page += dialog_list.run ();
@@ -135,7 +139,7 @@ string resource_translated1edit (void * webserver_request)
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), string());
       dialog_list.add_query ("name", name);
       vector <pair <string, string> > languages = filter::google::get_languages ("en");
-      for (auto & language : languages) {
+      for (const auto & language : languages) {
         dialog_list.add_row (language.second, "target", language.first);
       }
       page += dialog_list.run ();
@@ -160,7 +164,7 @@ string resource_translated1edit (void * webserver_request)
     vector <string> resources = Database_Config_General::getTranslatedResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
-      string title2;
+      string title2 {};
       resource_logic_parse_translated_resource (resources[i], &title2);
       if (title2 == title) {
         string resource = resource_logic_assemble_translated_resource (title, original_resource, source_language, target_language, cache);

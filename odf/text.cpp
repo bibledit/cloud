@@ -1180,7 +1180,7 @@ void odf_text::save (string name)
 //     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
 //   </draw:frame>
 // </text:p>
-void odf_text::add_image (string style, [[maybe_unused]] string alt, string src, string caption) // Todo
+void odf_text::add_image (string style, [[maybe_unused]] string alt, string src, string caption)
 {
   // The parent paragraph for the image has the "p" style.
   current_text_p_node = office_text_node.append_child ("text:p");
@@ -1237,7 +1237,7 @@ void odf_text::add_image (string style, [[maybe_unused]] string alt, string src,
     }
   }
   
-  // Optionally add the caption if given. Todo
+  // Optionally add the caption if given.
   if (!caption.empty()) {
     new_paragraph (style);
     add_text (caption);

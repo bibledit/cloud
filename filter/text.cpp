@@ -919,7 +919,7 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case StyleTypePicture: // Todo
+            case StyleTypePicture:
             {
               if (is_opening_marker) {
                 // Set a flag that the parser is going to be within figure markup and save the style.
@@ -934,16 +934,6 @@ void Filter_Text::process_usfm ()
                 if (odf_text_notes) odf_text_notes->close_text_style (false, false);
                 if (html_text_standard) html_text_standard->close_text_style (false, false);
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
-//                // Open a new paragraph with the correct style. Todo out?
-//                new_paragraph (style, false);
-//                heading_started = false;
-//                text_started = true;
-//                if (headings_text_per_verse_active) {
-//                  // Record the style that started this new paragraph.
-//                  paragraph_starting_markers.push_back (style.marker);
-//                  // Store previous paragraph, if any, and start recording the new one.
-//                  store_verses_paragraphs ();
-//                }
               } else {
                 // Closing the \fig* markup.
                 // Clear the flag since the parser is no longer within figure markup.
@@ -1063,9 +1053,9 @@ void Filter_Text::process_usfm ()
           // Store the name of this image in the object, ready to be copied into place if needed.
           image_sources.push_back(src);
           // Add the image to the various output formats.
-          if (odf_text_standard) odf_text_standard->add_image(figure_marker, alt, src, caption); // Todo
-          if (odf_text_text_only) odf_text_text_only->add_image(figure_marker, alt, src, caption);// Todo
-          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_image(figure_marker, alt, src, caption);// Todo
+          if (odf_text_standard) odf_text_standard->add_image(figure_marker, alt, src, caption);
+          if (odf_text_text_only) odf_text_text_only->add_image(figure_marker, alt, src, caption);
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_image(figure_marker, alt, src, caption);
           if (html_text_standard) html_text_standard->add_image(figure_marker, alt, src, caption);
           if (html_text_linked) html_text_linked->add_image(figure_marker, alt, src, caption);
         }
@@ -1578,7 +1568,7 @@ void Filter_Text::create_paragraph_style (const Database_Styles_Item & style, bo
 // and then opens a paragraph with that style.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWithNext) // Todo create somewhere for fig here.
+void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWithNext)
 {
   create_paragraph_style(style, keepWithNext);
   string marker = style.marker;

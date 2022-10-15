@@ -46,6 +46,7 @@
 #include <lexicon/logic.h>
 #include <search/logic.h>
 #include <book/create.h>
+#include <setup/logic.h>
 
 
 /*
@@ -132,6 +133,10 @@ void demo_clean_data ()
   }
   
   
+  // Regenerate versification databases.
+  setup_generate_versification_databases ();
+
+  
   // Set the site language to "Default"
   Database_Config_General::setSiteLanguage ("");
 
@@ -164,7 +169,7 @@ void demo_clean_data ()
     demo_create_sample_notes (&request);
   }
 
-  
+
   // Create samples for the workspaces.
   if (config::logic::default_bibledit_configuration ()) {
     demo_create_sample_workspaces (&request);

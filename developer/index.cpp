@@ -55,18 +55,18 @@ string developer_index (void * webserver_request)
   if (request->query.count ("log")) {
     string message = request->query ["log"];
     cerr << message << endl;
-    return "";
+    return string();
   }
   
-  string page;
+  string page {};
 
   Assets_Header header = Assets_Header ("Development", webserver_request);
   header.notify_it_on ();
   page = header.run ();
 
-  Assets_View view;
+  Assets_View view {};
 
-  string code;
+  string code {};
   
   string debug = request->query ["debug"];
   
@@ -116,7 +116,7 @@ string developer_index (void * webserver_request)
 
   if (debug == "ipv6") {
     view.set_variable ("success", "Fetching data via IPv6");
-    string error;
+    string error {};
     string response = filter_url_http_request_mbed ("http://ipv6.google.com", error, {}, "", true);
     page.append (response);
     view.set_variable ("error", error);
@@ -124,7 +124,7 @@ string developer_index (void * webserver_request)
   
   if (debug == "ipv6s") {
     view.set_variable ("success", "Securely fetching data via IPv6");
-    string error;
+    string error {};
     string response = filter_url_http_request_mbed ("https://ipv6.google.com", error, {}, "", true);
     page.append (response);
     view.set_variable ("error", error);

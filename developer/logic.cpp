@@ -31,16 +31,16 @@
 void developer_logic_import_changes_save (string bible, int book, int chapter, int verse, string & text);
 
 
-mutex log_network_mutex;
-vector <string> log_network_cache;
+mutex log_network_mutex {};
+vector <string> log_network_cache {};
 
 
 void developer_logic_log_network_write ()
 {
   if (!log_network_cache.empty ()) {
     log_network_mutex.lock ();
-    string lines;
-    for (auto line : log_network_cache) {
+    string lines {};
+    for (const auto & line : log_network_cache) {
       lines.append (line);
       lines.append ("\n");
     }
@@ -63,7 +63,7 @@ Developer_Logic_Tracer::Developer_Logic_Tracer(void * webserver_request)
   rfc822 = filter::date::rfc822 (seconds1);
   remote_address = request->remote_address;
   request_get = request->get;
-  for (auto element : request->query) {
+  for (const auto & element : request->query) {
     request_query.append(" ");
     request_query.append(element.first);
     request_query.append("=");
@@ -94,7 +94,7 @@ void developer_logic_import_changes_save (string bible, int book, int chapter, i
     return;
   }
   
-  Webserver_Request webserver_request;
+  Webserver_Request webserver_request {};
   string explanation = "import changes";
   string message = filter::usfm::safely_store_verse (&webserver_request, bible, book, chapter, verse, text, explanation, false);
   if (!message.empty()) Database_Logs::log (message);
@@ -110,7 +110,7 @@ void developer_logic_import_changes ()
   string file_path = filter_url_create_path ({home_path, "Desktop", "changes.usfm"});
   string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
-  Database_Bibles database_bibles;
+  Database_Bibles database_bibles {};
   vector <string> bibles = database_bibles.getBibles ();
   if (!in_array(bible, bibles)) {
     Database_Logs::log ("Cannot locate Bible " + bible);
@@ -126,14 +126,14 @@ void developer_logic_import_changes ()
   vector <int> book_ids = database::books::get_ids ();
 
   Passage passage (bible, 0, 0, "");
-  string text;
+  string text {};
 
   for (auto line : lines) {
     if (line.empty()) continue;
     
-    int book = 0;
-    int chapter = -1;
-    int verse = -1;
+    int book {0};
+    int chapter {-1};
+    int verse {-1};
 
     // Locate and extract the book identifier.
     for (auto book_id : book_ids) {
@@ -146,7 +146,7 @@ void developer_logic_import_changes ()
     }
     
     // Extract chapter and verse.
-    bool passage_found = false;
+    bool passage_found {false};
     if (book) {
       size_t pos = line.find (":");
       if (pos != string::npos) {

@@ -96,6 +96,14 @@ string client_logic_connection_setup (string user, string hash)
     }
   } else {
     Database_Logs::log (error, Filter_Roles::translator ());
+    // In case Bibledit Cloud requires the client to connect through https,
+    // and the client connects through http,
+    // it will give a response code 426 plus text.
+    // So in such a case clarify the meaning of that to the user.
+    // https://github.com/bibledit/cloud/issues/829.
+    string upgrade_required = filter_url_http_response_code_text (426);
+    size_t pos = error.find (upgrade_required);
+    if (pos != string::npos) Database_Logs::log ("Bibledit Cloud requires the client to connect via the secure https protocol so please disconnect from Bibldit Cloud and connect again via https", Filter_Roles::translator ());
   }
   
   if (response.empty ()) response = error;

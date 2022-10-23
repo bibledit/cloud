@@ -172,13 +172,18 @@ void test_string ()
 
   // Test string modifiers.
   {
-    evaluate (__LINE__, __func__, "", filter_string_trim ("  "));
-    evaluate (__LINE__, __func__, "", filter_string_trim (""));
+    evaluate (__LINE__, __func__, string(), filter_string_trim ("  "));
+    evaluate (__LINE__, __func__, string(), filter_string_trim (string()));
     evaluate (__LINE__, __func__, "xx", filter_string_trim ("\t\nxx\n\r"));
-    evaluate (__LINE__, __func__, "", filter_string_ltrim ("  "));
-    evaluate (__LINE__, __func__, "", filter_string_ltrim (""));
+    evaluate (__LINE__, __func__, string(), filter_string_ltrim ("  "));
+    evaluate (__LINE__, __func__, string(), filter_string_ltrim (string()));
     evaluate (__LINE__, __func__, "xx\n\r", filter_string_ltrim ("xx\n\r"));
     evaluate (__LINE__, __func__, "xx  ", filter_string_ltrim ("  xx  "));
+    evaluate (__LINE__, __func__, string(), filter_string_rtrim ("  "));
+    evaluate (__LINE__, __func__, string(), filter_string_rtrim (string()));
+    evaluate (__LINE__, __func__, "xx", filter_string_rtrim ("xx\n\r"));
+    evaluate (__LINE__, __func__, "\n\rxx", filter_string_rtrim ("\n\rxx"));
+    evaluate (__LINE__, __func__, "  xx", filter_string_rtrim ("  xx  "));
     evaluate (__LINE__, __func__, "0000012345", filter_string_fill ("12345", 10, '0'));
   }
   
@@ -558,16 +563,43 @@ void test_string ()
   {
     string path_invalid = filter_url_create_root_path ({"unittests", "tests", "html-invalid-1.html"});
     string html_invalid = filter_url_file_get_contents(path_invalid);
+
+    string path_valid {};
+    string html_valid {};
+
     string html_tidied = filter_string_tidy_invalid_html (html_invalid);
-    string path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1.html"});
-    string html_valid = filter_url_file_get_contents(path_valid);
+    path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1.html"});
+    html_valid = filter_url_file_get_contents(path_valid);
+    evaluate (__LINE__, __func__, html_valid, html_tidied);
+    
+    html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid); // Todo
+    path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1-gumbo.html"});
+    html_valid = filter_url_file_get_contents(path_valid);
+    evaluate (__LINE__, __func__, html_valid, html_tidied);
+
+    html_invalid = R"(
+<!DOCTYPE html>
+<html>
+<body>
+<h1>My First Heading</h2>
+<p>My first paragraph.</p>
+<script>
+document.getElementById("demo").innerHTML = "Hello JavaScript!";
+</script>
+</body>
+</html>
+)";
+    html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid);
+    html_valid = R"(<html><head></head><body><h1>My First Heading</h1><p>My first paragraph.</p></body></html>)";
     evaluate (__LINE__, __func__, html_valid, html_tidied);
   }
   
   // Test "tidying" empty html.
   {
-    string result = filter_string_tidy_invalid_html ("");
-    evaluate (__LINE__, __func__, "", result);
+    string result = filter_string_tidy_invalid_html (string());
+    evaluate (__LINE__, __func__, string(), result);
+    result = filter_string_tidy_invalid_html_v2 (string());
+    evaluate (__LINE__, __func__, "<html><head></head><body></body></html>", result);
   }
   
   // Test collapsing double spaces.

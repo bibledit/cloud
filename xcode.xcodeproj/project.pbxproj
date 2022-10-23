@@ -77,6 +77,7 @@
 		CA83A6A2289D87730038E298 /* googletranslate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA83A69F289D7C9F0038E298 /* googletranslate.cpp */; };
 		CAAA5DBA256555E5003249CA /* paratext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAA5DB9256555E5003249CA /* paratext.cpp */; };
 		CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6D33928B7E5BF00D11967 /* libutf8proc.2.dylib */; };
+		CAD085AF2904405B00226A66 /* libgumbo.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD085AE2904405B00226A66 /* libgumbo.1.dylib */; };
 		CAD5E3952791E77700AE0A28 /* folders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD5E3942791E72F00AE0A28 /* folders.cpp */; };
 		CADE454624F174DF003165BB /* bible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FE24F1737A003165BB /* bible.cpp */; };
 		CADE454724F174DF003165BB /* logic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FF24F1737A003165BB /* logic.cpp */; };
@@ -782,6 +783,7 @@
 		CABDBAD726E3F82000BE27F8 /* bibleimages.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibleimages.cpp; sourceTree = "<group>"; };
 		CABF7CB12614B854000D9FAB /* quill.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.js; sourceTree = "<group>"; };
 		CABF7CB22614BC37000D9FAB /* create.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = create.html; sourceTree = "<group>"; };
+		CAD085AE2904405B00226A66 /* libgumbo.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgumbo.1.dylib; path = ../../../../opt/local/lib/libgumbo.1.dylib; sourceTree = "<group>"; };
 		CAD55EAE260140360021FED0 /* comparative1edit.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = comparative1edit.html; sourceTree = "<group>"; };
 		CAD55EAF260140360021FED0 /* comparative9edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative9edit.cpp; sourceTree = "<group>"; };
 		CAD55EB0260140370021FED0 /* comparative1edit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = comparative1edit.cpp; sourceTree = "<group>"; };
@@ -2659,6 +2661,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAD085AF2904405B00226A66 /* libgumbo.1.dylib in Frameworks */,
 				CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */,
 				CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */,
 				CA77114A27524BFF003ADD67 /* libicudata.67.1.dylib in Frameworks */,
@@ -5853,6 +5856,7 @@
 		CADE475524F1786C003165BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CAD085AE2904405B00226A66 /* libgumbo.1.dylib */,
 				CAB6D33928B7E5BF00D11967 /* libutf8proc.2.dylib */,
 				CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */,
 				CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */,

@@ -60,6 +60,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <libxml/tree.h>
 #include <libxml/HTMLparser.h>
 #endif
+#ifdef HAVE_CLOUD
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
+#include <gumbo.h>
+#pragma clang diagnostic pop
+#endif
 
 
 #ifdef HAVE_ICU
@@ -359,6 +365,21 @@ string filter_string_ltrim (string s)
   // No non-spaces  
   if (pos == string::npos) return "";
   return s.substr (pos);
+}
+
+
+// Right trim string.
+string filter_string_rtrim (string s)
+{
+  if (s.length () == 0) return s;
+  // Strip spaces, tabs, new lines, carriage returns.
+  size_t pos = s.find_last_not_of(" \t\n\r");
+  // No non-spaces
+  if (pos == string::npos) return string();
+  // Erase it.
+  s.erase (pos + 1);
+  // Done.
+  return s;
 }
 
 
@@ -932,21 +953,21 @@ int filter_string_rand (int floor, int ceiling)
 string filter_string_html2text (string html)
 {
   // Clean the html up.
-  html = filter_string_str_replace ("\n", "", html);
+  html = filter_string_str_replace ("\n", string(), html);
 
   // The output text.
-  string text;
+  string text {};
 
   // Keep going while the html contains the < character.
-  size_t pos = html.find ("<");
+  size_t pos {html.find ("<")};
   while (pos != string::npos) {
     // Add the text before the <.
     text.append (html.substr (0, pos));
     html = html.substr (pos + 1);
     // Certain tags start new lines.
-    string tag1 = unicode_string_casefold (html.substr (0, 1));
-    string tag2 = unicode_string_casefold (html.substr (0, 2));
-    string tag3 = unicode_string_casefold (html.substr (0, 3));
+    string tag1 {unicode_string_casefold (html.substr (0, 1))};
+    string tag2 {unicode_string_casefold (html.substr (0, 2))};
+    string tag3 {unicode_string_casefold (html.substr (0, 3))};
     if  ((tag1 == "p")
       || (tag3 == "div")
       || (tag2 == "li")
@@ -1741,7 +1762,7 @@ string filter_text_html_get_element (string html, string element)
 }
 
 
-string filter_string_tidy_invalid_html (string html)
+string filter_string_tidy_invalid_html (string html) // Todo
 {
   // Everything in the <head> can be left out: It is not relevant.
   filter_string_replace_between (html, "<head>", "</head>", "");
@@ -1756,6 +1777,9 @@ string filter_string_tidy_invalid_html (string html)
   
 #ifdef HAVE_CLOUD
 
+  // This method works via libxml2 and there are many memory leaks each call to this.
+  // It cannot be used for production code.
+  
   // Create a parser context.
   htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (nullptr, nullptr, nullptr, 0, nullptr, XML_CHAR_ENCODING_UTF8);
   
@@ -1782,6 +1806,327 @@ string filter_string_tidy_invalid_html (string html)
 
 #endif
 
+  return html;
+}
+
+
+// Todo new code begins here.
+
+static string nonbreaking_inline {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
+static string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
+static string preserve_whitespace {"|pre|textarea|script|style|"};
+static string special_handling {"|html|body|"};
+static string no_entity_sub {"|script|style|"};
+static string treat_like_inline {"|p|"};
+
+
+static void replace_all(string &s, const char * s1, const char * s2) // Todo use existing function?
+{
+  string t1 (s1);
+  size_t len {t1.length()};
+  size_t pos {s.find(t1)};
+  while (pos != string::npos) {
+    s.replace (pos, len, s2);
+    pos = s.find(t1, pos + len);
+  }
+}
+
+
+static string substitute_xml_entities_into_text(const string &text) // Todo use existing code?
+{
+  string result {text};
+  // Replacing & must come first.
+  replace_all(result, "&", "&amp;");
+  replace_all(result, "<", "&lt;");
+  replace_all(result, ">", "&gt;");
+  return result;
+}
+
+
+static string substitute_xml_entities_into_attributes(char quote, const string &text) // Todo use existing code?
+{
+  string result {substitute_xml_entities_into_text(text)};
+  if (quote == '"') {
+    replace_all(result,"\"","&quot;");
+  }
+  else if (quote == '\'') {
+    replace_all(result,"'","&apos;");
+  }
+  return result;
+}
+
+
+static string handle_unknown_tag(GumboStringPiece *text)
+{
+  string tagname {};
+  if (text->data == NULL) {
+    return tagname;
+  }
+  // work with copy GumboStringPiece to prevent asserts
+  // if try to read same unknown tag name more than once
+  GumboStringPiece gsp = *text;
+  gumbo_tag_from_original_text(&gsp);
+  tagname = string(gsp.data, gsp.length);
+  return tagname;
+}
+
+
+static string get_tag_name(GumboNode *node)
+{
+  string tagname;
+  // work around lack of proper name for document node
+  if (node->type == GUMBO_NODE_DOCUMENT) {
+    tagname = "document";
+  } else {
+    tagname = gumbo_normalized_tagname(node->v.element.tag);
+  }
+  if (tagname.empty()) {
+    tagname = handle_unknown_tag(&node->v.element.original_tag);
+  }
+  return tagname;
+}
+
+
+static string build_doctype(GumboNode *node)
+{
+  string results {};
+  if (node->v.document.has_doctype) {
+    results.append("<!DOCTYPE ");
+    results.append(node->v.document.name);
+    string pi(node->v.document.public_identifier);
+    if ((node->v.document.public_identifier != NULL) && !pi.empty() ) {
+      results.append(" PUBLIC \"");
+      results.append(node->v.document.public_identifier);
+      results.append("\" \"");
+      results.append(node->v.document.system_identifier);
+      results.append("\"");
+    }
+    results.append(">\n");
+  }
+  return results;
+}
+
+
+static string build_attributes(GumboAttribute * at, bool no_entities)
+{
+  string atts = "";
+  atts.append(" ");
+  atts.append(at->name);
+  
+  // how do we want to handle attributes with empty values
+  // <input type="checkbox" checked />  or <input type="checkbox" checked="" />
+  
+  if ( (!string(at->value).empty())   ||
+      (at->original_value.data[0] == '"') ||
+      (at->original_value.data[0] == '\'') ) {
+    
+    // determine original quote character used if it exists
+    char quote = at->original_value.data[0];
+    string qs = "";
+    if (quote == '\'') qs = string("'");
+    if (quote == '"') qs = string("\"");
+    
+    atts.append("=");
+    
+    atts.append(qs);
+    
+    if (no_entities) {
+      atts.append(at->value);
+    } else {
+      atts.append(substitute_xml_entities_into_attributes(quote, string(at->value)));
+    }
+    
+    atts.append(qs);
+  }
+  return atts;
+}
+
+
+// Forward declaration
+static string pretty_print (GumboNode*, int lvl, const string & indent_chars);
+
+
+// pretty_print children of a node
+// may be invoked recursively
+static string pretty_print_contents (GumboNode* node, int lvl, const string & indent_chars)
+{
+  string contents {};
+  string tagname {get_tag_name(node)};
+  string key {"|" + tagname + "|"};
+  bool no_entity_substitution {no_entity_sub.find(key) != string::npos};
+  bool keep_whitespace {preserve_whitespace.find(key) != string::npos};
+  bool is_inline {nonbreaking_inline.find(key) != string::npos};
+  bool pp_okay {!is_inline && !keep_whitespace};
+  
+  GumboVector* children {&node->v.element.children};
+  
+  for (unsigned int i = 0; i < children->length; ++i) {
+    GumboNode* child = static_cast<GumboNode*> (children->data[i]);
+    
+    if (child->type == GUMBO_NODE_TEXT) {
+      
+      string val {};
+      
+      if (no_entity_substitution) {
+        val = string(child->v.text.text);
+      } else {
+        val = substitute_xml_entities_into_text(string(child->v.text.text));
+      }
+      
+      if (pp_okay) {
+        val = filter_string_rtrim(val);
+      }
+      
+      if (pp_okay && (contents.length() == 0)) {
+        // Add the required indentation.
+        char c {indent_chars.at(0)};
+        int n {static_cast<int> (indent_chars.length())};
+        contents.append (string ((lvl-1)*n,c));
+      }
+      
+      contents.append (val);
+      
+      
+    } else if ((child->type == GUMBO_NODE_ELEMENT) || (child->type == GUMBO_NODE_TEMPLATE)) {
+      
+      string val = pretty_print(child, lvl, indent_chars);
+      
+      // Remove any indentation if this child is inline and not a first child.
+      string childname = get_tag_name(child);
+      string childkey = "|" + childname + "|";
+      if ((nonbreaking_inline.find(childkey) != string::npos) && (contents.length() > 0)) {
+        val = filter_string_ltrim(val);
+      }
+      
+      contents.append(val);
+      
+    } else if (child->type == GUMBO_NODE_WHITESPACE) {
+      
+      if (keep_whitespace || is_inline) {
+        contents.append(string(child->v.text.text));
+      }
+      
+    } else if (child->type != GUMBO_NODE_COMMENT) {
+      
+      // Does this actually exist: (child->type == GUMBO_NODE_CDATA)
+      fprintf(stderr, "unknown element of type: %d\n", child->type);
+      
+    }
+    
+  }
+  
+  return contents;
+}
+
+
+// Pretty_print a GumboNode back to html/xhtml.
+// May be invoked recursively
+static string pretty_print(GumboNode* node, int lvl, const string & indent_chars)
+{
+  // Special case: The document node.
+  if (node->type == GUMBO_NODE_DOCUMENT) {
+    string results {build_doctype(node)};
+    results.append(pretty_print_contents (node, lvl + 1, indent_chars));
+    return results;
+  }
+  
+  string close {};
+  string closeTag {};
+  string atts {};
+  string tagname {get_tag_name(node)};
+  string key {"|" + tagname + "|"};
+  bool need_special_handling {special_handling.find(key) != string::npos};
+  bool is_empty_tag {empty_tags.find(key) != string::npos};
+  bool no_entity_substitution {no_entity_sub.find(key) != string::npos};
+  bool keep_whitespace {preserve_whitespace.find(key) != string::npos};
+  bool is_inline {nonbreaking_inline.find(key) != string::npos};
+  bool inline_like {treat_like_inline.find(key) != string::npos};
+  bool pp_okay {!is_inline && !keep_whitespace};
+  char c {indent_chars.at(0)};
+  int n {static_cast<int>(indent_chars.length())};
+  
+  // Build the attr string.
+  const GumboVector * attribs {&node->v.element.attributes};
+  for (unsigned int i = 0; i < attribs->length; ++i) {
+    GumboAttribute * at {static_cast<GumboAttribute*>(attribs->data[i])};
+    atts.append (build_attributes (at, no_entity_substitution));
+  }
+  
+  // Determine the closing tag type.
+  if (is_empty_tag) {
+    close = "/";
+  } else {
+    closeTag = "</" + tagname + ">";
+  }
+  
+  string indent_space {string ((lvl-1)*n,c)};
+  
+  // Pretty print the contents.
+  string contents {pretty_print_contents(node, lvl+1, indent_chars)};
+  
+  if (need_special_handling) {
+    contents = filter_string_rtrim(contents);
+  }
+  
+  char last_char = ' ';
+  if (!contents.empty()) {
+    last_char = contents.at (contents.length() - 1);
+  }
+  
+  // Build the results.
+  string results;
+  if (pp_okay) {
+    results.append(indent_space);
+  }
+  results.append("<"+tagname+atts+close+">");
+  if (pp_okay && !inline_like) {
+    results.append("\n");
+  }
+  if (inline_like) {
+    contents = filter_string_ltrim(contents);
+  }
+  results.append(contents);
+  if (pp_okay && !contents.empty() && (last_char != '\n') && (!inline_like)) {
+    results.append("\n");
+  }
+  if (pp_okay && !inline_like && !closeTag.empty()) {
+    results.append(indent_space);
+  }
+  results.append(closeTag);
+  if (pp_okay && !closeTag.empty()) {
+    results.append("\n");
+  }
+  
+  return results;
+}
+
+
+
+
+string filter_string_tidy_invalid_html_v2 (string html) // Todo
+{
+  // Everything in the <head> can be left out: It is not relevant.
+  filter_string_replace_between (html, "<head>", "</head>", string());
+  
+  // Every <script...</script> can be left out: They are irrelevant.
+  int counter {0};
+  while (counter < 100) {
+    counter++;
+    bool replaced = filter_string_replace_between (html, "<script", "</script>", string());
+    if (!replaced) break;
+  }
+  
+#ifdef HAVE_CLOUD
+
+  // https://github.com/google/gumbo-parser
+  GumboOptions options {kGumboDefaultOptions};
+  GumboOutput* output = gumbo_parse_with_options(&options, html.data(), html.length());
+  string indent_chars {" "};
+  html = pretty_print (output->document, 0, indent_chars);
+  gumbo_destroy_output (&options, output);
+  
+#endif
+  
   return html;
 }
 

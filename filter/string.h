@@ -48,6 +48,7 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
 vector <int> filter_string_array_diff (vector <int> from, vector <int> against);
 string filter_string_trim (string s);
 string filter_string_ltrim (string s);
+string filter_string_rtrim (string s);
 string filter_string_fill (string s, int width, char fill);
 bool filter_string_is_numeric (string s);
 string escape_special_xml_characters (string s);
@@ -122,4 +123,5 @@ string lf2crlf (string str);
 string crlf2lf (string str);
 string filter_text_html_get_element (string html, string element);
 string filter_string_tidy_invalid_html (string html);
+string filter_string_tidy_invalid_html_v2 (string html);
 string filter_string_collapse_whitespace (string s);

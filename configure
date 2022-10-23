@@ -657,6 +657,8 @@ COMPILERCLANG_FALSE
 COMPILERCLANG_TRUE
 COMPILERGCC_FALSE
 COMPILERGCC_TRUE
+GUMBO_LIBS
+GUMBO_CFLAGS
 UTF8PROC_LIBS
 UTF8PROC_CFLAGS
 ICU_LIBS
@@ -812,7 +814,9 @@ XML2_LIBS
 ICU_CFLAGS
 ICU_LIBS
 UTF8PROC_CFLAGS
-UTF8PROC_LIBS'
+UTF8PROC_LIBS
+GUMBO_CFLAGS
+GUMBO_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1481,6 +1485,9 @@ Some influential environment variables:
               C compiler flags for UTF8PROC, overriding pkg-config
   UTF8PROC_LIBS
               linker flags for UTF8PROC, overriding pkg-config
+  GUMBO_CFLAGS
+              C compiler flags for GUMBO, overriding pkg-config
+  GUMBO_LIBS  linker flags for GUMBO, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -7205,7 +7212,7 @@ fi
 
 
 
-# Check UTF8 proce library whether available.
+# Check UTF8 proc library whether available.
 
 pkg_failed=no
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libutf8proc >= 2.5.0" >&5
@@ -7282,6 +7289,80 @@ printf "%s\n" "#define HAVE_UTF8PROC 1" >>confdefs.h
 
 fi
 
+
+
+# Check the gumbo library  whether available.
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for gumbo >= 0.10.0" >&5
+printf %s "checking for gumbo >= 0.10.0... " >&6; }
+
+if test -n "$GUMBO_CFLAGS"; then
+    pkg_cv_GUMBO_CFLAGS="$GUMBO_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gumbo >= 0.10.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gumbo >= 0.10.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GUMBO_CFLAGS=`$PKG_CONFIG --cflags "gumbo >= 0.10.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GUMBO_LIBS"; then
+    pkg_cv_GUMBO_LIBS="$GUMBO_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gumbo >= 0.10.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gumbo >= 0.10.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GUMBO_LIBS=`$PKG_CONFIG --libs "gumbo >= 0.10.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GUMBO_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gumbo >= 0.10.0" 2>&1`
+        else
+	        GUMBO_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gumbo >= 0.10.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GUMBO_PKG_ERRORS" >&5
+
+	as_fn_error $? "The gumbo library development version >= 0.10.0 is needed." "$LINENO" 5
+elif test $pkg_failed = untried; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "The gumbo library development version >= 0.10.0 is needed." "$LINENO" 5
+else
+	GUMBO_CFLAGS=$pkg_cv_GUMBO_CFLAGS
+	GUMBO_LIBS=$pkg_cv_GUMBO_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
 
 
 

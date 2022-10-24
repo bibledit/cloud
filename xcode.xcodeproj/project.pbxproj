@@ -11,6 +11,9 @@
 		CA10382925279F940021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382725279F940021AF25 /* html2format.cpp */; };
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
 		CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */; };
+		CA300E0729059C4800775963 /* libicudata.71.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA300E0629059C4800775963 /* libicudata.71.1.dylib */; };
+		CA300E0929059C9900775963 /* libicuuc.71.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA300E0829059C9900775963 /* libicuuc.71.1.dylib */; };
+		CA300E0B29059CD200775963 /* libicui18n.71.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */; };
 		CA40E47628A91E7300E0A563 /* translated9edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA40E47028A91E7200E0A563 /* translated9edit.cpp */; };
 		CA40E47728A91E7300E0A563 /* translated1edit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA40E47128A91E7200E0A563 /* translated1edit.cpp */; };
 		CA47750F260FC720001F50DD /* accounts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA47750E260FC720001F50DD /* accounts.cpp */; };
@@ -71,9 +74,6 @@
 		CA77114227523D8B003ADD67 /* text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA6F68B3257CDF21008D51F5 /* text.cpp */; };
 		CA77114327524235003ADD67 /* abbottsmith.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAA323FA25FBC70A00F5A99E /* abbottsmith.cpp */; };
 		CA77114427524240003ADD67 /* bibleimages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CABDBAD726E3F82000BE27F8 /* bibleimages.cpp */; };
-		CA77114627524B8B003ADD67 /* libicui18n.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */; };
-		CA77114827524BC8003ADD67 /* libicuuc.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */; };
-		CA77114A27524BFF003ADD67 /* libicudata.67.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */; };
 		CA83A6A2289D87730038E298 /* googletranslate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA83A69F289D7C9F0038E298 /* googletranslate.cpp */; };
 		CAAA5DBA256555E5003249CA /* paratext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAA5DB9256555E5003249CA /* paratext.cpp */; };
 		CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6D33928B7E5BF00D11967 /* libutf8proc.2.dylib */; };
@@ -610,6 +610,9 @@
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
 		CA23A6F92781ED8E00A7A23B /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA23A6FA2781EE5500A7A23B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA300E0629059C4800775963 /* libicudata.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.71.1.dylib; path = ../../../../opt/local/lib/libicudata.71.1.dylib; sourceTree = "<group>"; };
+		CA300E0829059C9900775963 /* libicuuc.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.71.1.dylib; path = ../../../../opt/local/lib/libicuuc.71.1.dylib; sourceTree = "<group>"; };
+		CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.71.1.dylib; path = ../../../../opt/local/lib/libicui18n.71.1.dylib; sourceTree = "<group>"; };
 		CA314CD22662298D00EF8CE3 /* delay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
 		CA40E47028A91E7200E0A563 /* translated9edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated9edit.cpp; sourceTree = "<group>"; };
@@ -2661,12 +2664,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA300E0B29059CD200775963 /* libicui18n.71.1.dylib in Frameworks */,
+				CA300E0929059C9900775963 /* libicuuc.71.1.dylib in Frameworks */,
+				CA300E0729059C4800775963 /* libicudata.71.1.dylib in Frameworks */,
 				CAD085AF2904405B00226A66 /* libgumbo.1.dylib in Frameworks */,
 				CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */,
 				CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */,
-				CA77114A27524BFF003ADD67 /* libicudata.67.1.dylib in Frameworks */,
-				CA77114827524BC8003ADD67 /* libicuuc.67.1.dylib in Frameworks */,
-				CA77114627524B8B003ADD67 /* libicui18n.67.1.dylib in Frameworks */,
 				CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */,
 				CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */,
 			);
@@ -5856,6 +5859,9 @@
 		CADE475524F1786C003165BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */,
+				CA300E0829059C9900775963 /* libicuuc.71.1.dylib */,
+				CA300E0629059C4800775963 /* libicudata.71.1.dylib */,
 				CAD085AE2904405B00226A66 /* libgumbo.1.dylib */,
 				CAB6D33928B7E5BF00D11967 /* libutf8proc.2.dylib */,
 				CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */,

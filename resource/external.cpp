@@ -130,7 +130,7 @@ struct gbs_basic_walker: xml_tree_walker
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_basic_processor (string url, int verse)
+string gbs_basic_processor (string url, int verse) // Todo goed out once _v2 works.
 {
   string text;
   
@@ -143,7 +143,7 @@ string gbs_basic_processor (string url, int verse)
   // Parse the html into a DOM.
   xml_document document;
   document.load_string (html.c_str());
-
+  
   // Example verse container within the XML:
   // Verse 0:
   // <p class="summary">...</>
@@ -155,6 +155,103 @@ string gbs_basic_processor (string url, int verse)
   xpath_node xpathnode = document.select_node(selector.c_str());
   xml_node div_node = xpathnode.node();
 
+  // Extract relevant information.
+  gbs_basic_walker walker {};
+  div_node.traverse (walker);
+  for (unsigned int i = 0; i < walker.texts.size(); i++) {
+    if (i) text.append (" ");
+    text.append (filter_string_trim(walker.texts[i]));
+  }
+  
+  // Done.
+  return text;
+}
+
+
+// This function displays the canonical text from bijbel-statenvertaling.com.
+string gbs_basic_processor_v2 (string url, int verse) // Todo use this once it works well.
+{
+  string text {};
+  
+  // Get the html from the server.
+  string html = resource_logic_web_or_cache_get (url, text);
+  //filter_url_file_put_contents("/tmp/raw.html", html); // Todo
+
+  // The GBS data does not load at all in XML.
+  // If it were tidied through gumbo it does not load well as XML, just a few bits load.
+  // So another approach is taken.
+  // * Split the html up into lines.
+  // * Look for the line with a starting signature depending on the verse number.
+  // * Starting from that line, add several more lines, enough to cover the whole verse.
+  // * Load the resulting block of text into pugixml.
+
+  vector <string> lines = filter_string_explode(html, '\n');
+  string html_fragment {};
+  
+  // Example verse container within the html:
+  // Verse 0:
+  // <p class="summary">...</>
+  // Other verses:
+  // <div class="verse verse-1 active size-change bold-change cursive-change align-change">...
+  string search1 {};
+  string search2 {};
+  if (verse != 0) {
+    search1 = R"(class="verse )";
+    search2 = " verse-" + convert_to_string (verse) + " ";
+  }
+  else {
+    search1 = R"(class="summary")";
+    search2 = search1;
+  }
+
+  int line_count {0};
+  for (const auto & line : lines) {
+    if (!line_count) {
+      size_t pos = line.find (search1);
+      if (pos == string::npos) continue;
+      pos = line.find (search2);
+      if (pos == string::npos) continue;
+      line_count++;
+    }
+    if (line_count) {
+      if (line_count < 100) {
+        line_count++;
+        html_fragment.append (line);
+        html_fragment.append ("\n");
+      } else {
+        line_count = 0;
+      }
+    }
+  }
+  
+  // Parse the html into a DOM.
+  xml_document document;
+  document.load_string (html_fragment.c_str());
+
+  // Todo print it too to see what it has become.
+//  {
+//    stringstream output {};
+//    document.print (output, "", format_raw);
+//    filter_url_file_put_contents("/tmp/gumbo.xml", output.str ());
+//  }
+
+  // Example verse container within the XML:
+  // Verse 0:
+  // <p class="summary">...</>
+  // Other verses:
+  // <div class="verse verse-1 active size-change bold-change cursive-change align-change">...
+  string selector;
+  if (verse != 0) selector = "//div[contains(@class,'verse-" + convert_to_string (verse) + " ')]";
+  else selector = "//p[@class='summary']";
+  xpath_node xpathnode = document.select_node(selector.c_str());
+  xml_node div_node = xpathnode.node();
+  
+//  {
+//    stringstream output {}; // Todo
+//    div_node.print (output, "", format_raw);
+//    filter_url_file_put_contents("/tmp/div_node.xml", output.str ());
+//  }
+  
   // Extract relevant information.
   gbs_basic_walker walker {};
   div_node.traverse (walker);
@@ -261,7 +358,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   string html = resource_logic_web_or_cache_get (url, text);
 
   // Tidy the html so it can be loaded as xml.
-  html = filter_string_tidy_invalid_html (html);
+  html = filter_string_tidy_invalid_html (html); // Todo
 
   // Parse the html into a DOM.
   xml_document document;
@@ -305,7 +402,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     string error;
     string annotation_html = filter_url_http_post (annotation_url, string(), post, error, false, false, {});
     if (error.empty()) {
-      annotation_html = filter_string_tidy_invalid_html (annotation_html);
+      annotation_html = filter_string_tidy_invalid_html (annotation_html); // Todo
       xml_document annotation_document;
       annotation_document.load_string (annotation_html.c_str());
       string selector2 = "//body";
@@ -518,7 +615,7 @@ string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
   string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
-  return gbs_basic_processor (url, verse);
+  return gbs_basic_processor_v2 (url, verse);
 }
 
 
@@ -536,7 +633,7 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse)
 {
   string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
-  return gbs_basic_processor (url, verse);
+  return gbs_basic_processor_v2 (url, verse);
 }
 
 
@@ -910,18 +1007,18 @@ string resource_external_type (string name)
 // It fetches data either from the cache or from the web via http(s),
 // while optionally updating the cache with the raw web page content.
 // It extracts the relevant snipped from the larger http(s) content.
-string resource_external_cloud_fetch_cache_extract (string name, int book, int chapter, int verse)
+string resource_external_cloud_fetch_cache_extract (const string & name, int book, int chapter, int verse)
 {
-  string (* function_name) (int, int, int) = NULL;
+  string (* function_name) (int, int, int) {nullptr};
 
-  for (unsigned int i = 0; i < resource_external_count (); i++) {
-    string resource = resource_table [i].name;
+  for (unsigned int i {0}; i < resource_external_count (); i++) {
+    string resource {resource_table [i].name};
     if (name == resource) {
       function_name = resource_table [i].func;
     }
   }
   
-  if (function_name == NULL) return string();
+  if (function_name == nullptr) return string();
 
   string result = function_name (book, chapter, verse);
   

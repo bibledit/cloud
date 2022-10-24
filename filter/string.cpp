@@ -1762,7 +1762,7 @@ string filter_text_html_get_element (string html, string element)
 }
 
 
-string filter_string_tidy_invalid_html (string html) // Todo
+string filter_string_tidy_invalid_html (string html) // Todo goes out eventually.
 {
   // Everything in the <head> can be left out: It is not relevant.
   filter_string_replace_between (html, "<head>", "</head>", "");
@@ -1909,9 +1909,9 @@ static string build_doctype(GumboNode *node)
 
 static string build_attributes(GumboAttribute * at, bool no_entities)
 {
-  string atts = "";
-  atts.append(" ");
-  atts.append(at->name);
+  string atts {};
+  atts.append (" ");
+  atts.append (at->name);
   
   // how do we want to handle attributes with empty values
   // <input type="checkbox" checked />  or <input type="checkbox" checked="" />
@@ -1960,7 +1960,7 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
   
   GumboVector* children {&node->v.element.children};
   
-  for (unsigned int i = 0; i < children->length; ++i) {
+  for (unsigned int i {0}; i < children->length; ++i) {
     GumboNode* child = static_cast<GumboNode*> (children->data[i]);
     
     if (child->type == GUMBO_NODE_TEXT) {
@@ -1980,8 +1980,8 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
       if (pp_okay && (contents.length() == 0)) {
         // Add the required indentation.
         char c {indent_chars.at(0)};
-        int n {static_cast<int> (indent_chars.length())};
-        contents.append (string ((lvl-1)*n,c));
+        size_t n {indent_chars.length()};
+        contents.append (string (static_cast<size_t>(lvl-1)*n,c));
       }
       
       contents.append (val);
@@ -2032,7 +2032,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   
   string close {};
   string closeTag {};
-  string atts {};
+  string attributes {};
   string tagname {get_tag_name(node)};
   string key {"|" + tagname + "|"};
   bool need_special_handling {special_handling.find(key) != string::npos};
@@ -2043,13 +2043,13 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   bool inline_like {treat_like_inline.find(key) != string::npos};
   bool pp_okay {!is_inline && !keep_whitespace};
   char c {indent_chars.at(0)};
-  int n {static_cast<int>(indent_chars.length())};
+  size_t n {indent_chars.length()};
   
   // Build the attr string.
   const GumboVector * attribs {&node->v.element.attributes};
   for (unsigned int i = 0; i < attribs->length; ++i) {
     GumboAttribute * at {static_cast<GumboAttribute*>(attribs->data[i])};
-    atts.append (build_attributes (at, no_entity_substitution));
+    attributes.append (build_attributes (at, no_entity_substitution));
   }
   
   // Determine the closing tag type.
@@ -2059,14 +2059,14 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
     closeTag = "</" + tagname + ">";
   }
   
-  string indent_space {string ((lvl-1)*n,c)};
+  string indent_space {string (static_cast<size_t>(lvl-1)*n,c)};
   
   // Pretty print the contents.
   string contents {pretty_print_contents(node, lvl+1, indent_chars)};
   
-  if (need_special_handling) {
-    contents = filter_string_rtrim(contents);
-  }
+//  if (need_special_handling) {
+//    contents = filter_string_rtrim(contents);
+//  }
   
   char last_char = ' ';
   if (!contents.empty()) {
@@ -2078,13 +2078,13 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   if (pp_okay) {
     results.append(indent_space);
   }
-  results.append("<"+tagname+atts+close+">");
+  results.append("<"+tagname+attributes+close+">");
   if (pp_okay && !inline_like) {
     results.append("\n");
   }
-  if (inline_like) {
-    contents = filter_string_ltrim(contents);
-  }
+//  if (inline_like) {
+//    contents = filter_string_ltrim(contents);
+//  }
   results.append(contents);
   if (pp_okay && !contents.empty() && (last_char != '\n') && (!inline_like)) {
     results.append("\n");
@@ -2099,8 +2099,6 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   
   return results;
 }
-
-
 
 
 string filter_string_tidy_invalid_html_v2 (string html) // Todo

@@ -28,9 +28,9 @@ void test_gbs ()
 {
   trace_unit_tests (__func__);
 
-  string resource;
-  int book;
-  string text;
+  string resource {};
+  int book {};
+  string text {};
 
   resource = "Statenbijbel GBS";
   book = 58; // Hebrews.

@@ -27,6 +27,7 @@ vector <string> resource_external_get_bibles ();
 string resource_external_versification (string name);
 string resource_external_mapping (string name);
 string resource_external_type (string name);
-string resource_external_cloud_fetch_cache_extract (string name, int book, int chapter, int verse);
+string resource_external_cloud_fetch_cache_extract (const string & name, int book, int chapter, int verse);
 const char * resource_external_net_bible_name ();
 const char * resource_external_biblehub_interlinear_name ();
+

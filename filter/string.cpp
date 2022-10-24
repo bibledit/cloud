@@ -1856,6 +1856,7 @@ static string substitute_xml_entities_into_attributes(char quote, const string &
 }
 
 
+#ifdef HAVE_CLOUD
 static string handle_unknown_tag(GumboStringPiece *text)
 {
   string tagname {};
@@ -1869,8 +1870,10 @@ static string handle_unknown_tag(GumboStringPiece *text)
   tagname = string(gsp.data, gsp.length);
   return tagname;
 }
+#endif
 
 
+#ifdef HAVE_CLOUD
 static string get_tag_name(GumboNode *node)
 {
   string tagname;
@@ -1885,8 +1888,10 @@ static string get_tag_name(GumboNode *node)
   }
   return tagname;
 }
+#endif
 
 
+#ifdef HAVE_CLOUD
 static string build_doctype(GumboNode *node)
 {
   string results {};
@@ -1905,8 +1910,10 @@ static string build_doctype(GumboNode *node)
   }
   return results;
 }
+#endif
 
 
+#ifdef HAVE_CLOUD
 static string build_attributes(GumboAttribute * at, bool no_entities)
 {
   string atts {};
@@ -1940,14 +1947,17 @@ static string build_attributes(GumboAttribute * at, bool no_entities)
   }
   return atts;
 }
+#endif
 
 
 // Forward declaration
+#ifdef HAVE_CLOUD
 static string pretty_print (GumboNode*, int lvl, const string & indent_chars);
+#endif
 
 
-// pretty_print children of a node
-// may be invoked recursively
+// Pretty-print children of a node. May be invoked recursively.
+#ifdef HAVE_CLOUD
 static string pretty_print_contents (GumboNode* node, int lvl, const string & indent_chars)
 {
   string contents {};
@@ -2017,10 +2027,11 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
   
   return contents;
 }
+#endif
 
 
-// Pretty_print a GumboNode back to html/xhtml.
-// May be invoked recursively
+// Pretty-print a GumboNode back to html/xhtml. May be invoked recursively
+#ifdef HAVE_CLOUD
 static string pretty_print(GumboNode* node, int lvl, const string & indent_chars)
 {
   // Special case: The document node.
@@ -2099,6 +2110,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   
   return results;
 }
+#endif
 
 
 string filter_string_tidy_invalid_html_v2 (string html) // Todo

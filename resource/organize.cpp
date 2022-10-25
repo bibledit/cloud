@@ -114,7 +114,7 @@ string resource_organize (void * webserver_request)
   vector <string> active_resources = request->database_config_user()->getActiveResources ();
   string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
-    activesblock.append ("<p>");
+    activesblock.append ("<p>&#183; ");
     activesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "\">");
     activesblock.append (emoji_wastebasket ());
     activesblock.append ("</a>");

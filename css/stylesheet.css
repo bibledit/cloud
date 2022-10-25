@@ -149,6 +149,7 @@ h1, h2, h3, h4, h5, h6,
 h1, h2, h3, h4, h5, h6 {
   margin: .5em 0;
   font-weight: bold;
+  display: inline-block;
 }
 
 h1 {
@@ -827,6 +828,8 @@ input#cancel,
   background-color: #fff;
   color: #171717;
   border: 1px solid #171717;
+  font-size: 1rem;
+  font-weight: normal;
 }
 
 .tooltip:hover + .tooltip-text {
@@ -1166,11 +1169,11 @@ table.interlinear.rtl {
 .slip-swiping-container {
   overflow-x: hidden;
 }
-.slippylist li {
+.slippylist p {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
-  cursor: default;
+  cursor: pointer;
 }
 
 .white-on-green {

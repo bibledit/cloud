@@ -234,6 +234,7 @@ a:hover {
   font: 4.5rem "Montserrat Light", sans-serif;
   background-color: #598fb2;
   background-image: linear-gradient(35deg, #196394, #30739f, #598fb2);
+  background-image: -webkit-linear-gradient(35deg, #196394, #30739f, #598fb2);
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -366,6 +367,7 @@ div[contenteditable=true],
   .dark-workspacewrapper input#cancel,
   .light-workspacewrapper input#cancel {
   background: linear-gradient(35deg, #4a9748 10%, #54aa51);
+  background: -webkit-linear-gradient(35deg, #4a9748 10%, #54aa51);
   border: 0;
   border-radius: 3.5px;
   padding: 2px 7px;
@@ -383,6 +385,7 @@ div[contenteditable=true],
   .light-workspacewrapper input#create:hover,
   .light-workspacewrapper input#create:focus {
   background: linear-gradient(35deg, #48b648 10%, #5dbd5a);
+  background: -webkit-linear-gradient(35deg, #48b648 10%, #5dbd5a);
 }
 
 input#create,
@@ -395,6 +398,7 @@ input#cancel,
 .light-workspacewrapper input#cancel,
 .colored-cancel > a {
   background: linear-gradient(35deg, #681212 10%, #851717);
+  background: -webkit-linear-gradient(35deg, #681212 10%, #851717);
 }
 
 .dark-workspacewrapper input#cancel:hover,
@@ -404,6 +408,7 @@ input#cancel,
 .colored-cancel > a:hover,
 .colored-cancel > a:focus {
   background: linear-gradient(35deg, #761414 10%, #9f3030);
+  background: -webkit-linear-gradient(35deg, #761414 10%, #9f3030);
 }
 
 .ql-editor,
@@ -450,10 +455,12 @@ input#cancel,
 
 .light-workspacewrapper .ql-toolbar {
   background: linear-gradient(35deg, #c6cfd8, #dce6f0) !important;
+  background: -webkit-linear-gradient(35deg, #c6cfd8, #dce6f0) !important;
 }
 
 .dark-workspacewrapper .ql-toolbar {
   background: linear-gradient(35deg, #1e232a, #252c35) !important;
+  background: -webkit-linear-gradient(35deg, #1e232a, #252c35) !important;
 }
 
 .dark-workspacewrapper svg *,
@@ -712,6 +719,7 @@ input#cancel,
 .light-background #applybook .selector.frontback a,
 .dark-background #applybook .selector.frontback a  {
   background: linear-gradient(35deg, #75348c66, #9b61b066) !important;
+  background: -webkit-linear-gradient(35deg, #75348c66, #9b61b066) !important;
   color: #fff !important;
 }
 
@@ -724,12 +732,14 @@ input#cancel,
 .light-background #applybook .selector.ot a,
 .dark-background #applybook .selector.ot a  {
   background: linear-gradient(35deg, #68121277, #85171777) !important;
+  background: -webkit-linear-gradient(35deg, #68121277, #85171777) !important;
   color: #fff !important;
 }
 
 .light-background #applybook .selector.nt a,
 .dark-background #applybook .selector.nt a  {
   background: linear-gradient(35deg, #0f0d8266, #27258f66) !important;
+  background: -webkit-linear-gradient(35deg, #0f0d8266, #27258f66) !important;
   color: #fff !important;
 }
 
@@ -894,6 +904,7 @@ input#cancel,
 .light-menu-tabs,
 .dark-menu-tabs {
   background: linear-gradient(-35deg, #124568, #144f76, #175985, #196394) !important;
+  background: -webkit-linear-gradient(-35deg, #124568, #144f76, #175985, #196394) !important;
   color: #fff !important;
   opacity: 0.7;
   box-shadow: -1px -1px 3px rgb(22, 27, 29), 1px 1px 3px rgb(22, 27, 29);
@@ -905,6 +916,7 @@ input#cancel,
 
 .dark-menu-tabs {
   background: linear-gradient(30deg, #196394, #175985, #144f76, #124568) !important;
+  background: -webkit-linear-gradient(30deg, #196394, #175985, #144f76, #124568) !important;
 }
 
 .light-menu-tabs a,

@@ -572,7 +572,7 @@ void test_string ()
     html_valid = filter_url_file_get_contents(path_valid);
     evaluate (__LINE__, __func__, html_valid, html_tidied);
     
-    html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid); // Todo
+    html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid);
     path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1-gumbo.html"});
     html_valid = filter_url_file_get_contents(path_valid);
     evaluate (__LINE__, __func__, html_valid, html_tidied);
@@ -590,7 +590,19 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
 </html>
 )";
     html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid);
-    html_valid = R"(<html><head></head><body><h1>My First Heading</h1><p>My first paragraph.</p></body></html>)";
+    html_valid =
+R"(<!DOCTYPE html>
+<html>
+ <head>
+ </head>
+ <body>
+  <h1>
+   My First Heading
+  </h1>
+  <p>   My first paragraph.</p>
+ </body>
+</html>
+)";
     evaluate (__LINE__, __func__, html_valid, html_tidied);
   }
   
@@ -599,7 +611,16 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
     string result = filter_string_tidy_invalid_html (string());
     evaluate (__LINE__, __func__, string(), result);
     result = filter_string_tidy_invalid_html_v2 (string());
-    evaluate (__LINE__, __func__, "<html><head></head><body></body></html>", result);
+    string standard {
+R"(<html>
+ <head>
+ </head>
+ <body>
+ </body>
+</html>
+)"
+    };
+    evaluate (__LINE__, __func__, standard, result);
   }
   
   // Test collapsing double spaces.

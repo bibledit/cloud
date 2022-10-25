@@ -1812,12 +1812,12 @@ string filter_string_tidy_invalid_html (string html) // Todo goes out eventually
 
 // Todo new code begins here.
 
-static string nonbreaking_inline {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
-static string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
-static string preserve_whitespace {"|pre|textarea|script|style|"};
-static string special_handling {"|html|body|"};
-static string no_entity_sub {"|script|style|"};
-static string treat_like_inline {"|p|"};
+string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
+string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
+string preserve_whitespace_tags {"|pre|textarea|script|style|"};
+string special_handling_tags {"|html|body|"};
+string no_entity_substitution_tags {"|script|style|"};
+string treat_like_inline_tags {"|p|"};
 
 
 static void replace_all(string &s, const char * s1, const char * s2) // Todo use existing function?
@@ -1963,9 +1963,9 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
   string contents {};
   string tagname {get_tag_name(node)};
   string key {"|" + tagname + "|"};
-  bool no_entity_substitution {no_entity_sub.find(key) != string::npos};
-  bool keep_whitespace {preserve_whitespace.find(key) != string::npos};
-  bool is_inline {nonbreaking_inline.find(key) != string::npos};
+  bool no_entity_substitution {no_entity_substitution_tags.find(key) != string::npos};
+  bool keep_whitespace {preserve_whitespace_tags.find(key) != string::npos};
+  bool is_inline {nonbreaking_inline_tags.find(key) != string::npos};
   bool pp_okay {!is_inline && !keep_whitespace};
   
   GumboVector* children {&node->v.element.children};
@@ -2004,7 +2004,7 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
       // Remove any indentation if this child is inline and not a first child.
       string childname = get_tag_name(child);
       string childkey = "|" + childname + "|";
-      if ((nonbreaking_inline.find(childkey) != string::npos) && (contents.length() > 0)) {
+      if ((nonbreaking_inline_tags.find(childkey) != string::npos) && (contents.length() > 0)) {
         val = filter_string_ltrim(val);
       }
       
@@ -2046,12 +2046,12 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   string attributes {};
   string tagname {get_tag_name(node)};
   string key {"|" + tagname + "|"};
-  bool need_special_handling {special_handling.find(key) != string::npos};
+  //bool need_special_handling {special_handling.find(key) != string::npos};
   bool is_empty_tag {empty_tags.find(key) != string::npos};
-  bool no_entity_substitution {no_entity_sub.find(key) != string::npos};
-  bool keep_whitespace {preserve_whitespace.find(key) != string::npos};
-  bool is_inline {nonbreaking_inline.find(key) != string::npos};
-  bool inline_like {treat_like_inline.find(key) != string::npos};
+  bool no_entity_substitution {no_entity_substitution_tags.find(key) != string::npos};
+  bool keep_whitespace {preserve_whitespace_tags.find(key) != string::npos};
+  bool is_inline {nonbreaking_inline_tags.find(key) != string::npos};
+  bool inline_like {treat_like_inline_tags.find(key) != string::npos};
   bool pp_okay {!is_inline && !keep_whitespace};
   char c {indent_chars.at(0)};
   size_t n {indent_chars.length()};
@@ -2059,8 +2059,8 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   // Build the attr string.
   const GumboVector * attribs {&node->v.element.attributes};
   for (unsigned int i = 0; i < attribs->length; ++i) {
-    GumboAttribute * at {static_cast<GumboAttribute*>(attribs->data[i])};
-    attributes.append (build_attributes (at, no_entity_substitution));
+    GumboAttribute * gumbo_attribute {static_cast<GumboAttribute*>(attribs->data[i])};
+    attributes.append (build_attributes (gumbo_attribute, no_entity_substitution));
   }
   
   // Determine the closing tag type.

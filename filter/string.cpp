@@ -1762,7 +1762,7 @@ string filter_text_html_get_element (string html, string element)
 }
 
 
-string filter_string_tidy_invalid_html (string html) // Todo goes out eventually.
+string filter_string_tidy_invalid_html_leaking (string html) // Todo goes out eventually.
 {
   // Everything in the <head> can be left out: It is not relevant.
   filter_string_replace_between (html, "<head>", "</head>", "");
@@ -1810,8 +1810,6 @@ string filter_string_tidy_invalid_html (string html) // Todo goes out eventually
 }
 
 
-// Todo new code begins here.
-
 string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
 string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
 string preserve_whitespace_tags {"|pre|textarea|script|style|"};
@@ -1820,37 +1818,26 @@ string no_entity_substitution_tags {"|script|style|"};
 string treat_like_inline_tags {"|p|"};
 
 
-static void replace_all(string &s, const char * s1, const char * s2) // Todo use existing function?
-{
-  string t1 (s1);
-  size_t len {t1.length()};
-  size_t pos {s.find(t1)};
-  while (pos != string::npos) {
-    s.replace (pos, len, s2);
-    pos = s.find(t1, pos + len);
-  }
-}
-
-
-static string substitute_xml_entities_into_text(const string &text) // Todo use existing code?
+static string substitute_xml_entities_into_text(const string &text)
 {
   string result {text};
   // Replacing & must come first.
-  replace_all(result, "&", "&amp;");
-  replace_all(result, "<", "&lt;");
-  replace_all(result, ">", "&gt;");
+  result = filter_string_str_replace ("&", "&amp;", result);
+  result = filter_string_str_replace ("<", "&lt;", result);
+  result = filter_string_str_replace (">", "&gt;", result);
+  // Done.
   return result;
 }
 
 
-static string substitute_xml_entities_into_attributes(char quote, const string &text) // Todo use existing code?
+static string substitute_xml_entities_into_attributes(char quote, const string &text)
 {
-  string result {substitute_xml_entities_into_text(text)};
+  string result {substitute_xml_entities_into_text (text)};
   if (quote == '"') {
-    replace_all(result,"\"","&quot;");
+    result = filter_string_str_replace("\"","&quot;", result);
   }
   else if (quote == '\'') {
-    replace_all(result,"'","&apos;");
+    result = filter_string_str_replace("'","&apos;", result);
   }
   return result;
 }
@@ -2113,7 +2100,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
 #endif
 
 
-string filter_string_tidy_invalid_html_v2 (string html) // Todo
+string filter_string_tidy_invalid_html_v2 (string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
   filter_string_replace_between (html, "<head>", "</head>", string());

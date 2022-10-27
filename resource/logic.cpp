@@ -1364,7 +1364,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-  html = filter_string_tidy_invalid_html (html);
+  html = filter_string_tidy_invalid_html_leaking (html);
 
   // Parse the html into a DOM.
   string verse_s = convert_to_string (verse);
@@ -1592,7 +1592,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
     // Therefore the html is tidied first.
-    html = filter_string_tidy_invalid_html (html);
+    html = filter_string_tidy_invalid_html_leaking (html);
 
     // Parse the html into a DOM.
     string verse_s = convert_to_string (verse);

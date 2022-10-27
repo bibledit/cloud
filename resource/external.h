@@ -31,5 +31,3 @@ string resource_external_cloud_fetch_cache_extract (const string & name, int boo
 const char * resource_external_net_bible_name ();
 const char * resource_external_biblehub_interlinear_name ();
 
-string resource_external_get_statenbijbel_plus_gbs_v2 (int book, int chapter, int verse); // Todo
-string resource_external_get_king_james_version_plus_gbs_v2 (int book, int chapter, int verse); // Todo

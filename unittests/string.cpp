@@ -567,7 +567,7 @@ void test_string ()
     string path_valid {};
     string html_valid {};
 
-    string html_tidied = filter_string_tidy_invalid_html (html_invalid);
+    string html_tidied = filter_string_tidy_invalid_html_leaking (html_invalid);
     path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1.html"});
     html_valid = filter_url_file_get_contents(path_valid);
     evaluate (__LINE__, __func__, html_valid, html_tidied);
@@ -608,9 +608,7 @@ R"(<!DOCTYPE html>
   
   // Test "tidying" empty html.
   {
-    string result = filter_string_tidy_invalid_html (string());
-    evaluate (__LINE__, __func__, string(), result);
-    result = filter_string_tidy_invalid_html_v2 (string());
+    string result = filter_string_tidy_invalid_html_v2 (string());
     string standard {
 R"(<html>
  <head>
@@ -621,6 +619,23 @@ R"(<html>
 )"
     };
     evaluate (__LINE__, __func__, standard, result);
+  }
+  
+  // Test tidying html with special XML characters.
+  {
+    string html = R"(<p>Paragraph & < > paragraph</p>)";
+    string tidied = filter_string_tidy_invalid_html_v2 (html);
+    string valid =
+R"(<html>
+ <head>
+ </head>
+ <body>
+  <p>   Paragraph &amp; &lt; &gt; paragraph</p>
+ </body>
+</html>
+)";
+    evaluate (__LINE__, __func__, valid, tidied);
+
   }
   
   // Test collapsing double spaces.

@@ -21,30 +21,69 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <resource/logic.h>
 #include <filter/string.h>
+#include <database/books.h>
 
 
 void test_studylight ()
 {
   trace_unit_tests (__func__);
   
-  string resource;
-  int book;
-  string text;
-  
+  string resource {};
+  int book {};
+  string text {};
+
   resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
-  book = 58; // Hebrews.
+
+//  book = 27; // Daniel.
+//  text = resource_logic_study_light_get (resource, book, 10, 14);
+//  text = filter_string_html2text (text);
+//  cout << text << endl; // Todo
+//  return;
+  
+// http://www.studylight.org/commentaries/eng/bnb/daniel-1.html
+// Line number:    47
+// Function:       test_studylight
+// Desired result: Daniel should not be empty - book 27
+// Actual result:
+
+  
+  
+  vector <int> book_ids = database::books::get_ids ();
+  for (auto book_id : book_ids) {
+    continue;
+    string type = database::books::get_type (book_id);
+    if ((type != "ot") && (type != "nt")) continue;
+    int verse {1};
+    if (book == 14) verse = 2; // 2 Chronicles.
+    text = resource_logic_study_light_get (resource, book_id, 1, 1);
+    if (text.empty ()) {
+      evaluate (__LINE__, __func__, database::books::get_english_from_id (book_id) + " should not be empty - book " + to_string(book_id), string());
+    }
+  }
+
+  book = 23; // Isaiah.
   text = resource_logic_study_light_get (resource, book, 10, 14);
   text = filter_string_html2text (text);
-  evaluate (__LINE__, __func__, 2962, text.find("τους ἁγιαζομενους"));
-  evaluate (__LINE__, __func__, 3734, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
+  evaluate (__LINE__, __func__, 417, text.find("eggs that are left of the parent bird"));
+
+  book = 27; // Daniel.
+  text = resource_logic_study_light_get (resource, book, 10, 14);
+  text = filter_string_html2text (text);
+  evaluate (__LINE__, __func__, 296, text.find("For yet the vision is for many days"));
+
+//  book = 58; // Hebrews.
+//  text = resource_logic_study_light_get (resource, book, 10, 14);
+//  text = filter_string_html2text (text);
+//  evaluate (__LINE__, __func__, 2962, text.find("τους ἁγιαζομενους"));
+//  evaluate (__LINE__, __func__, 3734, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
 
   resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
   book = 58; // Hebrews.
   text = resource_logic_study_light_get (resource, book, 10, 14);
   text = filter_string_html2text (text);
-  evaluate (__LINE__, __func__, 2013, text.find("The accomplishment of our high priest"));
-  evaluate (__LINE__, __func__, 2498, text.find("distinctive features of the high priestly office of the Son"));
-  evaluate (__LINE__, __func__, 3179, text.find("The one sacrifice of Christ"));
-  evaluate (__LINE__, __func__, 3484, text.find("the finality of Jesus Christ’s offering"));
-  evaluate (__LINE__, __func__, 4251, text.find("those whom Jesus Christ has perfected"));
+  evaluate (__LINE__, __func__, 2037, text.find("The accomplishment of our high priest"));
+  evaluate (__LINE__, __func__, 2533, text.find("distinctive features of the high priestly office of the Son"));
+  evaluate (__LINE__, __func__, 3226, text.find("The one sacrifice of Christ"));
+  evaluate (__LINE__, __func__, 3538, text.find("the finality of Jesus Christ’s offering"));
+  evaluate (__LINE__, __func__, 4318, text.find("those whom Jesus Christ has perfected"));
 }

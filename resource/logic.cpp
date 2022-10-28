@@ -1331,18 +1331,18 @@ vector <string> resource_logic_study_light_module_list_get ()
 
 
 // Get the slightly formatted of a passage of a StudyLight resource.
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse)
+string resource_logic_study_light_get (string resource, int book, int chapter, int verse) // Todo update here.
 {
-  string result;
+  string result {};
 
 #ifdef HAVE_CLOUD
   // Transform the full name to the abbreviation for the website, e.g.:
   // "Adam Clarke Commentary (acc)" becomes "acc".
   size_t pos = resource.find_last_of ("(");
-  if (pos == string::npos) return "";
+  if (pos == string::npos) return string();
   resource.erase (0, pos + 1);
   pos = resource.find (")");
-  if (pos == string::npos) return "";
+  if (pos == string::npos) return string();
   resource.erase (pos);
   
   // The resource abbreviation might look like this:
@@ -1351,25 +1351,42 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   resource.erase (0, 11);
   
   // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
-  string url;
+  string url {};
   url.append ("http://www.studylight.org/commentaries/");
   url.append (resource + "/");
   url.append (resource_external_convert_book_studylight (book));
   url.append ("-" + convert_to_string (chapter) + ".html");
+  cout << url << endl; // Todo
   
   // Get the html from the server.
-  string error;
+  string error {};
   string html = resource_logic_web_or_cache_get (url, error);
 
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-  html = filter_string_tidy_invalid_html_leaking (html);
+  filter_url_file_put_contents("/tmp/1raw.html", html); // Todo
+  html = filter_string_tidy_invalid_html_v2 (html);
+  filter_url_file_put_contents("/tmp/2tidied.html", html); // Todo
+  
+  string start_key = R"(<div class="ptb10">)";
+  if (in_array(book, {23 /* Isaiah */, 27 /* Daniel */})) {
+    start_key = R"(<div class="tl-lightgrey ptb10">)";
+  }
+  cout << start_key << endl; // Todo
+  pos = html.find(start_key);
+  if (pos != string::npos) html.erase (0, pos);
+  filter_url_file_put_contents("/tmp/3filtered.html", html); // Todo
 
   // Parse the html into a DOM.
-  string verse_s = convert_to_string (verse);
-  xml_document document;
+  string verse_s {convert_to_string (verse)};
+  xml_document document {};
   document.load_string (html.c_str());
+  {
+    stringstream ss;
+    document.print (ss, "", format_raw);
+    filter_url_file_put_contents("/tmp/4loaded.xml", ss.str()); // Todo
+  }
 
   // Example verse indicator within the XML:
   // <a name="verses-2-10"></a>

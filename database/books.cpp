@@ -44,7 +44,7 @@ vector <int> get_ids ()
 }
 
 
-int get_id_from_english (string english)
+int get_id_from_english (const string & english)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
@@ -99,7 +99,7 @@ string get_osis_from_id (int id)
 }
 
 
-int get_id_from_usfm (string usfm)
+int get_id_from_usfm (const string & usfm)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
@@ -110,7 +110,7 @@ int get_id_from_usfm (string usfm)
 }
 
 
-int get_id_from_osis (string osis)
+int get_id_from_osis (const string & osis)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
@@ -121,7 +121,7 @@ int get_id_from_osis (string osis)
 }
 
 
-int get_id_from_bibleworks (string bibleworks)
+int get_id_from_bibleworks (const string & bibleworks)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
@@ -137,15 +137,15 @@ Tries to interprete $text as the name of a Bible book.
 Returns the book's identifier if it succeeds.
 If it fails, it returns 0.
 */
-int get_id_like_text (string text)
+int get_id_like_text (const string & text)
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
   // Then return the best match.
-  vector <int> ids;
-  vector <int> similarities;
+  vector <int> ids {};
+  vector <int> similarities {};
   for (unsigned int i = 0; i < data_count; i++) {
-    int id = books_table[i].id;
+    int id {books_table[i].id};
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
     ids.push_back (id);
@@ -162,7 +162,7 @@ int get_id_like_text (string text)
 }
 
 
-int get_id_from_onlinebible (string onlinebible)
+int get_id_from_onlinebible (const string & onlinebible)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {

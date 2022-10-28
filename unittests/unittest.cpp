@@ -143,8 +143,8 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_gbs ();
   test_string ();
+  test_studylight ();
   refresh_sandbox (false);
   exit (0);
   

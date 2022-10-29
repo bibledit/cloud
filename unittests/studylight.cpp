@@ -34,20 +34,6 @@ void test_studylight ()
 
   resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
 
-//  book = 27; // Daniel.
-//  text = resource_logic_study_light_get (resource, book, 10, 14);
-//  text = filter_string_html2text (text);
-//  cout << text << endl; // Todo
-//  return;
-  
-// http://www.studylight.org/commentaries/eng/bnb/daniel-1.html
-// Line number:    47
-// Function:       test_studylight
-// Desired result: Daniel should not be empty - book 27
-// Actual result:
-
-  
-  
   vector <int> book_ids = database::books::get_ids ();
   for (auto book_id : book_ids) {
     continue;
@@ -71,19 +57,29 @@ void test_studylight ()
   text = filter_string_html2text (text);
   evaluate (__LINE__, __func__, 296, text.find("For yet the vision is for many days"));
 
-//  book = 58; // Hebrews.
-//  text = resource_logic_study_light_get (resource, book, 10, 14);
-//  text = filter_string_html2text (text);
-//  evaluate (__LINE__, __func__, 2962, text.find("τους ἁγιαζομενους"));
-//  evaluate (__LINE__, __func__, 3734, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
+  book = 52; // 1 Thessalonians.
+  text = resource_logic_study_light_get (resource, book, 1, 4);
+  text = filter_string_html2text (text);
+  evaluate (__LINE__, __func__, 84, text.find("beloved of God, your election"));
+
+  book = 53; // 2 Thessalonians.
+  text = resource_logic_study_light_get (resource, book, 1, 4);
+  text = filter_string_html2text (text);
+  evaluate (__LINE__, __func__, 357, text.find("You have shown unwavering confidence in God in your afflictions"));
+
+  book = 58; // Hebrews.
+  text = resource_logic_study_light_get (resource, book, 10, 14);
+  text = filter_string_html2text (text);
+  evaluate (__LINE__, __func__, 2990, text.find("τους ἁγιαζομενους"));
+  evaluate (__LINE__, __func__, 3759, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
 
   resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
   book = 58; // Hebrews.
   text = resource_logic_study_light_get (resource, book, 10, 14);
   text = filter_string_html2text (text);
-  evaluate (__LINE__, __func__, 2037, text.find("The accomplishment of our high priest"));
-  evaluate (__LINE__, __func__, 2533, text.find("distinctive features of the high priestly office of the Son"));
-  evaluate (__LINE__, __func__, 3226, text.find("The one sacrifice of Christ"));
-  evaluate (__LINE__, __func__, 3538, text.find("the finality of Jesus Christ’s offering"));
-  evaluate (__LINE__, __func__, 4318, text.find("those whom Jesus Christ has perfected"));
+  evaluate (__LINE__, __func__, 1326, text.find("The accomplishment of our high priest"));
+  evaluate (__LINE__, __func__, 1822, text.find("distinctive features of the high priestly office of the Son"));
+  evaluate (__LINE__, __func__, 2515, text.find("The one sacrifice of Christ"));
+  evaluate (__LINE__, __func__, 2827, text.find("the finality of Jesus Christ’s offering"));
+  evaluate (__LINE__, __func__, 3607, text.find("those whom Jesus Christ has perfected"));
 }

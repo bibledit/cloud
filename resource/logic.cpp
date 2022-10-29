@@ -1356,7 +1356,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   url.append (resource + "/");
   url.append (resource_external_convert_book_studylight (book));
   url.append ("-" + convert_to_string (chapter) + ".html");
-  cout << url << endl; // Todo
+//  cout << url << endl; // Todo
   
   // Get the html from the server.
   string error {};
@@ -1370,10 +1370,17 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   filter_url_file_put_contents("/tmp/2tidied.html", html); // Todo
   
   string start_key = R"(<div class="ptb10">)";
-  if (in_array(book, {23 /* Isaiah */, 27 /* Daniel */})) {
+  vector <int> class_lightgrey_book {
+    23, // Isaiah
+    27, // Daniel
+    52, // 1 Thessalonians
+    53, // 2 Thessalonians
+    54, // 1 Timothy
+    58, // Hebrews
+  };
+  if (in_array(book, class_lightgrey_book)) {
     start_key = R"(<div class="tl-lightgrey ptb10">)";
   }
-  cout << start_key << endl; // Todo
   pos = html.find(start_key);
   if (pos != string::npos) html.erase (0, pos);
   filter_url_file_put_contents("/tmp/3filtered.html", html); // Todo

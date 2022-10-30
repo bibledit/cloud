@@ -393,7 +393,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     string error {};
     string annotation_html {filter_url_http_post (annotation_url, string(), post, error, false, false, {})};
     if (error.empty()) {
-      annotation_html = filter_string_tidy_invalid_html_v2 (annotation_html);
+      annotation_html = filter_string_fix_invalid_html_gumbo (annotation_html);
       xml_document annotation_document {};
       annotation_document.load_string (annotation_html.c_str());
       string selector2 {"//body"};

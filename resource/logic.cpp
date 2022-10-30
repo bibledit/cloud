@@ -1364,7 +1364,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-  html = filter_string_tidy_invalid_html_v2 (html);
+  html = filter_string_fix_invalid_html_gumbo (html);
   
   string start_key = R"(<div class="ptb10">)";
   vector <int> class_lightgrey_book {
@@ -1610,7 +1610,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse) 
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
     // Therefore the html is tidied first.
-    html = filter_string_tidy_invalid_html_v2 (html);
+    html = filter_string_fix_invalid_html_gumbo (html);
     filter_url_file_put_contents("/tmp/2tidied.html", html); // Todo
 
     // The document has one main div like this:

@@ -66,6 +66,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <gumbo.h>
 #pragma clang diagnostic pop
 #endif
+#ifdef HAVE_CLOUD
+// Todo
+//#include <tidy.h>
+//#include <tidybuffio.h>
+#endif
+#include <stdio.h>
+#include <errno.h>
+
 
 
 #ifdef HAVE_ICU
@@ -2102,7 +2110,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
 #endif
 
 
-string filter_string_tidy_invalid_html_v2 (string html)
+string filter_string_fix_invalid_html_gumbo (string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
   filter_string_replace_between (html, "<head>", "</head>", string());
@@ -2126,6 +2134,56 @@ string filter_string_tidy_invalid_html_v2 (string html)
   
 #endif
   
+  return html;
+}
+
+
+string filter_string_fix_invalid_html_tidy (string html) // Todo
+{
+#ifdef HAVE_CLOUD
+
+//  TidyBuffer output {};
+//  memset (&output, 0, sizeof(TidyBuffer));
+//  TidyBuffer errbuf {};
+//  memset (&errbuf, 0, sizeof(TidyBuffer));
+  
+  // Initialize the document.
+//  TidyDoc tdoc = tidyCreate();
+  //printf( "Tidying:\t%s\n", input );
+  
+  // Set a few options.
+//  tidyOptSetBool (tdoc, TidyXmlOut, yes);
+//  tidyOptSetBool (tdoc, TidyHideComments, yes);
+//  tidyOptSetBool (tdoc, TidyJoinClasses, yes);
+//  tidyOptSetBool (tdoc, TidyBodyOnly, yes);
+  // Capture diagnostics.
+//  int rc = tidySetErrorBuffer (tdoc, &errbuf);
+  // Parse the input.
+//  if (rc >= 0) rc = tidyParseString (tdoc, html.c_str());
+  // Tidy it up.
+//  if (rc >= 0) rc = tidyCleanAndRepair (tdoc);
+  // Run the diagnostics.
+//  if (rc >= 0) rc = tidyRunDiagnostics (tdoc);
+  // If error, force output.
+//  if (rc > 1) rc = (tidyOptSetBool (tdoc, TidyForceOutput, yes) ? rc : -1);
+  // Pretty print.
+//  if (rc >= 0) rc = tidySaveBuffer (tdoc, &output);
+  
+//  if (rc >= 0) {
+    //if (rc > 0) printf ("\nDiagnostics:\n\n%s", errbuf.bp);
+    //printf ("\nAnd here is the result:\n\n%s", output.bp);
+//    html = string (reinterpret_cast<char const*>(output.bp));
+//  }
+//  else printf ("A severe error (%d) occurred.\n", rc);
+  
+  // Release memory.
+//  tidyBufFree (&output);
+//  tidyBufFree (&errbuf);
+//  tidyRelease (tdoc);
+
+#endif
+
+  // Done.
   return html;
 }
 

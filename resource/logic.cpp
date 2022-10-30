@@ -1331,7 +1331,7 @@ vector <string> resource_logic_study_light_module_list_get ()
 
 
 // Get the slightly formatted of a passage of a StudyLight resource.
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse) // Todo update here.
+string resource_logic_study_light_get (string resource, int book, int chapter, int verse)
 {
   string result {};
 
@@ -1356,7 +1356,6 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   url.append (resource + "/");
   url.append (resource_external_convert_book_studylight (book));
   url.append ("-" + convert_to_string (chapter) + ".html");
-//  cout << url << endl; // Todo
   
   // Get the html from the server.
   string error {};
@@ -1365,9 +1364,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-  filter_url_file_put_contents("/tmp/1raw.html", html); // Todo
   html = filter_string_tidy_invalid_html_v2 (html);
-  filter_url_file_put_contents("/tmp/2tidied.html", html); // Todo
   
   string start_key = R"(<div class="ptb10">)";
   vector <int> class_lightgrey_book {
@@ -1383,17 +1380,11 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   }
   pos = html.find(start_key);
   if (pos != string::npos) html.erase (0, pos);
-  filter_url_file_put_contents("/tmp/3filtered.html", html); // Todo
 
   // Parse the html into a DOM.
   string verse_s {convert_to_string (verse)};
   xml_document document {};
   document.load_string (html.c_str());
-  {
-    stringstream ss;
-    document.print (ss, "", format_raw);
-    filter_url_file_put_contents("/tmp/4loaded.xml", ss.str()); // Todo
-  }
 
   // Example verse indicator within the XML:
   // <a name="verses-2-10"></a>
@@ -1570,7 +1561,7 @@ struct easy_english_bible_walker: xml_tree_walker
 
 
 // Get the slightly formatted of a passage of a Easy English Bible Commentary.
-string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
+string resource_logic_easy_english_bible_get (int book, int chapter, int verse) // Todo fix errors use non-leaking tidier.
 {
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
@@ -1583,11 +1574,11 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
 #ifdef HAVE_CLOUD
 
   // The combined text result taken from the commentary.
-  string result;
+  string result {};
 
   // This resource may have one or more commentaries per book.
   // This means that the URLs may be one or more.
-  vector <string> urls;
+  vector <string> urls {};
   {
     vector <string> pages = resource_logic_easy_english_bible_pages (book, chapter);
     for (auto page : pages) {
@@ -1604,24 +1595,45 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
   // Handle the possible URLs.
   for (auto url : urls) {
     
+    cout << url  << endl; // Todo
+    
     // Flag for whether the current paragraph contains the desired passage.
-    bool near_passage = false;
+    bool near_passage {false};
     // Flag for whether the current paragraph is for the exact verse number.
-    bool at_passage = false;
+    bool at_passage {false};
     
     // Get the html from the server.
-    string error;
+    string error {};
     string html = resource_logic_web_or_cache_get (url, error);
+    filter_url_file_put_contents("/tmp/1raw.html", html); // Todo
 
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
     // Therefore the html is tidied first.
-    html = filter_string_tidy_invalid_html_leaking (html);
+    html = filter_string_tidy_invalid_html_v2 (html);
+    filter_url_file_put_contents("/tmp/2tidied.html", html); // Todo
 
+    // The document has one main div like this:
+    // <div class="Section1">
+    // Or: <div class="WordSection1"> like in Exodus.
+    size_t pos = html.find(R"(<div class="Section1">)");
+    cout << pos << endl; // Todo
+    if (pos == string::npos) {
+      pos = html.find(R"(<div class="WordSection1">)");
+    }
+    cout << pos << endl; // Todo
+    if (pos != string::npos) html.erase (0, pos);
+    filter_url_file_put_contents("/tmp/3filtered.html", html); // Todo
+    
     // Parse the html into a DOM.
-    string verse_s = convert_to_string (verse);
-    xml_document document;
+    xml_document document {};
     document.load_string (html.c_str());
+    
+    {
+      stringstream ss;
+      document.print (ss, "", format_raw);
+      filter_url_file_put_contents("/tmp/4document.xml", ss.str()); // Todo
+    }
 
     // The document has one main div like this:
     // <div class="Section1">
@@ -1630,6 +1642,11 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     string selector = "//div[contains(@class, 'Section1')]";
     xpath_node xnode = document.select_node(selector.c_str());
     xml_node div_node = xnode.node();
+    {
+      stringstream ss;
+      div_node.print (ss, "", format_raw);
+      filter_url_file_put_contents("/tmp/5div.xml", ss.str()); // Todo
+    }
 
     // Iterate over the paragraphs of text and process them.
     for (auto paragraph_node : div_node.children()) {

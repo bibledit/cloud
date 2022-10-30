@@ -1762,7 +1762,8 @@ string filter_text_html_get_element (string html, string element)
 }
 
 
-string filter_string_tidy_invalid_html_leaking (string html) // Todo goes out eventually.
+/*
+string filter_string_tidy_invalid_html_leaking (string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
   filter_string_replace_between (html, "<head>", "</head>", "");
@@ -1808,6 +1809,7 @@ string filter_string_tidy_invalid_html_leaking (string html) // Todo goes out ev
 
   return html;
 }
+*/
 
 
 string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};

@@ -143,8 +143,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_string ();
-  test_studylight ();
+  test_easy_english_bible ();
   refresh_sandbox (false);
   exit (0);
   
@@ -251,7 +250,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_gbs ();
   test_database_bible_images ();
   test_image ();
-
+  test_easy_english_bible ();
 
   // Output possible journal entries.
   refresh_sandbox (false);

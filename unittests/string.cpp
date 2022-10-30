@@ -567,12 +567,7 @@ void test_string ()
     string path_valid {};
     string html_valid {};
 
-    string html_tidied = filter_string_tidy_invalid_html_leaking (html_invalid);
-    path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1.html"});
-    html_valid = filter_url_file_get_contents(path_valid);
-    evaluate (__LINE__, __func__, html_valid, html_tidied);
-    
-    html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid);
+    string html_tidied = filter_string_tidy_invalid_html_v2 (html_invalid);
     path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1-gumbo.html"});
     html_valid = filter_url_file_get_contents(path_valid);
     evaluate (__LINE__, __func__, html_valid, html_tidied);

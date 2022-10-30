@@ -38,43 +38,43 @@ public:
   // Whether the connection runs via the secure server.
   bool secure {false};
   // The session identifier of the cookie sent by the browser.
-  string session_identifier {};
+  std::string session_identifier {};
    // Whether to resend the cookie to the browser.
   bool resend_cookie {false};
    // The browser's or client's remote IPv4 or IPv6 address.
-  string remote_address {};
+  std::string remote_address {};
   // The page the browser requests via GET or via POST.
-  string get {};
+  std::string get {};
    // Whether it is a POST request.
   bool is_post {false};
    // The query from the browser, e.g. foo=bar&baz=qux, neatly arranged into a map.
-  map <string, string> query {};
+  std::map <std::string, std::string> query {};
    // The browser's user agent, e.g. Mozilla/x.0 (X11; Linux) ...
-  string user_agent {};
+  std::string user_agent {};
    // The browser's or client's Accept-Language header.
-  string accept_language {};
+  std::string accept_language {};
    // The server's host as requested by the client.
-  string host {};
+  std::string host {};
    // The content type of the browser request.
-  string content_type {};
+  std::string content_type {};
    // The content length of the browser request.
   int content_length {0};
    // The raw POST data from the browser, item by item.
-  map <string, string> post {};
+  std::map <std::string, std::string> post {};
    // Header as received from the browser.
-  string if_none_match {};
+  std::string if_none_match {};
    // Extra header to be sent back to the browser.
-  string header {};
+  std::string header {};
    // Body to be sent back to the browser.
-  string reply {};
+  std::string reply {};
    // Response code to be sent to the browser.
   int response_code {0};
    // The requested file's size for browser caching.
-  string etag {};
+  std::string etag {};
    // The content type of the response.
-  string response_content_type {};
+  std::string response_content_type {};
    // The path of the file to copy from disk straight to the network without loading it in memory.
-  string stream_file {};
+  std::string stream_file {};
   // Extra objects.
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();

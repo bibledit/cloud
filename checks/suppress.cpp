@@ -31,6 +31,7 @@
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string checks_suppress_url ()

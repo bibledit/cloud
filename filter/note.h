@@ -28,24 +28,24 @@ class citation
 {
 public:
   citation ();
-  void set_sequence (int numbering, const string & usersequence);
+  void set_sequence (int numbering, const std::string & usersequence);
   void set_restart (int setting);
-  string get (string citation_in);
-  void run_restart (const string & moment);
+  std::string get (std::string citation_in);
+  void run_restart (const std::string & moment);
 private:
-  string restart {};
+  std::string restart {};
   unsigned int pointer {0};
-  vector <string> sequence {};
+  std::vector <std::string> sequence {};
 };
 
 class citations
 {
 public:
   void evaluate_style (const Database_Styles_Item & style);
-  string get (const string & marker, const string & citation);
-  void restart (const string & moment);
+  std::string get (const std::string & marker, const std::string & citation);
+  void restart (const std::string & moment);
 private:
-  map <string, citation> cache {};
+  std::map <std::string, citation> cache {};
 };
 
 

@@ -25,56 +25,56 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Config_General
 {
 public:
-  static string getSiteMailName();
-  static void setSiteMailName (string value);
+  static std::string getSiteMailName();
+  static void setSiteMailName (std::string value);
 
-  static string getSiteMailAddress();
-  static void setSiteMailAddress (string value);
+  static std::string getSiteMailAddress();
+  static void setSiteMailAddress (std::string value);
   
-  static string getMailStorageHost();
-  static void setMailStorageHost (string value);
+  static std::string getMailStorageHost();
+  static void setMailStorageHost (std::string value);
   
-  static string getMailStorageUsername();
-  static void setMailStorageUsername (string value);
+  static std::string getMailStorageUsername();
+  static void setMailStorageUsername (std::string value);
   
-  static string getMailStoragePassword();
-  static void setMailStoragePassword (string value);
+  static std::string getMailStoragePassword();
+  static void setMailStoragePassword (std::string value);
   
-  static string getMailStorageProtocol();
-  static void setMailStorageProtocol (string value);
+  static std::string getMailStorageProtocol();
+  static void setMailStorageProtocol (std::string value);
   
-  static string getMailStoragePort();
-  static void setMailStoragePort (string value);
+  static std::string getMailStoragePort();
+  static void setMailStoragePort (std::string value);
   
-  static string getMailSendHost();
-  static void setMailSendHost (string value);
+  static std::string getMailSendHost();
+  static void setMailSendHost (std::string value);
   
-  static string getMailSendUsername();
-  static void setMailSendUsername (string value);
+  static std::string getMailSendUsername();
+  static void setMailSendUsername (std::string value);
   
-  static string getMailSendPassword();
-  static void setMailSendPassword (string value);
+  static std::string getMailSendPassword();
+  static void setMailSendPassword (std::string value);
   
-  static string getMailSendPort();
-  static void setMailSendPort (string value);
+  static std::string getMailSendPort();
+  static void setMailSendPort (std::string value);
   
-  static string getTimerMinute();
-  static void setTimerMinute (string value);
+  static std::string getTimerMinute();
+  static void setTimerMinute (std::string value);
   
   static int getTimezone();
   static void setTimezone (int value);
   
-  static string getSiteURL();
-  static void setSiteURL (string value);
+  static std::string getSiteURL();
+  static void setSiteURL (std::string value);
   
-  static string getSiteLanguage ();
-  static void setSiteLanguage (string value);
+  static std::string getSiteLanguage ();
+  static void setSiteLanguage (std::string value);
   
   static bool getClientMode ();
   static void setClientMode (bool value);
   
-  static string getServerAddress ();
-  static void setServerAddress (string value);
+  static std::string getServerAddress ();
+  static void setServerAddress (std::string value);
   
   static int getServerPort ();
   static void setServerPort (int value);
@@ -85,26 +85,26 @@ public:
   static int getLastSendReceive ();
   static void setLastSendReceive (int value);
   
-  static string getInstalledInterfaceVersion ();
-  static void setInstalledInterfaceVersion (string value);
+  static std::string getInstalledInterfaceVersion ();
+  static void setInstalledInterfaceVersion (std::string value);
   
-  static string getInstalledDatabaseVersion ();
-  static void setInstalledDatabaseVersion (string value);
+  static std::string getInstalledDatabaseVersion ();
+  static void setInstalledDatabaseVersion (std::string value);
   
   static bool getJustStarted ();
   static void setJustStarted (bool value);
   
-  static string getParatextProjectsFolder ();
-  static void setParatextProjectsFolder (string value);
+  static std::string getParatextProjectsFolder ();
+  static void setParatextProjectsFolder (std::string value);
   
-  static string getSyncKey ();
-  static void setSyncKey (string key);
+  static std::string getSyncKey ();
+  static void setSyncKey (std::string key);
   
-  static string getLastMenuClick ();
-  static void setLastMenuClick (string url);
+  static std::string getLastMenuClick ();
+  static void setLastMenuClick (std::string url);
   
-  static vector <string> getResourcesToCache ();
-  static void setResourcesToCache (vector <string> values);
+  static std::vector <std::string> getResourcesToCache ();
+  static void setResourcesToCache (std::vector <std::string> values);
   
   static bool getIndexNotes ();
   static void setIndexNotes (bool value);
@@ -126,38 +126,38 @@ public:
   
   static bool getMenuInTabbedViewOn ();
   static void setMenuInTabbedViewOn (bool value);
-  static string getMenuInTabbedViewJSON ();
-  static void setMenuInTabbedViewJSON (string value);
+  static std::string getMenuInTabbedViewJSON ();
+  static void setMenuInTabbedViewJSON (std::string value);
   
   static bool getDisableSelectionPopupChromeOS ();
   static void setDisableSelectionPopupChromeOS (bool value);
 
-  static string getNotesVerseSeparator ();
-  static void setNotesVerseSeparator (string url);
+  static std::string getNotesVerseSeparator ();
+  static void setNotesVerseSeparator (std::string url);
 
-  static vector <string> getComparativeResources ();
-  static void setComparativeResources (vector <string> values);
+  static std::vector <std::string> getComparativeResources ();
+  static void setComparativeResources (std::vector <std::string> values);
 
-  static vector <string> getTranslatedResources ();
-  static void setTranslatedResources (vector <string> values);
+  static std::vector <std::string> getTranslatedResources ();
+  static void setTranslatedResources (std::vector <std::string> values);
 
-  static vector <string> getActiveResources ();
-  static void setActiveResources (vector <string> values);
+  static std::vector <std::string> getActiveResources ();
+  static void setActiveResources (std::vector <std::string> values);
 
-  static vector <string> getAccountCreationTimes ();
-  static void setAccountCreationTimes (vector <string> values);
+  static std::vector <std::string> getAccountCreationTimes ();
+  static void setAccountCreationTimes (std::vector <std::string> values);
 
   static bool getKeepResourcesCacheForLong ();
   static void setKeepResourcesCacheForLong (bool value);
 
 private:
-  static string file (const char * key);
-  static string getValue (const char * key, const char * default_value);
-  static void setValue (const char * key, string value);
+  static std::string file (const char * key);
+  static std::string getValue (const char * key, const char * default_value);
+  static void setValue (const char * key, std::string value);
   static bool getBValue (const char * key, bool default_value);
   static void setBValue (const char * key, bool value);
   static int getIValue (const char * key, int default_value);
   static void setIValue (const char * key, int value);
-  static vector <string> getList (const char * key);
-  static void setList (const char * key, vector <string> values);
+  static std::vector <std::string> getList (const char * key);
+  static void setList (const char * key, std::vector <std::string> values);
 };

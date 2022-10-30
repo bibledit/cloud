@@ -39,18 +39,18 @@ int get_last_business_day_of_month (int year, int month);
 bool is_business_day (int year, int month, int day);
 void get_previous_month (int & month, int & year);
 void get_next_month (int & month, int & year);
-string day_rfc822 (int day);
-string month_rfc822 (int month);
-string rfc822 (int seconds);
+std::string day_rfc822 (int day);
+std::string month_rfc822 (int month);
+std::string rfc822 (int seconds);
 long elapsed_microseconds (long start);
-string localized_date_format ();
+std::string localized_date_format ();
 
 enum date_format {
   dd_mm_yyyy = 0,
   mm_dd_yyyy = 1,
   yyyy_mn_dd = 2
 };
-string date_format_to_text (date_format format);
-string localized_date_format (void * webserver_request);
+std::string date_format_to_text (date_format format);
+std::string localized_date_format (void * webserver_request);
 
 }

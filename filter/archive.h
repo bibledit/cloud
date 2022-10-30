@@ -21,16 +21,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string filter_archive_zip_folder (string folder);
-string filter_archive_zip_folder_shell_internal (string folder);
-string filter_archive_zip_folder_miniz_internal (string folder);
-string filter_archive_unzip (string file);
-string filter_archive_unzip_shell_internal (string file);
-string filter_archive_unzip_miniz_internal (string zipfile);
-string filter_archive_tar_gzip_file (string filename);
-string filter_archive_tar_gzip_folder (string folder);
-string filter_archive_untar_gzip (string file);
-string filter_archive_uncompress (string file);
-int filter_archive_is_archive (string file);
-string filter_archive_microtar_pack (string tarball, string directory, vector <string> files);
-string filter_archive_microtar_unpack (string tarball, string directory);
+std::string filter_archive_zip_folder (std::string folder);
+std::string filter_archive_zip_folder_shell_internal (std::string folder);
+std::string filter_archive_zip_folder_miniz_internal (std::string folder);
+std::string filter_archive_unzip (std::string file);
+std::string filter_archive_unzip_shell_internal (std::string file);
+std::string filter_archive_unzip_miniz_internal (std::string zipfile);
+std::string filter_archive_tar_gzip_file (std::string filename);
+std::string filter_archive_tar_gzip_folder (std::string folder);
+std::string filter_archive_untar_gzip (std::string file);
+std::string filter_archive_uncompress (std::string file);
+int filter_archive_is_archive (std::string file);
+std::string filter_archive_microtar_pack (std::string tarball, std::string directory, std::vector <std::string> files);
+std::string filter_archive_microtar_unpack (std::string tarball, std::string directory);

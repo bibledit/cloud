@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_summary_url ();
+std::string notes_summary_url ();
 bool notes_summary_acl (void * webserver_request);
-string notes_summary (void * webserver_request);
+std::string notes_summary (void * webserver_request);

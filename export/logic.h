@@ -26,21 +26,21 @@
 namespace export_logic {
 
 void schedule_all ();
-void schedule_text_and_basic_usfm (const string & bible, bool log);
-void schedule_usfm (const string & bible, bool log);
-void schedule_open_document (const string & bible, bool log);
-void schedule_info (const string & bible, bool log);
-void schedule_html (const string & bible, bool log);
-void schedule_web (const string & bible, bool log);
-void schedule_web_index (const string & bible, bool log);
-void schedule_online_bible (const string & bible, bool log);
-void schedule_e_sword (const string & bible, bool log);
-string main_directory ();
-string bible_directory (const string & bible);
-string usfm_directory (const string & bible, int type);
-string web_directory (const string & bible);
-string web_back_link_directory (const string & bible);
-string base_book_filename (const string & bible, int book);
+void schedule_text_and_basic_usfm (const std::string & bible, bool log);
+void schedule_usfm (const std::string & bible, bool log);
+void schedule_open_document (const std::string & bible, bool log);
+void schedule_info (const std::string & bible, bool log);
+void schedule_html (const std::string & bible, bool log);
+void schedule_web (const std::string & bible, bool log);
+void schedule_web_index (const std::string & bible, bool log);
+void schedule_online_bible (const std::string & bible, bool log);
+void schedule_e_sword (const std::string & bible, bool log);
+std::string main_directory ();
+std::string bible_directory (const std::string & bible);
+std::string usfm_directory (const std::string & bible, int type);
+std::string web_directory (const std::string & bible);
+std::string web_back_link_directory (const std::string & bible);
+std::string base_book_filename (const std::string & bible, int book);
 constexpr int export_needed { 0 };
 constexpr int export_text_and_basic_usfm { 1 };
 constexpr int export_full_usfm { 2 };

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string editone2_save_url ();
+std::string editone2_save_url ();
 bool editone2_save_acl (void * webserver_request);
-string editone2_save (void * webserver_request);
+std::string editone2_save (void * webserver_request);

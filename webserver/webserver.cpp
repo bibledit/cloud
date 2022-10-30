@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <io.h>
 #endif
+using namespace std;
 
 
 // Internal function declarations.

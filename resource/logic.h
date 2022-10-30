@@ -21,115 +21,115 @@
 
 #include <config/libraries.h>
 
-string resource_logic_get_html (void * webserver_request,
-                                string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers);
-string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse);
-string resource_logic_cloud_get_comparison (void * webserver_request,
-                                            string resource, int book, int chapter, int verse,
-                                            bool add_verse_numbers);
-string resource_logic_cloud_get_translation (void * webserver_request,
-                                             const string & resource, int book, int chapter, int verse,
-                                             bool add_verse_numbers);
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse);
-string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse);
+std::string resource_logic_get_html (void * webserver_request,
+                                     std::string resource, int book, int chapter, int verse,
+                                     bool add_verse_numbers);
+std::string resource_logic_get_verse (void * webserver_request, std::string resource, int book, int chapter, int verse);
+std::string resource_logic_cloud_get_comparison (void * webserver_request,
+                                                 std::string resource, int book, int chapter, int verse,
+                                                 bool add_verse_numbers);
+std::string resource_logic_cloud_get_translation (void * webserver_request,
+                                                  const std::string & resource, int book, int chapter, int verse,
+                                                  bool add_verse_numbers);
+std::string resource_logic_get_contents_for_client (std::string resource, int book, int chapter, int verse);
+std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, int book, int chapter, int verse);
 
-vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only);
+std::vector <std::string> resource_logic_get_names (void * webserver_request, bool bibles_only);
 
-void resource_logic_import_images (string resource, string path);
+void resource_logic_import_images (std::string resource, std::string path);
 
-string resource_logic_yellow_divider ();
-string resource_logic_green_divider ();
-string resource_logic_blue_divider ();
-string resource_logic_violet_divider ();
-string resource_logic_red_divider ();
-string resource_logic_orange_divider ();
-string resource_logic_rich_divider ();
-string resource_logic_get_divider (string resource);
-bool resource_logic_parse_rich_divider (string input, string & title, string & link, string & foreground, string & background);
-string resource_logic_assemble_rich_divider (string title, string link,
-                                             string foreground, string background);
+std::string resource_logic_yellow_divider ();
+std::string resource_logic_green_divider ();
+std::string resource_logic_blue_divider ();
+std::string resource_logic_violet_divider ();
+std::string resource_logic_red_divider ();
+std::string resource_logic_orange_divider ();
+std::string resource_logic_rich_divider ();
+std::string resource_logic_get_divider (std::string resource);
+bool resource_logic_parse_rich_divider (std::string input, std::string & title, std::string & link, std::string & foreground, std::string & background);
+std::string resource_logic_assemble_rich_divider (std::string title, std::string link,
+                                                  std::string foreground, std::string background);
 
-string resource_logic_web_or_cache_get (string url, string & error);
+std::string resource_logic_web_or_cache_get (std::string url, std::string & error);
 
-string resource_logic_selector_page (void * webserver_request);
-string resource_logic_selector_caller (void * webserver_request);
+std::string resource_logic_selector_page (void * webserver_request);
+std::string resource_logic_selector_caller (void * webserver_request);
 
-string resource_logic_default_user_url ();
+std::string resource_logic_default_user_url ();
 
 void resource_logic_create_cache ();
-bool resource_logic_can_cache (string resource);
+bool resource_logic_can_cache (std::string resource);
 
-string resource_logic_bible_gateway_module_list_path ();
-string resource_logic_bible_gateway_module_list_refresh ();
-vector <string> resource_logic_bible_gateway_module_list_get ();
-string resource_logic_bible_gateway_get (string resource, int book, int chapter, int verse);
+std::string resource_logic_bible_gateway_module_list_path ();
+std::string resource_logic_bible_gateway_module_list_refresh ();
+std::vector <std::string> resource_logic_bible_gateway_module_list_get ();
+std::string resource_logic_bible_gateway_get (std::string resource, int book, int chapter, int verse);
 
-string resource_logic_study_light_module_list_path ();
-string resource_logic_study_light_module_list_refresh ();
-vector <string> resource_logic_study_light_module_list_get ();
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse);
+std::string resource_logic_study_light_module_list_path ();
+std::string resource_logic_study_light_module_list_refresh ();
+std::vector <std::string> resource_logic_study_light_module_list_get ();
+std::string resource_logic_study_light_get (std::string resource, int book, int chapter, int verse);
 
-string resource_logic_easy_english_bible_name ();
-string resource_logic_easy_english_bible_get (int book, int chapter, int verse);
-bool resource_logic_easy_english_bible_handle_chapter_heading (const string & paragraph,
+std::string resource_logic_easy_english_bible_name ();
+std::string resource_logic_easy_english_bible_get (int book, int chapter, int verse);
+bool resource_logic_easy_english_bible_handle_chapter_heading (const std::string & paragraph,
                                                                int chapter,
                                                                bool & near_passage,
                                                                bool & at_passage);
-bool resource_logic_easy_english_bible_handle_passage_heading (const string & paragraph,
+bool resource_logic_easy_english_bible_handle_passage_heading (const std::string & paragraph,
                                                                int chapter, int verse,
                                                                bool & near_passage,
                                                                bool & at_passage);
-void resource_logic_easy_english_bible_handle_verse_marker (const string & paragraph,
+void resource_logic_easy_english_bible_handle_verse_marker (const std::string & paragraph,
                                                             int verse,
                                                             bool & at_passage);
 
 
-bool resource_logic_is_bible (string resource);
-bool resource_logic_is_usfm (string resource);
-bool resource_logic_is_external (string resource);
-bool resource_logic_is_image (string resource);
-bool resource_logic_is_lexicon (string resource);
-bool resource_logic_is_sword (string resource);
-bool resource_logic_is_divider (string resource);
-bool resource_logic_is_biblegateway (string resource);
-bool resource_logic_is_studylight (string resource);
-bool resource_logic_is_comparative (const string & resource);
-bool resource_logic_is_translated (const string & resource);
+bool resource_logic_is_bible (std::string resource);
+bool resource_logic_is_usfm (std::string resource);
+bool resource_logic_is_external (std::string resource);
+bool resource_logic_is_image (std::string resource);
+bool resource_logic_is_lexicon (std::string resource);
+bool resource_logic_is_sword (std::string resource);
+bool resource_logic_is_divider (std::string resource);
+bool resource_logic_is_biblegateway (std::string resource);
+bool resource_logic_is_studylight (std::string resource);
+bool resource_logic_is_comparative (const std::string & resource);
+bool resource_logic_is_translated (const std::string & resource);
 
-string resource_logic_comparative_resource ();
-bool resource_logic_parse_comparative_resource (const string & input,
-                                                string * title = nullptr,
-                                                string * base = nullptr,
-                                                string * update = nullptr,
-                                                string * remove = nullptr,
-                                                string * replace = nullptr,
+std::string resource_logic_comparative_resource ();
+bool resource_logic_parse_comparative_resource (const std::string & input,
+                                                std::string * title = nullptr,
+                                                std::string * base = nullptr,
+                                                std::string * update = nullptr,
+                                                std::string * remove = nullptr,
+                                                std::string * replace = nullptr,
                                                 bool * diacritics = nullptr,
                                                 bool * casefold = nullptr,
                                                 bool * cache = nullptr);
-string resource_logic_assemble_comparative_resource (string title,
-                                                     string base = string(),
-                                                     string update = string(),
-                                                     string remove = string(),
-                                                     string replace = string(),
-                                                     bool diacritics = false,
-                                                     bool casefold = false,
-                                                     bool cache = false);
-string resource_logic_comparative_resources_list_path ();
-vector <string> resource_logic_comparative_resources_get_list_on_client ();
+std::string resource_logic_assemble_comparative_resource (std::string title,
+                                                          std::string base = std::string(),
+                                                          std::string update = std::string(),
+                                                          std::string remove = std::string(),
+                                                          std::string replace = std::string(),
+                                                          bool diacritics = false,
+                                                          bool casefold = false,
+                                                          bool cache = false);
+std::string resource_logic_comparative_resources_list_path ();
+std::vector <std::string> resource_logic_comparative_resources_get_list_on_client ();
 
-string resource_logic_translated_resource ();
-bool resource_logic_parse_translated_resource (const string & input,
-                                               string * title = nullptr,
-                                               string * original_resource = nullptr,
-                                               string * source_language = nullptr,
-                                               string * target_language = nullptr,
+std::string resource_logic_translated_resource ();
+bool resource_logic_parse_translated_resource (const std::string & input,
+                                               std::string * title = nullptr,
+                                               std::string * original_resource = nullptr,
+                                               std::string * source_language = nullptr,
+                                               std::string * target_language = nullptr,
                                                bool * cache = nullptr);
-string resource_logic_assemble_translated_resource (string title,
-                                                    string original_resource = string(),
-                                                    string source_language = string(),
-                                                    string target_language = string(),
-                                                    bool cache = false);
-string resource_logic_translated_resources_list_path ();
-vector <string> resource_logic_translated_resources_get_list_on_client ();
+std::string resource_logic_assemble_translated_resource (std::string title,
+                                                         std::string original_resource = std::string(),
+                                                         std::string source_language = std::string(),
+                                                         std::string target_language = std::string(),
+                                                         bool cache = false);
+std::string resource_logic_translated_resources_list_path ();
+std::vector <std::string> resource_logic_translated_resources_get_list_on_client ();
 

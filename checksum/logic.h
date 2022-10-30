@@ -23,12 +23,12 @@
 
 namespace checksum_logic {
 
-string send (const string & data, bool readwrite);
-string get (const string & data);
-string get (const vector <string>& data);
-string get_chapter (void * webserver_request, const string & bible, int book, int chapter);
-string get_book (void * webserver_request, const string & bible, int book);
-string get_bible (void * webserver_request, const string & bible);
-string get_bibles (void * webserver_request, const vector <string> & bibles);
+std::string send (const std::string & data, bool readwrite);
+std::string get (const std::string & data);
+std::string get (const std::vector <std::string>& data);
+std::string get_chapter (void * webserver_request, const std::string & bible, int book, int chapter);
+std::string get_book (void * webserver_request, const std::string & bible, int book);
+std::string get_bible (void * webserver_request, const std::string & bible);
+std::string get_bibles (void * webserver_request, const std::vector <std::string> & bibles);
 
 };

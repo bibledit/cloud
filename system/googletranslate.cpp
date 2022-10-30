@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <menu/logic.h>
 #include <database/logs.h>
+using namespace std;
 
 
 string system_googletranslate_url ()

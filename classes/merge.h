@@ -24,11 +24,11 @@
 struct Merge_Conflict
 {
 public:
-  string base {};
-  string change {};
-  string prioritized_change {};
-  string result {};
-  string subject {};
+  std::string base {};
+  std::string change {};
+  std::string prioritized_change {};
+  std::string result {};
+  std::string subject {};
   // The following shows the passage where the conflict occurred.
   int book {0};
   int chapter {0};

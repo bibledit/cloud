@@ -26,13 +26,13 @@ class OnlineBible_Text
 public:
   OnlineBible_Text ();
   void newVerse (int bookIdentifier, int chapterNumber, int verseNumber);
-  void addText (string text);
+  void addText (std::string text);
   void addNote ();
   void closeCurrentNote ();
-  void save (string name);
+  void save (std::string name);
   void storeData ();
 private:
-  string currentLine {};
+  std::string currentLine {};
   bool lineLoaded {false};
-  vector <string> output {};
+  std::vector <std::string> output {};
 };

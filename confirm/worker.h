@@ -27,15 +27,15 @@ class Confirm_Worker
 {
 public:
   Confirm_Worker (void * webserver_request_in);
-  void setup (string mailto, string username,
-              string initial_subject, string initial_body,
-              string query,
-              string subsequent_subject, string subsequent_body);
-  bool handleEmail (string from, string subject, string body);
-  bool handleLink (string & email);
+  void setup (std::string mailto, std::string username,
+              std::string initial_subject, std::string initial_body,
+              std::string query,
+              std::string subsequent_subject, std::string subsequent_body);
+  bool handleEmail (std::string from, std::string subject, std::string body);
+  bool handleLink (std::string & email);
 private:
   void * webserver_request {nullptr};
-  void informManagers (string email, string body);
+  void informManagers (std::string email, std::string body);
 };
 
 #endif

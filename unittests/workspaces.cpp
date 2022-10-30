@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <workspace/logic.h>
+using namespace std;
 
 
 void test_workspaces_setup (Webserver_Request & request)

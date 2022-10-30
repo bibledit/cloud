@@ -21,24 +21,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string locale_logic_month (int month);
-string locale_logic_date (int seconds);
-string locale_logic_date_time (int seconds);
-map <string, string> locale_logic_localizations ();
-unordered_map <string, string> locale_logic_read_msgid_msgstr (string file);
+std::string locale_logic_month (int month);
+std::string locale_logic_date (int seconds);
+std::string locale_logic_date_time (int seconds);
+std::map <std::string, std::string> locale_logic_localizations ();
+std::unordered_map <std::string, std::string> locale_logic_read_msgid_msgstr (std::string file);
 
-string locale_logic_text_loaded ();
-string locale_logic_text_will_save ();
-string locale_logic_text_updating ();
-string locale_logic_text_updated ();
-string locale_logic_text_saving ();
-string locale_logic_text_saved ();
-string locale_logic_text_retrying ();
-string locale_logic_text_reformat ();
-string locale_logic_text_no_privileges_modify_book ();
-string locale_logic_text_reload ();
+std::string locale_logic_text_loaded ();
+std::string locale_logic_text_will_save ();
+std::string locale_logic_text_updating ();
+std::string locale_logic_text_updated ();
+std::string locale_logic_text_saving ();
+std::string locale_logic_text_saved ();
+std::string locale_logic_text_retrying ();
+std::string locale_logic_text_reformat ();
+std::string locale_logic_text_no_privileges_modify_book ();
+std::string locale_logic_text_reload ();
 
-string locale_logic_space_get_name (string space, bool english);
+std::string locale_logic_space_get_name (std::string space, bool english);
 
-string locale_logic_deobfuscate (string value);
+std::string locale_logic_deobfuscate (std::string value);
 void locale_logic_obfuscate_initialize ();

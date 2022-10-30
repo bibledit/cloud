@@ -23,19 +23,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace database::books {
 
-vector <int> get_ids ();
-int get_id_from_english (const string & english);
-string get_english_from_id (int id);
-string get_usfm_from_id (int id);
-string get_bibleworks_from_id (int id);
-string get_osis_from_id (int id);
-int get_id_from_usfm (const string & usfm);
-int get_id_from_osis (const string & osis);
-int get_id_from_bibleworks (const string & bibleworks);
-int get_id_like_text (const string & text);
-int get_id_from_onlinebible (const string & onlinebible);
-string get_onlinebible_from_id (int id);
+std::vector <int> get_ids ();
+int get_id_from_english (const std::string & english);
+std::string get_english_from_id (int id);
+std::string get_usfm_from_id (int id);
+std::string get_bibleworks_from_id (int id);
+std::string get_osis_from_id (int id);
+int get_id_from_usfm (const std::string & usfm);
+int get_id_from_osis (const std::string & osis);
+int get_id_from_bibleworks (const std::string & bibleworks);
+int get_id_like_text (const std::string & text);
+int get_id_from_onlinebible (const std::string & onlinebible);
+std::string get_onlinebible_from_id (int id);
 int get_order_from_id (int id);
-string get_type (int id);
+std::string get_type (int id);
 
 };

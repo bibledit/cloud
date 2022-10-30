@@ -21,61 +21,61 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string menu_logic_href (string href);
-string menu_logic_click (string item);
+std::string menu_logic_href (std::string href);
+std::string menu_logic_click (std::string item);
 
-string menu_logic_create_item (string href, string text, bool history, string title, string colour);
+std::string menu_logic_create_item (std::string href, std::string text, bool history, std::string title, std::string colour);
 
-string menu_logic_translate_menu ();
-string menu_logic_search_menu ();
-string menu_logic_tools_menu ();
-string menu_logic_settings_menu ();
-string menu_logic_settings_resources_menu ();
+std::string menu_logic_translate_menu ();
+std::string menu_logic_search_menu ();
+std::string menu_logic_tools_menu ();
+std::string menu_logic_settings_menu ();
+std::string menu_logic_settings_resources_menu ();
 
-string menu_logic_main_categories (void * webserver_request, string & tooltip);
-string menu_logic_basic_categories (void * webserver_request);
+std::string menu_logic_main_categories (void * webserver_request, std::string & tooltip);
+std::string menu_logic_basic_categories (void * webserver_request);
 
-string menu_logic_workspace_category (void * webserver_request, string * tooltip = nullptr);
-string menu_logic_translate_category (void * webserver_request, string * tooltip = nullptr);
-string menu_logic_search_category (void * webserver_request, string * tooltip = nullptr);
-string menu_logic_tools_category (void * webserver_request, string * tooltip = nullptr);
-string menu_logic_settings_category (void * webserver_request, string * tooltip = nullptr);
-string menu_logic_settings_resources_category (void * webserver_request);
-string menu_logic_help_category (void * webserver_request);
+std::string menu_logic_workspace_category (void * webserver_request, std::string * tooltip = nullptr);
+std::string menu_logic_translate_category (void * webserver_request, std::string * tooltip = nullptr);
+std::string menu_logic_search_category (void * webserver_request, std::string * tooltip = nullptr);
+std::string menu_logic_tools_category (void * webserver_request, std::string * tooltip = nullptr);
+std::string menu_logic_settings_category (void * webserver_request, std::string * tooltip = nullptr);
+std::string menu_logic_settings_resources_category (void * webserver_request);
+std::string menu_logic_help_category (void * webserver_request);
 
 bool menu_logic_public_or_guest (void * webserver_request);
 
-string menu_logic_menu_text (string menu_item);
-string menu_logic_menu_url (string menu_item);
+std::string menu_logic_menu_text (std::string menu_item);
+std::string menu_logic_menu_url (std::string menu_item);
 
-string menu_logic_translate_text ();
-string menu_logic_search_text ();
-string menu_logic_tools_text ();
-string menu_logic_settings_text ();
-string menu_logic_help_text ();
-string menu_logic_public_feedback_text ();
-string menu_logic_logout_text ();
-string menu_logic_consultation_notes_text ();
-string menu_logic_bible_manage_text ();
-string menu_logic_workspace_organize_text ();
-string menu_logic_checks_settings_text ();
-string menu_logic_resources_text ();
-string menu_logic_resource_images_text ();
-string menu_logic_manage_users_text ();
-string menu_logic_versification_index_text ();
-string menu_logic_mapping_index_text ();
-string menu_logic_styles_indext_text ();
-string menu_logic_styles_indexm_text ();
-string menu_logic_changes_text ();
-string menu_logic_styles_text ();
-string menu_logic_menu_text ();
-string menu_logic_images_index_text ();
+std::string menu_logic_translate_text ();
+std::string menu_logic_search_text ();
+std::string menu_logic_tools_text ();
+std::string menu_logic_settings_text ();
+std::string menu_logic_help_text ();
+std::string menu_logic_public_feedback_text ();
+std::string menu_logic_logout_text ();
+std::string menu_logic_consultation_notes_text ();
+std::string menu_logic_bible_manage_text ();
+std::string menu_logic_workspace_organize_text ();
+std::string menu_logic_checks_settings_text ();
+std::string menu_logic_resources_text ();
+std::string menu_logic_resource_images_text ();
+std::string menu_logic_manage_users_text ();
+std::string menu_logic_versification_index_text ();
+std::string menu_logic_mapping_index_text ();
+std::string menu_logic_styles_indext_text ();
+std::string menu_logic_styles_indexm_text ();
+std::string menu_logic_changes_text ();
+std::string menu_logic_styles_text ();
+std::string menu_logic_menu_text ();
+std::string menu_logic_images_index_text ();
 
-string menu_logic_editor_settings_text (bool visual, int selection);
+std::string menu_logic_editor_settings_text (bool visual, int selection);
 bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter);
-string menu_logic_editor_menu_text (bool visual, bool chapter);
+std::string menu_logic_editor_menu_text (bool visual, bool chapter);
 
 bool menu_logic_can_do_tabbed_mode ();
 void menu_logic_tabbed_mode_save_json (void * webserver_request);
 
-string menu_logic_verse_separator (string separator);
+std::string menu_logic_verse_separator (std::string separator);

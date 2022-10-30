@@ -22,21 +22,21 @@
 #include <config/libraries.h>
 #include <filter/passage.h>
 
-string search_logic_index_folder ();
-string search_logic_bible_fragment (string bible);
-string search_logic_book_fragment (string bible, int book);
-string search_logic_chapter_file (string bible, int book, int chapter);
-void search_logic_index_chapter (string bible, int book, int chapter);
-vector <Passage> search_logic_search_text (string search, vector <string> bibles);
-vector <Passage> search_logic_search_bible_text (string bible, string search);
-vector <Passage> search_logic_search_bible_text_case_sensitive (string bible, string search);
-vector <Passage> search_logic_search_bible_usfm (string bible, string search);
-vector <Passage> search_logic_search_bible_usfm_case_sensitive (string bible, string search);
-string search_logic_get_bible_verse_text (string bible, int book, int chapter, int verse);
-string search_logic_get_bible_verse_usfm (string bible, int book, int chapter, int verse);
-void search_logic_delete_bible (string bible);
-void search_logic_delete_book (string bible, int book);
-void search_logic_delete_chapter (string bible, int book, int chapter);
-int search_logic_get_verse_count (string bible);
-void search_logic_copy_bible (string original, string destination);
-string search_logic_plain_replace_verse_text (string usfm);
+std::string search_logic_index_folder ();
+std::string search_logic_bible_fragment (std::string bible);
+std::string search_logic_book_fragment (std::string bible, int book);
+std::string search_logic_chapter_file (std::string bible, int book, int chapter);
+void search_logic_index_chapter (std::string bible, int book, int chapter);
+std::vector <Passage> search_logic_search_text (std::string search, std::vector <std::string> bibles);
+std::vector <Passage> search_logic_search_bible_text (std::string bible, std::string search);
+std::vector <Passage> search_logic_search_bible_text_case_sensitive (std::string bible, std::string search);
+std::vector <Passage> search_logic_search_bible_usfm (std::string bible, std::string search);
+std::vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string bible, std::string search);
+std::string search_logic_get_bible_verse_text (std::string bible, int book, int chapter, int verse);
+std::string search_logic_get_bible_verse_usfm (std::string bible, int book, int chapter, int verse);
+void search_logic_delete_bible (std::string bible);
+void search_logic_delete_book (std::string bible, int book);
+void search_logic_delete_chapter (std::string bible, int book, int chapter);
+int search_logic_get_verse_count (std::string bible);
+void search_logic_copy_bible (std::string original, std::string destination);
+std::string search_logic_plain_replace_verse_text (std::string usfm);

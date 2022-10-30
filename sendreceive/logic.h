@@ -23,7 +23,7 @@
 #include <filter/string.hpp>
 #include <tasks/enums.h>
 
-void sendreceive_queue_bible (string bible);
+void sendreceive_queue_bible (std::string bible);
 
 void sendreceive_queue_sync (int minute, int second);
 void sendreceive_queue_paratext (tasks::enums::paratext_sync method);
@@ -35,4 +35,4 @@ void sendreceive_queue_startup ();
 
 bool sendreceive_logic_prioritized_task_is_active ();
 
-bool sendreceive_git_repository_linked (string bible);
+bool sendreceive_git_repository_linked (std::string bible);

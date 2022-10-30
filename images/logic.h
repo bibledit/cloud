@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void images_logic_import_images (string path);
+void images_logic_import_images (std::string path);

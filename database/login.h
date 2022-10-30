@@ -29,12 +29,12 @@ public:
   static void trim ();
   static void optimize ();
   static bool healthy ();
-  static void setTokens (string username, string address, string agent, string fingerprint, string cookie, bool touch);
-  static void removeTokens (string username);
-  static void removeTokens (string username, string cookie);
-  static void renameTokens (string username_existing, string username_new, string cookie);
-  static string getUsername (string cookie, bool & daily);
-  static bool getTouchEnabled (string cookie);
+  static void setTokens (std::string username, std::string address, std::string agent, std::string fingerprint, std::string cookie, bool touch);
+  static void removeTokens (std::string username);
+  static void removeTokens (std::string username, std::string cookie);
+  static void renameTokens (std::string username_existing, std::string username_new, std::string cookie);
+  static std::string getUsername (std::string cookie, bool & daily);
+  static bool getTouchEnabled (std::string cookie);
   static void testTimestamp ();
 private:
   static int timestamp ();

@@ -24,11 +24,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_NoteAssignment
 {
 public:
-  bool exists (string user);
-  void assignees (string user, vector <string> assignees);
-  vector <string> assignees (string user);
-  bool exists (string user, string assignee);
-  void remove (string user);
+  bool exists (std::string user);
+  void assignees (std::string user, std::vector <std::string> assignees);
+  std::vector <std::string> assignees (std::string user);
+  bool exists (std::string user, std::string assignee);
+  void remove (std::string user);
 private:
-  string path (string user);
+  std::string path (std::string user);
 };

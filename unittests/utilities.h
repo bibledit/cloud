@@ -21,23 +21,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-extern string testing_directory;
+extern std::string testing_directory;
 extern int error_count;
-void refresh_sandbox (bool displayjournal, vector <string> allowed = {});
-void error_message (int line, string funct, string desired, string actual);
-bool evaluate (int line, string func, string desired, string actual);
-void evaluate (int line, string func, int desired, int actual);
-void evaluate (int line, string func, int desired, size_t actual);
-void evaluate (int line, string func, unsigned int desired, unsigned int actual);
-void evaluate (int line, string func, bool desired, bool actual);
-void evaluate (int line, string func, float desired, float actual);
-void evaluate (int line, string func, vector <string> desired, vector <string> actual);
-void evaluate (int line, string func, vector <int> desired, vector <int> actual);
-void evaluate (int line, string func, vector <bool> desired, vector <bool> actual);
-void evaluate (int line, string func, map <int, string> desired, map <int, string> actual);
-void evaluate (int line, string func, map <string, int> desired, map <string, int> actual);
-void evaluate (int line, string func, map <int, int> desired, map <int, int> actual);
-void evaluate (int line, string func, map <string, string> desired, map <string, string> actual);
-void evaluate (int line, string func, vector <pair<int, string>> desired, vector <pair<int, string>> actual);
-void trace_unit_tests (string func);
-int odf2txt (string odf, string txt);
+void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed = {});
+void error_message (int line, std::string funct, std::string desired, std::string actual);
+bool evaluate (int line, std::string func, std::string desired, std::string actual);
+void evaluate (int line, std::string func, int desired, int actual);
+void evaluate (int line, std::string func, int desired, size_t actual);
+void evaluate (int line, std::string func, unsigned int desired, unsigned int actual);
+void evaluate (int line, std::string func, bool desired, bool actual);
+void evaluate (int line, std::string func, float desired, float actual);
+void evaluate (int line, std::string func, std::vector <std::string> desired, std::vector <std::string> actual);
+void evaluate (int line, std::string func, std::vector <int> desired, std::vector <int> actual);
+void evaluate (int line, std::string func, std::vector <bool> desired, std::vector <bool> actual);
+void evaluate (int line, std::string func, std::map <int, std::string> desired, std::map <int, std::string> actual);
+void evaluate (int line, std::string func, std::map <std::string, int> desired, std::map <std::string, int> actual);
+void evaluate (int line, std::string func, std::map <int, int> desired, std::map <int, int> actual);
+void evaluate (int line, std::string func, std::map <std::string, std::string> desired, std::map <std::string, std::string> actual);
+void evaluate (int line, std::string func, std::vector <std::pair<int, std::string>> desired, std::vector <std::pair<int, std::string>> actual);
+void trace_unit_tests (std::string func);
+int odf2txt (std::string odf, std::string txt);

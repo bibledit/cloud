@@ -24,14 +24,14 @@
 class Dialog_Upload
 {
 public:
-  Dialog_Upload (string url, string question);
+  Dialog_Upload (std::string url, std::string question);
   ~Dialog_Upload ();
   Dialog_Upload(const Dialog_Upload&) = delete;
   Dialog_Upload operator=(const Dialog_Upload&) = delete;
-  void add_upload_query (string parameter, string value);
-  string run ();
+  void add_upload_query (std::string parameter, std::string value);
+  std::string run ();
 private:
   void * assets_view = {nullptr};
-  string base_url {};
-  map <string, string> upload_query {};
+  std::string base_url {};
+  std::map <std::string, std::string> upload_query {};
 };

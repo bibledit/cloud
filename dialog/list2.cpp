@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 // Generate the option tags based on the inserted key and its value.
-string Options_To_Select::add_selection (string text, string value, string html)
+std::string Options_To_Select::add_selection (std::string text, std::string value, std::string html)
 {
     if (value == "") {
         html.append ("<option value=''>" + text + "</option>");
@@ -34,13 +34,13 @@ string Options_To_Select::add_selection (string text, string value, string html)
 
 
 // Mark the current selected option's option tag.
-string Options_To_Select::mark_selected (string value, string html)
+std::string Options_To_Select::mark_selected (std::string value, std::string html)
 {
-    string new_value = "value='" + value + "'";
+    std::string new_value = "value='" + value + "'";
     size_t new_pos = html.find (new_value) + new_value.length ();
-    string mark = " selected";
+    std::string mark = " selected";
 
-    if (html.find (mark) != string::npos) {
+    if (html.find (mark) != std::string::npos) {
         html.erase (html.find (mark), mark.length ());
     }
 

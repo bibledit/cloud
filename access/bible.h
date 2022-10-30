@@ -23,11 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace access_bible {
 
-bool read (void * webserver_request, const string & bible, string user = string());
-bool write (void * webserver_request, const string & bible, string user = string());
-bool book_write (void * webserver_request, string user, const string & bible, int book);
-vector <string> bibles (void * webserver_request, string user = string());
-string clamp (void * webserver_request, string bible);
-tuple<bool, bool> any (void * webserver_request);
+bool read (void * webserver_request, const std::string & bible, std::string user = std::string());
+bool write (void * webserver_request, const std::string & bible, std::string user = std::string());
+bool book_write (void * webserver_request, std::string user, const std::string & bible, int book);
+std::vector <std::string> bibles (void * webserver_request, std::string user = std::string());
+std::string clamp (void * webserver_request, std::string bible);
+std::tuple <bool, bool> any (void * webserver_request);
 
 }

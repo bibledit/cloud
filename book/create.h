@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-bool book_create (const string & bible, const int book, const int chapter, vector <string> & feedback);
+bool book_create (const std::string & bible, const int book, const int chapter, std::vector <std::string> & feedback);

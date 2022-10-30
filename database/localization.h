@@ -24,12 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Localization
 {
 public:
-  Database_Localization (const string& language_in);
-  void create (string po);
-  string translate (const string& english);
-  string backtranslate (const string& localization);
+  Database_Localization (const std::string& language_in);
+  void create (std::string po);
+  std::string translate (const std::string& english);
+  std::string backtranslate (const std::string& localization);
 private:
-  string language {};
+  std::string language {};
   sqlite3 * connect ();
 };
 

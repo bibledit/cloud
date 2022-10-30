@@ -23,10 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #ifdef HAVE_CLOUD
 void rss_logic_feed_on_off ();
-void rss_logic_schedule_update (string user, string bible, int book, int chapter,
-                                string oldusfm, string newusfm);
-void rss_logic_execute_update (string user, string bible, int book, int chapter,
-                               string oldusfm, string newusfm);
-string rss_logic_xml_path ();
-void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions);
+void rss_logic_schedule_update (std::string user, std::string bible, int book, int chapter,
+                                std::string oldusfm, std::string newusfm);
+void rss_logic_execute_update (std::string user, std::string bible, int book, int chapter,
+                               std::string oldusfm, std::string newusfm);
+std::string rss_logic_xml_path ();
+void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::string> authors, std::vector <std::string> descriptions);
 #endif

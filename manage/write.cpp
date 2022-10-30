@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <manage/users.h>
 #include <database/privileges.h>
+using namespace std;
 
 
 string manage_write_url ()

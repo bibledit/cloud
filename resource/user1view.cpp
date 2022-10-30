@@ -33,6 +33,7 @@
 #include <access/logic.h>
 #include <database/userresources.h>
 #include <database/books.h>
+using namespace std;
 
 
 string resource_user1view_url ()

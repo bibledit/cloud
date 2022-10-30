@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/logs.h>
 #include <flate/flate.h>
+using namespace std;
 
 
 Assets_View::Assets_View ()

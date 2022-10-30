@@ -28,7 +28,7 @@ class Styles_Sheets
 {
 public:
   void recreate ();
-  void create (string stylesheet, string path, bool editor, string export_bible);
-  string get_location (string sheet, bool editor);
+  void create (std::string stylesheet, std::string path, bool editor, std::string export_bible);
+  std::string get_location (std::string sheet, bool editor);
 private:
 };

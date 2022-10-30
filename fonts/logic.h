@@ -24,12 +24,12 @@
 class Fonts_Logic
 {
 public:
-  static vector <string> getFonts ();
-  static bool font_exists (string font);
-  static string get_font_path (string font);
-  static void erase (string font);
-  static string get_text_font (string bible);
-  static bool is_font (string suffix);
+  static std::vector <std::string> getFonts ();
+  static bool font_exists (std::string font);
+  static std::string get_font_path (std::string font);
+  static void erase (std::string font);
+  static std::string get_text_font (std::string bible);
+  static bool is_font (std::string suffix);
 private:
-  static string folder ();
+  static std::string folder ();
 };

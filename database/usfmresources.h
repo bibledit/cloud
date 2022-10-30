@@ -24,18 +24,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_UsfmResources
 {
 public:
-  vector <string> getResources ();
-  void deleteResource (const string& name);
-  void deleteBook (const string& name, int book);
-  void deleteChapter (const string& name, int book, int chapter);
-  void storeChapter (const string& name, int book, int chapter, const string& usfm);
-  vector <int> getBooks (const string& name);
-  vector <int> getChapters (const string& name, int book);
-  string getUsfm (const string& name, int book, int chapter);
-  int getSize (const string& name, int book, int chapter);
+  std::vector <std::string> getResources ();
+  void deleteResource (const std::string& name);
+  void deleteBook (const std::string& name, int book);
+  void deleteChapter (const std::string& name, int book, int chapter);
+  void storeChapter (const std::string& name, int book, int chapter, const std::string& usfm);
+  std::vector <int> getBooks (const std::string& name);
+  std::vector <int> getChapters (const std::string& name, int book);
+  std::string getUsfm (const std::string& name, int book, int chapter);
+  int getSize (const std::string& name, int book, int chapter);
 private:
-  string mainFolder ();
-  string resourceFolder (const string& name);
-  string bookFolder (const string& name, int book);
-  string chapterFile (const string& name, int book, int chapter);
+  std::string mainFolder ();
+  std::string resourceFolder (const std::string& name);
+  std::string bookFolder (const std::string& name, int book);
+  std::string chapterFile (const std::string& name, int book, int chapter);
 };

@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Assets_Header
 {
 public:
-  Assets_Header (string title, void * webserver_request_in);
+  Assets_Header (std::string title, void * webserver_request_in);
   ~Assets_Header ();
   Assets_Header(const Assets_Header&) = delete;
   Assets_Header operator=(const Assets_Header&) = delete;
@@ -36,21 +36,21 @@ public:
   void set_stylesheet ();
   void set_editor_stylesheet ();
   bool display_topbar ();
-  void refresh (int seconds, string url = "");
-  void set_fading_menu (string html);
-  void add_bread_crumb (string item, string text);
-  string run ();
+  void refresh (int seconds, std::string url = "");
+  void set_fading_menu (std::string html);
+  void add_bread_crumb (std::string item, std::string text);
+  std::string run ();
 private:
   Assets_View * m_view {nullptr};
   bool m_jquery_touch_on {false};
   bool m_touch_css_on {false};
   bool m_notify_it_on {false};
-  vector <string> m_head_lines {};
+  std::vector <std::string> m_head_lines {};
   bool m_display_navigator {false};
-  string m_included_stylesheet {};
-  string m_included_editor_stylesheet {};
+  std::string m_included_stylesheet {};
+  std::string m_included_editor_stylesheet {};
   void * m_webserver_request {nullptr};
-  string m_fading_menu {};
-  vector <pair <string, string> > m_bread_crumbs {};
+  std::string m_fading_menu {};
+  std::vector <std::pair <std::string, std::string> > m_bread_crumbs {};
 };
 

@@ -23,10 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace assets_page {
 
-string header (const string & title, void * webserver_request);
-string success (const string & message);
-string error (const string & message);
-string message (const string & message);
-string footer ();
+std::string header (const std::string & title, void * webserver_request);
+std::string success (const std::string & message);
+std::string error (const std::string & message);
+std::string message (const std::string & message);
+std::string footer ();
 
 }

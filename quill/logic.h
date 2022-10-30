@@ -21,5 +21,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string quill_logic_class_prefix_block ();
-string quill_logic_class_prefix_inline ();
+std::string quill_logic_class_prefix_block ();
+std::string quill_logic_class_prefix_inline ();

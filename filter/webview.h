@@ -21,4 +21,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-void filter_webview_log_user_agent (string user_agent);
+void filter_webview_log_user_agent (std::string user_agent);

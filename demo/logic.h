@@ -21,22 +21,22 @@
 
 #include <config/libraries.h>
 
-bool demo_acl (string user, string pass);
+bool demo_acl (std::string user, std::string pass);
 
 // Returns the address of the current demo server.
-constexpr string_view demo_address () {return "http://bibledit.org";};
-constexpr string_view demo_address_secure () {return "https://bibledit.org";};
+constexpr std::string_view demo_address () {return "http://bibledit.org";};
+constexpr std::string_view demo_address_secure () {return "https://bibledit.org";};
 
 // The port number of the current demo server.
 constexpr int demo_port () {return 8090;};
 constexpr int demo_port_secure () {return 8091;};
 
-string demo_client_warning ();
+std::string demo_client_warning ();
 void demo_clean_data ();
-string demo_sample_bible_name ();
+std::string demo_sample_bible_name ();
 void demo_create_sample_bible ();
 void demo_prepare_sample_bible ();
 void demo_create_sample_notes (void * webserver_request);
-string demo_workspace ();
+std::string demo_workspace ();
 void demo_create_sample_workspaces (void * webserver_request);
-vector <string> demo_logic_default_resources ();
+std::vector <std::string> demo_logic_default_resources ();

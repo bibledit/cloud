@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 namespace filter::text {

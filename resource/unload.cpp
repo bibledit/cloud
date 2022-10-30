@@ -23,6 +23,7 @@
 #include <webserver/request.h>
 #include <access/logic.h>
 #include <config/globals.h>
+using namespace std;
 
 
 string resource_unload_url ()

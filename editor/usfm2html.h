@@ -34,21 +34,21 @@ using namespace pugi;
 class Editor_Usfm2Html
 {
 public:
-  void load (string usfm);
-  void stylesheet (string stylesheet);
+  void load (std::string usfm);
+  void stylesheet (std::string stylesheet);
   void run ();
-  string get ();
+  std::string get ();
   size_t textLength {0};
-  map <int, int> verseStartOffsets {};
-  string currentParagraphStyle {};
-  string currentParagraphContent {};
+  std::map <int, int> verseStartOffsets {};
+  std::string currentParagraphStyle {};
+  std::string currentParagraphContent {};
   void set_preview ();
 private:
-  vector <string> markers_and_text {}; // Strings alternating between USFM and text.
+  std::vector <std::string> markers_and_text {}; // Strings alternating between USFM and text.
   unsigned int markers_and_text_pointer {0};
   
   // All the style information.
-  map <string, Database_Styles_Item> styles {};
+  std::map <std::string, Database_Styles_Item> styles {};
   
   // XML nodes.
   xml_document document {};
@@ -56,17 +56,17 @@ private:
   xml_node notes_node {};
   
   // Standard content markers for notes.
-  string standardContentMarkerFootEndNote {};
-  string standardContentMarkerCrossReference {};
+  std::string standardContentMarkerFootEndNote {};
+  std::string standardContentMarkerCrossReference {};
 
   xml_node current_p_node {}; // The current p node.
   bool current_p_open {false};
-  vector <string> currentTextStyles {};
+  std::vector <std::string> currentTextStyles {};
   
   int noteCount {0};
   xml_node notePnode {}; // The p DOM element of the current footnote, if any.
   bool note_p_open {false};
-  vector <string> currentNoteTextStyles {};
+  std::vector <std::string> currentNoteTextStyles {};
   
   // The note citations.
   filter::note::citations note_citations {};
@@ -83,16 +83,16 @@ private:
   void preprocess ();
   void process ();
   void postprocess ();
-  void outputAsIs (string marker, bool isOpeningMarker);
-  void newParagraph (string style = "");
+  void outputAsIs (std::string marker, bool isOpeningMarker);
+  void newParagraph (std::string style = "");
   void closeParagraph ();
   void openTextStyle (Database_Styles_Item & style, bool embed);
   void closeTextStyle (bool embed);
-  void addText (string text);
-  void add_note (string citation, string style, bool endnote = false);
-  void addNoteText (string text);
+  void addText (std::string text);
+  void add_note (std::string citation, std::string style, bool endnote = false);
+  void addNoteText (std::string text);
   void closeCurrentNote ();
-  void addNotelLink (xml_node domNode, int identifier, string style, string text);
+  void addNotelLink (xml_node domNode, int identifier, std::string style, std::string text);
   
   bool roadIsClear ();
 };

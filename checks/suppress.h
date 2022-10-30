@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string checks_suppress_url ();
+std::string checks_suppress_url ();
 bool checks_suppress_acl (void * webserver_request);
-string checks_suppress (void * webserver_request);
+std::string checks_suppress (void * webserver_request);

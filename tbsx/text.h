@@ -24,22 +24,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Tbsx_Text
 {
 public:
-  void set_book_id (string id);
-  void set_book_name (string name);
+  void set_book_id (std::string id);
+  void set_book_name (std::string name);
   void set_chapter (int chapter);
-  void set_header (string header);
+  void set_header (std::string header);
   void open_paragraph ();
   void open_verse (int verse);
-  void add_text (string text, bool supplied = false);
+  void add_text (std::string text, bool supplied = false);
   void open_note ();
   void close_note ();
   void line_break ();
   void flush ();
-  string line ();
-  string get_document ();
-  void save_document (string filename);
+  std::string line ();
+  std::string get_document ();
+  void save_document (std::string filename);
 private:
-  string buffer {};
+  std::string buffer {};
   bool in_note {false};
-  vector <string> output {};
+  std::vector <std::string> output {};
 };

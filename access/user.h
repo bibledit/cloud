@@ -23,6 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace access_user {
 
-vector <string> assignees (void * webserver_request);
+std::vector <std::string> assignees (void * webserver_request);
 
 }

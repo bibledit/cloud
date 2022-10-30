@@ -24,19 +24,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Esword_Text
 {
 public:
-  Esword_Text (string bible);
+  Esword_Text (std::string bible);
   void flushCache ();
   void newBook (int book);
   void newChapter (int chapter);
   void newVerse (int verse);
-  void addText (string text);
+  void addText (std::string text);
   void finalize ();
-  void createModule (string filename);
-  vector <string> get_sql ();
+  void createModule (std::string filename);
+  std::vector <std::string> get_sql ();
 private:
   int currentBook {0};
   int currentChapter {0};
   int currentVerse {0};
-  string currentText {};
-  vector <string> sql {}; // Contains the generated SQL.
+  std::string currentText {};
+  std::vector <std::string> sql {}; // Contains the generated SQL.
 };

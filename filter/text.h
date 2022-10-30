@@ -36,12 +36,12 @@ namespace filter::text {
 class passage_marker_value
 {
 public:
-  passage_marker_value (int book, int chapter, string verse, string marker, string value);
+  passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value);
   int m_book {0};
   int m_chapter {0};
-  string m_verse {};
-  string m_marker {};
-  string m_value {};
+  std::string m_verse {};
+  std::string m_marker {};
+  std::string m_value {};
 };
 
 }
@@ -50,39 +50,39 @@ public:
 class Filter_Text
 {
 public:
-  Filter_Text (string bible);
+  Filter_Text (std::string bible);
   ~Filter_Text ();
   Filter_Text(const Filter_Text&) = delete;
   Filter_Text operator=(const Filter_Text&) = delete;
   
 private:
-  string m_bible {};
+  std::string m_bible {};
 
 public:
-  void add_usfm_code (string usfm);
+  void add_usfm_code (std::string usfm);
 private:
   // Container holding USFM, alternating between markup and text.
-  vector <string> m_usfm_markers_and_text {};
+  std::vector <std::string> m_usfm_markers_and_text {};
   unsigned int usfm_markers_and_text_ptr {0};
   bool unprocessed_usfm_code_available ();
   void get_usfm_next_chapter ();
   
 public:
-  void run (string stylesheet);
+  void run (std::string stylesheet);
 private:
   // Container holding a chapter of USFM code, alternating between USFM and text.
-  vector <string> chapter_usfm_markers_and_text {};
+  std::vector <std::string> chapter_usfm_markers_and_text {};
   unsigned int chapter_usfm_markers_and_text_pointer {0};
 
 public:
-  void get_styles (string stylesheet);
+  void get_styles (std::string stylesheet);
 private:
   // A map of marker -> object with style information.
-  map <string, Database_Styles_Item> styles {};
+  std::map <std::string, Database_Styles_Item> styles {};
   // Usually this is: c
-  string chapterMarker {};
+  std::string chapterMarker {};
   // Array holding styles created in Odf_Text class.
-  vector <string> createdStyles {};
+  std::vector <std::string> createdStyles {};
 
 public:
   void pre_process_usfm ();
@@ -92,40 +92,40 @@ private:
   // Chapter number, e.g. 1, 2, 3, etc.
   int m_current_chapter_number {0};
   // Verse number, e.g. "0", "1", "2", and so on.
-  string currentVerseNumber {};
-  string getCurrentPassageText ();
+  std::string currentVerseNumber {};
+  std::string getCurrentPassageText ();
   // Map of (book, chapter number).
-  map <int, int> numberOfChaptersPerBook {};
+  std::map <int, int> numberOfChaptersPerBook {};
   void process_usfm ();
   void processNote ();
   // Opening a new paragraph.
   void create_paragraph_style (const Database_Styles_Item & style, bool keepWithNext);
   void new_paragraph (const Database_Styles_Item & style, bool keepWithNext);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
-  void putChapterNumberInFrame (string chapterText);
-  string getNoteCitation (const Database_Styles_Item & style);
-  void ensureNoteParagraphStyle (string marker, const Database_Styles_Item & style);
+  void putChapterNumberInFrame (std::string chapterText);
+  std::string getNoteCitation (const Database_Styles_Item & style);
+  void ensureNoteParagraphStyle (std::string marker, const Database_Styles_Item & style);
 
 public:
   // Container with objects (book, chapter, verse, marker, header value).
-  vector <filter::text::passage_marker_value> runningHeaders {};
+  std::vector <filter::text::passage_marker_value> runningHeaders {};
   // Container with objects (book, chapter, verse, marker, TOC value).
-  vector <filter::text::passage_marker_value> longTOCs {};
+  std::vector <filter::text::passage_marker_value> longTOCs {};
   // Container with objects (book, chapter, verse, marker, TOC value).
-  vector <filter::text::passage_marker_value> shortTOCs {};
+  std::vector <filter::text::passage_marker_value> shortTOCs {};
   // Container with objects (book, chapter, verse, marker, abbreviation value).
-  vector <filter::text::passage_marker_value> bookAbbreviations {};
+  std::vector <filter::text::passage_marker_value> bookAbbreviations {};
 
 public:
   // Vector with objects (book, chapter, verse, marker, label value).
-  vector <filter::text::passage_marker_value> chapterLabels {};
+  std::vector <filter::text::passage_marker_value> chapterLabels {};
   // Vector with object (book, chapter, verse, marker, marker value).
-  vector <filter::text::passage_marker_value> publishedChapterMarkers {};
+  std::vector <filter::text::passage_marker_value> publishedChapterMarkers {};
   // Vector with object (book, chapter, verse, marker, marker value).
-  vector <filter::text::passage_marker_value> publishedVerseMarkers {};
+  std::vector <filter::text::passage_marker_value> publishedVerseMarkers {};
 private:
-  // String holding the chapter number or text to output at the first verse.
-  string output_chapter_text_at_first_verse {};
+  // std::string holding the chapter number or text to output at the first verse.
+  std::string output_chapter_text_at_first_verse {};
 
 public:
   // Object for creating OpenDocument with text in standard form.
@@ -138,25 +138,25 @@ public:
   odf_text * odf_text_notes {nullptr};
 
 public:
-  void produceInfoDocument (string path);
-  void produceFalloutDocument (string path);
-  vector <string> info {};
-  vector <string> fallout {};
+  void produceInfoDocument (std::string path);
+  void produceFalloutDocument (std::string path);
+  std::vector <std::string> info {};
+  std::vector <std::string> fallout {};
 private:
-  void addToInfo (string text, bool next = false);
-  void addToFallout (string text, bool next = false);
-  void addToWordList (vector <string> & list);
-  vector <string> wordListGlossaryDictionary {};
-  vector <string> hebrewWordList {};
-  vector <string> greekWordList {};
-  vector <string> subjectIndex {};
+  void addToInfo (std::string text, bool next = false);
+  void addToFallout (std::string text, bool next = false);
+  void addToWordList (std::vector <std::string> & list);
+  std::vector <std::string> wordListGlossaryDictionary {};
+  std::vector <std::string> hebrewWordList {};
+  std::vector <std::string> greekWordList {};
+  std::vector <std::string> subjectIndex {};
 
 private:
   // Information for the citations for the notes.
   filter::note::citations note_citations {};
 
-  string standardContentMarkerFootEndNote {};
-  string standardContentMarkerCrossReference {};
+  std::string standardContentMarkerFootEndNote {};
+  std::string standardContentMarkerCrossReference {};
 
 public:
   // Object for creating standard web documents.
@@ -182,48 +182,48 @@ public:
   
 public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
-  map <int, string> getVersesText ();
+  std::map <int, std::string> getVersesText ();
   // Vector with objects to hold verse numbers and the text of the headings.
-  map <int, string> verses_headings {};
+  std::map <int, std::string> verses_headings {};
   // Markers that started the above paragraph start positions.
-  vector <string> paragraph_starting_markers {};
+  std::vector <std::string> paragraph_starting_markers {};
   // Complete paragraphs keyed to verse numbers.
-  vector <map <int, string>> verses_paragraphs {};
+  std::vector <std::map <int, std::string>> verses_paragraphs {};
 private:
   // Flags for headings per verse processor.
   bool headings_text_per_verse_active { false };
   bool heading_started  { false };
   // Holds verse numbers and the plain text in that verse, without anything extra.
-  map <int, string> verses_text {};
+  std::map <int, std::string> verses_text {};
   // Flag for text per verse processor.
   bool text_started {false};
   void store_verses_paragraphs ();
-  map <int, string> actual_verses_paragraph {};
+  std::map <int, std::string> actual_verses_paragraph {};
   
 private:
-  string space_type_after_verse {}; // The type of space to follow a verse number.
-  map <int, bool> book_has_chapter_label {}; // Whether \cl was found in the book.
+  std::string space_type_after_verse {}; // The type of space to follow a verse number.
+  std::map <int, bool> book_has_chapter_label {}; // Whether \cl was found in the book.
   
 public:
   // The notes plain text.
-  vector <pair <string, string> > notes_plain_text {};
+  std::vector <std::pair <std::string, std::string> > notes_plain_text {};
   // Holds the positions of the notes in the plain text, keyed to the verse numbers.
-  map <int, vector <int>> verses_text_note_positions {};
+  std::map <int, std::vector <int>> verses_text_note_positions {};
 private:
   // Flag to keep track of open note.
   bool note_open_now { false };
   // The joined fragments.
-  string notes_plain_text_buffer {};
+  std::string notes_plain_text_buffer {};
   // Handler.
   void notes_plain_text_handler ();
   
 public:
   // The images that have been encountered to use.
-  vector <string> image_sources {};
+  std::vector <std::string> image_sources {};
 private:
   // Flag for whether the processor is now within figure markup.
   bool is_within_figure_markup { false };
-  string figure_marker {};
+  std::string figure_marker {};
   
 public:
 private:

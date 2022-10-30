@@ -23,11 +23,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::google {
 
-tuple <string, string> get_json_key_value_error ();
-tuple <bool, string> activate_service_account ();
-tuple <bool, string> print_store_access_token ();
+std::tuple <std::string, std::string> get_json_key_value_error ();
+std::tuple <bool, std::string> activate_service_account ();
+std::tuple <bool, std::string> print_store_access_token ();
 void refresh_access_token ();
-tuple <bool, string, string> translate (const string text, const char * source, const char * target);
-vector <pair <string, string> > get_languages (const string & target);
+std::tuple <bool, std::string, std::string> translate (const std::string text, const char * source, const char * target);
+std::vector <std::pair <std::string, std::string> > get_languages (const std::string & target);
 
 }

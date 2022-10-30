@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string manage_users_url ();
+std::string manage_users_url ();
 bool manage_users_acl (void * webserver_request);
-string manage_users (void * webserver_request);
+std::string manage_users (void * webserver_request);

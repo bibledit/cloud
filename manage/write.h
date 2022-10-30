@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string manage_write_url ();
+std::string manage_write_url ();
 bool manage_write_acl (void * webserver_request);
-string manage_write (void * webserver_request);
+std::string manage_write (void * webserver_request);

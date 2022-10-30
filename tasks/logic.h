@@ -89,7 +89,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define GETGOOGLEACCESSTOKEN "getgoogleaccesstoken"
 
 
-string tasks_logic_folder ();
-void tasks_logic_queue (string command, vector <string> parameters = { });
-bool tasks_logic_queued (string command, vector <string> parameters = { });
+std::string tasks_logic_folder ();
+void tasks_logic_queue (std::string command, std::vector <std::string> parameters = { });
+bool tasks_logic_queued (std::string command, std::vector <std::string> parameters = { });
 

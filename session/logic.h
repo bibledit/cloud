@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string session_admin_credentials ();
+std::string session_admin_credentials ();
 
 class Session_Logic
 {
@@ -29,25 +29,25 @@ public:
   Session_Logic (void * webserver_request_in);
   Session_Logic(const Session_Logic&) = delete;
   Session_Logic operator=(const Session_Logic&) = delete;
-  void set_username (string name);
-  bool attempt_login (string user_or_email, string password, bool touch_enabled,
+  void set_username (std::string name);
+  bool attempt_login (std::string user_or_email, std::string password, bool touch_enabled,
                      bool skip_checks = false);
   bool loggedIn ();
-  string currentUser ();
+  std::string currentUser ();
   bool touchEnabled ();
   int currentLevel (bool force = false);
-  string remoteAddress ();
+  std::string remoteAddress ();
   void logout ();
-  void switch_user (string new_user);
+  void switch_user (std::string new_user);
 private:
   int level { 0 };                     // The level of the user.
   int check_ip_blocks { 3 };           // How many numbers from IP use in fingerprint?
   bool logged_in { false };            // Whether user is logged in.
-  string username {};                  // The username.
+  std::string username {};                  // The username.
   bool touch_enabled { false };        // Whether user works from a touch-enabled device.
   void * webserver_request {nullptr};  // Pointer to instance of Webserver_Request.
   void open ();
   bool openAccess ();
-  string fingerprint ();
+  std::string fingerprint ();
   bool clientAccess ();
 };

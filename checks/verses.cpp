@@ -26,6 +26,7 @@
 #include <database/config/bible.h>
 #include <styles/logic.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 void checks_verses::missing_punctuation_at_end (const string & bible, int book, int chapter,

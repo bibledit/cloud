@@ -23,8 +23,8 @@
 
 namespace checks_versification {
 
-void books (const string & bible, const vector <int> & books);
-void chapters (const string & bible, int book, const vector <int> & chapters);
-void verses (const string & bible, int book, int chapter, const vector <int> & verses);
+void books (const std::string & bible, const std::vector <int> & books);
+void chapters (const std::string & bible, int book, const std::vector <int> & chapters);
+void verses (const std::string & bible, int book, int chapter, const std::vector <int> & verses);
 
 }

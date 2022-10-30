@@ -24,58 +24,58 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace bible_logic {
 
-void store_chapter (const string& bible, int book, int chapter, const string& usfm);
-void delete_chapter (const string& bible, int book, int chapter);
-void delete_book (const string& bible, int book);
-void delete_bible (const string& bible);
-void import_resource (string bible, string resource);
-void log_change (const string& bible, int book, int chapter, const string& usfm, string user, const string & summary, bool force);
-void log_merge (string user, string bible, int book, int chapter,
-                            string base, string change, string prioritized_change, string result);
+void store_chapter (const std::string& bible, int book, int chapter, const std::string& usfm);
+void delete_chapter (const std::string& bible, int book, int chapter);
+void delete_book (const std::string& bible, int book);
+void delete_bible (const std::string& bible);
+void import_resource (std::string bible, std::string resource);
+void log_change (const std::string& bible, int book, int chapter, const std::string& usfm, std::string user, const std::string & summary, bool force);
+void log_merge (std::string user, std::string bible, int book, int chapter,
+                std::string base, std::string change, std::string prioritized_change, std::string result);
 void kick_unsent_data_timer ();
 void kick_unreceived_data_timer ();
-string unsent_unreceived_data_warning ();
-void merge_irregularity_mail (vector <string> users,
-                                          vector <Merge_Conflict> conflicts);
-void unsafe_save_mail (string subject, const string & explanation,
-                                   const string & user,
-                                   const string & usfm,
-                                   int book, int chapter);
-void client_receive_merge_mail (const string & bible, int book, int chapter,
-                                            const string & user,
-                                            const string & client_old,
-                                            const string & client_new,
-                                            const string & server);
-void client_mail_pending_bible_updates (string user);
-void client_no_write_access_mail (const string & bible, int book, int chapter,
-                                              const string & user,
-                                              const string & oldusfm, const string & newusfm);
-void recent_save_email (const string & bible, int book, int chapter,
-                                    const string & user,
-                                    const string & old_usfm, const string & new_usfm);
-void optional_merge_irregularity_email (const string & bible, int book, int chapter,
-                                                    const string & user,
-                                                    const string & ancestor_usfm,
-                                                    const string & edited_usfm,
-                                                    const string & merged_usfm);
+std::string unsent_unreceived_data_warning ();
+void merge_irregularity_mail (std::vector <std::string> users,
+                              std::vector <Merge_Conflict> conflicts);
+void unsafe_save_mail (std::string subject, const std::string & explanation,
+                       const std::string & user,
+                       const std::string & usfm,
+                       int book, int chapter);
+void client_receive_merge_mail (const std::string & bible, int book, int chapter,
+                                const std::string & user,
+                                const std::string & client_old,
+                                const std::string & client_new,
+                                const std::string & server);
+void client_mail_pending_bible_updates (std::string user);
+void client_no_write_access_mail (const std::string & bible, int book, int chapter,
+                                  const std::string & user,
+                                  const std::string & oldusfm, const std::string & newusfm);
+void recent_save_email (const std::string & bible, int book, int chapter,
+                        const std::string & user,
+                        const std::string & old_usfm, const std::string & new_usfm);
+void optional_merge_irregularity_email (const std::string & bible, int book, int chapter,
+                                        const std::string & user,
+                                        const std::string & ancestor_usfm,
+                                        const std::string & edited_usfm,
+                                        const std::string & merged_usfm);
 const char * insert_operator ();
 const char * delete_operator ();
 const char * format_paragraph_operator ();
 const char * format_character_operator ();
-void condense_editor_updates (const vector <int> & positions_in,
-                                          const vector <int> & sizes_in,
-                                          const vector <bool> & additions_in,
-                                          const vector <string> & content_in,
-                                          vector <int> & positions_out,
-                                          vector <int> & sizes_out,
-                                          vector <string> & operators_out,
-                                          vector <string> & content_out);
-void html_to_editor_updates (const string & editor_html,
-                                         const string & server_html,
-                                         vector <int> & positions,
-                                         vector <int> & sizes,
-                                         vector <string> & operators,
-                                         vector <string> & content);
-void create_empty_bible (const string & name);
+void condense_editor_updates (const std::vector <int> & positions_in,
+                              const std::vector <int> & sizes_in,
+                              const std::vector <bool> & additions_in,
+                              const std::vector <std::string> & content_in,
+                              std::vector <int> & positions_out,
+                              std::vector <int> & sizes_out,
+                              std::vector <std::string> & operators_out,
+                              std::vector <std::string> & content_out);
+void html_to_editor_updates (const std::string & editor_html,
+                             const std::string & server_html,
+                             std::vector <int> & positions,
+                             std::vector <int> & sizes,
+                             std::vector <std::string> & operators,
+                             std::vector <std::string> & content);
+void create_empty_bible (const std::string & name);
 
 }

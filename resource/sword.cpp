@@ -32,6 +32,7 @@
 #include <journal/index.h>
 #include <sword/logic.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string resource_sword_url ()

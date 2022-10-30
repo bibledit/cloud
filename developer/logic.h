@@ -30,11 +30,11 @@ public:
   ~Developer_Logic_Tracer();
   int seconds1 {0};
   int microseconds1 {0};
-  string rfc822 {};
-  string remote_address {};
-  string request_get {};
-  string request_query {};
-  string username {};
+  std::string rfc822 {};
+  std::string remote_address {};
+  std::string request_get {};
+  std::string request_query {};
+  std::string username {};
 };
 
 void developer_logic_import_changes ();

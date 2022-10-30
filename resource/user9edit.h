@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string resource_user9edit_url ();
+std::string resource_user9edit_url ();
 bool resource_user9edit_acl (void * webserver_request);
-string resource_user9edit (void * webserver_request);
+std::string resource_user9edit (void * webserver_request);

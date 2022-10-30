@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <versification/logic.h>
 #include <locale/logic.h>
+using namespace std;
 
 
 // This is a database for the versification systems.

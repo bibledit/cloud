@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/webview.h>
 #include <database/logs.h>
+using namespace std;
 
 
 void filter_webview_log_user_agent (string user_agent)

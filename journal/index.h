@@ -23,4 +23,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 const char * journal_index_url ();
 bool journal_index_acl (void * webserver_request);
-string journal_index (void * webserver_request);
+std::string journal_index (void * webserver_request);

@@ -30,6 +30,7 @@
 #include <menu/logic.h>
 #include <database/userresources.h>
 #include <access/logic.h>
+using namespace std;
 
 
 string resource_user9view_url ()

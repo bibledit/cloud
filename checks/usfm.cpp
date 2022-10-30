@@ -27,6 +27,7 @@
 #include <database/bibleimages.h>
 #include <styles/logic.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 Checks_Usfm::Checks_Usfm (const string & bible)

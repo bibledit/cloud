@@ -25,6 +25,7 @@
 #include <locale/translate.h>
 #include <database/bibleimages.h>
 #include <database/logs.h>
+using namespace std;
 
 
 void images_logic_import_images (string path)

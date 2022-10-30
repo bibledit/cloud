@@ -38,6 +38,7 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <styles/indexm.h>
+using namespace std;
 
 
 string styles_view_url ()

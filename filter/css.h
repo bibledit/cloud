@@ -24,31 +24,31 @@
 class Filter_Css
 {
 public:
-  static string directionUnspecified (int value);
-  static string directionLeftToRight (int value);
-  static string directionRightToLeft (int value);
-  static string ltr ();
-  static string rtl ();
-  static int directionValue (string direction);
-  static string writingModeUnspecified (int value);
-  static string writingModeTopBottomLeftRight (int value);
-  static string writingModeTopBottomRightLeft (int value);
-  static string writingModeBottomTopLeftRight (int value);
-  static string writingModeBottomTopRightLeft (int value);
-  static string tb_lr ();
-  static string tb_rl ();
-  static string bt_lr ();
-  static string bt_rl ();
-  static int writingModeValue (string mode);
-  static string getClass (string bible);
-  static string get_css (string class_, string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
+  static std::string directionUnspecified (int value);
+  static std::string directionLeftToRight (int value);
+  static std::string directionRightToLeft (int value);
+  static std::string ltr ();
+  static std::string rtl ();
+  static int directionValue (std::string direction);
+  static std::string writingModeUnspecified (int value);
+  static std::string writingModeTopBottomLeftRight (int value);
+  static std::string writingModeTopBottomRightLeft (int value);
+  static std::string writingModeBottomTopLeftRight (int value);
+  static std::string writingModeBottomTopRightLeft (int value);
+  static std::string tb_lr ();
+  static std::string tb_rl ();
+  static std::string bt_lr ();
+  static std::string bt_rl ();
+  static int writingModeValue (std::string mode);
+  static std::string getClass (std::string bible);
+  static std::string get_css (std::string class_, std::string font, int directionvalue, int lineheight = 100, int letterspacing = 0);
   static void distinction_set_basic ();
-  static string distinction_set_light (int itemstyleindex);
-  static string distinction_set_dark (int itemstyleindex);
-  static string distinction_set_redblue_light (int itemstyleindex);
-  static string distinction_set_redblue_dark (int itemstyleindex);
-  static string distinction_set_notes (int itemstyleindex);
-  static string theme_picker (int themestyleindex, int itemstyleindex);
+  static std::string distinction_set_light (int itemstyleindex);
+  static std::string distinction_set_dark (int itemstyleindex);
+  static std::string distinction_set_redblue_light (int itemstyleindex);
+  static std::string distinction_set_redblue_dark (int itemstyleindex);
+  static std::string distinction_set_notes (int itemstyleindex);
+  static std::string theme_picker (int themestyleindex, int itemstyleindex);
 };
 
-string filter_css_grey_background ();
+std::string filter_css_grey_background ();

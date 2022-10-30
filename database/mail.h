@@ -25,14 +25,14 @@ struct Database_Mail_User
 {
   int rowid {0};
   int timestamp {0};
-  string subject {};
+  std::string subject {};
 };
 
 struct Database_Mail_Item
 {
-  string username {};
-  string subject {};
-  string body {};
+  std::string username {};
+  std::string subject {};
+  std::string body {};
 };
 
 class Database_Mail
@@ -45,14 +45,14 @@ public:
   void create ();
   void optimize ();
   void trim ();
-  void send (string to, string subject, string body, int time = 0);
+  void send (std::string to, std::string subject, std::string body, int time = 0);
   int getMailCount ();
-  vector <Database_Mail_User> getMails ();
+  std::vector <Database_Mail_User> getMails ();
   void erase (int id);
   Database_Mail_Item get (int id);
-  vector <int> getMailsToSend ();
+  std::vector <int> getMailsToSend ();
   void postpone (int id);
-  vector <int> getAllMails ();
+  std::vector <int> getAllMails ();
 private:
   sqlite3 * connect ();
   void * webserver_request {nullptr};

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_verses_url ();
+std::string notes_verses_url ();
 bool notes_verses_acl (void * webserver_request);
-string notes_verses (void * webserver_request);
+std::string notes_verses (void * webserver_request);

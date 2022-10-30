@@ -25,62 +25,62 @@
 class Checks_Usfm
 {
 public:
-  Checks_Usfm (const string & bible);
+  Checks_Usfm (const std::string & bible);
   void initialize (int book, int chapter);
   void finalize ();
-  void check (const string & usfm);
-  vector <pair<int, string>> get_results ();
+  void check (const std::string & usfm);
+  std::vector <std::pair<int, std::string>> get_results ();
 private:
   // USFM and text.
-  vector <string> usfm_markers_and_text {};
+  std::vector <std::string> usfm_markers_and_text {};
   unsigned int usfm_markers_and_text_pointer {0};
-  string usfm_item {};
+  std::string usfm_item {};
   int book_number {0};
   int chapter_number {0};
   int verse_number {0};
   
   // Results of the checks.
-  vector <pair<int, string>> checking_results {};
+  std::vector <std::pair<int, std::string>> checking_results {};
   static constexpr int display_nothing {0};
   static constexpr int display_current {1};
   static constexpr int display_next {2};
   static constexpr int display_full {3};
   
   // Stylesheet.
-  vector <string> markers_stylesheet {};
-  map <string, Database_Styles_Item> style_items {};
+  std::vector <std::string> markers_stylesheet {};
+  std::map <std::string, Database_Styles_Item> style_items {};
   
   // Matching markers.
-  vector <string> markers_requiring_endmarkers {};
-  vector <string> open_matching_markers {};
+  std::vector <std::string> markers_requiring_endmarkers {};
+  std::vector <std::string> open_matching_markers {};
   
   // Embedded markers.
-  vector <string> embeddable_markers {};
-  vector <string> open_embeddable_markers {};
+  std::vector <std::string> embeddable_markers {};
+  std::vector <std::string> open_embeddable_markers {};
 
   // Table of contents markers and flags.
-  string long_toc1_marker {};
-  string short_toc2_marker {};
-  string abbrev_toc3_marker {};
+  std::string long_toc1_marker {};
+  std::string short_toc2_marker {};
+  std::string abbrev_toc3_marker {};
 
   // Empty markup checking.
-  string empty_markup_previous_item {};
+  std::string empty_markup_previous_item {};
   
   // Empty note checking.
   bool within_note {false};
   
   // Methods.
   void malformed_verse_number ();
-  void new_line_in_usfm (const string & usfm);
+  void new_line_in_usfm (const std::string & usfm);
   void marker_in_stylesheet ();
   void malformed_id ();
-  void forward_slash (const string & usfm);
+  void forward_slash (const std::string & usfm);
   void widow_back_slash ();
   void matching_endmarker ();
   void embedded_marker ();
-  void toc (string usfm);
+  void toc (std::string usfm);
   void figure ();
-  void add_result (string text, int modifier);
+  void add_result (std::string text, int modifier);
   void empty_markup ();
   void note ();
 };

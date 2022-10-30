@@ -24,16 +24,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_UserResources
 {
 public:
-  static vector <string> names ();
-  static void remove (const string& name);
-  static string url (const string& name);
-  static void url (const string& name, const string & value);
-  static string book (const string& name, int id);
-  static void book (const string& name, int id, const string & fragment);
+  static std::vector <std::string> names ();
+  static void remove (const std::string& name);
+  static std::string url (const std::string& name);
+  static void url (const std::string& name, const std::string & value);
+  static std::string book (const std::string& name, int id);
+  static void book (const std::string& name, int id, const std::string & fragment);
 private:
-  static string folder ();
-  static string fragment ();
-  static string file (const string& name);
-  static string load (const string & name, size_t offset);
-  static void save (const string & name, size_t offset, const string & value);
+  static std::string folder ();
+  static std::string fragment ();
+  static std::string file (const std::string& name);
+  static std::string load (const std::string & name, size_t offset);
+  static void save (const std::string & name, size_t offset, const std::string & value);
 };

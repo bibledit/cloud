@@ -22,8 +22,8 @@
 #include <config/libraries.h>
 #include <classes/merge.h>
 
-string filter_merge_run (string base, string change, string prioritized_change,
-                         bool clever, vector <Merge_Conflict> & conflicts);
-string filter_merge_run_clever (string base, string change, string prioritized_change,
-                                vector <Merge_Conflict> & conflicts);
-void filter_merge_add_book_chapter (vector <Merge_Conflict> & conflicts, int book, int chapter);
+std::string filter_merge_run (std::string base, std::string change, std::string prioritized_change,
+                              bool clever, std::vector <Merge_Conflict> & conflicts);
+std::string filter_merge_run_clever (std::string base, std::string change, std::string prioritized_change,
+                                     std::vector <Merge_Conflict> & conflicts);
+void filter_merge_add_book_chapter (std::vector <Merge_Conflict> & conflicts, int book, int chapter);

@@ -21,6 +21,7 @@
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/url.h>
+using namespace std;
 
 
 // Dialog that enables the user to upload a file.

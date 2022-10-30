@@ -23,6 +23,7 @@
 #include <filter/string.h>
 #include <filter/date.h>
 #include <database/logs.h>
+using namespace std;
 
 
 void tmp_tmp ()

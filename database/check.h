@@ -27,11 +27,11 @@ class Database_Check_Hit
 {
 public:
   int rowid {0};
-  string bible {};
+  std::string bible {};
   int book {0};
   int chapter {0};
   int verse {0};
-  string data {};
+  std::string data {};
 };
 
 
@@ -40,13 +40,13 @@ class Database_Check
 public:
   void create ();
   void optimize ();
-  void truncateOutput (string bible);
-  void recordOutput (string bible, int book, int chapter, int verse, string data);
-  vector <Database_Check_Hit> getHits ();
+  void truncateOutput (std::string bible);
+  void recordOutput (std::string bible, int book, int chapter, int verse, std::string data);
+  std::vector <Database_Check_Hit> getHits ();
   void approve (int id);
   void erase (int id);
   Passage getPassage (int id);
-  vector <Database_Check_Hit> getSuppressions ();
+  std::vector <Database_Check_Hit> getSuppressions ();
   void release (int id);
 private:
   const char * filename ();

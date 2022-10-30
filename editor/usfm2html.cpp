@@ -25,6 +25,7 @@
 #include <styles/logic.h>
 #include <database/logs.h>
 #include <quill/logic.h>
+using namespace std;
 
 
 void Editor_Usfm2Html::load (string usfm)

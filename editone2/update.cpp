@@ -40,6 +40,7 @@
 #include <edit/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
+using namespace std;
 
 
 string editone2_update_url ()

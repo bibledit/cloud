@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string edit_update_url ();
+std::string edit_update_url ();
 bool edit_update_acl (void * webserver_request);
-string edit_update (void * webserver_request);
+std::string edit_update (void * webserver_request);

@@ -22,6 +22,7 @@
 #include <webserver/request.h>
 #include <navigation/passage.h>
 #include <database/books.h>
+using namespace std;
 
 
 string navigation_update_url ()

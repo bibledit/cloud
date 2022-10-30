@@ -32,6 +32,7 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <database/userresources.h>
+using namespace std;
 
 
 string resource_user9edit_url ()

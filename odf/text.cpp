@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/bibleimages.h>
 #include <styles/logic.h>
+using namespace std;
 
 
 // Class for creating OpenDocument text documents.

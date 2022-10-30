@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-string md5 (const string str);
+std::string md5 (const std::string str);

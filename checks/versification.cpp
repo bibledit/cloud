@@ -23,6 +23,7 @@
 #include <database/versifications.h>
 #include <database/config/bible.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 void checks_versification::books (const string & bible, const vector <int> & books)

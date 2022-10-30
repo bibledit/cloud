@@ -29,19 +29,19 @@ public:
   static void upgrade ();
   static void optimize ();
   static bool healthy ();
-  static string save (string username);
-  static void load (string username, const string & data);
-  static void setBibleBook (string username, string bible, int book, bool write);
-  static void setBible (string username, string bible, bool write);
-  static void getBibleBook (string username, string bible, int book, bool & read, bool & write);
-  static tuple <bool, bool> getBible (string username, string bible);
+  static std::string save (std::string username);
+  static void load (std::string username, const std::string & data);
+  static void setBibleBook (std::string username, std::string bible, int book, bool write);
+  static void setBible (std::string username, std::string bible, bool write);
+  static void getBibleBook (std::string username, std::string bible, int book, bool & read, bool & write);
+  static std::tuple <bool, bool> getBible (std::string username, std::string bible);
   static int getBibleBookCount ();
-  static bool getBibleBookExists (string username, string bible, int book);
-  static void removeBibleBook (string username, string bible, int book);
-  static void removeBible (string bible);
-  static void setFeature (string username, int feature, bool enabled);
-  static bool getFeature (string username, int feature);
-  static void removeUser (string username);
+  static bool getBibleBookExists (std::string username, std::string bible, int book);
+  static void removeBibleBook (std::string username, std::string bible, int book);
+  static void removeBible (std::string bible);
+  static void setFeature (std::string username, int feature, bool enabled);
+  static bool getFeature (std::string username, int feature);
+  static void removeUser (std::string username);
 private:
   static const char * bibles_start ();
   static const char * bibles_end ();
@@ -51,8 +51,8 @@ private:
   static const char * off ();
 };
 
-string database_privileges_directory (const string & user);
-string database_privileges_file ();
-string database_privileges_client_path (const string & user);
-void database_privileges_client_create (const string & user, bool force);
-void database_privileges_client_remove (const string & user);
+std::string database_privileges_directory (const std::string & user);
+std::string database_privileges_file ();
+std::string database_privileges_client_path (const std::string & user);
+void database_privileges_client_create (const std::string & user, bool force);
+void database_privileges_client_remove (const std::string & user);

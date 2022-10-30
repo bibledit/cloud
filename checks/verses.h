@@ -23,11 +23,11 @@
 
 namespace checks_verses {
 
-void missing_punctuation_at_end (const string & bible, int book, int chapter,
-                                 const map <int, string> & verses,
-                                 const string & center_marks, const string & end_marks,
-                                 const string & disregards);
-void patterns (const string & bible, int book, int chapter,
-               const map <int, string> & verses, const vector <string> & patterns);
+void missing_punctuation_at_end (const std::string & bible, int book, int chapter,
+                                 const std::map <int, std::string> & verses,
+                                 const std::string & center_marks, const std::string & end_marks,
+                                 const std::string & disregards);
+void patterns (const std::string & bible, int book, int chapter,
+               const std::map <int, std::string> & verses, const std::vector <std::string> & patterns);
 
 }

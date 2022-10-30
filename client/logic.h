@@ -23,19 +23,19 @@
 
 bool client_logic_client_enabled ();
 void client_logic_enable_client (bool enable);
-string client_logic_url (const string & address, int port, const string & path);
-string client_logic_connection_setup (string user, string hash);
-string client_logic_create_note_encode (const string & bible, int book, int chapter, int verse,
-                                        const string & summary, const string & contents, bool raw);
-void client_logic_create_note_decode (const string & data,
-                                      string& bible, int& book, int& chapter, int& verse,
-                                      string& summary, string& contents, bool& raw);
-string client_logic_link_to_cloud (string path, string linktext);
-string client_logic_usfm_resources_path ();
+std::string client_logic_url (const std::string & address, int port, const std::string & path);
+std::string client_logic_connection_setup (std::string user, std::string hash);
+std::string client_logic_create_note_encode (const std::string & bible, int book, int chapter, int verse,
+                                             const std::string & summary, const std::string & contents, bool raw);
+void client_logic_create_note_decode (const std::string & data,
+                                      std::string& bible, int& book, int& chapter, int& verse,
+                                      std::string& summary, std::string& contents, bool& raw);
+std::string client_logic_link_to_cloud (std::string path, std::string linktext);
+std::string client_logic_usfm_resources_path ();
 void client_logic_usfm_resources_update ();
-vector <string> client_logic_usfm_resources_get ();
-string client_logic_get_username ();
-string client_logic_no_cache_resources_path ();
-void client_logic_no_cache_resource_add (string name);
-void client_logic_no_cache_resource_remove (string name);
-vector <string> client_logic_no_cache_resources_get ();
+std::vector <std::string> client_logic_usfm_resources_get ();
+std::string client_logic_get_username ();
+std::string client_logic_no_cache_resources_path ();
+void client_logic_no_cache_resource_add (std::string name);
+void client_logic_no_cache_resource_remove (std::string name);
+std::vector <std::string> client_logic_no_cache_resources_get ();

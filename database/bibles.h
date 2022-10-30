@@ -24,28 +24,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Bibles
 {
 public:
-  vector <string> getBibles ();
-  void createBible (string name);
-  void deleteBible (string name);
-  void storeChapter (string name, int book, int chapter_number, string chapter_text);
-  void updateSearchFields (string name, int book, int chapter);
-  vector <int> getBooks (string bible);
-  void deleteBook (string bible, int book);
-  vector <int> getChapters (string bible, int book);
-  void deleteChapter (string bible, int book, int chapter);
-  string getChapter (string bible, int book, int chapter);
-  int getChapterId (string bible, int book, int chapter);
-  int getChapterAge (string bible, int book, int chapter);
+  std::vector <std::string> getBibles ();
+  void createBible (std::string name);
+  void deleteBible (std::string name);
+  void storeChapter (std::string name, int book, int chapter_number, std::string chapter_text);
+  void updateSearchFields (std::string name, int book, int chapter);
+  std::vector <int> getBooks (std::string bible);
+  void deleteBook (std::string bible, int book);
+  std::vector <int> getChapters (std::string bible, int book);
+  void deleteChapter (std::string bible, int book, int chapter);
+  std::string getChapter (std::string bible, int book, int chapter);
+  int getChapterId (std::string bible, int book, int chapter);
+  int getChapterAge (std::string bible, int book, int chapter);
   void optimize ();
 private:
-  string mainFolder ();
-  string icfURL ();
-  string icfBibleName ();
+  std::string mainFolder ();
+  std::string icfURL ();
+  std::string icfBibleName ();
 public:
-  string bibleFolder (string bible);
+  std::string bibleFolder (std::string bible);
 private:
-  string bookFolder (string bible, int book);
-  vector <string> icfBooks ();
-  string chapterFolder (string bible, int book, int chapter);
-  vector <string> icfChapters (int book);
+  std::string bookFolder (std::string bible, int book);
+  std::vector <std::string> icfBooks ();
+  std::string chapterFolder (std::string bible, int book, int chapter);
+  std::vector <std::string> icfChapters (int book);
 };

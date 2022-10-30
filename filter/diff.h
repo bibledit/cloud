@@ -21,16 +21,17 @@
 
 #include <config/libraries.h>
 
-string filter_diff_diff (string oldstring, string newstring,
-                         vector <string> * removals = nullptr,
-                         vector <string> * additions = nullptr);
-void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<string> & newinput,
-                             vector <int> & positions,
-                             vector <int> & sizes,
-                             vector <bool> & additions,
-                             vector <string> & content,
+std::string filter_diff_diff (std::string oldstring, std::string newstring,
+                              std::vector <std::string> * removals = nullptr,
+                              std::vector <std::string> * additions = nullptr);
+void filter_diff_diff_utf16 (const std::vector<std::string> & oldinput,
+                             const std::vector<std::string> & newinput,
+                             std::vector <int> & positions,
+                             std::vector <int> & sizes,
+                             std::vector <bool> & additions,
+                             std::vector <std::string> & content,
                              int & new_line_diff_count);
-int filter_diff_character_similarity (string oldstring, string newstring);
-int filter_diff_word_similarity (string oldstring, string newstring);
-void filter_diff_produce_verse_level (string bible, string directory);
-void filter_diff_run_file (string oldfile, string newfile, string outputfile);
+int filter_diff_character_similarity (std::string oldstring, std::string newstring);
+int filter_diff_word_similarity (std::string oldstring, std::string newstring);
+void filter_diff_produce_verse_level (std::string bible, std::string directory);
+void filter_diff_run_file (std::string oldfile, std::string newfile, std::string outputfile);

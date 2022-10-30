@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void export_usfm (string bible, bool log);
+void export_usfm (std::string bible, bool log);

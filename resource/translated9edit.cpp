@@ -39,8 +39,7 @@
 #pragma GCC diagnostic pop
 #include <resource/translated1edit.h>
 #include <client/logic.h>
-
-
+using namespace std;
 using namespace pugi;
 
 

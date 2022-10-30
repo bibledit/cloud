@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string versification_system_url ();
+std::string versification_system_url ();
 bool versification_system_acl (void * webserver_request);
-string versification_system (void * webserver_request);
+std::string versification_system (void * webserver_request);

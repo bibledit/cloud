@@ -42,6 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/switch.h>
 #include <ldap/logic.h>
 #include <user/logic.h>
+using namespace std;
 
 
 string manage_users_url ()

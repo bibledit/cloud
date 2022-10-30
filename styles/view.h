@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string styles_view_url ();
+std::string styles_view_url ();
 bool styles_view_acl (void * webserver_request);
-string styles_view (void * webserver_request);
+std::string styles_view (void * webserver_request);

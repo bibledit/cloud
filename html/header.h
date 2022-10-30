@@ -28,10 +28,10 @@ public:
   Html_Header (void * html_text);
   Html_Header(const Html_Header&) = delete;
   Html_Header operator=(const Html_Header&) = delete;
-  void search_back_link (string url, string text);
-  void create (const vector <pair <string, string> > & breadcrumbs);
+  void search_back_link (std::string url, std::string text);
+  void create (const std::vector <std::pair <std::string, std::string> > & breadcrumbs);
 private:
   void * m_html_text {nullptr};
-  string m_search_back_link_url {};
-  string m_search_back_link_text {};
+  std::string m_search_back_link_url {};
+  std::string m_search_back_link_text {};
 };

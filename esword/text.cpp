@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/url.h>
 #include <database/sqlite.h>
+using namespace std;
 
 
 // Class for creating e-Sword documents.

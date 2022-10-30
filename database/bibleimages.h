@@ -24,11 +24,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_BibleImages
 {
 public:
-  vector <string> get ();
-  void store (string file);
-  string get (string image);
-  void erase (string image);
+  std::vector <std::string> get ();
+  void store (std::string file);
+  std::string get (std::string image);
+  void erase (std::string image);
 private:
-  string folder ();
-  string path (string image);
+  std::string folder ();
+  std::string path (std::string image);
 };

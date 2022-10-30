@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string editone2_verse_url ();
+std::string editone2_verse_url ();
 bool editone2_verse_acl (void * webserver_request);
-string editone2_verse (void * webserver_request);
+std::string editone2_verse (void * webserver_request);

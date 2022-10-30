@@ -33,10 +33,10 @@ using namespace pugi;
 class Editor_Html2Format
 {
 public:
-  void load (string html);
+  void load (std::string html);
   void run ();
-  vector <string> texts {};
-  vector <string> formats {};
+  std::vector <std::string> texts {};
+  std::vector <std::string> formats {};
 private:
   xml_document document {}; // DOMDocument holding the html.
   void preprocess ();
@@ -45,7 +45,7 @@ private:
   void processNode (xml_node node);
   void openElementNode (xml_node node);
   void closeElementNode (xml_node node);
-  void openInline (string className);
-  string update_quill_class (string classname);
-  string current_character_format {};
+  void openInline (std::string className);
+  std::string update_quill_class (std::string classname);
+  std::string current_character_format {};
 };

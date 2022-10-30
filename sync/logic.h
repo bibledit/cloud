@@ -110,30 +110,30 @@ public:
   bool security_okay ();
   bool credentials_okay ();
   
-  string settings_checksum (const vector <string> & bibles);
+  std::string settings_checksum (const std::vector <std::string> & bibles);
   
-  string checksum (const vector <int> & identifiers);
-  vector <Sync_Logic_Range> create_range (int start, int end);
+  std::string checksum (const std::vector <int> & identifiers);
+  std::vector <Sync_Logic_Range> create_range (int start, int end);
   
-  string post (map <string, string> & post, const string& url, string & error, bool burst = false);
+  std::string post (std::map <std::string, std::string> & post, const std::string& url, std::string & error, bool burst = false);
   
-  static string usfm_resources_checksum ();
-  static string usfm_resource_checksum (const string& name);
-  static string usfm_resource_book_checksum (const string& name, int book);
-  static string usfm_resource_chapter_checksum (const string& name, int book, int chapter);
+  static std::string usfm_resources_checksum ();
+  static std::string usfm_resource_checksum (const std::string& name);
+  static std::string usfm_resource_book_checksum (const std::string& name, int book);
+  static std::string usfm_resource_chapter_checksum (const std::string& name, int book, int chapter);
   
-  static string changes_checksum (const string & username);
+  static std::string changes_checksum (const std::string & username);
 
   static constexpr int files_total_checksum = 1;
   static constexpr int files_directory_checksum = 2;
   static constexpr int files_directory_files = 3;
   static constexpr int files_file_checksum = 4;
   static constexpr int files_file_download = 5;
-  static vector <string> files_get_directories (int version, const string & user);
-  static int files_get_total_checksum (int version, const string & user);
-  static int files_get_directory_checksum (string directory);
-  static vector <string> files_get_files (string directory);
-  static int files_get_file_checksum (string directory, string file);
+  static std::vector <std::string> files_get_directories (int version, const std::string & user);
+  static int files_get_total_checksum (int version, const std::string & user);
+  static int files_get_directory_checksum (std::string directory);
+  static std::vector <std::string> files_get_files (std::string directory);
+  static int files_get_file_checksum (std::string directory, std::string file);
 
   void prioritized_ip_address_record ();
   bool prioritized_ip_address_active ();

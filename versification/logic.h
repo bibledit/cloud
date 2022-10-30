@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-vector <string> versification_logic_names ();
-string versification_logic_data (string name);
+std::vector <std::string> versification_logic_names ();
+std::string versification_logic_data (std::string name);

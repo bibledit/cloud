@@ -24,10 +24,10 @@
 
 // A C++ equivalent for PHP's function.
 template <typename T>
-vector <T> array_intersect (vector <T> a, vector <T> b)
+std::vector <T> array_intersect (std::vector <T> a, std::vector <T> b)
 {
-  vector <T> result;
-  set <T> aset (a.begin(), a.end());
+  std::vector <T> result;
+  std::set <T> aset (a.begin(), a.end());
   for (auto & item : b) {
     if (aset.find (item) != aset.end()) {
       result.push_back (item);
@@ -39,7 +39,7 @@ vector <T> array_intersect (vector <T> a, vector <T> b)
 
 // A C++ equivalent for PHP's function.
 template <typename T>
-bool in_array (const T & needle, const vector <T> & haystack)
+bool in_array (const T & needle, const std::vector <T> & haystack)
 {
   return (find (haystack.begin(), haystack.end(), needle) != haystack.end());
 }

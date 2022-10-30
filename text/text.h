@@ -24,17 +24,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Text_Text
 {
 public:
-  void paragraph (string text = "");
-  string line ();
-  void addtext (string text);
-  string get ();
-  void save (string name);
-  void note (string text = "");
-  void addnotetext (string text);
-  string getnote ();
+  void paragraph (std::string text = "");
+  std::string line ();
+  void addtext (std::string text);
+  std::string get ();
+  void save (std::string name);
+  void note (std::string text = "");
+  void addnotetext (std::string text);
+  std::string getnote ();
 private:
-  vector <string> output {};
-  string thisline {};
-  vector <string> notes {};
-  string thisnoteline {};
+  std::vector <std::string> output {};
+  std::string thisline {};
+  std::vector <std::string> notes {};
+  std::string thisnoteline {};
 };

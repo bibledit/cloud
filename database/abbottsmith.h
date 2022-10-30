@@ -26,8 +26,8 @@ class Database_AbbottSmith
 public:
   void create ();
   void optimize ();
-  void store (string lemma, string lemma_casefold, string strong, string contents);
-  string get (string lemma, string strong);
+  void store (std::string lemma, std::string lemma_casefold, std::string strong, std::string contents);
+  std::string get (std::string lemma, std::string strong);
 private:
   const char * filename ();
 };

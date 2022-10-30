@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/shell.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 string testing_directory;

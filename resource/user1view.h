@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string resource_user1view_url ();
+std::string resource_user1view_url ();
 bool resource_user1view_acl (void * webserver_request);
-string resource_user1view (void * webserver_request);
+std::string resource_user1view (void * webserver_request);

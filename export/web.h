@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-void export_web_book (string bible, int book, bool log);
-void export_web_index (string bible, bool log);
+void export_web_book (std::string bible, int book, bool log);
+void export_web_index (std::string bible, bool log);

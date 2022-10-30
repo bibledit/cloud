@@ -88,6 +88,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Bibledit configuration.
 #include <config/logic.h>
 #include <config/config.h>
-
-
-using namespace std;

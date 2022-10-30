@@ -24,8 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Volatile
 {
 public:
-  static string getValue (int id, const string& key);
-  static void setValue (int id, const string& key, const string& value);
+  static std::string getValue (int id, const std::string& key);
+  static void setValue (int id, const std::string& key, const std::string& value);
 private:
-  static string filename (int id, string key);
+  static std::string filename (int id, std::string key);
 };

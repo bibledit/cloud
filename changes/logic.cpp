@@ -35,8 +35,7 @@
 #include <database/jobs.h>
 #include <filter/string.h>
 #include <webserver/request.h>
-
-
+using namespace std;
 using namespace pugi;
 
 

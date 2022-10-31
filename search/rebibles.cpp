@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <search/logic.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 bool search_reindex_bibles_running = false;

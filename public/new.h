@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string public_new_url ();
+std::string public_new_url ();
 bool public_new_acl (void * webserver_request);
-string public_new (void * webserver_request);
+std::string public_new (void * webserver_request);

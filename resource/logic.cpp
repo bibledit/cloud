@@ -49,6 +49,7 @@
 #include <related/logic.h>
 #include <developer/logic.h>
 #include <database/logic.h>
+using namespace std;
 
 
 /*

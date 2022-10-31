@@ -22,5 +22,5 @@
 #include <config/libraries.h>
 
 #ifdef HAVE_CLOUD
-void filter_mail_dissect (string message, string & from, string & subject, string & plaintext);
+void filter_mail_dissect (std::string message, std::string & from, std::string & subject, std::string & plaintext);
 #endif

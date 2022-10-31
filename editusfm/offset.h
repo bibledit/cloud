@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string editusfm_offset_url ();
+std::string editusfm_offset_url ();
 bool editusfm_offset_acl (void * webserver_request);
-string editusfm_offset (void * webserver_request);
+std::string editusfm_offset (void * webserver_request);

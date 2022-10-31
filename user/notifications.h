@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string user_notifications_url ();
+std::string user_notifications_url ();
 bool user_notifications_acl (void * webserver_request);
-string user_notifications (void * webserver_request);
+std::string user_notifications (void * webserver_request);

@@ -34,6 +34,7 @@
 #include <navigation/passage.h>
 #include <notes/index.h>
 #include <access/logic.h>
+using namespace std;
 
 
 string notes_note_url ()

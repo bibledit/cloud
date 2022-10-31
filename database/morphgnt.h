@@ -27,15 +27,15 @@ public:
   void create ();
   void optimize ();
   void store (int book, int chapter, int verse,
-              string pos, string parsing, string word, string lemma);
-  vector <int> rowids (int book, int chapter, int verse);
-  string pos (int rowid);
-  string parsing (int rowid);
-  string word (int rowid);
-  string lemma (int rowid);
+              std::string pos, std::string parsing, std::string word, std::string lemma);
+  std::vector <int> rowids (int book, int chapter, int verse);
+  std::string pos (int rowid);
+  std::string parsing (int rowid);
+  std::string word (int rowid);
+  std::string lemma (int rowid);
 private:
   const char * filename ();
-  int get_id (const char * table_row, string item);
-  string get_item (const char * item, int rowid);
+  int get_id (const char * table_row, std::string item);
+  std::string get_item (const char * item, int rowid);
 };
 

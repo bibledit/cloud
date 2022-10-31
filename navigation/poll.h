@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string navigation_poll_url ();
+std::string navigation_poll_url ();
 bool navigation_poll_acl (void * webserver_request);
-string navigation_poll (void * webserver_request);
+std::string navigation_poll (void * webserver_request);

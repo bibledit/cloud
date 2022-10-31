@@ -33,6 +33,7 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string resource_manage_url ()

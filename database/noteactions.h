@@ -25,10 +25,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 struct Database_Note_Action
 {
   int rowid {0};
-  string username {};
+  std::string username {};
   int timestamp {0};
   int action {0};
-  string content {};
+  std::string content {};
 };
 
 class Database_NoteActions
@@ -37,9 +37,9 @@ public:
   void create ();
   void clear ();
   void optimize ();
-  void record (const string& username, int note, int action, const string& content);
-  vector <int> getNotes ();
-  vector <Database_Note_Action> getNoteData (int note);
+  void record (const std::string& username, int note, int action, const std::string& content);
+  std::vector <int> getNotes ();
+  std::vector <Database_Note_Action> getNoteData (int note);
   void updateNotes (int oldId, int newId);
   void erase (int rowid);
   bool exists (int note);

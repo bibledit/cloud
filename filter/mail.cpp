@@ -48,8 +48,7 @@
 #include <mimetic098/mimetic.h>
 #pragma clang diagnostic pop
 #pragma GCC diagnostic pop
-
-
+using namespace std;
 using namespace mimetic;
 
 

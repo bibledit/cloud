@@ -48,6 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <editor/html2format.h>
 #include <book/create.h>
+using namespace std;
 
 
 void bible_logic::store_chapter (const string& bible, int book, int chapter, const string& usfm)

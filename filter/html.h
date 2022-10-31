@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-string filter_html_android_brs ();
+std::string filter_html_android_brs ();

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string search_replacepre2_url ();
+std::string search_replacepre2_url ();
 bool search_replacepre2_acl (void * webserver_request);
-string search_replacepre2 (void * webserver_request);
+std::string search_replacepre2 (void * webserver_request);

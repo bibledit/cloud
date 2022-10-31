@@ -31,6 +31,7 @@
 #include <locale/translate.h>
 #include <assets/external.h>
 #include <database/logic.h>
+using namespace std;
 
 
 // Returns whether Client mode is enabled.

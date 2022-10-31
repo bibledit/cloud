@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string bible_order_url ();
+std::string bible_order_url ();
 bool bible_order_acl (void * webserver_request);
-string bible_order (void * webserver_request);
+std::string bible_order (void * webserver_request);

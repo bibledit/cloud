@@ -36,6 +36,7 @@
 #include <jobs/index.h>
 #include <dialog/list.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string resource_print_url ()

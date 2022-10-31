@@ -37,6 +37,7 @@
 #include <access/logic.h>
 #include <tasks/logic.h>
 #include <database/config/general.h>
+using namespace std;
 
 
 string resource_organize_url ()

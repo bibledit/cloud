@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <filter/passage.h>
+using namespace std;
 
 
 // Database resilience: It is re-created every night 

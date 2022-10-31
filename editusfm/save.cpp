@@ -36,6 +36,7 @@
 #include <bb/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
+using namespace std;
 
 
 string editusfm_save_url ()

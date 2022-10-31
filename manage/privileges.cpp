@@ -31,6 +31,7 @@
 #include <access/logic.h>
 #include <menu/logic.h>
 #include <manage/users.h>
+using namespace std;
 
 
 string manage_privileges_url ()

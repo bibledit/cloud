@@ -29,6 +29,7 @@
 #include <database/notes.h>
 #include <public/index.h>
 #include <read/index.h>
+using namespace std;
 
 
 string public_note_url ()

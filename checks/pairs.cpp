@@ -23,6 +23,7 @@
 #include <database/check.h>
 #include <locale/translate.h>
 #include <checks/french.h>
+using namespace std;
 
 
 void checks_pairs::run (const string & bible, int book, int chapter,

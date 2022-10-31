@@ -40,6 +40,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/esword.h>
 #include <export/onlinebible.h>
 #include <sword/logic.h>
+using namespace std;
 
 
 bool test_memory_run = false;

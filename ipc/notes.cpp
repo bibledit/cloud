@@ -22,6 +22,7 @@
 #include <filter/usfm.h>
 #include <database/navigation.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 // Deals with the consultation notes stuff.

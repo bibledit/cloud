@@ -46,6 +46,7 @@
 #include <email/send.h>
 #include <sendreceive/logic.h>
 #include <rss/logic.h>
+using namespace std;
 
 
 void checks_run (string bible)

@@ -21,7 +21,7 @@
 
 #include <config/libraries.h>
 
-string sendreceive_changes_sendreceive_text ();
-string sendreceive_changes_up_to_date_text ();
+std::string sendreceive_changes_sendreceive_text ();
+std::string sendreceive_changes_up_to_date_text ();
 void sendreceive_changes ();
 void sendreceive_changes_kick_watchdog ();

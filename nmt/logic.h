@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-void nmt_logic_export (string referencebible, string translatingbible);
-void nmt_logic_split (string reference_text, string translating_text,
-                      vector <string> & reference_bits, vector <string> & translating_bits);
+void nmt_logic_export (std::string referencebible, std::string translatingbible);
+void nmt_logic_split (std::string reference_text, std::string translating_text,
+                      std::vector <std::string> & reference_bits, std::vector <std::string> & translating_bits);

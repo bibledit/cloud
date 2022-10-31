@@ -25,6 +25,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <search/logic.h>
+using namespace std;
 
 
 string webbible_search_url ()

@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void export_onlinebible (string bible, bool log);
+void export_onlinebible (std::string bible, bool log);

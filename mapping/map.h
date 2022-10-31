@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string mapping_map_url ();
+std::string mapping_map_url ();
 bool mapping_map_acl (void * webserver_request);
-string mapping_map (void * webserver_request);
+std::string mapping_map (void * webserver_request);

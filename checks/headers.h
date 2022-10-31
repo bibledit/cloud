@@ -21,10 +21,11 @@
 
 #include <config/libraries.h>
 
+
 namespace checks_headers {
 
-void no_punctuation_at_end (const string & bible, int book, int chapter,
-                            const map <int, string> & headings,
-                            const string & centermarks, const string & endmarks);
+void no_punctuation_at_end (const std::string & bible, int book, int chapter,
+                            const std::map <int, std::string> & headings,
+                            const std::string & centermarks, const std::string & endmarks);
 
 }

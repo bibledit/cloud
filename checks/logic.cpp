@@ -21,6 +21,7 @@
 #include <database/bibles.h>
 #include <database/config/bible.h>
 #include <tasks/logic.h>
+using namespace std;
 
 
 void checks_logic_start_all ()

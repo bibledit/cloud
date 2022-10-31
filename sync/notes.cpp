@@ -38,6 +38,7 @@
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <notes/logic.h>
+using namespace std;
 
 
 string sync_notes_url ()

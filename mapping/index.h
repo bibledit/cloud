@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string mapping_index_url ();
+std::string mapping_index_url ();
 bool mapping_index_acl (void * webserver_request);
-string mapping_index (void * webserver_request);
+std::string mapping_index (void * webserver_request);

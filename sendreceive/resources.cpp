@@ -38,6 +38,7 @@
 #include <sync/resources.h>
 #include <sword/logic.h>
 #include <demo/logic.h>
+using namespace std;
 
 
 int sendreceive_resources_watchdog = 0;

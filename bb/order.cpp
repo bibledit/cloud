@@ -30,6 +30,7 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
+using namespace std;
 
 
 string bible_order_url ()

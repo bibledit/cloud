@@ -27,24 +27,24 @@
 class Paratext_Logic
 {
 public:
-  static string searchProjectsFolder ();
-  static vector <string> searchProjects (string projects_folder);
-  static map <int, string> searchBooks (string project_path);
-  static int getBook (string filename);
-  static void setup (string bible, string master);
-  static void copyBibledit2Paratext (string bible);
-  static void copyParatext2Bibledit (string bible);
-  static string ancestorPath (string bible, int book);
-  static vector <string> enabledBibles ();
+  static std::string searchProjectsFolder ();
+  static std::vector <std::string> searchProjects (std::string projects_folder);
+  static std::map <int, std::string> searchBooks (std::string project_path);
+  static int getBook (std::string filename);
+  static void setup (std::string bible, std::string master);
+  static void copyBibledit2Paratext (std::string bible);
+  static void copyParatext2Bibledit (std::string bible);
+  static std::string ancestorPath (std::string bible, int book);
+  static std::vector <std::string> enabledBibles ();
   static void synchronize (tasks::enums::paratext_sync method);
-  static string synchronize (string ancestor, string bibledit, string paratext,
-                             vector <string> & messages,
-                             vector <Merge_Conflict> & conflicts);
-  static string synchronizeStartText ();
-  static string synchronizeReadyText ();
+  static std::string synchronize (std::string ancestor, std::string bibledit, std::string paratext,
+                                  std::vector <std::string> & messages,
+                                  std::vector <Merge_Conflict> & conflicts);
+  static std::string synchronizeStartText ();
+  static std::string synchronizeReadyText ();
 private:
-  static string projectFolder (string bible);
-  static void ancestor (string bible, int book, string usfm);
-  static string ancestor (string bible, int book);
-  static string journalTag (string bible, int book, int chapter);
+  static std::string projectFolder (std::string bible);
+  static void ancestor (std::string bible, int book, std::string usfm);
+  static std::string ancestor (std::string bible, int book);
+  static std::string journalTag (std::string bible, int book, int chapter);
 };

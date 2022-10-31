@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/login.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
+using namespace std;
 
 
 void test_database_noteactions ()

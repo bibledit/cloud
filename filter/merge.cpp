@@ -35,8 +35,7 @@
 #pragma GCC diagnostic pop
 #include <email/send.h>
 #include <filter/usfm.h>
-
-
+using namespace std;
 using dtl::Diff3;
 using namespace pugi;
 

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string consistency_index_url ();
+std::string consistency_index_url ();
 bool consistency_index_acl (void * webserver_request);
-string consistency_index (void * webserver_request);
+std::string consistency_index (void * webserver_request);

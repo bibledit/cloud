@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string manage_privileges_url ();
+std::string manage_privileges_url ();
 bool manage_privileges_acl (void * webserver_request);
-string manage_privileges (void * webserver_request);
+std::string manage_privileges (void * webserver_request);

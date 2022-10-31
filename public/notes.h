@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string public_notes_url ();
+std::string public_notes_url ();
 bool public_notes_acl (void * webserver_request);
-string public_notes (void * webserver_request);
+std::string public_notes (void * webserver_request);

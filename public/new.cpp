@@ -31,6 +31,7 @@
 #include <assets/page.h>
 #include <locale/translate.h>
 #include <read/index.h>
+using namespace std;
 
 
 string public_new_url ()

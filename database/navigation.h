@@ -27,14 +27,14 @@ class Database_Navigation
 public:
   void create ();
   void trim ();
-  void record (int time, string user, int book, int chapter, int verse);
-  bool previous_exists (const string& user);
-  bool next_exists (const string& user);
-  Passage get_previous (const string& user);
-  Passage get_next (const string& user);
-  vector <Passage> get_history (const string& user, int direction);
+  void record (int time, std::string user, int book, int chapter, int verse);
+  bool previous_exists (const std::string& user);
+  bool next_exists (const std::string& user);
+  Passage get_previous (const std::string& user);
+  Passage get_next (const std::string& user);
+  std::vector <Passage> get_history (const std::string& user, int direction);
 private:
   sqlite3 * connect ();
-  int get_previous_id (const string& user);
-  int get_next_id (const string& user);
+  int get_previous_id (const std::string& user);
+  int get_next_id (const std::string& user);
 };

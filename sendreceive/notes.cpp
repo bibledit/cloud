@@ -40,6 +40,7 @@
 #include <checksum/logic.h>
 #include <bb/logic.h>
 #include <notes/logic.h>
+using namespace std;
 
 
 int sendreceive_notes_watchdog = 0;

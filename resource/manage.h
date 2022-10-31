@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string resource_manage_url ();
+std::string resource_manage_url ();
 bool resource_manage_acl (void * webserver_request);
-string resource_manage (void * webserver_request);
+std::string resource_manage (void * webserver_request);

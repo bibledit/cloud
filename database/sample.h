@@ -25,9 +25,9 @@ class Database_Sample
 {
 public:
   static void create ();
-  static void store (string file, string data);
-  static vector <int> get ();
-  static void get (int rowid, string & file, string & data);
+  static void store (std::string file, std::string data);
+  static std::vector <int> get ();
+  static void get (int rowid, std::string & file, std::string & data);
 private:
   static const char * name ();
 };

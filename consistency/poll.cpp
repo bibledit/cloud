@@ -23,6 +23,7 @@
 #include <webserver/request.h>
 #include <consistency/logic.h>
 #include <database/volatile.h>
+using namespace std;
 
 
 string consistency_poll_url ()

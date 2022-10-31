@@ -22,6 +22,7 @@
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 // This function reads $data,

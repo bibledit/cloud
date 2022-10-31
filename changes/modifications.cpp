@@ -42,6 +42,7 @@
 #include <changes/logic.h>
 #include <styles/css.h>
 #include <email/send.h>
+using namespace std;
 
 
 // Internal function declarations.

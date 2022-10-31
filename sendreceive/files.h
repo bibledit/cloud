@@ -21,7 +21,7 @@
 
 #include <config/libraries.h>
 
-string sendreceive_files_sendreceive_text ();
-string sendreceive_files_up_to_date_text ();
+std::string sendreceive_files_sendreceive_text ();
+std::string sendreceive_files_up_to_date_text ();
 void sendreceive_files ();
 void sendreceive_files_kick_watchdog ();

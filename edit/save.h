@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string edit_save_url ();
+std::string edit_save_url ();
 bool edit_save_acl (void * webserver_request);
-string edit_save (void * webserver_request);
+std::string edit_save (void * webserver_request);

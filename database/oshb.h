@@ -27,15 +27,15 @@ class Database_OsHb
 public:
   void create ();
   void optimize ();
-  vector <string> getVerse (int book, int chapter, int verse);
-  vector <Passage> searchHebrew (string hebrew);
-  void store (int book, int chapter, int verse, string lemma, string word, string morph);
-  vector <int> rowids (int book, int chapter, int verse);
-  string lemma (int rowid);
-  string word (int rowid);
-  string morph (int rowid);
+  std::vector <std::string> getVerse (int book, int chapter, int verse);
+  std::vector <Passage> searchHebrew (std::string hebrew);
+  void store (int book, int chapter, int verse, std::string lemma, std::string word, std::string morph);
+  std::vector <int> rowids (int book, int chapter, int verse);
+  std::string lemma (int rowid);
+  std::string word (int rowid);
+  std::string morph (int rowid);
 private:
   const char * filename ();
-  int get_id (const char * table_row, string item);
-  string get_item (const char * item, int rowid);
+  int get_id (const char * table_row, std::string item);
+  std::string get_item (const char * item, int rowid);
 };

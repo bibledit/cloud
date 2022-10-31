@@ -39,6 +39,7 @@
 #include <menu/logic.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>
+using namespace std;
 
 
 string changes_manage_url ()

@@ -29,8 +29,7 @@
 #include <read/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
-
-
+using namespace std;
 using namespace pugi;
 
 

@@ -25,40 +25,40 @@ class Database_Etcbc4
 {
 public:
   void create ();
-  string raw (int book, int chapter, int verse);
-  void store (int book, int chapter, int verse, string data);
+  std::string raw (int book, int chapter, int verse);
+  void store (int book, int chapter, int verse, std::string data);
   void store (int book, int chapter, int verse,
-              string word, string vocalized_lexeme, string consonantal_lexeme,
-              string gloss, string pos, string subpos,
-              string gender, string number, string person,
-              string state, string tense, string stem,
-              string phrase_function, string phrase_type, string phrase_relation,
-              string phrase_a_relation, string clause_text_type, string clause_type, string clause_relation);
-  vector <int> books ();
-  vector <int> chapters (int book);
-  vector <int> verses (int book, int chapter);
-  vector <int> rowids (int book, int chapter, int verse);
-  string word (int rowid);
-  string vocalized_lexeme (int rowid);
-  string consonantal_lexeme (int rowid);
-  string gloss (int rowid);
-  string pos (int rowid);
-  string subpos (int rowid);
-  string gender (int rowid);
-  string number (int rowid);
-  string person (int rowid);
-  string state (int rowid);
-  string tense (int rowid);
-  string stem (int rowid);
-  string phrase_function (int rowid);
-  string phrase_type (int rowid);
-  string phrase_relation (int rowid);
-  string phrase_a_relation (int rowid);
-  string clause_text_type (int rowid);
-  string clause_type (int rowid);
-  string clause_relation (int rowid);
+              std::string word, std::string vocalized_lexeme, std::string consonantal_lexeme,
+              std::string gloss, std::string pos, std::string subpos,
+              std::string gender, std::string number, std::string person,
+              std::string state, std::string tense, std::string stem,
+              std::string phrase_function, std::string phrase_type, std::string phrase_relation,
+              std::string phrase_a_relation, std::string clause_text_type, std::string clause_type, std::string clause_relation);
+  std::vector <int> books ();
+  std::vector <int> chapters (int book);
+  std::vector <int> verses (int book, int chapter);
+  std::vector <int> rowids (int book, int chapter, int verse);
+  std::string word (int rowid);
+  std::string vocalized_lexeme (int rowid);
+  std::string consonantal_lexeme (int rowid);
+  std::string gloss (int rowid);
+  std::string pos (int rowid);
+  std::string subpos (int rowid);
+  std::string gender (int rowid);
+  std::string number (int rowid);
+  std::string person (int rowid);
+  std::string state (int rowid);
+  std::string tense (int rowid);
+  std::string stem (int rowid);
+  std::string phrase_function (int rowid);
+  std::string phrase_type (int rowid);
+  std::string phrase_relation (int rowid);
+  std::string phrase_a_relation (int rowid);
+  std::string clause_text_type (int rowid);
+  std::string clause_type (int rowid);
+  std::string clause_relation (int rowid);
 private:
   sqlite3 * connect ();
-  int get_id (sqlite3 * db, const char * table_row, string item);
-  string get_item (const char * item, int rowid);
+  int get_id (sqlite3 * db, const char * table_row, std::string item);
+  std::string get_item (const char * item, int rowid);
 };

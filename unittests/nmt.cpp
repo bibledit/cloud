@@ -21,6 +21,7 @@
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <nmt/logic.h>
+using namespace std;
 
 
 void test_nmt ()

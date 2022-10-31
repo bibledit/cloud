@@ -20,6 +20,7 @@
 #include <public/logic.h>
 #include <webserver/request.h>
 #include <database/config/bible.h>
+using namespace std;
 
 
 vector <string> public_logic_bibles (void * webserver_request)

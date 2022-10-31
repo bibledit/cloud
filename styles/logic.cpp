@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <locale/translate.h>
 #include <filter/string.h>
+using namespace std;
 
 
 // The name of the "Standard" stylesheet.

@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void export_odt_book (string bible, int book, bool log);
+void export_odt_book (std::string bible, int book, bool log);

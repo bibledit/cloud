@@ -22,6 +22,7 @@
 #include <webserver/request.h>
 #include <navigation/passage.h>
 #include <ipc/focus.h>
+using namespace std;
 
 
 string navigation_poll_url ()

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string checks_index_url ();
+std::string checks_index_url ();
 bool checks_index_acl (void * webserver_request);
-string checks_index (void * webserver_request);
+std::string checks_index (void * webserver_request);

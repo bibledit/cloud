@@ -22,6 +22,7 @@
 #include <database/morphgnt.h>
 #include <filter/string.h>
 #include <filter/url.h>
+using namespace std;
 
 
 void sources_morphgnt_parse ()

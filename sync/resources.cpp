@@ -26,6 +26,7 @@
 #include <database/cache.h>
 #include <database/config/general.h>
 #include <tasks/logic.h>
+using namespace std;
 
 
 string sync_resources_url ()

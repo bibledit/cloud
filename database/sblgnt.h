@@ -27,8 +27,8 @@ class Database_Sblgnt
 public:
   Database_Sblgnt ();
   ~Database_Sblgnt ();
-  vector <string> getVerse (int book, int chapter, int verse);
-  vector <Passage> searchGreek (string greek);
+  std::vector <std::string> getVerse (int book, int chapter, int verse);
+  std::vector <Passage> searchGreek (std::string greek);
 private:
   sqlite3 * connect ();
 };

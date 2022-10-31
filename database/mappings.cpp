@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/sqlite.h>
 #include <database/books.h>
+using namespace std;
 
 
 // This is a database for the verse mapping systems.

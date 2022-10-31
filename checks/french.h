@@ -23,11 +23,11 @@
 
 namespace checks_french {
 
-void space_before_after_punctuation (const string & bible, int book, int chapter,
-                                     const map <int, string> & texts);
-void citation_style  (const string & bible, int book, int chapter,
-                      const vector <map <int, string>> & verses_paragraphs);
-string left_guillemet ();
-string right_guillemet ();
+void space_before_after_punctuation (const std::string & bible, int book, int chapter,
+                                     const std::map <int, std::string> & texts);
+void citation_style  (const std::string & bible, int book, int chapter,
+                      const std::vector <std::map <int, std::string>> & verses_paragraphs);
+std::string left_guillemet ();
+std::string right_guillemet ();
 
 }

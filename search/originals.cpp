@@ -34,6 +34,7 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string search_originals_url ()

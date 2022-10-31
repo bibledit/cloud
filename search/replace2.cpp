@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <menu/logic.h>
 #include <dialog/list2.h>
+using namespace std;
 
 
 string search_replace2_url ()

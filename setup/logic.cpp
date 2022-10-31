@@ -48,6 +48,7 @@
 #include <locale/logic.h>
 #include <tasks/logic.h>
 #include <database/logic.h>
+using namespace std;
 
 
 void setup_conditionally (const char * package)

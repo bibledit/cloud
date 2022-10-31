@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
+using namespace std;
 
 
 string navigation_paratext_url ()

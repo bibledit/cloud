@@ -30,6 +30,7 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string workspace_organize_url ()

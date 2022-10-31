@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <access/logic.h>
 #include <access/bible.h>
 #include <email/send.h>
+using namespace std;
 
 
 string user_notifications_url ()

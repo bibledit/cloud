@@ -27,6 +27,7 @@
 #include <database/config/general.h>
 #include <search/logic.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string search_replacepre2_url ()

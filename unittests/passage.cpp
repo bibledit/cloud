@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/bibles.h>
 #include <database/state.h>
+using namespace std;
 
 
 void test_passage ()

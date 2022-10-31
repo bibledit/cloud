@@ -36,6 +36,7 @@
 #include <menu/logic.h>
 #include <bb/logic.h>
 #include <editor/usfm2html.h>
+using namespace std;
 
 
 string edit_preview_url ()

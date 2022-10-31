@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string search_replacego2_url ();
+std::string search_replacego2_url ();
 bool search_replacego2_acl (void * webserver_request);
-string search_replacego2 (void * webserver_request);
+std::string search_replacego2 (void * webserver_request);

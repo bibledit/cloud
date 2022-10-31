@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string editusfm_save_url ();
+std::string editusfm_save_url ();
 bool editusfm_save_acl (void * webserver_request);
-string editusfm_save (void * webserver_request);
+std::string editusfm_save (void * webserver_request);

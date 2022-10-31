@@ -26,6 +26,7 @@
 #include <editor/usfm2html.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
+using namespace std;
 
 
 string edit_position_url ()

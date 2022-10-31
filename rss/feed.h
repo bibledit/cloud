@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string rss_feed_url ();
+std::string rss_feed_url ();
 bool rss_feed_acl (void * webserver_request);
-string rss_feed (void * webserver_request);
+std::string rss_feed (void * webserver_request);

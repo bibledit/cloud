@@ -20,6 +20,7 @@
 #include <versification/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+using namespace std;
 
 
 // Get the names of the available versification systems that come with Bibledit.

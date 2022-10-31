@@ -29,6 +29,7 @@
 #include <ipc/notes.h>
 #include <access/logic.h>
 #include <developer/logic.h>
+using namespace std;
 
 
 string notes_poll_url ()

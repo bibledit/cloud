@@ -25,6 +25,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <database/notes.h>
+using namespace std;
 
 
 string public_notes_url ()

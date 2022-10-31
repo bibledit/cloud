@@ -24,45 +24,45 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Cache
 {
 public:
-  static void create (string resource, int book);
-  static void remove (string resource);
-  static void remove (string resource, int book);
-  static bool exists (string resource);
-  static bool exists (string resource, int book);
-  static bool exists (string resource, int book, int chapter, int verse);
-  static void cache (string resource, int book, int chapter, int verse, string value);
-  static string retrieve (string resource, int book, int chapter, int verse);
-  static int count (string resource);
-  static bool ready (string resource, int book);
-  static void ready (string resource, int book, bool ready);
-  static int size (string resource, int book);
-  static string fragment ();
-  static string path (string resource, int book);
+  static void create (std::string resource, int book);
+  static void remove (std::string resource);
+  static void remove (std::string resource, int book);
+  static bool exists (std::string resource);
+  static bool exists (std::string resource, int book);
+  static bool exists (std::string resource, int book, int chapter, int verse);
+  static void cache (std::string resource, int book, int chapter, int verse, std::string value);
+  static std::string retrieve (std::string resource, int book, int chapter, int verse);
+  static int count (std::string resource);
+  static bool ready (std::string resource, int book);
+  static void ready (std::string resource, int book, bool ready);
+  static int size (std::string resource, int book);
+  static std::string fragment ();
+  static std::string path (std::string resource, int book);
 private:
-  static string filename (string resource, int book);
+  static std::string filename (std::string resource, int book);
 };
 
 
-bool database_filebased_cache_exists (string schema);
-void database_filebased_cache_put (string schema, string contents);
-string database_filebased_cache_get (string schema);
-void database_filebased_cache_remove (string schema);
-string database_filebased_cache_name_by_ip (string address, string id);
-string database_filebased_cache_name_by_session_id (string sid, string id);
+bool database_filebased_cache_exists (std::string schema);
+void database_filebased_cache_put (std::string schema, std::string contents);
+std::string database_filebased_cache_get (std::string schema);
+void database_filebased_cache_remove (std::string schema);
+std::string database_filebased_cache_name_by_ip (std::string address, std::string id);
+std::string database_filebased_cache_name_by_session_id (std::string sid, std::string id);
 
 
-string focused_book_filebased_cache_filename (string sid);
-string focused_chapter_filebased_cache_filename (string sid);
-string focused_verse_filebased_cache_filename (string sid);
-string general_font_size_filebased_cache_filename (string sid);
-string menu_font_size_filebased_cache_filename (string sid);
-string resource_font_size_filebased_cache_filename (string sid);
-string hebrew_font_size_filebased_cache_filename (string sid);
-string greek_font_size_filebased_cache_filename (string sid);
-string current_theme_filebased_cache_filename (string sid);
+std::string focused_book_filebased_cache_filename (std::string sid);
+std::string focused_chapter_filebased_cache_filename (std::string sid);
+std::string focused_verse_filebased_cache_filename (std::string sid);
+std::string general_font_size_filebased_cache_filename (std::string sid);
+std::string menu_font_size_filebased_cache_filename (std::string sid);
+std::string resource_font_size_filebased_cache_filename (std::string sid);
+std::string hebrew_font_size_filebased_cache_filename (std::string sid);
+std::string greek_font_size_filebased_cache_filename (std::string sid);
+std::string current_theme_filebased_cache_filename (std::string sid);
 
 
 void database_cache_trim (bool clear);
 
 
-bool database_cache_can_cache (const string & error, const string & html);
+bool database_cache_can_cache (const std::string & error, const std::string & html);

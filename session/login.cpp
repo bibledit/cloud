@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <index/index.h>
 #include <ldap/logic.h>
 #include <user/logic.h>
+using namespace std;
 
 
 const char * session_login_url ()

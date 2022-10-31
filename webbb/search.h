@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string webbible_search_url ();
+std::string webbible_search_url ();
 bool webbible_search_acl (void * webserver_request);
-string webbible_search (void * webserver_request);
+std::string webbible_search (void * webserver_request);

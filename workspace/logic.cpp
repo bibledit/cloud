@@ -35,6 +35,7 @@
 #include <database/logs.h>
 #include <database/cache.h>
 #include <read/index.h>
+using namespace std;
 
 
 vector <string> workspace_get_default_names ()

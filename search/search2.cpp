@@ -34,6 +34,7 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <dialog/list2.h>
+using namespace std;
 
 
 string search_search2_url ()

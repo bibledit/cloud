@@ -35,6 +35,7 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
+using namespace std;
 
 
 string checks_settingspairs_url ()

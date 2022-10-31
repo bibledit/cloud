@@ -24,16 +24,16 @@
 class Dialog_Books
 {
 public:
-  Dialog_Books (string url, string header, string info_top, string info_bottom, string action, vector <int> inclusions, vector <int> exclusions);
+  Dialog_Books (std::string url, std::string header, std::string info_top, std::string info_bottom, std::string action, std::vector <int> inclusions, std::vector <int> exclusions);
   ~Dialog_Books ();
   Dialog_Books (const Dialog_Books&) = delete;
   Dialog_Books operator=(const Dialog_Books&) = delete;
-  void add_query (string parameter, string value);
-  string run ();
+  void add_query (std::string parameter, std::string value);
+  std::string run ();
 private:
   void * assets_view {nullptr};
-  string base_url {};
-  string selection_action {};
-  vector <int> include {};
-  vector <int> exclude {};
+  std::string base_url {};
+  std::string selection_action {};
+  std::vector <int> include {};
+  std::vector <int> exclude {};
 };

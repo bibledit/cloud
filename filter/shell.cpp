@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tlhelp32.h>
 #endif
 #include <developer/logic.h>
+using namespace std;
 
 
 // Internal declarations.

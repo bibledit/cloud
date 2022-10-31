@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string workspace_organize_url ();
+std::string workspace_organize_url ();
 bool workspace_organize_acl (void * webserver_request);
-string workspace_organize (void * webserver_request);
+std::string workspace_organize (void * webserver_request);

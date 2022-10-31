@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string search_strongs_url ();
+std::string search_strongs_url ();
 bool search_strongs_acl (void * webserver_request);
-string search_strongs (void * webserver_request);
+std::string search_strongs (void * webserver_request);

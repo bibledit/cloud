@@ -22,6 +22,7 @@
 #include <filter/usfm.h>
 #include <database/check.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 namespace checks::space {

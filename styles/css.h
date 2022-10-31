@@ -24,18 +24,18 @@
 class Styles_Css
 {
 public:
-  Styles_Css (void * webserver_request, const string & stylesheet);
+  Styles_Css (void * webserver_request, const std::string & stylesheet);
   Styles_Css(const Styles_Css&) = delete;
   Styles_Css operator=(const Styles_Css&) = delete;
   void editor ();
   void exports ();
   void generate ();
-  string css (string path = "");
-  void customize (const string& bible);
+  std::string css (std::string path = "");
+  void customize (const std::string& bible);
 private:
   void * m_webserver_request {nullptr};
-  string m_stylesheet {};
-  vector <string> m_code {};
+  std::string m_stylesheet {};
+  std::vector <std::string> m_code {};
   bool editor_enabled {false}; // Whether to generate CSS for the Bible text editor.
   bool exports_enabled {false}; // Whether to generate CSS for exported Bibles.
   void evaluate (void * database_styles_item);

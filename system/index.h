@@ -24,6 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define MINIMUM_TIMEZONE -12
 #define MAXIMUM_TIMEZONE 14
 
-string system_index_url ();
+std::string system_index_url ();
 bool system_index_acl (void * webserver_request);
-string system_index (void * webserver_request);
+std::string system_index (void * webserver_request);

@@ -34,41 +34,41 @@
 #define BDB_PREFIX "b"
 
 
-vector <string> lexicon_logic_resource_names ();
-string lexicon_logic_get_html (void * webserver_request, string lexicon, int book, int chapter, int verse);
-string lexicon_logic_get_script (string prefix);
-string lexicon_logic_strong_number_cleanup (string strong);
-void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
-                                                      vector <string>& strongs,
-                                                      vector <string>& bdbs);
-string lexicon_logic_render_strongs_definition (string strong);
-string lexicon_logic_render_strongs_part_of_speech (string value);
-string lexicon_logic_render_strongs_part_of_speech_stem (string abbrev);
-string lexicon_logic_render_strongs_part_of_speech_person (string abbrev);
-string lexicon_logic_render_strongs_part_of_speech_gender (string abbrev);
-string lexicon_logic_render_strongs_part_of_speech_number (string abbrev);
-string lexicon_logic_render_strongs_part_of_speech_state (string abbrev);
-string lexicon_logic_define_user_strong (string strong);
-string lexicon_logic_render_morphgnt_part_of_speech (string pos);
-string lexicon_logic_render_morphgnt_parsing_code (string parsing);
-string lexicon_logic_render_etcbc4_morphology (string rowid);
-string lexicon_logic_render_bdb_entry (string code);
-string lexicon_logic_get_remove_attribute (string & xml, const char * key);
-string lexicon_logic_get_text (string & xml);
+std::vector <std::string> lexicon_logic_resource_names ();
+std::string lexicon_logic_get_html (void * webserver_request, std::string lexicon, int book, int chapter, int verse);
+std::string lexicon_logic_get_script (std::string prefix);
+std::string lexicon_logic_strong_number_cleanup (std::string strong);
+void lexicon_logic_convert_morphhb_parsing_to_strong (std::string parsing,
+                                                      std::vector <std::string>& strongs,
+                                                      std::vector <std::string>& bdbs);
+std::string lexicon_logic_render_strongs_definition (std::string strong);
+std::string lexicon_logic_render_strongs_part_of_speech (std::string value);
+std::string lexicon_logic_render_strongs_part_of_speech_stem (std::string abbrev);
+std::string lexicon_logic_render_strongs_part_of_speech_person (std::string abbrev);
+std::string lexicon_logic_render_strongs_part_of_speech_gender (std::string abbrev);
+std::string lexicon_logic_render_strongs_part_of_speech_number (std::string abbrev);
+std::string lexicon_logic_render_strongs_part_of_speech_state (std::string abbrev);
+std::string lexicon_logic_define_user_strong (std::string strong);
+std::string lexicon_logic_render_morphgnt_part_of_speech (std::string pos);
+std::string lexicon_logic_render_morphgnt_parsing_code (std::string parsing);
+std::string lexicon_logic_render_etcbc4_morphology (std::string rowid);
+std::string lexicon_logic_render_bdb_entry (std::string code);
+std::string lexicon_logic_get_remove_attribute (std::string & xml, const char * key);
+std::string lexicon_logic_get_text (std::string & xml);
 
-string lexicon_logic_hebrew_morphology_render (string value);
-string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (string & value);
-string lexicon_logic_hebrew_morphology_render_type_adjective (string & value);
-string lexicon_logic_hebrew_morphology_render_type_noun (string & value);
-string lexicon_logic_hebrew_morphology_render_type_pronoun (string & value);
-string lexicon_logic_hebrew_morphology_render_type_preposition (string & value);
-string lexicon_logic_hebrew_morphology_render_type_suffix (string & value);
-string lexicon_logic_hebrew_morphology_render_type_particle (string & value);
-string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, string & value);
-string lexicon_logic_hebrew_morphology_render_person (string & value);
-string lexicon_logic_hebrew_morphology_render_gender (string & value);
-string lexicon_logic_hebrew_morphology_render_number (string & value);
-string lexicon_logic_hebrew_morphology_render_state (string & value);
+std::string lexicon_logic_hebrew_morphology_render (std::string value);
+std::string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_type_adjective (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_type_noun (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_type_pronoun (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_type_preposition (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_type_suffix (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_type_particle (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_person (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_gender (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_number (std::string & value);
+std::string lexicon_logic_hebrew_morphology_render_state (std::string & value);
 
-string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong);
+std::string lexicon_logic_render_abbott_smiths_definition (std::string lemma, std::string strong);
 

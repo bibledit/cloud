@@ -37,6 +37,7 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <journal/logic.h>
+using namespace std;
 
 
 string checks_settings_url ()

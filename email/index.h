@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string email_index_url ();
+std::string email_index_url ();
 bool email_index_acl (void * webserver_request);
-string email_index (void * webserver_request);
+std::string email_index (void * webserver_request);

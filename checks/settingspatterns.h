@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string checks_settingspatterns_url ();
+std::string checks_settingspatterns_url ();
 bool checks_settingspatterns_acl (void * webserver_request);
-string checks_settingspatterns (void * webserver_request);
+std::string checks_settingspatterns (void * webserver_request);

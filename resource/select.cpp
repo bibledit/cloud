@@ -41,6 +41,7 @@
 #include <sword/logic.h>
 #include <access/logic.h>
 #include <config/globals.h>
+using namespace std;
 
 
 string resource_select_url ()

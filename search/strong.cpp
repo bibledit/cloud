@@ -32,6 +32,7 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string search_strong_url ()

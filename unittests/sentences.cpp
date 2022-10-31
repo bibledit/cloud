@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/sentences.h>
 #include <unittests/utilities.h>
 #include <checks/sentences.h>
+using namespace std;
 
 
 Checks_Sentences test_sentences_setup ()

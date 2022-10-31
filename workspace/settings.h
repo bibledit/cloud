@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string workspace_settings_url ();
+std::string workspace_settings_url ();
 bool workspace_settings_acl (void * webserver_request);
-string workspace_settings (void * webserver_request);
+std::string workspace_settings (void * webserver_request);

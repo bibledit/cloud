@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <database/statistics.h>
 #include <filter/date.h>
+using namespace std;
 
 
 void test_database_statistics ()

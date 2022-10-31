@@ -31,6 +31,7 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <notes/note.h>
+using namespace std;
 
 
 string notes_summary_url ()

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string changes_statistics_url ();
+std::string changes_statistics_url ();
 bool changes_statistics_acl (void * webserver_request);
-string changes_statistics (void * webserver_request);
+std::string changes_statistics (void * webserver_request);

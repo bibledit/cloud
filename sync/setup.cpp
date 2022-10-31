@@ -25,6 +25,7 @@
 #include <database/users.h>
 #include <sync/logic.h>
 #include <user/logic.h>
+using namespace std;
 
 
 string sync_setup_url ()

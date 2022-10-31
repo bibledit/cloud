@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string search_search2_url ();
+std::string search_search2_url ();
 bool search_search2_acl (void * webserver_request);
-string search_search2 (void * webserver_request);
+std::string search_search2 (void * webserver_request);

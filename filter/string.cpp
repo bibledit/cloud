@@ -73,9 +73,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #include <stdio.h>
 #include <errno.h>
-
-
-
+using namespace std;
 #ifdef HAVE_ICU
 using namespace icu;
 #endif
@@ -84,9 +82,9 @@ using namespace icu;
 // A C++ equivalent for PHP's explode function.
 // Split a string on a delimiter.
 // Return a vector of strings.
-vector <string> filter_string_explode (string value, char delimiter)
+std::vector <string> filter_string_explode (string value, char delimiter)
 {
-  vector <string> result;
+  std::vector <string> result;
   istringstream iss (value);
   for (string token; getline (iss, token, delimiter); )
   {

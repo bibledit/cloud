@@ -36,8 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
 #include <tasks/logic.h>
-
-
+using namespace std;
 using namespace pugi;
 
 

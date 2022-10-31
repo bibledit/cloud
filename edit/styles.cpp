@@ -24,6 +24,7 @@
 #include <webserver/request.h>
 #include <editor/styles.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string edit_styles_url ()

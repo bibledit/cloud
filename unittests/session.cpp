@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <user/logic.h>
 #include <filter/date.h>
+using namespace std;
 
 
 void test_session ()

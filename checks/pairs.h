@@ -23,10 +23,10 @@
 
 namespace checks_pairs {
 
-void run (const string & bible, int book, int chapter,
-          const map <int, string> & texts,
-          const vector <pair <string, string> > & pairs,
+void run (const std::string & bible, int book, int chapter,
+          const std::map <int, std::string> & texts,
+          const std::vector <std::pair <std::string, std::string> > & pairs,
           bool french_citation_style);
-string match (const string & character, const vector <pair <string, string> > & pairs);
+std::string match (const std::string & character, const std::vector <std::pair <std::string, std::string> > & pairs);
 
 }

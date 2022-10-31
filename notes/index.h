@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_index_url ();
+std::string notes_index_url ();
 bool notes_index_acl (void * webserver_request);
-string notes_index (void * webserver_request);
+std::string notes_index (void * webserver_request);

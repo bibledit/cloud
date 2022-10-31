@@ -22,8 +22,8 @@
 #include <config/libraries.h>
 #include <filter/string.hpp>
 
-void sendreceive_sendreceive (string bible);
-string sendreceive_sendreceive_sendreceive_text ();
-string sendreceive_sendreceive_send_text ();
-string sendreceive_sendreceive_sendreceive_ready_text ();
-string sendreceive_sendreceive_send_ready_text ();
+void sendreceive_sendreceive (std::string bible);
+std::string sendreceive_sendreceive_sendreceive_text ();
+std::string sendreceive_sendreceive_send_text ();
+std::string sendreceive_sendreceive_sendreceive_ready_text ();
+std::string sendreceive_sendreceive_send_ready_text ();

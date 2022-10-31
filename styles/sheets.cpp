@@ -25,6 +25,7 @@
 #include <database/styles.h>
 #include <database/logs.h>
 #include <styles/css.h>
+using namespace std;
 
 
 // Recreates all stylesheet.css files through a background process.

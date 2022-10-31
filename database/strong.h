@@ -24,8 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Strong
 {
 public:
-  string definition (string strong);
-  vector <string> strong (string lemma);
+  std::string definition (std::string strong);
+  std::vector <std::string> strong (std::string lemma);
 private:
   sqlite3 * connect ();
 };

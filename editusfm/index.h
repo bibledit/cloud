@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string editusfm_index_url ();
+std::string editusfm_index_url ();
 bool editusfm_index_acl (void * webserver_request);
-string editusfm_index (void * webserver_request);
+std::string editusfm_index (void * webserver_request);

@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <webserver/request.h>
 #include <sync/logic.h>
+using namespace std;
 
 
 string sync_settings_url ()

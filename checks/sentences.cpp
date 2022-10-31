@@ -21,6 +21,7 @@
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 void Checks_Sentences::enter_capitals (const string & capitals)

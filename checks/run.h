@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void checks_run (string bible);
+void checks_run (std::string bible);

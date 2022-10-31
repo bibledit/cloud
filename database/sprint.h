@@ -37,16 +37,16 @@ class Database_Sprint
 public:
   void create ();
   void optimize ();
-  void storeTask (const string& bible, int year, int month, const string& title);
+  void storeTask (const std::string& bible, int year, int month, const std::string& title);
   void deleteTask (int id);
-  vector <int> getTasks (const string& bible, int year, int month);
-  string getTitle (int id);
+  std::vector <int> getTasks (const std::string& bible, int year, int month);
+  std::string getTitle (int id);
   void updateComplete (int id, int percentage);
   int getComplete (int id);
   void updateMonthYear (int id, int month, int year);
-  void logHistory (const string& bible, int year, int month, int day, int tasks, int complete);
-  vector <Database_Sprint_Item> getHistory (const string& bible, int year, int month);
-  void clearHistory (const string& bible, int year, int month);
+  void logHistory (const std::string& bible, int year, int month, int day, int tasks, int complete);
+  std::vector <Database_Sprint_Item> getHistory (const std::string& bible, int year, int month);
+  void clearHistory (const std::string& bible, int year, int month);
 private:
   sqlite3 * connect ();
 };

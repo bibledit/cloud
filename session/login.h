@@ -23,5 +23,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 const char * session_login_url ();
 bool session_login_acl (void * webserver_request);
-string session_login (void * webserver_request);
-string session_login_display_header (void * webserver_request);
+std::string session_login (void * webserver_request);
+std::string session_login_display_header (void * webserver_request);

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string editone2_index_url ();
+std::string editone2_index_url ();
 bool editone2_index_acl (void * webserver_request);
-string editone2_index (void * webserver_request);
+std::string editone2_index (void * webserver_request);

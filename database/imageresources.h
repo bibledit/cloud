@@ -24,24 +24,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_ImageResources
 {
 public:
-  vector <string> names ();
-  void create (string name);
-  void erase (string name);
-  void erase (string name, string image);
-  string store (string name, string file);
-  void assign (string name, string image,
+  std::vector <std::string> names ();
+  void create (std::string name);
+  void erase (std::string name);
+  void erase (std::string name, std::string image);
+  std::string store (std::string name, std::string file);
+  void assign (std::string name, std::string image,
                int book1, int chapter1, int verse1,
                int book2, int chapter2, int verse2);
-  vector <string> get (string name, int book, int chapter, int verse);
-  vector <string> get (string name);
-  void get (string name, string image,
+  std::vector <std::string> get (std::string name, int book, int chapter, int verse);
+  std::vector <std::string> get (std::string name);
+  void get (std::string name, std::string image,
             int & book1, int & chapter1, int & verse1,
             int & book2, int & chapter2, int & verse2);
-  string get (string name, string image);
+  std::string get (std::string name, std::string image);
 private:
-  string mainFolder ();
-  string resourceFolder (const string& name);
-  string imagePath (string name, string image);
-  string databaseFile ();
-  sqlite3 * connect (string name);
+  std::string mainFolder ();
+  std::string resourceFolder (const std::string& name);
+  std::string imagePath (std::string name, std::string image);
+  std::string databaseFile ();
+  sqlite3 * connect (std::string name);
 };

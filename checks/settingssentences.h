@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string checks_settingssentences_url ();
+std::string checks_settingssentences_url ();
 bool checks_settingssentences_acl (void * webserver_request);
-string checks_settingssentences (void * webserver_request);
+std::string checks_settingssentences (void * webserver_request);

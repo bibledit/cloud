@@ -24,11 +24,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-void editone_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style);
-void editone_logic_editable_html (string usfm, string stylesheet, string & html);
-void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html);
-string editone_logic_html_to_usfm (string stylesheet, string html);
-void editone_logic_move_notes_v2 (string & prefix, string & suffix);
+void editone_logic_prefix_html (std::string usfm, std::string stylesheet, std::string & html, std::string & last_p_style);
+void editone_logic_editable_html (std::string usfm, std::string stylesheet, std::string & html);
+void editone_logic_suffix_html (std::string editable_last_p_style, std::string usfm, std::string stylesheet, std::string & html);
+std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html);
+void editone_logic_move_notes_v2 (std::string & prefix, std::string & suffix);
 
 
 #endif

@@ -31,14 +31,14 @@ public:
   int get_new_id ();
   void set_level (int id, int level);
   int get_level (int id);
-  void set_start (int id, string start);
-  string get_start (int id);
+  void set_start (int id, std::string start);
+  std::string get_start (int id);
   void set_percentage (int id, int percentage);
-  string get_percentage (int id);
-  void set_progress (int id, string progress);
-  string get_progress (int id);
-  void set_result (int id, string result);
-  string get_result (int id);
+  std::string get_percentage (int id);
+  void set_progress (int id, std::string progress);
+  std::string get_progress (int id);
+  void set_result (int id, std::string result);
+  std::string get_result (int id);
 private:
   sqlite3 * connect ();
 };

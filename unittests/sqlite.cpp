@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/sqlite.h>
 #include <unittests/utilities.h>
 #include <database/sqlite.h>
+using namespace std;
 
 
 void test_sqlite ()

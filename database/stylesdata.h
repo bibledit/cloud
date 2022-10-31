@@ -20,8 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 typedef struct
 {
   const char * marker;
-  string name;
-  string info;
+  std::string name;
+  std::string info;
   const char * category;
   int type;
   int subtype;

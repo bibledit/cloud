@@ -34,6 +34,7 @@
 #include <sync/logic.h>
 #include <sync/settings.h>
 #include <user/logic.h>
+using namespace std;
 
 
 int sendreceive_settings_watchdog = 0;

@@ -28,6 +28,7 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <database/statistics.h>
+using namespace std;
 
 
 // Internal function declarations.

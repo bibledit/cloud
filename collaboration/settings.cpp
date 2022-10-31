@@ -34,6 +34,7 @@
 #include <collaboration/link.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>
+using namespace std;
 
 
 string collaboration_settings_url ()

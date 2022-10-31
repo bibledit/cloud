@@ -30,6 +30,7 @@
 #include <edit/index.h>
 #include <editone2/index.h>
 #include <editusfm/index.h>
+using namespace std;
 
 
 string editor_select_url ()

@@ -24,34 +24,34 @@
 class Checks_Sentences
 {
 public:
-  void enter_capitals (const string & capitals);
-  void enter_small_letters (const string & small_letters);
-  void enter_end_marks (const string & end_marks);
-  void enter_center_marks (const string & center_marks);
-  void enter_disregards (const string & disregards);
-  void enter_names (string names);
+  void enter_capitals (const std::string & capitals);
+  void enter_small_letters (const std::string & small_letters);
+  void enter_end_marks (const std::string & end_marks);
+  void enter_center_marks (const std::string & center_marks);
+  void enter_disregards (const std::string & disregards);
+  void enter_names (std::string names);
   void initialize ();
-  vector <pair<int, string>> get_results ();
-  void check (const map <int, string> & texts);
-  void paragraphs (const vector <string> & paragraph_start_markers,
-                   const vector <string> & within_sentence_paragraph_markers,
-                   const vector <map <int, string>> & verses_paragraphs);
+  std::vector <std::pair<int, std::string>> get_results ();
+  void check (const std::map <int, std::string> & texts);
+  void paragraphs (const std::vector <std::string> & paragraph_start_markers,
+                   const std::vector <std::string> & within_sentence_paragraph_markers,
+                   const std::vector <std::map <int, std::string>> & verses_paragraphs);
 
 private:
   // Sentence structure parameters.
-  vector <string> m_capitals {};
-  vector <string> m_small_letters {};
-  vector <string> m_end_marks {};
-  vector <string> m_center_marks {};
-  vector <string> m_disregards {};
-  vector <string> m_names {};
+  std::vector <std::string> m_capitals {};
+  std::vector <std::string> m_small_letters {};
+  std::vector <std::string> m_end_marks {};
+  std::vector <std::string> m_center_marks {};
+  std::vector <std::string> m_disregards {};
+  std::vector <std::string> m_names {};
   
   // State.
   int verse_number {0};
   int current_position {0};
   
   // Grapheme analysis.
-  string character {};
+  std::string character {};
   bool is_space {false};
   int space_position {0};
   bool is_capital {false};
@@ -66,15 +66,15 @@ private:
   int previous_mark_position {0};
   
   // Context.
-  string full_text {};
+  std::string full_text {};
   
   // Results of the checks.
-  vector <pair<int, string>> checking_results {};
+  std::vector <std::pair<int, std::string>> checking_results {};
   static constexpr int display_character_only {1};
   static constexpr int display_context {2};
   static constexpr int skip_names {3};
   
-  void add_result (string text, int modifier);
+  void add_result (std::string text, int modifier);
   void check_unknown_character ();
   void analyze_characters ();
   void check_character ();

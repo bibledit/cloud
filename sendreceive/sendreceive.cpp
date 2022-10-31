@@ -26,6 +26,7 @@
 #include <database/logs.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 string sendreceive_tag ()

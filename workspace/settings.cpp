@@ -32,6 +32,7 @@
 #include <filter/url.h>
 #include <menu/logic.h>
 #include <workspace/organize.h>
+using namespace std;
 
 
 string workspace_settings_url ()

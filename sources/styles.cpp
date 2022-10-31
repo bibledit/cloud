@@ -20,6 +20,7 @@
 #include <sources/styles.h>
 #include <filter/string.h>
 #include <filter/url.h>
+using namespace std;
 
 
 string sources_style_parse_create_c_comment (string key)

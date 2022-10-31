@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-string sync_setup_url ();
-string sync_setup (void * webserver_request);
+std::string sync_setup_url ();
+std::string sync_setup (void * webserver_request);

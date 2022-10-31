@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string collaboration_settings_url ();
+std::string collaboration_settings_url ();
 bool collaboration_settings_acl (void * webserver_request);
-string collaboration_settings (void * webserver_request);
+std::string collaboration_settings (void * webserver_request);

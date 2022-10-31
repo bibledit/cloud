@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string styles_sheetm_url ();
+std::string styles_sheetm_url ();
 bool styles_sheetm_acl (void * webserver_request);
-string styles_sheetm (void * webserver_request);
+std::string styles_sheetm (void * webserver_request);

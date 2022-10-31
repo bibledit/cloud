@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string bible_settings_url ();
+std::string bible_settings_url ();
 bool bible_settings_acl (void * webserver_request);
-string bible_settings (void * webserver_request);
+std::string bible_settings (void * webserver_request);

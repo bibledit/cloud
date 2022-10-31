@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/logic.h>
 #include <client/logic.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 void email_send ()

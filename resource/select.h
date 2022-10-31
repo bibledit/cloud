@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string resource_select_url ();
+std::string resource_select_url ();
 bool resource_select_acl (void * webserver_request);
-string resource_select (void * webserver_request);
+std::string resource_select (void * webserver_request);

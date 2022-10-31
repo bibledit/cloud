@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string edit_styles_url ();
+std::string edit_styles_url ();
 bool edit_styles_acl (void * webserver_request);
-string edit_styles (void * webserver_request);
+std::string edit_styles (void * webserver_request);

@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <editone2/index.h>
+using namespace std;
 
 
 string editone_index_url ()

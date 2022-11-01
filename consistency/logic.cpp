@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 Consistency_Logic::Consistency_Logic (void * webserver_request_in, int id_in)

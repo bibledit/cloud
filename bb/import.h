@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string bible_import_url ();
+std::string bible_import_url ();
 bool bible_import_acl (void * webserver_request);
-string bible_import (void * webserver_request);
+std::string bible_import (void * webserver_request);

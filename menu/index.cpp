@@ -22,6 +22,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string menu_index_url ()

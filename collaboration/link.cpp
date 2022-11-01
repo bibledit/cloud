@@ -31,6 +31,7 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <database/jobs.h>
+using namespace std;
 
 
 void collaboration_link ([[maybe_unused]] string object,

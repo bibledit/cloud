@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/bibles.h>
 #include <database/volatile.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 string edit2_logic_volatile_key (string bible, int book, int chapter, string editor)

@@ -38,8 +38,7 @@
 #pragma GCC diagnostic pop
 #include <resource/comparative1edit.h>
 #include <client/logic.h>
-
-
+using namespace std;
 using namespace pugi;
 
 

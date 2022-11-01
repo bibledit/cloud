@@ -21,6 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string personalize_index_url ();
+std::string personalize_index_url ();
 bool personalize_index_acl (void * webserver_request);
-string personalize_index (void * webserver_request);
+std::string personalize_index (void * webserver_request);

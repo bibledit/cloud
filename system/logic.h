@@ -21,14 +21,14 @@
 
 #include <config/libraries.h>
 
-string system_logic_bibles_file_name ();
+std::string system_logic_bibles_file_name ();
 void system_logic_produce_bibles_file (int jobid);
-void system_logic_import_bibles_file (string tarball);
-string system_logic_notes_file_name ();
+void system_logic_import_bibles_file (std::string tarball);
+std::string system_logic_notes_file_name ();
 void system_logic_produce_notes_file (int jobid);
-void system_logic_import_notes_file (string tarball);
-string system_logic_resources_file_name (string resourcename = "");
+void system_logic_import_notes_file (std::string tarball);
+std::string system_logic_resources_file_name (std::string resourcename = "");
 void system_logic_produce_resources_file (int jobid);
-void system_logic_import_resources_file (string tarball);
-void system_logic_indonesian_free_deletion (string username, string email);
+void system_logic_import_resources_file (std::string tarball);
+void system_logic_indonesian_free_deletion (std::string username, std::string email);
 void system_logic_indonesian_free_expiration ();

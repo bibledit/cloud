@@ -32,6 +32,7 @@
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <config/globals.h>
+using namespace std;
 
 
 string resource_index_url ()

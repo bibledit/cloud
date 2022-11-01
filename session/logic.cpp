@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <config/globals.h>
 #include <user/logic.h>
+using namespace std;
 
 
 // The username and password for a demo installation, and for a disconnected client installation

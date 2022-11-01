@@ -32,6 +32,7 @@
 #include <database/config/general.h>
 #include <tasks/logic.h>
 #include <journal/index.h>
+using namespace std;
 
 
 string paratext_index_url ()

@@ -44,6 +44,7 @@
 #include <workspace/logic.h>
 #include <public/new.h>
 #include <public/notes.h>
+using namespace std;
 
 
 string read_index_url ()

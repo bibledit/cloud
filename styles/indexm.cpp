@@ -37,6 +37,7 @@
 #include <styles/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string styles_indexm_url ()

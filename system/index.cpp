@@ -47,6 +47,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fonts/logic.h>
 #include <manage/index.h>
 #include <client/logic.h>
+using namespace std;
 
 
 string system_index_url ()

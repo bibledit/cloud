@@ -34,6 +34,7 @@
 #include <fonts/logic.h>
 #include <database/config/bible.h>
 #include <styles/css.h>
+using namespace std;
 
 
 string public_index_url ()

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string resource_cache_url ();
+std::string resource_cache_url ();
 bool resource_cache_acl (void * webserver_request);
-string resource_cache (void * webserver_request);
+std::string resource_cache (void * webserver_request);

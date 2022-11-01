@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string sprint_index_url ();
+std::string sprint_index_url ();
 bool sprint_index_acl (void * webserver_request);
-string sprint_index (void * webserver_request);
+std::string sprint_index (void * webserver_request);

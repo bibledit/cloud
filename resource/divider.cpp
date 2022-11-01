@@ -42,6 +42,7 @@
 #include <resource/logic.h>
 #include <resource/organize.h>
 #include <sync/logic.h>
+using namespace std;
 
 
 string resource_divider_url ()

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string menu_index_url ();
+std::string menu_index_url ();
 bool menu_index_acl (void * webserver_request);
-string menu_index (void * webserver_request);
+std::string menu_index (void * webserver_request);

@@ -33,6 +33,7 @@
 #include <journal/logic.h>
 #include <menu/logic.h>
 #include <database/bibleimages.h>
+using namespace std;
 
 
 string images_index_url ()

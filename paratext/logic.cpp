@@ -36,6 +36,7 @@
 #include <locale/translate.h>
 #include <bb/logic.h>
 #include <client/logic.h>
+using namespace std;
 
 
 string Paratext_Logic::searchProjectsFolder ()

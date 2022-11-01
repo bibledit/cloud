@@ -34,6 +34,7 @@
 #include <bb/manage.h>
 #include <assets/external.h>
 #include <journal/logic.h>
+using namespace std;
 
 
 string bible_import_url ()

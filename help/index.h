@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-string help_index_html (const string& url);
-bool help_index_url (const string& url);
+std::string help_index_html (const std::string& url);
+bool help_index_url (const std::string& url);
 bool help_index_acl (void * webserver_request);
-string help_index (void * webserver_request, const string& url);
+std::string help_index (void * webserver_request, const std::string& url);

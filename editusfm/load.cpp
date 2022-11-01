@@ -24,6 +24,7 @@
 #include <checksum/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string editusfm_load_url ()

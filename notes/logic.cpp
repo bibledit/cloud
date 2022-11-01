@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/index.h>
 #include <access/bible.h>
 #include <email/send.h>
+using namespace std;
 
 
 Notes_Logic::Notes_Logic (void * webserver_request_in)

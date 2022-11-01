@@ -35,6 +35,7 @@
 #include <sendreceive/logic.h>
 #include <assets/external.h>
 #include <bb/logic.h>
+using namespace std;
 
 
 string client_index_url ()

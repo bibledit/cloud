@@ -35,6 +35,7 @@
 #include <dialog/list.h>
 #include <resource/logic.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string consistency_index_url ()

@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/webview.h>
 #include <menu/logic.h>
 #include <read/index.h>
+using namespace std;
 
 
 const char * index_index_url ()

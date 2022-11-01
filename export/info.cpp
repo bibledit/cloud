@@ -33,6 +33,7 @@
 #include <filter/shell.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
+using namespace std;
 
 
 void export_info (string bible, bool log)

@@ -23,4 +23,4 @@
 
 const char * manage_exports_url ();
 bool manage_exports_acl (void * webserver_request);
-string manage_exports (void * webserver_request);
+std::string manage_exports (void * webserver_request);

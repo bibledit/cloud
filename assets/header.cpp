@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/cache.h>
+using namespace std;
 
 
 Assets_Header::Assets_Header (string title, void * webserver_request)

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string resource_comparative9edit_url ();
+std::string resource_comparative9edit_url ();
 bool resource_comparative9edit_acl (void * webserver_request);
-string resource_comparative9edit (void * webserver_request);
+std::string resource_comparative9edit (void * webserver_request);

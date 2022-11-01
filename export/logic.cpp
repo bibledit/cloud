@@ -26,6 +26,7 @@
 #include <filter/string.h>
 #include <filter/passage.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 // Schedule all Bibles for exports.

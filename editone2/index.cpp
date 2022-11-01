@@ -42,6 +42,7 @@
 #include <config/globals.h>
 #include <workspace/logic.h>
 #include <demo/logic.h>
+using namespace std;
 
 
 string editone2_index_url ()

@@ -23,6 +23,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/bibleimages.h>
+using namespace std;
 
 
 string images_fetch_url ()

@@ -23,6 +23,7 @@
 #include <filter/shell.h>
 #include <filter/roles.h>
 #include <database/logs.h>
+using namespace std;
 
 
 /*

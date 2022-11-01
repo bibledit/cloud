@@ -39,6 +39,7 @@
 #include <menu/logic.h>
 #include <config/globals.h>
 #include <tasks/enums.h>
+using namespace std;
 
 
 string sendreceive_index_url ()

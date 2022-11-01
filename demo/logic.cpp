@@ -47,6 +47,7 @@
 #include <search/logic.h>
 #include <book/create.h>
 #include <setup/logic.h>
+using namespace std;
 
 
 /*

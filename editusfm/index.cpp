@@ -37,6 +37,7 @@
 #include <menu/logic.h>
 #include <bb/logic.h>
 #include <workspace/logic.h>
+using namespace std;
 
 
 string editusfm_index_url ()

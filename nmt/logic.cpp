@@ -28,6 +28,7 @@
 #include <database/versifications.h>
 #include <database/config/bible.h>
 #include <database/mappings.h>
+using namespace std;
 
 
 void nmt_logic_export (string referencebible, string translatingbible)

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string collaboration_index_url ();
+std::string collaboration_index_url ();
 bool collaboration_index_acl (void * webserver_request);
-string collaboration_index (void * webserver_request);
+std::string collaboration_index (void * webserver_request);

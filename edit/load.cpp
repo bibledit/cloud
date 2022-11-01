@@ -30,6 +30,7 @@
 #include <database/logs.h>
 #include <quill/logic.h>
 #include <database/config/bible.h>
+using namespace std;
 
 
 string edit_load_url ()

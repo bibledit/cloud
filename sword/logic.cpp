@@ -41,6 +41,7 @@
 #endif
 #include <developer/logic.h>
 #include <database/logic.h>
+using namespace std;
 
 
 mutex sword_logic_installer_mutex;

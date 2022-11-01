@@ -39,6 +39,7 @@
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <client/logic.h>
+using namespace std;
 
 
 string resource_comparative1edit_url ()

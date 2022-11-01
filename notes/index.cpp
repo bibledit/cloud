@@ -27,6 +27,7 @@
 #include <database/notes.h>
 #include <menu/logic.h>
 #include <access/logic.h>
+using namespace std;
 
 
 string notes_index_url ()

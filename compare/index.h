@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string compare_index_url ();
+std::string compare_index_url ();
 bool compare_index_acl (void * webserver_request);
-string compare_index (void * webserver_request);
+std::string compare_index (void * webserver_request);

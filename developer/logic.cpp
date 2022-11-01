@@ -25,6 +25,7 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <filter/usfm.h>
+using namespace std;
 
 
 // Internal function declarations.

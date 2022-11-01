@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string sendreceive_index_url ();
+std::string sendreceive_index_url ();
 bool sendreceive_index_acl (void * webserver_request);
-string sendreceive_index (void * webserver_request);
+std::string sendreceive_index (void * webserver_request);

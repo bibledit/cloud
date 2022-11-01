@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <locale/translate.h>
 #include <filter/url.h>
+using namespace std;
 
 
 // Entry dialog constructor

@@ -35,6 +35,7 @@
 #include <public/index.h>
 #include <database/config/bible.h>
 #include <read/index.h>
+using namespace std;
 
 
 string public_create_url ()

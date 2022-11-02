@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/html.h>
 #include <unittests/utilities.h>
 #include <html/text.h>
+using namespace std;
 
 
 void test_html ()

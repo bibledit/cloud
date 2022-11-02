@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <database/config/general.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 namespace filter::date {

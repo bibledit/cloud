@@ -24,6 +24,7 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/books.h>
+using namespace std;
 
 
 // Constructs a Bible books selection dialog

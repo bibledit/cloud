@@ -32,6 +32,7 @@
 #include <menu/logic.h>
 #include <ipc/focus.h>
 #include <navigation/passage.h>
+using namespace std;
 
 
 string workspace_index_url ()

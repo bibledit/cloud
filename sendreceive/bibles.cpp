@@ -40,9 +40,10 @@
 #include <checksum/logic.h>
 #include <bb/logic.h>
 #include <demo/logic.h>
+using namespace std;
 
 
-int sendreceive_bibles_watchdog = 0;
+int sendreceive_bibles_watchdog {0};
 
 
 void send_receive_bibles_done ()

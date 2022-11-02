@@ -30,6 +30,7 @@
 #include <bb/logic.h>
 #include <locale/translate.h>
 #include <rss/logic.h>
+using namespace std;
 
 
 #ifdef HAVE_CLOUD

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string edit_id_url ();
+std::string edit_id_url ();
 bool edit_id_acl (void * webserver_request);
-string edit_id (void * webserver_request);
+std::string edit_id (void * webserver_request);

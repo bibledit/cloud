@@ -24,6 +24,7 @@
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string editusfm_focus_url ()

@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <search/logic.h>
 #include <export/logic.h>
+using namespace std;
 
 
 // This database stores its data in files in the filesystem.

@@ -23,6 +23,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/imageresources.h>
+using namespace std;
 
 
 string resource_imagefetch_url ()

@@ -27,6 +27,7 @@
 #include <locale/translate.h>
 #include <bb/logic.h>
 #include <filter/string.h>
+using namespace std;
 
 
 // Creates book template with ID $book in Bible $bible.

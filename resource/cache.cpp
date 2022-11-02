@@ -38,6 +38,7 @@
 #include <sendreceive/resources.h>
 #include <client/logic.h>
 #include <config/globals.h>
+using namespace std;
 
 
 string resource_cache_url ()

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_bulk_url ();
+std::string notes_bulk_url ();
 bool notes_bulk_acl (void * webserver_request);
-string notes_bulk (void * webserver_request);
+std::string notes_bulk (void * webserver_request);

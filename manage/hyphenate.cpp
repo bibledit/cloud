@@ -28,6 +28,7 @@
 #include <database/privileges.h>
 #include <database/config/bible.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 void manage_hyphenate (string bible, string user)

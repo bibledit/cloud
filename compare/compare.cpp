@@ -36,6 +36,7 @@
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <jobs/index.h>
+using namespace std;
 
 
 void compare_compare (string bible, string compare, int jobId)

@@ -30,6 +30,7 @@
 #include <menu/logic.h>
 #include <access/bible.h>
 #include <dialog/list2.h>
+using namespace std;
 
 
 string search_index_url ()

@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <client/logic.h>
 #include <locale/logic.h>
+using namespace std;
 
 
 const char * journal_index_url ()

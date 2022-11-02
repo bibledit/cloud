@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <webserver/request.h>
 #include <filter/md5.h>
+using namespace std;
 
 
 void test_checksum ()

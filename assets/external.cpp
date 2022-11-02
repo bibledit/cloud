@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/external.h>
 #include <config/globals.h>
 #include <webserver/request.h>
+using namespace std;
 
 
 string assets_external_url ()

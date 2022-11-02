@@ -18,6 +18,7 @@
 
 
 #include <filter/html.h>
+using namespace std;
 
 
 // There's weird behaviour on Android that prevents clicking links at a certain location.

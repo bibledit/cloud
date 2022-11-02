@@ -39,8 +39,7 @@
 #include <text/text.h>
 #include <locale/translate.h>
 #include <developer/logic.h>
-
-
+using namespace std;
 using dtl::Diff;
 
 

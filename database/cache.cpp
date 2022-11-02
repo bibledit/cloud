@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/logic.h>
 #include <database/config/general.h>
+using namespace std;
 
 
 // Databases resilience:

@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string lexicon_definition_url ();
+std::string lexicon_definition_url ();
 bool lexicon_definition_acl (void * webserver_request);
-string lexicon_definition (void * webserver_request);
+std::string lexicon_definition (void * webserver_request);

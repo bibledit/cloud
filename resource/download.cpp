@@ -36,6 +36,7 @@
 #include <menu/logic.h>
 #include <resource/cache.h>
 #include <client/logic.h>
+using namespace std;
 
 
 string resource_download_url ()

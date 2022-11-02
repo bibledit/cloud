@@ -27,6 +27,7 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/roles.h>
+using namespace std;
 
 
 void export_index ()

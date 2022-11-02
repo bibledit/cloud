@@ -33,6 +33,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/actions.h>
+using namespace std;
 
 
 string notes_assign_1_url ()

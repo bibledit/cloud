@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-string sync_bibles_url ();
-string sync_bibles (void * webserver_request);
+std::string sync_bibles_url ();
+std::string sync_bibles (void * webserver_request);

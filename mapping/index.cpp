@@ -28,6 +28,7 @@
 #include <dialog/yes.h>
 #include <assets/header.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string mapping_index_url ()

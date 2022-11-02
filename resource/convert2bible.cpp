@@ -27,6 +27,7 @@
 #include <database/logs.h>
 #include <locale/translate.h>
 #include <tasks/logic.h>
+using namespace std;
 
 
 void convert_resource_to_bible (string resource)

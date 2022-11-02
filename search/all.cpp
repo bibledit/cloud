@@ -32,6 +32,7 @@
 #include <notes/note.h>
 #include <search/logic.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string search_all_url ()

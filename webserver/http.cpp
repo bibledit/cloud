@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <parsewebdata/ParseWebData.h>
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
-
+using namespace std;
 
 
 // The http headers from a browser could look as follows:

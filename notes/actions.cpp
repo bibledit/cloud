@@ -36,6 +36,7 @@
 #include <database/logs.h>
 #include <styles/logic.h>
 #include <access/logic.h>
+using namespace std;
 
 
 string notes_actions_url ()

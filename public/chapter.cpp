@@ -25,6 +25,7 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <database/config/bible.h>
+using namespace std;
 
 
 string public_chapter_url ()

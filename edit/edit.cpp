@@ -30,6 +30,7 @@
 #include <locale/translate.h>
 #include <assets/view.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string edit_edit_url ()

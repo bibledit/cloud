@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <public/note.h>
+using namespace std;
 
 
 string public_comment_url ()

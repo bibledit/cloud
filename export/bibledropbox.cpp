@@ -31,6 +31,7 @@
 #include <styles/sheets.h>
 #include <webserver/request.h>
 #include <email/send.h>
+using namespace std;
 
 
 void export_bibledropbox (string user, string bible)

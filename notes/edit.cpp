@@ -33,6 +33,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/note.h>
+using namespace std;
 
 
 string notes_edit_url ()

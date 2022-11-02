@@ -22,6 +22,7 @@
 #include <assets/page.h>
 #include <locale/translate.h>
 #include <filter/url.h>
+using namespace std;
 
 
 Dialog_Color::Dialog_Color (string url, string question)

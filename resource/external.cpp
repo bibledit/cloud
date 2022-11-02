@@ -32,8 +32,7 @@
 #include <jsonxx/jsonxx.h>
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
-
-
+using namespace std;
 using namespace jsonxx;
 using namespace pugi;
 

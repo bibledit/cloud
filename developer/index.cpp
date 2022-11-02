@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <library/bibledit.h>
 #include <developer/logic.h>
+using namespace std;
 
 
 const char * developer_index_url ()

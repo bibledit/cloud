@@ -33,6 +33,7 @@
 #include <navigation/passage.h>
 #include <notes/note.h>
 #include <access/logic.h>
+using namespace std;
 
 
 string notes_comment_url ()

@@ -33,9 +33,10 @@
 #include <sync/logic.h>
 #include <sync/changes.h>
 #include <checksum/logic.h>
+using namespace std;
 
 
-int sendreceive_changes_watchdog = 0;
+int sendreceive_changes_watchdog {0};
 
 
 void send_receive_changes_done ()

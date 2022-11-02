@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-string sync_files_url ();
-string sync_files (void * webserver_request);
+std::string sync_files_url ();
+std::string sync_files (void * webserver_request);

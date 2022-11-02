@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_click_url ();
+std::string notes_click_url ();
 bool notes_click_acl (void * webserver_request);
-string notes_click (void * webserver_request);
+std::string notes_click (void * webserver_request);

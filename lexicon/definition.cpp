@@ -27,6 +27,7 @@
 #include <database/oshb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
+using namespace std;
 
 
 string lexicon_definition_url ()

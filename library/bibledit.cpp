@@ -43,9 +43,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/logic.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
+using namespace std;
 
 
-bool bibledit_started = false;
+bool bibledit_started {false};
 
 
 // Get Bibledit's version number.

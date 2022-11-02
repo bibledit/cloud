@@ -26,6 +26,7 @@
 #include <database/logs.h>
 #include <pugixml/utils.h>
 #include <quill/logic.h>
+using namespace std;
 
 
 void Editor_Html2Format::load (string html)

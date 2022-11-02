@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 #include <database/state.h>
 #include <database/bibles.h>
+using namespace std;
 
 
 void test_database_check ()

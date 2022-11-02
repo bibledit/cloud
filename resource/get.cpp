@@ -25,6 +25,7 @@
 #include <database/config/bible.h>
 #include <database/versifications.h>
 #include <access/logic.h>
+using namespace std;
 
 
 string resource_get_url ()

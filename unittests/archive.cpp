@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/archive.h>
 #include <filter/string.h>
 #include <filter/shell.h>
+using namespace std;
 
 
 void test_archive ()

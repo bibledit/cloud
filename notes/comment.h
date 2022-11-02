@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_comment_url ();
+std::string notes_comment_url ();
 bool notes_comment_acl (void * webserver_request);
-string notes_comment (void * webserver_request);
+std::string notes_comment (void * webserver_request);

@@ -32,6 +32,7 @@
 #include <database/config/bible.h>
 #include <dialog/list.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string collaboration_index_url ()

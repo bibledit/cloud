@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-void sprint_burndown (string bible, int manualyear, int manualmonth);
-string sprint_create_burndown_chart (string bible, int year, int month);
+void sprint_burndown (std::string bible, int manualyear, int manualmonth);
+std::string sprint_create_burndown_chart (std::string bible, int year, int month);

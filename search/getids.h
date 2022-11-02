@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string search_getids_url ();
+std::string search_getids_url ();
 bool search_getids_acl (void * webserver_request);
-string search_getids (void * webserver_request);
+std::string search_getids (void * webserver_request);

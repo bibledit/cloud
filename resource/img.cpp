@@ -34,6 +34,7 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
+using namespace std;
 
 
 string resource_img_url ()

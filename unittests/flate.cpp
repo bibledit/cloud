@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <flate/flate.h>
 #include <filter/url.h>
+using namespace std;
 
 
 void test_flate ()

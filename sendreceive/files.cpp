@@ -35,9 +35,10 @@
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <database/privileges.h>
+using namespace std;
 
 
-int sendreceive_files_watchdog = 0;
+int sendreceive_files_watchdog {0};
 
 
 void sendreceive_files_done ()

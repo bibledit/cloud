@@ -32,6 +32,7 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/actions.h>
+using namespace std;
 
 
 string notes_bible_1_url ()

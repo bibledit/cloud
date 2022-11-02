@@ -27,6 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <database/login.h>
 #include <demo/logic.h>
+using namespace std;
 
 
 void test_database_config_general ()

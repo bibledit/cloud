@@ -32,6 +32,7 @@
 #include <fonts/logic.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
+using namespace std;
 
 
 string bible_css_url ()

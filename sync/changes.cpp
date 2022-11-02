@@ -32,6 +32,7 @@
 #include <sync/logic.h>
 #include <checksum/logic.h>
 #include <config/globals.h>
+using namespace std;
 
 
 string sync_changes_url ()

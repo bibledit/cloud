@@ -40,6 +40,7 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
+using namespace std;
 
 
 string edit_index_url ()

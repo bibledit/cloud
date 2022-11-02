@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <dialog/list.h>
 #include <journal/index.h>
 #include <tasks/logic.h>
+using namespace std;
 
 
 const char * nmt_index_url ()

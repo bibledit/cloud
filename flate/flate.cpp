@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 // Sets a variable (key and value) for the html template.

@@ -36,6 +36,7 @@
 #include <sprint/burndown.h>
 #include <menu/logic.h>
 #include <email/send.h>
+using namespace std;
 
 
 string sprint_index_url ()

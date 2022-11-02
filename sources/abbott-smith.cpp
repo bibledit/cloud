@@ -35,15 +35,14 @@
 #include <unicode/translit.h>
 #endif
 #pragma GCC diagnostic pop
-
-
+using namespace std;
 using namespace pugi;
 #ifdef HAVE_ICU
 using namespace icu;
 #endif
 
 
-int entry_element_count = 0;
+int entry_element_count {0};
 
 
 void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_abbottsmith,

@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <session/switch.h>
 #include <user/logic.h>
+using namespace std;
 
 
 string manage_accounts_url ()

@@ -35,6 +35,7 @@
 #include <access/bible.h>
 #include <book/create.h>
 #include <client/logic.h>
+using namespace std;
 
 
 string bible_chapter_url ()

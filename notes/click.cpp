@@ -35,6 +35,7 @@
 #include <notes/index.h>
 #include <dialog/yes.h>
 #include <trash/handler.h>
+using namespace std;
 
 
 string notes_click_url ()

@@ -41,8 +41,7 @@
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <pugixml/pugixml.hpp>
 #pragma GCC diagnostic pop
-
-
+using namespace std;
 using namespace pugi;
 
 

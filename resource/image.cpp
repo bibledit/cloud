@@ -37,6 +37,7 @@
 #include <menu/logic.h>
 #include <resource/images.h>
 #include <journal/logic.h>
+using namespace std;
 
 
 string resource_image_url ()

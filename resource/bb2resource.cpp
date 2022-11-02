@@ -34,6 +34,7 @@
 #include <resource/external.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
+using namespace std;
 
 
 string resource_bible2resource_url ()

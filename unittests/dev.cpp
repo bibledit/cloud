@@ -42,8 +42,7 @@
 #include <checks/usfm.h>
 #include <resource/logic.h>
 #include <type_traits>
-
-
+using namespace std;
 using namespace pugi;
 
 

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include <locale/translate.h>
 #include <database/booksdata.h>
+using namespace std;
 
 
 namespace database::books {

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <filter/roles.h>
 #include <filter/indonesian.h>
+using namespace std;
 
 
 namespace access_bible {

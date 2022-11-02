@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string bible_chapter_url ();
+std::string bible_chapter_url ();
 bool bible_chapter_acl (void * webserver_request);
-string bible_chapter (void * webserver_request);
+std::string bible_chapter (void * webserver_request);

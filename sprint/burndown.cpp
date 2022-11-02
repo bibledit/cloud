@@ -30,6 +30,7 @@
 #include <database/config/bible.h>
 #include <client/logic.h>
 #include <email/send.h>
+using namespace std;
 
 
 // This function runs the sprint burndown history logger for $bible.

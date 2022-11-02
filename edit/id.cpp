@@ -26,6 +26,7 @@
 #include <ipc/focus.h>
 #include <database/ipc.h>
 #include <access/bible.h>
+using namespace std;
 
 
 string edit_id_url ()

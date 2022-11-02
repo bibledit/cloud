@@ -39,6 +39,7 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
+using namespace std;
 
 
 string bible_book_url ()

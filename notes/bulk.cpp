@@ -37,6 +37,7 @@
 #include <dialog/yes.h>
 #include <trash/handler.h>
 #include <menu/logic.h>
+using namespace std;
 
 
 string notes_bulk_url ()

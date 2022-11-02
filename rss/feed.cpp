@@ -21,6 +21,7 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <rss/logic.h>
+using namespace std;
 
 
 string rss_feed_url ()

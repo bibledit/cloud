@@ -21,6 +21,6 @@
 
 #include <config/libraries.h>
 
-string notes_create_url ();
+std::string notes_create_url ();
 bool notes_create_acl (void * webserver_request);
-string notes_create (void * webserver_request);
+std::string notes_create (void * webserver_request);

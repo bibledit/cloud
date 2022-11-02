@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void convert_bible_to_resource (string bible);
+void convert_bible_to_resource (std::string bible);

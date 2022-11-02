@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <database/confirm.h>
 #include <filter/string.h>
+using namespace std;
 
 
 void test_database_confirm ()

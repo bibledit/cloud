@@ -24,6 +24,7 @@
 #include <config/globals.h>
 #include <webserver/request.h>
 #include <styles/logic.h>
+using namespace std;
 
 
 string Filter_Css::directionUnspecified (int value)

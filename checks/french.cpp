@@ -22,6 +22,7 @@
 #include <filter/usfm.h>
 #include <database/check.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 // In French there is a no-break space after the « and before the » ! ? : ;

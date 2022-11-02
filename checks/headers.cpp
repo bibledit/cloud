@@ -21,6 +21,7 @@
 #include <filter/string.h>
 #include <database/check.h>
 #include <locale/translate.h>
+using namespace std;
 
 
 void checks_headers::no_punctuation_at_end (const string & bible, int book, int chapter,

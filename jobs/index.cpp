@@ -29,6 +29,7 @@
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <database/jobs.h>
+using namespace std;
 
 
 string jobs_index_url ()

@@ -1597,7 +1597,7 @@ AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1)
 AM_CXXFLAGS = -fno-var-tracking -g $(am__append_2) $(am__append_3) \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS) \
-	$(UTF8PROC_CFLAGS) $(GUMBO_CFLAGS) $(TIDY_CFLAGS)
+	$(UTF8PROC_CFLAGS) $(GUMBO_CFLAGS) -isystem $(TIDY_CFLAGS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

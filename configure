@@ -657,6 +657,8 @@ COMPILERCLANG_FALSE
 COMPILERCLANG_TRUE
 COMPILERGCC_FALSE
 COMPILERGCC_TRUE
+TIDY_LIBS
+TIDY_CFLAGS
 GUMBO_LIBS
 GUMBO_CFLAGS
 UTF8PROC_LIBS
@@ -816,7 +818,9 @@ ICU_LIBS
 UTF8PROC_CFLAGS
 UTF8PROC_LIBS
 GUMBO_CFLAGS
-GUMBO_LIBS'
+GUMBO_LIBS
+TIDY_CFLAGS
+TIDY_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1488,6 +1492,8 @@ Some influential environment variables:
   GUMBO_CFLAGS
               C compiler flags for GUMBO, overriding pkg-config
   GUMBO_LIBS  linker flags for GUMBO, overriding pkg-config
+  TIDY_CFLAGS C compiler flags for TIDY, overriding pkg-config
+  TIDY_LIBS   linker flags for TIDY, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -5294,7 +5300,11 @@ else $as_nop
 
 #error "This is not a C++ compiler"
 
-#elif __cplusplus < 201103L
+// MSVC always sets __cplusplus to 199711L in older versions; newer versions
+// only set it correctly if /Zc:__cplusplus is specified as well as a
+// /std:c++NN switch:
+// https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
+#elif __cplusplus < 201103L && !defined _MSC_VER
 
 #error "This is not a C++11 compiler"
 
@@ -5581,7 +5591,7 @@ namespace cxx11
 
 #error "This is not a C++ compiler"
 
-#elif __cplusplus < 201402L
+#elif __cplusplus < 201402L && !defined _MSC_VER
 
 #error "This is not a C++14 compiler"
 
@@ -5701,7 +5711,7 @@ namespace cxx14
 
 #error "This is not a C++ compiler"
 
-#elif __cplusplus < 201703L
+#elif __cplusplus < 201703L && !defined _MSC_VER
 
 #error "This is not a C++17 compiler"
 
@@ -6067,7 +6077,7 @@ namespace cxx17
 
 }  // namespace cxx17
 
-#endif  // __cplusplus < 201703L
+#endif  // __cplusplus < 201703L && !defined _MSC_VER
 
 
 
@@ -7359,6 +7369,81 @@ printf "%s\n" "no" >&6; }
 else
 	GUMBO_CFLAGS=$pkg_cv_GUMBO_CFLAGS
 	GUMBO_LIBS=$pkg_cv_GUMBO_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+
+
+
+# Check the tidy library  whether available.
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for tidy >= 5.4.0" >&5
+printf %s "checking for tidy >= 5.4.0... " >&6; }
+
+if test -n "$TIDY_CFLAGS"; then
+    pkg_cv_TIDY_CFLAGS="$TIDY_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"tidy >= 5.4.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "tidy >= 5.4.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIDY_CFLAGS=`$PKG_CONFIG --cflags "tidy >= 5.4.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$TIDY_LIBS"; then
+    pkg_cv_TIDY_LIBS="$TIDY_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"tidy >= 5.4.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "tidy >= 5.4.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_TIDY_LIBS=`$PKG_CONFIG --libs "tidy >= 5.4.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        TIDY_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "tidy >= 5.4.0" 2>&1`
+        else
+	        TIDY_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "tidy >= 5.4.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$TIDY_PKG_ERRORS" >&5
+
+	as_fn_error $? "The tidy library development version >= 5.4.0 is needed." "$LINENO" 5
+elif test $pkg_failed = untried; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	as_fn_error $? "The tidy library development version >= 5.4.0 is needed." "$LINENO" 5
+else
+	TIDY_CFLAGS=$pkg_cv_TIDY_CFLAGS
+	TIDY_LIBS=$pkg_cv_TIDY_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 

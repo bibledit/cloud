@@ -141,6 +141,11 @@ PKG_CHECK_MODULES(GUMBO, gumbo >= 0.10.0,,AC_MSG_ERROR(The gumbo library develop
 AC_SUBST(GUMBO_CFLAGS)
 AC_SUBST(GUMBO_LIBS)
 
+# Check the tidy library  whether available.
+PKG_CHECK_MODULES(TIDY, tidy >= 5.4.0,,AC_MSG_ERROR(The tidy library development version >= 5.4.0 is needed.))
+AC_SUBST(TIDY_CFLAGS)
+AC_SUBST(TIDY_LIBS)
+
 AC_MSG_CHECKING([C++ compiler])
 GPPVERSION=`${CXX} --version | grep clang`
 if test "$GPPVERSION" = ""; then

@@ -613,7 +613,7 @@ AM_CXXFLAGS += $(ICU_CFLAGS)
 AM_CXXFLAGS += $(XML2_CFLAGS)
 AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
 AM_CXXFLAGS += $(GUMBO_CFLAGS)
-AM_CXXFLAGS += -isystem $(TIDY_CFLAGS)
+AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
 
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
 LIBS += $(CURL_LIBS)

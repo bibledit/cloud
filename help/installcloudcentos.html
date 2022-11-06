@@ -1,50 +1,24 @@
 <h2>translate("Install Bibledit Cloud on CentOS")</h2>
 <p>
-  translate("Follow the steps below to install Bibledit Cloud on CentOS 7 and 8.")
+  translate("Follow the steps below to install Bibledit Cloud on CentOS 9.")
   translate("It needs basic knowledge about working with CentOS Server.")
 </p>
 <ol>
 <li>translate("Open a terminal.")</li>
 <li>
   <p>translate("Update the software sources:")</p>
-  <p><code>sudo yum update</code></p>
+  <p><code>sudo dnf update</code></p>
 </li>
 <li>
-  <p>translate("For CentOS 7 install and activate a newer compiler:")</p>
-  <p><code>sudo yum install centos-release-scl</code></p>
-  <p><code>sudo yum install devtoolset-7-gcc-c++</code></p>
-  <p><code>sudo scl enable devtoolset-7 bash</code></p>
+  <p>translate("Install and enable extra package repositories:")</p>
+  <p><code>sudo dnf install epel-release</code></p>
 </li>
 <li>
   <p>translate("Install the software Bibledit relies on:")</p>
-  <p><code>sudo yum install autoconf automake gcc gcc-c++ gcc-toolset-10-gcc-c++ libtool git zip unzip pkgconfig libcurl-devel openssl-devel curl make poppler-utils libxml2-devel utf8proc-devel</code></p>
+  <p><code>sudo yum install autoconf automake gcc gcc-c++ libtool git zip unzip pkgconfig libcurl-devel openssl-devel curl make poppler-utils libxml2-devel utf8proc gumbo-parser-devel libtidy-devel</code></p>
 </li>
 <li>
-  <p>
-  translate("Download the most recent mimetic library from")
-  <a href="http://www.codesink.org/download/mimetic-0.9.8.tar.gz">http://www.codesink.org/download/mimetic-0.9.8.tar.gz</a>.
-  </p>
-</li>
-<li>
-  <p>translate("Unpack the downloaded mimetic library:")</p>
-  <p><code>tar xf mimetic-0.9.8.tar.gz</code></p>
-</li>
-<li>
-  <p>translate("Change to the directory:")</p>
-  <p><code>cd mimetic-0.9.8</code></p>
-</li>
-<li>
-  <p>translate("Build and install the mimetic library:")</p>
-  <p><code>./configure --prefix=/usr</code></p>
-  <p><code>make</code></p>
-  <p>
-  translate("This takes a while.")
-  translate("There will be many technical messages and warnings, but there should be no errors.")
-  </p>
-  <p><code>sudo make install</code></p>
-</li>
-<li>
-  <p>translate("Go back to the home directory:")</p>
+  <p>translate("Go to the home directory:")</p>
   <p><code>cd</code></p>
 </li>
 <li>
@@ -70,10 +44,6 @@
   translate("This takes a while.")
   translate("There will be many technical messages, but there should be no errors.")
   </p>
-</li>
-<li>
-  <p>translate("For CentOS 7 deactivate the previously activated compiler:")</p>
-  <p><code>exit</code></p>
 </li>
 <li>
   <p>translate("Open port 8080 in the firewall:")</p>

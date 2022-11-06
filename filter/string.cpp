@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/date.h>
 #include <database/config/general.h>
+#include <database/logs.h>
 #ifdef HAVE_UTF8PROC
 #include <utf8proc.h>
 #else
@@ -2137,10 +2138,11 @@ string filter_string_fix_invalid_html_gumbo (string html)
 }
 
 
-string filter_string_fix_invalid_html_tidy (string html) // Todo
+string filter_string_fix_invalid_html_tidy (string html)
 {
 #ifdef HAVE_CLOUD
 
+  // The buffers.
   TidyBuffer output {};
   memset (&output, 0, sizeof(TidyBuffer));
   TidyBuffer errbuf {};
@@ -2173,11 +2175,17 @@ string filter_string_fix_invalid_html_tidy (string html) // Todo
   if (rc >= 0) rc = tidySaveBuffer (tdoc, &output);
   
   if (rc >= 0) {
-    if (rc > 0) printf ("\nDiagnostics:\n\n%s", errbuf.bp);
-    printf ("\nAnd here is the result:\n\n%s", output.bp);
+    if (rc > 0) {
+//      cerr << "Html tidy diagnostics:" << endl;
+//      cerr << errbuf.bp << endl;
+    }
+//    cout << "Html tidy result:" << endl;
+//    cout << output.bp << endl;
     html = string (reinterpret_cast<char const*>(output.bp));
   }
-  else printf ("A severe error (%d) occurred.\n", rc);
+  else {
+    Database_Logs::log("A severe error occurred while tidying html - code " + to_string(rc) + " - html: " + html);
+  }
   
   // Release memory.
   tidyBufFree (&output);

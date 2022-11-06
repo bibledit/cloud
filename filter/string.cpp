@@ -1788,6 +1788,7 @@ string filter_string_tidy_invalid_html_leaking (string html)
 
   // This method works via libxml2 and there are many memory leaks each call to this.
   // It cannot be used for production code.
+  // The leaks are fixable, see the laboratory/tiny code.
   
   // Create a parser context.
   htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (nullptr, nullptr, nullptr, 0, nullptr, XML_CHAR_ENCODING_UTF8);

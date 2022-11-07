@@ -1309,4 +1309,5 @@ table.interlinear.rtl {
 .ql-clipboard
 {
   visibility: hidden;
+  height: 0px;
 }

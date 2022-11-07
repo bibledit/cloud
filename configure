@@ -7225,19 +7225,19 @@ fi
 # Check UTF8 proc library whether available.
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libutf8proc >= 2.5.0" >&5
-printf %s "checking for libutf8proc >= 2.5.0... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libutf8proc >= 2.3.0" >&5
+printf %s "checking for libutf8proc >= 2.3.0... " >&6; }
 
 if test -n "$UTF8PROC_CFLAGS"; then
     pkg_cv_UTF8PROC_CFLAGS="$UTF8PROC_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libutf8proc >= 2.5.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libutf8proc >= 2.5.0") 2>&5
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libutf8proc >= 2.3.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libutf8proc >= 2.3.0") 2>&5
   ac_status=$?
   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_UTF8PROC_CFLAGS=`$PKG_CONFIG --cflags "libutf8proc >= 2.5.0" 2>/dev/null`
+  pkg_cv_UTF8PROC_CFLAGS=`$PKG_CONFIG --cflags "libutf8proc >= 2.3.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -7249,12 +7249,12 @@ if test -n "$UTF8PROC_LIBS"; then
     pkg_cv_UTF8PROC_LIBS="$UTF8PROC_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libutf8proc >= 2.5.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libutf8proc >= 2.5.0") 2>&5
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libutf8proc >= 2.3.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libutf8proc >= 2.3.0") 2>&5
   ac_status=$?
   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_UTF8PROC_LIBS=`$PKG_CONFIG --libs "libutf8proc >= 2.5.0" 2>/dev/null`
+  pkg_cv_UTF8PROC_LIBS=`$PKG_CONFIG --libs "libutf8proc >= 2.3.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -7275,20 +7275,20 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        UTF8PROC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libutf8proc >= 2.5.0" 2>&1`
+	        UTF8PROC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libutf8proc >= 2.3.0" 2>&1`
         else
-	        UTF8PROC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libutf8proc >= 2.5.0" 2>&1`
+	        UTF8PROC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libutf8proc >= 2.3.0" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$UTF8PROC_PKG_ERRORS" >&5
 
-	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: libutf8proc development version >= 2.5.0 is beneficial to have." >&5
-printf "%s\n" "$as_me: libutf8proc development version >= 2.5.0 is beneficial to have." >&6;}
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: libutf8proc development version >= 2.3.0 is beneficial to have." >&5
+printf "%s\n" "$as_me: libutf8proc development version >= 2.3.0 is beneficial to have." >&6;}
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: libutf8proc development version >= 2.5.0 is beneficial to have." >&5
-printf "%s\n" "$as_me: libutf8proc development version >= 2.5.0 is beneficial to have." >&6;}
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: libutf8proc development version >= 2.3.0 is beneficial to have." >&5
+printf "%s\n" "$as_me: libutf8proc development version >= 2.3.0 is beneficial to have." >&6;}
 else
 	UTF8PROC_CFLAGS=$pkg_cv_UTF8PROC_CFLAGS
 	UTF8PROC_LIBS=$pkg_cv_UTF8PROC_LIBS

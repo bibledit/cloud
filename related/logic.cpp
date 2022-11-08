@@ -104,7 +104,7 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
     // Get details about the book in the passage.
     // It assumes all input passages refer to the same book.
     string bookname = database::books::get_english_from_id (input[0].m_book);
-    string booktype = database::books::get_type (input[0].m_book);
+    string booktype = database::books::get_type_v1 (input[0].m_book);
     bool is_ot = (booktype == "ot");
     bool is_nt = (booktype == "nt");
     

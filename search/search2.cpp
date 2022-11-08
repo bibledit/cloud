@@ -160,7 +160,7 @@ string search_search2 (void * webserver_request)
     if (otbooks || ntbooks) {
       vector <Passage> bookpassages;
       for (auto & passage : passages) {
-        string type = database::books::get_type (passage.m_book);
+        string type = database::books::get_type_v1 (passage.m_book);
         if (otbooks) if (type != "ot") continue;
         if (ntbooks) if (type != "nt") continue;
         bookpassages.push_back (passage);

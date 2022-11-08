@@ -50,7 +50,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
   for (auto book : books) {
   
     // Take books that contain text, leave others, like front matter, out.
-    string type = database::books::get_type (book);
+    string type = database::books::get_type_v1 (book);
     if ((type != "ot") && (type != "nt") && (type != "ap")) continue;
     
     string bookname = database::books::get_english_from_id (book);

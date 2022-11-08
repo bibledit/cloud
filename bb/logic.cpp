@@ -1181,7 +1181,7 @@ void bible_logic::create_empty_bible (const string & name)
   // Create books with blank verses for the OT and NT.
   vector <int> books = database::books::get_ids ();
   for (const auto book : books) {
-    const string & type = database::books::get_type (book);
+    const string & type = database::books::get_type_v1 (book);
     if ((type == "ot") || (type == "nt")) {
       vector <string> feedback {};
       book_create (name, book, -1, feedback);

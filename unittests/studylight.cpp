@@ -38,7 +38,7 @@ void test_studylight ()
   vector <int> book_ids = database::books::get_ids ();
   for (auto book_id : book_ids) {
     continue;
-    string type = database::books::get_type (book_id);
+    string type = database::books::get_type_v1 (book_id);
     if ((type != "ot") && (type != "nt")) continue;
     int verse {1};
     if (book == 14) verse = 2; // 2 Chronicles.

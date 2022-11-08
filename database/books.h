@@ -21,6 +21,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+enum class book_type {
+  unknown,
+  old_testament,
+  new_testament,
+  front_back,
+  other,
+  apocryphal,
+};
+
 namespace database::books {
 
 std::vector <int> get_ids ();
@@ -36,6 +45,7 @@ int get_id_like_text (const std::string & text);
 int get_id_from_onlinebible (const std::string & onlinebible);
 std::string get_onlinebible_from_id (int id);
 int get_order_from_id (int id);
-std::string get_type (int id);
+std::string get_type_v1 (int id);
+book_type get_type_v2 (int id);
 
 };

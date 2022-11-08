@@ -103,7 +103,7 @@ string resource_user1edit (void * webserver_request)
   lines.push_back (Database_UserResources::url (name));
   vector <int> ids = database::books::get_ids ();
   for (auto id : ids) {
-    string type = database::books::get_type (id);
+    string type = database::books::get_type_v1 (id);
     if ((type == "ot") || (type == "nt")) {
       string english = database::books::get_english_from_id (id);
       string book = Database_UserResources::book (name, id);

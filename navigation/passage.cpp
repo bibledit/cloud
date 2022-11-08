@@ -226,7 +226,7 @@ string Navigation_Passage::get_books_fragment (void * webserver_request, string 
     string bookName = database::books::get_english_from_id (book);
     bookName = translate (bookName);
     bool selected = (book == activeBook);
-    string bookType = database::books::get_type (book);
+    string bookType = database::books::get_type_v1 (book);
     add_selector_link (html, convert_to_string (book), "applybook", bookName, selected, bookType);
   }
   add_selector_link (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
@@ -650,7 +650,7 @@ string Navigation_Passage::get_history_back (void * webserver_request)
   for (size_t i = 0; i < passages.size(); i++) {
     if (i >= 10) continue;
     string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
-    string bookType = database::books::get_type (passages[i].m_book);
+    string bookType = database::books::get_type_v1 (passages[i].m_book);
     add_selector_link (html, "b" + convert_to_string (i), "applyhistory", rendering, false, bookType);
   }
   // Add a "cancel" link.
@@ -675,7 +675,7 @@ string Navigation_Passage::get_history_forward (void * webserver_request)
   for (size_t i = 0; i < passages.size(); i++) {
     if (i >= 10) continue;
     string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
-    string bookType = database::books::get_type (passages[i].m_book);
+    string bookType = database::books::get_type_v1 (passages[i].m_book);
     add_selector_link (html, "f" + convert_to_string (i), "applyhistory", rendering, false, bookType);
   }
   // Add a "cancel" link.

@@ -44,9 +44,9 @@ void test_database_books ()
   evaluate (__LINE__, __func__, 12, database::books::get_id_from_onlinebible ("2Ki"));
   evaluate (__LINE__, __func__, "De", database::books::get_onlinebible_from_id (5));
   evaluate (__LINE__, __func__, 7, database::books::get_order_from_id (5));
-  evaluate (__LINE__, __func__, "nt", database::books::get_type (40));
-  evaluate (__LINE__, __func__, "ot", database::books::get_type (39));
-  evaluate (__LINE__, __func__, "", database::books::get_type (0));
+  evaluate (__LINE__, __func__, "nt", database::books::get_type_v1 (40));
+  evaluate (__LINE__, __func__, "ot", database::books::get_type_v1 (39));
+  evaluate (__LINE__, __func__, "", database::books::get_type_v1 (0));
   evaluate (__LINE__, __func__, 105, database::books::get_id_from_usfm ("INT"));
 }
 

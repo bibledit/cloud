@@ -47,5 +47,6 @@ std::string get_onlinebible_from_id (int id);
 int get_order_from_id (int id);
 std::string get_type_v1 (int id);
 book_type get_type_v2 (int id);
+std::string book_type_to_string (book_type type);
 
 };

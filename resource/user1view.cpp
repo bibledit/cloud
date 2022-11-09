@@ -70,8 +70,8 @@ string resource_user1view (void * webserver_request)
   code.push_back ("var userResourceBooks = [];");
   vector <int> ids = database::books::get_ids ();
   for (auto id : ids) {
-    string type = database::books::get_type_v1 (id);
-    if ((type == "ot") || (type == "nt")) {
+    book_type type = database::books::get_type_v2 (id);
+    if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
       string book = Database_UserResources::book (name, id);
       if (book.empty ()) book = convert_to_string (id);
       code.push_back ("userResourceBooks [" + convert_to_string (id) + "] = \"" + book + "\";");

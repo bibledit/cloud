@@ -342,8 +342,8 @@ void Checks_Usfm::toc (string usfm)
 {
   // Only check the 66 canonical books.
   // Skip any of the other books.
-  string type = database::books::get_type_v1 (book_number);
-  if ((type == "ot") || (type == "nt")) {
+  book_type type = database::books::get_type_v2 (book_number);
+  if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
 
     // Check on the presence of the table of contents markers in this chapter.
     bool toc1_present = usfm.find (filter::usfm::get_opening_usfm (long_toc1_marker)) != string::npos;

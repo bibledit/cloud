@@ -72,18 +72,18 @@ string search_originals (void * webserver_request)
     int chapter = Ipc_Focus::getChapter (request);
     int verse = Ipc_Focus::getVerse (request);
     
-    string type = database::books::get_type_v1 (book);
+    book_type type = database::books::get_type_v2 (book);
     
-    string classs;
+    string classs{};
     
     // Get Hebrew or Greek words.
     string searchtext;
     vector <string> details;
-    if (type == "ot") {
+    if (type == book_type::old_testament) {
       details = database_oshb.getVerse (book, chapter, verse);
       classs = "hebrew";
     }
-    if (type == "nt") {
+    if (type == book_type::new_testament) {
       details = database_sblgnt.getVerse (book, chapter, verse);
       classs = "greek";
     }
@@ -101,14 +101,14 @@ string search_originals (void * webserver_request)
     vector <string> v_words = filter_string_explode (words, ' ');
     
     int book = Ipc_Focus::getBook (request);
-    string type = database::books::get_type_v1 (book);
+    book_type type = database::books::get_type_v2 (book);
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.
     size_t maxcount = 0;
-    if (type == "ot") {
+    if (type == book_type::old_testament) {
       maxcount = static_cast<size_t> (round (0.3 * 23145));
     }
-    if (type == "nt") {
+    if (type == book_type::new_testament) {
       maxcount = static_cast<size_t> (round (0.3 * 7957));
     }
     
@@ -116,16 +116,16 @@ string search_originals (void * webserver_request)
     // Store how often a verse occurs in an array.
     // The keys are the passages of the search results.
     // The values are how often the passages occur in the search results.
-    map <int, int> passages;
+    map <int, int> passages {};
     
-    for (auto & word : v_words) {
+    for (const auto & word : v_words) {
       
       // Find out how often this word occurs in the Hebrew or Greek Bible. Skip if too often.
-      vector <Passage> details;
-      if (type == "ot") {
+      vector <Passage> details {};
+      if (type == book_type::old_testament) {
         details = database_oshb.searchHebrew (word);
       }
-      if (type == "nt") {
+      if (type == book_type::new_testament) {
         details = database_sblgnt.searchGreek (word);
       }
       if (details.size() < 1) continue;

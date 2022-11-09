@@ -196,18 +196,7 @@ int get_order_from_id (int id)
 }
 
 
-string get_type_v1 (int id) // Todo goes out.
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
-      return books_table[i].type_v1;
-    }
-  }
-  return string();
-}
-
-
-book_type get_type_v2 (int id) // Todo use
+book_type get_type_v2 (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {

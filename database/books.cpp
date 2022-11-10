@@ -38,7 +38,7 @@ vector <int> get_ids ()
 {
   vector <int> ids;
   for (unsigned int i = 0; i < data_count; i++) {
-    int id = books_table[i].id;
+    int id = books_table[i].id_v1;
     ids.push_back (id);
   }
   return ids;
@@ -49,7 +49,7 @@ int get_id_from_english (const string & english)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
-      return books_table[i].id;
+      return books_table[i].id_v1;
     }
   }
   return 0;  
@@ -59,7 +59,7 @@ int get_id_from_english (const string & english)
 string get_english_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].english;
     }
   }
@@ -70,7 +70,7 @@ string get_english_from_id (int id)
 string get_usfm_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].usfm;
     }
   }
@@ -81,7 +81,7 @@ string get_usfm_from_id (int id)
 string get_bibleworks_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].bibleworks;
     }
   }
@@ -92,7 +92,7 @@ string get_bibleworks_from_id (int id)
 string get_osis_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].osis;
     }
   }
@@ -104,7 +104,7 @@ int get_id_from_usfm (const string & usfm)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
-      return books_table[i].id;
+      return books_table[i].id_v1;
     }
   }
   return 0;
@@ -115,7 +115,7 @@ int get_id_from_osis (const string & osis)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
-      return books_table[i].id;
+      return books_table[i].id_v1;
     }
   }
   return 0;
@@ -126,7 +126,7 @@ int get_id_from_bibleworks (const string & bibleworks)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
-      return books_table[i].id;
+      return books_table[i].id_v1;
     }
   }
   return 0;
@@ -146,7 +146,7 @@ int get_id_like_text (const string & text)
   vector <int> ids {};
   vector <int> similarities {};
   for (unsigned int i = 0; i < data_count; i++) {
-    int id {books_table[i].id};
+    int id {books_table[i].id_v1};
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
     ids.push_back (id);
@@ -167,7 +167,7 @@ int get_id_from_onlinebible (const string & onlinebible)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {
-      return books_table[i].id;
+      return books_table[i].id_v1;
     }
   }
   return 0;
@@ -177,7 +177,7 @@ int get_id_from_onlinebible (const string & onlinebible)
 string get_onlinebible_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].onlinebible;
     }
   }
@@ -188,7 +188,7 @@ string get_onlinebible_from_id (int id)
 int get_order_from_id (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].order;
     }
   }
@@ -199,7 +199,7 @@ int get_order_from_id (int id)
 book_type get_type_v2 (int id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id) {
+    if (id == books_table[i].id_v1) {
       return books_table[i].type_v2;
     }
   }

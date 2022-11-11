@@ -34,7 +34,7 @@ namespace database::books {
 constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
 
 
-vector <int> get_ids_v1 () // Todo create _v2
+vector <int> get_ids_v1 () // Todo goes out.
 {
   vector <int> ids;
   for (unsigned int i = 0; i < data_count; i++) {
@@ -378,6 +378,18 @@ std::string book_type_to_string (book_type type)
     default: return string();
   }
   return string();
+}
+
+
+book_id get_id_v2_from_id_v1 (int id)
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v1) {
+      return books_table[i].id_v2;
+    }
+  }
+  return book_id::_unknown;
+
 }
 
 

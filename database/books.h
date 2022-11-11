@@ -173,5 +173,6 @@ int get_order_from_id_v2 (book_id id);
 book_type get_type_v1 (int id);
 book_type get_type_v2 (book_id id);
 std::string book_type_to_string (book_type type);
+book_id get_id_v2_from_id_v1 (int id);
 
 };

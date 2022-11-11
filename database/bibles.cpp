@@ -202,19 +202,22 @@ vector <int> Database_Bibles::getBooks (string bible)
 {
   // Read the books from the database.
   string folder = bibleFolder (bible);
-  vector <int> books;
+  vector <int> books {};
   vector <string> files = filter_url_scandir (folder);
   // Indonesian Cloud Free
   // Read the books for TSI from the external database.
   if (config::logic::indonesian_cloud_free_simple ()) files = icfBooks ();
-  for (string book : files) {
-    if (filter_string_is_numeric (book)) books.push_back (convert_to_int (book));
+  for (const string & book : files) {
+    if (filter_string_is_numeric (book)) {
+      books.push_back (convert_to_int (book));
+    }
   }
 
   // Sort the books according to the order defined in the books database.
-  vector <int> order;
-  for (auto & book : books) {
-    order.push_back (database::books::get_order_from_id_v1 (book));
+  vector <int> order {}; // Todo
+  for (auto book_number : books) {
+    book_id book_enum = database::books::get_id_v2_from_id_v1 (book_number);
+    order.push_back (database::books::get_order_from_id_v2 (book_enum));
   }
   quick_sort (order, books, 0, static_cast<unsigned>(order.size()));
 

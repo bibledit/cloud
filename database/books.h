@@ -168,11 +168,11 @@ int get_id_from_onlinebible_v1 (const std::string & onlinebible);
 book_id get_id_from_onlinebible_v2 (const std::string & onlinebible);
 std::string get_onlinebible_from_id_v1 (int id);
 std::string get_onlinebible_from_id_v2 (book_id id);
-int get_order_from_id_v1 (int id);
 int get_order_from_id_v2 (book_id id);
 book_type get_type_v1 (int id);
 book_type get_type_v2 (book_id id);
 std::string book_type_to_string (book_type type);
 book_id get_id_v2_from_id_v1 (int id);
+int get_id_v1_from_id_v2 (book_id id);
 
 };

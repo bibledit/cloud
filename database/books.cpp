@@ -322,18 +322,7 @@ string get_onlinebible_from_id_v2 (book_id id) // Todo use this
 }
 
 
-int get_order_from_id_v1 (int id) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].order;
-    }
-  }
-  return 0;
-}
-
-
-int get_order_from_id_v2 (book_id id) // Todo use this one.
+int get_order_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -389,7 +378,17 @@ book_id get_id_v2_from_id_v1 (int id)
     }
   }
   return book_id::_unknown;
+}
 
+
+int get_id_v1_from_id_v2 (book_id id)
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
+      return books_table[i].id_v1;
+    }
+  }
+  return 0;
 }
 
 

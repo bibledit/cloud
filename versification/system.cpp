@@ -77,7 +77,7 @@ string versification_system (void * webserver_request)
     int book = passage.m_book;
     int chapter = passage.m_chapter;
     string verse = passage.m_verse;
-    string bookname = database::books::get_english_from_id (book);
+    string bookname = database::books::get_english_from_id_v1 (book);
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");
     data.push_back ("<td>" + convert_to_string (chapter) + "</td>");

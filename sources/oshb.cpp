@@ -54,89 +54,89 @@ void sources_oshb_parse ()
     // Torah
     
     // Bereshit Genesis
-    pair (1, database::books::get_id_from_english ("Genesis")),
+    pair (1, database::books::get_id_from_english_v1 ("Genesis")),
     // Shemot Exodus
-    pair (2, database::books::get_id_from_english ("Exodus")),
+    pair (2, database::books::get_id_from_english_v1 ("Exodus")),
     // Vayikra Leviticus
-    pair (3, database::books::get_id_from_english ("Leviticus")),
+    pair (3, database::books::get_id_from_english_v1 ("Leviticus")),
     // Bəmidbar Numbers
-    pair (4, database::books::get_id_from_english ("Numbers")),
+    pair (4, database::books::get_id_from_english_v1 ("Numbers")),
     // Devarim Deuteronomy
-    pair (5, database::books::get_id_from_english ("Deuteronomy")),
+    pair (5, database::books::get_id_from_english_v1 ("Deuteronomy")),
     
     // Nevi'im
 
     // Yĕhôshúa‘ Joshua
-    pair (6, database::books::get_id_from_english ("Joshua")),
+    pair (6, database::books::get_id_from_english_v1 ("Joshua")),
     // Shophtim Judges
-    pair (7, database::books::get_id_from_english ("Judges")),
+    pair (7, database::books::get_id_from_english_v1 ("Judges")),
     // 1 Shmû’ēl 1 Samuel
-    pair (8, database::books::get_id_from_english ("1 Samuel")),
+    pair (8, database::books::get_id_from_english_v1 ("1 Samuel")),
     // 2 Shmû’ēl 2 Samuel
-    pair (9, database::books::get_id_from_english ("2 Samuel")),
+    pair (9, database::books::get_id_from_english_v1 ("2 Samuel")),
     // 1 M'lakhim 1 Kings
-    pair (10, database::books::get_id_from_english ("1 Kings")),
+    pair (10, database::books::get_id_from_english_v1 ("1 Kings")),
     // 2 M'lakhim 2 Kings
-    pair (11, database::books::get_id_from_english ("2 Kings")),
+    pair (11, database::books::get_id_from_english_v1 ("2 Kings")),
     // Yĕsha‘ăyāhû Isaiah
-    pair (12, database::books::get_id_from_english ("Isaiah")),
+    pair (12, database::books::get_id_from_english_v1 ("Isaiah")),
     // Yirmyāhû Jeremiah
-    pair (13, database::books::get_id_from_english ("Jeremiah")),
+    pair (13, database::books::get_id_from_english_v1 ("Jeremiah")),
     // Yĕkhezqiēl Ezekiel
-    pair (14, database::books::get_id_from_english ("Ezekiel")),
+    pair (14, database::books::get_id_from_english_v1 ("Ezekiel")),
     // Hôshēa‘ Hosea
-    pair (15, database::books::get_id_from_english ("Hosea")),
+    pair (15, database::books::get_id_from_english_v1 ("Hosea")),
     // Yô’ēl Joel
-    pair (16, database::books::get_id_from_english ("Joel")),
+    pair (16, database::books::get_id_from_english_v1 ("Joel")),
     // Āmôs Amos
-    pair (17, database::books::get_id_from_english ("Amos")),
+    pair (17, database::books::get_id_from_english_v1 ("Amos")),
     // Ōvadhyāh Obadiah
-    pair (18, database::books::get_id_from_english ("Obadiah")),
+    pair (18, database::books::get_id_from_english_v1 ("Obadiah")),
     // Yônāh Jonah
-    pair (19, database::books::get_id_from_english ("Jonah")),
+    pair (19, database::books::get_id_from_english_v1 ("Jonah")),
     // Mîkhāh Micah
-    pair (20, database::books::get_id_from_english ("Micah")),
+    pair (20, database::books::get_id_from_english_v1 ("Micah")),
     // Nakḥûm Nahum
-    pair (21, database::books::get_id_from_english ("Nahum")),
+    pair (21, database::books::get_id_from_english_v1 ("Nahum")),
     // Khăvhakûk Habakkuk
-    pair (22, database::books::get_id_from_english ("Habakkuk")),
+    pair (22, database::books::get_id_from_english_v1 ("Habakkuk")),
     // Tsĕphanyāh Zephaniah
-    pair (23, database::books::get_id_from_english ("Zephaniah")),
+    pair (23, database::books::get_id_from_english_v1 ("Zephaniah")),
     // Khaggai Haggai
-    pair (24, database::books::get_id_from_english ("Haggai")),
+    pair (24, database::books::get_id_from_english_v1 ("Haggai")),
     // Zkharyāh Zechariah
-    pair (25, database::books::get_id_from_english ("Zechariah")),
+    pair (25, database::books::get_id_from_english_v1 ("Zechariah")),
     // Mal’ākhî Malachi
-    pair (26, database::books::get_id_from_english ("Malachi")),
+    pair (26, database::books::get_id_from_english_v1 ("Malachi")),
 
     // Ketuvim
     
     // Tehillim (Psalms)
-    pair (27, database::books::get_id_from_english ("Psalms")),
+    pair (27, database::books::get_id_from_english_v1 ("Psalms")),
     // Mishlei (Book of Proverbs)
-    pair (28, database::books::get_id_from_english ("Proverbs")),
+    pair (28, database::books::get_id_from_english_v1 ("Proverbs")),
     // Iyyôbh (Book of Job)
-    pair (29, database::books::get_id_from_english ("Job")),
+    pair (29, database::books::get_id_from_english_v1 ("Job")),
     // Shīr Hashīrīm (Song of Songs) or (Song of Solomon)
-    pair (30, database::books::get_id_from_english ("Song of Solomon")),
+    pair (30, database::books::get_id_from_english_v1 ("Song of Solomon")),
     // Rūth (Book of Ruth)
-    pair (31, database::books::get_id_from_english ("Ruth")),
+    pair (31, database::books::get_id_from_english_v1 ("Ruth")),
     // Eikhah (Lamentations)
-    pair (32, database::books::get_id_from_english ("Lamentations")),
+    pair (32, database::books::get_id_from_english_v1 ("Lamentations")),
     // Qōheleth (Ecclesiastes)
-    pair (33, database::books::get_id_from_english ("Ecclesiastes")),
+    pair (33, database::books::get_id_from_english_v1 ("Ecclesiastes")),
     // Estēr (Book of Esther)
-    pair (34, database::books::get_id_from_english ("Esther")),
+    pair (34, database::books::get_id_from_english_v1 ("Esther")),
     // Dānî’ēl (Book of Daniel)
-    pair (35, database::books::get_id_from_english ("Daniel")),
+    pair (35, database::books::get_id_from_english_v1 ("Daniel")),
     // 1 Ezrā (Book of Ezra)
-    pair (36, database::books::get_id_from_english ("Ezra")),
+    pair (36, database::books::get_id_from_english_v1 ("Ezra")),
     // 2 Ezrā (Book of Nehemiah)
-    pair (37, database::books::get_id_from_english ("Nehemiah")),
+    pair (37, database::books::get_id_from_english_v1 ("Nehemiah")),
     // 1 Divrei ha-Yamim (1 Chronicles)
-    pair (38, database::books::get_id_from_english ("1 Chronicles")),
+    pair (38, database::books::get_id_from_english_v1 ("1 Chronicles")),
     // 2 Divrei ha-Yamim (2 Chronicles)
-    pair (39, database::books::get_id_from_english ("2 Chronicles"))
+    pair (39, database::books::get_id_from_english_v1 ("2 Chronicles"))
     
   };
   
@@ -168,7 +168,7 @@ void sources_oshb_parse ()
     }
     if (book != previous_book) {
       previous_book = book;
-      cout << database::books::get_english_from_id (book) << endl;
+      cout << database::books::get_english_from_id_v1 (book) << endl;
     }
     word = filter_string_str_replace ("/", "", word);
     database_oshb.store (book, chapter, verse, lemma, word, morph);

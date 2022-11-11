@@ -444,7 +444,7 @@ const char * bibledit_get_reference_for_accordance ()
   book = passages[0].m_book;
   chapter = passages[0].m_chapter;
   string verse_s = passages[0].m_verse;
-  string usfm_id = database::books::get_usfm_from_id (book);
+  string usfm_id = database::books::get_usfm_from_id_v1 (book);
   reference = usfm_id + " " + convert_to_string (chapter) + ":" + convert_to_string (verse_s);
 
   // Return the reference.
@@ -471,7 +471,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Accordance broadcasts for instance, 2 Corinthians 9:2, as "2CO 9:2".
   vector<string> book_rest = filter_string_explode (reference, ' ');
   if (book_rest.size() != 2) return;
-  int book = database::books::get_id_from_usfm (book_rest[0]);
+  int book = database::books::get_id_from_usfm_v1 (book_rest[0]);
   vector <string> chapter_verse = filter_string_explode(book_rest[1], ':');
   if (chapter_verse.size() != 2) return;
   int chapter = convert_to_int(chapter_verse[0]);

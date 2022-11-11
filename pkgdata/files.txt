@@ -311,6 +311,7 @@
 /html
 /i18n
 /i18n/i18n.sh
+/.idea
 /images
 /images/gitflag
 /images/index.html

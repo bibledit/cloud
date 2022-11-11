@@ -34,7 +34,7 @@ namespace database::books {
 constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
 
 
-vector <int> get_ids ()
+vector <int> get_ids_v1 () // Todo create _v2
 {
   vector <int> ids;
   for (unsigned int i = 0; i < data_count; i++) {
@@ -45,7 +45,18 @@ vector <int> get_ids ()
 }
 
 
-int get_id_from_english (const string & english)
+std::vector <book_id> get_ids_v2 () // Todo use this.
+{
+  vector <book_id> ids;
+  for (unsigned int i = 0; i < data_count; i++) {
+    book_id id = books_table[i].id_v2;
+    ids.push_back (id);
+  }
+  return ids;
+}
+
+
+int get_id_from_english_v1 (const string & english) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
@@ -56,7 +67,18 @@ int get_id_from_english (const string & english)
 }
 
 
-string get_english_from_id (int id)
+book_id get_id_from_english_v2 (const string & english) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (english == books_table[i].english) {
+      return books_table[i].id_v2;
+    }
+  }
+  return book_id::_unknown;
+}
+
+
+string get_english_from_id_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
@@ -67,7 +89,18 @@ string get_english_from_id (int id)
 }
 
 
-string get_usfm_from_id (int id)
+string get_english_from_id_v2 (book_id id) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
+      return books_table[i].english;
+    }
+  }
+  return translate ("Unknown");
+}
+
+
+string get_usfm_from_id_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
@@ -78,7 +111,18 @@ string get_usfm_from_id (int id)
 }
 
 
-string get_bibleworks_from_id (int id)
+string get_usfm_from_id_v2 (book_id id) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
+      return books_table[i].usfm;
+    }
+  }
+  return "XXX";
+}
+
+
+string get_bibleworks_from_id_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
@@ -89,7 +133,18 @@ string get_bibleworks_from_id (int id)
 }
 
 
-string get_osis_from_id (int id)
+string get_bibleworks_from_id_v2 (book_id id) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
+      return books_table[i].bibleworks;
+    }
+  }
+  return "Xxx";
+}
+
+
+string get_osis_from_id_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
@@ -100,7 +155,7 @@ string get_osis_from_id (int id)
 }
 
 
-int get_id_from_usfm (const string & usfm)
+int get_id_from_usfm_v1 (const string & usfm) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
@@ -111,7 +166,18 @@ int get_id_from_usfm (const string & usfm)
 }
 
 
-int get_id_from_osis (const string & osis)
+book_id get_id_from_usfm_v2 (const string & usfm) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (usfm == books_table[i].usfm) {
+      return books_table[i].id_v2;
+    }
+  }
+  return book_id::_unknown;
+}
+
+
+int get_id_from_osis_v1 (const string & osis) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
@@ -122,7 +188,18 @@ int get_id_from_osis (const string & osis)
 }
 
 
-int get_id_from_bibleworks (const string & bibleworks)
+book_id get_id_from_osis_v2 (const string & osis) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (osis == books_table[i].osis) {
+      return books_table[i].id_v2;
+    }
+  }
+  return book_id::_unknown;
+}
+
+
+int get_id_from_bibleworks_v1 (const string & bibleworks) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
@@ -133,12 +210,21 @@ int get_id_from_bibleworks (const string & bibleworks)
 }
 
 
-/*
-Tries to interprete $text as the name of a Bible book.
-Returns the book's identifier if it succeeds.
-If it fails, it returns 0.
-*/
-int get_id_like_text (const string & text)
+book_id get_id_from_bibleworks_v2 (const string & bibleworks) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (bibleworks == books_table[i].bibleworks) {
+      return books_table[i].id_v2;
+    }
+  }
+  return book_id::_unknown;
+}
+
+
+// Tries to interprete $text as the name of a Bible book.
+// Returns the book's identifier if it succeeds.
+// If it fails, it returns 0.
+int get_id_like_text_v1 (const string & text) // Todo use _v2
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
@@ -163,7 +249,36 @@ int get_id_like_text (const string & text)
 }
 
 
-int get_id_from_onlinebible (const string & onlinebible)
+// Tries to interprete $text as the name of a Bible book.
+// Returns the book's identifier if it succeeds.
+// If it fails, it returns 0.
+book_id get_id_like_text_v2 (const string & text) // Todo use this
+{
+  // Go through all known book names and abbreviations.
+  // Note how much the $text differs from the known names.
+  // Then return the best match.
+  vector <int> ids {};
+  vector <int> similarities {};
+  for (unsigned int i = 0; i < data_count; i++) {
+    int id {static_cast<int>(books_table[i].id_v2)};
+    ids.push_back (id);
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].osis)));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_character_similarity (text, books_table[i].usfm));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].bibleworks)));
+    ids.push_back (id);
+    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].onlinebible)));
+  }
+  quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
+  int id = ids.back ();
+  return static_cast<book_id>(id);
+}
+
+
+int get_id_from_onlinebible_v1 (const string & onlinebible) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {
@@ -174,18 +289,40 @@ int get_id_from_onlinebible (const string & onlinebible)
 }
 
 
-string get_onlinebible_from_id (int id)
+book_id get_id_from_onlinebible_v2 (const string & onlinebible) // Todo use todo
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (onlinebible == books_table[i].onlinebible) {
+      return books_table[i].id_v2;
+    }
+  }
+  return book_id::_unknown;
+}
+
+
+string get_onlinebible_from_id_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
       return books_table[i].onlinebible;
     }
   }
-  return "";
+  return string() ;
 }
 
 
-int get_order_from_id (int id)
+string get_onlinebible_from_id_v2 (book_id id) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
+      return books_table[i].onlinebible;
+    }
+  }
+  return string();
+}
+
+
+int get_order_from_id_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
@@ -196,10 +333,32 @@ int get_order_from_id (int id)
 }
 
 
-book_type get_type_v2 (int id)
+int get_order_from_id_v2 (book_id id) // Todo use this one.
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
+      return books_table[i].order;
+    }
+  }
+  return 0;
+}
+
+
+book_type get_type_v1 (int id) // Todo use _v2
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
+      return books_table[i].type_v2;
+    }
+  }
+  return book_type::unknown;
+}
+
+
+book_type get_type_v2 (book_id id) // Todo use this
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
       return books_table[i].type_v2;
     }
   }

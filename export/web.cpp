@@ -71,7 +71,7 @@ void export_web_book (string bible, int book, bool log)
   string backLinkPath = export_logic::web_back_link_directory (bible);
   
   
-  string bibleBookText = bible + " " + database::books::get_english_from_id (book);
+  string bibleBookText = bible + " " + database::books::get_english_from_id_v1 (book);
   
   
   // Web index file for the book.
@@ -80,7 +80,7 @@ void export_web_book (string bible, int book, bool log)
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({
     pair (bible, filter_url_html_file_name_bible ()),
-    pair (translate (database::books::get_english_from_id (book)), filter_url_html_file_name_bible ())
+    pair (translate (database::books::get_english_from_id_v1 (book)), filter_url_html_file_name_bible ())
   });
   html_text_rich_book_index.new_paragraph ("navigationbar");
   html_text_rich_book_index.add_text ("|");
@@ -112,7 +112,7 @@ void export_web_book (string bible, int book, bool log)
     html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
     vector <pair <string, string> > breadcrumbs_navigator;
     breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
-    breadcrumbs_navigator.push_back (pair (translate (database::books::get_english_from_id (book)), filter_url_html_file_name_bible ()));
+    breadcrumbs_navigator.push_back (pair (translate (database::books::get_english_from_id_v1 (book)), filter_url_html_file_name_bible ()));
     if (!is_first_chapter) {
       breadcrumbs_navigator.push_back (pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
     }
@@ -123,7 +123,7 @@ void export_web_book (string bible, int book, bool log)
     // Optionally add a link for giving feedback by email.
     if (!feedback_email.empty ()) {
       breadcrumbs_navigator.push_back (pair ("|", ""));
-      string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (book) + " " + convert_to_string (chapter);
+      string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id_v1 (book) + " " + convert_to_string (chapter);
       subject = filter_string_str_replace (" ", "%20", subject);
       string link = "mailto:" + feedback_email + "?Subject=" + subject;
       breadcrumbs_navigator.push_back (pair (translate ("Feedback"), link));
@@ -154,7 +154,7 @@ void export_web_book (string bible, int book, bool log)
   Database_State::clearExport (bible, book, export_logic::export_web);
   
   
-  if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " " + database::books::get_english_from_id_v1 (book), Filter_Roles::translator ());
 }
 
 
@@ -202,7 +202,7 @@ void export_web_index (string bible, bool log)
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
     // Add this book to the main web index.
-    html_text_rich_bible_index.add_link (html_text_rich_bible_index.current_p_node,  filter_url_html_file_name_bible ("", book), "", translate (database::books::get_english_from_id (book)), "", " " + translate (database::books::get_english_from_id (book)) + " ");
+    html_text_rich_bible_index.add_link (html_text_rich_bible_index.current_p_node,  filter_url_html_file_name_bible ("", book), "", translate (database::books::get_english_from_id_v1 (book)), "", " " + translate (database::books::get_english_from_id_v1 (book)) + " ");
     html_text_rich_bible_index.add_text ("|");
   }
   

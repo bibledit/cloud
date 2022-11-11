@@ -93,7 +93,7 @@ void export_usfm (string bible, bool log)
     Database_State::clearExport (bible, book, export_logic::export_full_usfm);
     
     
-    if (log) Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());
+    if (log) Database_Logs::log (translate("Exported to USFM") + ": " + bible + " " + database::books::get_english_from_id_v1 (book), Filter_Roles::translator ());
   }
 
   

@@ -208,7 +208,7 @@ void bible_logic::import_resource (string bible, string resource)
   vector <int> books = database_versifications.getMaximumBooks ();
   for (const auto book : books) {
     
-    string bookName = database::books::get_english_from_id (book);
+    string bookName = database::books::get_english_from_id_v1 (book);
 
     vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (const auto chapter : chapters) {
@@ -218,7 +218,7 @@ void bible_logic::import_resource (string bible, string resource)
       
       vector <string> usfm {};
       
-      if (chapter == 0) usfm.push_back ("\\id " + database::books::get_usfm_from_id (book));
+      if (chapter == 0) usfm.push_back ("\\id " + database::books::get_usfm_from_id_v1 (book));
       
       if (chapter) {
         usfm.push_back ("\\c " + convert_to_string (chapter));
@@ -279,7 +279,7 @@ void bible_logic::log_change (const string& bible,
   // It used to calculate the percentage difference, but this took a relatively long time.
   // In particular on low-power devices and on Windows, the time it took was excessive.
 
-  string bookname = database::books::get_english_from_id (book);
+  string bookname = database::books::get_english_from_id_v1 (book);
   string passage = bible + " " + bookname + " " + convert_to_string (chapter);
   
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -336,7 +336,7 @@ void bible_logic::log_change (const string& bible,
 void bible_logic::log_merge (string user, string bible, int book, int chapter,
                              string base, string change, string prioritized_change, string result)
 {
-  string bookname = database::books::get_english_from_id (book);
+  string bookname = database::books::get_english_from_id_v1 (book);
   string passage = bible + " " + bookname + " " + convert_to_string (chapter);
   
   vector <string> body {};
@@ -1179,9 +1179,9 @@ void bible_logic::create_empty_bible (const string & name)
   search_logic_delete_bible (name);
 
   // Create books with blank verses for the OT and NT.
-  vector <int> books = database::books::get_ids ();
+  vector <int> books = database::books::get_ids_v1 ();
   for (const auto book : books) {
-    const book_type type = database::books::get_type_v2 (book);
+    const book_type type = database::books::get_type_v1 (book);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
       vector <string> feedback {};
       book_create (name, book, -1, feedback);

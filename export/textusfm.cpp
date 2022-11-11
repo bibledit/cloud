@@ -63,7 +63,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   
   // Basic USFM.
   if (file_or_dir_exists (usfmFilename)) filter_url_unlink (usfmFilename);
-  string basicUsfm = "\\id " + database::books::get_usfm_from_id (book) + "\n";
+  string basicUsfm = "\\id " + database::books::get_usfm_from_id_v1 (book) + "\n";
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   
   
@@ -123,5 +123,5 @@ void export_text_usfm_book (string bible, int book, bool log)
   Database_State::clearExport (bible, book, export_logic::export_text_and_basic_usfm);
 
   
-  if (log) Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + database::books::get_english_from_id (book), Filter_Roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to basic USFM and text") + ": " + bible + " " + database::books::get_english_from_id_v1 (book), Filter_Roles::translator ());
 }

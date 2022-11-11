@@ -82,7 +82,7 @@ string resource_user1edit (void * webserver_request)
         vector <string> bits = filter_string_explode (line, '=');
         if (bits.size () == 2) {
           string english = filter_string_trim (bits [0]);
-          int id = database::books::get_id_from_english (english);
+          int id = database::books::get_id_from_english_v1 (english);
           if (id) {
             string fragment = filter_string_trim (bits [1]);
             Database_UserResources::book (name, id, fragment);
@@ -101,11 +101,11 @@ string resource_user1edit (void * webserver_request)
   
   vector <string> lines;
   lines.push_back (Database_UserResources::url (name));
-  vector <int> ids = database::books::get_ids ();
+  vector <int> ids = database::books::get_ids_v1 ();
   for (auto id : ids) {
-    book_type type = database::books::get_type_v2 (id);
+    book_type type = database::books::get_type_v1 (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
-      string english = database::books::get_english_from_id (id);
+      string english = database::books::get_english_from_id_v1 (id);
       string book = Database_UserResources::book (name, id);
       lines.push_back (english + " = " + book);
     }

@@ -50,10 +50,10 @@ void nmt_logic_export (string referencebible, string translatingbible)
   for (auto book : books) {
   
     // Take books that contain text, leave others, like front matter, out.
-    book_type type = database::books::get_type_v2 (book);
+    book_type type = database::books::get_type_v1 (book);
     if ((type != book_type::old_testament) && (type != book_type::new_testament) && (type != book_type::apocryphal)) continue;
     
-    string bookname = database::books::get_english_from_id (book);
+    string bookname = database::books::get_english_from_id_v1 (book);
     Database_Logs::log ("Exporting " + bookname);
     
     vector <int> chapters = database_bibles.getChapters (referencebible, book);

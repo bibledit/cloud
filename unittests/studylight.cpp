@@ -35,16 +35,16 @@ void test_studylight ()
 
   resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
 
-  vector <int> book_ids = database::books::get_ids ();
+  vector <int> book_ids = database::books::get_ids_v1 ();
   for (auto book_id : book_ids) {
     continue;
-    book_type type = database::books::get_type_v2 (book_id);
+    book_type type = database::books::get_type_v1 (book_id);
     if ((type != book_type::old_testament) && (type != book_type::new_testament)) continue;
     int verse {1};
     if (book == 14) verse = 2; // 2 Chronicles.
     text = resource_logic_study_light_get (resource, book_id, 1, 1);
     if (text.empty ()) {
-      evaluate (__LINE__, __func__, database::books::get_english_from_id (book_id) + " should not be empty - book " + to_string(book_id), string());
+      evaluate (__LINE__, __func__, database::books::get_english_from_id_v1 (book_id) + " should not be empty - book " + to_string(book_id), string());
     }
   }
 

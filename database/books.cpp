@@ -144,10 +144,21 @@ string get_bibleworks_from_id_v2 (book_id id) // Todo use this
 }
 
 
-string get_osis_from_id_v1 (int id) // Todo use _v2
+string get_osis_from_id_v1 (int id) // Todo goes out.
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v1) {
+      return books_table[i].osis;
+    }
+  }
+  return translate ("Unknown");
+}
+
+
+string get_osis_from_id_v2 (book_id id)
+{
+  for (unsigned int i = 0; i < data_count; i++) {
+    if (id == books_table[i].id_v2) {
       return books_table[i].osis;
     }
   }

@@ -146,6 +146,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_dev ();
   test_database_books ();
   test_studylight ();
+  test_passage ();
   refresh_sandbox (false);
   exit (0);
   

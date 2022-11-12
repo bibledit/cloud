@@ -79,7 +79,7 @@ string resource_img (void * webserver_request)
     vector <string> errors;
     
     string book = request->post ["book1"];
-    book1 = filter_passage_interpret_book (book);
+    book1 = filter_passage_interpret_book_v1 (book);
     if (book1 == 0) errors.push_back (translate ("Unknown starting book."));
 
     chapter1 = convert_to_int (request->post ["chapter1"]);
@@ -91,7 +91,7 @@ string resource_img (void * webserver_request)
     if (chapter1 > 200) errors.push_back (translate ("High starting verse."));
     
     book = request->post ["book2"];
-    book2 = filter_passage_interpret_book (book);
+    book2 = filter_passage_interpret_book_v1 (book);
     if (book2 == 0) errors.push_back (translate ("Unknown ending book."));
     
     chapter2 = convert_to_int (request->post ["chapter2"]);

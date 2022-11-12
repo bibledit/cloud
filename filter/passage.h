@@ -21,6 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+// Forward declaration.
+enum class book_id;
+
 class Passage
 {
 public:
@@ -40,7 +43,8 @@ std::string filter_passage_display_inline (std::vector <Passage> passages);
 std::string filter_passage_display_multiline (std::vector <Passage> passages);
 int filter_passage_to_integer (Passage passage);
 Passage filter_integer_to_passage (int integer);
-int filter_passage_interpret_book (std::string book);
+int filter_passage_interpret_book_v1 (std::string book);
+book_id filter_passage_interpret_book_v2 (std::string book);
 std::string filter_passage_clean_passage (std::string text);
 Passage filter_passage_explode_passage (std::string text);
 Passage filter_passage_interpret_passage (Passage currentPassage, std::string rawPassage);

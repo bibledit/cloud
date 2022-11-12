@@ -312,6 +312,10 @@
 /i18n
 /i18n/i18n.sh
 /.idea
+/.idea/cloud.iml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
 /images
 /images/gitflag
 /images/index.html

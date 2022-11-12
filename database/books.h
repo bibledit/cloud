@@ -156,6 +156,7 @@ std::string get_usfm_from_id_v2 (book_id id);
 std::string get_bibleworks_from_id_v1 (int id);
 std::string get_bibleworks_from_id_v2 (book_id id);
 std::string get_osis_from_id_v1 (int id);
+std::string get_osis_from_id_v2 (book_id id);
 int get_id_from_usfm_v1 (const std::string & usfm);
 book_id get_id_from_usfm_v2 (const std::string & usfm);
 int get_id_from_osis_v1 (const std::string & osis);
@@ -172,7 +173,7 @@ int get_order_from_id_v2 (book_id id);
 book_type get_type_v1 (int id);
 book_type get_type_v2 (book_id id);
 std::string book_type_to_string (book_type type);
-book_id get_id_v2_from_id_v1 (int id);
-int get_id_v1_from_id_v2 (book_id id);
+book_id get_id_v2_from_id_v1 (int id); // Todo out, do via static cast.
+int get_id_v1_from_id_v2 (book_id id); // Todo out, do via static cast.
 
 };

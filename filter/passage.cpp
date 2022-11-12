@@ -276,7 +276,7 @@ int filter_passage_interpret_book_v1 (string book) // Todo goes out eventually
 // This filter takes $books as a string,
 // and looks whether it can be interpreted as a valid book in any way.
 // It returns a valid book identifier, or 0 in case no book could be interpreted.
-book_id filter_passage_interpret_book_v2 (string book) // Todo use this
+book_id filter_passage_interpret_book_v2 (string book)
 {
   book = filter_string_trim (book);
   

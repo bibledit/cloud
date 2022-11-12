@@ -268,8 +268,6 @@ void test_passage ()
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_3_john), static_cast<int>(filter_passage_interpret_book_v2 ("3 Jn")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_jude), static_cast<int>(filter_passage_interpret_book_v2 ("Jude")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_revelation), static_cast<int>(filter_passage_interpret_book_v2 ("Rev")));
-
-    cout << "Todo" << endl; // Todo
   }
 
   // Interpret book Online Bible.
@@ -277,6 +275,9 @@ void test_passage ()
     evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("Ge"));
     evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1Co"));
     evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("So"));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("Ge")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1Co")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("So")));
   }
 
   // Interpret book partial names.
@@ -293,6 +294,18 @@ void test_passage ()
     evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("song of"));
     evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("song of sol"));
     evaluate (__LINE__, __func__, 11, filter_passage_interpret_book_v1 ("1ki"));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("G")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("g")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("ge")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("gene")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1 Cori")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1 cori")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1 corint")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1cor")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("song")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("song of")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("song of sol")));
+    evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_kings), static_cast<int>(filter_passage_interpret_book_v2 ("1ki")));
   }
 
   // Explode passage.

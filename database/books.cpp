@@ -45,7 +45,7 @@ vector <int> get_ids_v1 () // Todo goes out.
 }
 
 
-std::vector <book_id> get_ids_v2 () // Todo use this.
+std::vector <book_id> get_ids_v2 ()
 {
   vector <book_id> ids;
   for (unsigned int i = 0; i < data_count; i++) {
@@ -67,7 +67,7 @@ int get_id_from_english_v1 (const string & english) // Todo use _v2
 }
 
 
-book_id get_id_from_english_v2 (const string & english) // Todo use this
+book_id get_id_from_english_v2 (const string & english)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
@@ -89,7 +89,7 @@ string get_english_from_id_v1 (int id) // Todo use _v2
 }
 
 
-string get_english_from_id_v2 (book_id id) // Todo use this
+string get_english_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -111,7 +111,7 @@ string get_usfm_from_id_v1 (int id) // Todo use _v2
 }
 
 
-string get_usfm_from_id_v2 (book_id id) // Todo use this
+string get_usfm_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -133,7 +133,7 @@ string get_bibleworks_from_id_v1 (int id) // Todo use _v2
 }
 
 
-string get_bibleworks_from_id_v2 (book_id id) // Todo use this
+string get_bibleworks_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -177,7 +177,7 @@ int get_id_from_usfm_v1 (const string & usfm) // Todo use _v2
 }
 
 
-book_id get_id_from_usfm_v2 (const string & usfm) // Todo use this
+book_id get_id_from_usfm_v2 (const string & usfm)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
@@ -199,7 +199,7 @@ int get_id_from_osis_v1 (const string & osis) // Todo use _v2
 }
 
 
-book_id get_id_from_osis_v2 (const string & osis) // Todo use this
+book_id get_id_from_osis_v2 (const string & osis)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
@@ -221,7 +221,7 @@ int get_id_from_bibleworks_v1 (const string & bibleworks) // Todo use _v2
 }
 
 
-book_id get_id_from_bibleworks_v2 (const string & bibleworks) // Todo use this
+book_id get_id_from_bibleworks_v2 (const string & bibleworks)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
@@ -263,7 +263,7 @@ int get_id_like_text_v1 (const string & text) // Todo use _v2
 // Tries to interprete $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
 // If it fails, it returns 0.
-book_id get_id_like_text_v2 (const string & text) // Todo use this
+book_id get_id_like_text_v2 (const string & text)
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
@@ -300,7 +300,7 @@ int get_id_from_onlinebible_v1 (const string & onlinebible) // Todo use _v2
 }
 
 
-book_id get_id_from_onlinebible_v2 (const string & onlinebible) // Todo use todo
+book_id get_id_from_onlinebible_v2 (const string & onlinebible)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {
@@ -322,7 +322,7 @@ string get_onlinebible_from_id_v1 (int id) // Todo use _v2
 }
 
 
-string get_onlinebible_from_id_v2 (book_id id) // Todo use this
+string get_onlinebible_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -355,7 +355,7 @@ book_type get_type_v1 (int id) // Todo use _v2
 }
 
 
-book_type get_type_v2 (book_id id) // Todo use this
+book_type get_type_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -378,28 +378,6 @@ std::string book_type_to_string (book_type type)
     default: return string();
   }
   return string();
-}
-
-
-book_id get_id_v2_from_id_v1 (int id)
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].id_v2;
-    }
-  }
-  return book_id::_unknown;
-}
-
-
-int get_id_v1_from_id_v2 (book_id id)
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v2) {
-      return books_table[i].id_v1;
-    }
-  }
-  return 0;
 }
 
 

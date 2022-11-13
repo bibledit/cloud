@@ -163,7 +163,6 @@ int get_id_from_osis_v1 (const std::string & osis);
 book_id get_id_from_osis_v2 (const std::string & osis);
 int get_id_from_bibleworks_v1 (const std::string & bibleworks);
 book_id get_id_from_bibleworks_v2 (const std::string & bibleworks);
-int get_id_like_text_v1 (const std::string & text);
 book_id get_id_like_text_v2 (const std::string & text);
 book_id get_id_from_onlinebible_v2 (const std::string & onlinebible);
 std::string get_onlinebible_from_id (book_id id);

@@ -235,34 +235,6 @@ book_id get_id_from_bibleworks_v2 (const string & bibleworks)
 // Tries to interprete $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
 // If it fails, it returns 0.
-int get_id_like_text_v1 (const string & text) // Todo use _v2
-{
-  // Go through all known book names and abbreviations.
-  // Note how much the $text differs from the known names.
-  // Then return the best match.
-  vector <int> ids {};
-  vector <int> similarities {};
-  for (unsigned int i = 0; i < data_count; i++) {
-    int id {books_table[i].id_v1};
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].osis)));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, books_table[i].usfm));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].bibleworks)));
-    ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].onlinebible)));
-  }
-  quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
-  return ids.back ();
-}
-
-
-// Tries to interprete $text as the name of a Bible book.
-// Returns the book's identifier if it succeeds.
-// If it fails, it returns 0.
 book_id get_id_like_text_v2 (const string & text)
 {
   // Go through all known book names and abbreviations.

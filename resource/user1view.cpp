@@ -53,28 +53,28 @@ string resource_user1view (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Resources"), request);
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   
 
   string name = request->query ["name"];
 
   
-  vector <string> code;
+  vector <string> code {};
   string url = Database_UserResources::url (name);
   code.push_back ("var userResourceUrl = \"" + url + "\";");
   code.push_back ("var userResourceBooks = [];");
-  vector <int> ids = database::books::get_ids_v1 ();
+  vector <book_id> ids = database::books::get_ids_v2 ();
   for (auto id : ids) {
-    book_type type = database::books::get_type_v1 (id);
+    book_type type = database::books::get_type_v2 (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
-      string book = Database_UserResources::book (name, id);
-      if (book.empty ()) book = convert_to_string (id);
-      code.push_back ("userResourceBooks [" + convert_to_string (id) + "] = \"" + book + "\";");
+      string book = Database_UserResources::book (name, static_cast<int> (id));
+      if (book.empty ()) book = convert_to_string (static_cast<int>(id));
+      code.push_back ("userResourceBooks [" + convert_to_string (static_cast<int>(id)) + "] = \"" + book + "\";");
     }
   }
   string script = filter_string_implode (code, "\n");

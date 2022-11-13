@@ -56,11 +56,11 @@ string resource_user1edit (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("User-defined resources"), request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   string error, success;
   
   
@@ -101,17 +101,16 @@ string resource_user1edit (void * webserver_request)
   
   vector <string> lines;
   lines.push_back (Database_UserResources::url (name));
-  vector <int> ids = database::books::get_ids_v1 ();
+  vector <book_id> ids = database::books::get_ids_v2 ();
   for (auto id : ids) {
-    book_type type = database::books::get_type_v1 (id);
+    book_type type = database::books::get_type_v2 (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
-      string english = database::books::get_english_from_id_v1 (id);
-      string book = Database_UserResources::book (name, id);
+      string english = database::books::get_english_from_id_v2 (id);
+      string book = Database_UserResources::book (name, static_cast<int>(id));
       lines.push_back (english + " = " + book);
     }
   }
   view.set_variable ("data", filter_string_implode (lines, "\n"));
-                   
   
 
   view.set_variable ("success", success);

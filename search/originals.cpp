@@ -68,11 +68,11 @@ string search_originals (void * webserver_request)
 
   if (request->query.count ("load")) {
     
-    int book = Ipc_Focus::getBook (request);
+    book_id book = static_cast<book_id>(Ipc_Focus::getBook (request));
     int chapter = Ipc_Focus::getChapter (request);
     int verse = Ipc_Focus::getVerse (request);
     
-    book_type type = database::books::get_type_v1 (book);
+    book_type type = database::books::get_type_v2 (book);
     
     string classs{};
     
@@ -80,11 +80,11 @@ string search_originals (void * webserver_request)
     string searchtext;
     vector <string> details;
     if (type == book_type::old_testament) {
-      details = database_oshb.getVerse (book, chapter, verse);
+      details = database_oshb.getVerse (static_cast<int>(book), chapter, verse);
       classs = "hebrew";
     }
     if (type == book_type::new_testament) {
-      details = database_sblgnt.getVerse (book, chapter, verse);
+      details = database_sblgnt.getVerse (static_cast<int>(book), chapter, verse);
       classs = "greek";
     }
     searchtext = filter_string_implode (details, " ");
@@ -100,11 +100,12 @@ string search_originals (void * webserver_request)
     words = filter_string_trim (words);
     vector <string> v_words = filter_string_explode (words, ' ');
     
-    int book = Ipc_Focus::getBook (request);
-    book_type type = database::books::get_type_v1 (book);
+    book_id book = static_cast<book_id>(Ipc_Focus::getBook (request));
+    book_type type = database::books::get_type_v2 (book);
     
-    // Include items if there are no more search hits than 30% of the total number of verses in the Hebrew or Greek.
-    size_t maxcount = 0;
+    // Include items if there are no more search hits
+    // than 30% of the total number of verses in the Hebrew or Greek.
+    size_t maxcount {0};
     if (type == book_type::old_testament) {
       maxcount = static_cast<size_t> (round (0.3 * 23145));
     }

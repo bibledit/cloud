@@ -344,17 +344,6 @@ int get_order_from_id_v2 (book_id id)
 }
 
 
-book_type get_type_v1 (int id) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].type_v2;
-    }
-  }
-  return book_type::unknown;
-}
-
-
 book_type get_type_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {

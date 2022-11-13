@@ -126,8 +126,8 @@ int Paratext_Logic::getBook (string filename)
   fragment.erase (0, 4);
   
   // Get book from the USFM id.
-  int id = database::books::get_id_from_usfm_v1 (fragment);
-  return id;
+  book_id id = database::books::get_id_from_usfm_v2 (fragment);
+  return static_cast<int>(id);
 }
 
 

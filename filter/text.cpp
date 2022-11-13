@@ -218,7 +218,7 @@ void Filter_Text::pre_process_usfm ()
                     string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                     // Get Bibledit book number.
-                    m_current_book_identifier = database::books::get_id_from_usfm_v1 (usfm_id);
+                    m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm_v2 (usfm_id));
                     // Reset chapter and verse numbers.
                     m_current_chapter_number = 0;
                     numberOfChaptersPerBook[m_current_book_identifier] = 0;
@@ -377,7 +377,7 @@ void Filter_Text::process_usfm ()
                   // Get book number.
                   string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
-                  m_current_book_identifier = database::books::get_id_from_usfm_v1 (usfm_id);
+                  m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm_v2 (usfm_id));
                   // Reset chapter and verse numbers.
                   m_current_chapter_number = 0;
                   currentVerseNumber = "0";

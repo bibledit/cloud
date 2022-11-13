@@ -39,9 +39,7 @@ void test_database_books ()
   evaluate (__LINE__, __func__, "Leviticus", database::books::get_english_from_id_v2 (book_id::_leviticus));
   evaluate (__LINE__, __func__, "NUM", database::books::get_usfm_from_id_v1 (4));
   evaluate (__LINE__, __func__, "NUM", database::books::get_usfm_from_id_v2 (book_id::_numbers));
-  evaluate (__LINE__, __func__, "Deu", database::books::get_bibleworks_from_id_v1 (5));
   evaluate (__LINE__, __func__, "Deu", database::books::get_bibleworks_from_id_v2 (book_id::_deuteronomy));
-  evaluate (__LINE__, __func__, 22, database::books::get_id_from_usfm_v1 ("SNG"));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(database::books::get_id_from_usfm_v2 ("SNG")));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_chronicles), static_cast<int>(database::books::get_id_from_osis_v2 ("1Chr")));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_2_kings), static_cast<int>(database::books::get_id_from_bibleworks_v2 ("2Ki")));
@@ -54,7 +52,6 @@ void test_database_books ()
   evaluate (__LINE__, __func__, static_cast <int> (book_type::new_testament), static_cast <int> (database::books::get_type (book_id::_matthew)));
   evaluate (__LINE__, __func__, static_cast <int> (book_type::old_testament), static_cast <int> (database::books::get_type (book_id::_malachi)));
   evaluate (__LINE__, __func__, static_cast <int> (book_type::unknown), static_cast <int> (database::books::get_type (book_id::_unknown)));
-  evaluate (__LINE__, __func__, 105, database::books::get_id_from_usfm_v1 ("INT"));
   evaluate (__LINE__, __func__, static_cast <int> (book_id::_introduction_matter), static_cast <int> (database::books::get_id_from_usfm_v2 ("INT")));
 }
 

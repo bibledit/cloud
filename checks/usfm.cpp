@@ -212,8 +212,8 @@ void Checks_Usfm::malformed_id ()
     vector <string> vid = filter_string_explode (code, ' ');
     string id {};
     if (!vid.empty ()) id = vid [0];
-    int book = database::books::get_id_from_usfm_v1 (id);
-    if (book == 0) {
+    book_id book = database::books::get_id_from_usfm_v2 (id);
+    if (book == book_id::_unknown) {
       add_result (translate ("Unknown ID"), display_full);
     } else {
       if (unicode_string_uppercase (id) != id) {

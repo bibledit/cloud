@@ -471,7 +471,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Accordance broadcasts for instance, 2 Corinthians 9:2, as "2CO 9:2".
   vector<string> book_rest = filter_string_explode (reference, ' ');
   if (book_rest.size() != 2) return;
-  int book = database::books::get_id_from_usfm_v1 (book_rest[0]);
+  int book = static_cast<int>(database::books::get_id_from_usfm_v2 (book_rest[0]));
   vector <string> chapter_verse = filter_string_explode(book_rest[1], ':');
   if (chapter_verse.size() != 2) return;
   int chapter = convert_to_int(chapter_verse[0]);

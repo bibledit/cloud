@@ -171,9 +171,9 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 {
   vector <BookChapterData> result;
 
-  int book_number = 0;
-  int chapter_number = 0;
-  string chapter_data = "";
+  book_id bookid {0};
+  int chapter_number {0};
+  string chapter_data {};
 
   input = one_string (input);
   vector <string> markers_and_text = get_markers_and_text (input);
@@ -182,7 +182,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 
   for (string marker_or_text : markers_and_text) {
     if (retrieve_book_number_on_next_iteration) {
-      book_number = database::books::get_id_from_usfm_v1 (marker_or_text.substr (0, 3));
+      bookid = database::books::get_id_from_usfm_v2 (marker_or_text.substr (0, 3));
       chapter_number = 0;
       retrieve_book_number_on_next_iteration = false;
     }
@@ -205,7 +205,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
       }
       if (store_chapter_data) {
         chapter_data = filter_string_trim (chapter_data);
-        if (chapter_data != "") result.push_back ( { book_number, chapter_number, chapter_data } );
+        if (!chapter_data.empty()) result.push_back ( { static_cast<int>(bookid), chapter_number, chapter_data } );
         chapter_number = 0;
         chapter_data = "";
         store_chapter_data = false;
@@ -225,7 +225,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
     chapter_data += marker_or_text;
   }
   chapter_data = filter_string_trim (chapter_data);
-  if (chapter_data != "") result.push_back (BookChapterData (book_number, chapter_number, chapter_data));
+  if (!chapter_data.empty()) result.push_back (BookChapterData (static_cast<int>(bookid), chapter_number, chapter_data));
   return result;
 }
 

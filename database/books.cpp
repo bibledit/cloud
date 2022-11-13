@@ -122,17 +122,6 @@ string get_usfm_from_id_v2 (book_id id)
 }
 
 
-string get_bibleworks_from_id_v1 (int id) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].bibleworks;
-    }
-  }
-  return "Xxx";
-}
-
-
 string get_bibleworks_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
@@ -144,17 +133,6 @@ string get_bibleworks_from_id_v2 (book_id id)
 }
 
 
-string get_osis_from_id_v1 (int id) // Todo goes out.
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].osis;
-    }
-  }
-  return translate ("Unknown");
-}
-
-
 string get_osis_from_id_v2 (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
@@ -163,17 +141,6 @@ string get_osis_from_id_v2 (book_id id)
     }
   }
   return translate ("Unknown");
-}
-
-
-int get_id_from_usfm_v1 (const string & usfm) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (usfm == books_table[i].usfm) {
-      return books_table[i].id_v1;
-    }
-  }
-  return 0;
 }
 
 

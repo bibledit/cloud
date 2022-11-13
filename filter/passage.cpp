@@ -168,7 +168,8 @@ Passage filter_integer_to_passage (int integer)
 
 // This filter takes $books as a string,
 // and looks whether it can be interpreted as a valid book in any way.
-// It returns a valid book identifier, or 0 in case no book could be interpreted.
+// It returns a valid book identifier,
+// or the unknown enum in case no book could be interpreted.
 book_id filter_passage_interpret_book_v2 (string book)
 {
   book = filter_string_trim (book);

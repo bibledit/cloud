@@ -20,5 +20,6 @@
 #pragma once
 
 #include <config/libraries.h>
+enum class book_id;
 
-bool book_create (const std::string & bible, const int book, const int chapter, std::vector <std::string> & feedback);
+bool book_create (const std::string & bible, const book_id book, const int chapter, std::vector <std::string> & feedback);

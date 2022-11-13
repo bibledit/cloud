@@ -131,7 +131,7 @@ string bible_settings (void * webserver_request)
       return page;
     } else {
       vector <string> feedback;
-      if (write_access) book_create (bible, convert_to_int (createbook), -1, feedback);
+      if (write_access) book_create (bible, static_cast<book_id>(convert_to_int (createbook)), -1, feedback);
     }
     // User creates a book in this Bible: Set it as the default Bible.
     request->database_config_user()->setBible (bible);

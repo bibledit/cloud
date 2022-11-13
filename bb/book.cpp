@@ -115,7 +115,7 @@ string bible_book (void * webserver_request)
     if (find (chapters.begin(), chapters.end(), createchapter) == chapters.end()) {
       vector <string> feedback;
       bool result {true};
-      if (write_access) result = book_create (bible, book, createchapter, feedback);
+      if (write_access) result = book_create (bible, static_cast<book_id>(book), createchapter, feedback);
       string message = filter_string_implode (feedback, " ");
       if (result) success_message = message;
       else error_message = message;

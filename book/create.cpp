@@ -33,7 +33,7 @@ using namespace std;
 // Creates book template with ID $book in Bible $bible.
 // If a $chapter is given instead of -1, it creates that chapter only.
 // If the $chapter is -1, it creates all chapters within that book.
-bool book_create (const string & bible, const int book, const int chapter, vector <string> & feedback)
+bool book_create (const string & bible, const book_id book, const int chapter, vector <string> & feedback)
 {
   Database_Bibles database_bibles {};
   Database_Versifications database_versifications {};
@@ -43,7 +43,7 @@ bool book_create (const string & bible, const int book, const int chapter, vecto
     feedback.push_back (translate("Bible bible does not exist: Cannot create book"));
     return false;
   }
-  if (book == 0) {
+  if (book == book_id::_unknown) {
     feedback.push_back (translate("Invalid book while creating a book template"));
     return false;
   }
@@ -56,10 +56,10 @@ bool book_create (const string & bible, const int book, const int chapter, vecto
   
   // Chapter 0.
   if (chapter <=  0) {
-    data  = "\\id "    + database::books::get_usfm_from_id_v1(book)     + "\n";
-    data += "\\h "     + database::books::get_english_from_id_v1 (book) + "\n";
-    data += "\\toc2 "  + database::books::get_english_from_id_v1 (book) + "\n";
-    bible_logic::store_chapter (bible, book, 0, data);
+    data  = "\\id "    + database::books::get_usfm_from_id_v2(book)     + "\n";
+    data += "\\h "     + database::books::get_english_from_id_v2 (book) + "\n";
+    data += "\\toc2 "  + database::books::get_english_from_id_v2 (book) + "\n";
+    bible_logic::store_chapter (bible, static_cast<int>(book), 0, data);
     chapters_created.push_back (0);
   }
   
@@ -68,7 +68,7 @@ bool book_create (const string & bible, const int book, const int chapter, vecto
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   vector <Passage> versification_data = database_versifications.getBooksChaptersVerses (versification);
   for (const auto & row : versification_data) {
-    if (book == row.m_book) {
+    if (book == static_cast<book_id>(row.m_book)) {
       int ch = row.m_chapter;
       int verse = convert_to_int (row.m_verse);
       if ((chapter < 0) || (chapter == ch)) {
@@ -77,7 +77,7 @@ bool book_create (const string & bible, const int book, const int chapter, vecto
         for (int i = 1; i <= verse; i++) {
           data += "\\v " + convert_to_string (i) + "\n";
         }
-        bible_logic::store_chapter (bible, book, ch, data);
+        bible_logic::store_chapter (bible, static_cast<int>(book), ch, data);
         chapters_created.push_back (ch);
       }
     }

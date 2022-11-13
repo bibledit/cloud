@@ -43,9 +43,7 @@ void test_database_books ()
   evaluate (__LINE__, __func__, "Deu", database::books::get_bibleworks_from_id_v2 (book_id::_deuteronomy));
   evaluate (__LINE__, __func__, 22, database::books::get_id_from_usfm_v1 ("SNG"));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(database::books::get_id_from_usfm_v2 ("SNG")));
-  evaluate (__LINE__, __func__, 13, database::books::get_id_from_osis_v1 ("1Chr"));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_chronicles), static_cast<int>(database::books::get_id_from_osis_v2 ("1Chr")));
-  evaluate (__LINE__, __func__, 12, database::books::get_id_from_bibleworks_v1 ("2Ki"));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_2_kings), static_cast<int>(database::books::get_id_from_bibleworks_v2 ("2Ki")));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_2_kings), static_cast<int>(database::books::get_id_like_text_v2 ("2Ki")));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_2_chronicles), static_cast<int>(database::books::get_id_like_text_v2 ("2Chron")));

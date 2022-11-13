@@ -146,7 +146,7 @@ void Database_Mappings::import (const string& name, const string& data)
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
     string passage_book_string = filter_string_implode(bits, " ");
-    int passage_book = database::books::get_id_from_english_v1(passage_book_string);
+    int passage_book = static_cast<int>(database::books::get_id_from_english_v2(passage_book_string));
 
     // Split the original entry on the colon (:) to get the verse.
     bits = filter_string_explode(original_string, ':');
@@ -159,7 +159,7 @@ void Database_Mappings::import (const string& name, const string& data)
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
     string original_book_string = filter_string_implode(bits, " ");
-    int original_book = database::books::get_id_from_english_v1(original_book_string);
+    int original_book = static_cast<int>(database::books::get_id_from_english_v2(original_book_string));
 
     // Store it in the database.
     SqliteSQL sql = SqliteSQL ();

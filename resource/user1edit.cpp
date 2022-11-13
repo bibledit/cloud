@@ -82,10 +82,10 @@ string resource_user1edit (void * webserver_request)
         vector <string> bits = filter_string_explode (line, '=');
         if (bits.size () == 2) {
           string english = filter_string_trim (bits [0]);
-          int id = database::books::get_id_from_english_v1 (english);
-          if (id) {
+          book_id id = database::books::get_id_from_english_v2 (english);
+          if (id != book_id::_unknown) {
             string fragment = filter_string_trim (bits [1]);
-            Database_UserResources::book (name, id, fragment);
+            Database_UserResources::book (name, static_cast<int>(id), fragment);
             bookcount++;
           } else {
             error.append (" ");

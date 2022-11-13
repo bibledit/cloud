@@ -49,98 +49,98 @@ void sources_oshb_parse ()
   [[maybe_unused]] auto result = system (command.c_str ());
 #endif
   
-  map <int, int> mapping = {
+  map <int, book_id> mapping = {
     
     // Torah
     
     // Bereshit Genesis
-    pair (1, database::books::get_id_from_english_v1 ("Genesis")),
+    pair (1, book_id::_genesis),
     // Shemot Exodus
-    pair (2, database::books::get_id_from_english_v1 ("Exodus")),
+    pair (2, book_id::_exodus),
     // Vayikra Leviticus
-    pair (3, database::books::get_id_from_english_v1 ("Leviticus")),
+    pair (3, book_id::_leviticus),
     // Bəmidbar Numbers
-    pair (4, database::books::get_id_from_english_v1 ("Numbers")),
+    pair (4, book_id::_numbers),
     // Devarim Deuteronomy
-    pair (5, database::books::get_id_from_english_v1 ("Deuteronomy")),
+    pair (5, book_id::_deuteronomy),
     
     // Nevi'im
 
     // Yĕhôshúa‘ Joshua
-    pair (6, database::books::get_id_from_english_v1 ("Joshua")),
+    pair (6, book_id::_joshua),
     // Shophtim Judges
-    pair (7, database::books::get_id_from_english_v1 ("Judges")),
+    pair (7, book_id::_judges),
     // 1 Shmû’ēl 1 Samuel
-    pair (8, database::books::get_id_from_english_v1 ("1 Samuel")),
+    pair (8, book_id::_1_samuel),
     // 2 Shmû’ēl 2 Samuel
-    pair (9, database::books::get_id_from_english_v1 ("2 Samuel")),
+    pair (9, book_id::_2_samuel),
     // 1 M'lakhim 1 Kings
-    pair (10, database::books::get_id_from_english_v1 ("1 Kings")),
+    pair (10, book_id::_1_kings),
     // 2 M'lakhim 2 Kings
-    pair (11, database::books::get_id_from_english_v1 ("2 Kings")),
+    pair (11, book_id::_2_kings),
     // Yĕsha‘ăyāhû Isaiah
-    pair (12, database::books::get_id_from_english_v1 ("Isaiah")),
+    pair (12, book_id::_isaiah),
     // Yirmyāhû Jeremiah
-    pair (13, database::books::get_id_from_english_v1 ("Jeremiah")),
+    pair (13, book_id::_jeremiah),
     // Yĕkhezqiēl Ezekiel
-    pair (14, database::books::get_id_from_english_v1 ("Ezekiel")),
+    pair (14, book_id::_ezekiel),
     // Hôshēa‘ Hosea
-    pair (15, database::books::get_id_from_english_v1 ("Hosea")),
+    pair (15, book_id::_hosea),
     // Yô’ēl Joel
-    pair (16, database::books::get_id_from_english_v1 ("Joel")),
+    pair (16, book_id::_joel),
     // Āmôs Amos
-    pair (17, database::books::get_id_from_english_v1 ("Amos")),
+    pair (17, book_id::_amos),
     // Ōvadhyāh Obadiah
-    pair (18, database::books::get_id_from_english_v1 ("Obadiah")),
+    pair (18, book_id::_obadiah),
     // Yônāh Jonah
-    pair (19, database::books::get_id_from_english_v1 ("Jonah")),
+    pair (19, book_id::_jonah),
     // Mîkhāh Micah
-    pair (20, database::books::get_id_from_english_v1 ("Micah")),
+    pair (20, book_id::_micah),
     // Nakḥûm Nahum
-    pair (21, database::books::get_id_from_english_v1 ("Nahum")),
+    pair (21, book_id::_nahum),
     // Khăvhakûk Habakkuk
-    pair (22, database::books::get_id_from_english_v1 ("Habakkuk")),
+    pair (22, book_id::_habakkuk),
     // Tsĕphanyāh Zephaniah
-    pair (23, database::books::get_id_from_english_v1 ("Zephaniah")),
+    pair (23, book_id::_zephaniah),
     // Khaggai Haggai
-    pair (24, database::books::get_id_from_english_v1 ("Haggai")),
+    pair (24, book_id::_haggai),
     // Zkharyāh Zechariah
-    pair (25, database::books::get_id_from_english_v1 ("Zechariah")),
+    pair (25, book_id::_zechariah),
     // Mal’ākhî Malachi
-    pair (26, database::books::get_id_from_english_v1 ("Malachi")),
+    pair (26, book_id::_malachi),
 
     // Ketuvim
     
     // Tehillim (Psalms)
-    pair (27, database::books::get_id_from_english_v1 ("Psalms")),
+    pair (27, book_id::_psalms),
     // Mishlei (Book of Proverbs)
-    pair (28, database::books::get_id_from_english_v1 ("Proverbs")),
+    pair (28, book_id::_proverbs),
     // Iyyôbh (Book of Job)
-    pair (29, database::books::get_id_from_english_v1 ("Job")),
+    pair (29, book_id::_job),
     // Shīr Hashīrīm (Song of Songs) or (Song of Solomon)
-    pair (30, database::books::get_id_from_english_v1 ("Song of Solomon")),
+    pair (30, book_id::_song_of_solomon),
     // Rūth (Book of Ruth)
-    pair (31, database::books::get_id_from_english_v1 ("Ruth")),
+    pair (31, book_id::_ruth),
     // Eikhah (Lamentations)
-    pair (32, database::books::get_id_from_english_v1 ("Lamentations")),
+    pair (32, book_id::_lamentations),
     // Qōheleth (Ecclesiastes)
-    pair (33, database::books::get_id_from_english_v1 ("Ecclesiastes")),
+    pair (33, book_id::_ecclesiastes),
     // Estēr (Book of Esther)
-    pair (34, database::books::get_id_from_english_v1 ("Esther")),
+    pair (34, book_id::_esther),
     // Dānî’ēl (Book of Daniel)
-    pair (35, database::books::get_id_from_english_v1 ("Daniel")),
+    pair (35, book_id::_daniel),
     // 1 Ezrā (Book of Ezra)
-    pair (36, database::books::get_id_from_english_v1 ("Ezra")),
+    pair (36, book_id::_ezra),
     // 2 Ezrā (Book of Nehemiah)
-    pair (37, database::books::get_id_from_english_v1 ("Nehemiah")),
+    pair (37, book_id::_nehemiah),
     // 1 Divrei ha-Yamim (1 Chronicles)
-    pair (38, database::books::get_id_from_english_v1 ("1 Chronicles")),
+    pair (38, book_id::_1_chronicles),
     // 2 Divrei ha-Yamim (2 Chronicles)
-    pair (39, database::books::get_id_from_english_v1 ("2 Chronicles"))
+    pair (39, book_id::_2_chronicles),
     
   };
   
-  int previous_book = 0;
+  book_id previous_book {book_id::_unknown};
 
   xml_document document;
   document.load_file (file.c_str(), parse_ws_pcdata_single);
@@ -148,7 +148,7 @@ void sources_oshb_parse ()
   xml_node database_node = mysqldump_node.first_child ();
   xml_node table_data_node = database_node.child ("table_data");
   for (xml_node row_node : table_data_node.children()) {
-    int book = 0;
+    book_id book {book_id::_unknown};
     int chapter = 0;
     int verse = 0;
     string word;
@@ -168,11 +168,11 @@ void sources_oshb_parse ()
     }
     if (book != previous_book) {
       previous_book = book;
-      cout << database::books::get_english_from_id_v1 (book) << endl;
+      cout << database::books::get_english_from_id_v2 (book) << endl;
     }
     word = filter_string_str_replace ("/", "", word);
-    database_oshb.store (book, chapter, verse, lemma, word, morph);
-    database_oshb.store (book, chapter, verse, "", append, "");
+    database_oshb.store (static_cast<int>(book), chapter, verse, lemma, word, morph);
+    database_oshb.store (static_cast<int>(book), chapter, verse, "", append, "");
   }
 
   database_oshb.optimize ();

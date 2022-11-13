@@ -218,7 +218,7 @@ void bible_logic::import_resource (string bible, string resource)
       
       vector <string> usfm {};
       
-      if (chapter == 0) usfm.push_back ("\\id " + database::books::get_usfm_from_id_v1 (book));
+      if (chapter == 0) usfm.push_back ("\\id " + database::books::get_usfm_from_id_v2 (static_cast<book_id>(book)));
       
       if (chapter) {
         usfm.push_back ("\\c " + convert_to_string (chapter));

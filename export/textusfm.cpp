@@ -63,7 +63,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   
   // Basic USFM.
   if (file_or_dir_exists (usfmFilename)) filter_url_unlink (usfmFilename);
-  string basicUsfm = "\\id " + database::books::get_usfm_from_id_v1 (book) + "\n";
+  string basicUsfm = "\\id " + database::books::get_usfm_from_id_v2 (static_cast<book_id>(book)) + "\n";
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   
   

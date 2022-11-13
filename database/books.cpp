@@ -56,17 +56,6 @@ std::vector <book_id> get_ids_v2 ()
 }
 
 
-int get_id_from_english_v1 (const string & english) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (english == books_table[i].english) {
-      return books_table[i].id_v1;
-    }
-  }
-  return 0;  
-}
-
-
 book_id get_id_from_english_v2 (const string & english)
 {
   for (unsigned int i = 0; i < data_count; i++) {
@@ -97,17 +86,6 @@ string get_english_from_id_v2 (book_id id)
     }
   }
   return translate ("Unknown");
-}
-
-
-string get_usfm_from_id_v1 (int id) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].usfm;
-    }
-  }
-  return "XXX";
 }
 
 

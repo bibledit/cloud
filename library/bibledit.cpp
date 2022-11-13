@@ -444,7 +444,7 @@ const char * bibledit_get_reference_for_accordance ()
   book = passages[0].m_book;
   chapter = passages[0].m_chapter;
   string verse_s = passages[0].m_verse;
-  string usfm_id = database::books::get_usfm_from_id_v1 (book);
+  string usfm_id = database::books::get_usfm_from_id_v2 (static_cast<book_id>(book));
   reference = usfm_id + " " + convert_to_string (chapter) + ":" + convert_to_string (verse_s);
 
   // Return the reference.

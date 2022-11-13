@@ -170,7 +170,7 @@ book_id get_id_from_onlinebible_v2 (const std::string & onlinebible);
 std::string get_onlinebible_from_id_v1 (int id);
 std::string get_onlinebible_from_id_v2 (book_id id);
 int get_order_from_id_v2 (book_id id);
-book_type get_type_v2 (book_id id);
+book_type get_type (book_id id);
 std::string book_type_to_string (book_type type);
 
 };

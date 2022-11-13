@@ -38,7 +38,7 @@ void test_studylight ()
   vector <book_id> book_ids = database::books::get_ids_v2 ();
   for (auto book_id : book_ids) {
     continue;
-    book_type type = database::books::get_type_v2 (book_id);
+    book_type type = database::books::get_type (book_id);
     if ((type != book_type::old_testament) && (type != book_type::new_testament)) continue;
     int verse {1};
     if (book_id == book_id::_2_chronicles) verse = 2;

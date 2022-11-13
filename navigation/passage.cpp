@@ -229,7 +229,7 @@ string Navigation_Passage::get_books_fragment (void * webserver_request, string 
     string book_name = database::books::get_english_from_id_v2 (book);
     book_name = translate (book_name);
     bool selected = (book == active_book);
-    string book_type = database::books::book_type_to_string (database::books::get_type_v2 (book));
+    string book_type = database::books::book_type_to_string (database::books::get_type (book));
     add_selector_link (html, convert_to_string (static_cast<int>(book)), "applybook", book_name, selected, book_type);
   }
   add_selector_link (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
@@ -651,7 +651,7 @@ string Navigation_Passage::get_history_back (void * webserver_request)
   for (size_t i = 0; i < passages.size(); i++) {
     if (i >= 10) continue;
     string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
-    string book_type = database::books::book_type_to_string (database::books::get_type_v2 (static_cast <book_id> (passages[i].m_book)));
+    string book_type = database::books::book_type_to_string (database::books::get_type (static_cast <book_id> (passages[i].m_book)));
     add_selector_link (html, "b" + convert_to_string (i), "applyhistory", rendering, false, book_type);
   }
   // Add a "cancel" link.
@@ -676,7 +676,7 @@ string Navigation_Passage::get_history_forward (void * webserver_request)
   for (size_t i = 0; i < passages.size(); i++) {
     if (i >= 10) continue;
     string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
-    string book_type = database::books::book_type_to_string (database::books::get_type_v2 (static_cast<book_id>(passages[i].m_book)));
+    string book_type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(passages[i].m_book)));
     add_selector_link (html, "f" + convert_to_string (i), "applyhistory", rendering, false, book_type);
   }
   // Add a "cancel" link.

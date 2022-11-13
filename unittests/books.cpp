@@ -58,9 +58,9 @@ void test_database_books ()
   evaluate (__LINE__, __func__, "De", database::books::get_onlinebible_from_id_v1 (5));
   evaluate (__LINE__, __func__, "De", database::books::get_onlinebible_from_id_v2 (book_id::_deuteronomy));
   evaluate (__LINE__, __func__, 7, database::books::get_order_from_id_v2 (book_id::_deuteronomy));
-  evaluate (__LINE__, __func__, static_cast <int> (book_type::new_testament), static_cast <int> (database::books::get_type_v2 (book_id::_matthew)));
-  evaluate (__LINE__, __func__, static_cast <int> (book_type::old_testament), static_cast <int> (database::books::get_type_v2 (book_id::_malachi)));
-  evaluate (__LINE__, __func__, static_cast <int> (book_type::unknown), static_cast <int> (database::books::get_type_v2 (book_id::_unknown)));
+  evaluate (__LINE__, __func__, static_cast <int> (book_type::new_testament), static_cast <int> (database::books::get_type (book_id::_matthew)));
+  evaluate (__LINE__, __func__, static_cast <int> (book_type::old_testament), static_cast <int> (database::books::get_type (book_id::_malachi)));
+  evaluate (__LINE__, __func__, static_cast <int> (book_type::unknown), static_cast <int> (database::books::get_type (book_id::_unknown)));
   evaluate (__LINE__, __func__, 105, database::books::get_id_from_usfm_v1 ("INT"));
   evaluate (__LINE__, __func__, static_cast <int> (book_id::_introduction_matter), static_cast <int> (database::books::get_id_from_usfm_v2 ("INT")));
 }

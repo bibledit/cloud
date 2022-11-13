@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/noteassignment.h>
 #include <database/logs.h>
 #include <database/config/general.h>
+#include <database/books.h>
 #include <trash/handler.h>
 #include <locale/translate.h>
 #include <client/logic.h>
@@ -629,13 +630,13 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   if (!request->database_users()->emailExists (from)) return false;
   string username = request->database_users()->getEmailToUser (from);
   // Extract book, chapter, verse, and note summary from the subject
-  int book = -1;
-  int chapter = -1;
-  int verse = -1;
-  string summary;
+  book_id book {book_id::_unknown};
+  int chapter {-1};
+  int verse {-1};
+  string summary {};
   vector <string> subjectlines = filter_string_explode (subject, ' ');
   if (!subjectlines.empty()) {
-    book = filter_passage_interpret_book_v1 (subjectlines[0]);
+    book = filter_passage_interpret_book_v2 (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
@@ -649,7 +650,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   summary = filter_string_implode (subjectlines, " ");
   // Check book, chapter, verse, and summary. Give feedback if there's anything wrong.
   string noteCheck;
-  if (book <= 0) noteCheck.append (translate("Unknown book"));
+  if (book == book_id::_unknown) noteCheck.append (translate("Unknown book"));
   if (chapter < 0) {
     noteCheck.append (" ");
     noteCheck.append (translate("Unknown chapter"));
@@ -675,7 +676,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   request->session_logic()->set_username (username);
   Database_Notes database_notes = Database_Notes(webserver_request);
   string bible = request->database_config_user()->getBible ();
-  int identifier = database_notes.store_new_note (bible, book, chapter, verse, summary, body, false);
+  int identifier = database_notes.store_new_note (bible, static_cast<int>(book), chapter, verse, summary, body, false);
   handlerNewNote (identifier);
   request->session_logic()->set_username (sessionuser);
   // Mail confirmation to the username.

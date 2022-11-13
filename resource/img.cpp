@@ -55,12 +55,14 @@ string resource_img (void * webserver_request)
   Database_ImageResources database_imageresources;
 
   
-  string page;
+  string page {};
   Assets_Header header = Assets_Header (translate("Image resources"), request);
   page = header.run ();
-  Assets_View view;
+  Assets_View view {};
   string error, success;
-  int book1, chapter1, verse1, book2, chapter2, verse2;
+  book_id book1 {book_id::_unknown};
+  book_id book2 {book_id::_unknown};
+  int chapter1, verse1, chapter2, verse2;
   
   
   string name = request->query ["name"];
@@ -76,11 +78,11 @@ string resource_img (void * webserver_request)
   
   if (request->post.count ("submit")) {
     
-    vector <string> errors;
+    vector <string> errors {};
     
     string book = request->post ["book1"];
-    book1 = filter_passage_interpret_book_v1 (book);
-    if (book1 == 0) errors.push_back (translate ("Unknown starting book."));
+    book1 = filter_passage_interpret_book_v2 (book);
+    if (book1 == book_id::_unknown) errors.push_back (translate ("Unknown starting book."));
 
     chapter1 = convert_to_int (request->post ["chapter1"]);
     if (chapter1 < 0) errors.push_back (translate ("Negative starting chapter."));
@@ -91,8 +93,8 @@ string resource_img (void * webserver_request)
     if (chapter1 > 200) errors.push_back (translate ("High starting verse."));
     
     book = request->post ["book2"];
-    book2 = filter_passage_interpret_book_v1 (book);
-    if (book2 == 0) errors.push_back (translate ("Unknown ending book."));
+    book2 = filter_passage_interpret_book_v2 (book);
+    if (book2 == book_id::_unknown) errors.push_back (translate ("Unknown ending book."));
     
     chapter2 = convert_to_int (request->post ["chapter2"]);
     if (chapter2 < 0) errors.push_back (translate ("Negative ending chapter."));
@@ -102,13 +104,13 @@ string resource_img (void * webserver_request)
     if (chapter2 < 0) errors.push_back (translate ("Negative ending verse."));
     if (chapter2 > 200) errors.push_back (translate ("High ending verse."));
     
-    int start = filter_passage_to_integer (Passage ("", book1, chapter1, convert_to_string (verse1)));
-    int end = filter_passage_to_integer (Passage ("", book2, chapter2, convert_to_string (verse2)));
+    int start = filter_passage_to_integer (Passage (string(), static_cast<int>(book1), chapter1, convert_to_string (verse1)));
+    int end = filter_passage_to_integer (Passage (string(), static_cast<int>(book2), chapter2, convert_to_string (verse2)));
     if (start > end) {
       errors.push_back (translate ("The starting passage is beyond the ending passage."));
     }
 
-    database_imageresources.assign (name, image, book1, chapter1, verse1, book2, chapter2, verse2);
+    database_imageresources.assign (name, image, static_cast<int>(book1), chapter1, verse1, static_cast<int>(book2), chapter2, verse2);
     
     Database_Volatile::setValue (userid, "imageresources", convert_to_string (end));
 
@@ -121,20 +123,26 @@ string resource_img (void * webserver_request)
   
   
   // Retrieve passage range for this image.
-  database_imageresources.get (name, image, book1, chapter1, verse1, book2, chapter2, verse2);
-  if ((book1 == 0) || (book2 == 0)) {
+  {
+    int ibook1 {static_cast<int>(book1)};
+    int ibook2 {static_cast<int>(book2)};
+    database_imageresources.get (name, image, ibook1, chapter1, verse1, ibook2, chapter2, verse2);
+    book1 = static_cast<book_id>(ibook1);
+    book2 = static_cast<book_id>(ibook2);
+  }
+  if ((book1 == book_id::_unknown) || (book2 == book_id::_unknown)) {
     string end = Database_Volatile::getValue (userid, "imageresources");
     Passage passage = filter_integer_to_passage (convert_to_int (end));
-    book1 = book2 = passage.m_book;
+    book1 = book2 = static_cast<book_id>(passage.m_book);
     chapter1 = chapter2 = passage.m_chapter;
     verse1 = verse2 = convert_to_int (passage.m_verse);
-    if (book1 == 0) book1 = 1;
-    if (book2 == 0) book2 = 1;
+    if (book1 == book_id::_unknown) book1 = book_id::_genesis;
+    if (book2 == book_id::_unknown) book2 = book_id::_genesis;
   }
-  view.set_variable ("book1", database::books::get_english_from_id_v1 (book1));
+  view.set_variable ("book1", database::books::get_english_from_id_v2 (book1));
   view.set_variable ("chapter1", convert_to_string (chapter1));
   view.set_variable ("verse1", convert_to_string (verse1));
-  view.set_variable ("book2", database::books::get_english_from_id_v1 (book2));
+  view.set_variable ("book2", database::books::get_english_from_id_v2 (book2));
   view.set_variable ("chapter2", convert_to_string (chapter2));
   view.set_variable ("verse2", convert_to_string (verse2));
   

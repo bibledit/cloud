@@ -169,113 +169,6 @@ Passage filter_integer_to_passage (int integer)
 // This filter takes $books as a string,
 // and looks whether it can be interpreted as a valid book in any way.
 // It returns a valid book identifier, or 0 in case no book could be interpreted.
-int filter_passage_interpret_book_v1 (string book) // Todo goes out eventually
-{
-  book = filter_string_trim (book);
-
-  // Recognize names like "I Peter", where the "I" can also be "II" or "III".
-  // Do the longest ones first.
-  book = filter_string_str_replace ("III ", "3 ", book);
-  book = filter_string_str_replace ("II ", "2 ", book);
-  book = filter_string_str_replace ("I ", "1 ", book);
-
-  // Do case folding, i.e., work with lower case only.
-  book = unicode_string_casefold (book);
-
-  // Remove any spaces from the book name and try with that too.
-  string nospacebook = filter_string_str_replace (" ", "", book);
-
-  // Store all of the available IDs locally.
-  vector <int> bookids = database::books::get_ids_v1 ();
-  
-  // Check on names entered like "Genesis" or "1 Corinthians", the full English name.
-  // A bug was discovered so that "Judges" was interpreted as "Jude",
-  // because of the three letters "Jud".
-  // Solved by checking on full English name first.
-  // In general, do exact matching first before moving on to similarity matching.
-  // Compare with the translation to Bibledit's language too.
-  for (auto identifier : bookids) {
-    string english = database::books::get_english_from_id_v1(identifier);
-    if (english.empty()) continue;
-    if (book == unicode_string_casefold(english)) return identifier;
-    
-    if (nospacebook == unicode_string_casefold(english)) return identifier;
-    
-    string localized = translate(english);
-    if (localized.empty()) continue;
-    
-    if (book == unicode_string_casefold(localized)) return identifier;
-    
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
-  }
-
-  
-  // Recognise the USFM book abbreviations.
-  {
-    int identifier = database::books::get_id_from_usfm_v1 (book);
-    if (identifier) return identifier;
-  }
-
-  // Try the OSIS abbreviations.
-  for (auto identifier : bookids) {
-    string osis = database::books::get_osis_from_id_v1(identifier);
-    if (osis.empty()) continue;
-    if (book == unicode_string_casefold(osis)) return identifier;
-    if (nospacebook == unicode_string_casefold(osis)) return identifier;
-    string localized = translate(osis);
-    if (localized.empty()) continue;
-    if (book == unicode_string_casefold(localized)) return identifier;
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
-  }
-  
-  // Try the abbreviations of BibleWorks.
-  for (auto identifier : bookids) {
-    string bibleworks = database::books::get_bibleworks_from_id_v1(identifier);
-    if (bibleworks.empty()) continue;
-    if (book == unicode_string_casefold(bibleworks)) return identifier;
-    if (nospacebook == unicode_string_casefold(bibleworks)) return identifier;
-    string localized = translate(bibleworks);
-    if (localized.empty()) continue;
-    if (book == unicode_string_casefold(localized)) return identifier;
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
-  }
-
-  // Handle names from BibleWorks when copying the verse list to the clipboard.
-  // These are not handled elsewhere.
-  if (book == "Cant") return 22;
-  if (book == "Mk") return 41;
-  if (book == "Lk") return 42;
-  if (book == "Jn") return 43;
-  if (book == "1 Jn") return 62;
-  if (book == "2 Jn") return 63;
-  if (book == "3 Jn") return 64;
-
-  // Try the abbreviations of the Online Bible.
-  for (auto identifier : bookids) {
-    string onlinebible = database::books::get_onlinebible_from_id_v1(identifier);
-    if (onlinebible.empty()) continue;
-    if (book == unicode_string_casefold(onlinebible)) return identifier;
-    if (nospacebook == unicode_string_casefold(onlinebible)) return identifier;
-    string localized = translate(onlinebible);
-    if (localized.empty()) continue;
-    if (book == unicode_string_casefold(localized)) return identifier;
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
-  }
-
-  // Do a case-insensitive search in the books database for something like the book given.
-  {
-    int identifier = database::books::get_id_like_text_v1 (book);
-    if (identifier) return identifier;
-  }
-  
-  // Sorry, no book found.
-  return 0;
-}
-
-
-// This filter takes $books as a string,
-// and looks whether it can be interpreted as a valid book in any way.
-// It returns a valid book identifier, or 0 in case no book could be interpreted.
 book_id filter_passage_interpret_book_v2 (string book)
 {
   book = filter_string_trim (book);
@@ -425,8 +318,8 @@ Passage filter_passage_explode_passage (string text)
   }
   string book = filter_string_implode (bits, " ");
   if (!book.empty()) {
-    int bk = filter_passage_interpret_book_v1 (book);
-    passage.m_book = bk;
+    book_id bk = filter_passage_interpret_book_v2 (book);
+    passage.m_book = static_cast<int>(bk);
   }
   // Return the result.
   return passage;

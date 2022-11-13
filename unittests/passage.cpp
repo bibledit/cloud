@@ -97,110 +97,30 @@ void test_passage ()
 
   // Interpret book English.
   {
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("Genesis"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1 Corinthians"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("Genesis")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1 Corinthians")));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("Song of Solomon"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("Song of Solomon")));
-    evaluate (__LINE__, __func__, 60, filter_passage_interpret_book_v1 ("I Peter"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_peter), static_cast<int>(filter_passage_interpret_book_v2 ("I Peter")));
-    evaluate (__LINE__, __func__, 63, filter_passage_interpret_book_v1 ("II John"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_2_john), static_cast<int>(filter_passage_interpret_book_v2 ("II John")));
-    evaluate (__LINE__, __func__, 64, filter_passage_interpret_book_v1 ("III John"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_3_john), static_cast<int>(filter_passage_interpret_book_v2 ("III John")));
   }
 
   // Interpret book USFM.
   {
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("GEN"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("GEN")));
-    evaluate (__LINE__, __func__, 8, filter_passage_interpret_book_v1 ("FRT"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_front_matter), static_cast<int>(filter_passage_interpret_book_v2 ("FRT")));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1CO"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1CO")));
   }
   
   // Interpret book OSIS.
   {
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("Gen"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("Gen")));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1Cor"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1Cor")));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("Song"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("Song")));
   }
   
   // Interpret book BibleWorks.
   {
-    evaluate (__LINE__, __func__, 1,  filter_passage_interpret_book_v1 ("Gen"));
-    evaluate (__LINE__, __func__, 2,  filter_passage_interpret_book_v1 ("Exod"));
-    evaluate (__LINE__, __func__, 3,  filter_passage_interpret_book_v1 ("Lev"));
-    evaluate (__LINE__, __func__, 4,  filter_passage_interpret_book_v1 ("Num"));
-    evaluate (__LINE__, __func__, 5,  filter_passage_interpret_book_v1 ("Deut"));
-    evaluate (__LINE__, __func__, 6,  filter_passage_interpret_book_v1 ("Jos"));
-    evaluate (__LINE__, __func__, 7,  filter_passage_interpret_book_v1 ("Jdg"));
-    evaluate (__LINE__, __func__, 8,  filter_passage_interpret_book_v1 ("Ruth"));
-    evaluate (__LINE__, __func__, 9,  filter_passage_interpret_book_v1 ("1 Sam"));
-    evaluate (__LINE__, __func__, 10, filter_passage_interpret_book_v1 ("2 Sam"));
-    evaluate (__LINE__, __func__, 11, filter_passage_interpret_book_v1 ("1 Ki"));
-    evaluate (__LINE__, __func__, 12, filter_passage_interpret_book_v1 ("2 Ki"));
-    evaluate (__LINE__, __func__, 13, filter_passage_interpret_book_v1 ("1 Chr"));
-    evaluate (__LINE__, __func__, 14, filter_passage_interpret_book_v1 ("2 Chr"));
-    evaluate (__LINE__, __func__, 15, filter_passage_interpret_book_v1 ("Ezr"));
-    evaluate (__LINE__, __func__, 16, filter_passage_interpret_book_v1 ("Neh"));
-    evaluate (__LINE__, __func__, 17, filter_passage_interpret_book_v1 ("Est"));
-    evaluate (__LINE__, __func__, 18, filter_passage_interpret_book_v1 ("Job"));
-    evaluate (__LINE__, __func__, 19, filter_passage_interpret_book_v1 ("Ps"));
-    evaluate (__LINE__, __func__, 20, filter_passage_interpret_book_v1 ("Prov"));
-    evaluate (__LINE__, __func__, 21, filter_passage_interpret_book_v1 ("Eccl"));
-    evaluate (__LINE__, __func__, 27, filter_passage_interpret_book_v1 ("Cant"));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("Sol"));
-    evaluate (__LINE__, __func__, 23, filter_passage_interpret_book_v1 ("Isa"));
-    evaluate (__LINE__, __func__, 24, filter_passage_interpret_book_v1 ("Jer"));
-    evaluate (__LINE__, __func__, 25, filter_passage_interpret_book_v1 ("Lam"));
-    evaluate (__LINE__, __func__, 26, filter_passage_interpret_book_v1 ("Ezek"));
-    evaluate (__LINE__, __func__, 27, filter_passage_interpret_book_v1 ("Dan"));
-    evaluate (__LINE__, __func__, 28, filter_passage_interpret_book_v1 ("Hos"));
-    evaluate (__LINE__, __func__, 29, filter_passage_interpret_book_v1 ("Joel"));
-    evaluate (__LINE__, __func__, 30, filter_passage_interpret_book_v1 ("Amos"));
-    evaluate (__LINE__, __func__, 31, filter_passage_interpret_book_v1 ("Obad"));
-    evaluate (__LINE__, __func__, 32, filter_passage_interpret_book_v1 ("Jon"));
-    evaluate (__LINE__, __func__, 33, filter_passage_interpret_book_v1 ("Mic"));
-    evaluate (__LINE__, __func__, 34, filter_passage_interpret_book_v1 ("Nah"));
-    evaluate (__LINE__, __func__, 35, filter_passage_interpret_book_v1 ("Hab"));
-    evaluate (__LINE__, __func__, 36, filter_passage_interpret_book_v1 ("Zeph"));
-    evaluate (__LINE__, __func__, 37, filter_passage_interpret_book_v1 ("Hag"));
-    evaluate (__LINE__, __func__, 38, filter_passage_interpret_book_v1 ("Zech"));
-    evaluate (__LINE__, __func__, 39, filter_passage_interpret_book_v1 ("Mal"));
-    evaluate (__LINE__, __func__, 40, filter_passage_interpret_book_v1 ("Matt"));
-    evaluate (__LINE__, __func__, 41, filter_passage_interpret_book_v1 ("Mk"));
-    evaluate (__LINE__, __func__, 42, filter_passage_interpret_book_v1 ("Lk"));
-    evaluate (__LINE__, __func__, 32, filter_passage_interpret_book_v1 ("Jn"));
-    evaluate (__LINE__, __func__, 44, filter_passage_interpret_book_v1 ("Acts"));
-    evaluate (__LINE__, __func__, 45, filter_passage_interpret_book_v1 ("Rom"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1 Co"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1Co"));
-    evaluate (__LINE__, __func__, 47, filter_passage_interpret_book_v1 ("2 Co"));
-    evaluate (__LINE__, __func__, 48, filter_passage_interpret_book_v1 ("Gal"));
-    evaluate (__LINE__, __func__, 49, filter_passage_interpret_book_v1 ("Eph"));
-    evaluate (__LINE__, __func__, 50, filter_passage_interpret_book_v1 ("Phil"));
-    evaluate (__LINE__, __func__, 51, filter_passage_interpret_book_v1 ("Col"));
-    evaluate (__LINE__, __func__, 52, filter_passage_interpret_book_v1 ("1 Thess"));
-    evaluate (__LINE__, __func__, 53, filter_passage_interpret_book_v1 ("2 Thess"));
-    evaluate (__LINE__, __func__, 54, filter_passage_interpret_book_v1 ("1 Tim"));
-    evaluate (__LINE__, __func__, 55, filter_passage_interpret_book_v1 ("2 Tim"));
-    evaluate (__LINE__, __func__, 56, filter_passage_interpret_book_v1 ("Tit"));
-    evaluate (__LINE__, __func__, 57, filter_passage_interpret_book_v1 ("Phlm"));
-    evaluate (__LINE__, __func__, 58, filter_passage_interpret_book_v1 ("Heb"));
-    evaluate (__LINE__, __func__, 59, filter_passage_interpret_book_v1 ("Jas"));
-    evaluate (__LINE__, __func__, 60, filter_passage_interpret_book_v1 ("1 Pet"));
-    evaluate (__LINE__, __func__, 61, filter_passage_interpret_book_v1 ("2 Pet"));
-    evaluate (__LINE__, __func__, 62, filter_passage_interpret_book_v1 ("1 Jn"));
-    evaluate (__LINE__, __func__, 63, filter_passage_interpret_book_v1 ("2 Jn"));
-    evaluate (__LINE__, __func__, 64, filter_passage_interpret_book_v1 ("3 Jn"));
-    evaluate (__LINE__, __func__, 65, filter_passage_interpret_book_v1 ("Jude"));
-    evaluate (__LINE__, __func__, 66, filter_passage_interpret_book_v1 ("Rev"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("Gen")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_exodus), static_cast<int>(filter_passage_interpret_book_v2 ("Exod")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_leviticus), static_cast<int>(filter_passage_interpret_book_v2 ("Lev")));
@@ -272,9 +192,6 @@ void test_passage ()
 
   // Interpret book Online Bible.
   {
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("Ge"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1Co"));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("So"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("Ge")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_1_corinthians), static_cast<int>(filter_passage_interpret_book_v2 ("1Co")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_song_of_solomon), static_cast<int>(filter_passage_interpret_book_v2 ("So")));
@@ -282,18 +199,6 @@ void test_passage ()
 
   // Interpret book partial names.
   {
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("G"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("g"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("ge"));
-    evaluate (__LINE__, __func__, 1, filter_passage_interpret_book_v1 ("gene"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1 Cori"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1 cori"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1 corint"));
-    evaluate (__LINE__, __func__, 46, filter_passage_interpret_book_v1 ("1cor"));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("song"));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("song of"));
-    evaluate (__LINE__, __func__, 22, filter_passage_interpret_book_v1 ("song of sol"));
-    evaluate (__LINE__, __func__, 11, filter_passage_interpret_book_v1 ("1ki"));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("G")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("g")));
     evaluate (__LINE__, __func__, static_cast<int>(book_id::_genesis), static_cast<int>(filter_passage_interpret_book_v2 ("ge")));

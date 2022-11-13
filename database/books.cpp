@@ -289,17 +289,6 @@ book_id get_id_like_text_v2 (const string & text)
 }
 
 
-int get_id_from_onlinebible_v1 (const string & onlinebible) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (onlinebible == books_table[i].onlinebible) {
-      return books_table[i].id_v1;
-    }
-  }
-  return 0;
-}
-
-
 book_id get_id_from_onlinebible_v2 (const string & onlinebible)
 {
   for (unsigned int i = 0; i < data_count; i++) {
@@ -311,18 +300,7 @@ book_id get_id_from_onlinebible_v2 (const string & onlinebible)
 }
 
 
-string get_onlinebible_from_id_v1 (int id) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].onlinebible;
-    }
-  }
-  return string() ;
-}
-
-
-string get_onlinebible_from_id_v2 (book_id id)
+string get_onlinebible_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {

@@ -258,7 +258,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   
   // Try the abbreviations of the Online Bible.
   for (auto identifier : bookids) {
-    string onlinebible = database::books::get_onlinebible_from_id_v2(identifier);
+    string onlinebible = database::books::get_onlinebible_from_id(identifier);
     if (onlinebible.empty()) continue;
     if (book == unicode_string_casefold(onlinebible)) return identifier;
     if (nospacebook == unicode_string_casefold(onlinebible)) return identifier;

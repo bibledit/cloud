@@ -145,10 +145,8 @@ enum class book_id {
 
 namespace database::books {
 
-std::vector <int> get_ids_v1 ();
 std::vector <book_id> get_ids_v2 ();
 book_id get_id_from_english_v2 (const std::string & english);
-std::string get_english_from_id_v1 (int id);
 std::string get_english_from_id_v2 (book_id id);
 std::string get_usfm_from_id_v2 (book_id id);
 std::string get_bibleworks_from_id_v2 (book_id id);

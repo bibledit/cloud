@@ -42,7 +42,7 @@ void convert_resource_to_bible (string resource)
   database_bibles.createBible (resource);
   vector <int> books = database_usfmresources.getBooks (resource);
   for (auto & book : books) {
-    string bookname = database::books::get_english_from_id_v1 (book);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
     Database_Logs::log (bookname);
     vector <int> chapters = database_usfmresources.getChapters (resource, book);
     for (auto & chapter : chapters) {

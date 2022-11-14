@@ -126,7 +126,7 @@ string manage_write (void * webserver_request)
   vector <int> books = request->database_bibles ()->getBooks (bible);
   for (size_t i = 0; i < books.size (); i++) {
     int book = books[i];
-    string bookname = database::books::get_english_from_id_v1 (book);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
     string checkboxname = "book" + convert_to_string (book);
     bool read, write;
     Database_Privileges::getBibleBook (user, bible, book, read, write);

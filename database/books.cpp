@@ -34,17 +34,6 @@ namespace database::books {
 constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
 
 
-vector <int> get_ids_v1 () // Todo goes out.
-{
-  vector <int> ids;
-  for (unsigned int i = 0; i < data_count; i++) {
-    int id = books_table[i].id_v1;
-    ids.push_back (id);
-  }
-  return ids;
-}
-
-
 std::vector <book_id> get_ids_v2 ()
 {
   vector <book_id> ids;
@@ -64,17 +53,6 @@ book_id get_id_from_english_v2 (const string & english)
     }
   }
   return book_id::_unknown;
-}
-
-
-string get_english_from_id_v1 (int id) // Todo use _v2
-{
-  for (unsigned int i = 0; i < data_count; i++) {
-    if (id == books_table[i].id_v1) {
-      return books_table[i].english;
-    }
-  }
-  return translate ("Unknown");
 }
 
 

@@ -114,7 +114,7 @@ Passage Passage::decode (const string& encoded)
 string filter_passage_display (int book, int chapter, string verse)
 {
   string display;
-  display.append (translate (database::books::get_english_from_id_v1 (book).c_str()));
+  display.append (translate (database::books::get_english_from_id_v2 (static_cast<book_id>(book)).c_str()));
   display.append (" ");
   display.append (convert_to_string (chapter));
   if (!verse.empty ()) display.append (":" + verse);

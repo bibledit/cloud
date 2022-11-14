@@ -203,7 +203,7 @@ string bible_order (void * webserver_request)
   
   vector <int> books = filter_passage_get_ordered_books (bible);
   for (size_t i = 0; i < books.size (); i++) {
-    string bookname = database::books::get_english_from_id_v1 (books[i]);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(books[i]));
     bookname = translate (bookname);
     view.add_iteration ("order", { pair ("offset", convert_to_string (i)), pair ("bookname", bookname) } );
   }

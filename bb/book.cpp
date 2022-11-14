@@ -77,7 +77,7 @@ string bible_book (void * webserver_request)
   // The book.
   int book = convert_to_int (request->query ["book"]);
   view.set_variable ("book", convert_to_string (book));
-  string book_name = database::books::get_english_from_id_v1 (book);
+  string book_name = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
   view.set_variable ("book_name", escape_special_xml_characters (book_name));
   
   // Whether the user has write access to this Bible book.

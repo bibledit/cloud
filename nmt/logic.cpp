@@ -53,7 +53,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
     book_type type = database::books::get_type (static_cast<book_id>(book));
     if ((type != book_type::old_testament) && (type != book_type::new_testament) && (type != book_type::apocryphal)) continue;
     
-    string bookname = database::books::get_english_from_id_v1 (book);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
     Database_Logs::log ("Exporting " + bookname);
     
     vector <int> chapters = database_bibles.getChapters (referencebible, book);

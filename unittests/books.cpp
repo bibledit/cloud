@@ -29,11 +29,9 @@ void test_database_books ()
   trace_unit_tests (__func__);
   
   refresh_sandbox (true);
-  evaluate (__LINE__, __func__, 109, database::books::get_ids_v1 ().size());
   evaluate (__LINE__, __func__, 109, database::books::get_ids_v2 ().size());
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_exodus), static_cast<int>(database::books::get_id_from_english_v2 ("Exodus")));
   evaluate (__LINE__, __func__, static_cast<int>(book_id::_unknown), static_cast<int>(database::books::get_id_from_english_v2 ("exodus")));
-  evaluate (__LINE__, __func__, "Leviticus", database::books::get_english_from_id_v1 (3));
   evaluate (__LINE__, __func__, "Leviticus", database::books::get_english_from_id_v2 (book_id::_leviticus));
   evaluate (__LINE__, __func__, "NUM", database::books::get_usfm_from_id_v2 (book_id::_numbers));
   evaluate (__LINE__, __func__, "Deu", database::books::get_bibleworks_from_id_v2 (book_id::_deuteronomy));

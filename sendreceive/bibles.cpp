@@ -146,7 +146,7 @@ void sendreceive_bibles ()
         
         sendreceive_bibles_kick_watchdog ();
 
-        string bookname = database::books::get_english_from_id_v1 (book);
+        string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
         Database_Logs::log (sendreceive_bibles_text () + translate("Sending to server") + ": " + bible + " " + bookname + " " + convert_to_string (chapter), Filter_Roles::translator ());
         
         // Get old and new USFM for this chapter.
@@ -385,7 +385,7 @@ void sendreceive_bibles ()
       if (!client_books.empty ()) {
         int book = client_books [0];
         request.database_bibles()->deleteBook (bible, book);
-        string book_name = database::books::get_english_from_id_v1 (book);
+        string book_name = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
         Database_Logs::log (sendreceive_bibles_text () + translate("Deleting book because the server does not have it") + ": " + bible + " " + book_name , Filter_Roles::translator ());
       }
     }
@@ -395,7 +395,7 @@ void sendreceive_bibles ()
     for (auto & book : i_server_books) {
       
   
-      string book_name = database::books::get_english_from_id_v1 (book);
+      string book_name = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
       
       
       // Compare the checksum for the whole book on the client with the same on the server to see if this book is in sync.

@@ -168,7 +168,7 @@ void system_logic_import_bibles_file (string tarball)
         // Reason is that the Cloud is authoritative,
         // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
         database_bibles.storeChapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
-        string bookname = database::books::get_english_from_id_v1 (book_chapter_data.m_book);
+        string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book_chapter_data.m_book));
         Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (book_chapter_data.m_chapter));
       } else {
         // Import error.

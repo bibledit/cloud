@@ -208,11 +208,11 @@ string Database_Mappings::output (const string& name)
 
   for (unsigned int i = 0; i < books.size (); i++) {
     int book = convert_to_int (books [i]);
-    string bookname = database::books::get_english_from_id_v1 (book);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
     string chapter = chapters [i];
     string verse = verses [i];
     int origbook = convert_to_int (origbooks[i]);
-    string origbookname = database::books::get_english_from_id_v1 (origbook);
+    string origbookname = database::books::get_english_from_id_v2 (static_cast<book_id>(origbook));
     string origchapter = origchapters[i];
     string origverse = origverses [i];
     string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;

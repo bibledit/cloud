@@ -134,7 +134,7 @@ string Database_Versifications::output (const string& name)
   vector <string> lines;
   vector <Passage> versification_data = getBooksChaptersVerses (name);
   for (Passage & passage : versification_data) {
-    string line = database::books::get_english_from_id_v1 (passage.m_book);
+    string line = database::books::get_english_from_id_v2 (static_cast<book_id>(passage.m_book));
     line.append (" ");
     line.append (convert_to_string (passage.m_chapter));
     line.append (":");

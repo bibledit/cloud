@@ -185,7 +185,7 @@ string export_logic::base_book_filename (const string & bible, int book)
       filename = filter_string_fill (to_string (order), 2, '0');
       filename.append ("_");
     }
-    filename.append (translate (database::books::get_english_from_id_v1 (book)));
+    filename.append (translate (database::books::get_english_from_id_v2 (static_cast<book_id>(book))));
   } else {
     // Whole Bible.
     filename = "00_" + translate ("Bible");

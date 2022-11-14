@@ -108,7 +108,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     }
   }
   
-  string bookName = database::books::get_english_from_id_v1 (book);
+  string bookName = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
   bookName = translate (bookName);
 
   {

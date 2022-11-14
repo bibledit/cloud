@@ -165,7 +165,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
   vector <int> bibledit_books = database_bibles.getBooks (bible);
   for (int book : bibledit_books) {
 
-    string bookname = database::books::get_english_from_id_v1 (book);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
 
     string paratext_book = paratext_books [book];
 
@@ -221,7 +221,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
   for (auto element : paratext_books) {
 
     int book = element.first;
-    string bookname = database::books::get_english_from_id_v1 (book);
+    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
 
     string paratext_book = element.second;
     string path = filter_url_create_path ({projectFolder (bible), paratext_book});
@@ -571,7 +571,7 @@ string Paratext_Logic::synchronizeReadyText ()
 // If chapter is negative, it is left out from the tag.
 string Paratext_Logic::journalTag (string bible, int book, int chapter)
 {
-  string bookname = database::books::get_english_from_id_v1 (book);
+  string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
   string project = Database_Config_Bible::getParatextProject (bible);
   string fragment = bible + " <> " + project + " " + bookname;
   if (chapter >= 0) fragment.append (" " + convert_to_string (chapter));

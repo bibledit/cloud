@@ -124,31 +124,31 @@ void developer_logic_import_changes ()
   string contents = filter_url_file_get_contents(file_path);
   vector<string> lines = filter_string_explode(contents, "\n");
 
-  vector <int> book_ids = database::books::get_ids_v1 ();
+  vector <book_id> book_ids = database::books::get_ids_v2 ();
 
-  Passage passage (bible, 0, 0, "");
+  Passage passage (bible, 0, 0, string());
   string text {};
 
   for (auto line : lines) {
     if (line.empty()) continue;
     
-    int book {0};
+    book_id book {book_id::_unknown};
     int chapter {-1};
     int verse {-1};
 
     // Locate and extract the book identifier.
-    for (auto book_id : book_ids) {
-      string s = database::books::get_english_from_id_v1(book_id);
+    for (auto book_num : book_ids) {
+      string s = database::books::get_english_from_id_v2(static_cast<book_id>(book_num));
       size_t pos = line.find(s);
       if (pos != 3) continue;
-      book = book_id;
+      book = book_num;
       line.erase (0, pos + s.length());
       break;
     }
     
     // Extract chapter and verse.
     bool passage_found {false};
-    if (book) {
+    if (book != book_id::_unknown) {
       size_t pos = line.find (":");
       if (pos != string::npos) {
         vector <string> bits = filter_string_explode(line.substr (0, pos), ".");
@@ -156,7 +156,7 @@ void developer_logic_import_changes ()
           chapter = convert_to_int(filter_string_trim(bits[0]));
           verse = convert_to_int(filter_string_trim(bits[1]));
           line.erase (0, pos + 2);
-          passage_found = (book) && (chapter >= 0) && (verse >= 0);
+          passage_found = (book != book_id::_unknown) && (chapter >= 0) && (verse >= 0);
         }
       }
     }
@@ -166,7 +166,7 @@ void developer_logic_import_changes ()
     // 2. Update the passage to point to the new one.
     if (passage_found) {
       developer_logic_import_changes_save (passage.m_bible, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse), text);
-      passage = Passage(bible, book, chapter, convert_to_string(verse));
+      passage = Passage(bible, static_cast<int>(book), chapter, convert_to_string(verse));
     }
     // Accumulate the text.
     if (!text.empty()) text.append ("\n");

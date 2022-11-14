@@ -59,7 +59,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
 
   
   string username = request->session_logic ()->currentUser ();
-  string bookname = database::books::get_english_from_id_v1 (book);
+  string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
   
   
   // Check whether the user has write-access to the Bible book.

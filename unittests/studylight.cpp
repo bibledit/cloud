@@ -42,8 +42,8 @@ void test_studylight ()
     if ((type != book_type::old_testament) && (type != book_type::new_testament)) continue;
     int verse {1};
     if (book_id == book_id::_2_chronicles) verse = 2;
-    int book_v1 = static_cast <int> (book_id);
-    text = resource_logic_study_light_get (resource, book_v1, 1, 1);
+    int book_num = static_cast <int> (book_id);
+    text = resource_logic_study_light_get (resource, book_num, 1, 1);
     if (text.empty ()) {
       evaluate (__LINE__, __func__, database::books::get_english_from_id_v2 (book_id) + " should not be empty - book " + to_string(static_cast<int>(book_id)), string());
     }

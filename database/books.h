@@ -157,7 +157,7 @@ book_id get_id_from_bibleworks (const std::string & bibleworks);
 book_id get_id_like_text (const std::string & text);
 book_id get_id_from_onlinebible (const std::string & onlinebible);
 std::string get_onlinebible_from_id (book_id id);
-int get_order_from_id (book_id id);
+short get_order_from_id (book_id id);
 book_type get_type (book_id id);
 std::string book_type_to_string (book_type type);
 

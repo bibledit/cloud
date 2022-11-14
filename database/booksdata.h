@@ -28,7 +28,7 @@ typedef struct
   const char *bibleworks;  // BibleWorks abbreviation.
   const char *onlinebible; // Online Bible abbreviation.
   book_id id;              // Bibledit's internal book identifier as an enum.
-  int order;               // The order of the books.
+  short order;             // The order of the books.
   book_type type;          // The type of the book as an enum.
   bool onechapter;         // Whether the book has one chapter.
 } book_record;

@@ -357,7 +357,7 @@ void filter_diff_produce_verse_level (string bible, string directory)
   
   vector <int> books = database_modifications.getTeamDiffBooks (bible);
   for (auto book : books) {
-    string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
+    string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
     for (auto chapter : chapters) {
       // Go through the combined verse numbers in the old and new chapter.

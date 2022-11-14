@@ -68,7 +68,7 @@ string resource_user1view (void * webserver_request)
   string url = Database_UserResources::url (name);
   code.push_back ("var userResourceUrl = \"" + url + "\";");
   code.push_back ("var userResourceBooks = [];");
-  vector <book_id> ids = database::books::get_ids_v2 ();
+  vector <book_id> ids = database::books::get_ids ();
   for (auto id : ids) {
     book_type type = database::books::get_type (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {

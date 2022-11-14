@@ -34,7 +34,7 @@ namespace database::books {
 constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
 
 
-std::vector <book_id> get_ids_v2 ()
+std::vector <book_id> get_ids ()
 {
   vector <book_id> ids;
   for (unsigned int i = 0; i < data_count; i++) {
@@ -45,7 +45,7 @@ std::vector <book_id> get_ids_v2 ()
 }
 
 
-book_id get_id_from_english_v2 (const string & english)
+book_id get_id_from_english (const string & english)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
@@ -56,7 +56,7 @@ book_id get_id_from_english_v2 (const string & english)
 }
 
 
-string get_english_from_id_v2 (book_id id)
+string get_english_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -67,7 +67,7 @@ string get_english_from_id_v2 (book_id id)
 }
 
 
-string get_usfm_from_id_v2 (book_id id)
+string get_usfm_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -78,7 +78,7 @@ string get_usfm_from_id_v2 (book_id id)
 }
 
 
-string get_bibleworks_from_id_v2 (book_id id)
+string get_bibleworks_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -89,7 +89,7 @@ string get_bibleworks_from_id_v2 (book_id id)
 }
 
 
-string get_osis_from_id_v2 (book_id id)
+string get_osis_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {
@@ -100,7 +100,7 @@ string get_osis_from_id_v2 (book_id id)
 }
 
 
-book_id get_id_from_usfm_v2 (const string & usfm)
+book_id get_id_from_usfm (const string & usfm)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
@@ -111,7 +111,7 @@ book_id get_id_from_usfm_v2 (const string & usfm)
 }
 
 
-book_id get_id_from_osis_v2 (const string & osis)
+book_id get_id_from_osis (const string & osis)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
@@ -122,7 +122,7 @@ book_id get_id_from_osis_v2 (const string & osis)
 }
 
 
-book_id get_id_from_bibleworks_v2 (const string & bibleworks)
+book_id get_id_from_bibleworks (const string & bibleworks)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
@@ -136,7 +136,7 @@ book_id get_id_from_bibleworks_v2 (const string & bibleworks)
 // Tries to interprete $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
 // If it fails, it returns 0.
-book_id get_id_like_text_v2 (const string & text)
+book_id get_id_like_text (const string & text)
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
@@ -162,7 +162,7 @@ book_id get_id_like_text_v2 (const string & text)
 }
 
 
-book_id get_id_from_onlinebible_v2 (const string & onlinebible)
+book_id get_id_from_onlinebible (const string & onlinebible)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {
@@ -184,7 +184,7 @@ string get_onlinebible_from_id (book_id id)
 }
 
 
-int get_order_from_id_v2 (book_id id)
+int get_order_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id_v2) {

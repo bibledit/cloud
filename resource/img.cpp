@@ -139,10 +139,10 @@ string resource_img (void * webserver_request)
     if (book1 == book_id::_unknown) book1 = book_id::_genesis;
     if (book2 == book_id::_unknown) book2 = book_id::_genesis;
   }
-  view.set_variable ("book1", database::books::get_english_from_id_v2 (book1));
+  view.set_variable ("book1", database::books::get_english_from_id (book1));
   view.set_variable ("chapter1", convert_to_string (chapter1));
   view.set_variable ("verse1", convert_to_string (verse1));
-  view.set_variable ("book2", database::books::get_english_from_id_v2 (book2));
+  view.set_variable ("book2", database::books::get_english_from_id (book2));
   view.set_variable ("chapter2", convert_to_string (chapter2));
   view.set_variable ("verse2", convert_to_string (verse2));
   

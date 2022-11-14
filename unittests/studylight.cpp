@@ -35,7 +35,7 @@ void test_studylight ()
 
   resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
 
-  vector <book_id> book_ids = database::books::get_ids_v2 ();
+  vector <book_id> book_ids = database::books::get_ids ();
   for (auto book_id : book_ids) {
     continue;
     book_type type = database::books::get_type (book_id);
@@ -45,7 +45,7 @@ void test_studylight ()
     int book_num = static_cast <int> (book_id);
     text = resource_logic_study_light_get (resource, book_num, 1, 1);
     if (text.empty ()) {
-      evaluate (__LINE__, __func__, database::books::get_english_from_id_v2 (book_id) + " should not be empty - book " + to_string(static_cast<int>(book_id)), string());
+      evaluate (__LINE__, __func__, database::books::get_english_from_id (book_id) + " should not be empty - book " + to_string(static_cast<int>(book_id)), string());
     }
   }
 

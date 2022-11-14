@@ -114,7 +114,7 @@ Passage Passage::decode (const string& encoded)
 string filter_passage_display (int book, int chapter, string verse)
 {
   string display;
-  display.append (translate (database::books::get_english_from_id_v2 (static_cast<book_id>(book)).c_str()));
+  display.append (translate (database::books::get_english_from_id (static_cast<book_id>(book)).c_str()));
   display.append (" ");
   display.append (convert_to_string (chapter));
   if (!verse.empty ()) display.append (":" + verse);
@@ -176,13 +176,13 @@ book_id filter_passage_interpret_book_v2 (string book)
   
   // Recognise the USFM book abbreviations.
   {
-    book_id identifier = database::books::get_id_from_usfm_v2 (book);
+    book_id identifier = database::books::get_id_from_usfm (book);
     if (identifier != book_id::_unknown) return identifier;
   }
 
   // Recognize the BibleWorks book abbreviations.
   {
-    book_id identifier = database::books::get_id_from_bibleworks_v2 (book);
+    book_id identifier = database::books::get_id_from_bibleworks (book);
     if (identifier != book_id::_unknown) return identifier;
   }
 
@@ -209,7 +209,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   string nospacebook = filter_string_str_replace (" ", "", book);
 
   // Store all of the available IDs locally.
-  vector <book_id> bookids = database::books::get_ids_v2 ();
+  vector <book_id> bookids = database::books::get_ids ();
   
   // Check on names entered like "Genesis" or "1 Corinthians", the full English name.
   // A bug was discovered so that "Judges" was interpreted as "Jude",
@@ -218,7 +218,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   // In general, do exact matching first before moving on to similarity matching.
   // Compare with the translation to Bibledit's language too.
   for (auto identifier : bookids) {
-    string english = database::books::get_english_from_id_v2(identifier);
+    string english = database::books::get_english_from_id(identifier);
     if (english.empty()) continue;
     if (book == unicode_string_casefold(english)) return identifier;
     
@@ -234,7 +234,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   
   // Try the OSIS abbreviations.
   for (auto identifier : bookids) {
-    string osis = database::books::get_osis_from_id_v2(identifier);
+    string osis = database::books::get_osis_from_id(identifier);
     if (osis.empty()) continue;
     if (book == unicode_string_casefold(osis)) return identifier;
     if (nospacebook == unicode_string_casefold(osis)) return identifier;
@@ -246,7 +246,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   
   // Try the abbreviations of BibleWorks.
   for (auto identifier : bookids) {
-    string bibleworks = database::books::get_bibleworks_from_id_v2(identifier);
+    string bibleworks = database::books::get_bibleworks_from_id(identifier);
     if (bibleworks.empty()) continue;
     if (book == unicode_string_casefold(bibleworks)) return identifier;
     if (nospacebook == unicode_string_casefold(bibleworks)) return identifier;
@@ -270,7 +270,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   
   // Do a case-insensitive search in the books database for something like the book given.
   {
-    book_id identifier = database::books::get_id_like_text_v2 (book);
+    book_id identifier = database::books::get_id_like_text (book);
     if (identifier != book_id::_unknown) return identifier;
   }
   

@@ -108,7 +108,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     }
   }
   
-  string bookName = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
+  string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
   bookName = translate (bookName);
 
   {
@@ -219,14 +219,14 @@ string Navigation_Passage::get_books_fragment (void * webserver_request, string 
   // Take standard books in case of no Bible.
   vector <book_id> books;
   if (bible.empty()) {
-    books = database::books::get_ids_v2 ();
+    books = database::books::get_ids ();
   } else {
     vector <int> book_numbers = filter_passage_get_ordered_books (bible);
     for (auto book_number : book_numbers) books.push_back (static_cast<book_id>(book_number));
   }
   string html {};
   for (auto book : books) {
-    string book_name = database::books::get_english_from_id_v2 (book);
+    string book_name = database::books::get_english_from_id (book);
     book_name = translate (book_name);
     bool selected = (book == active_book);
     string book_type = database::books::book_type_to_string (database::books::get_type (book));

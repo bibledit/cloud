@@ -168,7 +168,7 @@ void sources_oshb_parse ()
     }
     if (book != previous_book) {
       previous_book = book;
-      cout << database::books::get_english_from_id_v2 (book) << endl;
+      cout << database::books::get_english_from_id (book) << endl;
     }
     word = filter_string_str_replace ("/", "", word);
     database_oshb.store (static_cast<int>(book), chapter, verse, lemma, word, morph);

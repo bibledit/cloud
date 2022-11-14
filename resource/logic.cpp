@@ -822,7 +822,7 @@ void resource_logic_create_cache ()
   size_t pos = signature.find_last_of (" ");
   string resource = signature.substr (0, pos);
   int book = convert_to_int (signature.substr (pos++));
-  string bookname = database::books::get_english_from_id_v2 (static_cast<book_id>(book));
+  string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   
   // Whether it's a SWORD module.
   string sword_module = sword_logic_get_remote_module (resource);

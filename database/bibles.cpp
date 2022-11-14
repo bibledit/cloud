@@ -217,7 +217,7 @@ vector <int> Database_Bibles::getBooks (string bible)
   vector <int> order {};
   for (auto book_number : books) {
     book_id book_enum = static_cast<book_id>(book_number);
-    order.push_back (database::books::get_order_from_id_v2 (book_enum));
+    order.push_back (database::books::get_order_from_id (book_enum));
   }
   quick_sort (order, books, 0, static_cast<unsigned>(order.size()));
 

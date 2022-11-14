@@ -56,9 +56,9 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
   
   // Chapter 0.
   if (chapter <=  0) {
-    data  = "\\id "    + database::books::get_usfm_from_id_v2(book)     + "\n";
-    data += "\\h "     + database::books::get_english_from_id_v2 (book) + "\n";
-    data += "\\toc2 "  + database::books::get_english_from_id_v2 (book) + "\n";
+    data  = "\\id "    + database::books::get_usfm_from_id(book)     + "\n";
+    data += "\\h "     + database::books::get_english_from_id (book) + "\n";
+    data += "\\toc2 "  + database::books::get_english_from_id (book) + "\n";
     bible_logic::store_chapter (bible, static_cast<int>(book), 0, data);
     chapters_created.push_back (0);
   }

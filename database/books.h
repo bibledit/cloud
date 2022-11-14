@@ -145,19 +145,19 @@ enum class book_id {
 
 namespace database::books {
 
-std::vector <book_id> get_ids_v2 ();
-book_id get_id_from_english_v2 (const std::string & english);
-std::string get_english_from_id_v2 (book_id id);
-std::string get_usfm_from_id_v2 (book_id id);
-std::string get_bibleworks_from_id_v2 (book_id id);
-std::string get_osis_from_id_v2 (book_id id);
-book_id get_id_from_usfm_v2 (const std::string & usfm);
-book_id get_id_from_osis_v2 (const std::string & osis);
-book_id get_id_from_bibleworks_v2 (const std::string & bibleworks);
-book_id get_id_like_text_v2 (const std::string & text);
-book_id get_id_from_onlinebible_v2 (const std::string & onlinebible);
+std::vector <book_id> get_ids ();
+book_id get_id_from_english (const std::string & english);
+std::string get_english_from_id (book_id id);
+std::string get_usfm_from_id (book_id id);
+std::string get_bibleworks_from_id (book_id id);
+std::string get_osis_from_id (book_id id);
+book_id get_id_from_usfm (const std::string & usfm);
+book_id get_id_from_osis (const std::string & osis);
+book_id get_id_from_bibleworks (const std::string & bibleworks);
+book_id get_id_like_text (const std::string & text);
+book_id get_id_from_onlinebible (const std::string & onlinebible);
 std::string get_onlinebible_from_id (book_id id);
-int get_order_from_id_v2 (book_id id);
+int get_order_from_id (book_id id);
 book_type get_type (book_id id);
 std::string book_type_to_string (book_type type);
 

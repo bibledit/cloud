@@ -103,7 +103,7 @@ void Database_Versifications::input (const string& contents, const string& name)
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
     string passage_book_string = filter_string_implode(bits, " ");
-    int book = static_cast<int>(database::books::get_id_from_english_v2(passage_book_string));
+    int book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
     // Check result.
     if ((book == 0) || (chapter == 0)) {
       Database_Logs::log ("Malformed versification entry: " + line);
@@ -134,7 +134,7 @@ string Database_Versifications::output (const string& name)
   vector <string> lines;
   vector <Passage> versification_data = getBooksChaptersVerses (name);
   for (Passage & passage : versification_data) {
-    string line = database::books::get_english_from_id_v2 (static_cast<book_id>(passage.m_book));
+    string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
     line.append (" ");
     line.append (convert_to_string (passage.m_chapter));
     line.append (":");

@@ -36,6 +36,9 @@
 /* Define whether pthread.h is present */
 #undef HAVE_PTHREAD
 
+/* Define whether pugixml is available */
+#undef HAVE_PUGIXML
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 

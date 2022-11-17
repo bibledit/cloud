@@ -146,6 +146,11 @@ PKG_CHECK_MODULES(TIDY, tidy >= 5.4.0,,AC_MSG_ERROR(The tidy library development
 AC_SUBST(TIDY_CFLAGS)
 AC_SUBST(TIDY_LIBS)
 
+# Check the pugixml library whether available.
+PKG_CHECK_MODULES(PUGIXML, pugixml >= 1.10, AC_DEFINE(HAVE_PUGIXML, 1, Define whether pugixml is available), AC_MSG_NOTICE(pugixml development version >= 1.10 is beneficial to have.))
+AC_SUBST(PUGIXML_CFLAGS)
+AC_SUBST(PUGIXML_LIBS)
+
 AC_MSG_CHECKING([C++ compiler])
 GPPVERSION=`${CXX} --version | grep clang`
 if test "$GPPVERSION" = ""; then

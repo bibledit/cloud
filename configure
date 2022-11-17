@@ -657,6 +657,8 @@ COMPILERCLANG_FALSE
 COMPILERCLANG_TRUE
 COMPILERGCC_FALSE
 COMPILERGCC_TRUE
+PUGIXML_LIBS
+PUGIXML_CFLAGS
 TIDY_LIBS
 TIDY_CFLAGS
 GUMBO_LIBS
@@ -820,7 +822,9 @@ UTF8PROC_LIBS
 GUMBO_CFLAGS
 GUMBO_LIBS
 TIDY_CFLAGS
-TIDY_LIBS'
+TIDY_LIBS
+PUGIXML_CFLAGS
+PUGIXML_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1494,6 +1498,10 @@ Some influential environment variables:
   GUMBO_LIBS  linker flags for GUMBO, overriding pkg-config
   TIDY_CFLAGS C compiler flags for TIDY, overriding pkg-config
   TIDY_LIBS   linker flags for TIDY, overriding pkg-config
+  PUGIXML_CFLAGS
+              C compiler flags for PUGIXML, overriding pkg-config
+  PUGIXML_LIBS
+              linker flags for PUGIXML, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -7446,6 +7454,85 @@ else
 	TIDY_LIBS=$pkg_cv_TIDY_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
+
+fi
+
+
+
+# Check the pugixml library whether available.
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for pugixml >= 1.10" >&5
+printf %s "checking for pugixml >= 1.10... " >&6; }
+
+if test -n "$PUGIXML_CFLAGS"; then
+    pkg_cv_PUGIXML_CFLAGS="$PUGIXML_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"pugixml >= 1.10\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "pugixml >= 1.10") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_PUGIXML_CFLAGS=`$PKG_CONFIG --cflags "pugixml >= 1.10" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$PUGIXML_LIBS"; then
+    pkg_cv_PUGIXML_LIBS="$PUGIXML_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"pugixml >= 1.10\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "pugixml >= 1.10") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_PUGIXML_LIBS=`$PKG_CONFIG --libs "pugixml >= 1.10" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        PUGIXML_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "pugixml >= 1.10" 2>&1`
+        else
+	        PUGIXML_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "pugixml >= 1.10" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$PUGIXML_PKG_ERRORS" >&5
+
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: pugixml development version >= 1.10 is beneficial to have." >&5
+printf "%s\n" "$as_me: pugixml development version >= 1.10 is beneficial to have." >&6;}
+elif test $pkg_failed = untried; then
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: pugixml development version >= 1.10 is beneficial to have." >&5
+printf "%s\n" "$as_me: pugixml development version >= 1.10 is beneficial to have." >&6;}
+else
+	PUGIXML_CFLAGS=$pkg_cv_PUGIXML_CFLAGS
+	PUGIXML_LIBS=$pkg_cv_PUGIXML_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+printf "%s\n" "#define HAVE_PUGIXML 1" >>confdefs.h
 
 fi
 

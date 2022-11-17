@@ -825,7 +825,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br /></p><p class="b-p"><span>paragraph</span></p>)";
+    string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br/></p><p class="b-p"><span>paragraph</span></p>)";
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
@@ -849,7 +849,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-sd"><br /></p><p class="b-p"><span>paragraph</span></p><p class="b-sd2"><br /></p>)";
+    string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-sd"><br/></p><p class="b-p"><span>paragraph</span></p><p class="b-sd2"><br/></p>)";
     evaluate (__LINE__, __func__, standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
@@ -999,7 +999,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
     
-    string html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><br /></p>)";
+    string html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><br/></p>)";
     evaluate (__LINE__, __func__, html, output);
     
     output = editor_export_verse_quill (styles_logic_standard_sheet (), html);

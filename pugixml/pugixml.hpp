@@ -34,6 +34,11 @@
  * Copyright (C) 2003, by Kristen Wegner (kristen@tima.net)
  */
 
+// System configuration to check if the system has pugixml.
+#include <config.h>
+#ifndef HAVE_PUGIXML
+
+
 #ifndef PUGIXML_VERSION
 // Define version macro; evaluates to major * 100 + minor so that it's safe to use in less-than comparisons
 #	define PUGIXML_VERSION 170
@@ -1421,3 +1426,5 @@ namespace std
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+
+#endif

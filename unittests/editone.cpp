@@ -73,8 +73,8 @@ void test_editone_logic ()
     editone_logic_prefix_html (usfm_prefix, stylesheet, html_prefix, last_paragraph_style);
     editone_logic_suffix_html (last_paragraph_style, usfm_suffix, stylesheet, html_suffix);
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
-    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br /></p>)";
-    string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness</span><span class="i-notecall1">1</span><span>, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"> <p class="b-f"><span class="i-notebody1">1</span><span /><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span /><span>+ Note two.</span></p></p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ Note four.</span></p>)";
+    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br/></p>)";
+    string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness</span><span class="i-notecall1">1</span><span>, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"> <p class="b-f"><span class="i-notebody1">1</span><span/><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span/><span>+ Note two.</span></p></p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ Note four.</span></p>)";
     evaluate (__LINE__, __func__, standard_prefix, html_prefix);
     evaluate (__LINE__, __func__, standard_suffix, html_suffix);
   }
@@ -89,7 +89,7 @@ void test_editone_logic ()
     editone_logic_prefix_html (usfm_prefix, stylesheet, html_prefix, last_paragraph_style);
     editone_logic_suffix_html (last_paragraph_style, usfm_suffix, stylesheet, html_suffix);
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
-    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him, all you peoples!</span></p><p class="b-p"><br /></p>)";
+    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him, all you peoples!</span></p><p class="b-p"><br/></p>)";
     string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p>)";
     evaluate (__LINE__, __func__, standard_prefix, html_prefix);
     evaluate (__LINE__, __func__, standard_suffix, html_suffix);
@@ -105,8 +105,8 @@ void test_editone_logic ()
     editone_logic_prefix_html (usfm_prefix, stylesheet, html_prefix, last_paragraph_style);
     editone_logic_suffix_html (last_paragraph_style, usfm_suffix, stylesheet, html_suffix);
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
-    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br /></p>)";
-    string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"><br /><p class="b-f"><span class="i-notebody1">1</span><span /><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span /><span>+ Note two.</span></p></p>)";
+    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br/></p>)";
+    string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"><br/><p class="b-f"><span class="i-notebody1">1</span><span/><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span/><span>+ Note two.</span></p></p>)";
     evaluate (__LINE__, __func__, standard_prefix, html_prefix);
     evaluate (__LINE__, __func__, standard_suffix, html_suffix);
   }
@@ -137,8 +137,8 @@ void test_editone_logic ()
     editone_logic_prefix_html (usfm_prefix, stylesheet, html_prefix, last_paragraph_style);
     editone_logic_suffix_html (last_paragraph_style, usfm_suffix, stylesheet, html_suffix);
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
-    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br /></p>)";
-    string standard_suffix = R"(<p class="b-notes"><br /><p class="b-f"><span class="i-notebody1">1</span><span /><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span /><span>+ Note two.</span></p></p>)";
+    string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br/></p>)";
+    string standard_suffix = R"(<p class="b-notes"><br/><p class="b-f"><span class="i-notebody1">1</span><span/><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span/><span>+ Note two.</span></p></p>)";
     evaluate (__LINE__, __func__, standard_prefix, html_prefix);
     evaluate (__LINE__, __func__, standard_suffix, html_suffix);
   }

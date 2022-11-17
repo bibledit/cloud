@@ -9,6 +9,10 @@
 #pragma GCC diagnostic ignored "-Wuseless-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 
+// System configuration to check if the system has pugixml.
+#include <config.h>
+#ifndef HAVE_PUGIXML
+
 /**
  * pugixml parser - version 1.7
  * --------------------------------------------------------
@@ -12483,3 +12487,5 @@ namespace pugi
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
+#endif
+

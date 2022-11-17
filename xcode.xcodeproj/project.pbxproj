@@ -595,6 +595,7 @@
 		CADE475424F17537003165BB /* io.c in Sources */ = {isa = PBXBuildFile; fileRef = CADE452024F174C0003165BB /* io.c */; };
 		CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475624F1786C003165BB /* libxml2.tbd */; };
 		CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475B24F17D04003165BB /* libcurl.dylib */; };
+		CAFA33C429269F1100474A52 /* libpugixml.1.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2657,6 +2658,7 @@
 		CAEF232E28D75DC600618C35 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAEF232F28D75DC600618C35 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAF563462729364E0093614C /* jquery.longpress.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.longpress.js; sourceTree = "<group>"; };
+		CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpugixml.1.12.dylib; path = ../../../../opt/local/lib/libpugixml.1.12.dylib; sourceTree = "<group>"; };
 		CAFD9257280DAD2C00345F1D /* coloris */ = {isa = PBXFileReference; lastKnownFileType = folder; path = coloris; sourceTree = "<group>"; };
 		CAFD9258280DC94900345F1D /* view.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = view.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2666,6 +2668,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAFA33C429269F1100474A52 /* libpugixml.1.12.dylib in Frameworks */,
 				CABD0EA62916F508007D21D0 /* libtidy.5.8.0.dylib in Frameworks */,
 				CA300E0B29059CD200775963 /* libicui18n.71.1.dylib in Frameworks */,
 				CA300E0929059C9900775963 /* libicuuc.71.1.dylib in Frameworks */,
@@ -5862,6 +5865,7 @@
 		CADE475524F1786C003165BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */,
 				CABD0EA52916F508007D21D0 /* libtidy.5.8.0.dylib */,
 				CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */,
 				CA300E0829059C9900775963 /* libicuuc.71.1.dylib */,

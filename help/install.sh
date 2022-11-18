@@ -106,6 +106,7 @@ apt --yes --assume-yes install libwebkit2gtk-4.0-dev
 apt --yes --assume-yes install curl
 apt --yes --assume-yes install make
 apt --yes --assume-yes install libutf8proc-dev
+apt --yes --assume-yes install libpugixml-dev
 fi
 
 # Fedora.
@@ -128,6 +129,7 @@ dnf --assumeyes install webkitgtk4-devel
 dnf --assumeyes install curl
 dnf --assumeyes install make
 dnf --assumeyes install utf8proc-devel
+dnf --assumeyes install pugixml-devel
 fi
 
 # CentOS
@@ -152,6 +154,7 @@ yum --assumeyes install webkitgtk4-devel
 yum --assumeyes install curl
 yum --assumeyes install make
 yum --assumeyes install utf8proc-devel
+yum --assumeyes install pugixml-devel
 fi
 
 # openSUSE
@@ -174,6 +177,7 @@ zypper -n --non-interactive --no-gpg-checks install webkit2gtk3-devel
 zypper -n --non-interactive --no-gpg-checks install curl
 zypper -n --non-interactive --no-gpg-checks install make
 zypper -n --non-interactive --no-gpg-checks install utf8proc-devel
+zypper -n --non-interactive --no-gpg-checks install pugixml-devel
 fi
 
 

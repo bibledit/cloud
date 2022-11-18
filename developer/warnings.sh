@@ -16,7 +16,6 @@ ls ../mbedtls/*.c > files.txt
 while read -r file; do
   echo $file
   mv $file tmpc
-#  echo '#pragma GCC diagnostic ignored "-Wredundant-tags"' >> $file
   echo '#pragma clang diagnostic ignored "-Wunknown-warning-option"' >> $file
   cat tmpc >> $file
   rm tmpc

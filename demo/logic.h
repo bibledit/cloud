@@ -24,12 +24,12 @@
 bool demo_acl (std::string user, std::string pass);
 
 // Returns the address of the current demo server.
-constexpr std::string_view demo_address () {return "http://bibledit.org";};
-constexpr std::string_view demo_address_secure () {return "https://bibledit.org";};
+constexpr std::string_view demo_address () {return "http://bibledit.org";}
+constexpr std::string_view demo_address_secure () {return "https://bibledit.org";}
 
 // The port number of the current demo server.
-constexpr int demo_port () {return 8090;};
-constexpr int demo_port_secure () {return 8091;};
+constexpr int demo_port () {return 8090;}
+constexpr int demo_port_secure () {return 8091;}
 
 std::string demo_client_warning ();
 void demo_clean_data ();

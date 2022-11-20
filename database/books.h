@@ -161,4 +161,4 @@ short get_order_from_id (book_id id);
 book_type get_type (book_id id);
 std::string book_type_to_string (book_type type);
 
-};
+}

@@ -2142,7 +2142,7 @@ string filter_string_fix_invalid_html_gumbo (string html)
 string filter_string_fix_invalid_html_tidy (string html)
 {
   // Todo quick fix.
-  return html;
+//  return html;
   
 #ifdef HAVE_CLOUD
 

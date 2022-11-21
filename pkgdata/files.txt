@@ -944,6 +944,9 @@
 /tbsx/example.txt
 /tbsx/specs.html
 /text
+/tidy
+/tidy/0readme.txt
+/tidy/module.modulemap
 /timer
 /tmp
 /tmp/holder

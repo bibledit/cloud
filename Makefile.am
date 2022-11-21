@@ -487,7 +487,33 @@ libbibledit_a_SOURCES = \
   mimetic098/codec/base64.cxx \
   system/googletranslate.cpp \
   filter/google.cpp \
-  i18n/logic.cpp
+  i18n/logic.cpp \
+  tidy/access.c \
+  tidy/alloc.c \
+  tidy/attrdict.c \
+  tidy/attrs.c \
+  tidy/buffio.c \
+  tidy/charsets.c \
+  tidy/clean.c \
+  tidy/config.c \
+  tidy/entities.c \
+  tidy/fileio.c \
+  tidy/gdoc.c \
+  tidy/istack.c \
+  tidy/language.c \
+  tidy/lexer.c \
+  tidy/mappedio.c \
+  tidy/message.c \
+  tidy/messageobj.c \
+  tidy/parser.c \
+  tidy/pprint.c \
+  tidy/sprtf.c \
+  tidy/streamio.c \
+  tidy/tagask.c \
+  tidy/tags.c \
+  tidy/tidylib.c \
+  tidy/tmbstr.c \
+  tidy/utf8.c
 
 bin_PROGRAMS = server unittest generate
 

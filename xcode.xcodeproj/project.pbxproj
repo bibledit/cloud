@@ -11,6 +11,32 @@
 		CA10382925279F940021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382725279F940021AF25 /* html2format.cpp */; };
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
 		CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */; };
+		CA29E7BD292C0897003AC875 /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E757292C07BE003AC875 /* access.c */; };
+		CA29E7BE292C0897003AC875 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E76A292C07BE003AC875 /* alloc.c */; };
+		CA29E7BF292C0897003AC875 /* attrdict.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E75D292C07BE003AC875 /* attrdict.c */; };
+		CA29E7C0292C0897003AC875 /* attrs.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E758292C07BE003AC875 /* attrs.c */; };
+		CA29E7C1292C0897003AC875 /* buffio.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E767292C07BE003AC875 /* buffio.c */; };
+		CA29E7C2292C0897003AC875 /* charsets.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E769292C07BE003AC875 /* charsets.c */; };
+		CA29E7C3292C0897003AC875 /* clean.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E77E292C07BE003AC875 /* clean.c */; };
+		CA29E7C4292C0897003AC875 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E77C292C07BE003AC875 /* config.c */; };
+		CA29E7C5292C0897003AC875 /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E747292C07BE003AC875 /* entities.c */; };
+		CA29E7C6292C0897003AC875 /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E74D292C07BE003AC875 /* fileio.c */; };
+		CA29E7C7292C0897003AC875 /* gdoc.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E76C292C07BE003AC875 /* gdoc.c */; };
+		CA29E7C8292C0897003AC875 /* istack.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E773292C07BE003AC875 /* istack.c */; };
+		CA29E7C9292C0897003AC875 /* language.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E786292C07BE003AC875 /* language.c */; };
+		CA29E7CA292C0897003AC875 /* lexer.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E761292C07BE003AC875 /* lexer.c */; };
+		CA29E7CB292C0897003AC875 /* mappedio.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E77F292C07BE003AC875 /* mappedio.c */; };
+		CA29E7CC292C0897003AC875 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E7B7292C07BE003AC875 /* message.c */; };
+		CA29E7CD292C0897003AC875 /* messageobj.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E7B8292C07BE003AC875 /* messageobj.c */; };
+		CA29E7CE292C0897003AC875 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E7AB292C07BE003AC875 /* parser.c */; };
+		CA29E7CF292C0897003AC875 /* pprint.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E748292C07BE003AC875 /* pprint.c */; };
+		CA29E7D0292C0897003AC875 /* sprtf.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E77D292C07BE003AC875 /* sprtf.c */; };
+		CA29E7D1292C0897003AC875 /* streamio.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E746292C07BE003AC875 /* streamio.c */; };
+		CA29E7D2292C0897003AC875 /* tagask.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E759292C07BE003AC875 /* tagask.c */; };
+		CA29E7D3292C0897003AC875 /* tags.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E74A292C07BE003AC875 /* tags.c */; };
+		CA29E7D4292C0897003AC875 /* tidylib.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E760292C07BE003AC875 /* tidylib.c */; };
+		CA29E7D5292C0897003AC875 /* tmbstr.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E75C292C07BE003AC875 /* tmbstr.c */; };
+		CA29E7D6292C0897003AC875 /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E768292C07BE003AC875 /* utf8.c */; };
 		CA300E0729059C4800775963 /* libicudata.71.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA300E0629059C4800775963 /* libicudata.71.1.dylib */; };
 		CA300E0929059C9900775963 /* libicuuc.71.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA300E0829059C9900775963 /* libicuuc.71.1.dylib */; };
 		CA300E0B29059CD200775963 /* libicui18n.71.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */; };
@@ -612,6 +638,72 @@
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
 		CA23A6F92781ED8E00A7A23B /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		CA23A6FA2781EE5500A7A23B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CA29E745292C07BE003AC875 /* language_zh_cn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_zh_cn.h; sourceTree = "<group>"; };
+		CA29E746292C07BE003AC875 /* streamio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = streamio.c; sourceTree = "<group>"; };
+		CA29E747292C07BE003AC875 /* entities.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = entities.c; sourceTree = "<group>"; };
+		CA29E748292C07BE003AC875 /* pprint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pprint.c; sourceTree = "<group>"; };
+		CA29E749292C07BE003AC875 /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		CA29E74A292C07BE003AC875 /* tags.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tags.c; sourceTree = "<group>"; };
+		CA29E74B292C07BE003AC875 /* language_en.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_en.h; sourceTree = "<group>"; };
+		CA29E74C292C07BE003AC875 /* tidyplatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidyplatform.h; sourceTree = "<group>"; };
+		CA29E74D292C07BE003AC875 /* fileio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fileio.c; sourceTree = "<group>"; };
+		CA29E750292C07BE003AC875 /* mappedio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mappedio.h; sourceTree = "<group>"; };
+		CA29E751292C07BE003AC875 /* clean.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = clean.h; sourceTree = "<group>"; };
+		CA29E753292C07BE003AC875 /* sprtf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sprtf.h; sourceTree = "<group>"; };
+		CA29E754292C07BE003AC875 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		CA29E756292C07BE003AC875 /* tidybuffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidybuffio.h; sourceTree = "<group>"; };
+		CA29E757292C07BE003AC875 /* access.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = access.c; sourceTree = "<group>"; };
+		CA29E758292C07BE003AC875 /* attrs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attrs.c; sourceTree = "<group>"; };
+		CA29E759292C07BE003AC875 /* tagask.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tagask.c; sourceTree = "<group>"; };
+		CA29E75A292C07BE003AC875 /* parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parser.h; sourceTree = "<group>"; };
+		CA29E75C292C07BE003AC875 /* tmbstr.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tmbstr.c; sourceTree = "<group>"; };
+		CA29E75D292C07BE003AC875 /* attrdict.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attrdict.c; sourceTree = "<group>"; };
+		CA29E75F292C07BE003AC875 /* language.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language.h; sourceTree = "<group>"; };
+		CA29E760292C07BE003AC875 /* tidylib.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tidylib.c; sourceTree = "<group>"; };
+		CA29E761292C07BE003AC875 /* lexer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = lexer.c; sourceTree = "<group>"; };
+		CA29E762292C07BE003AC875 /* 0readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0readme.txt; sourceTree = "<group>"; };
+		CA29E764292C07BE003AC875 /* messageobj.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = messageobj.h; sourceTree = "<group>"; };
+		CA29E765292C07BE003AC875 /* message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
+		CA29E767292C07BE003AC875 /* buffio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = buffio.c; sourceTree = "<group>"; };
+		CA29E768292C07BE003AC875 /* utf8.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utf8.c; sourceTree = "<group>"; };
+		CA29E769292C07BE003AC875 /* charsets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = charsets.c; sourceTree = "<group>"; };
+		CA29E76A292C07BE003AC875 /* alloc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = alloc.c; sourceTree = "<group>"; };
+		CA29E76B292C07BE003AC875 /* language_pt_br.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_pt_br.h; sourceTree = "<group>"; };
+		CA29E76C292C07BE003AC875 /* gdoc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = gdoc.c; sourceTree = "<group>"; };
+		CA29E76D292C07BE003AC875 /* entities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
+		CA29E770292C07BE003AC875 /* streamio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = streamio.h; sourceTree = "<group>"; };
+		CA29E771292C07BE003AC875 /* pprint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pprint.h; sourceTree = "<group>"; };
+		CA29E773292C07BE003AC875 /* istack.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = istack.c; sourceTree = "<group>"; };
+		CA29E774292C07BE003AC875 /* tidyenum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidyenum.h; sourceTree = "<group>"; };
+		CA29E775292C07BE003AC875 /* tidy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
+		CA29E776292C07BE003AC875 /* language_es_mx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_es_mx.h; sourceTree = "<group>"; };
+		CA29E777292C07BE003AC875 /* access.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = access.h; sourceTree = "<group>"; };
+		CA29E778292C07BE003AC875 /* attrs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = attrs.h; sourceTree = "<group>"; };
+		CA29E77C292C07BE003AC875 /* config.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
+		CA29E77D292C07BE003AC875 /* sprtf.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sprtf.c; sourceTree = "<group>"; };
+		CA29E77E292C07BE003AC875 /* clean.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = clean.c; sourceTree = "<group>"; };
+		CA29E77F292C07BE003AC875 /* mappedio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mappedio.c; sourceTree = "<group>"; };
+		CA29E781292C07BE003AC875 /* fileio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fileio.h; sourceTree = "<group>"; };
+		CA29E783292C07BE003AC875 /* tags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tags.h; sourceTree = "<group>"; };
+		CA29E784292C07BE003AC875 /* lexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lexer.h; sourceTree = "<group>"; };
+		CA29E786292C07BE003AC875 /* language.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = language.c; sourceTree = "<group>"; };
+		CA29E788292C07BE003AC875 /* tmbstr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tmbstr.h; sourceTree = "<group>"; };
+		CA29E78A292C07BE003AC875 /* attrdict.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = attrdict.h; sourceTree = "<group>"; };
+		CA29E78B292C07BE003AC875 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		CA29E78D292C07BE003AC875 /* language_de.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_de.h; sourceTree = "<group>"; };
+		CA29E7AA292C07BE003AC875 /* language_es.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_es.h; sourceTree = "<group>"; };
+		CA29E7AB292C07BE003AC875 /* parser.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = parser.c; sourceTree = "<group>"; };
+		CA29E7AC292C07BE003AC875 /* gdoc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gdoc.h; sourceTree = "<group>"; };
+		CA29E7AE292C07BE003AC875 /* tidy-int.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tidy-int.h"; sourceTree = "<group>"; };
+		CA29E7AF292C07BE003AC875 /* charsets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = charsets.h; sourceTree = "<group>"; };
+		CA29E7B0292C07BE003AC875 /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		CA29E7B3292C07BE003AC875 /* utf8.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		CA29E7B6292C07BE003AC875 /* language_fr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_fr.h; sourceTree = "<group>"; };
+		CA29E7B7292C07BE003AC875 /* message.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = message.c; sourceTree = "<group>"; };
+		CA29E7B8292C07BE003AC875 /* messageobj.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = messageobj.c; sourceTree = "<group>"; };
+		CA29E7B9292C07BE003AC875 /* forward.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = forward.h; sourceTree = "<group>"; };
+		CA29E7BA292C07BE003AC875 /* buffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buffio.h; sourceTree = "<group>"; };
+		CA29E7BC292C07BE003AC875 /* language_en_gb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_en_gb.h; sourceTree = "<group>"; };
 		CA300E0629059C4800775963 /* libicudata.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.71.1.dylib; path = ../../../../opt/local/lib/libicudata.71.1.dylib; sourceTree = "<group>"; };
 		CA300E0829059C9900775963 /* libicuuc.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.71.1.dylib; path = ../../../../opt/local/lib/libicuuc.71.1.dylib; sourceTree = "<group>"; };
 		CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.71.1.dylib; path = ../../../../opt/local/lib/libicui18n.71.1.dylib; sourceTree = "<group>"; };
@@ -2800,6 +2892,7 @@
 				CADE428924F174B1003165BB /* tasks */,
 				CA6F68B1257CDF21008D51F5 /* tbsx */,
 				CADE420F24F174B1003165BB /* text */,
+				CA29E743292C07BE003AC875 /* tidy */,
 				CADE429624F174B1003165BB /* timer */,
 				CADE41C924F174B0003165BB /* tmp */,
 				CADE41D224F174B0003165BB /* trash */,
@@ -2823,6 +2916,79 @@
 				CA18ADBF24F169DA00FF603C /* server */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CA29E743292C07BE003AC875 /* tidy */ = {
+			isa = PBXGroup;
+			children = (
+				CA29E762292C07BE003AC875 /* 0readme.txt */,
+				CA29E757292C07BE003AC875 /* access.c */,
+				CA29E777292C07BE003AC875 /* access.h */,
+				CA29E76A292C07BE003AC875 /* alloc.c */,
+				CA29E75D292C07BE003AC875 /* attrdict.c */,
+				CA29E78A292C07BE003AC875 /* attrdict.h */,
+				CA29E758292C07BE003AC875 /* attrs.c */,
+				CA29E778292C07BE003AC875 /* attrs.h */,
+				CA29E767292C07BE003AC875 /* buffio.c */,
+				CA29E7BA292C07BE003AC875 /* buffio.h */,
+				CA29E769292C07BE003AC875 /* charsets.c */,
+				CA29E7AF292C07BE003AC875 /* charsets.h */,
+				CA29E77E292C07BE003AC875 /* clean.c */,
+				CA29E751292C07BE003AC875 /* clean.h */,
+				CA29E77C292C07BE003AC875 /* config.c */,
+				CA29E754292C07BE003AC875 /* config.h */,
+				CA29E747292C07BE003AC875 /* entities.c */,
+				CA29E76D292C07BE003AC875 /* entities.h */,
+				CA29E74D292C07BE003AC875 /* fileio.c */,
+				CA29E781292C07BE003AC875 /* fileio.h */,
+				CA29E7B9292C07BE003AC875 /* forward.h */,
+				CA29E76C292C07BE003AC875 /* gdoc.c */,
+				CA29E7AC292C07BE003AC875 /* gdoc.h */,
+				CA29E773292C07BE003AC875 /* istack.c */,
+				CA29E78D292C07BE003AC875 /* language_de.h */,
+				CA29E7BC292C07BE003AC875 /* language_en_gb.h */,
+				CA29E74B292C07BE003AC875 /* language_en.h */,
+				CA29E776292C07BE003AC875 /* language_es_mx.h */,
+				CA29E7AA292C07BE003AC875 /* language_es.h */,
+				CA29E7B6292C07BE003AC875 /* language_fr.h */,
+				CA29E76B292C07BE003AC875 /* language_pt_br.h */,
+				CA29E745292C07BE003AC875 /* language_zh_cn.h */,
+				CA29E786292C07BE003AC875 /* language.c */,
+				CA29E75F292C07BE003AC875 /* language.h */,
+				CA29E761292C07BE003AC875 /* lexer.c */,
+				CA29E784292C07BE003AC875 /* lexer.h */,
+				CA29E77F292C07BE003AC875 /* mappedio.c */,
+				CA29E750292C07BE003AC875 /* mappedio.h */,
+				CA29E7B7292C07BE003AC875 /* message.c */,
+				CA29E765292C07BE003AC875 /* message.h */,
+				CA29E7B8292C07BE003AC875 /* messageobj.c */,
+				CA29E764292C07BE003AC875 /* messageobj.h */,
+				CA29E78B292C07BE003AC875 /* module.modulemap */,
+				CA29E7AB292C07BE003AC875 /* parser.c */,
+				CA29E75A292C07BE003AC875 /* parser.h */,
+				CA29E7B0292C07BE003AC875 /* platform.h */,
+				CA29E748292C07BE003AC875 /* pprint.c */,
+				CA29E771292C07BE003AC875 /* pprint.h */,
+				CA29E77D292C07BE003AC875 /* sprtf.c */,
+				CA29E753292C07BE003AC875 /* sprtf.h */,
+				CA29E746292C07BE003AC875 /* streamio.c */,
+				CA29E770292C07BE003AC875 /* streamio.h */,
+				CA29E759292C07BE003AC875 /* tagask.c */,
+				CA29E74A292C07BE003AC875 /* tags.c */,
+				CA29E783292C07BE003AC875 /* tags.h */,
+				CA29E7AE292C07BE003AC875 /* tidy-int.h */,
+				CA29E775292C07BE003AC875 /* tidy.h */,
+				CA29E756292C07BE003AC875 /* tidybuffio.h */,
+				CA29E774292C07BE003AC875 /* tidyenum.h */,
+				CA29E760292C07BE003AC875 /* tidylib.c */,
+				CA29E74C292C07BE003AC875 /* tidyplatform.h */,
+				CA29E75C292C07BE003AC875 /* tmbstr.c */,
+				CA29E788292C07BE003AC875 /* tmbstr.h */,
+				CA29E768292C07BE003AC875 /* utf8.c */,
+				CA29E7B3292C07BE003AC875 /* utf8.h */,
+				CA29E749292C07BE003AC875 /* version.h */,
+			);
+			path = tidy;
 			sourceTree = "<group>";
 		};
 		CA60BF2825337938004D6E06 /* editone2 */ = {
@@ -5955,6 +6121,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA29E7BD292C0897003AC875 /* access.c in Sources */,
+				CA29E7BE292C0897003AC875 /* alloc.c in Sources */,
+				CA29E7BF292C0897003AC875 /* attrdict.c in Sources */,
+				CA29E7C0292C0897003AC875 /* attrs.c in Sources */,
+				CA29E7C1292C0897003AC875 /* buffio.c in Sources */,
+				CA29E7C2292C0897003AC875 /* charsets.c in Sources */,
+				CA29E7C3292C0897003AC875 /* clean.c in Sources */,
+				CA29E7C4292C0897003AC875 /* config.c in Sources */,
+				CA29E7C5292C0897003AC875 /* entities.c in Sources */,
+				CA29E7C6292C0897003AC875 /* fileio.c in Sources */,
+				CA29E7C7292C0897003AC875 /* gdoc.c in Sources */,
+				CA29E7C8292C0897003AC875 /* istack.c in Sources */,
+				CA29E7C9292C0897003AC875 /* language.c in Sources */,
+				CA29E7CA292C0897003AC875 /* lexer.c in Sources */,
+				CA29E7CB292C0897003AC875 /* mappedio.c in Sources */,
+				CA29E7CC292C0897003AC875 /* message.c in Sources */,
+				CA29E7CD292C0897003AC875 /* messageobj.c in Sources */,
+				CA29E7CE292C0897003AC875 /* parser.c in Sources */,
+				CA29E7CF292C0897003AC875 /* pprint.c in Sources */,
+				CA29E7D0292C0897003AC875 /* sprtf.c in Sources */,
+				CA29E7D1292C0897003AC875 /* streamio.c in Sources */,
+				CA29E7D2292C0897003AC875 /* tagask.c in Sources */,
+				CA29E7D3292C0897003AC875 /* tags.c in Sources */,
+				CA29E7D4292C0897003AC875 /* tidylib.c in Sources */,
+				CA29E7D5292C0897003AC875 /* tmbstr.c in Sources */,
+				CA29E7D6292C0897003AC875 /* utf8.c in Sources */,
 				CA0FFF4428D3A42F001DCF44 /* google.cpp in Sources */,
 				CA83A6A2289D87730038E298 /* googletranslate.cpp in Sources */,
 				CA74778827F7516F00192B66 /* note.cpp in Sources */,

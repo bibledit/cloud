@@ -516,7 +516,7 @@ void system_logic_indonesian_free_deletion ([[maybe_unused]] string username,
       node = document.append_child ("h3");
       node.text ().set (heading.c_str());
       
-      string explanation = translate ("Inilah hasil terjemahan Saudara:");
+      string explanation = "Inilah hasil terjemahan Saudara:";
       node = document.append_child ("p");
       node.text ().set (explanation.c_str ());
 

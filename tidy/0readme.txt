@@ -17,6 +17,8 @@ Running unittests
 unittest: /build/tidy-html5-93GQBN/tidy-html5-5.6.0/src/config.c:497: prvTidySetOptionBool: Assertion `option_defs[ optId ].type == TidyBoolean' failed.
 Aborted
 
+See more about this crash here: https://github.com/htacg/tidy-html5/issues/30
+
 Embedded library
 ================
 
@@ -42,15 +44,7 @@ $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-W
 Silence this warning: Comparison of integers of different signs: <...>
 $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wsign-compare"' >> $file; cat tmpc >> $file; rm tmpc; done
 
-Remove the assert code that causes crashes like this:
-Running unittests
-Assertion failed: (option_defs[ optId ].type == TidyBoolean), function prvTidySetOptionBool, file config.c, line 503.
-zsh: abort      ./unittest
+Remove the assert code that causes the crashes described above:
 $ for file in *.c ; do sed -i.bak '/assert/d' $file; done
 $ find . -name "*.bak" -delete
-Then check changes in git and revert unwanted changes.
-
-sed -i.bak '/assert/d' file
-
-
-# sed -i.bak "s/bibledit.xpm/$bibledit.xpm/g" Makefile.am executable/bibledit.cpp
+Then check changes in git and compile errors, and revert unwanted changes.

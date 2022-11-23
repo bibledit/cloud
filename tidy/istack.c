@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* istack.c -- inline stack for compatibility with Mosaic
 
   (c) 1998-2006 (W3C) MIT, ERCIM, Keio University

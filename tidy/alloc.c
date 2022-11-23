@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* alloc.c -- Default memory allocation routines.
 
   (c) 1998-2006 (W3C) MIT, ERCIM, Keio University

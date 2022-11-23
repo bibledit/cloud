@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef language_zh_cn_h
 #define language_zh_cn_h
 /*

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __CLEAN_H__
 #define __CLEAN_H__
 

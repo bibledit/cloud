@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* messageobj.c
  * Provides an external, extensible API for message reporting.
  *

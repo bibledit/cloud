@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef language_pt_br_h
 #define language_pt_br_h
 /*

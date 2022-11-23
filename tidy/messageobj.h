@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef messageobj_h
 #define messageobj_h
 

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __GDOC_H__
 #define __GDOC_H__
 

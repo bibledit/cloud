@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* charsets.c -- character set information and mappings
 
   (c) 1998-2006 (W3C) MIT, ERCIM, Keio University

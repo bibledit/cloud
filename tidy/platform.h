@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 /** @file platform.h - Deprecated compatibility header. Use tidyplatform.h
 **
 ** @deprecated This compatibility header is deprecated and 

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* access.c -- carry out accessibility checks
 
   Copyright University of Toronto

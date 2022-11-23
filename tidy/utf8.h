@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __UTF8_H__
 #define __UTF8_H__
 

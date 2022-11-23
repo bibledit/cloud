@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /*
   pprint.c -- pretty print parse tree  
   

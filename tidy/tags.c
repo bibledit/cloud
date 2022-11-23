@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* tags.c
  * Recognize HTML tags.
  *

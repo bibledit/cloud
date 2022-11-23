@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __ACCESS_H__
 #define __ACCESS_H__
 

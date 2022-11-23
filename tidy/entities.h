@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __ENTITIES_H__
 #define __ENTITIES_H__
 

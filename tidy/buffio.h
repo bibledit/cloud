@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 /** @file buffio.h - Deprecated compatibility header. Use tidybuffio.h
 **
 ** @deprecated This compatibility header is deprecated and 

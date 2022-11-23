@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef _SPRTF_HXX_
 #define _SPRTF_HXX_
 

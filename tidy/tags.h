@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __TAGS_H__
 #define __TAGS_H__
 

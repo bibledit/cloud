@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __TIDYENUM_H__
 #define __TIDYENUM_H__
 

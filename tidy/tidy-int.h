@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __TIDY_INT_H__
 #define __TIDY_INT_H__
 

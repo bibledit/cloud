@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* attrdict.c -- extended attribute information
 
    (c) 1998-2006 (W3C) MIT, ERCIM, Keio University

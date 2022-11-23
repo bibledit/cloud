@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __STREAMIO_H__
 #define __STREAMIO_H__
 

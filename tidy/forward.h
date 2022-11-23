@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __FORWARD_H__
 #define __FORWARD_H__
 

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __TIDY_PLATFORM_H__
 #define __TIDY_PLATFORM_H__
 

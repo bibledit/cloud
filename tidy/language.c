@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* language.c -- localization support for HTML Tidy.
 
   Copyright 2015 HTACG

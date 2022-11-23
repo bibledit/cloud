@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* attrs.c -- recognize HTML attributes
 
   (c) 1998-2009 (W3C) MIT, ERCIM, Keio University

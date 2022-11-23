@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __MESSAGE_H__
 #define __MESSAGE_H__
 

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __PPRINT_H__
 #define __PPRINT_H__
 

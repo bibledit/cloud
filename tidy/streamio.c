@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* streamio.c -- handles character stream I/O
 
   (c) 1998-2008 (W3C) MIT, ERCIM, Keio University

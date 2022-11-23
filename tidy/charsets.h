@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __CHARSETS_H__
 #define __CHARSETS_H__
 

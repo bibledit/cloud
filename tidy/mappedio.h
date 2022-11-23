@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __TIDY_MAPPED_IO_H__
 #define __TIDY_MAPPED_IO_H__
 

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __ATTRDICT_H__
 #define __ATTRDICT_H__
 

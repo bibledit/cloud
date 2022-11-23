@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* sprtf.c
  * SPRTF - Log output utility - part of the HTML Tidy project
  *

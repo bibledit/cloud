@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /*
   clean.c -- clean up misuse of presentation markup
 

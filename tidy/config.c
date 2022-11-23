@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* config.c
  * Read configuration files and manage configuration properties.
  *

@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wconversion"
 /* tmbstr.c -- Tidy string utility functions
 
   (c) 1998-2006 (W3C) MIT, ERCIM, Keio University

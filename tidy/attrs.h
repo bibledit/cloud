@@ -1,3 +1,4 @@
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #ifndef __ATTRS_H__
 #define __ATTRS_H__
 

@@ -3208,12 +3208,12 @@ void TY_(ParsePre)( TidyDocImpl* doc, Node *pre, GetTokenMode ARG_UNUSED(mode) )
               or something similar, they could also be closing the <pre> and propagate
               the <pre> into the newly opened <p>.
 
-              Todo: IMG, OBJECT, APPLET, BIG, SMALL, SUB, SUP, FONT, and BASEFONT are
+              IMG, OBJECT, APPLET, BIG, SMALL, SUB, SUP, FONT, and BASEFONT are
               dissallowed in <pre>, Tidy neither detects this nor does it perform any
               cleanup operation. Tidy should at least issue a warning if it encounters
               such constructs.
 
-              Todo: discarding </p> is abviously a bug, it should be replaced by <br>.
+              discarding </p> is abviously a bug, it should be replaced by <br>.
             */
             TY_(InsertNodeAfterElement)(pre, node);
             TY_(Report)(doc, pre, node, MISSING_ENDTAG_BEFORE);

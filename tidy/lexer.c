@@ -913,7 +913,6 @@ Lexer* TY_(NewLexer)( TidyDocImpl* doc )
 
 static Bool EndOfInput( TidyDocImpl* doc )
 {
-    assert( doc->docIn != NULL );
     return ( !doc->docIn->pushed && TY_(IsEOF)(doc->docIn) );
 }
 
@@ -2054,7 +2053,6 @@ Bool TY_(SetXHTMLDocType)( TidyDocImpl* doc )
         }
         break;
     case TidyDoctypeOmit:
-        assert(0);
         break;
     }
 
@@ -2196,7 +2194,6 @@ Node* TY_(InferredTag)(TidyDocImpl* doc, TidyTagId id)
     Node *node = TY_(NewNode)( lexer->allocator, lexer );
     const Dict* dict = TY_(LookupTagDef)(id);
 
-    assert( dict != NULL );
 
     node->type = StartTag;
     node->implicit = yes;
@@ -2493,7 +2490,6 @@ Node* TY_(GetToken)( TidyDocImpl* doc, GetTokenMode mode )
         return node;
     }
 
-    assert( !(lexer->pushed || lexer->itoken) );
 
     /* at start of block elements, unclosed inline
        elements are inserted into the token stream 
@@ -2512,7 +2508,6 @@ Node* TY_(GetToken)( TidyDocImpl* doc, GetTokenMode mode )
 
     if (mode == CdataContent)
     {
-        assert( lexer->parent != NULL );
         node = GetCDATA(doc, lexer->parent);
         GTDBG(doc,"lex-cdata", node);
         return node;

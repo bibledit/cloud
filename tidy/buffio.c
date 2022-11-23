@@ -60,7 +60,6 @@ void TIDY_CALL tidyInitOutputBuffer( TidyOutputSink* outp, TidyBuffer* buf )
 
 void TIDY_CALL tidyBufInit( TidyBuffer* buf )
 {
-    assert( buf != NULL );
     tidyBufInitWithAllocator( buf, NULL );
 }
 
@@ -72,7 +71,6 @@ void TIDY_CALL tidyBufAlloc( TidyBuffer* buf, uint allocSize )
 void TIDY_CALL tidyBufInitWithAllocator( TidyBuffer* buf,
                                          TidyAllocator *allocator )
 {
-    assert( buf != NULL );
     TidyClearMemory( buf, sizeof(TidyBuffer) );
     buf->allocator = allocator ? allocator : &TY_(g_default_allocator);
 }
@@ -88,14 +86,12 @@ void TIDY_CALL tidyBufAllocWithAllocator( TidyBuffer* buf,
 
 void TIDY_CALL tidyBufFree( TidyBuffer* buf )
 {
-    assert( buf != NULL );
     TidyFree(  buf->allocator, buf->bp );
     tidyBufInitWithAllocator( buf, buf->allocator );
 }
 
 void TIDY_CALL tidyBufClear( TidyBuffer* buf )
 {
-    assert( buf != NULL );
     if ( buf->bp )
     {
         TidyClearMemory( buf->bp, buf->allocated );
@@ -119,7 +115,6 @@ static void setDefaultAllocator( TidyBuffer* buf )
 */
 void TIDY_CALL tidyBufCheckAlloc( TidyBuffer* buf, uint allocSize, uint chunkSize )
 {
-    assert( buf != NULL );
 
     if ( !buf->allocator )
         setDefaultAllocator( buf );
@@ -148,7 +143,6 @@ void TIDY_CALL tidyBufCheckAlloc( TidyBuffer* buf, uint allocSize, uint chunkSiz
 /* Attach buffer to a chunk O' memory w/out allocation */
 void  TIDY_CALL tidyBufAttach( TidyBuffer* buf, byte* bp, uint size )
 {
-    assert( buf != NULL );
     buf->bp = bp;
     buf->size = buf->allocated = size;
     buf->next = 0;
@@ -169,7 +163,6 @@ void TIDY_CALL tidyBufDetach( TidyBuffer* buf )
 
 void TIDY_CALL tidyBufAppend( TidyBuffer* buf, void* vp, uint size )
 {
-    assert( buf != NULL );
     if ( vp != NULL && size > 0 )
     {
         tidyBufCheckAlloc( buf, buf->size + size, 0 );
@@ -180,7 +173,6 @@ void TIDY_CALL tidyBufAppend( TidyBuffer* buf, void* vp, uint size )
 
 void TIDY_CALL tidyBufPutByte( TidyBuffer* buf, byte bv )
 {
-    assert( buf != NULL );
     tidyBufCheckAlloc( buf, buf->size + 1, 0 );
     buf->bp[ buf->size++ ] = bv;
 }
@@ -189,7 +181,6 @@ void TIDY_CALL tidyBufPutByte( TidyBuffer* buf, byte bv )
 int TIDY_CALL tidyBufPopByte( TidyBuffer* buf )
 {
     int bv = EOF;
-    assert( buf != NULL );
     if ( buf->size > 0 )
       bv = buf->bp[ --buf->size ];
     return bv;
@@ -217,7 +208,6 @@ void TIDY_CALL tidyBufUngetByte( TidyBuffer* buf, byte bv )
     if ( buf->next > 0 )
     {
         --buf->next;
-        assert( bv == buf->bp[ buf->next ] );
     }
 }
 

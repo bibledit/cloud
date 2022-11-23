@@ -407,7 +407,6 @@ TidyMessageArgument TY_(getNextMessageArgument)( TidyMessageImpl message, TidyIt
 {
     size_t item = 0;
     size_t itemIndex;
-    assert( iter != NULL );
     
     itemIndex = (size_t)*iter;
     
@@ -429,7 +428,6 @@ TidyMessageArgument TY_(getNextMessageArgument)( TidyMessageImpl message, TidyIt
 TidyFormatParameterType TY_(getArgType)( TidyMessageImpl message, TidyMessageArgument* arg )
 {
     int argNum = (int)(size_t)*arg - 1;
-    assert( argNum <= message.argcount );
     
     return message.arguments[argNum].type;
 }
@@ -438,7 +436,6 @@ TidyFormatParameterType TY_(getArgType)( TidyMessageImpl message, TidyMessageArg
 ctmbstr TY_(getArgFormat)( TidyMessageImpl message, TidyMessageArgument* arg )
 {
     int argNum = (int)(size_t)*arg - 1;
-    assert( argNum <= message.argcount );
     
     return message.arguments[argNum].format;
 }
@@ -447,8 +444,6 @@ ctmbstr TY_(getArgFormat)( TidyMessageImpl message, TidyMessageArgument* arg )
 ctmbstr TY_(getArgValueString)( TidyMessageImpl message, TidyMessageArgument* arg )
 {
     int argNum = (int)(size_t)*arg - 1;
-    assert( argNum <= message.argcount );
-    assert( message.arguments[argNum].type == tidyFormatType_STRING);
     
     return message.arguments[argNum].u.s;
 }
@@ -457,8 +452,6 @@ ctmbstr TY_(getArgValueString)( TidyMessageImpl message, TidyMessageArgument* ar
 uint TY_(getArgValueUInt)( TidyMessageImpl message, TidyMessageArgument* arg )
 {
     int argNum = (int)(size_t)*arg - 1;
-    assert( argNum <= message.argcount );
-    assert( message.arguments[argNum].type == tidyFormatType_UINT);
 
     return message.arguments[argNum].u.ui;
 }
@@ -467,8 +460,6 @@ uint TY_(getArgValueUInt)( TidyMessageImpl message, TidyMessageArgument* arg )
 int TY_(getArgValueInt)( TidyMessageImpl message, TidyMessageArgument* arg )
 {
     int argNum = (int)(size_t)*arg - 1;
-    assert( argNum <= message.argcount );
-    assert( message.arguments[argNum].type == tidyFormatType_INT);
 
     return message.arguments[argNum].u.i;
 }
@@ -477,8 +468,6 @@ int TY_(getArgValueInt)( TidyMessageImpl message, TidyMessageArgument* arg )
 double TY_(getArgValueDouble)( TidyMessageImpl message, TidyMessageArgument* arg )
 {
     int argNum = (int)(size_t)*arg - 1;
-    assert( argNum <= message.argcount );
-    assert( message.arguments[argNum].type == tidyFormatType_DOUBLE);
     
     return message.arguments[argNum].u.d;
 }

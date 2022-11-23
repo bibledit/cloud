@@ -390,7 +390,6 @@ static void CopyOptionValue( TidyDocImpl* doc, const TidyOptionImpl* option,
                              TidyOptionValue* oldval, const TidyOptionValue* newval )
 {
     Bool fire_callback = no;
-    assert( oldval != NULL );
 
     /* Compare the old and new values. */
     if ( doc->pConfigChangeCallback )
@@ -426,7 +425,6 @@ static Bool SetOptionValue( TidyDocImpl* doc, TidyOptionId optId, ctmbstr val )
 
     if ( status )
     {
-        assert( option->id == optId && option->type == TidyString );
 
         /* Compare the old and new values. */
         if ( doc->pConfigChangeCallback )
@@ -488,7 +486,6 @@ Bool TY_(SetOptionInt)( TidyDocImpl* doc, TidyOptionId optId, ulong val )
     Bool status = ( optId < N_TIDY_OPTIONS );
     if ( status )
     {
-        assert( option_defs[ optId ].type == TidyInteger );
         SetOptionInteger( doc, optId, val );
     }
     return status;
@@ -500,7 +497,6 @@ Bool TY_(SetOptionBool)( TidyDocImpl* doc, TidyOptionId optId, Bool val )
     Bool status = ( optId < N_TIDY_OPTIONS );
     if ( status )
     {
-        assert( option_defs[ optId ].type == TidyBoolean );
         SetOptionInteger( doc, optId, (ulong)val );
     }
     return status;
@@ -534,7 +530,6 @@ Bool TY_(ResetOptionToDefault)( TidyDocImpl* doc, TidyOptionId optId )
         TidyOptionValue dflt;
         const TidyOptionImpl* option = option_defs + optId;
         TidyOptionValue* value = &doc->config.value[ optId ];
-        assert( optId == option->id );
         GetOptionDefault( option, &dflt );
         CopyOptionValue( doc, option, value, &dflt );
     }
@@ -580,7 +575,6 @@ static Bool NeedReparseTagDecls( TidyDocImpl* doc,
 
     for ( ixVal=0; ixVal < N_TIDY_OPTIONS; ++option, ++ixVal )
     {
-        assert( ixVal == (uint) option->id );
         switch (option->id)
         {
 #define TEST_USERTAGS(USERTAGOPTION,USERTAGTYPE) \
@@ -652,7 +646,6 @@ static Bool subDeprecatedOption( TidyDocImpl* doc, ctmbstr oldName, ctmbstr oldV
     ctmbstr newName = TY_(getOption)( newOptId )->name;
     TidyDoc tdoc = tidyImplToDoc( doc );
 
-    assert( isOptionDeprecated(oldName));
 
     if ( newOptId == TidyUnknownOption )
     {
@@ -702,7 +695,6 @@ void TY_(ResetConfigToDefault)( TidyDocImpl* doc )
     for ( ixVal=0; ixVal < N_TIDY_OPTIONS; ++option, ++ixVal )
     {
         TidyOptionValue dflt;
-        assert( ixVal == (uint) option->id );
         GetOptionDefault( option, &dflt );
         CopyOptionValue( doc, option, &value[ixVal], &dflt );
     }
@@ -724,7 +716,6 @@ void TY_(TakeConfigSnapshot)( TidyDocImpl* doc )
     // TY_(AdjustConfig)( doc );  /* Make sure it's consistent */
     for ( ixVal=0; ixVal < N_TIDY_OPTIONS; ++option, ++ixVal )
     {
-        assert( ixVal == (uint) option->id );
         CopyOptionValue( doc, option, &snap[ixVal], &value[ixVal] );
     }
 }
@@ -742,7 +733,6 @@ void TY_(ResetConfigToSnapshot)( TidyDocImpl* doc )
     
     for ( ixVal=0; ixVal < N_TIDY_OPTIONS; ++option, ++ixVal )
     {
-        assert( ixVal == (uint) option->id );
         CopyOptionValue( doc, option, &value[ixVal], &snap[ixVal] );
     }
     if ( needReparseTagsDecls )
@@ -765,7 +755,6 @@ void TY_(CopyConfig)( TidyDocImpl* docTo, TidyDocImpl* docFrom )
         TY_(TakeConfigSnapshot)( docTo );
         for ( ixVal=0; ixVal < N_TIDY_OPTIONS; ++option, ++ixVal )
         {
-            assert( ixVal == (uint) option->id );
             CopyOptionValue( docTo, option, &to[ixVal], &from[ixVal] );
         }
         if ( needReparseTagsDecls )
@@ -782,10 +771,8 @@ void TY_(CopyConfig)( TidyDocImpl* docTo, TidyDocImpl* docFrom )
 
 #ifdef _DEBUG
 
-/* Debug accessor functions will be type-safe and assert option type match */
 ulong   TY_(_cfgGet)( TidyDocImpl* doc, TidyOptionId optId )
 {
-  assert( optId < N_TIDY_OPTIONS );
   return doc->config.value[ optId ].v;
 }
 
@@ -793,7 +780,6 @@ Bool    TY_(_cfgGetBool)( TidyDocImpl* doc, TidyOptionId optId )
 {
   ulong val = TY_(_cfgGet)( doc, optId );
   const TidyOptionImpl* opt = &option_defs[ optId ];
-  assert( opt && opt->type == TidyBoolean );
   return (Bool) val;
 }
 
@@ -801,7 +787,6 @@ TidyTriState    TY_(_cfgGetAutoBool)( TidyDocImpl* doc, TidyOptionId optId )
 {
   ulong val = TY_(_cfgGet)( doc, optId );
   const TidyOptionImpl* opt = &option_defs[ optId ];
-  assert( opt && opt->type == TidyInteger
           && opt->parser == ParsePickList );
   return (TidyTriState) val;
 }
@@ -810,9 +795,7 @@ ctmbstr TY_(_cfgGetString)( TidyDocImpl* doc, TidyOptionId optId )
 {
   const TidyOptionImpl* opt;
 
-  assert( optId < N_TIDY_OPTIONS );
   opt = &option_defs[ optId ];
-  assert( opt && opt->type == TidyString );
   return doc->config.value[ optId ].p;
 }
 #endif
@@ -1797,7 +1780,6 @@ const TidyOptionImpl*  TY_(getNextOption)( TidyDocImpl* ARG_UNUSED(doc),
 {
     const TidyOptionImpl* option = NULL;
     size_t optId;
-    assert( iter != NULL );
     optId = (size_t) *iter;
     if ( optId > TidyUnknownOption && optId < N_TIDY_OPTIONS )
     {
@@ -1826,7 +1808,6 @@ ctmbstr      TY_(getNextOptionPick)( const TidyOptionImpl* option,
     size_t ix;
     ctmbstr val = NULL;
     const PickListItem *item= NULL;
-    assert( option!=NULL && iter != NULL );
 
     ix = (size_t) *iter;
     

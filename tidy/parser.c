@@ -753,7 +753,6 @@ static void MoveToHead( TidyDocImpl* doc, Node *element, Node *node )
         TY_(Report)(doc, element, node, TAG_NOT_ALLOWED_IN );
 
         head = TY_(FindHEAD)(doc);
-        assert(head != NULL);
 
         TY_(InsertNodeAtEnd)(head, node);
 
@@ -1403,7 +1402,6 @@ static Node *FindMatchingDescendant( Node *parent, Node *node, Node *marker_node
     cb_data.node_to_find = node;
     cb_data.marker_node = marker_node;
 
-    assert(node);
 
     if (is_parent_of_marker)
         *is_parent_of_marker = no;
@@ -1471,13 +1469,6 @@ void TY_(ParseNamespace)(TidyDocImpl* doc, Node *basenode, GetTokenMode mode)
                     TY_(Report)(doc, n->parent, n, MISSING_ENDTAG_BEFORE);
                 }
 
-                /* Issue #369 - Since 'assert' is DEBUG only, and there are
-                   simple cases where these can be fired, removing them
-                   pending feedback from the original author!
-                   assert(outside == no ? n == mp : 1);
-                   assert(outside == yes ? n == basenode->parent : 1);
-                   =================================================== */
-
                 if (outside == no)
                 {
                     /* EndTag for a node within the basenode subtree. Roll on... */
@@ -1499,7 +1490,6 @@ void TY_(ParseNamespace)(TidyDocImpl* doc, Node *basenode, GetTokenMode mode)
                 if (node == basenode)
                 {
                     lexer->istackbase = istackbase;
-                    assert(basenode->closed == yes);
                     return;
                 }
             }
@@ -1508,8 +1498,6 @@ void TY_(ParseNamespace)(TidyDocImpl* doc, Node *basenode, GetTokenMode mode)
                 /* unmatched close tag: report an error and discard */
                 /* TY_(Report)(doc, parent, node, NON_MATCHING_ENDTAG); Issue #308 - Seems wrong warning! */
                 TY_(Report)(doc, parent, node, DISCARDING_UNEXPECTED);
-                assert(parent);
-                /* assert(parent->tag != node->tag); Issue #308 - Seems would always be true! */
                 TY_(FreeNode)( doc, node); /* Issue #308 - Discard unexpected end tag memory */
             }
         }
@@ -4596,7 +4584,6 @@ static void AttributeChecks(TidyDocImpl* doc, Node* node)
         if (node->content)
             AttributeChecks(doc, node->content);
 
-        assert( next != node ); /* http://tidy.sf.net/issue/1603538 */
         node = next;
     }
 }

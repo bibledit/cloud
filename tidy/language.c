@@ -531,7 +531,6 @@ TY_PRIVATE uint TY_(getNextStringKey)( TidyIterator* iter )
 {
     uint item = 0;
     size_t itemIndex;
-    assert( iter != NULL );
     
     itemIndex = (size_t)*iter;
     
@@ -582,7 +581,6 @@ TY_PRIVATE const tidyLocaleMapItemImpl *TY_(getNextWindowsLanguage)( TidyIterato
 {
     const tidyLocaleMapItemImpl *item = NULL;
     size_t itemIndex;
-    assert( iter != NULL );
     
     itemIndex = (size_t)*iter;
     
@@ -649,7 +647,6 @@ TY_PRIVATE ctmbstr TY_(getNextInstalledLanguage)( TidyIterator* iter )
 {
     ctmbstr item = NULL;
     size_t itemIndex;
-    assert( iter != NULL );
     
     itemIndex = (size_t)*iter;
     

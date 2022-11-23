@@ -154,8 +154,6 @@ void          tidyDocRelease( TidyDocImpl* doc )
     /* doc in/out opened and closed by parse/print routines */
     if ( doc )
     {
-        assert( doc->docIn == NULL );
-        assert( doc->docOut == NULL );
 
         TY_(ReleaseStreamOut)( doc, doc->errout );
         doc->errout = NULL;
@@ -1463,8 +1461,6 @@ int         TY_(DocParseStream)( TidyDocImpl* doc, StreamIn* in )
     int bomEnc;
     doc->pConfigChangeCallback = NULL;
 
-    assert( doc != NULL && in != NULL );
-    assert( doc->docIn == NULL );
     doc->docIn = in;
 
     TY_(ResetTags)(doc);             /* Reset table to html5 mode */

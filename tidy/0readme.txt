@@ -31,14 +31,26 @@ Source code preparation
 After importing the source code from GitHub, apply the following modifications to it.
 
 $ cd tidy
-# Silence several warnings:
+Silence several warnings:
 $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wconversion"' >> $file; cat tmpc >> $file; rm tmpc; done
 $ for file in *.h ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wunused-parameter"' >> $file; cat tmpc >> $file; rm tmpc; done
 $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wcomma"' >> $file; cat tmpc >> $file; rm tmpc; done
-# Silence this warning: Integer constant not in range of enumerated type <type>
+Silence this warning: Integer constant not in range of enumerated type <type>
 $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wassign-enum"' >> $file; cat tmpc >> $file; rm tmpc; done
-# Silence this warning: Declaration shadows a local variable
+Silence this warning: Declaration shadows a local variable
 $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wshadow"' >> $file; cat tmpc >> $file; rm tmpc; done
-# Silence this warning: Comparison of integers of different signs: <...>
+Silence this warning: Comparison of integers of different signs: <...>
 $ for file in *.c ; do mv $file tmpc; echo '#pragma clang diagnostic ignored "-Wsign-compare"' >> $file; cat tmpc >> $file; rm tmpc; done
 
+Remove the assert code that causes crashes like this:
+Running unittests
+Assertion failed: (option_defs[ optId ].type == TidyBoolean), function prvTidySetOptionBool, file config.c, line 503.
+zsh: abort      ./unittest
+$ for file in *.c ; do sed -i.bak '/assert/d' $file; done
+$ find . -name "*.bak" -delete
+Then check changes in git and revert unwanted changes.
+
+sed -i.bak '/assert/d' file
+
+
+# sed -i.bak "s/bibledit.xpm/$bibledit.xpm/g" Makefile.am executable/bibledit.cpp

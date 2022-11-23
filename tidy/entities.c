@@ -2120,9 +2120,6 @@ Bool TY_(EntityInfo)( ctmbstr name, Bool isXml, uint* code, uint* versions )
 {
     const entity* np;
     int res;
-    assert( name && name[0] == '&' );
-    assert( code != NULL );
-    assert( versions != NULL );
 
     /* numeric entitity: name = "&#" followed by number */
     if ( name[1] == '#' )

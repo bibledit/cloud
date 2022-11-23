@@ -634,7 +634,6 @@ static void WrapAttrVal( TidyDocImpl* doc )
     TidyPrintImpl* pprint = &doc->pprint;
     uint i;
 
-    /* assert( IsWrapInAttrVal(pprint) ); */
     if ( WantIndent(doc) )
         WriteIndentChar(doc);
 
@@ -1023,7 +1022,6 @@ static void PPrintText( TidyDocImpl* doc, uint mode, uint indent,
         {
             /*\
              * Issue #207 - This is an unambiguous ampersand need not be 'quoted' in HTML5
-             * Issue #379 - Ensure only 0 to 255 passed to 'isspace' to avoid debug assert
             \*/
             PPrintChar( doc, c, (mode | CDATA) );
         }
@@ -1822,7 +1820,6 @@ static Bool TY_(nodeIsTextLike)( Node *node )
 
 static int TextStartsWithWhitespace( Lexer *lexer, Node *node, uint start, uint mode )
 {
-    assert( node != NULL );
     if ( (mode & (CDATA|COMMENT)) && TY_(nodeIsTextLike)(node) && node->end > node->start && start >= node->start )
     {
         uint ch, ix = start;

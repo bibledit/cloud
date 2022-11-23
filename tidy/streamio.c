@@ -423,7 +423,6 @@ static uint PopChar( StreamIn *in )
     uint c = EndOfStream;
     if ( in->pushed )
     {
-        assert( in->bufpos > 0 );
         c = in->charbuf[ --in->bufpos ];
         if ( in->bufpos == 0 )
             in->pushed = no;

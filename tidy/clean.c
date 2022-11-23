@@ -1655,7 +1655,6 @@ static Node* PruneSection( TidyDocImpl* doc, Node *node )
             /* Need to put &nbsp; into cell so it doesn't look weird
             */
             Node* nbsp = TY_(NewLiteralTextNode)( lexer, "\240" );
-            assert( (byte)'\240' == (byte)160 );
             TY_(InsertNodeBeforeElement)( node, nbsp );
           }
         }

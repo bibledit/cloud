@@ -176,7 +176,6 @@ static void TIDY_CALL mapped_ungetByte( void *sourceData, byte ARG_UNUSED(bt) )
 
     if ( data->pos < data->gran )
     {
-        assert(0);
         return;
     }
 

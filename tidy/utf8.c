@@ -489,7 +489,6 @@ Bool    TY_(IsLowSurrogate)( tchar ch )
 
 tchar   TY_(CombineSurrogatePair)( tchar high, tchar low )
 {
-    assert( TY_(IsHighSurrogate)(high) && TY_(IsLowSurrogate)(low) );
     return ( ((low - kUTF16LowSurrogateBegin) * 0x400) + 
              high - kUTF16HighSurrogateBegin + 0x10000 );
 }

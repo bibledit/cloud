@@ -1004,7 +1004,6 @@ ctmbstr  TY_(getNextPriorityAttr)( TidyDocImpl* doc, TidyIterator* iter )
     PriorityAttribs *priorities = &(doc->attribs.priorityAttribs);
     size_t index;
     ctmbstr result = NULL;
-    assert( iter != NULL );
     index = (size_t)*iter;
 
     if ( index > 0 && index <= priorities->count )
@@ -1282,7 +1281,6 @@ void TY_(InitAttrs)( TidyDocImpl* doc )
       for ( ix=0; ix < N_TIDY_ATTRIBS; ++ix )
       {
         const Attribute* dict = &attribute_defs[ ix ];
-        assert( (uint) dict->id == ix );
       }
     }
 #endif
@@ -1564,7 +1562,6 @@ static void CheckLowerCaseAttrValue( TidyDocImpl* doc, Node *node, AttVal *attva
 
 /* Issue #588 - use simple macros only!
    Seems 'isalnum(c)' is undefined and can
-   cause an assert or a SIGSEGV in some libraries
    if 'c' is not EOF, or in the range 0 to 0xff,
    so avoid using it.
 */

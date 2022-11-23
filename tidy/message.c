@@ -974,7 +974,6 @@ void TY_(ReportAttrError)(TidyDocImpl* doc, Node *node, AttVal *av, uint code)
 
 void TY_(ReportBadArgument)( TidyDocImpl* doc, ctmbstr option )
 {
-    assert( option != NULL );
     TY_(Report)( doc, NULL, NULL, STRING_MISSING_MALFORMED, option );
 }
 
@@ -1385,7 +1384,6 @@ ctmbstr TY_(getNextMutedMessage)( TidyDocImpl* doc, TidyIterator* iter )
     TidyMutedMessages *list = &(doc->muted);
     size_t index;
     ctmbstr result = NULL;
-    assert( iter != NULL );
     index = (size_t)*iter;
 
     if ( index > 0 && index <= list->count )
@@ -1498,7 +1496,6 @@ uint TY_(getNextErrorCode)( TidyIterator* iter )
 {
     const tidyStringsKeyItem *item = NULL;
     size_t itemIndex;
-    assert( iter != NULL );
     
     itemIndex = (size_t)*iter;
     

@@ -639,7 +639,7 @@ AM_CXXFLAGS += $(ICU_CFLAGS)
 AM_CXXFLAGS += $(XML2_CFLAGS)
 AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
 AM_CXXFLAGS += $(GUMBO_CFLAGS)
-AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
+# AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
 AM_CXXFLAGS += $(PUGIXML_CFLAGS)
 
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
@@ -651,7 +651,7 @@ LIBS += $(ICU_LIBS)
 LIBS += $(XML2_LIBS)
 LIBS += $(UTF8PROC_LIBS)
 LIBS += $(GUMBO_LIBS)
-LIBS += $(TIDY_LIBS)
+# LIBS += $(TIDY_LIBS)
 LIBS += $(PUGIXML_LIBS)
 
 # The core library compiles and embeds the mbedtls library.

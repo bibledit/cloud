@@ -951,10 +951,10 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
+# LIBS += $(TIDY_LIBS)
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
 	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) $(ICU_LIBS) \
-	$(XML2_LIBS) $(UTF8PROC_LIBS) $(GUMBO_LIBS) $(TIDY_LIBS) \
-	$(PUGIXML_LIBS)
+	$(XML2_LIBS) $(UTF8PROC_LIBS) $(GUMBO_LIBS) $(PUGIXML_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -1649,11 +1649,11 @@ generate_SOURCES = \
 
 generate_LDADD = libbibledit.a
 AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1)
+# AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
 AM_CXXFLAGS = -fno-var-tracking -g $(am__append_2) $(am__append_3) \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS) \
-	$(UTF8PROC_CFLAGS) $(GUMBO_CFLAGS) $(TIDY_CFLAGS) \
-	-I/usr/include/tidy $(PUGIXML_CFLAGS)
+	$(UTF8PROC_CFLAGS) $(GUMBO_CFLAGS) $(PUGIXML_CFLAGS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

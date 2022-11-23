@@ -1,3 +1,7 @@
+#pragma clang diagnostic ignored "-Wsign-compare"
+#pragma clang diagnostic ignored "-Wshadow"
+#pragma clang diagnostic ignored "-Wassign-enum"
+#pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
 /* utf8.c -- convert characters to/from UTF-8
 

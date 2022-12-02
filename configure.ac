@@ -68,8 +68,10 @@ AC_SUBST(XML2_LIBS)
 # linux AC_SUBST(GTK_LIBS)
 # linux AC_SUBST(GTK_CFLAGS)
 
-# linux PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-4.0],, [
-# linux   PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-3.0],,AC_MSG_ERROR(Webkit2Gtk development version is needed.))
+# linux PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-4.1],, [
+# linux   PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-4.0],, [
+# linux     PKG_CHECK_MODULES([WEBKIT2GTK], [webkit2gtk-3.0],,AC_MSG_ERROR(Webkit2Gtk development version is needed.))
+# linux   ])
 # linux ])
 # linux AC_SUBST(WEBKIT2GTK_LIBS)
 # linux AC_SUBST(WEBKIT2GTK_CFLAGS)

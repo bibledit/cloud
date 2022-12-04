@@ -72,8 +72,8 @@ void test_studylight ()
   book = 58; // Hebrews.
   text = resource_logic_study_light_get (resource, book, 10, 14);
   text = filter_string_html2text (text);
-  evaluate (__LINE__, __func__, 2990, text.find("τους ἁγιαζομενους"));
-  evaluate (__LINE__, __func__, 3759, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
+  evaluate (__LINE__, __func__, 2993, text.find("τους ἁγιαζομενους"));
+  evaluate (__LINE__, __func__, 3762, text.find("By one offering Christ hath forever justified such as are purged or cleansed by it"));
 
   resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
   book = 58; // Hebrews.

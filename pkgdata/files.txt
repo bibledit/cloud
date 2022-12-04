@@ -628,6 +628,8 @@
 /public/new.js
 /public/note.html
 /pugixml
+/pugixml/00readme.txt
+/pugixml/LICENSE.md
 /pugixml/readme.txt
 /quill
 /quill/LICENSE

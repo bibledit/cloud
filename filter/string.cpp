@@ -2205,11 +2205,86 @@ string filter_string_fix_invalid_html_tidy (string html)
 string filter_string_collapse_whitespace (string s)
 {
   int count;
-  int iterator = 0;
+  int iterator {0};
   do {
     count = 0;
     s = filter_string_str_replace ("  ", " ", s, &count);
     iterator++;
   } while ((count > 0) && iterator < 5);
   return s;
+}
+
+
+std::string convert_windows1252_to_utf8 (const std::string& input)
+{
+  // Convert the encoding.
+  string utf8 {};
+  utf8::utf16to8(input.begin(), input.end(), back_inserter(utf8));
+
+  // Handle weird conversions.
+  utf8 = filter_string_str_replace ("￯﾿ﾽ", "'", utf8);
+
+  // Pass it to the caller.
+  return utf8;
+
+  // It could be done through the iconv library.
+  // in the way that the iconv binary does it.
+  // 1, Remove the meta information from the html head.
+  // 2. iconv -f CP1252 -t UTF-8 ./john-ma-lbw2.htm > john-ma-lbw3.htm
+  // But libiconv-dev is not available as a Debian package.
+  // So eventually libiconv was not used.
+
+  // The conversion descriptor for converting WINDOWS-1252 -> UTF-8.
+  //iconv_t conversion_descriptor = iconv_open ("UTF-8", "CP1252");
+  //if (conversion_descriptor == (iconv_t)(-1)) {
+  //  throw std::runtime_error("Cannot open converter from Windows-1252 to UTF-8");
+  //}
+    
+  // The pointer to the input buffer.
+  //char* input_pointer = const_cast<char*>(input.c_str());
+    
+  // The output buffer.
+  //constexpr int outbuf_size {10000}; // make it dynamic.
+  //unsigned char outbuf[outbuf_size];
+  //memset(outbuf, 0, outbuf_size);
+  //char *outptr = (char*) outbuf;
+  
+  // The number of bytes left in the input and output buffers.
+  //size_t input_bytes_left {input.length()};
+  //size_t output_bytes_left {outbuf_size};
+
+  // Repeat converting and handling unconvertible characters.
+  //while (input_bytes_left > 0) {
+    // Do the conversion.
+    //size_t result = iconv(conversion_descriptor, &input_pointer, &input_bytes_left, &outptr, &output_bytes_left);
+    //if (result == (size_t)(-1)) {
+      // Handle situation that an invalid multibyte sequence is encountered in the input.
+      // In this case the input pointer is left pointing to
+      // the beginning of the invalid multibyte sequence.
+      //if (errno == EILSEQ) {
+      //  int one = 1;
+      //  iconvctl (conversion_descriptor, ICONV_SET_DISCARD_ILSEQ, &one);
+      //} else if (errno == EINVAL) {
+      //  int one = 1;
+      //  iconvctl (conversion_descriptor, ICONV_SET_DISCARD_ILSEQ, &one);
+      //} else if (errno == E2BIG) {
+      //  input_bytes_left = 0;
+      //} else {
+      //  input_bytes_left = 0;
+      //}
+    //}
+  //}
+  
+  // Close the conversion descriptor.
+  //iconv_close(conversion_descriptor);
+  
+  // Assemble the resulting UTF-8 text.
+  //std::string utf8 {};
+  //utf8.assign ((char*)outbuf, outbuf_size - output_bytes_left);
+  
+  // Handle weird conversions.
+  //utf8 = filter_string_str_replace ("ï¿½", "'", utf8);
+  
+  // Pass it to the caller.
+  //return utf8;
 }

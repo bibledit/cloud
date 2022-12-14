@@ -1615,7 +1615,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // Notice the missing quotes around the class name.
     // Call libtidy to further tidy this heml up.
     html = filter_string_fix_invalid_html_tidy (html);
-    
+
     // The document has one main div like this:
     // <div class="Section1">
     // Or: <div class="WordSection1"> like in Exodus.
@@ -1700,8 +1700,12 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
           }
         }
 
-        // If still at the correct verse, add the paragraph text.
+        // If still at the correct verse, add the contents.
         if (at_passage) {
+          // The html from this website is encoded as charset=windows-1252.
+          // Convert that to UTF0-8.
+          paragraph = convert_windows1252_to_utf8 (paragraph);
+          // Add this paragraph to the resulting text.
           result.append ("<p>");
           result.append (paragraph);
           result.append ("</p>");

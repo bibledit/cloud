@@ -672,4 +672,11 @@ R"(<html>
     result = unescape_special_xml_characters ("&quot; &quot;");
     evaluate (__LINE__, __func__, standard, result);
   }
+  
+  // Test conversion from Windows-1252 encoding to UTF-8 encoding.
+  {
+    std::string input = "Windows 1252";
+    std::string output = convert_windows1252_to_utf8 (input);
+    evaluate (__LINE__, __func__, input, output);
+  }
 }

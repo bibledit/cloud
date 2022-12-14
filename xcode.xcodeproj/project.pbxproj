@@ -72,6 +72,7 @@
 		CA55F19E277B941D00673C9E /* mmfile.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D24D277B6D74000EC1CA /* mmfile.cxx */; };
 		CA55F19F277B943E00673C9E /* base64.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D22B277B6D74000EC1CA /* base64.cxx */; };
 		CA74778827F7516F00192B66 /* note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA74778627F7376700192B66 /* note.cpp */; };
+		CA7540A92946290F0043BE37 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7540A8294628EA0043BE37 /* libiconv.tbd */; };
 		CA77112627523B94003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50525EED7B500650B41 /* index.cpp */; };
 		CA77112727523C07003ADD67 /* verse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50425EED7B500650B41 /* verse.cpp */; };
 		CA77112827523C15003ADD67 /* update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADD5A392630A3F5003AAB27 /* update.cpp */; };
@@ -722,6 +723,7 @@
 		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CA4A54212742E621009A0343 /* easyenglishbible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = easyenglishbible.h; sourceTree = "<group>"; };
 		CA4A54222742E621009A0343 /* easyenglishbible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = easyenglishbible.cpp; sourceTree = "<group>"; };
+		CA4CA5432946111900939907 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../opt/local/lib/libiconv.2.dylib; sourceTree = "<group>"; };
 		CA60BF2925337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA60BF2B25337938004D6E06 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA60BF2C25337938004D6E06 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
@@ -843,6 +845,7 @@
 		CA74D259277B6D74000EC1CA /* utils.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cxx; sourceTree = "<group>"; };
 		CA74D25A277B6D74000EC1CA /* contentdisposition.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = contentdisposition.cxx; sourceTree = "<group>"; };
 		CA74D25C277B6D74000EC1CA /* mimeversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mimeversion.h; sourceTree = "<group>"; };
+		CA7540A8294628EA0043BE37 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.67.1.dylib; path = ../../../../opt/local/lib/libicui18n.67.1.dylib; sourceTree = "<group>"; };
 		CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.67.1.dylib; path = ../../../../opt/local/lib/libicuuc.67.1.dylib; sourceTree = "<group>"; };
 		CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.67.1.dylib; path = ../../../../opt/local/lib/libicudata.67.1.dylib; sourceTree = "<group>"; };
@@ -2768,6 +2771,7 @@
 				CA300E0729059C4800775963 /* libicudata.71.1.dylib in Frameworks */,
 				CAD085AF2904405B00226A66 /* libgumbo.1.dylib in Frameworks */,
 				CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */,
+				CA7540A92946290F0043BE37 /* libiconv.tbd in Frameworks */,
 				CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */,
 				CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */,
 				CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */,
@@ -6033,6 +6037,8 @@
 		CADE475524F1786C003165BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA7540A8294628EA0043BE37 /* libiconv.tbd */,
+				CA4CA5432946111900939907 /* libiconv.2.dylib */,
 				CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */,
 				CABD0EA52916F508007D21D0 /* libtidy.5.8.0.dylib */,
 				CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */,
@@ -6092,7 +6098,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = Bibledit;
 				TargetAttributes = {
 					CA18ADBE24F169DA00FF603C = {
@@ -6768,6 +6774,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -6830,6 +6837,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -6875,6 +6883,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cloud-macos.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L37WFUB5MH;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -6931,6 +6940,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cloud-macos.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L37WFUB5MH;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

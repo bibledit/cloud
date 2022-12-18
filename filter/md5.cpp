@@ -32,7 +32,13 @@ string md5 (const string str)
   char hexits [32+1];
 
   memset (hexits, 0, sizeof (hexits));
-  for (int i = 0; i < 16; i++) sprintf (&hexits[i*2], "%02x", static_cast<unsigned int>(md5sum[i]));
+  for (int i = 0; i < 16; i++) {
+    // sprintf (&hexits[i*2], "%02x", static_cast<unsigned int>(md5sum[i]));
+    // Function sprintf is marked as deprecated.
+    // Due to security concerns inherent in the design of sprintf(3),
+    // it now uses snprintf(3) instead.
+    snprintf (&hexits[i*2], 3, "%02x", static_cast<unsigned int>(md5sum[i]));
+  }
   
   // Resulting hexits.
   return string (hexits);

@@ -659,8 +659,6 @@ COMPILERGCC_FALSE
 COMPILERGCC_TRUE
 PUGIXML_LIBS
 PUGIXML_CFLAGS
-TIDY_LIBS
-TIDY_CFLAGS
 GUMBO_LIBS
 GUMBO_CFLAGS
 UTF8PROC_LIBS
@@ -821,8 +819,6 @@ UTF8PROC_CFLAGS
 UTF8PROC_LIBS
 GUMBO_CFLAGS
 GUMBO_LIBS
-TIDY_CFLAGS
-TIDY_LIBS
 PUGIXML_CFLAGS
 PUGIXML_LIBS'
 
@@ -1496,8 +1492,6 @@ Some influential environment variables:
   GUMBO_CFLAGS
               C compiler flags for GUMBO, overriding pkg-config
   GUMBO_LIBS  linker flags for GUMBO, overriding pkg-config
-  TIDY_CFLAGS C compiler flags for TIDY, overriding pkg-config
-  TIDY_LIBS   linker flags for TIDY, overriding pkg-config
   PUGIXML_CFLAGS
               C compiler flags for PUGIXML, overriding pkg-config
   PUGIXML_LIBS
@@ -7387,79 +7381,9 @@ fi
 
 
 # Check the tidy library  whether available.
-
-pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for tidy >= 5.4.0" >&5
-printf %s "checking for tidy >= 5.4.0... " >&6; }
-
-if test -n "$TIDY_CFLAGS"; then
-    pkg_cv_TIDY_CFLAGS="$TIDY_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"tidy >= 5.4.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "tidy >= 5.4.0") 2>&5
-  ac_status=$?
-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_TIDY_CFLAGS=`$PKG_CONFIG --cflags "tidy >= 5.4.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$TIDY_LIBS"; then
-    pkg_cv_TIDY_LIBS="$TIDY_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"tidy >= 5.4.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "tidy >= 5.4.0") 2>&5
-  ac_status=$?
-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_TIDY_LIBS=`$PKG_CONFIG --libs "tidy >= 5.4.0" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        TIDY_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "tidy >= 5.4.0" 2>&1`
-        else
-	        TIDY_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "tidy >= 5.4.0" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$TIDY_PKG_ERRORS" >&5
-
-	as_fn_error $? "The tidy library development version >= 5.4.0 is needed." "$LINENO" 5
-elif test $pkg_failed = untried; then
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-	as_fn_error $? "The tidy library development version >= 5.4.0 is needed." "$LINENO" 5
-else
-	TIDY_CFLAGS=$pkg_cv_TIDY_CFLAGS
-	TIDY_LIBS=$pkg_cv_TIDY_LIBS
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-
-fi
-
-
+# PKG_CHECK_MODULES(TIDY, tidy >= 5.4.0,,AC_MSG_ERROR(The tidy library development version >= 5.4.0 is needed.))
+# AC_SUBST(TIDY_CFLAGS)
+# AC_SUBST(TIDY_LIBS)
 
 # Check the pugixml library whether available.
 

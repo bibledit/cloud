@@ -144,9 +144,9 @@ AC_SUBST(GUMBO_CFLAGS)
 AC_SUBST(GUMBO_LIBS)
 
 # Check the tidy library  whether available.
-PKG_CHECK_MODULES(TIDY, tidy >= 5.4.0,,AC_MSG_ERROR(The tidy library development version >= 5.4.0 is needed.))
-AC_SUBST(TIDY_CFLAGS)
-AC_SUBST(TIDY_LIBS)
+# PKG_CHECK_MODULES(TIDY, tidy >= 5.4.0,,AC_MSG_ERROR(The tidy library development version >= 5.4.0 is needed.))
+# AC_SUBST(TIDY_CFLAGS)
+# AC_SUBST(TIDY_LIBS)
 
 # Check the pugixml library whether available.
 PKG_CHECK_MODULES(PUGIXML, pugixml >= 1.10, AC_DEFINE(HAVE_PUGIXML, 1, Define whether pugixml is available), AC_MSG_NOTICE(pugixml development version >= 1.10 is beneficial to have.))

@@ -38,6 +38,8 @@ without permission errors. The following three files are needed:
 * The server key: privkey.pem
 * The server certificate: cert.pem
 * The chain of trusted certificate authorities: chain.pem
+To set the permissions you can run this as root:
+$ chmod ogo+r /var/bibledit/bibledit-cloud/config/*.pem
 
 After the certificates have been copied, restart Bibledit Cloud. It will then load the new certificates.
 

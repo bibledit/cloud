@@ -1936,9 +1936,6 @@ msgstr "Não havia recursos instalados para fazer um arquivo."
 msgid "Install some resources on the device, and try again."
 msgstr "Instale alguns recursos no dispositivo e tente novamente."
 
-msgid "Inilah hasil terjemahan Saudara:"
-msgstr "Inilah hasil terjemahan Saudara:"
-
 msgid ": "
 msgstr ": "
 

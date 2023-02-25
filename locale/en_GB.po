@@ -1901,9 +1901,6 @@ msgstr ""
 msgid "Install some resources on the device, and try again."
 msgstr ""
 
-msgid "Inilah hasil terjemahan Saudara:"
-msgstr ""
-
 msgid ": "
 msgstr ""
 

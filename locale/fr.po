@@ -1999,9 +1999,6 @@ msgstr "Il n'y a pas de ressources installées pour en créer un archive."
 msgid "Install some resources on the device, and try again."
 msgstr "Installez des ressources sur le périphérique, puis réessayez."
 
-msgid "Inilah hasil terjemahan Saudara:"
-msgstr ""
-
 msgid ": "
 msgstr ": "
 

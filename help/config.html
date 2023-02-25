@@ -89,87 +89,105 @@ It will then load the new certificates.
 To restart Bibledit Cloud, run the following command as user root:
 </p>
 <pre>
-  $ chmod ugo+r /var/bibledit/bibledit-cloud/config/*.pem
+  $ systemctl restart bibledit-cloud
 </pre>
-
-
-Todo systemctrl restart, test it.
-Then do to systemctrl status to see whether it works.
-The point to the logging as well, but first create new package that has this logging.
-
-
-<h3></h3>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-
-
-
-
-
-
+<p>
+Step 6: Verify that https works.
+If your Bibledit Cloud is accessible at e.g. http://bibledit.org:8090,
+then the secure version will be accessible at https://bibledit.org:8091.
+Notice that the port number is increased by one.
+Open your Bibledit Cloud in a browser and check that the secure connection works.
+Double check via command "systemctl status bibledit-cloud" that it listens on http://localhost:... and also on https://localhost... If it does not listen on https, then the secure web server does not run due to a problem in the certificates.
+</p>
+<br>
+<p>
+Repeating regular step: Renew the certificates.
+The certificates will expire after a couple of month.
+So every few month or so renew the certificates.
+To do this, run the following command as user root:
+</p>
 <pre>
-
-
-Then once every month or so, renew the certificates.
-Run the following as root:
-$ certbot renew
-Then do some steps again.
-
-
-
-
-
-
-
-To enforce secure http for browser communications, put a file named browser.https in the config folder.
-The file may be empty. Once this file is found, Bibledit Cloud will redirect any incoming http browser traffic to https traffic. Restart Bibledit Cloud for this to take effect.
-
-A file with the name of client.https will enforce https for Bibledit client traffic. It won't redirect incoming http client connections to https though. It will just generate an error on the client connection. The user should manually upgrade the client connection.
-
-
-
-
-
-OpenLDAP server: See file ldap.txt for more information.
-
-
-Network port for http server:
-The default value is 8080.
-Put a different port number in file "network-port".
-The port number entered here is for the plain http.
-
-
-Network port for the https server:
-By default the port number or secure http, https, is the plain port number plus one.
-So the default port number for https is 8081.
-Put a different port number in file "network-port-secure".
-If the file contains a "0", Bibledit won't run its embedded https server.
-
-
-Administrator details: To preset the administrator's account, put the details in the files "admin-username" and "admin-password" and "admin-email", one detail per file.
-
-
-Demo installation: If the file config/demo is present, it behaves as a demo installation.
-
-
-Obfuscating the user interface: See folder obfuscate for more information.
-
-
-Indonesian Cloud Free: If the file config/indonesiancloudfree is present, the Cloud modifies its behaviour in several places, so it can be used as a free Indonesian Bibledit Cloud.
-
-
-After making a change in the configuration, restart Bibledit Cloud, for the new configuration to take effect.
-
-
-Logging all network connections.
-To enable this, put a file "log-network" in the config folder. The file can be left empty.
-If this file is there, Bibledit will log information to file tmp/log-network.csv".
-
-
-
+  $ certbot renew
 </pre>
+<p>
+After that, follow the steps outlined above again:
+3: Copy the certificates to Bibledit Cloud.
+4: Make the certificates readable for Bibledit Cloud.
+5: Restart Bibledit Cloud.
+6: Verify that https works.
+</p>
+<br>
+<p>
+To enforce secure http for browser communications,
+put a file named "browser.https" in the "config" folder.
+The file can be left empty.
+Once Bibledit Cloud finds this file,
+it will redirect any incoming http browser traffic to https traffic.
+Restart Bibledit Cloud for this to take effect.
+</p>
+<br>
+<p>
+A file named "client.https" will enforce https for Bibledit client traffic.
+It won't redirect incoming http client connections to https though.
+It will just generate an error on the client connection.
+The user should manually upgrade the client connection.
+</p>
+
+<h3>Web server port numbers</h3>
+<p>
+The default network port number for the plain http server is port number 8080.
+To change the port number to another one,
+put a different port number in file "network-port" in the "config" folder.
+</p>
+<br>
+<p>
+The default network port number for the secure https server is port number 8081.
+This port number is the plain http port number plus one.
+To change the port number to another one,
+put a different port number in file "network-port-secure" in the "config" folder.
+If the file contains "0", Bibledit Cloud won't run its secure https server.
+</p>
+
+<h3>Administrator details</h3>
+<p>
+To preset the administrator's account,
+put the following three files in the "config" folder.
+The files "admin-username" and "admin-password" and "admin-email".
+Store one detail in each file.
+</p>
+
+<h3>Demo</h3>
+<p>
+If the file "demo" is in the "config" folder,
+then Bibledit Cloud behaves as a demo installation.
+</p>
+
+<h3>Obfuscating the user interface</h3>
+<p>
+The user interface can be obfuscated.
+See folder "obfuscate" in the source code for more information.
+</p>
+
+<h3>Indonesian Cloud Free</h3>
+<p>
+If the file "indonesiancloudfree" is present in the "config" folder,
+then Bibledit Cloud modifies its behaviour in several places.
+It can then be used as a free Indonesian Bibledit Cloud.
+</p>
+
+<h3>When changes take effect</h3>
+<p>
+After making a change in the files in the "config" folder,
+restart Bibledit Cloud, for the new configuration to take effect.
+</p>
+
+<h3>Logging all network connections</h3>
+<p>
+Bibledit Cloud can log all network connections.
+To enable this, put a file "log-network" in the "config" folder.
+The file can be left empty.
+If this file is there,
+Bibledit Cloud will log information to file "tmp/log-network.csv".
+</p>
+
 <script type="text/javascript" src="../assets/external.js"></script>

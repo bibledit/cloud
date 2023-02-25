@@ -56,12 +56,12 @@ bool help_index_acl (void * webserver_request)
 
 string help_index (void * webserver_request, const string& url)
 {
-  string page;
+  string page {};
 
   Assets_Header header = Assets_Header (translate("Help"), webserver_request);
   page = header.run ();
 
-  Assets_View view;
+  Assets_View view {};
 
   view.set_variable ("version", config::logic::version ());
 

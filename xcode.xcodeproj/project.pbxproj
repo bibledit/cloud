@@ -630,23 +630,6 @@
 		CA05A59926878ACA000D0737 /* gbs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gbs.h; sourceTree = "<group>"; };
 		CA09D6E52616F089002FDA23 /* quill.notes.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.notes.css; sourceTree = "<group>"; };
 		CA0E3E2529A7F6410072457B /* config.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = config.html; sourceTree = "<group>"; };
-		CA0E3E2629AA565E0072457B /* es.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = es.po; sourceTree = "<group>"; };
-		CA0E3E2729AA565F0072457B /* it.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = it.po; sourceTree = "<group>"; };
-		CA0E3E2829AA565F0072457B /* de.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = de.po; sourceTree = "<group>"; };
-		CA0E3E2929AA565F0072457B /* en_GB.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = en_GB.po; sourceTree = "<group>"; };
-		CA0E3E2A29AA565F0072457B /* fr.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = fr.po; sourceTree = "<group>"; };
-		CA0E3E2B29AA565F0072457B /* kab.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = kab.po; sourceTree = "<group>"; };
-		CA0E3E2C29AA565F0072457B /* ku.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ku.po; sourceTree = "<group>"; };
-		CA0E3E2D29AA565F0072457B /* id.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = id.po; sourceTree = "<group>"; };
-		CA0E3E2E29AA565F0072457B /* lt.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = lt.po; sourceTree = "<group>"; };
-		CA0E3E2F29AA565F0072457B /* cs.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = cs.po; sourceTree = "<group>"; };
-		CA0E3E3029AA565F0072457B /* tr.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = tr.po; sourceTree = "<group>"; };
-		CA0E3E3129AA565F0072457B /* pt_BR.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pt_BR.po; sourceTree = "<group>"; };
-		CA0E3E3229AA565F0072457B /* sv.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = sv.po; sourceTree = "<group>"; };
-		CA0E3E3329AA56600072457B /* pt.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = pt.po; sourceTree = "<group>"; };
-		CA0E3E3429AA56600072457B /* ny.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = ny.po; sourceTree = "<group>"; };
-		CA0E3E3529AA56600072457B /* nl.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = nl.po; sourceTree = "<group>"; };
-		CA0E3E3629AA56600072457B /* af.po */ = {isa = PBXFileReference; lastKnownFileType = text; path = af.po; sourceTree = "<group>"; };
 		CA10382725279F940021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = html2format.cpp; path = editor/html2format.cpp; sourceTree = SOURCE_ROOT; };
 		CA10382825279F940021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = html2format.h; path = editor/html2format.h; sourceTree = SOURCE_ROOT; };
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
@@ -4410,23 +4393,6 @@
 		CADE3CD124F17470003165BB /* locale */ = {
 			isa = PBXGroup;
 			children = (
-				CA0E3E3629AA56600072457B /* af.po */,
-				CA0E3E2F29AA565F0072457B /* cs.po */,
-				CA0E3E2829AA565F0072457B /* de.po */,
-				CA0E3E2929AA565F0072457B /* en_GB.po */,
-				CA0E3E2629AA565E0072457B /* es.po */,
-				CA0E3E2A29AA565F0072457B /* fr.po */,
-				CA0E3E2D29AA565F0072457B /* id.po */,
-				CA0E3E2729AA565F0072457B /* it.po */,
-				CA0E3E2B29AA565F0072457B /* kab.po */,
-				CA0E3E2C29AA565F0072457B /* ku.po */,
-				CA0E3E2E29AA565F0072457B /* lt.po */,
-				CA0E3E3529AA56600072457B /* nl.po */,
-				CA0E3E3429AA56600072457B /* ny.po */,
-				CA0E3E3129AA565F0072457B /* pt_BR.po */,
-				CA0E3E3329AA56600072457B /* pt.po */,
-				CA0E3E3229AA565F0072457B /* sv.po */,
-				CA0E3E3029AA565F0072457B /* tr.po */,
 				CADE3CE824F17470003165BB /* bibledit.pot */,
 				CADE3CDF24F17470003165BB /* logic.cpp */,
 				CADE3CE524F17470003165BB /* logic.h */,

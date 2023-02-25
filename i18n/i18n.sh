@@ -39,6 +39,8 @@ cd $TMP
 if [ $? -ne 0 ]; then exit; fi
 
 
+exit
+
 echo Removing files not to be processed.
 rm -rf autom4te.cache
 rm -rf coloris

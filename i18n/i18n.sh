@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (©) 2003-2022 Teus Benschop.
+# Copyright (©) 2003-2023 Teus Benschop.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ rm -rf pugixml
 rm -rf quill
 rm -rf rangy13
 rm -rf slip
-rm -rf sqlite
+# Todo rm -rf sqlite
 rm -rf stb
 rm -rf sword/*
 rm -rf tmp
@@ -73,7 +73,7 @@ if [ $? -ne 0 ]; then exit; fi
 
 
 echo Transfer translatable strings from the html files to a C++ file.
-g++ -std=c++11 i18n/i18n.cpp
+g++ -std=c++17 -I. -I.. i18n/i18n.cpp
 ./a.out
 rm a.out
 

@@ -164,7 +164,6 @@
 /compare
 /compare/index.html
 /config
-/config/config.txt
 /config/googletranslate.txt
 /config/ldap.txt
 /config/userfacingurl.txt
@@ -376,6 +375,7 @@
 /help/about.html
 /help/changelog.html
 /help/checks.html
+/help/config.html
 /help/consistency.html
 /help/consultations.html
 /help/discussions.html

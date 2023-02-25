@@ -39,8 +39,6 @@ cd $TMP
 if [ $? -ne 0 ]; then exit; fi
 
 
-exit
-
 echo Removing files not to be processed.
 rm -rf autom4te.cache
 rm -rf coloris
@@ -61,7 +59,6 @@ rm -rf pugixml
 rm -rf quill
 rm -rf rangy13
 rm -rf slip
-# Todo rm -rf sqlite
 rm -rf stb
 rm -rf sword/*
 rm -rf tmp

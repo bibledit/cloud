@@ -1,0 +1,175 @@
+<h2>System configuration</h2>
+<p>
+How to configure the Bibledit Cloud server at the system level.
+This article describes several configuration files.
+All of those files reside in the "config" folder of the Bibledit Cloud installation.
+The system administrator does this configuration.
+</p>
+
+<h3>Proxy server</h3>
+<p>
+When Bibledit Cloud runs behind a proxy server,
+Bibledit needs to be configured to know its own web address that faces the user via that proxy.
+The user-facing web address can be set through a configuration file.
+The name of the configuration file is "userfacingurl.conf".
+It contains the web address, for example: "https://bibledit.org:1500/" without the quotes.
+An example configuration file is included in file "userfacingurl.txt".
+</p>
+
+<h3>Secure web server</h3>
+<p>
+Bibledit Cloud can be configured to run a secure web server.
+This https server needs a private key and public certificates.
+The example below uses certificates issued by Let's Encrypt.
+It uses the Certbot for obtaining and maintaining the certificates.
+The example also assumes that Bibledit Cloud is installed on an Ubuntu VPS,
+and that the Apache web server is also installed on that VPS,
+but is not needed and can be disabled.
+If your situation is different,
+<a href="https://certbot.eff.org/docs/" ##external##>the Certbot documentation</a> will provide more information for your specific needs.
+</p>
+<br>
+<p>
+Step 1: Stop and disable the Apache webserver.
+To do this, execute the following two commands as user root:
+</p>
+<pre>
+  $ systemctl stop apache2
+  $ systemctl disable apache2
+</pre>
+<p>
+Step 2: Obtain the certificates.
+To do this, run the following command as user root:
+</p>
+<pre>
+  $ certbot certonly
+</pre>
+<p>
+The Certbot asks how you would like to authenticate with the ACME CA.
+It offers three choices.
+Choose the option to spin up a temporary webserver (standalone).
+Follow the instructions on the screen to request the initial certificates.
+If successful, the certificates will be stored in folder "/etc/letsencrypt/live/yoursite.org"."
+</p>
+<br>
+<p>
+Step 3: Copy the certificates to Bibledit Cloud.
+This example assumes that Bibledit Cloud was installed on Ubuntu from the Bibledit repository.
+To copy the obtained certificates into the correct place in Bibledit Cloud,
+run the following command as user root:
+</p>
+<pre>
+  $ cp /etc/letsencrypt/live/yoursite.org/*.pem /var/bibledit/bibledit-cloud/config
+</pre>
+<p>
+Where it says "yoursite.org" in the above command,
+instead of that enter the name of your own domain where Bibledit Cloud runs.
+The configuration path in this example is "/var/bibledit/bibledit-cloud/config".
+The configuration path for your Bibledit Cloud instance may be different.
+</p>
+<br>
+<p>
+Step 4: Make the certificates readable for Bibledit Cloud.
+The certificates were copied as user root, and Bibledit Cloud runs as user bibledit,
+so the certificates are not automatically readable by Bibledit.
+The three certificate files are:
+The server key in file "privkey.pem".
+The server certificate in file "cert.pem".
+The chain of trusted certificate authorities in file "chain.pem".
+To set the permissions correct, run the following command as user root:
+</p>
+<pre>
+  $ chmod ugo+r /var/bibledit/bibledit-cloud/config/*.pem
+</pre>
+<p>
+Step 5: Restart Bibledit Cloud.
+After the certificates have been copied into place,
+restart Bibledit Cloud.
+It will then load the new certificates.
+To restart Bibledit Cloud, run the following command as user root:
+</p>
+<pre>
+  $ chmod ugo+r /var/bibledit/bibledit-cloud/config/*.pem
+</pre>
+
+
+Todo systemctrl restart, test it.
+Then do to systemctrl status to see whether it works.
+The point to the logging as well, but first create new package that has this logging.
+
+
+<h3></h3>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+
+
+
+
+
+<pre>
+
+
+Then once every month or so, renew the certificates.
+Run the following as root:
+$ certbot renew
+Then do some steps again.
+
+
+
+
+
+
+
+To enforce secure http for browser communications, put a file named browser.https in the config folder.
+The file may be empty. Once this file is found, Bibledit Cloud will redirect any incoming http browser traffic to https traffic. Restart Bibledit Cloud for this to take effect.
+
+A file with the name of client.https will enforce https for Bibledit client traffic. It won't redirect incoming http client connections to https though. It will just generate an error on the client connection. The user should manually upgrade the client connection.
+
+
+
+
+
+OpenLDAP server: See file ldap.txt for more information.
+
+
+Network port for http server:
+The default value is 8080.
+Put a different port number in file "network-port".
+The port number entered here is for the plain http.
+
+
+Network port for the https server:
+By default the port number or secure http, https, is the plain port number plus one.
+So the default port number for https is 8081.
+Put a different port number in file "network-port-secure".
+If the file contains a "0", Bibledit won't run its embedded https server.
+
+
+Administrator details: To preset the administrator's account, put the details in the files "admin-username" and "admin-password" and "admin-email", one detail per file.
+
+
+Demo installation: If the file config/demo is present, it behaves as a demo installation.
+
+
+Obfuscating the user interface: See folder obfuscate for more information.
+
+
+Indonesian Cloud Free: If the file config/indonesiancloudfree is present, the Cloud modifies its behaviour in several places, so it can be used as a free Indonesian Bibledit Cloud.
+
+
+After making a change in the configuration, restart Bibledit Cloud, for the new configuration to take effect.
+
+
+Logging all network connections.
+To enable this, put a file "log-network" in the config folder. The file can be left empty.
+If this file is there, Bibledit will log information to file tmp/log-network.csv".
+
+
+
+</pre>
+<script type="text/javascript" src="../assets/external.js"></script>

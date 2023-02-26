@@ -49,7 +49,9 @@ The Certbot asks how you would like to authenticate with the ACME CA.
 It offers three choices.
 Choose the option to spin up a temporary webserver (standalone).
 Follow the instructions on the screen to request the initial certificates.
-If successful, the certificates will be stored in folder "/etc/letsencrypt/live/yoursite.org"."
+If successful, the certificates will be stored in folder "/etc/letsencrypt/live/yoursite.org".
+If not successful, you might have to open port 80 on your VPS for inbound connections.
+This could be done with command "ufw allow 80/tcp".
 </p>
 <br>
 <p>

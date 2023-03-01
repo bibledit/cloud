@@ -1323,6 +1323,24 @@ void Database_Config_User::setPrivilegeDeleteConsultationNotesForUser (string us
 }
 
 
+const char * privilege_set_stylesheets_key ()
+{
+  return "privilege-set-stylesheets";
+}
+bool Database_Config_User::getPrivilegeSetStylesheets ()
+{
+  return getBValue (privilege_set_stylesheets_key (), false);
+}
+bool Database_Config_User::getPrivilegeSetStylesheetsForUser (string username)
+{
+  return getBValueForUser (username, privilege_set_stylesheets_key (), false);
+}
+void Database_Config_User::setPrivilegeSetStylesheetsForUser (string username, bool value)
+{
+  setBValueForUser (username, privilege_set_stylesheets_key (), value);
+}
+
+
 bool Database_Config_User::getDismissChangesAtTop ()
 {
   return getBValue ("dismiss-changes-at-top", false);

@@ -110,6 +110,22 @@ bool privilege_use_advanced_mode (void * webserver_request, string user)
 }
 
 
+int set_stylesheets_role ()
+{
+  return Filter_Roles::manager ();
+}
+
+
+bool privilege_set_stylesheets (void * webserver_request, string user)
+{
+  int level {0};
+  user_level (webserver_request, user, level);
+  if (level >= set_stylesheets_role ()) return true;
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  return request->database_config_user ()->getPrivilegeSetStylesheetsForUser (user);
+}
+
+
 void user_level (void * webserver_request, string & user, int & level)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);

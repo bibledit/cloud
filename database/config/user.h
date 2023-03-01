@@ -216,6 +216,9 @@ public:
   void setPrivilegeDeleteConsultationNotes (bool value);
   bool getPrivilegeDeleteConsultationNotesForUser (std::string username);
   void setPrivilegeDeleteConsultationNotesForUser (std::string username, bool value);
+  bool getPrivilegeEditStylesheets ();
+  bool getPrivilegeEditStylesheetsForUser (std::string username);
+  void setPrivilegeEditStylesheetsForUser (std::string username, bool value);
   bool getDismissChangesAtTop ();
   void setDismissChangesAtTop (bool value);
   bool getQuickNoteEditLink ();

@@ -567,17 +567,17 @@ void Database_Config_General::setTranslatedResources (vector <string> values)
 }
 
 
-const char * active_resources_key ()
+const char * default_active_resources_key ()
 {
-  return "active-resources";
+  return "default-active-resources";
 }
-vector <string> Database_Config_General::getActiveResources ()
+vector <string> Database_Config_General::getDefaultActiveResources ()
 {
-  return getList (active_resources_key ());
+  return getList (default_active_resources_key ());
 }
-void Database_Config_General::setActiveResources (vector <string> values)
+void Database_Config_General::setDefaultActiveResources (vector <string> values)
 {
-  setList (active_resources_key (), values);
+  setList (default_active_resources_key (), values);
 }
 
 

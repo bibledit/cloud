@@ -141,8 +141,8 @@ public:
   static std::vector <std::string> getTranslatedResources ();
   static void setTranslatedResources (std::vector <std::string> values);
 
-  static std::vector <std::string> getActiveResources ();
-  static void setActiveResources (std::vector <std::string> values);
+  static std::vector <std::string> getDefaultActiveResources ();
+  static void setDefaultActiveResources (std::vector <std::string> values);
 
   static std::vector <std::string> getAccountCreationTimes ();
   static void setAccountCreationTimes (std::vector <std::string> values);

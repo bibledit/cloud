@@ -5,6 +5,13 @@
 <p class="error">##error##</p>
 <p><a href="index">[translate("back")]</a></p>
 <br>
+<!-- #BEGINZONE defaultresources -->
+<p>translate("There are a default selection of resources that your administrator has compiled.")</p>
+<p><a href="?applydefaultresources">translate("Apply these selection to your selection of resources?")</a><span class="tooltip"></span>
+<span class="tooltip-text">translate("WARNING! This will rewrite your selection of resources.")</span>
+</p>
+<br>
+<!-- #ENDZONE defaultresources -->
 <div id="list" class="slippylist">
 ##activesblock##
 </div>
@@ -15,6 +22,20 @@
 <p>translate("Number of verses to display after the focused verse:") <a href="?after">##after##</a></p>
 <p><input type="checkbox" name="related" onchange="checkbox_v2(this)" ##related## />
 translate("Display related passages")</p>
+<br>
+<!-- #BEGINZONE defaultresourceorganizer -->
+<h3>translate("Default Resource Organizer")<span class="tooltip"></span>
+<span class="tooltip-text">translate("You can reorder the resources below by holding, then dragging and dropping.")</span>
+</h3>
+<p>translate("As an administrator, you can organize default resources for your team.")</p>
+<br>
+<div id="list" class="slippylist">
+##defactivesblock##
+</div>
+<br>
+<p><a href="select?page=view&type=def">➕</a></p>
+<br>
+<!-- #ENDZONE defaultresourceorganizer -->
 <!-- #BEGINZONE client -->
 <p><a href="?install">translate("Install all the above resources on the device.")</a></p>
 <!-- #ENDZONE client -->

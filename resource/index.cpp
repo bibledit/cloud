@@ -32,6 +32,7 @@
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <config/globals.h>
+#include <database/config/general.h>
 using namespace std;
 
 
@@ -69,8 +70,15 @@ string resource_index (void * webserver_request)
 
 
   // If no resources are displayed, set a default selection of them.
+  // If a default selection hasn't been set by an administrator, use the
+  // default set from demo.
   if (resources.empty ()) {
-    resources = demo_logic_default_resources ();
+    vector <string> default_resources = Database_Config_General::getDefaultActiveResources ();
+    if (default_resources.empty ()) {
+      resources = demo_logic_default_resources ();
+      Database_Config_General::setDefaultActiveResources (resources);
+    }
+    else resources = default_resources;
     request->database_config_user()->setActiveResources (resources);
   }
 

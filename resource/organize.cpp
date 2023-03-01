@@ -60,6 +60,12 @@ string resource_organize (void * webserver_request)
   string checkbox = request->post ["checkbox"];
   bool checked = convert_to_bool (request->post ["checked"]);
 
+
+  // For administrator level default resource management purposes.
+  int level = request->session_logic()->currentLevel ();
+  bool is_def = false;
+  if (request->query["type"] == "def") is_def = true;
+
   
   // Deal with a new added resources.
   if (request->query.count ("add") || request->post.count ("add")) {
@@ -67,14 +73,17 @@ string resource_organize (void * webserver_request)
     if (add.empty ()) add = request->post ["add"];
     if (add == resource_logic_rich_divider ()) {
       // Navigate to the page to set up the rich divider.
-      redirect_browser (webserver_request, resource_divider_url ());
+      if (is_def) redirect_browser (webserver_request, filter_url_build_http_query (resource_divider_url (), "type", "def"));
+      else redirect_browser (webserver_request, resource_divider_url ());
       return "";
     } else {
       // Add the new resource to the existing list of resources for the current user.
       vector <string> resources = request->database_config_user()->getActiveResources ();
+      if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
       resources.push_back (add);
-      request->database_config_user()->setActiveResources (resources);
-      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+      if (is_def) Database_Config_General::setDefaultActiveResources (resources);
+      else request->database_config_user()->setActiveResources (resources);
+      if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
     }
   }
   
@@ -82,11 +91,13 @@ string resource_organize (void * webserver_request)
   if (request->query.count ("remove")) {
     int remove = convert_to_int (request->query["remove"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
+    if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
     if (remove < static_cast<int>(resources.size ())) {
       resources.erase (resources.begin () + remove);
     }
-    request->database_config_user()->setActiveResources (resources);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+    if (is_def) Database_Config_General::setDefaultActiveResources (resources);
+    else request->database_config_user()->setActiveResources (resources);
+    if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
   }
 
   
@@ -97,9 +108,11 @@ string resource_organize (void * webserver_request)
       size_t from = static_cast<size_t> (convert_to_int (movefrom));
       size_t to = static_cast<size_t>(convert_to_int (moveto));
       vector <string> resources = request->database_config_user()->getActiveResources ();
+      if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
       array_move_from_to (resources, from, to);
-      request->database_config_user()->setActiveResources (resources);
-      request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+      if (is_def) Database_Config_General::setDefaultActiveResources (resources);
+      else request->database_config_user()->setActiveResources (resources);
+      if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
     }
     return "";
   }
@@ -109,6 +122,35 @@ string resource_organize (void * webserver_request)
   Assets_Header header = Assets_Header (translate("Resources"), request);
   page = header.run ();
   Assets_View view;
+
+
+  // If the user is with an administrator access level, he can set default
+  // resources for the users with lower access levels.
+  if (level == 6) view.enable_zone ("defaultresourceorganizer");
+
+
+  // If the user is with less than an administrator access level and an
+  // administrator has compiled a default selection of resources, the user can
+  // apply that compiled selection of resources.
+  if (level < 6 && !Database_Config_General::getDefaultActiveResources ().empty ()) view.enable_zone ("defaultresources");
+
+
+  // Default active resources.
+  if (level == 6) {
+    vector <string> default_active_resources = Database_Config_General::getDefaultActiveResources ();
+    string defactivesblock;
+    for (size_t i = 0; i < default_active_resources.size (); i++) {
+      defactivesblock.append ("<p>&#183; ");
+      defactivesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "&type=def\">");
+      defactivesblock.append (emoji_wastebasket ());
+      defactivesblock.append ("</a>");
+      defactivesblock.append (" ");
+      defactivesblock.append (default_active_resources [i]);
+      defactivesblock.append ("</p>");
+      defactivesblock.append ("\n");
+    }
+    view.set_variable ("defactivesblock", defactivesblock);
+  }
 
   
   // Active resources.
@@ -162,6 +204,14 @@ string resource_organize (void * webserver_request)
     return "";
   }
   view.set_variable ("related", get_checkbox_status (request->database_config_user ()->getIncludeRelatedPassages ()));
+
+
+  // For users with lower than administrator access levels, they can use
+  // recommended resources that has been set by the administrator.
+  if (request->query.count ("applydefaultresources")) {
+    request->database_config_user ()->setActiveResources (Database_Config_General::getDefaultActiveResources ());
+    view.set_variable ("success", translate ("Default selection of resources has been added to your resource list."));
+  }
 
   
   if (request->query.count ("install")) {

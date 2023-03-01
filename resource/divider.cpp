@@ -30,6 +30,7 @@
 #include <tasks/logic.h>
 #include <webserver/request.h>
 #include <journal/index.h>
+#include <database/config/general.h>
 #include <database/config/user.h>
 #include <database/logs.h>
 #include <database/volatile.h>
@@ -72,6 +73,12 @@ string resource_divider (void * webserver_request)
 
   int userid = filter_string_user_identifier (webserver_request);
   string key = "rich divider";
+
+
+  // For administrator level default resource management purposes.
+  bool is_def = false;
+  if (request->query["type"] == "def") is_def = true;
+  if (is_def) view.set_variable("type", "def");
   
 
   // Start off with default comparative resource.
@@ -108,6 +115,7 @@ string resource_divider (void * webserver_request)
   // The divider's title.
   if (request->query.count ("title")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("divider", translate("Please enter the title for the divider"), title, "title", "");
+    if (is_def) dialog_entry.add_query ("type", request->query["type"]);
     page += dialog_entry.run ();
     return page;
   }
@@ -120,6 +128,7 @@ string resource_divider (void * webserver_request)
   // The divider's link.
   if (request->query.count ("link")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("divider", translate("Please enter the link for the divider"), link, "link", "");
+    if (is_def) dialog_entry.add_query ("type", request->query["type"]);
     page += dialog_entry.run ();
     return page;
   }
@@ -133,6 +142,7 @@ string resource_divider (void * webserver_request)
   if (request->query.count ("foreground")) {
     Dialog_Color dialog_color = Dialog_Color ("divider", translate("Please specify a new color"));
     dialog_color.add_query ("foreground2", "true");
+    if (is_def) dialog_color.add_query ("type", request->query["type"]);
     page += dialog_color.run ();
     return page;
   }
@@ -151,6 +161,7 @@ string resource_divider (void * webserver_request)
   if (request->query.count ("background")) {
     Dialog_Color dialog_color = Dialog_Color ("divider", translate("Please specify a new color"));
     dialog_color.add_query ("background2", "true");
+    if (is_def) dialog_color.add_query ("type", request->query["type"]);
     page += dialog_color.run ();
     return page;
   }
@@ -175,9 +186,11 @@ string resource_divider (void * webserver_request)
   // Add it to the existing resources.
   if (request->query.count ("add")) {
     vector <string> resources = request->database_config_user()->getActiveResources ();
+    if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
     resources.push_back (divider);
-    request->database_config_user()->setActiveResources (resources);
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+    if (is_def) Database_Config_General::setDefaultActiveResources (resources);
+    else request->database_config_user()->setActiveResources (resources);
+    if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
     redirect_browser (request, resource_organize_url ());
     return "";
   }

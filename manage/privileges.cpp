@@ -137,12 +137,12 @@ string manage_privileges (void * webserver_request)
   
   // Privilege to be able to edit and set stylesheets.
   if (checkbox == "editstylesheets") {
-    request->database_config_user ()->setPrivilegeEditStylesheetsForUser (user, checked); // Todo
+    request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, checked);
   }
-  if (level >= access_logic::edit_stylesheets_role ()) {
+  if (level >= access_logic::set_stylesheets_role ()) {
     view.set_variable ("editstylesheetsdisabled", get_disabled (true));
   }
-  state = access_logic::privilege_edit_stylesheets (webserver_request, user);
+  state = access_logic::privilege_set_stylesheets (webserver_request, user);
   view.set_variable ("editstylesheetschecked", get_checkbox_status (state));
 
   

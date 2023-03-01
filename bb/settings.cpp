@@ -45,6 +45,7 @@
 #include <tasks/logic.h>
 #include <system/index.h>
 #include <rss/logic.h>
+#include <access/logic.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
@@ -98,6 +99,12 @@ string bible_settings (void * webserver_request)
   // Whether the user has write access to this Bible.
   bool write_access = access_bible::write (request, bible);
   if (write_access) view.enable_zone ("write_access");
+  
+  
+  // Whether the user has the privilege to change the stylesheet.
+  string current_user = request->session_logic()->currentUser ();
+  bool privilege_stylesheet = access_logic::privilege_set_stylesheets (webserver_request, current_user);
+  if (privilege_stylesheet) view.enable_zone ("privilege_stylesheet");
 
   
   // The state of the checkbox.

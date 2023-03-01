@@ -1332,21 +1332,21 @@ void Database_Config_User::setPrivilegeDeleteConsultationNotesForUser (string us
 }
 
 
-const char * privilege_edit_stylesheets_key ()
+const char * privilege_set_stylesheets_key ()
 {
-  return "privilege-edit-stylesheets";
+  return "privilege-set-stylesheets";
 }
-bool Database_Config_User::getPrivilegeEditStylesheets ()
+bool Database_Config_User::getPrivilegeSetStylesheets ()
 {
-  return getBValue (privilege_edit_stylesheets_key (), false);
+  return getBValue (privilege_set_stylesheets_key (), false);
 }
-bool Database_Config_User::getPrivilegeEditStylesheetsForUser (string username)
+bool Database_Config_User::getPrivilegeSetStylesheetsForUser (string username)
 {
-  return getBValueForUser (username, privilege_edit_stylesheets_key (), false);
+  return getBValueForUser (username, privilege_set_stylesheets_key (), false);
 }
-void Database_Config_User::setPrivilegeEditStylesheetsForUser (string username, bool value)
+void Database_Config_User::setPrivilegeSetStylesheetsForUser (string username, bool value)
 {
-  setBValueForUser (username, privilege_edit_stylesheets_key (), value);
+  setBValueForUser (username, privilege_set_stylesheets_key (), value);
 }
 
 

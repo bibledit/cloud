@@ -42,8 +42,8 @@ bool privilege_delete_consultation_notes (void * webserver_request, std::string 
 int use_advanced_mode_role ();
 bool privilege_use_advanced_mode (void * webserver_request, std::string user = std::string());
 
-int edit_stylesheets_role ();
-bool privilege_edit_stylesheets (void * webserver_request, std::string user = std::string());
+int set_stylesheets_role ();
+bool privilege_set_stylesheets (void * webserver_request, std::string user = std::string());
 
 void user_level (void * webserver_request, std::string & user, int & level);
 void create_client_files ();

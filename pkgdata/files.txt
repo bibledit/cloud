@@ -477,6 +477,7 @@
 /manage/privileges.html
 /manage/privileges.js
 /manage/users.html
+/manage/users.js
 /manage/write.html
 /man/bibledit.1
 /mapping

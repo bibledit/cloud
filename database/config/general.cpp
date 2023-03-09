@@ -608,3 +608,16 @@ void Database_Config_General::setKeepResourcesCacheForLong (bool value)
   setBValue (keep_resources_cache_for_long_key (), value);
 }
 
+
+const char * default_new_user_access_level_key ()
+{
+  return "default-new-user-access-level";
+}
+int Database_Config_General::getDefaultNewUserAccessLevel ()
+{
+  return getIValue (default_new_user_access_level_key (), 2);
+}
+void Database_Config_General::setDefaultNewUserAccessLevel (int value)
+{
+  setIValue (default_new_user_access_level_key (), value);
+}

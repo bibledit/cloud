@@ -150,6 +150,9 @@ public:
   static bool getKeepResourcesCacheForLong ();
   static void setKeepResourcesCacheForLong (bool value);
 
+  static int getDefaultNewUserAccessLevel ();
+  static void setDefaultNewUserAccessLevel (int value);
+
 private:
   static std::string file (const char * key);
   static std::string getValue (const char * key, const char * default_value);

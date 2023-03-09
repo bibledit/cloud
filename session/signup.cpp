@@ -20,6 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
+#include <access/logic.h>
+#include <database/config/general.h>
+#include <database/privileges.h>
 #include <session/login.h>
 #include <locale/translate.h>
 #include <webserver/request.h>
@@ -277,13 +280,23 @@ string session_signup ([[maybe_unused]] void * webserver_request)
         initial_body = output.str ();
       }
       string query;
-      if (config::logic::default_bibledit_configuration ()) {
-        query = database_users.add_userQuery (user, pass, Filter_Roles::member (), mail);
+
+      // Set the role of the new signing up user, it is set as member if no
+      // default has been set by an administrator.
+      int role = Database_Config_General::getDefaultNewUserAccessLevel ();
+
+      query = database_users.add_userQuery (user, pass, role, mail);
+
+      // Set default privileges on new signing up user.
+      vector <string> defusers = {"defaultguest", "defaultmember", "defaulttranslator", "defaultconsultant", "defaultmanager"};
+      vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
+      // Subtract one as guest is identified by 0 instead of 1 in the vector.
+      string default_username = defusers[(unsigned)(long)(unsigned)role - 1];
+      for (bool privilege : privileges) {
+        bool state = Database_Privileges::getFeature (default_username, privilege);
+        Database_Privileges::setFeature (user, privilege, state);
       }
-      if (config::logic::indonesian_cloud_free ()) {
-        // The Indonesian free Cloud new account should have the consultant role for things to work well.
-        query = database_users.add_userQuery (user, pass, Filter_Roles::consultant (), mail);
-      }
+
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.
       string subsequent_subject = translate("Account opened");

@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/header.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/list2.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
@@ -36,6 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/login.h>
 #include <database/noteassignment.h>
 #include <access/user.h>
+#include <access/logic.h>
 #include <locale/translate.h>
 #include <notes/logic.h>
 #include <menu/logic.h>
@@ -76,6 +78,25 @@ string manage_users (void * webserver_request)
 
 
   int myLevel = request->session_logic ()->currentLevel ();
+
+
+  // Set the default new user role.
+  if (request->post.count ("defaultacl")) {
+    int defaultacl = convert_to_int (request->post ["defaultacl"]);
+    Database_Config_General::setDefaultNewUserAccessLevel(defaultacl);
+    assets_page::success (translate("The default new user is changed."));
+  }
+
+
+  // Set the chosen default new user role on the option HTML tag.
+  string default_acl = convert_to_string (Database_Config_General::getDefaultNewUserAccessLevel ());
+  string default_acl_html;
+  default_acl_html = Options_To_Select::add_selection ("Guest", "1", default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Member", "2", default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Consultant", "3", default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Translator", "4", default_acl_html);
+  view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
+  view.set_variable ("defaultacl", default_acl);
   
   
   // New user creation.
@@ -89,7 +110,22 @@ string manage_users (void * webserver_request)
     if (request->database_users ()->usernameExists (user)) {
       page += assets_page::error (translate("User already exists"));
     } else {
-      request->database_users ()->add_user(user, user, Filter_Roles::member (), "");
+
+      // Set the role of the new created user, it is set as member if no
+      // default has been set by an administrator.
+      int role = Database_Config_General::getDefaultNewUserAccessLevel ();
+      request->database_users ()->add_user(user, user, role, "");
+
+      // Set default privileges on new created user.
+      vector <string> defusers = {"defaultguest", "defaultmember", "defaulttranslator", "defaultconsultant", "defaultmanager"};
+      vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
+      // Subtract one as guest is identified by 0 instead of 1 in the vector.
+      string default_username = defusers[(unsigned)(long)(unsigned)role - 1];
+      for (auto & privilege : privileges) {
+        bool state = Database_Privileges::getFeature (default_username, privilege);
+        Database_Privileges::setFeature (user, privilege, state);
+      }
+
       user_logic_store_account_creation (user);
       user_updated = true;
       page += assets_page::success (translate("User created"));
@@ -364,6 +400,8 @@ string manage_users (void * webserver_request)
   if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone("accounts");
   }
+
+  if (request->session_logic()->currentLevel () == Filter_Roles::highest ()) view.enable_zone ("admin_settings");
 
   page += view.render ("manage", "users");
 

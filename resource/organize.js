@@ -16,43 +16,51 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+$(document).ready(function () {
+  function setupSlip(list) {
+    list.addEventListener("slip:beforereorder", function (e) {}, false);
 
-$ (document).ready (function () {
-  function setupSlip (list) {
-    list.addEventListener ('slip:beforereorder', function (e)
-      {
-      }, false);
-    
-    list.addEventListener('slip:beforeswipe', function(e)
-      {
-      }, false);
-    
-    list.addEventListener('slip:beforewait', function(e)
-      {
-        if (e.target.classList.contains('instant'))
-        {
+    list.addEventListener("slip:beforeswipe", function (e) {}, false);
+
+    list.addEventListener(
+      "slip:beforewait",
+      function (e) {
+        if (e.target.classList.contains("instant")) {
           e.preventDefault();
         }
-      }, false);
-    
-    list.addEventListener('slip:afterswipe', function(e)
-      {
+      },
+      false
+    );
+
+    list.addEventListener(
+      "slip:afterswipe",
+      function (e) {
         e.target.parentNode.appendChild(e.target);
-      }, false);
-    
-    list.addEventListener('slip:reorder', function(e)
-      {
-        $.ajax ({
-          url :"organize",
-          type :"POST",
-          data :{ movefrom :e.detail.originalIndex, moveto :e.detail.spliceIndex }
-          });
+      },
+      false
+    );
+
+    list.addEventListener(
+      "slip:reorder",
+      function (e) {
+        $.ajax({
+          url: "organize",
+          type: "POST",
+          data: {
+            movefrom: e.detail.originalIndex,
+            moveto: e.detail.spliceIndex,
+            type: e.target.parentNode.id == "list-def" ? "def" : "no",
+          },
+        });
         e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
-        return(false);
-      }, false);
-    
-    return(new Slip(list));
+        return false;
+      },
+      false
+    );
+
+    return new Slip(list);
   }
-  
-  setupSlip(document.getElementById('list'));
+
+  setupSlip(document.getElementById("list"));
+  setupSlip(document.getElementById("list-def"));
 });

@@ -64,7 +64,7 @@ string resource_organize (void * webserver_request)
   // For administrator level default resource management purposes.
   int level = request->session_logic()->currentLevel ();
   bool is_def = false;
-  if (request->query["type"] == "def") is_def = true;
+  if (request->query["type"] == "def" | request->post["type"] == "def") is_def = true;
 
   
   // Deal with a new added resources.

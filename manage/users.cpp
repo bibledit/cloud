@@ -93,8 +93,6 @@ string manage_users (void * webserver_request)
   string default_acl_html;
   default_acl_html = Options_To_Select::add_selection ("Guest", "1", default_acl_html);
   default_acl_html = Options_To_Select::add_selection ("Member", "2", default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Consultant", "3", default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Translator", "4", default_acl_html);
   view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
   view.set_variable ("defaultacl", default_acl);
   

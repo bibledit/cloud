@@ -206,11 +206,24 @@ string resource_organize (void * webserver_request)
   view.set_variable ("related", get_checkbox_status (request->database_config_user ()->getIncludeRelatedPassages ()));
 
 
-  // For users with lower than administrator access levels, they can use
-  // recommended resources that has been set by the administrator.
+  // For users with lower than administrator access levels, they can replace
+  // their resource list with the recommended resources list that has been set
+  // by the administrator.
   if (request->query.count ("applydefaultresources")) {
     request->database_config_user ()->setActiveResources (Database_Config_General::getDefaultActiveResources ());
-    view.set_variable ("success", translate ("Default selection of resources has been added to your resource list."));
+    view.set_variable ("success", translate ("Your resource list has been replaced by the default selection of resources. You may need to reload the page to see changes."));
+  }
+
+
+  // The same with above, but add the recommended resources to their current
+  // list instead of replacing it.
+  if (request->query.count ("adddefaultresources")) {
+    vector <string> joined_resources = request->database_config_user ()->getActiveResources ();
+    vector <string> default_resources = Database_Config_General::getDefaultActiveResources ();
+    joined_resources.insert(joined_resources.end(), default_resources.begin(), default_resources.end());
+
+    request->database_config_user ()->setActiveResources (joined_resources);
+    view.set_variable ("success", translate ("Default selection of resources has been added to your resource list. You may need to reload the page to see changes."));
   }
 
   

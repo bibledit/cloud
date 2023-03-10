@@ -165,6 +165,7 @@ string resource_select (void * webserver_request)
   if (request->query.count ("lexicon")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true);
     dialog_list.add_query ("page", request->query["page"]);
+    if (is_def) dialog_list.add_query ("type", request->query["type"]);
     vector <string> resources = lexicon_logic_resource_names ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);

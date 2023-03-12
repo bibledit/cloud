@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/roles.h>
 #include <config/globals.h>
 #include <system/index.h>
 #include <database/logic.h>
@@ -615,7 +616,7 @@ const char * default_new_user_access_level_key ()
 }
 int Database_Config_General::getDefaultNewUserAccessLevel ()
 {
-  return getIValue (default_new_user_access_level_key (), 2);
+  return getIValue (default_new_user_access_level_key (), Filter_Roles::member ());
 }
 void Database_Config_General::setDefaultNewUserAccessLevel (int value)
 {

@@ -91,8 +91,8 @@ string manage_users (void * webserver_request)
   // Set the chosen default new user role on the option HTML tag.
   string default_acl = convert_to_string (Database_Config_General::getDefaultNewUserAccessLevel ());
   string default_acl_html;
-  default_acl_html = Options_To_Select::add_selection ("Guest", "1", default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Member", "2", default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Guest", convert_to_string(Filter_Roles::guest()), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Member", convert_to_string(Filter_Roles::member()), default_acl_html);
   view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
   view.set_variable ("defaultacl", default_acl);
   

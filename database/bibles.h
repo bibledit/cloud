@@ -39,13 +39,9 @@ public:
   void optimize ();
 private:
   std::string mainFolder ();
-  std::string icfURL ();
-  std::string icfBibleName ();
 public:
   std::string bibleFolder (std::string bible);
 private:
   std::string bookFolder (std::string bible, int book);
-  std::vector <std::string> icfBooks ();
   std::string chapterFolder (std::string bible, int book, int chapter);
-  std::vector <std::string> icfChapters (int book);
 };

@@ -58,86 +58,10 @@ string Database_Bibles::chapterFolder (string bible, int book, int chapter)
 }
 
 
-// Indonesian Cloud Free
-// The root path for the Bibledit formatted TSI USFM directory tree.
-// It mimics Bibledit's native filesystem database directory structure.
-string Database_Bibles::icfURL ()
-{
-  return "https://raw.githubusercontent.com/aranggitoar/pengolah-usfm-tsi-untuk-bibledit/main/usfm-hasil/";
-}
-
-
-// Indonesian Cloud Free
-// The directory name of the Bibledit formatted TSI USFM.
-string Database_Bibles::icfBibleName ()
-{
-  return "AlkitabKita";
-}
-
-
-// Indonesian Cloud Free
-// The book indexes of the Bibledit formatted TSI USFM.
-vector <string> Database_Bibles::icfBooks ()
-{
-  // Taken from an index file of the Bibledit formatted TSI USFM directory.
-  string url = icfURL () + icfBibleName () + "/index";
-
-  // The fetched HTML is a string of indexes separated by commas.
-  string error;
-  string html = resource_logic_web_or_cache_get(url, error);
-  vector <string> books;
-  string delimiter = ",";
-
-  // Find each comma from the original fetched HTML string,
-  // push back the number before the comma into a vector,
-  // then erase that number and comma from the original fetched HTML string.
-  size_t pos = 0;
-  while ((pos = html.find(delimiter)) != std::string::npos) {
-    books.push_back (html.substr(0, pos));
-    html.erase(0, pos + delimiter.length());
-  }
-
-  // Push back the last Bible book index.
-  books.push_back (filter_string_trim (html));
-
-  return books;
-}
-
-
-// Indonesian Cloud Free
-// The chapter indexes of a chosen book of the Bibledit formatted TSI USFM.
-vector <string> Database_Bibles::icfChapters (int book)
-{
-  // Taken from an index file of the chosen book from the Bibledit formatted
-  // TSI USFM directory.
-  string url = icfURL () + icfBibleName () + "/" + convert_to_string(book) + "/index";
-
-  string error;
-  // The fetched HTML is a string of chapter count of the chosen book.
-  string html = resource_logic_web_or_cache_get(url, error);
-
-  vector <string> chapters;
-
-  // Iterate pushing back the iterated index until its equal to the fetched
-  // chapter count.
-  for (int i = 0; i < convert_to_int (html); i++) {
-    chapters.push_back (convert_to_string(i));
-  }
-
-  return chapters;
-}
-
-
 // Returns an array with the available Bibles.
 vector <string> Database_Bibles::getBibles ()
 {
   vector <string> bibles = filter_url_scandir (mainFolder ());
-  // Indonesian Cloud Free
-  // Return only "AlkitabKita".
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    bibles.clear ();
-    bibles.push_back (icfBibleName ());
-  }
   return bibles;
 }
 
@@ -204,9 +128,6 @@ vector <int> Database_Bibles::getBooks (string bible)
   string folder = bibleFolder (bible);
   vector <int> books {};
   vector <string> files = filter_url_scandir (folder);
-  // Indonesian Cloud Free
-  // Read the books for TSI from the external database.
-  if (config::logic::indonesian_cloud_free_simple ()) files = icfBooks ();
   for (const string & book : files) {
     if (filter_string_is_numeric (book)) {
       books.push_back (convert_to_int (book));
@@ -241,9 +162,6 @@ vector <int> Database_Bibles::getChapters (string bible, int book)
   string folder = bookFolder (bible, book);
   vector <int> chapters;
   vector <string> files = filter_url_scandir (folder);
-  // Indonesian Cloud Free
-  // Read the chapters for TSI from the external database.
-  if (config::logic::indonesian_cloud_free_simple ()) files = icfChapters (book);
   for (string file : files) {
     if (filter_string_is_numeric (file)) chapters.push_back (convert_to_int (file));
   }
@@ -263,15 +181,6 @@ void Database_Bibles::deleteChapter (string bible, int book, int chapter)
 // Gets the chapter data as a string.
 string Database_Bibles::getChapter (string bible, int book, int chapter)
 {
-  // Indonesian Cloud Free
-  // Read the chapter data for TSI from the external database.
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    string filename = "100000001";
-    string url = icfURL () + icfBibleName() + "/" + convert_to_string (book) +  "/" + convert_to_string (chapter) + "/" + filename;
-    string error;
-    string html = resource_logic_web_or_cache_get (url, error);
-    return html;
-  }
   // Read the chapter data from the database.
   string folder = chapterFolder (bible, book, chapter);
   vector <string> files = filter_url_scandir (folder);

@@ -5,23 +5,23 @@
 <p class="error">##error##</p>
 <p><a href="index">[translate("back")]</a></p>
 <br>
-<!-- #BEGINZONE defaultresources -->
-<p>translate("There are a default selection of resources that your administrator has compiled.")</p>
-<p>
-  <a href="?applydefaultresources">translate("Replace your selected resources with the default selection of resources?")</a><span class="tooltip"></span>
-<span class="tooltip-text">translate("WARNING! This will rewrite your selection of resources.")</span>
-</p>
-<p>
-  <a href="?adddefaultresources">translate("Add the default selection of resources to your selected resources?")</a><span class="tooltip"></span>
-<span class="tooltip-text">translate("This will add the default selection of resources to below your bottom-most selected resource.")</span>
-</p>
-<br>
-<!-- #ENDZONE defaultresources -->
 <div id="list" class="slippylist">
 ##activesblock##
 </div>
 <br>
 <p><a href="select?page=view">➕</a></p>
+<br>
+<!-- #BEGINZONE defaultresources -->
+<p>translate("Your administrator has already given you a list of default resources. If you have inadvertently deleted some of your resources, you can choose one of these options:")</p>
+<p>
+  <a href="?applydefaultresources">translate("Replace your current resource list with the admin's default list.")</a><span class="tooltip"></span>
+<span class="tooltip-text">translate("WARNING! This will erase your current list and give you the default list.")</span>
+</p>
+<p>
+  <a href="?adddefaultresources">translate("Add the administrators default list to the bottom of your current resources.")</a>
+</p>
+<br>
+<!-- #ENDZONE defaultresources -->
 <br>
 <p>translate("Number of verses to display before the focused verse:") <a href="?before">##before##</a></p>
 <p>translate("Number of verses to display after the focused verse:") <a href="?after">##after##</a></p>

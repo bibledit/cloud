@@ -83,7 +83,7 @@ string manage_privileges (void * webserver_request)
     privileges_updated = true;
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
-  if ((level >= access_logic::view_resources_role ()) | defusers.find (user) == defusers.end ()) {
+  if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     state = true;
     view.set_variable ("viewresourcesdisabled", get_disabled (true));
   }
@@ -96,7 +96,7 @@ string manage_privileges (void * webserver_request)
     privileges_updated = true;
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
-  if ((level >= access_logic::view_resources_role ()) | defusers.find (user) == defusers.end ()) {
+  if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("viewnotesdisabled", get_disabled (true));
   }
   state = access_logic::privilege_view_notes (webserver_request, user);
@@ -109,7 +109,7 @@ string manage_privileges (void * webserver_request)
     privileges_updated = true;
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
-  if ((level >= access_logic::view_resources_role ()) | defusers.find (user) == defusers.end ()) {
+  if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("createcommentnotesdisabled", get_disabled (true));
   }
   state = access_logic::privilege_create_comment_notes (webserver_request, user);
@@ -121,7 +121,7 @@ string manage_privileges (void * webserver_request)
     request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, checked);
   }
   state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
-  if ((level >= access_logic::delete_consultation_notes_role ()) | defusers.find (user) == defusers.end ()) {
+  if (level >= access_logic::delete_consultation_notes_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("deletenotesdisabled", get_disabled (true));
   }
   state = access_logic::privilege_delete_consultation_notes (webserver_request, user);
@@ -132,7 +132,7 @@ string manage_privileges (void * webserver_request)
   if (checkbox == "useadvancedmode") {
     request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, checked);
   }
-  if ((level >= access_logic::use_advanced_mode_role ()) | defusers.find (user) == defusers.end ()) {
+  if (level >= access_logic::use_advanced_mode_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("useadvancedmodedisabled", get_disabled (true));
   }
   state = access_logic::privilege_use_advanced_mode (webserver_request, user);
@@ -143,7 +143,7 @@ string manage_privileges (void * webserver_request)
   if (checkbox == "editstylesheets") {
     request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, checked);
   }
-  if ((level >= access_logic::set_stylesheets_role ()) | defusers.find (user) == defusers.end ()) {
+  if (level >= access_logic::set_stylesheets_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("editstylesheetsdisabled", get_disabled (true));
   }
   state = access_logic::privilege_set_stylesheets (webserver_request, user);

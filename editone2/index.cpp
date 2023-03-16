@@ -55,9 +55,6 @@ bool editone2_index_acl (void * webserver_request)
 {
   // Default minimum role for getting access.
   int minimum_role = Filter_Roles::translator ();
-  if (config::logic::indonesian_cloud_free ()) {
-    minimum_role = Filter_Roles::consultant ();
-  }
   if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
   auto [ read, write ] = access_bible::any (webserver_request);
   return read;
@@ -75,28 +72,6 @@ string editone2_index (void * webserver_request)
     int switchchapter = convert_to_int (request->query ["switchchapter"]);
     Ipc_Focus::set (request, switchbook, switchchapter, 1);
     Navigation_Passage::record_history (request, switchbook, switchchapter, 1);
-  }
-
-  if (config::logic::indonesian_cloud_free ()) {
-    // See issue https://github.com/bibledit/cloud/issues/503
-    // Specific configuration for the Indonesian free Cloud instance.
-    // The name of the default Bible in the Translate tab will be another Bible than AlkitabKita.
-    // Standard it will be Terjemahanku (My Translation).
-    // When the user changed that to another name, the editor will load that other name.
-    {
-      vector <string> bibles = access_bible::bibles (request);
-      string selected_bible;
-      for (auto bible : bibles) {
-        if (bible != filter::indonesian::ourtranslation ()) selected_bible = bible;
-      }
-      if (selected_bible.empty ()) {
-        // No Bible selected yet: Create the Indonesian Sample Bible and take that.
-        string user = request->session_logic ()->currentUser ();
-        selected_bible = filter::indonesian::mytranslation (user);
-        bible_logic::create_empty_bible (selected_bible);
-      }
-      request->database_config_user()->setBible (selected_bible);
-    }
   }
 
   // Set the user chosen Bible as the current Bible.
@@ -167,9 +142,6 @@ string editone2_index (void * webserver_request)
   
   // Whether to enable fast Bible editor switching.
   if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
-    view.enable_zone ("fastswitcheditor");
-  }
-  if (config::logic::indonesian_cloud_free ()) {
     view.enable_zone ("fastswitcheditor");
   }
 

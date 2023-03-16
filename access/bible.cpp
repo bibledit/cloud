@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/privileges.h>
 #include <client/logic.h>
 #include <filter/roles.h>
-#include <filter/indonesian.h>
 using namespace std;
 
 
@@ -54,20 +53,6 @@ bool read (void * webserver_request, const string & bible, string user)
   } else {
     // Take level belonging to user.
     role_level = request->database_users ()->get_level (user);
-  }
-
-  // Indonesian Cloud Free.
-  if (config::logic::indonesian_cloud_free ()) {
-    // A free guest account has a role of "Consultant".
-    if (role_level == Filter_Roles::consultant()) {
-      // This level/role has access to:
-      // 1. AlkitabKita / Everyone's Translation.
-      if (bible == filter::indonesian::ourtranslation ()) return true;
-      // 2. Terjemahanku <user> (My Translation <user>).
-      else if (bible == filter::indonesian::mytranslation (user)) return true;
-      // If the Bible is none of the above, the free guest account does not have access to it.
-      else return false;
-    }
   }
 
   // Managers and higher have read access.
@@ -105,10 +90,6 @@ bool write (void * webserver_request, const string & bible, string user)
     return true;
   }
 #endif
-  // Indonesian Cloud Free: Access all Bibles.
-  if (config::logic::indonesian_cloud_free ()) {
-    return true;
-  }
 
   int level {0};
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
@@ -169,19 +150,6 @@ bool book_write (void * webserver_request, string user, const string & bible, in
   if (level == 0) {
     // Take level belonging to user.
     level = request->database_users ()->get_level (user);
-  }
-
-  // Indonesian Cloud Free.
-  // The free guest account has a role of Consultant.
-  // The consultant has write access to his/her own Bible.
-  // The consultant has read-access to the "AlkitabKita" Bible.
-  if (config::logic::indonesian_cloud_free ()) {
-    if (level == Filter_Roles::consultant()) {
-      if (bible == filter::indonesian::ourtranslation()) {
-        return false;
-      }
-    }
-    return true;
   }
 
   // Managers and higher always have write access.
@@ -253,17 +221,6 @@ tuple<bool, bool> any (void * webserver_request)
   for (auto & bible : bibles) {
     if (access_bible::read (webserver_request, bible)) read = true;
     if (access_bible::write (webserver_request, bible)) write = true;
-  }
-  if (config::logic::indonesian_cloud_free ()) {
-    if (int level = request->session_logic ()->currentLevel ();
-        level >= Filter_Roles::consultant())
-    {
-      read = true;
-      write = true;
-    } else {
-      read = false;
-      write = false;
-    }
   }
   // The results consists of <read, write>.
   return make_tuple(read, write);

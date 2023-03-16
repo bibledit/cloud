@@ -45,11 +45,6 @@ bool privilege_view_resources (void * webserver_request, string user)
 
 int view_notes_role ()
 {
-  // Indonesian Cloud Free
-  // The normal user of the Individual version doesn't have access to notes.
-  if (config::logic::indonesian_cloud_free_individual ()) {
-    return Filter_Roles::translator ();
-  }
   return Filter_Roles::consultant ();
 }
 

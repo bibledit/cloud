@@ -201,10 +201,6 @@ string Assets_Header::run ()
     string menublock;
     string item = request->query ["item"];
     bool main_menu_always_on = false;
-    if (config::logic::indonesian_cloud_free_simple ()) {
-      main_menu_always_on = true;
-      m_view->set_variable ("mainmenualwayson", convert_to_string (main_menu_always_on));
-    }
     if (item.empty ())
       if (request->database_config_user ()->getMainMenuAlwaysVisible ()) {
         main_menu_always_on = true;
@@ -252,7 +248,6 @@ string Assets_Header::run ()
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
       string delay = convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
-      if (config::logic::indonesian_cloud_free_simple ()) delay = "false";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
@@ -268,32 +263,11 @@ string Assets_Header::run ()
 
   vector <string> embedded_css;
   int fontsize = request->database_config_user ()->getGeneralFontSize ();
-  // Indonesian Cloud Free
-  // All of the accessible user defined variable in Indonesian Cloud Free
-  // Simple version uses filebased database as explained in ./ipc/focus.cpp
-  // line 37 to 44. 
-  string filename = general_font_size_filebased_cache_filename (request->session_identifier);
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (database_filebased_cache_exists (filename)) {
-      fontsize = convert_to_int (database_filebased_cache_get (filename));
-    } else {
-      database_filebased_cache_put (filename, "100");
-      fontsize = 100;
-    }
-  }
   if (fontsize != 100) {
     embedded_css.push_back ("body { font-size: " + convert_to_string (fontsize) + "%; }");
   }
   fontsize = request->database_config_user ()->getMenuFontSize ();
-  filename = menu_font_size_filebased_cache_filename (request->session_identifier);
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (database_filebased_cache_exists (filename)) {
-      fontsize = convert_to_int (database_filebased_cache_get (filename));
-    } else {
-      database_filebased_cache_put (filename, "100");
-      fontsize = 100;
-    }
-  }
+  string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + convert_to_string (fontsize) + "%; }");
   }
@@ -303,39 +277,15 @@ string Assets_Header::run ()
   }
   fontsize = request->database_config_user ()->getResourcesFontSize ();
   filename = resource_font_size_filebased_cache_filename (request->session_identifier);
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (database_filebased_cache_exists (filename)) {
-      fontsize = convert_to_int (database_filebased_cache_get (filename));
-    } else {
-      database_filebased_cache_put (filename, "100");
-      fontsize = 100;
-    }
-  }
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + convert_to_string (fontsize) + "% !important; }");
   }
   fontsize = request->database_config_user ()->getHebrewFontSize ();
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (database_filebased_cache_exists (filename)) {
-      fontsize = convert_to_int (database_filebased_cache_get (filename));
-    } else {
-      database_filebased_cache_put (filename, "100");
-      fontsize = 100;
-    }
-  }
   if (fontsize != 100) {
     embedded_css.push_back (".hebrew { font-size: " + convert_to_string (fontsize) + "%!important; }");
   }
   fontsize = request->database_config_user ()->getGreekFontSize ();
   filename = greek_font_size_filebased_cache_filename (request->session_identifier);
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (database_filebased_cache_exists (filename)) {
-      fontsize = convert_to_int (database_filebased_cache_get (filename));
-    } else {
-      database_filebased_cache_put (filename, "100");
-      fontsize = 100;
-    }
-  }
   if (fontsize != 100) {
     embedded_css.push_back (".greek { font-size: " + convert_to_string (fontsize) + "%!important; }");
   }
@@ -345,14 +295,6 @@ string Assets_Header::run ()
 
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();
   filename = current_theme_filebased_cache_filename (request->session_identifier);
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (database_filebased_cache_exists (filename)) {
-      current_theme_index = convert_to_int (database_filebased_cache_get (filename));
-    } else {
-      database_filebased_cache_put (filename, "1");
-      current_theme_index = 1;
-    }
-  }
   // Add the theme color css class selector name on the body element,..
   m_view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
   // ..workspacewrapper div element..

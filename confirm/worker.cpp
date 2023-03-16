@@ -73,9 +73,6 @@ void Confirm_Worker::setup (string mailto, string username,
   if (config::logic::default_bibledit_configuration ()) {
     information = translate ("Please confirm this request by clicking this following link:");
   }
-  if (config::logic::indonesian_cloud_free ()) {
-    information = "Klik tautan ini untuk menyelesaikan proses pendaftaran dan masuk Bibledit:";
-  }
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   string siteUrl = config::logic::site_url (webserver_request);

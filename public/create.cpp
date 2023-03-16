@@ -90,11 +90,6 @@ string public_create (void * webserver_request)
     // Subscribe the user to the note.
     // Then the user receives email about any updates made on this note.
     database_notes.subscribe (identifier);
-    // Indonesian Cloud Free
-    // Go to the main read Bible page.
-    if (config::logic::indonesian_cloud_free_simple ()) {
-      redirect_browser (request, read_index_url ());
-    }
     // Go to the main public notes page.
     if (config::logic::default_bibledit_configuration ()) {
       redirect_browser (request, public_index_url ());
@@ -104,9 +99,6 @@ string public_create (void * webserver_request)
 
   
   if (request->post.count ("cancel")) {
-    if (config::logic::indonesian_cloud_free_simple ()) {
-      redirect_browser (request, read_index_url ());
-    }
     if (config::logic::default_bibledit_configuration ()) {
       redirect_browser (request, public_index_url ());
     }

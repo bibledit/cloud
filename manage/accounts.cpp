@@ -119,14 +119,6 @@ string manage_accounts (void * webserver_request)
     int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
     string days = convert_to_string (seconds / (3600 * 24));
     
-    // In the Indonesian free Cloud,
-    // the free guest accounts have a role of Consultant.
-    // So only displays roles of Consultant or lower.
-    // Skip any higher roles.
-    if (config::logic::indonesian_cloud_free ()) {
-      if (user_level > Filter_Roles::consultant()) continue;
-    }
-
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {
       pair ("user", username),

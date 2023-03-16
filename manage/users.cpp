@@ -395,10 +395,6 @@ string manage_users (void * webserver_request)
     view.enable_zone ("local");
   }
 
-  if (config::logic::indonesian_cloud_free ()) {
-    view.enable_zone("accounts");
-  }
-
   if (request->session_logic()->currentLevel () == Filter_Roles::highest ()) view.enable_zone ("admin_settings");
 
   page += view.render ("manage", "users");

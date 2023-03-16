@@ -43,11 +43,6 @@ vector <string> workspace_get_default_names ()
   // Any of the names below should not contain commas,
   // because the sorting mechanism takes the comma as a separator,
   // so if commas are in a name, the sorting no longer works.
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    return {
-      "Baca dan Teliti"
-    };
-  };
   return {
     translate ("Editor and Resources"),
     translate ("Editor and Notes"),
@@ -91,13 +86,6 @@ map <int, string> workspace_get_default_urls (int id)
       urls [3] = search_index_url ();
       break;
   }
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    urls [0] = read_index_url ();
-    urls [1] = resource_index_url ();
-    urls [2] = "";
-    urls [3] = "";
-    urls [5] = "";
-  }
   return urls;
 }
 
@@ -135,13 +123,6 @@ map <int, string> workspace_get_default_widths (int id)
       widths [3] = "1";
       break;
   }
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    widths [0] = "1";
-    widths [1] = "1";
-    widths [2] = "0";
-    widths [3] = "0";
-    widths [5] = "0";
-  }
   return widths;
 }
 
@@ -166,10 +147,6 @@ map <int, string> workspace_get_default_heights (int id)
     default:
       heights [0] = "1";
       break;
-  }
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    heights [0] = "1";
-    heights [1] = "0";
   }
   return heights;
 }

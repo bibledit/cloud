@@ -1110,9 +1110,6 @@ const char * current_theme_style_key ()
 }
 int Database_Config_User::getCurrentTheme ()
 {
-  // Indonesian Cloud Free
-  // Set the "Light" theme as the default theme.
-  if (config::logic::indonesian_cloud_free ()) return getIValue (current_theme_style_key (), 1);
   return getIValue (current_theme_style_key (), 0);
 }
 void Database_Config_User::setCurrentTheme (int index)

@@ -142,13 +142,6 @@ string developer_index (void * webserver_request)
     bibledit_put_reference_from_accordance("PSA 3:2");
   }
 
-  if (debug == "expirefreeindonesian") {
-    if (config::logic::indonesian_cloud_free ()) {
-      tasks_logic_queue (EXPIREINDONESIANFREEUSERS);
-      view.set_variable ("success", "Task was started");
-    } else view.set_variable ("error", "Not configured");
-  }
-  
   if (debug == "changes") {
     developer_logic_import_changes ();
     view.set_variable ("success", "Task was done see Journal");

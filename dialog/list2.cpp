@@ -18,10 +18,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <dialog/list2.h>
+using namespace std;
 
 
 // Generate the option tags based on the inserted key and its value.
-std::string Options_To_Select::add_selection (std::string text, std::string value, std::string html)
+string Options_To_Select::add_selection (string text, string value, string html)
 {
     if (value == "") {
         html.append ("<option value=''>" + text + "</option>");
@@ -34,13 +35,13 @@ std::string Options_To_Select::add_selection (std::string text, std::string valu
 
 
 // Mark the current selected option's option tag.
-std::string Options_To_Select::mark_selected (std::string value, std::string html)
+string Options_To_Select::mark_selected (string value, string html)
 {
-    std::string new_value = "value='" + value + "'";
+    string new_value = "value='" + value + "'";
     size_t new_pos = html.find (new_value) + new_value.length ();
-    std::string mark = " selected";
+    string mark = " selected";
 
-    if (html.find (mark) != std::string::npos) {
+    if (html.find (mark) != string::npos) {
         html.erase (html.find (mark), mark.length ());
     }
 

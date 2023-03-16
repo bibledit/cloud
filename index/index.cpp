@@ -64,13 +64,6 @@ string index_index (void * webserver_request)
 //    if (request->query.empty ()) {
 //      header.refresh (5, "/" + workspace_index_url ());
 //    }
-    // Indonesian Cloud Free
-    // Forwards to read/index instead.
-    if (config::logic::indonesian_cloud_free_simple ()) {
-      if (request->query.empty ()) {
-        header.refresh (5, "/" + read_index_url ());
-      }
-    }
   }
   
   // Basic or advanced mode setting.

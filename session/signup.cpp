@@ -253,39 +253,18 @@ string session_signup ([[maybe_unused]] void * webserver_request)
         information = translate("There is a request to open an account with this email address.");
         node.text ().set (information.c_str());
       }
-      if (config::logic::indonesian_cloud_free ()) {
-        node = initial_document.append_child ("p");
-        information = "Shalom " + user + "!";
-        node.text ().set (information.c_str());
-        node = initial_document.append_child ("p");
-        node.text ().set ("Senang sekali Saudara ingin mendaftar sebagai Tamu Bibledit. Sebelum meng-klik tautan untuk mulai menggunakannya, mohon Saudara membaca berita penting ini:");
-        node = initial_document.append_child ("p");
-        node.text ().set ("• Cara yang terbaik masuk dalam Bibledit Tamu adalah melalui tautan yang terdapat di halaman dasar alkitabkita.info. Dengan demikian Saudara mendapat kesempatan untuk membaca pengumuman di halaman dasar situs kami. Dalam formulir yang terdapat di bagian atas halaman dasar alkitabkita.info isilah:");
-        node = initial_document.append_child ("p");
-        information = "Nama pengguna: " + user;
-        node.text ().set (information.c_str());
-        node = initial_document.append_child ("p");
-        node.text ().set (R"(• Kalau Saudara lupa kata sandi, di halaman login kliklah tautan tentang “Aku lupa kata sandiku!””)");
-        node = initial_document.append_child ("p");
-        node.text ().set ("• Saudara diberi izin untuk menggunakan Bibledit sebagai Tamu selama satu bulan. Ketika bulan tersebut habis, tautan untuk mengunduh hasil terjemahanmu akan dikirim kepada Saudara di alamat email ini.");
-        node = initial_document.append_child ("p");
-        node.text ().set ("• Layanan Tamu Bibledit ini diberikan secara gratis dan Saudara dipersilahkan mendaftar ulang setiap bulan.");
-        node = initial_document.append_child ("p");
-        node.text ().set ("• Simpanlah email ini.");
-      }
-      string initial_body;
+      string initial_body {};
       {
-        stringstream output;
+        stringstream output {};
         initial_document.print (output, "", format_raw);
         initial_body = output.str ();
       }
-      string query;
 
       // Set the role of the new signing up user, it is set as member if no
       // default has been set by an administrator.
       int role = Database_Config_General::getDefaultNewUserAccessLevel ();
 
-      query = database_users.add_userQuery (user, pass, role, mail);
+      string query = database_users.add_userQuery (user, pass, role, mail);
 
       // Set default privileges on new signing up user.
       vector <string> defusers = {"defaultguest", "defaultmember", "defaulttranslator", "defaultconsultant", "defaultmanager"};

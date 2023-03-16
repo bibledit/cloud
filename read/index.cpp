@@ -108,15 +108,6 @@ string read_index (void * webserver_request)
   view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
   view.set_variable ("bible", bible);
 
-  // In the Indonesian Cloud Free Simple version, its possible to get a specific book by query.
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    if (request->query.count ("bbn")) {
-      int bible_book_number = convert_to_int (request->query ["bbn"]);
-      Ipc_Focus::set (request, bible_book_number, 1, 1);
-      Navigation_Passage::record_history (request, bible_book_number, 1, 1);
-    }
-  }
-  
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   

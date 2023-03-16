@@ -26,9 +26,6 @@ using namespace std;
 
 // Database resilience: It is only read from.
 
-// Indonesian Cloud Free
-// Has its own sqlite filename, alkitabkita (ourbible).
-
 
 void Database_Sample::create ()
 {

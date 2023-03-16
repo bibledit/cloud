@@ -265,82 +265,31 @@ void swipe_enabled (void * webserver_request, string & script)
 }
 
 
-// Whether the free Indonesian Cloud is enabled.
+// Whether the free Indonesian Cloud is enabled. To be removed.
 bool indonesian_cloud_free ()
 {
-  // Keep status in memory once it has been read from disk.
-  // This is to speed up things.
-  static bool read = false;
-  static bool status = false;
-  if (read) return status;
-  
-  // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesiancloudfree"});
-  status = file_or_dir_exists (path);
-  read = true;
-  
-  return status;
+  return false;
 }
 
 
-// Whether the free Indonesian Cloud Free Simple is enabled.
-// It is just like the regular demo setup with less feature:
-// 1. It only has an account with Consultant access level registered.
-// 2. It gives no access to account creation from menu
-// 3. It has different workspace defaults.
+// Whether the free Indonesian Cloud Free Simple is enabled. To be removed.
 bool indonesian_cloud_free_simple ()
 {
-  // Keep status in memory once it has been read from disk.
-  // This is to speed up things.
-  static bool read = false;
-  static bool status = false;
-  if (read) return status;
-  
-  // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesiancloudfreesimple"});
-  status = file_or_dir_exists (path);
-  read = true;
-  
-  return status;
+  return false;
 }
 
 
-// Whether the free Indonesian Cloud Free Individual is enabled.
-// It is just like the default Indonesian Cloud Free,
-// but with no access to the consultation notes feature.
+// Whether the free Indonesian Cloud Free Individual is enabled. To be removed.
 bool indonesian_cloud_free_individual ()
 {
-  // Keep status in memory once it has been read from disk.
-  // This is to speed up things.
-  static bool read = false;
-  static bool status = false;
-  if (read) return status;
-  
-  // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesiancloudfreeindividual"});
-  status = file_or_dir_exists (path);
-  read = true;
-  
-  return status;
+  return false;
 }
 
 
 // Whether the default Bibledit configuration is enabled.
 bool default_bibledit_configuration ()
 {
-  // Keep status in memory once it has been read from disk.
-  // This is to speed up things.
-  static bool read = false;
-  static bool status = true;
-  if (read) return status;
-  
-  // If any of the special configurations is enabled, the default configuration is disabled.
-  if (config::logic::indonesian_cloud_free ()) status = false;
-  if (config::logic::indonesian_cloud_free_simple ()) status = false;
-  if (config::logic::indonesian_cloud_free_individual ()) status = false;
-  read = true;
-  
-  return status;
+  return true;
 }
 
 

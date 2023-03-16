@@ -184,26 +184,14 @@ void demo_clean_data ()
   }
 
 
-  // Indonesian Cloud Free
-  // Set navigator to John 1:1.
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    Ipc_Focus::set (&request, 43, 1, 1);
-  }
-  
-  
   // Set and/or trim resources to display.
   // Too many resources crash the demo: Limit the amount.
   vector <string> resources = request.database_config_user()->getActiveResources ();
   bool reset_resources {false};
   size_t max_resource {25};
-  // Bump up the resource limit for the Indonesian Cloud Free Simple version so
-  // more resource could be added and current one can be modified.
-  if (config::logic::indonesian_cloud_free_simple ()) max_resource = 65; 
   if (resources.size () > max_resource) reset_resources = true;
   // Check if all the current resource exists in the default.
   vector <string> defaults = demo_logic_default_resources ();
-  // Make it so the check will always pass on Indonesian Cloud Free Simple version.
-  if (config::logic::indonesian_cloud_free_simple()) defaults = resources;
   for (const auto & name : defaults) {
     if (!in_array (name, resources)) reset_resources = true;
   }
@@ -419,61 +407,6 @@ vector <string> demo_logic_default_resources ()
       resources.push_back (resource_external_net_bible_name ());
       resources.push_back (SBLGNT_NAME);
     }
-  }
-  // Add specific resources for Indonesian Cloud Free Simple/Demo version.
-  if (config::logic::indonesian_cloud_free_simple ()) {
-    resources.clear ();
-    resources = {
-      // Original language resources.
-      resource_logic_assemble_rich_divider ("Bahasa Sumber Alkitab", "https://alkitabkita.info/bahasa-sumber-alkitab/", "black", "orange"),
-      resource_external_biblehub_interlinear_name (),
-      HEBREW_ETCBC4_NAME,
-      OSHB_NAME,
-      "[CrossWire] *[LXX] (2.5) - Septuagint, Morphologically Tagged Rahlfs'",
-      "BYZ",
-      SBLGNT_NAME,
-      "Comparative Byz",
-      // Literal translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Secara Harfiah", "https://alkitabkita.info/terjemahan-secara-harfiah/", "black", "orange"),
-      "MILT",
-      "TB74",
-      "KSI",
-      "AYT",
-      "Majority TCENT",
-      "1599 Geneva Bible (GNV)",
-      KJV_LEXICON_NAME,
-      "ESV",
-      "HCSB 2003",
-      // Modified literal translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Harfian yang Dimodifikasi", "https://alkitabkita.info/terjemahan-harfiah-yang-dimodifikasi/", "black", "orange"),
-      "NET Bible",
-      "New International Version (NIV)",
-      "Expanded Bible (EXB)",
-      "International Standard Version (ISV)",
-      "FBV",
-      "Complete Jewish Bible (CJB)",
-      "GOD’S WORD Translation (GW)",
-      // Dynamic equivalence translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Berdasarkan Arti", "https://alkitabkita.info/terjemahan-berdasarkan-arti/", "black", "orange"),
-      "AlkitabKita",
-      "BIS85",
-      "TMV87",
-      "New Living Translation (NLT)",
-      "UDB",
-      "GNT",
-      "FBV-Feb2022",
-      // Parafrase translations resources.
-      resource_logic_assemble_rich_divider ("Terjemahan Parafrasa", "https://alkitabkita.info/terjemahan-parafrasa/", "black", "orange"),
-      "FAYH",
-      "J.B. Phillips New Testament (PHILLIPS)",
-      "Living Bible (TLB)",
-      // Commentaries.
-      resource_logic_assemble_rich_divider ("Tafsiran", "https://alkitabkita.info/tafsiran/", "black", "orange"),
-      "T4T",
-      "Barnes' Notes on the Whole Bible (studylight-eng/bnb)",
-      "Dr. Constable's Expository Notes (studylight-eng/dcc)",
-      resource_logic_assemble_rich_divider ("Komentar Alkitab Gratis oleh Dr. Bob Utley", "https://www.freebiblecommentary.org/indonesian_bible_study.htm", "black", "darkseagreen"),
-    };
   }
   // Done.
   return resources;

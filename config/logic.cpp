@@ -286,9 +286,30 @@ bool indonesian_cloud_free_individual ()
 }
 
 
+// Whether the Indonesian Member Cloud is enabled.
+bool indonesian_member_cloud ()
+{
+  // This is to speed up things.
+  static bool read {false};
+  static bool status {false};
+  if (read) return status;
+  
+  // Read the status from disk and cache it.
+  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesianmembercloud"});
+  status = file_or_dir_exists (path);
+  read = true;
+
+  // Done.
+  return status;
+}
+
+
 // Whether the default Bibledit configuration is enabled.
 bool default_bibledit_configuration ()
 {
+  // If any other configuration is active, then the default Bibledit configuration is not active.
+  if (indonesian_member_cloud ()) return false;
+  // No other configuration is active: Default Bibledit config is active.
   return true;
 }
 

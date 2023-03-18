@@ -45,6 +45,7 @@ void swipe_enabled (void * webserver_request, std::string & script);
 bool indonesian_cloud_free ();
 bool indonesian_cloud_free_simple ();
 bool indonesian_cloud_free_individual ();
+bool indonesian_member_cloud ();
 bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
 

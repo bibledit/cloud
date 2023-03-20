@@ -2288,3 +2288,10 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   // Pass it to the caller.
   //return utf8;
 }
+
+
+// Clip a value to not be less than "lower" and not more than "higher"
+int filter_string_clip (const int value, const int lower, const int upper)
+{
+  return std::max (lower, std::min (value, upper));
+}

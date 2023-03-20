@@ -44,10 +44,3 @@ bool in_array (const T & needle, const std::vector <T> & haystack)
   return (find (haystack.begin(), haystack.end(), needle) != haystack.end());
 }
 
-
-// Clip a value to not be less than "lower" and not more than "higher"
-template <typename T>
-T clip (const T& n, const T& lower, const T& upper) {
-  return std::max (lower, std::min (n, upper));
-}
-

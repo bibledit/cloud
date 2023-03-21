@@ -122,7 +122,7 @@ string system_index (void * webserver_request)
     string input = request->post ["timezone"];
     input = filter_string_str_replace ("UTC", string(), input);
     int input_timezone = convert_to_int (input);
-    input_timezone = filter_string_clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
+    input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
     Database_Config_General::setTimezone (input_timezone);
   }
   // Set the time zone offset in the GUI.

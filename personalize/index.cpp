@@ -72,13 +72,13 @@ string personalize_index (void * webserver_request)
   // Accept values for allowed relative changes for the four Bible text editors.
   if (request->post.count ("chapterpercentage")) {
     int chapterpercentage = convert_to_int (request->post ["chapterpercentage"]);
-    chapterpercentage = filter_string_clip (chapterpercentage, 10, 100);
+    chapterpercentage = clip (chapterpercentage, 10, 100);
     request->database_config_user ()->setEditingAllowedDifferenceChapter (chapterpercentage);
     return "";
   }
   if (request->post.count ("versepercentage")) {
     int versepercentage = convert_to_int (request->post ["versepercentage"]);
-    versepercentage = filter_string_clip (versepercentage, 10, 100);
+    versepercentage = clip (versepercentage, 10, 100);
     request->database_config_user ()->setEditingAllowedDifferenceVerse (versepercentage);
     return "";
   }
@@ -102,7 +102,7 @@ string personalize_index (void * webserver_request)
   // so that the page displays the new font sizes immediately.
   if (request->post.count ("fontsizegeneral")) {
     int fontsizegeneral = convert_to_int (request->post["fontsizegeneral"]);
-    fontsizegeneral = filter_string_clip (fontsizegeneral, 50, 300);
+    fontsizegeneral = clip (fontsizegeneral, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setGeneralFontSize (fontsizegeneral);
     }
@@ -110,7 +110,7 @@ string personalize_index (void * webserver_request)
   }
   if (request->post.count ("fontsizemenu")) {
     int fontsizemenu = convert_to_int (request->post["fontsizemenu"]);
-    fontsizemenu = filter_string_clip (fontsizemenu, 50, 300);
+    fontsizemenu = clip (fontsizemenu, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setMenuFontSize (fontsizemenu);
     }
@@ -141,7 +141,7 @@ string personalize_index (void * webserver_request)
   // Font size for the Bible editors.
   if (request->post.count ("fontsizeeditors")) {
     int fontsizeeditors = convert_to_int (request->post["fontsizeeditors"]);
-    fontsizeeditors = filter_string_clip (fontsizeeditors, 50, 300);
+    fontsizeeditors = clip (fontsizeeditors, 50, 300);
     request->database_config_user ()->setBibleEditorsFontSize (fontsizeeditors);
     styles_sheets_create_all ();
     return "";
@@ -152,7 +152,7 @@ string personalize_index (void * webserver_request)
   // Font size for the resources.
   if (request->post.count ("fontsizeresources")) {
     int fontsizeresources = convert_to_int (request->post["fontsizeresources"]);
-    fontsizeresources = filter_string_clip (fontsizeresources, 50, 300);
+    fontsizeresources = clip (fontsizeresources, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setResourcesFontSize (fontsizeresources);
     }
@@ -164,7 +164,7 @@ string personalize_index (void * webserver_request)
   // Font size for Hebrew resources.
   if (request->post.count ("fontsizehebrew")) {
     int fontsizehebrew = convert_to_int (request->post["fontsizehebrew"]);
-    fontsizehebrew = filter_string_clip (fontsizehebrew, 50, 300);
+    fontsizehebrew = clip (fontsizehebrew, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setHebrewFontSize (fontsizehebrew);
     }
@@ -176,7 +176,7 @@ string personalize_index (void * webserver_request)
   // Font size for Greek resources.
   if (request->post.count ("fontsizegreek")) {
     int fontsizegreek = convert_to_int (request->post["fontsizegreek"]);
-    fontsizegreek = filter_string_clip (fontsizegreek, 50, 300);
+    fontsizegreek = clip (fontsizegreek, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setGreekFontSize (fontsizegreek);
     }
@@ -188,7 +188,7 @@ string personalize_index (void * webserver_request)
   // Vertical caret position in chapter editors.
   if (request->post.count ("caretposition")) {
     int caretposition = convert_to_int (request->post["caretposition"]);
-    caretposition = filter_string_clip (caretposition, 20, 80);
+    caretposition = clip (caretposition, 20, 80);
     request->database_config_user ()->setVerticalCaretPosition (caretposition);
     return "";
   }
@@ -219,7 +219,7 @@ string personalize_index (void * webserver_request)
   // Workspace menu fade-out delay.
   if (request->post.count ("workspacefadeoutdelay")) {
     int workspacefadeoutdelay = convert_to_int (request->post["workspacefadeoutdelay"]);
-    workspacefadeoutdelay = filter_string_clip (workspacefadeoutdelay, 0, 100);
+    workspacefadeoutdelay = clip (workspacefadeoutdelay, 0, 100);
     request->database_config_user ()->setWorkspaceMenuFadeoutDelay (workspacefadeoutdelay);
     return "";
   }

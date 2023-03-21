@@ -126,4 +126,4 @@ std::string filter_string_fix_invalid_html_gumbo (std::string html);
 std::string filter_string_fix_invalid_html_tidy (std::string html);
 std::string filter_string_collapse_whitespace (std::string s);
 std::string convert_windows1252_to_utf8 (const std::string& input);
-int filter_string_clip (const int value, const int lower, const int upper);
+

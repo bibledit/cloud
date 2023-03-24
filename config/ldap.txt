@@ -1,7 +1,3 @@
-# To enable Bibledit Cloud to query an OpenLDAP server for user authorization,
-# rename this file "ldap.txt" to "ldap.conf" in this "config" folder,
-# and make the appropriate settings in this ldap.conf file.
-
 # The OpenLDAP server's URI.
 # This will be passed as the -H parameter of ldapsearch.
 uri = ldap://ldap.forumsys.com
@@ -38,6 +34,3 @@ filter = (uid=[user])
 # Field "ou" is, as per RFC2256, "the organizational unit this object belongs to".
 # Change it to suit your needs.
 role = ou
-
-# Note: Bibledit clients do not query the LDAP server.
-# Instead they use accounts in Bibledit Cloud.

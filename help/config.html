@@ -16,6 +16,14 @@ It contains the web address, for example: "https://bibledit.org:1500/" without t
 An example configuration file is included in file "userfacingurl.txt".
 </p>
 
+<h3>OpenLDAP</h3>
+<p>
+It is possible to enable an external OpenLDAP server for user authentication,
+the file "ldap.txt" contains an example configuration file.
+Rename it to "ldap.conf" and make the appropriate settings there.
+Note on Bibledit clients: they don't query the LDAP server, they use accounts in Bibledit Cloud instead.
+</p>
+
 <h3>Secure web server</h3>
 <p>
 Bibledit Cloud can be configured to run a secure web server.

@@ -68,7 +68,7 @@ string manage_privileges (void * webserver_request)
 
 
   // Usernames for setting default new user privilege.
-  set <string> defusers = {"defaultguest", "defaultmember", "defaulttranslator", "defaultconsultant", "defaultmanager"};
+  set <string> defusers = access_logic::default_privilege_usernames ();
 
   
   bool privileges_updated {false};

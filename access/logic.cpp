@@ -147,4 +147,10 @@ void create_client_files ()
 }
 
 
+set <string> default_privilege_usernames ()
+{
+  return {"defaultguest", "defaultmember", "defaultconsultant", "defaulttranslator", "defaultmanager"};
+}
+
+
 }

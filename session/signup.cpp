@@ -267,14 +267,25 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       string query = database_users.add_userQuery (user, pass, role, mail);
 
       // Set default privileges on new signing up user.
-      vector <string> defusers = {"defaultguest", "defaultmember", "defaulttranslator", "defaultconsultant", "defaultmanager"};
+      set <string> defusers = access_logic::default_privilege_usernames ();
       vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
-      // Subtract one as guest is identified by 0 instead of 1 in the vector.
-      string default_username = defusers[(unsigned)(long)(unsigned)role - 1];
-      for (bool privilege : privileges) {
-        bool state = Database_Privileges::getFeature (default_username, privilege);
+      auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
+      for (auto & privilege : privileges) {
+        bool state = Database_Privileges::getFeature (*default_username, privilege);
         Database_Privileges::setFeature (user, privilege, state);
       }
+
+      bool deletenotes = request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);
+      bool useadvancedmode = request->database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username);
+      bool editstylesheets = request->database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username);
+
+      if (deletenotes) request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
+      if (useadvancedmode) request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
+      if (editstylesheets) request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
+
+      if (request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username)) request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
+      if (request->database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username)) request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
+      if (request->database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username)) request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
 
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.

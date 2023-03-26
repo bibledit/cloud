@@ -115,14 +115,23 @@ string manage_users (void * webserver_request)
       request->database_users ()->add_user(user, user, role, "");
 
       // Set default privileges on new created user.
-      vector <string> defusers = {"defaultguest", "defaultmember", "defaulttranslator", "defaultconsultant", "defaultmanager"};
+      set <string> defusers = access_logic::default_privilege_usernames ();
       vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
-      // Subtract one as guest is identified by 0 instead of 1 in the vector.
-      string default_username = defusers[(unsigned)(long)(unsigned)role - 1];
+      auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
       for (auto & privilege : privileges) {
-        bool state = Database_Privileges::getFeature (default_username, privilege);
+        bool state = Database_Privileges::getFeature (*default_username, privilege);
         Database_Privileges::setFeature (user, privilege, state);
       }
+
+      bool deletenotes = request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);
+      bool useadvancedmode = request->database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username);
+      bool editstylesheets = request->database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username);
+
+      if (deletenotes) request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
+      if (useadvancedmode) request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
+      if (editstylesheets) request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
+
+      page += assets_page::error (*default_username);
 
       user_logic_store_account_creation (user);
       user_updated = true;

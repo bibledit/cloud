@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 #include <config/libraries.h>
+using namespace std;
 
 #define PRIVILEGE_VIEW_RESOURCES 1
 
@@ -47,5 +48,7 @@ bool privilege_set_stylesheets (void * webserver_request, std::string user = std
 
 void user_level (void * webserver_request, std::string & user, int & level);
 void create_client_files ();
+
+set <string> default_privilege_usernames ();
 
 }
